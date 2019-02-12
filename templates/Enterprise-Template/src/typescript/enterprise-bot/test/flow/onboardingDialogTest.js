@@ -15,28 +15,23 @@ describe("Onboarding Dialog", function () {
     });
 
     describe("Onboarding", function () {
-        it("In the test spin up the OnboardingDialog directly", function (done) {
+        it("Spin up the OnboardingDialog directly", function (done) {
             const testAdapter = enterpriseBotTestBase.getTestAdapter();
             const flow = testAdapter
                 .send({
-                    channelData: {
-                        postback: true
-                    },
                     channelId: "emulator",
                     conversation: {
-                        id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
+                        id: "spinUpOnboardingDirectly"
                     },
                     from: {
-                        id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
+                        id: "User",
                         name: "User"
                     },
-                    locale: "",
                     recipient: {
                         id: "1",
                         name: "Bot",
                         role: "bot"
                     },
-                    serviceUrl: "http://localhost:57959",
                     type: "message",
                     value: {
                         action: "startOnboarding"
@@ -50,15 +45,12 @@ describe("Onboarding Dialog", function () {
             const testAdapter = enterpriseBotTestBase.getTestAdapter();
             const flow = testAdapter
                 .send({
-                    channelData: {
-                        postback: true
-                    },
                     channelId: "emulator",
                     conversation: {
-                        id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
+                        id: "answerName"
                     },
                     from: {
-                        id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
+                        id: "User",
                         name: "User"
                     },
                     locale: "",
@@ -67,7 +59,6 @@ describe("Onboarding Dialog", function () {
                         name: "Bot",
                         role: "bot"
                     },
-                    serviceUrl: "http://localhost:57959",
                     type: "message",
                     value: {
                         action: "startOnboarding"
@@ -77,27 +68,17 @@ describe("Onboarding Dialog", function () {
                 .send({
                     channelId: "emulator",
                     conversation: {
-                        id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
+                        id: "answerName"
                     },
-                    entities: [
-                        {
-                            requiresBotState: true,
-                            supportsListening: true,
-                            supportsTts: true,
-                            type: "ClientCapabilities"
-                        }
-                    ],
                     from: {
-                        id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
+                        id: "User",
                         name: "User"
                     },
-                    locale: "",
                     recipient: {
                         id: "1",
                         name: "Bot",
                         role: "bot"
                     },
-                    serviceUrl: "http://localhost:50802",
                     text: "user",
                     textFormat: "plain",
                     type: "message"
@@ -110,24 +91,19 @@ describe("Onboarding Dialog", function () {
             const testAdapter = enterpriseBotTestBase.getTestAdapter();
             const flow = testAdapter
                 .send({
-                    channelData: {
-                        postback: true
-                    },
                     channelId: "emulator",
                     conversation: {
-                        id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
+                        id: "answerEmail"
                     },
                     from: {
-                        id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
+                        id: "User",
                         name: "User"
                     },
-                    locale: "",
                     recipient: {
                         id: "1",
                         name: "Bot",
                         role: "bot"
                     },
-                    serviceUrl: "http://localhost:57959",
                     type: "message",
                     value: {
                         action: "startOnboarding"
@@ -137,27 +113,17 @@ describe("Onboarding Dialog", function () {
                 .send({
                     channelId: "emulator",
                     conversation: {
-                        id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
+                        id: "answerEmail"
                     },
-                    entities: [
-                        {
-                            requiresBotState: true,
-                            supportsListening: true,
-                            supportsTts: true,
-                            type: "ClientCapabilities"
-                        }
-                    ],
                     from: {
-                        id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
+                        id: "User",
                         name: "User"
                     },
-                    locale: "",
                     recipient: {
                         id: "1",
                         name: "Bot",
                         role: "bot"
                     },
-                    serviceUrl: "http://localhost:50802",
                     text: "user",
                     textFormat: "plain",
                     type: "message"
@@ -167,27 +133,17 @@ describe("Onboarding Dialog", function () {
                 .send({
                     channelId: "emulator",
                     conversation: {
-                        id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
+                        id: "answerEmail"
                     },
-                    entities: [
-                        {
-                            requiresBotState: true,
-                            supportsListening: true,
-                            supportsTts: true,
-                            type: "ClientCapabilities"
-                        }
-                    ],
                     from: {
-                        id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
+                        id: "User",
                         name: "User"
                     },
-                    locale: "",
                     recipient: {
                         id: "1",
                         name: "Bot",
                         role: "bot"
                     },
-                    serviceUrl: "http://localhost:50802",
                     text: "user@mail.com",
                     textFormat: "plain",
                     type: "message"
@@ -200,24 +156,19 @@ describe("Onboarding Dialog", function () {
             const testAdapter = enterpriseBotTestBase.getTestAdapter();
             const flow = testAdapter
                 .send({
-                    channelData: {
-                        postback: true
-                    },
                     channelId: "emulator",
                     conversation: {
-                        id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
+                        id: "answerLocation"
                     },
                     from: {
-                        id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
+                        id: "User",
                         name: "User"
                     },
-                    locale: "",
                     recipient: {
                         id: "1",
                         name: "Bot",
                         role: "bot"
                     },
-                    serviceUrl: "http://localhost:57959",
                     type: "message",
                     value: {
                         action: "startOnboarding"
@@ -227,27 +178,17 @@ describe("Onboarding Dialog", function () {
                 .send({
                     channelId: "emulator",
                     conversation: {
-                        id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
+                        id: "answerLocation"
                     },
-                    entities: [
-                        {
-                            requiresBotState: true,
-                            supportsListening: true,
-                            supportsTts: true,
-                            type: "ClientCapabilities"
-                        }
-                    ],
                     from: {
-                        id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
+                        id: "User",
                         name: "User"
                     },
-                    locale: "",
                     recipient: {
                         id: "1",
                         name: "Bot",
                         role: "bot"
                     },
-                    serviceUrl: "http://localhost:50802",
                     text: "user",
                     textFormat: "plain",
                     type: "message"
@@ -257,27 +198,17 @@ describe("Onboarding Dialog", function () {
                 .send({
                     channelId: "emulator",
                     conversation: {
-                        id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
+                        id: "answerLocation"
                     },
-                    entities: [
-                        {
-                            requiresBotState: true,
-                            supportsListening: true,
-                            supportsTts: true,
-                            type: "ClientCapabilities"
-                        }
-                    ],
                     from: {
-                        id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
+                        id: "User",
                         name: "User"
                     },
-                    locale: "",
                     recipient: {
                         id: "1",
                         name: "Bot",
                         role: "bot"
                     },
-                    serviceUrl: "http://localhost:50802",
                     text: "user@mail.com",
                     textFormat: "plain",
                     type: "message"
@@ -287,27 +218,17 @@ describe("Onboarding Dialog", function () {
                 .send({
                     channelId: "emulator",
                     conversation: {
-                        id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
+                        id: "answerLocation"
                     },
-                    entities: [
-                        {
-                            requiresBotState: true,
-                            supportsListening: true,
-                            supportsTts: true,
-                            type: "ClientCapabilities"
-                        }
-                    ],
                     from: {
-                        id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
+                        id: "User",
                         name: "User"
                     },
-                    locale: "",
                     recipient: {
                         id: "1",
                         name: "Bot",
                         role: "bot"
                     },
-                    serviceUrl: "http://localhost:50802",
                     text: "Seattle",
                     textFormat: "plain",
                     type: "message"
@@ -321,24 +242,19 @@ describe("Onboarding Dialog", function () {
             const testAdapter = enterpriseBotTestBase.getTestAdapter();
             const flow = testAdapter
                 .send({
-                    channelData: {
-                        postback: true
-                    },
                     channelId: "emulator",
                     conversation: {
-                        id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
+                        id: "stateUpdated"
                     },
                     from: {
-                        id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
+                        id: "User",
                         name: "User"
                     },
-                    locale: "",
                     recipient: {
                         id: "1",
                         name: "Bot",
                         role: "bot"
                     },
-                    serviceUrl: "http://localhost:57959",
                     type: "message",
                     value: {
                         action: "startOnboarding"
@@ -348,18 +264,150 @@ describe("Onboarding Dialog", function () {
                 .send({
                     channelId: "emulator",
                     conversation: {
-                        id: "06342ab0-2ada-11e9-9083-71c7608e7e77|livechat"
+                        id: "stateUpdated"
                     },
-                    entities: [
-                        {
-                            requiresBotState: true,
-                            supportsListening: true,
-                            supportsTts: true,
-                            type: "ClientCapabilities"
-                        }
-                    ],
                     from: {
-                        id: "3cdfda9c-eb22-420b-ab7b-6b4080ef9349",
+                        id: "User",
+                        name: "User"
+                    },
+                    recipient: {
+                        id: "1",
+                        name: "Bot",
+                        role: "bot"
+                    },
+                    text: "user",
+                    textFormat: "plain",
+                    type: "message"
+                })
+                .assertReply(async function (activity, description) {
+                    const state = await testStorage.read(['emulator/users/User/']);
+                    assert(state['emulator/users/User/'].OnboardingState.name === 'user');
+                });
+
+            testNock.resolveWithMocks(this.test.title, done, flow);
+        });
+    });
+
+    describe("Onboarding Cancellation", function () {
+        it("Invoke a 'Cancel' action during name prompt and confirm", function (done) {
+            const testAdapter = enterpriseBotTestBase.getTestAdapter();
+            const flow = testAdapter
+                .send({
+                    channelId: "emulator",
+                    conversation: {
+                        id: "cancelNamePrompt"
+                    },
+                    from: {
+                        id: "User",
+                        name: "User"
+                    },
+                    recipient: {
+                        id: "1",
+                        name: "Bot",
+                        role: "bot"
+                    },
+                    type: "message",
+                    value: {
+                        action: "startOnboarding"
+                    }
+                })
+                .assertReply('What is your name?')
+                .send({
+                    channelId: "emulator",
+                    conversation: {
+                        id: "cancelNamePrompt"
+                    },
+                    from: {
+                        id: "User",
+                        name: "User"
+                    },
+                    recipient: {
+                        id: "1",
+                        name: "Bot",
+                        role: "bot"
+                    },
+                    text: "cancel",
+                    textFormat: "plain",
+                    type: "message"
+                })
+                .assertReply(async function (activity, description) {
+                    assert(activity.suggestedActions);
+                    assert.deepStrictEqual(activity.suggestedActions.actions[0].value, "Yes");
+                    assert.deepStrictEqual(activity.suggestedActions.actions[1].value, "No");
+                })
+                .send({
+                    channelId: "emulator",
+                    conversation: {
+                      id: "cancelNamePrompt"
+                    },
+                    from: {
+                      id: "User",
+                      name: "User"
+                    },
+                    recipient: {
+                      id: "1",
+                      name: "Bot",
+                      role: "bot"
+                    },
+                    text: "Yes",
+                    textFormat: "plain",
+                    type: "message"
+                })
+                .assertReply('Ok, let\'s start over.')
+                .assertReply('What else can I help you with?');
+
+            testNock.resolveWithMocks(this.test.title, done, flow);
+        });
+        it("Invoke a 'Cancel' action during email prompt and deny", function (done) {
+            const testAdapter = enterpriseBotTestBase.getTestAdapter();
+            const flow = testAdapter
+                .send({
+                    channelId: "emulator",
+                    conversation: {
+                        id: "cancelEmailPrompt"
+                    },
+                    from: {
+                        id: "User",
+                        name: "User"
+                    },
+                    recipient: {
+                        id: "1",
+                        name: "Bot",
+                        role: "bot"
+                    },
+                    type: "message",
+                    value: {
+                        action: "startOnboarding"
+                    }
+                })
+                .assertReply('What is your name?')
+                .send({
+                    channelId: "emulator",
+                    conversation: {
+                        id: "cancelEmailPrompt"
+                    },
+                    from: {
+                        id: "User",
+                        name: "User"
+                    },
+                    recipient: {
+                        id: "1",
+                        name: "Bot",
+                        role: "bot"
+                    },
+                    text: "user",
+                    textFormat: "plain",
+                    type: "message"
+                })
+                .assertReply('Hi, user!')
+                .assertReply('What is your email?')
+                .send({
+                    channelId: "emulator",
+                    conversation: {
+                        id: "cancelEmailPrompt"
+                    },
+                    from: {
+                        id: "User",
                         name: "User"
                     },
                     locale: "",
@@ -368,28 +416,38 @@ describe("Onboarding Dialog", function () {
                         name: "Bot",
                         role: "bot"
                     },
-                    serviceUrl: "http://localhost:50802",
-                    text: "user",
+                    text: "cancel",
                     textFormat: "plain",
                     type: "message"
                 })
                 .assertReply(async function (activity, description) {
-                    const state = await testStorage.read(['emulator/users/3cdfda9c-eb22-420b-ab7b-6b4080ef9349/']);
-                    assert(state['emulator/users/3cdfda9c-eb22-420b-ab7b-6b4080ef9349/'].OnboardingState.name === 'user');
-                });
+                    assert(activity.suggestedActions);
+                    assert.deepStrictEqual(activity.suggestedActions.actions[0].value, "Yes");
+                    assert.deepStrictEqual(activity.suggestedActions.actions[1].value, "No");
+                })
+                .send({
+                    channelId: "emulator",
+                    conversation: {
+                      id: "cancelEmailPrompt"
+                    },
+                    from: {
+                      id: "User",
+                      name: "User"
+                    },
+                    locale: "",
+                    recipient: {
+                      id: "1",
+                      name: "Bot",
+                      role: "bot"
+                    },
+                    text: "No",
+                    textFormat: "plain",
+                    type: "message"
+                })
+                .assertReply('Ok, let\'s keep going.')
+                .assertReply('What is your email?');
 
             testNock.resolveWithMocks(this.test.title, done, flow);
-        });
-    });
-
-    describe("Onboarding Cancellation", function () {
-        xit("Invoke a 'Cancel' action during name prompt", function (done) {
-        });
-        xit("Validate confirmation prompt", function (done) {
-        });
-        xit("Send Yes", function (done) {
-        });
-        xit("Validate you go back", function (done) {
         });
     });
 });
