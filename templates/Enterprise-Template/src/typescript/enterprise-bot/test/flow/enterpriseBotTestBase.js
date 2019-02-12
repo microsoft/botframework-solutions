@@ -1,4 +1,4 @@
-const { ConversationState, MemoryStorage, TestAdapter, UserState } = require('botbuilder-core')
+const { AutoSaveStateMiddleware, ConversationState, MemoryStorage, TestAdapter, UserState } = require('botbuilder-core')
 const BotConfiguration = require('botframework-config').BotConfiguration;
 const config = require('dotenv').config;
 const i18n = require('i18n');
@@ -51,7 +51,8 @@ const getTestAdapter = function () {
     return new TestAdapter(function (context) {
         i18n.setLocale(context.activity.locale || 'en');
         return bot.onTurn(context);
-    });
+    })
+    .use(new AutoSaveStateMiddleware(bot.CONVERSATION_STATE, bot.USER_STATE));
 }
 
 module.exports = {
