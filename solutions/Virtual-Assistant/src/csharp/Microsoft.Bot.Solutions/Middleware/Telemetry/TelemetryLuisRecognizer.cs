@@ -154,7 +154,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
 
                 telemetryProperties.Add(LuisTelemetryConstants.EntitiesProperty, string.Join(",", entities.ToArray()));
 
-                // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
+                // Use the LogPersonalInformation flag to toggle logging PII data, text is a common example
                 if (logPersonalInformation && !string.IsNullOrEmpty(context.Activity.Text))
                 {
                     telemetryProperties.Add(LuisTelemetryConstants.QuestionProperty, context.Activity.Text);
