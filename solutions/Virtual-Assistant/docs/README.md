@@ -63,10 +63,10 @@ In addition, Language Understanding support is provided by the LUIS Cognitive Se
 Your Virtual Assistant can be integrated into your device and ecosystem enabling a truly integrated and intelligent experience. Through this contextual awareness more intelligent experiences can be developed and deliver further personalisation than otherwise possible.
 
 ### 3rd Party assistant integration
-The Virtual Assistant enables you to deliver your own unique experience but also hand-off to the end-users chosen Digital Assistant for certain types of questions.
+The Virtual Assistant enables you to deliver your own unique experience but also handoff to the end user's chosen Digital Assistant for certain types of questions.
 
 ### Flexible integration
-Our Virtual Assistant architecture is flexible and can be integrated with existing investments you may have made into device based Speech or Natural Language processing capabilities and of course integrate with your existing back-end systems and APIs.
+Our Virtual Assistant architecture is flexible and can be integrated with existing investments you may have made into device-based Speech or Natural Language processing capabilities and of course integrate with your existing back-end systems and APIs.
 
 ### Adaptive Cards
 [Adaptive Cards](https://adaptivecards.io/) provide the ability for your Virtual Assistant to return User Experience elements (e.g. Cards, Images, Buttons) alongside text base responses. If the device or conversation canvas has a screen these Adaptive Cards can be rendered across a broad range of devices and platforms providing supporting User Experience where appropriate. [Samples of Adaptive Cards](https://adaptivecards.io/samples/) are available to try out, as well as documentation on how to [render cards within your own application](https://docs.microsoft.com/en-us/adaptive-cards/rendering-cards/getting-started).
@@ -76,7 +76,7 @@ In addition to the base assistant, there exists a broad set of common capabiliti
 
 This is then further complicated by the need to support multiple languages and results in a large amount of work required for any organisation building their own assistant.
 
-Our Virtual Assistant solution includes a new Skill capability enabling new capabilities to be plugged into an custom-assistant through configuration only. 
+Our Virtual Assistant solution includes a new Skill capability enabling new capabilities to be plugged into a custom-assistant through configuration only.
 
 All aspects of each Skill (Language Model, Dialogs, Integration Code and Language Generation) are completely customisable by developers as the full source code is provided on GitHub along with the Virtual Assistant.
 
