@@ -22,12 +22,10 @@
         "botframework-schema": "^4.2.1"
     },
     "devDependencies": {
-        "@types/node": "^10.10.1",
         "mocha": "^5.2.0",
         "rimraf": "^2.6.2",
         "typescript": "^3.2.2",
-        "tslint": "^5.12.1",
-        "tslint-microsoft-contrib": "6.0.0"
+        "tslint": "^5.12.1"
     },
     "env": {
         "mocha": true,

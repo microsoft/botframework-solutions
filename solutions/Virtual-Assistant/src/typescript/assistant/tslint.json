@@ -15,6 +15,6 @@
       "no-relative-imports": [false]
     },
     "rulesDirectory": [
-      "node_modules/tslint-microsoft-contrib"
+      "tslint-microsoft-contrib"
     ]
   }

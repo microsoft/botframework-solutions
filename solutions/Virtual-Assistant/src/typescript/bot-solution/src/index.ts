@@ -1,1 +1,3 @@
-console.log('bot-solution');
+export class Index {
+    public property: string = '';
+}
