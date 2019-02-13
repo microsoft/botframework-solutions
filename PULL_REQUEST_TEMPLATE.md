@@ -6,6 +6,7 @@
 <!--- This project only accepts pull requests related to open issues -->
 <!--- If suggesting a new feature or change, please discuss it in an issue first -->
 <!--- If fixing a bug, there should be an issue describing it with steps to reproduce -->
+<!--- You can enable automation to close related issues, read https://help.github.com/articles/closing-issues-using-keywords/ -->
 <!--- Please link to the issue here: -->
 
 ## Testing Steps
