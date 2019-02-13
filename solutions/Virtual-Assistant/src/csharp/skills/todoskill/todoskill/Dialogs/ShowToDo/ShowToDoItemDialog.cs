@@ -120,7 +120,7 @@ namespace ToDoSkill.Dialogs.ShowToDo
                 state.LastListType = state.ListType;
                 var service = await InitListTypeIds(sc);
                 var topIntent = state.LuisResult?.TopIntent().intent;
-                if (topIntent == ToDo.Intent.ShowToDo)
+                if (topIntent == ToDoLU.Intent.ShowToDo)
                 {
                     state.AllTasks = await service.GetTasksAsync(state.ListType);
                 }
@@ -138,7 +138,7 @@ namespace ToDoSkill.Dialogs.ShowToDo
                 {
                     var cardReply = sc.Context.Activity.CreateReply();
 
-                    if (topIntent == ToDo.Intent.ShowToDo || state.GoBackToStart)
+                    if (topIntent == ToDoLU.Intent.ShowToDo || state.GoBackToStart)
                     {
                         var toDoListAttachment = ToAdaptiveCardForShowToDos(
                             state.Tasks,
@@ -198,7 +198,7 @@ namespace ToDoSkill.Dialogs.ShowToDo
 
                     await sc.Context.SendActivityAsync(cardReply);
 
-                    if ((topIntent == ToDo.Intent.ShowToDo || state.GoBackToStart) && state.Tasks.Count > state.ReadSize)
+                    if ((topIntent == ToDoLU.Intent.ShowToDo || state.GoBackToStart) && state.Tasks.Count > state.ReadSize)
                     {
                         state.GoBackToStart = false;
                         return await sc.NextAsync();

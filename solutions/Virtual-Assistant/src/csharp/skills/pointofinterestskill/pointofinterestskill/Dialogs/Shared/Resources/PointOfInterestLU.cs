@@ -10,15 +10,15 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public class PointOfInterest: IRecognizerConvert
+    public class PointOfInterestLU: IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
         public enum Intent {
+            None, 
             NAVIGATION_CANCEL_ROUTE, 
             NAVIGATION_FIND_POINTOFINTEREST, 
-            NAVIGATION_ROUTE_FROM_X_TO_Y, 
-            None
+            NAVIGATION_ROUTE_FROM_X_TO_Y
         };
         public Dictionary<Intent, IntentScore> Intents;
 
@@ -50,7 +50,7 @@ namespace Luis
 
         public void Convert(dynamic result)
         {
-            var app = JsonConvert.DeserializeObject<PointOfInterest>(JsonConvert.SerializeObject(result));
+            var app = JsonConvert.DeserializeObject<PointOfInterestLU>(JsonConvert.SerializeObject(result));
             Text = app.Text;
             AlteredText = app.AlteredText;
             Intents = app.Intents;

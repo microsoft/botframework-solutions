@@ -41,9 +41,9 @@ namespace ToDoSkillTest.Flow.Fakes
 
             Type t = typeof(T);
             var text = turnContext.Activity.Text;
-            if (t.Name.Equals(typeof(ToDo).Name))
+            if (t.Name.Equals(typeof(ToDoLU).Name))
             {
-                ToDo mockToDo = utterancesManager.GetValueOrDefault(text, utterancesManager.GetBaseNoneIntent());
+                ToDoLU mockToDo = utterancesManager.GetValueOrDefault(text, utterancesManager.GetBaseNoneIntent());
 
                 var test = mockToDo as object;
                 mockResult = (T)test;

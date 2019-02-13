@@ -2,6 +2,11 @@
 [Navigation Find PoI](./poi_navigation_find_poi.lu)
 [Navigation Route From X To Y](./poi_navigation_route_fromxtoy.lu)
 
+# None
+- my water bottle is green
+- turtles like to swim in the ocean
+- paper planes in the sky
+
 > # Entity definitions
 $ADDRESS:simple
 $DESCRIPTOR:simple

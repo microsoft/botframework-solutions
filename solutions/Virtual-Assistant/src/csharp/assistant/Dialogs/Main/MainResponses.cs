@@ -86,10 +86,10 @@ namespace VirtualAssistant.Dialogs.Main
             {
                 Actions = new List<CardAction>()
                 {
-                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.CALENDAR_SUGGESTEDACTION),
-                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.EMAIL_SUGGESTEDACTION),
-                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.MEETING_SUGGESTEDACTION),
-                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.POI_SUGGESTEDACTION),
+                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.CALENDAR_SUGGESTEDACTION, value: MainStrings.CALENDAR_SUGGESTEDACTION),
+                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.EMAIL_SUGGESTEDACTION, value: MainStrings.EMAIL_SUGGESTEDACTION),
+                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.MEETING_SUGGESTEDACTION, value: MainStrings.MEETING_SUGGESTEDACTION),
+                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.POI_SUGGESTEDACTION, value: MainStrings.POI_SUGGESTEDACTION),
                 },
             };
 

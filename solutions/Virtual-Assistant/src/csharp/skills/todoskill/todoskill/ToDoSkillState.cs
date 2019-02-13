@@ -138,7 +138,7 @@ namespace ToDoSkill
         /// <value>
         /// LuisResult.
         /// </value>
-        public ToDo LuisResult { get; set; }
+        public ToDoLU LuisResult { get; set; }
 
         /// <summary>
         /// Gets or sets GeneralLuisResult.

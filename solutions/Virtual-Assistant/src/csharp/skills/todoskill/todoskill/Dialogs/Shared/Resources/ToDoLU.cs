@@ -10,7 +10,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public class ToDo: IRecognizerConvert
+    public class ToDoLU: IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
@@ -21,18 +21,18 @@ namespace Luis
             None, 
             ShowToDo
         };
-        public virtual Dictionary<Intent, IntentScore> Intents { get; set; }
+        public Dictionary<Intent, IntentScore> Intents;
 
         public class _Entities
         {
             // Simple entities
-            public string[] ContainsAll;
             public string[] ListType;
             public string[] TaskContentML;
+            public string[] ContainsAll;
 
             // Built-in entities
-            public double[] number;
             public double[] ordinal;
+            public double[] number;
 
             // Lists
             public string[][] FoodOfGrocery;
@@ -45,11 +45,11 @@ namespace Luis
             // Instance
             public class _Instance
             {
-                public InstanceData[] ContainsAll;
                 public InstanceData[] ListType;
                 public InstanceData[] TaskContentML;
-                public InstanceData[] number;
+                public InstanceData[] ContainsAll;
                 public InstanceData[] ordinal;
+                public InstanceData[] number;
                 public InstanceData[] FoodOfGrocery;
                 public InstanceData[] ShopVerb;
                 public InstanceData[] ShopContent;
@@ -58,14 +58,14 @@ namespace Luis
             [JsonProperty("$instance")]
             public _Instance _instance;
         }
-        public virtual _Entities Entities { get; set; }
+        public _Entities Entities;
 
         [JsonExtensionData(ReadData = true, WriteData = true)]
         public IDictionary<string, object> Properties {get; set; }
 
         public void Convert(dynamic result)
         {
-            var app = JsonConvert.DeserializeObject<ToDo>(JsonConvert.SerializeObject(result));
+            var app = JsonConvert.DeserializeObject<ToDoLU>(JsonConvert.SerializeObject(result));
             Text = app.Text;
             AlteredText = app.AlteredText;
             Intents = app.Intents;
@@ -73,7 +73,7 @@ namespace Luis
             Properties = app.Properties;
         }
 
-        public virtual (Intent intent, double score) TopIntent()
+        public (Intent intent, double score) TopIntent()
         {
             Intent maxIntent = Intent.None;
             var max = 0.0;

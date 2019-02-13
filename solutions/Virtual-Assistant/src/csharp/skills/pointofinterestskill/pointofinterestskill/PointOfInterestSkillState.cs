@@ -45,7 +45,7 @@ namespace PointOfInterestSkill
 
         public string SearchDescriptor { get; set; }
 
-        public PointOfInterest LuisResult { get; set; }
+        public PointOfInterestLU LuisResult { get; set; }
 
         public DialogState ConversationDialogState { get; set; }
 
