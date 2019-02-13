@@ -4,7 +4,7 @@ using Microsoft.Bot.Builder;
 
 namespace ToDoSkillTest.Flow.Utterances
 {
-    public class BaseTestUtterances : Dictionary<string, ToDo>
+    public class BaseTestUtterances : Dictionary<string, ToDoLU>
     {
         public BaseTestUtterances()
         {
@@ -12,19 +12,19 @@ namespace ToDoSkillTest.Flow.Utterances
 
         public static double TopIntentScore { get; } = 0.9;
 
-        public ToDo GetBaseNoneIntent()
+        public ToDoLU GetBaseNoneIntent()
         {
             return GetToDoIntent();
         }
 
-        public ToDo GetNoneIntent(string[] listType = null)
+        public ToDoLU GetNoneIntent(string[] listType = null)
         {
             return GetToDoIntent(listType: listType);
         }
 
-        protected ToDo GetToDoIntent(
+        protected ToDoLU GetToDoIntent(
             string userInput = null,
-            ToDo.Intent intents = ToDo.Intent.None,
+            ToDoLU.Intent intents = ToDoLU.Intent.None,
             double[] ordinal = null,
             double[] number = null,
             string[] containsAll = null,
@@ -35,12 +35,12 @@ namespace ToDoSkillTest.Flow.Utterances
             string[][] foodOfGrocery = null,
             string[][] shopVerb = null)
         {
-            var intent = new ToDo();
+            var intent = new ToDoLU();
             intent.Text = userInput;
-            intent.Intents = new Dictionary<ToDo.Intent, IntentScore>();
+            intent.Intents = new Dictionary<ToDoLU.Intent, IntentScore>();
             intent.Intents.Add(intents, new IntentScore() { Score = TopIntentScore });
-            intent.Entities = new ToDo._Entities();
-            intent.Entities._instance = new ToDo._Entities._Instance();
+            intent.Entities = new ToDoLU._Entities();
+            intent.Entities._instance = new ToDoLU._Entities._Instance();
             intent.Entities.ordinal = ordinal;
             intent.Entities.number = number;
             intent.Entities.ContainsAll = containsAll;

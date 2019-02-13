@@ -23,9 +23,9 @@ namespace ToDoSkillTest.Flow.Utterances
 
         public static string ShowShoppingList { get; } = "Show my shopping list";
 
-        private ToDo GetBaseShowTasksIntent(
+        private ToDoLU GetBaseShowTasksIntent(
             string userInput,
-            ToDo.Intent intents = ToDo.Intent.ShowToDo,
+            ToDoLU.Intent intents = ToDoLU.Intent.ShowToDo,
             string[] listType = null)
         {
             return GetToDoIntent(

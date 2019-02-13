@@ -92,7 +92,8 @@ namespace ToDoSkill.Dialogs.Main
             }
             else
             {
-                var result = await luisService.RecognizeAsync<ToDo>(dc.Context, CancellationToken.None);
+                var turnResult = EndOfTurn;
+                var result = await luisService.RecognizeAsync<ToDoLU>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
@@ -104,37 +105,37 @@ namespace ToDoSkill.Dialogs.Main
                 // switch on general intents
                 switch (intent)
                 {
-                    case ToDo.Intent.AddToDo:
+                    case ToDoLU.Intent.AddToDo:
                         {
-                            await dc.BeginDialogAsync(nameof(AddToDoItemDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(AddToDoItemDialog), skillOptions);
                             break;
                         }
 
-                    case ToDo.Intent.MarkToDo:
+                    case ToDoLU.Intent.MarkToDo:
                         {
-                            await dc.BeginDialogAsync(nameof(MarkToDoItemDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(MarkToDoItemDialog), skillOptions);
                             break;
                         }
 
-                    case ToDo.Intent.DeleteToDo:
+                    case ToDoLU.Intent.DeleteToDo:
                         {
-                            await dc.BeginDialogAsync(nameof(DeleteToDoItemDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(DeleteToDoItemDialog), skillOptions);
                             break;
                         }
 
-                    case ToDo.Intent.ShowToDo:
+                    case ToDoLU.Intent.ShowToDo:
                         {
-                            await dc.BeginDialogAsync(nameof(ShowToDoItemDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(ShowToDoItemDialog), skillOptions);
                             break;
                         }
 
-                    case ToDo.Intent.None:
+                    case ToDoLU.Intent.None:
                         {
                             if (generalTopIntent == General.Intent.Next
                                 || generalTopIntent == General.Intent.Previous
                                 || generalTopIntent == General.Intent.ReadMore)
                             {
-                                await dc.BeginDialogAsync(nameof(ShowToDoItemDialog), skillOptions);
+                                turnResult = await dc.BeginDialogAsync(nameof(ShowToDoItemDialog), skillOptions);
                             }
                             else
                             {
@@ -142,7 +143,7 @@ namespace ToDoSkill.Dialogs.Main
                                 await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.DidntUnderstandMessage));
                                 if (_skillMode)
                                 {
-                                    await CompleteAsync(dc);
+                                    turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                                 }
                             }
 
@@ -155,11 +156,16 @@ namespace ToDoSkill.Dialogs.Main
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.FeatureNotAvailable));
                             if (_skillMode)
                             {
-                                await CompleteAsync(dc);
+                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
                             break;
                         }
+                }
+
+                if (turnResult != EndOfTurn)
+                {
+                    await CompleteAsync(dc);
                 }
             }
         }
@@ -224,7 +230,7 @@ namespace ToDoSkill.Dialogs.Main
                 var localeConfig = _services.LocaleConfigurations[locale];
 
                 // Update state with email luis result and entities
-                var toDoLuisResult = await localeConfig.LuisServices["todo"].RecognizeAsync<ToDo>(dc.Context, cancellationToken);
+                var toDoLuisResult = await localeConfig.LuisServices["todo"].RecognizeAsync<ToDoLU>(dc.Context, cancellationToken);
                 var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
                 state.LuisResult = toDoLuisResult;
 

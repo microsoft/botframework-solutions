@@ -37,53 +37,6 @@ namespace VirtualAssistant.Tests
         }
 
         [TestMethod]
-        public async Task OnboardingFlow()
-        {
-            var startConversationEvent = new Activity
-            {
-                Type = ActivityTypes.Event,
-                Name = "startConversation",
-                Locale = "en-us"
-            };
-
-            var userName = "Alice";
-            var location = "London";
-
-            await this.GetTestFlow()
-               .Send(startConversationEvent)
-               .AssertReply(ValidateEventReceived(startConversationEvent.Name))
-               .AssertReply(ValidateIntroCard())
-               .AssertReply(OnboardingStrings.NAME_PROMPT)
-               .Send(userName)
-               .AssertReply(string.Format(OnboardingStrings.LOCATION_PROMPT, userName))
-               .Send(location)
-               .AssertReply(string.Format(OnboardingStrings.HAVE_LOCATION, location))
-               .AssertReply(ValidateHeroCardResponse())
-               .AssertReply(MainStrings.COMPLETED)
-               .StartTestAsync();
-        }
-
-        [TestMethod]
-        public async Task CancelOnboardingFlow()
-        {
-            var startConversationEvent = new Activity
-            {
-                Type = ActivityTypes.Event,
-                Name = "startConversation",
-                Locale = "en-us"
-            };
-
-            await this.GetTestFlow()
-               .Send(startConversationEvent)
-               .AssertReply(ValidateEventReceived(startConversationEvent.Name))
-               .AssertReply(ValidateIntroCard())
-               .AssertReply(OnboardingStrings.NAME_PROMPT)
-               .Send(GeneralUtterances.Cancel)
-               .AssertReply(MainStrings.CANCELLED)
-               .StartTestAsync();
-        }
-
-        [TestMethod]
         public async Task Greeting()
         {
             await this.GetTestFlow()

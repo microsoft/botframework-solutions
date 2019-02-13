@@ -23,7 +23,7 @@ namespace CalendarSkillTest.Flow.Utterances
                 fromTime: new string[] { "6 pm" }));
             this.Add(ChooseFirstMeeting, GetBaseFindMeetingIntent(
                 ChooseFirstMeeting,
-                intents: Calendar.Intent.ReadAloud,
+                intents: CalendarLU.Intent.ReadAloud,
                 ordinal: new double[] { 1 }));
             this.Add(HowLongNextMeetingMeeting, GetBaseFindMeetingIntent(
                 BaseNextMeeting,
@@ -56,9 +56,9 @@ namespace CalendarSkillTest.Flow.Utterances
 
         public static string WhenNextMeetingMeeting { get; } = "When is my next meeting";
 
-        private Calendar GetBaseFindMeetingIntent(
+        private CalendarLU GetBaseFindMeetingIntent(
             string userInput,
-            Calendar.Intent intents = Calendar.Intent.FindCalendarEntry,
+            CalendarLU.Intent intents = CalendarLU.Intent.FindCalendarEntry,
             string[] fromDate = null,
             string[] toDate = null,
             string[] fromTime = null,

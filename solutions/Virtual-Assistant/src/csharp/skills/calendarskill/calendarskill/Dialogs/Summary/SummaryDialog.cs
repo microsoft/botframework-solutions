@@ -424,7 +424,7 @@ namespace CalendarSkill.Dialogs.Summary
 
                 var eventItem = state.ReadOutEvents.FirstOrDefault();
 
-                if (eventItem != null && topIntent != Luis.Calendar.Intent.ChangeCalendarEntry && topIntent != Luis.Calendar.Intent.DeleteCalendarEntry)
+                if (eventItem != null && topIntent != Luis.CalendarLU.Intent.ChangeCalendarEntry && topIntent != Luis.CalendarLU.Intent.DeleteCalendarEntry)
                 {
                     var tokens = new StringDictionary()
                     {
@@ -499,14 +499,14 @@ namespace CalendarSkill.Dialogs.Summary
                     state.SummaryEvents = null;
                     if (readoutEvent.IsOrganizer)
                     {
-                        if (topIntent == Calendar.Intent.ChangeCalendarEntry)
+                        if (topIntent == CalendarLU.Intent.ChangeCalendarEntry)
                         {
                             state.Events.Add(readoutEvent);
                             state.IsActionFromSummary = true;
                             return await sc.BeginDialogAsync(nameof(UpdateEventDialog), sc.Options);
                         }
 
-                        if (topIntent == Calendar.Intent.DeleteCalendarEntry)
+                        if (topIntent == CalendarLU.Intent.DeleteCalendarEntry)
                         {
                             state.Events.Add(readoutEvent);
                             state.IsActionFromSummary = true;
@@ -518,7 +518,7 @@ namespace CalendarSkill.Dialogs.Summary
                     }
                     else if (readoutEvent.IsAccepted)
                     {
-                        if (topIntent == Calendar.Intent.DeleteCalendarEntry)
+                        if (topIntent == CalendarLU.Intent.DeleteCalendarEntry)
                         {
                             state.Events.Add(readoutEvent);
                             state.IsActionFromSummary = true;
@@ -530,7 +530,7 @@ namespace CalendarSkill.Dialogs.Summary
                     }
                     else
                     {
-                        if (topIntent == Calendar.Intent.DeleteCalendarEntry || topIntent == Calendar.Intent.AcceptEventEntry)
+                        if (topIntent == CalendarLU.Intent.DeleteCalendarEntry || topIntent == CalendarLU.Intent.AcceptEventEntry)
                         {
                             state.Events.Add(readoutEvent);
                             state.IsActionFromSummary = true;
