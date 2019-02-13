@@ -305,7 +305,7 @@ namespace ToDoSkill.Dialogs.MarkToDo
                 {
                     state.TaskContentPattern = null;
                     state.TaskContentML = null;
-                    state.CollectIndexRetry = false;
+                    state.CollectIndexRetry = true;
                     return await sc.ReplaceDialogAsync(Action.CollectTaskIndexForComplete);
                 }
             }
