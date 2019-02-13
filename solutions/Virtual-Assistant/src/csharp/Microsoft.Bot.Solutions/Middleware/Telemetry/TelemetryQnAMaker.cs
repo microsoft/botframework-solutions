@@ -55,13 +55,6 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
 
                 telemetryProperties.Add(QnATelemetryConstants.KnowledgeBaseIdProperty, _endpoint.KnowledgeBaseId);
 
-                // Make it so we can correlate our reports with Activity or Conversation
-                telemetryProperties.Add(QnATelemetryConstants.ActivityIdProperty, context.Activity.Id);
-                var conversationId = context.Activity.Conversation.Id;
-                if (!string.IsNullOrEmpty(conversationId))
-                {
-                    telemetryProperties.Add(QnATelemetryConstants.ConversationIdProperty, conversationId);
-                }
 
                 var text = context.Activity.Text;
                 var userName = context.Activity.From.Name;
