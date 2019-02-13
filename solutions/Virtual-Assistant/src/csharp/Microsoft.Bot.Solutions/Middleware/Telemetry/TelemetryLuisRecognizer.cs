@@ -142,17 +142,8 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                     }
                 }
 
-                // Add Luis Entitites
-                var entities = new List<string>();
-                foreach (var entity in recognizerResult.Entities)
-                {
-                    if (!entity.Key.ToString().Equals("$instance"))
-                    {
-                        entities.Add($"{entity.Key}: {entity.Value.First}");
-                    }
-                }
-
-                telemetryProperties.Add(LuisTelemetryConstants.EntitiesProperty, string.Join(",", entities.ToArray()));
+                var entities = recognizerResult.Entities?.ToString();
+                telemetryProperties.Add(LuisTelemetryConstants.EntitiesProperty, entities);
 
                 // Use the LogPersonalInformation flag to toggle logging PII data, text is a common example
                 if (logPersonalInformation && !string.IsNullOrEmpty(context.Activity.Text))
@@ -161,7 +152,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                 }
 
                 // Track the event
-                ((IBotTelemetryClient)telemetryClient).TrackEventEx($"{LuisTelemetryConstants.IntentPrefix}.{topLuisIntent.intent}", context.Activity, null, telemetryProperties);
+                ((IBotTelemetryClient)telemetryClient).TrackEventEx(LuisTelemetryConstants.IntentPrefix, context.Activity, null, telemetryProperties);
             }
 
             return recognizerResult;
