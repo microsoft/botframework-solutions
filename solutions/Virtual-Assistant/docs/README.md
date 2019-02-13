@@ -29,6 +29,8 @@ Onboarding | An example OnBoarding flow enabling your Assistant to greet the use
 [Device Integration](./virtualassistant-deviceintegration.md) | Our Azure Bot Service SDKs (Direct Line) along with Adaptive Card and Speech SDKs enable easy cross platform integration to devices. Additional device integration examples and platform including Edge are planned.
 [Test Harnesses](./virtualassistant-testing.md) | In addition to the Bot Framework Emulator, a WebChat based test harness is provided enabling more complex authentication scenarios to be tested. A simple Console based test harness demonstrates the approach to exchange messages to help frame the ease of device integration.
 [Automated Deployment](./virtualassistant-createvirtualassistant.md) | All the Azure resources required for your Assistant are automatically deployed: Bot registration, Azure App Service, LUIS, QnAMaker, Content Moderator, CosmosDB, Azure Storage, and Application Insights. Additionally, LUIS models for all skills, QnAMaker, and Dispatch models are created, trained, and published to enable immediate testing.
+[Experimental Skills](./virtualassistant-experimental-skills.md) | Experimental Skills are early prototypes of Skills to help bring skill concepts to life for demonstrations and proof-of-concepts along with providing different examples to get you  started. Restaurant Booking and News Skills are currently available.
+[Conversational Analytics](/solutions/analytics/readme.md) | Analytics surfacing insights into end user activity, dialog/skill usage, quality and gaps in knowledge.
 
 ## Example Scenarios
 
@@ -58,13 +60,13 @@ The Virtual Assistant solution is built on the Azure Bot Service, Language Under
 In addition, Language Understanding support is provided by the LUIS Cognitive Service which supports a broad set of languages [listed here](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-supported-languages). The [Translator Cognitive Service](https://azure.microsoft.com/en-us/services/cognitive-services/translator-text-api/) provides additional Machine Translation capabilities to extend the reach of your Virtual Assistant even further.
 
 ### Integrated and Context Aware
-Your Virtual Assistant can be integrated into your device and ecosystem enabling a truly integrated and intelligent experience . Through this contextual awareness more intelligent experiences can be developed and deliver further personalisation than otherwise possible.
+Your Virtual Assistant can be integrated into your device and ecosystem enabling a truly integrated and intelligent experience. Through this contextual awareness more intelligent experiences can be developed and deliver further personalisation than otherwise possible.
 
 ### 3rd Party assistant integration
-The Virtual Assistant enables you to deliver your own unique experience but also hand-off to the end-users chosen Digital Assistant for certain types of questions.
+The Virtual Assistant enables you to deliver your own unique experience but also handoff to the end user's chosen Digital Assistant for certain types of questions.
 
 ### Flexible integration
-Our Virtual Assistant architecture is flexible and can be integrated with existing investments you may have made into device based Speech or Natural Language processing capabilities and of course integrate with your existing back-end systems and APIs.
+Our Virtual Assistant architecture is flexible and can be integrated with existing investments you may have made into device-based Speech or Natural Language processing capabilities and of course integrate with your existing back-end systems and APIs.
 
 ### Adaptive Cards
 [Adaptive Cards](https://adaptivecards.io/) provide the ability for your Virtual Assistant to return User Experience elements (e.g. Cards, Images, Buttons) alongside text base responses. If the device or conversation canvas has a screen these Adaptive Cards can be rendered across a broad range of devices and platforms providing supporting User Experience where appropriate. [Samples of Adaptive Cards](https://adaptivecards.io/samples/) are available to try out, as well as documentation on how to [render cards within your own application](https://docs.microsoft.com/en-us/adaptive-cards/rendering-cards/getting-started).
@@ -74,11 +76,11 @@ In addition to the base assistant, there exists a broad set of common capabiliti
 
 This is then further complicated by the need to support multiple languages and results in a large amount of work required for any organisation building their own assistant.
 
-Our Virtual Assistant solution includes a new Skill capability enabling new capabilities to be plugged into an custom-assistant through configuration only. 
+Our Virtual Assistant solution includes a new Skill capability enabling new capabilities to be plugged into a custom-assistant through configuration only.
 
 All aspects of each Skill (Language Model, Dialogs, Integration Code and Language Generation) are completely customisable by developers as the full source code is provided on GitHub along with the Virtual Assistant.
 
-Initial previews of the [Email](./virtualassistant-skills-productivity-email.md), [Calendar](./virtualassistant-skills-productivity-calendar.md), [ToDo](./virtualassistant-skills-productivity-todo.md) and [Point of Interest](./virtualassistant-skills-pointofinterest.md) Skills are now available. 
+Initial previews of the [Email](./virtualassistant-skills-productivity-email.md), [Calendar](./virtualassistant-skills-productivity-calendar.md), [ToDo](./virtualassistant-skills-productivity-todo.md), [Point of Interest](./virtualassistant-skills-pointofinterest.md) and [Automotive](./virtualassistant-skills-automotive.md) skills are now available. 
 
 ## Documentation
 
@@ -87,6 +89,7 @@ Initial previews of the [Email](./virtualassistant-skills-productivity-email.md)
     - [Create your Virtual Assistant](./virtualassistant-createvirtualassistant.md)
     - [Testing your Virtual Assistant](./virtualassistant-testing.md)
     - [Personalizing your Virtual Assistant](./virtualassistant-personalization.md)
+    - [Updating your Virtual Assistant)](./virtualassistant-updatingvirtualassistant.md)
     - [Linked Accounts](./virtualassistant-linkedaccounts.md)
     - [Integrating into a device](./virtualassistant-deviceintegration.md)
     - [Events](./virtualassistant-events.md)

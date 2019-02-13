@@ -32,9 +32,10 @@ import * as i18n from 'i18n';
 import * as path from 'path';
 import * as restify from 'restify';
 import { BotServices } from './botServices';
-import { <%= botNameClass %> } from './<%= botNameFile %>';
 // Content Moderation Middleware (analyzes incoming messages for inappropriate content including PII, profanity, etc.)
 import { ContentModeratorMiddleware } from './middleware/contentModeratorMiddleware';
+
+import { <%= botNameClass %> } from './<%= botNameFile %>';
 
 i18n.configure({
     directory: path.join(__dirname, 'locales'),

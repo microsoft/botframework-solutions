@@ -75,7 +75,10 @@ Your Virtual Assistant project has a deployment recipe enabling the `msbot clone
 
 To deploy your Virtual Assistant including all dependencies - e.g. CosmosDb, Application Insights, etc. run the following command from a command prompt within your project folder. Ensure you update the authoring key from the previous step and choose the Azure datacenter location you wish to use (e.g. westus or westeurope). You must check that the LUIS authoring key retrieved on the previous step is for the region you specify below (e.g. westus for luis.ai or westeurope for eu.luis.ai)
 
-Run this PowerShell script to deploy your shared resources and LUIS and QnA Maker resources in English:
+Run this PowerShell script to deploy your shared resources and LUIS and QnA Maker resources in English. Ensure you navigate in a command prompt to the `solutions\Virtual-Assistant\src\csharp\assistant` folder.
+
+> Depending on the network connection this deployment process may take 10-15 minutes before progress is shown, ensure you complete the authentication step and check back later for progress.
+
 
 ```
   PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\deploy_bot.ps1
@@ -223,7 +226,18 @@ $keys = ConvertTo-Json -InputObject $authKeyObject
 > Other Authentication Service Providers exist including the ability to create custom oAuth providers. `az bot authsetting list-providers` is a quick way to review the pre-configured ones.
 
 ## Testing
-Once deployment is complete, run your bot project within your development environment and open the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator). Within the Emulator, choose Open Bot from the File menu and navigate to the .bot file in your directory which was created in the deployment step. 
+Once deployment is complete, you can start debugging through the following steps:
+- Start a Debugging session within Visual Studio for the Virtual Assistant project
+- Open the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator). 
+- Within the Emulator, choose Open Bot from the File menu and navigate to the .bot file in your directory which was created in the deployment step and if prompted provide the Bot File Secret
+- Choose the `Development` endpoint and you should see the Introduction Card after a short delay at which point you can start using your assistant.
+
+To use the Production Endpoint you will need to publish your Assistant to Azure:
+- In Visual Studio, Right Click the Virtual Assistant solution and Click Publish.
+- Click New Profile and Choose Select Existing on App Service
+- Find the Resource Group for your Bot and choose the App Service (not the qnahost suffixed service)
+- Complete Publishing
+- Choose the `Production` endpoint within the Emulator. 
 
 > **IMPORTANT NOTES**  
 > 1. Ensure you have the latest emulator installed and update the development endpoint to reflect the port number that Visual Studio chooses when you start debugging otherwise you'll receive connection errors.  
