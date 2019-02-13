@@ -10,6 +10,7 @@ insights across your organization. You can ingest data from Application Insights
 ## Table of Contents
 - [Prerequisites](#prerequisites)
 - [Configuring LUIS Sentiment](#configuring-sentiment)
+- [Telemetry Configuration](#configuring-telemetry-client)
 - [Power BI Installation](#power-bi-installation)
 - [Application Insights Analytics](#application-insights-analytics)
 - [Power BI Sample](#power-bi)
@@ -37,7 +38,11 @@ Sentiment must be enabled for each application.  To enable sentiment:
 6. **Enable** the *Use sentiment analysis to determine if a user's utterance is positive, negative, or neutral* checkbox.
 7. Select **Publish** and repeat for each LUIS application.
 
-### Power BI  Installation
+### Telemetry Configuration
+
+[Telemetry Configuration](docs/telemetry-configuration) demonstrates how to configure your bot's telemetry, either through bot configuring or overriding the telemetry client.
+
+### Power BI Installation
 The [PowerBI Desktop client](https://aka.ms/pbidesktopstore) is available for Windows clients.
 Alternatively, you can use the Power BI service.  If you don't have a PowerBI service account, sign up for a [free 60 day trial account](https://app.powerbi.com/signupredirect?pbi_source=web) and upload the Power BI template to view the reports.
 
@@ -45,7 +50,7 @@ Alternatively, you can use the Power BI service.  If you don't have a PowerBI se
 [Applications Insights Analytics](docs/analytics-applicationinsights) demonstrates how to execute common queries for for bot analytics and debugging in Visual Studio.
 
 ## Power BI
-The  [Conversational Analytics Power BI sample](ConversationalAnalyticsSample.pbit) provides a PowerBI template that can be used to understand how your bot is performing.
+The  [Conversational Analytics Power BI sample](ConversationalAnalyticsSample_02132019.pbit) provides a PowerBI template that can be used to understand how your bot is performing.
 
 ### Sample Overview
 |Dashboard Name|Description|
