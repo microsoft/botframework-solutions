@@ -5,10 +5,12 @@
 
 $basePath = "$($PSScriptRoot)\..\LocaleConfigurations"
 $botFiles = get-childitem $basePath -recurse | where {$_.extension -eq ".bot"} 
-$localeArr = $locales.Split(",")
+$localeArr = $locales.split(',')[0].split(" ")
+
+Write-Host $localeArr
 
 if ($PSBoundParameters.ContainsKey('serviceIds')) {
-	$serviceIdArr = $serviceIds.Split(",")
+	$serviceIdArr = $serviceIds.split(',')[0].split(" ")
 }
 else {
 	$serviceIdArr = @()
@@ -84,7 +86,7 @@ foreach ($botFile in $botFiles) {
 
 				# get the service from .bot and .recipe
 				$service = $botServices.services | where { $_.id -eq $serviceId }
-				$recipeService = $recipe.resources | where { $_.id -eq $serviceId}
+				$recipeService = $recipeServices.resources | where { $_.id -eq $serviceId}
 
 				# if service exists in .bot file
 				if ($service) {

@@ -31,7 +31,7 @@ namespace CalendarSkillTest.Flow.Utterances
                 duration: new string[] { Strings.Strings.DefaultDuration }));
             this.Add(ChooseFirstUser, GetCreateMeetingIntent(
                 ChooseFirstUser,
-                intents: Calendar.Intent.None,
+                intents: CalendarLU.Intent.None,
                 ordinal: new double[] { 1 }));
         }
 
@@ -49,9 +49,9 @@ namespace CalendarSkillTest.Flow.Utterances
 
         public static string ChooseFirstUser { get; } = "the first";
 
-        private Calendar GetCreateMeetingIntent(
+        private CalendarLU GetCreateMeetingIntent(
             string userInput,
-            Calendar.Intent intents = Calendar.Intent.CreateCalendarEntry,
+            CalendarLU.Intent intents = CalendarLU.Intent.CreateCalendarEntry,
             string[] subject = null,
             string[] contactName = null,
             string[] fromDate = null,

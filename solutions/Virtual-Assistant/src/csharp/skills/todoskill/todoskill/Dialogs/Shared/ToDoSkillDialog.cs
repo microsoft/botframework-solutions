@@ -184,7 +184,7 @@ namespace ToDoSkill.Dialogs.Shared
                 var topIntent = state.LuisResult?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
-                if (topIntent == ToDo.Intent.ShowToDo)
+                if (topIntent == ToDoLU.Intent.ShowToDo)
                 {
                     state.ShowTaskPageIndex = 0;
                     state.ReadTaskIndex = 0;
@@ -228,7 +228,7 @@ namespace ToDoSkill.Dialogs.Shared
                         state.IsFirstPage = true;
                     }
                 }
-                else if (topIntent == ToDo.Intent.AddToDo)
+                else if (topIntent == ToDoLU.Intent.AddToDo)
                 {
                     state.TaskContentPattern = null;
                     state.TaskContentML = null;
@@ -239,7 +239,7 @@ namespace ToDoSkill.Dialogs.Shared
                     state.ListType = null;
                     await DigestToDoLuisResult(sc);
                 }
-                else if (topIntent == ToDo.Intent.MarkToDo || topIntent == ToDo.Intent.DeleteToDo)
+                else if (topIntent == ToDoLU.Intent.MarkToDo || topIntent == ToDoLU.Intent.DeleteToDo)
                 {
                     state.TaskIndexes = new List<int>();
                     state.MarkOrDeleteAllTasksFlag = false;

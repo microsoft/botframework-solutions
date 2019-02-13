@@ -15,6 +15,7 @@ namespace Luis
         public string Text;
         public string AlteredText;
         public enum Intent {
+            None, 
             NAVIGATION_CANCEL_ROUTE, 
             NAVIGATION_FIND_POINTOFINTEREST, 
             NAVIGATION_ROUTE_FROM_X_TO_Y

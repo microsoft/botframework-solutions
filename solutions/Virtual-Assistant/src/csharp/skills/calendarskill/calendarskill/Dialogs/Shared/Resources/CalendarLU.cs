@@ -61,6 +61,7 @@ namespace Luis
             // Built-in entities
             public double[] number;
             public double[] ordinal;
+            public DateTimeSpec[] datetime;
 
             // Instance
             public class _Instance
@@ -84,6 +85,7 @@ namespace Luis
                 public InstanceData[] AskParameter;
                 public InstanceData[] number;
                 public InstanceData[] ordinal;
+                public InstanceData[] datetime;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;

@@ -2,6 +2,11 @@
 [Navigation Find PoI](./poi_navigation_find_poi.lu)
 [Navigation Route From X To Y](./poi_navigation_route_fromxtoy.lu)
 
+# None
+- la mia bottiglia d'acqua è verde
+- tartarughe amano nuotare nell'oceano
+- piani di carta nel cielo
+
 > # Entity definitions
 $ADDRESS:simple
 $DESCRIPTOR:simple

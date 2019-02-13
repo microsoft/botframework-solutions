@@ -10,29 +10,29 @@ namespace VirtualAssistant.Tests.LuisTestUtils
     {
         private static Dictionary<string, IRecognizerConvert> _utterances = new Dictionary<string, IRecognizerConvert>
         {
-            { EmailUtterances.SendEmail, CreateIntent(EmailUtterances.SendEmail, Luis.Email.Intent.SendEmail) },
+            { EmailUtterances.SendEmail, CreateIntent(EmailUtterances.SendEmail, Luis.EmailLU.Intent.SendEmail) },
         };
 
         public static MockLuisRecognizer CreateRecognizer()
         {
-            var recognizer = new MockLuisRecognizer(defaultIntent: CreateIntent(string.Empty, Luis.Email.Intent.None));
+            var recognizer = new MockLuisRecognizer(defaultIntent: CreateIntent(string.Empty, Luis.EmailLU.Intent.None));
             recognizer.RegisterUtterances(_utterances);
             return recognizer;
         }
 
-        public static Luis.Email CreateIntent(string userInput, Luis.Email.Intent intent)
+        public static Luis.EmailLU CreateIntent(string userInput, Luis.EmailLU.Intent intent)
         {
-            var result = new Luis.Email
+            var result = new Luis.EmailLU
             {
                 Text = userInput,
-                Intents = new Dictionary<Luis.Email.Intent, IntentScore>()
+                Intents = new Dictionary<Luis.EmailLU.Intent, IntentScore>()
             };
 
             result.Intents.Add(intent, new IntentScore() { Score = 0.9 });
 
-            result.Entities = new Luis.Email._Entities
+            result.Entities = new Luis.EmailLU._Entities
             {
-                _instance = new Luis.Email._Entities._Instance()
+                _instance = new Luis.EmailLU._Entities._Instance()
             };
 
             return result;

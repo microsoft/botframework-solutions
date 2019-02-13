@@ -104,7 +104,7 @@ namespace EmailSkill
 
         public List<Choice> RecipientChoiceList { get; set; }
 
-        public Email LuisResult { get; set; }
+        public EmailLU LuisResult { get; set; }
 
         public General GeneralLuisResult { get; set; }
 

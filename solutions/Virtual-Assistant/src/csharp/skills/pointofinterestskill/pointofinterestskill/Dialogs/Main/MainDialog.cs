@@ -86,7 +86,7 @@ namespace PointOfInterestSkill.Dialogs.Main
             else
             {
                 var turnResult = EndOfTurn;
-                var result = await luisService.RecognizeAsync<PointOfInterest>(dc, true, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<PointOfInterestLU>(dc, true, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
                 var skillOptions = new PointOfInterestSkillDialogOptions
@@ -97,25 +97,25 @@ namespace PointOfInterestSkill.Dialogs.Main
                 // switch on general intents
                 switch (intent)
                 {
-                    case PointOfInterest.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y:
+                    case PointOfInterestLU.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(RouteDialog), skillOptions);
                             break;
                         }
 
-                    case PointOfInterest.Intent.NAVIGATION_CANCEL_ROUTE:
+                    case PointOfInterestLU.Intent.NAVIGATION_CANCEL_ROUTE:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(CancelRouteDialog), skillOptions);
                             break;
                         }
 
-                    case PointOfInterest.Intent.NAVIGATION_FIND_POINTOFINTEREST:
+                    case PointOfInterestLU.Intent.NAVIGATION_FIND_POINTOFINTEREST:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(FindPointOfInterestDialog), skillOptions);
                             break;
                         }
 
-                    case PointOfInterest.Intent.None:
+                    case PointOfInterestLU.Intent.None:
                         {
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POISharedResponses.DidntUnderstandMessage));
                             if (_skillMode)
@@ -279,7 +279,7 @@ namespace PointOfInterestSkill.Dialogs.Main
                 var localeConfig = _services.LocaleConfigurations[locale];
 
                 // Update state with email luis result and entities
-                var poiLuisResult = await localeConfig.LuisServices["pointofinterest"].RecognizeAsync<PointOfInterest>(dc.Context, cancellationToken);
+                var poiLuisResult = await localeConfig.LuisServices["pointofinterest"].RecognizeAsync<PointOfInterestLU>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
                 state.LuisResult = poiLuisResult;
 
