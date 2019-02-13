@@ -18,21 +18,9 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
     /// telemetry.
     /// If this Middleware is removed, all the other sample components don't log (but still operate).
     /// </summary>
-    public class TelemetryLoggerMiddleware : IMiddleware
+    public class TelemetryLoggerMiddleware : ITelemetryLoggerMiddleware, IMiddleware
     {
         public static readonly string AppInsightsServiceKey = $"{nameof(TelemetryLoggerMiddleware)}.AppInsightsContext";
-
-        // Application Insights Custom Event name, logged when new message is received from the user
-        public static readonly string BotMsgReceiveEvent = "BotMessageReceived";
-
-        // Application Insights Custom Event name, logged when a message is sent out from the bot
-        public static readonly string BotMsgSendEvent = "BotMessageSend";
-
-        // Application Insights Custom Event name, logged when a message is updated by the bot (rare case)
-        public static readonly string BotMsgUpdateEvent = "BotMessageUpdate";
-
-        // Application Insights Custom Event name, logged when a message is deleted by the bot (rare case)
-        public static readonly string BotMsgDeleteEvent = "BotMessageDelete";
 
         private IBotTelemetryClient _telemetryClient;
 
@@ -78,7 +66,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                 var activity = context.Activity;
 
                 // Log the Application Insights Bot Message Received
-                _telemetryClient.TrackEventEx(BotMsgReceiveEvent, activity, null, this.FillReceiveEventProperties(activity));
+                _telemetryClient.TrackEventEx(TelemetryLoggerConstants.BotMsgReceiveEvent, activity, null, this.FillReceiveEventProperties(activity));
             }
 
             // hook up onSend pipeline
@@ -89,7 +77,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
 
                 foreach (var activity in activities)
                 {
-                    _telemetryClient.TrackEventEx(BotMsgSendEvent, activity, null, this.FillSendEventProperties(activity));
+                    _telemetryClient.TrackEventEx(TelemetryLoggerConstants.BotMsgSendEvent, activity, null, this.FillSendEventProperties(activity));
                 }
 
                 return responses;
@@ -101,7 +89,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                 // run full pipeline
                 var response = await nextUpdate().ConfigureAwait(false);
 
-                _telemetryClient.TrackEventEx(BotMsgUpdateEvent, activity, null, this.FillUpdateEventProperties(activity));
+                _telemetryClient.TrackEventEx(TelemetryLoggerConstants.BotMsgUpdateEvent, activity, null, this.FillUpdateEventProperties(activity));
 
                 return response;
             });
@@ -120,7 +108,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                 .ApplyConversationReference(reference, isIncoming: false)
                 .AsMessageDeleteActivity();
 
-                _telemetryClient.TrackEventEx(BotMsgDeleteEvent, deleteActivity as Activity, null, this.FillDeleteEventProperties(deleteActivity));
+                _telemetryClient.TrackEventEx(TelemetryLoggerConstants.BotMsgDeleteEvent, deleteActivity as Activity, null, this.FillDeleteEventProperties(deleteActivity));
             });
 
             if (nextTurn != null)
@@ -239,6 +227,26 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                 };
 
             return properties;
+        }
+
+        Dictionary<string, string> ITelemetryLoggerMiddleware.FillReceiveEventProperties(Activity activity)
+        {
+            throw new NotImplementedException();
+        }
+
+        Dictionary<string, string> ITelemetryLoggerMiddleware.FillSendEventProperties(Activity activity)
+        {
+            throw new NotImplementedException();
+        }
+
+        Dictionary<string, string> ITelemetryLoggerMiddleware.FillUpdateEventProperties(Activity activity)
+        {
+            throw new NotImplementedException();
+        }
+
+        Dictionary<string, string> ITelemetryLoggerMiddleware.FillDeleteEventProperties(IMessageDeleteActivity activity)
+        {
+            throw new NotImplementedException();
         }
     }
 }
