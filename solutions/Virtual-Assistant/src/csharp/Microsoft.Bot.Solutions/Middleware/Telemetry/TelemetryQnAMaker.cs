@@ -55,7 +55,6 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
 
                 telemetryProperties.Add(QnATelemetryConstants.KnowledgeBaseIdProperty, _endpoint.KnowledgeBaseId);
 
-
                 var text = context.Activity.Text;
                 var userName = context.Activity.From.Name;
 
