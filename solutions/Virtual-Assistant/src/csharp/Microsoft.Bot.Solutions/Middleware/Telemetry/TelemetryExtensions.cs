@@ -40,9 +40,6 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
 
             finalProperties.Add(TelemetryConstants.ActiveDialogIdProperty, dialogId ?? NoDialogId);
 
-            finalProperties.Add(TelemetryConstants.ActivityIDProperty, activity?.Id ?? NoActivityId);
-            finalProperties.Add(TelemetryConstants.ChannelIdProperty, activity?.ChannelId ?? NoChannelId);
-            finalProperties.Add(TelemetryConstants.ConversationIdProperty, activity?.Conversation?.Id ?? NoConversationId);
             finalProperties.Add(TelemetryConstants.UserIdProperty, activity?.From?.Id ?? NoUserId);
 
             if (properties != null && properties.Count > 0)
