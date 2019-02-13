@@ -15,7 +15,8 @@ namespace Luis
         public string Text;
         public string AlteredText;
         public enum Intent {
-            AddFlag, 
+            AddFlag,
+            AddMore, 
             CheckMessages, 
             Forward, 
             None, 
@@ -23,7 +24,6 @@ namespace Luis
             ReadAloud, 
             Reply, 
             SearchMessages, 
-            SelectItem, 
             SendEmail, 
             Delete
         };
@@ -39,7 +39,6 @@ namespace Luis
             public string[] RelationshipName;
             public string[] Attachment;
             public string[] Message;
-            public string[] EmailAddress;
             public string[] Time;
             public string[] Date;
             public string[] FromRelationshipName;
@@ -48,6 +47,7 @@ namespace Luis
             public string[] Category;
             public string[] SearchTexts;
             public string[] EmailSubject;
+            public string[] email;
 
             // Built-in entities
             public DateTimeSpec[] datetime;
@@ -64,7 +64,6 @@ namespace Luis
                 public InstanceData[] RelationshipName;
                 public InstanceData[] Attachment;
                 public InstanceData[] Message;
-                public InstanceData[] EmailAddress;
                 public InstanceData[] Time;
                 public InstanceData[] Date;
                 public InstanceData[] FromRelationshipName;
@@ -76,6 +75,7 @@ namespace Luis
                 public InstanceData[] datetime;
                 public InstanceData[] number;
                 public InstanceData[] ordinal;
+                public InstanceData[] email;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
