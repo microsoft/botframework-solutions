@@ -178,12 +178,12 @@ namespace ToDoSkillTest.Flow
 
         private string[] CollectListType()
         {
-            return this.ParseReplies(MarkToDoResponses.ListTypePrompt, new StringDictionary());
+            return this.ParseReplies(MarkToDoResponses.ListTypePromptForComplete, new StringDictionary());
         }
 
         private string[] CollectTaskIndex()
         {
-            return this.ParseReplies(MarkToDoResponses.AskTaskIndex, new StringDictionary());
+            return this.ParseReplies(MarkToDoResponses.AskTaskIndexForComplete, new StringDictionary());
         }
 
         private string[] SettingUpOneNote()

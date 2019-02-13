@@ -211,7 +211,7 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.ListType))
                 {
-                    var prompt = ResponseManager.GetResponse(DeleteToDoResponses.ListTypePrompt);
+                    var prompt = ResponseManager.GetResponse(DeleteToDoResponses.ListTypePromptForDelete);
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
                 }
                 else
@@ -279,11 +279,11 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                     Activity prompt;
                     if (state.CollectIndexRetry)
                     {
-                        prompt = ResponseManager.GetResponse(DeleteToDoResponses.AskTaskIndexRetry);
+                        prompt = ResponseManager.GetResponse(DeleteToDoResponses.AskTaskIndexRetryForDelete);
                     }
                     else
                     {
-                        prompt = ResponseManager.GetResponse(DeleteToDoResponses.AskTaskIndex);
+                        prompt = ResponseManager.GetResponse(DeleteToDoResponses.AskTaskIndexForDelete);
                     }
 
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });

@@ -173,7 +173,7 @@ namespace ToDoSkill.Dialogs.MarkToDo
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.ListType))
                 {
-                    var prompt = ResponseManager.GetResponse(MarkToDoResponses.ListTypePrompt);
+                    var prompt = ResponseManager.GetResponse(MarkToDoResponses.ListTypePromptForComplete);
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
                 }
                 else
@@ -241,11 +241,11 @@ namespace ToDoSkill.Dialogs.MarkToDo
                     Activity prompt;
                     if (state.CollectIndexRetry)
                     {
-                        prompt = ResponseManager.GetResponse(MarkToDoResponses.AskTaskIndexRetry);
+                        prompt = ResponseManager.GetResponse(MarkToDoResponses.AskTaskIndexRetryForComplete);
                     }
                     else
                     {
-                        prompt = ResponseManager.GetResponse(MarkToDoResponses.AskTaskIndex);
+                        prompt = ResponseManager.GetResponse(MarkToDoResponses.AskTaskIndexForComplete);
                     }
 
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });

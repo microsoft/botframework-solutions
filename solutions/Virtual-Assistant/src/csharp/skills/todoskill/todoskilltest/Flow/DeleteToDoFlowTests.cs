@@ -180,7 +180,7 @@ namespace ToDoSkillTest.Flow
 
         private string[] CollectTaskIndex()
         {
-            return this.ParseReplies(DeleteToDoResponses.AskTaskIndex, new StringDictionary());
+            return this.ParseReplies(DeleteToDoResponses.AskTaskIndexForDelete, new StringDictionary());
         }
 
         private string[] SettingUpOneNote()
@@ -213,7 +213,7 @@ namespace ToDoSkillTest.Flow
 
         private string[] CollectListType()
         {
-            return this.ParseReplies(DeleteToDoResponses.ListTypePrompt, new StringDictionary());
+            return this.ParseReplies(DeleteToDoResponses.ListTypePromptForDelete, new StringDictionary());
         }
     }
 }

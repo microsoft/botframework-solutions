@@ -246,6 +246,7 @@ namespace ToDoSkill.Dialogs.Shared
                     state.TaskContentPattern = null;
                     state.TaskContentML = null;
                     state.TaskContent = null;
+                    state.CollectIndexRetry = false;
                     await DigestToDoLuisResult(sc);
                 }
 
