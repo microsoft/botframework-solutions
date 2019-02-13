@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.AI.LanguageGeneration\Microsoft.Bot.Builder.AI.LanguageGeneration.csproj" />
     <ProjectReference Include="..\..\..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
   </ItemGroup>
 
@@ -149,6 +150,9 @@
     <None Update="Dialogs\Shared\Resources\ToDoSharedResponses.tt">
       <LastGenOutput>ToDoSharedResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Dialogs\ShowToDo\Resources\LgTemplates\ShowToDoResponses.lg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Dialogs\ShowToDo\Resources\ShowToDoResponses.tt">
       <LastGenOutput>ShowToDoResponses.cs</LastGenOutput>

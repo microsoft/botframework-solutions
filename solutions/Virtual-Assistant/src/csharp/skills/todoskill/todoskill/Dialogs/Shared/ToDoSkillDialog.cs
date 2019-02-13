@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using AdaptiveCards;
 using Luis;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.LanguageGeneration;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
@@ -430,30 +431,16 @@ namespace ToDoSkill.Dialogs.Shared
            string listType)
         {
             var toDoCard = new AdaptiveCard();
-            var response = ResponseManager.GetResponseTemplate(ShowToDoResponses.TaskSummaryMessage);
 
-            var speakText = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } }) + " ";
-            if (todos.Count == 1)
-            {
-                response = ResponseManager.GetResponseTemplate(ShowToDoResponses.LatestOneTask);
-                speakText += response.Reply.Speak + " ";
-            }
-            else if (todos.Count == 2)
-            {
-                response = ResponseManager.GetResponseTemplate(ShowToDoResponses.LatestTwoTasks);
-                speakText += response.Reply.Speak + " ";
-            }
-            else if (todos.Count >= readSize)
-            {
-                response = ResponseManager.GetResponseTemplate(ShowToDoResponses.LatestThreeOrMoreTasks);
-                speakText += ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", readSize.ToString() } }) + " ";
-            }
-
+            var engine = TemplateEngine.FromFile(GetFilePath("ShowToDo", "ShowToDoResponses.lg"));
+            var speakText = engine.Evaluate("TaskSummaryMessage", new { taskCount = allTasksCount, listType = listType });
+            var recentTasks = todos.Select(t => t.Topic).ToList().GetRange(0, Math.Min(readSize, todos.Count));
+            speakText += engine.Evaluate("RecentTasks", new { recentTasks });
             toDoCard.Speak = speakText;
 
             var body = new List<AdaptiveElement>();
-            response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
-            var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
+
+            var showText = engine.Evaluate("CardSummaryMessage", new { taskCount = allTasksCount, listType = listType });
             var textBlock = new AdaptiveTextBlock
             {
                 Text = showText,
@@ -461,8 +448,6 @@ namespace ToDoSkill.Dialogs.Shared
             body.Add(textBlock);
 
             var container = new AdaptiveContainer();
-            int index = 0;
-            readSize = Math.Min(readSize, todos.Count);
             foreach (var todo in todos)
             {
                 var columnSet = new AdaptiveColumnSet();
@@ -485,34 +470,12 @@ namespace ToDoSkill.Dialogs.Shared
                 columnSet.Columns.Add(contentColumn);
 
                 container.Items.Add(columnSet);
-
-                if (index < readSize)
-                {
-                    if (readSize == 1)
-                    {
-                        toDoCard.Speak += todo.Topic + ". ";
-                    }
-                    else if (index == readSize - 2)
-                    {
-                        toDoCard.Speak += todo.Topic;
-                    }
-                    else if (index == readSize - 1)
-                    {
-                        toDoCard.Speak += string.Format(ToDoStrings.And, todo.Topic);
-                    }
-                    else
-                    {
-                        toDoCard.Speak += todo.Topic + ", ";
-                    }
-                }
-
-                index++;
             }
 
+            readSize = Math.Min(readSize, todos.Count);
             if (todos.Count <= readSize)
             {
-                response = ResponseManager.GetResponseTemplate(ShowToDoResponses.AskAddOrCompleteTaskMessage);
-                toDoCard.Speak += response.Reply.Speak;
+                toDoCard.Speak += engine.Evaluate("AskAddOrCompleteTaskMessage", null);
             }
 
             body.Add(container);
@@ -1015,6 +978,11 @@ namespace ToDoSkill.Dialogs.Shared
             var taskService = ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
             await StoreListTypeIdsAsync(sc);
             return taskService;
+        }
+
+        protected string GetFilePath(string dialogName, string fileName)
+        {
+            return AppContext.BaseDirectory + "Dialogs\\" + dialogName + "\\Resources\\LgTemplates\\" + fileName;
         }
 
         private async Task<bool> RecoverListTypeIdsAsync(DialogContext dc)

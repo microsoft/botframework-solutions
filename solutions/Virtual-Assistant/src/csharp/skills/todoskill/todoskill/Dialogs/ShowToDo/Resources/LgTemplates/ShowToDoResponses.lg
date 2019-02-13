@@ -1,0 +1,18 @@
+# TaskSummaryMessage
+- You have {taskCount} tasks on your {listType} list today. 
+
+# RecentTasks
+- CASE: {count(recentTasks) == 1}
+    - Your most recent task is {recentTasks[0]}. You can let me know if you want to add or complete a task.
+- CASE: {count(recentTasks) == 2}
+    - Your most recent tasks are {join(recentTasks, ',', 'and')}. You can let me know if you want to add or complete a task.
+- CASE: {count(recentTasks) > 2}
+    - Your most recent {count(recentTasks)} tasks are {join(recentTasks, ',', 'and')}. You can let me know if you want to add or complete a task.
+- DEFAULT:
+    - It seems you have no tasks in your list. Just let me know if you want to create a new task.
+
+#CardSummaryMessage
+- You have {taskCount} tasks on your {listType} list:
+
+#AskAddOrCompleteTaskMessage
+- You can let me know if you want to add or complete a task.
