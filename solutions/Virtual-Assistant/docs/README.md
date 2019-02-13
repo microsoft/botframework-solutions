@@ -60,7 +60,7 @@ The Virtual Assistant solution is built on the Azure Bot Service, Language Under
 In addition, Language Understanding support is provided by the LUIS Cognitive Service which supports a broad set of languages [listed here](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-supported-languages). The [Translator Cognitive Service](https://azure.microsoft.com/en-us/services/cognitive-services/translator-text-api/) provides additional Machine Translation capabilities to extend the reach of your Virtual Assistant even further.
 
 ### Integrated and Context Aware
-Your Virtual Assistant can be integrated into your device and ecosystem enabling a truly integrated and intelligent experience . Through this contextual awareness more intelligent experiences can be developed and deliver further personalisation than otherwise possible.
+Your Virtual Assistant can be integrated into your device and ecosystem enabling a truly integrated and intelligent experience. Through this contextual awareness more intelligent experiences can be developed and deliver further personalisation than otherwise possible.
 
 ### 3rd Party assistant integration
 The Virtual Assistant enables you to deliver your own unique experience but also hand-off to the end-users chosen Digital Assistant for certain types of questions.
