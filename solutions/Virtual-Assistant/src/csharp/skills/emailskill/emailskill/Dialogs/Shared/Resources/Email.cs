@@ -47,12 +47,14 @@ namespace Luis
             public string[] Category;
             public string[] SearchTexts;
             public string[] EmailSubject;
-            public string[] email;
+            public string[] EmailSubjectPattern;
+            public string[] SenderNamePattern;
 
             // Built-in entities
             public DateTimeSpec[] datetime;
             public double[] number;
             public double[] ordinal;
+            public string[] email;
 
             // Instance
             public class _Instance
@@ -73,6 +75,8 @@ namespace Luis
                 public InstanceData[] SearchTexts;
                 public InstanceData[] EmailSubject;
                 public InstanceData[] datetime;
+                public InstanceData[] EmailSubjectPattern;
+                public InstanceData[] SenderNamePattern;
                 public InstanceData[] number;
                 public InstanceData[] ordinal;
                 public InstanceData[] email;

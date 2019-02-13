@@ -1234,12 +1234,24 @@ namespace EmailSkill.Dialogs.Shared
                                     }
                                 }
 
-                                if (entity.SenderName != null)
+                                if (entity.SenderNamePattern != null)
+                                {
+                                    state.SenderName = entity.SenderNamePattern[0];
+                                }
+                                else if (entity.SenderName != null)
                                 {
                                     state.SenderName = entity.SenderName[0];
                                 }
 
-                                if (entity.EmailSubject != null)
+                                if (entity.EmailSubjectPattern != null)
+                                {
+                                    state.SearchTexts = entity.EmailSubjectPattern[0];
+                                }
+                                else if (entity.SearchTexts != null)
+                                {
+                                    state.SearchTexts = entity.SearchTexts[0];
+                                }
+                                else if (entity.EmailSubject != null)
                                 {
                                     state.SearchTexts = entity.EmailSubject[0];
                                 }
