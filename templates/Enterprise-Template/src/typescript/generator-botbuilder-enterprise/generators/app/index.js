@@ -315,7 +315,7 @@ module.exports = class extends Generator {
     const commonFiles = [
       ".env.development",
       ".env.production",
-      "gitignore",
+      ".gitignore",
       "README.md",
       "tsconfig.json",
       "deploymentScripts/webConfigPrep.js",
