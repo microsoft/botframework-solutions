@@ -2,40 +2,41 @@
 @{
     ViewData["Title"] = "Web Chat";
 }
-    <div class="content-row">
-        <div id="webchat" role="main"></div>
-    </div>
-    <script src="https://cdn.botframework.com/botframework-webchat/latest/CognitiveServices.js"></script>
-    <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
-    <script>
+<div class="content-row">
+    <div id="webchat" role="main"></div>
+</div>
+<script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+<script>
+    (async function() {
         var userId = '@Model.UserID';
         var userName = '@Model.UserName';
+        var speechKey = '@Model.SpeechKey';
+        var speechRegion = '@Model.SpeechRegion';
+        var directLineToken = '@Model.DirectLineToken';
 
         // Initials are captured used for user avatar
         var userInitials = userName.replace(/(\S)\S*\s*/ig, "$1");
 
-        const speechOptions = {
-            speechRecognizer: new CognitiveServices.SpeechRecognizer({ subscriptionKey: '@Model.SpeechKey' }),
-            speechSynthesizer: new CognitiveServices.SpeechSynthesizer({
-                gender: CognitiveServices.SynthesisGender.Female,
-                subscriptionKey: '@Model.SpeechKey',
-                voiceName: '@Model.VoiceName'
-            })
-        };
+        let speechFactory;
 
-        var user = { id: userId, role: 'user'};
-
+        if (speechKey != '' && speechRegion != '') {
+            speechFactory  = await window.WebChat.createCognitiveServicesSpeechServicesPonyfillFactory({
+                region: speechRegion,
+                subscriptionKey: speechKey
+            });
+        }
+        
         var bot = window.WebChat.createDirectLine({
-            token: '@Model.DirectLineToken',
-            userID: userId,
-            speechOptions: speechOptions,
-            resize: 'detect'
+            token: directLineToken,
+            userID: userId
         });
 
         window.WebChat.renderWebChat({
-            directLine: bot,
+            directLine: bot, 
             userID: userId,
             botAvatarInitials: 'VA',
-            userAvatarInitials: userInitials
+            userAvatarInitials: userInitials,
+            webSpeechPonyfillFactory: speechFactory
         }, document.getElementById('webchat'));
-    </script>
+    })().catch(err => alert(err));
+</script>
