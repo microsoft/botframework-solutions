@@ -1,0 +1,20 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended",
+        "tslint-microsoft-contrib"
+    ],
+    "linterOptions":{
+        "exclude": [
+          "src/dialogs/shared/resources/*"
+        ]
+    },
+    "rules": {
+      "linebreak-style": [false],
+      "member-ordering": [false],
+      "no-relative-imports": [false]
+    },
+    "rulesDirectory": [
+      "tslint-microsoft-contrib"
+    ]
+  }
