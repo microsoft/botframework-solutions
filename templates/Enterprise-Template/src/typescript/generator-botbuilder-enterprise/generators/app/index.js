@@ -318,10 +318,14 @@ module.exports = class extends Generator {
       this.destinationPath(botGenerationPath, "src", "botServices.ts")
     );
 
+    this.fs.copy(
+      this.templatePath(templateName, "_.gitignore"),
+      this.destinationPath(botGenerationPath, ".gitignore")
+    );
+
     const commonFiles = [
       ".env.development",
       ".env.production",
-      "gitignore",
       "README.md",
       "tsconfig.json",
       "deploymentScripts/webConfigPrep.js",
