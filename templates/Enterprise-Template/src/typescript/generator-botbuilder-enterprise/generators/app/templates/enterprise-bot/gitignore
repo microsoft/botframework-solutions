@@ -6,3 +6,4 @@ lib/
 
 # Bot Files
 *.bot
+!test/mockedConfiguration.bot

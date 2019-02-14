@@ -1,4 +1,4 @@
-const { ConversationState, MemoryStorage, TestAdapter, UserState } = require('botbuilder-core')
+const { AutoSaveStateMiddleware, ConversationState, MemoryStorage, TestAdapter, UserState } = require('botbuilder-core')
 const BotConfiguration = require('botframework-config').BotConfiguration;
 const config = require('dotenv').config;
 const i18n = require('i18n');
@@ -8,7 +8,7 @@ const EnterpriseBot = require('../../lib/enterpriseBot.js').EnterpriseBot;
 
 const TEST_MODE = require('../testBase').testMode;
 
-const setupEnvironment = function(testMode) {
+const setupEnvironment = function (testMode) {
     switch (testMode) {
         case 'record':
             config({ path: path.join(__dirname, '..', '..', '.env.development') });
@@ -22,7 +22,7 @@ const setupEnvironment = function(testMode) {
 /**
  * Initializes the properties for the bot to be tested.
  */
-const initialize = function () {
+const initialize = function (testStorage) {
     i18n.configure({
         directory: path.join(__dirname, '..', '..', 'src', 'locales'),
         defaultLocale: 'en',
@@ -31,7 +31,7 @@ const initialize = function () {
 
     setupEnvironment(TEST_MODE);
 
-    const storage = new MemoryStorage();
+    const storage = testStorage || new MemoryStorage();
     const conversationState = new ConversationState(storage);
     const userState = new UserState(storage);
 
@@ -48,9 +48,11 @@ const initialize = function () {
 const getTestAdapter = function () {
     const bot = this.bot;
 
-    return new TestAdapter(function(context) {
+    return new TestAdapter(function (context) {
+        i18n.setLocale(context.activity.locale || 'en');
         return bot.onTurn(context);
-    });
+    })
+    .use(new AutoSaveStateMiddleware(bot.CONVERSATION_STATE, bot.USER_STATE));
 }
 
 module.exports = {
