@@ -285,9 +285,14 @@ namespace CalendarSkill.Dialogs.Summary
                     state.Clear();
                     return await sc.CancelAllDialogsAsync();
                 }
-                else if ((promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true) || state.SummaryEvents.Count == 1)
+                else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
                 {
                     state.ReadOutEvents = new List<EventModel>() { state.SummaryEvents[0] };
+                }
+                else if (state.SummaryEvents.Count == 1)
+                {
+                    state.Clear();
+                    return await sc.CancelAllDialogsAsync();
                 }
 
                 if (state.SummaryEvents.Count > 1 && (state.ReadOutEvents == null || state.ReadOutEvents.Count <= 0))
@@ -308,7 +313,7 @@ namespace CalendarSkill.Dialogs.Summary
 
                     if (filteredMeetingList.Count <= 0 && luisResult.Entities.number != null && (luisResult.Entities.ordinal == null || luisResult.Entities.ordinal.Length == 0))
                     {
-                        var value = luisResult.Entities.ordinal[0];
+                        var value = luisResult.Entities.number[0];
                         var num = int.Parse(value.ToString());
                         var currentList = GetCurrentPageMeetings(state.SummaryEvents, state);
                         if (num > 0 && num <= currentList.Count)
