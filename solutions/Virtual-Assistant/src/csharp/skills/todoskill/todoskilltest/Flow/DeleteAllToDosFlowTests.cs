@@ -72,7 +72,7 @@ namespace ToDoSkillTest.Flow
 
         private string[] CollectListType()
         {
-            return this.ParseReplies(DeleteToDoResponses.ListTypePrompt, new StringDictionary());
+            return this.ParseReplies(DeleteToDoResponses.ListTypePromptForDelete, new StringDictionary());
         }
 
         private Action<IActivity> CollectConfirmation()
