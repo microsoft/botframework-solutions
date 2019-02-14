@@ -10,84 +10,76 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public class Calendar: IRecognizerConvert
+    public class EmailLU: IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
         public enum Intent {
-            ChangeCalendarEntry, 
-            CheckAvailability, 
-            ConnectToMeeting, 
-            ContactMeetingAttendees, 
-            CreateCalendarEntry, 
-            DeleteCalendarEntry, 
-            FindCalendarDetail, 
-            FindCalendarEntry, 
-            FindCalendarWhen, 
-            FindCalendarWhere, 
-            FindCalendarWho, 
-            FindDuration, 
-            FindMeetingRoom, 
-            GoBack, 
-            NextMeeting, 
-            NoLocation, 
+            AddFlag,
+            AddMore, 
+            CheckMessages, 
+            Delete, 
+            Forward, 
             None, 
+            QueryLastText, 
             ReadAloud, 
-            Summary, 
-            TimeRemaining,
-            AcceptEventEntry
+            Reply, 
+            SearchMessages, 
+            SendEmail
         };
         public Dictionary<Intent, IntentScore> Intents;
 
         public class _Entities
         {
             // Simple entities
-            public string[] Duration;
-            public string[] Subject;
-            public string[] ContactName;
-            public string[] MoveEarlierTimeSpan;
-            public string[] MoveLaterTimeSpan;
-            public string[] SlotAttribute;
-            public string[] Location;
             public string[] OrderReference;
-            public string[] PositionReference;
+            public string[] SenderName;
+            public string[] ContactName;
+            public string[] EmailPlatform;
             public string[] RelationshipName;
-            public string[] MeetingRoom;
-            public string[] DestinationCalendar;
-            public string[] FromDate;
-            public string[] FromTime;
-            public string[] ToDate;
-            public string[] ToTime;
-            public string[] AskParameter;
+            public string[] Attachment;
+            public string[] Message;
+            public string[] Time;
+            public string[] Date;
+            public string[] PositionReference;
+            public string[] FromRelationshipName;
+            public string[] Line;
+            public string[] Category;
+            public string[] SearchTexts;
+            public string[] EmailSubject;
+            public string[] EmailSubjectPattern;
+            public string[] SenderNamePattern;
 
             // Built-in entities
             public DateTimeSpec[] datetime;
             public double[] number;
             public double[] ordinal;
+            public string[] email;
 
             // Instance
             public class _Instance
             {
-                public InstanceData[] Duration;
-                public InstanceData[] Subject;
-                public InstanceData[] ContactName;
-                public InstanceData[] MoveEarlierTimeSpan;
-                public InstanceData[] MoveLaterTimeSpan;
-                public InstanceData[] SlotAttribute;
-                public InstanceData[] Location;
                 public InstanceData[] OrderReference;
-                public InstanceData[] PositionReference;
+                public InstanceData[] SenderName;
+                public InstanceData[] ContactName;
+                public InstanceData[] EmailPlatform;
                 public InstanceData[] RelationshipName;
-                public InstanceData[] MeetingRoom;
-                public InstanceData[] DestinationCalendar;
+                public InstanceData[] Attachment;
+                public InstanceData[] Message;
+                public InstanceData[] Time;
+                public InstanceData[] Date;
+                public InstanceData[] PositionReference;
+                public InstanceData[] FromRelationshipName;
+                public InstanceData[] Line;
+                public InstanceData[] Category;
+                public InstanceData[] SearchTexts;
+                public InstanceData[] EmailSubject;
                 public InstanceData[] datetime;
+                public InstanceData[] EmailSubjectPattern;
+                public InstanceData[] SenderNamePattern;
                 public InstanceData[] number;
                 public InstanceData[] ordinal;
-                public InstanceData[] FromDate;
-                public InstanceData[] FromTime;
-                public InstanceData[] ToDate;
-                public InstanceData[] ToTime;
-                public InstanceData[] AskParameter;
+                public InstanceData[] email;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
@@ -99,7 +91,7 @@ namespace Luis
 
         public void Convert(dynamic result)
         {
-            var app = JsonConvert.DeserializeObject<Calendar>(JsonConvert.SerializeObject(result));
+            var app = JsonConvert.DeserializeObject<EmailLU>(JsonConvert.SerializeObject(result));
             Text = app.Text;
             AlteredText = app.AlteredText;
             Intents = app.Intents;

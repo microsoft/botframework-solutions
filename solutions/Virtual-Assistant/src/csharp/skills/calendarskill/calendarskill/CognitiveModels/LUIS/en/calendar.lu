@@ -1105,6 +1105,8 @@ $PREBUILT:number
 
 $PREBUILT:ordinal
 
+$PREBUILT:datetime
+
 
 > # Phrase list definitions
 

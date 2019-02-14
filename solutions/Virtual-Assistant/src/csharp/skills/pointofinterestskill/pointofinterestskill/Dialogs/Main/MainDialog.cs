@@ -72,8 +72,6 @@ namespace PointOfInterestSkill.Dialogs.Main
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var routeResult = EndOfTurn;
-
             // get current activity locale
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.LocaleConfigurations[locale];
@@ -87,8 +85,8 @@ namespace PointOfInterestSkill.Dialogs.Main
             }
             else
             {
-                var result = await luisService.RecognizeAsync<PointOfInterest>(dc, true, CancellationToken.None);
-
+                var turnResult = EndOfTurn;
+                var result = await luisService.RecognizeAsync<PointOfInterestLU>(dc, true, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
                 var skillOptions = new PointOfInterestSkillDialogOptions
@@ -99,30 +97,30 @@ namespace PointOfInterestSkill.Dialogs.Main
                 // switch on general intents
                 switch (intent)
                 {
-                    case PointOfInterest.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y:
+                    case PointOfInterestLU.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y:
                         {
-                            routeResult = await dc.BeginDialogAsync(nameof(RouteDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(RouteDialog), skillOptions);
                             break;
                         }
 
-                    case PointOfInterest.Intent.NAVIGATION_CANCEL_ROUTE:
+                    case PointOfInterestLU.Intent.NAVIGATION_CANCEL_ROUTE:
                         {
-                            routeResult = await dc.BeginDialogAsync(nameof(CancelRouteDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(CancelRouteDialog), skillOptions);
                             break;
                         }
 
-                    case PointOfInterest.Intent.NAVIGATION_FIND_POINTOFINTEREST:
+                    case PointOfInterestLU.Intent.NAVIGATION_FIND_POINTOFINTEREST:
                         {
-                            routeResult = await dc.BeginDialogAsync(nameof(FindPointOfInterestDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(FindPointOfInterestDialog), skillOptions);
                             break;
                         }
 
-                    case PointOfInterest.Intent.None:
+                    case PointOfInterestLU.Intent.None:
                         {
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POISharedResponses.DidntUnderstandMessage));
                             if (_skillMode)
                             {
-                                routeResult = new DialogTurnResult(DialogTurnStatus.Complete);
+                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
                             break;
@@ -134,17 +132,17 @@ namespace PointOfInterestSkill.Dialogs.Main
 
                             if (_skillMode)
                             {
-                                routeResult = new DialogTurnResult(DialogTurnStatus.Complete);
+                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
                             break;
                         }
                 }
-            }
 
-            if (routeResult.Status == DialogTurnStatus.Complete)
-            {
-                await CompleteAsync(dc);
+                if (turnResult != EndOfTurn)
+                {
+                    await CompleteAsync(dc);
+                }
             }
         }
 
@@ -281,7 +279,7 @@ namespace PointOfInterestSkill.Dialogs.Main
                 var localeConfig = _services.LocaleConfigurations[locale];
 
                 // Update state with email luis result and entities
-                var poiLuisResult = await localeConfig.LuisServices["pointofinterest"].RecognizeAsync<PointOfInterest>(dc.Context, cancellationToken);
+                var poiLuisResult = await localeConfig.LuisServices["pointofinterest"].RecognizeAsync<PointOfInterestLU>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
                 state.LuisResult = poiLuisResult;
 

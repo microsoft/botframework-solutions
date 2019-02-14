@@ -217,9 +217,9 @@ namespace EmailSkill.Dialogs.ShowEmail
 
                 var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
 
-                if ((topIntent == Email.Intent.None
-                    || topIntent == Email.Intent.SearchMessages
-                    || (topIntent == Email.Intent.ReadAloud && !IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
+                if ((topIntent == EmailLU.Intent.None
+                    || topIntent == EmailLU.Intent.SearchMessages
+                    || (topIntent == EmailLU.Intent.ReadAloud && !IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
                     || (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true))
                     && message != null)
                 {
@@ -325,20 +325,20 @@ namespace EmailSkill.Dialogs.ShowEmail
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 skillOptions.SubFlowMode = true;
 
-                if (topIntent == Email.Intent.Delete)
+                if (topIntent == EmailLU.Intent.Delete)
                 {
                     return await sc.BeginDialogAsync(Actions.Delete, skillOptions);
                 }
-                else if (topIntent == Email.Intent.Forward)
+                else if (topIntent == EmailLU.Intent.Forward)
                 {
                     return await sc.BeginDialogAsync(Actions.Forward, skillOptions);
                 }
-                else if (topIntent == Email.Intent.Reply)
+                else if (topIntent == EmailLU.Intent.Reply)
                 {
                     return await sc.BeginDialogAsync(Actions.Reply, skillOptions);
                 }
                 else if (IsReadMoreIntent(topGeneralIntent, userInput)
-                    || (topIntent == Email.Intent.None && (topGeneralIntent == General.Intent.Previous || topGeneralIntent == General.Intent.Next)))
+                    || (topIntent == EmailLU.Intent.None && (topGeneralIntent == General.Intent.Previous || topGeneralIntent == General.Intent.Next)))
                 {
                     return await sc.ReplaceDialogAsync(Actions.Display, skillOptions);
                 }

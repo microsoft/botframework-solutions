@@ -176,12 +176,12 @@ namespace EmailSkill.Dialogs.Shared
                 var generalLuisResult = state.GeneralLuisResult;
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
-                if (skillLuisResult == Email.Intent.None && generalTopIntent == General.Intent.Next)
+                if (skillLuisResult == EmailLU.Intent.None && generalTopIntent == General.Intent.Next)
                 {
                     state.ShowEmailIndex++;
                     state.ReadEmailIndex = 0;
                 }
-                else if (skillLuisResult == Email.Intent.None && generalTopIntent == General.Intent.Previous && state.ShowEmailIndex >= 0)
+                else if (skillLuisResult == EmailLU.Intent.None && generalTopIntent == General.Intent.Previous && state.ShowEmailIndex >= 0)
                 {
                     state.ShowEmailIndex--;
                     state.ReadEmailIndex = 0;
@@ -1125,7 +1125,7 @@ namespace EmailSkill.Dialogs.Shared
             }
         }
 
-        protected async Task DigestEmailLuisResult(DialogContext dc, Email luisResult, bool isBeginDialog)
+        protected async Task DigestEmailLuisResult(DialogContext dc, EmailLU luisResult, bool isBeginDialog)
         {
             try
             {
@@ -1178,9 +1178,9 @@ namespace EmailSkill.Dialogs.Shared
 
                     switch (intent)
                     {
-                        case Email.Intent.CheckMessages:
-                        case Email.Intent.SearchMessages:
-                        case Email.Intent.ReadAloud:
+                        case EmailLU.Intent.CheckMessages:
+                        case EmailLU.Intent.SearchMessages:
+                        case EmailLU.Intent.ReadAloud:
                             {
                                 // Get email search type
                                 if (dc.Context.Activity.Text != null)
@@ -1259,9 +1259,9 @@ namespace EmailSkill.Dialogs.Shared
                                 break;
                             }
 
-                        case Email.Intent.SendEmail:
-                        case Email.Intent.Forward:
-                        case Email.Intent.Reply:
+                        case EmailLU.Intent.SendEmail:
+                        case EmailLU.Intent.Forward:
+                        case EmailLU.Intent.Reply:
                             {
                                 if (entity.EmailSubject != null)
                                 {

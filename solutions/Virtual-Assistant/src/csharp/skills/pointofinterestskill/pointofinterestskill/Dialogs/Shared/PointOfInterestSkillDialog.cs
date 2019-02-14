@@ -362,7 +362,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
             }
         }
 
-        protected async Task DigestPointOfInterestLuisResult(DialogContext dc, PointOfInterest luisResult)
+        protected async Task DigestPointOfInterestLuisResult(DialogContext dc, PointOfInterestLU luisResult)
         {
             try
             {

@@ -10,29 +10,29 @@ namespace VirtualAssistant.Tests.LuisTestUtils
     {
         private static Dictionary<string, IRecognizerConvert> _utterances = new Dictionary<string, IRecognizerConvert>
         {
-            { ToDoUtterances.AddToDo, CreateIntent(ToDoUtterances.AddToDo, Luis.ToDo.Intent.AddToDo) },
+            { ToDoUtterances.AddToDo, CreateIntent(ToDoUtterances.AddToDo, Luis.ToDoLU.Intent.AddToDo) },
         };
 
         public static MockLuisRecognizer CreateRecognizer()
         {
-            var recognizer = new MockLuisRecognizer(defaultIntent: CreateIntent(string.Empty, Luis.ToDo.Intent.None));
+            var recognizer = new MockLuisRecognizer(defaultIntent: CreateIntent(string.Empty, Luis.ToDoLU.Intent.None));
             recognizer.RegisterUtterances(_utterances);
             return recognizer;
         }
 
-        public static Luis.ToDo CreateIntent(string userInput, Luis.ToDo.Intent intent)
+        public static Luis.ToDoLU CreateIntent(string userInput, Luis.ToDoLU.Intent intent)
         {
-            var result = new Luis.ToDo
+            var result = new Luis.ToDoLU
             {
                 Text = userInput,
-                Intents = new Dictionary<Luis.ToDo.Intent, IntentScore>()
+                Intents = new Dictionary<Luis.ToDoLU.Intent, IntentScore>()
             };
 
             result.Intents.Add(intent, new IntentScore() { Score = 0.9 });
 
-            result.Entities = new Luis.ToDo._Entities
+            result.Entities = new Luis.ToDoLU._Entities
             {
-                _instance = new Luis.ToDo._Entities._Instance()
+                _instance = new Luis.ToDoLU._Entities._Instance()
             };
 
             return result;

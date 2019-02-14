@@ -89,7 +89,8 @@ namespace EmailSkill.Dialogs.Main
             }
             else
             {
-                var result = await luisService.RecognizeAsync<Email>(dc.Context, CancellationToken.None);
+                var turnResult = EndOfTurn;
+                var result = await luisService.RecognizeAsync<EmailLU>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
@@ -102,51 +103,51 @@ namespace EmailSkill.Dialogs.Main
                 // switch on general intents
                 switch (intent)
                 {
-                    case Email.Intent.SendEmail:
+                    case EmailLU.Intent.SendEmail:
                         {
-                            await dc.BeginDialogAsync(nameof(SendEmailDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(SendEmailDialog), skillOptions);
                             break;
                         }
 
-                    case Email.Intent.Forward:
+                    case EmailLU.Intent.Forward:
                         {
-                            await dc.BeginDialogAsync(nameof(ForwardEmailDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(ForwardEmailDialog), skillOptions);
                             break;
                         }
 
-                    case Email.Intent.Reply:
+                    case EmailLU.Intent.Reply:
                         {
-                            await dc.BeginDialogAsync(nameof(ReplyEmailDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(ReplyEmailDialog), skillOptions);
                             break;
                         }
 
-                    case Email.Intent.SearchMessages:
-                    case Email.Intent.CheckMessages:
-                    case Email.Intent.ReadAloud:
-                    case Email.Intent.QueryLastText:
+                    case EmailLU.Intent.SearchMessages:
+                    case EmailLU.Intent.CheckMessages:
+                    case EmailLU.Intent.ReadAloud:
+                    case EmailLU.Intent.QueryLastText:
                         {
-                            await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
                             break;
                         }
 
-                    case Email.Intent.Delete:
+                    case EmailLU.Intent.Delete:
                         {
-                            await dc.BeginDialogAsync(nameof(DeleteEmailDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(DeleteEmailDialog), skillOptions);
                             break;
                         }
 
-                    case Email.Intent.None:
+                    case EmailLU.Intent.None:
                         {
                             if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
                             {
-                                await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
+                                turnResult = await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
                             }
                             else
                             {
                                 await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailSharedResponses.DidntUnderstandMessage));
                                 if (_skillMode)
                                 {
-                                    await CompleteAsync(dc);
+                                    turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                                 }
                             }
 
@@ -159,11 +160,16 @@ namespace EmailSkill.Dialogs.Main
 
                             if (_skillMode)
                             {
-                                await CompleteAsync(dc);
+                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
                             break;
                         }
+                }
+
+                if (turnResult != EndOfTurn)
+                {
+                    await CompleteAsync(dc);
                 }
             }
         }
@@ -232,7 +238,7 @@ namespace EmailSkill.Dialogs.Main
                 var localeConfig = _skillConfig.LocaleConfigurations[locale];
 
                 // Update state with email luis result and entities
-                var emailLuisResult = await localeConfig.LuisServices["email"].RecognizeAsync<Email>(dc.Context, cancellationToken);
+                var emailLuisResult = await localeConfig.LuisServices["email"].RecognizeAsync<EmailLU>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
                 state.LuisResult = emailLuisResult;
 

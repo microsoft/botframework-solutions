@@ -42,7 +42,7 @@ namespace EmailSkillTest.Flow.Fakes
             where T : IRecognizerConvert, new()
         {
             var text = turnContext.Activity.Text;
-            Email mockEmail = emailUtterancesManager.GetValueOrDefault(text, emailUtterancesManager.GetBaseNoneIntent());
+            EmailLU mockEmail = emailUtterancesManager.GetValueOrDefault(text, emailUtterancesManager.GetBaseNoneIntent());
 
             var test = mockEmail as object;
             var mockResult = (T)test;

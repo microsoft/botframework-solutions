@@ -3,7 +3,7 @@
 ## Overview
 
 Speech-led conversational scenarios require a different mindset and approach for certain scenarios, 
-one such example is [Authentication](/virtualassistant-authentication.md). 
+one such example is [Authentication](./virtualassistant-authentication.md). 
 If you take a Productivity scenario, whereby the user wants to access information in their calendar it's important 
 for the VA Bot to have access to a security token (Office 365 for example). 
 
@@ -19,9 +19,7 @@ In a speech-led scenario, it's unacceptable and impractical to expect a user to 
 
 The Linked Accounts feature of the Virtual Assistant provides a reference sample of a web app using the Azure Bot Service to deliver this capability, a screen shot showing the example interface is shown below and demonstrates the type of capability you would build into your own experience (e.g. a mobile app)
 
-![Linked Accounts UX](./media/virtualassistant-LinkedAccountsUX.png)
-
-This example of how to build an account linking experience within your own web or mobile app.
+![Linked Accounts UX](./media/virtualassistant-linkedaccountsux.png)
 
 ## Authentication Configuration
 
