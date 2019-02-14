@@ -987,6 +987,7 @@ namespace EmailSkill.Dialogs.Shared
                 }
             }
 
+            int maxPage = (totalCount / ConfigData.GetInstance().MaxDisplaySize) + (totalCount % ConfigData.GetInstance().MaxDisplaySize > 0 ? 1 : 0) - 1;
             if (state.ShowEmailIndex < 0)
             {
                 var pagingInfo = ResponseManager.GetResponse(EmailSharedResponses.FirstPageAlready);
@@ -994,7 +995,7 @@ namespace EmailSkill.Dialogs.Shared
                 reply.Speak = pagingInfo.Speak + reply.Speak;
                 state.ShowEmailIndex = 0;
             }
-            else if (state.ShowEmailIndex * ConfigData.GetInstance().MaxDisplaySize > totalCount)
+            else if (state.ShowEmailIndex > maxPage)
             {
                 var pagingInfo = ResponseManager.GetResponse(EmailSharedResponses.LastPageAlready);
                 reply.Text = pagingInfo.Text + reply.Text;
