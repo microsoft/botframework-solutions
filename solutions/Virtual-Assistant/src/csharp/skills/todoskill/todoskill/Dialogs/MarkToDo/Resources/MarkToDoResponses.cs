@@ -14,8 +14,9 @@ namespace ToDoSkill.Dialogs.MarkToDo.Resources
         // Generated accessors
 		public const string AfterTaskCompleted = "AfterTaskCompleted";
 		public const string AfterAllTasksCompleted = "AfterAllTasksCompleted";
-		public const string ListTypePrompt = "ListTypePrompt";
-		public const string AskTaskIndex = "AskTaskIndex";
+		public const string ListTypePromptForComplete = "ListTypePromptForComplete";
+		public const string AskTaskIndexForComplete = "AskTaskIndexForComplete";
+		public const string AskTaskIndexRetryForComplete = "AskTaskIndexRetryForComplete";
 		public const string CompleteAnotherTaskPrompt = "CompleteAnotherTaskPrompt";
 		public const string CompleteAnotherTaskConfirmFailed = "CompleteAnotherTaskConfirmFailed";
 

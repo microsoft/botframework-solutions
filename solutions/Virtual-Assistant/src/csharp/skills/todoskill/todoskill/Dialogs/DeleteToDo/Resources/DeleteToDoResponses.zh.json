@@ -44,7 +44,7 @@
     ],
     "inputHint": "ignoringInput"
   },
-  "ListTypePrompt": {
+  "ListTypePromptForDelete": {
     "replies": [
       {
         "text": "你能更具体点要删除哪个列表的任务吗？是你的代办事项列表，购物列表还是杂货列表？",
@@ -53,11 +53,20 @@
     ],
     "inputHint": "expectingInput"
   },
-  "AskTaskIndex": {
+  "AskTaskIndexForDelete": {
     "replies": [
       {
         "text": "你想要删除哪个任务？你也可以说删除所有来删除所有的任务。",
         "speak": "你想要删除哪个任务？你也可以说删除所有来删除所有的任务。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AskTaskIndexRetryForDelete": {
+    "replies": [
+      {
+        "text": "对不起, 我找不到此任务。请再试一次。要删除什么任务？",
+        "speak": "对不起, 我找不到此任务。请再试一次。要删除什么任务？"
       }
     ],
     "inputHint": "expectingInput"

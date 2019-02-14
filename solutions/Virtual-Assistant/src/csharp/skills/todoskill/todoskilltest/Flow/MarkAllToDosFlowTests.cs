@@ -91,7 +91,7 @@ namespace ToDoSkillTest.Flow
 
         private string[] CollectListType()
         {
-            return this.ParseReplies(MarkToDoResponses.ListTypePrompt, new StringDictionary());
+            return this.ParseReplies(MarkToDoResponses.ListTypePromptForComplete, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()
