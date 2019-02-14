@@ -53,7 +53,6 @@
 - 添加 {TaskContentML=阅读} 到我的 {ListType=要做的事} 列表
 - 添加 {TaskContentML=鞋} 到 {ListType=购物} 列表
 - 添加一些项目到 {ListType=购物} 笔记
-- 添加一些项目到 {ListType=杂货店} 列表
 - 添加一些 {TaskContentML=牛仔裤} 在我们的 {ListType=购物} 列表
 - 在此添加的东西 {ListType=杂货店} 列表
 - 将某些内容添加到我的列表
@@ -108,7 +107,6 @@
 - 提醒我购买 {ShopContent} 
 - 创建一个任务 {TaskContentPattern} 
 - 添加 {TaskContentPattern} 我的食品杂货清单
-- 将任务添加到 {TaskContentPattern} 
 - 提醒我, {TaskContentPattern} 
 - 添加一个做那家商店 {ShopContent} 
 - 添加购物的任务 {ShopContent} 
@@ -120,7 +118,6 @@
 - 添加一个要做的 {TaskContentPattern} 
 - 添加购买 {ShopContent} 到我的购物清单
 - 添加 {TaskContentPattern} 到我的要做的列表
-- 添加购买的任务 {ShopContent} 
 - 添加购买的任务 {ShopContent} 
 - 添加 {TaskContentPattern} 到我的待办事项列表
 - 添加购买 {ShopContent} 我的食品杂货清单
@@ -181,13 +178,10 @@
 - 采取 {TaskContentML=袜子和鞋子} 关闭我的 {ListType=购物} 列表
 -  {ListType=所有} 列表删除 {TaskContentML=巴黎度假} 
 - 删除任务 {TaskContentPattern} 
-- 删除任务 {TaskContentPattern} 
 - 删除要执行的 {TaskContentPattern} 
 - 删除要执行 {TaskContentPattern} 
 - 删除要执行的操作 {TaskContentPattern} 
 - 删除以执行 {TaskContentPattern} 
-- 删除任务 {TaskContentPattern} 
-- 删除要执行的操作 {TaskContentPattern} 
 
 
 ## MarkToDo
@@ -240,10 +234,7 @@
 - 完成的第三个任务
 - 标记任务 {TaskContentPattern} 已完成
 - 完成任务 {TaskContentPattern} 
-- 标记任务 {TaskContentPattern} 已完成
-- 标记任务 {TaskContentPattern} 已完成
 - 马克 {TaskContentPattern} 已完成
-- 完成任务 {TaskContentPattern} 
 
 
 ## None
@@ -284,15 +275,10 @@
 - 更早显示
 - 显示更大的
 - 显示上次
-- 显示更多
 - 显示更多任务
 - 显示更多的工作
-- 显示下一个
-- 显示下一页
 - 显示下一个工作表
 - 显示下一个网站
-- 显示上一个
-- 显示上一页
 - 显示了以前的
 - 抱歉取消了
 - 抱歉不
@@ -358,7 +344,6 @@
 - 列表 {ListType=杂货店} 笔记
 - 看看我的 {ListType=杂货店} 列表
 - 拉 {ListType=杂货店} 列表
-- 拉起来 {ListType=杂货店} 列表
 - 拉起来 {ListType=杂货店} 列表
 - 拉起我的 {ListType=杂货店} 列表
 - 拉起我的笔记
@@ -514,7 +499,6 @@ $FoodOfGrocery:lettuce=
 
 $FoodOfGrocery:lettuce and salad=
 - 沙拉
-- 沙拉
 
 $FoodOfGrocery:lobster=
 
@@ -627,8 +611,6 @@ $FoodOfGrocery:fish=
 
 
 $ShopVerb:buy=
-- 买
-- 买
 - 买
 
 $ShopVerb:purchase=

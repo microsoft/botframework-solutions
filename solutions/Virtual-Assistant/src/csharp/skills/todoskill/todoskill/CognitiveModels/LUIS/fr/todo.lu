@@ -106,9 +106,7 @@
 - créer une tâche pour  {TaskContentPattern} 
 - Ajouter une tâche à  {TaskContentPattern} 
 - me rappeler d'acheter  {ShopContent} 
-- créer une tâche pour  {TaskContentPattern} 
 - Ajouter  {TaskContentPattern} à ma liste d'épicerie
-- Ajouter une tâche à  {TaskContentPattern} 
 - Rappelez-moi que  {TaskContentPattern} 
 - Ajouter un pour faire ce magasin  {ShopContent} 
 - Ajouter une tâche qui magasinez  {ShopContent} 
@@ -121,10 +119,8 @@
 - Ajouter acheter  {ShopContent} à ma liste de courses
 - Ajouter  {TaskContentPattern} à ma liste de faire
 - Ajouter une tâche qui achète  {ShopContent} 
-- Ajouter une tâche qui achète  {ShopContent} 
 - Ajouter  {TaskContentPattern} à ma liste de tâches
 - Ajouter acheter  {ShopContent} à ma liste d'épicerie
-- me rappeler d'acheter  {ShopContent} 
 - Ajouter un à faire que d'acheter  {ShopContent} 
 - me rappeler de magasiner  {ShopContent} 
 
@@ -181,13 +177,8 @@
 - Prendre  {TaskContentML=chaussettes et chaussures}  de mon  {ListType=achats} Liste
 -  {ListType=Tous}  supprimer la liste  {TaskContentML=vacances à Paris} 
 - supprimer la tâche  {TaskContentPattern} 
-- supprimer la tâche  {TaskContentPattern} 
 - supprimer le faire  {TaskContentPattern} 
 - supprimer pour faire  {TaskContentPattern} 
-- supprimer le faire  {TaskContentPattern} 
-- supprimer pour faire  {TaskContentPattern} 
-- supprimer la tâche  {TaskContentPattern} 
-- supprimer le faire  {TaskContentPattern} 
 
 
 ## MarkToDo
@@ -240,7 +231,6 @@
 - la 3ème tâche terminée
 - marquer la tâche  {TaskContentPattern} comme terminé
 - tâche complète  {TaskContentPattern} 
-- marquer la tâche  {TaskContentPattern} comme terminé
 - marquer la tâche  {TaskContentPattern} comme complété
 - Marque  {TaskContentPattern} comme terminé
 - terminer la tâche  {TaskContentPattern} 
@@ -288,11 +278,9 @@
 - afficher plus de tâches
 - montrer plus de travail
 - afficher la prochaine
-- afficher la page suivante
 - afficher la feuille suivante
 - afficher le site Web suivant
 - afficher précédent
-- afficher la page précédente
 - montre l'État
 - Désolé annuler que
 - Désolé non

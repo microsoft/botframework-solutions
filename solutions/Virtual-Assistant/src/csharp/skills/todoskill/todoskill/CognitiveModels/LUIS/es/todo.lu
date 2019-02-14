@@ -53,7 +53,6 @@
 - Añadir  {TaskContentML=Lectura}  a mi  {ListType=hacer} Lista
 - Añadir  {TaskContentML=Zapatos}  a la  {ListType=Compras} Listas
 - agregar algunos elementos a ese  {ListType=Compras} Notas
-- Añadir algunos elementos a la  {ListType=Comestibles} Lista
 - Añadir algunos  {TaskContentML=Jeans}  en nuestro  {ListType=Compras} Listas
 - Añadir algo en este  {ListType=Comestibles} Lista
 - Añadir algo a mi lista
@@ -121,12 +120,10 @@
 - Añadir compra  {ShopContent} a mi lista de compras
 - Añadir  {TaskContentPattern} a mi lista de hacer
 - agregar una tarea que compre  {ShopContent} 
-- agregar una tarea que compre  {ShopContent} 
 - Añadir  {TaskContentPattern} a mi lista de tareas
 - Añadir compra  {ShopContent} a mi lista de comestibles
 - Recuérdame que compre  {ShopContent} 
 - Añadir a hacer que comprar  {ShopContent} 
-- me recuerdan a comprar  {ShopContent} 
 
 
 ## DeleteToDo
@@ -186,7 +183,6 @@
 - quitar para hacer  {TaskContentPattern} 
 - quitar el para hacer  {TaskContentPattern} 
 - eliminar para hacer  {TaskContentPattern} 
-- eliminar la tarea  {TaskContentPattern} 
 - eliminar el para hacer  {TaskContentPattern} 
 
 
@@ -264,7 +260,6 @@
 - muestra previamente
 - muestra el siguiente
 - dejarlo caer
-- Olvídalo
 - Olvídalo
 - i Don t necesita
 - i m seguro de que quiero agregar esta tarea
