@@ -1,0 +1,7 @@
+{
+  "packages": [
+    "assistant",
+    "bot-solution"
+  ],
+  "version": "1.0.0"
+}
