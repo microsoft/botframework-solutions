@@ -5,7 +5,7 @@ import { TelemetryClient } from 'applicationinsights';
 
 export namespace TelemetryBotDependencyExtension {
 
-    const DEPENDENCY_TYPE: string = 'Bot';
+    const dependencyType: string = 'Bot';
 
     /**
      * Send information about a dependency in the Bot Application.
@@ -43,7 +43,7 @@ export namespace TelemetryBotDependencyExtension {
             const duration: number = endTime - startTime;
             // Log the dependency into Application Insights
             telemetryClient.trackDependency({
-                dependencyTypeName: DEPENDENCY_TYPE,
+                dependencyTypeName: dependencyType,
                 name: dependencyName,
                 data: dependencyData,
                 success: success,

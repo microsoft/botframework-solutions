@@ -11,7 +11,7 @@ import { TemplateManager } from '../templateManager/templateManager';
 export class AuthenticationResponses extends TemplateManager {
 
     // Fields
-    public static RESPONSE_IDS: {
+    public static responseIds: {
         LoginPrompt: string;
         SucceededMessage: string;
         FailedMessage: string;
@@ -21,22 +21,22 @@ export class AuthenticationResponses extends TemplateManager {
         FailedMessage: 'failedMessage'
     };
 
-    private static readonly RESPONSE_TEMPLATES: LanguageTemplateDictionary = new Map([
+    private static readonly responseTemplates: LanguageTemplateDictionary = new Map([
         ['default', new Map([
-            [AuthenticationResponses.RESPONSE_IDS.LoginPrompt, AuthenticationResponses.fromResources('authentication.prompt')],
+            [AuthenticationResponses.responseIds.LoginPrompt, AuthenticationResponses.fromResources('authentication.prompt')],
             // tslint:disable-next-line:no-any
-            [AuthenticationResponses.RESPONSE_IDS.SucceededMessage, async (data: any): Promise<string> => {
+            [AuthenticationResponses.responseIds.SucceededMessage, async (data: any): Promise<string> => {
                 const value: string = i18n.__('authentication.succeeded');
 
                 return value.replace('{0}', data.name);
             }],
-            [AuthenticationResponses.RESPONSE_IDS.FailedMessage, AuthenticationResponses.fromResources('authentication.failed')]
+            [AuthenticationResponses.responseIds.FailedMessage, AuthenticationResponses.fromResources('authentication.failed')]
         ])]
     ]);
 
     constructor() {
         super();
-        this.register(new DictionaryRenderer(AuthenticationResponses.RESPONSE_TEMPLATES));
+        this.register(new DictionaryRenderer(AuthenticationResponses.responseTemplates));
     }
 
     private static fromResources(name: string): TemplateFunction {

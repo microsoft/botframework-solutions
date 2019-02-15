@@ -8,15 +8,15 @@ import {
 import { ITemplateRenderer } from './ITemplateRenderer';
 
 export class TemplateManager {
-    private TEMPLATE_RENDERS: ITemplateRenderer[] = [];
-    private LANGUAGE_FALLBACK: string[] = [];
+    private templateRenders: ITemplateRenderer[] = [];
+    private languageFallback: string[] = [];
 
     /**
      * Add a template engine for binding templates
      */
     public register(renderer: ITemplateRenderer): TemplateManager {
-        if (!this.TEMPLATE_RENDERS.some((x: ITemplateRenderer) => x === renderer)) {
-            this.TEMPLATE_RENDERS.push(renderer);
+        if (!this.templateRenders.some((x: ITemplateRenderer) => x === renderer)) {
+            this.templateRenders.push(renderer);
         }
 
         return this;
@@ -26,15 +26,15 @@ export class TemplateManager {
      * List registered template engines
      */
     public list(): ITemplateRenderer[] {
-        return this.TEMPLATE_RENDERS;
+        return this.templateRenders;
     }
 
     public setLanguagePolicy(languageFallback: string[]): void {
-        this.LANGUAGE_FALLBACK = languageFallback;
+        this.languageFallback = languageFallback;
     }
 
     public getLanguagePolicy(): string[] {
-        return this.LANGUAGE_FALLBACK;
+        return this.languageFallback;
     }
 
     /**
@@ -59,7 +59,7 @@ export class TemplateManager {
                                 templateId: string,
                                 // tslint:disable-next-line:no-any
                                 language?: string, data?: any): Promise<Activity | undefined> {
-        const fallbackLocales: string[] = this.LANGUAGE_FALLBACK;
+        const fallbackLocales: string[] = this.languageFallback;
 
         if (language) {
             fallbackLocales.push(language);
@@ -69,7 +69,7 @@ export class TemplateManager {
 
         // try each locale until successful
         for (const locale of fallbackLocales) {
-            for (const renderer of this.TEMPLATE_RENDERS) {
+            for (const renderer of this.templateRenders) {
                 // tslint:disable-next-line:no-any
                 const templateOutput: any = await renderer.renderTemplate(turnContext, locale, templateId, data);
                 if (templateOutput) {

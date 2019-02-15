@@ -10,6 +10,11 @@
         ]
     },
     "rules": {
+      "function-name": [ true,
+        {
+          "static-method-regex":"^[a-z][\\w\\d]+$"
+        }
+      ],
       "linebreak-style": [false],
       "member-ordering": [false],
       "no-relative-imports": [false]

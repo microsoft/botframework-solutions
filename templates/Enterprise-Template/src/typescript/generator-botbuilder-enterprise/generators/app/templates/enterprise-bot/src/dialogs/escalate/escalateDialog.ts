@@ -12,7 +12,7 @@ import { EscalateResponses } from './escalateResponses';
 export class EscalateDialog extends EnterpriseDialog {
 
     // Fields
-    public static readonly RESPONDER: EscalateResponses = new EscalateResponses();
+    public static readonly responder: EscalateResponses = new EscalateResponses();
 
     constructor(botServices: BotServices) {
         super(botServices, EscalateDialog.name);
@@ -27,7 +27,7 @@ export class EscalateDialog extends EnterpriseDialog {
     }
 
     private static async sendPhone(sc: WaterfallStepContext): Promise<DialogTurnResult> {
-        await EscalateDialog.RESPONDER.replyWith(sc.context, EscalateResponses.RESPONSE_IDS.SendPhoneMessage);
+        await EscalateDialog.responder.replyWith(sc.context, EscalateResponses.responseIds.SendPhoneMessage);
 
         return sc.endDialog();
     }
