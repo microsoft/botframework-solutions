@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using PointOfInterestSkill.Dialogs.CancelRoute.Resources;
@@ -76,6 +77,8 @@ namespace PointOfInterestSkill
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
+            turnContext.TurnState.Add(TelemetryLoggerMiddleware.AppInsightsServiceKey, _telemetryClient);
+
             var dc = await _dialogs.CreateContextAsync(turnContext);
 
             if (dc.ActiveDialog != null)

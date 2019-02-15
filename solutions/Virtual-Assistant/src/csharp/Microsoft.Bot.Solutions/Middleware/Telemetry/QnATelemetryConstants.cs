@@ -16,6 +16,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
         public const string ConversationIdProperty = "conversationId";
         public const string OriginalQuestionProperty = "originalQuestion";
         public const string QuestionProperty = "question";
+        public const string QuestionIdProperty = "questionId";
         public const string ScoreProperty = "score";
         public const string UsernameProperty = "username";
     }

@@ -28,16 +28,14 @@ namespace Microsoft.Bot.Solutions.Testing.Fakes
             }
         }
 
-        public bool LogOriginalMessage => throw new NotImplementedException();
-
-        public bool LogUsername => throw new NotImplementedException();
+        public bool LogPersonalInformation => throw new NotImplementedException();
 
         public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task<T> RecognizeAsync<T>(DialogContext dialogContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<T> RecognizeAsync<T>(DialogContext dialogContext, bool logPersonalInformation, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new()
         {
             var text = dialogContext.Context.Activity.Text;
@@ -46,7 +44,7 @@ namespace Microsoft.Bot.Solutions.Testing.Fakes
             return Task.FromResult((T)mockResult);
         }
 
-        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, bool logPersonalInformation, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new()
         {
             var text = turnContext.Activity.Text;

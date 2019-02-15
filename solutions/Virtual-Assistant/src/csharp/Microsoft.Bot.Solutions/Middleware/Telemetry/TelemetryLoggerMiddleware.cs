@@ -18,21 +18,9 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
     /// telemetry.
     /// If this Middleware is removed, all the other sample components don't log (but still operate).
     /// </summary>
-    public class TelemetryLoggerMiddleware : IMiddleware
+    public class TelemetryLoggerMiddleware : ITelemetryLoggerMiddleware, IMiddleware
     {
         public static readonly string AppInsightsServiceKey = $"{nameof(TelemetryLoggerMiddleware)}.AppInsightsContext";
-
-        // Application Insights Custom Event name, logged when new message is received from the user
-        public static readonly string BotMsgReceiveEvent = "BotMessageReceived";
-
-        // Application Insights Custom Event name, logged when a message is sent out from the bot
-        public static readonly string BotMsgSendEvent = "BotMessageSend";
-
-        // Application Insights Custom Event name, logged when a message is updated by the bot (rare case)
-        public static readonly string BotMsgUpdateEvent = "BotMessageUpdate";
-
-        // Application Insights Custom Event name, logged when a message is deleted by the bot (rare case)
-        public static readonly string BotMsgDeleteEvent = "BotMessageDelete";
 
         private IBotTelemetryClient _telemetryClient;
 
@@ -40,14 +28,12 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
         /// Initializes a new instance of the <see cref="TelemetryLoggerMiddleware"/> class.
         /// </summary>
         /// <param name="telemetryClient">The IBotTelemetryClient implementation used for registering telemetry events.</param>
-        /// <param name="logUserName"> (Optional) Enable/Disable logging user name within Application Insights.</param>
-        /// <param name="logOriginalMessage"> (Optional) Enable/Disable logging original message name within Application Insights.</param>
+        /// <param name="logPersonalInformation"> (Optional) TRUE to include personally indentifiable information.</param>
         /// <param name="config"> (Optional) TelemetryConfiguration to use for Application Insights.</param>
-        public TelemetryLoggerMiddleware(IBotTelemetryClient telemetryClient, bool logUserName = false, bool logOriginalMessage = false, TelemetryConfiguration config = null)
+        public TelemetryLoggerMiddleware(IBotTelemetryClient telemetryClient, bool logPersonalInformation = false, TelemetryConfiguration config = null)
         {
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
-            LogUserName = logUserName;
-            LogOriginalMessage = logOriginalMessage;
+            LogPersonalInformation = logPersonalInformation;
         }
 
         /// <summary>
@@ -56,15 +42,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
         /// <value>
         /// A value indicating whether indicates whether to log the user name into the BotMessageReceived event.
         /// </value>
-        public bool LogUserName { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether indicates whether to log the original message into the BotMessageReceived event.
-        /// </summary>
-        /// <value>
-        /// Indicates whether to log the original message into the BotMessageReceived event.
-        /// </value>
-        public bool LogOriginalMessage { get; }
+        public bool LogPersonalInformation { get; }
 
         /// <summary>
         /// Records incoming and outgoing activities to the Application Insights store.
@@ -88,7 +66,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                 var activity = context.Activity;
 
                 // Log the Application Insights Bot Message Received
-                _telemetryClient.TrackEventEx(BotMsgReceiveEvent, activity, null, this.FillReceiveEventProperties(activity));
+                _telemetryClient.TrackEventEx(TelemetryLoggerConstants.BotMsgReceiveEvent, activity, null, this.FillReceiveEventProperties(activity));
             }
 
             // hook up onSend pipeline
@@ -99,7 +77,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
 
                 foreach (var activity in activities)
                 {
-                    _telemetryClient.TrackEventEx(BotMsgSendEvent, activity, null, this.FillSendEventProperties(activity));
+                    _telemetryClient.TrackEventEx(TelemetryLoggerConstants.BotMsgSendEvent, activity, null, this.FillSendEventProperties(activity));
                 }
 
                 return responses;
@@ -111,7 +89,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                 // run full pipeline
                 var response = await nextUpdate().ConfigureAwait(false);
 
-                _telemetryClient.TrackEventEx(BotMsgUpdateEvent, activity, null, this.FillUpdateEventProperties(activity));
+                _telemetryClient.TrackEventEx(TelemetryLoggerConstants.BotMsgUpdateEvent, activity, null, this.FillUpdateEventProperties(activity));
 
                 return response;
             });
@@ -130,7 +108,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                 .ApplyConversationReference(reference, isIncoming: false)
                 .AsMessageDeleteActivity();
 
-                _telemetryClient.TrackEventEx(BotMsgDeleteEvent, deleteActivity as Activity, null, this.FillDeleteEventProperties(deleteActivity));
+                _telemetryClient.TrackEventEx(TelemetryLoggerConstants.BotMsgDeleteEvent, deleteActivity as Activity, null, this.FillDeleteEventProperties(deleteActivity));
             });
 
             if (nextTurn != null)
@@ -149,7 +127,6 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
         {
             var properties = new Dictionary<string, string>()
                 {
-                    { TelemetryConstants.ChannelIdProperty, activity.ChannelId },
                     { TelemetryConstants.FromIdProperty, activity.From.Id },
                     { TelemetryConstants.ConversationNameProperty, activity.Conversation.Name },
                     { TelemetryConstants.LocaleProperty, activity.Locale },
@@ -157,16 +134,18 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                     { TelemetryConstants.RecipientNameProperty, activity.Recipient.Name },
                 };
 
-            // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
-            if (LogUserName && !string.IsNullOrWhiteSpace(activity.From.Name))
+            // Use the LogPersonalInformation flag to toggle logging PII data, text and user name are common examples
+            if (LogPersonalInformation)
             {
-                properties.Add(TelemetryConstants.FromNameProperty, activity.From.Name);
-            }
+                if (!string.IsNullOrWhiteSpace(activity.From.Name))
+                {
+                    properties.Add(TelemetryConstants.FromNameProperty, activity.From.Name);
+                }
 
-            // For some customers, logging the utterances within Application Insights might be an so have provided a config setting to disable this feature
-            if (LogOriginalMessage && !string.IsNullOrWhiteSpace(activity.Text))
-            {
-                properties.Add(TelemetryConstants.TextProperty, activity.Text);
+                if (!string.IsNullOrWhiteSpace(activity.Text))
+                {
+                    properties.Add(TelemetryConstants.TextProperty, activity.Text);
+                }
             }
 
             return properties;
@@ -182,23 +161,24 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
         {
             var properties = new Dictionary<string, string>()
                 {
-                    { TelemetryConstants.ChannelIdProperty, activity.ChannelId },
                     { TelemetryConstants.ReplyActivityIDProperty, activity.ReplyToId },
                     { TelemetryConstants.RecipientIdProperty, activity.Recipient.Id },
                     { TelemetryConstants.ConversationNameProperty, activity.Conversation.Name },
                     { TelemetryConstants.LocaleProperty, activity.Locale },
                 };
 
-            // For some customers, logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
-            if (LogUserName && !string.IsNullOrWhiteSpace(activity.Recipient.Name))
+            // Use the LogPersonalInformation flag to toggle logging PII data, text and user name are common examples
+            if (LogPersonalInformation)
             {
-                properties.Add(TelemetryConstants.RecipientNameProperty, activity.Recipient.Name);
-            }
+                if (!string.IsNullOrWhiteSpace(activity.Recipient.Name))
+                {
+                    properties.Add(TelemetryConstants.RecipientNameProperty, activity.Recipient.Name);
+                }
 
-            // For some customers, logging the utterances within Application Insights might be an so have provided a config setting to disable this feature
-            if (LogOriginalMessage && !string.IsNullOrWhiteSpace(activity.Text))
-            {
-                properties.Add(TelemetryConstants.TextProperty, activity.Text);
+                if (!string.IsNullOrWhiteSpace(activity.Text))
+                {
+                    properties.Add(TelemetryConstants.TextProperty, activity.Text);
+                }
             }
 
             return properties;
@@ -216,15 +196,14 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
         {
             var properties = new Dictionary<string, string>()
                 {
-                    { TelemetryConstants.ChannelIdProperty, activity.ChannelId },
                     { TelemetryConstants.RecipientIdProperty, activity.Recipient.Id },
                     { TelemetryConstants.ConversationIdProperty, activity.Conversation.Id },
                     { TelemetryConstants.ConversationNameProperty, activity.Conversation.Name },
                     { TelemetryConstants.LocaleProperty, activity.Locale },
                 };
 
-            // For some customers, logging the utterances within Application Insights might be an so have provided a config setting to disable this feature
-            if (LogOriginalMessage && !string.IsNullOrWhiteSpace(activity.Text))
+            // Use the LogPersonalInformation flag to toggle logging PII data, text is a common example
+            if (LogPersonalInformation && !string.IsNullOrWhiteSpace(activity.Text))
             {
                 properties.Add(TelemetryConstants.TextProperty, activity.Text);
             }
@@ -242,13 +221,32 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
         {
             var properties = new Dictionary<string, string>()
                 {
-                    { TelemetryConstants.ChannelIdProperty, activity.ChannelId },
                     { TelemetryConstants.RecipientIdProperty, activity.Recipient.Id },
                     { TelemetryConstants.ConversationIdProperty, activity.Conversation.Id },
                     { TelemetryConstants.ConversationNameProperty, activity.Conversation.Name },
                 };
 
             return properties;
+        }
+
+        Dictionary<string, string> ITelemetryLoggerMiddleware.FillReceiveEventProperties(Activity activity)
+        {
+            throw new NotImplementedException();
+        }
+
+        Dictionary<string, string> ITelemetryLoggerMiddleware.FillSendEventProperties(Activity activity)
+        {
+            throw new NotImplementedException();
+        }
+
+        Dictionary<string, string> ITelemetryLoggerMiddleware.FillUpdateEventProperties(Activity activity)
+        {
+            throw new NotImplementedException();
+        }
+
+        Dictionary<string, string> ITelemetryLoggerMiddleware.FillDeleteEventProperties(IMessageDeleteActivity activity)
+        {
+            throw new NotImplementedException();
         }
     }
 }
