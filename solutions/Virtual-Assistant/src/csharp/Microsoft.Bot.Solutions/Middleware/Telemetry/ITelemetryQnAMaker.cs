@@ -6,9 +6,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
 {
     public interface ITelemetryQnAMaker
     {
-        bool LogOriginalMessage { get; }
-
-        bool LogUserName { get; }
+        bool LogPersonalInformation { get; }
 
         Task<QueryResult[]> GetAnswersAsync(ITurnContext context);
     }
