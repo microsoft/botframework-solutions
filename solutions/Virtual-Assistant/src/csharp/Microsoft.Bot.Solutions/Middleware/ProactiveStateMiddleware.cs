@@ -2,10 +2,13 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Solutions.Models.Proactive;
+using Utilities;
 using static Microsoft.Bot.Solutions.Models.Proactive.ProactiveModel;
 
 namespace Microsoft.Bot.Solutions.Middleware
@@ -33,11 +36,11 @@ namespace Microsoft.Bot.Solutions.Middleware
             {
                 var proactiveState = await _proactiveStateAccessor.GetAsync(turnContext, () => new ProactiveModel());
                 ProactiveData data;
-                var userId = turnContext.Activity.From.Id;
+                var hashedUserId = MD5Util.ComputeHash(turnContext.Activity.From.Id);
                 var conversationReference = turnContext.Activity.GetConversationReference();
                 var proactiveData = new ProactiveData { Conversation = conversationReference };
 
-                if (proactiveState.TryGetValue(userId, out data))
+                if (proactiveState.TryGetValue(hashedUserId, out data))
                 {
                     data.Conversation = conversationReference;
                 }
@@ -46,7 +49,7 @@ namespace Microsoft.Bot.Solutions.Middleware
                     data = new ProactiveData { Conversation = conversationReference };
                 }
 
-                proactiveState[userId] = data;
+                proactiveState[hashedUserId] = data;
                 await _proactiveStateAccessor.SetAsync(turnContext, proactiveState);
                 await _proactiveState.SaveChangesAsync(turnContext);
             }

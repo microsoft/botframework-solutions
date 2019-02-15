@@ -16,6 +16,7 @@ using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
+using Utilities;
 using Utilities.TaskExtensions;
 using static CalendarSkill.Proactive.CheckUpcomingEventHandler;
 
@@ -96,7 +97,7 @@ namespace CalendarSkill.Dialogs.UpcomingEvent
         {
             return async (eventModel, cancellationToken) =>
             {
-                await sc.Context.Adapter.ContinueConversationAsync(_endpointService.AppId, proactiveModel[userId.ToString()].Conversation, UpcomingEventContinueConversationCallback(eventModel, sc), cancellationToken);
+                await sc.Context.Adapter.ContinueConversationAsync(_endpointService.AppId, proactiveModel[MD5Util.ComputeHash(userId)].Conversation, UpcomingEventContinueConversationCallback(eventModel, sc), cancellationToken);
             };
         }
 
