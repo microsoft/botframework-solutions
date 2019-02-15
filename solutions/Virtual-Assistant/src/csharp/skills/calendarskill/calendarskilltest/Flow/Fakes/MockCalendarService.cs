@@ -155,7 +155,7 @@ namespace CalendarSkillTest.Flow.Fakes
             return await Task.FromResult(newEvent);
         }
 
-        public async Task<List<EventModel>> GetUpcomingEvents()
+        public async Task<List<EventModel>> GetUpcomingEvents(TimeSpan? timeSpan = null)
         {
             return await Task.FromResult(this.FakeEvents);
         }

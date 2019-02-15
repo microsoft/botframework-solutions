@@ -95,6 +95,12 @@
     <EmbeddedResource Include="Dialogs\UpdateEvent\Resources\UpdateEventResponses.it.json" />
     <EmbeddedResource Include="Dialogs\UpdateEvent\Resources\UpdateEventResponses.json" />
     <EmbeddedResource Include="Dialogs\UpdateEvent\Resources\UpdateEventResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\UpcomingEvent\Resources\UpcomingEventResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\UpcomingEvent\Resources\UpcomingEventResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\UpcomingEvent\Resources\UpcomingEventResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\UpcomingEvent\Resources\UpcomingEventResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\UpcomingEvent\Resources\UpcomingEventResponses.json" />
+    <EmbeddedResource Include="Dialogs\UpcomingEvent\Resources\UpcomingEventResponses.zh.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -148,6 +154,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>TimeRemainingResponses.tt</DependentUpon>
     </Compile>
+    <Compile Update="Dialogs\UpcomingEvent\Resources\UpcomingEventResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UpcomingEventResponses.tt</DependentUpon>
+    </Compile>
     <Compile Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -192,6 +203,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TimeRemainingResponses.cs</LastGenOutput>
     </None>
+    <None Update="Dialogs\UpcomingEvent\Resources\UpcomingEventResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpcomingEventResponses.cs</LastGenOutput>
+    </None>
     <None Update="Dialogs\UpdateEvent\Resources\UpdateEventResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UpdateEventResponses.cs</LastGenOutput>
@@ -223,6 +238,7 @@
   
   <ItemGroup>
     <ProjectReference Include="..\..\..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
+    <ProjectReference Include="..\..\..\utilities\Utilities.csproj" />
   </ItemGroup>
   
   <ItemGroup>

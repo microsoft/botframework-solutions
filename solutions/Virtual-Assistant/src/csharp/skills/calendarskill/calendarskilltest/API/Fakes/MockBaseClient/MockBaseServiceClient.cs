@@ -15,7 +15,7 @@ namespace CalendarSkillTest.API.Fakes.MockBaseClient
         {
             mockCalendarService = new Mock<ICalendarService>();
             mockCalendarService.Setup(service => service.CreateEvent(It.IsAny<EventModel>())).Returns((EventModel body) => Task.FromResult(body));
-            mockCalendarService.Setup(service => service.GetUpcomingEvents()).Returns(Task.FromResult(new List<EventModel>()));
+            mockCalendarService.Setup(service => service.GetUpcomingEvents(null)).Returns(Task.FromResult(new List<EventModel>()));
             mockCalendarService.Setup(service => service.GetEventsByTime(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(Task.FromResult(new List<EventModel>()));
             mockCalendarService.Setup(service => service.GetEventsByStartTime(It.IsAny<DateTime>())).Returns(Task.FromResult(new List<EventModel>()));
             mockCalendarService.Setup(service => service.GetEventsByTitle(It.IsAny<string>())).Returns(Task.FromResult(new List<EventModel>()));

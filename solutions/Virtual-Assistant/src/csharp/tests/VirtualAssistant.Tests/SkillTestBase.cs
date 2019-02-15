@@ -4,12 +4,15 @@ using Autofac;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Testing;
 using Microsoft.Bot.Solutions.Testing.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Utilities.TaskExtensions;
 
 namespace VirtualAssistant.Tests
 {
@@ -22,6 +25,12 @@ namespace VirtualAssistant.Tests
         public DialogSet Dialogs { get; set; }
 
         public UserState UserState { get; set; }
+
+        public ProactiveState ProactiveState { get; set; }
+
+        public EndpointService EndpointService { get; set; }
+
+        public IBackgroundTaskQueue BackgroundTaskQueue { get; set; }
 
         public ConversationState ConversationState { get; set; }
 
@@ -45,7 +54,10 @@ namespace VirtualAssistant.Tests
             this.ConversationState = new ConversationState(new MemoryStorage());
             this.DialogState = this.ConversationState.CreateProperty<DialogState>(nameof(this.DialogState));
             this.UserState = new UserState(new MemoryStorage());
+            this.ProactiveState = new ProactiveState(new MemoryStorage());
+            this.EndpointService = new EndpointService();
             this.TelemetryClient = new NullBotTelemetryClient();
+            this.BackgroundTaskQueue = new BackgroundTaskQueue();
             this.SkillConfigurations = new Dictionary<string, SkillConfigurationBase>();
 
             // Add the LUIS model fakes used by the Skill
