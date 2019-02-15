@@ -4,6 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Util;
+using Utilities.TaskExtensions;
 
 namespace Microsoft.Bot.Solutions.Skills
 {
@@ -14,16 +16,21 @@ namespace Microsoft.Bot.Solutions.Skills
     public class InProcAdapter : BotAdapter
     {
         private readonly Queue<Activity> queuedActivities = new Queue<Activity>();
+        private MessageReceivedHandler _messageReceivedHandler;
 
         public InProcAdapter()
             : base()
         {
         }
 
-        public delegate void MessageReceivedHandler();
+        public delegate Task MessageReceivedHandler(List<Activity> activities);
 
-        public async Task ProcessActivity(Activity activity, BotCallbackHandler callback = null)
+        public IBackgroundTaskQueue BackgroundTaskQueue { get; set; }
+
+        public async Task ProcessActivity(Activity activity, BotCallbackHandler callback = null, MessageReceivedHandler messageReceivedHandler = null)
         {
+            _messageReceivedHandler = messageReceivedHandler;
+
             using (var context = new TurnContext(this, activity))
             {
                 await RunPipelineAsync(context, callback, default(CancellationToken));
@@ -95,6 +102,7 @@ namespace Microsoft.Bot.Solutions.Skills
         public override async Task<ResourceResponse[]> SendActivitiesAsync(ITurnContext context, Activity[] activities, CancellationToken cancellationToken)
         {
             var responses = new List<ResourceResponse>();
+            var proactiveActivities = new List<Activity>();
 
             foreach (var activity in activities)
             {
@@ -119,13 +127,28 @@ namespace Microsoft.Bot.Solutions.Skills
                 }
                 else
                 {
-                    lock (queuedActivities)
+                    if (activity.DeliveryMode == CommonUtil.DeliveryModeProactive)
                     {
-                        queuedActivities.Enqueue(activity);
+                        proactiveActivities.Add(activity);
+                    }
+                    else
+                    {
+                        lock (queuedActivities)
+                        {
+                            queuedActivities.Enqueue(activity);
+                        }
                     }
                 }
 
                 responses.Add(new ResourceResponse(activity.Id));
+            }
+
+            if (proactiveActivities.Count > 0 && BackgroundTaskQueue != null && _messageReceivedHandler != null)
+            {
+                BackgroundTaskQueue.QueueBackgroundWorkItem(async (ct) =>
+                {
+                    await _messageReceivedHandler(proactiveActivities);
+                });
             }
 
             return responses.ToArray();

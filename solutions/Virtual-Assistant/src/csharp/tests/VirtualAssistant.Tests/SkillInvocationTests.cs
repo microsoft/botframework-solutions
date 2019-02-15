@@ -26,7 +26,7 @@ namespace VirtualAssistant.Tests.SkillInvocationTests
             foreach (SkillDefinition skill in this.skillDefinitions.Values)
             {
                 // Add the SkillDialog to the available dialogs passing the initialized FakeSkill
-                this.Dialogs.Add(new SkillDialog(skill, this.Services, null, this.TelemetryClient));
+                this.Dialogs.Add(new SkillDialog(skill, this.Services, this.ProactiveState, this.EndpointService, this.TelemetryClient, this.BackgroundTaskQueue));
             }
         }
 

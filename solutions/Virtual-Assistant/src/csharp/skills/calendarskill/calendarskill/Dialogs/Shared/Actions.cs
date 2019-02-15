@@ -39,5 +39,6 @@
         public const string Read = "read";
         public const string Greeting = "greeting";
         public const string GetEventsInit = "getEventsInit";
+        public const string ShowUpcomingMeeting = "ShowUpcomingMeeting";
     }
 }

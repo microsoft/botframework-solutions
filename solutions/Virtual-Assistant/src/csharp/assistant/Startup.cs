@@ -16,10 +16,12 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Model.Proactive;
 using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Utilities.TaskExtensions;
 using VirtualAssistant.Dialogs.Main;
 
 namespace VirtualAssistant
@@ -34,6 +36,7 @@ namespace VirtualAssistant
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile("proactiveScenarios.json", optional: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
@@ -43,6 +46,10 @@ namespace VirtualAssistant
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // add background task queue
+            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+            services.AddHostedService<QueuedHostedService>();
+
             // Load the connected services from .bot file.
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
             var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
@@ -54,7 +61,8 @@ namespace VirtualAssistant
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
             var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
             var skills = Configuration.GetSection("skills").Get<List<SkillDefinition>>();
-            var connectedServices = new BotServices(botConfig, languageModels, skills);
+            var proactiveScenariosConfig = Configuration.GetSection("proactiveSteps").Get<List<ProactiveStep>>();
+            var connectedServices = new BotServices(botConfig, languageModels, skills, proactiveScenariosConfig);
             services.AddSingleton(sp => connectedServices);
 
             var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
@@ -123,9 +131,7 @@ namespace VirtualAssistant
                 options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en-us"));
                 options.Middleware.Add(new EventDebuggerMiddleware());
                 options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
-
-                // TODO: uncomment the following line to enable auto save of proactive state
-                // options.Middleware.Add(new ProactiveStateMiddleware(proactiveState));
+                options.Middleware.Add(new ProactiveStateMiddleware(proactiveState));
 
                 //// Translator is an optional component for scenarios when an Assistant needs to work beyond native language support
                 // var translatorKey = Configuration.GetValue<string>("translatorKey");

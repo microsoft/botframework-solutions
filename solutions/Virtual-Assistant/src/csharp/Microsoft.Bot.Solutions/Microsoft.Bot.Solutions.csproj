@@ -62,6 +62,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\utilities\Utilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Resources\CommonResponses.cs">
       <DependentUpon>CommonResponses.tt</DependentUpon>
       <DesignTime>True</DesignTime>

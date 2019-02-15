@@ -14,8 +14,10 @@ using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Responses;
+using Utilities.TaskExtensions;
 
 namespace Microsoft.Bot.Solutions.Skills
 {
@@ -26,19 +28,23 @@ namespace Microsoft.Bot.Solutions.Skills
         private SkillConfigurationBase _skillConfiguration;
         private ResponseManager _responseManager;
         private EndpointService _endpointService;
+        private ProactiveState _proactiveState;
         private IBotTelemetryClient _telemetryClient;
+        private IBackgroundTaskQueue _backgroundTaskQueue;
         private InProcAdapter _inProcAdapter;
         private IBot _activatedSkill;
         private bool _skillInitialized;
         private bool _useCachedTokens;
 
-        public SkillDialog(SkillDefinition skillDefinition, SkillConfigurationBase skillConfiguration, EndpointService endpointService, IBotTelemetryClient telemetryClient, bool useCachedTokens = true)
+        public SkillDialog(SkillDefinition skillDefinition, SkillConfigurationBase skillConfiguration, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue, bool useCachedTokens = true)
             : base(skillDefinition.Id)
         {
             _skillDefinition = skillDefinition;
             _skillConfiguration = skillConfiguration;
+            _proactiveState = proactiveState;
             _endpointService = endpointService;
             _telemetryClient = telemetryClient;
+            _backgroundTaskQueue = backgroundTaskQueue;
             _useCachedTokens = useCachedTokens;
 
             var supportedLanguages = skillConfiguration.LocaleConfigurations.Keys.ToArray();
@@ -146,7 +152,7 @@ namespace Microsoft.Bot.Solutions.Skills
                         skillType,
                         BindingFlags.CreateInstance | BindingFlags.Public | BindingFlags.Instance | BindingFlags.OptionalParamBinding,
                         default(Binder),
-                        new object[] { _skillConfiguration, conversationState, userState, _telemetryClient, true },
+                        new object[] { _skillConfiguration, _endpointService, conversationState, userState, _proactiveState, _telemetryClient, _backgroundTaskQueue, true },
                         CultureInfo.CurrentCulture);
                 }
                 catch (Exception e)
@@ -167,6 +173,7 @@ namespace Microsoft.Bot.Solutions.Skills
                         // Log exception in AppInsights
                         _telemetryClient.TrackExceptionEx(exception, context.Activity);
                     },
+                    BackgroundTaskQueue = _backgroundTaskQueue
                 };
 
                 _inProcAdapter.Use(new EventDebuggerMiddleware());
@@ -195,6 +202,12 @@ namespace Microsoft.Bot.Solutions.Skills
                 _inProcAdapter.ProcessActivity(activity, async (skillContext, ct) =>
                 {
                     await _activatedSkill.OnTurnAsync(skillContext);
+                }, async (activities) =>
+                {
+                    foreach (var response in activities)
+                    {
+                        await innerDc.Context.Adapter.ContinueConversationAsync(_endpointService.AppId, response.GetConversationReference(), CreateCallback(response), default(CancellationToken));
+                    }
                 }).Wait();
 
                 var queue = new List<Activity>();
@@ -258,17 +271,8 @@ namespace Microsoft.Bot.Solutions.Skills
                 // send skill queue to User
                 if (queue.Count > 0)
                 {
-                    var firstActivity = queue[0];
-                    if (firstActivity.Conversation.Id == innerDc.Context.Activity.Conversation.Id)
-                    {
-                        // if the conversation id from the activity is the same as the context activity, it's reactive message
-                        await innerDc.Context.SendActivitiesAsync(queue.ToArray());
-                    }
-                    else
-                    {
-                        // if the conversation id from the activity is different from the context activity, it's proactive message
-                        await innerDc.Context.Adapter.ContinueConversationAsync(_endpointService.AppId, firstActivity.GetConversationReference(), CreateCallback(queue.ToArray()), default(CancellationToken));
-                    }
+                    // if the conversation id from the activity is the same as the context activity, it's reactive message
+                    await innerDc.Context.SendActivitiesAsync(queue.ToArray());
                 }
 
                 // handle ending the skill conversation
@@ -292,13 +296,40 @@ namespace Microsoft.Bot.Solutions.Skills
             }
         }
 
-        private BotCallbackHandler CreateCallback(Activity[] activities)
+        private BotCallbackHandler CreateCallback(Activity activity)
         {
             return async (turnContext, token) =>
             {
+                EnsureActivity(activity);
+
                 // Send back the activities in the proactive context
-                await turnContext.SendActivitiesAsync(activities, token);
+                await turnContext.SendActivityAsync(activity, token);
             };
+        }
+
+        /// <summary>
+        /// Ensure the activity objects are correctly set for proactive messages
+        /// There is known issues about not being able to send these messages back
+        /// correctly if the properties are not set in a certain way.
+        /// </summary>
+        /// <param name="activity">activity that's being sent out.</param>
+        private void EnsureActivity(Activity activity)
+        {
+            if (activity != null)
+            {
+                if (activity.From != null)
+                {
+                    activity.From.Name = "User";
+                    activity.From.Properties["role"] = "user";
+                }
+
+                if (activity.Recipient != null)
+                {
+                    activity.Recipient.Id = "1";
+                    activity.Recipient.Name = "Bot";
+                    activity.Recipient.Properties["role"] = "bot";
+                }
+            }
         }
 
         private class Events

@@ -12,6 +12,7 @@ using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Model.Proactive;
 using Microsoft.Bot.Solutions.Skills;
 
 namespace VirtualAssistant
@@ -40,7 +41,7 @@ namespace VirtualAssistant
         /// <param name="botConfiguration">The <see cref="BotConfiguration"/> instance for the bot.</param>
         /// <param name="skills">List of <see cref="SkillDefinition"/> for loading skill configurations.</param>
         /// <param name="languageModels">The locale specifc language model configs for each supported language.</param>
-        public BotServices(BotConfiguration botConfiguration, Dictionary<string, Dictionary<string, string>> languageModels, List<SkillDefinition> skills)
+        public BotServices(BotConfiguration botConfiguration, Dictionary<string, Dictionary<string, string>> languageModels, List<SkillDefinition> skills, List<ProactiveStep> proactiveScenariosConfig)
         {
             // Create service clients for each service in the .bot file.
             foreach (var service in botConfiguration.Services)
@@ -227,6 +228,7 @@ namespace VirtualAssistant
 
                 SkillDefinitions.Add(skill);
                 SkillConfigurations.Add(skill.Id, skillConfig);
+                ProactiveSteps = proactiveScenariosConfig.ToDictionary(i => i.Event);
             }
         }
 
@@ -285,5 +287,14 @@ namespace VirtualAssistant
         /// The value is an <see cref="SkillConfigurationBase"/> object containing all the service clients used by the skill.
         /// </value>
         public Dictionary<string, SkillConfigurationBase> SkillConfigurations { get; set; } = new Dictionary<string, SkillConfigurationBase>();
+
+        /// <summary>
+        /// Gets or sets proactive steps that's loaded from proactiveScenarios.json file.
+        /// </summary>
+        /// <value>
+        /// The steps defined in proactiveScenarios.json file that specifies what happens
+        /// when different events are received for proactive scenarios.
+        /// </value>
+        public Dictionary<string, ProactiveStep> ProactiveSteps { get; set; } = new Dictionary<string, ProactiveStep>();
     }
 }

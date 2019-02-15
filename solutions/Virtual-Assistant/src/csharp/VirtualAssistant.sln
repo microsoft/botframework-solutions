@@ -43,6 +43,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarSkill", "skills\cal
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistant.Tests", "tests\VirtualAssistant.Tests\VirtualAssistant.Tests.csproj", "{27C52F70-42F8-40C2-AE38-AB75515C3D91}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "utilities\Utilities.csproj", "{54B54E99-2B8C-4FD1-98AE-93F331F88670}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +103,10 @@ Global
 		{27C52F70-42F8-40C2-AE38-AB75515C3D91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27C52F70-42F8-40C2-AE38-AB75515C3D91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27C52F70-42F8-40C2-AE38-AB75515C3D91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54B54E99-2B8C-4FD1-98AE-93F331F88670}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54B54E99-2B8C-4FD1-98AE-93F331F88670}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54B54E99-2B8C-4FD1-98AE-93F331F88670}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54B54E99-2B8C-4FD1-98AE-93F331F88670}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
