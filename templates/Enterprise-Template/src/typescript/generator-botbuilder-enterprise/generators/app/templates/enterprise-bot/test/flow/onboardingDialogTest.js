@@ -39,7 +39,7 @@ describe("Onboarding Dialog", function () {
                 })
                 .assertReply('What is your name?');
 
-            testNock.resolveWithMocks(this.test.title, done, flow);
+            testNock.resolveWithMocks('onboardingDialog_init', done, flow);
         });
         it("Response for name prompt", function (done) {
             const testAdapter = botTestBase.getTestAdapter();
@@ -85,7 +85,7 @@ describe("Onboarding Dialog", function () {
                 })
                 .assertReply('Hi, user!');
 
-            testNock.resolveWithMocks(this.test.title, done, flow);
+            testNock.resolveWithMocks('onboardingDialog_namePrompt', done, flow);
         });
         it("Response for email prompt", function (done) {
             const testAdapter = botTestBase.getTestAdapter();
@@ -150,7 +150,7 @@ describe("Onboarding Dialog", function () {
                 })
                 .assertReply('Got it. I\'ve added user@mail.com as your primary contact address.');
 
-            testNock.resolveWithMocks(this.test.title, done, flow);
+            testNock.resolveWithMocks('onboardingDialog_emailPrompt', done, flow);
         });
         it("Response for location prompt", function (done) {
             const testAdapter = botTestBase.getTestAdapter();
@@ -236,7 +236,7 @@ describe("Onboarding Dialog", function () {
                 .assertReply('Thanks, user. I\'ve added Seattle as your primary location. You\'re all set up!')
                 .assertReply('What else can I help you with?');
 
-            testNock.resolveWithMocks(this.test.title, done, flow);
+            testNock.resolveWithMocks('onboardingDialog_locationPrompt', done, flow);
         });
         it("Validate state is updated", function (done) {
             const testAdapter = botTestBase.getTestAdapter();
@@ -284,7 +284,7 @@ describe("Onboarding Dialog", function () {
                     assert(state['emulator/users/User/'].OnboardingState.name === 'user');
                 });
 
-            testNock.resolveWithMocks(this.test.title, done, flow);
+            testNock.resolveWithMocks('onboardingDialog_validation', done, flow);
         });
     });
 
@@ -356,7 +356,7 @@ describe("Onboarding Dialog", function () {
                 .assertReply('Ok, let\'s start over.')
                 .assertReply('What else can I help you with?');
 
-            testNock.resolveWithMocks(this.test.title, done, flow);
+            testNock.resolveWithMocks('onboardingDialog_cancel_confirm', done, flow);
         });
         it("Invoke a 'Cancel' action during email prompt and deny", function (done) {
             const testAdapter = botTestBase.getTestAdapter();
@@ -447,7 +447,7 @@ describe("Onboarding Dialog", function () {
                 .assertReply('Ok, let\'s keep going.')
                 .assertReply('What is your email?');
 
-            testNock.resolveWithMocks(this.test.title, done, flow);
+            testNock.resolveWithMocks('onboardingDialog_cancel_deny', done, flow);
         });
     });
 });
