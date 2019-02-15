@@ -1,0 +1,31 @@
+{
+    "escalate": {
+        "phoneInfo":"Nuestros agentes están disponibles 24/7 al 1 (800) 555-1234."
+    },
+    "main": {
+        "calendarSuggestedAction":"¿Cuál es mi horario?",
+        "cancelled":"Bien, empecemos de una vez.",
+        "completed":"¿En qué más puedo ayudarte?",
+        "confused":"Lo siento, no soy capaz de ayudar con eso.",
+        "emailSuggestedAction":"Enviar un correo electrónico",
+        "error":"Lo siento, parece que algo salió mal.",
+        "greeting":"¡Hola!",
+        "greetingWithName":"Hola {0}",
+        "helpText":"¡ Soy tu asistente virtual! Puedo realizar una serie de tareas a través de mis habilidades conectadas. En este momento puedo ayudarle con el calendario, correo electrónico, tarea y preguntas de punto de interés. ¡ O usted puede ayudarme a hacer más creando su propio!",
+        "helpTitle":"Ayuda para el asistente virtual",
+        "introPath":"./resources/Intro.es.json",
+        "logOut":"OK, estás desconectado.",
+        "meetingSuggestedAction":"Programar una reunión",
+        "noActiveDialog":"Parece que no hay nada que cancelar. ¿En qué puedo ayudarle?",
+        "poiSuggestedAction":"Encuentre una cafetería cerca"
+    },
+    "onboarding": {
+        "haveLocation":"He agregado {0} como su ubicación principal. ¡ Ya está todo listo!",
+        "linkedAccountsInfoAlt":"Persona con dispositivo móvil.",
+        "linkedAccountsInfoBody":"Cambia a tu App de compañero para que te configuren.",
+        "linkedAccountsInfoTitle":"¡ Puedo hacer más si enlazas tus cuentas!",
+        "linkedAccountsInfoUrl":"https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/media/customassistant-linkedaccounts.png?raw=true",
+        "locationPrompt":"Gracias, {0}. ¿Dónde están ubicados?",
+        "namePrompt":"¿Cómo te llamas?"
+    }
+}
