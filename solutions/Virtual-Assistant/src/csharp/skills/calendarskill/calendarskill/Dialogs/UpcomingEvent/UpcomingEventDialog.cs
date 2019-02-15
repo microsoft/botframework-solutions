@@ -108,6 +108,7 @@ namespace CalendarSkill.Dialogs.UpcomingEvent
 
             return async (turnContext, token) =>
             {
+                var responseString = string.Empty;
                 var responseParams = new StringDictionary()
                 {
                     { "Minutes", (eventModel.StartTime - DateTime.UtcNow).Minutes.ToString() },
@@ -115,8 +116,18 @@ namespace CalendarSkill.Dialogs.UpcomingEvent
                     { "Title", eventModel.Title },
                 };
 
+                if (!string.IsNullOrWhiteSpace(eventModel.Location))
+                {
+                    responseString = UpcomingEventResponses.UpcomingEventMessageWithLocation;
+                    responseParams.Add("Location", eventModel.Location);
+                }
+                else
+                {
+                    responseString = UpcomingEventResponses.UpcomingEventMessage;
+                }
+
                 var activity = turnContext.Activity.CreateReply();
-                var response = _responseManager.GetResponse(UpcomingEventResponses.UpcomingEventMessage, responseParams);
+                var response = _responseManager.GetResponse(responseString, responseParams);
                 activity.Text = response.Text;
                 activity.Speak = response.Speak;
                 activity.InputHint = response.InputHint;

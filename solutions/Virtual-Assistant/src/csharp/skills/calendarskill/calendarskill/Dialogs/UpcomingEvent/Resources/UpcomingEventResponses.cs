@@ -13,6 +13,7 @@ namespace CalendarSkill.Dialogs.UpcomingEvent.Resources
     {
         // Generated accessors
 		public const string UpcomingEventMessage = "UpcomingEventMessage";
+		public const string UpcomingEventMessageWithLocation = "UpcomingEventMessageWithLocation";
 
     }
 }
