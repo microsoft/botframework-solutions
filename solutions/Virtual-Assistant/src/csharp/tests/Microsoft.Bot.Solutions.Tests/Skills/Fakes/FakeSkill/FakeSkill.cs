@@ -14,6 +14,9 @@ using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Auth.Resource
 using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Main.Resources;
 using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Shared.Resources;
 using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Sample.Resources;
+using Utilities.TaskExtensions;
+using Microsoft.Bot.Solutions.Models.Proactive;
+using Microsoft.Bot.Configuration;
 
 namespace FakeSkill
 {
@@ -26,17 +29,23 @@ namespace FakeSkill
         private readonly ResponseManager _responseManager;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
+        private readonly ProactiveState _proactiveState;
         private readonly IBotTelemetryClient _telemetryClient;
+        private readonly IBackgroundTaskQueue _backgroundTaskQueue;
+        private readonly EndpointService _endpointService;
         private IServiceManager _serviceManager;
         private DialogSet _dialogs;
         private bool _skillMode;
 
-        public FakeSkill(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, bool skillMode = false, ResponseManager responseManager = null, ServiceManager serviceManager = null)
+        public FakeSkill(SkillConfigurationBase services, EndpointService endpointService, ConversationState conversationState, UserState userState, ProactiveState proactiveState, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue, bool skillMode = false, ResponseManager responseManager = null, ServiceManager serviceManager = null)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
+            _proactiveState = proactiveState;
+            _endpointService = endpointService;
+            _backgroundTaskQueue = backgroundTaskQueue;
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
             _serviceManager = serviceManager ?? new ServiceManager();
 

@@ -11,5 +11,7 @@ namespace Microsoft.Bot.Solutions.Util
         public const int MaxDisplaySize = 6;
 
         public const string DialogTurnResultCancelAllDialogs = "cancelAllDialogs";
+
+        public const string DeliveryModeProactive = "proactive";
     }
 }

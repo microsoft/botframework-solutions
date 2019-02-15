@@ -9,12 +9,14 @@ using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Testing;
 using Microsoft.Bot.Solutions.Testing.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Utilities.TaskExtensions;
 using VirtualAssistant.Tests.LuisTestUtils;
 
 namespace VirtualAssistant.Tests
@@ -28,6 +30,10 @@ namespace VirtualAssistant.Tests
         public UserState UserState { get; set; }
 
         public ConversationState ConversationState { get; set; }
+
+        public ProactiveState ProactiveState { get; set; }
+
+        public IBackgroundTaskQueue BackgroundTaskQueue { get; set; }
 
         public IStatePropertyAccessor<DialogState> DialogState { get; set; }
 
@@ -45,7 +51,9 @@ namespace VirtualAssistant.Tests
             this.ConversationState = new ConversationState(new MemoryStorage());
             this.DialogState = this.ConversationState.CreateProperty<DialogState>(nameof(this.DialogState));
             this.UserState = new UserState(new MemoryStorage());
+            this.ProactiveState = new ProactiveState(new MemoryStorage());
             this.TelemetryClient = new NullBotTelemetryClient();
+            this.BackgroundTaskQueue = new BackgroundTaskQueue();
 
             this.EndPointService = new EndpointService();
 
@@ -146,7 +154,7 @@ namespace VirtualAssistant.Tests
 
         public override IBot BuildBot()
         {
-            return new VirtualAssistant(this.BotServices, this.ConversationState, this.UserState, this.EndPointService, this.TelemetryClient);
+            return new VirtualAssistant(this.BotServices, this.ConversationState, this.UserState, this.ProactiveState, this.EndPointService, this.TelemetryClient, this.BackgroundTaskQueue);
         }
 
         /// <summary>

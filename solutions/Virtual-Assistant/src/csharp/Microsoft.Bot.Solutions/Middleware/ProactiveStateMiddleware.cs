@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -26,24 +27,29 @@ namespace Microsoft.Bot.Solutions.Middleware
 
         public async Task OnTurnAsync(ITurnContext turnContext, NextDelegate next, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var proactiveState = await _proactiveStateAccessor.GetAsync(turnContext, () => new ProactiveModel());
-            ProactiveData data;
-            var userId = turnContext.Activity.From.Id;
-            var conversationReference = turnContext.Activity.GetConversationReference();
-            var proactiveData = new ProactiveData { Conversation = conversationReference };
+            var activity = turnContext.Activity;
 
-            if (proactiveState.TryGetValue(userId, out data))
+            if (activity.From.Properties["role"].ToString().Equals("user", StringComparison.InvariantCultureIgnoreCase))
             {
-                data.Conversation = conversationReference;
-            }
-            else
-            {
-                data = new ProactiveData { Conversation = conversationReference };
-            }
+                var proactiveState = await _proactiveStateAccessor.GetAsync(turnContext, () => new ProactiveModel());
+                ProactiveData data;
+                var userId = turnContext.Activity.From.Id;
+                var conversationReference = turnContext.Activity.GetConversationReference();
+                var proactiveData = new ProactiveData { Conversation = conversationReference };
 
-            proactiveState[userId] = data;
-            await _proactiveStateAccessor.SetAsync(turnContext, proactiveState);
-            await _proactiveState.SaveChangesAsync(turnContext);
+                if (proactiveState.TryGetValue(userId, out data))
+                {
+                    data.Conversation = conversationReference;
+                }
+                else
+                {
+                    data = new ProactiveData { Conversation = conversationReference };
+                }
+
+                proactiveState[userId] = data;
+                await _proactiveStateAccessor.SetAsync(turnContext, proactiveState);
+                await _proactiveState.SaveChangesAsync(turnContext);
+            }
 
             await next(cancellationToken).ConfigureAwait(false);
         }

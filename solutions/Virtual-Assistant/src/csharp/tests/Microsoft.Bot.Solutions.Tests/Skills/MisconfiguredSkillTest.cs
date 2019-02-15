@@ -1,9 +1,6 @@
 ﻿using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Tests.Skills.Utterances;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Solutions.Tests.Skills
@@ -31,7 +28,7 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
             SkillDialogOptions.SkillDefinition = fakeSkillDefinition;
 
             // Add the SkillDialog to the available dialogs passing the initialized FakeSkill
-            Dialogs.Add(new SkillDialog(fakeSkillDefinition, Services, null, TelemetryClient));
+            Dialogs.Add(new SkillDialog(fakeSkillDefinition, Services, null, null, TelemetryClient, null));
         }
 
         /// <summary>

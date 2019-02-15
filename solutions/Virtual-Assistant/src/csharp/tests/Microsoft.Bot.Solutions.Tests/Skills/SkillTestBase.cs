@@ -3,8 +3,10 @@ using Autofac;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Testing;
@@ -15,6 +17,7 @@ using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Sample.Resour
 using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Shared.Resources;
 using Microsoft.Bot.Solutions.Tests.Skills.LuisTestUtils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Utilities.TaskExtensions;
 
 namespace Microsoft.Bot.Solutions.Tests.Skills
 {
@@ -27,9 +30,15 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
 
         public ConversationState ConversationState { get; set; }
 
+        public ProactiveState ProactiveState { get; set; }
+
         public IStatePropertyAccessor<DialogState> DialogState { get; set; }
 
         public IBotTelemetryClient TelemetryClient { get; set; }
+        
+        public IBackgroundTaskQueue BackgroundTaskQueue { get; set; }
+
+        public EndpointService EndpointService { get; set; }
 
         public SkillConfigurationBase Services { get; set; }
 
@@ -47,7 +56,10 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
             ConversationState = new ConversationState(new MemoryStorage());
             DialogState = ConversationState.CreateProperty<DialogState>(nameof(DialogState));
             UserState = new UserState(new MemoryStorage());
+            ProactiveState = new ProactiveState(new MemoryStorage());
             TelemetryClient = new NullBotTelemetryClient();
+            BackgroundTaskQueue = new BackgroundTaskQueue();
+            EndpointService = new EndpointService();
             SkillConfigurations = new Dictionary<string, SkillConfigurationBase>();
 
             // Add the LUIS model fakes used by the Skill
@@ -137,7 +149,7 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
 
         public override IBot BuildBot()
         {
-            return new FakeSkill.FakeSkill(Services, ConversationState, UserState, TelemetryClient, true, ResponseManager, null);
+            return new FakeSkill.FakeSkill(Services, EndpointService, ConversationState, UserState, ProactiveState, TelemetryClient, BackgroundTaskQueue, true, ResponseManager, null);
         }
     }
 }
