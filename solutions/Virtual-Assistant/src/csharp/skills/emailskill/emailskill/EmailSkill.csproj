@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
+    <ProjectReference Include="..\..\..\microsoft.bot.solutions\Microsoft.Bot.Solutions.csproj" />
     <ProjectReference Include="..\..\..\utilities\Utilities.csproj" />
   </ItemGroup>
 
