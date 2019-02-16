@@ -124,11 +124,6 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                     { LuisTelemetryConstants.FromIdProperty, context.Activity.From.Id },
                 };
 
-                if (dialogId != null)
-                {
-                    telemetryProperties.Add(LuisTelemetryConstants.DialogId, dialogId);
-                }
-
                 if (recognizerResult.Properties.TryGetValue("sentiment", out var sentiment) && sentiment is JObject)
                 {
                     if (((JObject)sentiment).TryGetValue("label", out var label))
