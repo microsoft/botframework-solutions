@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\assistant\VirtualAssistant.csproj" />
-    <ProjectReference Include="..\..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
+    <ProjectReference Include="..\..\microsoft.bot.solutions\Microsoft.Bot.Solutions.csproj" />
     <ProjectReference Include="..\..\skills\automotiveskill\automotiveskill\AutomotiveSkill.csproj" />
     <ProjectReference Include="..\..\skills\calendarskill\calendarskill\CalendarSkill.csproj" />
     <ProjectReference Include="..\..\skills\emailskill\emailskill\EmailSkill.csproj" />
