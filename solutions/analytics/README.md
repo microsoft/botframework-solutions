@@ -10,13 +10,13 @@ insights across your organization. You can ingest data from Application Insights
 ## Table of Contents
 - [Prerequisites](#prerequisites)
 - [Configuring LUIS Sentiment](#configuring-sentiment)
-- [Telemetry Configuration](#configuring-telemetry-client)
+- [Telemetry Logging](#telemetry-logging)
 - [Power BI Installation](#power-bi-installation)
 - [Application Insights Analytics](#application-insights-analytics)
 - [Power BI Sample](#power-bi)
 
 ## Prerequisites
-The [Conversational Analytics Power BI sample](ConversationalAnalyticsSample.pbit) is generated 
+The [Conversational Analytics Power BI sample](ConversationalAnalyticsSample_02132019.pbit) is generated 
 under the assumption you are using the latest Bot Framework SDK and telemetry middleware. You can find these (and generate the required Application Insights resource) with the following samples:
 
  - [Enterprise Template](https://github.com/Microsoft/BotBuilder-Samples/tree/master/samples/csharp_dotnetcore/20.qna-with-appinsights)
@@ -38,9 +38,9 @@ Sentiment must be enabled for each application.  To enable sentiment:
 6. **Enable** the *Use sentiment analysis to determine if a user's utterance is positive, negative, or neutral* checkbox.
 7. Select **Publish** and repeat for each LUIS application.
 
-### Telemetry Configuration
+### Telemetry Logging
 
-[Telemetry Configuration](docs/telemetry-configuration) demonstrates how to configure your bot's telemetry, either through bot configuring or overriding the telemetry client.
+[Telemetry Overview](docs/analytics-telemetryoverview) highlights the provided telemetry for bot and user activities, including [LUIS](https://www.luis.ai/) and [QnA Maker](https://www.qnamaker.ai/) results.  how to configure your bot's telemetry, either through bot configuring or overriding the telemetry client.
 
 ### Power BI Installation
 The [PowerBI Desktop client](https://aka.ms/pbidesktopstore) is available for Windows clients.
