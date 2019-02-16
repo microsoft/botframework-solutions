@@ -116,15 +116,6 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "InstructionMessage": {
-    "replies": [
-      {
-        "text": "Alright. If you want to set up a new to do, just ask me to create a new task. You can also ask me to complete or delete a task on your list.",
-        "speak": "Alright. If you want to set up a new to do, just ask me to create a new task. You can also ask me to complete or delete a task on your list."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
   "TaskSummaryMessage": {
     "replies": [
       {
@@ -155,8 +146,8 @@
   "GoBackToStartPromptForSingleTask": {
     "replies": [
       {
-        "text": "This is the last task on your {listType} list. Want to see your first {taskCount} tasks again?",
-        "speak": "This is the last task on your {listType} list. Want to hear your first {taskCount} tasks again?"
+        "text": "This is already the last task on your {listType} list. Want to see your first {taskCount} tasks again?",
+        "speak": "This is already the last task on your {listType} list. Want to hear your first {taskCount} tasks again?"
       }
     ],
     "inputHint": "expectingInput"
@@ -173,8 +164,8 @@
   "GoBackToStartPromptForTasks": {
     "replies": [
       {
-        "text": "These are your last tasks on your {listType} list. Want to see your first {taskCount} tasks again?",
-        "speak": "These are your last tasks on your {listType} list. Want to hear your first {taskCount} tasks again?"
+        "text": "They are already your last tasks on your {listType} list. Want to see your first {taskCount} tasks again?",
+        "speak": "They are already your last tasks on your {listType} list. Want to hear your first {taskCount} tasks again?"
       }
     ],
     "inputHint": "expectingInput"

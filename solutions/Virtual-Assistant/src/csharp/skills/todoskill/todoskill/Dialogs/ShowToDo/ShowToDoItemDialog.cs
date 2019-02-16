@@ -275,7 +275,7 @@ namespace ToDoSkill.Dialogs.ShowToDo
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ShowToDoResponses.InstructionMessage));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ActionEnded));
                     return await sc.CancelAllDialogsAsync();
                 }
             }
