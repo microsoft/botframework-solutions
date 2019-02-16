@@ -124,7 +124,7 @@
     <value>Bitte lesen Sie den Link {0}, um die für Sie erstellten Listen zu sehen.</value>
   </data>
   <data name="EmailSubject" xml:space="preserve">
-    <value>Listen werden für Sie erstellt</value>
+    <value>Eine neue Aufgabenliste für Sie</value>
   </data>
   <data name="Grocery" xml:space="preserve">
     <value>Lebensmittelgeschäft</value>

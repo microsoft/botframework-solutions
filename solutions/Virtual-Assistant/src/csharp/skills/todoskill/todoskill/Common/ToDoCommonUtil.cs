@@ -2,8 +2,6 @@
 {
     public class ToDoCommonUtil
     {
-        public const int MaxDisplaySize = 6;
-
-        public const int MaxReadSize = 3;
+        public const int DefaultDisplaySize = 4;
     }
 }

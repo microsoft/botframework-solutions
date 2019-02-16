@@ -124,7 +124,7 @@
     <value>Please refer to the link {0} to see the lists created for you.</value>
   </data>
   <data name="EmailSubject" xml:space="preserve">
-    <value>Lists are created for you</value>
+    <value>A new task list for you</value>
   </data>
   <data name="Grocery" xml:space="preserve">
     <value>Grocery</value>

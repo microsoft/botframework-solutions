@@ -79,7 +79,7 @@ namespace ToDoSkill.Dialogs.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lists are created for you.
+        ///   Looks up a localized string similar to A new task list for you.
         /// </summary>
         public static string EmailSubject {
             get {

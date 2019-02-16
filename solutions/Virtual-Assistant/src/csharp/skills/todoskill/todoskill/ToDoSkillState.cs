@@ -14,12 +14,10 @@ namespace ToDoSkill
         public ToDoSkillState()
         {
             PageSize = 0;
-            ReadSize = 0;
             Tasks = new List<TaskItem>();
             TaskIndexes = new List<int>();
             MsGraphToken = null;
             ShowTaskPageIndex = 0;
-            ReadTaskIndex = 0;
             AllTasks = new List<TaskItem>();
             DeleteTaskConfirmation = false;
             MarkOrDeleteAllTasksFlag = false;
@@ -54,14 +52,6 @@ namespace ToDoSkill
         public int PageSize { get; set; }
 
         /// <summary>
-        /// Gets or sets ReadSize.
-        /// </summary>
-        /// <value>
-        /// ReadSize.
-        /// </value>
-        public int ReadSize { get; set; }
-
-        /// <summary>
         /// Gets or sets ToDoTaskActivities.
         /// </summary>
         /// <value>
@@ -92,14 +82,6 @@ namespace ToDoSkill
         /// ShowToDoPageIndex.
         /// </value>
         public int ShowTaskPageIndex { get; set; }
-
-        /// <summary>
-        /// Gets or sets ReadTaskIndex.
-        /// </summary>
-        /// <value>
-        /// ReadTaskIndex.
-        /// </value>
-        public int ReadTaskIndex { get; set; }
 
         /// <summary>
         /// Gets or sets ToDoTaskAllActivities.
@@ -291,7 +273,6 @@ namespace ToDoSkill
         public void Clear()
         {
             PageSize = 0;
-            ReadSize = 0;
             Tasks = new List<TaskItem>();
             TaskIndexes = new List<int>();
             MsGraphToken = null;
