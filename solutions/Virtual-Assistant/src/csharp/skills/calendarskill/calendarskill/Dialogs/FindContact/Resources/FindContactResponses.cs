@@ -19,8 +19,6 @@ namespace CalendarSkill.Dialogs.FindContact.Resources
 		public const string ConfirmMultiplContactEmailMultiPage = "ConfirmMultiplContactEmailMultiPage";
 		public const string UserNotFound = "UserNotFound";
 		public const string UserNotFoundAgain = "UserNotFoundAgain";
-		public const string EmailWelcomeMessage = "EmailWelcomeMessage";
-		public const string CalendarWelcomeMessage = "CalendarWelcomeMessage";
 		public const string BeforeSendingMessage = "BeforeSendingMessage";
 		public const string AlreadyFirstPage = "AlreadyFirstPage";
 		public const string AlreadyLastPage = "AlreadyLastPage";
