@@ -5,11 +5,11 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
 {
     public static class TelemetryConstants
     {
-        public const string ActiveDialogIdProperty = "activeDialogId";
         public const string ActivityIDProperty = "activityId";
         public const string ChannelIdProperty = "channelId";
         public const string ConversationIdProperty = "conversationId";
         public const string ConversationNameProperty = "conversationName";
+        public const string DialogIdProperty = "DialogId";
         public const string FromIdProperty = "fromId";
         public const string FromNameProperty = "fromName";
         public const string LocaleProperty = "locale";
