@@ -26,8 +26,6 @@ namespace Microsoft.Bot.Solutions.Middleware
 
             CultureInfo.CurrentUICulture = CultureInfo.CurrentCulture = cultureInfo;
 
-            context.Activity.Locale = cultureInfo.Name;
-
             await next(cancellationToken).ConfigureAwait(false);
         }
     }
