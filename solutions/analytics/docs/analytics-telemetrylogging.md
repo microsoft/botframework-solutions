@@ -163,7 +163,7 @@ Property |Value
 `customDimensions.activityId` | [From Telemetry Initializer](#initializer)
 `customDimensions.activityType` | [From Telemetry Initializer](#initializer)
 `customDimensions.channelId` | [From Telemetry Initializer](#initializer)
-`customDimensions.activeDialogId` | ActiveDialog.Id
+`customDimensions.DialogId` | ActiveDialog.Id
 `customDImensions.fromId` | [From.Id](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#from)
 `customDimensions.question` | [Text](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#text)
 `customDImensions.applicationId` | LUIS application Id
