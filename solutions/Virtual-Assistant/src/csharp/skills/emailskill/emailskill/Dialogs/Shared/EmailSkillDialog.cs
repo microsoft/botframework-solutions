@@ -685,36 +685,47 @@ namespace EmailSkill.Dialogs.Shared
                 var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
 
                 var messages = state.MessageList;
-                var searchSender = state.SenderName?.ToLowerInvariant();
-                var searchSubject = state.SearchTexts?.ToLowerInvariant();
-                var searchUserInput = userInput?.ToLowerInvariant();
 
-                // Get display messages
-                var displayMessages = new List<Message>();
-                for (int i = 0; i < messages.Count(); i++)
+                if (((state.LuisResult.Entities.ordinal != null) && (state.LuisResult.Entities.ordinal.Count() > 0))
+                    || ((state.LuisResult.Entities.number != null) && (state.LuisResult.Entities.number.Count() > 0)))
                 {
-                    var messageSender = messages[i].Sender?.EmailAddress?.Name?.ToLowerInvariant();
-                    var messageSubject = messages[i].Subject?.ToLowerInvariant();
-
-                    if (messageSender != null
-                        && (((searchSender != null) && messageSender.Contains(searchSender))
-                        || ((searchUserInput != null) && messageSender.Contains(searchUserInput))))
+                    // Search by ordinal and number
+                    if (state.MessageList.Count > state.UserSelectIndex)
                     {
-                        displayMessages.Add(messages[i]);
-                    }
-                    else if (messageSubject != null
-                        && (((searchSubject != null) && messageSubject.Contains(searchSubject))
-                        || ((searchUserInput != null) && messageSubject.Contains(searchUserInput))))
-                    {
-                        displayMessages.Add(messages[i]);
+                        state.Message.Clear();
+                        state.Message.Add(state.MessageList[state.UserSelectIndex]);
                     }
                 }
-
-                state.MessageList = displayMessages;
-                if (state.MessageList.Count > 0)
+                else
                 {
+                    // Search by condition
+                    var searchSender = state.SenderName?.ToLowerInvariant();
+                    var searchSubject = state.SearchTexts?.ToLowerInvariant();
+                    var searchUserInput = userInput?.ToLowerInvariant();
+
+                    // Get display messages
+                    var displayMessages = new List<Message>();
+                    for (int i = 0; i < messages.Count(); i++)
+                    {
+                        var messageSender = messages[i].Sender?.EmailAddress?.Name?.ToLowerInvariant();
+                        var messageSubject = messages[i].Subject?.ToLowerInvariant();
+
+                        if (messageSender != null
+                            && (((searchSender != null) && messageSender.Contains(searchSender))
+                            || ((searchUserInput != null) && messageSender.Contains(searchUserInput))))
+                        {
+                            displayMessages.Add(messages[i]);
+                        }
+                        else if (messageSubject != null
+                            && (((searchSubject != null) && messageSubject.Contains(searchSubject))
+                            || ((searchUserInput != null) && messageSubject.Contains(searchUserInput))))
+                        {
+                            displayMessages.Add(messages[i]);
+                        }
+                    }
+
+                    state.MessageList = displayMessages;
                     state.Message.Clear();
-                    state.Message.Add(state.MessageList[0]);
                 }
 
                 return await sc.NextAsync();
@@ -976,6 +987,7 @@ namespace EmailSkill.Dialogs.Shared
                 }
             }
 
+            int maxPage = (totalCount / ConfigData.GetInstance().MaxDisplaySize) + (totalCount % ConfigData.GetInstance().MaxDisplaySize > 0 ? 1 : 0) - 1;
             if (state.ShowEmailIndex < 0)
             {
                 var pagingInfo = ResponseManager.GetResponse(EmailSharedResponses.FirstPageAlready);
@@ -983,7 +995,7 @@ namespace EmailSkill.Dialogs.Shared
                 reply.Speak = pagingInfo.Speak + reply.Speak;
                 state.ShowEmailIndex = 0;
             }
-            else if (state.ShowEmailIndex * ConfigData.GetInstance().MaxDisplaySize > totalCount)
+            else if (state.ShowEmailIndex > maxPage)
             {
                 var pagingInfo = ResponseManager.GetResponse(EmailSharedResponses.LastPageAlready);
                 reply.Text = pagingInfo.Text + reply.Text;
@@ -1169,6 +1181,7 @@ namespace EmailSkill.Dialogs.Shared
                     {
                         case EmailLU.Intent.CheckMessages:
                         case EmailLU.Intent.SearchMessages:
+                        case EmailLU.Intent.ReadAloud:
                             {
                                 // Get email search type
                                 if (dc.Context.Activity.Text != null)
@@ -1206,12 +1219,12 @@ namespace EmailSkill.Dialogs.Shared
                                     }
                                 }
 
-                                if (entity.EmailAddress != null)
+                                if (entity.email != null)
                                 {
                                     // As luis result for email address often contains extra spaces for word breaking
                                     // (e.g. send email to test@test.com, email address entity will be test @ test . com)
                                     // So use original user input as email address.
-                                    var rawEntity = luisResult.Entities._instance.EmailAddress;
+                                    var rawEntity = luisResult.Entities._instance.email;
                                     foreach (var emailAddress in rawEntity)
                                     {
                                         var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
@@ -1222,15 +1235,26 @@ namespace EmailSkill.Dialogs.Shared
                                     }
                                 }
 
-                                if (entity.SenderName != null)
+                                if (entity.SenderNamePattern != null)
+                                {
+                                    state.SenderName = entity.SenderNamePattern[0];
+                                }
+                                else if (entity.SenderName != null)
                                 {
                                     state.SenderName = entity.SenderName[0];
-                                    state.IsUnreadOnly = false;
                                 }
 
-                                if (entity.SearchTexts != null)
+                                if (entity.EmailSubjectPattern != null)
+                                {
+                                    state.SearchTexts = entity.EmailSubjectPattern[0];
+                                }
+                                else if (entity.SearchTexts != null)
                                 {
                                     state.SearchTexts = entity.SearchTexts[0];
+                                }
+                                else if (entity.EmailSubject != null)
+                                {
+                                    state.SearchTexts = entity.EmailSubject[0];
                                 }
 
                                 break;
@@ -1261,12 +1285,12 @@ namespace EmailSkill.Dialogs.Shared
                                     }
                                 }
 
-                                if (entity.EmailAddress != null)
+                                if (entity.email != null)
                                 {
                                     // As luis result for email address often contains extra spaces for word breaking
                                     // (e.g. send email to test@test.com, email address entity will be test @ test . com)
                                     // So use original user input as email address.
-                                    var rawEntity = luisResult.Entities._instance.EmailAddress;
+                                    var rawEntity = luisResult.Entities._instance.email;
                                     foreach (var emailAddress in rawEntity)
                                     {
                                         var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
@@ -1280,7 +1304,6 @@ namespace EmailSkill.Dialogs.Shared
                                 if (entity.SenderName != null)
                                 {
                                     state.SenderName = entity.SenderName[0];
-                                    state.IsUnreadOnly = false;
 
                                     // Clear focus email if there is any.
                                     state.Message.Clear();
