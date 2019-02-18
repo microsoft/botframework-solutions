@@ -7,6 +7,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using ToDoSkill.Dialogs.AddToDo.Resources;
@@ -17,6 +20,7 @@ using ToDoSkill.Dialogs.MarkToDo.Resources;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Dialogs.ShowToDo.Resources;
 using ToDoSkill.ServiceClients;
+using Utilities.TaskExtensions;
 
 namespace ToDoSkill
 {
@@ -36,9 +40,12 @@ namespace ToDoSkill
 
         public ToDoSkill(
             SkillConfigurationBase services,
+            EndpointService endpointService,
             ConversationState conversationState,
             UserState userState,
+            ProactiveState proactiveState,
             IBotTelemetryClient telemetryClient,
+            IBackgroundTaskQueue backgroundTaskQueue,
             bool skillMode = false,
             ResponseManager responseManager = null,
             IServiceManager serviceManager = null)
@@ -78,6 +85,8 @@ namespace ToDoSkill
         /// <returns>A <see cref="TaskItem"/> representing the asynchronous operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
+            turnContext.TurnState.Add(TelemetryLoggerMiddleware.AppInsightsServiceKey, _telemetryClient);
+
             var dc = await _dialogs.CreateContextAsync(turnContext);
 
             if (dc.ActiveDialog != null)

@@ -25,18 +25,18 @@
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="1.0.0" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Connector" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.2.2" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
     <PackageReference Include="Microsoft.Graph" Version="1.12.0" />
@@ -98,11 +98,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
+    <ProjectReference Include="..\microsoft.bot.solutions\Microsoft.Bot.Solutions.csproj" />
     <ProjectReference Include="..\skills\calendarskill\calendarskill\CalendarSkill.csproj" />
     <ProjectReference Include="..\skills\emailskill\emailskill\EmailSkill.csproj" />
     <ProjectReference Include="..\skills\pointofinterestskill\pointofinterestskill\PointOfInterestSkill.csproj" />
     <ProjectReference Include="..\skills\todoskill\todoskill\ToDoSkill.csproj" />
+    <ProjectReference Include="..\utilities\Utilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>

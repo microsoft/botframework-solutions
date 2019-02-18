@@ -78,4 +78,27 @@ Add the middleware to Startup.cs:
         }
 ```
 
+## No Intro Card when no locale setting
+
+There is a known issue in the Virtual Assistant when the bot doesn't pass a Locale setting at the beginning of the conversation, the Intro Card won't show up. This is due to a design flaw in the current channel protocol. The StartConversation call doesn't accept Locale as a parameter. 
+
+When you're testing in Bot Emulator, you can get around this issue by setting the Locale in Emulator Settings. Emulator will pass the locale setting to the bot as the first ConversationUpdate call.
+
+When you're testing in other environments, if it's something that you own the code, make sure you send an additional activity to the bot between the StartConversation call, and the user sends the first message:
+
+```
+    directLine.postActivity({
+      from   : { id: userID, name: "User", role: "user"},
+      name   : 'startConversation',
+      type   : 'event',
+      locale : this.props.locale,
+      value  : ''
+    })
+    .subscribe(function (id) {
+      console.log('trigger "conversationUpdate" sent');
+    });
+```
+
+When you're testing in an environment you don't own the code for, chances are you won't be able to see the Intro Card. Because of the current design flaw in channel protocol, we made this tradeoff so that we don't show an Intro Card with a default culture that doesn't match your actual locale. Once the StartConversation supports passing in metadata such as Locale, we will make the change immediately to support properly localized Intro Card.
+
 Our backlog is fully accessible within the [GitHub repo](https://github.com/Microsoft/AI/)

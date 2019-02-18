@@ -1,5 +1,3 @@
-const snakeCase = require('lodash').snakeCase;
-
 const TEST_MODE = 'lockdown';
 
 const nockBack = require('nock').back;
@@ -41,7 +39,7 @@ const afterRecordNock = function (scopes) {
 }
 
 const resolveWithMocks = function (testName, done, testFlow) {
-    nockBack(snakeCase(testName) + '.json', { before: beforeNock, afterRecord: afterRecordNock }, function (nockDone) {
+    nockBack(testName + '.json', { before: beforeNock, afterRecord: afterRecordNock }, function (nockDone) {
         testFlow
             .then(function () {
                 nockDone();

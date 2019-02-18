@@ -168,4 +168,7 @@
   <data name="AdjustTime" xml:space="preserve">
     <value>(调整|修改|更新|换一个|换|改)?.*时间</value>
   </data>
+  <data name="Empty" xml:space="preserve">
+    <value>空</value>
+  </data>
 </root>

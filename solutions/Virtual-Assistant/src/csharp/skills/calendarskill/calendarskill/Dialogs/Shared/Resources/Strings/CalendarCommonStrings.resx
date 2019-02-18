@@ -168,4 +168,7 @@
   <data name="NoAttendees" xml:space="preserve">
     <value>no attendees</value>
   </data>
+  <data name="Empty" xml:space="preserve">
+    <value>empty</value>
+  </data>
 </root>

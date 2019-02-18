@@ -32,7 +32,7 @@ describe("The generator-botbuilder-enterprise tests", function() {
   const rootFiles = [
     ".env.development",
     ".env.production",
-    "gitignore",
+    ".gitignore",
     "README.md",
     "tsconfig.json",
     "deploymentScripts/webConfigPrep.js",
@@ -43,9 +43,10 @@ describe("The generator-botbuilder-enterprise tests", function() {
     ".env.test",
     "mocha.opts",
     "mockedConfiguration.bot",
-    "testBase.js"
-  ]
-  
+    "testBase.js",
+    "flow/botTestBase.js"
+  ];
+
   describe("should create", function() {
     botName = "myBot";
     botDesc = "A description for myBot";

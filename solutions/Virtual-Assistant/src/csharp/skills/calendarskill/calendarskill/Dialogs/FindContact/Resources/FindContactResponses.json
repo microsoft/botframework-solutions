@@ -62,24 +62,6 @@
     ],
     "inputHint": "expectingInput"
   },
-  "EmailWelcomeMessage": {
-    "replies": [
-      {
-        "text": "Sure, who¡¯s the event going to?",
-        "speak": "Sure, who¡¯s the event going to?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "CalendarWelcomeMessage": {
-    "replies": [
-      {
-        "text": "Sure, who will join?",
-        "speak": "Sure, who will join?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
   "BeforeSendingMessage": {
     "replies": [
       {

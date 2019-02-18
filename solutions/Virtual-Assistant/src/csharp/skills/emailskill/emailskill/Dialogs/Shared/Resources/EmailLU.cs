@@ -15,7 +15,8 @@ namespace Luis
         public string Text;
         public string AlteredText;
         public enum Intent {
-            AddFlag, 
+            AddFlag,
+            AddMore, 
             CheckMessages, 
             Delete, 
             Forward, 
@@ -24,7 +25,6 @@ namespace Luis
             ReadAloud, 
             Reply, 
             SearchMessages, 
-            SelectItem, 
             SendEmail
         };
         public Dictionary<Intent, IntentScore> Intents;
@@ -39,7 +39,6 @@ namespace Luis
             public string[] RelationshipName;
             public string[] Attachment;
             public string[] Message;
-            public string[] EmailAddress;
             public string[] Time;
             public string[] Date;
             public string[] PositionReference;
@@ -48,11 +47,14 @@ namespace Luis
             public string[] Category;
             public string[] SearchTexts;
             public string[] EmailSubject;
+            public string[] EmailSubjectPattern;
+            public string[] SenderNamePattern;
 
             // Built-in entities
             public DateTimeSpec[] datetime;
             public double[] number;
             public double[] ordinal;
+            public string[] email;
 
             // Instance
             public class _Instance
@@ -64,7 +66,6 @@ namespace Luis
                 public InstanceData[] RelationshipName;
                 public InstanceData[] Attachment;
                 public InstanceData[] Message;
-                public InstanceData[] EmailAddress;
                 public InstanceData[] Time;
                 public InstanceData[] Date;
                 public InstanceData[] PositionReference;
@@ -74,8 +75,11 @@ namespace Luis
                 public InstanceData[] SearchTexts;
                 public InstanceData[] EmailSubject;
                 public InstanceData[] datetime;
+                public InstanceData[] EmailSubjectPattern;
+                public InstanceData[] SenderNamePattern;
                 public InstanceData[] number;
                 public InstanceData[] ordinal;
+                public InstanceData[] email;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
