@@ -61,7 +61,7 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (adjust|change|update).*(content|body|detail|details).
+        ///   Looks up a localized string similar to (adjust|change|update)?.*(content|body|detail|details).
         /// </summary>
         public static string AdjustContent {
             get {
@@ -70,7 +70,7 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (adjust|change|update).*(duration|length).
+        ///   Looks up a localized string similar to (adjust|change|update)?.*(duration|length).
         /// </summary>
         public static string AdjustDuration {
             get {
@@ -79,7 +79,7 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (adjust|change|update).*(location|place|where).
+        ///   Looks up a localized string similar to (adjust|change|update)?.*(location|place|where).
         /// </summary>
         public static string AdjustLocation {
             get {
@@ -88,7 +88,7 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (adjust|change|update|add|delete).*(participants|attendee|attendees|people|person).
+        ///   Looks up a localized string similar to (adjust|change|update|add|delete)?.*(participants|attendee|attendees|people|person).
         /// </summary>
         public static string AdjustParticipants {
             get {
@@ -97,7 +97,7 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (adjust|change|update).*(subject|title).
+        ///   Looks up a localized string similar to (adjust|change|update)?.*(subject|title).
         /// </summary>
         public static string AdjustSubject {
             get {
@@ -106,7 +106,7 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (adjust|change|update).*time.
+        ///   Looks up a localized string similar to (adjust|change|update)?.*time.
         /// </summary>
         public static string AdjustTime {
             get {
