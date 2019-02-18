@@ -237,7 +237,7 @@ namespace PointOfInterestSkill.Dialogs.Main
                         var activeLocation = state.LastFoundPointOfInterests?.FirstOrDefault(x => x.Name.Contains(activeLocationName, StringComparison.InvariantCultureIgnoreCase));
                         if (activeLocation != null)
                         {
-                            state.ActiveLocation = activeLocation;
+                            state.Destination = activeLocation;
                             state.LastFoundPointOfInterests = null;
                         }
 
