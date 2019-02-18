@@ -3,10 +3,44 @@
 [Navigation Route From X To Y](./poi_navigation_route_fromxtoy.lu)
 [Navigation Find Parking](./poi_navigation_find_parking.lu)
 
-# None
-- my water bottle is green
-- turtles like to swim in the ocean
-- paper planes in the sky
+## None
+- are you married
+- do you have any kids
+- find
+- find ssssss
+- get
+- how long do cats live
+- how old are you
+- is my dog sick
+- is there an animal larger than the elephant
+- my plants are dying
+- remember to buy milk
+- should i call a {KEYWORD=doctor}
+- should i upgrade my phone
+- what kind of dinosaur has blue tooth
+- whats my latest purchase
+- whats the loudest noise you can think of
+- whats your favorite thing to drinkh
+- when will it rain
+- add to list
+- remind me
+- task completed
+- mark that as finished
+- read that message out
+- send a message
+- send an email
+- forward this
+- accept that event
+- find a meeting room
+- find a room
+- who will be in the meeting
+- show me the attendees
+- hi
+- greetings
+- who won the superbowl
+- whats the weather in boston
+- whats the weather in los angeles
+
 
 > # Entity definitions
 
@@ -31,24 +65,6 @@ $address_state:phraseList
 
 > # List entities
 
-$COMMON_LOCATION:office=
-- work
-
-$COMMON_LOCATION:home=
-- house
-- residence
-- abode
-- pad
-- dwelling
-
-$COMMON_LOCATION:destination=
-
-$COMMON_LOCATION:here=
-- in my vicinity
-- in my surrounding area
-
-
-
 $ROUTE_TYPE:eco=
 - economy
 - standard
@@ -64,6 +80,3 @@ $ROUTE_TYPE:fastest=
 - high-speed
 
 $ROUTE_TYPE:shortest=
-
-
-
