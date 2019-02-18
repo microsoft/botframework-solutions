@@ -52,7 +52,7 @@ const getTestAdapter = function () {
         i18n.setLocale(context.activity.locale || 'en');
         return bot.onTurn(context);
     })
-    .use(new AutoSaveStateMiddleware(bot.CONVERSATION_STATE, bot.USER_STATE));
+    .use(new AutoSaveStateMiddleware(bot.conversationState, bot.userState));
 }
 
 module.exports = {

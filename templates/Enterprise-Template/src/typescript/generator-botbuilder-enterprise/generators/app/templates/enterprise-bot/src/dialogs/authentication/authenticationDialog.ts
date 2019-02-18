@@ -15,15 +15,14 @@ import { GraphClient } from '../../serviceClients/graphClient';
 import { AuthenticationResponses } from './authenticationResponses';
 
 export class AuthenticationDialog extends ComponentDialog {
-    private static readonly RESPONDER: AuthenticationResponses = new AuthenticationResponses() ;
-    private readonly DIALOG_IDS: DialogIds = new DialogIds();
+    private static readonly responder: AuthenticationResponses = new AuthenticationResponses() ;
     // Fields
-    private CONNECTION_NAME: string;
+    private connectionName: string;
 
     constructor(connectionName: string) {
         super(AuthenticationDialog.name);
         this.initialDialogId = AuthenticationDialog.name;
-        this.CONNECTION_NAME = connectionName;
+        this.connectionName = connectionName;
 
         // tslint:disable-next-line:no-any
         const authenticate: ((sc: WaterfallStepContext<{}>) => Promise<DialogTurnResult<any>>)[] = [
@@ -32,15 +31,15 @@ export class AuthenticationDialog extends ComponentDialog {
         ];
 
         this.addDialog(new WaterfallDialog(this.initialDialogId, authenticate));
-        this.addDialog(new OAuthPrompt(this.DIALOG_IDS.LOGIN_PROMPT, {
-            connectionName: this.CONNECTION_NAME,
+        this.addDialog(new OAuthPrompt(DialogIds.LoginPrompt, {
+            connectionName: this.connectionName,
             text: i18n.__('authentication.prompt'),
             title: i18n.__('authentication.title')
         }));
     }
 
     private prompToLogin(sc: WaterfallStepContext): Promise<DialogTurnResult> {
-        return sc.prompt(AuthenticationResponses.RESPONSE_IDS.LoginPrompt, {});
+        return sc.prompt(AuthenticationResponses.responseIds.LoginPrompt, {});
     }
 
     private async finishLoginhDialog(sc: WaterfallStepContext): Promise<DialogTurnResult> {
@@ -50,9 +49,9 @@ export class AuthenticationDialog extends ComponentDialog {
 
             if (tokenResponse.token) {
                 const user: User = await this.getProfile(sc.context, tokenResponse);
-                await AuthenticationDialog.RESPONDER.replyWith(
+                await AuthenticationDialog.responder.replyWith(
                     sc.context,
-                    AuthenticationResponses.RESPONSE_IDS.SucceededMessage,
+                    AuthenticationResponses.responseIds.SucceededMessage,
                     {
                         name: user.displayName
                     }
@@ -62,7 +61,7 @@ export class AuthenticationDialog extends ComponentDialog {
             }
 
         } else {
-            await AuthenticationDialog.RESPONDER.replyWith(sc.context, AuthenticationResponses.RESPONSE_IDS.FailedMessage);
+            await AuthenticationDialog.responder.replyWith(sc.context, AuthenticationResponses.responseIds.FailedMessage);
         }
 
         return sc.endDialog();
@@ -76,6 +75,6 @@ export class AuthenticationDialog extends ComponentDialog {
     }
 }
 
-class DialogIds {
-    public LOGIN_PROMPT : string =  'loginPrompt';
+enum DialogIds {
+    LoginPrompt =  'loginPrompt'
 }

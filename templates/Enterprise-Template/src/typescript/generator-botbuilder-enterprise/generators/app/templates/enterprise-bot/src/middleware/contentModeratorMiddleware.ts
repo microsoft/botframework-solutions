@@ -13,12 +13,12 @@ export class ContentModeratorMiddleware implements Middleware {
     /**
      * Key for Text Moderator result in Bot Context dictionary.
      */
-    public static readonly SERVICE_NAME: string = 'ContentModerator';
+    public static readonly serviceName: string = 'ContentModerator';
 
     /**
      * Key for Text Moderator result in Bot Context dictionary.
      */
-    public static readonly TEXT_MODERATOR_RESULT_KEY: string = 'TextModeratorResult';
+    public static readonly textModeratorResultKey: string = 'TextModeratorResult';
     /**
      * Content Moderator service key.
      */
@@ -30,7 +30,7 @@ export class ContentModeratorMiddleware implements Middleware {
     /**
      * Key for Text Moderator result in Bot Context dictionary.
      */
-    private readonly CM_CLIENT: ContentModeratorClient;
+    private readonly contentModeratorClient: ContentModeratorClient;
 
     /**
      * Initializes a new instance of the ContentModeratorMiddleware class.
@@ -38,7 +38,7 @@ export class ContentModeratorMiddleware implements Middleware {
      * @param region Azure Service Region.
      */
     constructor(subscriptionKey: string, region: string) {
-        this.CM_CLIENT = new ContentModeratorClient(
+        this.contentModeratorClient = new ContentModeratorClient(
             new CognitiveServicesCredentials(subscriptionKey),
             `https://${region}.api.cognitive.microsoft.com`
             );
@@ -56,7 +56,7 @@ export class ContentModeratorMiddleware implements Middleware {
             const content: Readable = new Readable();
             content.push(context.activity.text);
             content.push(undefined);
-            const screenResult: ContentModeratorModels.Screen = await this.CM_CLIENT.textModeration.screenText(
+            const screenResult: ContentModeratorModels.Screen = await this.contentModeratorClient.textModeration.screenText(
                 'text/plain',
                 content, {
                     language: 'eng',
@@ -64,7 +64,7 @@ export class ContentModeratorMiddleware implements Middleware {
                     pII: true,
                     classify: true
                 });
-            context.turnState.set(ContentModeratorMiddleware.TEXT_MODERATOR_RESULT_KEY, screenResult);
+            context.turnState.set(ContentModeratorMiddleware.textModeratorResultKey, screenResult);
         }
 
         await next();
