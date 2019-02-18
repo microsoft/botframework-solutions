@@ -13,6 +13,7 @@ using CalendarSkill.Dialogs.FindContact;
 using CalendarSkill.Dialogs.FindContact.Resources;
 using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Shared.Resources;
+using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
 using Luis;
@@ -380,9 +381,9 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     { "Date", startDateTimeInUserTimeZone.ToSpeechDateString(true) },
                     { "Time", startDateTimeInUserTimeZone.ToSpeechTimeString(true) },
                     { "EndTime", endDateTimeInUserTimeZone.ToSpeechTimeString(true) },
-                    { "Subject", state.Title },
-                    { "Location", state.Location },
-                    { "Content", state.Content },
+                    { "Subject", string.IsNullOrEmpty(state.Title) ? CalendarCommonStrings.Empty : state.Title },
+                    { "Location", string.IsNullOrEmpty(state.Location) ? CalendarCommonStrings.Empty : state.Location },
+                    { "Content", string.IsNullOrEmpty(state.Content) ? CalendarCommonStrings.Empty : state.Content },
                 };
 
                 var card = new Card()

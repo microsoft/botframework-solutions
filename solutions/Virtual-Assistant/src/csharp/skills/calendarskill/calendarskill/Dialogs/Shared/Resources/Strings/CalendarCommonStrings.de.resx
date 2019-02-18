@@ -117,34 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AllDay" xml:space="preserve">
-    <value>Ganztägig</value>
-  </data>
-  <data name="NoAttendees" xml:space="preserve">
-    <value>Keine Teilnehmer</value>
-  </data>
-  <data name="DailyToken" xml:space="preserve">
-    <value>Täglich</value>
-  </data>
-  <data name="Today" xml:space="preserve">
-    <value>Heute</value>
-  </data>
   <data name="AttendeesSummary" xml:space="preserve">
     <value>{0} und {1} mehr</value>
   </data>
-  <data name="WeeklyToken" xml:space="preserve">
-    <value>Wöchentliche</value>
+  <data name="AllDayLower" xml:space="preserve">
+    <value>Ganztägig</value>
   </data>
-  <data name="WithTheSubject" xml:space="preserve">
-    <value>Mit einem Subjekt von {0}</value>
+  <data name="AllDay" xml:space="preserve">
+    <value>Ganztägig</value>
   </data>
   <data name="AtTime" xml:space="preserve">
     <value>at {0}</value>
   </data>
+  <data name="CancelAdjust" xml:space="preserve">
+    <value>^ (no | abbrechen/nop/nicht/nicht)</value>
+  </data>
+  <data name="NoAttendees" xml:space="preserve">
+    <value>Keine Teilnehmer</value>
+  </data>
+  <data name="WeeklyToken" xml:space="preserve">
+    <value>Wöchentliche</value>
+  </data>
+  <data name="Empty" xml:space="preserve">
+    <value>Leer</value>
+  </data>
+  <data name="WithTheSubject" xml:space="preserve">
+    <value>Mit einem Subjekt von {0}</value>
+  </data>
+  <data name="DailyToken" xml:space="preserve">
+    <value>Täglich</value>
+  </data>
   <data name="MonthlyToken" xml:space="preserve">
     <value>Monatliche</value>
   </data>
-  <data name="AllDayLower" xml:space="preserve">
-    <value>Ganztägig</value>
+  <data name="Today" xml:space="preserve">
+    <value>Heute</value>
   </data>
 </root>

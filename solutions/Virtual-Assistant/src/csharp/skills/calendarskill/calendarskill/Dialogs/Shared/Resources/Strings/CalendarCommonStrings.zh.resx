@@ -150,4 +150,7 @@
   <data name="NoAttendees" xml:space="preserve">
     <value>无与会人</value>
   </data>
+  <data name="Empty" xml:space="preserve">
+    <value>空</value>
+  </data>
 </root>
