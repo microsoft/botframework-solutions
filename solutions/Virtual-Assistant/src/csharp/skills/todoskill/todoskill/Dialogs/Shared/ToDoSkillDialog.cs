@@ -981,7 +981,7 @@ namespace ToDoSkill.Dialogs.Shared
                         }
 
                         var taskWebLink = await taskServiceInit.GetTaskWebLink();
-                        var emailContent = string.Format(ToDoStrings.EmailContent, taskWebLink);
+                        var emailContent = string.Format(ToDoStrings.EmailContent, taskWebLink, taskWebLink);
                         await emailService.SendMessageAsync(emailContent, ToDoStrings.EmailSubject);
                     }
 
