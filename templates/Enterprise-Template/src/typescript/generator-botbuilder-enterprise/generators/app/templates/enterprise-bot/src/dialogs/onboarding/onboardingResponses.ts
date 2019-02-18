@@ -12,7 +12,7 @@ import { TemplateManager } from '../templateManager/templateManager';
 export class OnboardingResponses extends TemplateManager {
 
    // Fields
-   public static RESPONSE_IDS: {
+   public static responseIds: {
     EmailPrompt: string;
     HaveEmailMessage: string;
     HaveNameMessage: string;
@@ -28,25 +28,25 @@ export class OnboardingResponses extends TemplateManager {
         NamePrompt: 'namePrompt'
     };
 
-    private static readonly RESPONSE_TEMPLATES: LanguageTemplateDictionary = new Map([
+    private static readonly responseTemplates: LanguageTemplateDictionary = new Map([
         ['default', new Map([
-            [OnboardingResponses.RESPONSE_IDS.NamePrompt, OnboardingResponses.fromResources('onBoarding.namePrompt')],
+            [OnboardingResponses.responseIds.NamePrompt, OnboardingResponses.fromResources('onBoarding.namePrompt')],
             // tslint:disable-next-line:no-any
-            [OnboardingResponses.RESPONSE_IDS.HaveNameMessage, async (context: TurnContext, data: any): Promise<string> => {
+            [OnboardingResponses.responseIds.HaveNameMessage, async (context: TurnContext, data: any): Promise<string> => {
                 const value: string = i18n.__('onBoarding.haveName');
 
                 return value.replace('{0}', data.name);
             }],
-            [OnboardingResponses.RESPONSE_IDS.EmailPrompt, OnboardingResponses.fromResources('onBoarding.emailPrompt')],
+            [OnboardingResponses.responseIds.EmailPrompt, OnboardingResponses.fromResources('onBoarding.emailPrompt')],
             // tslint:disable-next-line:no-any
-            [OnboardingResponses.RESPONSE_IDS.HaveEmailMessage, async (context: TurnContext, data: any): Promise<string> => {
+            [OnboardingResponses.responseIds.HaveEmailMessage, async (context: TurnContext, data: any): Promise<string> => {
                 const value: string = i18n.__('onBoarding.haveEmail');
 
                 return value.replace('{0}', data.email);
             }],
-            [OnboardingResponses.RESPONSE_IDS.LocationPrompt, OnboardingResponses.fromResources('onBoarding.locationPrompt')],
+            [OnboardingResponses.responseIds.LocationPrompt, OnboardingResponses.fromResources('onBoarding.locationPrompt')],
             // tslint:disable-next-line:no-any
-            [OnboardingResponses.RESPONSE_IDS.HaveLocationMessage, async (context: TurnContext, data: any): Promise<string> => {
+            [OnboardingResponses.responseIds.HaveLocationMessage, async (context: TurnContext, data: any): Promise<string> => {
                 const value: string = i18n.__('onBoarding.haveLocation');
 
                 return value.replace('{0}', data.name)
@@ -57,7 +57,7 @@ export class OnboardingResponses extends TemplateManager {
 
     constructor() {
         super();
-        this.register(new DictionaryRenderer(OnboardingResponses.RESPONSE_TEMPLATES));
+        this.register(new DictionaryRenderer(OnboardingResponses.responseTemplates));
     }
 
     private static fromResources(name: string): TemplateFunction {
