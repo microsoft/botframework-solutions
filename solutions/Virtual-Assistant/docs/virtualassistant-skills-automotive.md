@@ -61,7 +61,7 @@ An example transcript file demonstrating the Skill in action can be found [here]
     "id": "automotiveSkill",
     "name": "automotiveSkill",
     "assembly": "AutomotiveSkill.AutomotiveSkill, AutomotiveSkill, Version=1.0.0.0, Culture=neutral",
-    "dispatchIntent": "l_automotive",
+    "dispatchIntent": "l_Automotive",
     "supportedProviders": [],
     "luisServiceIds": [
       "settings",
