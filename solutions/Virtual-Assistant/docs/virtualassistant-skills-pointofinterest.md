@@ -10,6 +10,10 @@ The following scenarios are currently supported by the Skill:
     - What's the fastest way to get to 221B Baker Street?
     - How do I get to the grocery store?
     - I need directions to a cafe
+- NAVIGATION_FIND_PARKING
+    - Find parking near the doctor's office
+    - Where's the nearest parking garage?
+    - Parking lot by the airport
 - NAVIGATION_FIND_POINTOFINTEREST
     - What's nearby?
     - Are there any pharmacies in town?
@@ -80,13 +84,15 @@ The following Top Level intents are available:
 
 - NAVIGATION_ROUTE_FROM_X_TO_Y
 - NAVIGATION_FIND_POINTOFINTEREST
+- NAVIGATION_FIND_PARKING
 - NAVIGATION_CANCEL_ROUTE
 
 The following entities are provided:
 
 - ADDRESS
 - KEYWORDS
-- DESCRIPTOR
+- ROUTE_TYPE
+- number
 
 ## Event Responses
 
