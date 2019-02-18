@@ -1,3 +1,4 @@
+using AutomotiveSkill.Models;
 using AutomotiveSkillTest.Flow;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -21,7 +22,16 @@ namespace AutomotiveSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("set temperature to 21 degrees")                
-                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckForSettingEvent(new SettingChange()
+                {
+                    SettingName = "Temperature",
+                    Value = "Set",
+                    Amount = new SettingAmount()
+                    {
+                        Amount = 21,
+                        Unit = "°",
+                    },
+                }))
                 .AssertReply(this.CheckReply("Setting Temperature to 21°."))
                 .StartTestAsync();
         }
@@ -31,7 +41,16 @@ namespace AutomotiveSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("increase temperature by 2")
-                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckForSettingEvent(new SettingChange()
+                {
+                    SettingName = "Temperature",
+                    Value = "Increase",
+                    Amount = new SettingAmount()
+                    {
+                        Amount = 2,
+                    },
+                    IsRelativeAmount = true,
+                }))
                 .AssertReply(this.CheckReply("Increasing Temperature by 2."))
                 .StartTestAsync();
         }
@@ -41,7 +60,15 @@ namespace AutomotiveSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("increase temperature to 24")
-                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckForSettingEvent(new SettingChange()
+                {
+                    SettingName = "Temperature",
+                    Value = "Increase",
+                    Amount = new SettingAmount()
+                    {
+                        Amount = 24,
+                    },
+                }))
                 .AssertReply(this.CheckReply("Setting Temperature to 24."))
                 .StartTestAsync();
         }
@@ -53,7 +80,11 @@ namespace AutomotiveSkillTest.Flow
                 .Send("change the temperature")
                  .AssertReply(this.CheckReply("Here are the possible values for Temperature. Which one? (1) Decrease(2) Increase"))
                 .Send("Increase")                
-                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckForSettingEvent(new SettingChange()
+                {
+                    SettingName = "Temperature",
+                    Value = "Increase",
+                }))
                 .AssertReply(this.CheckReply("Increasing Temperature."))
                 .StartTestAsync();
         }
@@ -65,7 +96,12 @@ namespace AutomotiveSkillTest.Flow
                 .Send("turn lane assist off")
                 .AssertReply(this.CheckReply("So, you want to change Lane Change Detection to Off. Is that correct? (1) Yes or (2) No"))
                 .Send("yes")
-                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckForSettingEvent(new SettingChange()
+                {
+                    SettingName = "Lane Change Detection",
+                    Value = "Off",
+                    IsConfirmed = true,
+                }))
                 .AssertReply(this.CheckReply("Setting Lane Change Detection to Off."))
                 .AssertReply(this.CheckForEndOfConversation())
                 .StartTestAsync();
@@ -88,7 +124,11 @@ namespace AutomotiveSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("warm up the back of the car")
-                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckForSettingEvent(new SettingChange()
+                {
+                    SettingName = "Rear Combined Set Temperature",
+                    Value = "Increase",
+                }))
                 .AssertReply(this.CheckReply("Increasing Rear Combined Set Temperature."))               
                 .StartTestAsync();
         }
@@ -98,7 +138,11 @@ namespace AutomotiveSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("defog my windshield")
-                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckForSettingEvent(new SettingChange()
+                {
+                    SettingName = "Rear Window Defogger",
+                    Value = "On",
+                }))
                 .AssertReply(this.CheckReply("Setting Rear Window Defogger to On."))
                 .StartTestAsync();
         }
@@ -110,7 +154,11 @@ namespace AutomotiveSkillTest.Flow
                 .Send("put the air on my feet")
                 .AssertReply(this.CheckReply("Here are the matching settings. Which one? (1) Front Combined Air Delivery Mode Control(2) Rear Combined Air Delivery Mode Control"))
                 .Send("front combined air delivery mode control")
-                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckForSettingEvent(new SettingChange()
+                {
+                    SettingName = "Front Combined Air Delivery Mode Control",
+                    Value = "Floor",
+                }))
                 .AssertReply(this.CheckReply("Setting Front Combined Air Delivery Mode Control to Floor."))
                 .StartTestAsync();
         }
@@ -120,7 +168,11 @@ namespace AutomotiveSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("turn off the ac")
-                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckForSettingEvent(new SettingChange()
+                {
+                    SettingName = "Front and Rear HVAC",
+                    Value = "All Off",
+                }))
                 .AssertReply(this.CheckReply("Setting Front and Rear HVAC to All Off."))
                 .StartTestAsync();
         }
@@ -130,7 +182,11 @@ namespace AutomotiveSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("I'm feeling cold")
-                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckForSettingEvent(new SettingChange()
+                {
+                    SettingName = "Temperature",
+                    Value = "Increase",
+                }))
                 .AssertReply(this.CheckReply("Increasing Temperature."))
                 .StartTestAsync();
         }
@@ -140,7 +196,11 @@ namespace AutomotiveSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("it's feeling cold in the back")
-                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckForSettingEvent(new SettingChange()
+                {
+                    SettingName = "Rear Combined Set Temperature",
+                    Value = "Increase",
+                }))
                 .AssertReply(this.CheckReply("Increasing Rear Combined Set Temperature."))
                 .StartTestAsync();
         }
@@ -154,7 +214,11 @@ namespace AutomotiveSkillTest.Flow
                 .Send("Equalizer (Bass)")
                 .AssertReply(this.CheckReply("Here are the possible values for Equalizer (Bass). Which one? (1) Decrease(2) Increase"))                
                  .Send("Decrease")
-                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckForSettingEvent(new SettingChange()
+                {
+                    SettingName = "Equalizer (Bass)",
+                    Value = "Decrease",
+                }))
                 .AssertReply(this.CheckReply("Decreasing Equalizer (Bass)."))
                 .StartTestAsync();
         }
@@ -168,7 +232,11 @@ namespace AutomotiveSkillTest.Flow
                 .Send("front")
                 .AssertReply(this.CheckReply("Here are the possible values for Front Pedestrian Safety Detection. Which one? (1) Off(2) Alert(3) Alert and Brake(4) Alert, Brake, and Steer"))
                 .Send("steer")
-                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckForSettingEvent(new SettingChange()
+                {
+                    SettingName = "Front Pedestrian Safety Detection",
+                    Value = "Alert, Brake, and Steer",
+                }))
                 .AssertReply(this.CheckReply("Setting Front Pedestrian Safety Detection to Alert, Brake, and Steer."))
                 .StartTestAsync();
         }
@@ -182,7 +250,11 @@ namespace AutomotiveSkillTest.Flow
                 .Send("alerts for people in the back")
                 .AssertReply(this.CheckReply("Here are the possible values for Rear Pedestrian Safety Detection. Which one? (1) Off(2) Alert(3) Alert and Brake(4) Alert, Brake, and Steer"))
                 .Send("braking and alerts")
-                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckForSettingEvent(new SettingChange()
+                {
+                    SettingName = "Rear Pedestrian Safety Detection",
+                    Value = "Alert and Brake",
+                }))
                 .AssertReply(this.CheckReply("Setting Rear Pedestrian Safety Detection to Alert and Brake."))
                 .StartTestAsync();
         }
@@ -196,7 +268,11 @@ namespace AutomotiveSkillTest.Flow
                 .Send("first one")
                 .AssertReply(this.CheckReply("Here are the possible values for Equalizer (Bass). Which one? (1) Decrease(2) Increase"))
                 .Send("second one")
-                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckForSettingEvent(new SettingChange()
+                {
+                    SettingName = "Equalizer (Bass)",
+                    Value = "Increase",
+                }))
                 .AssertReply(this.CheckReply("Increasing Equalizer (Bass)."))
                 .StartTestAsync();
         }
@@ -214,7 +290,11 @@ namespace AutomotiveSkillTest.Flow
                 .Send("blah blah")
                 .AssertReply(this.CheckReply("Here are the possible values for Equalizer (Bass). Which one? (1) Decrease(2) Increase"))
                 .Send("Decrease")
-                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckForSettingEvent(new SettingChange()
+                {
+                    SettingName = "Equalizer (Bass)",
+                    Value = "Decrease",
+                }))
                 .AssertReply(this.CheckReply("Decreasing Equalizer (Bass)."))
                 .StartTestAsync();
         }
@@ -230,17 +310,24 @@ namespace AutomotiveSkillTest.Flow
                 .Send("blah blah")
                 .AssertReply(this.CheckReply("Here are the possible values for Equalizer (Bass). Which one? (1) Decrease(2) Increase"))
                 .Send("Decrease")
-                .AssertReply(this.CheckForSettingEvent())
+                .AssertReply(this.CheckForSettingEvent(new SettingChange()
+                {
+                    SettingName = "Equalizer (Bass)",
+                    Value = "Decrease",
+                }))
                 .AssertReply(this.CheckReply("Decreasing Equalizer (Bass)."))
                 .StartTestAsync();
         }
 
-        private Action<IActivity> CheckForSettingEvent()
+        private Action<IActivity> CheckForSettingEvent(SettingChange expectedChange)
         {
             return activity =>
             {
                 var eventReceived = activity.AsEventActivity();
-                Assert.IsNotNull(eventReceived,"Activity received is not an Event as expected");             
+                Assert.IsNotNull(eventReceived,"Activity received is not an Event as expected");
+                Assert.AreEqual<string>("AutomotiveSkill.SettingChange", eventReceived.Name);
+                Assert.IsInstanceOfType(eventReceived.Value, typeof(SettingChange));
+                Assert.AreEqual<SettingChange>(expectedChange, (SettingChange)eventReceived.Value);
             };
         }
 
