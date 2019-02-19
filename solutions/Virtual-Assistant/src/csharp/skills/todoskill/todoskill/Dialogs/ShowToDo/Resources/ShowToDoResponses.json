@@ -107,6 +107,15 @@
     ],
     "inputHint": "ignoringInput"
   },
+  "PreviousFirstSingleTask": {
+    "replies": [
+      {
+        "text": "Your first {taskCount} task is ",
+        "speak": "Your first {taskCount} task is "
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
   "NoTasksMessage": {
     "replies": [
       {

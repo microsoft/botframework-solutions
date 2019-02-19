@@ -24,8 +24,8 @@ namespace ToDoSkill.Dialogs.ShowToDo.Resources
 		public const string NextTasks = "NextTasks";
 		public const string PreviousTasks = "PreviousTasks";
 		public const string PreviousFirstTasks = "PreviousFirstTasks";
+		public const string PreviousFirstSingleTask = "PreviousFirstSingleTask";
 		public const string NoTasksMessage = "NoTasksMessage";
-		public const string InstructionMessage = "InstructionMessage";
 		public const string TaskSummaryMessage = "TaskSummaryMessage";
 		public const string RepeatFirstPagePrompt = "RepeatFirstPagePrompt";
 		public const string RepeatFirstPageConfirmFailed = "RepeatFirstPageConfirmFailed";

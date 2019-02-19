@@ -116,6 +116,15 @@
     ],
     "inputHint": "ignoringInput"
   },
+  "CardSummaryMessageForSingleTask": {
+    "replies": [
+      {
+        "text": "You have {taskCount} task on your {listType} list:",
+        "speak": "You have {taskCount} task on your {listType} list:"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
   "NoTasksInList": {
     "replies": [
       {

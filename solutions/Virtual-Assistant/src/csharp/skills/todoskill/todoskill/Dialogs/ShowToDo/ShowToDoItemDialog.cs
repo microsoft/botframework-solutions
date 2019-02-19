@@ -309,7 +309,8 @@ namespace ToDoSkill.Dialogs.ShowToDo
             else
             {
                 await sc.Context.SendActivityAsync(cardReply);
-                return await sc.CancelAllDialogsAsync();
+                await sc.CancelAllDialogsAsync();
+                return await sc.ReplaceDialogAsync(Action.CollectGoBackToStartConfirmation);
             }
         }
 

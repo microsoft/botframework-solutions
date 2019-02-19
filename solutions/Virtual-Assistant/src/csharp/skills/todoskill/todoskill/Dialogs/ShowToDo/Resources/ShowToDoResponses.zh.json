@@ -107,6 +107,15 @@
     ],
     "inputHint": "ignoringInput"
   },
+  "PreviousFirstSingleTask": {
+    "replies": [
+      {
+        "text": "您最先的{taskCount}个任务是",
+        "speak": "您最先的{taskCount}个任务是"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
   "NoTasksMessage": {
     "replies": [
       {

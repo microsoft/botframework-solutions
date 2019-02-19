@@ -443,7 +443,15 @@ namespace ToDoSkill.Dialogs.Shared
             toDoCard.Speak = speakText;
 
             var body = new List<AdaptiveElement>();
-            response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
+            if (allTasksCount == 1)
+            {
+                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForSingleTask);
+            }
+            else
+            {
+                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
+            }
+
             var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
@@ -606,7 +614,15 @@ namespace ToDoSkill.Dialogs.Shared
             var speakText = response.Reply.Speak;
             if (isFirstPage)
             {
-                response = ResponseManager.GetResponseTemplate(ShowToDoResponses.PreviousFirstTasks);
+                if (todos.Count == 1)
+                {
+                    response = ResponseManager.GetResponseTemplate(ShowToDoResponses.PreviousFirstSingleTask);
+                }
+                else
+                {
+                    response = ResponseManager.GetResponseTemplate(ShowToDoResponses.PreviousFirstTasks);
+                }
+
                 speakText = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", todos.Count.ToString() } });
             }
 
@@ -686,7 +702,15 @@ namespace ToDoSkill.Dialogs.Shared
             toDoCard.Speak = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskContent", taskContent }, { "listType", listType } });
 
             var body = new List<AdaptiveElement>();
-            response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
+            if (allTasksCount == 1)
+            {
+                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForSingleTask);
+            }
+            else
+            {
+                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
+            }
+
             var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
@@ -751,7 +775,15 @@ namespace ToDoSkill.Dialogs.Shared
             }
 
             var body = new List<AdaptiveElement>();
-            response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
+            if (allTasksCount == 1)
+            {
+                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForSingleTask);
+            }
+            else
+            {
+                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
+            }
+
             var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
@@ -813,7 +845,15 @@ namespace ToDoSkill.Dialogs.Shared
             }
 
             var body = new List<AdaptiveElement>();
-            response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
+            if (allTasksCount == 1)
+            {
+                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForSingleTask);
+            }
+            else
+            {
+                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
+            }
+
             var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
@@ -863,7 +903,15 @@ namespace ToDoSkill.Dialogs.Shared
             toDoCard.Speak = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
 
             var body = new List<AdaptiveElement>();
-            response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
+            if (allTasksCount == 1)
+            {
+                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForSingleTask);
+            }
+            else
+            {
+                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
+            }
+
             var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
@@ -905,11 +953,6 @@ namespace ToDoSkill.Dialogs.Shared
                 Content = toDoCard,
             };
             return attachment;
-        }
-
-        protected string GenerateResponseWithTokens(ResponseTemplate botResponse, StringDictionary tokens)
-        {
-            return ResponseManager.Format(botResponse.Reply.Text, tokens);
         }
 
         // This method is called by any waterfall step that throws an exception to ensure consistency
