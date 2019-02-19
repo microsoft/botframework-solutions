@@ -118,7 +118,7 @@ namespace ToDoSkill.Dialogs.ShowToDo
                 state.LastListType = state.ListType;
                 var service = await InitListTypeIds(sc);
                 var topIntent = state.LuisResult?.TopIntent().intent;
-                if (topIntent == ToDoLU.Intent.ShowToDo)
+                if (topIntent == ToDoLU.Intent.ShowToDo || state.GoBackToStart)
                 {
                     state.AllTasks = await service.GetTasksAsync(state.ListType);
                 }
