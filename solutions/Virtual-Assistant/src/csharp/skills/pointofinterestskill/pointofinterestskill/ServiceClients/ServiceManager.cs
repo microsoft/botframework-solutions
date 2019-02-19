@@ -42,7 +42,7 @@ namespace PointOfInterestSkill.ServiceClients
         public IGeoSpatialService InitRoutingMapsService(SkillConfigurationBase services, string locale = "en")
         {
             services.Properties.TryGetValue("Radius", out var radius);
-            radiusInt = (radius != null) ? (int)radius : radiusInt;
+            radiusInt = (radius != null) ? Convert.ToInt32(radius) : radiusInt;
 
             var key = GetAzureMapsKey(services);
 

@@ -242,7 +242,11 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 travelTimeSpanString.Append(" and ");
             }
 
-            if (timeSpan.Minutes == 1)
+            if (timeSpan.Minutes < 1)
+            {
+                travelTimeSpanString.Append(" less than a minute");
+            }
+            else if (timeSpan.Minutes == 1)
             {
                 travelTimeSpanString.Append(timeSpan.Minutes + " minute");
             }
@@ -271,7 +275,11 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 trafficDelayTimeSpanString.Append(" and ");
             }
 
-            if (timeSpan.Minutes == 1)
+            if (timeSpan.Minutes < 1)
+            {
+                trafficDelayTimeSpanString.Append(" less than a minute");
+            }
+            else if (timeSpan.Minutes == 1)
             {
                 trafficDelayTimeSpanString.Append(timeSpan.Minutes + " minute.");
             }
