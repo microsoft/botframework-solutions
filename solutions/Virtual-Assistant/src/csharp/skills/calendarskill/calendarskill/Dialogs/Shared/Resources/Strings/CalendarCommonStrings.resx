@@ -178,7 +178,7 @@
     <value>Meeting</value>
   </data>
   <data name="Myself" xml:space="preserve">
-    <value>me|myself</value>
+    <value>^(me|myself)$</value>
   </data>
   <data name="SkipPhrases" xml:space="preserve">
     <value>^(skip|no)</value>

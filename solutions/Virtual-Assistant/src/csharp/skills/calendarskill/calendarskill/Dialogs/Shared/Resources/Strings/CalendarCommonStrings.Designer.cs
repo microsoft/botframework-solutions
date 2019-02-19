@@ -205,7 +205,7 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to me|myself.
+        ///   Looks up a localized string similar to ^(me|myself)$.
         /// </summary>
         public static string Myself {
             get {
