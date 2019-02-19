@@ -229,7 +229,7 @@ namespace VirtualAssistant
 
                 SkillDefinitions.Add(skill);
                 SkillConfigurations.Add(skill.Id, skillConfig);
-                SkillEvents = skillEventsConfig.ToDictionary(i => i.Event);
+                SkillEvents = skillEventsConfig != null ? skillEventsConfig.ToDictionary(i => i.Event) : null;
             }
         }
 

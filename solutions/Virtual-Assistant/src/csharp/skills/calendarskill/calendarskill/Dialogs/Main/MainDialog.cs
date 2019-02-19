@@ -249,7 +249,7 @@ namespace CalendarSkill.Dialogs.Main
                         break;
                     }
 
-                case Events.CarStart:
+                case Events.DeviceStart:
                     {
                         var skillOptions = new CalendarSkillDialogOptions
                         {
@@ -391,7 +391,7 @@ namespace CalendarSkill.Dialogs.Main
         {
             public const string TokenResponseEvent = "tokens/response";
             public const string SkillBeginEvent = "skillBegin";
-            public const string CarStart = "CarStart";
+            public const string DeviceStart = "DeviceStart";
         }
     }
 }

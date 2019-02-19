@@ -1,7 +1,7 @@
 {
   "skillEvents": [
     {
-      "event": "CarStart",
+      "event": "DeviceStart",
       "skillIds": [ "l_Calendar" ],
       "parameters": {}
     }

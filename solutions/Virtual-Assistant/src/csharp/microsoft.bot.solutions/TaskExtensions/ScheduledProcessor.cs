@@ -8,6 +8,8 @@ namespace Microsoft.Bot.Solutions.TaskExtensions
 {
     public abstract class ScheduledProcessor : BackgroundService
     {
+        private const int DelayBetweenTasks = 100;
+        private const int DelayBetweenRuns = 5000;
         private IBackgroundTaskQueue _backgroundTaskQueue;
 
         public ScheduledProcessor(IBackgroundTaskQueue backgroundTaskQueue)
@@ -34,13 +36,12 @@ namespace Microsoft.Bot.Solutions.TaskExtensions
                             _backgroundTaskQueue.QueueBackgroundWorkItem(schedule.Task);
                         }
 
-                        await Task.Delay(100, stoppingToken); // 100 milliseconds delay to next task in line
+                        await Task.Delay(DelayBetweenTasks, stoppingToken); // 100 milliseconds delay to next task in line
                     }
                 }
 
-                await Task.Delay(5000, stoppingToken); // 5 seconds delay to next ScheduledProcessor run
+                await Task.Delay(DelayBetweenRuns, stoppingToken); // 5 seconds delay to next ScheduledProcessor run
             }
-
             while (!stoppingToken.IsCancellationRequested);
         }
     }
