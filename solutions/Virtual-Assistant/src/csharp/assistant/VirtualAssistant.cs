@@ -9,7 +9,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Models.Proactive;
-using Utilities.TaskExtensions;
+using Microsoft.Bot.Solutions.TaskExtensions;
 using VirtualAssistant.Dialogs.Main;
 
 namespace VirtualAssistant

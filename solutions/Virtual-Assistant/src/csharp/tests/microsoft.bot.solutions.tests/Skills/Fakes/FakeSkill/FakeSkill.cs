@@ -14,9 +14,9 @@ using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Auth.Resource
 using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Main.Resources;
 using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Shared.Resources;
 using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Sample.Resources;
-using Utilities.TaskExtensions;
 using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Solutions.TaskExtensions;
 
 namespace FakeSkill
 {

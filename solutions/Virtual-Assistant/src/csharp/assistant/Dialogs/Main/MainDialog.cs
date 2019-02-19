@@ -16,8 +16,8 @@ using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.TaskExtensions;
 using Newtonsoft.Json;
-using Utilities.TaskExtensions;
 using VirtualAssistant.Dialogs.Escalate;
 using VirtualAssistant.Dialogs.Main.Resources;
 using VirtualAssistant.Dialogs.Onboarding;
@@ -225,46 +225,47 @@ namespace VirtualAssistant.Dialogs.Main
                 var trace = new Activity(type: ActivityTypes.Trace, text: $"Received event: {ev.Name}");
                 await dc.Context.SendActivityAsync(trace);
 
-                // see if there's a proactive step defined with this event
-                var proactiveSteps = _services.ProactiveSteps;
-                if (proactiveSteps != null && proactiveSteps.ContainsKey(ev.Name))
+                // see if there's a skillEvent mapping defined with this event
+                var skillEvents = _services.SkillEvents;
+                if (skillEvents != null && skillEvents.ContainsKey(ev.Name))
                 {
-                    var nextStep = proactiveSteps[ev.Name];
+                    var skillEvent = skillEvents[ev.Name];
 
                     var value = ev.Value != null ? JsonConvert.DeserializeObject<Dictionary<string, string>>(ev.Value.ToString()) : null;
-                    var skillId = nextStep.SkillId;
+                    var skillIds = skillEvent.SkillIds;
 
-                    if (string.IsNullOrWhiteSpace(skillId))
+                    if (skillIds == null || skillIds.Length == 0)
                     {
-                        var errorMessage = "SkillId is not defined in the proactive steps. Without it the assistant doesn't know where to route the message to.";
+                        var errorMessage = "SkillIds is not specified in the skillEventConfig. Without it the assistant doesn't know where to route the message to.";
                         await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: errorMessage));
                         TelemetryClient.TrackException(new ArgumentException(errorMessage));
                     }
 
                     dc.Context.Activity.Value = value;
-                    var matchedSkill = _skillRouter.IdentifyRegisteredSkill(skillId);
-                    if (matchedSkill != null)
+                    foreach (var skillId in skillIds)
                     {
-                        await RouteToSkillAsync(dc, new SkillDialogOptions()
+                        var matchedSkill = _skillRouter.IdentifyRegisteredSkill(skillId);
+                        if (matchedSkill != null)
                         {
-                            SkillDefinition = matchedSkill,
-                        });
+                            await RouteToSkillAsync(dc, new SkillDialogOptions()
+                            {
+                                SkillDefinition = matchedSkill,
+                            });
 
-                        forward = false;
+                            forward = false;
+                        }
+                        else
+                        {
+                            // skill id defined in skillEventConfig is wrong
+                            var skillList = new List<string>();
+                            _services.SkillDefinitions.ForEach(a => skillList.Add(a.DispatchIntent));
+
+                            var errorMessage = $"SkillId {skillId} for the event {ev.Name} in the skillEventConfig is not supported. It should be one of these: {string.Join(',', skillList.ToArray())}.";
+
+                            await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: errorMessage));
+                            TelemetryClient.TrackException(new ArgumentException(errorMessage));
+                        }
                     }
-                    else
-                    {
-                        // skill id defined in proactive step config is wrong
-                        var skillList = new List<string>();
-                        _services.SkillDefinitions.ForEach(a => skillList.Add(a.DispatchIntent));
-
-                        var errorMessage = $"SkillId defined in the proactive steps is not supported. It should be one of these: {string.Join(',', skillList.ToArray())}.";
-
-                        await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: errorMessage));
-                        TelemetryClient.TrackException(new ArgumentException(errorMessage));
-                    }
-
-                    // TODO: add handling for other types of proactive events
                 }
                 else
                 {
