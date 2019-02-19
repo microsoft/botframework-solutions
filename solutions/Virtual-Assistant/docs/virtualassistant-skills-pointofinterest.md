@@ -80,20 +80,19 @@ The following Configuration entries are required to be passed to the Skill and a
 ## LUIS Model Intents and Entities
 LUIS models for the Skill are provided in .LU file format as part of the Skill. These are currently available in English, French, Italian, German and Spanish languages. Further languages are being prioritised.
 
-The following Top Level intents are available:
+|Intent Name|Description|
+|-|-|
+|NAVIGATION_ROUTE_FROM_X_TO_Y| Matches queries navigating to a point of interest |
+|NAVIGATION_FIND_POINTOFINTEREST| Matches queries searching for a point of interest |
+|NAVIGATION_FIND_PARKING| Matches queries searching for a parking space |
+|NAVIGATION_CANCEL_ROUTE| Matches queries to cancel a route |
 
-
-- NAVIGATION_ROUTE_FROM_X_TO_Y
-- NAVIGATION_FIND_POINTOFINTEREST
-- NAVIGATION_FIND_PARKING
-- NAVIGATION_CANCEL_ROUTE
-
-The following entities are provided:
-
-- ADDRESS
-- KEYWORDS
-- ROUTE_TYPE
-- number
+|Entity Name|Description|
+|-|-|
+|ADDRESS| Simple entity matching addresses |
+|KEYWORD| Simple entity matching point of interest keywords and categories |
+|ROUTE_TYPE| Phrase list entity mapping route descriptors to `eco`,`fastest`,`shortest`,`thrilling`|
+|number| Prebuilt entity|
 
 ## Event Responses
 
