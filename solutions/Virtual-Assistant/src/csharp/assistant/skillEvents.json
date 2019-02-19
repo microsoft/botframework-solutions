@@ -1,8 +1,8 @@
 {
-  "proactiveSteps": [
+  "skillEvents": [
     {
       "event": "CarStart",
-      "skillId": "l_Calendar",
+      "skillIds": [ "l_Calendar" ],
       "parameters": {}
     }
   ]

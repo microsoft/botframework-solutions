@@ -16,7 +16,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
-using Microsoft.Bot.Solutions.Model.Proactive;
+using Microsoft.Bot.Solutions.Model;
 using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.TaskExtensions;
@@ -36,7 +36,7 @@ namespace VirtualAssistant
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddJsonFile("proactiveScenarios.json", optional: true)
+                .AddJsonFile("skillEvents.json", optional: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
@@ -61,8 +61,8 @@ namespace VirtualAssistant
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
             var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
             var skills = Configuration.GetSection("skills").Get<List<SkillDefinition>>();
-            var proactiveScenariosConfig = Configuration.GetSection("proactiveSteps").Get<List<ProactiveStep>>();
-            var connectedServices = new BotServices(botConfig, languageModels, skills, proactiveScenariosConfig);
+            var skillEventsConfig = Configuration.GetSection("skillEvents").Get<List<SkillEvent>>();
+            var connectedServices = new BotServices(botConfig, languageModels, skills, skillEventsConfig);
             services.AddSingleton(sp => connectedServices);
 
             var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
