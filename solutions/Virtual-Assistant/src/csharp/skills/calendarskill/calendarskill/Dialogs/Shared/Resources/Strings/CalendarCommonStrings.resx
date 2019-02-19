@@ -171,4 +171,16 @@
   <data name="Empty" xml:space="preserve">
     <value>empty</value>
   </data>
+  <data name="ContactSeparator" xml:space="preserve">
+    <value>,|and|;</value>
+  </data>
+  <data name="DefaultTitle" xml:space="preserve">
+    <value>Meeting</value>
+  </data>
+  <data name="Myself" xml:space="preserve">
+    <value>me|myself</value>
+  </data>
+  <data name="SkipPhrases" xml:space="preserve">
+    <value>^(skip|no)</value>
+  </data>
 </root>

@@ -160,11 +160,29 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ,|and|;.
+        /// </summary>
+        public static string ContactSeparator {
+            get {
+                return ResourceManager.GetString("ContactSeparator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to daily.
         /// </summary>
         public static string DailyToken {
             get {
                 return ResourceManager.GetString("DailyToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Meeting.
+        /// </summary>
+        public static string DefaultTitle {
+            get {
+                return ResourceManager.GetString("DefaultTitle", resourceCulture);
             }
         }
         
@@ -187,11 +205,29 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to me|myself.
+        /// </summary>
+        public static string Myself {
+            get {
+                return ResourceManager.GetString("Myself", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to no attendees.
         /// </summary>
         public static string NoAttendees {
             get {
                 return ResourceManager.GetString("NoAttendees", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ^(skip|no).
+        /// </summary>
+        public static string SkipPhrases {
+            get {
+                return ResourceManager.GetString("SkipPhrases", resourceCulture);
             }
         }
         
