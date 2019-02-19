@@ -4,8 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.TaskExtensions;
 using Microsoft.Bot.Solutions.Util;
-using Utilities.TaskExtensions;
 
 namespace Microsoft.Bot.Solutions.Skills
 {

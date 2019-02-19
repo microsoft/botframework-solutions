@@ -11,13 +11,12 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Responses;
-using Utilities.TaskExtensions;
+using Microsoft.Bot.Solutions.TaskExtensions;
 
 namespace Microsoft.Bot.Solutions.Skills
 {

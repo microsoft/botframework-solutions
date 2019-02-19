@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Utilities
+namespace Microsoft.Bot.Solutions.Util
 {
     public class MD5Util
     {
