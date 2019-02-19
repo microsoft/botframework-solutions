@@ -26,7 +26,7 @@ using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
-using Utilities.TaskExtensions;
+using Microsoft.Bot.Solutions.TaskExtensions;
 
 namespace CalendarSkill.Dialogs.Main
 {

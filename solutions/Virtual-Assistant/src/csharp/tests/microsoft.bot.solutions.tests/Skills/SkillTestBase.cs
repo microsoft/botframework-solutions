@@ -9,6 +9,7 @@ using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.TaskExtensions;
 using Microsoft.Bot.Solutions.Testing;
 using Microsoft.Bot.Solutions.Testing.Fakes;
 using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Auth.Resources;
@@ -17,7 +18,6 @@ using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Sample.Resour
 using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Shared.Resources;
 using Microsoft.Bot.Solutions.Tests.Skills.LuisTestUtils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Utilities.TaskExtensions;
 
 namespace Microsoft.Bot.Solutions.Tests.Skills
 {

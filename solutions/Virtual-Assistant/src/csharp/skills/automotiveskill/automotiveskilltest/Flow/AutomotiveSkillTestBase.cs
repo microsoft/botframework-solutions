@@ -12,8 +12,8 @@ using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.TaskExtensions;
 using Microsoft.Bot.Solutions.Testing;
-using Utilities.TaskExtensions;
 
 namespace AutomotiveSkillTest.Flow
 {

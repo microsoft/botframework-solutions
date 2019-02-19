@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Utilities.TaskExtensions
+namespace Microsoft.Bot.Solutions.TaskExtensions
 {
     public interface IBackgroundTaskQueue
     {
