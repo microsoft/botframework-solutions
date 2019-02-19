@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -36,6 +37,8 @@ namespace PointOfInterestSkill.Dialogs.Main
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
         private IStatePropertyAccessor<PointOfInterestSkillState> _stateAccessor;
+        private IHttpContextAccessor _httpContext;
+
 
         public MainDialog(
             SkillConfigurationBase services,
@@ -43,6 +46,7 @@ namespace PointOfInterestSkill.Dialogs.Main
             ConversationState conversationState,
             UserState userState,
             IBotTelemetryClient telemetryClient,
+            IHttpContextAccessor httpContext,
             IServiceManager serviceManager,
             bool skillMode)
             : base(nameof(MainDialog), telemetryClient)
@@ -54,6 +58,7 @@ namespace PointOfInterestSkill.Dialogs.Main
             _conversationState = conversationState;
             _serviceManager = serviceManager;
             TelemetryClient = telemetryClient;
+            _httpContext = httpContext;
 
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<PointOfInterestSkillState>(nameof(PointOfInterestSkillState));
@@ -371,10 +376,10 @@ namespace PointOfInterestSkill.Dialogs.Main
 
         private void RegisterDialogs()
         {
-            AddDialog(new RouteDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new CancelRouteDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new FindPointOfInterestDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new FindParkingDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new RouteDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient, _httpContext));
+            AddDialog(new CancelRouteDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient, _httpContext));
+            AddDialog(new FindPointOfInterestDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient, _httpContext));
+            AddDialog(new FindParkingDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient, _httpContext));
         }
 
         public class Events

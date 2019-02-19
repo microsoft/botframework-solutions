@@ -1,7 +1,8 @@
 # Virtual Assistant Skills - Point of Interest
 
 ## Overview
-The Point of Interest Skill provides PoI related capabilities to a Virtual Assistant. The most common scenarios have been implemented in this first release with additional scenarios in development.
+The Point of Interest Skill provides point of interest and navigation related capabilities to a Virtual Assistant. 
+The most common scenarios have been implemented in this first release with additional scenarios in development.
 
 ## Supported Scenarios
 The following scenarios are currently supported by the Skill:
@@ -36,22 +37,21 @@ The following scenarios are currently supported by the Skill:
 
 ## Skill Parameters
 The following Parameters are accepted by the Skill and enable additional personalisation of responses to a given user:
-- IPA.Location (*The skill will fail without this as it is missing a user's current coordinates*)
+- `IPA.Location` (*The skill will fail without this as it is missing a user's current coordinates*)
 - To ease testing scenarios you can send the following message to pass a location enabling you to test the POI skill and adjust the location
   - `/event:{ "Name": "IPA.Location", "Value": "34.05222222222222,-118.24277777777778" }`
 
 ## Configuration File Information
 The following Configuration entries are required to be passed to the Skill and are provided through the Virtual Assistant appSettings.json file. These should be updated to reflect your LUIS deployment.
 
-- LuisAppId
-- LuisSubscriptionKey
-- LuisEndpoint
-- AzureMapsKey
-- FoursquareClientId
-- FoursquareClientSecret
-- Radius *(in meters)*
-
-> You can retrieve an [Azure Maps](https://azure.microsoft.com/en-gb/services/azure-maps/) key through the Azure Portal.
+- `LuisAppId`
+- `LuisSubscriptionKey`
+- `LuisEndpoint`
+- `AzureMapsKey`
+- `FoursquareClientId`
+- `FoursquareClientSecret`
+- `ImageAssetLocation`
+- `Radius` *(in meters)*
 
 ## Example Skill Registration Entry
 ```
@@ -71,7 +71,8 @@ The following Configuration entries are required to be passed to the Skill and a
     "AzureMapsKey": "YOUR_AZURE_MAPS_KEY",
     "FoursquareClientId": "YOUR_FOURSQUARE_CLIENT_ID",
     "FoursquareClientSecret": "YOUR_FOURSQUARE_CLIENT_SECRET",
-    "Radius": "SEARCH_RADIUS_FROM_LOCATION"
+    "Radius": "SEARCH_RADIUS_FROM_LOCATION",
+    "ImageAssetLocation": "http://www.contoso.com/images/"
     }
 }
 ```

@@ -1,7 +1,10 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -22,8 +25,9 @@ namespace PointOfInterestSkill.Dialogs.Route
             ResponseManager responseManager,
             IStatePropertyAccessor<PointOfInterestSkillState> accessor,
             IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient)
-            : base(nameof(RouteDialog), services, responseManager, accessor, serviceManager, telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            IHttpContextAccessor httpContext)
+            : base(nameof(RouteDialog), services, responseManager, accessor, serviceManager, telemetryClient, httpContext)
         {
             TelemetryClient = telemetryClient;
 

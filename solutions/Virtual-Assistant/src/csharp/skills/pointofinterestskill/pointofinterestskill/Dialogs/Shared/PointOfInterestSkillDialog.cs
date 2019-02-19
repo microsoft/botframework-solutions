@@ -2,16 +2,15 @@
 // Licensed under the MIT license.
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using PointOfInterestSkill.Dialogs.Route;
@@ -26,6 +25,8 @@ namespace PointOfInterestSkill.Dialogs.Shared
         // Constants
         public const string SkillModeAuth = "SkillAuth";
         public const string LocalModeAuth = "LocalAuth";
+        private const string FallbackPointOfInterestImageFileName = "default_pointofinterest.jpg";
+        private IHttpContextAccessor _httpContext;
 
         public PointOfInterestSkillDialog(
             string dialogId,
@@ -33,7 +34,8 @@ namespace PointOfInterestSkill.Dialogs.Shared
             ResponseManager responseManager,
             IStatePropertyAccessor<PointOfInterestSkillState> accessor,
             IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            IHttpContextAccessor httpContext)
             : base(dialogId)
         {
             Services = services;
@@ -41,6 +43,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
             Accessor = accessor;
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
+            _httpContext = httpContext;
 
             AddDialog(new TextPrompt(Action.Prompt, CustomPromptValidatorAsync));
             AddDialog(new ConfirmPrompt(Action.ConfirmPrompt) { Style = ListStyle.Auto, });
@@ -167,6 +170,11 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 {
                     pointOfInterestList[i] = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[i]);
                     pointOfInterestList[i].Index = i;
+
+                    if (string.IsNullOrEmpty(pointOfInterestList[i].ImageUrl))
+                    {
+                        pointOfInterestList[i].ImageUrl = GetCardImageUri(FallbackPointOfInterestImageFileName);
+                    }
                 }
 
                 if (pointOfInterestList.Count() > 1)
@@ -334,6 +342,31 @@ namespace PointOfInterestSkill.Dialogs.Shared
             {
                 var replyMessage = ResponseManager.GetResponse(POISharedResponses.NoLocationsFound);
                 await sc.Context.SendActivityAsync(replyMessage);
+            }
+        }
+
+        private string GetCardImageUri(string imagePath)
+        {
+            // If we are in local mode we leverage the HttpContext to get the current path to the image assets
+            if (_httpContext != null)
+            {
+                string serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
+                return $"{serverUrl}/images/{imagePath}";
+            }
+            else
+            {
+                // In skill-mode we don't have HttpContext and require skills to provide their own storage for assets
+                Services.Properties.TryGetValue("ImageAssetLocation", out var imageUri);
+
+                var imageUriStr = (string)imageUri;
+                if (string.IsNullOrWhiteSpace(imageUriStr))
+                {
+                    throw new Exception("ImageAssetLocation Uri not configured on the skill.");
+                }
+                else
+                {
+                    return $"{imageUriStr}/{imagePath}";
+                }
             }
         }
 

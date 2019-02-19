@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Responses;
@@ -23,8 +24,9 @@ namespace PointOfInterestSkill.Dialogs.FindParking
             ResponseManager responseManager,
             IStatePropertyAccessor<PointOfInterestSkillState> accessor,
             IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient)
-            : base(nameof(FindParkingDialog), services, responseManager, accessor, serviceManager, telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            IHttpContextAccessor httpContext)
+            : base(nameof(FindParkingDialog), services, responseManager, accessor, serviceManager, telemetryClient, httpContext)
         {
             TelemetryClient = telemetryClient;
 
@@ -36,7 +38,7 @@ namespace PointOfInterestSkill.Dialogs.FindParking
 
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Action.FindParking, findParking) { TelemetryClient = telemetryClient });
-            AddDialog(new RouteDialog(services, responseManager, Accessor, ServiceManager, TelemetryClient));
+            AddDialog(new RouteDialog(services, responseManager, Accessor, ServiceManager, TelemetryClient, httpContext));
 
             // Set starting dialog for component
             InitialDialogId = Action.FindParking;
