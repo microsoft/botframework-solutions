@@ -77,7 +77,7 @@ The following Configuration entries are required to be passed to the Skill and a
 }
 ```
 
-## LUIS Model Intents and Entities
+## Language Model
 LUIS models for the Skill are provided in .LU file format as part of the Skill. These are currently available in English, French, Italian, German and Spanish languages. Further languages are being prioritised.
 
 |Intent Name|Description|
@@ -93,6 +93,10 @@ LUIS models for the Skill are provided in .LU file format as part of the Skill. 
 |KEYWORD| Simple entity matching point of interest keywords and categories |
 |ROUTE_TYPE| Phrase list entity mapping route descriptors to `eco`,`fastest`,`shortest`,`thrilling`|
 |number| Prebuilt entity|
+
+## Image Assets
+In order for Adaptive Cards to render images associated with the Point of Interest skill you will need to take the image assets located in the wwwroot\images folder of the PointOfInterestSkill project and place in a HTTP location (potentially your Bot deployment) and place the base URI path in the skill configuration ImageAssetLocation property. 
+If you skip this step, Adaptive Cards will not render with images correctly.
 
 ## Event Responses
 
