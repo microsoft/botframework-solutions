@@ -342,3 +342,5 @@
 - put {KEYWORD=williams} {ADDRESS=vineland} on a map
 - put {KEYWORD=ymca} {ADDRESS=boston} {ADDRESS=ontario} on a map
 - put {KEYWORD=yogenfruz} {ADDRESS=upper lake} on a map
+- find a {KEYWORD=grocery store}
+- find a {KEYWORD=pharmacy}

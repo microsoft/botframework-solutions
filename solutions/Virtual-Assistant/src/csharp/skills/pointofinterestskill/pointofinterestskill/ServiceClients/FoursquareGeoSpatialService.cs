@@ -15,9 +15,9 @@ namespace PointOfInterestSkill.ServiceClients
 {
     public sealed class FoursquareGeoSpatialService : IGeoSpatialService
     {
-        private static readonly string SearchForVenuesUrl = $"https://api.foursquare.com/v2/venues/search?ll={{0}},{{1}}&query={{2}}&radius={{3}}&intent=browse&limit=3";
-        private static readonly string SearchForVenuesByCategoryUrl = $"https://api.foursquare.com/v2/venues/search?categoryId={{2}}&ll={{0}},{{1}}&radius={{3}}&intent=browse&limit=3";
-        private static readonly string ExploreNearbyVenuesUrl = $"https://api.foursquare.com/v2/venues/explore?ll={{0}},{{1}}&radius={{2}}&limit=3";
+        private static readonly string SearchForVenuesUrl = $"https://api.foursquare.com/v2/venues/search?ll={{0}},{{1}}&query={{2}}&radius={{3}}&intent=browse&limit={{4}}";
+        private static readonly string SearchForVenuesByCategoryUrl = $"https://api.foursquare.com/v2/venues/search?categoryId={{2}}&ll={{0}},{{1}}&radius={{3}}&intent=browse&limit={{4}}";
+        private static readonly string ExploreNearbyVenuesUrl = $"https://api.foursquare.com/v2/venues/explore?ll={{0}},{{1}}&radius={{2}}&limit={{3}}";
         private static readonly string GetVenueDetailsUrl = $"https://api.foursquare.com/v2/venues/{{0}}?";
         private string userLocale;
         private string clientId;
@@ -30,11 +30,16 @@ namespace PointOfInterestSkill.ServiceClients
         private int radius;
 
         /// <summary>
+        /// The maxium limit of points of interest for Forsquare is 50.
+        /// </summary>
+        private int limit;
+
+        /// <summary>
         /// Versioning is controlled by the v parameter, which is a date that represents the “version” of the API for which you expect from Foursquare.
         /// </summary>
         private readonly string apiVersion = "20190123";
 
-        public async Task<IGeoSpatialService> InitClientAsync(string id, string secret, int radiusConfiguration, string locale = "en", HttpClient client = null)
+        public async Task<IGeoSpatialService> InitClientAsync(string id, string secret, int radiusConfiguration, int limitConfiguration, string locale = "en-us", HttpClient client = null)
         {
             try
             {
@@ -42,6 +47,7 @@ namespace PointOfInterestSkill.ServiceClients
                 clientSecret = secret;
                 userLocale = locale;
                 radius = radiusConfiguration;
+                limit = limitConfiguration;
 
                 if (client == null)
                 {
@@ -59,7 +65,7 @@ namespace PointOfInterestSkill.ServiceClients
             return this;
         }
 
-        public async Task<IGeoSpatialService> InitKeyAsync(string key, int radiusConfiguration = 25000, string locale = "en", HttpClient client = null)
+        public async Task<IGeoSpatialService> InitKeyAsync(string key, int radiusConfiguration, int limitConfiguration, string locale = "en-us", HttpClient client = null)
         {
             throw new NotSupportedException();
         }
@@ -83,7 +89,7 @@ namespace PointOfInterestSkill.ServiceClients
                 throw new ArgumentNullException(nameof(query));
             }
 
-            return await GetVenueAsync(string.Format(CultureInfo.InvariantCulture, SearchForVenuesUrl, latitude, longitude, query, radius));
+            return await GetVenueAsync(string.Format(CultureInfo.InvariantCulture, SearchForVenuesUrl, latitude, longitude, query, radius, limit));
         }
 
         /// <summary>
@@ -133,7 +139,7 @@ namespace PointOfInterestSkill.ServiceClients
             var parkingCategory = "4c38df4de52ce0d596b336e1";
 
             return await GetVenueAsync(
-                string.Format(CultureInfo.InvariantCulture, SearchForVenuesByCategoryUrl, latitude, longitude, parkingCategory, radius));
+                string.Format(CultureInfo.InvariantCulture, SearchForVenuesByCategoryUrl, latitude, longitude, parkingCategory, radius, limit));
         }
 
         /// <summary>

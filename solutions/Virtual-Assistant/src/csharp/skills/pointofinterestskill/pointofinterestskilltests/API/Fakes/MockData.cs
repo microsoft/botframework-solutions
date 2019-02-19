@@ -16,6 +16,8 @@ namespace PointOfInterestSkillTests.API.Fakes
 
         public const int Radius = 25000;
 
+        public const int Limit = 3;
+
         public const string Query = "MockQuery";
 
         public const string SendAsync = "SendAsync";

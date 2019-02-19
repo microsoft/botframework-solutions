@@ -277,7 +277,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
 
             if (timeSpan.Minutes < 1)
             {
-                trafficDelayTimeSpanString.Append(" less than a minute");
+                trafficDelayTimeSpanString.Append(" less than a minute.");
             }
             else if (timeSpan.Minutes == 1)
             {

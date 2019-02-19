@@ -13,11 +13,11 @@ namespace PointOfInterestSkill.ServiceClients
 {
     public sealed class AzureMapsGeoSpatialService : IGeoSpatialService
     {
-        private static readonly string FindByFuzzyQueryApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&limit=3&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}";
-        private static readonly string FindByAddressQueryUrl = $"https://atlas.microsoft.com/search/address/json?api-version=1.0&limit=3&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}";
+        private static readonly string FindByFuzzyQueryApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}&limit={{4}}";
+        private static readonly string FindByAddressQueryUrl = $"https://atlas.microsoft.com/search/address/json?api-version=1.0&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}&limit={{4}}";
         private static readonly string FindAddressByCoordinateUrl = $"https://atlas.microsoft.com/search/address/reverse/json?api-version=1.0&query={{0}},{{1}}";
-        private static readonly string FindNearbyUrl = $"https://atlas.microsoft.com/search/nearby/json?api-version=1.0&limit=3&lat={{0}}&lon={{1}}&radius={{2}}";
-        private static readonly string FindByCategoryUrl = $"https://atlas.microsoft.com/search/poi/category/json?api-version=1.0&query={{2}}&limit=3&lat={{0}}&lon={{1}}&radius={{3}}";
+        private static readonly string FindNearbyUrl = $"https://atlas.microsoft.com/search/nearby/json?api-version=1.0&lat={{0}}&lon={{1}}&radius={{2}}&limit={{3}}";
+        private static readonly string FindByCategoryUrl = $"https://atlas.microsoft.com/search/poi/category/json?api-version=1.0&query={{2}}&lat={{0}}&lon={{1}}&radius={{3}}&limit={{4}}";
         private static readonly string ImageUrlByPoint = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{2}}&center={{1}},{{0}}&width=512&height=512";
         private static readonly string GetRouteDirections = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&query={{0}}";
         private static readonly string GetRouteDirectionsWithRouteType = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&query={{0}}&&routeType={{1}}";
@@ -30,18 +30,24 @@ namespace PointOfInterestSkill.ServiceClients
         /// </summary>
         private int radius;
 
-        public async Task<IGeoSpatialService> InitClientAsync(string clientId, string clientSecret, int radiusConfiguration, string locale = "en", HttpClient client = null)
+        /// <summary>
+        /// The maxium limit of points of interest for Forsquare is 100.
+        /// </summary>
+        private int limit;
+
+        public async Task<IGeoSpatialService> InitClientAsync(string clientId, string clientSecret, int radiusConfiguration, int limitConfiguration, string locale = "en-us", HttpClient client = null)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IGeoSpatialService> InitKeyAsync(string key, int radiusConfiguration, string locale = "en", HttpClient client = null)
+        public async Task<IGeoSpatialService> InitKeyAsync(string key, int radiusConfiguration, int limitConfiguration, string locale = "en-us", HttpClient client = null)
         {
             try
             {
                 apiKey = key;
                 userLocale = locale;
                 radius = radiusConfiguration;
+                limit = limitConfiguration;
 
                 if (client == null)
                 {
@@ -73,7 +79,7 @@ namespace PointOfInterestSkill.ServiceClients
                 throw new ArgumentNullException(nameof(query));
             }
 
-            return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByFuzzyQueryApiUrl, latitude, longitude, query, radius));
+            return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByFuzzyQueryApiUrl, latitude, longitude, query, radius, limit));
         }
 
         /// <summary>
@@ -90,7 +96,7 @@ namespace PointOfInterestSkill.ServiceClients
                 throw new ArgumentNullException(nameof(address));
             }
 
-            return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByAddressQueryUrl, latitude, longitude, Uri.EscapeDataString(address), radius));
+            return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByAddressQueryUrl, latitude, longitude, Uri.EscapeDataString(address), radius, limit));
         }
 
         /// <summary>
@@ -102,7 +108,7 @@ namespace PointOfInterestSkill.ServiceClients
         public async Task<List<PointOfInterestModel>> GetPointOfInterestByCoordinatesAsync(double latitude, double longitude)
         {
         return await GetPointsOfInterestAsync(
-            string.Format(CultureInfo.InvariantCulture, FindAddressByCoordinateUrl, latitude, longitude, radius));
+            string.Format(CultureInfo.InvariantCulture, FindAddressByCoordinateUrl, latitude, longitude, radius, limit));
         }
 
         /// <summary>
@@ -129,7 +135,7 @@ namespace PointOfInterestSkill.ServiceClients
             var parkingCategory = "OPEN_PARKING_AREA,PARKING_GARAGE";
 
             return await GetPointsOfInterestAsync(
-                string.Format(CultureInfo.InvariantCulture, FindByCategoryUrl, latitude, longitude, parkingCategory, radius));
+                string.Format(CultureInfo.InvariantCulture, FindByCategoryUrl, latitude, longitude, parkingCategory, radius, limit));
         }
 
         /// <summary>

@@ -9,26 +9,29 @@ namespace PointOfInterestSkill.ServiceClients
     public class ServiceManager : IServiceManager
     {
         private int radiusInt = 25000;
+        private int limitSizeInt = 3;
 
         public IGeoSpatialService InitMapsService(SkillConfigurationBase services, string locale = "en")
         {
             services.Properties.TryGetValue("FoursquareClientId", out var clientId);
             services.Properties.TryGetValue("FoursquareClientSecret", out var clientSecret);
             services.Properties.TryGetValue("Radius", out var radius);
+            services.Properties.TryGetValue("LimitSize", out var limitSize);
 
             var clientIdStr = (string)clientId;
             var clientSecretStr = (string)clientSecret;
-            radiusInt = (radius != null) ? int.Parse((string)radius) : radiusInt;
+            radiusInt = (radius != null) ? Convert.ToInt32(radius) : radiusInt;
+            limitSizeInt = (limitSize != null) ? Convert.ToInt32(limitSize) : limitSizeInt;
 
-            if (clientIdStr != null && clientSecretStr != null)
+            if (!string.IsNullOrEmpty(clientIdStr) && !string.IsNullOrEmpty(clientSecretStr))
             {
-                return new FoursquareGeoSpatialService().InitClientAsync(clientIdStr, clientSecretStr, radiusInt, locale).Result;
+                return new FoursquareGeoSpatialService().InitClientAsync(clientIdStr, clientSecretStr, radiusInt, limitSizeInt, locale).Result;
             }
             else
             {
                 var key = GetAzureMapsKey(services);
 
-                return new AzureMapsGeoSpatialService().InitKeyAsync(key, radiusInt, locale).Result;
+                return new AzureMapsGeoSpatialService().InitKeyAsync(key, radiusInt, limitSizeInt, locale).Result;
             }
         }
 
@@ -42,11 +45,13 @@ namespace PointOfInterestSkill.ServiceClients
         public IGeoSpatialService InitRoutingMapsService(SkillConfigurationBase services, string locale = "en")
         {
             services.Properties.TryGetValue("Radius", out var radius);
+            services.Properties.TryGetValue("LimitSize", out var limitSize);
             radiusInt = (radius != null) ? Convert.ToInt32(radius) : radiusInt;
+            limitSizeInt = (limitSize != null) ? Convert.ToInt32(limitSize) : limitSizeInt;
 
             var key = GetAzureMapsKey(services);
 
-            return new AzureMapsGeoSpatialService().InitKeyAsync(key, radiusInt, locale).Result;
+            return new AzureMapsGeoSpatialService().InitKeyAsync(key, radiusInt, limitSizeInt, locale).Result;
         }
 
         /// <summary>
@@ -59,11 +64,11 @@ namespace PointOfInterestSkill.ServiceClients
         public IGeoSpatialService InitAddressMapsService(SkillConfigurationBase services, string locale = "en-us")
         {
             services.Properties.TryGetValue("Radius", out var radius);
-            radiusInt = (radius != null) ? (int)radius : radiusInt;
+            radiusInt = (radius != null) ? Convert.ToInt32(radius) : radiusInt;
 
             var key = GetAzureMapsKey(services);
 
-            return new AzureMapsGeoSpatialService().InitKeyAsync(key, radiusInt, locale).Result;
+            return new AzureMapsGeoSpatialService().InitKeyAsync(key, radiusInt, limitSizeInt, locale).Result;
         }
 
         /// <summary>
