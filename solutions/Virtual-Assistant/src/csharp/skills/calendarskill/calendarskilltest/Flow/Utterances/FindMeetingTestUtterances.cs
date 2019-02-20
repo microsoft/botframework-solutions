@@ -23,19 +23,16 @@ namespace CalendarSkillTest.Flow.Utterances
                 fromTime: new string[] { "6 pm" }));
             this.Add(ChooseFirstMeeting, GetBaseFindMeetingIntent(
                 ChooseFirstMeeting,
-                intents: CalendarLU.Intent.ReadAloud,
+                intents: CalendarLU.Intent.ShowNext,
                 ordinal: new double[] { 1 }));
             this.Add(HowLongNextMeetingMeeting, GetBaseFindMeetingIntent(
-                BaseNextMeeting,
-                askParameter: new string[] { "how long" },
+                HowLongNextMeetingMeeting,
                 orderReference: new string[] { "next" }));
             this.Add(WhereNextMeetingMeeting, GetBaseFindMeetingIntent(
-                BaseNextMeeting,
-                askParameter: new string[] { "where" },
+                WhereNextMeetingMeeting,
                 orderReference: new string[] { "next" }));
             this.Add(WhenNextMeetingMeeting, GetBaseFindMeetingIntent(
-                BaseNextMeeting,
-                askParameter: new string[] { "when" },
+                WhenNextMeetingMeeting,
                 orderReference: new string[] { "next" }));
             this.Add(UpdateMeetingTestUtterances.BaseUpdateMeeting, UpdateMeetingTestUtterances.GetBaseUpdateMeetingIntent(UpdateMeetingTestUtterances.BaseUpdateMeeting));
         }
