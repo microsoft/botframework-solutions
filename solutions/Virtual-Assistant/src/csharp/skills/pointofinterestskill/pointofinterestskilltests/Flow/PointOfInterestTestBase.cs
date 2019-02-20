@@ -1,8 +1,10 @@
 ﻿using Autofac;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
+using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Middleware;
+using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Testing;
@@ -14,6 +16,7 @@ using PointOfInterestSkill.ServiceClients;
 using PointOfInterestSkillTests.API.Fakes;
 using PointOfInterestSkillTests.Flow.Fakes;
 using System.Threading;
+using Utilities.TaskExtensions;
 
 namespace PointOfInterestSkillTests.Flow
 {
@@ -29,6 +32,11 @@ namespace PointOfInterestSkillTests.Flow
 
         public IServiceManager ServiceManager { get; set; }
 
+        public EndpointService EndpointService { get; set; }
+
+        public ProactiveState ProactiveState { get; set; }
+
+        public IBackgroundTaskQueue BackgroundTaskQueue { get; set; }
 
         [TestInitialize]
         public override void Initialize()
@@ -46,6 +54,9 @@ namespace PointOfInterestSkillTests.Flow
 
             this.Container = builder.Build();
             this.ServiceManager = fakeServiceManager;
+            this.EndpointService = new EndpointService();
+            this.BackgroundTaskQueue = new BackgroundTaskQueue();
+            this.ProactiveState = new ProactiveState(new MemoryStorage());
 
             ResponseManager = new ResponseManager(
                 responseTemplates: new IResponseIdCollection[]
@@ -74,7 +85,7 @@ namespace PointOfInterestSkillTests.Flow
 
         public override IBot BuildBot()
         {
-            return new PointOfInterestSkill.PointOfInterestSkill(Services, ConversationState, UserState, TelemetryClient, true, ResponseManager, ServiceManager);
+            return new PointOfInterestSkill.PointOfInterestSkill(Services, EndpointService, ConversationState, UserState, ProactiveState, TelemetryClient, BackgroundTaskQueue, true, ResponseManager, ServiceManager);
         }
     }
 }
