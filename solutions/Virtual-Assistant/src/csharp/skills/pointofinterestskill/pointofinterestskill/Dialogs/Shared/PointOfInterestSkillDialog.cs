@@ -11,8 +11,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using PointOfInterestSkill.Dialogs.Route;
 using PointOfInterestSkill.Dialogs.Shared.Resources;
 using PointOfInterestSkill.Models;
@@ -45,8 +48,8 @@ namespace PointOfInterestSkill.Dialogs.Shared
             TelemetryClient = telemetryClient;
             _httpContext = httpContext;
 
-            AddDialog(new TextPrompt(Action.Prompt, CustomPromptValidatorAsync));
-            AddDialog(new ConfirmPrompt(Action.ConfirmPrompt) { Style = ListStyle.Auto, });
+            AddDialog(new TextPrompt(Actions.Prompt, CustomPromptValidatorAsync));
+            AddDialog(new ConfirmPrompt(Actions.ConfirmPrompt) { Style = ListStyle.Auto, });
         }
 
         protected SkillConfigurationBase Services { get; set; }
@@ -103,17 +106,17 @@ namespace PointOfInterestSkill.Dialogs.Shared
 
                 if (pointOfInterestList?.ToList().Count == 1)
                 {
-                    return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(POISharedResponses.PromptToGetRoute) });
+                    return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(POISharedResponses.PromptToGetRoute) });
                 }
 
                 state.ClearLuisResults();
 
                 return await sc.EndDialogAsync(true);
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogException(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -142,10 +145,10 @@ namespace PointOfInterestSkill.Dialogs.Shared
 
                 return await sc.EndDialogAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogException(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -182,7 +185,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                     var templateId = string.Empty;
                     var cards = new List<Card>();
 
-                    if (sc.ActiveDialog.Id.Equals(Action.FindAlongRoute) && state.ActiveRoute != null)
+                    if (sc.ActiveDialog.Id.Equals(Actions.FindAlongRoute) && state.ActiveRoute != null)
                     {
                         templateId = POISharedResponses.MultipleLocationsFoundAlongActiveRoute;
                     }
@@ -204,7 +207,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                     state.Destination = state.LastFoundPointOfInterests.Single();
                     var templateId = string.Empty;
 
-                    if (sc.ActiveDialog.Id.Equals(Action.FindAlongRoute) && state.ActiveRoute != null)
+                    if (sc.ActiveDialog.Id.Equals(Actions.FindAlongRoute) && state.ActiveRoute != null)
                     {
                         templateId = POISharedResponses.SingleLocationFoundAlongActiveRoute;
                     }
@@ -424,6 +427,28 @@ namespace PointOfInterestSkill.Dialogs.Shared
             {
                 // put log here
             }
+        }
+
+
+        // This method is called by any waterfall step that throws an exception to ensure consistency
+        protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
+        {
+            // send trace back to emulator
+            var trace = new Activity(type: ActivityTypes.Trace, text: $"DialogException: {ex.Message}, StackTrace: {ex.StackTrace}");
+            await sc.Context.SendActivityAsync(trace);
+
+            // log exception
+            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
+
+            // send error message to bot user
+            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(POISharedResponses.PointOfInterestErrorMessage));
+
+            // clear state
+            var state = await Accessor.GetAsync(sc.Context);
+            state.Clear();
+            await sc.CancelAllDialogsAsync();
+
+            return;
         }
 
         protected async Task HandleDialogException(WaterfallStepContext sc)

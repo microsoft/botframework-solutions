@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -7,6 +8,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using PointOfInterestSkill.Dialogs.CancelRoute.Resources;
 using PointOfInterestSkill.Dialogs.Shared;
 using PointOfInterestSkill.ServiceClients;
@@ -32,10 +34,10 @@ namespace PointOfInterestSkill.Dialogs.CancelRoute
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.CancelActiveRoute, cancelRoute) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.CancelActiveRoute, cancelRoute) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
-            InitialDialogId = Action.CancelActiveRoute;
+            InitialDialogId = Actions.CancelActiveRoute;
         }
 
         public async Task<DialogTurnResult> CancelActiveRoute(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -60,10 +62,10 @@ namespace PointOfInterestSkill.Dialogs.CancelRoute
 
                 return await sc.EndDialogAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogException(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
     }

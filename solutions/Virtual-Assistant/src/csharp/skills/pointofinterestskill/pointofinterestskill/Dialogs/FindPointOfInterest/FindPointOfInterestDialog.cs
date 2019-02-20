@@ -31,11 +31,11 @@ namespace PointOfInterestSkill.Dialogs.FindPointOfInterest
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.FindPointOfInterest, findPointOfInterest) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.FindPointOfInterest, findPointOfInterest) { TelemetryClient = telemetryClient });
             AddDialog(new RouteDialog(services, responseManager, Accessor, ServiceManager, TelemetryClient, httpContext));
 
             // Set starting dialog for component
-            InitialDialogId = Action.FindPointOfInterest;
+            InitialDialogId = Actions.FindPointOfInterest;
         }
     }
 }

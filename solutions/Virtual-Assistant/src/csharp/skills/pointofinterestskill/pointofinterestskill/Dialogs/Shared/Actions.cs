@@ -1,6 +1,6 @@
 ﻿namespace PointOfInterestSkill.Dialogs.Shared
 {
-    public class Action
+    public class Actions
     {
         public const string Prompt = "prompt";
 

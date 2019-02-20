@@ -10,11 +10,12 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using PointOfInterestSkill.Dialogs.Route.Resources;
 using PointOfInterestSkill.Dialogs.Shared;
 using PointOfInterestSkill.Models;
 using PointOfInterestSkill.ServiceClients;
-using Action = PointOfInterestSkill.Dialogs.Shared.Action;
+using Actions = PointOfInterestSkill.Dialogs.Shared.Actions;
 
 namespace PointOfInterestSkill.Dialogs.Route
 {
@@ -56,13 +57,13 @@ namespace PointOfInterestSkill.Dialogs.Route
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.GetActiveRoute, checkForActiveRouteAndLocation) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Action.FindAlongRoute, findAlongRoute) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Action.FindRouteToActiveLocation, findRouteToActiveLocation) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Action.FindPointOfInterest, findPointOfInterest) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.GetActiveRoute, checkForActiveRouteAndLocation) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.FindAlongRoute, findAlongRoute) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.FindRouteToActiveLocation, findRouteToActiveLocation) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.FindPointOfInterest, findPointOfInterest) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
-            InitialDialogId = Action.GetActiveRoute;
+            InitialDialogId = Actions.GetActiveRoute;
         }
 
         public async Task<DialogTurnResult> CheckIfActiveRouteExists(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -73,15 +74,15 @@ namespace PointOfInterestSkill.Dialogs.Route
                 if (state.ActiveRoute != null)
                 {
                     await sc.EndDialogAsync(true);
-                    return await sc.BeginDialogAsync(Action.FindAlongRoute);
+                    return await sc.BeginDialogAsync(Actions.FindAlongRoute);
                 }
 
                 return await sc.NextAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogException(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -130,10 +131,10 @@ namespace PointOfInterestSkill.Dialogs.Route
 
                 return await sc.NextAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogException(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -145,15 +146,15 @@ namespace PointOfInterestSkill.Dialogs.Route
                 if (state.Destination == null)
                 {
                     await sc.EndDialogAsync(true);
-                    return await sc.BeginDialogAsync(Action.FindPointOfInterest);
+                    return await sc.BeginDialogAsync(Actions.FindPointOfInterest);
                 }
 
-                return await sc.BeginDialogAsync(Action.FindRouteToActiveLocation);
+                return await sc.BeginDialogAsync(Actions.FindRouteToActiveLocation);
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogException(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -170,7 +171,7 @@ namespace PointOfInterestSkill.Dialogs.Route
                 if (state.Destination == null)
                 {
                     // No ActiveLocation found
-                    return await sc.PromptAsync(Action.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(RouteResponses.MissingActiveLocationErrorMessage) });
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(RouteResponses.MissingActiveLocationErrorMessage) });
                 }
 
                 if (!string.IsNullOrEmpty(state.RouteType))
@@ -188,17 +189,17 @@ namespace PointOfInterestSkill.Dialogs.Route
 
                 if (routeDirections?.Routes?.ToList().Count == 1)
                 {
-                    return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(RouteResponses.PromptToStartRoute) });
+                    return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(RouteResponses.PromptToStartRoute) });
                 }
 
                 state.ClearLuisResults();
 
                 return await sc.EndDialogAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogException(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -242,10 +243,10 @@ namespace PointOfInterestSkill.Dialogs.Route
 
                 return await sc.EndDialogAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogException(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
     }
