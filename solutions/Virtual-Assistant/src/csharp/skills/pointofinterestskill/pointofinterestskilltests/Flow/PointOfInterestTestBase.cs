@@ -2,11 +2,14 @@
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Dialogs.BotResponseFormatters;
 using Microsoft.Bot.Solutions.Middleware;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PointOfInterestSkill.Dialogs.CancelRoute.Resources;
+using PointOfInterestSkill.Dialogs.Route.Resources;
+using PointOfInterestSkill.Dialogs.Shared.Resources;
 using PointOfInterestSkill.ServiceClients;
 using PointOfInterestSkillTests.API.Fakes;
 using PointOfInterestSkillTests.Flow.Fakes;
@@ -23,7 +26,9 @@ namespace PointOfInterestSkillTests.Flow
         public IBotTelemetryClient TelemetryClient { get; set; }
 
         public SkillConfigurationBase Services { get; set; }
+
         public IServiceManager ServiceManager { get; set; }
+
 
         [TestInitialize]
         public override void Initialize()
@@ -42,8 +47,14 @@ namespace PointOfInterestSkillTests.Flow
             this.Container = builder.Build();
             this.ServiceManager = fakeServiceManager;
 
-            BotResponseBuilder = new BotResponseBuilder();
-            BotResponseBuilder.AddFormatter(new TextBotResponseFormatter());
+            ResponseManager = new ResponseManager(
+                responseTemplates: new IResponseIdCollection[]
+                {
+                    new POISharedResponses(),
+                    new RouteResponses(),
+                    new CancelRouteResponses()
+                },
+                locales: new string[] { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" });
         }
 
         public TestFlow GetTestFlow()
@@ -63,7 +74,7 @@ namespace PointOfInterestSkillTests.Flow
 
         public override IBot BuildBot()
         {
-            return new PointOfInterestSkill.PointOfInterestSkill(Services, ConversationState, UserState, TelemetryClient, ServiceManager, true);
+            return new PointOfInterestSkill.PointOfInterestSkill(Services, ConversationState, UserState, TelemetryClient, true, ResponseManager, ServiceManager);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace PointOfInterestSkillTests.API
         {
             var service = new AzureMapsGeoSpatialService();
 
-            await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Locale, mockClient);
+            await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Limit, MockData.Locale, mockClient);
 
             var pointOfInterestList = await service.GetNearbyPointOfInterestListAsync(MockData.Latitude, MockData.Longitude);
             Assert.AreEqual(pointOfInterestList[0].Id, "US/POI/p1/101761");
@@ -43,7 +43,7 @@ namespace PointOfInterestSkillTests.API
         {
             var service = new AzureMapsGeoSpatialService();
 
-            await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Locale, mockClient);
+            await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Limit, MockData.Locale, mockClient);
 
             var pointOfInterestList = await service.GetNearbyPointOfInterestListAsync(MockData.Latitude, MockData.Longitude);
 
@@ -57,7 +57,7 @@ namespace PointOfInterestSkillTests.API
         {
             var service = new AzureMapsGeoSpatialService();
 
-            await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Locale, mockClient);
+            await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Limit, MockData.Locale, mockClient);
 
             var pointOfInterestList = await service.GetPointOfInterestListByQueryAsync(MockData.Latitude, MockData.Longitude, MockData.Query);
             Assert.AreEqual(pointOfInterestList[0].Id, "US/POI/p1/101761");
@@ -73,7 +73,7 @@ namespace PointOfInterestSkillTests.API
         {
             var service = new AzureMapsGeoSpatialService();
 
-            await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Locale, mockClient);
+            await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Limit, MockData.Locale, mockClient);
 
             var routeDirections = await service.GetRouteDirectionsToDestinationAsync(MockData.Latitude, MockData.Longitude, MockData.Latitude, MockData.Longitude);
             Assert.AreEqual(routeDirections.Routes[0].Summary.LengthInMeters, 1147);
@@ -85,7 +85,7 @@ namespace PointOfInterestSkillTests.API
         {
             var service = new AzureMapsGeoSpatialService();
 
-            await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Locale, mockClient);
+            await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Limit, MockData.Locale, mockClient);
 
             var pointOfInterestList = await service.GetPointOfInterestListByAddressAsync(MockData.Latitude, MockData.Longitude, MockData.Address);
             Assert.AreEqual(pointOfInterestList[0].City, "Issaquah");
@@ -98,7 +98,7 @@ namespace PointOfInterestSkillTests.API
         {
             var service = new AzureMapsGeoSpatialService();
 
-            await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Locale, mockClient);
+            await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Limit, MockData.Locale, mockClient);
 
             var pointOfInterestList = await service.GetPointOfInterestListByParkingCategoryAsync(MockData.Latitude, MockData.Longitude);
             Assert.AreEqual(pointOfInterestList[0].Name, "1110 Elliott Avenue West");

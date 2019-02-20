@@ -120,7 +120,7 @@ namespace PointOfInterestSkill.ServiceClients
         public async Task<List<PointOfInterestModel>> GetNearbyPointOfInterestListAsync(double latitude, double longitude)
         {
             return await GetPointsOfInterestAsync(
-                string.Format(CultureInfo.InvariantCulture, FindNearbyUrl, latitude, longitude, radius));
+                string.Format(CultureInfo.InvariantCulture, FindNearbyUrl, latitude, longitude, radius, limit));
         }
 
         /// <summary>

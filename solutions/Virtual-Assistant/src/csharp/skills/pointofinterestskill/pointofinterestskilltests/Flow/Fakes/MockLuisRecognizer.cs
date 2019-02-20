@@ -15,9 +15,8 @@ namespace PointOfInterestSkillTests.Flow.Fakes
         public MockLuisRecognizer()
         {
         }
-        public bool LogOriginalMessage => throw new NotImplementedException();
 
-        public bool LogUsername => throw new NotImplementedException();
+        public bool LogPersonalInformation => throw new NotImplementedException();
 
         public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
@@ -31,7 +30,7 @@ namespace PointOfInterestSkillTests.Flow.Fakes
 
             var t = typeof(T);
             var text = turnContext.Activity.Text;
-            if (t.Name.Equals(typeof(PointOfInterest).Name))
+            if (t.Name.Equals(typeof(PointOfInterestLU).Name))
             {
                 var mockPointOfInterest = new MockPointOfInterestIntent(text);
 
@@ -56,7 +55,7 @@ namespace PointOfInterestSkillTests.Flow.Fakes
 
             var t = typeof(T);
             var text = dialogContext.Context.Activity.Text;
-            if (t.Name.Equals(typeof(PointOfInterest).Name))
+            if (t.Name.Equals(typeof(PointOfInterestLU).Name))
             {
                 var mockPointOfInterest = new MockPointOfInterestIntent(text);
 
@@ -81,7 +80,7 @@ namespace PointOfInterestSkillTests.Flow.Fakes
 
             var t = typeof(T);
             var text = turnContext.Activity.Text;
-            if (t.Name.Equals(typeof(PointOfInterest).Name))
+            if (t.Name.Equals(typeof(PointOfInterestLU).Name))
             {
                 var mockPointOfInterest = new MockPointOfInterestIntent(text);
 

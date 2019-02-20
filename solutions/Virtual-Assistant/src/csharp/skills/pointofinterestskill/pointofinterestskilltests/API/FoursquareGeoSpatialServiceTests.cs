@@ -26,7 +26,7 @@ namespace PointOfInterestSkillTests.API
         {
             var service = new FoursquareGeoSpatialService();
 
-            await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Radius, MockData.Locale, mockClient);
+            await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Radius, MockData.Limit, MockData.Locale, mockClient);
 
             var pointOfInterestList = await service.GetNearbyPointOfInterestListAsync(MockData.Latitude, MockData.Longitude);
 
@@ -48,7 +48,7 @@ namespace PointOfInterestSkillTests.API
         {
             var service = new FoursquareGeoSpatialService();
 
-            await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Radius, MockData.Locale, mockClient);
+            await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Radius, MockData.Limit, MockData.Locale, mockClient);
 
             var pointOfInterestList = await service.GetNearbyPointOfInterestListAsync(MockData.Latitude, MockData.Longitude);
             
@@ -71,7 +71,7 @@ namespace PointOfInterestSkillTests.API
         {
             var service = new FoursquareGeoSpatialService();
 
-            await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Radius, MockData.Locale, mockClient);
+            await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Radius, MockData.Limit, MockData.Locale, mockClient);
 
             var pointOfInterestList = await service.GetPointOfInterestListByQueryAsync(MockData.Latitude, MockData.Longitude, MockData.Query);
             Assert.AreEqual(pointOfInterestList[0].Id, "412d2800f964a520df0c1fe3");
@@ -88,7 +88,7 @@ namespace PointOfInterestSkillTests.API
         {
             var service = new FoursquareGeoSpatialService();
 
-            await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Radius, MockData.Locale, mockClient);
+            await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Radius, MockData.Limit, MockData.Locale, mockClient);
 
             var pointOfInterestList = await service.GetPointOfInterestListByParkingCategoryAsync(MockData.Latitude, MockData.Longitude);
             Assert.AreEqual(pointOfInterestList[0].Name, "Sea-Tac Airport Parking Garage");

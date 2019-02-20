@@ -205,7 +205,7 @@ namespace PointOfInterestSkillTests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                CollectionAssert.Contains(ParseReplies(POISharedResponses.MultipleLocationsFound.Replies, new StringDictionary()), messageActivity.Text);
+                CollectionAssert.Contains(ParseReplies(POISharedResponses.MultipleLocationsFound, new StringDictionary()), messageActivity.Text);
             };
         }
 
@@ -219,7 +219,7 @@ namespace PointOfInterestSkillTests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                CollectionAssert.Contains(ParseReplies(POISharedResponses.SingleLocationFound.Replies, new StringDictionary()), messageActivity.Text);
+                CollectionAssert.Contains(ParseReplies(POISharedResponses.SingleLocationFound, new StringDictionary()), messageActivity.Text);
             };
         }
 
@@ -233,7 +233,7 @@ namespace PointOfInterestSkillTests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                CollectionAssert.Contains(ParseReplies(POISharedResponses.SingleRouteFound.Replies, new StringDictionary()), messageActivity.Text);
+                CollectionAssert.Contains(ParseReplies(POISharedResponses.SingleRouteFound, new StringDictionary()), messageActivity.Text);
             };
         }
 
@@ -248,7 +248,7 @@ namespace PointOfInterestSkillTests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                CollectionAssert.Contains(ParseReplies(POISharedResponses.MultipleRoutesFound.Replies, new StringDictionary()), messageActivity.Text);
+                CollectionAssert.Contains(ParseReplies(POISharedResponses.MultipleRoutesFound, new StringDictionary()), messageActivity.Text);
             };
         }
 
@@ -263,7 +263,7 @@ namespace PointOfInterestSkillTests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                CollectionAssert.Contains(ParseReplies(RouteResponses.PromptToStartRoute.Replies, new StringDictionary()), messageActivity.Speak);
+                CollectionAssert.Contains(ParseReplies(RouteResponses.PromptToStartRoute, new StringDictionary()), messageActivity.Speak);
             };
         }
 
@@ -278,7 +278,7 @@ namespace PointOfInterestSkillTests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                CollectionAssert.Contains(ParseReplies(RouteResponses.SendingRouteDetails.Replies, new StringDictionary()), messageActivity.Text);
+                CollectionAssert.Contains(ParseReplies(RouteResponses.SendingRouteDetails, new StringDictionary()), messageActivity.Text);
             };
         }
 
@@ -292,7 +292,7 @@ namespace PointOfInterestSkillTests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                CollectionAssert.Contains(ParseReplies(CancelRouteResponses.CannotCancelActiveRoute.Replies, new StringDictionary()), messageActivity.Text);
+                CollectionAssert.Contains(ParseReplies(CancelRouteResponses.CannotCancelActiveRoute, new StringDictionary()), messageActivity.Text);
             };
         }
 
@@ -306,7 +306,7 @@ namespace PointOfInterestSkillTests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                CollectionAssert.Contains(ParseReplies(CancelRouteResponses.CancelActiveRoute.Replies, new StringDictionary()), messageActivity.Text);
+                CollectionAssert.Contains(ParseReplies(CancelRouteResponses.CancelActiveRoute, new StringDictionary()), messageActivity.Text);
             };
         }
 
