@@ -366,7 +366,7 @@ namespace CalendarSkill.Dialogs.Summary
 
                     // filter meetings with contact name
                     var contactNameList = new List<string>() { userInput };
-                    if (filteredMeetingList.Count <= 0 && luisResult.Entities.ContactName != null)
+                    if (filteredMeetingList.Count <= 0 && luisResult.Entities.personName != null)
                     {
                         contactNameList = GetAttendeesFromEntity(luisResult.Entities, userInput);
                     }

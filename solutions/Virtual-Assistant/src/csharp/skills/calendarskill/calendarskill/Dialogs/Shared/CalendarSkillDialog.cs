@@ -432,7 +432,7 @@ namespace CalendarSkill.Dialogs.Shared
                                 state.Title = GetSubjectFromEntity(entity);
                             }
 
-                            if (entity.ContactName != null)
+                            if (entity.personName != null)
                             {
                                 state.CreateHasDetail = true;
                                 state.AttendeesNameList = GetAttendeesFromEntity(entity, luisResult.Text, state.AttendeesNameList);
@@ -653,6 +653,11 @@ namespace CalendarSkill.Dialogs.Shared
                         }
 
                     case CalendarLU.Intent.FindCalendarEntry:
+                    case CalendarLU.Intent.FindCalendarDetail:
+                    case CalendarLU.Intent.FindCalendarWhen:
+                    case CalendarLU.Intent.FindCalendarWhere:
+                    case CalendarLU.Intent.FindCalendarWho:
+                    case CalendarLU.Intent.FindDuration:
                         {
                             if (entity.OrderReference != null)
                             {
@@ -712,10 +717,7 @@ namespace CalendarSkill.Dialogs.Shared
                                 }
                             }
 
-                            if (entity.AskParameter != null)
-                            {
-                                state.AskParameterContent = GetAskParameterFromEntity(entity);
-                            }
+                            state.AskParameterContent = luisResult.Text;
 
                             break;
                         }
@@ -1161,11 +1163,6 @@ namespace CalendarSkill.Dialogs.Shared
             return entity.Subject[0];
         }
 
-        private string GetAskParameterFromEntity(CalendarLU._Entities entity)
-        {
-            return entity.AskParameter[0];
-        }
-
         protected List<string> GetAttendeesFromEntity(CalendarLU._Entities entity, string inputString, List<string> attendees = null)
         {
             if (attendees == null)
@@ -1176,7 +1173,7 @@ namespace CalendarSkill.Dialogs.Shared
             // As luis result for email address often contains extra spaces for word breaking
             // (e.g. send email to test@test.com, email address entity will be test @ test . com)
             // So use original user input as email address.
-            var rawEntity = entity._instance.ContactName;
+            var rawEntity = entity._instance.personName;
             foreach (var name in rawEntity)
             {
                 var contactName = inputString.Substring(name.StartIndex, name.EndIndex - name.StartIndex);

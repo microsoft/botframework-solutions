@@ -145,6 +145,11 @@ namespace CalendarSkill.Dialogs.Main
                         }
 
                     case Luis.CalendarLU.Intent.FindCalendarEntry:
+                    case Luis.CalendarLU.Intent.FindCalendarDetail:
+                    case Luis.CalendarLU.Intent.FindCalendarWhen:
+                    case Luis.CalendarLU.Intent.FindCalendarWhere:
+                    case Luis.CalendarLU.Intent.FindCalendarWho:
+                    case Luis.CalendarLU.Intent.FindDuration:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog), skillOptions);
                             break;
