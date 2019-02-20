@@ -51,11 +51,11 @@ dependencies
 ## Using Application Insights in Visual Studio
 Within Visual Studio, Application Insights events can be queried in the "Application Insights Search" window.  [For more details, see the Application Insights documentation](https://docs.microsoft.com/en-us/azure/application-insights/app-insights-diagnostic-search).
 
-![Example Visual Studio Session](../media/visualstudio_appinsights.PNG)
+![Example Visual Studio Session](../media/visualstudio_appinsights.png)
 
 Clicking on "Track Operation" on the details of any event can give you a visualization of where time is being spent, using the events in the telemetry that are automatically correlated:
 
-![Example Track Operation](../media/visualstudio_trackoperation.PNG)
+![Example Track Operation](../media/visualstudio_trackoperation.png)
 
 With this view, you can quickly understand where time is being spent within your bot.
 
