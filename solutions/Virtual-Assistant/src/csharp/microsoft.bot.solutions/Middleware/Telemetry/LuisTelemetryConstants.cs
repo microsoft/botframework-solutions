@@ -18,7 +18,6 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
         public const string ActivityIdProperty = "activityId";
         public const string SentimentLabelProperty = "sentimentLabel";
         public const string SentimentScoreProperty = "sentimentScore";
-        public const string DialogId = "dialogId";
         public const string FromIdProperty = "fromId";
     }
 }
