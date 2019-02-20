@@ -136,9 +136,14 @@ namespace EmailSkill.Dialogs.Main
                             break;
                         }
 
+                    case EmailLU.Intent.ShowNext:
+                    case EmailLU.Intent.ShowPrevious:
                     case EmailLU.Intent.None:
                         {
-                            if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
+                            if (intent == EmailLU.Intent.ShowNext
+                                || intent == EmailLU.Intent.ShowPrevious
+                                || generalTopIntent == General.Intent.Next
+                                || generalTopIntent == General.Intent.Previous)
                             {
                                 turnResult = await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
                             }
