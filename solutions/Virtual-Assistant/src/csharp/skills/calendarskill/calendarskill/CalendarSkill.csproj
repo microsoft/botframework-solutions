@@ -49,8 +49,6 @@
     <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventResponses.it.json" />
     <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventResponses.json" />
     <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventResponses.zh.json" />
-    <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventWhiteList.json" />
-    <EmbeddedResource Include="Dialogs\CreateEvent\Resources\CreateEventWhiteList.zh.json" />
     <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.de.json" />
     <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.es.json" />
     <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.fr.json" />

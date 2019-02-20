@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
+using System.Text.RegularExpressions;
+using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using Newtonsoft.Json;
 
 namespace CalendarSkill.Dialogs.CreateEvent.Resources
@@ -13,90 +9,62 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
     {
         private const string DefaultCulture = "en";
         private static Random random;
-        private static Dictionary<string, WhiteList> whiteLists;
+        private static WhiteList whiteList;
 
         static CreateEventWhiteList()
         {
             random = new Random();
-            whiteLists = new Dictionary<string, WhiteList>();
-            var assembly = Assembly.GetExecutingAssembly();
-            var resources = assembly.GetManifestResourceNames();
+            whiteList = new WhiteList();
 
-            var whitelist = resources.Where(r => r.Contains("CreateEventWhiteList")).Single();
-            var sr = new StreamReader(assembly.GetManifestResourceStream(whitelist), Encoding.Default);
-            whiteLists.Add("en", JsonConvert.DeserializeObject<WhiteList>(sr.ReadToEnd()));
+            // Get skip regex
+            whiteList.SkipPhrases = new Regex(CalendarCommonStrings.SkipPhrases);
 
-            resources = assembly.GetSatelliteAssembly(new CultureInfo("zh")).GetManifestResourceNames();
-            whitelist = resources.Where(r => r.Contains("CreateEventWhiteList")).Single();
-            sr = new StreamReader(assembly.GetManifestResourceStream(whitelist), Encoding.Default);
-            whiteLists.Add("zh", JsonConvert.DeserializeObject<WhiteList>(sr.ReadToEnd()));
+            // Get default title
+            whiteList.DefaultTitle = CalendarCommonStrings.DefaultTitle.Split("|");
 
-            var locale = CultureInfo.CurrentUICulture.Name;
+            // Get contact separator
+            whiteList.ContactSeparator = CalendarCommonStrings.ContactSeparator.Split("|");
+
+            // Get nyself
+            whiteList.Myself = new Regex(CalendarCommonStrings.Myself);
         }
 
         // todo: discuss about whether use Luis, just whitelist, or any other solutions.
         public static bool IsSkip(string input)
         {
-            var locale = CultureInfo.CurrentUICulture.Name.Split("-")[0].ToLower();
-
-            if (!whiteLists.ContainsKey(locale))
-            {
-                locale = DefaultCulture;
-            }
-
-            return whiteLists[locale].SkipPhrases.Contains(input);
+            return whiteList.SkipPhrases.IsMatch(input);
         }
 
         public static string GetDefaultTitle()
         {
-            var locale = CultureInfo.CurrentUICulture.Name.Split("-")[0].ToLower();
 
-            if (!whiteLists.ContainsKey(locale))
-            {
-                locale = DefaultCulture;
-            }
-
-            var rand = random.Next(0, whiteLists[locale].DefaultTitle.Count);
-            return whiteLists[locale].DefaultTitle[rand];
+            var rand = random.Next(0, whiteList.DefaultTitle.Length);
+            return whiteList.DefaultTitle[rand];
         }
 
         public static string[] GetContactNameSeparator()
         {
-            var locale = CultureInfo.CurrentUICulture.Name.Split("-")[0].ToLower();
-
-            if (!whiteLists.ContainsKey(locale))
-            {
-                locale = DefaultCulture;
-            }
-
-            return whiteLists[locale].ContactSeparator;
+            return whiteList.ContactSeparator;
         }
 
-        public static string[] GetMyself()
+        public static bool GetMyself(string input)
         {
-            var locale = CultureInfo.CurrentUICulture.Name.Split("-")[0].ToLower();
-
-            if (!whiteLists.ContainsKey(locale))
-            {
-                locale = DefaultCulture;
-            }
-
-            return whiteLists[locale].Myself;
+            return whiteList.Myself.IsMatch(input);
         }
 
         private class WhiteList
         {
             [JsonProperty("SkipPhrases")]
-            public List<string> SkipPhrases { get; private set; }
+            public Regex SkipPhrases { get; set; }
 
             [JsonProperty("DefaultTitle")]
-            public List<string> DefaultTitle { get; private set; }
+            public string[] DefaultTitle { get; set; }
 
             [JsonProperty("ContactSeparator")]
-            public string[] ContactSeparator { get; private set; }
+            public string[] ContactSeparator { get; set; }
 
             [JsonProperty("Myself")]
-            public string[] Myself { get; private set; }
+            public Regex Myself { get; set; }
         }
     }
 }
