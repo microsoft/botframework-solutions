@@ -4,7 +4,7 @@
 
 Proactive Messaging scenarios are the real intelligent part of the Virtual Assistant. Scenarios like 'You have a meeting coming up in 27 minutes' or 'Here's your daily briefing' will really make your assistant stand out and provide some unique features to your users.
 
-## General Pattern
+## Implementaton
 
 There is one proactive scenario that's already implemented which you can look at as an example: when external system sends a 'DeviceStart' event to the bot, it starts querying for upcoming event for the next hour for 30 minutes. Within CalendarSkill, the dialog that handles this scenario is at
 
@@ -62,8 +62,8 @@ Now that we can retrieve the stored conversation reference objects, how do we ac
 
 Virtual Assistant gives you two ways of doing it:
 
-BackgroundTaskQueue
-ScheduledTask
+- BackgroundTaskQueue
+- ScheduledTask
 
 With BackgroundTaskQueue, you can use its function QueueBackgroundWorkItem to put the processing of the operation into a queue and the hosted service that handles the background tasks will pick it up and run it in a different thread.
 
