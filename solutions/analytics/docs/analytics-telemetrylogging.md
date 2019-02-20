@@ -117,7 +117,7 @@ Property |Value
 **Logged From:** TelemetryLoggerMiddleware
 
 Property |Value 
---- | --- | ---
+--- | --- 
  `user_id` |  [From Telemetry Initializer](#initializer)
 `session_id` |  [From Telemetry Initializer](#initializer)
 `customDimensions.activityId` | [From Telemetry Initializer](#initializer)
@@ -137,7 +137,7 @@ Property |Value
 **Logged From:** TelemetryLoggerMiddleware
 
 Property |Value 
---- | --- | ---
+--- | --- 
  `user_id` |  [From Telemetry Initializer](#initializer)
 `session_id` |  [From Telemetry Initializer](#initializer)
 `customDimensions.activityId` | [From Telemetry Initializer](#initializer)
@@ -157,7 +157,7 @@ Property |Value
 **Logged from:** TelemetryLuisRecognizer
 
 Property |Value 
---- | --- | ---
+--- | --- 
  `user_id` |  [From Telemetry Initializer](#initializer)
 `session_id` |  [From Telemetry Initializer](#initializer)
 `customDimensions.activityId` | [From Telemetry Initializer](#initializer)
@@ -179,7 +179,7 @@ Property |Value
 **Logged from:** TelemetryQnAMaker
 
 Property |Value 
---- | --- | ---
+--- | --- 
  `user_id` |  [From Telemetry Initializer](#initializer)
 `session_id` |  [From Telemetry Initializer](#initializer)
 `customDimensions.activityId` | [From Telemetry Initializer](#initializer)
@@ -199,7 +199,7 @@ Property |Value
 **Logged from:** SDK when TelemetryClient is configured
 
 Property |Value 
---- | --- | ---
+--- | --- 
  `user_id` |  [From Telemetry Initializer](#initializer)
 `session_id` |  [From Telemetry Initializer](#initializer)
 `customDimensions.activityId` | [From Telemetry Initializer](#initializer)
@@ -214,7 +214,7 @@ Property |Value
 **Logged from:** SDK when TelemetryClient is configured
 
 Property |Value 
---- | --- | ---
+--- | --- 
  `user_id` |  [From Telemetry Initializer](#initializer)
 `session_id` |  [From Telemetry Initializer](#initializer)
 `customDimensions.activityId` | [From Telemetry Initializer](#initializer)
@@ -230,7 +230,7 @@ Property |Value
 **Logged from:** SDK when TelemetryClient is configured
 
 Property |Value 
---- | --- | ---
+--- | --- 
  `user_id` |  [From Telemetry Initializer](#initializer)
 `session_id` |  [From Telemetry Initializer](#initializer)
 `customDimensions.activityId` | [From Telemetry Initializer](#initializer)
@@ -246,7 +246,7 @@ Property |Value
 **Logged from:** SDK when TelemetryClient is configured
 
 Property |Value 
---- | --- | ---
+--- | --- 
  `user_id` |  [From Telemetry Initializer](#initializer)
 `session_id` |  [From Telemetry Initializer](#initializer)
 `customDimensions.activityId` | [From Telemetry Initializer](#initializer)
