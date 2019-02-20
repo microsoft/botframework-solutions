@@ -171,4 +171,16 @@
   <data name="Empty" xml:space="preserve">
     <value>空</value>
   </data>
+  <data name="ContactSeparator" xml:space="preserve">
+    <value>,|和|;|，|；</value>
+  </data>
+  <data name="DefaultTitle" xml:space="preserve">
+    <value>会议</value>
+  </data>
+  <data name="Myself" xml:space="preserve">
+    <value>^(我|自己)$</value>
+  </data>
+  <data name="SkipPhrases" xml:space="preserve">
+    <value>(跳过|不要|空着|没有)</value>
+  </data>
 </root>
