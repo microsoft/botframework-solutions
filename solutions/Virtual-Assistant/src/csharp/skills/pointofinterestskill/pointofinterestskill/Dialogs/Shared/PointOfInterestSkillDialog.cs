@@ -81,6 +81,8 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 var state = await Accessor.GetAsync(sc.Context);
 
                 var service = ServiceManager.InitMapsService(Services, sc.Context.Activity.Locale ?? "en-us");
+                var addressMapsService = ServiceManager.InitAddressMapsService(Services, sc.Context.Activity.Locale ?? "en-us");
+
                 var pointOfInterestList = new List<PointOfInterestModel>();
 
                 state.CheckForValidCurrentCoordinates();
@@ -90,6 +92,24 @@ namespace PointOfInterestSkill.Dialogs.Shared
                     // No entities identified, find nearby locations
                     pointOfInterestList = await service.GetNearbyPointOfInterestListAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
                     await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
+                }
+                else if (!string.IsNullOrEmpty(state.Keyword) && !string.IsNullOrEmpty(state.Address))
+                {
+                    // Get first POI matched with address, if there are multiple this could be expanded to confirm which address to use
+                    var pointOfInterestAddressList = await addressMapsService.GetPointOfInterestListByAddressAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Address);
+
+                    if (pointOfInterestAddressList.Any())
+                    {
+                        var pointOfInterest = pointOfInterestAddressList[0];
+                        pointOfInterestList = await service.GetPointOfInterestListByQueryAsync(pointOfInterest.Geolocation.Latitude, pointOfInterest.Geolocation.Longitude, state.Keyword);
+                        await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
+                    }
+                    else
+                    {
+                        // No POIs found from address - search near current coordinates
+                        pointOfInterestList = await service.GetPointOfInterestListByQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Keyword);
+                        await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
+                    }
                 }
                 else if (!string.IsNullOrEmpty(state.Keyword))
                 {

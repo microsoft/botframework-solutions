@@ -66,7 +66,7 @@ namespace PointOfInterestSkill.Dialogs.FindParking
 
                     if (pointOfInterestAddressList.Any())
                     {
-                        var pointOfInterest = pointOfInterestAddressList[1];
+                        var pointOfInterest = pointOfInterestAddressList[0];
                         pointOfInterestList = await mapsService.GetPointOfInterestListByParkingCategoryAsync(pointOfInterest.Geolocation.Latitude, pointOfInterest.Geolocation.Longitude);
                         await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                     }
