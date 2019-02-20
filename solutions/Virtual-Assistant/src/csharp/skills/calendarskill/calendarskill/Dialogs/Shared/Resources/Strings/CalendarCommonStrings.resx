@@ -148,27 +148,39 @@
     <value>^(no|cancel|nop|don't|not)</value>
   </data>
   <data name="AdjustContent" xml:space="preserve">
-    <value>(adjust|change|update).*(content|body|detail|details)</value>
+    <value>(adjust|change|update)?.*(content|body|detail|details)</value>
   </data>
   <data name="AdjustDuration" xml:space="preserve">
-    <value>(adjust|change|update).*(duration|length)</value>
+    <value>(adjust|change|update)?.*(duration|length)</value>
   </data>
   <data name="AdjustLocation" xml:space="preserve">
-    <value>(adjust|change|update).*(location|place|where)</value>
+    <value>(adjust|change|update)?.*(location|place|where)</value>
   </data>
   <data name="AdjustParticipants" xml:space="preserve">
-    <value>(adjust|change|update|add|delete).*(participants|attendee|attendees|people|person)</value>
+    <value>(adjust|change|update|add|delete)?.*(participants|attendee|attendees|people|person)</value>
   </data>
   <data name="AdjustSubject" xml:space="preserve">
-    <value>(adjust|change|update).*(subject|title)</value>
+    <value>(adjust|change|update)?.*(subject|title)</value>
   </data>
   <data name="AdjustTime" xml:space="preserve">
-    <value>(adjust|change|update).*time</value>
+    <value>(adjust|change|update)?.*time</value>
   </data>
   <data name="NoAttendees" xml:space="preserve">
     <value>no attendees</value>
   </data>
   <data name="Empty" xml:space="preserve">
     <value>empty</value>
+  </data>
+  <data name="ContactSeparator" xml:space="preserve">
+    <value>,|and|;</value>
+  </data>
+  <data name="DefaultTitle" xml:space="preserve">
+    <value>Meeting</value>
+  </data>
+  <data name="Myself" xml:space="preserve">
+    <value>^(me|myself)$</value>
+  </data>
+  <data name="SkipPhrases" xml:space="preserve">
+    <value>^(skip|no)</value>
   </data>
 </root>

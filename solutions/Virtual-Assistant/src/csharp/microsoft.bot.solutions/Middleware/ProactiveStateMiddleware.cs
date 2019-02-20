@@ -2,13 +2,11 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Solutions.Models.Proactive;
-using Utilities;
+using Microsoft.Bot.Solutions.Util;
 using static Microsoft.Bot.Solutions.Models.Proactive.ProactiveModel;
 
 namespace Microsoft.Bot.Solutions.Middleware

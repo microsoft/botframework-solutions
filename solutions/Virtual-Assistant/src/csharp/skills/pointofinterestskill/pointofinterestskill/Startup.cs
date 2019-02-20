@@ -20,6 +20,7 @@ using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.TaskExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PointOfInterestSkill.Dialogs.CancelRoute.Resources;
@@ -28,7 +29,6 @@ using PointOfInterestSkill.Dialogs.Main.Resources;
 using PointOfInterestSkill.Dialogs.Route.Resources;
 using PointOfInterestSkill.Dialogs.Shared.Resources;
 using PointOfInterestSkill.ServiceClients;
-using Utilities.TaskExtensions;
 
 namespace PointOfInterestSkill
 {

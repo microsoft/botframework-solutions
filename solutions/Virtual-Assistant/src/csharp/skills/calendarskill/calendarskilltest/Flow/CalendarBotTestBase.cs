@@ -22,9 +22,9 @@ using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.TaskExtensions;
 using Microsoft.Bot.Solutions.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Utilities.TaskExtensions;
 
 namespace CalendarSkillTest.Flow
 {

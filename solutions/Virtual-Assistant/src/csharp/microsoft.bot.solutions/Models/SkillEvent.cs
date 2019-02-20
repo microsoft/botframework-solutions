@@ -5,20 +5,20 @@ using System.Collections.Generic;
 using Microsoft.Bot.Configuration;
 using Newtonsoft.Json;
 
-namespace Microsoft.Bot.Solutions.Model.Proactive
+namespace Microsoft.Bot.Solutions.Model
 {
-    public class ProactiveStep : ConnectedService
+    public class SkillEvent : ConnectedService
     {
-        public ProactiveStep()
-            : base("proactiveStep")
+        public SkillEvent()
+            : base("skillEvent")
         {
         }
 
         [JsonProperty("event")]
         public string Event { get; set; }
 
-        [JsonProperty("skillId")]
-        public string SkillId { get; set; }
+        [JsonProperty("skillIds")]
+        public string[] SkillIds { get; set; }
 
         [JsonProperty("parameters")]
         public Dictionary<string, string> Parameters { get; set; }

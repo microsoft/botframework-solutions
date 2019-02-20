@@ -150,7 +150,37 @@
   <data name="NoAttendees" xml:space="preserve">
     <value>无与会人</value>
   </data>
+  <data name="AdjustContent" xml:space="preserve">
+    <value>(调整|修改|更新|换一个|换|改)?.*(内容|细节)</value>
+  </data>
+  <data name="AdjustDuration" xml:space="preserve">
+    <value>(调整|修改|更新|换一个|换|改)?.*(长度|时长|长短)</value>
+  </data>
+  <data name="AdjustLocation" xml:space="preserve">
+    <value>(调整|修改|更新|换一个|换|改)?.*(位置|地点|房间|会议室|地方)</value>
+  </data>
+  <data name="AdjustParticipants" xml:space="preserve">
+    <value>(调整|修改|更新|换一个|换|改)?.*(参与者|参加者|与会者|参会者|参加人|参会人|列席者|列席人|人)</value>
+  </data>
+  <data name="AdjustSubject" xml:space="preserve">
+    <value>(调整|修改|更新|换一个|换|改)?.*(标题|题目|主题|核心)</value>
+  </data>
+  <data name="AdjustTime" xml:space="preserve">
+    <value>(调整|修改|更新|换一个|换|改)?.*时间</value>
+  </data>
   <data name="Empty" xml:space="preserve">
     <value>空</value>
+  </data>
+  <data name="ContactSeparator" xml:space="preserve">
+    <value>,|和|;|，|；</value>
+  </data>
+  <data name="DefaultTitle" xml:space="preserve">
+    <value>会议</value>
+  </data>
+  <data name="Myself" xml:space="preserve">
+    <value>^(我|自己)$</value>
+  </data>
+  <data name="SkipPhrases" xml:space="preserve">
+    <value>(跳过|不要|空着|没有)</value>
   </data>
 </root>

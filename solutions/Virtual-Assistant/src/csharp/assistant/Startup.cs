@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,18 +17,20 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
-using Microsoft.Bot.Solutions.Model.Proactive;
+using Microsoft.Bot.Solutions.Model;
 using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.TaskExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Utilities.TaskExtensions;
 using VirtualAssistant.Dialogs.Main;
 
 namespace VirtualAssistant
 {
     public class Startup
     {
+        private const string SkillEventsConfigFile = "skillEvents.json";
+        private const string SkillEventsConfigName = "skillEvents";
         private bool _isProduction = false;
 
         public Startup(IHostingEnvironment env)
@@ -36,8 +39,12 @@ namespace VirtualAssistant
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddJsonFile("proactiveScenarios.json", optional: true)
                 .AddEnvironmentVariables();
+
+            if (File.Exists(Path.Combine(env.ContentRootPath, SkillEventsConfigFile)))
+            {
+                builder.AddJsonFile(SkillEventsConfigFile, optional: true);
+            }
 
             Configuration = builder.Build();
         }
@@ -61,8 +68,14 @@ namespace VirtualAssistant
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
             var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
             var skills = Configuration.GetSection("skills").Get<List<SkillDefinition>>();
-            var proactiveScenariosConfig = Configuration.GetSection("proactiveSteps").Get<List<ProactiveStep>>();
-            var connectedServices = new BotServices(botConfig, languageModels, skills, proactiveScenariosConfig);
+            List<SkillEvent> skillEvents = null;
+            var skillEventsConfig = Configuration.GetSection(SkillEventsConfigName);
+            if (skillEventsConfig != null)
+            {
+                skillEvents = skillEventsConfig.Get<List<SkillEvent>>();
+            }
+
+            var connectedServices = new BotServices(botConfig, languageModels, skills, skillEvents);
             services.AddSingleton(sp => connectedServices);
 
             var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
