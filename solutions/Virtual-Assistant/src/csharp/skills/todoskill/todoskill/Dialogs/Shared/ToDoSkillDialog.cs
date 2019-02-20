@@ -449,7 +449,7 @@ namespace ToDoSkill.Dialogs.Shared
             }
             else
             {
-                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
+                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForMultipleTasks);
             }
 
             var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
@@ -538,7 +538,7 @@ namespace ToDoSkill.Dialogs.Shared
             }
 
             var body = new List<AdaptiveElement>();
-            response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
+            response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForMultipleTasks);
             var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
@@ -629,7 +629,7 @@ namespace ToDoSkill.Dialogs.Shared
             var toDoCard = new AdaptiveCard();
             toDoCard.Speak = speakText;
             var body = new List<AdaptiveElement>();
-            response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
+            response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForMultipleTasks);
             var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
@@ -708,7 +708,7 @@ namespace ToDoSkill.Dialogs.Shared
             }
             else
             {
-                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
+                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForMultipleTasks);
             }
 
             var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
@@ -781,7 +781,7 @@ namespace ToDoSkill.Dialogs.Shared
             }
             else
             {
-                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
+                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForMultipleTasks);
             }
 
             var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
@@ -851,7 +851,7 @@ namespace ToDoSkill.Dialogs.Shared
             }
             else
             {
-                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
+                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForMultipleTasks);
             }
 
             var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
@@ -909,7 +909,7 @@ namespace ToDoSkill.Dialogs.Shared
             }
             else
             {
-                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessage);
+                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForMultipleTasks);
             }
 
             var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });

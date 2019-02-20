@@ -107,7 +107,7 @@
     ],
     "inputHint": "ignoringInput"
   },
-  "CardSummaryMessage": {
+  "CardSummaryMessageForMultipleTasks": {
     "replies": [
       {
         "text": "You have {taskCount} tasks on your {listType} list:",
@@ -119,8 +119,8 @@
   "CardSummaryMessageForSingleTask": {
     "replies": [
       {
-        "text": "You have {taskCount} task on your {listType} list:",
-        "speak": "You have {taskCount} task on your {listType} list:"
+        "text": "You have 1 task on your {listType} list:",
+        "speak": "You have 1 task on your {listType} list:"
       }
     ],
     "inputHint": "ignoringInput"
