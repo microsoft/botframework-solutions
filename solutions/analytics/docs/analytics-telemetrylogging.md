@@ -102,7 +102,7 @@ const appInsightsClient = new ApplicationInsightsTelemetryClient(botConfig);
 The Bot Framework SDK provides an Application Inisghts Telemetry Initializer to log important identifiers in all custom events.  
 
 Property |Value 
---- | --- | ---
+--- | --- 
  `user_id` |  [ChannelId](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#channel-id) + [From.Id](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#from)
 `session_id` |  [ConversationId](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#conversation)
 `customDimensions.activityId` | [The bot activity Id](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#id)
