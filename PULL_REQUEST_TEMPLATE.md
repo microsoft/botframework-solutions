@@ -8,7 +8,7 @@
 <!--- If fixing a bug, there should be an issue describing it with steps to reproduce -->
 <!--- You can enable automation to close related issues, using keyword Close #ISSUENUMBER -->
 <!--- See https://help.github.com/articles/closing-issues-using-keywords/ for more information -->
-<!--- Please link to the issue here: -->
+fixes <!--- Please link to the issue here: -->
 
 ## Testing Steps
 <!--- Include any instructions for testing your Pull Request-->
