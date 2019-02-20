@@ -52,6 +52,7 @@ The following Configuration entries are required to be passed to the Skill and a
 - `FoursquareClientSecret`
 - `ImageAssetLocation`
 - `Radius` *(in meters)*
+- `LimitSize`
 
 ## Example Skill Registration Entry
 ```
@@ -72,7 +73,8 @@ The following Configuration entries are required to be passed to the Skill and a
     "FoursquareClientId": "YOUR_FOURSQUARE_CLIENT_ID",
     "FoursquareClientSecret": "YOUR_FOURSQUARE_CLIENT_SECRET",
     "Radius": "SEARCH_RADIUS_FROM_LOCATION",
-    "ImageAssetLocation": "http://www.contoso.com/images/"
+    "ImageAssetLocation": "http://www.contoso.com/images/",
+    "LimitSize": "POI_SEARCH_LIMIT"
     }
 }
 ```

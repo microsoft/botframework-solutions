@@ -344,3 +344,9 @@
 - put {KEYWORD=yogenfruz} {ADDRESS=upper lake} on a map
 - find a {KEYWORD=grocery store}
 - find a {KEYWORD=pharmacy}
+- bring up {ADDRESS=parker street} close by {KEYWORD=plaza las americas}
+- bring up {KEYWORD=pistachio biscotti} in the vicinity for no more than 217 euros
+- check for a {KEYWORD=pedicure} for about 3158 pounds in my area
+- check for a {KEYWORD=rococoa} between 50 and 65 bucks in my area
+- check for a {KEYWORD=scooter} for under 2631 bucks in my area
+- check for a {KEYWORD=subway} for less than 41 dollars in my area
