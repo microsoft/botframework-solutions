@@ -108,7 +108,7 @@ namespace VirtualAssistant.Tests.SkillInvocationTests
                 var traceActivity = activity as Activity;
                 Assert.IsNotNull(traceActivity);
 
-                Assert.IsTrue(traceActivity.Text.Contains("Skill Error: Could not get the Azure Maps key. Please make sure your settings are correctly configured."));
+                Assert.IsTrue(traceActivity.Text.Contains("DialogException: Could not get the required Azure Maps key. Please make sure your settings are correctly configured."));
             };
         }
     }

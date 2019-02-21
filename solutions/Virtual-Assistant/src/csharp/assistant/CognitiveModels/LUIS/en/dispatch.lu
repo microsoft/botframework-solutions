@@ -60,6 +60,8 @@ $TaskContentPattern:simple
 - [l_PointOfInterest](../../../../skills/pointofinterestskill/pointofinterestskill/CognitiveModels/LUIS/en/poi_navigation_cancel_route.lu#NAVIGATION_CANCEL_ROUTE)
 - [l_PointOfInterest](../../../../skills/pointofinterestskill/pointofinterestskill/CognitiveModels/LUIS/en/poi_navigation_find_poi.lu#NAVIGATION_FIND_POINTOFINTEREST)
 - [l_PointOfInterest](../../../../skills/pointofinterestskill/pointofinterestskill/CognitiveModels/LUIS/en/poi_navigation_route_fromxtoy.lu#NAVIGATION_ROUTE_FROM_X_TO_Y)
+- [l_PointOfInterest](../../../../skills/pointofinterestskill/pointofinterestskill/CognitiveModels/LUIS/en/poi_navigation_route_fromxtoy.lu#NAVIGATION_FIND_PARKING)
+
 $KEYWORD:simple
 $ADDRESS:simple
 

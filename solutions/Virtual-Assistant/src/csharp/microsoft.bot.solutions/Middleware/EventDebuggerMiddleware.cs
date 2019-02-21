@@ -27,8 +27,10 @@ namespace Microsoft.Bot.Solutions.Middleware
                     var body = JsonConvert.DeserializeObject<Activity>(json);
 
                     turnContext.Activity.Type = ActivityTypes.Event;
-                    turnContext.Activity.Name = body.Name;
-                    turnContext.Activity.Value = body.Value;
+
+                    turnContext.Activity.Name = body.Name ?? turnContext.Activity.Name;
+                    turnContext.Activity.Text = body.Text ?? turnContext.Activity.Text;
+                    turnContext.Activity.Value = body.Value ?? turnContext.Activity.Value;
                 }
 
                 if (!string.IsNullOrEmpty(value) && value.Contains("event"))
