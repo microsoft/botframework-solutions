@@ -1,77 +1,74 @@
-{
-  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-  "version": "1.0",
+﻿{
   "type": "AdaptiveCard",
-  "speak": "Option {OptionNumber}, {LocationName} is located at {SpeakAddress}",
   "id": "PointOfInterestViewCard",
   "body": [
     {
       "type": "Container",
       "items": [
         {
-          "horizontalAlignment": "center",
-          "type": "Image",
-          "url": "{ImageUrl}"
-        },
-        {
-          "size": "medium",
-          "text": "{LocationName}",
-          "type": "TextBlock"
-        },
-        {
-          "size": "medium",
-          "text": "{Address}",
-          "type": "TextBlock",
-          "weight": "lighter",
-          "wrap": true
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "verticalContentAlignment": "Center",
+              "items": [
+                {
+                  "id": "Name",
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Left",
+                  "spacing": "None",
+                  "size": "Large",
+                  "weight": "Bolder",
+                  "color": "Accent",
+                  "text": "{Name}"
+                },
+                {
+                  "id": "AvailableDetails",
+                  "type": "TextBlock",
+                  "spacing": "None",
+                  "text": "{AvailableDetails}",
+                  "isSubtle": true
+                },
+                {
+                  "id": "Address",
+                  "type": "TextBlock",
+                  "spacing": "None",
+                  "color": "Dark",
+                  "text": "{Street}, {City}",
+                  "isSubtle": true,
+                  "wrap": true
+                },
+                {
+                  "id": "Hours",
+                  "type": "TextBlock",
+                  "spacing": "None",
+                  "color": "Dark",
+                  "text": "{Hours}",
+                  "isSubtle": true,
+                  "wrap": true
+                },
+                {
+                  "id": "Provider",
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Right",
+                  "text": "Provided by **{Provider}**",
+                  "isSubtle": true
+                }
+              ],
+              "width": 90
+            }
+          ]
         }
       ]
     },
     {
       "type": "Container",
-      "separator": "true",
-      "style": "emphasis",
+      "separator": true,
       "items": [
         {
-          "type": "ColumnSet",
-          "columns": [
-            {
-              "type": "Column",
-              "width": 35,
-              "items": [
-                {
-                  "text": "Ask me like this:",
-                  "type": "TextBlock",
-                  "weight": "default",
-                  "size": "default"
-                }
-              ]
-            },
-            {
-              "type": "Column",
-              "width": 65,
-              "items": [
-                {
-                  "text": "*Find the fastest route to  {LocationName}*",
-                  "type": "TextBlock",
-                  "wrap": true,
-                  "horizontalAlignment": "right"
-                },
-                {
-                  "text": "*How do I get to option {OptionNumber}*",
-                  "type": "TextBlock",
-                  "wrap": true,
-                  "horizontalAlignment": "right"
-                },
-                {
-                  "text": "*Show directions to {SpeakAddress}*",
-                  "type": "TextBlock",
-                  "wrap": true,
-                  "horizontalAlignment": "right"
-                }
-              ]
-            }
-          ]
+          "id": "Image",
+          "type": "Image",
+          "url": "{ImageUrl}"
         }
       ]
     }
@@ -82,11 +79,14 @@
       "title": "Find a route",
       "data": {
         "event": {
-          "name": "POI.ActiveLocation",
+          "name": "IPA.ActiveLocation",
           "text": "Find a route",
-          "value": "{LocationName}"
+          "value": "{Name}"
         }
       }
     }
-  ]
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0",
+  "speak": "{Index}: {Name} is located at {Street}"
 }

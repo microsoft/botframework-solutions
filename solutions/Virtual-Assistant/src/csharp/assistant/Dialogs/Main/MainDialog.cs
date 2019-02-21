@@ -448,8 +448,8 @@ namespace VirtualAssistant.Dialogs.Main
             public const string TokenResponseEvent = "tokens/response";
             public const string TimezoneEvent = "IPA.Timezone";
             public const string LocationEvent = "IPA.Location";
-            public const string ActiveLocationUpdate = "POI.ActiveLocation";
-            public const string ActiveRouteUpdate = "POI.ActiveRoute";
+            public const string ActiveLocationUpdate = "IPA.ActiveLocation";
+            public const string ActiveRouteUpdate = "IPA.ActiveRoute";
             public const string ResetUser = "IPA.ResetUser";
             public const string StartConversation = "startConversation";
         }

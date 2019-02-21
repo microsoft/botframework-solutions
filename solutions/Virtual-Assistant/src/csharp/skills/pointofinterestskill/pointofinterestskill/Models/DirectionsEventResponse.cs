@@ -2,7 +2,7 @@
 {
     public class DirectionsEventResponse
     {
-        public Location Destination { get; set; }
+        public PointOfInterestModel Destination { get; set; }
 
         public RouteDirections.Route Route { get; set; }
     }

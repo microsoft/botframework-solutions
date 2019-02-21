@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
@@ -34,6 +35,7 @@ namespace PointOfInterestSkill
         private readonly ConversationState _conversationState;
         private readonly IServiceManager _serviceManager;
         private readonly IBotTelemetryClient _telemetryClient;
+        private IHttpContextAccessor _httpContext;
         private DialogSet _dialogs;
         private bool _skillMode;
 
@@ -47,7 +49,8 @@ namespace PointOfInterestSkill
             IBackgroundTaskQueue backgroundTaskQueue,
             bool skillMode = false,
             ResponseManager responseManager = null,
-            IServiceManager serviceManager = null)
+            IServiceManager serviceManager = null,
+            IHttpContextAccessor httpContext = null)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
@@ -55,6 +58,12 @@ namespace PointOfInterestSkill
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _serviceManager = serviceManager ?? new ServiceManager();
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
+
+            // If we are running in local-mode we need the HttpContext to create image file paths
+            if (!skillMode)
+            {
+                _httpContext = httpContext ?? throw new ArgumentNullException(nameof(httpContext));
+            }
 
             if (responseManager == null)
             {
@@ -72,7 +81,7 @@ namespace PointOfInterestSkill
 
             _responseManager = responseManager;
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
-            _dialogs.Add(new MainDialog(_services, _responseManager, _conversationState, _userState, _telemetryClient, _serviceManager, _skillMode));
+            _dialogs.Add(new MainDialog(_services, _responseManager, _conversationState, _userState, _telemetryClient, _httpContext, _serviceManager, _skillMode));
         }
 
         /// <summary>
