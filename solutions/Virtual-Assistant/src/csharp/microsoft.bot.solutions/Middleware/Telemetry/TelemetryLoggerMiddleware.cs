@@ -146,6 +146,11 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                 {
                     properties.Add(TelemetryConstants.TextProperty, activity.Text);
                 }
+
+                if (!string.IsNullOrWhiteSpace(activity.Speak))
+                {
+                    properties.Add(TelemetryConstants.SpeakProperty, activity.Speak);
+                }
             }
 
             return properties;
@@ -178,6 +183,11 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
                 if (!string.IsNullOrWhiteSpace(activity.Text))
                 {
                     properties.Add(TelemetryConstants.TextProperty, activity.Text);
+                }
+
+                if (!string.IsNullOrWhiteSpace(activity.Speak))
+                {
+                    properties.Add(TelemetryConstants.SpeakProperty, activity.Speak);
                 }
             }
 
