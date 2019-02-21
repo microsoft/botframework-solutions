@@ -5,7 +5,6 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
 {
     public static class TelemetryConstants
     {
-        public const string ActivityIDProperty = "activityId";
         public const string ChannelIdProperty = "channelId";
         public const string ConversationIdProperty = "conversationId";
         public const string ConversationNameProperty = "conversationName";
