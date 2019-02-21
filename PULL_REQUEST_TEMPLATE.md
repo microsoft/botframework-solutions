@@ -1,10 +1,8 @@
 <!--- Provide a general summary of your changes in the Title above -->
 ## Description
-<!--- Describe your changes in detail under any applicable category below and remove those that don't apply. -->
-<!--- This repository only accepts pull requests related to open issues, please link the open issue in description below. -->
-<!--- See https://help.github.com/articles/closing-issues-using-keywords/ for more information on automation. -->
-<!--- Example -->
-<!--- Close #123: This description for this goes here.-->
+<!--- Describe your changes in detail under any applicable category below and remove those that don't apply. This repository only accepts pull requests related to open issues, please link the open issue in description below. See https://help.github.com/articles/closing-issues-using-keywords/ for more information on automation. 
+For example...
+Close #123: This description for this goes here.-->
 
 ### Architecture
 
@@ -17,8 +15,7 @@
 ### Language Understanding
 
 ## Testing Steps
-<!--- Include any instructions for testing your Pull Request-->
-<!--- Include sample utterances, steps, etc-->
+<!--- Include any instructions for testing your Pull Request. Include sample utterances, steps, etc. -->
 
 ## Checklist
 <!--- You can remove any items below that don't apply to the pull request. -->
