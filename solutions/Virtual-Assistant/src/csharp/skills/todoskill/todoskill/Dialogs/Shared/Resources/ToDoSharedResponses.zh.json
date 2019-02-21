@@ -103,11 +103,20 @@
     ],
     "inputHint": "ignoringInput"
   },
-  "CardSummaryMessage": {
+  "CardSummaryMessageForMultipleTasks": {
     "replies": [
       {
         "text": "您的{listType}列表上有{taskCount}个任务:",
         "speak": "您的{listType}列表上有{taskCount}个任务:"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "CardSummaryMessageForSingleTask": {
+    "replies": [
+      {
+        "text": "您的{listType}列表上有1个任务:",
+        "speak": "您的{listType}列表上有1个任务:"
       }
     ],
     "inputHint": "ignoringInput"
