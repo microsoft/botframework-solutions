@@ -17,8 +17,8 @@ namespace Luis
         public enum Intent {
             AddFlag,
             AddMore,
-            Cancel,
-            Confirm, 
+            CancelSend,
+            ConfirmSend, 
             CheckMessages, 
             Delete, 
             Forward, 
