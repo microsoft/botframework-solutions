@@ -43,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarSkill", "skills\cal
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PointOfInterestSkillTests", "skills\pointofinterestskill\pointofinterestskilltests\PointOfInterestSkillTests.csproj", "{24BE4981-2226-48D7-B65E-44703DC6F14A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistant.Tests", "tests\VirtualAssistant.Tests\VirtualAssistant.Tests.csproj", "{27C52F70-42F8-40C2-AE38-AB75515C3D91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistant.Tests", "tests\virtualassistant.tests\VirtualAssistant.Tests.csproj", "{27C52F70-42F8-40C2-AE38-AB75515C3D91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
