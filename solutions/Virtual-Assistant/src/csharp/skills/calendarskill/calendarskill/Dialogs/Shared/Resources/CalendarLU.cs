@@ -18,8 +18,6 @@ namespace Luis
             AcceptEventEntry,
             ChangeCalendarEntry,
             CheckAvailability,
-            ConfirmNo,
-            ConfirmYes,
             ConnectToMeeting, 
             ContactMeetingAttendees, 
             CreateCalendarEntry, 
