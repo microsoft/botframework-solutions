@@ -15,10 +15,11 @@ namespace Luis
         public string Text;
         public string AlteredText;
         public enum Intent {
-            AcceptEventEntry, 
+            AcceptEventEntry,
             ChangeCalendarEntry,
             CheckAvailability,
-            Confirm,
+            ConfirmNo,
+            ConfirmYes,
             ConnectToMeeting, 
             ContactMeetingAttendees, 
             CreateCalendarEntry, 
@@ -32,9 +33,8 @@ namespace Luis
             FindMeetingRoom, 
             GoBack, 
             None, 
-            Reject,
-            ShowNext,
-            ShowPrevious,
+            ShowNextCalendar,
+            ShowPreviousCalendar,
             TimeRemaining
         };
         public Dictionary<Intent, IntentScore> Intents;

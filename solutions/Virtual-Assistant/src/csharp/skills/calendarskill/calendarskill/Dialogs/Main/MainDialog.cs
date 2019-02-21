@@ -161,6 +161,13 @@ namespace CalendarSkill.Dialogs.Main
                             break;
                         }
 
+                    case Luis.CalendarLU.Intent.ShowNextCalendar:
+                    case Luis.CalendarLU.Intent.ShowPreviousCalendar:
+                        {
+                            turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog), skillOptions);
+                            break;
+                        }
+
                     case Luis.CalendarLU.Intent.None:
                         {
                             if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
