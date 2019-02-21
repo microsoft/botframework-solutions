@@ -1,27 +1,27 @@
 {
-  "LatestOneTask": {
+  "LatestTask": {
     "replies": [
       {
-        "text": "Your most recent task is",
-        "speak": "Your most recent task is"
+        "text": "Your latest task is ",
+        "speak": "Your latest task is "
       }
     ],
     "inputHint": "ignoringInput"
   },
-  "LatestTwoTasks": {
+  "LatestTasks": {
     "replies": [
       {
-        "text": "Your most recent tasks are",
-        "speak": "Your most recent tasks are"
+        "text": "Your latest tasks are ",
+        "speak": "Your latest tasks are "
       }
     ],
     "inputHint": "ignoringInput"
   },
-  "LatestThreeOrMoreTasks": {
+  "MostRecentTasks": {
     "replies": [
       {
-        "text": "Your most recent {taskCount} tasks are",
-        "speak": "Your most recent {taskCount} tasks are"
+        "text": "Here are the {taskCount} most recent, they are ",
+        "speak": "Here are the {taskCount} most recent, they are "
       }
     ],
     "inputHint": "ignoringInput"
@@ -38,8 +38,8 @@
   "ReadMoreTasksPrompt": {
     "replies": [
       {
-        "text": "Do you want to hear more from your list?",
-        "speak": "Do you want to hear more from your list?"
+        "text": "Do you want to see the next tasks?",
+        "speak": "Do you want to hear the next tasks?"
       }
     ],
     "inputHint": "expectingInput"
@@ -47,44 +47,71 @@
   "ReadMoreTasksConfirmFailed": {
     "replies": [
       {
-        "text": "Sorry, I didn't understand what you meant. Do you want to hear more from your list?",
-        "speak": "Sorry, I didn't understand what you meant. Do you want to hear more from your list?"
+        "text": "Sorry, I didn't understand what you meant. Do you want to see the next tasks?",
+        "speak": "Sorry, I didn't understand what you meant. Do you want to hear the next tasks?"
       }
     ],
     "inputHint": "expectingInput"
   },
-  "NextOneTask": {
+  "ReadMoreTasksPrompt2": {
     "replies": [
       {
-        "text": "The next task is",
-        "speak": "The next task is"
+        "text": "There are more items on your list, want to see more?",
+        "speak": "There are more items on your list, want to hear more?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "RetryReadMoreTasksPrompt2": {
+    "replies": [
+      {
+        "text": "Sorry, I didn't understand what you meant. Do you want to see more?",
+        "speak": "Sorry, I didn't understand what you meant. Do you want to hear more?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NextTask": {
+    "replies": [
+      {
+        "text": "The next task is ",
+        "speak": "The next task is "
       }
     ],
     "inputHint": "ignoringInput"
   },
-  "NextTwoTasks": {
+  "NextTasks": {
     "replies": [
       {
-        "text": "The next tasks are",
-        "speak": "The next tasks are"
+        "text": "The next tasks are ",
+        "speak": "The next tasks are "
       }
     ],
     "inputHint": "ignoringInput"
   },
-  "NextThreeOrMoreTask": {
+  "PreviousTasks": {
     "replies": [
       {
-        "text": "The next {taskCount} tasks are",
-        "speak": "The next {taskCount} tasks are"
+        "text": "Your previous tasks are ",
+        "speak": "Your previous tasks are "
       }
     ],
     "inputHint": "ignoringInput"
   },
-  "ShowPreviousTasks": {
+  "PreviousFirstTasks": {
     "replies": [
       {
-        "text": "The previous tasks are",
-        "speak": "The previous tasks are"
+        "text": "Your first {taskCount} tasks are ",
+        "speak": "Your first {taskCount} tasks are "
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "PreviousFirstSingleTask": {
+    "replies": [
+      {
+        "text": "Your first {taskCount} task is ",
+        "speak": "Your first {taskCount} task is "
       }
     ],
     "inputHint": "ignoringInput"
@@ -98,20 +125,11 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "InstructionMessage": {
-    "replies": [
-      {
-        "text": "Alright. If you want to set up a new to do, just ask me to create a new task. You can also ask me to complete or delete a task on your list.",
-        "speak": "Alright. If you want to set up a new to do, just ask me to create a new task. You can also ask me to complete or delete a task on your list."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
   "TaskSummaryMessage": {
     "replies": [
       {
-        "text": "You have {taskCount} tasks on your {listType} list today.",
-        "speak": "You have {taskCount} tasks on your {listType} list today."
+        "text": "You have {taskCount} items on your {listType} list. ",
+        "speak": "You have {taskCount} items on your {listType} list. "
       }
     ],
     "inputHint": "ignoringInput"
@@ -119,8 +137,8 @@
   "RepeatFirstPagePrompt": {
     "replies": [
       {
-        "text": "You are at the start of your {listType} list. Do you want me to repeat the most recent tasks?",
-        "speak": "You are at the start of your {listType} list. Do you want me to repeat the most recent tasks?"
+        "text": "You are already at the start of your {listType} list. Want to see your first {taskCount} tasks again?",
+        "speak": "You are already at the start of your {listType} list. Want to hear your first {taskCount} tasks again?"
       }
     ],
     "inputHint": "expectingInput"
@@ -128,26 +146,44 @@
   "RepeatFirstPageConfirmFailed": {
     "replies": [
       {
-        "text": "Sorry, I didn't understand what you meant. Do you want me to repeat the most recent tasks?",
-        "speak": "Sorry, I didn't understand what you meant. Do you want me to repeat the most recent tasks?"
+        "text": "Sorry, I didn't understand what you meant. Want to see your first {taskCount} tasks again?",
+        "speak": "Sorry, I didn't understand what you meant. Want to hear your first {taskCount} tasks again?"
       }
     ],
     "inputHint": "expectingInput"
   },
-  "GoBackToStartPrompt": {
+  "GoBackToStartPromptForSingleTask": {
     "replies": [
       {
-        "text": "These are your final tasks on your {listType} list. Want to go back to the start of the list?",
-        "speak": "These are your final tasks on your {listType} list. Want to go back to the start of the list?"
+        "text": "This is already the last task on your {listType} list. Want to see your first {taskCount} tasks again?",
+        "speak": "This is already the last task on your {listType} list. Want to hear your first {taskCount} tasks again?"
       }
     ],
     "inputHint": "expectingInput"
   },
-  "GoBackToStartConfirmFailed": {
+  "GoBackToStartForSingleTaskConfirmFailed": {
     "replies": [
       {
-        "text": "Sorry, I didn't understand what you meant. Want to go back to the start of the list?",
-        "speak": "Sorry, I didn't understand what you meant. Want to go back to the start of the list?"
+        "text": "Sorry, I didn't understand what you meant. Want to see your first {taskCount} tasks again?",
+        "speak": "Sorry, I didn't understand what you meant. Want to hear your first {taskCount} tasks again?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GoBackToStartPromptForTasks": {
+    "replies": [
+      {
+        "text": "They are already your last tasks on your {listType} list. Want to see your first {taskCount} tasks again?",
+        "speak": "They are already your last tasks on your {listType} list. Want to hear your first {taskCount} tasks again?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GoBackToStartForTasksConfirmFailed": {
+    "replies": [
+      {
+        "text": "Sorry, I didn't understand what you meant. Want to see your first {taskCount} tasks again?",
+        "speak": "Sorry, I didn't understand what you meant. Want to hear your first {taskCount} tasks again?"
       }
     ],
     "inputHint": "expectingInput"

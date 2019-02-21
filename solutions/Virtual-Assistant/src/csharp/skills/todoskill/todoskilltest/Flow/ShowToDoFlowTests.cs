@@ -99,7 +99,7 @@ namespace ToDoSkillTest.Flow
                 .AssertReplyOneOf(this.ReadMoreTasksPrompt())
                 .Send(MockData.ConfirmYes)
                 .AssertReply(this.ReadMoreTasksCard())
-                .AssertReplyOneOf(this.ReadMoreTasksPrompt())
+                .AssertReplyOneOf(this.ReadMoreTasksPrompt2())
                 .Send(MockData.ConfirmNo)
                 .AssertReplyOneOf(this.ActionEndMessage())
                 .StartTestAsync();
@@ -133,12 +133,12 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage, new StringDictionary() { { MockData.TaskCount, MockData.MockTaskItems.Count.ToString() }, { MockData.ListType, MockData.ToDo } }),
+                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessageForMultipleTasks, new StringDictionary() { { MockData.TaskCount, MockData.MockTaskItems.Count.ToString() }, { MockData.ListType, MockData.ToDo } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
 
-                var latestThreeTasks = MockData.MockTaskItems[0].Topic + ", " + MockData.MockTaskItems[1].Topic + " and " + MockData.MockTaskItems[2].Topic;
-                var expectedMessage = string.Format(MockData.FirstTaskDetailMessage, MockData.MockTaskItems.Count, MockData.ToDo, MockData.ReadSize, latestThreeTasks);
+                var latestFourTasks = MockData.MockTaskItems[0].Topic + ", " + MockData.MockTaskItems[1].Topic + ", " + MockData.MockTaskItems[2].Topic + " and " + MockData.MockTaskItems[3].Topic;
+                var expectedMessage = string.Format(MockData.FirstTaskDetailMessage, MockData.MockTaskItems.Count, MockData.ToDo, MockData.PageSize, latestFourTasks);
                 Assert.AreEqual(expectedMessage, responseCard.Speak);
             };
         }
@@ -157,12 +157,12 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage, new StringDictionary() { { MockData.TaskCount, MockData.MockGroceryItems.Count.ToString() }, { MockData.ListType, MockData.Grocery } }),
+                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessageForMultipleTasks, new StringDictionary() { { MockData.TaskCount, MockData.MockGroceryItems.Count.ToString() }, { MockData.ListType, MockData.Grocery } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
 
-                var latestThreeTasks = MockData.MockGroceryItems[0].Topic + ", " + MockData.MockGroceryItems[1].Topic + " and " + MockData.MockGroceryItems[2].Topic;
-                var expectedMessage = string.Format(MockData.FirstTaskDetailMessage, MockData.MockGroceryItems.Count, MockData.Grocery, MockData.ReadSize, latestThreeTasks);
+                var latestFourTasks = MockData.MockGroceryItems[0].Topic + ", " + MockData.MockGroceryItems[1].Topic + ", " + MockData.MockGroceryItems[2].Topic + " and " + MockData.MockGroceryItems[3].Topic;
+                var expectedMessage = string.Format(MockData.FirstTaskDetailMessage, MockData.MockGroceryItems.Count, MockData.Grocery, MockData.PageSize, latestFourTasks);
                 Assert.AreEqual(expectedMessage, responseCard.Speak);
             };
         }
@@ -181,12 +181,12 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage, new StringDictionary() { { MockData.TaskCount, MockData.MockShoppingItems.Count.ToString() }, { MockData.ListType, MockData.Shopping } }),
+                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessageForMultipleTasks, new StringDictionary() { { MockData.TaskCount, MockData.MockShoppingItems.Count.ToString() }, { MockData.ListType, MockData.Shopping } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
 
-                var latestThreeTasks = MockData.MockShoppingItems[0].Topic + ", " + MockData.MockShoppingItems[1].Topic + " and " + MockData.MockShoppingItems[2].Topic;
-                var expectedMessage = string.Format(MockData.FirstTaskDetailMessage, MockData.MockShoppingItems.Count, MockData.Shopping, MockData.ReadSize, latestThreeTasks);
+                var latestFourTasks = MockData.MockShoppingItems[0].Topic + ", " + MockData.MockShoppingItems[1].Topic + ", " + MockData.MockShoppingItems[2].Topic + " and " + MockData.MockShoppingItems[3].Topic;
+                var expectedMessage = string.Format(MockData.FirstTaskDetailMessage, MockData.MockShoppingItems.Count, MockData.Shopping, MockData.PageSize, latestFourTasks);
                 Assert.AreEqual(expectedMessage, responseCard.Speak);
             };
         }
@@ -205,12 +205,12 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage, new StringDictionary() { { MockData.TaskCount, MockData.MockTaskItems.Count.ToString() }, { MockData.ListType, MockData.ToDo } }),
+                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessageForMultipleTasks, new StringDictionary() { { MockData.TaskCount, MockData.MockTaskItems.Count.ToString() }, { MockData.ListType, MockData.ToDo } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
 
-                var nextThreeTasks = MockData.MockTaskItems[3].Topic + ", " + MockData.MockTaskItems[4].Topic + " and " + MockData.MockTaskItems[5].Topic;
-                var expectedMessage = string.Format(MockData.NextTaskDetailMessage, MockData.ReadSize, nextThreeTasks);
+                var nextFourTasks = MockData.MockTaskItems[4].Topic + ", " + MockData.MockTaskItems[5].Topic + ", " + MockData.MockTaskItems[6].Topic + " and " + MockData.MockTaskItems[7].Topic;
+                var expectedMessage = string.Format(MockData.NextTaskDetailMessage, nextFourTasks);
                 Assert.AreEqual(expectedMessage, responseCard.Speak);
             };
         }
@@ -235,9 +235,14 @@ namespace ToDoSkillTest.Flow
             return this.ParseReplies(ShowToDoResponses.ReadMoreTasksPrompt, new StringDictionary());
         }
 
+        private string[] ReadMoreTasksPrompt2()
+        {
+            return this.ParseReplies(ShowToDoResponses.ReadMoreTasksPrompt2, new StringDictionary());
+        }
+
         private string[] FirstReadMoreRefused()
         {
-            return this.ParseReplies(ShowToDoResponses.InstructionMessage, new StringDictionary());
+            return this.ParseReplies(ToDoSharedResponses.ActionEnded, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()

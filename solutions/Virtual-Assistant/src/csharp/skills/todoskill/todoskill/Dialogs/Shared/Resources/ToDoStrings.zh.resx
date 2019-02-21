@@ -121,10 +121,10 @@
     <value>和{0}。</value>
   </data>
   <data name="EmailContent" xml:space="preserve">
-    <value>请参照链接{0}查看您的列表</value>
+    <value>请参照链接&lt;a href="{0}"&gt;{1}&lt;/a&gt;查看您的列表</value>
   </data>
   <data name="EmailSubject" xml:space="preserve">
-    <value>已为您创建好列表</value>
+    <value>您有新的任务列表</value>
   </data>
   <data name="Grocery" xml:space="preserve">
     <value>杂货</value>
