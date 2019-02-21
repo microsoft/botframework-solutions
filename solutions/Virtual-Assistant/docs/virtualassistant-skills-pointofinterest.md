@@ -8,21 +8,39 @@ The most common scenarios have been implemented in this first release with addit
 The following scenarios are currently supported by the Skill:
 
 - NAVIGATION_ROUTE_FROM_X_TO_Y
-    - What's the fastest way to get to 221B Baker Street?
-    - How do I get to the grocery store?
-    - I need directions to a cafe
+    - _What's the fastest way to get to 221B Baker Street?_
+    - _How do I get to the grocery store?_
+    - _I need directions to a cafe_
 - NAVIGATION_FIND_PARKING
-    - Find parking near the doctor's office
-    - Where's the nearest parking garage?
-    - Parking lot by the airport
+    - _Find parking near the doctor's office_
+    - _Where's the nearest parking garage?_
+    - _Parking lot by the airport_
 - NAVIGATION_FIND_POINTOFINTEREST
-    - What's nearby?
-    - Are there any pharmacies in town?
-    - Can you recommend an affordable restaurant in Seattle?
+    - _What's nearby?_
+    - _Are there any pharmacies in town?_
+    - _Can you recommend an affordable restaurant in Seattle?_
 - NAVIGATION_CANCEL_ROUTE
-    - I don't want to go to the shop anymore
-    - Would you cancel my route?
-    - On second thought, forget going to the airport
+    - _I don't want to go to the shop anymore_
+    - _Would you cancel my route?_
+    - _On second thought, forget going to the airport_
+
+
+## Language Model
+LUIS models for the Skill are provided in .LU file format as part of the Skill. These are currently available in English, French, Italian, German and Spanish languages. Further languages are being prioritised.
+
+|Intent Name|Description|
+|-|-|
+|NAVIGATION_ROUTE_FROM_X_TO_Y| Matches queries navigating to a point of interest |
+|NAVIGATION_FIND_POINTOFINTEREST| Matches queries searching for a point of interest |
+|NAVIGATION_FIND_PARKING| Matches queries searching for a parking space |
+|NAVIGATION_CANCEL_ROUTE| Matches queries to cancel a route |
+
+|Entity Name|Description|
+|-|-|
+|ADDRESS| Simple entity matching addresses |
+|KEYWORD| Simple entity matching point of interest keywords and categories |
+|ROUTE_TYPE| Phrase list entity mapping route descriptors to `eco`,`fastest`,`shortest`,`thrilling`|
+|number| Prebuilt entity|
 
 ## Supported Sources
 
@@ -48,8 +66,8 @@ The following Configuration entries are required to be passed to the Skill and a
 - `LuisSubscriptionKey`
 - `LuisEndpoint`
 - `AzureMapsKey`
-- `FoursquareClientId`
-- `FoursquareClientSecret`
+- `FoursquareClientId` *(optional)*
+- `FoursquareClientSecret` *(optional)*
 - `ImageAssetLocation`
 - `Radius` *(in meters)*
 - `LimitSize`
@@ -78,24 +96,6 @@ The following Configuration entries are required to be passed to the Skill and a
     }
 }
 ```
-
-## Language Model
-LUIS models for the Skill are provided in .LU file format as part of the Skill. These are currently available in English, French, Italian, German and Spanish languages. Further languages are being prioritised.
-
-|Intent Name|Description|
-|-|-|
-|NAVIGATION_ROUTE_FROM_X_TO_Y| Matches queries navigating to a point of interest |
-|NAVIGATION_FIND_POINTOFINTEREST| Matches queries searching for a point of interest |
-|NAVIGATION_FIND_PARKING| Matches queries searching for a parking space |
-|NAVIGATION_CANCEL_ROUTE| Matches queries to cancel a route |
-
-|Entity Name|Description|
-|-|-|
-|ADDRESS| Simple entity matching addresses |
-|KEYWORD| Simple entity matching point of interest keywords and categories |
-|ROUTE_TYPE| Phrase list entity mapping route descriptors to `eco`,`fastest`,`shortest`,`thrilling`|
-|number| Prebuilt entity|
-
 ## Image Assets
 In order for Adaptive Cards to render images associated with the Point of Interest skill you will need to take the image assets located in the wwwroot\images folder of the PointOfInterestSkill project and place in a HTTP location (potentially your Bot deployment) and place the base URI path in the skill configuration ImageAssetLocation property. 
 If you skip this step, Adaptive Cards will not render with images correctly.
