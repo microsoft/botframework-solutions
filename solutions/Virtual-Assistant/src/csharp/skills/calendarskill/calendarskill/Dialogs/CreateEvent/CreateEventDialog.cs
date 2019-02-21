@@ -556,7 +556,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     return await sc.NextAsync(result);
                 }
 
-                if (CreateEventWhiteList.GetMyself().Contains(currentRecipientName))
+                if (CreateEventWhiteList.GetMyself(currentRecipientName))
                 {
                     var me = await GetMe(sc);
                     var result =

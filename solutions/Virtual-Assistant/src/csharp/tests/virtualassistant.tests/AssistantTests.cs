@@ -1,13 +1,14 @@
-﻿using AdaptiveCards;
+﻿using System;
+using System.Collections.Specialized;
+using System.Threading.Tasks;
+using AdaptiveCards;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
-using System;
-using System.Threading.Tasks;
+using PointOfInterestSkill.Dialogs.Shared.Resources;
 using VirtualAssistant.Dialogs.Escalate.Resources;
 using VirtualAssistant.Dialogs.Main.Resources;
-using VirtualAssistant.Dialogs.Onboarding.Resources;
 using VirtualAssistant.Tests.TestHelpers;
 using VirtualAssistant.Tests.Utterances;
 
@@ -143,7 +144,7 @@ namespace VirtualAssistant.Tests
             .Send(PointOfInterestUtterances.FindCoffeeShop)
             .AssertReply(ValidateSkillForwardingTrace("pointOfInterestSkill"))
             .AssertReply(this.ValidateAzureMapsKeyPrompt())
-            .AssertReply(this.CheckForSkillInvocationError())
+            .AssertReply(this.CheckForPointOfInterestError())
 
             // .AssertReply(this.CheckForEndOfConversationEvent())
             .StartTestAsync();
@@ -281,17 +282,17 @@ namespace VirtualAssistant.Tests
                 var traceActivity = activity as Activity;
                 Assert.IsNotNull(traceActivity);
 
-                Assert.IsTrue(traceActivity.Text.Contains("Skill Error: Could not get the Azure Maps key. Please make sure your settings are correctly configured."));
+                Assert.IsTrue(traceActivity.Text.Contains("DialogException: Could not get the required Azure Maps key. Please make sure your settings are correctly configured."));
             };
         }
 
-        private Action<IActivity> CheckForSkillInvocationError()
+        private Action<IActivity> CheckForPointOfInterestError()
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var response = ResponseManager.GetResponseTemplate(CommonResponses.ErrorMessage_SkillError);
-                Assert.AreEqual(messageActivity.Text, response.Reply.Text);
+
+                CollectionAssert.Contains(ParseReplies(POISharedResponses.PointOfInterestErrorMessage, new StringDictionary()), messageActivity.Text);
             };
         }
 

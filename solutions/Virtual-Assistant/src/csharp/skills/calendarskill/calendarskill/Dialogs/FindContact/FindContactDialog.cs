@@ -235,7 +235,7 @@ namespace CalendarSkill.Dialogs.FindContact
                 {
                     var currentRecipientName = state.AttendeesNameList[state.ConfirmAttendeesNameIndex];
 
-                    if (CreateEventWhiteList.GetMyself().Contains(currentRecipientName))
+                    if (CreateEventWhiteList.GetMyself(currentRecipientName))
                     {
                         var me = await GetMe(sc);
                         unionList.Add(new CustomizedPerson(me));

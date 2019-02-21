@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
@@ -116,6 +117,9 @@ namespace PointOfInterestSkill
             services.AddSingleton(endpointService);
 
             services.AddSingleton<IServiceManager, ServiceManager>();
+
+            // HttpContext required for path resolution
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // Add the bot with options
             services.AddBot<PointOfInterestSkill>(options =>

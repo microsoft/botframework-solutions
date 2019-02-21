@@ -13,8 +13,6 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
     /// </summary>
     public static class TelemetryExtensions
     {
-        private const string NoDialogId = "no dialog id";
-
         public static void TrackEventEx(this IBotTelemetryClient telemetryClient, string eventName, Activity activity, string dialogId = null, IDictionary<string, string> properties = null, IDictionary<string, double> metrics = null)
         {
             telemetryClient.TrackEvent(eventName, GetFinalProperties(activity, dialogId, properties), metrics);
@@ -34,7 +32,10 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
         {
             var finalProperties = new Dictionary<string, string>();
 
-            finalProperties.Add(TelemetryConstants.ActiveDialogIdProperty, dialogId ?? NoDialogId);
+            if (dialogId != null)
+            {
+                finalProperties.Add(TelemetryConstants.DialogIdProperty, dialogId);
+            }
 
             if (properties != null && properties.Count > 0)
             {

@@ -1,0 +1,5698 @@
+[
+  {
+    "type": "conversationUpdate",
+    "membersAdded": [
+      {
+        "id": "1",
+        "name": "Bot"
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "id": "60b931c1-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:27:51-08:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2019-02-20T21:27:51.772Z",
+    "from": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "serviceUrl": "http://localhost:58980"
+  },
+  {
+    "type": "conversationUpdate",
+    "membersAdded": [
+      {
+        "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+        "name": "User"
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "id": "60b931c2-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:27:51-08:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2019-02-20T21:27:51.772Z",
+    "from": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "serviceUrl": "http://localhost:58980"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "attachmentLayout": "list",
+    "speak": "Welcome to your Virtual Assistant! Now that you're up and running, let's get started.",
+    "inputHint": "acceptingInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "speak": "Welcome to your Virtual Assistant! Now that you're up and running, let's get started.",
+          "body": [
+            {
+              "type": "Image",
+              "size": "stretch",
+              "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU"
+            },
+            {
+              "type": "TextBlock",
+              "weight": "bolder",
+              "text": "Welcome to **your** Virtual Assistant!",
+              "wrap": true,
+              "spacing": "medium",
+              "speak": "Welcome to your Virtual Assistant"
+            },
+            {
+              "type": "TextBlock",
+              "isSubtle": true,
+              "text": "Now that you have successfully run your Virtual Assistant, follow the links in this Adaptive Card to explore further.",
+              "wrap": true,
+              "speak": "Now that your up and running let's get started."
+            }
+          ],
+          "actions": [
+            {
+              "type": "Action.OpenUrl",
+              "url": "https://aka.ms/customassistantdocs",
+              "title": "Documentation"
+            },
+            {
+              "type": "Action.OpenUrl",
+              "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-linkedaccounts.md",
+              "title": "Linked Accounts"
+            },
+            {
+              "type": "Action.OpenUrl",
+              "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-skills.md",
+              "title": "Skills"
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "60b931c1-3556-11e9-b4e5-c99ca13de863",
+    "id": "61683670-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:27:52-08:00",
+    "timestamp": "2019-02-20T21:27:52.918Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "text": "/event:{ \"Name\": \"IPA.Location\", \"Value\": \"47.639620,-122.130610\" }",
+    "from": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "textFormat": "plain",
+    "timestamp": "2019-02-20T21:27:59.764Z",
+    "channelData": {
+      "clientActivityId": "1550698071759.9252756140506728.0"
+    },
+    "entities": [
+      {
+        "type": "ClientCapabilities",
+        "requiresBotState": true,
+        "supportsTts": true,
+        "supportsListening": true
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "id": "657cd450-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:27:59-08:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:58980"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "Received event: IPA.Location",
+    "replyToId": "657cd450-3556-11e9-b4e5-c99ca13de863",
+    "id": "65fbc850-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:00-08:00",
+    "timestamp": "2019-02-20T21:28:00.597Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "657cd450-3556-11e9-b4e5-c99ca13de863",
+    "id": "661347f0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:00-08:00",
+    "timestamp": "2019-02-20T21:28:00.751Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "text": "find a movie theater near here",
+    "from": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "textFormat": "plain",
+    "timestamp": "2019-02-20T21:28:06.018Z",
+    "channelData": {
+      "clientActivityId": "1550698071759.9252756140506728.2"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "id": "6936f620-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:06-08:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:58980"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-02-20T21:28:06.910Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "6936f620-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "find a movie theater near here",
+        "alteredText": null,
+        "intents": {
+          "l_PointOfInterest": {
+            "score": 0.9943659
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "1e229c37-d058-4daf-af82-b42d90478336"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "find a movie theater near here",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "l_PointOfInterest",
+          "score": 0.9943659
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "69bf11e0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:06-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "-->Forwarding your utterance to the pointOfInterestSkill skill.",
+    "replyToId": "6936f620-3556-11e9-b4e5-c99ca13de863",
+    "id": "69cc7f60-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:06-08:00",
+    "timestamp": "2019-02-20T21:28:06.998Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "6936f620-3556-11e9-b4e5-c99ca13de863",
+    "id": "69d16160-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:07-08:00",
+    "timestamp": "2019-02-20T21:28:07.030Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "6936f620-3556-11e9-b4e5-c99ca13de863",
+    "id": "6b462710-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:09-08:00",
+    "timestamp": "2019-02-20T21:28:09.473Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "6936f620-3556-11e9-b4e5-c99ca13de863",
+    "id": "6c895570-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:11-08:00",
+    "timestamp": "2019-02-20T21:28:11.591Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "6db81170-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:28:13.575Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "6936f620-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "find a movie theater near here",
+        "alteredText": null,
+        "intents": {
+          "NAVIGATION_ROUTE_FROM_X_TO_Y": {
+            "score": 0.393936425
+          }
+        },
+        "entities": {
+          "$instance": {
+            "KEYWORD": [
+              {
+                "startIndex": 7,
+                "endIndex": 20,
+                "text": "movie theater",
+                "type": "KEYWORD",
+                "score": 0.7884669
+              }
+            ]
+          },
+          "KEYWORD": [
+            "movie theater"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "f3169954-5299-4d58-8603-c56a3e13a64b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "find a movie theater near here",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "NAVIGATION_ROUTE_FROM_X_TO_Y",
+          "score": 0.393936425
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "movie theater",
+            "type": "KEYWORD",
+            "startIndex": 7,
+            "endIndex": 19,
+            "score": 0.7884669
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:28:13-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "6936f620-3556-11e9-b4e5-c99ca13de863",
+    "id": "6dd20210-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:13-08:00",
+    "timestamp": "2019-02-20T21:28:13.745Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "6dde8530-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:28:13.827Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "6936f620-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "find a movie theater near here",
+        "alteredText": null,
+        "intents": {
+          "Help": {
+            "score": 0.0464186333
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "a60f2684-d7c4-42db-9e4a-c3d718b8989b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "find a movie theater near here",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Help",
+          "score": 0.0464186333
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:28:13-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "6def2700-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:28:13.936Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "6936f620-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "find a movie theater near here",
+        "alteredText": null,
+        "intents": {
+          "NAVIGATION_ROUTE_FROM_X_TO_Y": {
+            "score": 0.393936425
+          }
+        },
+        "entities": {
+          "$instance": {
+            "KEYWORD": [
+              {
+                "startIndex": 7,
+                "endIndex": 20,
+                "text": "movie theater",
+                "type": "KEYWORD",
+                "score": 0.7884669
+              }
+            ]
+          },
+          "KEYWORD": [
+            "movie theater"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "f3169954-5299-4d58-8603-c56a3e13a64b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "find a movie theater near here",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "NAVIGATION_ROUTE_FROM_X_TO_Y",
+          "score": 0.393936425
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "movie theater",
+            "type": "KEYWORD",
+            "startIndex": 7,
+            "endIndex": 19,
+            "score": 0.7884669
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:28:13-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "id": "6e02af00-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:28:14.064Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "attachmentLayout": "carousel",
+    "text": "I found the following matches.",
+    "speak": "I found the following matches.",
+    "inputHint": "expectingInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "0: Sizzleworks is located at 14111 NE 24th St",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "Sizzleworks",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Theater",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "14111 NE 24th St, Crossroads, Bellevue",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Provider",
+                          "isSubtle": true,
+                          "text": "Provided by **AzureMaps**",
+                          "horizontalAlignment": "right"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.15147,47.63117&width=512&height=512&subscription-key=z2ruWMpF81wbqxzjYEGYdYv7pOQSwdImiLfRyH42vdo"
+                }
+              ],
+              "separator": true
+            }
+          ],
+          "actions": [
+            {
+              "type": "Action.Submit",
+              "data": {
+                "event": {
+                  "name": "IPA.ActiveLocation",
+                  "text": "Find a route",
+                  "value": "Sizzleworks"
+                }
+              },
+              "title": "Find a route"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "1: Regal Cinemas Crossroads Stadium 8 is located at 1200 156th Ave NE",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "Regal Cinemas Crossroads Stadium 8",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Cinema",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "1200 156th Ave NE, Crossroads, Bellevue",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Provider",
+                          "isSubtle": true,
+                          "text": "Provided by **AzureMaps**",
+                          "horizontalAlignment": "right"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.1323,47.62133&width=512&height=512&subscription-key=z2ruWMpF81wbqxzjYEGYdYv7pOQSwdImiLfRyH42vdo"
+                }
+              ],
+              "separator": true
+            }
+          ],
+          "actions": [
+            {
+              "type": "Action.Submit",
+              "data": {
+                "event": {
+                  "name": "IPA.ActiveLocation",
+                  "text": "Find a route",
+                  "value": "Regal Cinemas Crossroads Stadium 8"
+                }
+              },
+              "title": "Find a route"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "2: United Theatre Service is located at 3445 134th Ave NE",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "United Theatre Service",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Theater",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "3445 134th Ave NE, Bridle Trails, Bellevue",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Provider",
+                          "isSubtle": true,
+                          "text": "Provided by **AzureMaps**",
+                          "horizontalAlignment": "right"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.16282,47.64179&width=512&height=512&subscription-key=z2ruWMpF81wbqxzjYEGYdYv7pOQSwdImiLfRyH42vdo"
+                }
+              ],
+              "separator": true
+            }
+          ],
+          "actions": [
+            {
+              "type": "Action.Submit",
+              "data": {
+                "event": {
+                  "name": "IPA.ActiveLocation",
+                  "text": "Find a route",
+                  "value": "United Theatre Service"
+                }
+              },
+              "title": "Find a route"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "3: Gold Class Cinemas is located at 7330 164th Ave NE",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "Gold Class Cinemas",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Cinema",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "7330 164th Ave NE, ",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Provider",
+                          "isSubtle": true,
+                          "text": "Provided by **AzureMaps**",
+                          "horizontalAlignment": "right"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.12024,47.66961&width=512&height=512&subscription-key=z2ruWMpF81wbqxzjYEGYdYv7pOQSwdImiLfRyH42vdo"
+                }
+              ],
+              "separator": true
+            }
+          ],
+          "actions": [
+            {
+              "type": "Action.Submit",
+              "data": {
+                "event": {
+                  "name": "IPA.ActiveLocation",
+                  "text": "Find a route",
+                  "value": "Gold Class Cinemas"
+                }
+              },
+              "title": "Find a route"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "4: Second Story Repertory Theatre is located at 7325 166th Ave NE",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "Second Story Repertory Theatre",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Theater",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "7325 166th Ave NE, ",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Provider",
+                          "isSubtle": true,
+                          "text": "Provided by **AzureMaps**",
+                          "horizontalAlignment": "right"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.11896,47.67028&width=512&height=512&subscription-key=z2ruWMpF81wbqxzjYEGYdYv7pOQSwdImiLfRyH42vdo"
+                }
+              ],
+              "separator": true
+            }
+          ],
+          "actions": [
+            {
+              "type": "Action.Submit",
+              "data": {
+                "event": {
+                  "name": "IPA.ActiveLocation",
+                  "text": "Find a route",
+                  "value": "Second Story Repertory Theatre"
+                }
+              },
+              "title": "Find a route"
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "6936f620-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:14-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "<--Ending the skill conversation",
+    "replyToId": "6936f620-3556-11e9-b4e5-c99ca13de863",
+    "id": "6e12b490-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:14-08:00",
+    "timestamp": "2019-02-20T21:28:14.169Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "What else can I help you with?",
+    "speak": "What else can I help you with?",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "6936f620-3556-11e9-b4e5-c99ca13de863",
+    "id": "6e3334e0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:14-08:00",
+    "timestamp": "2019-02-20T21:28:14.382Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "text": "is there a parking lot near 1200 156th ave NE?",
+    "from": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "textFormat": "plain",
+    "timestamp": "2019-02-20T21:28:18.849Z",
+    "channelData": {
+      "clientActivityId": "1550698071759.9252756140506728.4"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "id": "70dcf820-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:18-08:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:58980"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-02-20T21:28:19.864Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "70dcf820-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "is there a parking lot near 1200 156th ave NE?",
+        "alteredText": null,
+        "intents": {
+          "l_PointOfInterest": {
+            "score": 0.7230183
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "1e229c37-d058-4daf-af82-b42d90478336"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "is there a parking lot near 1200 156th ave NE?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "l_PointOfInterest",
+          "score": 0.7230183
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "7177b180-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:19-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "70dcf820-3556-11e9-b4e5-c99ca13de863",
+    "id": "7181c3a0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:19-08:00",
+    "timestamp": "2019-02-20T21:28:19.930Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "-->Forwarding your utterance to the pointOfInterestSkill skill.",
+    "replyToId": "70dcf820-3556-11e9-b4e5-c99ca13de863",
+    "id": "7199b870-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:20-08:00",
+    "timestamp": "2019-02-20T21:28:20.087Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "70dcf820-3556-11e9-b4e5-c99ca13de863",
+    "id": "72c28100-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:22-08:00",
+    "timestamp": "2019-02-20T21:28:22.032Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "73f70960-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:28:24.054Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "70dcf820-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "is there a parking lot near 1200 156th ave NE?",
+        "alteredText": null,
+        "intents": {
+          "NAVIGATION_FIND_PARKING": {
+            "score": 0.775327861
+          }
+        },
+        "entities": {
+          "$instance": {
+            "number": [
+              {
+                "startIndex": 28,
+                "endIndex": 32,
+                "text": "1200",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ],
+            "ADDRESS": [
+              {
+                "startIndex": 28,
+                "endIndex": 32,
+                "text": "1200",
+                "type": "ADDRESS",
+                "score": 0.84541595
+              },
+              {
+                "startIndex": 33,
+                "endIndex": 42,
+                "text": "156th ave",
+                "type": "ADDRESS",
+                "score": 0.7070373
+              }
+            ]
+          },
+          "number": [
+            1200
+          ],
+          "ADDRESS": [
+            "1200",
+            "156th ave"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "f3169954-5299-4d58-8603-c56a3e13a64b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "is there a parking lot near 1200 156th ave NE?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "NAVIGATION_FIND_PARKING",
+          "score": 0.775327861
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "1200",
+            "type": "builtin.number",
+            "startIndex": 28,
+            "endIndex": 31,
+            "resolution": {
+              "subtype": "integer",
+              "value": "1200"
+            }
+          },
+          {
+            "entity": "1200",
+            "type": "ADDRESS",
+            "startIndex": 28,
+            "endIndex": 31,
+            "score": 0.84541595
+          },
+          {
+            "entity": "156th ave",
+            "type": "ADDRESS",
+            "startIndex": 33,
+            "endIndex": 41,
+            "score": 0.7070373
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:28:24-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "70dcf820-3556-11e9-b4e5-c99ca13de863",
+    "id": "740bf0f0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:24-08:00",
+    "timestamp": "2019-02-20T21:28:24.191Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "74139210-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:28:24.241Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "70dcf820-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "is there a parking lot near 1200 156th ave NE?",
+        "alteredText": null,
+        "intents": {
+          "Help": {
+            "score": 0.120014928
+          }
+        },
+        "entities": {
+          "$instance": {
+            "number": [
+              {
+                "startIndex": 28,
+                "endIndex": 32,
+                "text": "1200",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ]
+          },
+          "number": [
+            1200
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "a60f2684-d7c4-42db-9e4a-c3d718b8989b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "is there a parking lot near 1200 156th ave NE?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Help",
+          "score": 0.120014928
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "1200",
+            "type": "builtin.number",
+            "startIndex": 28,
+            "endIndex": 31,
+            "resolution": {
+              "subtype": "integer",
+              "value": "1200"
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:28:24-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "741fee20-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:28:24.322Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "70dcf820-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "is there a parking lot near 1200 156th ave NE?",
+        "alteredText": null,
+        "intents": {
+          "NAVIGATION_FIND_PARKING": {
+            "score": 0.775327861
+          }
+        },
+        "entities": {
+          "$instance": {
+            "number": [
+              {
+                "startIndex": 28,
+                "endIndex": 32,
+                "text": "1200",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ],
+            "ADDRESS": [
+              {
+                "startIndex": 28,
+                "endIndex": 32,
+                "text": "1200",
+                "type": "ADDRESS",
+                "score": 0.84541595
+              },
+              {
+                "startIndex": 33,
+                "endIndex": 42,
+                "text": "156th ave",
+                "type": "ADDRESS",
+                "score": 0.7070373
+              }
+            ]
+          },
+          "number": [
+            1200
+          ],
+          "ADDRESS": [
+            "1200",
+            "156th ave"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "f3169954-5299-4d58-8603-c56a3e13a64b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "is there a parking lot near 1200 156th ave NE?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "NAVIGATION_FIND_PARKING",
+          "score": 0.775327861
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "1200",
+            "type": "builtin.number",
+            "startIndex": 28,
+            "endIndex": 31,
+            "resolution": {
+              "subtype": "integer",
+              "value": "1200"
+            }
+          },
+          {
+            "entity": "1200",
+            "type": "ADDRESS",
+            "startIndex": 28,
+            "endIndex": 31,
+            "score": 0.84541595
+          },
+          {
+            "entity": "156th ave",
+            "type": "ADDRESS",
+            "startIndex": 33,
+            "endIndex": 41,
+            "score": 0.7070373
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:28:24-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "id": "742b86e0-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:28:24.398Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "attachmentLayout": "carousel",
+    "text": "I found the following matches.",
+    "speak": "I found the following matches.",
+    "inputHint": "expectingInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "0: Bellevue Christian Reformed Church is located at 1221 148th Ave NE",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "Bellevue Christian Reformed Church",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Open Parking Area",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "1221 148th Ave NE, Crossroads, Bellevue",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Provider",
+                          "isSubtle": true,
+                          "text": "Provided by **AzureMaps**",
+                          "horizontalAlignment": "right"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.14447,47.62128&width=512&height=512&subscription-key=z2ruWMpF81wbqxzjYEGYdYv7pOQSwdImiLfRyH42vdo"
+                }
+              ],
+              "separator": true
+            }
+          ],
+          "actions": [
+            {
+              "type": "Action.Submit",
+              "data": {
+                "event": {
+                  "name": "IPA.ActiveLocation",
+                  "text": "Find a route",
+                  "value": "Bellevue Christian Reformed Church"
+                }
+              },
+              "title": "Find a route"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "1: Overlake Park & Ride is located at 2650 152nd Ave NE",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "Overlake Park & Ride",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Open Parking Area",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "2650 152nd Ave NE, ",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Provider",
+                          "isSubtle": true,
+                          "text": "Provided by **AzureMaps**",
+                          "horizontalAlignment": "right"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.13767,47.63434&width=512&height=512&subscription-key=z2ruWMpF81wbqxzjYEGYdYv7pOQSwdImiLfRyH42vdo"
+                }
+              ],
+              "separator": true
+            }
+          ],
+          "actions": [
+            {
+              "type": "Action.Submit",
+              "data": {
+                "event": {
+                  "name": "IPA.ActiveLocation",
+                  "text": "Find a route",
+                  "value": "Overlake Park & Ride"
+                }
+              },
+              "title": "Find a route"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "2: Microsoft Visitor Center is located at 15010 Northeast 36th Street",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "Microsoft Visitor Center",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Open Parking Area",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "15010 Northeast 36th Street, ",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Provider",
+                          "isSubtle": true,
+                          "text": "Provided by **AzureMaps**",
+                          "horizontalAlignment": "right"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.13703,47.64244&width=512&height=512&subscription-key=z2ruWMpF81wbqxzjYEGYdYv7pOQSwdImiLfRyH42vdo"
+                }
+              ],
+              "separator": true
+            }
+          ],
+          "actions": [
+            {
+              "type": "Action.Submit",
+              "data": {
+                "event": {
+                  "name": "IPA.ActiveLocation",
+                  "text": "Find a route",
+                  "value": "Microsoft Visitor Center"
+                }
+              },
+              "title": "Find a route"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "3: Overlake Transit Center is located at 15590 NE 36th St",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "Overlake Transit Center",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Open Parking Area",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "15590 NE 36th St, ",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Provider",
+                          "isSubtle": true,
+                          "text": "Provided by **AzureMaps**",
+                          "horizontalAlignment": "right"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.13332,47.64435&width=512&height=512&subscription-key=z2ruWMpF81wbqxzjYEGYdYv7pOQSwdImiLfRyH42vdo"
+                }
+              ],
+              "separator": true
+            }
+          ],
+          "actions": [
+            {
+              "type": "Action.Submit",
+              "data": {
+                "event": {
+                  "name": "IPA.ActiveLocation",
+                  "text": "Find a route",
+                  "value": "Overlake Transit Center"
+                }
+              },
+              "title": "Find a route"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "4: Wilburton Hill Park is located at 12400 Main St",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "Wilburton Hill Park",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Open Parking Area",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "12400 Main St, Willburton, Bellevue",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Provider",
+                          "isSubtle": true,
+                          "text": "Provided by **AzureMaps**",
+                          "horizontalAlignment": "right"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.17131,47.61182&width=512&height=512&subscription-key=z2ruWMpF81wbqxzjYEGYdYv7pOQSwdImiLfRyH42vdo"
+                }
+              ],
+              "separator": true
+            }
+          ],
+          "actions": [
+            {
+              "type": "Action.Submit",
+              "data": {
+                "event": {
+                  "name": "IPA.ActiveLocation",
+                  "text": "Find a route",
+                  "value": "Wilburton Hill Park"
+                }
+              },
+              "title": "Find a route"
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "70dcf820-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:24-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "<--Ending the skill conversation",
+    "replyToId": "70dcf820-3556-11e9-b4e5-c99ca13de863",
+    "id": "74463ad0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:24-08:00",
+    "timestamp": "2019-02-20T21:28:24.573Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "What else can I help you with?",
+    "speak": "What else can I help you with?",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "70dcf820-3556-11e9-b4e5-c99ca13de863",
+    "id": "745e0890-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:24-08:00",
+    "timestamp": "2019-02-20T21:28:24.729Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "text": "get directions to overlake park & ride",
+    "from": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "textFormat": "plain",
+    "timestamp": "2019-02-20T21:28:32.121Z",
+    "channelData": {
+      "clientActivityId": "1550698071759.9252756140506728.6"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "id": "78c5f690-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:32-08:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:58980"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-02-20T21:28:33.257Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "78c5f690-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "get directions to overlake park & ride",
+        "alteredText": null,
+        "intents": {
+          "l_PointOfInterest": {
+            "score": 0.994451
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "1e229c37-d058-4daf-af82-b42d90478336"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "get directions to overlake park & ride",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "l_PointOfInterest",
+          "score": 0.994451
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "79734d90-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:33-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "78c5f690-3556-11e9-b4e5-c99ca13de863",
+    "id": "7978a4c0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:33-08:00",
+    "timestamp": "2019-02-20T21:28:33.292Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "-->Forwarding your utterance to the pointOfInterestSkill skill.",
+    "replyToId": "78c5f690-3556-11e9-b4e5-c99ca13de863",
+    "id": "798d6540-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:33-08:00",
+    "timestamp": "2019-02-20T21:28:33.428Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "78c5f690-3556-11e9-b4e5-c99ca13de863",
+    "id": "7abc4850-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:35-08:00",
+    "timestamp": "2019-02-20T21:28:35.413Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "7b6b9b20-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:28:36.562Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "78c5f690-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "get directions to overlake park & ride",
+        "alteredText": null,
+        "intents": {
+          "NAVIGATION_ROUTE_FROM_X_TO_Y": {
+            "score": 0.912348747
+          }
+        },
+        "entities": {
+          "$instance": {
+            "KEYWORD": [
+              {
+                "startIndex": 18,
+                "endIndex": 38,
+                "text": "overlake park & ride",
+                "type": "KEYWORD",
+                "score": 0.6405368
+              }
+            ]
+          },
+          "KEYWORD": [
+            "overlake park & ride"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "f3169954-5299-4d58-8603-c56a3e13a64b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "get directions to overlake park & ride",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "NAVIGATION_ROUTE_FROM_X_TO_Y",
+          "score": 0.912348747
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "overlake park & ride",
+            "type": "KEYWORD",
+            "startIndex": 18,
+            "endIndex": 37,
+            "score": 0.6405368
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:28:36-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "7b81bb30-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:28:36.707Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "78c5f690-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "get directions to overlake park & ride",
+        "alteredText": null,
+        "intents": {
+          "Help": {
+            "score": 0.05405776
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "a60f2684-d7c4-42db-9e4a-c3d718b8989b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "get directions to overlake park & ride",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Help",
+          "score": 0.05405776
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:28:36-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "7b9172a0-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:28:36.810Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "78c5f690-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "get directions to overlake park & ride",
+        "alteredText": null,
+        "intents": {
+          "NAVIGATION_ROUTE_FROM_X_TO_Y": {
+            "score": 0.912348747
+          }
+        },
+        "entities": {
+          "$instance": {
+            "KEYWORD": [
+              {
+                "startIndex": 18,
+                "endIndex": 38,
+                "text": "overlake park & ride",
+                "type": "KEYWORD",
+                "score": 0.6405368
+              }
+            ]
+          },
+          "KEYWORD": [
+            "overlake park & ride"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "f3169954-5299-4d58-8603-c56a3e13a64b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "get directions to overlake park & ride",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "NAVIGATION_ROUTE_FROM_X_TO_Y",
+          "score": 0.912348747
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "overlake park & ride",
+            "type": "KEYWORD",
+            "startIndex": 18,
+            "endIndex": 37,
+            "score": 0.6405368
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:28:36-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "id": "7ba3c220-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:28:36.930Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "attachmentLayout": "list",
+    "text": "I found a route to your destination.",
+    "speak": "I found a route to your destination.",
+    "inputHint": "ignoringInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "RouteDirectionsViewCardNoGetStartedButton",
+          "speak": "This will get you to Overlake Park & Ride in 2 minutes. There is a traffic delay of  less than a minute.",
+          "body": [
+            {
+              "type": "TextBlock",
+              "text": "This will get you to Overlake Park & Ride in 2 minutes. There is a traffic delay of  less than a minute.",
+              "wrap": true
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "78c5f690-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:36-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "id": "7badfb50-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:28:36.997Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "Shall we get started?",
+    "speak": "Shall we get started?",
+    "inputHint": "expectingInput",
+    "suggestedActions": {
+      "actions": [
+        {
+          "type": "imBack",
+          "title": "Yes",
+          "value": "Yes"
+        },
+        {
+          "type": "imBack",
+          "title": "No",
+          "value": "No"
+        }
+      ]
+    },
+    "attachments": [],
+    "replyToId": "78c5f690-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:36-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "text": "yes",
+    "from": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "textFormat": "plain",
+    "timestamp": "2019-02-20T21:28:43.001Z",
+    "channelData": {
+      "clientActivityId": "1550698071759.9252756140506728.8"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "id": "7f421e90-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:43-08:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:58980"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "7f421e90-3556-11e9-b4e5-c99ca13de863",
+    "id": "802d41e0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:44-08:00",
+    "timestamp": "2019-02-20T21:28:44.542Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "81340380-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:28:46.264Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "7f421e90-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "yes",
+        "alteredText": null,
+        "intents": {
+          "None": {
+            "score": 0.986467957
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "f3169954-5299-4d58-8603-c56a3e13a64b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "yes",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "None",
+          "score": 0.986467957
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:28:46-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "813fea60-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:28:46.342Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "7f421e90-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "yes",
+        "alteredText": null,
+        "intents": {
+          "Cancel": {
+            "score": 0.0693425462
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "a60f2684-d7c4-42db-9e4a-c3d718b8989b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "yes",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Cancel",
+          "score": 0.0693425462
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:28:46-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "id": "8152d620-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:28:46.466Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "I'm sending you the route details.",
+    "speak": "I'm sending you the route details.",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "replyToId": "7f421e90-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:46-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "event",
+    "id": "8173a490-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:28:46.681Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "text": "",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "7f421e90-3556-11e9-b4e5-c99ca13de863",
+    "value": {
+      "Destination": {
+        "Id": "US/POI/p0/8776565",
+        "ImageUrl": "https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.13767,47.63434&width=512&height=512&subscription-key=z2ruWMpF81wbqxzjYEGYdYv7pOQSwdImiLfRyH42vdo",
+        "Name": "Overlake Park & Ride",
+        "Street": "2650 152nd Ave NE",
+        "Geolocation": {
+          "lat": 47.63434,
+          "lon": -122.13767
+        },
+        "RatingCount": 0,
+        "Price": 0,
+        "Category": "Open Parking Area",
+        "Provider": "AzureMaps",
+        "Index": 1,
+        "AvailableDetails": "Open Parking Area"
+      },
+      "Route": {
+        "Summary": {
+          "LengthInMeters": 1028,
+          "TravelTimeInSeconds": 158,
+          "TrafficDelayInSeconds": 0,
+          "DepartureTime": "2019-02-20T21:28:35Z",
+          "ArrivalTime": "2019-02-20T21:31:12Z"
+        },
+        "Legs": [
+          {
+            "Summary": {
+              "LengthInMeters": 1028,
+              "TravelTimeInSeconds": 158,
+              "TrafficDelayInSeconds": 0,
+              "DepartureTime": "2019-02-20T21:28:35Z",
+              "ArrivalTime": "2019-02-20T21:31:12Z"
+            },
+            "Points": [
+              {
+                "Latitude": 47.63962,
+                "Longitude": -122.130608
+              },
+              {
+                "Latitude": 47.63884,
+                "Longitude": -122.1306
+              },
+              {
+                "Latitude": 47.63863,
+                "Longitude": -122.130692
+              },
+              {
+                "Latitude": 47.63846,
+                "Longitude": -122.130829
+              },
+              {
+                "Latitude": 47.63833,
+                "Longitude": -122.131027
+              },
+              {
+                "Latitude": 47.63823,
+                "Longitude": -122.131477
+              },
+              {
+                "Latitude": 47.63818,
+                "Longitude": -122.132111
+              },
+              {
+                "Latitude": 47.63818,
+                "Longitude": -122.132263
+              },
+              {
+                "Latitude": 47.63818,
+                "Longitude": -122.132393
+              },
+              {
+                "Latitude": 47.63818,
+                "Longitude": -122.1325
+              },
+              {
+                "Latitude": 47.63813,
+                "Longitude": -122.132629
+              },
+              {
+                "Latitude": 47.63815,
+                "Longitude": -122.13311
+              },
+              {
+                "Latitude": 47.63815,
+                "Longitude": -122.133591
+              },
+              {
+                "Latitude": 47.63816,
+                "Longitude": -122.13398
+              },
+              {
+                "Latitude": 47.63815,
+                "Longitude": -122.134529
+              },
+              {
+                "Latitude": 47.63813,
+                "Longitude": -122.1349
+              },
+              {
+                "Latitude": 47.63815,
+                "Longitude": -122.13504
+              },
+              {
+                "Latitude": 47.63827,
+                "Longitude": -122.13533
+              },
+              {
+                "Latitude": 47.63832,
+                "Longitude": -122.135338
+              },
+              {
+                "Latitude": 47.63838,
+                "Longitude": -122.135391
+              },
+              {
+                "Latitude": 47.6384,
+                "Longitude": -122.135437
+              },
+              {
+                "Latitude": 47.63841,
+                "Longitude": -122.1355
+              },
+              {
+                "Latitude": 47.63839,
+                "Longitude": -122.1356
+              },
+              {
+                "Latitude": 47.63835,
+                "Longitude": -122.135689
+              },
+              {
+                "Latitude": 47.63821,
+                "Longitude": -122.135948
+              },
+              {
+                "Latitude": 47.63811,
+                "Longitude": -122.136131
+              },
+              {
+                "Latitude": 47.63806,
+                "Longitude": -122.136169
+              },
+              {
+                "Latitude": 47.63782,
+                "Longitude": -122.136452
+              },
+              {
+                "Latitude": 47.63751,
+                "Longitude": -122.136833
+              },
+              {
+                "Latitude": 47.63699,
+                "Longitude": -122.137619
+              },
+              {
+                "Latitude": 47.63693,
+                "Longitude": -122.13765
+              },
+              {
+                "Latitude": 47.63672,
+                "Longitude": -122.137672
+              },
+              {
+                "Latitude": 47.63668,
+                "Longitude": -122.13768
+              },
+              {
+                "Latitude": 47.63564,
+                "Longitude": -122.137711
+              },
+              {
+                "Latitude": 47.63525,
+                "Longitude": -122.137718
+              },
+              {
+                "Latitude": 47.63507,
+                "Longitude": -122.137718
+              },
+              {
+                "Latitude": 47.63434,
+                "Longitude": -122.137711
+              }
+            ]
+          }
+        ],
+        "Sections": [
+          {
+            "StartPointIndex": 0,
+            "EndPointIndex": 36,
+            "SectionType": "TRAVEL_MODE",
+            "TravelMode": "car"
+          }
+        ]
+      }
+    },
+    "name": "ActiveRoute.Directions",
+    "localTimestamp": "2019-02-20T13:28:46-08:00"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "<--Ending the skill conversation",
+    "replyToId": "7f421e90-3556-11e9-b4e5-c99ca13de863",
+    "id": "81849480-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:46-08:00",
+    "timestamp": "2019-02-20T21:28:46.792Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "What else can I help you with?",
+    "speak": "What else can I help you with?",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "7f421e90-3556-11e9-b4e5-c99ca13de863",
+    "id": "81958470-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:46-08:00",
+    "timestamp": "2019-02-20T21:28:46.903Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "7f421e90-3556-11e9-b4e5-c99ca13de863",
+    "id": "81a31900-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:46-08:00",
+    "timestamp": "2019-02-20T21:28:46.992Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "text": "actually cancel my route",
+    "from": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "textFormat": "plain",
+    "timestamp": "2019-02-20T21:28:50.745Z",
+    "channelData": {
+      "clientActivityId": "1550698071759.9252756140506728.10"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "id": "83dfc290-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:50-08:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:58980"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "83dfc290-3556-11e9-b4e5-c99ca13de863",
+    "id": "848bba00-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:51-08:00",
+    "timestamp": "2019-02-20T21:28:51.872Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-02-20T21:28:52.009Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "83dfc290-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "actually cancel my route",
+        "alteredText": null,
+        "intents": {
+          "l_PointOfInterest": {
+            "score": 0.9757465
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "1e229c37-d058-4daf-af82-b42d90478336"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "actually cancel my route",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "l_PointOfInterest",
+          "score": 0.9757465
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "84a0a190-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:52-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "-->Forwarding your utterance to the pointOfInterestSkill skill.",
+    "replyToId": "83dfc290-3556-11e9-b4e5-c99ca13de863",
+    "id": "84b08010-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:52-08:00",
+    "timestamp": "2019-02-20T21:28:52.113Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "83dfc290-3556-11e9-b4e5-c99ca13de863",
+    "id": "85d996c0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:54-08:00",
+    "timestamp": "2019-02-20T21:28:54.060Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "86278fb0-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:28:54.571Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "83dfc290-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "actually cancel my route",
+        "alteredText": null,
+        "intents": {
+          "NAVIGATION_CANCEL_ROUTE": {
+            "score": 0.954325438
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "f3169954-5299-4d58-8603-c56a3e13a64b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "actually cancel my route",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "NAVIGATION_CANCEL_ROUTE",
+          "score": 0.954325438
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:28:54-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "8638f4d0-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:28:54.685Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "83dfc290-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "actually cancel my route",
+        "alteredText": null,
+        "intents": {
+          "Cancel": {
+            "score": 0.2456209
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "a60f2684-d7c4-42db-9e4a-c3d718b8989b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "actually cancel my route",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Cancel",
+          "score": 0.2456209
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:28:54-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "864a0bd0-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:28:54.797Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "83dfc290-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "actually cancel my route",
+        "alteredText": null,
+        "intents": {
+          "NAVIGATION_CANCEL_ROUTE": {
+            "score": 0.954325438
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "f3169954-5299-4d58-8603-c56a3e13a64b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "actually cancel my route",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "NAVIGATION_CANCEL_ROUTE",
+          "score": 0.954325438
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:28:54-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "id": "865e3010-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:28:54.929Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "Got it. I'm cancelling your route now.",
+    "speak": "Got it. I'm cancelling your route now.",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "replyToId": "83dfc290-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:54-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "<--Ending the skill conversation",
+    "replyToId": "83dfc290-3556-11e9-b4e5-c99ca13de863",
+    "id": "866cfd20-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:55-08:00",
+    "timestamp": "2019-02-20T21:28:55.026Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "What else can I help you with?",
+    "speak": "What else can I help you with?",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "83dfc290-3556-11e9-b4e5-c99ca13de863",
+    "id": "86803700-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:28:55-08:00",
+    "timestamp": "2019-02-20T21:28:55.152Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "text": "is there a coffee shop nearby?",
+    "from": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "textFormat": "plain",
+    "timestamp": "2019-02-20T21:29:06.165Z",
+    "channelData": {
+      "clientActivityId": "1550698071759.9252756140506728.12"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "id": "8d10aa50-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:06-08:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:58980"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "8d10aa50-3556-11e9-b4e5-c99ca13de863",
+    "id": "8dbf12c0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:07-08:00",
+    "timestamp": "2019-02-20T21:29:07.308Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-02-20T21:29:07.742Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "8d10aa50-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "is there a coffee shop nearby?",
+        "alteredText": null,
+        "intents": {
+          "l_PointOfInterest": {
+            "score": 0.9405855
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "1e229c37-d058-4daf-af82-b42d90478336"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "is there a coffee shop nearby?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "l_PointOfInterest",
+          "score": 0.9405855
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "8e014be0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:07-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "-->Forwarding your utterance to the pointOfInterestSkill skill.",
+    "replyToId": "8d10aa50-3556-11e9-b4e5-c99ca13de863",
+    "id": "8e10dc40-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:07-08:00",
+    "timestamp": "2019-02-20T21:29:07.844Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "8d10aa50-3556-11e9-b4e5-c99ca13de863",
+    "id": "8f10e720-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:09-08:00",
+    "timestamp": "2019-02-20T21:29:09.522Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "90169750-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:29:11.237Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "8d10aa50-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "is there a coffee shop nearby?",
+        "alteredText": null,
+        "intents": {
+          "NAVIGATION_FIND_POINTOFINTEREST": {
+            "score": 0.999986649
+          }
+        },
+        "entities": {
+          "$instance": {
+            "KEYWORD": [
+              {
+                "startIndex": 11,
+                "endIndex": 22,
+                "text": "coffee shop",
+                "type": "KEYWORD",
+                "score": 0.891233265
+              }
+            ]
+          },
+          "KEYWORD": [
+            "coffee shop"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "f3169954-5299-4d58-8603-c56a3e13a64b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "is there a coffee shop nearby?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "NAVIGATION_FIND_POINTOFINTEREST",
+          "score": 0.999986649
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "coffee shop",
+            "type": "KEYWORD",
+            "startIndex": 11,
+            "endIndex": 21,
+            "score": 0.891233265
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:29:11-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "90258b70-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:29:11.335Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "8d10aa50-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "is there a coffee shop nearby?",
+        "alteredText": null,
+        "intents": {
+          "Help": {
+            "score": 0.0555763245
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "a60f2684-d7c4-42db-9e4a-c3d718b8989b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "is there a coffee shop nearby?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Help",
+          "score": 0.0555763245
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:29:11-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "9034a6a0-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:29:11.433Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "8d10aa50-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "is there a coffee shop nearby?",
+        "alteredText": null,
+        "intents": {
+          "NAVIGATION_FIND_POINTOFINTEREST": {
+            "score": 0.999986649
+          }
+        },
+        "entities": {
+          "$instance": {
+            "KEYWORD": [
+              {
+                "startIndex": 11,
+                "endIndex": 22,
+                "text": "coffee shop",
+                "type": "KEYWORD",
+                "score": 0.891233265
+              }
+            ]
+          },
+          "KEYWORD": [
+            "coffee shop"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "f3169954-5299-4d58-8603-c56a3e13a64b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "is there a coffee shop nearby?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "NAVIGATION_FIND_POINTOFINTEREST",
+          "score": 0.999986649
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "coffee shop",
+            "type": "KEYWORD",
+            "startIndex": 11,
+            "endIndex": 21,
+            "score": 0.891233265
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:29:11-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "id": "90439ac0-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:29:11.532Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "attachmentLayout": "carousel",
+    "text": "I found the following matches.",
+    "speak": "I found the following matches.",
+    "inputHint": "expectingInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "0: Starbucks is located at 15000 NE 24th St",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "Starbucks",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Café/Pub",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "15000 NE 24th St, ",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Provider",
+                          "isSubtle": true,
+                          "text": "Provided by **AzureMaps**",
+                          "horizontalAlignment": "right"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.14052,47.63265&width=512&height=512&subscription-key=z2ruWMpF81wbqxzjYEGYdYv7pOQSwdImiLfRyH42vdo"
+                }
+              ],
+              "separator": true
+            }
+          ],
+          "actions": [
+            {
+              "type": "Action.Submit",
+              "data": {
+                "event": {
+                  "name": "IPA.ActiveLocation",
+                  "text": "Find a route",
+                  "value": "Starbucks"
+                }
+              },
+              "title": "Find a route"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "1: Starbucks is located at 1350 156th Ave NE",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "Starbucks",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Café/Pub",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "1350 156th Ave NE, Crossroads, Bellevue",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Provider",
+                          "isSubtle": true,
+                          "text": "Provided by **AzureMaps**",
+                          "horizontalAlignment": "right"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.13179,47.62212&width=512&height=512&subscription-key=z2ruWMpF81wbqxzjYEGYdYv7pOQSwdImiLfRyH42vdo"
+                }
+              ],
+              "separator": true
+            }
+          ],
+          "actions": [
+            {
+              "type": "Action.Submit",
+              "data": {
+                "event": {
+                  "name": "IPA.ActiveLocation",
+                  "text": "Find a route",
+                  "value": "Starbucks"
+                }
+              },
+              "title": "Find a route"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "2: Starbucks is located at 15600 NE 8th St",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "Starbucks",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Café/Pub",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "15600 NE 8th St, Crossroads, Bellevue",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Provider",
+                          "isSubtle": true,
+                          "text": "Provided by **AzureMaps**",
+                          "horizontalAlignment": "right"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.12945,47.61896&width=512&height=512&subscription-key=z2ruWMpF81wbqxzjYEGYdYv7pOQSwdImiLfRyH42vdo"
+                }
+              ],
+              "separator": true
+            }
+          ],
+          "actions": [
+            {
+              "type": "Action.Submit",
+              "data": {
+                "event": {
+                  "name": "IPA.ActiveLocation",
+                  "text": "Find a route",
+                  "value": "Starbucks"
+                }
+              },
+              "title": "Find a route"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "3: Starbucks is located at 1645 140th Ave NE",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "Starbucks",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Café/Pub",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "1645 140th Ave NE, Crossroads, Bellevue",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Provider",
+                          "isSubtle": true,
+                          "text": "Provided by **AzureMaps**",
+                          "horizontalAlignment": "right"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.15487,47.62626&width=512&height=512&subscription-key=z2ruWMpF81wbqxzjYEGYdYv7pOQSwdImiLfRyH42vdo"
+                }
+              ],
+              "separator": true
+            }
+          ],
+          "actions": [
+            {
+              "type": "Action.Submit",
+              "data": {
+                "event": {
+                  "name": "IPA.ActiveLocation",
+                  "text": "Find a route",
+                  "value": "Starbucks"
+                }
+              },
+              "title": "Find a route"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "4: Boba Express is located at 15600 NE 8th St",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "Boba Express",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Café/Pub",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "15600 NE 8th St, Crossroads, Bellevue",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Provider",
+                          "isSubtle": true,
+                          "text": "Provided by **AzureMaps**",
+                          "horizontalAlignment": "right"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.13235,47.61705&width=512&height=512&subscription-key=z2ruWMpF81wbqxzjYEGYdYv7pOQSwdImiLfRyH42vdo"
+                }
+              ],
+              "separator": true
+            }
+          ],
+          "actions": [
+            {
+              "type": "Action.Submit",
+              "data": {
+                "event": {
+                  "name": "IPA.ActiveLocation",
+                  "text": "Find a route",
+                  "value": "Boba Express"
+                }
+              },
+              "title": "Find a route"
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "8d10aa50-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:11-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "8d10aa50-3556-11e9-b4e5-c99ca13de863",
+    "id": "90583430-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:11-08:00",
+    "timestamp": "2019-02-20T21:29:11.667Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "<--Ending the skill conversation",
+    "replyToId": "8d10aa50-3556-11e9-b4e5-c99ca13de863",
+    "id": "906a5ca0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:11-08:00",
+    "timestamp": "2019-02-20T21:29:11.786Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "What else can I help you with?",
+    "speak": "What else can I help you with?",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "8d10aa50-3556-11e9-b4e5-c99ca13de863",
+    "id": "907afe70-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:11-08:00",
+    "timestamp": "2019-02-20T21:29:11.894Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "text": "route to option 1",
+    "from": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "textFormat": "plain",
+    "timestamp": "2019-02-20T21:29:20.735Z",
+    "channelData": {
+      "clientActivityId": "1550698071759.9252756140506728.14"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "id": "95bfdef0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:20-08:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:58980"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-02-20T21:29:21.869Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "95bfdef0-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "route to option 1",
+        "alteredText": null,
+        "intents": {
+          "l_PointOfInterest": {
+            "score": 0.9613897
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "1e229c37-d058-4daf-af82-b42d90478336"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "route to option 1",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "l_PointOfInterest",
+          "score": 0.9613897
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "966ce7d0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:21-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "95bfdef0-3556-11e9-b4e5-c99ca13de863",
+    "id": "9678a7a0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:21-08:00",
+    "timestamp": "2019-02-20T21:29:21.946Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "-->Forwarding your utterance to the pointOfInterestSkill skill.",
+    "replyToId": "95bfdef0-3556-11e9-b4e5-c99ca13de863",
+    "id": "9698d9d0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:22-08:00",
+    "timestamp": "2019-02-20T21:29:22.157Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "95bfdef0-3556-11e9-b4e5-c99ca13de863",
+    "id": "97c265b0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:24-08:00",
+    "timestamp": "2019-02-20T21:29:24.107Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "98e784c0-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:29:26.028Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "95bfdef0-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "route to option 1",
+        "alteredText": null,
+        "intents": {
+          "NAVIGATION_ROUTE_FROM_X_TO_Y": {
+            "score": 0.910121
+          }
+        },
+        "entities": {
+          "$instance": {
+            "number": [
+              {
+                "startIndex": 16,
+                "endIndex": 17,
+                "text": "1",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ]
+          },
+          "number": [
+            1
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "f3169954-5299-4d58-8603-c56a3e13a64b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "route to option 1",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "NAVIGATION_ROUTE_FROM_X_TO_Y",
+          "score": 0.910121
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "1",
+            "type": "builtin.number",
+            "startIndex": 16,
+            "endIndex": 16,
+            "resolution": {
+              "subtype": "integer",
+              "value": "1"
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:29:26-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "95bfdef0-3556-11e9-b4e5-c99ca13de863",
+    "id": "98fd56b0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:26-08:00",
+    "timestamp": "2019-02-20T21:29:26.171Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "9906cc90-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:29:26.233Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "95bfdef0-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "route to option 1",
+        "alteredText": null,
+        "intents": {
+          "Help": {
+            "score": 0.0218075234
+          }
+        },
+        "entities": {
+          "$instance": {
+            "number": [
+              {
+                "startIndex": 16,
+                "endIndex": 17,
+                "text": "1",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ]
+          },
+          "number": [
+            1
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "a60f2684-d7c4-42db-9e4a-c3d718b8989b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "route to option 1",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Help",
+          "score": 0.0218075234
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "1",
+            "type": "builtin.number",
+            "startIndex": 16,
+            "endIndex": 16,
+            "resolution": {
+              "subtype": "integer",
+              "value": "1"
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:29:26-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "991328a0-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:29:26.314Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "95bfdef0-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "route to option 1",
+        "alteredText": null,
+        "intents": {
+          "NAVIGATION_ROUTE_FROM_X_TO_Y": {
+            "score": 0.910121
+          }
+        },
+        "entities": {
+          "$instance": {
+            "number": [
+              {
+                "startIndex": 16,
+                "endIndex": 17,
+                "text": "1",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ]
+          },
+          "number": [
+            1
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "f3169954-5299-4d58-8603-c56a3e13a64b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "route to option 1",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "NAVIGATION_ROUTE_FROM_X_TO_Y",
+          "score": 0.910121
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "1",
+            "type": "builtin.number",
+            "startIndex": 16,
+            "endIndex": 16,
+            "resolution": {
+              "subtype": "integer",
+              "value": "1"
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:29:26-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "id": "9922e010-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:29:26.417Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "attachmentLayout": "list",
+    "text": "This is the best route to your destination.",
+    "speak": "This is the best route to your destination.",
+    "inputHint": "ignoringInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "RouteDirectionsViewCardNoGetStartedButton",
+          "speak": "This will get you to Starbucks in 5 minutes. There is a traffic delay of  less than a minute.",
+          "body": [
+            {
+              "type": "TextBlock",
+              "text": "This will get you to Starbucks in 5 minutes. There is a traffic delay of  less than a minute.",
+              "wrap": true
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "95bfdef0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:26-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "id": "993ea570-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:29:26.599Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "Would you like to begin your route now?",
+    "speak": "Would you like to begin your route now?",
+    "inputHint": "expectingInput",
+    "suggestedActions": {
+      "actions": [
+        {
+          "type": "imBack",
+          "title": "Yes",
+          "value": "Yes"
+        },
+        {
+          "type": "imBack",
+          "title": "No",
+          "value": "No"
+        }
+      ]
+    },
+    "attachments": [],
+    "replyToId": "95bfdef0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:26-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "text": "Yes",
+    "from": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "textFormat": "plain",
+    "timestamp": "2019-02-20T21:29:30.777Z",
+    "channelData": {
+      "clientActivityId": "1550698071759.9252756140506728.16"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "id": "9bbc2890-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:30-08:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:58980"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "9bbc2890-3556-11e9-b4e5-c99ca13de863",
+    "id": "9c8ebad0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:32-08:00",
+    "timestamp": "2019-02-20T21:29:32.157Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "9ded1250-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:29:34.453Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "9bbc2890-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Yes",
+        "alteredText": null,
+        "intents": {
+          "None": {
+            "score": 0.986467957
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "f3169954-5299-4d58-8603-c56a3e13a64b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Yes",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "None",
+          "score": 0.986467957
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:29:34-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "9bbc2890-3556-11e9-b4e5-c99ca13de863",
+    "id": "9dfaa6e0-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:34-08:00",
+    "timestamp": "2019-02-20T21:29:34.542Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "9e1078d0-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:29:34.685Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "replyToId": "9bbc2890-3556-11e9-b4e5-c99ca13de863",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Yes",
+        "alteredText": null,
+        "intents": {
+          "Cancel": {
+            "score": 0.0693425462
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "a60f2684-d7c4-42db-9e4a-c3d718b8989b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "Yes",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Cancel",
+          "score": 0.0693425462
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-02-20T13:29:34-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "id": "9e1d7120-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:29:34.770Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "Here are more detailed directions.",
+    "speak": "Here are more detailed directions.",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "replyToId": "9bbc2890-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:34-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "event",
+    "id": "9e2b2cc0-3556-11e9-b4e5-c99ca13de863",
+    "timestamp": "2019-02-20T21:29:34.860Z",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "text": "",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "9bbc2890-3556-11e9-b4e5-c99ca13de863",
+    "value": {
+      "Destination": {
+        "Id": "US/POI/p0/2282818",
+        "ImageUrl": "https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.14052,47.63265&width=512&height=512&subscription-key=z2ruWMpF81wbqxzjYEGYdYv7pOQSwdImiLfRyH42vdo",
+        "Name": "Starbucks",
+        "Street": "15000 NE 24th St",
+        "Geolocation": {
+          "lat": 47.63265,
+          "lon": -122.14052
+        },
+        "RatingCount": 0,
+        "Price": 0,
+        "Category": "Café/Pub",
+        "Provider": "AzureMaps",
+        "Index": 0,
+        "AvailableDetails": "Café/Pub"
+      },
+      "Route": {
+        "Summary": {
+          "LengthInMeters": 1636,
+          "TravelTimeInSeconds": 314,
+          "TrafficDelayInSeconds": 0,
+          "DepartureTime": "2019-02-20T21:29:24Z",
+          "ArrivalTime": "2019-02-20T21:34:38Z"
+        },
+        "Legs": [
+          {
+            "Summary": {
+              "LengthInMeters": 1636,
+              "TravelTimeInSeconds": 314,
+              "TrafficDelayInSeconds": 0,
+              "DepartureTime": "2019-02-20T21:29:24Z",
+              "ArrivalTime": "2019-02-20T21:34:38Z"
+            },
+            "Points": [
+              {
+                "Latitude": 47.63962,
+                "Longitude": -122.130608
+              },
+              {
+                "Latitude": 47.63884,
+                "Longitude": -122.1306
+              },
+              {
+                "Latitude": 47.63863,
+                "Longitude": -122.130692
+              },
+              {
+                "Latitude": 47.63846,
+                "Longitude": -122.130829
+              },
+              {
+                "Latitude": 47.63833,
+                "Longitude": -122.131027
+              },
+              {
+                "Latitude": 47.63823,
+                "Longitude": -122.131477
+              },
+              {
+                "Latitude": 47.63818,
+                "Longitude": -122.132111
+              },
+              {
+                "Latitude": 47.63818,
+                "Longitude": -122.132263
+              },
+              {
+                "Latitude": 47.63818,
+                "Longitude": -122.132393
+              },
+              {
+                "Latitude": 47.63818,
+                "Longitude": -122.1325
+              },
+              {
+                "Latitude": 47.63813,
+                "Longitude": -122.132629
+              },
+              {
+                "Latitude": 47.63815,
+                "Longitude": -122.13311
+              },
+              {
+                "Latitude": 47.63815,
+                "Longitude": -122.133591
+              },
+              {
+                "Latitude": 47.63816,
+                "Longitude": -122.13398
+              },
+              {
+                "Latitude": 47.63815,
+                "Longitude": -122.134529
+              },
+              {
+                "Latitude": 47.63813,
+                "Longitude": -122.1349
+              },
+              {
+                "Latitude": 47.63815,
+                "Longitude": -122.13504
+              },
+              {
+                "Latitude": 47.63827,
+                "Longitude": -122.13533
+              },
+              {
+                "Latitude": 47.63832,
+                "Longitude": -122.135338
+              },
+              {
+                "Latitude": 47.63838,
+                "Longitude": -122.135391
+              },
+              {
+                "Latitude": 47.6384,
+                "Longitude": -122.135437
+              },
+              {
+                "Latitude": 47.63841,
+                "Longitude": -122.1355
+              },
+              {
+                "Latitude": 47.63839,
+                "Longitude": -122.1356
+              },
+              {
+                "Latitude": 47.63835,
+                "Longitude": -122.135689
+              },
+              {
+                "Latitude": 47.63821,
+                "Longitude": -122.135948
+              },
+              {
+                "Latitude": 47.63811,
+                "Longitude": -122.136131
+              },
+              {
+                "Latitude": 47.63806,
+                "Longitude": -122.136169
+              },
+              {
+                "Latitude": 47.63782,
+                "Longitude": -122.136452
+              },
+              {
+                "Latitude": 47.63751,
+                "Longitude": -122.136833
+              },
+              {
+                "Latitude": 47.63699,
+                "Longitude": -122.137619
+              },
+              {
+                "Latitude": 47.63693,
+                "Longitude": -122.13765
+              },
+              {
+                "Latitude": 47.63672,
+                "Longitude": -122.137672
+              },
+              {
+                "Latitude": 47.63668,
+                "Longitude": -122.13768
+              },
+              {
+                "Latitude": 47.63564,
+                "Longitude": -122.137711
+              },
+              {
+                "Latitude": 47.63525,
+                "Longitude": -122.137718
+              },
+              {
+                "Latitude": 47.63507,
+                "Longitude": -122.137718
+              },
+              {
+                "Latitude": 47.63415,
+                "Longitude": -122.1377
+              },
+              {
+                "Latitude": 47.63407,
+                "Longitude": -122.1377
+              },
+              {
+                "Latitude": 47.63403,
+                "Longitude": -122.1377
+              },
+              {
+                "Latitude": 47.63326,
+                "Longitude": -122.137688
+              },
+              {
+                "Latitude": 47.63224,
+                "Longitude": -122.1377
+              },
+              {
+                "Latitude": 47.63203,
+                "Longitude": -122.1377
+              },
+              {
+                "Latitude": 47.63158,
+                "Longitude": -122.1377
+              },
+              {
+                "Latitude": 47.63157,
+                "Longitude": -122.138779
+              },
+              {
+                "Latitude": 47.63156,
+                "Longitude": -122.139374
+              },
+              {
+                "Latitude": 47.63155,
+                "Longitude": -122.140518
+              },
+              {
+                "Latitude": 47.63167,
+                "Longitude": -122.140541
+              },
+              {
+                "Latitude": 47.63236,
+                "Longitude": -122.140572
+              }
+            ]
+          }
+        ],
+        "Sections": [
+          {
+            "StartPointIndex": 0,
+            "EndPointIndex": 47,
+            "SectionType": "TRAVEL_MODE",
+            "TravelMode": "car"
+          }
+        ]
+      }
+    },
+    "name": "ActiveRoute.Directions",
+    "localTimestamp": "2019-02-20T13:29:34-08:00"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "<--Ending the skill conversation",
+    "replyToId": "9bbc2890-3556-11e9-b4e5-c99ca13de863",
+    "id": "9e3e3f90-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:34-08:00",
+    "timestamp": "2019-02-20T21:29:34.985Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "http://localhost:58980",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "60b699b0-3556-11e9-a921-152ab1593e75|livechat"
+    },
+    "recipient": {
+      "id": "f1020e6c-f617-47c2-9e69-c78d32fe6ed4",
+      "role": "user"
+    },
+    "text": "What else can I help you with?",
+    "speak": "What else can I help you with?",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "9bbc2890-3556-11e9-b4e5-c99ca13de863",
+    "id": "9e568280-3556-11e9-b4e5-c99ca13de863",
+    "localTimestamp": "2019-02-20T13:29:35-08:00",
+    "timestamp": "2019-02-20T21:29:35.144Z",
+    "locale": "en-us"
+  }
+]
