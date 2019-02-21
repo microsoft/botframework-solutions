@@ -84,7 +84,7 @@ namespace EnterpriseBotSample.Dialogs.Onboarding
 
         public async Task<DialogTurnResult> FinishOnboardingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            _state = await _accessor.GetAsync(sc.Context);
+            _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
             _state.Location = (string)sc.Result;
 
             await _responder.ReplyWith(sc.Context, OnboardingResponses.ResponseIds.HaveLocationMessage, new { _state.Name, _state.Location });

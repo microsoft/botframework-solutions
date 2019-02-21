@@ -25,6 +25,13 @@ namespace EnterpriseBotSample
         /// <summary>
         /// Initializes a new instance of the <see cref="BotServices"/> class.
         /// </summary>
+        public BotServices()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BotServices"/> class.
+        /// </summary>
         /// <param name="botConfiguration">The <see cref="BotConfiguration"/> instance for the bot.</param>
         public BotServices(BotConfiguration botConfiguration)
         {
@@ -150,7 +157,7 @@ namespace EnterpriseBotSample
         /// <value>
         /// A string based on configuration in the .bot file.
         /// </value>
-        public string AuthConnectionName { get; }
+        public string AuthConnectionName { get; set; }
 
         /// <summary>
         /// Gets the set of AppInsights Telemetry Client used.
@@ -159,7 +166,7 @@ namespace EnterpriseBotSample
         /// <value>
         /// A <see cref="TelemetryClient"/> client instance created based on configuration in the .bot file.
         /// </value>
-        public TelemetryClient TelemetryClient { get; }
+        public TelemetryClient TelemetryClient { get; set; }
 
         /// <summary>
         /// Gets the set of Dispatch LUIS Recognizer used.
@@ -168,7 +175,7 @@ namespace EnterpriseBotSample
         /// <value>
         /// A <see cref="LuisRecognizer"/> client instance created based on configuration in the .bot file.
         /// </value>
-        public TelemetryLuisRecognizer DispatchRecognizer { get; }
+        public ITelemetryLuisRecognizer DispatchRecognizer { get; set; }
 
         /// <summary>
         /// Gets the set of LUIS Services used.
@@ -180,7 +187,7 @@ namespace EnterpriseBotSample
         /// <value>
         /// A <see cref="LuisRecognizer"/> client instance created based on configuration in the .bot file.
         /// </value>
-        public Dictionary<string, TelemetryLuisRecognizer> LuisServices { get; } = new Dictionary<string, TelemetryLuisRecognizer>();
+        public Dictionary<string, ITelemetryLuisRecognizer> LuisServices { get; set; } = new Dictionary<string, ITelemetryLuisRecognizer>();
 
         /// <summary>
         /// Gets the set of QnAMaker Services used.
@@ -190,8 +197,8 @@ namespace EnterpriseBotSample
         /// </summary>
         /// <remarks>The QnAMaker services collection should not be modified while the bot is running.</remarks>
         /// <value>
-        /// A <see cref="TelemetryQnAMaker"/> client instance created based on configuration in the .bot file.
+        /// A <see cref="ITelemetryQnAMaker"/> client instance created based on configuration in the .bot file.
         /// </value>
-        public Dictionary<string, TelemetryQnAMaker> QnAServices { get; } = new Dictionary<string, TelemetryQnAMaker>();
+        public Dictionary<string, ITelemetryQnAMaker> QnAServices { get; set; } = new Dictionary<string, ITelemetryQnAMaker>();
     }
 }

@@ -27,6 +27,7 @@ namespace EnterpriseBotSample.Extensions
                 case Channels.Emulator:
                 case Channels.Webchat:
                 case Channels.Msteams:
+                case "test":
                     {
                         if (activity.Type == ActivityTypes.ConversationUpdate)
                         {
