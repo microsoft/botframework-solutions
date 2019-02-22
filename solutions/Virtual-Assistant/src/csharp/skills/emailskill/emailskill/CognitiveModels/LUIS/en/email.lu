@@ -423,6 +423,7 @@
 
 
 ## SearchMessages
+- find email containing "{SearchTexts=hello}" 
 - can you search my emails
 - detect emails from {SenderName=betty}
 - detect the email containing keyword {SearchTexts=beauty}
