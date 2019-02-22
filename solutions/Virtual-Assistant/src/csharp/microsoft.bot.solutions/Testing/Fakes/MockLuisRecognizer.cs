@@ -35,19 +35,10 @@ namespace Microsoft.Bot.Solutions.Testing.Fakes
             throw new NotImplementedException();
         }
 
-        public Task<T> RecognizeAsync<T>(DialogContext dialogContext, bool logPersonalInformation, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<T> RecognizeAsync<T>(DialogContext dialogContext, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new()
         {
             var text = dialogContext.Context.Activity.Text;
-
-            var mockResult = TestUtterances.GetValueOrDefault(text, DefaultIntent);
-            return Task.FromResult((T)mockResult);
-        }
-
-        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, bool logPersonalInformation, CancellationToken cancellationToken = default(CancellationToken))
-            where T : IRecognizerConvert, new()
-        {
-            var text = turnContext.Activity.Text;
 
             var mockResult = TestUtterances.GetValueOrDefault(text, DefaultIntent);
             return Task.FromResult((T)mockResult);
