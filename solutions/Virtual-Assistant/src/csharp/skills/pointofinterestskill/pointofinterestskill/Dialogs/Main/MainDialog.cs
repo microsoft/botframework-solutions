@@ -92,7 +92,7 @@ namespace PointOfInterestSkill.Dialogs.Main
             else
             {
                 var turnResult = EndOfTurn;
-                var result = await luisService.RecognizeAsync<PointOfInterestLU>(dc, true, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<PointOfInterestLU>(dc, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
                 var skillOptions = new PointOfInterestSkillDialogOptions

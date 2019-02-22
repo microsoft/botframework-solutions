@@ -84,7 +84,7 @@ namespace VirtualAssistant.Dialogs.Main
 
             // No dialog is currently on the stack and we haven't responded to the user
             // Check dispatch result
-            var dispatchResult = await localeConfig.DispatchRecognizer.RecognizeAsync<Dispatch>(dc, true, CancellationToken.None);
+            var dispatchResult = await localeConfig.DispatchRecognizer.RecognizeAsync<Dispatch>(dc, CancellationToken.None);
             var intent = dispatchResult.TopIntent().intent;
 
             switch (intent)
@@ -93,7 +93,7 @@ namespace VirtualAssistant.Dialogs.Main
                     {
                         // If dispatch result is general luis model
                         var luisService = localeConfig.LuisServices["general"];
-                        var luisResult = await luisService.RecognizeAsync<General>(dc, true, CancellationToken.None);
+                        var luisResult = await luisService.RecognizeAsync<General>(dc, CancellationToken.None);
                         var luisIntent = luisResult?.TopIntent().intent;
 
                         // switch on general intents
