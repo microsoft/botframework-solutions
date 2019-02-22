@@ -173,7 +173,7 @@ Property |Value
 `customDimensions.sentimentLabel` | LUIS sentiment analysis label
 `customDimensions.sentimentScore` | LUIS sentiment analysis score
 
-#### QnAMesage
+#### QnAMessage
 *Logs QnA Maker results*
 
 **Logged from:** TelemetryQnAMaker
