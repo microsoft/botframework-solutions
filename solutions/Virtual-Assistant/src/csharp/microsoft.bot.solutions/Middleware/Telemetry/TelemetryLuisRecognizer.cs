@@ -41,7 +41,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
         /// <summary>
         /// Gets a value indicating whether determines whether to log the Activity message text that came from the user.
         /// </summary>
-        /// <value>If true, will log the Activity Message text into the AppInsight Custome Event for Luis intents.</value>
+        /// <value>If true, will log the Activity Message text into the AppInsight Custom Event for Luis intents.</value>
         public bool LogPersonalInformation { get; }
 
         public async Task<T> RecognizeAsync<T>(DialogContext dialogContext, CancellationToken cancellationToken = default(CancellationToken))
@@ -52,7 +52,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
             return result;
         }
 
-        public async Task<T> RecognizeAsync<T>(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
+        public new async Task<T> RecognizeAsync<T>(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new()
         {
             var result = new T();
@@ -101,7 +101,7 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
             }
 
             // Call Luis Recognizer
-            var recognizerResult = await RecognizeAsync(context, cancellationToken);
+            var recognizerResult = await base.RecognizeAsync(context, cancellationToken);
 
             // Find the Telemetry Client
             if (context.TurnState.TryGetValue(TelemetryLoggerMiddleware.AppInsightsServiceKey, out var telemetryClient) && recognizerResult != null)
