@@ -88,11 +88,7 @@
       <LastGenOutput>OnboardingStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services" />
-  </ItemGroup>
-
+  
   <ItemGroup>
     <Folder Include="Dialogs\Shared\Resources\" />
   </ItemGroup>

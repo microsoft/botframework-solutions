@@ -220,10 +220,6 @@
       <LastGenOutput>CalendarCommonStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>  
-  
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Update="*.bot">
