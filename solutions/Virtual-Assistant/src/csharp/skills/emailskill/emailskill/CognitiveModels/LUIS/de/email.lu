@@ -105,7 +105,7 @@
 - Schreiben Sie mehr
 
 
-## CancelSend
+## CancelMessages
 - "Nein, ich möchte diese Botschaft nicht senden"
 - E-Mail stornieren
 - E-Mail stornieren  {ContactName=Natalie} 
@@ -179,7 +179,7 @@
 - Ob ich neue E-Mail bekomme
 
 
-## ConfirmSend
+## ConfirmMessages
 - "Okay, send it now"
 - "Okay, send it"
 - Ich bestätige, dass ich diese E-Mail senden möchte

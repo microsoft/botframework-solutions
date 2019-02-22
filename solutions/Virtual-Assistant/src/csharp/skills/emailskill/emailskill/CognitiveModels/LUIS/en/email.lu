@@ -111,7 +111,7 @@
 - write more
 
 
-## CancelSend
+## CancelMessages
 - "no, i don't want to send this message"
 - cancel email
 - cancel email to {ContactName=natalie}
@@ -191,7 +191,7 @@
 - whether i receive new email
 
 
-## ConfirmSend
+## ConfirmMessages
 - "okay, send it now"
 - "okay, send it"
 - i confirm that i want to send this email

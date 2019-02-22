@@ -107,7 +107,7 @@
 - escribir más
 
 
-## CancelSend
+## CancelMessages
 - "no, no quiero enviar este mensaje"
 - cancelar correo electrónico
 - cancelar correo electrónico a  {ContactName=Natalie} 
@@ -186,7 +186,7 @@
 - Si recibo nuevo correo electrónico
 
 
-## ConfirmSend
+## ConfirmMessages
 - "bien, envíalo ahora"
 - "bien, envíalo"
 - Confirmo que quiero enviar este correo electrónico

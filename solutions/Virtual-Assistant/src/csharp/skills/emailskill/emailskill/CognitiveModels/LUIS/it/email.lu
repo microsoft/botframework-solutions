@@ -109,7 +109,7 @@
 - scrivere di più
 
 
-## CancelSend
+## CancelMessages
 - "No, non voglio mandare questo messaggio"
 - Annulla e-mail
 - annullare l'e-mail a  {ContactName=Natalie} 
@@ -188,7 +188,7 @@
 - Se ricevo una nuova e-mail
 
 
-## ConfirmSend
+## ConfirmMessages
 - "Okay, mandalo ora"
 - "Okay, mandalo"
 - Confermo che voglio inviare questa e-mail

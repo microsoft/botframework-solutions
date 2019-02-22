@@ -105,7 +105,7 @@
 - écrire plus
 
 
-## CancelSend
+## CancelMessages
 - "non, je ne veux pas envoyer ce message"
 - annuler l'e-mail
 - annuler l'e-mail à  {ContactName=Natalie} 
@@ -179,7 +179,7 @@
 - Si je reçois de nouveaux e-mails
 
 
-## ConfirmSend
+## ConfirmMessages
 - "OK, envoie-le maintenant"
 - "OK, envoie-le"
 - Je confirme que je veux envoyer cet email
