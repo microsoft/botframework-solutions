@@ -16,7 +16,9 @@ namespace Luis
         public string AlteredText;
         public enum Intent {
             AddFlag,
-            AddMore, 
+            AddMore,
+            CancelMessages,
+            ConfirmMessages, 
             CheckMessages, 
             Delete, 
             Forward, 
@@ -25,7 +27,9 @@ namespace Luis
             ReadAloud, 
             Reply, 
             SearchMessages, 
-            SendEmail
+            SendEmail,
+            ShowNext, 
+            ShowPrevious
         };
         public Dictionary<Intent, IntentScore> Intents;
 
