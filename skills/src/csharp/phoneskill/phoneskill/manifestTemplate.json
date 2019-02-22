@@ -1,0 +1,37 @@
+{
+  "id": "phoneSkill",
+  "name": "Phone Skill",
+  "description": "The Phone skill provides phone related capabilities and supports Office and Google contacts.",
+  "iconUrl": "phoneSkill.png",
+  "authenticationConnections": [
+    {
+      "id": "Outlook",
+      "serviceProviderId": "Azure Active Directory v2",
+      "scopes": "User.ReadBasic.All, People.Read, Contacts.Read"
+    },
+    {
+      "id": "Google",
+      "serviceProviderId": "Google",
+      "scopes": "https://www.googleapis.com/auth/contacts"
+    }
+  ],
+  "actions": [
+    {
+      "id": "phoneskill_outgoingCall",
+      "definition": {
+        "description": "Make a phone call",
+        "slots": [ ],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "Phone#OutgoingCall"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

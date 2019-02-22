@@ -1,0 +1,91 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <NoWarn>NU1701</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Apis" Version="1.36.1" />
+    <PackageReference Include="Google.Apis.People.v1" Version="1.25.0.830" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Graph" Version="1.12.0" />
+    <PackageReference Include="Microsoft.PhoneticMatching" Version="0.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Responses\Main\PhoneMainResponses.json" />
+    <EmbeddedResource Include="Responses\OutgoingCall\OutgoingCallResponses.json" />
+    <EmbeddedResource Include="Responses\Shared\PhoneSharedResponses.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Responses\Main\PhoneMainResponses.tt">
+      <LastGenOutput>PhoneMainResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Responses\OutgoingCall\OutgoingCallResponses.tt">
+      <LastGenOutput>OutgoingCallResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Responses\Shared\PhoneSharedResponses.tt">
+      <LastGenOutput>PhoneSharedResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Responses\Main\PhoneMainResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PhoneMainResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\OutgoingCall\OutgoingCallResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>OutgoingCallResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\Shared\PhoneSharedResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PhoneSharedResponses.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="LocaleConfigurations\*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="cognitivemodels.development.json">
+      <DependentUpon>cognitivemodels.json</DependentUpon>
+    </Content>
+  </ItemGroup>
+
+</Project>
