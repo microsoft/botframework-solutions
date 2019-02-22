@@ -182,7 +182,7 @@ namespace VirtualAssistant
                                         EndpointKey = qna.EndpointKey,
                                         Host = qna.Hostname,
                                     };
-                                    var qnaMaker = new TelemetryQnAMaker(qnaEndpoint, logPersonalInformation: true);
+                                    var qnaMaker = new TelemetryQnAMaker(qnaEndpoint);
                                     localeConfig.QnAServices.Add(qna.Id, qnaMaker);
                                     break;
                                 }
