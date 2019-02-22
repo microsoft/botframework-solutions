@@ -17,7 +17,7 @@
       "title": "Get started",
       "data": {
         "event": {
-          "name": "POI.ActiveRoute",
+          "name": "IPA.ActiveRoute",
           "value": "{RouteId}"
         }
       }

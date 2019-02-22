@@ -6,8 +6,6 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
@@ -120,7 +118,7 @@ namespace ToDoSkill.Dialogs.ShowToDo
                 state.LastListType = state.ListType;
                 var service = await InitListTypeIds(sc);
                 var topIntent = state.LuisResult?.TopIntent().intent;
-                if (topIntent == ToDoLU.Intent.ShowToDo)
+                if (topIntent == ToDoLU.Intent.ShowToDo || state.GoBackToStart)
                 {
                     state.AllTasks = await service.GetTasksAsync(state.ListType);
                 }
@@ -143,62 +141,63 @@ namespace ToDoSkill.Dialogs.ShowToDo
                         var toDoListAttachment = ToAdaptiveCardForShowToDos(
                             state.Tasks,
                             state.AllTasks.Count,
-                            state.ReadSize,
                             state.ListType);
 
                         cardReply.Attachments.Add(toDoListAttachment);
+                        cardReply.InputHint = InputHints.IgnoringInput;
+                        await sc.Context.SendActivityAsync(cardReply);
 
-                        if (state.Tasks.Count <= state.ReadSize)
+                        if (allTasksCount <= state.Tasks.Count)
                         {
-                            cardReply.InputHint = InputHints.AcceptingInput;
-                        }
-                        else
-                        {
-                            cardReply.InputHint = InputHints.IgnoringInput;
+                            var response = ResponseManager.GetResponse(ShowToDoResponses.AskAddOrCompleteTaskMessage);
+                            await sc.Context.SendActivityAsync(response);
                         }
                     }
                     else if (generalTopIntent == General.Intent.Next)
                     {
                         if (state.IsLastPage)
                         {
+                            state.IsLastPage = false;
                             return await sc.ReplaceDialogAsync(Action.CollectGoBackToStartConfirmation);
                         }
                         else
                         {
-                            var remainingTasksCount = state.Tasks.Count - (state.ReadTaskIndex * state.ReadSize);
                             var toDoListAttachment = ToAdaptiveCardForReadMore(
                                 state.Tasks,
-                                state.ReadTaskIndex * state.ReadSize,
-                                Math.Min(remainingTasksCount, state.ReadSize),
                                 state.AllTasks.Count,
                                 state.ListType);
 
                             cardReply.Attachments.Add(toDoListAttachment);
                             cardReply.InputHint = InputHints.AcceptingInput;
+                            await sc.Context.SendActivityAsync(cardReply);
+                            if ((state.ShowTaskPageIndex + 1) * state.PageSize >= state.AllTasks.Count)
+                            {
+                                return await sc.ReplaceDialogAsync(Action.CollectGoBackToStartConfirmation);
+                            }
                         }
                     }
                     else if (generalTopIntent == General.Intent.Previous)
                     {
                         if (state.IsFirstPage)
                         {
+                            state.IsFirstPage = false;
                             return await sc.ReplaceDialogAsync(Action.CollectRepeatFirstPageConfirmation);
                         }
                         else
                         {
                             var toDoListAttachment = ToAdaptiveCardForPreviousPage(
                                 state.Tasks,
-                                state.ReadSize,
                                 state.AllTasks.Count,
+                                state.ShowTaskPageIndex == 0,
                                 state.ListType);
 
                             cardReply.Attachments.Add(toDoListAttachment);
                             cardReply.InputHint = InputHints.AcceptingInput;
+                            await sc.Context.SendActivityAsync(cardReply);
                         }
                     }
 
-                    await sc.Context.SendActivityAsync(cardReply);
-
-                    if ((topIntent == ToDoLU.Intent.ShowToDo || state.GoBackToStart) && state.Tasks.Count > state.ReadSize)
+                    if ((topIntent == ToDoLU.Intent.ShowToDo || state.GoBackToStart) && allTasksCount > state.Tasks.Count)
                     {
                         state.GoBackToStart = false;
                         return await sc.NextAsync();
@@ -267,14 +266,16 @@ namespace ToDoSkill.Dialogs.ShowToDo
         {
             try
             {
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
+                    state.ShowTaskPageIndex++;
                     return await sc.EndDialogAsync(true);
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ShowToDoResponses.InstructionMessage));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ActionEnded));
                     return await sc.CancelAllDialogsAsync();
                 }
             }
@@ -288,30 +289,28 @@ namespace ToDoSkill.Dialogs.ShowToDo
         public async Task<DialogTurnResult> FirstReadMore(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await ToDoStateAccessor.GetAsync(sc.Context);
-
-            state.ReadTaskIndex++;
-            var remainingTasksCount = state.Tasks.Count - (state.ReadTaskIndex * state.ReadSize);
+            var allTasksCount = state.AllTasks.Count;
+            var currentTaskIndex = state.ShowTaskPageIndex * state.PageSize;
+            state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
             var toDoListAttachment = ToAdaptiveCardForReadMore(
                     state.Tasks,
-                    state.ReadTaskIndex * state.ReadSize,
-                    Math.Min(remainingTasksCount, state.ReadSize),
-                    state.AllTasks.Count,
+                    allTasksCount,
                     state.ListType);
 
             var cardReply = sc.Context.Activity.CreateReply();
             cardReply.Attachments.Add(toDoListAttachment);
+            cardReply.InputHint = InputHints.IgnoringInput;
 
             if ((state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
             {
-                cardReply.InputHint = InputHints.IgnoringInput;
                 await sc.Context.SendActivityAsync(cardReply);
                 return await sc.EndDialogAsync(true);
             }
             else
             {
-                cardReply.InputHint = InputHints.AcceptingInput;
                 await sc.Context.SendActivityAsync(cardReply);
-                return await sc.CancelAllDialogsAsync();
+                await sc.CancelAllDialogsAsync();
+                return await sc.ReplaceDialogAsync(Action.CollectGoBackToStartConfirmation);
             }
         }
 
@@ -345,8 +344,8 @@ namespace ToDoSkill.Dialogs.ShowToDo
         {
             try
             {
-                var prompt = ResponseManager.GetResponse(ShowToDoResponses.ReadMoreTasksPrompt);
-                var retryPrompt = ResponseManager.GetResponse(ShowToDoResponses.ReadMoreTasksConfirmFailed);
+                var prompt = ResponseManager.GetResponse(ShowToDoResponses.ReadMoreTasksPrompt2);
+                var retryPrompt = ResponseManager.GetResponse(ShowToDoResponses.RetryReadMoreTasksPrompt2);
                 return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
@@ -360,9 +359,11 @@ namespace ToDoSkill.Dialogs.ShowToDo
         {
             try
             {
+                var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
+                    state.ShowTaskPageIndex++;
                     return await sc.EndDialogAsync(true);
                 }
                 else
@@ -381,38 +382,19 @@ namespace ToDoSkill.Dialogs.ShowToDo
         public async Task<DialogTurnResult> SecondReadMore(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await ToDoStateAccessor.GetAsync(sc.Context);
-
-            if ((state.ReadTaskIndex + 1) * state.ReadSize < state.Tasks.Count)
-            {
-                state.ReadTaskIndex++;
-            }
-            else
-            {
-                // Go to next page if having more pages.
-                state.ReadTaskIndex = 0;
-                if ((state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
-                {
-                    state.ShowTaskPageIndex++;
-                }
-            }
-
             var allTasksCount = state.AllTasks.Count;
             var currentTaskIndex = state.ShowTaskPageIndex * state.PageSize;
             state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
 
-            var remainingTasksCount = state.Tasks.Count - (state.ReadTaskIndex * state.ReadSize);
             var toDoListAttachment = ToAdaptiveCardForReadMore(
                     state.Tasks,
-                    state.ReadTaskIndex * state.ReadSize,
-                    Math.Min(remainingTasksCount, state.ReadSize),
-                    state.AllTasks.Count,
+                    allTasksCount,
                     state.ListType);
 
             var cardReply = sc.Context.Activity.CreateReply();
             cardReply.Attachments.Add(toDoListAttachment);
 
-            if ((state.ReadTaskIndex + 1) * state.ReadSize < state.Tasks.Count
-                || (state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
+            if ((state.ShowTaskPageIndex + 1) * state.PageSize < allTasksCount)
             {
                 cardReply.InputHint = InputHints.IgnoringInput;
                 await sc.Context.SendActivityAsync(cardReply);
@@ -444,9 +426,22 @@ namespace ToDoSkill.Dialogs.ShowToDo
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                var token = new StringDictionary() { { "listType", state.ListType } };
-                var prompt = ResponseManager.GetResponse(ShowToDoResponses.GoBackToStartPrompt, token);
-                var retryPrompt = ResponseManager.GetResponse(ShowToDoResponses.GoBackToStartConfirmFailed);
+                var taskCount = Math.Min(state.PageSize, state.AllTasks.Count);
+                var token = new StringDictionary() { { "listType", state.ListType }, { "taskCount", taskCount.ToString() } };
+                Activity prompt;
+                Activity retryPrompt;
+
+                if (state.Tasks.Count <= 1)
+                {
+                    prompt = ResponseManager.GetResponse(ShowToDoResponses.GoBackToStartPromptForSingleTask, token);
+                    retryPrompt = ResponseManager.GetResponse(ShowToDoResponses.GoBackToStartForSingleTaskConfirmFailed, token);
+                }
+                else
+                {
+                    prompt = ResponseManager.GetResponse(ShowToDoResponses.GoBackToStartPromptForTasks, token);
+                    retryPrompt = ResponseManager.GetResponse(ShowToDoResponses.GoBackToStartForTasksConfirmFailed, token);
+                }
+
                 return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
@@ -463,7 +458,6 @@ namespace ToDoSkill.Dialogs.ShowToDo
             if (confirmResult)
             {
                 state.ShowTaskPageIndex = 0;
-                state.ReadTaskIndex = 0;
                 state.GoBackToStart = true;
                 return await sc.ReplaceDialogAsync(Action.DoShowTasks);
             }
@@ -475,27 +469,15 @@ namespace ToDoSkill.Dialogs.ShowToDo
             }
         }
 
-        public async Task<DialogTurnResult> CollectRepeatFirstPageConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                return await sc.BeginDialogAsync(Action.CollectGoBackToStartConfirmation);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
         public async Task<DialogTurnResult> AskRepeatFirstPageConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                var token = new StringDictionary() { { "listType", state.ListType } };
-                var prompt = ResponseManager.GetResponse(ShowToDoResponses.RepeatFirstPagePrompt, tokens: token);
-                var retryPrompt = ResponseManager.GetResponse(ShowToDoResponses.RepeatFirstPageConfirmFailed);
+                var taskCount = Math.Min(state.PageSize, state.AllTasks.Count);
+                var token = new StringDictionary() { { "listType", state.ListType }, { "taskCount", taskCount.ToString() } };
+                var prompt = ResponseManager.GetResponse(ShowToDoResponses.RepeatFirstPagePrompt, token);
+                var retryPrompt = ResponseManager.GetResponse(ShowToDoResponses.RepeatFirstPageConfirmFailed, token);
                 return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
@@ -512,7 +494,6 @@ namespace ToDoSkill.Dialogs.ShowToDo
             if (confirmResult)
             {
                 state.ShowTaskPageIndex = 0;
-                state.ReadTaskIndex = 0;
                 state.GoBackToStart = true;
                 return await sc.ReplaceDialogAsync(Action.DoShowTasks);
             }

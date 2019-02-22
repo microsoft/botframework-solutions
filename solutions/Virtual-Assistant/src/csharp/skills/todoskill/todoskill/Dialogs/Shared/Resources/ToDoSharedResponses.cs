@@ -20,7 +20,8 @@ namespace ToDoSkill.Dialogs.Shared.Resources
 		public const string AfterOneNoteSetupMessage = "AfterOneNoteSetupMessage";
 		public const string SettingUpOutlookMessage = "SettingUpOutlookMessage";
 		public const string AfterOutlookSetupMessage = "AfterOutlookSetupMessage";
-		public const string CardSummaryMessage = "CardSummaryMessage";
+		public const string CardSummaryMessageForMultipleTasks = "CardSummaryMessageForMultipleTasks";
+		public const string CardSummaryMessageForSingleTask = "CardSummaryMessageForSingleTask";
 		public const string NoTasksInList = "NoTasksInList";
 
     }

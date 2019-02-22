@@ -52,9 +52,9 @@ namespace CalendarSkillTest.Flow.Utterances
                 ordinal = ordinal,
                 number = number,
                 Subject = subject,
-                ContactName = contactName
+                personName = contactName
             };
-            intent.Entities._instance.ContactName = GetInstanceDatas(userInput, contactName);
+            intent.Entities._instance.personName = GetInstanceDatas(userInput, contactName);
             intent.Entities.FromDate = fromDate;
             intent.Entities._instance.FromDate = GetInstanceDatas(userInput, fromDate);
             intent.Entities.ToDate = toDate;
@@ -70,7 +70,6 @@ namespace CalendarSkillTest.Flow.Utterances
             intent.Entities.MoveLaterTimeSpan = moveLaterTimeSpan;
             intent.Entities.OrderReference = orderReference;
             intent.Entities._instance.OrderReference = GetInstanceDatas(userInput, orderReference);
-            intent.Entities.AskParameter = askParameter;
             return intent;
         }
 

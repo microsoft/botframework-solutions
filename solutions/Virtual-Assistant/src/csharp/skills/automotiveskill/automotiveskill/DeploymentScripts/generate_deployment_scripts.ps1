@@ -11,7 +11,7 @@ $outputPath = "$($PSScriptRoot)\$($langCode)"
 $settingsLUPath = "$($basePath)\CognitiveModels\LUIS\$($langCode)\settings.lu"
 $settingsNameLUPath = "$($basePath)\CognitiveModels\LUIS\$($langCode)\settings_name.lu"
 $settingsValueLUPath = "$($basePath)\CognitiveModels\LUIS\$($langCode)\settings_value.lu"
-$generalLUPath = "$($basePath)\..\..\assistant\CognitiveModels\LUIS\$($langCode)\general.lu"
+$generalLUPath = "$($basePath)\..\..\..\assistant\CognitiveModels\LUIS\$($langCode)\general.lu"
 
 $luArr = @($settingsLUPath, $settingsNameLUPath, $settingsValueLUPath, $generalLUPath)
 

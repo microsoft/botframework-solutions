@@ -9,11 +9,9 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
     public static class QnATelemetryConstants
     {
         public const string KnowledgeBaseIdProperty = "knowledgeBaseId";
-        public const string ActivityIdProperty = "activityId";
         public const string AnswerProperty = "answer";
         public const string ArticleFoundProperty = "articleFound";
         public const string ChannelIdProperty = "channelId";
-        public const string ConversationIdProperty = "conversationId";
         public const string OriginalQuestionProperty = "originalQuestion";
         public const string QuestionProperty = "question";
         public const string QuestionIdProperty = "questionId";

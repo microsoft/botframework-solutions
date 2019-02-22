@@ -1,17 +1,21 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using PointOfInterestSkill.Dialogs.Route.Resources;
 using PointOfInterestSkill.Dialogs.Shared;
 using PointOfInterestSkill.Models;
 using PointOfInterestSkill.ServiceClients;
-using Action = PointOfInterestSkill.Dialogs.Shared.Action;
+using Actions = PointOfInterestSkill.Dialogs.Shared.Actions;
 
 namespace PointOfInterestSkill.Dialogs.Route
 {
@@ -22,8 +26,9 @@ namespace PointOfInterestSkill.Dialogs.Route
             ResponseManager responseManager,
             IStatePropertyAccessor<PointOfInterestSkillState> accessor,
             IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient)
-            : base(nameof(RouteDialog), services, responseManager, accessor, serviceManager, telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            IHttpContextAccessor httpContext)
+            : base(nameof(RouteDialog), services, responseManager, accessor, serviceManager, telemetryClient, httpContext)
         {
             TelemetryClient = telemetryClient;
 
@@ -52,13 +57,13 @@ namespace PointOfInterestSkill.Dialogs.Route
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.GetActiveRoute, checkForActiveRouteAndLocation) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Action.FindAlongRoute, findAlongRoute) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Action.FindRouteToActiveLocation, findRouteToActiveLocation) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Action.FindPointOfInterest, findPointOfInterest) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.GetActiveRoute, checkForActiveRouteAndLocation) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.FindAlongRoute, findAlongRoute) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.FindRouteToActiveLocation, findRouteToActiveLocation) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.FindPointOfInterest, findPointOfInterest) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
-            InitialDialogId = Action.GetActiveRoute;
+            InitialDialogId = Actions.GetActiveRoute;
         }
 
         public async Task<DialogTurnResult> CheckIfActiveRouteExists(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -69,15 +74,15 @@ namespace PointOfInterestSkill.Dialogs.Route
                 if (state.ActiveRoute != null)
                 {
                     await sc.EndDialogAsync(true);
-                    return await sc.BeginDialogAsync(Action.FindAlongRoute);
+                    return await sc.BeginDialogAsync(Actions.FindAlongRoute);
                 }
 
                 return await sc.NextAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogException(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -86,51 +91,50 @@ namespace PointOfInterestSkill.Dialogs.Route
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.FoundLocations == null)
+                if (state.LastFoundPointOfInterests == null)
                 {
                     return await sc.NextAsync();
                 }
 
-                if (!string.IsNullOrEmpty(state.SearchText))
+                if (!string.IsNullOrEmpty(state.Keyword))
                 {
                     // Set ActiveLocation if one w/ matching name is found in FoundLocations
-                    var activeLocation = state.FoundLocations?.FirstOrDefault(x => x.Name.Contains(state.SearchText, StringComparison.InvariantCultureIgnoreCase));
+                    var activeLocation = state.LastFoundPointOfInterests?.FirstOrDefault(x => x.Name.Contains(state.Keyword, StringComparison.InvariantCultureIgnoreCase));
                     if (activeLocation != null)
                     {
-                        state.ActiveLocation = activeLocation;
-                        state.FoundLocations = null;
+                        state.Destination = activeLocation;
+                        state.LastFoundPointOfInterests = null;
                     }
                 }
 
-                if (!string.IsNullOrEmpty(state.SearchAddress) && state.FoundLocations != null)
+                if (!string.IsNullOrEmpty(state.Address) && state.LastFoundPointOfInterests != null)
                 {
                     // Set ActiveLocation if one w/ matching address is found in FoundLocations
-                    var activeLocation = state.FoundLocations?.FirstOrDefault(x => x.Address.FormattedAddress.Contains(state.SearchAddress, StringComparison.InvariantCultureIgnoreCase));
+                    var activeLocation = state.LastFoundPointOfInterests?.FirstOrDefault(x => x.City.Contains(state.Address, StringComparison.InvariantCultureIgnoreCase));
                     if (activeLocation != null)
                     {
-                        state.ActiveLocation = activeLocation;
-                        state.FoundLocations = null;
+                        state.Destination = activeLocation;
+                        state.LastFoundPointOfInterests = null;
                     }
                 }
 
-                if (state.LastUtteredNumber != null && state.FoundLocations != null)
+                if (state.UserSelectIndex >= 0 && state.UserSelectIndex < state.LastFoundPointOfInterests.Count)
                 {
                     // Set ActiveLocation if one w/ matching address is found in FoundLocations
-                    var indexNumber = (int)state.LastUtteredNumber[0] - 1;
-                    var activeLocation = state.FoundLocations?[indexNumber];
+                    var activeLocation = state.LastFoundPointOfInterests?[state.UserSelectIndex];
                     if (activeLocation != null)
                     {
-                        state.ActiveLocation = activeLocation;
-                        state.FoundLocations = null;
+                        state.Destination = activeLocation;
+                        state.LastFoundPointOfInterests = null;
                     }
                 }
 
                 return await sc.NextAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogException(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -139,18 +143,18 @@ namespace PointOfInterestSkill.Dialogs.Route
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.ActiveLocation == null)
+                if (state.Destination == null)
                 {
                     await sc.EndDialogAsync(true);
-                    return await sc.BeginDialogAsync(Action.FindPointOfInterest);
+                    return await sc.BeginDialogAsync(Actions.FindPointOfInterest);
                 }
 
-                return await sc.BeginDialogAsync(Action.FindRouteToActiveLocation);
+                return await sc.BeginDialogAsync(Actions.FindRouteToActiveLocation);
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogException(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -159,43 +163,43 @@ namespace PointOfInterestSkill.Dialogs.Route
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var service = ServiceManager.InitMapsService(GetAzureMapsKey());
+                var service = ServiceManager.InitRoutingMapsService(Services);
                 var routeDirections = new RouteDirections();
 
                 state.CheckForValidCurrentCoordinates();
 
-                if (state.ActiveLocation == null)
+                if (state.Destination == null)
                 {
                     // No ActiveLocation found
-                    return await sc.PromptAsync(Action.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(RouteResponses.MissingActiveLocationErrorMessage) });
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(RouteResponses.MissingActiveLocationErrorMessage) });
                 }
 
-                if (!string.IsNullOrEmpty(state.SearchDescriptor))
+                if (!string.IsNullOrEmpty(state.RouteType))
                 {
-                    routeDirections = await service.GetRouteDirectionsAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.ActiveLocation.Point.Coordinates[0], state.ActiveLocation.Point.Coordinates[1], state.SearchDescriptor);
+                    routeDirections = await service.GetRouteDirectionsToDestinationAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Destination.Geolocation.Latitude, state.Destination.Geolocation.Longitude, state.RouteType);
 
                     await GetRouteDirectionsViewCards(sc, routeDirections);
                 }
                 else
                 {
-                    routeDirections = await service.GetRouteDirectionsAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.ActiveLocation.Point.Coordinates[0], state.ActiveLocation.Point.Coordinates[1]);
+                    routeDirections = await service.GetRouteDirectionsToDestinationAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Destination.Geolocation.Latitude, state.Destination.Geolocation.Longitude);
 
                     await GetRouteDirectionsViewCards(sc, routeDirections);
                 }
 
                 if (routeDirections?.Routes?.ToList().Count == 1)
                 {
-                    return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(RouteResponses.PromptToStartRoute) });
+                    return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(RouteResponses.PromptToStartRoute) });
                 }
 
                 state.ClearLuisResults();
 
                 return await sc.EndDialogAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogException(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
@@ -224,7 +228,7 @@ namespace PointOfInterestSkill.Dialogs.Route
 
                     var eventPayload = new DirectionsEventResponse
                     {
-                        Destination = state.ActiveLocation,
+                        Destination = state.Destination,
                         Route = state.ActiveRoute
                     };
                     replyEvent.Value = eventPayload;
@@ -239,10 +243,10 @@ namespace PointOfInterestSkill.Dialogs.Route
 
                 return await sc.EndDialogAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                await HandleDialogException(sc);
-                throw;
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
     }

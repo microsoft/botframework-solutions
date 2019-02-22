@@ -11,56 +11,52 @@ namespace PointOfInterestSkill
         public PointOfInterestSkillState()
         {
             CurrentCoordinates = null;
-            ActiveLocation = null;
-            APIKey = string.Empty;
+            Destination = null;
             DialogName = string.Empty;
-            SearchText = string.Empty;
-            SearchAddress = string.Empty;
+            Keyword = string.Empty;
+            Address = string.Empty;
             CurrentCoordinates = null;
-            FoundLocations = null;
+            LastFoundPointOfInterests = null;
             ActiveRoute = null;
-            SearchDescriptor = string.Empty;
-            LastUtteredNumber = null;
+            RouteType = string.Empty;
+            UserSelectIndex = -1;
         }
 
         public UserInformation UserInfo { get; set; }
 
         public LatLng CurrentCoordinates { get; set; }
 
-        public Location ActiveLocation { get; set; }
+        public PointOfInterestModel Destination { get; set; }
 
-        public List<Location> FoundLocations { get; set; }
+        public List<PointOfInterestModel> LastFoundPointOfInterests { get; set; }
 
         public RouteDirections.Route ActiveRoute { get; set; }
 
         public List<RouteDirections.Route> FoundRoutes { get; set; }
 
-        public string APIKey { get; set; }
-
         public string DialogName { get; set; }
 
-        public string SearchText { get; set; }
+        public string Keyword { get; set; }
 
-        public string SearchAddress { get; set; }
+        public string Address { get; set; }
 
-        public string SearchDescriptor { get; set; }
+        public string RouteType { get; set; }
 
         public PointOfInterestLU LuisResult { get; set; }
 
         public DialogState ConversationDialogState { get; set; }
 
-        public double[] LastUtteredNumber { get; set; }
+        public int UserSelectIndex { get; set; }
 
         public void Clear()
         {
-            ActiveLocation = null;
-            APIKey = null;
+            Destination = null;
             DialogName = string.Empty;
-            SearchText = string.Empty;
-            SearchAddress = string.Empty;
-            SearchDescriptor = string.Empty;
-            FoundLocations = null;
-            LastUtteredNumber = null;
+            Keyword = string.Empty;
+            Address = string.Empty;
+            RouteType = string.Empty;
+            LastFoundPointOfInterests = null;
+            UserSelectIndex = -1;
         }
 
         /// <summary>
@@ -68,10 +64,10 @@ namespace PointOfInterestSkill
         /// </summary>
         public void ClearLuisResults()
         {
-            SearchText = string.Empty;
-            SearchAddress = string.Empty;
-            SearchDescriptor = string.Empty;
-            LastUtteredNumber = null;
+            Keyword = string.Empty;
+            Address = string.Empty;
+            RouteType = string.Empty;
+            UserSelectIndex = -1;
         }
 
         public void CheckForValidCurrentCoordinates()

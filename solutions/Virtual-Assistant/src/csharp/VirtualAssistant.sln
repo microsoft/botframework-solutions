@@ -41,6 +41,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills", "skills", "{35B7FB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarSkill", "skills\calendarskill\calendarskill\CalendarSkill.csproj", "{D7FD8224-686B-463D-B20B-6ECB50F10AE4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PointOfInterestSkillTests", "skills\pointofinterestskill\pointofinterestskilltests\PointOfInterestSkillTests.csproj", "{24BE4981-2226-48D7-B65E-44703DC6F14A}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistant.Tests", "tests\virtualassistant.tests\VirtualAssistant.Tests.csproj", "{27C52F70-42F8-40C2-AE38-AB75515C3D91}"
 EndProject
 Global
@@ -101,6 +103,10 @@ Global
 		{27C52F70-42F8-40C2-AE38-AB75515C3D91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27C52F70-42F8-40C2-AE38-AB75515C3D91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27C52F70-42F8-40C2-AE38-AB75515C3D91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24BE4981-2226-48D7-B65E-44703DC6F14A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24BE4981-2226-48D7-B65E-44703DC6F14A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24BE4981-2226-48D7-B65E-44703DC6F14A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24BE4981-2226-48D7-B65E-44703DC6F14A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,6 +128,7 @@ Global
 		{E0FF69D6-7FC1-4446-934E-50423930AE66} = {34685E93-D227-4564-B9ED-82C1CEA7F202}
 		{D7FD8224-686B-463D-B20B-6ECB50F10AE4} = {B80B8316-D162-4115-ADAB-9BB1D59F5B9F}
 		{27C52F70-42F8-40C2-AE38-AB75515C3D91} = {DFCBFFD7-4882-4C3B-9E21-83EE29CE59BF}
+		{24BE4981-2226-48D7-B65E-44703DC6F14A} = {7610688A-989B-45C1-9052-342FB22575E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7569C2D0-1323-45B5-8CFF-3ECACD9E0B82}

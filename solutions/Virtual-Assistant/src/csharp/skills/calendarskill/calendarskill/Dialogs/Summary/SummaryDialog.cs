@@ -249,7 +249,7 @@ namespace CalendarSkill.Dialogs.Summary
                     return await sc.CancelAllDialogsAsync();
                 }
 
-                if (generalTopIntent == General.Intent.Next && state.SummaryEvents != null)
+                if ((generalTopIntent == General.Intent.Next || topIntent == CalendarLU.Intent.ShowNextCalendar) && state.SummaryEvents != null)
                 {
                     if ((state.ShowEventIndex + 1) * state.PageSize < state.SummaryEvents.Count)
                     {
@@ -262,7 +262,7 @@ namespace CalendarSkill.Dialogs.Summary
 
                     return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, sc.Options);
                 }
-                else if (generalTopIntent == General.Intent.Previous && state.SummaryEvents != null)
+                else if ((generalTopIntent == General.Intent.Previous || topIntent == CalendarLU.Intent.ShowPreviousCalendar) && state.SummaryEvents != null)
                 {
                     if (state.ShowEventIndex > 0)
                     {
@@ -366,7 +366,7 @@ namespace CalendarSkill.Dialogs.Summary
 
                     // filter meetings with contact name
                     var contactNameList = new List<string>() { userInput };
-                    if (filteredMeetingList.Count <= 0 && luisResult.Entities.ContactName != null)
+                    if (filteredMeetingList.Count <= 0 && luisResult.Entities.personName != null)
                     {
                         contactNameList = GetAttendeesFromEntity(luisResult.Entities, userInput);
                     }

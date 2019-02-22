@@ -213,6 +213,9 @@
 - mark {TaskContentML=fish} as complete
 - mark {TaskContentML=happy} on {ListType=to dos} list
 - mark {TaskContentML=lemons and onions} in {ListType=grocery} list
+- mark {TaskContentML=meat} complete
+- mark {TaskContentML=meat} done
+- mark {TaskContentML=meat} finished
 - mark {TaskContentML=pancake mix} on my {ListType=grocery shopping} list
 - mark {TaskContentML=peanuts} on my {ListType=grocery} list as done
 - mark {TaskContentML=peanuts} on my {ListType=grocery} {ListType=shopping} list

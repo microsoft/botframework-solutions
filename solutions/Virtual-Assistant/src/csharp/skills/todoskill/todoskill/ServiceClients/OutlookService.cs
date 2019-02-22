@@ -202,7 +202,11 @@ namespace ToDoSkill.ServiceClients
             var newTaskFolderId = await GetTaskFolderByIdAsync(taskFolderId);
             if (string.IsNullOrEmpty(newTaskFolderId))
             {
-                newTaskFolderId = await CreateTaskFolderAsync(taskFolderName);
+                newTaskFolderId = await GetTaskFolderAsync(taskFolderName);
+                if (string.IsNullOrEmpty(newTaskFolderId))
+                {
+                    newTaskFolderId = await CreateTaskFolderAsync(taskFolderName);
+                }
             }
 
             return newTaskFolderId;

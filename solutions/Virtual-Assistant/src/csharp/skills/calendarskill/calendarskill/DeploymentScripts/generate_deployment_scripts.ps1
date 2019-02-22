@@ -9,7 +9,7 @@ $outputPath = "$($PSScriptRoot)\$($langCode)"
 
 # lu file paths
 $calendarLUPath = "$($basePath)\CognitiveModels\LUIS\$($langCode)\calendar.lu"
-$generalLUPath = "$($basePath)\..\..\assistant\CognitiveModels\LUIS\$($langCode)\general.lu"
+$generalLUPath = "$($basePath)\..\..\..\assistant\CognitiveModels\LUIS\$($langCode)\general.lu"
 
 $luArr = @($calendarLUPath, $generalLUPath)
 

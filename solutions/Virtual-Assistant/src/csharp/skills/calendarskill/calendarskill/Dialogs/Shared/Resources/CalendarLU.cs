@@ -15,9 +15,9 @@ namespace Luis
         public string Text;
         public string AlteredText;
         public enum Intent {
-            AcceptEventEntry, 
-            ChangeCalendarEntry, 
-            CheckAvailability, 
+            AcceptEventEntry,
+            ChangeCalendarEntry,
+            CheckAvailability,
             ConnectToMeeting, 
             ContactMeetingAttendees, 
             CreateCalendarEntry, 
@@ -30,9 +30,9 @@ namespace Luis
             FindDuration, 
             FindMeetingRoom, 
             GoBack, 
-            NoLocation, 
             None, 
-            ReadAloud, 
+            ShowNextCalendar,
+            ShowPreviousCalendar,
             TimeRemaining
         };
         public Dictionary<Intent, IntentScore> Intents;
@@ -40,25 +40,24 @@ namespace Luis
         public class _Entities
         {
             // Simple entities
-            public string[] Subject;
-            public string[] FromDate;
-            public string[] FromTime;
+            public string[] DestinationCalendar;
             public string[] Duration;
-            public string[] ContactName;
-            public string[] MoveEarlierTimeSpan;
-            public string[] ToTime;
-            public string[] MoveLaterTimeSpan;
             public string[] ToDate;
-            public string[] SlotAttribute;
+            public string[] ToTime;
             public string[] Location;
+            public string[] MeetingRoom;
+            public string[] Message;
+            public string[] MoveEarlierTimeSpan;
+            public string[] MoveLaterTimeSpan;
             public string[] OrderReference;
             public string[] PositionReference;
-            public string[] RelationshipName;
-            public string[] MeetingRoom;
-            public string[] DestinationCalendar;
-            public string[] AskParameter;
+            public string[] SlotAttribute;
+            public string[] FromDate;
+            public string[] FromTime;
+            public string[] Subject;
 
             // Built-in entities
+            public string[] personName;
             public double[] number;
             public double[] ordinal;
             public DateTimeSpec[] datetime;
@@ -66,23 +65,23 @@ namespace Luis
             // Instance
             public class _Instance
             {
-                public InstanceData[] Subject;
-                public InstanceData[] FromDate;
-                public InstanceData[] FromTime;
+                public InstanceData[] DestinationCalendar;
                 public InstanceData[] Duration;
-                public InstanceData[] ContactName;
-                public InstanceData[] MoveEarlierTimeSpan;
-                public InstanceData[] ToTime;
-                public InstanceData[] MoveLaterTimeSpan;
                 public InstanceData[] ToDate;
-                public InstanceData[] SlotAttribute;
+                public InstanceData[] ToTime;
                 public InstanceData[] Location;
+                public InstanceData[] MeetingRoom;
+                public InstanceData[] Message;
+                public InstanceData[] MoveEarlierTimeSpan;
+                public InstanceData[] MoveLaterTimeSpan;
                 public InstanceData[] OrderReference;
                 public InstanceData[] PositionReference;
-                public InstanceData[] RelationshipName;
-                public InstanceData[] MeetingRoom;
-                public InstanceData[] DestinationCalendar;
-                public InstanceData[] AskParameter;
+                public InstanceData[] SlotAttribute;
+                public InstanceData[] FromDate;
+                public InstanceData[] FromTime;
+                public InstanceData[] Subject;
+
+                public InstanceData[] personName;
                 public InstanceData[] number;
                 public InstanceData[] ordinal;
                 public InstanceData[] datetime;
