@@ -69,10 +69,6 @@
       <DependentUpon>POISharedResponses.tt</DependentUpon>
     </Compile>
   </ItemGroup>
-
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services" />
-  </ItemGroup>
   
   <ItemGroup>
     <None Update="*.bot">
