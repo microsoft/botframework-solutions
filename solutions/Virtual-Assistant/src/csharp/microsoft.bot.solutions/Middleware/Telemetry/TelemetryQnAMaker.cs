@@ -42,10 +42,10 @@ namespace Microsoft.Bot.Solutions.Middleware.Telemetry
 
         public bool LogPersonalInformation { get; }
 
-        public async Task<QueryResult[]> GetAnswersAsync(ITurnContext context)
+        public new async Task<QueryResult[]> GetAnswersAsync(ITurnContext context, QnAMakerOptions options = null)
         {
-            // Call Qna Maker
-            var queryResults = await base.GetAnswersAsync(context);
+            // Call QnA Maker
+            var queryResults = await base.GetAnswersAsync(context, options);
 
             // Find the Application Insights Telemetry Client
             if (queryResults != null && context.TurnState.TryGetValue(TelemetryLoggerMiddleware.AppInsightsServiceKey, out var telemetryClient))
