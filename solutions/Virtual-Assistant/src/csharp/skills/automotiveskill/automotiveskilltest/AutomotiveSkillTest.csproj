@@ -24,7 +24,8 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy ..\..\automotiveskill\automotiveskill\Dialogs\VehicleSettings\Resources $(OutDir)\Dialogs\VehicleSettings\Resources /s /y /i&#xD;&#xA;xcopy ..\..\automotiveskill\automotiveskill\Dialogs\Shared\Resources $(OutDir)\Dialogs\Shared\Resources /s /y /i" />
+    <Exec Condition="$(BASH)" Command="cp -rf ..\..\automotiveskill\automotiveskill\Dialogs\VehicleSettings\Resources $(OutDir)\Dialogs\VehicleSettings\Resources &amp;&amp; cp ..\..\automotiveskill\automotiveskill\Dialogs\Shared\Resources $(OutDir)\Dialogs\Shared\Resources" />
+    <Exec Condition="!$(BASH)" Command="xcopy ..\..\automotiveskill\automotiveskill\Dialogs\VehicleSettings\Resources $(OutDir)\Dialogs\VehicleSettings\Resources /s /y /i&#xD;&#xA;xcopy ..\..\automotiveskill\automotiveskill\Dialogs\Shared\Resources $(OutDir)\Dialogs\Shared\Resources /s /y /i" />
   </Target>
 
 </Project>
