@@ -14,7 +14,7 @@ insights across your organization. You can ingest data from Application Insights
 - [Power BI Analytics Sample](#power-bi-analytics-sample)
 
 ## Prerequisites
-The [Conversational Analytics Power BI sample](ConversationalAnalyticsSample_02132019.pbit) is generated 
+The [Conversational Analytics Power BI sample](https://aka.ms/botPowerBiTemplate) is generated 
 under the assumption you are using the latest Bot Framework SDK and telemetry middleware. You can find these (and generate the required Application Insights resource) with the following samples:
 
  - [Enterprise Template](https://github.com/Microsoft/AI/blob/master/templates/Enterprise-Template/README.md)
@@ -31,7 +31,7 @@ Sentiment must be enabled for each application.  To enable sentiment:
 4. Select **Manage** on the upper menu.
 5. Select **Publish Settings** on the side menu. It should resemble the below.
  
-![Enabling Sentiment](media/enable_sentiment.png)
+![Enabling Sentiment](../media/enable_sentiment.png)
 
 6. **Enable** the *Use sentiment analysis to determine if a user's utterance is positive, negative, or neutral* checkbox.
 7. Select **Publish** and repeat for each LUIS application.
@@ -41,11 +41,11 @@ The [PowerBI Desktop client](https://aka.ms/pbidesktopstore) is available for Wi
 Alternatively, you can use the Power BI service.  If you don't have a PowerBI service account, sign up for a [free 60 day trial account](https://app.powerbi.com/signupredirect?pbi_source=web) and upload the Power BI template to view the reports.
 
 ## Telemetry Logging
-[Telemetry Overview](docs/analytics-telemetrylogging.md) highlights the provided telemetry for bot and user activities, including [LUIS](https://www.luis.ai/) and [QnA Maker](https://www.qnamaker.ai/) results.  how to configure your bot's telemetry, either through bot configuring or overriding the telemetry client.
+[Telemetry Overview](/telemetrylogging.md) highlights the provided telemetry for bot and user activities, including [LUIS](https://www.luis.ai/) and [QnA Maker](https://www.qnamaker.ai/) results. how to configure your bot's telemetry, either through bot configuring or overriding the telemetry client.
 
 ## Application Insights Analytics
-[Applications Insights Analytics](docs/analytics-applicationinsights.md) demonstrates how to execute common queries for for bot analytics and debugging in Visual Studio.
+[Applications Insights Analytics](/applicationinsights.md) demonstrates how to execute common queries for for bot analytics and debugging in Visual Studio.
 
 ## Power BI Analytics Sample
 
-The [Power BI Analytics sample](docs/analytics-powerbi.md) shows example Power BI dashboards to gain insights on your bot's performance and quality.
+The [Power BI Analytics sample](/powerbi.md) shows example Power BI dashboards to gain insights on your bot's performance and quality.

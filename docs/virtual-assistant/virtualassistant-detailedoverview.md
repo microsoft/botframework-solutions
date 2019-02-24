@@ -4,7 +4,7 @@
 
 An Architecture diagram of the Virtual Assistant is shown below along with a detailed explanation.
 
-![Virtual Assistant Architecture](./media/virtualassistant-architecture.jpg)
+![Virtual Assistant Architecture](../media/virtualassistant-architecture.jpg)
 
 ## Client Integration
 End-Users can make use of the Virtual Assistant through the support Azure Bot Service Channels or through the Direct Line API that provides the ability to integrate your assistant directly into a device, mobile app or any other client experience.
