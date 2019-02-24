@@ -1,4 +1,4 @@
-# Virtual Assistant Skills - Productivity (ToDo)
+# Virtual Assistant Skills - Productivity (To Do)
 
 ## Overview
 The ToDo Skill provides ToDo related capabilities to a Virtual Assistant. The most common scenarios have been implemented in this first release with additional scenarios in development.

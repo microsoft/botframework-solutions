@@ -3,7 +3,7 @@
 ## Overview
 
 While the Virtual Assistant Solution provides out-of-the-box functionality to demonstrate an end-to-end experience, it is often wise to customize key components that can tailor to your audience.
-To get started, learn how to clone the repository & deploy your Azure resources by reading [Virtual Assistant Deployment](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-createvirtualassistant.md).
+To get started, learn how to clone the repository & deploy your Azure resources by reading [Virtual Assistant Deployment](./createvirtualassistant.md).
 
 ## Project Structure
 
@@ -203,6 +203,6 @@ You should now be able to leverage multiple QnA sources as part of your Assistan
 
 You can review a [sample transcript](../transcripts/skillsdemo.transcript) showcasing the Productivity & Point of Interest Skills, 
 which can be opened in the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator/wiki).
-This sample conversation shows a user having previously [linked their account](/virtualassistant-linkedaccounts.md) and taking advantage of [event debug middleware](/virtualassistant-events.md).
+This sample conversation shows a user having previously [linked their account](/linkedaccounts.md) and taking advantage of [event debug middleware](/events.md).
 
 ![Virtual Assistant Introduction Card](../media/transcript-skillsdemo.png)
