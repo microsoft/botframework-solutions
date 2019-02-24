@@ -20,17 +20,17 @@ Feature | Description |
 Onboarding | An example OnBoarding flow enabling your Assistant to greet the user and collect initial information.
 [Eventing Architecture](./virtualassistant-events.md) | Events in the context of the Virtual Assistant enable the client application hosting the assistant (in a web-browser or on a device such as a car or speaker) to exchange information about the user or device events whilst also receiving events to perform device operations.
 [Linked Accounts](./virtualassistant-linkedaccounts.md) | In a speech-led scenario it's not practical for a user to enter their username and password for supporting systems through voice commands. Therefore a separate companion experience provides an opportunity for the user to signin and provide permission for an Virtual Assistant to retrieve tokens for later use.
-[Skill Enablement](../skills/virtualassistant-skills.md) | A broad set of common capabilities exist which today, which require each developer to build themselves. Our Virtual Assistant solution includes a new Skill capability enabling new capabilities to be plugged into an Virtual Assistant through configuration only and provide an authentication mechanism for Skills to request tokens for down-stream activities.
-[Point of Interest Skill](../skills/virtualassistant-skills-pointofinterest.md) | The preview Point of Interest (PoI) skill provides a comprehensive language model for finding points of interest and requesting directions. The skill currently provides integration into Azure Maps.
-[Calendar Skill](../skills/virtualassistant-skills-productivity-calendar.md) | The preview Calendar Skill provides a comprehensive language model for common calendar related activities, The skill is currently integrated into Microsoft Graph (Office 365/Outlook.com) with support for Google APIs to follow soon..
-[Email Skill](../skills/virtualassistant-skills-productivity-email.md) | The preview Email Skill provides a comprehensive language model for common email related activities, The skill is currently integrated into Microsoft Graph (Office 365/Outlook.com) with support for Google APIs to follow soon.
-[ToDo Skill](../skills/virtualassistant-skills-productivity-todo.md) | The preview ToDo Skill provides a comprehensive language model for common task related activities, The skill is currently integrated into Microsoft Graph (outlookTask).
-[Automotive Skill](../skills/virtualassistant-skills-automotive.md) | The preview Automotive Skill provides Vehicle Setting control support for an assistant along with an initial set of common vehicle settings which can be extended further. At this time the skill surfaces device events to demonstrate how device control could be achieved.
+[Skill Enablement](../skills/README.md) | A broad set of common capabilities exist which today, which require each developer to build themselves. Our Virtual Assistant solution includes a new Skill capability enabling new capabilities to be plugged into an Virtual Assistant through configuration only and provide an authentication mechanism for Skills to request tokens for down-stream activities.
+[Point of Interest Skill](../skills/pointofinterest.md) | The preview Point of Interest (PoI) skill provides a comprehensive language model for finding points of interest and requesting directions. The skill currently provides integration into Azure Maps.
+[Calendar Skill](../skills/productivity-calendar.md) | The preview Calendar Skill provides a comprehensive language model for common calendar related activities, The skill is currently integrated into Microsoft Graph (Office 365/Outlook.com) with support for Google APIs to follow soon..
+[Email Skill](../skills/productivity-email.md) | The preview Email Skill provides a comprehensive language model for common email related activities, The skill is currently integrated into Microsoft Graph (Office 365/Outlook.com) with support for Google APIs to follow soon.
+[ToDo Skill](../skills/productivity-todo.md) | The preview ToDo Skill provides a comprehensive language model for common task related activities, The skill is currently integrated into Microsoft Graph (outlookTask).
+[Automotive Skill](../skills/automotive.md) | The preview Automotive Skill provides Vehicle Setting control support for an assistant along with an initial set of common vehicle settings which can be extended further. At this time the skill surfaces device events to demonstrate how device control could be achieved.
 [Device Integration](./virtualassistant-deviceintegration.md) | Our Azure Bot Service SDKs (Direct Line) along with Adaptive Card and Speech SDKs enable easy cross platform integration to devices. Additional device integration examples and platform including Edge are planned.
 [Test Harnesses](./virtualassistant-testing.md) | In addition to the Bot Framework Emulator, a WebChat based test harness is provided enabling more complex authentication scenarios to be tested. A simple Console based test harness demonstrates the approach to exchange messages to help frame the ease of device integration.
 [Automated Deployment](./virtualassistant-createvirtualassistant.md) | All the Azure resources required for your Assistant are automatically deployed: Bot registration, Azure App Service, LUIS, QnAMaker, Content Moderator, CosmosDB, Azure Storage, and Application Insights. Additionally, LUIS models for all skills, QnAMaker, and Dispatch models are created, trained, and published to enable immediate testing.
-[Experimental Skills](./virtualassistant-experimental-skills.md) | Experimental Skills are early prototypes of Skills to help bring skill concepts to life for demonstrations and proof-of-concepts along with providing different examples to get you  started. Restaurant Booking and News Skills are currently available.
-[Conversational Analytics](/solutions/analytics/README.md) | Analytics surfacing insights into end user activity, dialog/skill usage, quality and gaps in knowledge.
+[Experimental Skills](../skills/experimental-skills.md) | Experimental Skills are early prototypes of Skills to help bring skill concepts to life for demonstrations and proof-of-concepts along with providing different examples to get you  started. Restaurant Booking and News Skills are currently available.
+[Conversational Analytics](/solutions/analytics/readme.md) | Analytics surfacing insights into end user activity, dialog/skill usage, quality and gaps in knowledge.
 
 ## Example Scenarios
 
@@ -80,31 +80,31 @@ Our Virtual Assistant solution includes a new Skill capability enabling new capa
 
 All aspects of each Skill (Language Model, Dialogs, Integration Code and Language Generation) are completely customisable by developers as the full source code is provided on GitHub along with the Virtual Assistant.
 
-Initial previews of the [Email](../skills/virtualassistant-skills-productivity-email.md), [Calendar](../skills/virtualassistant-skills-productivity-calendar.md), [ToDo](../skills/virtualassistant-skills-productivity-todo.md), [Point of Interest](../skills/virtualassistant-skills-pointofinterest.md) and [Automotive](../skills/virtualassistant-skills-automotive.md) skills are now available. 
+Initial previews of the [Email](../skills/productivity-email.md), [Calendar](../skills/productivity-calendar.md), [ToDo](../skills/productivity-todo.md), [Point of Interest](../skills/pointofinterest.md) and [Automotive](../skills/automotive.md) skills are now available. 
 
 ## Documentation
 
 - Virtual Assistant
-    - [Detailed Overview](./virtualassistant-detailedoverview.md)
-    - [Create your Virtual Assistant](./virtualassistant-createvirtualassistant.md)
-    - [Testing your Virtual Assistant](./virtualassistant-testing.md)
-    - [Personalizing your Virtual Assistant](./virtualassistant-personalization.md)
-    - [Updating your Virtual Assistant](./virtualassistant-updatingvirtualassistant.md)
-    - [Linked Accounts](./virtualassistant-linkedaccounts.md)
-    - [Integrating into a device](./virtualassistant-deviceintegration.md)
-    - [Events](./virtualassistant-events.md)
-    - [Responses](./virtualassistant-responses.md)
-    - [Language Support](./virtualassistant-languagesupport.md)
-    - [Known Issues](./virtualassistant-knownissues.md)
+    - [Detailed Overview](./detailedoverview.md)
+    - [Create your Virtual Assistant](./createvirtualassistant.md)
+    - [Testing your Virtual Assistant](./testing.md)
+    - [Personalizing your Virtual Assistant](./personalization.md)
+    - [Updating your Virtual Assistant](./updatingvirtualassistant.md)
+    - [Linked Accounts](./linkedaccounts.md)
+    - [Integrating into a device](./deviceintegration.md)
+    - [Events](./events.md)
+    - [Responses](./responses.md)
+    - [Language Support](./languagesupport.md)
+    - [Known Issues](./knownissues.md)
 - Skills
-    - [Overview](../skills/virtualassistant-skills.md)
-    - [Skill Authentication](./virtualassistant-authentication.md)
-    - [Creating a Skill](./virtualassistant-skillenablement.md)
-    - [Productivity - Calendar Skill](../skills/virtualassistant-skills-productivity-calendar.md)
-    - [Productivity - Email Skill](../skills/virtualassistant-skills-productivity-email.md)
-    - [Productivity - Tasks Skill](../skills/virtualassistant-skills-productivity-todo.md)
-    - [Point of Interest Skill](../skills/virtualassistant-skills-pointofinterest.md)
-    - [Automotive Skill](../skills/virtualassistant-skills-automotive.md)
+    - [Overview](../skills/README.md)
+    - [Skill Authentication](./authentication.md)
+    - [Creating a Skill](./skillenablement.md)
+    - [Productivity - Calendar Skill](../skills/productivity-calendar.md)
+    - [Productivity - Email Skill](../skills/productivity-email.md)
+    - [Productivity - Tasks Skill](../skills/productivity-todo.md)
+    - [Point of Interest Skill](../skills/pointofinterest.md)
+    - [Automotive Skill](../skills/automotive.md)
 
 # Contributing
 

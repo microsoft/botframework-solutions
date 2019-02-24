@@ -6,7 +6,7 @@ A Virtual Assistant can be tested just like any other Bot Framework Bot, the Bot
 
 ## Bot Framework Emulator
 
-The Bot Framework Emulator can be used by opening the .bot file provided within the Project directory. You must have completed the [deployment steps](./virtualassistant-createvirtualassistant.md) first and should ensure you have the [latest emulator](https://github.com/Microsoft/BotFramework-Emulator/releases
+The Bot Framework Emulator can be used by opening the .bot file provided within the Project directory. You must have completed the [deployment steps](./createvirtualassistant.md) first and should ensure you have the [latest emulator](https://github.com/Microsoft/BotFramework-Emulator/releases
 ) installed.
 
 > Authentication scenarios cannot be fully tested within the Emulator at this time. The Web Test Harness provides a workaround for this.
@@ -26,11 +26,11 @@ az bot directline create -g YOUR_RESOURCE_GROUP_NAME --name YOUR_BOT_NAME
 
 The Web Chat test harness makes use of the [Bot Framework Web Chat](https://github.com/Microsoft/BotFramework-WebChat) to provide an additional test canvas. 
 The Web Chat test harness is configured against an Identity Provider (e.g. Azure Active Directory) to enable the user to sign in and retrieve a unique identifier. 
-This will ensure all messages sent during testing use this identifier, enabling testing of the [Linked Accounts](./virtualassistant-linkedaccounts) feature.
+This will ensure all messages sent during testing use this identifier, enabling testing of the [Linked Accounts](./linkedaccounts.md) feature.
 You must use sign in to your Linked Accounts app with the same identity. 
 The account you link will be automatically made available to you when testing through the Web Chat test harness, removing the need for authentication prompts.
 
-See [Authentication Configuration](./virtualassistant-linkedaccounts#authentication-configuration) for how to configure authentication in the application. 
+See [Authentication Configuration](./linkedaccounts.md#authentication-configuration) for how to configure authentication in the application. 
 Update the `AzureAd` section in `appsettings.development.config` with the above authentication information along with the Direct Line secret created previously.
 
 When opening the Assistant-WebTest project for the first time you will be assigned a unique port number for local debugging - you can check this by right clicking the Assistant-WebTest project in Visual Studio, choosing **Properties** and reviewing the App URL in the **Debug** section. 

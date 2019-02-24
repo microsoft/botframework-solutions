@@ -89,7 +89,7 @@ _scheduledTask.AddScheduleTask(new ScheduledTaskModel {
 
 With support from these task extensions you can easily perform operations in the background and send messages back to users whenever there's a signal to do so. Now we have a dialog that sends a proactive message back to the user in a previously opened conversation. Let's explore how the request is routed back to the skill.
 
-There's two approaches to trigger a proactive message scenario, just the same as any other reactive scenarios: Events and User Utterances. For the Virtual Assistant to know the mapping between an event and the skills, a new configuration file has been introduced: [skillEvents.json](/solutions/Virtual-Assistant/src/csharp/assistant/skillEvents.json)
+There's two approaches to trigger a proactive message scenario, just the same as any other reactive scenarios: Events and User Utterances. For the Virtual Assistant to know the mapping between an event and the skills, a new configuration file has been introduced: [skillEvents.json](../../solutions/Virtual-Assistant/src/csharp/assistant/skillEvents.json)
 
 This file contains the mapping between an event and the skills that could consume it. We support multiple skills for one event enabling multiplexing. Its format is as follows:
 

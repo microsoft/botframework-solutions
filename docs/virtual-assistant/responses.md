@@ -6,15 +6,15 @@ Your Virtual Assistant can respond in a variety of ways depending on the scenari
 
 The same Activity schema supports the attachment of User Experience elements through use of [Adaptive Cards](https://www.adaptivecards.io) which can be rendered across a broad range of devices and platforms enabling visual support of responses where appropriate. Where Azure Bot Service Channels (e.g. WebChat, Teams) are being used, the Azure Bot Service automatically transforms messages to and from the target canvas meaning Developers don't have to worry about differences across channel capabilities.
 
-In [device integration](./virtualassistant-deviceintegration.md) scenarios you receive messages adhering to the Activity schema which may include Attachments thus enabling integration into the native experience.  
+In [device integration](./deviceintegration.md) scenarios you receive messages adhering to the Activity schema which may include Attachments thus enabling integration into the native experience.  
 
 ## Activity schema
 
-The [Bot Framework Activity schema](https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md) for the Azure Bot Service is an application-level representation of conversational actions made by humans and bots. This schema is used for all messages, including [Events](./virtualassistant-events.md).
+The [Bot Framework Activity schema](https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md) for the Azure Bot Service is an application-level representation of conversational actions made by humans and bots. This schema is used for all messages, including [Events](./events.md).
 
 ## Messages and Events
 
-Messages are a specific Type of Activity set through the `ActivityType` property and relate to Messages to and from a user that should be shown/spoken. Events are a different `ActivityType` enabling messages to be *whispered* between the client and Bot and provide an elegant mechanism for the client to trigger events within the Virtual Assistant and vice versa to perform an operation on the device. More information is in the [events](./virtualassistant-events.md) section.
+Messages are a specific Type of Activity set through the `ActivityType` property and relate to Messages to and from a user that should be shown/spoken. Events are a different `ActivityType` enabling messages to be *whispered* between the client and Bot and provide an elegant mechanism for the client to trigger events within the Virtual Assistant and vice versa to perform an operation on the device. More information is in the [events](./events.md) section.
 
 ## Adaptive Cards
 
