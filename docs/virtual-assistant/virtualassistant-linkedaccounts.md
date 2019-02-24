@@ -13,13 +13,13 @@ If you'd like to learn more about this scenario in WebChat, we encourage you to 
 
 **OAuth Card Example**
 
-![Example OAuth Card](./media/virtualassistant-LinkedAccountsOAuthCard.png)
+![Example OAuth Card](../media/virtualassistant-LinkedAccountsOAuthCard.png)
 
 In a speech-led scenario, it's unacceptable and impractical to expect a user to enter their username and password through voice command. Therefore, a separate companion experience would provide the opportunity for a user to sign in once and provide permissions for the Virtual Assistant to retrieve a token for later continued use.
 
 The Linked Accounts feature of the Virtual Assistant provides a reference sample of a web app using the Azure Bot Service to deliver this capability, a screen shot showing the example interface is shown below and demonstrates the type of capability you would build into your own experience (e.g. a mobile app)
 
-![Linked Accounts UX](./media/virtualassistant-linkedaccountsux.png)
+![Linked Accounts UX](../media/virtualassistant-linkedaccountsux.png)
 
 ## Authentication Configuration
 

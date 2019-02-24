@@ -26,7 +26,7 @@ All communication between a Virtual Assistant and a Skill will be performed thro
 
 The custom SkillDialog bootstraps the Adapter and processes appropriate middleware (currently only State) before invoking the OnTurn method on the Bot for each Activity. A skillBegin event is sent at the beginning of each Skill Dialog and the end of a Skill Dialog is marked by the sending of a `endOfConversation` event.
 
-![Skill Invocation Flow](./media/virtualassistant-SkillFlow.png)
+![Skill Invocation Flow](../media/virtualassistant-SkillFlow.png)
 
  ## Skill Registration
 
