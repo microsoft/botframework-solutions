@@ -41,14 +41,14 @@ The [PowerBI Desktop client](https://aka.ms/pbidesktopstore) is available for Wi
 Alternatively, you can use the Power BI service.  If you don't have a PowerBI service account, sign up for a [free 60 day trial account](https://app.powerbi.com/signupredirect?pbi_source=web) and upload the Power BI template to view the reports.
 
 ## Telemetry Logging
-[Telemetry Overview](/telemetrylogging.md) highlights the provided telemetry for bot and user activities, including [LUIS](https://www.luis.ai/) and [QnA Maker](https://www.qnamaker.ai/) results. how to configure your bot's telemetry, either through bot configuring or overriding the telemetry client.
+[Telemetry Overview](./telemetrylogging.md) highlights the provided telemetry for bot and user activities, including [LUIS](https://www.luis.ai/) and [QnA Maker](https://www.qnamaker.ai/) results. how to configure your bot's telemetry, either through bot configuring or overriding the telemetry client.
 
 ## Application Insights Analytics
-[Applications Insights Analytics](/applicationinsights.md) demonstrates how to execute common queries for for bot analytics and debugging in Visual Studio.
+[Applications Insights Analytics](./applicationinsights.md) demonstrates how to execute common queries for for bot analytics and debugging in Visual Studio.
 
 ## Power BI Analytics Sample
 
-The [Power BI Analytics sample](/powerbi.md) shows example Power BI dashboards to gain insights on your bot's performance and quality.
+The [Power BI Analytics sample](./powerbi.md) shows example Power BI dashboards to gain insights on your bot's performance and quality.
 
 # Contributing
 

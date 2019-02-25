@@ -1,43 +1,122 @@
-# Virtual Assistant Skills - Productivity (Email)
-
-## Overview
+# Email Skill (Productivity)
 The Email Skill provides Email related capabilities to a Virtual Assistant. The most common scenarios have been implemented in this first release with additional scenarios in development.
+
+## Table of Contents
+- [Supported Scenarios](#supported-scenarios)
+- [Language Model](#language-model)
+- [Configuration](#configuration)
 
 ## Supported Scenarios
 The following scenarios are currently supported by the Skill:
 
 - Send an Email
-    - Send an email to John Smith
-    - Send an email 
+    - *Send an email to John Smith*
+    - *Send an email*
 - Find Email
-    - Find email from John Smith
-    - What email do I have
+    - *Find email from John Smith*
+    - *What email do I have*
+ - Add Flag
+   - *This email needs to be flagged*
+   - *Add a flag to the email Simone Jones just sent to me*
+ - Check Messages
+   - *Do I have any new mail*
+   - *Check my email*
+ - Delete 
+   - *Do I have any new mail*
+   - *Check my email*
+ - Forward
+   - *Forward all files from Petrina to Jim*
+   - *Could you forward this message to Cosmo my email*
+ - Query Last Text
+   - *Who emailed me last*
+   - *What was the last email I got from Dad*
+ - Read Aloud
+   - *Read the last email from Philippe*
+   - *Read unread email* 
+ - Reply to an Email
+   - *Reply with "I will call you back"*
+   - *Respond to my last email*
+ - Select an Email
+   - *The third search result please*
+   - *Open this one*
 
-## Supported Sources
+
+## Language Model
+LUIS models for the Skill are provided in .LU file format as part of the Skill. Further languages are being prioritized.
+
+|Supported Languages|
+|-|-|
+|English| 
+|French| 
+|Italian| 
+|German| 
+|Spanish| 
+|Chinese (simplified)|
+
+### Intents
+|Name|Description|
+|-|-|
+|AddFlag| Matches queries to flag an email as important |
+|CheckMessages| Matches queries to check for new messages |
+|Delete| Matches queries to delete an email |
+|Forward| Matches queries to forward an email |
+|QueryLastText| Matches queries to find the most recent emails |
+|ReadAloud| Matches queries to read an email aloud |
+|Reply| Matches queries to reply to an email|
+|SearchMessages| Matches queries to search for specific emails |
+|SelectItem| Matches queries to select an email |
+|SendEmail| Matches queries to send an email |
+
+### Entities
+|Name|Description|
+|-|-|
+|Attachment| Simple entity matching attenchments|
+|Category| Simple entity matching categories|
+|ContactName| Simple entity matching contact names|
+|Date| Simple entity matching the date|
+|EmailAddress| Simple entity matching email addresses|
+|EmailPlatform| Simple entity matching email platforms|
+|EmailSubject| Simple entity matching email subjects|
+|FromRelationshipName| Simple entity|
+|Line| Simple entity matching message message lines|
+|Message| Simple entity matching messages |
+|OrderReference| Simple entity |
+|PositionReference| Simple entity|
+|RelationshipName| Simple entity matching contact relationships|
+|SearchTexts| Simple entity matching messages to search through|
+|SenderName| Simple entity matching a sender's name|
+|Time| Simple entity matching the time|
+|datetimeV2| Prebuilt entity|
+|number| Prebuilt entity|
+|ordinal| Prebuilt entity|
+
+## Configuration
+
+### Supported Sources
 
 > Office 365 and Outlook.com through the Microsoft Graph is supported along with support for Google accounts.
 
-## Auth Connection Settings
+### Auth Connection Settings
 
 Your Authentication Connection and corresponding Application Registration should have the following Scopes added:
 
-- User.Read
-- Mail.Read
-- Mail.Send
-- People.Read
+- `User.Read`
+- `Mail.Read`
+- `Mail.Send`
+- `People.Read`
 
-## Skill Parameters
+### Skill Parameters
 The following Parameters are accepted by the Skill and enable additional personalisation of responses to a given user:
-- IPA.Timezone
+- `IPA.Timezone`
 
-## Configuration File Information
+### Configuration File Information
 The following Configuration entries are required to be passed to the Skill and are provided through the Virtual Assistant appSettings.json file.
 
-- LuisAppId
-- LuisSubscriptionKey
-- LuisEndpoint
+- `LuisAppId`
+- `LuisSubscriptionKey`
+- `LuisEndpoint`
 
-## Example Skill Registration Entry
+### Example Skill Registration Entry
 ```
 {
     "Name": "Email",
@@ -55,26 +134,3 @@ The following Configuration entries are required to be passed to the Skill and a
     }
 }
 ```
-
-## LUIS Model Intents and Entities
-LUIS models for the Skill are provided in .LU file format as part of the Skill. These are currently avaialble in English, French, Italian, German and Spanish languages. Further languages are being prioritised.
-
-The following Top Level intents are available:
-
-- CheckMessages
-- SearchMessages
-- SendEmail
-
-The following secondary level intents (used as part of the above scenarios) are available:
-
-- AddFlag
-- AddMore
-- Cancel
-- Confirm
-- Forward
-- QueryLastText
-- ReadAloud
-- Reply
-- SearchMessages
-- SendEmail
-- ShowNext

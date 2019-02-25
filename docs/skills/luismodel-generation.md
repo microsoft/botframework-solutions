@@ -1,19 +1,19 @@
-# LUIS Model Generation
+# Generating a Skill's LUIS Model
 
 ## Overview
 
-We have different LUIS language models for skills and assistant. We need the representation in code for those language models. 
+We provide different LUIS language models for each skill and the Virtual Assistant. This language model need sto be represented in code. 
 
 Currently the language models we have in our assistant are:
 
-[Email.cs](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/emailskill/Dialogs/Shared/Resources/Email.cs)
-[Calendar.cs](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/calendarskill/Dialogs/Shared/Resources/Calendar.cs)
-[PointOfInterest.cs](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/pointofinterestskill/Dialogs/Shared/Resources/PointOfInterest.cs)
-[ToDo](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/todoskill/Dialogs/Shared/Resources/ToDo.cs)
-[Dispatch](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/assistant/Dialogs/Shared/Resources/Dispatch.cs)
-[General](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/microsoft.bot.solutions/Resources/General.cs)
+* [`Email.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/emailskill/Dialogs/Shared/Resources/Email.cs)
+* [`Calendar.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/calendarskill/Dialogs/Shared/Resources/Calendar.cs)
+* [`PointOfInterest.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/pointofinterestskill/Dialogs/Shared/Resources/PointOfInterest.cs)
+* [`ToDo.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/todoskill/Dialogs/Shared/Resources/ToDo.cs)
+* [`Dispatch.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/assistant/Dialogs/Shared/Resources/Dispatch.cs)
+* [`General.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/microsoft.bot.solutions/Resources/General.cs)
 
-To generate the language model class, please use LuisGen tool: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUISGen
+To generate the language model class, please use [LuisGen](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUISGen).
 
 ### Generation
 
