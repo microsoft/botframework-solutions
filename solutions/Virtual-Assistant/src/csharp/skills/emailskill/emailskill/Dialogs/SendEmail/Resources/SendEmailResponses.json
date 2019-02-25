@@ -11,7 +11,7 @@
   "NoSubject": {
     "replies": [
       {
-        "text": "What is the subject of the email? Or you can say skip to bypass it.",
+        "text": "What is the subject of the email? Or you can input skip to bypass it.",
         "speak": "What is the subject of the email? Or you can say skip to bypass it."
       }
     ],
@@ -20,7 +20,7 @@
   "NoMessageBody": {
     "replies": [
       {
-        "text": "What do you want to add as the message body? Or you can say skip to bypass it.",
+        "text": "What do you want to add as the message body? Or you can input skip to bypass it.",
         "speak": "What do you want to add as the message body? Or you can say skip to bypass it."
       }
     ],
@@ -29,7 +29,7 @@
   "RetryNoSubject": {
     "replies": [
       {
-        "text": "Including a subject is often appreciated by contacts. Want to add a subject? Or you can say skip to bypass it.",
+        "text": "Including a subject is often appreciated by contacts. Want to add a subject? Or you can input skip to bypass it.",
         "speak": "Including a subject is often appreciated by contacts. Want to add a subject? Or you can say skip to bypass it."
       }
     ],
@@ -83,7 +83,7 @@
   "GetRecreateInfo_Retry": {
     "replies": [
       {
-        "text": "You can try Participants, Subject, or Content. Or say cancel.",
+        "text": "You can try Participants, Subject, or Content. Or input cancel.",
         "speak": "You can try Participants, Subject, or Content. Or say cancel."
       }
     ],
@@ -92,7 +92,7 @@
   "ConfirmMessage_Retry": {
     "replies": [
       {
-        "text": "Please confirm this message. You can say yes or no.",
+        "text": "Please confirm this message. You can input yes or no.",
         "speak": "Please confirm this message. You can say yes or no."
       },
       {

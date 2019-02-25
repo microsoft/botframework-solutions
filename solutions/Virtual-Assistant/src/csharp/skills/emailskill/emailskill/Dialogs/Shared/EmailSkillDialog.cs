@@ -176,12 +176,12 @@ namespace EmailSkill.Dialogs.Shared
                 var generalLuisResult = state.GeneralLuisResult;
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
-                if (skillLuisResult == EmailLU.Intent.None && generalTopIntent == General.Intent.Next)
+                if (skillLuisResult == EmailLU.Intent.ShowNext || generalTopIntent == General.Intent.Next)
                 {
                     state.ShowEmailIndex++;
                     state.ReadEmailIndex = 0;
                 }
-                else if (skillLuisResult == EmailLU.Intent.None && generalTopIntent == General.Intent.Previous && state.ShowEmailIndex >= 0)
+                else if ((skillLuisResult == EmailLU.Intent.ShowPrevious || generalTopIntent == General.Intent.Previous) && state.ShowEmailIndex >= 0)
                 {
                     state.ShowEmailIndex--;
                     state.ReadEmailIndex = 0;

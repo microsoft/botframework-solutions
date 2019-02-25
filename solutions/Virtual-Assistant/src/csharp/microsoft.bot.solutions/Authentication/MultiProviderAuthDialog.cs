@@ -56,7 +56,6 @@ namespace Microsoft.Bot.Solutions.Authentication
                         ConnectionName = connection.Key,
                         Title = CommonStrings.Login,
                         Text = string.Format(CommonStrings.LoginDescription, connection.Key),
-                        Timeout = 30000,
                     },
                     AuthPromptValidator));
             }
