@@ -45,7 +45,7 @@ namespace $safeprojectname$.Dialogs.Shared
             }
             else
             {
-                luisResult = await luisService.RecognizeAsync<General>(dc.Context, true, cancellationToken);
+                luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
 
                 // Add the luis result (intent and entities) for further processing in the derived dialog
                 dc.Context.TurnState.Add(LuisResultKey, luisResult);

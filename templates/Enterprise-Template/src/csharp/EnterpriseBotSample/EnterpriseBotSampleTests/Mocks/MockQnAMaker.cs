@@ -33,7 +33,7 @@ namespace EnterpriseBotSampleTests.Mocks
             }
         }
 
-        public Task<QueryResult[]> GetAnswersAsync(ITurnContext context)
+        public Task<QueryResult[]> GetAnswersAsync(ITurnContext context, QnAMakerOptions options = null)
         {
             var text = context.Activity.Text;
 

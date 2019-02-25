@@ -9,10 +9,10 @@ namespace EnterpriseBotSample.Middleware.Telemetry
     {
         bool LogPersonalInformation { get; }
 
-        Task<T> RecognizeAsync<T>(DialogContext dialogContext, bool logPersonalInformation, CancellationToken cancellationToken = default(CancellationToken))
+        Task<T> RecognizeAsync<T>(DialogContext dialogContext, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new();
 
-        Task<T> RecognizeAsync<T>(ITurnContext turnContext, bool logPersonalInformation, CancellationToken cancellationToken = default(CancellationToken))
+        Task<T> RecognizeAsync<T>(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new();
     }
 }

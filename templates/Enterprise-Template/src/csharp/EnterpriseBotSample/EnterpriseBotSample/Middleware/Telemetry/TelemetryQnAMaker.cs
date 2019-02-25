@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
+using EnterpriseBotSample.Middleware.Telemetry;
 using Newtonsoft.Json;
 
 namespace EnterpriseBotSample.Middleware.Telemetry
@@ -41,10 +42,10 @@ namespace EnterpriseBotSample.Middleware.Telemetry
 
         public bool LogPersonalInformation { get; }
 
-        public async Task<QueryResult[]> GetAnswersAsync(ITurnContext context)
+        public new async Task<QueryResult[]> GetAnswersAsync(ITurnContext context, QnAMakerOptions options = null)
         {
-            // Call Qna Maker
-            var queryResults = await base.GetAnswersAsync(context);
+            // Call QnA Maker
+            var queryResults = await base.GetAnswersAsync(context, options);
 
             // Find the Application Insights Telemetry Client
             if (queryResults != null && context.TurnState.TryGetValue(TelemetryLoggerMiddleware.AppInsightsServiceKey, out var telemetryClient))
@@ -76,7 +77,7 @@ namespace EnterpriseBotSample.Middleware.Telemetry
                 {
                     var queryResult = queryResults[0];
                     telemetryProperties.Add(QnATelemetryConstants.QuestionProperty, JsonConvert.SerializeObject(queryResult.Questions));
-                    telemetryMetrics.Add(QnATelemetryConstants.QuestionIdProperty, queryResult.Id);
+                    telemetryProperties.Add(QnATelemetryConstants.QuestionIdProperty, queryResult.Id.ToString());
                     telemetryProperties.Add(QnATelemetryConstants.AnswerProperty, queryResult.Answer);
                     telemetryMetrics.Add(QnATelemetryConstants.ScoreProperty, queryResult.Score);
                     telemetryProperties.Add(QnATelemetryConstants.ArticleFoundProperty, "true");
@@ -84,7 +85,7 @@ namespace EnterpriseBotSample.Middleware.Telemetry
                 else
                 {
                     telemetryProperties.Add(QnATelemetryConstants.QuestionProperty, "No Qna Question matched");
-                    telemetryMetrics.Add(QnATelemetryConstants.QuestionIdProperty, -1);
+                    telemetryProperties.Add(QnATelemetryConstants.QuestionIdProperty, "No QnA Question Id matched");
                     telemetryProperties.Add(QnATelemetryConstants.AnswerProperty, "No Qna Answer matched");
                     telemetryProperties.Add(QnATelemetryConstants.ArticleFoundProperty, "false");
                 }

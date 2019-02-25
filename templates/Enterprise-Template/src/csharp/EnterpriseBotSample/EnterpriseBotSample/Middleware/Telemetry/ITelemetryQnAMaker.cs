@@ -8,6 +8,6 @@ namespace EnterpriseBotSample.Middleware.Telemetry
     {
         bool LogPersonalInformation { get; }
 
-        Task<QueryResult[]> GetAnswersAsync(ITurnContext context);
+        Task<QueryResult[]> GetAnswersAsync(ITurnContext context, QnAMakerOptions options = null);
     }
 }

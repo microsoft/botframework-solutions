@@ -38,7 +38,7 @@ namespace EnterpriseBotSample.Dialogs.Shared
             }
             else
             {
-                var luisResult = await luisService.RecognizeAsync<General>(dc.Context, true, cancellationToken);
+                var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
                 var intent = luisResult.TopIntent().intent;
 
                 // Only triggers interruption if confidence level is high

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using EnterpriseBotSample.Middleware.Telemetry;
 
 namespace EnterpriseBotSample.Middleware.Telemetry
 {
@@ -65,7 +66,7 @@ namespace EnterpriseBotSample.Middleware.Telemetry
                 var activity = context.Activity;
 
                 // Log the Application Insights Bot Message Received
-                _telemetryClient.TrackEventEx(TelemetryLoggerConstants.BotMsgReceiveEvent, activity, null, FillReceiveEventProperties(activity));
+                _telemetryClient.TrackEventEx(TelemetryLoggerConstants.BotMsgReceiveEvent, activity, null, this.FillReceiveEventProperties(activity));
             }
 
             // hook up onSend pipeline
@@ -76,7 +77,7 @@ namespace EnterpriseBotSample.Middleware.Telemetry
 
                 foreach (var activity in activities)
                 {
-                    _telemetryClient.TrackEventEx(TelemetryLoggerConstants.BotMsgSendEvent, activity, null, FillSendEventProperties(activity));
+                    _telemetryClient.TrackEventEx(TelemetryLoggerConstants.BotMsgSendEvent, activity, null, this.FillSendEventProperties(activity));
                 }
 
                 return responses;
@@ -88,7 +89,7 @@ namespace EnterpriseBotSample.Middleware.Telemetry
                 // run full pipeline
                 var response = await nextUpdate().ConfigureAwait(false);
 
-                _telemetryClient.TrackEventEx(TelemetryLoggerConstants.BotMsgUpdateEvent, activity, null, FillUpdateEventProperties(activity));
+                _telemetryClient.TrackEventEx(TelemetryLoggerConstants.BotMsgUpdateEvent, activity, null, this.FillUpdateEventProperties(activity));
 
                 return response;
             });
@@ -107,7 +108,7 @@ namespace EnterpriseBotSample.Middleware.Telemetry
                 .ApplyConversationReference(reference, isIncoming: false)
                 .AsMessageDeleteActivity();
 
-                _telemetryClient.TrackEventEx(TelemetryLoggerConstants.BotMsgDeleteEvent, deleteActivity as Activity, null, FillDeleteEventProperties(deleteActivity));
+                _telemetryClient.TrackEventEx(TelemetryLoggerConstants.BotMsgDeleteEvent, deleteActivity as Activity, null, this.FillDeleteEventProperties(deleteActivity));
             });
 
             if (nextTurn != null)
