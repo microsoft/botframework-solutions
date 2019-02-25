@@ -26,9 +26,9 @@ namespace CalendarSkillTest.Flow.Utterances
 
         public static string DeleteMeetingWithTitle { get; } = $"delete {Strings.Strings.DefaultEventName} meeting";
 
-        private Calendar GetBaseDeleteMeetingIntent(
+        private CalendarLU GetBaseDeleteMeetingIntent(
             string userInput,
-            Calendar.Intent intents = Calendar.Intent.DeleteCalendarEntry,
+            CalendarLU.Intent intents = CalendarLU.Intent.DeleteCalendarEntry,
             string[] subject = null,
             string[] contactName = null,
             string[] fromDate = null,

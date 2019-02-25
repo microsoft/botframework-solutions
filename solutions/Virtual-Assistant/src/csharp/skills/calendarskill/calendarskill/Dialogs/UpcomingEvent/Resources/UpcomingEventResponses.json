@@ -1,0 +1,20 @@
+{
+  "UpcomingEventMessage": {
+    "replies": [
+      {
+        "text": "You have a meeting coming up in {Minutes} minutes with {Attendees}: {Title}",
+        "speak": "You have a meeting coming up in {Minutes} minutes with {Attendees}: {Title}"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "UpcomingEventMessageWithLocation": {
+    "replies": [
+      {
+        "text": "You have a meeting coming up in {Minutes} minutes with {Attendees} at {Location}: {Title}",
+        "speak": "You have a meeting coming up in {Minutes} minutes with {Attendees} at {Location}: {Title}"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}

@@ -1,0 +1,31 @@
+{
+    "escalate": {
+        "phoneInfo":"Our agents are available 24/7 at 1(800)555-1234."
+    },
+    "main": {
+        "calendarSuggestedAction":"What's my schedule?",
+        "cancelled":"Ok, let's start over.",
+        "completed":"What else can I help you with?",
+        "confused":"I'm sorry, I'm not able to help with that.",
+        "emailSuggestedAction":"Send an email",
+        "error":"Sorry, it looks like something went wrong.",
+        "greeting":"Hi there!",
+        "greetingWithName":"Hey, {0}!",
+        "helpTitle":"Help for Virtual Assistant",
+        "helpText":"I'm your Virtual Assistant! I can perform a number of tasks through my connected skills. Right now I can help you with Calendar, Email, Task and Point of Interest questions. Or you can help me do more by creating your own!",
+        "introPath":"./resources/Intro.json",
+        "logOut":"Ok, you're signed out.",
+        "meetingSuggestedAction":"Schedule a meeting",
+        "noActiveDialog":"It looks like there is nothing to cancel. What can I help you with?",
+        "poiSuggestedAction":"Find a coffee shop nearby"
+    },
+    "onboarding": {
+        "haveLocation":"I've added {0} as your primary location. You're all set up!",
+        "linkedAccountsInfoAlt":"Person holding mobile device.",
+        "linkedAccountsInfoBody":"Switch to your companion app to get set up.",
+        "linkedAccountsInfoTitle":"I can do more if you link your accounts!",
+        "linkedAccountsInfoUrl":"https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/media/customassistant-linkedaccounts.png?raw=true",
+        "locationPrompt":"Thanks, {0}. Where are you located?",
+        "namePrompt":"What is your name?"
+    }
+}

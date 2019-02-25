@@ -44,7 +44,7 @@
     ],
     "inputHint": "ignoringInput"
   },
-  "ListTypePrompt": {
+  "ListTypePromptForDelete": {
     "replies": [
       {
         "text": "Can you be specific from what list you would like to delete a task. Is it your To Do list, Shopping list or Grocery list?",
@@ -53,11 +53,20 @@
     ],
     "inputHint": "expectingInput"
   },
-  "AskTaskIndex": {
+  "AskTaskIndexForDelete": {
     "replies": [
       {
         "text": "What task do you want to delete? It is also possible to delete all your tasks by naming out delete all.",
         "speak": "What task do you want to delete? It is also possible to delete all your tasks by naming out delete all."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AskTaskIndexRetryForDelete": {
+    "replies": [
+      {
+        "text": "Sorry, I could not find this task. Please try again. What task do you want to delete?",
+        "speak": "Sorry, I could not find this task. Please try again. What task do you want to delete?"
       }
     ],
     "inputHint": "expectingInput"

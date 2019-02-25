@@ -30,15 +30,15 @@ export declare type LanguageTemplateDictionary = Map<string, TemplateIdMap | und
  *  templateManager.register(new DictionaryRenderer(myTemplates))
  */
 export class DictionaryRenderer implements ITemplateRenderer {
-    private LANGUAGES: LanguageTemplateDictionary;
+    private languages: LanguageTemplateDictionary;
 
     constructor(templates: LanguageTemplateDictionary) {
-        this.LANGUAGES = templates;
+        this.languages = templates;
     }
 
     // tslint:disable-next-line:no-any
     public renderTemplate(turnContext: TurnContext, language: string, templateId: string, data: any): Promise<any> {
-        const templates: TemplateIdMap | undefined = this.LANGUAGES.get(language);
+        const templates: TemplateIdMap | undefined = this.languages.get(language);
         if (templates) {
             const template: TemplateFunction | undefined = templates.get(templateId);
             if (template) {

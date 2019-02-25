@@ -8,6 +8,8 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Models.Proactive;
+using Microsoft.Bot.Solutions.TaskExtensions;
 using VirtualAssistant.Dialogs.Main;
 
 namespace VirtualAssistant
@@ -20,8 +22,10 @@ namespace VirtualAssistant
         private readonly BotServices _services;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
+        private readonly ProactiveState _proactiveState;
         private readonly EndpointService _endpointService;
         private readonly IBotTelemetryClient _telemetryClient;
+        private readonly IBackgroundTaskQueue _backgroundTaskQueue;
         private DialogSet _dialogs;
 
         /// <summary>
@@ -30,18 +34,22 @@ namespace VirtualAssistant
         /// <param name="botServices">Bot services.</param>
         /// <param name="conversationState">Bot conversation state.</param>
         /// <param name="userState">Bot user state.</param>
+        /// <param name="proactiveState">Proactive state.</param>
         /// <param name="endpointService">Bot endpoint service.</param>
         /// <param name="telemetryClient">Bot telemetry client.</param>
-        public VirtualAssistant(BotServices botServices, ConversationState conversationState, UserState userState, EndpointService endpointService, IBotTelemetryClient telemetryClient)
+        /// <param name="backgroundTaskQueue">Background task queue.</param>
+        public VirtualAssistant(BotServices botServices, ConversationState conversationState, UserState userState, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
+            _proactiveState = proactiveState ?? throw new ArgumentNullException(nameof(proactiveState));
             _services = botServices ?? throw new ArgumentNullException(nameof(botServices));
             _endpointService = endpointService ?? throw new ArgumentNullException(nameof(endpointService));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
+            _backgroundTaskQueue = backgroundTaskQueue;
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(VirtualAssistant)));
-            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _endpointService, _telemetryClient));
+            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _proactiveState, _endpointService, _telemetryClient, _backgroundTaskQueue));
         }
 
         /// <summary>

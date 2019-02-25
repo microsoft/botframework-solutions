@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,8 +17,10 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Model;
 using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.TaskExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using VirtualAssistant.Dialogs.Main;
@@ -26,6 +29,8 @@ namespace VirtualAssistant
 {
     public class Startup
     {
+        private const string SkillEventsConfigFile = "skillEvents.json";
+        private const string SkillEventsConfigName = "skillEvents";
         private bool _isProduction = false;
 
         public Startup(IHostingEnvironment env)
@@ -36,6 +41,11 @@ namespace VirtualAssistant
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
+            if (File.Exists(Path.Combine(env.ContentRootPath, SkillEventsConfigFile)))
+            {
+                builder.AddJsonFile(SkillEventsConfigFile, optional: true);
+            }
+
             Configuration = builder.Build();
         }
 
@@ -43,6 +53,10 @@ namespace VirtualAssistant
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // add background task queue
+            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+            services.AddHostedService<QueuedHostedService>();
+
             // Load the connected services from .bot file.
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
             var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
@@ -54,7 +68,14 @@ namespace VirtualAssistant
             // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
             var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
             var skills = Configuration.GetSection("skills").Get<List<SkillDefinition>>();
-            var connectedServices = new BotServices(botConfig, languageModels, skills);
+            List<SkillEvent> skillEvents = null;
+            var skillEventsConfig = Configuration.GetSection(SkillEventsConfigName);
+            if (skillEventsConfig != null)
+            {
+                skillEvents = skillEventsConfig.Get<List<SkillEvent>>();
+            }
+
+            var connectedServices = new BotServices(botConfig, languageModels, skills, skillEvents);
             services.AddSingleton(sp => connectedServices);
 
             var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
@@ -98,7 +119,7 @@ namespace VirtualAssistant
                 // Telemetry Middleware (logs activity messages in Application Insights)
                 var sp = services.BuildServiceProvider();
                 var telemetryClient = sp.GetService<IBotTelemetryClient>();
-                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logUserName: true, logOriginalMessage: true);
+                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient);
                 options.Middleware.Add(appInsightsLogger);
 
                 // Catches any errors that occur during a conversation turn and logs them to AppInsights.
@@ -123,9 +144,7 @@ namespace VirtualAssistant
                 options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en-us"));
                 options.Middleware.Add(new EventDebuggerMiddleware());
                 options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
-
-                // TODO: uncomment the following line to enable auto save of proactive state
-                // options.Middleware.Add(new ProactiveStateMiddleware(proactiveState));
+                options.Middleware.Add(new ProactiveStateMiddleware(proactiveState));
 
                 //// Translator is an optional component for scenarios when an Assistant needs to work beyond native language support
                 // var translatorKey = Configuration.GetValue<string>("translatorKey");

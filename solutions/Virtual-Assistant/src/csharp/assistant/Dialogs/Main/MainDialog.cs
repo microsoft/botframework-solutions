@@ -14,7 +14,10 @@ using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.TaskExtensions;
+using Newtonsoft.Json;
 using VirtualAssistant.Dialogs.Escalate;
 using VirtualAssistant.Dialogs.Main.Resources;
 using VirtualAssistant.Dialogs.Onboarding;
@@ -28,7 +31,9 @@ namespace VirtualAssistant.Dialogs.Main
         private BotServices _services;
         private UserState _userState;
         private ConversationState _conversationState;
+        private ProactiveState _proactiveState;
         private EndpointService _endpointService;
+        private IBackgroundTaskQueue _backgroundTaskQueue;
         private IStatePropertyAccessor<OnboardingState> _onboardingState;
         private IStatePropertyAccessor<Dictionary<string, object>> _parametersAccessor;
         private IStatePropertyAccessor<VirtualAssistantState> _virtualAssistantState;
@@ -37,14 +42,16 @@ namespace VirtualAssistant.Dialogs.Main
 
         private bool _conversationStarted = false;
 
-        public MainDialog(BotServices services, ConversationState conversationState, UserState userState, EndpointService endpointService, IBotTelemetryClient telemetryClient)
+        public MainDialog(BotServices services, ConversationState conversationState, UserState userState, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue)
             : base(nameof(MainDialog), telemetryClient)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _conversationState = conversationState;
             _userState = userState;
+            _proactiveState = proactiveState;
             _endpointService = endpointService;
             TelemetryClient = telemetryClient;
+            _backgroundTaskQueue = backgroundTaskQueue;
             _onboardingState = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             _parametersAccessor = _userState.CreateProperty<Dictionary<string, object>>("userInfo");
             _virtualAssistantState = _conversationState.CreateProperty<VirtualAssistantState>(nameof(VirtualAssistantState));
@@ -77,7 +84,7 @@ namespace VirtualAssistant.Dialogs.Main
 
             // No dialog is currently on the stack and we haven't responded to the user
             // Check dispatch result
-            var dispatchResult = await localeConfig.DispatchRecognizer.RecognizeAsync<Dispatch>(dc, true, CancellationToken.None);
+            var dispatchResult = await localeConfig.DispatchRecognizer.RecognizeAsync<Dispatch>(dc, CancellationToken.None);
             var intent = dispatchResult.TopIntent().intent;
 
             switch (intent)
@@ -86,7 +93,7 @@ namespace VirtualAssistant.Dialogs.Main
                     {
                         // If dispatch result is general luis model
                         var luisService = localeConfig.LuisServices["general"];
-                        var luisResult = await luisService.RecognizeAsync<General>(dc, true, CancellationToken.None);
+                        var luisResult = await luisService.RecognizeAsync<General>(dc, CancellationToken.None);
                         var luisIntent = luisResult?.TopIntent().intent;
 
                         // switch on general intents
@@ -218,100 +225,145 @@ namespace VirtualAssistant.Dialogs.Main
                 var trace = new Activity(type: ActivityTypes.Trace, text: $"Received event: {ev.Name}");
                 await dc.Context.SendActivityAsync(trace);
 
-                switch (ev.Name)
+                // see if there's a skillEvent mapping defined with this event
+                var skillEvents = _services.SkillEvents;
+                if (skillEvents != null && skillEvents.ContainsKey(ev.Name))
                 {
-                    case Events.TimezoneEvent:
+                    var skillEvent = skillEvents[ev.Name];
+
+                    var value = ev.Value != null ? JsonConvert.DeserializeObject<Dictionary<string, string>>(ev.Value.ToString()) : null;
+                    var skillIds = skillEvent.SkillIds;
+
+                    if (skillIds == null || skillIds.Length == 0)
+                    {
+                        var errorMessage = "SkillIds is not specified in the skillEventConfig. Without it the assistant doesn't know where to route the message to.";
+                        await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: errorMessage));
+                        TelemetryClient.TrackException(new ArgumentException(errorMessage));
+                    }
+
+                    dc.Context.Activity.Value = value;
+                    foreach (var skillId in skillIds)
+                    {
+                        var matchedSkill = _skillRouter.IdentifyRegisteredSkill(skillId);
+                        if (matchedSkill != null)
                         {
-                            try
-                            {
-                                var timezone = ev.Value.ToString();
-                                var tz = TimeZoneInfo.FindSystemTimeZoneById(timezone);
-
-                                parameters[ev.Name] = tz;
-                            }
-                            catch
-                            {
-                                await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Timezone passed could not be mapped to a valid Timezone. Property not set."));
-                            }
-
-                            forward = false;
-                            break;
-                        }
-
-                    case Events.LocationEvent:
-                        {
-                            parameters[ev.Name] = ev.Value;
-                            forward = false;
-                            break;
-                        }
-
-                    case Events.TokenResponseEvent:
-                        {
-                            forward = true;
-                            break;
-                        }
-
-                    case Events.ActiveLocationUpdate:
-                    case Events.ActiveRouteUpdate:
-                        {
-                            var matchedSkill = _skillRouter.IdentifyRegisteredSkill(Dispatch.Intent.l_PointOfInterest.ToString());
-
                             await RouteToSkillAsync(dc, new SkillDialogOptions()
                             {
                                 SkillDefinition = matchedSkill,
                             });
 
                             forward = false;
-                            break;
                         }
-
-                    case Events.ResetUser:
+                        else
                         {
-                            await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: "Reset User Event received, clearing down State and Tokens."));
+                            // skill id defined in skillEventConfig is wrong
+                            var skillList = new List<string>();
+                            _services.SkillDefinitions.ForEach(a => skillList.Add(a.DispatchIntent));
 
-                            // Clear State
-                            await _onboardingState.DeleteAsync(dc.Context, cancellationToken);
+                            var errorMessage = $"SkillId {skillId} for the event {ev.Name} in the skillEventConfig is not supported. It should be one of these: {string.Join(',', skillList.ToArray())}.";
 
-                            // Clear Tokens
-                            var adapter = dc.Context.Adapter as BotFrameworkAdapter;
-                            if (adapter != null)
-                            {
-                                await adapter.SignOutUserAsync(dc.Context, null, dc.Context.Activity.From.Id, cancellationToken);
-                            }
-
-                            forward = false;
-
-                            break;
+                            await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: errorMessage));
+                            TelemetryClient.TrackException(new ArgumentException(errorMessage));
                         }
-
-                    case Events.StartConversation:
-                        {
-                            forward = false;
-
-                            if (!_conversationStarted)
+                    }
+                }
+                else
+                {
+                    switch (ev.Name)
+                    {
+                        case Events.TimezoneEvent:
                             {
-                                if (string.IsNullOrWhiteSpace(dc.Context.Activity.Locale))
+                                try
                                 {
-                                    // startConversation activity should have locale in it. if not, log it
-                                    TelemetryClient.TrackEventEx("NoLocaleInStartConversation", dc.Context.Activity, dc.ActiveDialog?.Id);
+                                    var timezone = ev.Value.ToString();
+                                    var tz = TimeZoneInfo.FindSystemTimeZoneById(timezone);
 
-                                    break;
+                                    parameters[ev.Name] = tz;
+                                }
+                                catch
+                                {
+                                    await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Timezone passed could not be mapped to a valid Timezone. Property not set."));
                                 }
 
-                                await StartConversation(dc);
-
-                                _conversationStarted = true;
+                                forward = false;
+                                break;
                             }
 
-                            break;
-                        }
+                        case Events.LocationEvent:
+                            {
+                                parameters[ev.Name] = ev.Value;
+                                forward = false;
+                                break;
+                            }
 
-                    default:
-                        {
-                            await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event {ev.Name} was received but not processed."));
-                            forward = false;
-                            break;
-                        }
+                        case Events.TokenResponseEvent:
+                            {
+                                forward = true;
+                                break;
+                            }
+
+                        case Events.ActiveLocationUpdate:
+                        case Events.ActiveRouteUpdate:
+                            {
+                                var matchedSkill = _skillRouter.IdentifyRegisteredSkill(Dispatch.Intent.l_PointOfInterest.ToString());
+
+                                await RouteToSkillAsync(dc, new SkillDialogOptions()
+                                {
+                                    SkillDefinition = matchedSkill,
+                                });
+
+                                forward = false;
+                                break;
+                            }
+
+                        case Events.ResetUser:
+                            {
+                                await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: "Reset User Event received, clearing down State and Tokens."));
+
+                                // Clear State
+                                await _onboardingState.DeleteAsync(dc.Context, cancellationToken);
+
+                                // Clear Tokens
+                                var adapter = dc.Context.Adapter as BotFrameworkAdapter;
+                                if (adapter != null)
+                                {
+                                    await adapter.SignOutUserAsync(dc.Context, null, dc.Context.Activity.From.Id, cancellationToken);
+                                }
+
+                                forward = false;
+
+                                break;
+                            }
+
+                        case Events.StartConversation:
+                            {
+                                forward = false;
+
+                                if (!_conversationStarted)
+                                {
+                                    if (string.IsNullOrWhiteSpace(dc.Context.Activity.Locale))
+                                    {
+                                        // startConversation activity should have locale in it. if not, log it
+                                        TelemetryClient.TrackEventEx("NoLocaleInStartConversation", dc.Context.Activity, dc.ActiveDialog?.Id);
+
+                                        break;
+                                    }
+
+                                    await StartConversation(dc);
+
+                                    _conversationStarted = true;
+                                }
+
+                                break;
+                            }
+
+                        default:
+                            {
+                                await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event {ev.Name} was received but not processed."));
+                                forward = false;
+                                break;
+                            }
+                    }
                 }
 
                 if (forward)
@@ -328,15 +380,8 @@ namespace VirtualAssistant.Dialogs.Main
 
         private async Task StartConversation(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var onboardingState = await _onboardingState.GetAsync(dc.Context, () => new OnboardingState());
-
             var view = new MainResponses();
             await view.ReplyWith(dc.Context, MainResponses.ResponseIds.Intro);
-            if (string.IsNullOrEmpty(onboardingState.Name))
-            {
-                // This is the first time the user is interacting with the bot, so gather onboarding information.
-                await dc.BeginDialogAsync(nameof(OnboardingDialog));
-            }
         }
 
         private async Task RouteToSkillAsync(DialogContext dc, SkillDialogOptions options)
@@ -391,7 +436,7 @@ namespace VirtualAssistant.Dialogs.Main
         {
             foreach (var definition in skillDefinitions)
             {
-                AddDialog(new SkillDialog(definition, _services.SkillConfigurations[definition.Id], _endpointService, TelemetryClient));
+                AddDialog(new SkillDialog(definition, _services.SkillConfigurations[definition.Id], _proactiveState, _endpointService, TelemetryClient, _backgroundTaskQueue));
             }
 
             // Initialize skill dispatcher
@@ -403,8 +448,8 @@ namespace VirtualAssistant.Dialogs.Main
             public const string TokenResponseEvent = "tokens/response";
             public const string TimezoneEvent = "IPA.Timezone";
             public const string LocationEvent = "IPA.Location";
-            public const string ActiveLocationUpdate = "POI.ActiveLocation";
-            public const string ActiveRouteUpdate = "POI.ActiveRoute";
+            public const string ActiveLocationUpdate = "IPA.ActiveLocation";
+            public const string ActiveRouteUpdate = "IPA.ActiveRoute";
             public const string ResetUser = "IPA.ResetUser";
             public const string StartConversation = "startConversation";
         }

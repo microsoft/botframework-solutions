@@ -14,12 +14,10 @@ namespace ToDoSkill
         public ToDoSkillState()
         {
             PageSize = 0;
-            ReadSize = 0;
             Tasks = new List<TaskItem>();
             TaskIndexes = new List<int>();
             MsGraphToken = null;
             ShowTaskPageIndex = 0;
-            ReadTaskIndex = 0;
             AllTasks = new List<TaskItem>();
             DeleteTaskConfirmation = false;
             MarkOrDeleteAllTasksFlag = false;
@@ -42,6 +40,7 @@ namespace ToDoSkill
             IsFirstPage = false;
             IsLastPage = false;
             GoBackToStart = false;
+            CollectIndexRetry = false;
         }
 
         /// <summary>
@@ -51,14 +50,6 @@ namespace ToDoSkill
         /// PageSize.
         /// </value>
         public int PageSize { get; set; }
-
-        /// <summary>
-        /// Gets or sets ReadSize.
-        /// </summary>
-        /// <value>
-        /// ReadSize.
-        /// </value>
-        public int ReadSize { get; set; }
 
         /// <summary>
         /// Gets or sets ToDoTaskActivities.
@@ -91,14 +82,6 @@ namespace ToDoSkill
         /// ShowToDoPageIndex.
         /// </value>
         public int ShowTaskPageIndex { get; set; }
-
-        /// <summary>
-        /// Gets or sets ReadTaskIndex.
-        /// </summary>
-        /// <value>
-        /// ReadTaskIndex.
-        /// </value>
-        public int ReadTaskIndex { get; set; }
 
         /// <summary>
         /// Gets or sets ToDoTaskAllActivities.
@@ -138,7 +121,7 @@ namespace ToDoSkill
         /// <value>
         /// LuisResult.
         /// </value>
-        public ToDo LuisResult { get; set; }
+        public ToDoLU LuisResult { get; set; }
 
         /// <summary>
         /// Gets or sets GeneralLuisResult.
@@ -277,12 +260,19 @@ namespace ToDoSkill
         public bool GoBackToStart { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether gets or sets CollectIndexRetry.
+        /// </summary>
+        /// <value>
+        /// bool.
+        /// </value>
+        public bool CollectIndexRetry { get; set; }
+
+        /// <summary>
         /// Clear state.
         /// </summary>
         public void Clear()
         {
             PageSize = 0;
-            ReadSize = 0;
             Tasks = new List<TaskItem>();
             TaskIndexes = new List<int>();
             MsGraphToken = null;
@@ -309,6 +299,7 @@ namespace ToDoSkill
             IsFirstPage = false;
             IsLastPage = false;
             GoBackToStart = false;
+            CollectIndexRetry = false;
         }
     }
 }

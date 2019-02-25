@@ -2,20 +2,20 @@
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
-using static Luis.Email;
+using static Luis.EmailLU;
 
 namespace EmailSkillTest.Flow.Utterances
 {
-    public class BaseTestUtterances : Dictionary<string, Email>
+    public class BaseTestUtterances : Dictionary<string, EmailLU>
     {
         public BaseTestUtterances()
         {
-            this.Add(FirstOne, CreateIntent(FirstOne, Intent.SelectItem, ordinal: new double[1] { 1 }));
-            this.Add(SecondOne, CreateIntent(SecondOne, Intent.SelectItem, ordinal: new double[1] { 2 }));
-            this.Add(ThirdOne, CreateIntent(ThirdOne, Intent.SelectItem, ordinal: new double[1] { 3 }));
+            this.Add(FirstOne, CreateIntent(FirstOne, Intent.None, ordinal: new double[1] { 1 }));
+            this.Add(SecondOne, CreateIntent(SecondOne, Intent.None, ordinal: new double[1] { 2 }));
+            this.Add(ThirdOne, CreateIntent(ThirdOne, Intent.None, ordinal: new double[1] { 3 }));
 
-            this.Add(NumberOne, CreateIntent(NumberOne, Intent.SelectItem, ordinal: new double[1] { 1 }));
-            this.Add(NumberTwo, CreateIntent(NumberTwo, Intent.SelectItem, ordinal: new double[1] { 2 }));
+            this.Add(NumberOne, CreateIntent(NumberOne, Intent.None, ordinal: new double[1] { 1 }));
+            this.Add(NumberTwo, CreateIntent(NumberTwo, Intent.None, ordinal: new double[1] { 2 }));
         }
 
         public static double TopIntentScore { get; } = 0.9;
@@ -41,9 +41,9 @@ namespace EmailSkillTest.Flow.Utterances
             }
         }
 
-        public Email GetBaseNoneIntent()
+        public EmailLU GetBaseNoneIntent()
         {
-            var emailIntent = new Email
+            var emailIntent = new EmailLU
             {
                 Intents = new Dictionary<Intent, IntentScore>()
             };
@@ -52,7 +52,7 @@ namespace EmailSkillTest.Flow.Utterances
             return emailIntent;
         }
 
-        protected Email CreateIntent(
+        protected EmailLU CreateIntent(
             string userInput,
             Intent intent = Intent.None,
             double[] ordinal = null,
@@ -63,7 +63,7 @@ namespace EmailSkillTest.Flow.Utterances
             string[] subject = null,
             string[] message = null)
         {
-            var emailIntent = new Email
+            var emailIntent = new EmailLU
             {
                 Text = userInput,
 
@@ -85,10 +85,10 @@ namespace EmailSkillTest.Flow.Utterances
 
             if (!string.IsNullOrEmpty(userInput))
             {
-                emailIntent.Entities.EmailAddress = emailAdress;
+                emailIntent.Entities.email = emailAdress;
                 if (emailAdress != null)
                 {
-                    emailIntent.Entities._instance.EmailAddress = new InstanceData[emailAdress.Length];
+                    emailIntent.Entities._instance.email = new InstanceData[emailAdress.Length];
 
                     for (int i = 0; i < emailAdress.Length; i++)
                     {
@@ -101,7 +101,7 @@ namespace EmailSkillTest.Flow.Utterances
                             StartIndex = startIndex,
                             EndIndex = endIndex
                         };
-                        emailIntent.Entities._instance.EmailAddress[i] = originalEmailAdress;
+                        emailIntent.Entities._instance.email[i] = originalEmailAdress;
                     }
                 }
             }

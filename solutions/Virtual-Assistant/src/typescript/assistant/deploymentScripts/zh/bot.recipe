@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "resources": [
+    {
+      "type": "luis",
+      "id": "general",
+      "name": "General",
+      "luPath": "CognitiveModels\\LUIS\\zh\\general.lu"
+    },
+    {
+      "type": "qna",
+      "id": "faq",
+      "name": "FAQ",
+      "luPath": "CognitiveModels\\QnA\\zh\\faq.lu"
+    }
+  ]
+}

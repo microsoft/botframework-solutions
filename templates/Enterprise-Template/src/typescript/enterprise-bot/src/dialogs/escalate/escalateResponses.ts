@@ -17,23 +17,23 @@ import { TemplateManager } from '../templateManager/templateManager';
 export class EscalateResponses extends TemplateManager {
 
     // Fields
-    public static RESPONSE_IDS: {
+    public static responseIds: {
         SendPhoneMessage: string;
     } = {
         SendPhoneMessage:  'sendPhoneMessage'
     };
-    private static readonly RESPONSE_TEMPLATES: LanguageTemplateDictionary = new Map([
+    private static readonly responseTemplates: LanguageTemplateDictionary = new Map([
         ['default', new Map([
-            [EscalateResponses.RESPONSE_IDS.SendPhoneMessage, EscalateResponses.fromResources('escalate.phoneInfo')]
+            [EscalateResponses.responseIds.SendPhoneMessage, EscalateResponses.fromResources('escalate.phoneInfo')]
         ])]
     ]);
 
     constructor() {
         super();
-        this.register(new DictionaryRenderer(EscalateResponses.RESPONSE_TEMPLATES));
+        this.register(new DictionaryRenderer(EscalateResponses.responseTemplates));
     }
 
-    public static async BUILD_ESCALATE_CARD(turnContext: TurnContext): Promise<Activity> {
+    public static async buildEscalateCard(turnContext: TurnContext): Promise<Activity> {
 
         const response: Activity = ActivityExtensions.createReply(turnContext.activity);
         const text: string = i18n.__('escalate.phoneInfo');

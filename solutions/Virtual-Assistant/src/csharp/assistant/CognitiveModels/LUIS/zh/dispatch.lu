@@ -35,14 +35,16 @@
 # l_Email
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/zh/email.lu#AddFlag)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/zh/email.lu#CheckMessages)
+- [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/en/email.lu#AddMore)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/zh/email.lu#Forward)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/zh/email.lu#QueryLastText)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/zh/email.lu#ReadAloud)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/zh/email.lu#Reply)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/zh/email.lu#SearchMessages)
-- [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/zh/email.lu#SelectItem)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/zh/email.lu#SendEmail)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/zh/email.lu#Delete)
+$EmailSubjectPattern:simple
+$SenderNamePattern:simple
 $Email:phraseList
 - 电子邮件、邮件
 
@@ -63,3 +65,8 @@ $ADDRESS:simple
 
 # q_FAQ
 - [q_FAQ](../../QnA/zh/faq.lu#?)
+
+# None
+- 我的水瓶是绿色的
+- 海龟喜欢在海里游泳
+- 天空中的纸飞机

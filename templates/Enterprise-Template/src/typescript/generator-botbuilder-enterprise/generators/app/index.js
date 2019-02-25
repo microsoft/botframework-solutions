@@ -267,13 +267,8 @@ module.exports = class extends Generator {
     );
 
     this.fs.copy(
-      this.templatePath(templateName, "src", "locales", botLang + ".json"),
-      this.destinationPath(
-        botGenerationPath,
-        "src",
-        "locales",
-        botLang + ".json"
-      )
+      this.templatePath(templateName, "src", "locales"),
+      this.destinationPath(botGenerationPath, "src", "locales")
     );
 
     this.fs.copyTpl(
@@ -307,15 +302,30 @@ module.exports = class extends Generator {
       }
     );
 
+    this.fs.copyTpl(
+      this.templatePath(templateName, "test", "flow", "_botTestBase.js"),
+      this.destinationPath(botGenerationPath, "test", "flow", "botTestBase.js"),
+      {
+        name: botName,
+        description: botDesc,
+        botNameClass: botNamePascalCase,
+        botNameFile: botNameCamelCase
+      }
+    );
+
     this.fs.copy(
       this.templatePath(templateName, "src", "botServices.ts"),
       this.destinationPath(botGenerationPath, "src", "botServices.ts")
     );
 
+    this.fs.copy(
+      this.templatePath(templateName, "_.gitignore"),
+      this.destinationPath(botGenerationPath, ".gitignore")
+    );
+
     const commonFiles = [
       ".env.development",
       ".env.production",
-      "gitignore",
       "README.md",
       "tsconfig.json",
       "deploymentScripts/webConfigPrep.js",
@@ -340,6 +350,47 @@ module.exports = class extends Generator {
       this.fs.copy(
         this.templatePath(templateName, "src", directory, "**", "*"),
         this.destinationPath(botGenerationPath, "src", directory)
+      )
+    );
+
+    const commonTestFlowFiles = [
+      "escalateDialogTest.js",
+      "mainDialogTest.js",
+      "onboardingDialogTest.js"
+    ];
+
+    commonTestFlowFiles.forEach(testFlowFileName =>
+      this.fs.copy(
+        this.templatePath(templateName, "test", "flow", testFlowFileName),
+        this.destinationPath(
+          botGenerationPath,
+          "test",
+          "flow",
+          testFlowFileName
+        )
+      )
+    );
+
+    const commonTestFiles = [
+      ".env.test",
+      "mocha.opts",
+      "mockedConfiguration.bot",
+      "testBase.js"
+    ];
+
+    commonTestFiles.forEach(testFileName =>
+      this.fs.copy(
+        this.templatePath(templateName, "test", testFileName),
+        this.destinationPath(botGenerationPath, "test", testFileName)
+      )
+    );
+
+    const commonTestDirectories = ["nockFixtures"];
+
+    commonTestDirectories.forEach(directory =>
+      this.fs.copy(
+        this.templatePath(templateName, "test", directory, "**", "*"),
+        this.destinationPath(botGenerationPath, "test", directory)
       )
     );
   }

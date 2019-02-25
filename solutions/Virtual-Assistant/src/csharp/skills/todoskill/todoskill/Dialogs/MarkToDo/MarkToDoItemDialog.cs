@@ -104,6 +104,7 @@ namespace ToDoSkill.Dialogs.MarkToDo
                 {
                     await service.MarkTasksCompletedAsync(state.ListType, state.AllTasks);
                     state.AllTasks.ForEach(task => task.IsCompleted = true);
+                    state.ShowTaskPageIndex = 0;
                 }
                 else
                 {
@@ -112,6 +113,7 @@ namespace ToDoSkill.Dialogs.MarkToDo
                     state.TaskIndexes.ForEach(i => tasksToBeMarked.Add(state.AllTasks[i]));
                     await service.MarkTasksCompletedAsync(state.ListType, tasksToBeMarked);
                     state.TaskIndexes.ForEach(i => state.AllTasks[i].IsCompleted = true);
+                    state.ShowTaskPageIndex = state.TaskIndexes[0] / state.PageSize;
                 }
 
                 var allTasksCount = state.AllTasks.Count;
@@ -173,7 +175,7 @@ namespace ToDoSkill.Dialogs.MarkToDo
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.ListType))
                 {
-                    var prompt = ResponseManager.GetResponse(MarkToDoResponses.ListTypePrompt);
+                    var prompt = ResponseManager.GetResponse(MarkToDoResponses.ListTypePromptForComplete);
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
                 }
                 else
@@ -238,7 +240,16 @@ namespace ToDoSkill.Dialogs.MarkToDo
                 }
                 else
                 {
-                    var prompt = ResponseManager.GetResponse(MarkToDoResponses.AskTaskIndex);
+                    Activity prompt;
+                    if (state.CollectIndexRetry)
+                    {
+                        prompt = ResponseManager.GetResponse(MarkToDoResponses.AskTaskIndexRetryForComplete);
+                    }
+                    else
+                    {
+                        prompt = ResponseManager.GetResponse(MarkToDoResponses.AskTaskIndexForComplete);
+                    }
+
                     return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
                 }
             }
@@ -254,6 +265,8 @@ namespace ToDoSkill.Dialogs.MarkToDo
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
+                state.CollectIndexRetry = false;
+
                 var matchedIndexes = Enumerable.Range(0, state.AllTasks.Count)
                     .Where(i => state.AllTasks[i].Topic.Equals(state.TaskContentPattern, StringComparison.OrdinalIgnoreCase)
                     || state.AllTasks[i].Topic.Equals(state.TaskContentML, StringComparison.OrdinalIgnoreCase))
@@ -294,6 +307,7 @@ namespace ToDoSkill.Dialogs.MarkToDo
                 {
                     state.TaskContentPattern = null;
                     state.TaskContentML = null;
+                    state.CollectIndexRetry = true;
                     return await sc.ReplaceDialogAsync(Action.CollectTaskIndexForComplete);
                 }
             }

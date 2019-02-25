@@ -35,14 +35,16 @@
 # l_Email
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/en/email.lu#AddFlag)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/en/email.lu#CheckMessages)
+- [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/en/email.lu#AddMore)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/en/email.lu#Forward)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/en/email.lu#QueryLastText)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/en/email.lu#ReadAloud)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/en/email.lu#Reply)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/en/email.lu#SearchMessages)
-- [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/en/email.lu#SelectItem)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/en/email.lu#SendEmail)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/en/email.lu#Delete)
+$EmailSubjectPattern:simple
+$SenderNamePattern:simple
 $Email:phraseList
 - email,mail,e mail,mails,e-mail,emails
 
@@ -58,8 +60,15 @@ $TaskContentPattern:simple
 - [l_PointOfInterest](../../../../skills/pointofinterestskill/pointofinterestskill/CognitiveModels/LUIS/en/poi_navigation_cancel_route.lu#NAVIGATION_CANCEL_ROUTE)
 - [l_PointOfInterest](../../../../skills/pointofinterestskill/pointofinterestskill/CognitiveModels/LUIS/en/poi_navigation_find_poi.lu#NAVIGATION_FIND_POINTOFINTEREST)
 - [l_PointOfInterest](../../../../skills/pointofinterestskill/pointofinterestskill/CognitiveModels/LUIS/en/poi_navigation_route_fromxtoy.lu#NAVIGATION_ROUTE_FROM_X_TO_Y)
+- [l_PointOfInterest](../../../../skills/pointofinterestskill/pointofinterestskill/CognitiveModels/LUIS/en/poi_navigation_route_fromxtoy.lu#NAVIGATION_FIND_PARKING)
+
 $KEYWORD:simple
 $ADDRESS:simple
 
 # q_FAQ
 - [q_FAQ](../../QnA/en/faq.lu#?)
+
+# None
+- my water bottle is green
+- turtles like to swim in the ocean
+- paper planes in the sky

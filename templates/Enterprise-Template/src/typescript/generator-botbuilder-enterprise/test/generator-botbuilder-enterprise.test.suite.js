@@ -26,17 +26,27 @@ describe("The generator-botbuilder-enterprise tests", function() {
     "middleware",
     "serviceClients"
   ];
+  const commonTestDirectories = [
+    "flow"
+  ];
   const rootFiles = [
     ".env.development",
     ".env.production",
-    "gitignore",
+    ".gitignore",
     "README.md",
     "tsconfig.json",
     "deploymentScripts/webConfigPrep.js",
     "package.json",
     "tslint.json"
   ];
-  
+  const testRootFiles = [
+    ".env.test",
+    "mocha.opts",
+    "mockedConfiguration.bot",
+    "testBase.js",
+    "flow/botTestBase.js"
+  ];
+
   describe("should create", function() {
     botName = "myBot";
     botDesc = "A description for myBot";
@@ -100,6 +110,20 @@ describe("The generator-botbuilder-enterprise tests", function() {
           done();
         })
       );
+
+      commonTestDirectories.forEach(testDirectoryName =>
+        it(testDirectoryName + " folder", function(done) {
+          assert.file(
+            path.join(
+              botGenerationPath,
+              botName,
+              "test",
+              testDirectoryName
+              )
+          );
+          done();
+        })
+      );
     });
 
     describe("the languages", function() {
@@ -150,6 +174,16 @@ describe("The generator-botbuilder-enterprise tests", function() {
       srcFiles.forEach(fileName =>
         it(fileName + " file", function(done) {
           assert.file(path.join(botGenerationPath, botName, "src", fileName));
+          done();
+        })
+      );
+    });
+
+    describe("in the test folder", function() {
+      
+      testRootFiles.forEach(testRootFileName =>
+        it(testRootFileName + " file", function(done) {
+          assert.file(path.join(botGenerationPath, botName, "test", testRootFileName));
           done();
         })
       );
@@ -222,6 +256,36 @@ describe("The generator-botbuilder-enterprise tests", function() {
             botNameCamelCase + ".ts"
           ),
           `('${botNamePascalCase}')`
+        );
+        done();
+      });
+    });
+
+    describe("and have in the bot test base file", function() {
+      it("an import component with the given name", function(done) {
+        assert.fileContent(
+          path.join(
+            botGenerationPath,
+            botName,
+            "test",
+            "flow",
+            "botTestBase.js"
+          ),
+          `const ${botNamePascalCase} = require('../../lib/${botNameCamelCase}.js').${botNamePascalCase};`
+        );
+        done();
+      });
+
+      it("a variable with the type of the given name", function(done) {
+        assert.fileContent(
+          path.join(
+            botGenerationPath,
+            botName,
+            "test",
+            "flow",
+            "botTestBase.js"
+          ),
+          `this.bot = new ${botNamePascalCase}(services, conversationState, userState);`
         );
         done();
       });

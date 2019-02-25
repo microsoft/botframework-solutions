@@ -6,13 +6,13 @@ This repository is the home for a set of templates and solutions to help build C
 
 Name | Description | Link
 ------------ | ------------- | :-----------:
-Enterprise Template | Creation of a high quality conversational experience requires a foundational set of capabilities.To help you succeed with building great conversational experiences, we have created an Enterprise Bot Template. <br /> <br />This template brings together all of the best practices and supporting components we've identified through building of conversational experiences and greatly simplifies the creation of a new bot project including basic conversational intents, Dispatcher integration, QnA Maker, Application Insights, Power BI insights and fully automated deployment. | [Get Started](./templates/Enterprise-Template/README.md)
+Enterprise Template | The creation of a high quality conversational experience requires a foundational set of capabilities. To help you succeed with building great conversational experiences, we have created an Enterprise Bot Template. <br /> <br />This template brings together all of the best practices and supporting components we've identified through building conversational experiences and greatly simplifies the creation of a new bot project including: basic conversational intents, Dispatcher integration, QnA Maker, Application Insights, Power BI insights and an automated deployment. | [Get Started](./templates/Enterprise-Template/README.md)
 
 # Solutions
 
 Name | Description | Link 
 ------------ | ------------- | :-----------:
-Virtual Assistant | We have seen significant need from our customers and partners to deliver a conversational assistant tailored to their brand, personalized to their customers and made available across a broad range of conversational canvases and devices. <br /> <br /> Continuing Microsoft open-sourced approach toward Bot Framework SDK, the open source Custom Personal Assistant provides full control over the end user experience built on a set of foundational capabilities. Additionally, the experience can be infused with intelligence about the end-user and any device/ecosystem information for a truly integrated and intelligent experience.  | [Get Started](./solutions/Virtual-Assistant/docs/README.md)
+Virtual Assistant | We have seen significant need from our customers and partners to deliver a conversational assistant tailored to their brand, personalized to their customers and made available across a broad range of conversational canvases and devices. <br /> <br /> Continuing Microsoft's open-source approach towards the Bot Framework SDK, the open source Virtual Assistant provides full control over the end user experience built on a set of foundational capabilities. Additionally, the experience can be infused with intelligence about the end-user and any device/ecosystem information for a truly integrated and intelligent experience.  | [Get Started](./solutions/Virtual-Assistant/docs/README.md)
 
 # Contributing
 

@@ -121,10 +121,10 @@
     <value> e {0}. </value>
   </data>
   <data name="EmailContent" xml:space="preserve">
-    <value>Si prega di fare riferimento al link {0} per vedere gli elenchi creati per voi.</value>
+    <value>Si prega di fare riferimento al link &lt;a href="{0}"&gt;{1}&lt;/a&gt; per vedere gli elenchi creati per voi.</value>
   </data>
   <data name="EmailSubject" xml:space="preserve">
-    <value>Gli elenchi sono creati per voi</value>
+    <value>Un nuovo elenco di attività per te</value>
   </data>
   <data name="Grocery" xml:space="preserve">
     <value>Alimentari</value>

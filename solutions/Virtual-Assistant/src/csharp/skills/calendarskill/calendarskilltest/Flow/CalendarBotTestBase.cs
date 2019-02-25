@@ -9,6 +9,7 @@ using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.Summary.Resources;
 using CalendarSkill.Dialogs.TimeRemaining.Resources;
+using CalendarSkill.Dialogs.UpcomingEvent.Resources;
 using CalendarSkill.Dialogs.UpdateEvent.Resources;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
@@ -18,8 +19,10 @@ using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
+using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.TaskExtensions;
 using Microsoft.Bot.Solutions.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -33,11 +36,17 @@ namespace CalendarSkillTest.Flow
 
         public UserState UserState { get; set; }
 
+        public ProactiveState ProactiveState { get; set; }
+
         public IBotTelemetryClient TelemetryClient { get; set; }
+
+        public IBackgroundTaskQueue BackgroundTaskQueue { get; set; }
 
         public IServiceManager ServiceManager { get; set; }
 
         public SkillConfiguration Services { get; set; }
+
+        public EndpointService EndpointService { get; set; }
 
         public BotConfiguration Options { get; set; }
 
@@ -48,9 +57,12 @@ namespace CalendarSkillTest.Flow
 
             this.ConversationState = new ConversationState(new MemoryStorage());
             this.UserState = new UserState(new MemoryStorage());
+            this.ProactiveState = new ProactiveState(new MemoryStorage());
             this.TelemetryClient = new NullBotTelemetryClient();
+            this.BackgroundTaskQueue = new BackgroundTaskQueue();
             this.CalendarStateAccessor = this.ConversationState.CreateProperty<CalendarSkillState>(nameof(CalendarSkillState));
             this.Services = new MockSkillConfiguration();
+            this.EndpointService = new EndpointService();
 
             builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
 
@@ -69,6 +81,7 @@ namespace CalendarSkillTest.Flow
                     new SummaryResponses(),
                     new TimeRemainingResponses(),
                     new UpdateEventResponses(),
+                    new UpcomingEventResponses()
                 },
                 locales: new string[] { "en", "de", "es", "fr", "it", "zh" });
         }
@@ -107,7 +120,7 @@ namespace CalendarSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            return new CalendarSkill.CalendarSkill(this.Services, this.ConversationState, this.UserState, this.TelemetryClient, true, ResponseManager, this.ServiceManager);
+            return new CalendarSkill.CalendarSkill(this.Services, this.EndpointService, this.ConversationState, this.UserState, this.ProactiveState, this.TelemetryClient, this.BackgroundTaskQueue, true, ResponseManager, this.ServiceManager);
         }
     }
 }

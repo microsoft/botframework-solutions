@@ -35,14 +35,16 @@
 # l_Email
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/it/email.lu#AddFlag)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/it/email.lu#CheckMessages)
+- [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/en/email.lu#AddMore)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/it/email.lu#Forward)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/it/email.lu#QueryLastText)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/it/email.lu#ReadAloud)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/it/email.lu#Reply)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/it/email.lu#SearchMessages)
-- [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/it/email.lu#SelectItem)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/it/email.lu#SendEmail)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/it/email.lu#Delete)
+$EmailSubjectPattern:simple
+$SenderNamePattern:simple
 $Email:phraseList
 - posta elettronica, e-mail, email
 
@@ -63,3 +65,8 @@ $ADDRESS:simple
 
 # q_FAQ
 - [q_FAQ](../../QnA/it/faq.lu#?)
+
+# None
+- la mia bottiglia d'acqua è verde
+- tartarughe amano nuotare nell'oceano
+- piani di carta nel cielo

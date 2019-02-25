@@ -25,9 +25,7 @@ namespace CalendarSkillTest.Flow.Fakes
             this.generalUtterancesManager = new GeneralTestUtterances();
         }
 
-        public bool LogOriginalMessage => throw new NotImplementedException();
-
-        public bool LogUsername => throw new NotImplementedException();
+        public bool LogPersonalInformation => throw new NotImplementedException();
 
         public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
@@ -41,9 +39,9 @@ namespace CalendarSkillTest.Flow.Fakes
 
             Type t = typeof(T);
             var text = turnContext.Activity.Text;
-            if (t.Name.Equals(typeof(Calendar).Name))
+            if (t.Name.Equals(typeof(CalendarLU).Name))
             {
-                Calendar mockCalendar = utterancesManager.GetValueOrDefault(text, utterancesManager.GetBaseNoneIntent());
+                CalendarLU mockCalendar = utterancesManager.GetValueOrDefault(text, utterancesManager.GetBaseNoneIntent());
 
                 var test = mockCalendar as object;
                 mockResult = (T)test;
@@ -59,13 +57,7 @@ namespace CalendarSkillTest.Flow.Fakes
             return await Task.FromResult(mockResult);
         }
 
-        public Task<T> RecognizeAsync<T>(DialogContext dialogContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
-            where T : IRecognizerConvert, new()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<T> RecognizeAsync<T>(DialogContext dialogContext, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new()
         {
             throw new NotImplementedException();

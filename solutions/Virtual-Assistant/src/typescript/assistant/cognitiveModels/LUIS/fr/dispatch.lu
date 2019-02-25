@@ -1,0 +1,65 @@
+> Construct the root dispatch LUIS model based on other .lu files
+
+# l_General
+- [l_General](general.lu#Cancel)
+- [l_General](general.lu#Escalate)
+- [l_General](general.lu#Goodbye)
+- [l_General](general.lu#Greeting)
+- [l_General](general.lu#Help)
+- [l_General](general.lu#Logout)
+- [l_General](general.lu#Next)
+- [l_General](general.lu#Previous)
+- [l_General](general.lu#Restart)
+
+# l_Calendar
+- [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/fr/calendar.lu#ChangeCalendarEntry)
+- [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/fr/calendar.lu#CheckAvailability)
+- [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/fr/calendar.lu#ConnectToMeeting)
+- [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/fr/calendar.lu#ContactMeetingAttendees)
+- [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/fr/calendar.lu#CreateCalendarEntry)
+- [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/fr/calendar.lu#DeleteCalendarEntry)
+- [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/fr/calendar.lu#FindCalendarDetail)
+- [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/fr/calendar.lu#FindCalendarEntry)
+- [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/fr/calendar.lu#FindCalendarWhen)
+- [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/fr/calendar.lu#FindCalendarWhere)
+- [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/fr/calendar.lu#FindCalendarWho)
+- [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/fr/calendar.lu#FindDuration)
+- [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/fr/calendar.lu#FindMeetingRoom)
+- [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/fr/calendar.lu#GoBack)
+- [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/fr/calendar.lu#NextMeeting)
+- [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/fr/calendar.lu#NoLocation)
+- [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/fr/calendar.lu#ReadAloud)
+- [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/fr/calendar.lu#Summary)
+- [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/fr/calendar.lu#TimeRemaining)
+
+# l_Email
+- [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/fr/email.lu#AddFlag)
+- [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/fr/email.lu#CheckMessages)
+- [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/fr/email.lu#Forward)
+- [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/fr/email.lu#QueryLastText)
+- [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/fr/email.lu#ReadAloud)
+- [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/fr/email.lu#Reply)
+- [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/fr/email.lu#SearchMessages)
+- [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/fr/email.lu#SelectItem)
+- [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/fr/email.lu#SendEmail)
+- [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/fr/email.lu#Delete)
+$Email:phraseList
+- email, courrier, et courrier
+
+# l_ToDo
+- [l_ToDo](../../../../skills/todoskill/todoskill/CognitiveModels/LUIS/fr/todo.lu#AddToDo)
+- [l_ToDo](../../../../skills/todoskill/todoskill/CognitiveModels/LUIS/fr/todo.lu#DeleteToDo)
+- [l_ToDo](../../../../skills/todoskill/todoskill/CognitiveModels/LUIS/fr/todo.lu#MarkToDo)
+- [l_ToDo](../../../../skills/todoskill/todoskill/CognitiveModels/LUIS/fr/todo.lu#ShowToDo)
+$ShopContent:simple
+$TaskContentPattern:simple
+
+# l_PointOfInterest
+- [l_PointOfInterest](../../../../skills/pointofinterestskill/pointofinterestskill/CognitiveModels/LUIS/fr/poi_navigation_cancel_route.lu#NAVIGATION_CANCEL_ROUTE)
+- [l_PointOfInterest](../../../../skills/pointofinterestskill/pointofinterestskill/CognitiveModels/LUIS/fr/poi_navigation_find_poi.lu#NAVIGATION_FIND_POINTOFINTEREST)
+- [l_PointOfInterest](../../../../skills/pointofinterestskill/pointofinterestskill/CognitiveModels/LUIS/fr/poi_navigation_route_fromxtoy.lu#NAVIGATION_ROUTE_FROM_X_TO_Y)
+$KEYWORD:simple
+$ADDRESS:simple
+
+# q_FAQ
+- [q_FAQ](../../QnA/fr/faq.lu#?)

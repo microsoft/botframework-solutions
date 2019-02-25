@@ -79,14 +79,22 @@ namespace CalendarSkill.Dialogs.Shared
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(dc.Context);
-            await DigestCalendarLuisResult(dc, state.LuisResult, true);
+            if (state.LuisResult != null)
+            {
+                await DigestCalendarLuisResult(dc, state.LuisResult, true);
+            }
+
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(dc.Context);
-            await DigestCalendarLuisResult(dc, state.LuisResult, false);
+            if (state.LuisResult != null)
+            {
+                await DigestCalendarLuisResult(dc, state.LuisResult, false);
+            }
+
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
@@ -220,12 +228,14 @@ namespace CalendarSkill.Dialogs.Shared
         protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> pc, CancellationToken cancellationToken)
         {
             var state = await Accessor.GetAsync(pc.Context);
-            var luisResult = state.GeneralLuisResult;
-            var topIntent = luisResult?.TopIntent().intent;
+            var generalLuisResult = state.GeneralLuisResult;
+            var generalTopIntent = generalLuisResult?.TopIntent().intent;
+            var calendarLuisResult = state.LuisResult;
+            var calendarTopIntent = calendarLuisResult?.TopIntent().intent;
 
             // TODO: The signature for validators has changed to return bool -- Need new way to handle this logic
             // If user want to show more recipient end current choice dialog and return the intent to next step.
-            if (topIntent == Luis.General.Intent.Next || topIntent == Luis.General.Intent.Previous)
+            if (generalTopIntent == Luis.General.Intent.Next || generalTopIntent == Luis.General.Intent.Previous || calendarTopIntent == CalendarLU.Intent.ShowNextCalendar || calendarTopIntent == CalendarLU.Intent.ShowNextCalendar)
             {
                 // pc.End(topIntent);
                 return true;
@@ -397,7 +407,7 @@ namespace CalendarSkill.Dialogs.Shared
             return timex.Contains("T");
         }
 
-        protected async Task DigestCalendarLuisResult(DialogContext dc, Calendar luisResult, bool isBeginDialog)
+        protected async Task DigestCalendarLuisResult(DialogContext dc, CalendarLU luisResult, bool isBeginDialog)
         {
             try
             {
@@ -414,8 +424,8 @@ namespace CalendarSkill.Dialogs.Shared
 
                 switch (intent)
                 {
-                    case Calendar.Intent.FindMeetingRoom:
-                    case Calendar.Intent.CreateCalendarEntry:
+                    case CalendarLU.Intent.FindMeetingRoom:
+                    case CalendarLU.Intent.CreateCalendarEntry:
                         {
                             state.CreateHasDetail = false;
                             if (entity.Subject != null)
@@ -424,7 +434,7 @@ namespace CalendarSkill.Dialogs.Shared
                                 state.Title = GetSubjectFromEntity(entity);
                             }
 
-                            if (entity.ContactName != null)
+                            if (entity.personName != null)
                             {
                                 state.CreateHasDetail = true;
                                 state.AttendeesNameList = GetAttendeesFromEntity(entity, luisResult.Text, state.AttendeesNameList);
@@ -513,7 +523,7 @@ namespace CalendarSkill.Dialogs.Shared
                             break;
                         }
 
-                    case Calendar.Intent.DeleteCalendarEntry:
+                    case CalendarLU.Intent.DeleteCalendarEntry:
                         {
                             if (entity.Subject != null)
                             {
@@ -555,7 +565,7 @@ namespace CalendarSkill.Dialogs.Shared
                             break;
                         }
 
-                    case Calendar.Intent.ChangeCalendarEntry:
+                    case CalendarLU.Intent.ChangeCalendarEntry:
                         {
                             if (entity.Subject != null)
                             {
@@ -644,7 +654,12 @@ namespace CalendarSkill.Dialogs.Shared
                             break;
                         }
 
-                    case Calendar.Intent.FindCalendarEntry:
+                    case CalendarLU.Intent.FindCalendarEntry:
+                    case CalendarLU.Intent.FindCalendarDetail:
+                    case CalendarLU.Intent.FindCalendarWhen:
+                    case CalendarLU.Intent.FindCalendarWhere:
+                    case CalendarLU.Intent.FindCalendarWho:
+                    case CalendarLU.Intent.FindDuration:
                         {
                             if (entity.OrderReference != null)
                             {
@@ -704,16 +719,13 @@ namespace CalendarSkill.Dialogs.Shared
                                 }
                             }
 
-                            if (entity.AskParameter != null)
-                            {
-                                state.AskParameterContent = GetAskParameterFromEntity(entity);
-                            }
+                            state.AskParameterContent = luisResult.Text;
 
                             break;
                         }
 
-                    case Calendar.Intent.ConnectToMeeting:
-                    case Calendar.Intent.TimeRemaining:
+                    case CalendarLU.Intent.ConnectToMeeting:
+                    case CalendarLU.Intent.TimeRemaining:
                         {
                             if (entity.FromDate != null)
                             {
@@ -774,7 +786,7 @@ namespace CalendarSkill.Dialogs.Shared
                             break;
                         }
 
-                    case Calendar.Intent.None:
+                    case CalendarLU.Intent.None:
                         {
                             break;
                         }
@@ -1148,17 +1160,12 @@ namespace CalendarSkill.Dialogs.Shared
             return options;
         }
 
-        protected string GetSubjectFromEntity(Calendar._Entities entity)
+        protected string GetSubjectFromEntity(CalendarLU._Entities entity)
         {
             return entity.Subject[0];
         }
 
-        private string GetAskParameterFromEntity(Calendar._Entities entity)
-        {
-            return entity.AskParameter[0];
-        }
-
-        protected List<string> GetAttendeesFromEntity(Calendar._Entities entity, string inputString, List<string> attendees = null)
+        protected List<string> GetAttendeesFromEntity(CalendarLU._Entities entity, string inputString, List<string> attendees = null)
         {
             if (attendees == null)
             {
@@ -1168,7 +1175,7 @@ namespace CalendarSkill.Dialogs.Shared
             // As luis result for email address often contains extra spaces for word breaking
             // (e.g. send email to test@test.com, email address entity will be test @ test . com)
             // So use original user input as email address.
-            var rawEntity = entity._instance.ContactName;
+            var rawEntity = entity._instance.personName;
             foreach (var name in rawEntity)
             {
                 var contactName = inputString.Substring(name.StartIndex, name.EndIndex - name.StartIndex);
@@ -1181,7 +1188,7 @@ namespace CalendarSkill.Dialogs.Shared
             return attendees;
         }
 
-        private int GetDurationFromEntity(Calendar._Entities entity, string local)
+        private int GetDurationFromEntity(CalendarLU._Entities entity, string local)
         {
             var culture = local ?? English;
             var result = RecognizeDateTime(entity.Duration[0], culture);
@@ -1218,12 +1225,12 @@ namespace CalendarSkill.Dialogs.Shared
             return 0;
         }
 
-        private string GetMeetingRoomFromEntity(Calendar._Entities entity)
+        private string GetMeetingRoomFromEntity(CalendarLU._Entities entity)
         {
             return entity.MeetingRoom[0];
         }
 
-        private string GetLocationFromEntity(Calendar._Entities entity)
+        private string GetLocationFromEntity(CalendarLU._Entities entity)
         {
             return entity.Location[0];
         }
@@ -1300,7 +1307,7 @@ namespace CalendarSkill.Dialogs.Shared
             return dateTimeResults;
         }
 
-        private string GetOrderReferenceFromEntity(Calendar._Entities entity)
+        private string GetOrderReferenceFromEntity(CalendarLU._Entities entity)
         {
             return entity.OrderReference[0];
         }

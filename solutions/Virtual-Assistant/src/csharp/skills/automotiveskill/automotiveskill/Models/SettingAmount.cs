@@ -10,7 +10,7 @@ namespace AutomotiveSkill.Models
     /// enum-like values like "On" or "Off", a string is used instead.
     /// MIN and MAX are represented as 0% and 100%, respectively.
     /// </summary>
-    public class SettingAmount : ICloneable
+    public class SettingAmount : ICloneable, IEquatable<SettingAmount>
     {
         /// <summary>
         /// Gets or sets the numeric amount.
@@ -32,6 +32,28 @@ namespace AutomotiveSkill.Models
                 Unit = Unit
             };
             return clone;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as SettingAmount);
+        }
+
+        public bool Equals(SettingAmount other)
+        {
+            return other != null &&
+                   Amount == other.Amount &&
+                   Unit == other.Unit;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Amount, Unit);
+        }
+
+        public override string ToString()
+        {
+            return $"SettingAmount{{Amount={Amount}, Unit={Unit}}}";
         }
     }
 }

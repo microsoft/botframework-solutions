@@ -17,15 +17,14 @@ import { IOnboardingState } from './onboardingState';
 export class OnboardingDialog extends EnterpriseDialog {
 
     // Fields
-    private static readonly RESPONDER: OnboardingResponses = new OnboardingResponses();
-    private readonly ACCESSOR: StatePropertyAccessor<IOnboardingState>;
-    private STATE!: IOnboardingState;
-    private DIALOG_IDS: DialogIds = new DialogIds();
+    private static readonly responder: OnboardingResponses = new OnboardingResponses();
+    private readonly accessor: StatePropertyAccessor<IOnboardingState>;
+    private state!: IOnboardingState;
 
     constructor(botServices: BotServices, accessor: StatePropertyAccessor<IOnboardingState>) {
         super(botServices, OnboardingDialog.name);
 
-        this.ACCESSOR = accessor;
+        this.accessor = accessor;
         this.initialDialogId = OnboardingDialog.name;
 
         // tslint:disable-next-line:no-any
@@ -37,79 +36,79 @@ export class OnboardingDialog extends EnterpriseDialog {
         ];
 
         this.addDialog(new WaterfallDialog<IOnboardingState>(this.initialDialogId, onboarding));
-        this.addDialog(new TextPrompt(this.DIALOG_IDS.NAME_PROMPT));
-        this.addDialog(new TextPrompt(this.DIALOG_IDS.EMAIL_PROMPT));
-        this.addDialog(new TextPrompt(this.DIALOG_IDS.LOCATION_PROMPT));
+        this.addDialog(new TextPrompt(DialogIds.namePrompt));
+        this.addDialog(new TextPrompt(DialogIds.emailPrompt));
+        this.addDialog(new TextPrompt(DialogIds.locationPrompt));
     }
 
     public async askForName(sc: WaterfallStepContext<IOnboardingState>): Promise<DialogTurnResult> {
-        this.STATE = await this.getStateFromAccessor(sc.context);
+        this.state = await this.getStateFromAccessor(sc.context);
 
-        if (this.STATE.name) {
-            return sc.next(this.STATE.name);
+        if (this.state.name) {
+            return sc.next(this.state.name);
         } else {
-            return sc.prompt(this.DIALOG_IDS.NAME_PROMPT, {
-                prompt: await OnboardingDialog.RESPONDER.renderTemplate(
+            return sc.prompt(DialogIds.namePrompt, {
+                prompt: await OnboardingDialog.responder.renderTemplate(
                     sc.context,
-                    OnboardingResponses.RESPONSE_IDS.NamePrompt,
+                    OnboardingResponses.responseIds.NamePrompt,
                     <string> sc.context.activity.locale)
             });
         }
     }
 
     public async askForEmail(sc: WaterfallStepContext<IOnboardingState>): Promise<DialogTurnResult> {
-        this.STATE = await this.getStateFromAccessor(sc.context);
-        this.STATE.name = sc.result;
+        this.state = await this.getStateFromAccessor(sc.context);
+        this.state.name = sc.result;
 
-        await OnboardingDialog.RESPONDER.replyWith(sc.context, OnboardingResponses.RESPONSE_IDS.HaveNameMessage, { name: this.STATE.name });
+        await OnboardingDialog.responder.replyWith(sc.context, OnboardingResponses.responseIds.HaveNameMessage, { name: this.state.name });
 
-        return sc.prompt(this.DIALOG_IDS.EMAIL_PROMPT, {
-            prompt: await OnboardingDialog.RESPONDER.renderTemplate(
+        return sc.prompt(DialogIds.emailPrompt, {
+            prompt: await OnboardingDialog.responder.renderTemplate(
                 sc.context,
-                OnboardingResponses.RESPONSE_IDS.EmailPrompt,
+                OnboardingResponses.responseIds.EmailPrompt,
                 <string> sc.context.activity.locale)
         });
     }
 
     public async askForLocation(sc: WaterfallStepContext<IOnboardingState>): Promise<DialogTurnResult> {
-        this.STATE = await this.getStateFromAccessor(sc.context);
-        this.STATE.email = sc.result;
+        this.state = await this.getStateFromAccessor(sc.context);
+        this.state.email = sc.result;
 
-        await OnboardingDialog.RESPONDER.replyWith(
-            sc.context, OnboardingResponses.RESPONSE_IDS.HaveEmailMessage, { email: this.STATE.email });
+        await OnboardingDialog.responder.replyWith(
+            sc.context, OnboardingResponses.responseIds.HaveEmailMessage, { email: this.state.email });
 
-        return sc.prompt(this.DIALOG_IDS.LOCATION_PROMPT, {
-            prompt: await OnboardingDialog.RESPONDER.renderTemplate(
+        return sc.prompt(DialogIds.locationPrompt, {
+            prompt: await OnboardingDialog.responder.renderTemplate(
                 sc.context,
-                OnboardingResponses.RESPONSE_IDS.LocationPrompt,
+                OnboardingResponses.responseIds.LocationPrompt,
                 <string> sc.context.activity.locale)
         });
     }
 
     public async finishOnboardingDialog(sc: WaterfallStepContext<IOnboardingState>): Promise<DialogTurnResult> {
-        this.STATE = await this.getStateFromAccessor(sc.context);
-        this.STATE.location = <string> sc.result;
+        this.state = await this.getStateFromAccessor(sc.context);
+        this.state.location = <string> sc.result;
 
-        await OnboardingDialog.RESPONDER.replyWith(
+        await OnboardingDialog.responder.replyWith(
             sc.context,
-            OnboardingResponses.RESPONSE_IDS.HaveLocationMessage,
+            OnboardingResponses.responseIds.HaveLocationMessage,
             {
-                name: this.STATE.name,
-                location: this.STATE.location
+                name: this.state.name,
+                location: this.state.location
             });
 
         return sc.endDialog();
     }
 
     private async getStateFromAccessor(context: TurnContext): Promise<IOnboardingState>  {
-        const state: IOnboardingState | undefined = await this.ACCESSOR.get(context);
+        const state: IOnboardingState | undefined = await this.accessor.get(context);
         if (!state) {
             const newState: IOnboardingState = {
                 email: '',
                 location: '',
                 name: ''
             };
-            await this.ACCESSOR.set(context, newState);
+            await this.accessor.set(context, newState);
 
             return newState;
         }
@@ -118,8 +117,8 @@ export class OnboardingDialog extends EnterpriseDialog {
     }
 }
 
-class DialogIds {
-    public NAME_PROMPT: string = 'namePrompt';
-    public EMAIL_PROMPT: string = 'emailPrompt';
-    public LOCATION_PROMPT: string =  'locationPrompt';
+enum DialogIds {
+    namePrompt = 'namePrompt',
+    emailPrompt = 'emailPrompt',
+    locationPrompt =  'locationPrompt'
 }

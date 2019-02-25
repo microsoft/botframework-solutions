@@ -21,40 +21,43 @@ import { TelemetryLoggerMiddleware } from './telemetryLoggerMiddleware';
  * For example, if intent name was "add_calender": LuisIntent.add_calendar
  */
 export class TelemetryLuisRecognizer extends LuisRecognizer {
-    private readonly LUIS_APPLICATION: LuisApplication;
-    private readonly LOG_ORIGINAL_MESSAGE: boolean;
-    private readonly LOG_USERNAME: boolean;
-    private readonly LUIS_TELEMETRY_CONSTANTS: LuisTelemetryConstants = new LuisTelemetryConstants();
+    private readonly luisApplication: LuisApplication;
+    private readonly luisTelemetryConstants: LuisTelemetryConstants = new LuisTelemetryConstants();
+    // tslint:disable:variable-name
+    private readonly _logOriginalMessage: boolean;
+    private readonly _logUsername: boolean;
+    // tslint:enable:variable-name
+
     /**
      * Initializes a new instance of the TelemetryLuisRecognizer class.
      * @param application The LUIS application to use to recognize text.
      * @param predictionOptions The LUIS prediction options to use.
      * @param includeApiResults TRUE to include raw LUIS API response.
      * @param logOriginalMessage TRUE to include original user message.
-     * @param logUserName TRUE to include user name.
+     * @param logUsername TRUE to include user name.
      */
     constructor(
         application: LuisApplication,
         predictionOptions?: LuisPredictionOptions,
         includeApiResults: boolean = false,
         logOriginalMessage: boolean = false,
-        logUserName: boolean = false) {
+        logUsername: boolean = false) {
         super(application, predictionOptions, includeApiResults);
-        this.LOG_ORIGINAL_MESSAGE = logOriginalMessage;
-        this.LOG_USERNAME = logUserName;
-        this.LUIS_APPLICATION = application;
+        this._logOriginalMessage = logOriginalMessage;
+        this._logUsername = logUsername;
+        this.luisApplication = application;
     }
     /**
      * Gets a value indicating whether determines whether to log the Activity message text that came from the user.
      * value - If true, will log the Activity Message text into the AppInsights Custom Event for Luis intents.
      */
-    public get logOriginalMessage(): boolean { return this.LOG_ORIGINAL_MESSAGE; }
+    public get logOriginalMessage(): boolean { return this._logOriginalMessage; }
 
     /**
      * Gets a value indicating whether determines whether to log the User name.
      * value - If true, will log the user name into the AppInsights Custom Event for Luis intents.
      */
-    public get logUsername(): boolean { return this.LOG_USERNAME; }
+    public get logUsername(): boolean { return this._logUsername; }
 
     /**
      * Return results of the analysis (Suggested actions and intents), passing the dialog id from dialog context to the TelemetryClient.
@@ -104,44 +107,44 @@ export class TelemetryLuisRecognizer extends LuisRecognizer {
         const conversationId: string = context.activity.conversation.id;
 
         // Find the Telemetry Client
-        if (recognizerResult && context.turnState.has(TelemetryLoggerMiddleware.APP_INSIGHTS_SERVICE_KEY)) {
-            const telemetryClient: TelemetryClient = context.turnState.get(TelemetryLoggerMiddleware.APP_INSIGHTS_SERVICE_KEY);
+        if (recognizerResult && context.turnState.has(TelemetryLoggerMiddleware.appInsightsServiceKey)) {
+            const telemetryClient: TelemetryClient = context.turnState.get(TelemetryLoggerMiddleware.appInsightsServiceKey);
             const topLuisIntent: string = LuisRecognizer.topIntent(recognizerResult);
             const intentScore: number = recognizerResult.intents[topLuisIntent].score;
 
             // Add the intent score and conversation id properties
             const properties: { [key: string]: string } = {};
-            properties[this.LUIS_TELEMETRY_CONSTANTS.APPLICATION_ID] = this.LUIS_APPLICATION.applicationId;
-            properties[this.LUIS_TELEMETRY_CONSTANTS.INTENT_PROPERTY] = topLuisIntent;
-            properties[this.LUIS_TELEMETRY_CONSTANTS.INTENT_SCORE_PROPERTY] = intentScore.toString();
+            properties[this.luisTelemetryConstants.applicationId] = this.luisApplication.applicationId;
+            properties[this.luisTelemetryConstants.intentProperty] = topLuisIntent;
+            properties[this.luisTelemetryConstants.intentScoreProperty] = intentScore.toString();
 
             if (dialogId !== undefined) {
-                properties[this.LUIS_TELEMETRY_CONSTANTS.DIALOG_ID] = dialogId;
+                properties[this.luisTelemetryConstants.dialogId] = dialogId;
             }
 
             if (recognizerResult.sentiment) {
                 if (recognizerResult.sentiment.label) {
-                    properties[this.LUIS_TELEMETRY_CONSTANTS.SENTIMENT_LABEL_PROPERTY] = recognizerResult.sentiment.label;
+                    properties[this.luisTelemetryConstants.sentimentLabelProperty] = recognizerResult.sentiment.label;
                 }
 
                 if (recognizerResult.sentiment.score) {
-                    properties[this.LUIS_TELEMETRY_CONSTANTS.SENTIMENT_SCORE_PROPERTY] = recognizerResult.sentiment.score.toString();
+                    properties[this.luisTelemetryConstants.sentimentScoreProperty] = recognizerResult.sentiment.score.toString();
                 }
             }
 
             if (conversationId) {
-                properties[this.LUIS_TELEMETRY_CONSTANTS.CONVERSATION_ID_PROPERTY] = conversationId;
+                properties[this.luisTelemetryConstants.conversationIdProperty] = conversationId;
             }
 
             //For some customers,
             //logging user name within Application Insights might be an issue so have provided a config setting to disable this feature
             if (logOriginalMessage && context.activity.text) {
-                properties[this.LUIS_TELEMETRY_CONSTANTS.QUESTION_PROPERTY] = context.activity.text;
+                properties[this.luisTelemetryConstants.questionProperty] = context.activity.text;
             }
 
             // Track the event
             telemetryClient.trackEvent({
-                name: `${this.LUIS_TELEMETRY_CONSTANTS.INTENT_PREFIX}.${topLuisIntent}`,
+                name: `${this.luisTelemetryConstants.intentPrefix}.${topLuisIntent}`,
                 properties
             });
         }

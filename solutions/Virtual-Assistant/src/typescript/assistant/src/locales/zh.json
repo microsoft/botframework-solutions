@@ -1,0 +1,31 @@
+{
+    "escalate": {
+        "phoneInfo":"我们的代理商提供24/7 在 1 (800) 555-1234。"
+    },
+    "main": {
+        "calendarSuggestedAction":"我的日程表是什么？",
+        "cancelled":"好的，我们从头再来。",
+        "completed":"我还能帮你什么？",
+        "confused":"对不起，我帮不了。",
+        "emailSuggestedAction":"发送电子邮件",
+        "error":"对不起, 看起来出了问题。",
+        "greeting":"您好!",
+        "greetingWithName":"您好!, {0}",
+        "helpText":"我是您的智能助理!我有不少技能，可以帮您完成很多任务。现在我可以帮您管理您的日历, 电子邮件, 任务和查找地图兴趣点。或者, 您可以教我更多的技能！",
+        "helpTitle":"智能助手的帮助",
+        "introPath":"./resources/Intro.zh.json",
+        "logOut":"你已成功退出。",
+        "meetingSuggestedAction":"安排会议",
+        "noActiveDialog":"看来没有什么可以取消的。有什么需要我帮忙的吗？",
+        "poiSuggestedAction":"查找附近的咖啡店"
+    },
+    "onboarding": {
+        "haveLocation":"我已将 {0} 设置为您的主要位置。一切就绪！",
+        "linkedAccountsInfoAlt":"持有移动设备的人。",
+        "linkedAccountsInfoBody":"切换到您的配套应用以获得设置。",
+        "linkedAccountsInfoTitle":"我可以做更多的, 如果你链接你的帐户!",
+        "linkedAccountsInfoUrl":"https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/media/customassistant-linkedaccounts.png?raw=true",
+        "locationPrompt":"谢谢, {0}。您的位置在哪里？",
+        "namePrompt":"您叫什么名字？"
+    }
+}

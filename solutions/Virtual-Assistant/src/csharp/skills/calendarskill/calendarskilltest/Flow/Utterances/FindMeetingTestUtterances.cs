@@ -21,21 +21,14 @@ namespace CalendarSkillTest.Flow.Utterances
                 FindMeetingByStartTime,
                 fromDate: new string[] { "tomorrow" },
                 fromTime: new string[] { "6 pm" }));
-            this.Add(ChooseFirstMeeting, GetBaseFindMeetingIntent(
-                ChooseFirstMeeting,
-                intents: Calendar.Intent.ReadAloud,
-                ordinal: new double[] { 1 }));
             this.Add(HowLongNextMeetingMeeting, GetBaseFindMeetingIntent(
-                BaseNextMeeting,
-                askParameter: new string[] { "how long" },
+                HowLongNextMeetingMeeting,
                 orderReference: new string[] { "next" }));
             this.Add(WhereNextMeetingMeeting, GetBaseFindMeetingIntent(
-                BaseNextMeeting,
-                askParameter: new string[] { "where" },
+                WhereNextMeetingMeeting,
                 orderReference: new string[] { "next" }));
             this.Add(WhenNextMeetingMeeting, GetBaseFindMeetingIntent(
-                BaseNextMeeting,
-                askParameter: new string[] { "when" },
+                WhenNextMeetingMeeting,
                 orderReference: new string[] { "next" }));
             this.Add(UpdateMeetingTestUtterances.BaseUpdateMeeting, UpdateMeetingTestUtterances.GetBaseUpdateMeetingIntent(UpdateMeetingTestUtterances.BaseUpdateMeeting));
         }
@@ -48,7 +41,6 @@ namespace CalendarSkillTest.Flow.Utterances
 
         public static string BaseNextMeeting { get; } = "what is my next meeting";
 
-        public static string ChooseFirstMeeting { get; } = "the first";
 
         public static string HowLongNextMeetingMeeting { get; } = "How long is my next meeting";
 
@@ -56,9 +48,9 @@ namespace CalendarSkillTest.Flow.Utterances
 
         public static string WhenNextMeetingMeeting { get; } = "When is my next meeting";
 
-        private Calendar GetBaseFindMeetingIntent(
+        private CalendarLU GetBaseFindMeetingIntent(
             string userInput,
-            Calendar.Intent intents = Calendar.Intent.FindCalendarEntry,
+            CalendarLU.Intent intents = CalendarLU.Intent.FindCalendarEntry,
             string[] fromDate = null,
             string[] toDate = null,
             string[] fromTime = null,

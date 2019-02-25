@@ -1,12 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
+using System.Collections.Generic;
+
 namespace AutomotiveSkill.Models
 {
     /// <summary>
     /// Setting change.
     /// </summary>
-    public class SettingChange : SettingOperation
+    public class SettingChange : SettingOperation, IEquatable<SettingChange>
     {
         /// <summary>
         /// Gets or sets the value to set the setting to or null to only change the numeric amount.
@@ -44,6 +47,30 @@ namespace AutomotiveSkill.Models
             clone.IsRelativeAmount = IsRelativeAmount;
             clone.IsConfirmed = IsConfirmed;
             return clone;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as SettingChange);
+        }
+
+        public bool Equals(SettingChange other)
+        {
+            return other != null &&
+                   Value == other.Value &&
+                   EqualityComparer<SettingAmount>.Default.Equals(Amount, other.Amount) &&
+                   IsRelativeAmount == other.IsRelativeAmount &&
+                   IsConfirmed == other.IsConfirmed;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Value, Amount, IsRelativeAmount, IsConfirmed);
+        }
+
+        public override string ToString()
+        {
+            return $"SettingChange{{Value={Value}, Amount={Amount}, IsRelativeAmount={IsRelativeAmount}, IsConfirmed={IsConfirmed}}}";
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <UserSecretsId>6a3184c3-074e-45b9-ad93-eceb8268ec01</UserSecretsId>
     <CodeAnalysisRuleSet>..\..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -11,18 +11,18 @@
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="1.0.0" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Connector" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.2.2" />
     <PackageReference Include="Microsoft.Graph" Version="1.12.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008">
@@ -59,10 +59,6 @@
       <LastGenOutput>VehicleSettingsStrings.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
   <ItemGroup>
@@ -130,7 +126,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj" />
+    <ProjectReference Include="..\..\..\microsoft.bot.solutions\Microsoft.Bot.Solutions.csproj" />
   </ItemGroup>
 
 </Project>

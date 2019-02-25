@@ -308,7 +308,7 @@
     "replies": [
       {
         "text": "This is already the first page. ",
-        "speak": ""
+        "speak": "This is already the first page. "
       }
     ],
     "inputHint": "acceptingInput"
@@ -317,7 +317,7 @@
     "replies": [
       {
         "text": "This is already the last page. ",
-        "speak": ""
+        "speak": "This is already the last page. "
       }
     ],
     "inputHint": "acceptingInput"
@@ -325,7 +325,7 @@
   "NoChoiceOptions_Retry": {
     "replies": [
       {
-        "text": "I don't understand what you input. Can you try in a different way? You can say the first one, 1, or you can try next page, previous page or read more.",
+        "text": "I don't understand what you input. Can you try in a different way? You can input the first one, 1, or you can try next page, previous page or read more.",
         "speak": "I don't understand what you input. Can you try in a different way? You can say the first one, 1, or you can try next page, previous page or read more."
       },
       {

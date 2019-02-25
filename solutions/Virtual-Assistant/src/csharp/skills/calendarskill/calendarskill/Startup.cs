@@ -26,9 +26,10 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Middleware.Telemetry;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.TaskExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -53,6 +54,10 @@ namespace CalendarSkill
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // add background task queue
+            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+            services.AddHostedService<QueuedHostedService>();
+
             // Load the connected services from .bot file.
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
             var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
@@ -102,11 +107,22 @@ namespace CalendarSkill
             var dataStore = new CosmosDbStorage(cosmosOptions);
             var userState = new UserState(dataStore);
             var conversationState = new ConversationState(dataStore);
+            var proactiveState = new ProactiveState(dataStore);
 
             services.AddSingleton(dataStore);
             services.AddSingleton(userState);
             services.AddSingleton(conversationState);
+            services.AddSingleton(proactiveState);
             services.AddSingleton(new BotStateSet(userState, conversationState));
+
+            var environment = _isProduction ? "production" : "development";
+            var service = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.Endpoint && s.Name == environment);
+            if (!(service is EndpointService endpointService))
+            {
+                throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
+            }
+
+            services.AddSingleton(endpointService);
 
             // Initialize calendar service client
             services.AddSingleton<IServiceManager, ServiceManager>();
@@ -114,20 +130,12 @@ namespace CalendarSkill
             // Add the bot with options
             services.AddBot<CalendarSkill>(options =>
             {
-                // Load the connected services from .bot file.
-                var environment = _isProduction ? "production" : "development";
-                var service = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.Endpoint && s.Name == environment);
-                if (!(service is EndpointService endpointService))
-                {
-                    throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
-                }
-
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Telemetry Middleware (logs activity messages in Application Insights)
                 var sp = services.BuildServiceProvider();
                 var telemetryClient = sp.GetService<IBotTelemetryClient>();
-                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logUserName: true, logOriginalMessage: true);
+                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
                 options.Middleware.Add(appInsightsLogger);
 
                 // Catches any errors that occur during a conversation turn and logs them to AppInsights.

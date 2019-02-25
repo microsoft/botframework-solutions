@@ -124,7 +124,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage, new StringDictionary() { { MockData.TaskCount, (MockData.MockTaskItems.Count - 1).ToString() }, { MockData.ListType, MockData.ToDo } }),
+                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessageForMultipleTasks, new StringDictionary() { { MockData.TaskCount, (MockData.MockTaskItems.Count - 1).ToString() }, { MockData.ListType, MockData.ToDo } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
@@ -158,7 +158,7 @@ namespace ToDoSkillTest.Flow
                 Assert.IsNotNull(toDoChoices);
                 var toDoChoiceCount = toDoChoices.Items.Count;
                 CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessage, new StringDictionary() { { MockData.TaskCount, (MockData.MockShoppingItems.Count - 1).ToString() }, { MockData.ListType, MockData.Shopping } }),
+                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessageForMultipleTasks, new StringDictionary() { { MockData.TaskCount, (MockData.MockShoppingItems.Count - 1).ToString() }, { MockData.ListType, MockData.Shopping } }),
                     adaptiveCardTitle.Text);
                 Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
                 var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
@@ -180,7 +180,7 @@ namespace ToDoSkillTest.Flow
 
         private string[] CollectTaskIndex()
         {
-            return this.ParseReplies(DeleteToDoResponses.AskTaskIndex, new StringDictionary());
+            return this.ParseReplies(DeleteToDoResponses.AskTaskIndexForDelete, new StringDictionary());
         }
 
         private string[] SettingUpOneNote()
@@ -213,7 +213,7 @@ namespace ToDoSkillTest.Flow
 
         private string[] CollectListType()
         {
-            return this.ParseReplies(DeleteToDoResponses.ListTypePrompt, new StringDictionary());
+            return this.ParseReplies(DeleteToDoResponses.ListTypePromptForDelete, new StringDictionary());
         }
     }
 }

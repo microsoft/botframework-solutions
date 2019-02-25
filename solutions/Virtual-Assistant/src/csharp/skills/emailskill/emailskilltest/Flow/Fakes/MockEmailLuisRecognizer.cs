@@ -24,9 +24,7 @@ namespace EmailSkillTest.Flow.Fakes
             this.emailUtterancesManager = utterancesManager;
         }
 
-        public bool LogOriginalMessage => throw new NotImplementedException();
-
-        public bool LogUsername => throw new NotImplementedException();
+        public bool LogPersonalInformation => throw new NotImplementedException();
 
         public void AddUtteranceManager(BaseTestUtterances utterancesManager)
         {
@@ -42,7 +40,7 @@ namespace EmailSkillTest.Flow.Fakes
             where T : IRecognizerConvert, new()
         {
             var text = turnContext.Activity.Text;
-            Email mockEmail = emailUtterancesManager.GetValueOrDefault(text, emailUtterancesManager.GetBaseNoneIntent());
+            EmailLU mockEmail = emailUtterancesManager.GetValueOrDefault(text, emailUtterancesManager.GetBaseNoneIntent());
 
             var test = mockEmail as object;
             var mockResult = (T)test;
@@ -50,13 +48,7 @@ namespace EmailSkillTest.Flow.Fakes
             return Task.FromResult(mockResult);
         }
 
-        public Task<T> RecognizeAsync<T>(DialogContext dialogContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
-            where T : IRecognizerConvert, new()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<T> RecognizeAsync<T>(DialogContext dialogContext, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new()
         {
             throw new NotImplementedException();

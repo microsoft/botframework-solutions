@@ -2,16 +2,16 @@
 // Licensed under the MIT License
 
 export class TelemetryConstants {
-    public readonly ACTIVITY_ID_PROPERTY: string = 'activityId';
-    public readonly REPLY_ACTIVITY_ID_PROPERTY: string = 'replyActivityId';
-    public readonly CHANNEL_ID_PROPERTY: string = 'channelId';
-    public readonly FROM_ID_PROPERTY: string = 'fromId';
-    public readonly FROM_NAME_PROPERTY: string = 'fromName';
-    public readonly RECIPIENT_ID_PROPERTY: string = 'recipientId';
-    public readonly RECIPIENT_NAME_PROPERTY: string = 'recipientName';
-    public readonly CONVERSATION_ID_PROPERTY: string = 'conversationId';
-    public readonly CONVERSATION_NAME_PROPERTY: string = 'conversationName';
-    public readonly TEXT_PROPERTY: string = 'text';
-    public readonly LOCALE_PROPERTY: string = 'locale';
-    public readonly SPEAK_PROPERTY: string = 'speak';
+    public readonly activityIdProperty: string = 'activityId';
+    public readonly replyActivityIdProperty: string = 'replyActivityId';
+    public readonly channelIdProperty: string = 'channelId';
+    public readonly fromIdProperty: string = 'fromId';
+    public readonly fromNameProperty: string = 'fromName';
+    public readonly recipientIdProperty: string = 'recipientId';
+    public readonly recipientNameProperty: string = 'recipientName';
+    public readonly conversationIdProperty: string = 'conversationId';
+    public readonly conversationNameProperty: string = 'conversationName';
+    public readonly textProperty: string = 'text';
+    public readonly localeProperty: string = 'locale';
+    public readonly speakProperty: string = 'speak';
 }

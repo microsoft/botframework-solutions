@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
+# Visual Studio Version 15
 VisualStudioVersion = 15.0.28010.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistant", "assistant\VirtualAssistant.csproj", "{D207238E-C1C2-4449-9984-1BE1F15B9B35}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Solutions", "Microsoft.Bot.Solutions\Microsoft.Bot.Solutions.csproj", "{0106AD2E-C570-42DF-B54B-3ACA50D58D80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Solutions", "microsoft.bot.solutions\Microsoft.Bot.Solutions.csproj", "{0106AD2E-C570-42DF-B54B-3ACA50D58D80}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DFCBFFD7-4882-4C3B-9E21-83EE29CE59BF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "tests", "{DFCBFFD7-4882-4C3B-9E21-83EE29CE59BF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Solutions.Tests", "tests\Microsoft.Bot.Solutions.Tests\Microsoft.Bot.Solutions.Tests.csproj", "{18366252-CEA5-4FB9-A022-ED957B491237}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Solutions.Tests", "tests\microsoft.bot.solutions.tests\Microsoft.Bot.Solutions.Tests.csproj", "{18366252-CEA5-4FB9-A022-ED957B491237}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CalendarSkill", "CalendarSkill", "{B80B8316-D162-4115-ADAB-9BB1D59F5B9F}"
 EndProject
@@ -37,11 +37,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoSkill", "skills\todoski
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoSkillTest", "skills\todoskill\todoskilltest\ToDoSkillTest.csproj", "{E0FF69D6-7FC1-4446-934E-50423930AE66}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills", "Skills", "{35B7FB90-4866-40C9-AD92-CEB5784CF034}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills", "skills", "{35B7FB90-4866-40C9-AD92-CEB5784CF034}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarSkill", "skills\calendarskill\calendarskill\CalendarSkill.csproj", "{D7FD8224-686B-463D-B20B-6ECB50F10AE4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistant.Tests", "tests\VirtualAssistant.Tests\VirtualAssistant.Tests.csproj", "{27C52F70-42F8-40C2-AE38-AB75515C3D91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PointOfInterestSkillTests", "skills\pointofinterestskill\pointofinterestskilltests\PointOfInterestSkillTests.csproj", "{24BE4981-2226-48D7-B65E-44703DC6F14A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistant.Tests", "tests\virtualassistant.tests\VirtualAssistant.Tests.csproj", "{27C52F70-42F8-40C2-AE38-AB75515C3D91}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Expressions", "..\..\..\..\..\botbuilder-dotnet\libraries\Microsoft.CommonExpressions\Microsoft.Expressions.csproj", "{C2A52A5A-8A47-4185-97F9-CC58576002C4}"
 EndProject

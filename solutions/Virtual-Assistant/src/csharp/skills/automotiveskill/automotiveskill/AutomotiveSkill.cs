@@ -15,9 +15,12 @@ namespace AutomotiveSkill
     using Microsoft.AspNetCore.Http;
     using Microsoft.Bot.Builder;
     using Microsoft.Bot.Builder.Dialogs;
-    using Microsoft.Bot.Schema;
+    using Microsoft.Bot.Configuration;
+    using Microsoft.Bot.Solutions.Middleware.Telemetry;
+    using Microsoft.Bot.Solutions.Models.Proactive;
     using Microsoft.Bot.Solutions.Responses;
     using Microsoft.Bot.Solutions.Skills;
+    using Microsoft.Bot.Solutions.TaskExtensions;
 
     /// <summary>
     /// Main entry point and orchestration for bot.
@@ -25,6 +28,7 @@ namespace AutomotiveSkill
     public class AutomotiveSkill : IBot
     {
         private readonly SkillConfigurationBase _services;
+        private readonly EndpointService _endpointService;
         private readonly ResponseManager _responseManager;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
@@ -38,18 +42,24 @@ namespace AutomotiveSkill
         /// Initializes a new instance of the <see cref="AutomotiveSkill"/> class.
         /// </summary>
         /// <param name="services">Skill Configuration information.</param>
+        /// <param name="endpointService">Endpoint service for the bot.</param>
         /// <param name="conversationState">Conversation State.</param>
         /// <param name="userState">User State.</param>
+        /// <param name="proactiveState">Proative state.</param>
         /// <param name="telemetryClient">Telemetry Client.</param>
+        /// <param name="backgroundTaskQueue">Background task queue.</param>
         /// <param name="serviceManager">Service Manager.</param>
         /// <param name="skillMode">Indicates whether the skill is running in skill or local mode.</param>
         /// <param name="responseManager">The responses for the bot.</param>
         /// <param name="httpContext">HttpContext accessor used to create relative URIs for images when in local mode.</param>
         public AutomotiveSkill(
             SkillConfigurationBase services,
+            EndpointService endpointService,
             ConversationState conversationState,
             UserState userState,
+            ProactiveState proactiveState,
             IBotTelemetryClient telemetryClient,
+            IBackgroundTaskQueue backgroundTaskQueue,
             bool skillMode = false,
             ResponseManager responseManager = null,
             IServiceManager serviceManager = null,
@@ -57,6 +67,7 @@ namespace AutomotiveSkill
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
+            _endpointService = endpointService ?? throw new ArgumentNullException(nameof(endpointService));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
 
             // If we are running in local-mode we need the HttpContext to create image file paths
@@ -94,6 +105,8 @@ namespace AutomotiveSkill
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
+            turnContext.TurnState.TryAdd(TelemetryLoggerMiddleware.AppInsightsServiceKey, _telemetryClient);
+
             var dc = await _dialogs.CreateContextAsync(turnContext);
 
             if (dc.ActiveDialog != null)

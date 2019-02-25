@@ -1,2 +1,3 @@
 node_modules
 coverage
+!generators/app/templates/enterprise-bot/test/mockedConfiguration.bot

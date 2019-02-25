@@ -8,7 +8,7 @@ using Microsoft.Bot.Builder.AI.Luis;
 
 namespace CalendarSkillTest.Flow.Utterances
 {
-    public class BaseTestUtterances : Dictionary<string, Calendar>
+    public class BaseTestUtterances : Dictionary<string, CalendarLU>
     {
         public BaseTestUtterances()
         {
@@ -16,14 +16,14 @@ namespace CalendarSkillTest.Flow.Utterances
 
         public static double TopIntentScore { get; } = 0.9;
 
-        public Calendar GetBaseNoneIntent()
+        public CalendarLU GetBaseNoneIntent()
         {
             return GetCalendarIntent();
         }
 
-        protected static Calendar GetCalendarIntent(
+        protected static CalendarLU GetCalendarIntent(
             string userInput = null,
-            Calendar.Intent intents = Calendar.Intent.None,
+            CalendarLU.Intent intents = CalendarLU.Intent.None,
             double[] ordinal = null,
             double[] number = null,
             string[] subject = null,
@@ -40,21 +40,21 @@ namespace CalendarSkillTest.Flow.Utterances
             string[] orderReference = null,
             string[] askParameter = null)
         {
-            var intent = new Calendar
+            var intent = new CalendarLU
             {
                 Text = userInput,
-                Intents = new Dictionary<Calendar.Intent, IntentScore>()
+                Intents = new Dictionary<CalendarLU.Intent, IntentScore>()
             };
             intent.Intents.Add(intents, new IntentScore() { Score = TopIntentScore });
-            intent.Entities = new Calendar._Entities
+            intent.Entities = new CalendarLU._Entities
             {
-                _instance = new Calendar._Entities._Instance(),
+                _instance = new CalendarLU._Entities._Instance(),
                 ordinal = ordinal,
                 number = number,
                 Subject = subject,
-                ContactName = contactName
+                personName = contactName
             };
-            intent.Entities._instance.ContactName = GetInstanceDatas(userInput, contactName);
+            intent.Entities._instance.personName = GetInstanceDatas(userInput, contactName);
             intent.Entities.FromDate = fromDate;
             intent.Entities._instance.FromDate = GetInstanceDatas(userInput, fromDate);
             intent.Entities.ToDate = toDate;
@@ -70,7 +70,6 @@ namespace CalendarSkillTest.Flow.Utterances
             intent.Entities.MoveLaterTimeSpan = moveLaterTimeSpan;
             intent.Entities.OrderReference = orderReference;
             intent.Entities._instance.OrderReference = GetInstanceDatas(userInput, orderReference);
-            intent.Entities.AskParameter = askParameter;
             return intent;
         }
 
