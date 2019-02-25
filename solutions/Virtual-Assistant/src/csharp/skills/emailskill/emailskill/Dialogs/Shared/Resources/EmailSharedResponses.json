@@ -179,8 +179,8 @@
   "SentSuccessfully": {
     "replies": [
       {
-        "text": "I have send the email with subject {Subject}.",
-        "speak": "I have send the email with subject {Subject}."
+        "text": "I have sent the email with subject {Subject}.",
+        "speak": "I have sent the email with subject {Subject}."
       }
     ],
     "inputHint": "acceptingInput"
