@@ -1,42 +1,33 @@
-# Virtual Assistant Solution Overview
+# Virtual Assistant Solution
 
-We have seen significant need from our customers and partners to deliver a conversational assistant tailored to their brand, personalized to their customers and made available across a broad range of conversational canvases and devices. Continuing Microsoft open-sourced approach toward Bot Framework SDK, the open source Virtual Assistant solution provides full control over the end user experience built on a set of foundational capabilities. Additionally, the experience can be infused with intelligence about the end-user and any device/ecosystem information for a truly integrated and intelligent experience.
+## Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Our Principles](#our-principles)
+- [Documentation](#documentation)
 
-We strongly believe our customers should own and enrich their customer relationships and insights. Therefore, any Virtual Assistant provides complete control of the user experience to our customers and partners through open-sourcing the code on GitHub. The name, voice and personality can be changed to suit the organization’s needs. Our Virtual Assistant solution simplifies creation of your own assistant enabling you to get started in minutes and then extended using our end to end development tooling.
+## Overview
+We have seen significant need from our customers and partners to deliver a conversational assistant tailored to their brand, personalized to their customers and made available across a broad range of conversational canvases and devices. 
+Continuing Microsoft's open-sourced approach towards the Bot Framework SDK, the open source Virtual Assistant solution provides full control over the end user experience built on a set of core foundational capabilities. 
+This experience can be infused with intelligence about the end-user and any device/ecosystem information for a truly integrated and intuitive experience.
 
-The scope of Virtual Assistant functionality is broad, typically offering end users a range of capabilities. To increase developer productivity and to enable a vibrant ecosystem of reusable conversational experiences, we are providing developers initial examples of reusable conversational skills. These Skills can be added into a conversational application to light up a specific conversation experience, such as finding a point of interest, interacting with calendar, tasks, email and many other scenarios. Skills are fully customizable and consist of language models for multiple languages, dialogs and code.
+We strongly believe our customers should own and enrich their customer relationships and insights. 
+Therefore, any Virtual Assistant provides complete control of the user experience to our customers and partners through open-sourcing the code on GitHub. 
+The name, voice and personality can be changed to suit the organization’s needs. 
+Our Virtual Assistant solution simplifies creation of your own assistant enabling you to get started in minutes and then extended using our end to end development tooling.
+
+The scope of Virtual Assistant functionality is broad, typically offering end users a range of capabilities. 
+To increase developer productivity and to enable a vibrant ecosystem of reusable conversational experiences, we are providing developers examples of reusable conversational skills. 
+These skills can be added into a conversational application to light up a specific experience like finding a point of interest, interacting with a calendar, tasks, email, etc.
+The skills are fully customizable and consist of language models for multiple languages, dialogs and code.
 
 At this time we are running an initial preview and working closely with initial customers and partners in an open-source repository to bring to life the first experiences and make it available more broadly in the coming months.
 
-![Virtual Assistant Diagram](../media/virtualassistant-diagram.jpg)
-
-## Documentation
-
-- Virtual Assistant
-    - [Detailed Overview](./detailedoverview.md)
-    - [Create your Virtual Assistant](./createvirtualassistant.md)
-    - [Testing your Virtual Assistant](./testing.md)
-    - [Personalizing your Virtual Assistant](./personalization.md)
-    - [Updating your Virtual Assistant](./updatingvirtualassistant.md)
-    - [Linked Accounts](./linkedaccounts.md)
-    - [Integrating into a device](./deviceintegration.md)
-    - [Events](./events.md)
-    - [Responses](./responses.md)
-    - [Language Support](./languagesupport.md)
-    - [Known Issues](./knownissues.md)
-- Skills
-    - [Overview](../skills/README.md)
-    - [Skill Authentication](./authentication.md)
-    - [Creating a Skill](./skillenablement.md)
-    - [Productivity - Calendar Skill](../skills/productivity-calendar.md)
-    - [Productivity - Email Skill](../skills/productivity-email.md)
-    - [Productivity - Tasks Skill](../skills/productivity-todo.md)
-    - [Point of Interest Skill](../skills/pointofinterest.md)
-    - [Automotive Skill](../skills/automotive.md)
-
-## What's in the box
+## Features
 
 The Virtual Assistant builds on the [Enterprise Template](/templates/Enterprise-Template/README.md) capabilities which provide foundational capabilities for conversational experiences including base conversational intents in multiple languages, Dispatching, QnA and conversational insights. The following Assistant related capabilities are provided at this time, further capabilities are planned and we'll be working closely with customers and partners to help inform the roadmap.
+
+![Virtual Assistant Diagram](../media/virtualassistant-diagram.jpg)
 
 Feature | Description |
 ------------ | -------------
@@ -107,3 +98,27 @@ Our Virtual Assistant solution includes a new Skill capability enabling new capa
 All aspects of each Skill (Language Model, Dialogs, Integration Code and Language Generation) are completely customisable by developers as the full source code is provided on GitHub along with the Virtual Assistant.
 
 Initial previews of the [Email](../skills/productivity-email.md), [Calendar](../skills/productivity-calendar.md), [ToDo](../skills/productivity-todo.md), [Point of Interest](../skills/pointofinterest.md) and [Automotive](../skills/automotive.md) skills are now available. 
+
+## Documentation
+
+- Virtual Assistant
+    - [Detailed Overview](./detailedoverview.md)
+    - [Create your Virtual Assistant](./createvirtualassistant.md)
+    - [Testing your Virtual Assistant](./testing.md)
+    - [Personalizing your Virtual Assistant](./personalization.md)
+    - [Updating your Virtual Assistant](./updatingvirtualassistant.md)
+    - [Linked Accounts](./linkedaccounts.md)
+    - [Integrating into a device](./deviceintegration.md)
+    - [Events](./events.md)
+    - [Responses](./responses.md)
+    - [Language Support](./languagesupport.md)
+    - [Known Issues](./knownissues.md)
+- Skills
+    - [Overview](../skills/README.md)
+    - [Skill Authentication](./authentication.md)
+    - [Creating a Skill](./skillenablement.md)
+    - [Productivity - Calendar Skill](../skills/productivity-calendar.md)
+    - [Productivity - Email Skill](../skills/productivity-email.md)
+    - [Productivity - Tasks Skill](../skills/productivity-todo.md)
+    - [Point of Interest Skill](../skills/pointofinterest.md)
+    - [Automotive Skill](../skills/automotive.md)
