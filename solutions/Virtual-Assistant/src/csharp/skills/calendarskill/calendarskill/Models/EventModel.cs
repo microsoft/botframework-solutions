@@ -747,6 +747,11 @@ namespace CalendarSkill.Models
                         }
 
                     case EventSource.Google:
+                        if (gmailEventData.Attendees == null)
+                        {
+                            return EventStatus.None;
+                        }
+
                         foreach (var attendee in gmailEventData.Attendees)
                         {
                             if (attendee.Self.HasValue && attendee.Self.Value)
@@ -796,6 +801,11 @@ namespace CalendarSkill.Models
 
                         break;
                     case EventSource.Google:
+                        if (gmailEventData.Attendees == null)
+                        {
+                            return;
+                        }
+
                         foreach (var attendee in gmailEventData.Attendees)
                         {
                             if (attendee.Self.HasValue && attendee.Self.Value)
