@@ -2,18 +2,18 @@
 
 ![Virtual Assistant Diagram](../media/virtualassistant-diagram.jpg)
 
-Customers and partners have a significant need to deliver a conversational assistant tailored to their brand, personalized to their users, and made available across a broad range of canvases and devices. Continuing Microsoft's open-sourced approach towards the Bot Framework SDK, the open-source Virtual Assistant solution provides a set of core foundational capabilities and full control over the end user experience. 
+Customers and partners have a significant need to deliver a conversational assistant tailored to their brand, personalized to their users, and made available across a broad range of canvases and devices. Continuing Microsoft's open-sourced approach towards the Bot Framework SDK, the open-source Virtual Assistant solution provides you with a set of core foundational capabilities and full control over the end user experience. 
 
 Owning and enriching customer relationships and insights is vital to the goals of the Virtual Assistant. You can modify the name, voice, and personality to suit a customer’s needs. The solution simplifies the creation of a Virtual Assistant, enabling you to get started in minutes and extend with end-to-end development tooling.
 
-Common scenarios are provided as reusable conversational Skills, increasing developer productivity and enabling a vibrant ecosystem of reusable scenarios. Individual Skills can be added into an existing conversational application like: finding a point of interest, checking off an item on a to-do list, or replying to an email. Skills are fully customizable and consist of language models for multiple languages, dialogs, and code.
+Common scenarios are provided as reusable conversational Skills, increasing developer productivity and enabling a vibrant ecosystem of reusable scenarios. Individual Skills can be added to an existing conversational application like: finding a point of interest, checking off an item on a to-do list, or replying to an email. Skills are fully customizable and consist of language models for multiple languages, dialogs, and code.
 
 Please read the [overview](./overview.md) for more on the Virtual Assistant architecture and principles.
 
 ## Table of Contents
 - [Getting Started](#getting-started)
 - [Testing](#testing)
-- [Updating](#updating)
+- [Deployment](#deployment)
 - [Known Issues](#known-issues)
 - [Dive In](#dive-in)
 
@@ -24,11 +24,8 @@ Read [Getting Started With the Virtual Assistant](./gettingstarted.md) for the l
 ## Testing
 Read [Testing your Virtual Assistant](./testing.md) for information on how to test your Virtual Assistant through a variety of test harnesses.
 
-## Updating
-### Personalization
-[Personalizing your Virtual Assistant](./personalization.md) highlights the key components of the Virtual Assistant solution that need to be modified to provide a customized implementation.
+## Deployment
 
-### Deployment
 In order to update an existing Virtual Assistant deployment with the latest language models from the repository or to ensure the dispatcher is up to date with latest changes, run the following PowerShell script:
 
 ```
@@ -56,16 +53,17 @@ Name | Description |
 :---:  | -------------
 [Overview](../skills/README.md) | A broad set of common capabilities exist which today, which require each developer to build themselves. Our Virtual Assistant solution includes a new Skill capability enabling new capabilities to be plugged into an Virtual Assistant through configuration only and provide an authentication mechanism for Skills to request tokens for down-stream activities.
 [Custom Skill Enablement](./skillenablement.md) | The Skill Template provides an out-of-the-box basic Skill and unit test project, which can be customized to a new scenario. |
-[Calendar Skill](../skills/productivity-calendar.md) | The **preview** Calendar Skill provides a comprehensive language model for common calendar related activities, The Skill is currently integrated into Microsoft Graph (Office 365/Outlook.com) and Google APIs.
-[Email Skill](../skills/productivity-email.md) | The **preview** Email Skill provides a comprehensive language model for common email related activities, The Skill is currently integrated into Microsoft Graph (Office 365/Outlook.com) and Google APIs.
-[ToDo Skill](../skills/productivity-todo.md) | The **preview** ToDo Skill provides a comprehensive language model for common task related activities, The Skill is currently integrated into Microsoft Graph (outlookTask) and Google APIs.
-[Point of Interest Skill](../skills/pointofinterest.md) | The **preview** Point of Interest (PoI) Skill provides a comprehensive language model for finding points of interest and requesting directions. The Skill currently provides integration into Azure Maps and Foursquare.
-[Automotive Skill](../skills/automotive.md) | The **preview** Automotive Skill provides Vehicle Setting control support for an assistant along with an initial set of common vehicle settings which can be extended further. At this time the Skill surfaces device events to demonstrate how device control could be achieved.
+[Calendar Skill](../skills/productivity-calendar.md) | The **preview** Skill provides a comprehensive language model for common calendar related activities, The Skill is currently integrated into Microsoft Graph (Office 365/Outlook.com) and Google APIs.
+[Email Skill](../skills/productivity-email.md) | The **preview** Skill provides a comprehensive language model for common email related activities, The Skill is currently integrated into Microsoft Graph (Office 365/Outlook.com) and Google APIs.
+[ToDo Skill](../skills/productivity-todo.md) | The **preview** Skill provides a comprehensive language model for common task related activities, The Skill is currently integrated into Microsoft Graph (outlookTask) and Google APIs.
+[Point of Interest Skill](../skills/pointofinterest.md) | The **preview** Skill provides a comprehensive language model for finding points of interest and requesting directions. The Skill currently provides integration into Azure Maps and Foursquare.
+[Automotive Skill](../skills/automotive.md) | The **preview** Skill provides Vehicle Setting control support for an assistant along with an initial set of common vehicle settings which can be extended further. At this time the Skill surfaces device events to demonstrate how device control could be achieved.
 [Experimental Skills](../skills/experimental-Skills.md) | Experimental Skills are early prototypes of Skills to help bring Skill concepts to life for demonstrations and proof-of-concepts along with providing different examples to get you  started. Restaurant Booking and News Skills are currently available.
 
 ### Solution
 Name | Description |
 :---:  | -------------
+[Personalization](./personalization.md) | Highlights highlights the key components of the Virtual Assistant solution that need to be modified to provide a customized implementation. |
 [Eventing Architecture](./events.md) | Events in the context of the Virtual Assistant enable a client application (in a web-browser or on a device such as a car or speaker) to exchange information about the user or device events whilst also receiving events to perform device operations.
 [Linked Accounts](./linkedaccounts.md) | In a speech-led scenario, it is not practical for a user to enter their credentials for supporting systems through voice commands. Therefore a separate companion experience provides an opportunity for the user to sign in and provide permissions to a Virtual Assistant for continued use.
 [Device Integration](./deviceintegration.md) | Our Azure Bot Service SDKs (Direct Line) along with Adaptive Card and Speech SDKs enable easy cross platform integration to devices. Additional device integration examples and platform including Edge are planned.
