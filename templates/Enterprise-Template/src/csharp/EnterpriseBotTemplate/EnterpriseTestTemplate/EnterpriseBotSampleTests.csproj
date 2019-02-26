@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.2.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />

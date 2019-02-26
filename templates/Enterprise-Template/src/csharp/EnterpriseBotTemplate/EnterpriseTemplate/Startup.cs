@@ -130,9 +130,6 @@ namespace $safeprojectname$
         /// <param name="env">Hosting Environment.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            // Configure Application Insights
-            _loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Information);
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
