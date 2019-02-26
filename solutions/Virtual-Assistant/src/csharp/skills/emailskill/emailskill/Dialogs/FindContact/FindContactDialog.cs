@@ -247,7 +247,7 @@ namespace EmailSkill.Dialogs.FindContact
                     (var personList, var userList) = DisplayHelper.FormatRecipientList(originPersonList, originUserList);
 
                     // people you work with has the distinct email address has the highest priority
-                    if (personList.Count == 1 && personList.First().ScoredEmailAddresses.Count() == 1)
+                    if (personList.Count == 1 && personList.First().ScoredEmailAddresses.Count() == 1 && personList.First().ScoredEmailAddresses != null && !string.IsNullOrEmpty(personList.First().ScoredEmailAddresses.First().Address))
                     {
                         state.ConfirmedPerson = personList.First();
                         return await sc.ReplaceDialogAsync(Actions.ConfirmEmail, personList.First());
@@ -283,6 +283,8 @@ namespace EmailSkill.Dialogs.FindContact
                 {
                     return await sc.EndDialogAsync();
                 }
+
+                unionList.RemoveAll(person => !person.ScoredEmailAddresses.ToList().Exists(email => email.Address != null));
 
                 state.UnconfirmedPerson = unionList;
 
