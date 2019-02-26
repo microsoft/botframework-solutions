@@ -18,7 +18,7 @@ Please read the [overview](./overview.md) for more on the Virtual Assistant arch
 - [Dive In](#dive-in)
 
 ## Getting Started
-Read [Getting Started With the Virtual Assistant](./gettingstarted.md) for the latest instructions on how to build, deploy, and configure your own Virtual Assistant.
+[Getting Started with the Virtual Assistant](./gettingstarted.md) walks you through building, configuring, and deplyoing your own Virtual Assistant.
 
 ## Testing
 [Testing your Virtual Assistant](./testing.md) is incredibly important for validating conversational flows and ensuring your Virtual Assistant can run smoothly with a chosen client.
