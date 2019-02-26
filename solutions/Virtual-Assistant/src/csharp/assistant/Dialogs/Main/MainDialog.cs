@@ -17,11 +17,11 @@ using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.TaskExtensions;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using VirtualAssistant.Dialogs.Escalate;
 using VirtualAssistant.Dialogs.Main.Resources;
 using VirtualAssistant.Dialogs.Onboarding;
-using VirtualAssistant.Dialogs.Shared;
 
 namespace VirtualAssistant.Dialogs.Main
 {
@@ -42,22 +42,22 @@ namespace VirtualAssistant.Dialogs.Main
 
         private bool _conversationStarted = false;
 
-        public MainDialog(BotServices services, ConversationState conversationState, UserState userState, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue)
-            : base(nameof(MainDialog), telemetryClient)
+        public MainDialog(IServiceProvider serviceProvider)
+            : base(nameof(MainDialog))
         {
-            _services = services ?? throw new ArgumentNullException(nameof(services));
-            _conversationState = conversationState;
-            _userState = userState;
-            _proactiveState = proactiveState;
-            _endpointService = endpointService;
-            TelemetryClient = telemetryClient;
-            _backgroundTaskQueue = backgroundTaskQueue;
+            _services = serviceProvider.GetService<BotServices>() ?? throw new ArgumentNullException(nameof(BotServices));
+            _conversationState = serviceProvider.GetService<ConversationState>() ?? throw new ArgumentNullException(nameof(ConversationState));
+            _userState = serviceProvider.GetService<UserState>() ?? throw new ArgumentNullException(nameof(UserState));
+            _proactiveState = serviceProvider.GetService<ProactiveState>() ?? throw new ArgumentNullException(nameof(ProactiveState));
+            _endpointService = serviceProvider.GetService<EndpointService>() ?? throw new ArgumentNullException(nameof(EndpointService));
+            TelemetryClient = serviceProvider.GetService<IBotTelemetryClient>() ?? throw new ArgumentNullException(nameof(IBotTelemetryClient));
+            _backgroundTaskQueue = serviceProvider.GetService<IBackgroundTaskQueue>() ?? throw new ArgumentNullException(nameof(IBackgroundTaskQueue));
             _onboardingState = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             _parametersAccessor = _userState.CreateProperty<Dictionary<string, object>>("userInfo");
             _virtualAssistantState = _conversationState.CreateProperty<VirtualAssistantState>(nameof(VirtualAssistantState));
 
-            AddDialog(new OnboardingDialog(_services, _onboardingState, telemetryClient));
-            AddDialog(new EscalateDialog(_services, telemetryClient));
+            AddDialog(serviceProvider.GetService<OnboardingDialog>());
+            AddDialog(serviceProvider.GetService<EscalateDialog>());
 
             RegisterSkills(_services.SkillDefinitions);
         }

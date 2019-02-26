@@ -42,7 +42,7 @@ namespace AutomotiveSkill.Dialogs.Main
             IHttpContextAccessor httpContext,
             IBotTelemetryClient telemetryClient,
             bool skillMode)
-            : base(nameof(MainDialog), telemetryClient)
+            : base(nameof(MainDialog))
         {
             _skillMode = skillMode;
             _services = services;

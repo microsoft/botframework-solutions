@@ -10,11 +10,10 @@ namespace Microsoft.Bot.Solutions.Dialogs
 {
     public abstract class InterruptableDialog : ComponentDialog
     {
-        public InterruptableDialog(string dialogId, IBotTelemetryClient telemetryClient)
+        public InterruptableDialog(string dialogId)
             : base(dialogId)
         {
             PrimaryDialogName = dialogId;
-            TelemetryClient = telemetryClient;
         }
 
         public string PrimaryDialogName { get; set; }

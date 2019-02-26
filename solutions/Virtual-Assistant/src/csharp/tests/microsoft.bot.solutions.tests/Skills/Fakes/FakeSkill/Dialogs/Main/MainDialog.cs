@@ -41,7 +41,7 @@ namespace FakeSkill.Dialogs.Main
             IBotTelemetryClient telemetryClient,
             IServiceManager serviceManager,
             bool skillMode)
-            : base(nameof(MainDialog), telemetryClient)
+            : base(nameof(MainDialog))
         {
             _skillMode = skillMode;
             _services = services;

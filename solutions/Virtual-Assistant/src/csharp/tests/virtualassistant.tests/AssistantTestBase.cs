@@ -156,7 +156,7 @@ namespace VirtualAssistant.Tests
 
         public override IBot BuildBot()
         {
-            return new VirtualAssistant(this.BotServices, this.ConversationState, this.UserState, this.ProactiveState, this.EndPointService, this.TelemetryClient, this.BackgroundTaskQueue);
+            return new VirtualAssistant(null, null);
         }
 
         /// <summary>

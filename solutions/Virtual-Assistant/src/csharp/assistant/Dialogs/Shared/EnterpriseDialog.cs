@@ -20,11 +20,10 @@ namespace VirtualAssistant.Dialogs.Shared
         private readonly BotServices _services;
         private readonly MainResponses _responder = new MainResponses();
 
-        public EnterpriseDialog(BotServices botServices, string dialogId, IBotTelemetryClient telemetryClient)
-            : base(dialogId, telemetryClient)
+        public EnterpriseDialog(BotServices botServices, string dialogId)
+            : base(dialogId)
         {
             _services = botServices;
-            TelemetryClient = telemetryClient;
         }
 
         protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)

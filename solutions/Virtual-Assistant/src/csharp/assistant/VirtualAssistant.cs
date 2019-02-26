@@ -10,7 +10,11 @@ using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.TaskExtensions;
+using Microsoft.Extensions.DependencyInjection;
+using VirtualAssistant.Dialogs.Escalate;
 using VirtualAssistant.Dialogs.Main;
+using VirtualAssistant.Dialogs.Onboarding;
+using VirtualAssistant.Dialogs.Shared;
 
 namespace VirtualAssistant
 {
@@ -31,25 +35,22 @@ namespace VirtualAssistant
         /// <summary>
         /// Initializes a new instance of the <see cref="VirtualAssistant"/> class.
         /// </summary>
-        /// <param name="botServices">Bot services.</param>
-        /// <param name="conversationState">Bot conversation state.</param>
-        /// <param name="userState">Bot user state.</param>
-        /// <param name="proactiveState">Proactive state.</param>
-        /// <param name="endpointService">Bot endpoint service.</param>
-        /// <param name="telemetryClient">Bot telemetry client.</param>
-        /// <param name="backgroundTaskQueue">Background task queue.</param>
-        public VirtualAssistant(BotServices botServices, ConversationState conversationState, UserState userState, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue)
+        /// <param name="serviceCollection">Service collection.</param>
+        /// <param name="serviceProvider">Service provider.</param>
+        public VirtualAssistant(IServiceCollection serviceCollection, IServiceProvider serviceProvider)
         {
-            _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
-            _userState = userState ?? throw new ArgumentNullException(nameof(userState));
-            _proactiveState = proactiveState ?? throw new ArgumentNullException(nameof(proactiveState));
-            _services = botServices ?? throw new ArgumentNullException(nameof(botServices));
-            _endpointService = endpointService ?? throw new ArgumentNullException(nameof(endpointService));
-            _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
-            _backgroundTaskQueue = backgroundTaskQueue;
+            _conversationState = serviceProvider.GetService<ConversationState>() ?? throw new ArgumentNullException(nameof(ConversationState));
+            _userState = serviceProvider.GetService<UserState>() ?? throw new ArgumentNullException(nameof(UserState));
+            _proactiveState = serviceProvider.GetService<ProactiveState>() ?? throw new ArgumentNullException(nameof(ProactiveState));
+            _services = serviceProvider.GetService<BotServices>() ?? throw new ArgumentNullException(nameof(BotServices));
+            _endpointService = serviceProvider.GetService<EndpointService>() ?? throw new ArgumentNullException(nameof(EndpointService));
+            _telemetryClient = serviceProvider.GetService<IBotTelemetryClient>() ?? throw new ArgumentNullException(nameof(IBotTelemetryClient));
+            _backgroundTaskQueue = serviceProvider.GetService<IBackgroundTaskQueue>() ?? throw new ArgumentNullException(nameof(IBackgroundTaskQueue));
+
+            RegisterDialogs(serviceCollection);
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(VirtualAssistant)));
-            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _proactiveState, _endpointService, _telemetryClient, _backgroundTaskQueue));
+            _dialogs.Add(new MainDialog(serviceProvider));
         }
 
         /// <summary>
@@ -77,6 +78,13 @@ namespace VirtualAssistant
             {
                 await dc.BeginDialogAsync(nameof(MainDialog));
             }
+        }
+
+        private void RegisterDialogs(IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddSingleton<OnboardingDialog>();
+            serviceCollection.AddSingleton<EnterpriseDialog>();
+            serviceCollection.AddSingleton<EscalateDialog>();
         }
     }
 }
