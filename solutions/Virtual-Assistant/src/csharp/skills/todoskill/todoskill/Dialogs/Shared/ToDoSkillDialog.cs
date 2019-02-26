@@ -190,7 +190,7 @@ namespace ToDoSkill.Dialogs.Shared
                     state.GoBackToStart = false;
                     await DigestToDoLuisResult(sc);
                 }
-                else if (generalTopIntent == General.Intent.Next)
+                else if (topIntent == ToDoLU.Intent.ShowNextPage || generalTopIntent == General.Intent.Next)
                 {
                     state.IsLastPage = false;
                     if ((state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
@@ -202,7 +202,7 @@ namespace ToDoSkill.Dialogs.Shared
                         state.IsLastPage = true;
                     }
                 }
-                else if (generalTopIntent == General.Intent.Previous)
+                else if (topIntent == ToDoLU.Intent.ShowPreviousPage || generalTopIntent == General.Intent.Previous)
                 {
                     state.IsFirstPage = false;
                     if (state.ShowTaskPageIndex > 0)

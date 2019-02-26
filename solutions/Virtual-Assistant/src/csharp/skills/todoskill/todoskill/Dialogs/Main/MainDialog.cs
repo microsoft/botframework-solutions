@@ -123,6 +123,8 @@ namespace ToDoSkill.Dialogs.Main
                             break;
                         }
 
+                    case ToDoLU.Intent.ShowNextPage:
+                    case ToDoLU.Intent.ShowPreviousPage:
                     case ToDoLU.Intent.ShowToDo:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(ShowToDoItemDialog), skillOptions);
