@@ -1,11 +1,8 @@
 # Getting Started With the Virtual Assistant
 
-The Virtual Assistant solution provides everything you need to get started with building your own personalized assistant. 
-Base Assistant capabilities are provided within the solution including language models for you to build upon along with Conversational Skill support enabling you to plug-in additional capabilities through configuration. See the [Overview](./readme.md) for more information.
+The Virtual Assistant solution is under ongoing development within an open-source repository, you are invited to participate in the ongoing development.
+Follow the instructions below to build, deploy and configure your Virtual Assistant.
 
-The Virtual Assistant solution is under ongoing development within an open-source GitHub repo enabling you to participate with our ongoing work. 
-
-Follow the instructions below to build, deploy and configure your Assistant.
 
 ## Table of Contents
 - [Prerequisites](#prerequisites)
