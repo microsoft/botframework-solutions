@@ -435,117 +435,9 @@ namespace AutomotiveSkill.Common
         }
 
         /// <summary>
-        /// Validate a change.
-        /// </summary>
-        /// <param name="setting">A setting for validation.</param>
-        /// <returns>Validation Status enumeration.</returns>
-        private ValidationStatus ValidateChange(SettingChange setting)
-        {
-            if (setting == null)
-            {
-                throw new ArgumentNullException(nameof(setting));
-            }
-
-            ValidationStatus validity = ValidationStatus.Valid;
-
-            if (string.IsNullOrEmpty(setting.SettingName))
-            {
-                return ValidationStatus.InvalidMissingSetting;
-            }
-
-            if (string.IsNullOrEmpty(setting.Value) && setting.Amount == null)
-            {
-                return ValidationStatus.InvalidMissingValue;
-            }
-
-            var settingInfo = settingList.FindSetting(setting.SettingName);
-            if (settingInfo == null)
-            {
-                return ValidationStatus.InvalidSettingName;
-            }
-
-            AvailableSettingValue settingValueInfo = null;
-            foreach (var valueInfo in settingInfo.Values)
-            {
-                if (Util.NullSafeEquals(setting.Value, valueInfo.CanonicalName)
-                        || (string.IsNullOrEmpty(setting.Value) && "SET".Equals(valueInfo.CanonicalName.ToUpperInvariant())))
-                {
-                    settingValueInfo = valueInfo;
-                    setting.Value = valueInfo.CanonicalName;
-                    break;
-                }
-            }
-
-            if (settingValueInfo == null)
-            {
-                return ValidationStatus.InvalidSettingValueCombination;
-            }
-
-            if (setting.Amount == null)
-            {
-                if (settingValueInfo.RequiresAmount)
-                {
-                    validity = ValidationStatus.InvalidMissingAmount;
-                }
-
-                return validity;
-            }
-
-            if (!settingInfo.AllowsAmount || Util.IsNullOrEmpty(settingInfo.Amounts))
-            {
-                return ValidationStatus.InvalidExtraAmount;
-            }
-
-            AvailableSettingAmount settingAmountInfo = null;
-            foreach (var amountInfo in settingInfo.Amounts)
-            {
-                if (Util.NullSafeEquals(setting.Amount.Unit, amountInfo.Unit))
-                {
-                    settingAmountInfo = amountInfo;
-                    break;
-                }
-            }
-
-            if (settingAmountInfo == null)
-            {
-                if ("%".Equals(setting.Amount.Unit))
-                {
-                    settingAmountInfo = new AvailableSettingAmount()
-                    {
-                        Unit = "%",
-                        Min = 0,
-                        Max = 100,
-                    };
-                }
-                else
-                {
-                    return ValidationStatus.InvalidAmountUnit;
-                }
-            }
-
-            if (!setting.IsRelativeAmount)
-            {
-                if (setting.Amount.Amount < settingAmountInfo.Min || setting.Amount.Amount > settingAmountInfo.Max)
-                {
-                    return ValidationStatus.InvalidAmountOutOfRange;
-                }
-            }
-            else if (settingAmountInfo.Min != null && settingAmountInfo.Max != null)
-            {
-                var maxRelative = settingAmountInfo.Max - settingAmountInfo.Min;
-                var minRelative = -maxRelative;
-                if (setting.Amount.Amount < minRelative || setting.Amount.Amount > maxRelative)
-                {
-                    return ValidationStatus.InvalidAmountOutOfRange;
-                }
-            }
-
-            return validity;
-        }
-
-        /// <summary>
         /// Apply the user's selection to the setting names.
         /// </summary>
+        /// <typeparam name="T">The type.</typeparam>
         /// <param name="state">State object.</param>
         /// <param name="settingEntities">List of entity values.</param>
         /// <param name="changesOrStatuses">The SettingChanges or SettingStatuses to select from.</param>
@@ -674,6 +566,115 @@ namespace AutomotiveSkill.Common
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Validate a change.
+        /// </summary>
+        /// <param name="setting">A setting for validation.</param>
+        /// <returns>Validation Status enumeration.</returns>
+        private ValidationStatus ValidateChange(SettingChange setting)
+        {
+            if (setting == null)
+            {
+                throw new ArgumentNullException(nameof(setting));
+            }
+
+            ValidationStatus validity = ValidationStatus.Valid;
+
+            if (string.IsNullOrEmpty(setting.SettingName))
+            {
+                return ValidationStatus.InvalidMissingSetting;
+            }
+
+            if (string.IsNullOrEmpty(setting.Value) && setting.Amount == null)
+            {
+                return ValidationStatus.InvalidMissingValue;
+            }
+
+            var settingInfo = settingList.FindSetting(setting.SettingName);
+            if (settingInfo == null)
+            {
+                return ValidationStatus.InvalidSettingName;
+            }
+
+            AvailableSettingValue settingValueInfo = null;
+            foreach (var valueInfo in settingInfo.Values)
+            {
+                if (Util.NullSafeEquals(setting.Value, valueInfo.CanonicalName)
+                        || (string.IsNullOrEmpty(setting.Value) && "SET".Equals(valueInfo.CanonicalName.ToUpperInvariant())))
+                {
+                    settingValueInfo = valueInfo;
+                    setting.Value = valueInfo.CanonicalName;
+                    break;
+                }
+            }
+
+            if (settingValueInfo == null)
+            {
+                return ValidationStatus.InvalidSettingValueCombination;
+            }
+
+            if (setting.Amount == null)
+            {
+                if (settingValueInfo.RequiresAmount)
+                {
+                    validity = ValidationStatus.InvalidMissingAmount;
+                }
+
+                return validity;
+            }
+
+            if (!settingInfo.AllowsAmount || Util.IsNullOrEmpty(settingInfo.Amounts))
+            {
+                return ValidationStatus.InvalidExtraAmount;
+            }
+
+            AvailableSettingAmount settingAmountInfo = null;
+            foreach (var amountInfo in settingInfo.Amounts)
+            {
+                if (Util.NullSafeEquals(setting.Amount.Unit, amountInfo.Unit))
+                {
+                    settingAmountInfo = amountInfo;
+                    break;
+                }
+            }
+
+            if (settingAmountInfo == null)
+            {
+                if ("%".Equals(setting.Amount.Unit))
+                {
+                    settingAmountInfo = new AvailableSettingAmount()
+                    {
+                        Unit = "%",
+                        Min = 0,
+                        Max = 100,
+                    };
+                }
+                else
+                {
+                    return ValidationStatus.InvalidAmountUnit;
+                }
+            }
+
+            if (!setting.IsRelativeAmount)
+            {
+                if (setting.Amount.Amount < settingAmountInfo.Min || setting.Amount.Amount > settingAmountInfo.Max)
+                {
+                    return ValidationStatus.InvalidAmountOutOfRange;
+                }
+            }
+            else if (settingAmountInfo.Min != null && settingAmountInfo.Max != null)
+            {
+                var maxRelative = settingAmountInfo.Max - settingAmountInfo.Min;
+                var minRelative = -maxRelative;
+                if (setting.Amount.Amount < minRelative || setting.Amount.Amount > maxRelative)
+                {
+                    return ValidationStatus.InvalidAmountOutOfRange;
+                }
+            }
+
+            return validity;
         }
 
         /// <summary>

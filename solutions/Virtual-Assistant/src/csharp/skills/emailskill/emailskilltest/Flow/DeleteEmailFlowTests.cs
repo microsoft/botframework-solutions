@@ -60,19 +60,16 @@ namespace EmailSkillTest.Flow
 
         private string[] NotSendingMessage()
         {
-            
             return this.ParseReplies(EmailSharedResponses.CancellingMessage, new StringDictionary());
         }
 
         private string[] NoFocusMessage()
         {
-            
             return this.ParseReplies(EmailSharedResponses.NoFocusMessage, new StringDictionary());
         }
 
         private string[] DeleteSuccess()
         {
-            
             return this.ParseReplies(DeleteEmailResponses.DeleteSuccessfully, new StringDictionary());
         }
 
@@ -81,7 +78,7 @@ namespace EmailSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                
+
                 CollectionAssert.Contains(this.ParseReplies(DeleteEmailResponses.DeleteConfirm, new StringDictionary()), messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
@@ -100,7 +97,7 @@ namespace EmailSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                
+
                 CollectionAssert.Contains(this.ParseReplies(EmailSharedResponses.ConfirmSend, new StringDictionary()), messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
@@ -114,7 +111,7 @@ namespace EmailSkillTest.Flow
 
                 // Get showed mails:
                 var showedItems = ((MockServiceManager)this.ServiceManager).MailService.MyMessages;
-                
+
                 var replies = this.ParseReplies(EmailSharedResponses.ShowEmailPrompt, new StringDictionary()
                 {
                     { "TotalCount", showedItems.Count.ToString() },

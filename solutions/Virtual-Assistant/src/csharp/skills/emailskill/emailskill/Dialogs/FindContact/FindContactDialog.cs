@@ -658,7 +658,7 @@ namespace EmailSkill.Dialogs.FindContact
                     {
                         options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, ConfigData.GetInstance().MaxReadSize);
                         options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
-                        options.RetryPrompt = ResponseManager.GetResponse(EmailSharedResponses.NoChoiceOptions_Retry);
+                        options.RetryPrompt = ResponseManager.GetResponse(EmailSharedResponses.NoChoiceOptionsRetry);
                         return options;
                     }
 
@@ -672,7 +672,7 @@ namespace EmailSkill.Dialogs.FindContact
 
             options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, ConfigData.GetInstance().MaxReadSize);
             options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
-            options.RetryPrompt = ResponseManager.GetResponse(EmailSharedResponses.NoChoiceOptions_Retry);
+            options.RetryPrompt = ResponseManager.GetResponse(EmailSharedResponses.NoChoiceOptionsRetry);
             return options;
         }
 
@@ -745,7 +745,7 @@ namespace EmailSkill.Dialogs.FindContact
                     {
                         options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, ConfigData.GetInstance().MaxReadSize);
                         options.Prompt.Text += "\r\n" + GetSelectPromptString(options, true);
-                        options.RetryPrompt = ResponseManager.GetResponse(EmailSharedResponses.NoChoiceOptions_Retry);
+                        options.RetryPrompt = ResponseManager.GetResponse(EmailSharedResponses.NoChoiceOptionsRetry);
                         return options;
                     }
 
@@ -759,7 +759,7 @@ namespace EmailSkill.Dialogs.FindContact
 
             options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, ConfigData.GetInstance().MaxReadSize);
             options.Prompt.Text += "\r\n" + GetSelectPromptString(options, true);
-            options.RetryPrompt = ResponseManager.GetResponse(EmailSharedResponses.NoChoiceOptions_Retry);
+            options.RetryPrompt = ResponseManager.GetResponse(EmailSharedResponses.NoChoiceOptionsRetry);
             return options;
         }
     }

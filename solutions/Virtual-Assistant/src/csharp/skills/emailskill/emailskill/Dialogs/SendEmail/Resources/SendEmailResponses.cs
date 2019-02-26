@@ -12,16 +12,15 @@ namespace EmailSkill.Dialogs.SendEmail.Resources
     public class SendEmailResponses : IResponseIdCollection
     {
         // Generated accessors
-		public const string RecipientConfirmed = "RecipientConfirmed";
-		public const string NoSubject = "NoSubject";
-		public const string NoMessageBody = "NoMessageBody";
-		public const string RetryNoSubject = "RetryNoSubject";
-		public const string PlayBackMessage = "PlayBackMessage";
-		public const string CheckContent = "CheckContent";
-		public const string RetryContent = "RetryContent";
-		public const string GetRecreateInfo = "GetRecreateInfo";
-		public const string GetRecreateInfo_Retry = "GetRecreateInfo_Retry";
-		public const string ConfirmMessage_Retry = "ConfirmMessage_Retry";
-
+        public const string RecipientConfirmed = "RecipientConfirmed";
+        public const string NoSubject = "NoSubject";
+        public const string NoMessageBody = "NoMessageBody";
+        public const string RetryNoSubject = "RetryNoSubject";
+        public const string PlayBackMessage = "PlayBackMessage";
+        public const string CheckContent = "CheckContent";
+        public const string RetryContent = "RetryContent";
+        public const string GetRecreateInfo = "GetRecreateInfo";
+        public const string GetRecreateInfoRetry = "GetRecreateInfoRetry";
+        public const string ConfirmMessageRetry = "ConfirmMessageRetry";
     }
 }

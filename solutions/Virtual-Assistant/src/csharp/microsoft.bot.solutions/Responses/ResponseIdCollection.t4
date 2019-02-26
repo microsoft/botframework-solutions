@@ -25,8 +25,7 @@ namespace <#= namespaceName #>
 // This code runs in the text json:  
 foreach (var propertyName in json)  { 
 #>
-		public const string <#= propertyName.Key.Substring(0, 1).ToUpperInvariant() + propertyName.Key.Substring(1) #> = "<#= propertyName.Key #>";
+        public const string <#= propertyName.Key.Substring(0, 1).ToUpperInvariant() + propertyName.Key.Substring(1) #> = "<#= propertyName.Key #>";
 <# } #>
-
     }
 }
