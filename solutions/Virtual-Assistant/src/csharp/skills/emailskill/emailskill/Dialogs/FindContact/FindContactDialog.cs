@@ -270,7 +270,13 @@ namespace EmailSkill.Dialogs.FindContact
                                 var emailList = new List<ScoredEmailAddress>();
                                 foreach (var sameNamePerson in personWithSameName)
                                 {
-                                    sameNamePerson.ScoredEmailAddresses.ToList().ForEach(e => emailList.Add(e));
+                                    sameNamePerson.ScoredEmailAddresses.ToList().ForEach(e =>
+                                    {
+                                        if (e != null && !string.IsNullOrEmpty(e.Address))
+                                        {
+                                            emailList.Add(e);
+                                        }
+                                    });
                                 }
 
                                 unionPerson.ScoredEmailAddresses = emailList;

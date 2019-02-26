@@ -283,7 +283,13 @@ namespace CalendarSkill.Dialogs.FindContact
                                     var curEmailList = new List<ScoredEmailAddress>();
                                     foreach (var sameNamePerson in personWithSameName)
                                     {
-                                        sameNamePerson.Emails.ToList().ForEach(e => curEmailList.Add(new ScoredEmailAddress { Address = e }));
+                                        sameNamePerson.Emails.ToList().ForEach(e =>
+                                        {
+                                            if (!string.IsNullOrEmpty(e))
+                                            {
+                                                curEmailList.Add(new ScoredEmailAddress { Address = e });
+                                            }
+                                        });
                                     }
 
                                     unionPerson.Emails = curEmailList;
