@@ -259,7 +259,7 @@ namespace CalendarSkill.Dialogs.FindContact
                         (var personList, var userList) = FormatRecipientList(originPersonList, originUserList);
 
                         // people you work with has the distinct email address has the highest priority
-                        if (personList.Count == 1 && personList.First().Emails.Count == 1)
+                        if (personList.Count == 1 && personList.First().Emails.Count == 1 && personList.First().Emails.First() != null)
                         {
                             state.ConfirmedPerson = new CustomizedPerson(personList.First());
                             var highestPriorityPerson = new CustomizedPerson(personList.First());
@@ -283,7 +283,13 @@ namespace CalendarSkill.Dialogs.FindContact
                                     var curEmailList = new List<ScoredEmailAddress>();
                                     foreach (var sameNamePerson in personWithSameName)
                                     {
-                                        sameNamePerson.Emails.ToList().ForEach(e => curEmailList.Add(new ScoredEmailAddress { Address = e }));
+                                        sameNamePerson.Emails.ToList().ForEach(e =>
+                                        {
+                                            if (!string.IsNullOrEmpty(e))
+                                            {
+                                                curEmailList.Add(new ScoredEmailAddress { Address = e });
+                                            }
+                                        });
                                     }
 
                                     unionPerson.Emails = curEmailList;
@@ -297,6 +303,8 @@ namespace CalendarSkill.Dialogs.FindContact
                 {
                     return await sc.EndDialogAsync();
                 }
+
+                unionList.RemoveAll(person => !person.Emails.Exists(email => email.Address != null));
 
                 state.UnconfirmedPerson = unionList;
 
