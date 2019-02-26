@@ -1,0 +1,11 @@
+﻿# ReadOutMessage
+- The email is {EmailDetails}.||  The email is {EmailDetailsWithContent}.
+
+﻿# ReadOutMorePrompt
+- Would you like to see your email overview again? You can also ask me to forward, reply, delete this email for you, or show the next/previous page.
+
+﻿# ReadOutPrompt
+- CASE: {count(messageList) == 1}
+    - Do you want to hear the content of this email?
+- DEFAULT:
+    - Do you want to hear the content of the first email? I can read out any email for you, just let me know by naming out the subject or from whom.

@@ -1,0 +1,110 @@
+﻿# EmailDisplay(messageList)
+- CASE: {count(messageList)== 1}
+    - email
+- DEFAULT:
+    - emails
+
+# ShowEmailByPageIndex(messageList, index, messageTotalCount, emailDetail)
+- CASE: {index == 0}
+    - You have {messageTotalCount} [EmailDisplay(messageList)]. The latest email is .
+- DEFAULT:
+    - You have {messageTotalCount} [EmailDisplay(messageList)]. The first email is .
+
+# ShowEmailPageDiscription(showEmailIndex, maxPage)
+- CASE: {showEmailIndex < 0}
+    - This is already the first page.
+- CASE: {showEmailIndex > maxPage}
+    - This is already the last page.
+- DEFAULT:
+    - 
+
+# ShowEmailPrompt
+- CASE: {count(messageList) == 0}
+    - It seems you have no new emails. Just let me know if you want to set up a new email.
+- DEFAULT:
+    - [ShowEmailByPageIndex(messageList, showEmailIndex, messageTotalCount, emailDetail)]
+
+# EmailCardTemplate
+- ```
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.0",
+    "speak": "@{emailCardData.Speak}",
+    "id": "EmailCard",
+    "body": [
+    {
+        "type": "Container",
+        "items": [
+        {
+            "type": "ColumnSet",
+            "columns": [
+            {
+                "type": "Column",
+                "width": "stretch",
+                "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "@{emailCardData.Sender}",
+                    "weight": "bolder",
+                    "size": "large",
+                    "maxLines": 1
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "@{emailCardData.Subject}",
+                    "weight": "bolder",
+                    "size": "large",
+                    "maxLines": 1
+                }
+                ]
+            }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+            {
+                "type": "Column",
+                "width": "stretch",
+                "items": [
+                    {
+                    "type": "TextBlock",
+                    "spacing": "none",
+                    "text": "@{emailCardData.ReceivedDateTime}",
+                    "isSubtle": true,
+                    "wrap": true
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "@{emailCardData.NameList}",
+                    "weight": "bolder",
+                    "wrap": true
+                }
+                ]
+            }
+            ]
+        }
+        ]
+    },
+    {
+        "type": "Container",
+        "items": [
+        {
+            "type": "TextBlock",
+            "text": "@{emailCardData.EmailContent}",
+            "wrap": true,
+            "maxLines": 2
+        }
+        ]
+    }
+    ],
+    "actions": [
+    {
+        "type": "Action.OpenUrl",
+        "title": "View",
+        "url": "@{emailCardData.EmailLink}"
+    }
+    ]
+}
+```

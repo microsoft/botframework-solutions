@@ -15,6 +15,7 @@
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="1.2.0" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.2.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.LanguageGeneration" Version="0.0.5" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.2.2" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.2.2" />
     <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.2.2" />
@@ -176,6 +177,12 @@
     <None Update="Dialogs\Shared\Resources\EmailSharedResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EmailSharedResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Dialogs\Shared\Resources\LG\SharedEmailResponses.lg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Dialogs\ShowEmail\Resources\LG\ShowEmailResponses.lg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Dialogs\ShowEmail\Resources\ShowEmailResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

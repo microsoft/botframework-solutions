@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
@@ -17,7 +18,9 @@ using EmailSkill.ServiceClients;
 using EmailSkill.Util;
 using Luis;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.LanguageGeneration;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Responses;
@@ -116,14 +119,13 @@ namespace EmailSkill.Dialogs.ShowEmail
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                if (state.MessageList.Count == 1)
-                {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(ShowEmailResponses.ReadOutOnlyOnePrompt) });
-                }
-                else
-                {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(ShowEmailResponses.ReadOutPrompt) });
-                }
+                var engine = TemplateEngine.FromFile(LGHelper.GetFilePath("ShowEmail", "ShowEmailResponses.lg"));
+                var activityGenerator = new LGActivityGenerator(engine);
+                var options = new ActivityGenerationConfig();
+                options.TextSpeakTemplateId = "ReadOutPrompt";
+
+                var activity = activityGenerator.Generate(options, new { messageList = state.MessageList });
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = activity });
             }
             catch (Exception ex)
             {

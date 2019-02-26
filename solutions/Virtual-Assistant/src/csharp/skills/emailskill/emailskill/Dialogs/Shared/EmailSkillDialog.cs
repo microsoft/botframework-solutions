@@ -19,6 +19,7 @@ using EmailSkill.ServiceClients;
 using EmailSkill.Util;
 using Luis;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.LanguageGeneration;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
@@ -963,45 +964,16 @@ namespace EmailSkill.Dialogs.Shared
                 searchType = string.Format(EmailCommonStrings.RelevantFormat, EmailCommonStrings.Important);
             }
 
-            var tokens = new StringDictionary
+            var tokens = new
             {
-                { "TotalCount", totalCount.ToString() },
-                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(updatedMessages, state.GetUserTimeZone(), ConfigData.GetInstance().MaxReadSize) },
-            };
+                messageTotalCount = totalCount,
+                messageList = updatedMessages,
+                showEmailIndex = state.ShowEmailIndex,
+                emailDetail = SpeakHelper.ToSpeechEmailListString(updatedMessages, state.GetUserTimeZone(), ConfigData.GetInstance().MaxReadSize),
+                maxPage = (totalCount / ConfigData.GetInstance().MaxDisplaySize) + (totalCount % ConfigData.GetInstance().MaxDisplaySize > 0 ? 1 : 0) - 1
+        };
 
-            var reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowEmailPrompt, cards, tokens);
-
-            if (state.ShowEmailIndex == 0)
-            {
-                if (updatedMessages.Count == 1)
-                {
-                    reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowOneEmailPrompt, cards, tokens);
-                }
-            }
-            else
-            {
-                reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowEmailPrompt_OtherPage, cards, tokens);
-                if (updatedMessages.Count == 1)
-                {
-                    reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowOneEmailPrompt_OtherPage, cards, tokens);
-                }
-            }
-
-            int maxPage = (totalCount / ConfigData.GetInstance().MaxDisplaySize) + (totalCount % ConfigData.GetInstance().MaxDisplaySize > 0 ? 1 : 0) - 1;
-            if (state.ShowEmailIndex < 0)
-            {
-                var pagingInfo = ResponseManager.GetResponse(EmailSharedResponses.FirstPageAlready);
-                reply.Text = pagingInfo.Text + reply.Text;
-                reply.Speak = pagingInfo.Speak + reply.Speak;
-                state.ShowEmailIndex = 0;
-            }
-            else if (state.ShowEmailIndex > maxPage)
-            {
-                var pagingInfo = ResponseManager.GetResponse(EmailSharedResponses.LastPageAlready);
-                reply.Text = pagingInfo.Text + reply.Text;
-                reply.Speak = pagingInfo.Speak + reply.Speak;
-                state.ShowEmailIndex--;
-            }
+            var reply = LGHelper.GetCardResponseWithLG("ShowEmailPrompt", cards, tokens);
 
             await sc.Context.SendActivityAsync(reply);
             return;
