@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using CalendarSkill.Dialogs.CreateEvent.Resources;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Recognizers.Text.DateTime;
 using static CalendarSkill.Models.CreateEventStateModel;
 using static Microsoft.Recognizers.Text.Culture;
 

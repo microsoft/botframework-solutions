@@ -14,6 +14,7 @@
   </PropertyGroup>
     
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Autofac.Extras.Moq" Version="4.3.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
     <PackageReference Include="Moq" Version="4.10.0" />

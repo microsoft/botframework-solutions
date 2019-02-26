@@ -14,9 +14,9 @@ using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Auth.Resource
 using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Main.Resources;
 using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Shared.Resources;
 using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Sample.Resources;
-using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Solutions.TaskExtensions;
+using Microsoft.Bot.Solutions.Proactive;
 
 namespace FakeSkill
 {
@@ -51,15 +51,13 @@ namespace FakeSkill
 
             if(responseManager == null)
             {
+                var locales = new string[] { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
                 responseManager = new ResponseManager(
-                    new IResponseIdCollection[]
-                    {
-                                    new SampleAuthResponses(),
-                                    new MainResponses(),
-                                    new SharedResponses(),
-                                    new SampleResponses()
-                    },
-                    new string[] { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" });
+                    locales,
+                    new SampleAuthResponses(),
+                    new MainResponses(),
+                    new SharedResponses(),
+                    new SampleResponses());
             }
 
             _responseManager = responseManager;

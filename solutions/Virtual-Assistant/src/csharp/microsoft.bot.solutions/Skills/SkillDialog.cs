@@ -12,11 +12,10 @@ using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Middleware;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
-using Microsoft.Bot.Solutions.Models.Proactive;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Proactive;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.TaskExtensions;
+using Microsoft.Bot.Solutions.Telemetry;
 
 namespace Microsoft.Bot.Solutions.Skills
 {
@@ -47,12 +46,7 @@ namespace Microsoft.Bot.Solutions.Skills
             _useCachedTokens = useCachedTokens;
 
             var supportedLanguages = skillConfiguration.LocaleConfigurations.Keys.ToArray();
-            _responseManager = new ResponseManager(
-                new IResponseIdCollection[]
-                {
-                    new CommonResponses()
-                },
-                supportedLanguages);
+            _responseManager = new ResponseManager(supportedLanguages, new SkillResponses());
 
             AddDialog(new MultiProviderAuthDialog(skillConfiguration));
         }
@@ -165,7 +159,7 @@ namespace Microsoft.Bot.Solutions.Skills
                     // set up skill turn error handling
                     OnTurnError = async (context, exception) =>
                     {
-                        await context.SendActivityAsync(_responseManager.GetResponse(CommonResponses.ErrorMessageSkillError));
+                        await context.SendActivityAsync(_responseManager.GetResponse(SkillResponses.ErrorMessageSkillError));
 
                         await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
 

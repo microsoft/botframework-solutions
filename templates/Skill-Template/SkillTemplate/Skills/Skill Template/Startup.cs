@@ -14,9 +14,8 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Middleware;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Telemetry;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
@@ -65,12 +64,10 @@ namespace $safeprojectname$
             services.AddSingleton<SkillConfigurationBase>(sp => connectedServices);
 
             var responseManager = new ResponseManager(
-                new IResponseIdCollection[]
-                {
-                    new MainResponses(),
-                    new SharedResponses(),
-                    new SampleResponses()
-                }, connectedServices.LocaleConfigurations.Keys.ToArray());
+                connectedServices.LocaleConfigurations.Keys.ToArray(),
+                new MainResponses(),
+                new SharedResponses(),
+                new SampleResponses());
 
             services.AddSingleton(sp => responseManager);
 
@@ -113,7 +110,7 @@ namespace $safeprojectname$
                 // Telemetry Middleware (logs activity messages in Application Insights)
                 var sp = services.BuildServiceProvider();
                 var telemetryClient = sp.GetService<IBotTelemetryClient>();                
-                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
+                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient);
                 options.Middleware.Add(appInsightsLogger);
 
                 // Catches any errors that occur during a conversation turn and logs them to AppInsights.

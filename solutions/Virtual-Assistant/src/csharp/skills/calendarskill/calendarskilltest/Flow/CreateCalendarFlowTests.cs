@@ -10,8 +10,8 @@ using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Models;
 using CalendarSkillTest.Flow.Utterances;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Telemetry;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
