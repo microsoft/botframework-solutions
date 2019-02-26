@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Newtonsoft.Json.Linq;
 
-namespace Microsoft.Bot.Solutions.Middleware.Telemetry
+namespace Microsoft.Bot.Solutions.Telemetry
 {
     /// <summary>
     /// TelemetryLuisRecognizer invokes the Luis Recognizer and logs some results into Application Insights.

@@ -2,7 +2,7 @@
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
 
-namespace Microsoft.Bot.Solutions.Middleware.Telemetry
+namespace Microsoft.Bot.Solutions.Telemetry
 {
     public interface ITelemetryQnAMaker
     {

@@ -3,7 +3,7 @@
 
 using Microsoft.Bot.Builder;
 
-namespace Microsoft.Bot.Solutions.Models.Proactive
+namespace Microsoft.Bot.Solutions.Proactive
 {
     public class ProactiveState : BotState
     {

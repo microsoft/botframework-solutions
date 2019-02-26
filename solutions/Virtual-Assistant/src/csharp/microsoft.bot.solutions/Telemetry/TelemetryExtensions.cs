@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.Bot.Solutions.Middleware.Telemetry
+namespace Microsoft.Bot.Solutions.Telemetry
 {
     /// <summary>
     /// This class hosts the extension methods for telemetry purposes to add the basic logging properties before taking the appropriate action.

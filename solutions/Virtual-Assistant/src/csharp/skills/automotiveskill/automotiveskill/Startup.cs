@@ -20,11 +20,11 @@ namespace AutomotiveSkill
     using Microsoft.Bot.Configuration;
     using Microsoft.Bot.Connector.Authentication;
     using Microsoft.Bot.Schema;
-    using Microsoft.Bot.Solutions.Middleware.Telemetry;
-    using Microsoft.Bot.Solutions.Models.Proactive;
+    using Microsoft.Bot.Solutions.Proactive;
     using Microsoft.Bot.Solutions.Responses;
     using Microsoft.Bot.Solutions.Skills;
     using Microsoft.Bot.Solutions.TaskExtensions;
+    using Microsoft.Bot.Solutions.Telemetry;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -74,14 +74,11 @@ namespace AutomotiveSkill
             services.AddSingleton<SkillConfigurationBase>(sp => connectedServices);
 
             var supportedLanguages = languageModels.Select(l => l.Key).ToArray();
-            var responses = new IResponseIdCollection[]
-            {
+            var responseManager = new ResponseManager(
+                supportedLanguages,
                 new AutomotiveSkillMainResponses(),
                 new AutomotiveSkillSharedResponses(),
-                new VehicleSettingsResponses(),
-            };
-
-            var responseManager = new ResponseManager(responses, supportedLanguages);
+                new VehicleSettingsResponses());
 
             // Register bot responses for all supported languages.
             services.AddSingleton(sp => responseManager);

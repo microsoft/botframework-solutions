@@ -6,7 +6,7 @@ using CalendarSkillTest.Flow.Utterances;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Telemetry;
 
 namespace CalendarSkillTest.Flow.Fakes
 {

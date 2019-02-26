@@ -6,12 +6,12 @@ using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
-using Microsoft.Bot.Solutions.Models.Proactive;
+using Microsoft.Bot.Solutions.Proactive;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.TaskExtensions;
+using Microsoft.Bot.Solutions.Telemetry;
 using Microsoft.Bot.Solutions.Testing;
-using Microsoft.Bot.Solutions.Testing.Fakes;
+using Microsoft.Bot.Solutions.Testing.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace VirtualAssistant.Tests

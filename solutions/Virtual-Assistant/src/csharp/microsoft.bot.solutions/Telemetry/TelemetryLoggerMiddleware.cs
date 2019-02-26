@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
 
-namespace Microsoft.Bot.Solutions.Middleware.Telemetry
+namespace Microsoft.Bot.Solutions.Telemetry
 {
     /// <summary>
     /// Middleware for logging incoming, outgoing, updated or deleted Activity messages into Application Insights.

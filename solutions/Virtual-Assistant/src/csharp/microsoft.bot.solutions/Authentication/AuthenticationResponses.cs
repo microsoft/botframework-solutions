@@ -4,23 +4,19 @@
 
 using Microsoft.Bot.Solutions.Responses;
 
-namespace Microsoft.Bot.Solutions.Resources
+namespace Microsoft.Bot.Solutions.Authentication
 {
     /// <summary>
     /// Contains bot responses.
     /// </summary>
-    public class CommonResponses : IResponseIdCollection
+    public class AuthenticationResponses : IResponseIdCollection
     {
         // Generated accessors
-		public const string ConfirmUserInfo = "ConfirmUserInfo";
-		public const string ConfirmSaveInfoFailed = "ConfirmSaveInfoFailed";
-		public const string ErrorMessage = "ErrorMessage";
-		public const string ErrorMessage_AuthFailure = "ErrorMessage_AuthFailure";
-		public const string ErrorMessage_SkillError = "ErrorMessage_SkillError";
 		public const string SkillAuthenticationTitle = "SkillAuthenticationTitle";
 		public const string SkillAuthenticationPrompt = "SkillAuthenticationPrompt";
 		public const string AuthProvidersPrompt = "AuthProvidersPrompt";
 		public const string ConfiguredAuthProvidersPrompt = "ConfiguredAuthProvidersPrompt";
+		public const string ErrorMessage_AuthFailure = "ErrorMessage_AuthFailure";
 
     }
 }

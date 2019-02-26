@@ -1,0 +1,11 @@
+﻿{
+  "ErrorMessage_SkillError": {
+    "replies": [
+      {
+        "text": "很抱歉，对话技能出错了。请您再试一次！",
+        "speak": "很抱歉，对话技能出错了。请您再试一次！"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}

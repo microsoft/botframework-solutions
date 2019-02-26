@@ -3,7 +3,6 @@ using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.FindContact;
-using EmailSkill.Dialogs.FindContact.Resources;
 using EmailSkill.Dialogs.SendEmail.Prompts;
 using EmailSkill.Dialogs.SendEmail.Resources;
 using EmailSkill.Dialogs.Shared;

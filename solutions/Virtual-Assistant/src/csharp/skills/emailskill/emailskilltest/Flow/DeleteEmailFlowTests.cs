@@ -7,7 +7,7 @@ using EmailSkill.Util;
 using EmailSkillTest.Flow.Fakes;
 using EmailSkillTest.Flow.Utterances;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Data;
+using Microsoft.Bot.Solutions.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EmailSkillTest.Flow

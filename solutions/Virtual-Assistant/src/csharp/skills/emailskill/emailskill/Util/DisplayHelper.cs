@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using EmailSkill.Dialogs.Shared.Resources.Strings;
-using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Graph;
 

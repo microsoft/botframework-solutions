@@ -16,11 +16,11 @@ namespace AutomotiveSkill
     using Microsoft.Bot.Builder;
     using Microsoft.Bot.Builder.Dialogs;
     using Microsoft.Bot.Configuration;
-    using Microsoft.Bot.Solutions.Middleware.Telemetry;
-    using Microsoft.Bot.Solutions.Models.Proactive;
+    using Microsoft.Bot.Solutions.Proactive;
     using Microsoft.Bot.Solutions.Responses;
     using Microsoft.Bot.Solutions.Skills;
     using Microsoft.Bot.Solutions.TaskExtensions;
+    using Microsoft.Bot.Solutions.Telemetry;
 
     /// <summary>
     /// Main entry point and orchestration for bot.
@@ -84,12 +84,10 @@ namespace AutomotiveSkill
             {
                 var supportedLanguages = services.LocaleConfigurations.Keys.ToArray();
                 responseManager = new ResponseManager(
-                    new IResponseIdCollection[]
-                    {
-                        new AutomotiveSkillMainResponses(),
-                        new AutomotiveSkillSharedResponses(),
-                        new VehicleSettingsResponses(),
-                    }, supportedLanguages);
+                    supportedLanguages,
+                    new AutomotiveSkillMainResponses(),
+                    new AutomotiveSkillSharedResponses(),
+                    new VehicleSettingsResponses());
             }
 
             _responseManager = responseManager;

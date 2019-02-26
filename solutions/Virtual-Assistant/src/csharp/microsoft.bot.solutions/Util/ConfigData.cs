@@ -1,6 +1,4 @@
-﻿using Microsoft.Bot.Solutions;
-
-namespace Microsoft.Bot.Solutions.Data
+﻿namespace Microsoft.Bot.Solutions.Util
 {
     public class ConfigData
     {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Microsoft.Bot.Configuration;
 using Newtonsoft.Json;
 
-namespace Microsoft.Bot.Solutions.Model
+namespace Microsoft.Bot.Solutions.Skills
 {
     public class SkillEvent : ConnectedService
     {

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace Microsoft.Bot.Solutions.Middleware.Telemetry
+namespace Microsoft.Bot.Solutions.Telemetry
 {
     public interface ITelemetryLuisRecognizer : IRecognizer
     {

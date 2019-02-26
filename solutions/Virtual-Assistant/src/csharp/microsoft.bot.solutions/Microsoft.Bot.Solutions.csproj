@@ -4,15 +4,28 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AssemblyName>Microsoft.Bot.Solutions</AssemblyName>
     <CodeAnalysisRuleSet>..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Cards\**" />
+    <Compile Remove="Data\**" />
     <Compile Remove="Dialogs\BotResponseFormatters\**" />
+    <Compile Remove="Middleware\Translation\**" />
+    <Compile Remove="Resources\Cards\**" />
+    <Compile Remove="Translation\**" />
     <EmbeddedResource Remove="Cards\**" />
+    <EmbeddedResource Remove="Data\**" />
     <EmbeddedResource Remove="Dialogs\BotResponseFormatters\**" />
+    <EmbeddedResource Remove="Middleware\Translation\**" />
+    <EmbeddedResource Remove="Resources\Cards\**" />
+    <EmbeddedResource Remove="Translation\**" />
     <None Remove="Cards\**" />
+    <None Remove="Data\**" />
     <None Remove="Dialogs\BotResponseFormatters\**" />
+    <None Remove="Middleware\Translation\**" />
+    <None Remove="Resources\Cards\**" />
+    <None Remove="Translation\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,26 +33,48 @@
     <Compile Remove="Dialogs\IBotResponseBuilder.cs" />
     <Compile Remove="Dialogs\ResponseManager.cs" />
     <Compile Remove="Extensions\TurnContextEx.cs" />
+    <Compile Remove="Middleware\LuisRecognizerMiddleware.cs" />
+    <Compile Remove="Testing\FakeService.cs" />
+    <Compile Remove="Testing\LUISEntities.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Authentication\AuthenticationResponses.de.json" />
+    <None Remove="Authentication\AuthenticationResponses.es.json" />
+    <None Remove="Authentication\AuthenticationResponses.fr.json" />
+    <None Remove="Authentication\AuthenticationResponses.it.json" />
+    <None Remove="Authentication\AuthenticationResponses.json" />
+    <None Remove="Authentication\AuthenticationResponses.zh.json" />
     <None Remove="Resources\CommonResponses.de.json" />
     <None Remove="Resources\CommonResponses.es.json" />
     <None Remove="Resources\CommonResponses.fr.json" />
     <None Remove="Resources\CommonResponses.it.json" />
     <None Remove="Resources\CommonResponses.json" />
     <None Remove="Resources\CommonResponses.zh.json" />
+    <None Remove="Skills\SkillResponses.de.json" />
+    <None Remove="Skills\SkillResponses.es.json" />
+    <None Remove="Skills\SkillResponses.fr.json" />
+    <None Remove="Skills\SkillResponses.it.json" />
+    <None Remove="Skills\SkillResponses.json" />
+    <None Remove="Skills\SkillResponses.zh.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\CommonResponses.de.json" />
-    <EmbeddedResource Include="Resources\CommonResponses.es.json" />
-    <EmbeddedResource Include="Resources\CommonResponses.fr.json" />
-    <EmbeddedResource Include="Resources\CommonResponses.it.json" />
-    <EmbeddedResource Include="Resources\CommonResponses.json" />
+    <EmbeddedResource Include="Authentication\AuthenticationResponses.de.json" />
+    <EmbeddedResource Include="Authentication\AuthenticationResponses.es.json" />
+    <EmbeddedResource Include="Authentication\AuthenticationResponses.fr.json" />
+    <EmbeddedResource Include="Authentication\AuthenticationResponses.it.json" />
+    <EmbeddedResource Include="Authentication\AuthenticationResponses.json" />
+    <EmbeddedResource Include="Authentication\AuthenticationResponses.zh.json" />
     <EmbeddedResource Include="Resources\CommonResponses.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Skills\SkillResponses.de.json" />
+    <EmbeddedResource Include="Skills\SkillResponses.es.json" />
+    <EmbeddedResource Include="Skills\SkillResponses.fr.json" />
+    <EmbeddedResource Include="Skills\SkillResponses.it.json" />
+    <EmbeddedResource Include="Skills\SkillResponses.json" />
+    <EmbeddedResource Include="Skills\SkillResponses.zh.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -64,28 +99,34 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Resources\CommonResponses.cs">
-      <DependentUpon>CommonResponses.tt</DependentUpon>
+    <Compile Update="Authentication\AuthenticationResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DependentUpon>AuthenticationResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Resources\CommonStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>CommonStrings.resx</DependentUpon>
     </Compile>
+    <Compile Update="Skills\SkillResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SkillResponses.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Resources\Cards\OnboardInfoCard.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\CommonResponses.tt">
-      <LastGenOutput>CommonResponses.cs</LastGenOutput>
+    <None Update="Authentication\AuthenticationResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AuthenticationResponses.cs</LastGenOutput>
     </None>
     <None Update="Responses\ResponseIdCollection.t4">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Skills\SkillResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SkillResponses.cs</LastGenOutput>
     </None>
   </ItemGroup>
 

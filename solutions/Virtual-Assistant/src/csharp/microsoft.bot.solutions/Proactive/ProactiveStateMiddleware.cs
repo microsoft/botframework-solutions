@@ -5,11 +5,9 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Solutions.Models.Proactive;
 using Microsoft.Bot.Solutions.Util;
-using static Microsoft.Bot.Solutions.Models.Proactive.ProactiveModel;
 
-namespace Microsoft.Bot.Solutions.Middleware
+namespace Microsoft.Bot.Solutions.Proactive
 {
     /// <summary>
     /// A Middleware for saving the proactive model data
@@ -33,10 +31,10 @@ namespace Microsoft.Bot.Solutions.Middleware
             if (activity.From.Properties["role"].ToString().Equals("user", StringComparison.InvariantCultureIgnoreCase))
             {
                 var proactiveState = await _proactiveStateAccessor.GetAsync(turnContext, () => new ProactiveModel());
-                ProactiveData data;
+                ProactiveModel.ProactiveData data;
                 var hashedUserId = MD5Util.ComputeHash(turnContext.Activity.From.Id);
                 var conversationReference = turnContext.Activity.GetConversationReference();
-                var proactiveData = new ProactiveData { Conversation = conversationReference };
+                var proactiveData = new ProactiveModel.ProactiveData { Conversation = conversationReference };
 
                 if (proactiveState.TryGetValue(hashedUserId, out data))
                 {
@@ -44,7 +42,7 @@ namespace Microsoft.Bot.Solutions.Middleware
                 }
                 else
                 {
-                    data = new ProactiveData { Conversation = conversationReference };
+                    data = new ProactiveModel.ProactiveData { Conversation = conversationReference };
                 }
 
                 proactiveState[hashedUserId] = data;

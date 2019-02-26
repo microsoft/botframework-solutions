@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml;
 using Moq;
 using Moq.Protected;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace PointOfInterestSkillTests.API.Fakes
 {
