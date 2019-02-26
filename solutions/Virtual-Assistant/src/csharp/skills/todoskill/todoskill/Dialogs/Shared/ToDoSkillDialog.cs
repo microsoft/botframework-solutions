@@ -18,6 +18,7 @@ using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ToDoSkill.Dialogs.AddToDo.Resources;
 using ToDoSkill.Dialogs.DeleteToDo.Resources;
@@ -417,16 +418,43 @@ namespace ToDoSkill.Dialogs.Shared
            string listType)
         {
             var toDoCard = new AdaptiveCard();
+            ResponseTemplate response;
+            var speakText = string.Empty;
+            if (allTasksCount <= todos.Count)
+            {
+                if (todos.Count == 1)
+                {
+                    response = ResponseManager.GetResponseTemplate(ShowToDoResponses.LatestTask);
+                    speakText = response.Reply.Speak;
+                }
+                else if (todos.Count >= 2)
+                {
+                    response = ResponseManager.GetResponseTemplate(ShowToDoResponses.LatestTasks);
+                    speakText = response.Reply.Speak;
+                }
+            }
+            else
+            {
+                response = ResponseManager.GetResponseTemplate(ShowToDoResponses.TaskSummaryMessage);
+                speakText = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
+                response = ResponseManager.GetResponseTemplate(ShowToDoResponses.MostRecentTasks);
+                var mostRecentTasksString = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", todos.Count.ToString() } });
+                speakText += mostRecentTasksString;
+            }
 
-            var engine = TemplateEngine.FromFile(GetFilePath("ShowToDo", "ShowToDoResponses.lg"));
-            var speakText = engine.Evaluate("TaskSummaryMessage", new { taskCount = allTasksCount, listType = listType });
-            var recentTasks = todos.Select(t => t.Topic).ToList().GetRange(0, Math.Min(readSize, todos.Count));
-            speakText += engine.Evaluate("RecentTasks", new { recentTasks });
             toDoCard.Speak = speakText;
 
             var body = new List<AdaptiveElement>();
+            if (allTasksCount == 1)
+            {
+                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForSingleTask);
+            }
+            else
+            {
+                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForMultipleTasks);
+            }
 
-            var showText = engine.Evaluate("CardSummaryMessage", new { taskCount = allTasksCount, listType = listType });
+            var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
             var textBlock = new AdaptiveTextBlock
             {
                 Text = showText,
@@ -434,6 +462,7 @@ namespace ToDoSkill.Dialogs.Shared
             body.Add(textBlock);
 
             var container = new AdaptiveContainer();
+            int index = 0;
             foreach (var todo in todos)
             {
                 var columnSet = new AdaptiveColumnSet();
@@ -456,12 +485,28 @@ namespace ToDoSkill.Dialogs.Shared
                 columnSet.Columns.Add(contentColumn);
 
                 container.Items.Add(columnSet);
-            }
 
-            readSize = Math.Min(readSize, todos.Count);
-            if (todos.Count <= readSize)
-            {
-                toDoCard.Speak += engine.Evaluate("AskAddOrCompleteTaskMessage", null);
+                if (index < todos.Count)
+                {
+                    if (todos.Count == 1)
+                    {
+                        toDoCard.Speak += todo.Topic + ". ";
+                    }
+                    else if (index == todos.Count - 2)
+                    {
+                        toDoCard.Speak += todo.Topic;
+                    }
+                    else if (index == todos.Count - 1)
+                    {
+                        toDoCard.Speak += string.Format(ToDoStrings.And, todo.Topic);
+                    }
+                    else
+                    {
+                        toDoCard.Speak += todo.Topic + ", ";
+                    }
+                }
+
+                index++;
             }
 
             body.Add(container);
@@ -473,6 +518,45 @@ namespace ToDoSkill.Dialogs.Shared
                 Content = toDoCard,
             };
             return attachment;
+        }
+
+        protected Activity ToActivityForShowToDos(
+           List<TaskItem> todos,
+           int allTasksCount,
+           string listType)
+        {
+            var engine = TemplateEngine.FromFile(GetFilePath("ShowToDo", "ShowToDoResponses.lg"));
+            var activityGenerator = new LGActivityGenerator(engine);
+            var options = new ActivityGenerationConfig();
+            options.Attachments = new List<AttachmentGenerationConfig>();
+            options.Attachments.Add(new AttachmentGenerationConfig() { AttachementTemplateId = "AdaptiveCardOfRandomTasks", IsAdaptiveCard = true });
+            var recentTasks = todos.Select(t => t.Topic).ToList().GetRange(0, todos.Count);
+            var recentTaskObjs = todos.Select(t => new { Topic = t.Topic, IconSource = t.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource });
+            var data = new
+            {
+                taskCount = allTasksCount,
+                listType = listType,
+                recentTasks = recentTasks,
+                recentTaskObjs = recentTaskObjs,
+            };
+
+            var activity = activityGenerator.Generate(options, data);
+            return activity;
+        }
+
+        protected Activity ToActivityForHeroCard(
+           List<TaskItem> todos,
+           int allTasksCount,
+           string listType)
+        {
+            var engine = TemplateEngine.FromFile(GetFilePath("ShowToDo", "ShowToDoResponses.lg"));
+            var activityGenerator = new LGActivityGenerator(engine);
+            var options = new ActivityGenerationConfig();
+            options.Attachments = new List<AttachmentGenerationConfig>();
+            options.Attachments.Add(new AttachmentGenerationConfig() { AttachementTemplateId = "HeroCard" });
+            var data = new { heroCardTitle = "This is HeroCard title." };
+            var activity = activityGenerator.Generate(options, data);
+            return activity;
         }
 
         protected Attachment ToAdaptiveCardForReadMore(

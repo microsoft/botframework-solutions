@@ -138,13 +138,16 @@ namespace ToDoSkill.Dialogs.ShowToDo
 
                     if (topIntent == ToDoLU.Intent.ShowToDo || state.GoBackToStart)
                     {
-                        var toDoListAttachment = ToAdaptiveCardForShowToDos(
-                            state.Tasks,
-                            state.AllTasks.Count,
-                            state.ListType);
+                        cardReply = ToActivityForShowToDos(state.Tasks, state.AllTasks.Count, state.ListType);
+                        //cardReply = ToActivityForHeroCard(state.Tasks, state.AllTasks.Count, state.ListType);
+                        //var toDoListAttachment = ToAdaptiveCardForShowToDos(
+                        //    state.Tasks,
+                        //    state.AllTasks.Count,
+                        //    state.ListType);
 
-                        cardReply.Attachments.Add(toDoListAttachment);
+                        //cardReply.Attachments.Add(toDoListAttachment);
                         cardReply.InputHint = InputHints.IgnoringInput;
+
                         await sc.Context.SendActivityAsync(cardReply);
 
                         if (allTasksCount <= state.Tasks.Count)
