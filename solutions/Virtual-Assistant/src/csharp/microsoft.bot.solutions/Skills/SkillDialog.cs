@@ -176,7 +176,16 @@ namespace Microsoft.Bot.Solutions.Skills
                 };
 
                 _inProcAdapter.Use(new EventDebuggerMiddleware());
-                _inProcAdapter.Use(new SetLocaleMiddleware(dc.Context.Activity.Locale ?? "en-us"));
+
+                // change this to use default locale from appsettings when we have dependency injection
+                var locale = "en-us";
+                if (!string.IsNullOrWhiteSpace(dc.Context.Activity.Locale))
+                {
+                    locale = dc.Context.Activity.Locale;
+                }
+
+                _inProcAdapter.Use(new SetLocaleMiddleware(locale));
+
                 _inProcAdapter.Use(new AutoSaveStateMiddleware(userState, conversationState));
                 _skillInitialized = true;
             }
