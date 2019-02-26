@@ -1,19 +1,12 @@
 # Virtual Assistant Solution
 
 ![Virtual Assistant Diagram](../media/virtualassistant-diagram.jpg)
-We have seen a significant need from our customers and partners to deliver a conversational assistant tailored to their brand, personalized to their customers and made available across a broad range of conversational canvases and devices. 
-Continuing Microsoft's open-sourced approach towards the Bot Framework SDK, the open source Virtual Assistant solution provides full control over the end user experience built on a set of core foundational capabilities. 
-This experience can be infused with intelligence about the end-user and any device/ecosystem information for a truly integrated and intuitive experience.
 
-We strongly believe our customers should own and enrich their customer relationships and insights. 
-Therefore, any Virtual Assistant provides complete control of the user experience to our customers and partners through open-sourcing the code on GitHub. 
-The name, voice, and personality can be changed to suit the organization’s needs. 
-Our Virtual Assistant solution simplifies the creation of your own assistant enabling you to get started in minutes and then extended using our end to end development tooling.
+Customers and partners have a significant need to deliver a conversational assistant tailored to their brand, personalized to their users, and made available across a broad range of canvases and devices. Continuing Microsoft's open-sourced approach towards the Bot Framework SDK, the open-source Virtual Assistant solution provides a set of core foundational capabilities and full control over the end user experience. 
 
-The scope of Virtual Assistant functionality is broad, typically offering end users a range of capabilities. 
-To increase developer productivity and to enable a vibrant ecosystem of reusable conversational experiences, we are providing developers examples of reusable conversational Skills. 
-These Skills can be added into a conversational application to light up a specific experience like finding a point of interest, interacting with a calendar, tasks, email, etc.
-The Skills are fully customizable and consist of language models for multiple languages, dialogs, and code.
+Owning and enriching customer relationships and insights is vital to the goals of the Virtual Assistant. You can modify the name, voice, and personality to suit a customer’s needs. The solution simplifies the creation of a Virtual Assistant, enabling you to get started in minutes and extend with end-to-end development tooling.
+
+Common scenarios are provided as reusable conversational Skills, increasing developer productivity and enabling a vibrant ecosystem of reusable scenarios. Individual Skills can be added into an existing conversational application like: finding a point of interest, checking off an item on a to-do list, or replying to an email. Skills are fully customizable and consist of language models for multiple languages, dialogs, and code.
 
 Please read the [overview](./overview.md) for more on the Virtual Assistant architecture and principles.
 
@@ -21,8 +14,8 @@ Please read the [overview](./overview.md) for more on the Virtual Assistant arch
 - [Getting Started](#getting-started)
 - [Testing](#testing)
 - [Updating](#updating)
-- [Frequently Asked Questions](#frequently-asked-questions)
-- [Read More](#read-more)
+- [Known Issues](#known-issues)
+- [Dive In](#dive-in)
 
 ## Getting Started
 
@@ -50,11 +43,11 @@ By default, this will update all domain models for all language configuration fi
 
 This script updates your published models and saves the previous version with the id `backup`. In case of any issues with the updates models, you can revert your changes by making `backup` the active version in the LUIS portal.
 
-## Frequently Asked Questions
+## Known Issues
 
 [Known Issues](./knownissues.md)
 
-## Read More
+## Dive In
 
 The Virtual Assistant builds on the core [Enterprise Template](/templates/Enterprise-Template/README.md) capabilities providing base conversational intents in multiple languages, Dispatching, QnA and conversational analytics.
 
