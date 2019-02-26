@@ -16,6 +16,8 @@ namespace Microsoft.Bot.Solutions.Testing.Mocks
             DefaultIntent = defaultIntent;
         }
 
+        public bool LogPersonalInformation => throw new NotImplementedException();
+
         private Dictionary<string, IRecognizerConvert> TestUtterances { get; set; }
 
         private IRecognizerConvert DefaultIntent { get; set; }
@@ -27,8 +29,6 @@ namespace Microsoft.Bot.Solutions.Testing.Mocks
                 TestUtterances.Add(utterance.Key, utterance.Value);
             }
         }
-
-        public bool LogPersonalInformation => throw new NotImplementedException();
 
         public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {

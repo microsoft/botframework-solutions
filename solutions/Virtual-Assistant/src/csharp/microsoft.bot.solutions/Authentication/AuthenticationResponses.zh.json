@@ -1,5 +1,5 @@
 ﻿{
-  "ErrorMessage_AuthFailure": {
+  "ErrorMessageAuthFailure": {
     "replies": [
       {
         "text": "对不起，在尝试为了您的{authType}获得授权的时候出现了问题。请稍候重试。",

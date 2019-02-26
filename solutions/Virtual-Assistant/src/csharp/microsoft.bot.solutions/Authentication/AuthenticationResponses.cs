@@ -12,11 +12,10 @@ namespace Microsoft.Bot.Solutions.Authentication
     public class AuthenticationResponses : IResponseIdCollection
     {
         // Generated accessors
-		public const string SkillAuthenticationTitle = "SkillAuthenticationTitle";
-		public const string SkillAuthenticationPrompt = "SkillAuthenticationPrompt";
-		public const string AuthProvidersPrompt = "AuthProvidersPrompt";
-		public const string ConfiguredAuthProvidersPrompt = "ConfiguredAuthProvidersPrompt";
-		public const string ErrorMessage_AuthFailure = "ErrorMessage_AuthFailure";
-
+        public const string SkillAuthenticationTitle = "SkillAuthenticationTitle";
+        public const string SkillAuthenticationPrompt = "SkillAuthenticationPrompt";
+        public const string AuthProvidersPrompt = "AuthProvidersPrompt";
+        public const string ConfiguredAuthProvidersPrompt = "ConfiguredAuthProvidersPrompt";
+        public const string ErrorMessageAuthFailure = "ErrorMessageAuthFailure";
     }
 }

@@ -159,7 +159,7 @@ namespace Microsoft.Bot.Solutions.Skills
                     // set up skill turn error handling
                     OnTurnError = async (context, exception) =>
                     {
-                        await context.SendActivityAsync(_responseManager.GetResponse(SkillResponses.ErrorMessage_SkillError));
+                        await context.SendActivityAsync(_responseManager.GetResponse(SkillResponses.ErrorMessageSkillError));
 
                         await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
 

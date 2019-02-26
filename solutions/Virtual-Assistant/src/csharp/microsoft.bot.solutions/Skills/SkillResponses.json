@@ -1,5 +1,5 @@
 {
-  "ErrorMessage_SkillError": {
+  "ErrorMessageSkillError": {
     "replies": [
       {
         "text": "Sorry, something went wrong trying to communicate with the skill. Please try again.",

@@ -12,7 +12,6 @@ namespace Microsoft.Bot.Solutions.Skills
     public class SkillResponses : IResponseIdCollection
     {
         // Generated accessors
-		public const string ErrorMessage_SkillError = "ErrorMessage_SkillError";
-
+        public const string ErrorMessageSkillError = "ErrorMessageSkillError";
     }
 }
