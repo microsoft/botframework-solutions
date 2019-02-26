@@ -109,23 +109,19 @@
 - Ajouter  {TaskContentPattern} à ma liste d'épicerie
 - Ajouter un pour faire cet achat  {ShopContent} 
 - Ajouter acheter  {ShopContent} à ma liste d'épicerie
-- me rappeler d'acheter  {ShopContent} 
 - me rappeler de magasiner  {ShopContent} 
 - me rappeler de  {TaskContentPattern} 
 - Ajouter acheter  {ShopContent} à ma liste de courses
 - Ajouter un pour faire ce magasin  {ShopContent} 
 - Ajouter  {TaskContentPattern} à mon dos
-- Ajouter une tâche à  {TaskContentPattern} 
 - Ajouter une tâche qui magasinez  {ShopContent} 
 - Ajouter  {TaskContentPattern} à ma liste de tâches
-- créer une tâche pour  {TaskContentPattern} 
 - Ajouter  {TaskContentPattern} à mes tâches
 - Ajouter à faire pour  {TaskContentPattern} 
 - Ajouter un à faire que d'acheter  {ShopContent} 
 - Ajouter un à faire pour  {TaskContentPattern} 
 - Ajouter une tâche qui achète  {ShopContent} 
 - Ajouter une tâche à magasiner  {ShopContent} 
-- Ajouter une tâche qui achète  {ShopContent} 
 - Ajouter  {TaskContentPattern} à ma liste de faire
 
 
@@ -182,11 +178,6 @@
 -  {ListType=Tous}  supprimer la liste  {TaskContentML=vacances à Paris} 
 - supprimer pour faire  {TaskContentPattern} 
 - supprimer le faire  {TaskContentPattern} 
-- supprimer la tâche  {TaskContentPattern} 
-- supprimer la tâche  {TaskContentPattern} 
-- supprimer le faire  {TaskContentPattern} 
-- supprimer le faire  {TaskContentPattern} 
-- supprimer pour faire  {TaskContentPattern} 
 - supprimer la tâche  {TaskContentPattern} 
 
 
@@ -247,7 +238,6 @@
 - Marque  {TaskContentPattern} comme terminé
 - terminer la tâche  {TaskContentPattern} 
 - marquer la tâche  {TaskContentPattern} comme terminé
-- marquer la tâche  {TaskContentPattern} comme terminé
 
 
 ## None
@@ -259,7 +249,6 @@
 - afficher la page suivante
 - afficher plus de tâches
 - montrer plus de travail
-- afficher la page suivante
 - afficher la feuille suivante
 - afficher le site Web suivant
 - dire plus de tâches
@@ -268,7 +257,6 @@
 ## ShowPreviousPage
 - afficher la page précédente
 - J'ai besoin de vérifier les tâches précédentes
-- afficher la page précédente
 
 
 ## ShowToDo

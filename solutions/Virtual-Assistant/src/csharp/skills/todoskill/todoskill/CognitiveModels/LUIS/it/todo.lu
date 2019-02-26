@@ -53,7 +53,6 @@
 - Aggiungere  {TaskContentML=Lettura}  al mio  {ListType=da fare} Elenco
 - Aggiungere  {TaskContentML=Scarpe}  al  {ListType=Shopping} Elenchi
 - aggiungere alcuni elementi a tale  {ListType=Shopping} Note
-- aggiungere alcuni elementi al  {ListType=Alimentari} Elenco
 - aggiungere alcuni  {TaskContentML=Jeans}  sul nostro  {ListType=Shopping} Elenchi
 - aggiungere qualcosa in questo  {ListType=Alimentari} Elenco
 - aggiungere qualcosa alla mia lista
@@ -109,10 +108,8 @@
 - Aggiungere  {TaskContentPattern} alla mia lista della spesa
 - aggiungere una per fare che l'acquisto  {ShopContent} 
 - aggiungere acquistare  {ShopContent} alla mia lista della spesa
-- ricordarmi di acquistare  {ShopContent} 
 - Ricordami di fare acquisti  {ShopContent} 
 - ricordarmi di  {TaskContentPattern} 
-- aggiungere acquistare  {ShopContent} alla mia lista della spesa
 - aggiungere a fare quel negozio  {ShopContent} 
 - Aggiungere  {TaskContentPattern} al mio a DOS
 - aggiungere attività per  {TaskContentPattern} 
@@ -123,9 +120,7 @@
 - aggiungere a fare per  {TaskContentPattern} 
 - aggiungere una per fare che acquistare  {ShopContent} 
 - aggiungere una da fare per  {TaskContentPattern} 
-- aggiungere un'attività che acquista  {ShopContent} 
 - aggiungere un'attività per fare acquisti  {ShopContent} 
-- aggiungere un'attività che acquista  {ShopContent} 
 - Aggiungere  {TaskContentPattern} alla mia lista di fare
 
 

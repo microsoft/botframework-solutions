@@ -53,7 +53,6 @@
 - Añadir  {TaskContentML=Lectura}  a mi  {ListType=hacer} Lista
 - Añadir  {TaskContentML=Zapatos}  a la  {ListType=Compras} Listas
 - agregar algunos elementos a ese  {ListType=Compras} Notas
-- Añadir algunos elementos a la  {ListType=Comestibles} Lista
 - Añadir algunos  {TaskContentML=Jeans}  en nuestro  {ListType=Compras} Listas
 - Añadir algo en este  {ListType=Comestibles} Lista
 - Añadir algo a mi lista
@@ -110,7 +109,6 @@
 - Agregar a hacer esa compra  {ShopContent} 
 - Añadir compra  {ShopContent} a mi lista de comestibles
 - Recuérdame que compre  {ShopContent} 
-- me recuerdan a comprar  {ShopContent} 
 - me recuerdan a  {TaskContentPattern} 
 - Añadir compra  {ShopContent} a mi lista de compras
 - Añadir a hacer esa tienda  {ShopContent} 
@@ -125,7 +123,6 @@
 - Agregar a hacer para  {TaskContentPattern} 
 - agregar una tarea que compre  {ShopContent} 
 - agregar una tarea para comprar  {ShopContent} 
-- agregar una tarea que compre  {ShopContent} 
 - Añadir  {TaskContentPattern} a mi lista de hacer
 
 
@@ -187,7 +184,6 @@
 - quitar el para hacer  {TaskContentPattern} 
 - eliminar el para hacer  {TaskContentPattern} 
 - eliminar para hacer  {TaskContentPattern} 
-- eliminar la tarea  {TaskContentPattern} 
 
 
 ## MarkToDo
