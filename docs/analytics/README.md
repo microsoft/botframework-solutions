@@ -44,8 +44,7 @@ Alternatively, you can use the Power BI service. If you don't have a PowerBI ser
 [Telemetry Overview](./telemetrylogging.md) highlights the provided telemetry for bot and user activities, including [LUIS](https://www.luis.ai/) and [QnA Maker](https://www.qnamaker.ai/) results. how to configure your bot's telemetry, either through bot configuring or overriding the telemetry client.
 
 ## Application Insights Analytics
-[Applications Insights Analytics](./applicationinsights.md) demonstrates how to execute common queries for for bot analytics and debugging in Visual Studio.
+Common queries for bot analytics are available in [Applications Insights Analytics](./applicationinsights.md).
 
 ## Power BI Analytics Sample
-
-The [Power BI Analytics sample](./powerbi.md) shows example Power BI dashboards to gain insights on your bot's performance and quality.
+Examples of Power BI dashboards are provided in the [Power BI Analytics sample](./powerbi.md), highlighting how to gain insights on your bot's performance and quality.
