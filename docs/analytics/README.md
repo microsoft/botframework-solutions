@@ -24,7 +24,7 @@ under the assumption you are using the latest Bot Framework SDK and telemetry mi
 
 ### Configuring Sentiment
 LUIS enables you to run a sentiment analysis on a user's utterance. This can be enabled through the [LUIS portal](https://www.luis.ai).
-Sentiment must be enabled for each application.  To enable sentiment:
+Sentiment must be enabled for each application. To enable sentiment:
 1. Log in to the portal.
 2. Select **My Apps**.
 3. Click on the specific application you want to enable sentiment.
@@ -38,7 +38,7 @@ Sentiment must be enabled for each application.  To enable sentiment:
 
 ### Power BI Installation
 The [PowerBI Desktop client](https://aka.ms/pbidesktopstore) is available for Windows clients.
-Alternatively, you can use the Power BI service.  If you don't have a PowerBI service account, sign up for a [free 60 day trial account](https://app.powerbi.com/signupredirect?pbi_source=web) and upload the Power BI template to view the reports.
+Alternatively, you can use the Power BI service. If you don't have a PowerBI service account, sign up for a [free 60 day trial account](https://app.powerbi.com/signupredirect?pbi_source=web) and upload the Power BI template to view the reports.
 
 ## Telemetry Logging
 [Telemetry Overview](./telemetrylogging.md) highlights the provided telemetry for bot and user activities, including [LUIS](https://www.luis.ai/) and [QnA Maker](https://www.qnamaker.ai/) results. how to configure your bot's telemetry, either through bot configuring or overriding the telemetry client.

@@ -1,5 +1,4 @@
 # Getting Started With the Virtual Assistant
-## Overview
 
 The Virtual Assistant solution provides everything you need to get started with building your own personalized assistant. 
 Base Assistant capabilities are provided within the solution including language models for you to build upon along with Conversational Skill support enabling you to plug-in additional capabilities through configuration. See the [Overview](./readme.md) for more information.
@@ -8,7 +7,13 @@ The Virtual Assistant solution is under ongoing development within an open-sourc
 
 Follow the instructions below to build, deploy and configure your Assistant.
 
-### Prerequisites
+## Table of Contents
+- [Prerequisites](#prerequisites)
+- [Deployment](#deployment)
+- [Skill Configuration](#skill-configuration)
+- [Testing](#testing)
+
+## Prerequisites
 - Ensure you have updated [.NET Core](https://www.microsoft.com/net/download) to the latest version.
 - [Node.js](https://nodejs.org/) version 8.5 or higher.
 - Install the Azure Bot Service command line (CLI) tools. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of new deployment capabilities. **Minimum version 4.3.2 required for msbot, and minimum version 1.1.0 required for ludown.**
@@ -50,7 +55,7 @@ Once the Solution has been cloned you will see the following folder structure.
 
 Once cloned the next step is to build the VirtualAssistant solution within Visual Studio. Deployment must have been completed before you can run the project due to this stage creating key dependencies in Azure along with your configured .bot file.
 
-### Deployment
+## Deployment
 
 The Virtual Assistant require the following dependencies for end to end operation.
 - Azure Web App
@@ -164,7 +169,7 @@ Note: update the language models for the languages that you support and feel fre
 
 The Virtual Assistant Solution is fully integrated with all available skills out of the box. Skill configuration can be found in your appSettings.json file and is detailed further in the [Adding A Skill](../skills/README.md) documentation.
 
-## Skill Authentication
+### Skill Authentication
 
 If you wish to make use of the Calendar, Email and Task Skills you need to configure an Authentication Connection enabling uses of your Assistant to authenticate against services such as Office 365 and securely store a token which can be retrieved by your assistant when a user asks a question such as *"What does my day look like today"* to then use against an API like Microsoft Graph.
 
@@ -200,14 +205,14 @@ msbot get production --secret YOUR_SECRET
 az bot authsetting create --resource-group YOUR_BOT_NAME --name YOUR_BOT_NAME --setting-name "YOUR_AUTH_CONNECTION_DISPLAY_NAME" --client-id "YOUR_APPLICATION_ID" --client-secret "YOUR_APPLICATION_PASSWORD" --service Aadv2 --parameters clientId="YOUR_APPLICATION_ID" clientSecret="YOUR_APPLICATION_PASSWORD" tenantId=common --provider-scope-string "Calendars.ReadWrite Mail.ReadWrite Mail.Send Tasks.ReadWrite Notes.ReadWrite People.Read User.Read Contacts.Read" 
 ```  
 
-> NOTE: Take special care when running the `authsetting` commands to correctly escape special characters in your client secret key (or parameters that contain special characters).     
-> 1. For **Windows command prompt**, enclose the client-secret in double quotes.  
->     - e.g.  `--client-secret "!&*^|%gr%"`  
+> NOTE: Take special care when running the `authsetting` commands to correctly escape special characters in your client secret key (or parameters that contain special characters).   
+> 1. For **Windows command prompt**, enclose the client-secret in double quotes. 
+>     - e.g. `--client-secret "!&*^|%gr%"`  
 >  
-> 2. For **Windows PowerShell**, pass in the client-secret  after the *Powershell* special `--%` argument.  
+> 2. For **Windows PowerShell**, pass in the client-secret  after the *Powershell* special `--%` argument. 
 >     -  e.g. `--% --client-secret "!&*^|%gr%"`  
 >
-> 3. For MacOS or Linux, enclose the client-secret in single quotes.  
+> 3. For MacOS or Linux, enclose the client-secret in single quotes. 
 >     -  e.g. `--client-secret "!&*^|%gr%"`
 
 The final step is to update your `.bot` file and associated Skills (in appSettings.config) with the authentication connection name. This is used by the Assistant to enable authentication prompts or use of Linked Accounts.
@@ -240,12 +245,12 @@ To use the Production Endpoint you will need to publish your Assistant to Azure:
 - Choose the `Production` endpoint within the Emulator. 
 
 > **IMPORTANT NOTES**  
-> 1. Ensure you have the latest emulator installed and update the development endpoint to reflect the port number that Visual Studio chooses when you start debugging otherwise you'll receive connection errors.  
-> 2. Ensure you have [ngrok](https://ngrok.com/download) downloaded and the path to the executable path configured correctly in the emulator for the demo to work.  
->     - From the emulator edit the emulator settings: Gear icon bottom left of the emulator.   
+> 1. Ensure you have the latest emulator installed and update the development endpoint to reflect the port number that Visual Studio chooses when you start debugging otherwise you'll receive connection errors. 
+> 2. Ensure you have [ngrok](https://ngrok.com/download) downloaded and the path to the executable path configured correctly in the emulator for the demo to work. 
+>     - From the emulator edit the emulator settings: Gear icon bottom left of the emulator. 
 >     - Browse or enter the path to the ngrok exe. 
 >     - Enter a locale based on the language(s) deployed.
 
 You should see an Introduction Adaptive card and the example on-boarding process will start.
 
-See the [Testing](./virtualassistant-testing.md) section for information on how to test your Virtual Assistant.
+See the [Testing](./testing.md) documentation for information on how to test your Virtual Assistant.

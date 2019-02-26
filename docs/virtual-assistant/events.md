@@ -1,8 +1,12 @@
 # Virtual Assistant Event Architecture
 
-## Overview
-
 Activities are sent to and from a Bot and are typically set to an ActivityType of Message. Additional [Activity types](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-activities-entities?view=azure-bot-service-4.0&tabs=cs#event) are available including [Event](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-activities-entities?view=azure-bot-service-4.0&tabs=cs#event) which enables transmission of messages outside of the usual conversation canvas the user can see.
+
+## Table of Contents
+- [Inbound Events](#inbound-events)
+- [Outbound Events](#outbound-events)
+- [Event Debugger Middleware](#event-debug-middleware)
+- [Event Prompt](#event-prompt)
 
 ## Inbound Events
 Events in the context of the Virtual Assistant enable the client application hosting the assistant (in a web-browser or on a device such as a car or speaker) to exchange information about the user (location, timezone, etc.) or the device (turned on, cruise control enabled, navigation destination changed, etc.).
@@ -24,7 +28,7 @@ In addition to these, a `ResetUser` event is available which provides a way to r
 ## Outbound Events
 The same Event pattern enables the Virtual Assistant and Skills to send Events back to the client application hosting the assistant (web-page, or a device such as a car or speaker).
 
-For example, the Virtual Assistant or a skill could send an event to a car requesting a new destination be set on the Navigation System, Change the temperature in the car, etc.  
+For example, the Virtual Assistant or a skill could send an event to a car requesting a new destination be set on the Navigation System, Change the temperature in the car, etc. 
 
 The client application receives the event through the same [Activity](https://github.com/Microsoft/BotBuilder/blob/hub/specs/botframework-activity/botframework-activity.md) mechanism used for messages and has extensibility points for additional metadata to be attached.
 

@@ -1,7 +1,5 @@
 # Virtual Assistant Skills Authentication
 
-## Overview
-
 To ensure a standardised user experience across all Skills, the Bot is responsible for managing token requests. This helps to ensure that tokens common across multiple skills can be shared and the user isn’t prompted to authenticate for every skill.
 
 The approach mirrors that of the eventing approach used by the Azure Bot Service today.
@@ -22,4 +20,4 @@ Subsequent activations benefit from the Azure Bot Service provided cache and ena
 
 # Implementing Authentication with your Skill
 
-When developing your Skill you can use Authentication in the conventional way which will ease testing. When your ready to add Skill support for Authentication see the Authentication section of the [Skill Enablement](./skillenablement.md) documentation.
+When developing your Skill you can use Authentication in the conventional way which will ease testing. When your ready to add Skill support for Authentication see the Authentication section of the [Creating a Skill using the Skill Template](./skillenablement.md) documentation.
