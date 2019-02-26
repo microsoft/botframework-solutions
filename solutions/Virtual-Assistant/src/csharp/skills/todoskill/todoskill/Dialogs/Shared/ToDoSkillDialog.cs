@@ -988,6 +988,10 @@ namespace ToDoSkill.Dialogs.Shared
             {
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessage_BotProblem));
             }
+            else if (ex.ExceptionType == SkillExceptionType.AccountNotActivated)
+            {
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessage_AccountProblem));
+            }
             else
             {
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessage));

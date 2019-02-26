@@ -67,6 +67,15 @@
     ],
     "inputHint": "acceptingInput"
   },
+  "ToDoErrorMessage_AccountProblem": {
+    "replies": [
+      {
+        "text": "抱歉，你的邮箱账户出了点问题。请按照收件箱里的说明验证你的账户。",
+        "speak": "抱歉，你的邮箱账户出了点问题。请按照收件箱里的说明验证你的账户。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "SettingUpOneNoteMessage": {
     "replies": [
       {

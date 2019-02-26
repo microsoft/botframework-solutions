@@ -71,6 +71,15 @@
     ],
     "inputHint": "acceptingInput"
   },
+  "ToDoErrorMessage_AccountProblem": {
+    "replies": [
+      {
+        "text": "Sorry, it looks like something went wrong with your email account. Please follow the instructions in your Inbox to verify your account.",
+        "speak": "Sorry, it looks like something went wrong with your email account. Please follow the instructions in your Inbox to verify your account."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "SettingUpOneNoteMessage": {
     "replies": [
       {
