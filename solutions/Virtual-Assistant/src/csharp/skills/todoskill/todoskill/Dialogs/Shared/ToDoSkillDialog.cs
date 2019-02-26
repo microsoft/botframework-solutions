@@ -528,10 +528,11 @@ namespace ToDoSkill.Dialogs.Shared
             var engine = TemplateEngine.FromFile(GetFilePath("ShowToDo", "ShowToDoResponses.lg"));
             var activityGenerator = new LGActivityGenerator(engine);
             var options = new ActivityGenerationConfig();
+            options.TextSpeakTemplateId = "ReadTasks";
             options.Attachments = new List<AttachmentGenerationConfig>();
             options.Attachments.Add(new AttachmentGenerationConfig() { AttachementTemplateId = "AdaptiveCardOfRandomTasks", IsAdaptiveCard = true });
-            var recentTasks = todos.Select(t => t.Topic).ToList().GetRange(0, todos.Count);
-            var recentTaskObjs = todos.Select(t => new { Topic = t.Topic, IconSource = t.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource });
+            var recentTasks = todos.Select(t => t.Topic).ToList().GetRange(0, todos.Count).ToList();
+            var recentTaskObjs = todos.Select(t => new { Topic = t.Topic, IconSource = t.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource }).ToList();
             var data = new
             {
                 taskCount = allTasksCount,
