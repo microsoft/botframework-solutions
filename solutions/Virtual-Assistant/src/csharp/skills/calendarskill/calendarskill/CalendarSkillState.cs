@@ -273,7 +273,7 @@ namespace CalendarSkill
             OriginalEndDate = new List<DateTime>();
             OriginalEndTime = new List<DateTime>();
             NewStartDateTime = null;
-            Duration = 0;
+            //Duration = 0;
             MoveTimeSpan = 0;
             CreateHasDetail = true;
             RecreateState = RecreateEventState.Time;
