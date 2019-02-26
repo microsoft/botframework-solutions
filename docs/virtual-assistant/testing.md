@@ -1,21 +1,27 @@
 # Testing the Virtual Assistant
 
-A Virtual Assistant can be tested just like any other Bot Framework Bot, the Bot Framework Emulator and WebChat canvases being the most commonly tools. 
+Your Virtual Assistant can be tested just like any other Bot Framework Bot; the most common tools are the [Bot Framework Emulator](https://aka.ms/botframework-emulator) and [Web Chat](https://aka.ms/botframework-webchat). 
 
 ## Table of Contents
-- [Bot Framework Emulator](#bot-framework-emulator)
-- [Direct Line Configuration](#direct-line-configuration)
-- [Direct Line Sample](#direct-line-samples) 
-- [Web Chat Test Harness](#web-chat-test-harness) 
-- [Additional Platforms](#additional-platforms) 
+- [Unit Testing](#unit-testing)
+- [Client Testing](#client-testing)
 
-## Bot Framework Emulator
+## Unit Testing
+
+Take advantage of the Test project that is available when you [Create a Skill](./skillenablement.md). 
+Follow along with the Flow tests to see a basic usage of how to mock activities from a user and validate the bot responses. 
+If you'd like to take this further, you can explore the tests of a published skill for a deep dive on APIs, mocking LUIS, and more.
+
+## Client Testing
+
+
+### Bot Framework Emulator
 
 The Bot Framework Emulator can be used by opening the .bot file provided within the Project directory. You must have completed the [deployment steps](./gettingstarted.md) first and should ensure you have the [latest emulator](https://aka.ms/botframework-emulator) installed.
 
 > Authentication scenarios cannot be fully tested within the Emulator at this time. The Web Test Harness provides a workaround for this.
 
-## Direct Line Configuration
+### Direct Line Configuration
 
 For device integration and use of the test harnesses below you need to publish your assistant to your Azure subscription and then configure the [Direct Line](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-connect-directline?view=azure-bot-service-3.0) channel.
 
@@ -26,7 +32,7 @@ For device integration and use of the test harnesses below you need to publish y
 az bot directline create -g YOUR_RESOURCE_GROUP_NAME --name YOUR_BOT_NAME
 ```
 
-## Direct Line Sample
+### Direct Line Sample
 
 A simple Console App is provided to demonstrate the base communication interaction required with a Virtual Assistant and highlights how a device can interact with a Virtual Assistant. The Sample enables you to conduct a conversation with a Virtual Assistant and demonstrates how responses can be processed including Adaptive Cards along with retrieving the "Speak" property which is the Speech friendly variation of the response.
 
@@ -34,7 +40,7 @@ Examples are also provided on how events can be sent (device activation for exam
 
 Update the code to reflect the Direct Line secret you created previously.
 
-## Web Chat Test Harness
+### Web Chat Test Harness
 
 The Web Chat test harness makes use of the [Bot Framework Web Chat](https://github.com/Microsoft/BotFramework-WebChat) to provide an additional test canvas. 
 The Web Chat test harness is configured against an Identity Provider (e.g. Azure Active Directory) to enable the user to sign in and retrieve a unique identifier. 
@@ -48,6 +54,6 @@ Update the `AzureAd` section in `appsettings.development.config` with the above 
 When opening the Assistant-WebTest project for the first time you will be assigned a unique port number for local debugging - you can check this by right clicking the Assistant-WebTest project in Visual Studio, choosing **Properties** and reviewing the App URL in the **Debug** section. 
 Ensure this is entered into the Reply URLs section of your Authentication configuration. e.g. `https://localhost:44320/signin-oidc`.
 
-## Additional Platforms
+### Additional Platforms
 
 We plan to offer additional test harnesses and integration samples for Linux and Android moving forward.
