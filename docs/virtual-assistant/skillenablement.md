@@ -1,4 +1,4 @@
-# Creating a skill using the Skill Template
+# Creating a Skill using the Skill Template
 1. Install VSIX from [MyGet](https://botbuilder.myget.org/gallery/aitemplates).
 2. Add a new **Skill Template with Tests** project to your solution in the Skills folder. 
     ![Screenshot](../media/skills_addproject.jpg)

@@ -1,8 +1,22 @@
 # Virtual Assistant Detailed Overview
 
 ## Table of Contents
+- [Example Scenarios](#example-scenarios)
 - [Architecture](#architecture)
 - [Our Principles](#our-principles)
+
+## Example Scenarios
+
+The Virtual Assistant extends across a broad number of industry scenarios, some example scenarios are shown below for reference purposes.
+
+- Automotive Industry
+  - Voice enabled Virtual Assistant integrated into the car providing end users the ability to perform traditional car operations (e.g. navigation, radio) along with productivity focused scenarios such as moving meetings when your running late, adding items to your task list and proactive experiences where the car can suggest tasks to complete based on events such as starting the engine, traveling home or enabling cruise control. Adaptive Cards are rendered within the Head Unit and Speech integration performed through Push-To-Talk or Wake Word interactions.
+
+- Hospitality
+  - Voice enabled Virtual Assistant integrated into a hotel-room device providing a broad range of Hospitality focused scenarios (e.g. extend your stay, request late checkout, room service) including concierge and the ability to find local restaurants and attractions. Optional linking to your Productivity accounts open up more personalised experiences such as suggested alarm calls, Weather warnings and learning of patterns across stays. An evolution of the current TV personalisation experienced in room today.
+
+- Enterprise
+  - Voice and Text enabled branded Employee Assistant experiences integrated into enterprise devices and existing conversation canvases (e.g. Teams, WebChat, Slack) enabling employees to manage their calendars, find available meeting rooms, find people with specific skills or perform HR related operations.
 
 ## Architecture
 
@@ -52,18 +66,3 @@ This is then further complicated by the need to support multiple languages and r
 Our Virtual Assistant solution includes a new Skill capability enabling new capabilities to be plugged into an existing Virtual Assistant through configuration only.
 
 All aspects of each Skill are completely customisable by developers as the full source code is provided on GitHub along with the Virtual Assistant.
-
-
-
-### Example Scenarios
-
-The Virtual Assistant extends across a broad number of industry scenarios, some example scenarios are shown below for reference purposes.
-
-- Automotive Industry
-  - Voice enabled Virtual Assistant integrated into the car providing end users the ability to perform traditional car operations (e.g. navigation, radio) along with productivity focused scenarios such as moving meetings when your running late, adding items to your task list and proactive experiences where the car can suggest tasks to complete based on events such as starting the engine, traveling home or enabling cruise control. Adaptive Cards are rendered within the Head Unit and Speech integration performed through Push-To-Talk or Wake Word interactions.
-
-- Hospitality
-  - Voice enabled Virtual Assistant integrated into a hotel-room device providing a broad range of Hospitality focused scenarios (e.g. extend your stay, request late checkout, room service) including concierge and the ability to find local restaurants and attractions. Optional linking to your Productivity accounts open up more personalised experiences such as suggested alarm calls, Weather warnings and learning of patterns across stays. An evolution of the current TV personalisation experienced in room today.
-
-- Enterprise
-  - Voice and Text enabled branded Employee Assistant experiences integrated into enterprise devices and existing conversation canvases (e.g. Teams, WebChat, Slack) enabling employees to manage their calendars, find available meeting rooms, find people with specific skills or perform HR related operations.
