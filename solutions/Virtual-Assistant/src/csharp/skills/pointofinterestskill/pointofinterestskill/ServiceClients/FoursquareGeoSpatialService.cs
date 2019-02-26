@@ -19,6 +19,12 @@ namespace PointOfInterestSkill.ServiceClients
         private static readonly string SearchForVenuesByCategoryUrl = $"https://api.foursquare.com/v2/venues/search?categoryId={{2}}&ll={{0}},{{1}}&radius={{3}}&intent=browse&limit={{4}}";
         private static readonly string ExploreNearbyVenuesUrl = $"https://api.foursquare.com/v2/venues/explore?ll={{0}},{{1}}&radius={{2}}&limit={{3}}";
         private static readonly string GetVenueDetailsUrl = $"https://api.foursquare.com/v2/venues/{{0}}?";
+
+        /// <summary>
+        /// Versioning is controlled by the v parameter, which is a date that represents the “version” of the API for which you expect from Foursquare.
+        /// </summary>
+        private readonly string apiVersion = "20190123";
+
         private string userLocale;
         private string clientId;
         private string clientSecret;
@@ -33,11 +39,6 @@ namespace PointOfInterestSkill.ServiceClients
         /// The maxium limit of points of interest for Forsquare is 50.
         /// </summary>
         private int limit;
-
-        /// <summary>
-        /// Versioning is controlled by the v parameter, which is a date that represents the “version” of the API for which you expect from Foursquare.
-        /// </summary>
-        private readonly string apiVersion = "20190123";
 
         public async Task<IGeoSpatialService> InitClientAsync(string id, string secret, int radiusConfiguration, int limitConfiguration, string locale = "en-us", HttpClient client = null)
         {
@@ -65,15 +66,19 @@ namespace PointOfInterestSkill.ServiceClients
             return this;
         }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task<IGeoSpatialService> InitKeyAsync(string key, int radiusConfiguration, int limitConfiguration, string locale = "en-us", HttpClient client = null)
         {
             throw new NotSupportedException();
         }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task<RouteDirections> GetRouteDirectionsToDestinationAsync(double currentLatitude, double currentLongitude, double destinationLatitude, double destinationLongitude, string routeType = null)
         {
             throw new NotSupportedException();
         }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
         /// <summary>
         /// Returns a list of venues near the provided coordinates, matching a search term.
@@ -92,6 +97,7 @@ namespace PointOfInterestSkill.ServiceClients
             return await GetVenueAsync(string.Format(CultureInfo.InvariantCulture, SearchForVenuesUrl, latitude, longitude, query, radius, limit));
         }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         /// <summary>
         /// This provider does not offer search by address.
         /// </summary>
@@ -100,10 +106,12 @@ namespace PointOfInterestSkill.ServiceClients
         /// <param name="address">The search address.</param>
         /// <returns>List of PointOfInterestModels.</returns>
         public async Task<List<PointOfInterestModel>> GetPointOfInterestListByAddressAsync(double latitude, double longitude, string address)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             throw new NotSupportedException();
         }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         /// <summary>
         /// This provider does not offer search by only coordinates.
         /// </summary>
@@ -114,6 +122,7 @@ namespace PointOfInterestSkill.ServiceClients
         {
             throw new NotSupportedException();
         }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
         /// <summary>
         /// Get venue recommendations using the latitude and longitude of the user's location.

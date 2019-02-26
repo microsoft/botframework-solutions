@@ -37,7 +37,6 @@ namespace CalendarSkillTest.Flow.Utterances
 
         public static string BaseNextMeeting { get; } = "what is my next meeting";
 
-
         public static string HowLongNextMeetingMeeting { get; } = "How long is my next meeting";
 
         public static string WhereNextMeetingMeeting { get; } = "Where is my next meeting";

@@ -80,7 +80,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "GetRecreateInfo_Retry": {
+  "GetRecreateInfoRetry": {
     "replies": [
       {
         "text": "You can try Participants, Subject, or Content. Or input cancel.",
@@ -89,7 +89,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "ConfirmMessage_Retry": {
+  "ConfirmMessageRetry": {
     "replies": [
       {
         "text": "Please confirm this message. You can input yes or no.",

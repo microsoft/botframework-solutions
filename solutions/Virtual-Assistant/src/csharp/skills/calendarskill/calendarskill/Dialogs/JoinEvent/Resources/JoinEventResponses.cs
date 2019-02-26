@@ -12,11 +12,10 @@ namespace CalendarSkill.Dialogs.JoinEvent.Resources
     public class JoinEventResponses : IResponseIdCollection
     {
         // Generated accessors
-		public const string MeetingNotFound = "MeetingNotFound";
-		public const string SelectMeeting = "SelectMeeting";
-		public const string NotJoinMeeting = "NotJoinMeeting";
-		public const string ConfirmPhoneNumber = "ConfirmPhoneNumber";
-		public const string JoinMeeting = "JoinMeeting";
-
+        public const string MeetingNotFound = "MeetingNotFound";
+        public const string SelectMeeting = "SelectMeeting";
+        public const string NotJoinMeeting = "NotJoinMeeting";
+        public const string ConfirmPhoneNumber = "ConfirmPhoneNumber";
+        public const string JoinMeeting = "JoinMeeting";
     }
 }

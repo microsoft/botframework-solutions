@@ -241,6 +241,7 @@ namespace CalendarSkill.Dialogs.Summary
 
                 var generalLuisResult = state.GeneralLuisResult;
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
+                generalTopIntent = MergeShowIntent(generalTopIntent, topIntent, luisResult);
 
                 if (topIntent == null)
                 {

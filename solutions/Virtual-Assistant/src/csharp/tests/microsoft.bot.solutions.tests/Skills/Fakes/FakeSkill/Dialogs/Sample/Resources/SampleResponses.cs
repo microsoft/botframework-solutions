@@ -12,8 +12,7 @@ namespace Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Sample.Re
     public class SampleResponses : IResponseIdCollection
     {
         // Generated accessors
-		public const string MessagePrompt = "MessagePrompt";
-		public const string MessageResponse = "MessageResponse";
-
+        public const string MessagePrompt = "MessagePrompt";
+        public const string MessageResponse = "MessageResponse";
     }
 }

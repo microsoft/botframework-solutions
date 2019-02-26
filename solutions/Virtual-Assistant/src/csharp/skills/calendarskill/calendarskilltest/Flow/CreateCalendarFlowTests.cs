@@ -484,7 +484,7 @@ namespace CalendarSkillTest.Flow
 
         private string[] AskForSubjectShortPrompt(string userName = null)
         {
-            return this.ParseReplies(CreateEventResponses.NoTitle_Short, new StringDictionary());
+            return this.ParseReplies(CreateEventResponses.NoTitleShort, new StringDictionary());
         }
 
         private string[] AskForContentPrompt()

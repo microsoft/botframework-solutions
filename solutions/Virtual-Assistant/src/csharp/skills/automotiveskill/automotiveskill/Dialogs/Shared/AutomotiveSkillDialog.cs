@@ -47,18 +47,6 @@ namespace AutomotiveSkill.Dialogs.Shared
 
         protected ResponseManager ResponseManager { get; set; }
 
-        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await Accessor.GetAsync(dc.Context);
-            return await base.OnBeginDialogAsync(dc, options, cancellationToken);
-        }
-
-        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await Accessor.GetAsync(dc.Context);
-            return await base.OnContinueDialogAsync(dc, cancellationToken);
-        }
-
         // Shared steps
         public async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -96,6 +84,18 @@ namespace AutomotiveSkill.Dialogs.Shared
                 await HandleDialogExceptions(sc, ex);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
+        }
+
+        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await Accessor.GetAsync(dc.Context);
+            return await base.OnBeginDialogAsync(dc, options, cancellationToken);
+        }
+
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await Accessor.GetAsync(dc.Context);
+            return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
         // Helpers

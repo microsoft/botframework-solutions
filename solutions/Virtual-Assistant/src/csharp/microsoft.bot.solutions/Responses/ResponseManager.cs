@@ -328,7 +328,7 @@ namespace Microsoft.Bot.Solutions.Responses
                     .Where(x => x.Contains(jsonFile))
                     .First();
             }
-            catch (FileNotFoundException ex)
+            catch (FileNotFoundException)
             {
                 // If the localized file is missing, try falling back to the default language.
                 resource = assembly
@@ -336,7 +336,7 @@ namespace Microsoft.Bot.Solutions.Responses
                     .Where(x => x.Contains(jsonFile))
                     .First();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new Exception($"Could not file Adaptive Card resource {jsonFile}");
             }

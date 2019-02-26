@@ -12,7 +12,7 @@ namespace Microsoft.Bot.Solutions.Telemetry
         Task<T> RecognizeAsync<T>(DialogContext dialogContext, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new();
 
-        Task<T> RecognizeAsync<T>(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
+        new Task<T> RecognizeAsync<T>(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new();
     }
 }

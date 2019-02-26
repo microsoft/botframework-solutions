@@ -986,7 +986,7 @@ namespace ToDoSkill.Dialogs.Shared
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessage_BotProblem));
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessageBotProblem));
             }
             else
             {

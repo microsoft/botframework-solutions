@@ -116,6 +116,26 @@ namespace Microsoft.Bot.Solutions.Telemetry
             }
         }
 
+        Dictionary<string, string> ITelemetryLoggerMiddleware.FillReceiveEventProperties(Activity activity)
+        {
+            throw new NotImplementedException();
+        }
+
+        Dictionary<string, string> ITelemetryLoggerMiddleware.FillSendEventProperties(Activity activity)
+        {
+            throw new NotImplementedException();
+        }
+
+        Dictionary<string, string> ITelemetryLoggerMiddleware.FillUpdateEventProperties(Activity activity)
+        {
+            throw new NotImplementedException();
+        }
+
+        Dictionary<string, string> ITelemetryLoggerMiddleware.FillDeleteEventProperties(IMessageDeleteActivity activity)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Fills the Application Insights Custom Event properties for BotMessageReceived.
         /// These properties are logged in the custom event when a new message is received from the user.
@@ -236,26 +256,6 @@ namespace Microsoft.Bot.Solutions.Telemetry
                 };
 
             return properties;
-        }
-
-        Dictionary<string, string> ITelemetryLoggerMiddleware.FillReceiveEventProperties(Activity activity)
-        {
-            throw new NotImplementedException();
-        }
-
-        Dictionary<string, string> ITelemetryLoggerMiddleware.FillSendEventProperties(Activity activity)
-        {
-            throw new NotImplementedException();
-        }
-
-        Dictionary<string, string> ITelemetryLoggerMiddleware.FillUpdateEventProperties(Activity activity)
-        {
-            throw new NotImplementedException();
-        }
-
-        Dictionary<string, string> ITelemetryLoggerMiddleware.FillDeleteEventProperties(IMessageDeleteActivity activity)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -256,6 +256,38 @@ namespace CalendarSkill.Dialogs.Shared
             return false;
         }
 
+        protected General.Intent? MergeShowIntent(General.Intent? generalIntent, CalendarLU.Intent? calendarIntent, CalendarLU calendarLuisResult)
+        {
+            if (generalIntent == General.Intent.Next || generalIntent == General.Intent.Previous)
+            {
+                return generalIntent;
+            }
+
+            if (calendarIntent == CalendarLU.Intent.ShowNextCalendar)
+            {
+                return General.Intent.Next;
+            }
+
+            if (calendarIntent == CalendarLU.Intent.ShowPreviousCalendar)
+            {
+                return General.Intent.Previous;
+            }
+
+            if (calendarIntent == CalendarLU.Intent.FindCalendarEntry)
+            {
+                if (calendarLuisResult.Entities.OrderReference != null)
+                {
+                    var orderReference = GetOrderReferenceFromEntity(calendarLuisResult.Entities);
+                    if (orderReference == "next")
+                    {
+                        return General.Intent.Next;
+                    }
+                }
+            }
+
+            return generalIntent;
+        }
+
         protected Task<bool> DateTimePromptValidator(PromptValidatorContext<IList<DateTimeResolution>> promptContext, CancellationToken cancellationToken)
         {
             return Task.FromResult(true);
