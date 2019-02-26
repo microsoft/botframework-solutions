@@ -1,8 +1,6 @@
 ﻿using Luis;
 using Microsoft.Bot.Builder;
-using PointOfInterestSkillTests.Flow.Utterances;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace PointOfInterestSkillTests.Flow.Fakes

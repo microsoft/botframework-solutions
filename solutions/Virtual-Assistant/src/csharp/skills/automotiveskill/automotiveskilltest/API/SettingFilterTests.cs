@@ -4,7 +4,6 @@ using AutomotiveSkill.Dialogs.VehicleSettings;
 using AutomotiveSkillTest.Flow;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 

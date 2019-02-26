@@ -18,11 +18,11 @@ using EmailSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
-using Microsoft.Bot.Solutions.Models.Proactive;
+using Microsoft.Bot.Solutions.Proactive;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.TaskExtensions;
+using Microsoft.Bot.Solutions.Telemetry;
 
 namespace EmailSkill
 {
@@ -63,17 +63,15 @@ namespace EmailSkill
             {
                 var supportedLanguages = services.LocaleConfigurations.Keys.ToArray();
                 responseManager = new ResponseManager(
-                    new IResponseIdCollection[]
-                    {
-                        new FindContactResponses(),
-                        new DeleteEmailResponses(),
-                        new ForwardEmailResponses(),
-                        new EmailMainResponses(),
-                        new ReplyEmailResponses(),
-                        new SendEmailResponses(),
-                        new EmailSharedResponses(),
-                        new ShowEmailResponses(),
-                    }, supportedLanguages);
+                    supportedLanguages,
+                    new FindContactResponses(),
+                    new DeleteEmailResponses(),
+                    new ForwardEmailResponses(),
+                    new EmailMainResponses(),
+                    new ReplyEmailResponses(),
+                    new SendEmailResponses(),
+                    new EmailSharedResponses(),
+                    new ShowEmailResponses());
             }
 
             _responseManager = responseManager;

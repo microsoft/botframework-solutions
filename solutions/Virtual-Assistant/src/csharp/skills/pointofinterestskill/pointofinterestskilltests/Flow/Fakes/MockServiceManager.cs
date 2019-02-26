@@ -1,9 +1,7 @@
 ﻿using Microsoft.Bot.Solutions.Skills;
 using PointOfInterestSkill.ServiceClients;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 
 namespace PointOfInterestSkillTests.API.Fakes
 {

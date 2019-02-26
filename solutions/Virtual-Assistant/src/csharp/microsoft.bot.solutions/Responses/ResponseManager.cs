@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Solutions.Responses
         private static readonly Regex SimpleTokensRegex = new Regex(@"\{(\w+)\}", RegexOptions.Compiled);
         private static readonly Regex ComplexTokensRegex = new Regex(@"\{[^{\}]+(?=})\}", RegexOptions.Compiled);
 
-        public ResponseManager(IResponseIdCollection[] responseTemplates, string[] locales)
+        public ResponseManager(string[] locales, params IResponseIdCollection[] responseTemplates)
         {
             JsonResponses = new Dictionary<string, Dictionary<string, ResponseTemplate>>();
 

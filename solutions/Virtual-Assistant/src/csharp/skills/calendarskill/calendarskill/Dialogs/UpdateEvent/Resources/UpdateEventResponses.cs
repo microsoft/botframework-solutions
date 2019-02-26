@@ -17,7 +17,7 @@ namespace CalendarSkill.Dialogs.UpdateEvent.Resources
         public const string ConfirmUpdateFailed = "ConfirmUpdateFailed";
         public const string EventUpdated = "EventUpdated";
         public const string NoNewTime = "NoNewTime";
-        public const string NoNewTime_Retry = "NoNewTime_Retry";
+        public const string NoNewTimeRetry = "NoNewTimeRetry";
         public const string EventWithStartTimeNotFound = "EventWithStartTimeNotFound";
         public const string NoDeleteStartTime = "NoDeleteStartTime";
         public const string NoUpdateStartTime = "NoUpdateStartTime";

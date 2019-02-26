@@ -40,7 +40,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// </summary>
         private int limit;
 
-        public async Task<IGeoSpatialService> InitClientAsync(string id, string secret, int radiusConfiguration, int limitConfiguration, string locale = "en-us", HttpClient client = null)
+        public Task<IGeoSpatialService> InitClientAsync(string id, string secret, int radiusConfiguration, int limitConfiguration, string locale = "en-us", HttpClient client = null)
         {
             try
             {
@@ -59,26 +59,22 @@ namespace PointOfInterestSkill.ServiceClients
                     httpClient = client;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
-            return this;
+            return Task.FromResult(this as IGeoSpatialService);
         }
 
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-        public async Task<IGeoSpatialService> InitKeyAsync(string key, int radiusConfiguration, int limitConfiguration, string locale = "en-us", HttpClient client = null)
+        public Task<IGeoSpatialService> InitKeyAsync(string key, int radiusConfiguration, int limitConfiguration, string locale = "en-us", HttpClient client = null)
         {
             throw new NotSupportedException();
         }
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-        public async Task<RouteDirections> GetRouteDirectionsToDestinationAsync(double currentLatitude, double currentLongitude, double destinationLatitude, double destinationLongitude, string routeType = null)
+        public Task<RouteDirections> GetRouteDirectionsToDestinationAsync(double currentLatitude, double currentLongitude, double destinationLatitude, double destinationLongitude, string routeType = null)
         {
             throw new NotSupportedException();
         }
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
         /// <summary>
         /// Returns a list of venues near the provided coordinates, matching a search term.
@@ -97,7 +93,6 @@ namespace PointOfInterestSkill.ServiceClients
             return await GetVenueAsync(string.Format(CultureInfo.InvariantCulture, SearchForVenuesUrl, latitude, longitude, query, radius, limit));
         }
 
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         /// <summary>
         /// This provider does not offer search by address.
         /// </summary>
@@ -105,24 +100,21 @@ namespace PointOfInterestSkill.ServiceClients
         /// <param name="longitude">The current longitude.</param>
         /// <param name="address">The search address.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public async Task<List<PointOfInterestModel>> GetPointOfInterestListByAddressAsync(double latitude, double longitude, string address)
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+        public Task<List<PointOfInterestModel>> GetPointOfInterestListByAddressAsync(double latitude, double longitude, string address)
         {
             throw new NotSupportedException();
         }
 
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         /// <summary>
         /// This provider does not offer search by only coordinates.
         /// </summary>
         /// <param name="latitude">The current latitude.</param>
         /// <param name="longitude">The current longitude.</param>
         /// <returns>List of PointOfInterestModels.</returns>
-        public async Task<List<PointOfInterestModel>> GetPointOfInterestByCoordinatesAsync(double latitude, double longitude)
+        public Task<List<PointOfInterestModel>> GetPointOfInterestByCoordinatesAsync(double latitude, double longitude)
         {
             throw new NotSupportedException();
         }
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
         /// <summary>
         /// Get venue recommendations using the latitude and longitude of the user's location.
