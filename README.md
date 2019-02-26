@@ -1,6 +1,6 @@
 # Conversational AI Solutions
 
-This repository is the home for a set of templates and solutions to help build conversational experiences using Azure Bot Service and Bot Framework.
+This repository is the home for a set of templates and solutions to help build conversational experiences using [Azure Bot Service](https://aka.ms/azurebotservice) and [Bot Framework](https://botframework).
 
 ## Templates
 
