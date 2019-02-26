@@ -2,7 +2,7 @@
 
 ![Virtual Assistant Diagram](../media/virtualassistant-diagram.jpg)
 
-Customers and partners have a significant need to deliver a conversational assistant tailored to their brand, personalized to their users, and made available across a broad range of canvases and devices. Continuing Microsoft's open-sourced approach towards the Bot Framework SDK, the open-source Virtual Assistant solution provides you with a set of core foundational capabilities and full control over the end user experience. 
+Customers and partners have a significant need to deliver a conversational assistant tailored to their brand, personalized to their users, and made available across a broad range of canvases and devices. Continuing Microsoft's open-sourced approach towards the [Bot Framework](http://aka.ms/botframework) SDK, the open-source Virtual Assistant solution provides you with a set of core foundational capabilities and full control over the end user experience. 
 
 Owning and enriching customer relationships and insights is vital to the goals of the Virtual Assistant. You can modify the name, voice, and personality to suit a customer’s needs. The solution simplifies the creation of a Virtual Assistant, enabling you to get started in minutes and extend with end-to-end development tooling.
 
@@ -18,15 +18,14 @@ Please read the [overview](./overview.md) for more on the Virtual Assistant arch
 - [Dive In](#dive-in)
 
 ## Getting Started
-
 Read [Getting Started With the Virtual Assistant](./gettingstarted.md) for the latest instructions on how to build, deploy, and configure your own Virtual Assistant.
 
 ## Testing
-Read [Testing your Virtual Assistant](./testing.md) for information on how to test your Virtual Assistant through a variety of test harnesses.
+[Testing your Virtual Assistant](./testing.md) is incredibly important for validating conversational flows and ensuring your Virtual Assistant can run smoothly with a chosen client.
 
 ## Deployment
 
-In order to update an existing Virtual Assistant deployment with the latest language models from the repository or to ensure the dispatcher is up to date with latest changes, run the following PowerShell script:
+Update your Virtual Assistant’s Skill and Dispatch language models with the following PowerShell script:
 
 ```
 ...PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\update_published_models.ps1
@@ -42,7 +41,7 @@ This script updates your published models and saves the previous version with th
 
 ## Known Issues
 
-[Known Issues](./knownissues.md)
+See an up-to-date list of frequently asked questions at [Known Issues](./knownissues.md).
 
 ## Dive In
 

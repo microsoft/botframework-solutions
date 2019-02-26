@@ -1,8 +1,7 @@
-# Virtual Assistant Known Issues
-
 # Known Issues
 
-## Teams OAuth Card Issue
+
+### The Teams channel doesn't render an OAuth card
 There is a known issue in the Teams channel where the default OAuth Card is not supported. In order to work around this issue, the ActionType of the sign in button needs to be changed to "OpenUrl". This can be done using the following middleware class:
 
 ```
@@ -78,8 +77,7 @@ Add the middleware to Startup.cs:
         }
 ```
 
-## No Intro Card when no locale setting
-
+### The introduction card isn't displayed when a locale is missing
 There is a known issue in the Virtual Assistant when the bot doesn't pass a Locale setting at the beginning of the conversation, the Intro Card won't show up. This is due to a design flaw in the current channel protocol. The StartConversation call doesn't accept Locale as a parameter. 
 
 When you're testing in Bot Emulator, you can get around this issue by setting the Locale in Emulator Settings. Emulator will pass the locale setting to the bot as the first ConversationUpdate call.
