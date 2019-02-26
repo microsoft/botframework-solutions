@@ -1,124 +1,74 @@
 # Virtual Assistant Solution
 
-## Table of Contents
-- [Overview](#overview)
-- [Features](#features)
-- [Our Principles](#our-principles)
-- [Documentation](#documentation)
-
-## Overview
-We have seen significant need from our customers and partners to deliver a conversational assistant tailored to their brand, personalized to their customers and made available across a broad range of conversational canvases and devices. 
+![Virtual Assistant Diagram](../media/virtualassistant-diagram.jpg)
+We have seen a significant need from our customers and partners to deliver a conversational assistant tailored to their brand, personalized to their customers and made available across a broad range of conversational canvases and devices. 
 Continuing Microsoft's open-sourced approach towards the Bot Framework SDK, the open source Virtual Assistant solution provides full control over the end user experience built on a set of core foundational capabilities. 
 This experience can be infused with intelligence about the end-user and any device/ecosystem information for a truly integrated and intuitive experience.
 
 We strongly believe our customers should own and enrich their customer relationships and insights. 
 Therefore, any Virtual Assistant provides complete control of the user experience to our customers and partners through open-sourcing the code on GitHub. 
-The name, voice and personality can be changed to suit the organization’s needs. 
-Our Virtual Assistant solution simplifies creation of your own assistant enabling you to get started in minutes and then extended using our end to end development tooling.
+The name, voice, and personality can be changed to suit the organization’s needs. 
+Our Virtual Assistant solution simplifies the creation of your own assistant enabling you to get started in minutes and then extended using our end to end development tooling.
 
 The scope of Virtual Assistant functionality is broad, typically offering end users a range of capabilities. 
 To increase developer productivity and to enable a vibrant ecosystem of reusable conversational experiences, we are providing developers examples of reusable conversational skills. 
 These skills can be added into a conversational application to light up a specific experience like finding a point of interest, interacting with a calendar, tasks, email, etc.
-The skills are fully customizable and consist of language models for multiple languages, dialogs and code.
+The skills are fully customizable and consist of language models for multiple languages, dialogs, and code.
 
-At this time we are running an initial preview and working closely with initial customers and partners in an open-source repository to bring to life the first experiences and make it available more broadly in the coming months.
+Please read the [overview](./overview.md) for more on the Virtual Assistant architecture and principles.
 
-## Features
+## Table of Contents
+- [Getting Started](#getting-started)
+- [Testing](#testing)
+- [Updating](#updating)
+- [Frequently Asked Questions](#frequently-asked-questions)
+- [Read More](#read-more)
 
-The Virtual Assistant builds on the [Enterprise Template](/templates/Enterprise-Template/README.md) capabilities which provide foundational capabilities for conversational experiences including base conversational intents in multiple languages, Dispatching, QnA and conversational insights. The following Assistant related capabilities are provided at this time, further capabilities are planned and we'll be working closely with customers and partners to help inform the roadmap.
+## Getting Started
 
-![Virtual Assistant Diagram](../media/virtualassistant-diagram.jpg)
+Read [Getting Started With the Virtual Assistant](./gettingstarted.md) for the latest instructions on how to build, deploy, and configure your own Virtual Assistant.
 
-Feature | Description |
------------- | -------------
-Onboarding | An example OnBoarding flow enabling your Assistant to greet the user and collect initial information.
-[Eventing Architecture](./events.md) | Events in the context of the Virtual Assistant enable the client application hosting the assistant (in a web-browser or on a device such as a car or speaker) to exchange information about the user or device events whilst also receiving events to perform device operations.
-[Linked Accounts](./linkedaccounts.md) | In a speech-led scenario it's not practical for a user to enter their username and password for supporting systems through voice commands. Therefore a separate companion experience provides an opportunity for the user to signin and provide permission for an Virtual Assistant to retrieve tokens for later use.
-[Skill Enablement](../skills/README.md) | A broad set of common capabilities exist which today, which require each developer to build themselves. Our Virtual Assistant solution includes a new Skill capability enabling new capabilities to be plugged into an Virtual Assistant through configuration only and provide an authentication mechanism for Skills to request tokens for down-stream activities.
-[Point of Interest Skill](../skills/pointofinterest.md) | The preview Point of Interest (PoI) skill provides a comprehensive language model for finding points of interest and requesting directions. The skill currently provides integration into Azure Maps.
-[Calendar Skill](../skills/productivity-calendar.md) | The preview Calendar Skill provides a comprehensive language model for common calendar related activities, The skill is currently integrated into Microsoft Graph (Office 365/Outlook.com) with support for Google APIs to follow soon..
-[Email Skill](../skills/productivity-email.md) | The preview Email Skill provides a comprehensive language model for common email related activities, The skill is currently integrated into Microsoft Graph (Office 365/Outlook.com) with support for Google APIs to follow soon.
-[ToDo Skill](../skills/productivity-todo.md) | The preview ToDo Skill provides a comprehensive language model for common task related activities, The skill is currently integrated into Microsoft Graph (outlookTask).
-[Automotive Skill](../skills/automotive.md) | The preview Automotive Skill provides Vehicle Setting control support for an assistant along with an initial set of common vehicle settings which can be extended further. At this time the skill surfaces device events to demonstrate how device control could be achieved.
-[Device Integration](./deviceintegration.md) | Our Azure Bot Service SDKs (Direct Line) along with Adaptive Card and Speech SDKs enable easy cross platform integration to devices. Additional device integration examples and platform including Edge are planned.
-[Test Harnesses](./testing.md) | In addition to the Bot Framework Emulator, a WebChat based test harness is provided enabling more complex authentication scenarios to be tested. A simple Console based test harness demonstrates the approach to exchange messages to help frame the ease of device integration.
-[Automated Deployment](./createvirtualassistant.md) | All the Azure resources required for your Assistant are automatically deployed: Bot registration, Azure App Service, LUIS, QnAMaker, Content Moderator, CosmosDB, Azure Storage, and Application Insights. Additionally, LUIS models for all skills, QnAMaker, and Dispatch models are created, trained, and published to enable immediate testing.
-[Experimental Skills](../skills/experimental-skills.md) | Experimental Skills are early prototypes of Skills to help bring skill concepts to life for demonstrations and proof-of-concepts along with providing different examples to get you  started. Restaurant Booking and News Skills are currently available.
-[Conversational Analytics](/solutions/analytics/readme.md) | Analytics surfacing insights into end user activity, dialog/skill usage, quality and gaps in knowledge.
+## Testing
+[Testing your Virtual Assistant](./testing.md)
 
-## Example Scenarios
+## Updating
 
-The Virtual Assistant extends across a broad number of industry scenarios, some example scenarios are shown below for reference purposes.
+[Personalizing your Virtual Assistant](./personalization.md)
 
-- Automotive Industry
-  - Voice enabled Virtual Assistant integrated into the car providing end users the ability to perform traditional car operations (e.g. navigation, radio) along with productivity focused scenarios such as moving meetings when your running late, adding items to your task list and proactive experiences where the car can suggest tasks to complete based on events such as starting the engine, traveling home or enabling cruise control. Adaptive Cards are rendered within the Head Unit and Speech integration performed through Push-To-Talk or Wake Word interactions.
+[Updating your Virtual Assistant](./updatingvirtualassistant.md)
 
-- Hospitality
-  - Voice enabled Virtual Assistant integrated into a hotel-room device providing a broad range of Hospitality focused scenarios (e.g. extend your stay, request late checkout, room service) including concierge and the ability to find local restaurants and attractions. Optional linking to your Productivity accounts open up more personalised experiences such as suggested alarm calls, Weather warnings and learning of patterns across stays. An evolution of the current TV personalisation experienced in room today.
+## Frequently Asked Questions
 
-- Enterprise
-  - Voice and Text enabled branded Employee Assistant experiences integrated into enterprise devices and existing conversation canvases (e.g. Teams, WebChat, Slack) enabling employees to manage their calendars, find available meeting rooms, find people with specific skills or perform HR related operations.
+[Known Issues](./knownissues.md)
 
-## Virtual Assistant Principles
+## Read More
 
-### Your data, your brand and your experience
-All aspects of the end user experience are owned and controlled by you. This includes the Branding, Name, Voice, Personality, Responses and Avatar. The source-code to the Virtual Assistant and supporting Skills are provided in full enabling you to adjust as required.
-
-Your Virtual Assistant will be deployed within your Azure subscription. Therefore all data generated by your assistant (questions asked, user behaviour, etc.) is entirely contained within your Azure subscription. See [Cognitive Services Azure Trusted Cloud](https://www.microsoft.com/en-us/trustcenter/cloudservices/cognitiveservices) and the [Azure section of the Trust Center](https://www.microsoft.com/en-us/TrustCenter/CloudServices/Azure) more specifically for more information.
-
-### Write it once, embed it anywhere
-The Virtual Assistant leverages the Microsoft Conversational AI platform and therefore can be surfaced through any Bot Framework [channel](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0) – e.g. WebChat, FaceBook Messenger, Skype, etc. 
-
-In addition, through the [Direct Line](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-direct-line-3-0-concepts?view=azure-bot-service-4.0) channel we can embed experiences into Desktop and Mobile Apps including devices such as Cars, Speakers, Alarm Clocks, etc.
-
-### Enterprise Grade Solutions
-The Virtual Assistant solution is built on the Azure Bot Service, Language Understanding Cognitive Service, Unified Speech along with a broad set of supporting Azure components meaning that you benefit from the [Azure global infrastructure](https://azure.microsoft.com/en-gb/global-infrastructure/) including ISO 27018, HIPPA, PCI DSS, SOC 1,2 and 3 certification.
-
-In addition, Language Understanding support is provided by the LUIS Cognitive Service which supports a broad set of languages [listed here](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-supported-languages). The [Translator Cognitive Service](https://azure.microsoft.com/en-us/services/cognitive-services/translator-text-api/) provides additional Machine Translation capabilities to extend the reach of your Virtual Assistant even further.
-
-### Integrated and Context Aware
-Your Virtual Assistant can be integrated into your device and ecosystem enabling a truly integrated and intelligent experience. Through this contextual awareness more intelligent experiences can be developed and deliver further personalisation than otherwise possible.
-
-### 3rd Party assistant integration
-The Virtual Assistant enables you to deliver your own unique experience but also handoff to the end user's chosen Digital Assistant for certain types of questions.
-
-### Flexible integration
-Our Virtual Assistant architecture is flexible and can be integrated with existing investments you may have made into device-based Speech or Natural Language processing capabilities and of course integrate with your existing back-end systems and APIs.
-
-### Adaptive Cards
-[Adaptive Cards](https://adaptivecards.io/) provide the ability for your Virtual Assistant to return User Experience elements (e.g. Cards, Images, Buttons) alongside text base responses. If the device or conversation canvas has a screen these Adaptive Cards can be rendered across a broad range of devices and platforms providing supporting User Experience where appropriate. [Samples of Adaptive Cards](https://adaptivecards.io/samples/) are available to try out, as well as documentation on how to [render cards within your own application](https://docs.microsoft.com/en-us/adaptive-cards/rendering-cards/getting-started).
+The Virtual Assistant builds on the core [Enterprise Template](/templates/Enterprise-Template/README.md) capabilities providing base conversational intents in multiple languages, Dispatching, QnA and conversational analytics.
 
 ### Skills
-In addition to the base assistant, there exists a broad set of common capabilities which require each developer to build themselves. Productivity is a great example where each organisation would need to create Language Models (LUIS), Dialogs (Code), Integration (Code) and Language Generation (Responses) to enable popular Calendar, Task or email experiences.
+Name | Description |
+:---:  | -------------
+[Overview](../skills/README.md) | A broad set of common capabilities exist which today, which require each developer to build themselves. Our Virtual Assistant solution includes a new Skill capability enabling new capabilities to be plugged into an Virtual Assistant through configuration only and provide an authentication mechanism for Skills to request tokens for down-stream activities.
+[Skill Enablement](./skillenablement.md) | |
+[Point of Interest Skill](../skills/pointofinterest.md) | The **preview** Point of Interest (PoI) skill provides a comprehensive language model for finding points of interest and requesting directions. The skill currently provides integration into Azure Maps and Foursquare.
+[Calendar Skill](../skills/productivity-calendar.md) | The **preview** Calendar Skill provides a comprehensive language model for common calendar related activities, The skill is currently integrated into Microsoft Graph (Office 365/Outlook.com) and Google APIs.
+[Email Skill](../skills/productivity-email.md) | The **preview** Email Skill provides a comprehensive language model for common email related activities, The skill is currently integrated into Microsoft Graph (Office 365/Outlook.com) and Google APIs.
+[ToDo Skill](../skills/productivity-todo.md) | The **preview** ToDo Skill provides a comprehensive language model for common task related activities, The skill is currently integrated into Microsoft Graph (outlookTask) and Google APIs.
+[Automotive Skill](../skills/automotive.md) | The **preview** Automotive Skill provides Vehicle Setting control support for an assistant along with an initial set of common vehicle settings which can be extended further. At this time the skill surfaces device events to demonstrate how device control could be achieved.
+[Experimental Skills](../skills/experimental-skills.md) | Experimental Skills are early prototypes of Skills to help bring skill concepts to life for demonstrations and proof-of-concepts along with providing different examples to get you  started. Restaurant Booking and News Skills are currently available.
 
-This is then further complicated by the need to support multiple languages and results in a large amount of work required for any organisation building their own assistant.
-
-Our Virtual Assistant solution includes a new Skill capability enabling new capabilities to be plugged into a custom-assistant through configuration only.
-
-All aspects of each Skill (Language Model, Dialogs, Integration Code and Language Generation) are completely customisable by developers as the full source code is provided on GitHub along with the Virtual Assistant.
-
-Initial previews of the [Email](../skills/productivity-email.md), [Calendar](../skills/productivity-calendar.md), [ToDo](../skills/productivity-todo.md), [Point of Interest](../skills/pointofinterest.md) and [Automotive](../skills/automotive.md) skills are now available. 
-
-## Documentation
-
-- Virtual Assistant
-    - [Detailed Overview](./detailedoverview.md)
-    - [Create your Virtual Assistant](./createvirtualassistant.md)
-    - [Testing your Virtual Assistant](./testing.md)
-    - [Personalizing your Virtual Assistant](./personalization.md)
-    - [Updating your Virtual Assistant](./updatingvirtualassistant.md)
-    - [Linked Accounts](./linkedaccounts.md)
-    - [Integrating into a device](./deviceintegration.md)
-    - [Events](./events.md)
-    - [Responses](./responses.md)
-    - [Language Support](./languagesupport.md)
-    - [Known Issues](./knownissues.md)
-- Skills
-    - [Overview](../skills/README.md)
-    - [Skill Authentication](./authentication.md)
-    - [Creating a Skill](./skillenablement.md)
-    - [Productivity - Calendar Skill](../skills/productivity-calendar.md)
-    - [Productivity - Email Skill](../skills/productivity-email.md)
-    - [Productivity - Tasks Skill](../skills/productivity-todo.md)
-    - [Point of Interest Skill](../skills/pointofinterest.md)
-    - [Automotive Skill](../skills/automotive.md)
+### Solution
+Name | Description |
+:---:  | -------------
+[Eventing Architecture](./events.md) | Events in the context of the Virtual Assistant enable a client application (in a web-browser or on a device such as a car or speaker) to exchange information about the user or device events whilst also receiving events to perform device operations.
+[Linked Accounts](./linkedaccounts.md) | In a speech-led scenario, it is not practical for a user to enter their credentials for supporting systems through voice commands. Therefore a separate companion experience provides an opportunity for the user to sign in and provide permissions to a Virtual Assistant for continued use.
+[Device Integration](./deviceintegration.md) | Our Azure Bot Service SDKs (Direct Line) along with Adaptive Card and Speech SDKs enable easy cross platform integration to devices. Additional device integration examples and platform including Edge are planned.
+[Test Harnesses](./testing.md) | In addition to the Bot Framework Emulator, a WebChat based test harness is provided enabling more complex authentication scenarios to be tested. A simple Console based test harness demonstrates the approach to exchange messages to help frame the ease of device integration.
+[Automated Deployment](./gettingstarted.md) | All the Azure resources required for your Assistant are automatically deployed: [Bot Service](http://aka.ms/botservice) registration, [Azure App Service](https://azure.microsoft.com/en-us/services/app-service/), [LUIS](https://luis.ai/), [QnAMaker](https://qnamaker.ai/), [Content Moderator](https://aka.ms/contentmoderator), [CosmosDB](https://aka.ms/cosmosdb), [Azure Storage](https://azure.microsoft.com/en-us/services/storage/), and [Application Insights](http://aka.ms/appinsights). Additionally, LUIS models for all skills, QnAMaker, and Dispatch models are created, trained, and published to enable immediate testing.
+[Conversational Analytics](/solutions/analytics/README.md) | Analytics surfacing insights into end user activity, dialog/skill usage, quality and gaps in knowledge.
+[Authentication](./authentication.md) | The Assistant and associated Skills often need access to end-user authentication tokens in order to perform operations on behalf of the user. <br /> <br /> OAuth authentication providers are supported by the Azure Bot Service and provide the ability for you to configure providers such as Active Directory (for Office 365), Facebook or your own. |
+Assistant Middleware | ◾ Telemetry Middleware leverages Application Insights to store telemetry for incoming messages, LUIS results, and QnA activities. Power BI can then use this data to surface conversational insights.   <br />   ◾ Event Processing Middleware processes events sent by the device <br />◾ Content Moderator Middleware uses the Content Moderator Cognitive Service to detect inappropriate / PII content|
+Dispatcher | The Dispatcher is trained across a variety of Natural Language data sources to provide a unified NLU powered dispatch capability. LUIS models from the Assistant, each configured Skill and questions from QnAMaker are all ingested as part of the dispatcher training process. This training process can also provide evaluation reports to identify confusion and overlap. <br/><br/> This training process creates a Dispatcher LUIS model which is then used by the Assistant to identify the component that should handle a given utterance. When a dialog is active the Dispatcher model is only used to identify top level intents such as Cancel for interruption scenarios. |
+Edge Enablement | Many assistant scenarios require cloud-connectivity to access down-stream APIs or data sources (e.g. Office 365, Navigation data, Music Services, etc.). There are however a class of assistant scenarios especially those running on devices that may have periods of poor connectivity where pushing speech, language processing and dialog management onto the edge (device) is needed.<br/><br/> We have a number of options to address this depending on platform and are working with initial customers to deliver this capability|
+Dialogs | Dialogs represent conversational topics that the Assistant can handle. The `SkillDialog` is provided with the Virtual Assistant to handle the invocation of Skills based on the Dispatcher identifying an utterance should be passed to a skill. Subsequent messages are routed to the Active dialog for processing until the dialog has ended.<br/><br/><br/><br/>Skills at this time are invoked *in-process* through activating the Skill in an accompanying assembly file. <br/><br/>An in-process Bot Framework adapter ensures the bot communication protocol is utilised for skill messaging.  |
+Client Integration | End-Users can make use of the Virtual Assistant through the support Azure Bot Service Channels or through the Direct Line API that provides the ability to integrate your assistant directly into a device, mobile app or any other client experience. Device integration requires the creation of a lightweight host app which runs on the device. We have successfully built native applications across multiple embedded platforms including HTML5 applications.<br/><br/>The host app is responsible for the following capabilities. These can, of course, be extended depending on the device capabilities.  <br/> ◾ Open and closing the microphone as indicated through the InputHint on messages returned by the Assistant  <br/>  ◾ Audio playback of responses created by the Text-to-Speech service  <br/>  ◾ Rendering of Adaptive Cards on the device through a broad range of renderers supplied with the Adaptive Cards SDK  <br/>◾ Processing events received from the Assistant, often to perform on-device operations (e.g. change navigation destination)  <br/> ◾ Accessing the on-device secret store to store and retrieve a token for communication with the assistant  <br/>◾ Integration with the Unified Speech SDK where on-device speech capabilities are required  <br/>◾ Interface to the Direct-Link REST API or SDKs  <br/>◾ Authenticating the end user of the device and providing a unique userId to the Assistant. Microsoft has capabilities to help with this if needed. |

@@ -1,13 +1,17 @@
-# Virtual Assistant Testing
-
-## Overview
+# Testing the Virtual Assistant
 
 A Virtual Assistant can be tested just like any other Bot Framework Bot, the Bot Framework Emulator and WebChat canvases being the most commonly tools. 
 
+## Table of Contents
+- [Bot Framework Emulator](#bot-framework-emulator)
+- [Direct Line Configuration](#direct-line-configuration)
+- [Direct Line Sample](#direct-line-samples) 
+- [Web Chat Test Harness](#web-chat-test-harness) 
+- [Additional Platforms](#additional-platforms) 
+
 ## Bot Framework Emulator
 
-The Bot Framework Emulator can be used by opening the .bot file provided within the Project directory. You must have completed the [deployment steps](./createvirtualassistant.md) first and should ensure you have the [latest emulator](https://github.com/Microsoft/BotFramework-Emulator/releases
-) installed.
+The Bot Framework Emulator can be used by opening the .bot file provided within the Project directory. You must have completed the [deployment steps](./gettingstarted.md) first and should ensure you have the [latest emulator](https://aka.ms/botframework-emulator) installed.
 
 > Authentication scenarios cannot be fully tested within the Emulator at this time. The Web Test Harness provides a workaround for this.
 
@@ -21,6 +25,14 @@ For device integration and use of the test harnesses below you need to publish y
 ```shell
 az bot directline create -g YOUR_RESOURCE_GROUP_NAME --name YOUR_BOT_NAME
 ```
+
+## Direct Line Sample
+
+A simple Console App is provided to demonstrate the base communication interaction required with a Virtual Assistant and highlights how a device can interact with a Virtual Assistant. The Sample enables you to conduct a conversation with a Virtual Assistant and demonstrates how responses can be processed including Adaptive Cards along with retrieving the "Speak" property which is the Speech friendly variation of the response.
+
+Examples are also provided on how events can be sent (device activation for example) as well as receiving responses to perform an action locally (e.g. change the navigation system or radio station).
+
+Update the code to reflect the Direct Line secret you created previously.
 
 ## Web Chat Test Harness
 
@@ -36,14 +48,6 @@ Update the `AzureAd` section in `appsettings.development.config` with the above 
 When opening the Assistant-WebTest project for the first time you will be assigned a unique port number for local debugging - you can check this by right clicking the Assistant-WebTest project in Visual Studio, choosing **Properties** and reviewing the App URL in the **Debug** section. 
 Ensure this is entered into the Reply URLs section of your Authentication configuration. e.g. `https://localhost:44320/signin-oidc`.
 
-## Direct Line Sample
-
-A simple Console App is provided to demonstrate the base communication interaction required with a Virtual Assistant and highlights how a device can interact with a Virtual Assistant. The Sample enables you to conduct a conversation with a Virtual Assistant and demonstrates how responses can be processed including Adaptive Cards along with retrieving the "Speak" property which is the Speech friendly variation of the response.
-
-Examples are also provided on how events can be sent (device activation for example) as well as receiving responses to perform an action locally (e.g. change the navigation system or radio station).
-
-Update the code to reflect the Direct Line secret you created previously.
-
 ## Additional Platforms
 
-> We plan to offer additional test harnesses and integration samples for Linux and Android moving forward.
+We plan to offer additional test harnesses and integration samples for Linux and Android moving forward.

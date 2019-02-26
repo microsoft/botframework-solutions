@@ -35,7 +35,7 @@ Run this PowerShell script to deploy shared resources and LUIS models required f
 You will be prompted to provide the following parameters:
    - Name - A name for your bot and resource group. This must be **unique**.
    - Location - The Azure region for your services (e.g. westus)
-   - LUIS Authoring Key - Refer to [Virtual Assistant Deployment](../virtual-assistant/virtualassistant-createvirtualassistant.md) for retrieving this key.
+   - LUIS Authoring Key - Refer to [Virtual Assistant Deployment](../virtual-assistant/virtualassistant-gettingstarted.md) for retrieving this key.
 
 The msbot tool will outline the deployment plan including location and SKU. Ensure you review before proceeding.
 
