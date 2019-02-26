@@ -1,7 +1,5 @@
 # Linking Accounts to a Virtual Assistant
 
-## Overview
-
 Speech-led conversational scenarios require a different mindset and approach for certain scenarios, 
 one such example is [Authentication](./authentication.md). 
 If you take a Productivity scenario, whereby the user wants to access information in their calendar it's important 
@@ -20,6 +18,10 @@ In a speech-led scenario, it's unacceptable and impractical to expect a user to 
 The Linked Accounts feature of the Virtual Assistant provides a reference sample of a web app using the Azure Bot Service to deliver this capability, a screen shot showing the example interface is shown below and demonstrates the type of capability you would build into your own experience (e.g. a mobile app)
 
 ![Linked Accounts UX](../media/virtualassistant-linkedaccountsux.png)
+
+## Table of Contents
+- [Authentication Configuration](#authentication-configuration)
+- [Testing](#testing)
 
 ## Authentication Configuration
 
@@ -68,7 +70,9 @@ Exchanging a Direct Line secret for a Token and providing a Trusted Origin enabl
 ```
   "ClientDirectLineSecret": "YOUR_DIRECTLINE_SECRET",
 ```
-## Testing Linked Accounts
+
+## Testing
+### Testing Linked Accounts
 
 If you run the project within Visual Studio you will be navigated to the Linked Accounts web app. 
 You'll be prompted to login, use the same credentials that your Virtual Assistant will be using when performing operations on your behalf. 
@@ -80,7 +84,7 @@ Once logged in you, click Linked Accounts in the top navigation page and you sho
 
 You can now click Sign-In to be navigated to the respective OAuth sign-in page. Once complete the Linked Accounts web app should show a green linked status.
 
-## Testing your Virtual Assistant with Linked Accounts
+### Testing your Virtual Assistant with Linked Accounts
 
 Now that you've linked your account and stored tokens you can move back to your Virtual Assistant and check that it's able to use the tokens you've stored and not prompt for authentication.
 

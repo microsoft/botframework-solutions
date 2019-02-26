@@ -1,9 +1,16 @@
 # Personalizing the Virtual Assistant
 
-## Overview
-
 While the Virtual Assistant Solution provides out-of-the-box functionality to demonstrate an end-to-end experience, it is often wise to customize key components that can tailor to your audience.
-To get started, learn how to clone the repository & deploy your Azure resources by reading [Virtual Assistant Deployment](./gettingstarted.md).
+To get started, learn how to clone the repository & deploy your Azure resources by reading [Getting Started With the Virtual Assistant](./gettingstarted.md).
+
+## Table of Contents
+- [Project Structure](#project-structure)
+- [Introduction](#update-the-introduction)
+- [Virtual Assistant Responses](#update-virtual-assistant-responses)
+- [Skill Responses](#update-the-skill-responses)
+- [FAQ](#update-the-faq-with-qnamaker)
+- [Add a new QnAMaker knowledge base](#adding-an-additional-qnamaker-knowledgebase)
+- [Demo](#demoing-the-skills) 
 
 ## Project Structure
 
