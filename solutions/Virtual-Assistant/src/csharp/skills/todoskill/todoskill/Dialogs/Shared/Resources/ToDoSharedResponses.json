@@ -74,8 +74,8 @@
   "SettingUpOneNoteMessage": {
     "replies": [
       {
-        "text": "I noticed you don't have a OneNote anymore, I'm creating a new OneNote for you, including a To Do list.",
-        "speak": "I noticed you don't have a OneNote anymore, I'm creating a new OneNote for you, including a To Do list."
+        "text": "I noticed you don't have a OneNote anymore. I'm creating a new OneNote for you, including a To Do list.",
+        "speak": "I noticed you don't have a OneNote anymore. I'm creating a new OneNote for you, including a To Do list."
       }
     ],
     "inputHint": "ignoringInput"
@@ -92,8 +92,8 @@
   "SettingUpOutlookMessage": {
     "replies": [
       {
-        "text": "I noticed you don't have any Outlook task folders anymore, I'm creating new task folders for you, including a To Do folder.",
-        "speak": "I noticed you don't have any Outlook task folders anymore, I'm creating new task folders for you, including a To Do folder."
+        "text": "I noticed you don't have any Outlook task folders anymore. I'm creating new task folders for you, including a To Do folder.",
+        "speak": "I noticed you don't have any Outlook task folders anymore. I'm creating new task folders for you, including a To Do folder."
       }
     ],
     "inputHint": "ignoringInput"
