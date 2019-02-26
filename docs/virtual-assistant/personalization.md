@@ -1,9 +1,9 @@
-# Personalizing a Virtual Assistant Demo
+# Personalizing the Virtual Assistant
 
 ## Overview
 
 While the Virtual Assistant Solution provides out-of-the-box functionality to demonstrate an end-to-end experience, it is often wise to customize key components that can tailor to your audience.
-To get started, learn how to clone the repository & deploy your Azure resources by reading [Virtual Assistant Deployment](./createvirtualassistant.md).
+To get started, learn how to clone the repository & deploy your Azure resources by reading [Virtual Assistant Deployment](./gettingstarted.md).
 
 ## Project Structure
 
