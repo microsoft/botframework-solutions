@@ -1,11 +1,11 @@
 ﻿using Autofac;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Telemetry;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Testing;
-using Microsoft.Bot.Solutions.Testing.Fakes;
+using Microsoft.Bot.Solutions.Testing.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using $safeprojectname$.Flow.LuisTestUtils;
 using $ext_safeprojectname$.Dialogs.Main.Resources;
@@ -50,13 +50,11 @@ namespace $safeprojectname$.Flow
             builder.RegisterInstance(new BotStateSet(UserState, ConversationState));
             Container = builder.Build();
 
-                ResponseManager = new ResponseManager(
-                new IResponseIdCollection[] 
-                {
-                    new MainResponses(),
-                    new SharedResponses(),
-                    new SampleResponses()
-                }, Services.LocaleConfigurations.Keys.ToArray());
+            ResponseManager = new ResponseManager(
+                Services.LocaleConfigurations.Keys.ToArray(),
+                new MainResponses(),
+                new SharedResponses(),
+                new SampleResponses());
         }
 
         public TestFlow GetTestFlow()
