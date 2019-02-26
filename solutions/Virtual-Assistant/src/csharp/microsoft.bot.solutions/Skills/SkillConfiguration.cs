@@ -4,7 +4,7 @@ using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Configuration;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Solutions.Telemetry;
 
 namespace Microsoft.Bot.Solutions.Skills
 {

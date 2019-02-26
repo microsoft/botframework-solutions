@@ -1,6 +1,6 @@
 ﻿using Luis;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Solutions.Testing.Fakes;
+using Microsoft.Bot.Solutions.Testing.Mocks;
 using Microsoft.Bot.Solutions.Tests.Skills.Utterances;
 using System.Collections.Generic;
 

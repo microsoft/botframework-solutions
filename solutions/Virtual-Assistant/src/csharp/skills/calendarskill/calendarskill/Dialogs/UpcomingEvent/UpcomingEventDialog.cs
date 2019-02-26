@@ -11,7 +11,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Models.Proactive;
+using Microsoft.Bot.Solutions.Proactive;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;

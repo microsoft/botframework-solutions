@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
-using Microsoft.Bot.Solutions.Models.Proactive;
+using Microsoft.Bot.Solutions.Proactive;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.TaskExtensions;
+using Microsoft.Bot.Solutions.Telemetry;
 using ToDoSkill.Dialogs.AddToDo.Resources;
 using ToDoSkill.Dialogs.DeleteToDo.Resources;
 using ToDoSkill.Dialogs.Main;
@@ -61,15 +61,13 @@ namespace ToDoSkill
             {
                 var supportedLanguages = services.LocaleConfigurations.Keys.ToArray();
                 responseManager = new ResponseManager(
-                    new IResponseIdCollection[]
-                    {
-                        new AddToDoResponses(),
-                        new DeleteToDoResponses(),
-                        new ToDoMainResponses(),
-                        new MarkToDoResponses(),
-                        new ToDoSharedResponses(),
-                        new ShowToDoResponses(),
-                    }, supportedLanguages);
+                    supportedLanguages,
+                    new AddToDoResponses(),
+                    new DeleteToDoResponses(),
+                    new ToDoMainResponses(),
+                    new MarkToDoResponses(),
+                    new ToDoSharedResponses(),
+                    new ShowToDoResponses());
             }
 
             _responseManager = responseManager;

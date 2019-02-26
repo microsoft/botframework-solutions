@@ -12,6 +12,5 @@ namespace PointOfInterestSkill.Dialogs.FindPointOfInterest.Resources
     public class FindPointOfInterestResponses : IResponseIdCollection
     {
         // Generated accessors
-
     }
 }

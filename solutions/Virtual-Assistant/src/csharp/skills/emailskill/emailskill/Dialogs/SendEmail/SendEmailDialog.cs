@@ -3,7 +3,6 @@ using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.FindContact;
-using EmailSkill.Dialogs.FindContact.Resources;
 using EmailSkill.Dialogs.SendEmail.Prompts;
 using EmailSkill.Dialogs.SendEmail.Resources;
 using EmailSkill.Dialogs.Shared;
@@ -327,7 +326,7 @@ namespace EmailSkill.Dialogs.SendEmail
                         return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions()
                         {
                             Prompt = ResponseManager.GetResponse(SendEmailResponses.CheckContent),
-                            RetryPrompt = ResponseManager.GetResponse(SendEmailResponses.ConfirmMessage_Retry),
+                            RetryPrompt = ResponseManager.GetResponse(SendEmailResponses.ConfirmMessageRetry),
                         });
                     }
                     else
@@ -435,7 +434,7 @@ namespace EmailSkill.Dialogs.SendEmail
                 return await sc.PromptAsync(Actions.GetRecreateInfoPrompt, new PromptOptions
                 {
                     Prompt = ResponseManager.GetResponse(SendEmailResponses.GetRecreateInfo),
-                    RetryPrompt = ResponseManager.GetResponse(SendEmailResponses.GetRecreateInfo_Retry)
+                    RetryPrompt = ResponseManager.GetResponse(SendEmailResponses.GetRecreateInfoRetry)
                 }, cancellationToken);
             }
             catch (Exception ex)

@@ -7,7 +7,7 @@
     "main": "lib/index.js",
     "scripts": {
         "clean": "rimraf ./lib",
-        "copy-templates": "copyfiles --up 1 ./src/**/*.json ./lib",
+        "copy-templates": "copyfiles --up 1 \"./src/**/*.json\" \"./lib\"",
         "prebuild": "npm run lint",
         "build": "tsc --p tsconfig.json && npm run copy-templates",
         "post-install": "npm run build && node ./deploymentScripts/webConfigPrep.js",

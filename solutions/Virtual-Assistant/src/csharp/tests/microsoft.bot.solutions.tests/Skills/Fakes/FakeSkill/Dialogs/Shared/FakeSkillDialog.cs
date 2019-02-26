@@ -5,7 +5,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Newtonsoft.Json.Linq;
@@ -13,6 +12,7 @@ using FakeSkill.Dialogs.Shared.DialogOptions;
 using FakeSkill.ServiceClients;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Shared.Resources;
+using Microsoft.Bot.Solutions.Telemetry;
 
 namespace FakeSkill.Dialogs.Shared
 {

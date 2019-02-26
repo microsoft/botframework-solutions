@@ -3,7 +3,6 @@ using System.Collections.Specialized;
 using System.Threading.Tasks;
 using AdaptiveCards;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using PointOfInterestSkill.Dialogs.Shared.Resources;

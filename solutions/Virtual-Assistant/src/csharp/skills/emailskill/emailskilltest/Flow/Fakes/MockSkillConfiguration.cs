@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Bot.Builder.Azure;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Telemetry;
 
 namespace EmailSkillTest.Flow.Fakes
 {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Luis;
-using Microsoft.Bot.Builder;
+﻿using Luis;
 
 namespace CalendarSkillTest.Flow.Utterances
 {

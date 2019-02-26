@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Luis;
-using Microsoft.Bot.Builder;
+﻿using Luis;
 
 namespace CalendarSkillTest.Flow.Utterances
 {
@@ -40,7 +36,6 @@ namespace CalendarSkillTest.Flow.Utterances
         public static string FindMeetingByStartTime { get; } = "What are my meetings at tomorrow 6 pm";
 
         public static string BaseNextMeeting { get; } = "what is my next meeting";
-
 
         public static string HowLongNextMeetingMeeting { get; } = "How long is my next meeting";
 
