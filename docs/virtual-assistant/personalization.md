@@ -202,7 +202,7 @@ qnamaker create kb --in <KB.json> --msbot | msbot connect qna --stdin --bot "YOU
 ```shell
 msbot get dispatch --bot "YOURBOT.bot" | luis export version --stdin | luisgen - -cs Dispatch -o Dialogs\Shared
 ```
-4.  Update the `assistant\Dialogs\Main\MainDialog.cs` file to include the corresponding Dispatch intent for your new QnA source following the example provided.
+4. Update the `assistant\Dialogs\Main\MainDialog.cs` file to include the corresponding Dispatch intent for your new QnA source following the example provided.
 
 You should now be able to leverage multiple QnA sources as part of your Assistant.
 

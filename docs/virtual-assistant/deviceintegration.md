@@ -1,7 +1,5 @@
 # Virtual Assistant Device Integration
 
-## Overview
-
 A key scenario for Virtual Assistants is the integration into a device experience. Through the Azure Bot Service, Virtual Assistants can be surfaced through a wide variety of channels including Web-Chat, Skype, Teams, FaceBook Messenger and Slack but Direct-Line provides a REST API enabling direct integration.
 
 This REST API and associated SDKs enables seamless integration with a broad range of devices and enables the sending and receiving of messages and events. 
@@ -14,7 +12,7 @@ In addition, the Activity schema supports the inclusion of Attachments which ena
 
 A device can take the Adaptive Card response in JSON format and render to the target device platform and show a visual response in support of a spoken response.
 
-# Events
+## Events
 
 Events provides a powerful way for a device to send information from the Device (as a result of a button press, or a device start) but also to receive actions that the Virtual Assistant wishes to perform (e.g. change the navigation destination, control a device feature, etc.). See the [Events](./events.md) section for more information.
 
@@ -29,4 +27,4 @@ You can [render Adaptive Cards](https://docs.microsoft.com/en-us/adaptive-cards/
 ## Speech SDK
 
 The [Unified Speech Cognitive Services](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/overview) provide a broad range of Speech-To-Text, Text-To-Speech, Translation and Custom Voice capabilities which can easily be plugged into your Virtual Assistant. 
-The [Speech Software Development Kit (SDK)](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/speech-sdk-reference) is available for reference, making it easier to develop speech-enabled software. Different Speech SDK functions have a variety of [language support](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/supported-languages).   In addition, we have integration with the [Speech Devices SDK](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/speech-devices-sdk-qsg) enabling custom wake word detection along with linear/circular microphone arrays.
+The [Speech Software Development Kit (SDK)](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/speech-sdk-reference) is available for reference, making it easier to develop speech-enabled software. Different Speech SDK functions have a variety of [language support](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/supported-languages). In addition, we have integration with the [Speech Devices SDK](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/speech-devices-sdk-qsg) enabling custom wake word detection along with linear/circular microphone arrays.

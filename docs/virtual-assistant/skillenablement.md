@@ -36,7 +36,7 @@
     PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\Deploy_Bot.ps1
     ```
 
-8.  In Virtual Assistant, add a project reference to your new skill project. This tells the Virtual Assistant that there is a new skill available for use. (Right-click your project, go to **Add > Reference** and select your skill project from the list.)
+8. In Virtual Assistant, add a project reference to your new skill project. This tells the Virtual Assistant that there is a new skill available for use. (Right-click your project, go to **Add > Reference** and select your skill project from the list.)
 
 9. In Virtual Assistant, add your skill configuration to **appsettings.json** 
 
