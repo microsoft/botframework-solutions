@@ -12,12 +12,11 @@ namespace AutomotiveSkill.Dialogs.Main.Resources
     public class AutomotiveSkillMainResponses : IResponseIdCollection
     {
         // Generated accessors
-		public const string WelcomeMessage = "WelcomeMessage";
-		public const string HelpMessage = "HelpMessage";
-		public const string GreetingMessage = "GreetingMessage";
-		public const string LogOut = "LogOut";
-		public const string FeatureNotAvailable = "FeatureNotAvailable";
-		public const string CancelMessage = "CancelMessage";
-
+        public const string WelcomeMessage = "WelcomeMessage";
+        public const string HelpMessage = "HelpMessage";
+        public const string GreetingMessage = "GreetingMessage";
+        public const string LogOut = "LogOut";
+        public const string FeatureNotAvailable = "FeatureNotAvailable";
+        public const string CancelMessage = "CancelMessage";
     }
 }

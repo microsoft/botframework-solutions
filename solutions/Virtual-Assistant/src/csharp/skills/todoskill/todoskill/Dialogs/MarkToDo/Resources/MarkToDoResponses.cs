@@ -12,13 +12,12 @@ namespace ToDoSkill.Dialogs.MarkToDo.Resources
     public class MarkToDoResponses : IResponseIdCollection
     {
         // Generated accessors
-		public const string AfterTaskCompleted = "AfterTaskCompleted";
-		public const string AfterAllTasksCompleted = "AfterAllTasksCompleted";
-		public const string ListTypePromptForComplete = "ListTypePromptForComplete";
-		public const string AskTaskIndexForComplete = "AskTaskIndexForComplete";
-		public const string AskTaskIndexRetryForComplete = "AskTaskIndexRetryForComplete";
-		public const string CompleteAnotherTaskPrompt = "CompleteAnotherTaskPrompt";
-		public const string CompleteAnotherTaskConfirmFailed = "CompleteAnotherTaskConfirmFailed";
-
+        public const string AfterTaskCompleted = "AfterTaskCompleted";
+        public const string AfterAllTasksCompleted = "AfterAllTasksCompleted";
+        public const string ListTypePromptForComplete = "ListTypePromptForComplete";
+        public const string AskTaskIndexForComplete = "AskTaskIndexForComplete";
+        public const string AskTaskIndexRetryForComplete = "AskTaskIndexRetryForComplete";
+        public const string CompleteAnotherTaskPrompt = "CompleteAnotherTaskPrompt";
+        public const string CompleteAnotherTaskConfirmFailed = "CompleteAnotherTaskConfirmFailed";
     }
 }

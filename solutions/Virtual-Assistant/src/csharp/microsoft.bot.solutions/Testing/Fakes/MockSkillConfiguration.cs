@@ -1,6 +1,6 @@
-﻿using Microsoft.Bot.Builder.Azure;
+﻿using System.Collections.Generic;
+using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Solutions.Skills;
-using System.Collections.Generic;
 
 namespace Microsoft.Bot.Solutions.Testing.Fakes
 {
