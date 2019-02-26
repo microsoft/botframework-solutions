@@ -12,12 +12,11 @@ namespace AutomotiveSkill.Dialogs.Shared.Resources
     public class AutomotiveSkillSharedResponses : IResponseIdCollection
     {
         // Generated accessors
-		public const string DidntUnderstandMessage = "DidntUnderstandMessage";
-		public const string DidntUnderstandMessageIgnoringInput = "DidntUnderstandMessageIgnoringInput";
-		public const string CancellingMessage = "CancellingMessage";
-		public const string ActionEnded = "ActionEnded";
-		public const string ErrorMessage = "ErrorMessage";
-		public const string NoAuth = "NoAuth";
-
+        public const string DidntUnderstandMessage = "DidntUnderstandMessage";
+        public const string DidntUnderstandMessageIgnoringInput = "DidntUnderstandMessageIgnoringInput";
+        public const string CancellingMessage = "CancellingMessage";
+        public const string ActionEnded = "ActionEnded";
+        public const string ErrorMessage = "ErrorMessage";
+        public const string NoAuth = "NoAuth";
     }
 }

@@ -526,6 +526,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
         {
             var actionEvent = sc.Context.Activity.CreateReply();
             actionEvent.Type = ActivityTypes.Event;
+
             // The name of the event is the intent (changing vs checking, the latter of which is not yet supported).
             actionEvent.Name = "AutomotiveSkill.SettingChange";
             actionEvent.Value = change;

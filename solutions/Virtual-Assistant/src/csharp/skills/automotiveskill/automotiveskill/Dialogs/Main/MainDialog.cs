@@ -31,7 +31,6 @@ namespace AutomotiveSkill.Dialogs.Main
         private IServiceManager _serviceManager;
         private IStatePropertyAccessor<AutomotiveSkillState> _stateAccessor;
         private IHttpContextAccessor _httpContext;
-        private IBotTelemetryClient _telemetryClient;
 
         public MainDialog(
             SkillConfigurationBase services,
@@ -237,7 +236,7 @@ namespace AutomotiveSkill.Dialogs.Main
 
         private void RegisterDialogs()
         {
-            AddDialog(new VehicleSettingsDialog(_services, _responseManager, _stateAccessor, _serviceManager, _telemetryClient, _httpContext));
+            AddDialog(new VehicleSettingsDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient, _httpContext));
         }
 
         private class Events

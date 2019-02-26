@@ -12,16 +12,15 @@ namespace ToDoSkill.Dialogs.DeleteToDo.Resources
     public class DeleteToDoResponses : IResponseIdCollection
     {
         // Generated accessors
-		public const string AskDeletionAllConfirmation = "AskDeletionAllConfirmation";
-		public const string AskDeletionAllConfirmationFailed = "AskDeletionAllConfirmationFailed";
-		public const string AfterTaskDeleted = "AfterTaskDeleted";
-		public const string AfterAllTasksDeleted = "AfterAllTasksDeleted";
-		public const string DeletionAllConfirmationRefused = "DeletionAllConfirmationRefused";
-		public const string ListTypePromptForDelete = "ListTypePromptForDelete";
-		public const string AskTaskIndexForDelete = "AskTaskIndexForDelete";
-		public const string AskTaskIndexRetryForDelete = "AskTaskIndexRetryForDelete";
-		public const string DeleteAnotherTaskPrompt = "DeleteAnotherTaskPrompt";
-		public const string DeleteAnotherTaskConfirmFailed = "DeleteAnotherTaskConfirmFailed";
-
+        public const string AskDeletionAllConfirmation = "AskDeletionAllConfirmation";
+        public const string AskDeletionAllConfirmationFailed = "AskDeletionAllConfirmationFailed";
+        public const string AfterTaskDeleted = "AfterTaskDeleted";
+        public const string AfterAllTasksDeleted = "AfterAllTasksDeleted";
+        public const string DeletionAllConfirmationRefused = "DeletionAllConfirmationRefused";
+        public const string ListTypePromptForDelete = "ListTypePromptForDelete";
+        public const string AskTaskIndexForDelete = "AskTaskIndexForDelete";
+        public const string AskTaskIndexRetryForDelete = "AskTaskIndexRetryForDelete";
+        public const string DeleteAnotherTaskPrompt = "DeleteAnotherTaskPrompt";
+        public const string DeleteAnotherTaskConfirmFailed = "DeleteAnotherTaskConfirmFailed";
     }
 }

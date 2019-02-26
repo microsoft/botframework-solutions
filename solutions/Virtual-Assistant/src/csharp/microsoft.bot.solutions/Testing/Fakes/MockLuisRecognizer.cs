@@ -1,10 +1,10 @@
-﻿using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Solutions.Middleware.Telemetry;
 
 namespace Microsoft.Bot.Solutions.Testing.Fakes
 {
@@ -15,6 +15,8 @@ namespace Microsoft.Bot.Solutions.Testing.Fakes
             TestUtterances = new Dictionary<string, IRecognizerConvert>();
             DefaultIntent = defaultIntent;
         }
+
+        public bool LogPersonalInformation => throw new NotImplementedException();
 
         private Dictionary<string, IRecognizerConvert> TestUtterances { get; set; }
 
@@ -27,8 +29,6 @@ namespace Microsoft.Bot.Solutions.Testing.Fakes
                 TestUtterances.Add(utterance.Key, utterance.Value);
             }
         }
-
-        public bool LogPersonalInformation => throw new NotImplementedException();
 
         public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {

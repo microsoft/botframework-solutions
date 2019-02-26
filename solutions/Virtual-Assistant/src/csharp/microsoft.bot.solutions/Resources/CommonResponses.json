@@ -46,7 +46,7 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "ErrorMessage_AuthFailure": {
+  "ErrorMessageAuthFailure": {
     "replies": [
       {
         "text": "Sorry, it looks like something went wrong when trying to get authenticated for your {authType} connection! Please try again later.",
@@ -55,7 +55,7 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "ErrorMessage_SkillError": {
+  "ErrorMessageSkillError": {
     "replies": [
       {
         "text": "Sorry, something went wrong trying to communicate with the skill. Please try again.",

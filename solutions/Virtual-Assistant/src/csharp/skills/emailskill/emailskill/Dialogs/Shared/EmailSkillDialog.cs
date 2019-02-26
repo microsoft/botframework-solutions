@@ -164,7 +164,6 @@ namespace EmailSkill.Dialogs.Shared
             }
         }
 
-
         protected virtual async Task<DialogTurnResult> PagingStep(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -980,10 +979,10 @@ namespace EmailSkill.Dialogs.Shared
             }
             else
             {
-                reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowEmailPrompt_OtherPage, cards, tokens);
+                reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowEmailPromptOtherPage, cards, tokens);
                 if (updatedMessages.Count == 1)
                 {
-                    reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowOneEmailPrompt_OtherPage, cards, tokens);
+                    reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowOneEmailPromptOtherPage, cards, tokens);
                 }
             }
 
@@ -1369,7 +1368,7 @@ namespace EmailSkill.Dialogs.Shared
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailErrorMessage_BotProblem));
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailErrorMessageBotProblem));
             }
             else
             {

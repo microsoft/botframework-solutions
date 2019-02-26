@@ -39,7 +39,6 @@ namespace PointOfInterestSkill.Dialogs.Main
         private IStatePropertyAccessor<PointOfInterestSkillState> _stateAccessor;
         private IHttpContextAccessor _httpContext;
 
-
         public MainDialog(
             SkillConfigurationBase services,
             ResponseManager responseManager,
