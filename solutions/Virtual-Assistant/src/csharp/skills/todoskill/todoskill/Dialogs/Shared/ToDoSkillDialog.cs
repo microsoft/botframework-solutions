@@ -990,7 +990,7 @@ namespace ToDoSkill.Dialogs.Shared
             }
             else if (ex.ExceptionType == SkillExceptionType.AccountNotActivated)
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessage_AccountProblem));
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessageAccountProblem));
             }
             else
             {
