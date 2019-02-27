@@ -1,6 +1,4 @@
-﻿using Microsoft.Bot.Solutions.Resources;
-
-namespace Microsoft.Bot.Solutions.Util
+﻿namespace Microsoft.Bot.Solutions.Util
 {
     public class CommonUtil
     {

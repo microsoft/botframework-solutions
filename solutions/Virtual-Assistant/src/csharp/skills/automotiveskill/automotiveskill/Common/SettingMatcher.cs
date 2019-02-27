@@ -43,7 +43,7 @@ namespace AutomotiveSkill.Common
         }
 
         /// <summary>
-        /// See if the provided setting name can be exactly matched to a setting (e.g. temperature)
+        /// See if the provided setting name can be exactly matched to a setting (e.g. temperature).
         /// </summary>
         /// <param name="entityValue">Entity value to match.</param>
         /// <returns>Matched available setting.</returns>
@@ -277,6 +277,7 @@ namespace AutomotiveSkill.Common
             {
                 preProcessedValues.Add(PreProcessPartial(value));
             }
+
             string extracted_setting_name = string.Join(" ", preProcessedValues);
 
             AddNameToMatchable(matchable, extracted_setting_name);

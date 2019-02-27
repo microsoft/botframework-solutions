@@ -12,14 +12,13 @@ namespace ToDoSkill.Dialogs.AddToDo.Resources
     public class AddToDoResponses : IResponseIdCollection
     {
         // Generated accessors
-		public const string AskTaskContentText = "AskTaskContentText";
-		public const string AfterTaskAdded = "AfterTaskAdded";
-		public const string SwitchListType = "SwitchListType";
-		public const string SwitchListTypeConfirmFailed = "SwitchListTypeConfirmFailed";
-		public const string AddMoreTask = "AddMoreTask";
-		public const string AddMoreTaskConfirmFailed = "AddMoreTaskConfirmFailed";
-		public const string AskAddDupTaskPrompt = "AskAddDupTaskPrompt";
-		public const string AskAddDupTaskConfirmFailed = "AskAddDupTaskConfirmFailed";
-
+        public const string AskTaskContentText = "AskTaskContentText";
+        public const string AfterTaskAdded = "AfterTaskAdded";
+        public const string SwitchListType = "SwitchListType";
+        public const string SwitchListTypeConfirmFailed = "SwitchListTypeConfirmFailed";
+        public const string AddMoreTask = "AddMoreTask";
+        public const string AddMoreTaskConfirmFailed = "AddMoreTaskConfirmFailed";
+        public const string AskAddDupTaskPrompt = "AskAddDupTaskPrompt";
+        public const string AskAddDupTaskConfirmFailed = "AskAddDupTaskConfirmFailed";
     }
 }

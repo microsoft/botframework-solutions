@@ -23,7 +23,7 @@ namespace $safeprojectname$
     public class $safeprojectname$ : IBot
     {
         private readonly SkillConfigurationBase _services;
-private readonly ResponseManager _responseManager;
+        private readonly ResponseManager _responseManager;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
         private readonly IBotTelemetryClient _telemetryClient;
@@ -49,12 +49,10 @@ private readonly ResponseManager _responseManager;
             if (responseManager == null)
             {
                 responseManager = new ResponseManager(
-                    new IResponseIdCollection[]
-                    {
-                        new MainResponses(),
-                        new SharedResponses(),
-                        new SampleResponses()
-                    }, _services.LocaleConfigurations.Keys.ToArray());
+                    _services.LocaleConfigurations.Keys.ToArray(),
+                    new MainResponses(),
+                    new SharedResponses(),
+                    new SampleResponses());
             }
 
             _responseManager = responseManager;

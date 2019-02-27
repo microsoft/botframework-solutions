@@ -19,7 +19,6 @@ using ToDoSkill.Dialogs.DeleteToDo;
 using ToDoSkill.Dialogs.Main.Resources;
 using ToDoSkill.Dialogs.MarkToDo;
 using ToDoSkill.Dialogs.Shared.DialogOptions;
-using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Dialogs.ShowToDo;
 using ToDoSkill.ServiceClients;
 using static ToDoSkill.Dialogs.Shared.ServiceProviderTypes;

@@ -22,8 +22,8 @@ namespace Microsoft.Bot.Solutions.Tests
             _currentCulture = CultureInfo.CurrentUICulture;
             _resourceDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Dialogs");
             _responseManager = new ResponseManager(
-                new IResponseIdCollection[] { new TestResponses() },
-                new string[] { "en", "es" });
+                new string[] { "en", "es" },
+                new TestResponses());
         }
 
         [TestCleanup]

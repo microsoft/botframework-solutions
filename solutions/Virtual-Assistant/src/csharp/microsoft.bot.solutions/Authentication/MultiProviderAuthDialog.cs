@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,10 +7,10 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Telemetry;
 
 namespace Microsoft.Bot.Solutions.Authentication
 {
@@ -25,12 +24,7 @@ namespace Microsoft.Bot.Solutions.Authentication
             : base(nameof(MultiProviderAuthDialog))
         {
             _skillConfiguration = skillConfiguration;
-            _responseManager = new ResponseManager(
-                new IResponseIdCollection[]
-                {
-                    new CommonResponses()
-                },
-                _skillConfiguration.LocaleConfigurations.Keys.ToArray());
+            _responseManager = new ResponseManager(_skillConfiguration.LocaleConfigurations.Keys.ToArray(), new AuthenticationResponses());
 
             if (_skillConfiguration.IsAuthenticatedSkill && !_skillConfiguration.AuthenticationConnections.Any())
             {
@@ -95,7 +89,7 @@ namespace Microsoft.Bot.Solutions.Authentication
 
                     return await stepContext.PromptAsync(DialogIds.ProviderPrompt, new PromptOptions
                     {
-                        Prompt = _responseManager.GetResponse(CommonResponses.ConfiguredAuthProvidersPrompt),
+                        Prompt = _responseManager.GetResponse(AuthenticationResponses.ConfiguredAuthProvidersPrompt),
                         Choices = choices,
                     });
                 }
@@ -114,7 +108,7 @@ namespace Microsoft.Bot.Solutions.Authentication
 
                     return await stepContext.PromptAsync(DialogIds.ProviderPrompt, new PromptOptions
                     {
-                        Prompt = _responseManager.GetResponse(CommonResponses.AuthProvidersPrompt),
+                        Prompt = _responseManager.GetResponse(AuthenticationResponses.AuthProvidersPrompt),
                         Choices = choices,
                     });
                 }
