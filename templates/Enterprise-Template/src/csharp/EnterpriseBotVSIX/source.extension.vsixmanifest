@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="EnterpriseBotTemplate.82cb8299-0d0d-4299-a08d-83ef19b3a60b" Version="5.0.8" Language="en-US" Publisher="Microsoft" />
+        <Identity Id="EnterpriseBotTemplate.82cb8299-0d0d-4299-a08d-83ef19b3a60b" Version="1.0.0" Language="en-US" Publisher="Microsoft" />
         <DisplayName>Enterprise Bot Template</DisplayName>
         <Description xml:space="preserve">Project template for advanced bot scenarios using the Bot Builder SDK V4.</Description>
     </Metadata>
@@ -12,7 +12,7 @@
         <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
     </Dependencies>
     <Assets>
-        <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="File" d:TargetPath="ProjectTemplates\Bot Framework\ebt.zip" />
+        <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="File" Path="ProjectTemplates" d:TargetPath="ProjectTemplates\Bot\ebt.zip" />
     </Assets>
     <Prerequisites>
         <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,)" DisplayName="Visual Studio core editor" />
