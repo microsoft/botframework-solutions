@@ -56,8 +56,8 @@
   "ReadMoreTasksPrompt2": {
     "replies": [
       {
-        "text": "There are more items on your list, want to see more?",
-        "speak": "There are more items on your list, want to hear more?"
+        "text": "There are more items on your list. Do you want to see more?",
+        "speak": "There are more items on your list. Do you want to hear more?"
       }
     ],
     "inputHint": "expectingInput"
@@ -137,8 +137,8 @@
   "RepeatFirstPagePrompt": {
     "replies": [
       {
-        "text": "You are already at the start of your {listType} list. Want to see your first {taskCount} tasks again?",
-        "speak": "You are already at the start of your {listType} list. Want to hear your first {taskCount} tasks again?"
+        "text": "You are already at the start of your {listType} list. Do you want to see your first {taskCount} tasks again?",
+        "speak": "You are already at the start of your {listType} list. Do you want to hear your first {taskCount} tasks again?"
       }
     ],
     "inputHint": "expectingInput"
@@ -146,8 +146,8 @@
   "RepeatFirstPageConfirmFailed": {
     "replies": [
       {
-        "text": "Sorry, I didn't understand what you meant. Want to see your first {taskCount} tasks again?",
-        "speak": "Sorry, I didn't understand what you meant. Want to hear your first {taskCount} tasks again?"
+        "text": "Sorry, I didn't understand what you meant. Do you want to see your first {taskCount} tasks again?",
+        "speak": "Sorry, I didn't understand what you meant. Do you want to hear your first {taskCount} tasks again?"
       }
     ],
     "inputHint": "expectingInput"
@@ -155,8 +155,8 @@
   "GoBackToStartPromptForSingleTask": {
     "replies": [
       {
-        "text": "This is already the last task on your {listType} list. Want to see your first {taskCount} tasks again?",
-        "speak": "This is already the last task on your {listType} list. Want to hear your first {taskCount} tasks again?"
+        "text": "This is the last task on your {listType} list. Do you want to see your first {taskCount} tasks again?",
+        "speak": "This is the last task on your {listType} list. Do you want to hear your first {taskCount} tasks again?"
       }
     ],
     "inputHint": "expectingInput"
@@ -164,8 +164,8 @@
   "GoBackToStartForSingleTaskConfirmFailed": {
     "replies": [
       {
-        "text": "Sorry, I didn't understand what you meant. Want to see your first {taskCount} tasks again?",
-        "speak": "Sorry, I didn't understand what you meant. Want to hear your first {taskCount} tasks again?"
+        "text": "Sorry, I didn't understand what you meant. Do you want to see your first {taskCount} tasks again?",
+        "speak": "Sorry, I didn't understand what you meant. Do you want to hear your first {taskCount} tasks again?"
       }
     ],
     "inputHint": "expectingInput"
@@ -173,8 +173,8 @@
   "GoBackToStartPromptForTasks": {
     "replies": [
       {
-        "text": "They are already your last tasks on your {listType} list. Want to see your first {taskCount} tasks again?",
-        "speak": "They are already your last tasks on your {listType} list. Want to hear your first {taskCount} tasks again?"
+        "text": "These are the last tasks on your {listType} list. Do you want to see your first {taskCount} tasks again?",
+        "speak": "These are the last tasks on your {listType} list. Do you want to hear your first {taskCount} tasks again?"
       }
     ],
     "inputHint": "expectingInput"
@@ -182,8 +182,8 @@
   "GoBackToStartForTasksConfirmFailed": {
     "replies": [
       {
-        "text": "Sorry, I didn't understand what you meant. Want to see your first {taskCount} tasks again?",
-        "speak": "Sorry, I didn't understand what you meant. Want to hear your first {taskCount} tasks again?"
+        "text": "Sorry, I didn't understand what you meant. Do you want to see your first {taskCount} tasks again?",
+        "speak": "Sorry, I didn't understand what you meant. Do you want to hear your first {taskCount} tasks again?"
       }
     ],
     "inputHint": "expectingInput"
