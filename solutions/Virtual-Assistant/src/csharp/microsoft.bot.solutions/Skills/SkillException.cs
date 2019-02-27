@@ -10,6 +10,11 @@ namespace Microsoft.Bot.Solutions.Skills
         APIAccessDenied,
 
         /// <summary>
+        ///  Account Not Activated when calling external APIs
+        /// </summary>
+        AccountNotActivated,
+
+        /// <summary>
         /// Other types of exceptions
         /// </summary>
         Other
