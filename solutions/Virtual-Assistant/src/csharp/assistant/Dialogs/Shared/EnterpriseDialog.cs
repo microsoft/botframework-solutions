@@ -1,13 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Solutions.Dialogs;
+using Microsoft.Extensions.DependencyInjection;
 using VirtualAssistant.Dialogs.Main;
 
 namespace VirtualAssistant.Dialogs.Shared
@@ -20,10 +21,10 @@ namespace VirtualAssistant.Dialogs.Shared
         private readonly BotServices _services;
         private readonly MainResponses _responder = new MainResponses();
 
-        public EnterpriseDialog(BotServices botServices, string dialogId)
+        public EnterpriseDialog(IServiceProvider serviceProvider, string dialogId)
             : base(dialogId)
         {
-            _services = botServices;
+            _services = serviceProvider.GetService<BotServices>();
         }
 
         protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)

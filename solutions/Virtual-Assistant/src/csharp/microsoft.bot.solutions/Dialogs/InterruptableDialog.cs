@@ -1,19 +1,22 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.Bot.Solutions.Dialogs
 {
     public abstract class InterruptableDialog : ComponentDialog
     {
-        public InterruptableDialog(string dialogId)
+        public InterruptableDialog(IServiceProvider serviceProvider, string dialogId)
             : base(dialogId)
         {
             PrimaryDialogName = dialogId;
+            TelemetryClient = serviceProvider.GetService<IBotTelemetryClient>();
         }
 
         public string PrimaryDialogName { get; set; }
