@@ -23,6 +23,7 @@ namespace ToDoSkill.ServiceClients
     public class ServiceHelper
     {
         private const string APIErrorAccessDenied = "erroraccessdenied";
+        private const string APIErrorMessageSubmissionBlocked = "errormessagesubmissionblocked";
 
         private static readonly Regex ComplexTokensRegex = new Regex(@"\{[^{\}]+(?=})\}", RegexOptions.Compiled);
         private static HttpClient httpClient = new HttpClient();
@@ -276,6 +277,10 @@ namespace ToDoSkill.ServiceClients
             if (ex.Error.Code.Equals(APIErrorAccessDenied, StringComparison.InvariantCultureIgnoreCase))
             {
                 skillExceptionType = SkillExceptionType.APIAccessDenied;
+            }
+            else if (ex.Error.Code.Equals(APIErrorMessageSubmissionBlocked, StringComparison.InvariantCultureIgnoreCase))
+            {
+                skillExceptionType = SkillExceptionType.AccountNotActivated;
             }
 
             return new SkillException(skillExceptionType, ex.Message, ex);

@@ -153,7 +153,7 @@ namespace ToDoSkill.Dialogs.ShowToDo
                             await sc.Context.SendActivityAsync(response);
                         }
                     }
-                    else if (generalTopIntent == General.Intent.Next)
+                    else if (topIntent == ToDoLU.Intent.ShowNextPage || generalTopIntent == General.Intent.Next)
                     {
                         if (state.IsLastPage)
                         {
@@ -176,7 +176,7 @@ namespace ToDoSkill.Dialogs.ShowToDo
                             }
                         }
                     }
-                    else if (generalTopIntent == General.Intent.Previous)
+                    else if (topIntent == ToDoLU.Intent.ShowPreviousPage || generalTopIntent == General.Intent.Previous)
                     {
                         if (state.IsFirstPage)
                         {
