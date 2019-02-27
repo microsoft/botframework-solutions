@@ -93,7 +93,7 @@ namespace EmailSkill.Dialogs.SendEmail
 
                 if (!skillOptions.SubFlowMode)
                 {
-                    if (state.NameList.Count > 0 || state.EmailList.Count > 0)
+                    if (state.Recipients.Count > 0)
                     {
                         // Bypass logic: Send an email to Michelle saying I will be late today ->  Use “I will be late today” as subject. No need to ask for subject/content
                         // If information is detected as content, move to subject.
