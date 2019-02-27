@@ -52,7 +52,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ProjectTemplates\Bot\ebt.zip">
+    <Content Include="ProjectTemplates\Bot Framework\ebt.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
@@ -68,8 +68,8 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup>
-    <PreBuildEvent>powershell New-Item -ItemType Directory -Force -Path '$(ProjectDir)ProjectTemplates\Bot'
-powershell "Get-ChildItem -Path '$(SolutionDir)..\EnterpriseBotTemplate' | Compress-Archive -DestinationPath '$(ProjectDir)ProjectTemplates\Bot\ebt.zip' -Force"</PreBuildEvent>
+    <PreBuildEvent>powershell New-Item -ItemType Directory -Force -Path '$(ProjectDir)ProjectTemplates\Bot Framework'
+powershell "Get-ChildItem -Path '$(SolutionDir)..\EnterpriseBotTemplate' | Compress-Archive -DestinationPath '$(ProjectDir)ProjectTemplates\Bot Framework\ebt.zip' -Force"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
