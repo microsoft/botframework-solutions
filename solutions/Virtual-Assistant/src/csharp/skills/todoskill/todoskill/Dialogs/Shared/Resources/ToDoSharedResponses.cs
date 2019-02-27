@@ -16,7 +16,7 @@ namespace ToDoSkill.Dialogs.Shared.Resources
         public const string ActionEnded = "ActionEnded";
         public const string ToDoErrorMessage = "ToDoErrorMessage";
         public const string ToDoErrorMessageBotProblem = "ToDoErrorMessageBotProblem";
-        public const string ToDoErrorMessage_AccountProblem = "ToDoErrorMessageAccountProblem"
+        public const string ToDoErrorMessageAccountProblem = "ToDoErrorMessageAccountProblem";
         public const string SettingUpOneNoteMessage = "SettingUpOneNoteMessage";
         public const string AfterOneNoteSetupMessage = "AfterOneNoteSetupMessage";
         public const string SettingUpOutlookMessage = "SettingUpOutlookMessage";

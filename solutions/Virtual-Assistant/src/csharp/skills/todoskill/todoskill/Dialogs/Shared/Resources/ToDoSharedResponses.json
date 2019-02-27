@@ -71,7 +71,7 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "ToDoErrorMessage_AccountProblem": {
+  "ToDoErrorMessageAccountProblem": {
     "replies": [
       {
         "text": "Sorry, it looks like something went wrong with your email account. Please follow the instructions in your Inbox to verify your account.",

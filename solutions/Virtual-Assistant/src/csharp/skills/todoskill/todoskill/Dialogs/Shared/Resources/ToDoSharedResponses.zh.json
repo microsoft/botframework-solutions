@@ -58,7 +58,7 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "ToDoErrorMessage_BotProblem": {
+  "ToDoErrorMessageBotProblem": {
     "replies": [
       {
         "text": "对不起，出了点问题。开发人员已经收到通知并且在解决这个问题。你很快就又可以正常使用这个功能了。",
@@ -67,7 +67,7 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "ToDoErrorMessage_AccountProblem": {
+  "ToDoErrorMessageAccountProblem": {
     "replies": [
       {
         "text": "抱歉，你的邮箱账户出了点问题。请按照收件箱里的说明验证你的账户。",
