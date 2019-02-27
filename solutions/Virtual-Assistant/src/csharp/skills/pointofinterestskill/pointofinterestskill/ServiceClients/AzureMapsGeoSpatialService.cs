@@ -35,12 +35,12 @@ namespace PointOfInterestSkill.ServiceClients
         /// </summary>
         private int limit;
 
-        public async Task<IGeoSpatialService> InitClientAsync(string clientId, string clientSecret, int radiusConfiguration, int limitConfiguration, string locale = "en-us", HttpClient client = null)
+        public Task<IGeoSpatialService> InitClientAsync(string clientId, string clientSecret, int radiusConfiguration, int limitConfiguration, string locale = "en-us", HttpClient client = null)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IGeoSpatialService> InitKeyAsync(string key, int radiusConfiguration, int limitConfiguration, string locale = "en-us", HttpClient client = null)
+        public Task<IGeoSpatialService> InitKeyAsync(string key, int radiusConfiguration, int limitConfiguration, string locale = "en-us", HttpClient client = null)
         {
             try
             {
@@ -58,11 +58,11 @@ namespace PointOfInterestSkill.ServiceClients
                     httpClient = client;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
-            return this;
+            return Task.FromResult(this as IGeoSpatialService);
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace PointOfInterestSkill.ServiceClients
         /// </summary>
         /// <param name="pointOfInterest">The point of interest model.</param>
         /// <returns>PointOfInterestModel.</returns>
-        public async Task<PointOfInterestModel> GetPointOfInterestDetailsAsync(PointOfInterestModel pointOfInterest)
+        public Task<PointOfInterestModel> GetPointOfInterestDetailsAsync(PointOfInterestModel pointOfInterest)
         {
             int zoom = 15;
 
@@ -156,7 +156,7 @@ namespace PointOfInterestSkill.ServiceClients
 
             pointOfInterest.ImageUrl = imageUrl;
 
-            return pointOfInterest;
+            return Task.FromResult(pointOfInterest);
         }
 
         /// <summary>

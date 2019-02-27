@@ -44,7 +44,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "NoNewTime_Retry": {
+  "NoNewTimeRetry": {
     "replies": [
       {
         "text": "我没有明白你说的时间，你可以再输入一次吗？",

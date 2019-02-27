@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
-using Microsoft.Bot.Solutions.Models.Proactive;
+using Microsoft.Bot.Solutions.Proactive;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.TaskExtensions;
+using Microsoft.Bot.Solutions.Telemetry;
 using PointOfInterestSkill.Dialogs.CancelRoute.Resources;
 using PointOfInterestSkill.Dialogs.FindPointOfInterest.Resources;
 using PointOfInterestSkill.Dialogs.Main;
@@ -69,14 +69,12 @@ namespace PointOfInterestSkill
             {
                 var supportedLanguages = services.LocaleConfigurations.Keys.ToArray();
                 responseManager = new ResponseManager(
-                    new IResponseIdCollection[]
-                    {
-                        new CancelRouteResponses(),
-                        new FindPointOfInterestResponses(),
-                        new POIMainResponses(),
-                        new RouteResponses(),
-                        new POISharedResponses(),
-                    }, supportedLanguages);
+                    supportedLanguages,
+                    new CancelRouteResponses(),
+                    new FindPointOfInterestResponses(),
+                    new POIMainResponses(),
+                    new RouteResponses(),
+                    new POISharedResponses());
             }
 
             _responseManager = responseManager;

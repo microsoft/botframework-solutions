@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using EmailSkill.ServiceClients;
 using EmailSkillTest.Flow.Strings;
-using Microsoft.Bot.Solutions.Data;
 using Microsoft.Graph;
 
 namespace EmailSkillTest.Flow.Fakes

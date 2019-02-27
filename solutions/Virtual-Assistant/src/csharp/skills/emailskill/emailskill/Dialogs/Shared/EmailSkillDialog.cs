@@ -7,7 +7,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.FindContact;
-using EmailSkill.Dialogs.FindContact.Resources;
 using EmailSkill.Dialogs.ForwardEmail;
 using EmailSkill.Dialogs.Shared.DialogOptions;
 using EmailSkill.Dialogs.Shared.Resources;
@@ -24,12 +23,11 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
-using Microsoft.Bot.Solutions.Data;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Prompts;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Telemetry;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
@@ -164,7 +162,6 @@ namespace EmailSkill.Dialogs.Shared
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
-
 
         protected virtual async Task<DialogTurnResult> PagingStep(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -1341,7 +1338,7 @@ namespace EmailSkill.Dialogs.Shared
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailErrorMessage_BotProblem));
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailErrorMessageBotProblem));
             }
             else
             {

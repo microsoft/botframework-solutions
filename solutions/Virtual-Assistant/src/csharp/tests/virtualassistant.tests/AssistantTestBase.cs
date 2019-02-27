@@ -6,16 +6,13 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
-using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
-using Microsoft.Bot.Solutions.Models.Proactive;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Authentication;
+using Microsoft.Bot.Solutions.Proactive;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.TaskExtensions;
+using Microsoft.Bot.Solutions.Telemetry;
 using Microsoft.Bot.Solutions.Testing;
-using Microsoft.Bot.Solutions.Testing.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PointOfInterestSkill.Dialogs.Shared.Resources;
 using VirtualAssistant.Tests.LuisTestUtils;
@@ -61,14 +58,8 @@ namespace VirtualAssistant.Tests
             builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
             this.Container = builder.Build();
 
-            ResponseManager = new ResponseManager(
-                responseTemplates: new IResponseIdCollection[]
-                {
-                    // todo: register response files
-                    new CommonResponses(),
-                    new POISharedResponses()
-                },
-                locales: new string[] { "en", "de", "es", "fr", "it", "zh" });
+            var locales = new string[] { "en", "de", "es", "fr", "it", "zh" };
+            ResponseManager = new ResponseManager(locales, new POISharedResponses(), new SkillResponses(), new AuthenticationResponses());
 
             // Initialize the Dispatch and Luis mocks
             this.BotServices = new BotServices();

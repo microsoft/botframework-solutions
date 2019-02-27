@@ -12,8 +12,7 @@ namespace CalendarSkill.Dialogs.UpcomingEvent.Resources
     public class UpcomingEventResponses : IResponseIdCollection
     {
         // Generated accessors
-		public const string UpcomingEventMessage = "UpcomingEventMessage";
-		public const string UpcomingEventMessageWithLocation = "UpcomingEventMessageWithLocation";
-
+        public const string UpcomingEventMessage = "UpcomingEventMessage";
+        public const string UpcomingEventMessageWithLocation = "UpcomingEventMessageWithLocation";
     }
 }

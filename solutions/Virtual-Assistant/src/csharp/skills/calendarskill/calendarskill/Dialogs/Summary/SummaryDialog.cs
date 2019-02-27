@@ -18,7 +18,6 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
@@ -242,6 +241,7 @@ namespace CalendarSkill.Dialogs.Summary
 
                 var generalLuisResult = state.GeneralLuisResult;
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
+                generalTopIntent = MergeShowIntent(generalTopIntent, topIntent, luisResult);
 
                 if (topIntent == null)
                 {

@@ -3,12 +3,7 @@
 
 namespace Microsoft.Bot.Solutions.Testing
 {
-    using System;
-    using System.IO;
-    using System.Linq;
     using Microsoft.Extensions.Configuration;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
 
     public class BuildConfig
     {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CalendarSkillTest.Flow.Strings
+﻿namespace CalendarSkillTest.Flow.Strings
 {
     public class Strings
     {

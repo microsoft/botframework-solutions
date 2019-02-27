@@ -37,7 +37,6 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
 
         public static string GetDefaultTitle()
         {
-
             var rand = random.Next(0, whiteList.DefaultTitle.Length);
             return whiteList.DefaultTitle[rand];
         }

@@ -7,7 +7,6 @@ using PointOfInterestSkillTests.Flow.Utterances;
 using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using VirtualAssistant.Dialogs.Main.Resources;
 
 namespace PointOfInterestSkillTests.Flow
 {

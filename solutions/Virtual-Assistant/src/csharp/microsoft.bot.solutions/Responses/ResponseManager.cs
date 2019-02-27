@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Solutions.Responses
         private static readonly Regex SimpleTokensRegex = new Regex(@"\{(\w+)\}", RegexOptions.Compiled);
         private static readonly Regex ComplexTokensRegex = new Regex(@"\{[^{\}]+(?=})\}", RegexOptions.Compiled);
 
-        public ResponseManager(IResponseIdCollection[] responseTemplates, string[] locales)
+        public ResponseManager(string[] locales, params IResponseIdCollection[] responseTemplates)
         {
             JsonResponses = new Dictionary<string, Dictionary<string, ResponseTemplate>>();
 
@@ -328,7 +328,7 @@ namespace Microsoft.Bot.Solutions.Responses
                     .Where(x => x.Contains(jsonFile))
                     .First();
             }
-            catch (FileNotFoundException ex)
+            catch (FileNotFoundException)
             {
                 // If the localized file is missing, try falling back to the default language.
                 resource = assembly
@@ -336,7 +336,7 @@ namespace Microsoft.Bot.Solutions.Responses
                     .Where(x => x.Contains(jsonFile))
                     .First();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new Exception($"Could not file Adaptive Card resource {jsonFile}");
             }

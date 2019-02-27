@@ -21,8 +21,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Recognizers.Text;
@@ -526,6 +524,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
         {
             var actionEvent = sc.Context.Activity.CreateReply();
             actionEvent.Type = ActivityTypes.Event;
+
             // The name of the event is the intent (changing vs checking, the latter of which is not yet supported).
             actionEvent.Name = "AutomotiveSkill.SettingChange";
             actionEvent.Value = change;
