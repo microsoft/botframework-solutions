@@ -35,7 +35,7 @@ namespace PointOfInterestSkill.Dialogs.FindParking
             var findParking = new WaterfallStep[]
             {
                 GetParkingInterestPoints,
-                ResponseToGetRoutePrompt,
+                ProcessPointOfInterestSelection,
             };
 
             // Define the conversation flow using a waterfall model.
@@ -88,10 +88,12 @@ namespace PointOfInterestSkill.Dialogs.FindParking
                 {
                     return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(POISharedResponses.PromptToGetRoute) });
                 }
+                else
+                {
+                    PromptOptions options = GetPointOfInterestChoicePromptOptions(pointOfInterestList);
 
-                state.ClearLuisResults();
-
-                return await sc.EndDialogAsync(true);
+                    return await sc.PromptAsync(Actions.SelectPointOfInterestPrompt, options);
+                }
             }
             catch (Exception ex)
             {

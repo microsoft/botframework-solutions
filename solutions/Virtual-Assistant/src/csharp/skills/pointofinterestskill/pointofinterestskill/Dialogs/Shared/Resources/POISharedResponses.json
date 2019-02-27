@@ -111,10 +111,6 @@
   "GetRouteToActiveLocationLater": {
     "replies": [
       {
-        "text": "Ok, you can ask me about this location anytime.",
-        "speak": "Ok, you can ask me about this location anytime."
-      },
-      {
         "text": "Ok, I can help you with this later.",
         "speak": "Ok, I can help you with this later."
       },
@@ -208,6 +204,28 @@
       {
         "text": "This is the best route to your destination.",
         "speak": "This is the best route to your destination."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "PointOfInterestSelection": {
+    "replies": [
+      {
+        "text": "Where would you like to go?",
+        "speak": "Where would you like to go?"
+      },
+      {
+        "text": "Which would you like?",
+        "speak": "Which would you like?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "PointOfInterestSuggestedActionName": {
+    "replies": [
+      {
+        "text": "{Name} at {Address}",
+        "speak": "{Name} at {Address}"
       }
     ],
     "inputHint": "ignoringInput"

@@ -27,5 +27,7 @@ namespace PointOfInterestSkill.Dialogs.Shared.Resources
         public const string NoLocationsFound = "NoLocationsFound";
         public const string MultipleRoutesFound = "MultipleRoutesFound";
         public const string SingleRouteFound = "SingleRouteFound";
+        public const string PointOfInterestSelection = "PointOfInterestSelection";
+        public const string PointOfInterestSuggestedActionName = "PointOfInterestSuggestedActionName";
     }
 }
