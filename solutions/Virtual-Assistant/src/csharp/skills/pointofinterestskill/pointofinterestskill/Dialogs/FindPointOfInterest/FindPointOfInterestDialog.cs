@@ -27,7 +27,7 @@ namespace PointOfInterestSkill.Dialogs.FindPointOfInterest
             var findPointOfInterest = new WaterfallStep[]
             {
                 GetPointOfInterestLocations,
-                ResponseToGetRoutePrompt,
+                ProcessPointOfInterestSelection,
             };
 
             // Define the conversation flow using a waterfall model.

@@ -48,7 +48,7 @@ namespace PointOfInterestSkill.Dialogs.Route
             var findAlongRoute = new WaterfallStep[]
             {
                 GetPointOfInterestLocations,
-                ResponseToGetRoutePrompt,
+                ProcessPointOfInterestSelection,
             };
 
             var findPointOfInterest = new WaterfallStep[]

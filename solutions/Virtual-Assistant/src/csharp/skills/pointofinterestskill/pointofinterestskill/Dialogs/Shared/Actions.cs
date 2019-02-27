@@ -6,6 +6,8 @@
 
         public const string ConfirmPrompt = "confirmprompt";
 
+        public const string SelectPointOfInterestPrompt = "SelectPointOfInterestPrompt";
+
         public const string FindAlongRoute = "FindAlongRoute";
 
         public const string FindRouteToActiveLocation = "FindRouteToActiveLocation";
