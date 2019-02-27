@@ -18,7 +18,9 @@ namespace Luis
             AddToDo, 
             DeleteToDo, 
             MarkToDo, 
-            None, 
+            None,
+            ShowNextPage,
+            ShowPreviousPage,
             ShowToDo
         };
         public Dictionary<Intent, IntentScore> Intents;

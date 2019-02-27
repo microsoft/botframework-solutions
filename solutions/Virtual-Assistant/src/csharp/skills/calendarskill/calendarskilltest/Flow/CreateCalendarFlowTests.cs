@@ -92,8 +92,6 @@ namespace CalendarSkillTest.Flow
                 .Send(Strings.Strings.DefaultStartDate)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
-                .AssertReplyOneOf(this.AskForDurationPrompt())
-                .Send(Strings.Strings.DefaultDuration)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
