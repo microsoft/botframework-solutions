@@ -175,7 +175,15 @@
     ],
     "inputHint": "acceptingInput"
   },
-
+  "EmailErrorMessageAccountProblem": {
+    "replies": [
+      {
+        "text": "Sorry, there is something wrong with your email account at the moment. Please follow the instructions in your Inbox to verify your account.",
+        "speak": "Sorry, there is something wrong with your email account at the moment. Please follow the instructions in your Inbox to verify your account."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "SentSuccessfully": {
     "replies": [
       {

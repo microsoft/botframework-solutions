@@ -1379,6 +1379,10 @@ namespace EmailSkill.Dialogs.Shared
             {
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailErrorMessageBotProblem));
             }
+            else if (ex.ExceptionType == SkillExceptionType.AccountNotActivated)
+            {
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailErrorMessageAccountProblem));
+            }
             else
             {
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailErrorMessage));
