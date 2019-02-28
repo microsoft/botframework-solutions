@@ -21,7 +21,7 @@ if (!$languagesOnly)
 {
 	# Change to project directory for .bot file
 	Write-Host "Changing to project directory ..."
-	cd "$($PSScriptRoot)\..\"
+	cd "$(Join-Path $PSScriptRoot ..)"
 
 	# Deploy the common resources (Azure Bot Service, App Insights, Azure Storage, Cosmos DB, etc)
 	Write-Host "Deploying common resources..."
@@ -33,18 +33,18 @@ $localeArr = $locales.Split(',')
 foreach ($locale in $localeArr)
 {	
 	# Update deployment scripts for the locale
-	Invoke-Expression "$($PSScriptRoot)\generate_deployment_scripts.ps1 -locale $($locale)"
+	Invoke-Expression "$(Join-Path $PSScriptRoot generate_deployment_scripts.ps1) -locale $($locale)"
 
 	# Get language code from locale (first two characters, i.e. "en")
 	$langCode = ($locale -split "-")[0]
 
 	# Create LocaleConfigurations folder and change directory
-	md -Force "$($PSScriptRoot)\..\LocaleConfigurations" > $null
-	cd "$($PSScriptRoot)\..\LocaleConfigurations" > $null
+	New-Item -ItemType directory -Force -Path "$(Join-Path $PSScriptRoot .. LocaleConfigurations)" > $null
+	cd "$(Join-Path $PSScriptRoot .. LocaleConfigurations)" > $null
 
 	# Deploy Dispatch, LUIS (calendar, email, todo, and general), and QnA Maker for the locale
     Write-Host "Deploying $($locale) resources..."
-    msbot clone services -n "$($name)$($langCode)" -l $location --luisAuthoringKey $luisAuthoringKey --groupName $groupName --force --quiet --folder "$($PSScriptRoot)\$($langCode)" | Out-Null
+    msbot clone services -n "$($name)$($langCode)" -l $location --luisAuthoringKey $luisAuthoringKey --groupName $groupName --force --quiet --folder "$(Join-Path $PSScriptRoot $langCode)" | Out-Null
 }
 
 Write-Host "Done."
