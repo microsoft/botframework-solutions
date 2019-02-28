@@ -158,10 +158,10 @@ namespace CalendarSkill.Dialogs.FindContact
                     state.AttendeesNameList[state.ConfirmAttendeesNameIndex] = userInput;
                 }
 
-                await sc.CancelAllDialogsAsync();
+                //await sc.CancelAllDialogsAsync();
 
                 // should not return with value, next step use the return value for confirmation.
-                return await sc.BeginDialogAsync(Actions.ConfirmName, options: sc.Options);
+                return await sc.ReplaceDialogAsync(Actions.ConfirmName, options: sc.Options);
             }
             catch (Exception ex)
             {
@@ -300,6 +300,9 @@ namespace CalendarSkill.Dialogs.FindContact
                 }
                 else
                 {
+                    state.AttendeesNameList = new List<string>();
+                    state.ConfirmAttendeesNameIndex = 0;
+                    //state.Clear();
                     return await sc.EndDialogAsync();
                 }
 
@@ -309,7 +312,7 @@ namespace CalendarSkill.Dialogs.FindContact
 
                 if (unionList.Count == 0)
                 {
-                    return await sc.BeginDialogAsync(Actions.UpdateName, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.NotFound));
+                    return await sc.ReplaceDialogAsync(Actions.UpdateName, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.NotFound));
                 }
                 else if (unionList.Count == 1)
                 {
