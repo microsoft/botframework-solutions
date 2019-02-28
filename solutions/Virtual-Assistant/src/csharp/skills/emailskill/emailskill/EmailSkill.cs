@@ -23,6 +23,7 @@ using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.TaskExtensions;
 using Microsoft.Bot.Solutions.Telemetry;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EmailSkill
 {
@@ -31,6 +32,7 @@ namespace EmailSkill
     /// </summary>
     public class EmailSkill : IBot
     {
+        private readonly IServiceProvider _serviceProvider;
         private readonly SkillConfigurationBase _services;
         private readonly ResponseManager _responseManager;
         private readonly ConversationState _conversationState;
@@ -41,22 +43,18 @@ namespace EmailSkill
         private bool _skillMode;
 
         public EmailSkill(
+            IServiceProvider serviceProvider,
             SkillConfigurationBase services,
-            EndpointService endpointService,
-            ConversationState conversationState,
-            UserState userState,
-            ProactiveState proactiveState,
-            IBotTelemetryClient telemetryClient,
-            IBackgroundTaskQueue backgroundTaskQueue,
             bool skillMode = false,
             ResponseManager responseManager = null,
             IServiceManager serviceManager = null)
         {
             _skillMode = skillMode;
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(IServiceProvider));
             _services = services ?? throw new ArgumentNullException(nameof(services));
-            _userState = userState ?? throw new ArgumentNullException(nameof(userState));
-            _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
-            _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
+            _userState = _serviceProvider.GetService<UserState>() ?? throw new ArgumentNullException(nameof(UserState));
+            _conversationState = _serviceProvider.GetService<ConversationState>() ?? throw new ArgumentNullException(nameof(ConversationState));
+            _telemetryClient = _serviceProvider.GetService<IBotTelemetryClient>(); ?? throw new ArgumentNullException(nameof(IBotTelemetryClient));
             _serviceManager = serviceManager ?? new ServiceManager(services);
 
             if (responseManager == null)

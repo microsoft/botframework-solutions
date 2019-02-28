@@ -12,11 +12,15 @@ namespace Microsoft.Bot.Solutions.Dialogs
 {
     public abstract class InterruptableDialog : ComponentDialog
     {
+        private readonly IServiceProvider _serviceProvider;
+
         public InterruptableDialog(IServiceProvider serviceProvider, string dialogId)
             : base(dialogId)
         {
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(IServiceProvider));
+
             PrimaryDialogName = dialogId;
-            TelemetryClient = serviceProvider.GetService<IBotTelemetryClient>();
+            TelemetryClient = _serviceProvider.GetService<IBotTelemetryClient>() ?? throw new ArgumentNullException(nameof(IBotTelemetryClient));
         }
 
         public string PrimaryDialogName { get; set; }

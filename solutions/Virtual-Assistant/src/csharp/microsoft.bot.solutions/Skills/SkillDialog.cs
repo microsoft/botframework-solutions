@@ -16,33 +16,35 @@ using Microsoft.Bot.Solutions.Proactive;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.TaskExtensions;
 using Microsoft.Bot.Solutions.Telemetry;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.Bot.Solutions.Skills
 {
     public class SkillDialog : ComponentDialog
     {
         // Fields
-        private SkillDefinition _skillDefinition;
-        private SkillConfigurationBase _skillConfiguration;
-        private ResponseManager _responseManager;
-        private EndpointService _endpointService;
-        private ProactiveState _proactiveState;
-        private IBotTelemetryClient _telemetryClient;
-        private IBackgroundTaskQueue _backgroundTaskQueue;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly SkillDefinition _skillDefinition;
+        private readonly SkillConfigurationBase _skillConfiguration;
+        private readonly ResponseManager _responseManager;
+        private readonly EndpointService _endpointService;
+        private readonly ProactiveState _proactiveState;
+        private readonly IBotTelemetryClient _telemetryClient;
+        private readonly IBackgroundTaskQueue _backgroundTaskQueue;
         private InProcAdapter _inProcAdapter;
         private IBot _activatedSkill;
         private bool _skillInitialized;
         private bool _useCachedTokens;
 
-        public SkillDialog(SkillDefinition skillDefinition, SkillConfigurationBase skillConfiguration, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue, bool useCachedTokens = true)
+        public SkillDialog(IServiceProvider serviceProvider, SkillDefinition skillDefinition, SkillConfigurationBase skillConfiguration, bool useCachedTokens = true)
             : base(skillDefinition.Id)
         {
-            _skillDefinition = skillDefinition;
-            _skillConfiguration = skillConfiguration;
-            _proactiveState = proactiveState;
-            _endpointService = endpointService;
-            _telemetryClient = telemetryClient;
-            _backgroundTaskQueue = backgroundTaskQueue;
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(IServiceProvider));
+            _skillDefinition = skillDefinition ?? throw new ArgumentNullException(nameof(SkillDefinition));
+            _skillConfiguration = skillConfiguration ?? throw new ArgumentNullException(nameof(SkillConfigurationBase));
+            _endpointService = _serviceProvider.GetService<EndpointService>() ?? throw new ArgumentNullException(nameof(EndpointService));
+            _telemetryClient = _serviceProvider.GetService<IBotTelemetryClient>() ?? throw new ArgumentNullException(nameof(IBotTelemetryClient));
+            _backgroundTaskQueue = _serviceProvider.GetService<IBackgroundTaskQueue>() ?? throw new ArgumentNullException(nameof(IBackgroundTaskQueue));
             _useCachedTokens = useCachedTokens;
 
             var supportedLanguages = skillConfiguration.LocaleConfigurations.Keys.ToArray();
@@ -145,7 +147,7 @@ namespace Microsoft.Bot.Solutions.Skills
                         skillType,
                         BindingFlags.CreateInstance | BindingFlags.Public | BindingFlags.Instance | BindingFlags.OptionalParamBinding,
                         default(Binder),
-                        new object[] { _skillConfiguration, _endpointService, conversationState, userState, _proactiveState, _telemetryClient, _backgroundTaskQueue, true },
+                        new object[] { _serviceProvider, _skillConfiguration, true },
                         CultureInfo.CurrentCulture);
                 }
                 catch (Exception e)

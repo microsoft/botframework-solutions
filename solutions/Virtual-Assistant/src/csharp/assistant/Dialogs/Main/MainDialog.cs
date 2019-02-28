@@ -28,15 +28,16 @@ namespace VirtualAssistant.Dialogs.Main
     public class MainDialog : RouterDialog
     {
         // Fields
-        private BotServices _services;
-        private UserState _userState;
-        private ConversationState _conversationState;
-        private ProactiveState _proactiveState;
-        private EndpointService _endpointService;
-        private IBackgroundTaskQueue _backgroundTaskQueue;
-        private IStatePropertyAccessor<OnboardingState> _onboardingState;
-        private IStatePropertyAccessor<Dictionary<string, object>> _parametersAccessor;
-        private IStatePropertyAccessor<VirtualAssistantState> _virtualAssistantState;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly BotServices _services;
+        private readonly UserState _userState;
+        private readonly ConversationState _conversationState;
+        private readonly ProactiveState _proactiveState;
+        private readonly EndpointService _endpointService;
+        private readonly IBackgroundTaskQueue _backgroundTaskQueue;
+        private readonly IStatePropertyAccessor<OnboardingState> _onboardingState;
+        private readonly IStatePropertyAccessor<Dictionary<string, object>> _parametersAccessor;
+        private readonly IStatePropertyAccessor<VirtualAssistantState> _virtualAssistantState;
         private MainResponses _responder = new MainResponses();
         private SkillRouter _skillRouter;
 
@@ -45,19 +46,20 @@ namespace VirtualAssistant.Dialogs.Main
         public MainDialog(IServiceProvider serviceProvider)
             : base(nameof(MainDialog))
         {
-            _services = serviceProvider.GetService<BotServices>() ?? throw new ArgumentNullException(nameof(BotServices));
-            _conversationState = serviceProvider.GetService<ConversationState>() ?? throw new ArgumentNullException(nameof(ConversationState));
-            _userState = serviceProvider.GetService<UserState>() ?? throw new ArgumentNullException(nameof(UserState));
-            _proactiveState = serviceProvider.GetService<ProactiveState>() ?? throw new ArgumentNullException(nameof(ProactiveState));
-            _endpointService = serviceProvider.GetService<EndpointService>() ?? throw new ArgumentNullException(nameof(EndpointService));
-            TelemetryClient = serviceProvider.GetService<IBotTelemetryClient>() ?? throw new ArgumentNullException(nameof(IBotTelemetryClient));
-            _backgroundTaskQueue = serviceProvider.GetService<IBackgroundTaskQueue>() ?? throw new ArgumentNullException(nameof(IBackgroundTaskQueue));
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(IServiceProvider));
+            _services = _serviceProvider.GetService<BotServices>() ?? throw new ArgumentNullException(nameof(BotServices));
+            _conversationState = _serviceProvider.GetService<ConversationState>() ?? throw new ArgumentNullException(nameof(ConversationState));
+            _userState = _serviceProvider.GetService<UserState>() ?? throw new ArgumentNullException(nameof(UserState));
+            _proactiveState = _serviceProvider.GetService<ProactiveState>() ?? throw new ArgumentNullException(nameof(ProactiveState));
+            _endpointService = _serviceProvider.GetService<EndpointService>() ?? throw new ArgumentNullException(nameof(EndpointService));
+            TelemetryClient = _serviceProvider.GetService<IBotTelemetryClient>() ?? throw new ArgumentNullException(nameof(IBotTelemetryClient));
+            _backgroundTaskQueue = _serviceProvider.GetService<IBackgroundTaskQueue>() ?? throw new ArgumentNullException(nameof(IBackgroundTaskQueue));
             _onboardingState = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             _parametersAccessor = _userState.CreateProperty<Dictionary<string, object>>("userInfo");
             _virtualAssistantState = _conversationState.CreateProperty<VirtualAssistantState>(nameof(VirtualAssistantState));
 
-            AddDialog(serviceProvider.GetService<OnboardingDialog>());
-            AddDialog(serviceProvider.GetService<EscalateDialog>());
+            AddDialog(_serviceProvider.GetService<OnboardingDialog>());
+            AddDialog(_serviceProvider.GetService<EscalateDialog>());
 
             RegisterSkills(_services.SkillDefinitions);
         }
@@ -436,7 +438,7 @@ namespace VirtualAssistant.Dialogs.Main
         {
             foreach (var definition in skillDefinitions)
             {
-                AddDialog(new SkillDialog(definition, _services.SkillConfigurations[definition.Id], _proactiveState, _endpointService, TelemetryClient, _backgroundTaskQueue));
+                AddDialog(new SkillDialog(_serviceProvider, definition, _services.SkillConfigurations[definition.Id]));
             }
 
             // Initialize skill dispatcher

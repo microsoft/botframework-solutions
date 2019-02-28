@@ -20,11 +20,13 @@ namespace VirtualAssistant.Dialogs.Shared
         // Fields
         private readonly BotServices _services;
         private readonly MainResponses _responder = new MainResponses();
+        private readonly IServiceProvider _serviceProvider;
 
         public EnterpriseDialog(IServiceProvider serviceProvider, string dialogId)
-            : base(dialogId)
+            : base(serviceProvider, dialogId)
         {
-            _services = serviceProvider.GetService<BotServices>();
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(IServiceProvider));
+            _services = serviceProvider.GetService<BotServices>() ?? throw new ArgumentNullException(nameof(BotServices));
         }
 
         protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)
