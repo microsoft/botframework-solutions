@@ -19,12 +19,12 @@ The host app is responsible for the following capabilities. These can of course 
   - Accessing the on-device secret store to store and retrieve a token for communication with the assistant  
   - Integration with the Unified Speech SDK where on-device speech capabilities are required  
   - Interface to the Direct-Link REST API or SDKs  
-  - Authenticating the end user of the device and providing a unique userId to the Assistant. Microsoft has capabilities to help with this if needed.  
+  - Authenticating the end-user of the device and providing a unique userId to the Assistant. Microsoft has capabilities to help with this if needed  
 
 ## Assistant Middleware
 
 The Assistant makes use of a number of Middleware components to process incoming messages:  
-  - Telemetry Middleware leverages Application Insights to store telemetry for incoming messages, LUIS evaluation and QNA activities. PowerBI can then use this data to surface conversational insights.  
+  - Telemetry Middleware leverages Application Insights to store telemetry for incoming messages, LUIS evaluation and QNA activities. PowerBI can then use this data to surface conversational insights  
   - Event Processing Middleware processes events sent by the device  
   - Content Moderator Middleware uses the Content Moderator Cognitive Service to detect inappropriate / PII content
 
@@ -33,7 +33,7 @@ The Assistant is configured to collect telemetry into Application Insights. This
 
 ## Dispatcher
 
-The Dispatcher is trained across a variety of Natural Language data sources to provide a unified NLU powered dispatch capability. LUIS models from the Assistant, each configured Skill and questions from QnAMaker are all ingested as part of the dispatcher training process. This training process can also provide evaluation reports to identify confusion and overlap.
+The Dispatcher is trained across a variety of Natural Language data sources to provide an unified NLU powered dispatch capability. LUIS models from the Assistant, each configured Skill and questions from QnAMaker, are all ingested as part of the dispatcher training process. This training process can also provide evaluation reports to identify confusion and overlap.
 
 This training process creates a Dispatcher LUIS model which is then used by the Assistant to identify the component that should handle a given utterance. When a dialog is active the Dispatcher model is only used to identify top level intents such as Cancel for interruption scenarios.
 
@@ -49,7 +49,7 @@ The Assistant and Skills can then make use of any APIs or data sources in the sa
 
 ## Authentication
 
-The Assistant and associated Skills often need access to end-user authentication tokens in order to perform operations on behalf of the user. OAuth authentication providers are supported by the Azure Bot Service and provide the ability for you to configure providers such as Active Directory (for Office 365), Facebook or your own.
+The Assistant and associated Skills often needs access to end-user authentication tokens in order to perform operations on behalf of the user. OAuth authentication providers are supported by the Azure Bot Service and provide the ability for you to configure providers such as Active Directory (for Office 365), Facebook or your own.
 
 Authentication connections are created on the Azure Bot Service and the Assistant makes use of these to initiate an authentication request (generating an OAuth signin card) or retrieve a token from the Azure Bot Service provided secure token store.
 
@@ -61,6 +61,6 @@ Linked Accounts is a supporting web application that demonstrates how a user can
 This integrates with the authentication capability detailed above and provides a mechanism for a user to unlink all accounts which can be used as part of a device *forget me* feature.
 
 ## Edge Enablement
-Many assistant scenarios require cloud-connectivity to access down-stream APIs or data sources (e.g. Office 365, Navigation data, Music Services, etc.). There are however a class of assistant scenarios especially those running on devices that may have periods of poor connectivity where pushing speech, language processing and dialog management onto the edge (device) is needed.
+Many assistant scenarios require cloud-connectivity to access down-stream APIs or data sources (e.g. Office 365, Navigation data, Music Services, etc.). However, there are classes of assistant scenarios especially those running on devices that may have periods of poor connectivity where pushing speech, language processing and dialog management onto the edge (device) is needed.
 
 We have a number of options to address this depending on platform and are working with initial customers to deliver this capability.

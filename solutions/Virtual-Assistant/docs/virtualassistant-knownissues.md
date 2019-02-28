@@ -1,7 +1,5 @@
 # Virtual Assistant Known Issues
 
-# Known Issues
-
 ## Teams OAuth Card Issue
 There is a known issue in the Teams channel where the default OAuth Card is not supported. In order to work around this issue, the ActionType of the sign in button needs to be changed to "OpenUrl". This can be done using the following middleware class:
 
@@ -101,4 +99,4 @@ When you're testing in other environments, if it's something that you own the co
 
 When you're testing in an environment you don't own the code for, chances are you won't be able to see the Intro Card. Because of the current design flaw in channel protocol, we made this tradeoff so that we don't show an Intro Card with a default culture that doesn't match your actual locale. Once the StartConversation supports passing in metadata such as Locale, we will make the change immediately to support properly localized Intro Card.
 
-Our backlog is fully accessible within the [GitHub repo](https://github.com/Microsoft/AI/)
+Our backlog is fully accessible within the [GitHub repository](https://github.com/Microsoft/AI/)

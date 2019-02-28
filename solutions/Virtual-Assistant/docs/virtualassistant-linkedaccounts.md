@@ -5,7 +5,7 @@
 Speech-led conversational scenarios require a different mindset and approach for certain scenarios, 
 one such example is [Authentication](./virtualassistant-authentication.md). 
 If you take a Productivity scenario, whereby the user wants to access information in their calendar it's important 
-for the VA Bot to have access to a security token (Office 365 for example). 
+for the VA Bot to have access to a security token (e.g. Office 365). 
 
 The first time this scenario executes the Virtual Agent needs to prompt a user for authentication. When using WebChat, this is normally 
 done by returning an OAuthCard to the user along with a Button linking to an OAuth authentication page as shown below. 
@@ -17,7 +17,7 @@ If you'd like to learn more about this scenario in WebChat, we encourage you to 
 
 In a speech-led scenario, it's unacceptable and impractical to expect a user to enter their username and password through voice command. Therefore, a separate companion experience would provide the opportunity for a user to sign in once and provide permissions for the Virtual Assistant to retrieve a token for later continued use.
 
-The Linked Accounts feature of the Virtual Assistant provides a reference sample of a web app using the Azure Bot Service to deliver this capability, a screen shot showing the example interface is shown below and demonstrates the type of capability you would build into your own experience (e.g. a mobile app)
+The Linked Accounts feature of the Virtual Assistant provides a reference sample of a web app using the Azure Bot Service to deliver this capability, a screen shot showing the example interface is shown below and demonstrates the type of capability you would build into your own experience (e.g. a mobile app).
 
 ![Linked Accounts UX](./media/virtualassistant-linkedaccountsux.png)
 
@@ -28,10 +28,10 @@ The ``appsettings.json`` file in the sample project has the following OAuth conf
 
 ### Integrating Azure AD
 
-1. Sign in to the [Azure Portal](https://portal.azure.com/).
-2. On the left sidebar, select  **Azure Active Directory**.
-3. From the sidedbar within, select **App Registrations (Preview)**.
-4. Select **New application registration**
+1. Sign in to the [Azure Portal](https://portal.azure.com/)
+2. On the left sidebar, select  `Azure Active Directory`
+3. From the sidedbar within, select `App Registrations (Preview)`
+4. Select `New application registration`
    *  **Name**: *Provide a friendly name*
    *  **Application Type**: Web app / API
    *  **Sign-on URL**: `http://localhost:XXXX/signin-oidc` *(update with the local port of your project)*
@@ -63,7 +63,7 @@ The final configuration is the Direct Line secret for your Virtual Assistant bot
 This is required to avoid prompts for magic codes, otherwise required to protect against man-in-the-middle attacks. 
 Exchanging a Direct Line secret for a Token and providing a Trusted Origin enables removal of the magic code step.
 
-> Your VA Bot will need to be deployed and have a Direct Line channel configured within the Azure portal
+> Your VA Bot will need to be deployed and have a Direct Line channel configured within the Azure Portal.
 
 ```
   "ClientDirectLineSecret": "YOUR_DIRECTLINE_SECRET",

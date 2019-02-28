@@ -2,11 +2,11 @@
 
 ## Overview
 
-A key scenario for Virtual Assistants is the integration into a device experience. Through the Azure Bot Service, Virtual Assistants can be surfaced through a wide variety of channels including Web-Chat, Skype, Teams, FaceBook Messenger and Slack but Direct-Line provides a REST API enabling direct integration.
+A key scenario for Virtual Assistants is the integration into a device experience. Through the Azure Bot Service, Virtual Assistants can be surfaced through a wide variety of channels including Web-Chat, Skype, Teams, Facebook Messenger and Slack but Direct-Line provides a REST API enabling direct integration.
 
 This REST API and associated SDKs enables seamless integration with a broad range of devices and enables the sending and receiving of messages and events. 
 
-Virtual Assistant scenarios can be any combination of text and voice with devices optionally have a screen to show supporting information. All of these combinations are supported and the Virtual Assistant and associated Skills enable adaptation through the Activity schema and Adaptive Cards.
+Virtual Assistant scenarios can be any combination of text and voice with devices optionally have a screen to show supporting information. All of these combinations are supported, and the Virtual Assistant and associated Skills enable adaptation through the Activity schema and Adaptive Cards.
 
 The Activity schema enables responses to made up of Text and Speak representations of a response enabling a device to choose the most appropriate payload depending on the context of the device and user. The Speak representation typically being a more succinct summary of the more verbose Text response.
 

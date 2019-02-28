@@ -7,7 +7,7 @@ Activities are sent to and from a Bot and are typically set to an ActivityType o
 ## Inbound Events
 Events in the context of the Virtual Assistant enable the client application hosting the assistant (in a web-browser or on a device such as a car or speaker) to exchange information about the user (location, timezone, etc.) or the device (turned on, cruise control enabled, navigation destination changed, etc.).
 
-These events are then processed by the Virtual Assistant which can react immediately (for example to suggest a task that could be completed along a route or provide a summary of the day ahead when the engine is turned on) or store the information in a user state store for use by the assistant or a skill in the future.
+These events are then processed by the Virtual Assistant which can react immediately (e.g. to suggest a task that could be completed along a route or provide a summary of the day ahead when the engine is turned on) or store the information in a user state store for use by the assistant or a skill in the future.
 
 At the time of writing the following events are supported out of the box and persist values into a User State concept. These are used by the Skills currently in-place.
 
@@ -24,7 +24,7 @@ In addition to these, a `ResetUser` event is available which provides a way to r
 ## Outbound Events
 The same Event pattern enables the Virtual Assistant and Skills to send Events back to the client application hosting the assistant (web-page, or a device such as a car or speaker).
 
-For example, the Virtual Assistant or a skill could send an event to a car requesting a new destination be set on the Navigation System, Change the temperature in the car, etc.  
+For example, the Virtual Assistant or a skill could send an event to a car requesting a new destination be set on the Navigation System, change the temperature in the car, etc.  
 
 The client application receives the event through the same [Activity](https://github.com/Microsoft/BotBuilder/blob/hub/specs/botframework-activity/botframework-activity.md) mechanism used for messages and has extensibility points for additional metadata to be attached.
 
@@ -32,9 +32,9 @@ The client application receives the event through the same [Activity](https://gi
 
 The Bot Framework Emulator doesn't provide the ability to send Events to a Virtual Assistant Bot which complicates scenarios that require prompts to be sent either to trigger a certain event or provide information that integration with a device would normally do automatically.
 
-The `EventDebugMiddleware` component provides a workaround to this for use during development and testing. It detects manual events through identification of a message prefixed with `/event:` and expects the rest of the payload to follow this format `{ "Name": "EventName", "Value": "EventValue" }`. The EventName and EventValue is then transposed onto the Activity and passed on to the Bot for processing.
+The `EventDebugMiddleware` component provides a workaround to this for use during development and testing. It detects manual events through identification of a message prefixed with `/event:` and expects the rest of the payload to follow this format `{ "Name": "EventName", "Value": "EventValue" }`. The EventName and EventValue is then transposed onto the Activity and passed onto the Bot for processing.
 
-For example this message would result in an Activity being received by the Bot with a `ActivityType` of `Event`, ` Name` of `IPA.Location` and `Value` of a latitude, longitude pair
+For example this message would result in an Activity being received by the Bot with an `ActivityType` of `Event`, ` Name` of `IPA.Location` and `Value` of a latitude, longitude pair
 ```
 /event:{ "Name": "IPA.Location", "Value": "47.639620,-122.130610" }
 ```
@@ -42,7 +42,7 @@ This example would result in an Activity being received by the Bot with a `Activ
 ```
 /event:{ "Name": "IPA.Timezone", "Value": "Pacific Standard Time" }
 ```
-This event as detailed above clears down all state including linked accounts enabling you to test authentication and onboarding scenarios.
+This event, as detailed above, clears down all state including linked accounts enabling you to test authentication and onboarding scenarios.
 ```
 /event:{Name:"IPA.ResetUser"}
 ```

@@ -2,6 +2,8 @@
 
 In order to update an existing Virtual Assistant deployment with the latest language models from the repository or to ensure the dispatcher is up to date with latest changes, run the following PowerShell script:
 
+Ensure you navigate in a command prompt to the `solutions\Virtual-Assistant\src\< csharp | typescript >\assistant` folder.
+
 ```
 ...PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\update_published_models.ps1
 ```

@@ -12,10 +12,10 @@ Example scenarios are as follows and will enable your assistant to stand out and
 
 ## Implementation
 
-At this time, the Virtual Assistant provides one proactive scenario which is already implemented which can be used as a reference. When an client device (e.g. car) sends a `DeviceStart` event to the bot, it will query for upcoming events for the next hour. Within CalendarSkill, the dialog that handles this scenario is located here: [
-`solutions\Virtual-Assistant\src\csharp\skills\calendarskill\calendarskill\Dialogs\UpcomingEvent\UpcomingEventDialog.cs`](/solutions/Virtual-Assistant/src/csharp/skills/calendarskill/calendarskill/Dialogs/UpcomingEvent/UpcomingEventDialog.cs)
+At this time, the Virtual Assistant provides one proactive scenario which is already implemented which can be used as a reference. When a client device (e.g. car) sends a `DeviceStart` event to the bot, it will query for upcoming events for the next hour. Within CalendarSkill, the dialog that handles this scenario is located here: [
+`solutions\Virtual-Assistant\src\csharp\skills\calendarskill\calendarskill\Dialogs\UpcomingEvent\UpcomingEventDialog.cs`](/solutions/Virtual-Assistant/src/csharp/skills/calendarskill/calendarskill/Dialogs/UpcomingEvent/UpcomingEventDialog.cs).
 
-> Note that the code samples we use below all come from this dialog implementation
+> Note that the code samples we use below all come from this dialog implementation.
 
 When developing using the Bot Framework SDK, you can utilize the adapter's `ContinueConversationAsync` function to patch into a previously started conversation. 
 
@@ -37,7 +37,7 @@ return async (turnContext, token) =>
 
 This way if the previous conversation opened is still alive, the user will see the new message being sent into that conversation from the bot. 
 
-In order to send a message to a previous conversation, you require a [`conversationReference object`](https://raw.githubusercontent.com/Microsoft/botbuilder-dotnet/89817b6b8db42726c9ffcf82bf40b4e66592b84f/libraries/Microsoft.Bot.Schema/ConversationReference.cs). To retrieve this you need to store conversation references within your solution. The Virtual Assistant has implemented a middleware to store this, under [`solutions\Virtual-Assistant\src\csharp\microsoft.bot.solutions\Middleware\ProactiveStateMiddleware.cs`](/solutions/Virtual-Assistant/src/csharp/microsoft.bot.solutions\Middleware\ProactiveStateMiddleware.cs)
+In order to send a message to a previous conversation, you require a [`conversationReference object`](https://raw.githubusercontent.com/Microsoft/botbuilder-dotnet/89817b6b8db42726c9ffcf82bf40b4e66592b84f/libraries/Microsoft.Bot.Schema/ConversationReference.cs). To retrieve this you need to store conversation references within your solution. The Virtual Assistant has implemented a middleware to store this, under [`solutions\Virtual-Assistant\src\csharp\microsoft.bot.solutions\Middleware\ProactiveStateMiddleware.cs`](/solutions/Virtual-Assistant/src/csharp/microsoft.bot.solutions\Middleware\ProactiveStateMiddleware.cs).
 
 To make use of this middleware you need to register it within `startup.cs` as shown below:
 
