@@ -12,12 +12,11 @@ namespace Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Shared.Re
     public class SharedResponses : IResponseIdCollection
     {
         // Generated accessors
-		public const string DidntUnderstandMessage = "DidntUnderstandMessage";
-		public const string CancellingMessage = "CancellingMessage";
-		public const string NoAuth = "NoAuth";
-		public const string AuthFailed = "AuthFailed";
-		public const string ActionEnded = "ActionEnded";
-		public const string ErrorMessage = "ErrorMessage";
-
+        public const string DidntUnderstandMessage = "DidntUnderstandMessage";
+        public const string CancellingMessage = "CancellingMessage";
+        public const string NoAuth = "NoAuth";
+        public const string AuthFailed = "AuthFailed";
+        public const string ActionEnded = "ActionEnded";
+        public const string ErrorMessage = "ErrorMessage";
     }
 }

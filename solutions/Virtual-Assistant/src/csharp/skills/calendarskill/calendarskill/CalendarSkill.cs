@@ -20,11 +20,11 @@ using CalendarSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
-using Microsoft.Bot.Solutions.Models.Proactive;
+using Microsoft.Bot.Solutions.Proactive;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.TaskExtensions;
+using Microsoft.Bot.Solutions.Telemetry;
 
 namespace CalendarSkill
 {
@@ -71,8 +71,7 @@ namespace CalendarSkill
             {
                 var supportedLanguages = services.LocaleConfigurations.Keys.ToArray();
                 responseManager = new ResponseManager(
-                    new IResponseIdCollection[]
-                    {
+                        supportedLanguages,
                         new FindContactResponses(),
                         new ChangeEventStatusResponses(),
                         new CreateEventResponses(),
@@ -82,8 +81,7 @@ namespace CalendarSkill
                         new SummaryResponses(),
                         new TimeRemainingResponses(),
                         new UpdateEventResponses(),
-                        new UpcomingEventResponses()
-                    }, supportedLanguages);
+                        new UpcomingEventResponses());
             }
 
             _responseManager = responseManager;

@@ -207,7 +207,7 @@ namespace CalendarSkill.Dialogs.UpdateEvent
                 return await sc.PromptAsync(Actions.TimePrompt, new PromptOptions
                 {
                     Prompt = ResponseManager.GetResponse(UpdateEventResponses.NoNewTime),
-                    RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.NoNewTime_Retry)
+                    RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.NoNewTimeRetry)
                 }, cancellationToken);
             }
             catch (Exception ex)

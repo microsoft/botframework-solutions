@@ -12,6 +12,5 @@ namespace EmailSkill.Dialogs.ReplyEmail.Resources
     public class ReplyEmailResponses : IResponseIdCollection
     {
         // Generated accessors
-
     }
 }

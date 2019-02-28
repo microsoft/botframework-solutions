@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Microsoft.Bot.Solutions.Responses
+﻿namespace Microsoft.Bot.Solutions.Responses
 {
     public class Card
     {

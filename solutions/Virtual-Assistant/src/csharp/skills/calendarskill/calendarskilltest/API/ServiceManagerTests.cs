@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
-using CalendarSkillTest.API.Fakes;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

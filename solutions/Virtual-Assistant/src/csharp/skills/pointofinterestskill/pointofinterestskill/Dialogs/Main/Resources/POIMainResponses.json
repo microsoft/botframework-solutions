@@ -77,8 +77,8 @@
   "FeatureNotAvailable": {
     "replies": [
       {
-        "text": "This feature is not yet available in the Calendar Skill. Please try asking something else.",
-        "speak": "This feature is not yet available in the Calendar Skill. Please try asking something else."
+        "text": "This feature is not yet available in the Point of Interest Skill. Please try asking something else.",
+        "speak": "This feature is not yet available in the Point of Interest Skill. Please try asking something else."
       }
     ],
     "inputHint": "acceptingInput"

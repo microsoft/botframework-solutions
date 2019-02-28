@@ -1,6 +1,4 @@
-﻿using PointOfInterestSkill.Models;
-
-namespace PointOfInterestSkillTests.API.Fakes
+﻿namespace PointOfInterestSkillTests.API.Fakes
 {
     public static class MockData
     {

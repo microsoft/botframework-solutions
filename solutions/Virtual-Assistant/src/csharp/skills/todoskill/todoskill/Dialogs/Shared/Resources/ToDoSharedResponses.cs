@@ -12,17 +12,17 @@ namespace ToDoSkill.Dialogs.Shared.Resources
     public class ToDoSharedResponses : IResponseIdCollection
     {
         // Generated accessors
-		public const string NoAuth = "NoAuth";
-		public const string ActionEnded = "ActionEnded";
-		public const string ToDoErrorMessage = "ToDoErrorMessage";
-		public const string ToDoErrorMessage_BotProblem = "ToDoErrorMessage_BotProblem";
-		public const string SettingUpOneNoteMessage = "SettingUpOneNoteMessage";
-		public const string AfterOneNoteSetupMessage = "AfterOneNoteSetupMessage";
-		public const string SettingUpOutlookMessage = "SettingUpOutlookMessage";
-		public const string AfterOutlookSetupMessage = "AfterOutlookSetupMessage";
-		public const string CardSummaryMessageForMultipleTasks = "CardSummaryMessageForMultipleTasks";
-		public const string CardSummaryMessageForSingleTask = "CardSummaryMessageForSingleTask";
-		public const string NoTasksInList = "NoTasksInList";
-
+        public const string NoAuth = "NoAuth";
+        public const string ActionEnded = "ActionEnded";
+        public const string ToDoErrorMessage = "ToDoErrorMessage";
+        public const string ToDoErrorMessageBotProblem = "ToDoErrorMessageBotProblem";
+        public const string ToDoErrorMessageAccountProblem = "ToDoErrorMessageAccountProblem";
+        public const string SettingUpOneNoteMessage = "SettingUpOneNoteMessage";
+        public const string AfterOneNoteSetupMessage = "AfterOneNoteSetupMessage";
+        public const string SettingUpOutlookMessage = "SettingUpOutlookMessage";
+        public const string AfterOutlookSetupMessage = "AfterOutlookSetupMessage";
+        public const string CardSummaryMessageForMultipleTasks = "CardSummaryMessageForMultipleTasks";
+        public const string CardSummaryMessageForSingleTask = "CardSummaryMessageForSingleTask";
+        public const string NoTasksInList = "NoTasksInList";
     }
 }

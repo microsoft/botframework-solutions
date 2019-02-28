@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PointOfInterestSkill.Models;
 using PointOfInterestSkill.ServiceClients;
 using PointOfInterestSkillTests.API.Fakes;
 

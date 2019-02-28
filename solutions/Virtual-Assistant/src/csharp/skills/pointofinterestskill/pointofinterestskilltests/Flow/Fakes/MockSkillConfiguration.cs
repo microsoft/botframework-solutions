@@ -1,10 +1,8 @@
 ﻿using Microsoft.Bot.Builder.Azure;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Telemetry;
 using PointOfInterestSkillTests.API.Fakes;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PointOfInterestSkillTests.Flow.Fakes
 {
