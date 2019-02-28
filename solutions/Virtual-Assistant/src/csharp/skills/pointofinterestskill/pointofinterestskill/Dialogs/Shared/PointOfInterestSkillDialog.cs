@@ -241,13 +241,13 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 // Use response resource to get formatted name if multiple have the same name
                 if (pointOfInterestList.Where(x => x.Name == pointOfInterestList[i].Name).Skip(1).Any())
                 {
-                    var suggestedActionTemplate = POISharedResponses.PointOfInterestSuggestedActionName;
-                    var suggestedActionReplacements = new StringDictionary
+                    var promptTemplate = POISharedResponses.PointOfInterestSuggestedActionName;
+                    var promptReplacements = new StringDictionary
                             {
                                 { "Name", item },
                                 { "Address", address },
                             };
-                    suggestedActionValue = ResponseManager.GetResponse(suggestedActionTemplate, suggestedActionReplacements).Text;
+                    suggestedActionValue = ResponseManager.GetResponse(promptTemplate, promptReplacements).Text;
                 }
 
                 var choice = new Choice()
