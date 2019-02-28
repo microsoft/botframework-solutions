@@ -206,8 +206,12 @@
   "SingleRouteFound": {
     "replies": [
       {
-        "text": "I found a route",
+        "text": "I found a route.",
         "speak": "I found a route."
+      },
+      {
+        "text": "Here's a route to your destination.",
+        "speak": "Here's a route to your destination."
       },
       {
         "text": "This is the best route to your destination.",
@@ -234,6 +238,24 @@
       {
         "text": "{Name} at {Address}",
         "speak": "{Name} at {Address}"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "NoTrafficDelay": {
+    "replies": [
+      {
+        "text": "No traffic delay",
+        "speak": "There's no traffic delay."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "TrafficDelay": {
+    "replies": [
+      {
+        "text": "{Time} delay",
+        "speak": "There's a delay of {Time}."
       }
     ],
     "inputHint": "ignoringInput"

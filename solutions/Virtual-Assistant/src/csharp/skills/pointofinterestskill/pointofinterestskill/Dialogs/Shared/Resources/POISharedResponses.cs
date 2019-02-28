@@ -29,5 +29,8 @@ namespace PointOfInterestSkill.Dialogs.Shared.Resources
         public const string SingleRouteFound = "SingleRouteFound";
         public const string PointOfInterestSelection = "PointOfInterestSelection";
         public const string PointOfInterestSuggestedActionName = "PointOfInterestSuggestedActionName";
+        public const string NoTrafficDelay = "NoTrafficDelay";
+        public const string TrafficDelay = "TrafficDelay";
+
     }
 }

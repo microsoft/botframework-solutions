@@ -241,13 +241,13 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 // Use response resource to get formatted name if multiple have the same name
                 if (pointOfInterestList.Where(x => x.Name == pointOfInterestList[i].Name).Skip(1).Any())
                 {
-                    var promptTemplate = POISharedResponses.PointOfInterestSuggestedActionName;
-                    var promptReplacements = new StringDictionary
+                    var suggestedActionTemplate = POISharedResponses.PointOfInterestSuggestedActionName;
+                    var suggestedActionReplacements = new StringDictionary
                             {
                                 { "Name", item },
                                 { "Address", address },
                             };
-                    suggestedActionValue = ResponseManager.GetResponse(promptTemplate, promptReplacements).Text;
+                    suggestedActionValue = ResponseManager.GetResponse(suggestedActionTemplate, suggestedActionReplacements).Text;
                 }
 
                 var choice = new Choice()
@@ -352,77 +352,103 @@ namespace PointOfInterestSkill.Dialogs.Shared
 
         protected string GetFormattedTravelTimeSpanString(TimeSpan timeSpan)
         {
-            var travelTimeSpanString = new StringBuilder();
+            var timeString = new StringBuilder();
             if (timeSpan.Hours == 1)
             {
-                travelTimeSpanString.Append(timeSpan.Hours + " hour");
+                timeString.Append(timeSpan.Hours + $" {PointOfInterestSharedStrings.HOUR}");
             }
             else if (timeSpan.Hours > 1)
             {
-                travelTimeSpanString.Append(timeSpan.Hours + " hours");
+                timeString.Append(timeSpan.Hours + $" {PointOfInterestSharedStrings.HOURS}");
             }
 
-            if (travelTimeSpanString.Length != 0)
+            if (timeString.Length != 0)
             {
-                travelTimeSpanString.Append(" and ");
+                timeString.Append(" and ");
             }
 
             if (timeSpan.Minutes < 1)
             {
-                travelTimeSpanString.Append(" less than a minute");
+                timeString.Append($" {PointOfInterestSharedStrings.LESS_THAN_A_MINUTE}");
             }
             else if (timeSpan.Minutes == 1)
             {
-                travelTimeSpanString.Append(timeSpan.Minutes + " minute");
+                timeString.Append(timeSpan.Minutes + $" {PointOfInterestSharedStrings.MINUTE}");
             }
             else if (timeSpan.Minutes > 1)
             {
-                travelTimeSpanString.Append(timeSpan.Minutes + " minutes");
+                timeString.Append(timeSpan.Minutes + $" {PointOfInterestSharedStrings.MINUTES}");
             }
 
-            return travelTimeSpanString.ToString();
+            return timeString.ToString();
         }
 
         protected string GetFormattedTrafficDelayString(TimeSpan timeSpan)
         {
-            var trafficDelayTimeSpanString = new StringBuilder();
+            var timeString = new StringBuilder();
             if (timeSpan.Hours == 1)
             {
-                trafficDelayTimeSpanString.Append(timeSpan.Hours + " hour");
+                timeString.Append(timeSpan.Hours + $" {PointOfInterestSharedStrings.HOUR}");
             }
             else if (timeSpan.Hours > 1)
             {
-                trafficDelayTimeSpanString.Append(timeSpan.Hours + " hours");
+                timeString.Append(timeSpan.Hours + $" {PointOfInterestSharedStrings.HOURS}");
             }
 
-            if (trafficDelayTimeSpanString.Length != 0)
+            if (timeString.Length != 0)
             {
-                trafficDelayTimeSpanString.Append(" and ");
+                timeString.Append(" and ");
             }
 
             if (timeSpan.Minutes < 1)
             {
-                trafficDelayTimeSpanString.Append(" less than a minute.");
+                timeString.Append($" {PointOfInterestSharedStrings.LESS_THAN_A_MINUTE}");
             }
             else if (timeSpan.Minutes == 1)
             {
-                trafficDelayTimeSpanString.Append(timeSpan.Minutes + " minute.");
+                timeString.Append(timeSpan.Minutes + $" {PointOfInterestSharedStrings.MINUTE}");
             }
             else if (timeSpan.Minutes > 1)
             {
-                trafficDelayTimeSpanString.Append(timeSpan.Minutes + " minutes.");
+                timeString.Append(timeSpan.Minutes + $" {PointOfInterestSharedStrings.MINUTES}");
             }
 
-            if (trafficDelayTimeSpanString.Length != 0)
+            var timeReplacements = new StringDictionary
+                {
+                    { "Time", timeString.ToString() }
+                };
+
+            if (timeString.Length != 0)
             {
-                trafficDelayTimeSpanString.Insert(0, "There is a traffic delay of ");
+                var timeTemplate = POISharedResponses.TrafficDelay;
+
+                return ResponseManager.GetResponse(timeTemplate, timeReplacements).Text;
             }
             else
             {
-                trafficDelayTimeSpanString.Append("There is no delay due to traffic.");
+                var timeTemplate = POISharedResponses.NoTrafficDelay;
+
+                return ResponseManager.GetResponse(timeTemplate, timeReplacements).Text;
+            }
+        }
+
+        protected string GetShortTravelTimespanString(TimeSpan timeSpan)
+        {
+            var timeString = new StringBuilder();
+            if (timeSpan.Hours != 0)
+            {
+                timeString.Append(timeSpan.Hours + $" {PointOfInterestSharedStrings.HOUR_ABBREVIATION}");
             }
 
-            return trafficDelayTimeSpanString.ToString();
+            if (timeSpan.Minutes < 1)
+            {
+                timeString.Append($"< 1 {PointOfInterestSharedStrings.MINUTE_ABBREVIATION}");
+            } else
+            {
+                timeString.Append(timeSpan.Minutes + $" {PointOfInterestSharedStrings.MINUTE_ABBREVIATION}");
+            }
+
+            return timeString.ToString();
         }
 
         protected async Task GetRouteDirectionsViewCards(DialogContext sc, RouteDirections routeDirections)
@@ -436,17 +462,26 @@ namespace PointOfInterestSkill.Dialogs.Shared
             {
                 state.FoundRoutes = routes.ToList();
 
+                var destination = state.Destination;
+
                 foreach (var route in routes)
                 {
                     var travelTimeSpan = TimeSpan.FromSeconds(route.Summary.TravelTimeInSeconds);
                     var trafficTimeSpan = TimeSpan.FromSeconds(route.Summary.TrafficDelayInSeconds);
 
+                    // Set card data with formatted time strings and distance converted to miles
                     var routeDirectionsModel = new RouteDirectionsModelCardData()
                     {
-                        Location = state.Destination.Name,
-                        TravelTime = GetFormattedTravelTimeSpanString(travelTimeSpan),
-                        TrafficDelay = GetFormattedTrafficDelayString(trafficTimeSpan),
-                        RouteId = routeId,
+                        Name = destination.Name,
+                        Street = destination.Street,
+                        City = destination.City,
+                        AvailableDetails = destination.AvailableDetails,
+                        Hours = destination.Hours,
+                        ImageUrl = destination.ImageUrl,
+                        TravelTime = GetShortTravelTimespanString(travelTimeSpan),
+                        DelayStatus = GetFormattedTrafficDelayString(trafficTimeSpan),
+                        Distance = $"{(route.Summary.LengthInMeters / 1609.344).ToString("N1")} {PointOfInterestSharedStrings.MILES_ABBREVIATION}",
+                        ETA = route.Summary.ArrivalTime.ToShortTimeString(),
                     };
 
                     cardData.Add(routeDirectionsModel);
@@ -466,7 +501,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 }
                 else
                 {
-                    var card = new Card("RouteDirectionsViewCardNoGetStartedButton", cardData.SingleOrDefault());
+                    var card = new Card("RouteDirectionsViewCard", cardData.SingleOrDefault());
                     var replyMessage = ResponseManager.GetCardResponse(POISharedResponses.SingleRouteFound, card);
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
