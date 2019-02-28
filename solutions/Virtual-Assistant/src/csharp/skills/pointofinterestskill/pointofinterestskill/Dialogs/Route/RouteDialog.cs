@@ -36,12 +36,12 @@ namespace PointOfInterestSkill.Dialogs.Route
             {
                 CheckIfActiveRouteExists,
                 CheckIfFoundLocationExists,
-                CheckIfActiveLocationExists,
+                CheckIfDestinationExists,
             };
 
             var findRouteToActiveLocation = new WaterfallStep[]
             {
-                GetRoutesToActiveLocation,
+                GetRoutesToDestination,
                 ResponseToStartRoutePrompt,
             };
 
@@ -49,18 +49,23 @@ namespace PointOfInterestSkill.Dialogs.Route
             {
                 GetPointOfInterestLocations,
                 ProcessPointOfInterestSelection,
+                GetRoutesToDestination,
+                ResponseToStartRoutePrompt,
             };
 
             var findPointOfInterest = new WaterfallStep[]
             {
                 GetPointOfInterestLocations,
+                ProcessPointOfInterestSelection,
+                GetRoutesToDestination,
+                ResponseToStartRoutePrompt,
             };
 
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.GetActiveRoute, checkForActiveRouteAndLocation) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.FindAlongRoute, findAlongRoute) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.FindRouteToActiveLocation, findRouteToActiveLocation) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.FindPointOfInterest, findPointOfInterest) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.FindPointOfInterestBeforeRoute, findPointOfInterest) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Actions.GetActiveRoute;
@@ -138,7 +143,7 @@ namespace PointOfInterestSkill.Dialogs.Route
             }
         }
 
-        public async Task<DialogTurnResult> CheckIfActiveLocationExists(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> CheckIfDestinationExists(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -146,7 +151,7 @@ namespace PointOfInterestSkill.Dialogs.Route
                 if (state.Destination == null)
                 {
                     await sc.EndDialogAsync(true);
-                    return await sc.BeginDialogAsync(Actions.FindPointOfInterest);
+                    return await sc.BeginDialogAsync(Actions.FindPointOfInterestBeforeRoute);
                 }
 
                 return await sc.BeginDialogAsync(Actions.FindRouteToActiveLocation);
@@ -158,7 +163,7 @@ namespace PointOfInterestSkill.Dialogs.Route
             }
         }
 
-        public async Task<DialogTurnResult> GetRoutesToActiveLocation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> GetRoutesToDestination(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {

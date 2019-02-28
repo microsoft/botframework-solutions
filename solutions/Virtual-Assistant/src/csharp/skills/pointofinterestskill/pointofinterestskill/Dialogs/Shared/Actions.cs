@@ -14,6 +14,8 @@
 
         public const string FindPointOfInterest = "FindPointOfInterest";
 
+        public const string FindPointOfInterestBeforeRoute = "FindPointOfInterestBeforeRoute";
+
         public const string CancelActiveRoute = "CancelActiveRoute";
 
         public const string GetActiveRoute = "GetActiveRoute";

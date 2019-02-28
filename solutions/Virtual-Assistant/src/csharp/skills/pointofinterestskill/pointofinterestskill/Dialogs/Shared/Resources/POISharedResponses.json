@@ -98,8 +98,8 @@
         "speak": "Should I look up directions?"
       },
       {
-        "text": "Do you want directions?",
-        "speak": "Do you want directions?"
+        "text": "Should I get directions to this address?",
+        "speak": "Should I get directions to this address?"
       },
       {
         "text": "Do you want me to get you directions?",
@@ -128,8 +128,12 @@
         "speak": "I found the following."
       },
       {
-        "text": "Here are some matches.",
-        "speak": "Here are some matches."
+        "text": "Here are some options.",
+        "speak": "Here are some options."
+      },
+      {
+        "text": "What do you think of these?",
+        "speak": "What do you think of these?"
       }
     ],
     "inputHint": "expectingInput"
@@ -139,6 +143,10 @@
       {
         "text": "I found the following.",
         "speak": "I found the following."
+      },
+      {
+        "text": "Here's a match.",
+        "speak": "Here's a match."
       }
     ],
     "inputHint": "expectingInput"

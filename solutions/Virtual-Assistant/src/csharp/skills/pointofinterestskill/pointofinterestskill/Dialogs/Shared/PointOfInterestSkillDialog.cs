@@ -128,7 +128,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 else if (!string.IsNullOrEmpty(state.Address))
                 {
                     // Fuzzy query search with address
-                    pointOfInterestList = await service.GetPointOfInterestListByQueryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Address);
+                    pointOfInterestList = await service.GetPointOfInterestListByAddressAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Address);
                     pointOfInterestList = await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
                 }
 
@@ -161,22 +161,47 @@ namespace PointOfInterestSkill.Dialogs.Shared
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-
-                var userSelectIndex = (sc.Result as FoundChoice).Index;
+                var defaultReplyMessage = ResponseManager.GetResponse(POISharedResponses.GetRouteToActiveLocationLater);
 
                 if (sc.Result != null)
                 {
-                    state.Destination = state.LastFoundPointOfInterests[userSelectIndex];
-                    state.LastFoundPointOfInterests = null;
+                    var userSelectIndex = 0;
 
-                    await sc.EndDialogAsync();
-                    return await sc.BeginDialogAsync(nameof(RouteDialog));
+                    if (sc.Result is bool)
+                    {
+                        // If true, update the destination state. If false, end dialog.
+                        if ((bool)sc.Result)
+                        {
+                            state.Destination = state.LastFoundPointOfInterests[userSelectIndex];
+                            state.LastFoundPointOfInterests = null;
+                        }
+                        else
+                        {
+                            await sc.Context.SendActivityAsync(defaultReplyMessage);
+
+                            return await sc.EndDialogAsync();
+                        }
+                    }
+                    else if (sc.Result is FoundChoice)
+                    {
+                        // Update the destination state with user choice.
+                        userSelectIndex = (sc.Result as FoundChoice).Index;
+
+                        state.Destination = state.LastFoundPointOfInterests[userSelectIndex];
+                        state.LastFoundPointOfInterests = null;
+                    }
+
+                    if (sc.ActiveDialog.Id.Equals(Actions.FindAlongRoute) || sc.ActiveDialog.Id.Equals(Actions.FindPointOfInterestBeforeRoute))
+                    {
+                        return await sc.NextAsync();
+                    }
+                    else
+                    {
+                        return await sc.ReplaceDialogAsync(nameof(RouteDialog));
+                    }
                 }
-                else
-                {
-                    var replyMessage = ResponseManager.GetResponse(POISharedResponses.GetRouteToActiveLocationLater);
-                    await sc.Context.SendActivityAsync(replyMessage);
-                }
+
+                await sc.Context.SendActivityAsync(defaultReplyMessage);
 
                 return await sc.EndDialogAsync();
             }
@@ -264,6 +289,11 @@ namespace PointOfInterestSkill.Dialogs.Shared
                     if (string.IsNullOrEmpty(pointOfInterestList[i].ImageUrl))
                     {
                         pointOfInterestList[i].ImageUrl = GetCardImageUri(FallbackPointOfInterestImageFileName);
+                    }
+
+                    if (string.IsNullOrEmpty(pointOfInterestList[i].Name))
+                    {
+                        pointOfInterestList[i].Name = pointOfInterestList[i].Street;
                     }
                 }
 

@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -209,7 +210,10 @@ namespace PointOfInterestSkill.ServiceClients
 
             if (apiResponse != null && apiResponse.Results != null)
             {
-                foreach (var searchResult in apiResponse.Results)
+                // Filter Azure Maps results to Type: POI or Point Address
+                // See https://docs.microsoft.com/en-us/rest/api/maps/search/getsearchaddress#searchaddressresult for more information.
+                var filteredSearchResults = apiResponse.Results.Where(x => x.ResultType.Equals("POI") || x.ResultType.Equals("Point Address"));
+                foreach (var searchResult in filteredSearchResults)
                 {
                     var newPointOfInterest = new PointOfInterestModel(searchResult);
                     pointOfInterestList.Add(newPointOfInterest);
