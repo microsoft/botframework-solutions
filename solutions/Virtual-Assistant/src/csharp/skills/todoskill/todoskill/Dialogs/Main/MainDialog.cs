@@ -132,9 +132,8 @@ namespace ToDoSkill.Dialogs.Main
 
                     case ToDoLU.Intent.None:
                         {
-                            if (generalTopIntent == General.Intent.Next
-                                || generalTopIntent == General.Intent.Previous
-                                || generalTopIntent == General.Intent.ReadMore)
+                            if (generalTopIntent == General.Intent.ShowNext
+                                || generalTopIntent == General.Intent.ShowPrevious)
                             {
                                 turnResult = await dc.BeginDialogAsync(nameof(ShowToDoItemDialog), skillOptions);
                             }

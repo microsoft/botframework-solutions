@@ -100,13 +100,6 @@ namespace VirtualAssistant.Dialogs.Main
                         {
                             switch (luisIntent)
                             {
-                                case General.Intent.Greeting:
-                                    {
-                                        // send greeting response
-                                        await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Greeting);
-                                        break;
-                                    }
-
                                 case General.Intent.Help:
                                     {
                                         // send help response
@@ -134,9 +127,8 @@ namespace VirtualAssistant.Dialogs.Main
                                         break;
                                     }
 
-                                case General.Intent.Next:
-                                case General.Intent.Previous:
-                                case General.Intent.ReadMore:
+                                case General.Intent.ShowNext:
+                                case General.Intent.ShowPrevious:
                                     {
                                         var lastExecutedIntent = virtualAssistantState.LastIntent;
                                         if (lastExecutedIntent != null)

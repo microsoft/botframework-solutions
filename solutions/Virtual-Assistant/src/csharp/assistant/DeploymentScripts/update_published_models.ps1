@@ -90,7 +90,6 @@ foreach ($botFile in $botFiles) {
 
 				# if service exists in .bot file
 				if ($service) {
-
 					# if LUIS or dispatch call UpdateLUIS, else call UpdateQnA
 					if (($service.type -eq "luis") -or ($service.type -eq "dispatch")) {
 						UpdateLUIS $botFilePath $langCode $service.id
@@ -108,6 +107,10 @@ foreach ($botFile in $botFiles) {
 				}
 				elseif ($recipeService) {
 					if ($recipeService.type -eq "luis") {
+						$sampleService = $botServices.services | where { $_.type -eq "luis" } | Select-Object -First 1
+						ImportLUIS $botFileName $botFilePath $langCode $service.id $sampleService
+					}
+					elseif ($recipeService.type -eq "dispatch") {
 						$sampleService = $botServices.services | where { $_.type -eq "luis" } | Select-Object -First 1
 						ImportLUIS $botFileName $botFilePath $langCode $service.id $sampleService
 					}

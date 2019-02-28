@@ -142,8 +142,8 @@ namespace EmailSkill.Dialogs.Main
                         {
                             if (intent == EmailLU.Intent.ShowNext
                                 || intent == EmailLU.Intent.ShowPrevious
-                                || generalTopIntent == General.Intent.Next
-                                || generalTopIntent == General.Intent.Previous)
+                                || generalTopIntent == General.Intent.ShowNext
+                                || generalTopIntent == General.Intent.ShowPrevious)
                             {
                                 turnResult = await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
                             }

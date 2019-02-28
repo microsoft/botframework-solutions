@@ -173,12 +173,12 @@ namespace EmailSkill.Dialogs.Shared
                 var generalLuisResult = state.GeneralLuisResult;
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
-                if (skillLuisResult == EmailLU.Intent.ShowNext || generalTopIntent == General.Intent.Next)
+                if (skillLuisResult == EmailLU.Intent.ShowNext || generalTopIntent == General.Intent.ShowNext)
                 {
                     state.ShowEmailIndex++;
                     state.ReadEmailIndex = 0;
                 }
-                else if ((skillLuisResult == EmailLU.Intent.ShowPrevious || generalTopIntent == General.Intent.Previous) && state.ShowEmailIndex >= 0)
+                else if ((skillLuisResult == EmailLU.Intent.ShowPrevious || generalTopIntent == General.Intent.ShowPrevious) && state.ShowEmailIndex >= 0)
                 {
                     state.ShowEmailIndex--;
                     state.ReadEmailIndex = 0;
@@ -1333,7 +1333,7 @@ namespace EmailSkill.Dialogs.Shared
         protected bool IsReadMoreIntent(General.Intent? topIntent, string userInput)
         {
             var isReadMoreUserInput = userInput == null ? false : userInput.ToLowerInvariant().Contains(CommonStrings.More);
-            return topIntent == General.Intent.ReadMore && isReadMoreUserInput;
+            return topIntent == General.Intent.ShowNext && isReadMoreUserInput;
         }
 
         // This method is called by any waterfall step that throws an exception to ensure consistency

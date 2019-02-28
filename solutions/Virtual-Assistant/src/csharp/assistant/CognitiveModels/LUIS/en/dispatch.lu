@@ -2,14 +2,22 @@
 
 # l_General
 - [l_General](general.lu#Cancel)
+- [l_General](general.lu#Confirm)
 - [l_General](general.lu#Escalate)
-- [l_General](general.lu#Goodbye)
-- [l_General](general.lu#Greeting)
+- [l_General](general.lu#FinishTask)
+- [l_General](general.lu#GoBack)
 - [l_General](general.lu#Help)
 - [l_General](general.lu#Logout)
-- [l_General](general.lu#Next)
-- [l_General](general.lu#Previous)
-- [l_General](general.lu#Restart)
+- [l_General](general.lu#ReadAloud)
+- [l_General](general.lu#Reject)
+- [l_General](general.lu#Repeat)
+- [l_General](general.lu#SelectAny)
+- [l_General](general.lu#SelectItem)
+- [l_General](general.lu#SelectNone)
+- [l_General](general.lu#ShowNext)
+- [l_General](general.lu#ShowPrevious)
+- [l_General](general.lu#StartOver)
+- [l_General](general.lu#Stop)
 
 # l_Calendar
 - [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/en/calendar.lu#ChangeCalendarEntry)
