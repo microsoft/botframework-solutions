@@ -657,6 +657,8 @@ namespace EmailSkill.Dialogs.Shared
                 }
                 else
                 {
+                    state.MessageList.Clear();
+                    state.Message.Clear();
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailNotFound));
                 }
 
