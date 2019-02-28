@@ -104,8 +104,7 @@ namespace CalendarSkill.Dialogs.FindContact
                             }));
                         state.ConfirmAttendeesNameIndex++;
                         state.FirstRetryInFindContact = true;
-                        await sc.CancelAllDialogsAsync();
-                        return await sc.BeginDialogAsync(Actions.ConfirmName, options: sc.Options);
+                        return await sc.ReplaceDialogAsync(Actions.ConfirmName, options: sc.Options);
                     }
                     else
                     {
@@ -157,8 +156,6 @@ namespace CalendarSkill.Dialogs.FindContact
                     state.UnconfirmedPerson.Clear();
                     state.AttendeesNameList[state.ConfirmAttendeesNameIndex] = userInput;
                 }
-
-                //await sc.CancelAllDialogsAsync();
 
                 // should not return with value, next step use the return value for confirmation.
                 return await sc.ReplaceDialogAsync(Actions.ConfirmName, options: sc.Options);
@@ -302,7 +299,6 @@ namespace CalendarSkill.Dialogs.FindContact
                 {
                     state.AttendeesNameList = new List<string>();
                     state.ConfirmAttendeesNameIndex = 0;
-                    //state.Clear();
                     return await sc.EndDialogAsync();
                 }
 
