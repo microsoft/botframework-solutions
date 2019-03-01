@@ -39,10 +39,6 @@
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/de/email.lu#SearchMessages)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/de/email.lu#SendEmail)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/de/email.lu#Delete)
-$EmailSubjectPattern:simple
-$SenderNamePattern:simple
-$Email:phraseList
-- E-Mail, E-Mail und E-Mail
 
 # l_ToDo
 - [l_ToDo](../../../../skills/todoskill/todoskill/CognitiveModels/LUIS/de/todo.lu#AddToDo)
