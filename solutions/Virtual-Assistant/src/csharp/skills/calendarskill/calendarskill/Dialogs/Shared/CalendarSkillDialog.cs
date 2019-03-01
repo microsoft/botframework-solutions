@@ -79,7 +79,9 @@ namespace CalendarSkill.Dialogs.Shared
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(dc.Context);
-            if (state.LuisResult != null)
+
+            // find contact dialog is not a start dialog, should not run luis part.
+            if (state.LuisResult != null && Id != nameof(FindContact.FindContactDialog))
             {
                 await DigestCalendarLuisResult(dc, state.LuisResult, true);
             }

@@ -117,6 +117,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     if (state.Attendees.Count == 0 || state.Attendees == null)
                     {
                         state.FirstRetryInFindContact = true;
+                        state.Clear();
                         return await sc.EndDialogAsync();
                     }
 
