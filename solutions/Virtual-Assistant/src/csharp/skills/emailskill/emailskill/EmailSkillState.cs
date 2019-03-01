@@ -44,6 +44,8 @@ namespace EmailSkill
             ConfirmedPerson = new Person();
             FirstEnterFindContact = true;
             SearchTexts = null;
+            GeneralSenderName = null;
+            GeneralSearchTexts = null;
         }
 
         public DialogState ConversationDialogState { get; set; }
@@ -61,6 +63,10 @@ namespace EmailSkill
         public string SenderName { get; set; }
 
         public string SearchTexts { get; set; }
+
+        public string GeneralSenderName { get; set; }
+
+        public string GeneralSearchTexts { get; set; }
 
         public List<string> EmailList { get; set; }
 
@@ -129,36 +135,6 @@ namespace EmailSkill
         public bool IsNoRecipientAvailable()
         {
             return (NameList.Count == 0) && (EmailList.Count == 0);
-        }
-
-        public void Clear()
-        {
-            NameList.Clear();
-            Message.Clear();
-            Content = null;
-            Subject = null;
-            Recipients.Clear();
-            ConfirmRecipientIndex = 0;
-            ShowEmailIndex = 0;
-            ReadEmailIndex = 0;
-            ReadRecipientIndex = 0;
-            RecipientChoiceList.Clear();
-            IsUnreadOnly = true;
-            IsImportant = false;
-            StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
-            EndDateTime = DateTime.UtcNow;
-            DirectlyToMe = false;
-            SenderName = null;
-            EmailList = new List<string>();
-            ShowRecipientIndex = 0;
-            LuisResultPassedFromSkill = null;
-            MailSourceType = MailSource.Other;
-            UserSelectIndex = -1;
-            UnconfirmedPerson = new List<Person>();
-            FirstRetryInFindContact = true;
-            ConfirmedPerson = new Person();
-            FirstEnterFindContact = true;
-            SearchTexts = null;
         }
 
         public void ClearParticipants()

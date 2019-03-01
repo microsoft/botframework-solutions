@@ -9,6 +9,7 @@ namespace EmailSkill.ServiceClients.MSGraphAPI
     public class GraphClient
     {
         private const string APIErrorAccessDenied = "erroraccessdenied";
+        private const string APIErrorMessageSubmissionBlocked = "errormessagesubmissionblocked";
 
         /// <summary>
         /// Get an authenticated ms graph client use access token.
@@ -41,6 +42,10 @@ namespace EmailSkill.ServiceClients.MSGraphAPI
             if (ex.Error.Code.Equals(APIErrorAccessDenied, StringComparison.InvariantCultureIgnoreCase))
             {
                 skillExceptionType = SkillExceptionType.APIAccessDenied;
+            }
+            else if (ex.Error.Code.Equals(APIErrorMessageSubmissionBlocked, StringComparison.InvariantCultureIgnoreCase))
+            {
+                skillExceptionType = SkillExceptionType.AccountNotActivated;
             }
 
             return new SkillException(skillExceptionType, ex.Message, ex);
