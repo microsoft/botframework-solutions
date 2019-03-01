@@ -13,6 +13,7 @@ using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using PointOfInterestSkill.Dialogs.Route.Resources;
 using PointOfInterestSkill.Dialogs.Shared;
+using PointOfInterestSkill.Dialogs.Shared.Resources;
 using PointOfInterestSkill.Models;
 using PointOfInterestSkill.ServiceClients;
 using Actions = PointOfInterestSkill.Dialogs.Shared.Actions;
@@ -31,6 +32,14 @@ namespace PointOfInterestSkill.Dialogs.Route
             : base(nameof(RouteDialog), services, responseManager, accessor, serviceManager, telemetryClient, httpContext)
         {
             TelemetryClient = telemetryClient;
+
+            var checkCurrentLocation = new WaterfallStep[]
+{
+                CheckForCurrentCoordinatesBeforeFindPointOfInterestBeforeRoute,
+                ConfirmCurrentLocation,
+                ProcessCurrentLocationSelection,
+                RouteToFindPointOfInterestBeforeRouteDialog
+};
 
             var checkForActiveRouteAndLocation = new WaterfallStep[]
             {
@@ -62,6 +71,7 @@ namespace PointOfInterestSkill.Dialogs.Route
             };
 
             // Define the conversation flow using a waterfall model.
+            AddDialog(new WaterfallDialog(Actions.CheckForCurrentLocation, checkCurrentLocation) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.GetActiveRoute, checkForActiveRouteAndLocation) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.FindAlongRoute, findAlongRoute) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.FindRouteToActiveLocation, findRouteToActiveLocation) { TelemetryClient = telemetryClient });
@@ -69,6 +79,38 @@ namespace PointOfInterestSkill.Dialogs.Route
 
             // Set starting dialog for component
             InitialDialogId = Actions.GetActiveRoute;
+        }
+
+        /// <summary>
+        /// Check for the current coordinates and if missing, prompt user.
+        /// </summary>
+        /// <param name="sc">Step Context.</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
+        /// <returns>Dialog Turn Result.</returns>
+        public async Task<DialogTurnResult> CheckForCurrentCoordinatesBeforeFindPointOfInterestBeforeRoute(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var hasCurrentCoordinates = state.CheckForValidCurrentCoordinates();
+
+            if (hasCurrentCoordinates)
+            {
+                return await sc.ReplaceDialogAsync(Actions.FindPointOfInterestBeforeRoute);
+            }
+
+            return await sc.PromptAsync(Actions.CurrentLocationPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(POISharedResponses.PromptForCurrentLocation) });
+        }
+
+        /// <summary>
+        /// Replaces the active dialog with the FindPointOfInterestBeforeRoute waterfall dialog.
+        /// </summary>
+        /// <param name="sc">WaterfallStepContext.</param>
+        /// <param name="cancellationToken">CancellationToken.</param>
+        /// <returns>DialogTurnResult.</returns>
+        public async Task<DialogTurnResult> RouteToFindPointOfInterestBeforeRouteDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+
+            return await sc.ReplaceDialogAsync(Actions.FindPointOfInterestBeforeRoute);
         }
 
         public async Task<DialogTurnResult> CheckIfActiveRouteExists(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -151,7 +193,7 @@ namespace PointOfInterestSkill.Dialogs.Route
                 if (state.Destination == null)
                 {
                     await sc.EndDialogAsync(true);
-                    return await sc.BeginDialogAsync(Actions.FindPointOfInterestBeforeRoute);
+                    return await sc.BeginDialogAsync(Actions.CheckForCurrentLocation);
                 }
 
                 return await sc.BeginDialogAsync(Actions.FindRouteToActiveLocation);
