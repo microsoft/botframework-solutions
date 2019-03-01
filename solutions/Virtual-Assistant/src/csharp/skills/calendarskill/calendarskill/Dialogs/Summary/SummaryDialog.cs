@@ -323,7 +323,7 @@ namespace CalendarSkill.Dialogs.Summary
                     }
 
                     // filter meetings with start time
-                    var timeResult = RecognizeDateTime(userInput, sc.Context.Activity.Locale ?? English);
+                    var timeResult = RecognizeDateTime(userInput, sc.Context.Activity.Locale ?? English, false);
                     if (filteredMeetingList.Count <= 0 && timeResult != null)
                     {
                         foreach (var result in timeResult)

@@ -16,6 +16,7 @@ using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Responses;
@@ -117,6 +118,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     if (state.Attendees.Count == 0 || state.Attendees == null)
                     {
                         state.FirstRetryInFindContact = true;
+                        state.Clear();
                         return await sc.EndDialogAsync();
                     }
 
@@ -354,17 +356,57 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     ContentPreview = state.Content
                 };
 
+                var attendeeConfirmString = string.Empty;
+                if (state.Attendees.Count > 0)
+                {
+                    var attendeeConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreate_Attendees, new StringDictionary()
+                    {
+                        { "Attendees", state.Attendees.ToSpeechString(CommonStrings.And, li => li.DisplayName ?? li.Address) }
+                    });
+                    attendeeConfirmString = attendeeConfirmResponse.Text;
+                }
+
+                var subjectConfirmString = string.Empty;
+                if (!string.IsNullOrEmpty(state.Title))
+                {
+                    var subjectConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreate_Subject, new StringDictionary()
+                    {
+                        { "Subject", string.IsNullOrEmpty(state.Title) ? CalendarCommonStrings.Empty : state.Title }
+                    });
+                    subjectConfirmString = subjectConfirmResponse.Text;
+                }
+
+                var locationConfirmString = string.Empty;
+                if (!string.IsNullOrEmpty(state.Location))
+                {
+                    var subjectConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreate_Location, new StringDictionary()
+                    {
+                        { "Location", string.IsNullOrEmpty(state.Location) ? CalendarCommonStrings.Empty : state.Location },
+                    });
+                    locationConfirmString = subjectConfirmResponse.Text;
+                }
+
+                var contentConfirmString = string.Empty;
+                if (!string.IsNullOrEmpty(state.Content))
+                {
+                    var contentConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreate_Content, new StringDictionary()
+                    {
+                        { "Content", string.IsNullOrEmpty(state.Content) ? CalendarCommonStrings.Empty : state.Content },
+                    });
+                    contentConfirmString = contentConfirmResponse.Text;
+                }
+
                 var startDateTimeInUserTimeZone = TimeConverter.ConvertUtcToUserTime(state.StartDateTime.Value, state.GetUserTimeZone());
                 var endDateTimeInUserTimeZone = TimeConverter.ConvertUtcToUserTime(state.EndDateTime.Value, state.GetUserTimeZone());
                 var tokens = new StringDictionary
                 {
-                    { "Attendees", state.Attendees.ToSpeechString(CommonStrings.And, li => li.DisplayName ?? li.Address) },
+                    { "AttendeesConfirm", attendeeConfirmString },
                     { "Date", startDateTimeInUserTimeZone.ToSpeechDateString(true) },
                     { "Time", startDateTimeInUserTimeZone.ToSpeechTimeString(true) },
                     { "EndTime", endDateTimeInUserTimeZone.ToSpeechTimeString(true) },
-                    { "Subject", string.IsNullOrEmpty(state.Title) ? CalendarCommonStrings.Empty : state.Title },
-                    { "Location", string.IsNullOrEmpty(state.Location) ? CalendarCommonStrings.Empty : state.Location },
-                    { "Content", string.IsNullOrEmpty(state.Content) ? CalendarCommonStrings.Empty : state.Content },
+                    { "SubjectConfirm", subjectConfirmString },
+                    { "LocationConfirm", locationConfirmString },
+                    { "ContentConfirm", contentConfirmString },
                 };
 
                 var card = new Card()

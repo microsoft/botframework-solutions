@@ -157,10 +157,10 @@
     <value>FW: {0}</value>
   </data>
   <data name="FromDetailsFormat" xml:space="preserve">
-    <value>from {0} at {1}</value>
+    <value>from {0} recieved {1}</value>
   </data>
   <data name="FromDetailsFormatAll" xml:space="preserve">
-    <value>from {0} at {1} titled {2}</value>
+    <value>from {0} recieved {1} titled {2}</value>
   </data>
   <data name="FromFormat" xml:space="preserve">
     <value>From: {0}</value>
@@ -214,6 +214,6 @@
     <value>unread</value>
   </data>
   <data name="FromDetailsWithContentFormat" xml:space="preserve">
-    <value>from {0} at {1} titled {2}, content is {3}.</value>
+    <value>from {0} recieved {1} titled {2}, content is {3}.</value>
   </data>
 </root>

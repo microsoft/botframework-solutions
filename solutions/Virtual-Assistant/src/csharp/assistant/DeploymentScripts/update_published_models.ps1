@@ -3,7 +3,7 @@
 	[string] $serviceIds
 )
 
-$basePath = "$($PSScriptRoot)\..\LocaleConfigurations"
+$basePath = Join-Path $PSScriptRoot ".." "LocaleConfigurations"
 $botFiles = get-childitem $basePath -recurse | where {$_.extension -eq ".bot"} 
 $localeArr = $locales.split(',')
 
@@ -23,9 +23,9 @@ function UpdateLUIS ($botFilePath, $langCode, $id) {
 	{
 		msbot get $id --bot $botFilePath | luis delete version --stdin --versionId backup --force --wait
 	}
-		
+	
 	msbot get $id --bot $botFilePath | luis rename version --newVersionId backup --stdin --wait
-	msbot get $id --bot $botFilePath | luis import version --stdin --in "$($PSScriptRoot)\$($langCode)\$($id).luis" --wait
+	msbot get $id --bot $botFilePath | luis import version --stdin --in "$(Join-Path $PSScriptRoot $langCode $id).luis" --wait
 	msbot get $id --bot $botFilePath | luis train version --wait --stdin 
 	msbot get $id --bot $botFilePath | luis publish version --stdin
 }
@@ -33,12 +33,12 @@ function UpdateLUIS ($botFilePath, $langCode, $id) {
 function UpdateKB ($botFilePath, $langCode, $id) {
 	Write-Host "Updating $($langCode) knowledge base $($id)..."
 
-	msbot get $id --bot $botFilePath | qnamaker replace kb --in "$($PSScriptRoot)\$($langCode)\$($id).qna" --stdin
+	msbot get $id --bot $botFilePath | qnamaker replace kb --in (Join-Path $PSScriptRoot $langCode $id).qna --stdin
 	msbot get $id --bot $botFilePath | qnamaker publish kb --stdin
 }
 
 function ImportLUIS ($botFileName, $botFilePath, $langCode, $id, $sampleService) {
-	$luisService = luis import application --appName "$($botFileName)_$($id)" --authoringKey $sampleService.authoringKey --subscriptionKey $sampleService.authoringKey --region $sampleService.region --in "$($recipeBasePath)\$($id).luis" --wait --msbot | ConvertFrom-Json
+	$luisService = luis import application --appName "$($botFileName)_$($id)" --authoringKey $sampleService.authoringKey --subscriptionKey $sampleService.authoringKey --region $sampleService.region --in "$(Join-Path $recipeBasePath $id).luis" --wait --msbot | ConvertFrom-Json
 	Add-Member -InputObject $luisService -MemberType NoteProperty -Name id -Value $id -Force
 
 	$botServices = Get-Content -Raw -Path $botFilePath | ConvertFrom-Json
@@ -52,7 +52,7 @@ function ImportLUIS ($botFileName, $botFilePath, $langCode, $id, $sampleService)
 
 function ImportKB ($botFilePath, $langCode, $id, $sampleService){
 	Write-Host "Importing $($langCode) knowledge base $($id)..."
-	$qnaService = qnamaker create kb --in "$($recipeBasePath)\$($id).qna" --name $id --subscriptionKey $sampleService.subscriptionKey --msbot | ConvertFrom-Json
+	$qnaService = qnamaker create kb --in "$(Join-Path $recipeBasePath $id).qna" --name $id --subscriptionKey $sampleService.subscriptionKey --msbot | ConvertFrom-Json
 	Add-Member -InputObject $qnaService -MemberType NoteProperty -Name id -Value $id -Force
 
 	$botServices = Get-Content -Raw -Path $botFilePath | ConvertFrom-Json
@@ -64,15 +64,15 @@ function ImportKB ($botFilePath, $langCode, $id, $sampleService){
 }
 
 foreach ($locale in $localeArr) {
-	Invoke-Expression "$($PSScriptRoot)\generate_deployment_scripts.ps1 -locale $($locale)"
+	Invoke-Expression "$(Join-Path $PSScriptRoot generate_deployment_scripts.ps1) -locale $($locale)"
 }
 
 foreach ($botFile in $botFiles) {
 	$botFileName = $botFile | % {$_.BaseName}
-	$botFilePath = "$($basePath)\$($botFile)"
+	$botFilePath = $botFile.FullName
 	$langCode = $botFileName.Substring($botFileName.Length - 2, 2)
-	$recipeBasePath = "$($PSScriptRoot)\$($langCode)"
-	$recipePath = "$($recipeBasePath)\bot.recipe"
+	$recipeBasePath = Join-Path $PSScriptRoot $langCode
+	$recipePath = Join-Path $recipeBasePath "bot.recipe"
 
 	# if locale of bot file is in the list
 	if ($localeArr | where {$_ -like "*$($langCode)*"}) {
@@ -98,10 +98,10 @@ foreach ($botFile in $botFiles) {
 						UpdateLUIS $botFilePath $langCode $service.id
 
 						if ($service.id -eq "dispatch") {
-							luisgen "$($basePath)\..\DeploymentScripts\$($langCode)\dispatch.luis" -cs Dispatch -o "$($basePath)\..\Dialogs\Shared\Resources"
+							luisgen "$(Join-Path $basePath .. DeploymentScripts $langCode dispatch.luis)" -cs Dispatch -o "$(Join-Path $basePath .. Dialogs Shared Resources)"
 						}
 						else {
-							luisgen "$($basePath)\..\DeploymentScripts\$($langCode)\$($service.id).luis" -cs "$($recipeService.Name)LU" -o "$($basePath)\..\$($recipeService.luPath)\..\..\..\..\Dialogs\Shared\Resources"
+							luisgen "$(Join-Path $basePath .. DeploymentScripts $langCode $service.id).luis" -cs "$($recipeService.Name)LU" -o "$(Join-Path $basePath .. $recipeService.luPath .. .. .. .. Dialogs Shared Resources)"
 						}
 					}
 					elseif ($service.type -eq "qna") {
@@ -137,10 +137,10 @@ foreach ($botFile in $botFiles) {
 						UpdateLUIS $botFilePath $langCode $service.id
 
 						if ($service.id -eq "dispatch") {
-							luisgen "$($basePath)\..\DeploymentScripts\$($langCode)\dispatch.luis" -cs Dispatch -o "$($basePath)\..\Dialogs\Shared\Resources"
+							luisgen "$(Join-Path $basePath .. DeploymentScripts $langCode dispatch.luis)" -cs Dispatch -o "$(Join-Path $basePath .. Dialogs Shared Resources)"
 						}
 						else {
-							luisgen "$($basePath)\..\DeploymentScripts\$($langCode)\$($service.id).luis" -cs "$($recipeService.Name)LU" -o "$($basePath)\..\$($recipeService.luPath)\..\..\..\..\Dialogs\Shared\Resources"
+							luisgen "$(Join-Path $basePath .. DeploymentScripts $langCode $service.id).luis" -cs "$($recipeService.Name)LU" -o "$(Join-Path $basePath .. $recipeService.luPath .. .. .. .. Dialogs Shared Resources)"
 						}
 					}
 					elseif ($service.type -eq "qna") {
@@ -153,10 +153,10 @@ foreach ($botFile in $botFiles) {
 						ImportLUIS $botFileName $botFilePath $langCode $recipeService.id $sampleService
 
 						if ($service.id -eq "dispatch") {
-							luisgen "$($basePath)\..\DeploymentScripts\$($langCode)\dispatch.luis" -cs Dispatch -o "$($basePath)\..\Dialogs\Shared\Resources"
+							luisgen "$(Join-Path $basePath .. DeploymentScripts $langCode dispatch.luis)" -cs Dispatch -o "$(Join-Path $basePath .. Dialogs Shared Resources)"
 						}
 						else {
-							luisgen "$($basePath)\..\DeploymentScripts\$($langCode)\$($service.id).luis" -cs "$($recipeService.Name)LU" -o "$($basePath)\..\$($recipeService.luPath)\..\..\..\..\Dialogs\Shared\Resources"
+							luisgen "$(Join-Path $basePath .. DeploymentScripts $langCode $service.id).luis" -cs "$($recipeService.Name)LU" -o "$(Join-Path $basePath .. $recipeService.luPath .. .. .. .. Dialogs Shared Resources)"
 						}
 					}
 					elseif ($recipeService.type -eq "qna") {

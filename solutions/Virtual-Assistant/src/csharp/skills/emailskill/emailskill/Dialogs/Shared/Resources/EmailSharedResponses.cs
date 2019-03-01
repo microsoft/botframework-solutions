@@ -20,6 +20,7 @@ namespace EmailSkill.Dialogs.Shared.Resources
         public const string ActionEnded = "ActionEnded";
         public const string EmailErrorMessage = "EmailErrorMessage";
         public const string EmailErrorMessageBotProblem = "EmailErrorMessageBotProblem";
+        public const string EmailErrorMessageAccountProblem = "EmailErrorMessageAccountProblem";
         public const string SentSuccessfully = "SentSuccessfully";
         public const string NoRecipients = "NoRecipients";
         public const string NoEmailContent = "NoEmailContent";
