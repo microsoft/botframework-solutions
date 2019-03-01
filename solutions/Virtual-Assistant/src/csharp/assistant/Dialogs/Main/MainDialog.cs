@@ -186,6 +186,18 @@ namespace VirtualAssistant.Dialogs.Main
                         break;
                     }
 
+                case Dispatch.Intent.q_Chitchat:
+                    {
+                        var qnaService = localeConfig.QnAServices["chitchat"];
+                        var answers = await qnaService.GetAnswersAsync(dc.Context);
+                        if (answers != null && answers.Count() > 0)
+                        {
+                            await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Qna, answers[0].Answer);
+                        }
+
+                        break;
+                    }
+
                 case Dispatch.Intent.None:
                     {
                         // No intent was identified, send confused message

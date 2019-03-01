@@ -3,13 +3,9 @@
 # l_General
 - [l_General](general.lu#Cancel)
 - [l_General](general.lu#Escalate)
-- [l_General](general.lu#Goodbye)
-- [l_General](general.lu#Greeting)
 - [l_General](general.lu#Help)
 - [l_General](general.lu#Logout)
-- [l_General](general.lu#Next)
-- [l_General](general.lu#Previous)
-- [l_General](general.lu#Restart)
+- [l_General](general.lu#StartOver)
 
 # l_Calendar
 - [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/zh/calendar.lu#ChangeCalendarEntry)
@@ -65,6 +61,9 @@ $ADDRESS:simple
 
 # q_FAQ
 - [q_FAQ](../../QnA/zh/faq.lu#?)
+
+# q_Chitchat
+- [q_FAQ](../../QnA/zh/chitchat.lu#?)
 
 # None
 - 我的水瓶是绿色的

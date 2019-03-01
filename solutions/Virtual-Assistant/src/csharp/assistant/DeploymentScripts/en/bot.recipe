@@ -32,6 +32,18 @@
       "luPath": "..\\skills\\pointofinterestskill\\pointofinterestskill\\CognitiveModels\\LUIS\\en\\pointofinterest.lu"
     },
     {
+      "type": "qna",
+      "id": "faq",
+      "name": "FAQ",
+      "luPath": "CognitiveModels\\QnA\\en\\faq.lu"
+    },
+    {
+      "type": "qna",
+      "id": "chitchat",
+      "name": "ChitChat",
+      "luPath": "CognitiveModels\\QnA\\en\\chitchat.lu"
+    },
+    {
       "type": "dispatch",
       "id": "dispatch",
       "name": "Dispatch",
@@ -44,12 +56,6 @@
         "pointofinterest",
         "faq"
       ]
-    },
-    {
-      "type": "qna",
-      "id": "faq",
-      "name": "FAQ",
-      "luPath": "CognitiveModels\\QnA\\en\\faq.lu"
     }
   ]
 }
