@@ -3,7 +3,7 @@ using Microsoft.Bot.Schema;
 
 namespace PointOfInterestSkill.Dialogs.Shared
 {
-    public class SpeakHelper
+    public class ResponseUtility
     {
         /// <summary>
         /// Build a consolidated Speak response to prevent the client from having to crack each card open and build itself.

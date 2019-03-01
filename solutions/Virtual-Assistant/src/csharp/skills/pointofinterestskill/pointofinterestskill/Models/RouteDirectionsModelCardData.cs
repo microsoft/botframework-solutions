@@ -26,5 +26,9 @@ namespace PointOfInterestSkill.Models
         public string Distance { get; set; }
 
         public string DelayStatus { get; set; }
+
+        public string TravelTimeSpeak { get; set; }
+
+        public string TravelDelaySpeak { get; set; }
     }
 }

@@ -233,6 +233,24 @@
     ],
     "inputHint": "expectingInput"
   },
+  "CurrentLocationWhichSelection": {
+    "replies": [
+      {
+        "text": "Which one?",
+        "speak": "Which one?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "CurrentLocationSingleSelection": {
+    "replies": [
+      {
+        "text": "This one?",
+        "speak": "This one?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
   "PointOfInterestSuggestedActionName": {
     "replies": [
       {
@@ -256,6 +274,27 @@
       {
         "text": "{Time} delay",
         "speak": "There's a delay of {Time}."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "PromptForCurrentLocation": {
+    "replies": [
+      {
+        "text": "Can you tell me where you are?",
+        "speak": "Can you tell me where you are?"
+      },
+      {
+        "text": "What address are you at?",
+        "speak": "What address are you at?"
+      },
+      {
+        "text": "Where are you located?",
+        "speak": "Where are you located?"
+      },
+      {
+        "text": "Where are you?",
+        "speak": "Where are you?"
       }
     ],
     "inputHint": "ignoringInput"

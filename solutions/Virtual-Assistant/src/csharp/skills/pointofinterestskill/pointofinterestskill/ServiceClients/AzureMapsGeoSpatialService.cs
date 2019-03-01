@@ -14,6 +14,7 @@ namespace PointOfInterestSkill.ServiceClients
 {
     public sealed class AzureMapsGeoSpatialService : IGeoSpatialService
     {
+        private static readonly string FindByFuzzyQueryNoCoordinatesApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&query={{0}}&limit={{1}}";
         private static readonly string FindByFuzzyQueryApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}&limit={{4}}";
         private static readonly string FindByAddressQueryUrl = $"https://atlas.microsoft.com/search/address/json?api-version=1.0&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}&limit={{4}}";
         private static readonly string FindAddressByCoordinateUrl = $"https://atlas.microsoft.com/search/address/reverse/json?api-version=1.0&query={{0}},{{1}}";
@@ -78,6 +79,11 @@ namespace PointOfInterestSkill.ServiceClients
             if (string.IsNullOrEmpty(query))
             {
                 throw new ArgumentNullException(nameof(query));
+            }
+
+            if (double.IsNaN(latitude) || double.IsNaN(longitude))
+            {
+                return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByFuzzyQueryNoCoordinatesApiUrl, query, limit));
             }
 
             return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByFuzzyQueryApiUrl, latitude, longitude, query, radius, limit));

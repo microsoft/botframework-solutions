@@ -21,5 +21,9 @@
         public const string GetActiveRoute = "GetActiveRoute";
 
         public const string FindParking = "FindParking";
+
+        public const string CurrentLocationPrompt = "CurrentLocationPrompt";
+
+        public const string CheckForCurrentLocation = "CheckForCurrentLocation";
     }
 }

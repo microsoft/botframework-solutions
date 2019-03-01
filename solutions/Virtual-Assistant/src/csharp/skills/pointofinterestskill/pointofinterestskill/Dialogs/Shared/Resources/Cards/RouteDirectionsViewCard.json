@@ -2,7 +2,7 @@
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
   "version": "1.0",
-  "speak": "This will get you to {Location} in {TravelTime}. {TrafficDelay}",
+  "speak": "This'll get you to {Name} in {TravelTimeSpeak}. There's {TravelDelaySpeak}.",
   "id": "RouteDirectionsViewCard",
   "body": [
     {

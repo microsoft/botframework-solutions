@@ -52,8 +52,8 @@ namespace PointOfInterestSkill.Dialogs.FindParking
             {
                 var state = await Accessor.GetAsync(sc.Context);
 
-                var mapsService = ServiceManager.InitMapsService(Services, sc.Context.Activity.Locale ?? "en-us");
-                var addressMapsService = ServiceManager.InitAddressMapsService(Services, sc.Context.Activity.Locale ?? "en-us");
+                var mapsService = ServiceManager.InitMapsService(Services, sc.Context.Activity.Locale);
+                var addressMapsService = ServiceManager.InitAddressMapsService(Services, sc.Context.Activity.Locale);
 
                 var pointOfInterestList = new List<PointOfInterestModel>();
 
@@ -68,20 +68,20 @@ namespace PointOfInterestSkill.Dialogs.FindParking
                     {
                         var pointOfInterest = pointOfInterestAddressList[0];
                         pointOfInterestList = await mapsService.GetPointOfInterestListByParkingCategoryAsync(pointOfInterest.Geolocation.Latitude, pointOfInterest.Geolocation.Longitude);
-                        await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
+                        await GetPointOfInterestLocationCards(sc, pointOfInterestList);
                     }
                     else
                     {
                         // Find parking lot near address
                         pointOfInterestList = await mapsService.GetPointOfInterestListByParkingCategoryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
-                        await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
+                        await GetPointOfInterestLocationCards(sc, pointOfInterestList);
                     }
                 }
                 else
                 {
                     // No entities identified, find nearby parking lots
                     pointOfInterestList = await mapsService.GetPointOfInterestListByParkingCategoryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
-                    await GetPointOfInterestLocationViewCards(sc, pointOfInterestList);
+                    await GetPointOfInterestLocationCards(sc, pointOfInterestList);
                 }
 
                 if (pointOfInterestList?.ToList().Count == 1)

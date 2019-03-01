@@ -31,6 +31,8 @@ namespace PointOfInterestSkill.Dialogs.Shared.Resources
         public const string PointOfInterestSuggestedActionName = "PointOfInterestSuggestedActionName";
         public const string NoTrafficDelay = "NoTrafficDelay";
         public const string TrafficDelay = "TrafficDelay";
-
+        public const string PromptForCurrentLocation = "PromptForCurrentLocation";
+        public const string CurrentLocationSingleSelection = "CurrentLocationSingleSelection";
+        public const string CurrentLocationMultipleSelection = "CurrentLocationMultipleSelection";
     }
 }
