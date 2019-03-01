@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace EmailSkill.Models
+﻿namespace EmailSkill.Models
 {
     public class SendEmailStateModel
     {

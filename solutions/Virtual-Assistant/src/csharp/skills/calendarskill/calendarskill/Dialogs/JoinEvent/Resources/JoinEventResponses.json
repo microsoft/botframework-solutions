@@ -1,36 +1,45 @@
 {
-  "NoMeetingTimeProvided": {
-    "replies": [
-      {
-        "text": "Please specify the event you want to join.",
-        "speak": "Please specify the event you want to join."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
   "MeetingNotFound": {
     "replies": [
       {
-        "text": "I couldn't find any events.",
-        "speak": "I couldn't find any events."
+        "text": "It seems you have no upcoming call within the next hour.",
+        "speak": "It seems you have no upcoming call within the next hour."
       }
     ],
     "inputHint": "acceptingInput"
   },
-  "NoDialInNumber": {
+  "SelectMeeting": {
     "replies": [
       {
-        "text": "I couldn't find a dial in number for your event.",
-        "speak": "I couldn't find a dial in number for your event."
+        "text": "I found multiple meetings for you to join. The first option is with {Participants1} {EventTime1} titled {EventName1}. Do you want to join this meeting? If you want to hear the next meeting, please say next or name one out of the list.",
+        "speak": "I found multiple meetings for you to join. The first option is with {Participants1} {EventTime1} titled {EventName1}. Do you want to join this meeting? If you want to hear the next meeting, please say next or name one out of the list."
       }
     ],
     "inputHint": "acceptingInput"
   },
-  "CallingIn": {
+  "NotJoinMeeting": {
     "replies": [
       {
-        "text": "Calling into your event at {CallNumber}.",
-        "speak": "Calling into your event."
+        "text": "Okay, I will not dial you into an upcoming meeting.",
+        "speak": "Okay, I will not dial you into an upcoming meeting."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ConfirmPhoneNumber": {
+    "replies": [
+      {
+        "text": "Here is the number I am about to call: {PhoneNumber}. Please be aware that tolls may apply. Do you want to proceed?",
+        "speak": "Here is the number I am about to call: {PhoneNumber}. Please be aware that tolls may apply. Do you want to proceed?"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "JoinMeeting": {
+    "replies": [
+      {
+        "text": "Sure, I'm dialing you into the call.",
+        "speak": "Sure, I'm dialing you into the call."
       }
     ],
     "inputHint": "acceptingInput"

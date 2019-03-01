@@ -164,16 +164,16 @@ Property |Value
 `customDimensions.activityType` | [From Telemetry Initializer](#initializer)
 `customDimensions.channelId` | [From Telemetry Initializer](#initializer)
 `customDimensions.DialogId` | ActiveDialog.Id
-`customDImensions.fromId` | [From.Id](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#from)
+`customDimensions.fromId` | [From.Id](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#from)
 `customDimensions.question` | [Text](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#text)
-`customDImensions.applicationId` | LUIS application Id
-`customDImensions.intent` | The top intent
-`customDImensions.intentScore` | The top intent's score
+`customDimensions.applicationId` | LUIS application Id
+`customDimensions.intent` | The top intent
+`customDimensions.intentScore` | The top intent's score
 `customDimensions.entities` | Matched entities
 `customDimensions.sentimentLabel` | LUIS sentiment analysis label
 `customDimensions.sentimentScore` | LUIS sentiment analysis score
 
-#### QnAMesage
+#### QnAMessage
 *Logs QnA Maker results*
 
 **Logged from:** TelemetryQnAMaker

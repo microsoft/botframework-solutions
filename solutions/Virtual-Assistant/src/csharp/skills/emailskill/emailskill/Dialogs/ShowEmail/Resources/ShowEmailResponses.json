@@ -12,7 +12,7 @@
     "replies": [
       {
         "text": "Would you like to see your email overview again? You can also ask me to forward, reply, delete this email for you, or show the next/previous page.",
-        "speak": "Would you like to see your email overview again? You can also ask me to forward, reply, delete this email for you, or show the next/previous page."
+        "speak": "Would you like to hear your email overview again? You can also ask me to forward, reply, delete this email for you, or show the next/previous page."
       }
     ],
     "inputHint": "expectingInput"
@@ -21,7 +21,7 @@
     "replies": [
       {
         "speak": "Do you want to hear the content of this email?",
-        "text": "Do you want to hear the content of this email?"
+        "text": "Do you want to see the content of this email?"
       }
     ],
     "inputHint": "expectingInput"
@@ -30,7 +30,7 @@
     "replies": [
       {
         "speak": "Do you want to hear the content of the first email? I can read out any email for you, just let me know by naming out the subject or from whom.",
-        "text": "Do you want to hear the content of the first email? I can read out any email for you, just let me know by naming out the subject or from whom."
+        "text": "Do you want to see the content of the first email? I can show any email for you, just let me know by naming out the subject or from whom."
       }
     ],
     "inputHint": "expectingInput"

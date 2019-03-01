@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CalendarSkill.Dialogs.CreateEvent.Prompts.Options;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;

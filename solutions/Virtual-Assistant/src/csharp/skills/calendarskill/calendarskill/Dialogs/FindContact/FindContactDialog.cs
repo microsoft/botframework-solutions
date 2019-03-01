@@ -15,7 +15,6 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Solutions.Data;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
@@ -105,8 +104,7 @@ namespace CalendarSkill.Dialogs.FindContact
                             }));
                         state.ConfirmAttendeesNameIndex++;
                         state.FirstRetryInFindContact = true;
-                        await sc.CancelAllDialogsAsync();
-                        return await sc.BeginDialogAsync(Actions.ConfirmName, options: sc.Options);
+                        return await sc.ReplaceDialogAsync(Actions.ConfirmName, options: sc.Options);
                     }
                     else
                     {
@@ -159,10 +157,8 @@ namespace CalendarSkill.Dialogs.FindContact
                     state.AttendeesNameList[state.ConfirmAttendeesNameIndex] = userInput;
                 }
 
-                await sc.CancelAllDialogsAsync();
-
                 // should not return with value, next step use the return value for confirmation.
-                return await sc.BeginDialogAsync(Actions.ConfirmName, options: sc.Options);
+                return await sc.ReplaceDialogAsync(Actions.ConfirmName, options: sc.Options);
             }
             catch (Exception ex)
             {
@@ -259,7 +255,7 @@ namespace CalendarSkill.Dialogs.FindContact
                         (var personList, var userList) = FormatRecipientList(originPersonList, originUserList);
 
                         // people you work with has the distinct email address has the highest priority
-                        if (personList.Count == 1 && personList.First().Emails.Count == 1)
+                        if (personList.Count == 1 && personList.First().Emails.Count == 1 && personList.First().Emails.First() != null)
                         {
                             state.ConfirmedPerson = new CustomizedPerson(personList.First());
                             var highestPriorityPerson = new CustomizedPerson(personList.First());
@@ -283,7 +279,13 @@ namespace CalendarSkill.Dialogs.FindContact
                                     var curEmailList = new List<ScoredEmailAddress>();
                                     foreach (var sameNamePerson in personWithSameName)
                                     {
-                                        sameNamePerson.Emails.ToList().ForEach(e => curEmailList.Add(new ScoredEmailAddress { Address = e }));
+                                        sameNamePerson.Emails.ToList().ForEach(e =>
+                                        {
+                                            if (!string.IsNullOrEmpty(e))
+                                            {
+                                                curEmailList.Add(new ScoredEmailAddress { Address = e });
+                                            }
+                                        });
                                     }
 
                                     unionPerson.Emails = curEmailList;
@@ -295,14 +297,18 @@ namespace CalendarSkill.Dialogs.FindContact
                 }
                 else
                 {
+                    state.AttendeesNameList = new List<string>();
+                    state.ConfirmAttendeesNameIndex = 0;
                     return await sc.EndDialogAsync();
                 }
+
+                unionList.RemoveAll(person => !person.Emails.Exists(email => email.Address != null));
 
                 state.UnconfirmedPerson = unionList;
 
                 if (unionList.Count == 0)
                 {
-                    return await sc.BeginDialogAsync(Actions.UpdateName, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.NotFound));
+                    return await sc.ReplaceDialogAsync(Actions.UpdateName, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.NotFound));
                 }
                 else if (unionList.Count == 1)
                 {

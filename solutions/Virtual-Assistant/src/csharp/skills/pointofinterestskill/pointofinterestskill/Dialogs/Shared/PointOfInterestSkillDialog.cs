@@ -12,9 +12,9 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Telemetry;
 using Microsoft.Bot.Solutions.Util;
 using PointOfInterestSkill.Dialogs.Route;
 using PointOfInterestSkill.Dialogs.Shared.Resources;
@@ -192,7 +192,9 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 for (int i = 0; i < pointOfInterestList.Count; i++)
                 {
                     pointOfInterestList[i] = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[i]);
-                    pointOfInterestList[i].Index = i;
+
+                    // Increase by one to avoid zero based options to the user which are confusing
+                    pointOfInterestList[i].Index = i + 1;
 
                     if (string.IsNullOrEmpty(pointOfInterestList[i].ImageUrl))
                     {
@@ -220,6 +222,9 @@ namespace PointOfInterestSkill.Dialogs.Shared
                     }
 
                     var replyMessage = ResponseManager.GetCardResponse(templateId, cards);
+
+                    replyMessage.Speak = SpeakHelper.BuildSpeechFriendlyPoIResponse(replyMessage);
+
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
                 else
@@ -376,31 +381,6 @@ namespace PointOfInterestSkill.Dialogs.Shared
             }
         }
 
-        private string GetCardImageUri(string imagePath)
-        {
-            // If we are in local mode we leverage the HttpContext to get the current path to the image assets
-            if (_httpContext != null)
-            {
-                string serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
-                return $"{serverUrl}/images/{imagePath}";
-            }
-            else
-            {
-                // In skill-mode we don't have HttpContext and require skills to provide their own storage for assets
-                Services.Properties.TryGetValue("ImageAssetLocation", out var imageUri);
-
-                var imageUriStr = (string)imageUri;
-                if (string.IsNullOrWhiteSpace(imageUriStr))
-                {
-                    throw new Exception("ImageAssetLocation Uri not configured on the skill.");
-                }
-                else
-                {
-                    return $"{imageUriStr}/{imagePath}";
-                }
-            }
-        }
-
         protected async Task DigestPointOfInterestLuisResult(DialogContext dc, PointOfInterestLU luisResult)
         {
             try
@@ -449,7 +429,6 @@ namespace PointOfInterestSkill.Dialogs.Shared
             }
         }
 
-
         // This method is called by any waterfall step that throws an exception to ensure consistency
         protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
         {
@@ -477,6 +456,31 @@ namespace PointOfInterestSkill.Dialogs.Shared
             state.Clear();
             await Accessor.SetAsync(sc.Context, state);
             await sc.CancelAllDialogsAsync();
+        }
+
+        private string GetCardImageUri(string imagePath)
+        {
+            // If we are in local mode we leverage the HttpContext to get the current path to the image assets
+            if (_httpContext != null)
+            {
+                string serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
+                return $"{serverUrl}/images/{imagePath}";
+            }
+            else
+            {
+                // In skill-mode we don't have HttpContext and require skills to provide their own storage for assets
+                Services.Properties.TryGetValue("ImageAssetLocation", out var imageUri);
+
+                var imageUriStr = (string)imageUri;
+                if (string.IsNullOrWhiteSpace(imageUriStr))
+                {
+                    throw new Exception("ImageAssetLocation Uri not configured on the skill.");
+                }
+                else
+                {
+                    return $"{imageUriStr}/{imagePath}";
+                }
+            }
         }
     }
 }

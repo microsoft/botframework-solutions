@@ -12,29 +12,29 @@ namespace EmailSkill.Dialogs.Shared.Resources
     public class EmailSharedResponses : IResponseIdCollection
     {
         // Generated accessors
-		public const string DidntUnderstandMessage = "DidntUnderstandMessage";
-		public const string DidntUnderstandMessageIgnoringInput = "DidntUnderstandMessageIgnoringInput";
-		public const string CancellingMessage = "CancellingMessage";
-		public const string NoAuth = "NoAuth";
-		public const string AuthFailed = "AuthFailed";
-		public const string ActionEnded = "ActionEnded";
-		public const string EmailErrorMessage = "EmailErrorMessage";
-		public const string EmailErrorMessage_BotProblem = "EmailErrorMessage_BotProblem";
-		public const string SentSuccessfully = "SentSuccessfully";
-		public const string NoRecipients = "NoRecipients";
-		public const string NoEmailContent = "NoEmailContent";
-		public const string RecipientConfirmed = "RecipientConfirmed";
-		public const string ConfirmSend = "ConfirmSend";
-		public const string ConfirmSendFailed = "ConfirmSendFailed";
-		public const string EmailNotFound = "EmailNotFound";
-		public const string NoFocusMessage = "NoFocusMessage";
-		public const string ShowEmailPrompt = "ShowEmailPrompt";
-		public const string ShowEmailPrompt_OtherPage = "ShowEmailPrompt_OtherPage";
-		public const string ShowOneEmailPrompt = "ShowOneEmailPrompt";
-		public const string ShowOneEmailPrompt_OtherPage = "ShowOneEmailPrompt_OtherPage";
-		public const string FirstPageAlready = "FirstPageAlready";
-		public const string LastPageAlready = "LastPageAlready";
-		public const string NoChoiceOptions_Retry = "NoChoiceOptions_Retry";
-
+        public const string DidntUnderstandMessage = "DidntUnderstandMessage";
+        public const string DidntUnderstandMessageIgnoringInput = "DidntUnderstandMessageIgnoringInput";
+        public const string CancellingMessage = "CancellingMessage";
+        public const string NoAuth = "NoAuth";
+        public const string AuthFailed = "AuthFailed";
+        public const string ActionEnded = "ActionEnded";
+        public const string EmailErrorMessage = "EmailErrorMessage";
+        public const string EmailErrorMessageBotProblem = "EmailErrorMessageBotProblem";
+        public const string EmailErrorMessageAccountProblem = "EmailErrorMessageAccountProblem";
+        public const string SentSuccessfully = "SentSuccessfully";
+        public const string NoRecipients = "NoRecipients";
+        public const string NoEmailContent = "NoEmailContent";
+        public const string RecipientConfirmed = "RecipientConfirmed";
+        public const string ConfirmSend = "ConfirmSend";
+        public const string ConfirmSendFailed = "ConfirmSendFailed";
+        public const string EmailNotFound = "EmailNotFound";
+        public const string NoFocusMessage = "NoFocusMessage";
+        public const string ShowEmailPrompt = "ShowEmailPrompt";
+        public const string ShowEmailPromptOtherPage = "ShowEmailPromptOtherPage";
+        public const string ShowOneEmailPrompt = "ShowOneEmailPrompt";
+        public const string ShowOneEmailPromptOtherPage = "ShowOneEmailPromptOtherPage";
+        public const string FirstPageAlready = "FirstPageAlready";
+        public const string LastPageAlready = "LastPageAlready";
+        public const string NoChoiceOptionsRetry = "NoChoiceOptionsRetry";
     }
 }

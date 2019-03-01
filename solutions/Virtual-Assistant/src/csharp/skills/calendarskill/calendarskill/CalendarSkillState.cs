@@ -56,6 +56,7 @@ namespace CalendarSkill
             ConfirmedPerson = new CustomizedPerson();
             FirstEnterFindContact = true;
             IsActionFromSummary = false;
+            ConfirmedMeeting = new List<EventModel>();
         }
 
         public User User { get; set; }
@@ -172,6 +173,8 @@ namespace CalendarSkill
 
         public bool IsActionFromSummary { get; set; }
 
+        public List<EventModel> ConfirmedMeeting { get; set; }
+
         public TimeZoneInfo GetUserTimeZone()
         {
             if ((UserInfo != null) && (UserInfo.Timezone != null))
@@ -229,6 +232,7 @@ namespace CalendarSkill
             ConfirmedPerson = new CustomizedPerson();
             FirstEnterFindContact = true;
             IsActionFromSummary = false;
+            ConfirmedMeeting = new List<EventModel>();
         }
 
         public void ClearChangeStautsInfo()
@@ -269,7 +273,6 @@ namespace CalendarSkill
             OriginalEndDate = new List<DateTime>();
             OriginalEndTime = new List<DateTime>();
             NewStartDateTime = null;
-            Duration = 0;
             MoveTimeSpan = 0;
             CreateHasDetail = true;
             RecreateState = RecreateEventState.Time;

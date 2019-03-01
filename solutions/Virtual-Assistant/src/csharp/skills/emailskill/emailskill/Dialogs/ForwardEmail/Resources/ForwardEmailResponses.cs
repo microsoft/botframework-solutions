@@ -12,6 +12,5 @@ namespace EmailSkill.Dialogs.ForwardEmail.Resources
     public class ForwardEmailResponses : IResponseIdCollection
     {
         // Generated accessors
-
     }
 }

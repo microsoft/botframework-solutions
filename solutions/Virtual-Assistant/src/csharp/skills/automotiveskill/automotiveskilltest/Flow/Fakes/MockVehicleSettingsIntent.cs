@@ -1,8 +1,6 @@
-﻿using AutomotiveSkill;
-using Luis;
+﻿using Luis;
 using Microsoft.Bot.Builder;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace AutomotiveSkillTest.Flow.Fakes

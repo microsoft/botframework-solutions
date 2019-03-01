@@ -8,9 +8,9 @@ using CalendarSkill.Models;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Telemetry;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkillTest.Flow
@@ -76,9 +76,9 @@ namespace CalendarSkillTest.Flow
                 .StartTestAsync();
         }
 
-        //[TestMethod]
-        //public async Task Test_CalendarSummaryReadOutWithOneMeeting()
-        //{
+        // [TestMethod]
+        // public async Task Test_CalendarSummaryReadOutWithOneMeeting()
+        // {
         //    await this.GetTestFlow()
         //        .Send(FindMeetingTestUtterances.BaseFindMeeting)
         //        .AssertReply(this.ShowAuth())
@@ -91,11 +91,11 @@ namespace CalendarSkillTest.Flow
         //        .Send(Strings.Strings.ConfirmNo)
         //        .AssertReply(this.ActionEndMessage())
         //        .StartTestAsync();
-        //}
+        // }
 
-        //[TestMethod]
-        //public async Task Test_CalendarSummaryReadOutWithMutipleMeeting()
-        //{
+        // [TestMethod]
+        // public async Task Test_CalendarSummaryReadOutWithMutipleMeeting()
+        // {
         //    int eventCount = 3;
         //    this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
         //    await this.GetTestFlow()
@@ -111,8 +111,7 @@ namespace CalendarSkillTest.Flow
         //        .Send(Strings.Strings.ConfirmNo)
         //        .AssertReply(this.ActionEndMessage())
         //        .StartTestAsync();
-        //}
-
+        // }
         [TestMethod]
         public async Task Test_CalendarSummaryByTimeRange()
         {
@@ -152,9 +151,9 @@ namespace CalendarSkillTest.Flow
                 .StartTestAsync();
         }
 
-        //[TestMethod]
-        //public async Task Test_CalendarSummaryShowOverviewAgain()
-        //{
+        // [TestMethod]
+        // public async Task Test_CalendarSummaryShowOverviewAgain()
+        // {
         //    await this.GetTestFlow()
         //        .Send(FindMeetingTestUtterances.BaseFindMeeting)
         //        .AssertReply(this.ShowAuth())
@@ -181,8 +180,7 @@ namespace CalendarSkillTest.Flow
         //        .Send(Strings.Strings.ConfirmNo)
         //        .AssertReply(this.ActionEndMessage())
         //        .StartTestAsync();
-        //}
-
+        // }
         private Action<IActivity> ActionEndMessage()
         {
             return activity =>

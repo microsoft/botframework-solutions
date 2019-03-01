@@ -12,12 +12,11 @@ namespace ToDoSkill.Dialogs.Main.Resources
     public class ToDoMainResponses : IResponseIdCollection
     {
         // Generated accessors
-		public const string DidntUnderstandMessage = "DidntUnderstandMessage";
-		public const string ToDoWelcomeMessage = "ToDoWelcomeMessage";
-		public const string HelpMessage = "HelpMessage";
-		public const string LogOut = "LogOut";
-		public const string FeatureNotAvailable = "FeatureNotAvailable";
-		public const string CancelMessage = "CancelMessage";
-
+        public const string DidntUnderstandMessage = "DidntUnderstandMessage";
+        public const string ToDoWelcomeMessage = "ToDoWelcomeMessage";
+        public const string HelpMessage = "HelpMessage";
+        public const string LogOut = "LogOut";
+        public const string FeatureNotAvailable = "FeatureNotAvailable";
+        public const string CancelMessage = "CancelMessage";
     }
 }

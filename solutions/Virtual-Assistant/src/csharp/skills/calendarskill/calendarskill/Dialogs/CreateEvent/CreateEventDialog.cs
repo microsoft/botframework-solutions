@@ -110,7 +110,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
 
                 if (state.RecreateState == RecreateEventState.Subject)
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CreateEventResponses.NoTitle_Short) }, cancellationToken);
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CreateEventResponses.NoTitleShort) }, cancellationToken);
                 }
                 else
                 if (string.IsNullOrEmpty(state.Title) && !state.CreateHasDetail)
@@ -118,6 +118,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     if (state.Attendees.Count == 0 || state.Attendees == null)
                     {
                         state.FirstRetryInFindContact = true;
+                        state.Clear();
                         return await sc.EndDialogAsync();
                     }
 
@@ -573,7 +574,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 return await sc.PromptAsync(Actions.DatePromptForCreate, new PromptOptions
                 {
                     Prompt = ResponseManager.GetResponse(CreateEventResponses.NoStartDate),
-                    RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.NoStartDate_Retry),
+                    RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.NoStartDateRetry),
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -658,8 +659,8 @@ namespace CalendarSkill.Dialogs.CreateEvent
                     return await sc.PromptAsync(Actions.TimePromptForCreate, new NoSkipPromptOptions
                     {
                         Prompt = ResponseManager.GetResponse(CreateEventResponses.NoStartTime),
-                        RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.NoStartTime_Retry),
-                        NoSkipPrompt = ResponseManager.GetResponse(CreateEventResponses.NoStartTime_NoSkip),
+                        RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.NoStartTimeRetry),
+                        NoSkipPrompt = ResponseManager.GetResponse(CreateEventResponses.NoStartTimeNoSkip),
                     }, cancellationToken);
                 }
                 else
@@ -753,7 +754,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 return await sc.PromptAsync(Actions.DurationPromptForCreate, new PromptOptions
                 {
                     Prompt = ResponseManager.GetResponse(CreateEventResponses.NoDuration),
-                    RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.NoDuration_Retry)
+                    RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.NoDurationRetry)
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -849,7 +850,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 return await sc.PromptAsync(Actions.GetRecreateInfoPrompt, new PromptOptions
                 {
                     Prompt = ResponseManager.GetResponse(CreateEventResponses.GetRecreateInfo),
-                    RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.GetRecreateInfo_Retry)
+                    RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.GetRecreateInfoRetry)
                 }, cancellationToken);
             }
             catch (Exception ex)

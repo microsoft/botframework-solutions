@@ -166,7 +166,7 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "EmailErrorMessage_BotProblem": {
+  "EmailErrorMessageBotProblem": {
     "replies": [
       {
         "text": "Sorry, there is something wrong with the bot at the moment. The developer has been notified about it so you'll be able to perform the action again very soon.",
@@ -175,12 +175,20 @@
     ],
     "inputHint": "acceptingInput"
   },
-
+  "EmailErrorMessageAccountProblem": {
+    "replies": [
+      {
+        "text": "Sorry, there is something wrong with your email account at the moment. Please follow the instructions in your Inbox to verify your account.",
+        "speak": "Sorry, there is something wrong with your email account at the moment. Please follow the instructions in your Inbox to verify your account."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "SentSuccessfully": {
     "replies": [
       {
-        "text": "I have send the email with subject {Subject}.",
-        "speak": "I have send the email with subject {Subject}."
+        "text": "I have sent the email with subject {Subject}.",
+        "speak": "I have sent the email with subject {Subject}."
       }
     ],
     "inputHint": "acceptingInput"
@@ -277,7 +285,7 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "ShowEmailPrompt_OtherPage": {
+  "ShowEmailPromptOtherPage": {
     "replies": [
       {
         "text": "You have {TotalCount} emails. The first email is {EmailListDetails}.",
@@ -295,7 +303,7 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "ShowOneEmailPrompt_OtherPage": {
+  "ShowOneEmailPromptOtherPage": {
     "replies": [
       {
         "text": "You have 1 email. The first email is {EmailListDetails}.",
@@ -308,7 +316,7 @@
     "replies": [
       {
         "text": "This is already the first page. ",
-        "speak": ""
+        "speak": "This is already the first page. "
       }
     ],
     "inputHint": "acceptingInput"
@@ -317,15 +325,15 @@
     "replies": [
       {
         "text": "This is already the last page. ",
-        "speak": ""
+        "speak": "This is already the last page. "
       }
     ],
     "inputHint": "acceptingInput"
   },
-  "NoChoiceOptions_Retry": {
+  "NoChoiceOptionsRetry": {
     "replies": [
       {
-        "text": "I don't understand what you input. Can you try in a different way? You can say the first one, 1, or you can try next page, previous page or read more.",
+        "text": "I don't understand what you input. Can you try in a different way? You can input the first one, 1, or you can try next page, previous page or read more.",
         "speak": "I don't understand what you input. Can you try in a different way? You can say the first one, 1, or you can try next page, previous page or read more."
       },
       {

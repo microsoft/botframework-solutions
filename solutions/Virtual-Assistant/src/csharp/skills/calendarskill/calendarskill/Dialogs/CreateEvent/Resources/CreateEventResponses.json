@@ -8,7 +8,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "NoTitle_Short": {
+  "NoTitleShort": {
     "replies": [
       {
         "text": "What is the subject of the meeting?",
@@ -180,7 +180,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "NoStartDate_Retry": {
+  "NoStartDateRetry": {
     "replies": [
       {
         "text": "I did not understand the date you preference, can you try again?",
@@ -202,7 +202,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "NoStartTime_Retry": {
+  "NoStartTimeRetry": {
     "replies": [
       {
         "text": "I don't understand the time you provided, can you try again?",
@@ -215,7 +215,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "NoStartTime_NoSkip": {
+  "NoStartTimeNoSkip": {
     "replies": [
       {
         "text": "You can not skip the Start Time. Please try again.",
@@ -233,7 +233,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "NoDuration_Retry": {
+  "NoDurationRetry": {
     "replies": [
       {
         "text": "I don't understand the duration you provided, can you try again?",
@@ -251,7 +251,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "GetRecreateInfo_Retry": {
+  "GetRecreateInfoRetry": {
     "replies": [
       {
         "text": "I don't understand your input. You can try Time, Duration, Location, Participants, Subject, or Content. Or say cancel",

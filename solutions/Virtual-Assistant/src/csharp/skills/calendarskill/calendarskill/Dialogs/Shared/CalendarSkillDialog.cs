@@ -18,11 +18,11 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
 using Microsoft.Bot.Solutions.Prompts;
 using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Telemetry;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text;
 using Microsoft.Recognizers.Text.DateTime;
@@ -79,7 +79,9 @@ namespace CalendarSkill.Dialogs.Shared
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(dc.Context);
-            if (state.LuisResult != null)
+
+            // find contact dialog is not a start dialog, should not run luis part.
+            if (state.LuisResult != null && Id != nameof(FindContact.FindContactDialog))
             {
                 await DigestCalendarLuisResult(dc, state.LuisResult, true);
             }
@@ -254,6 +256,38 @@ namespace CalendarSkill.Dialogs.Shared
             }
 
             return false;
+        }
+
+        protected General.Intent? MergeShowIntent(General.Intent? generalIntent, CalendarLU.Intent? calendarIntent, CalendarLU calendarLuisResult)
+        {
+            if (generalIntent == General.Intent.Next || generalIntent == General.Intent.Previous)
+            {
+                return generalIntent;
+            }
+
+            if (calendarIntent == CalendarLU.Intent.ShowNextCalendar)
+            {
+                return General.Intent.Next;
+            }
+
+            if (calendarIntent == CalendarLU.Intent.ShowPreviousCalendar)
+            {
+                return General.Intent.Previous;
+            }
+
+            if (calendarIntent == CalendarLU.Intent.FindCalendarEntry)
+            {
+                if (calendarLuisResult.Entities.OrderReference != null)
+                {
+                    var orderReference = GetOrderReferenceFromEntity(calendarLuisResult.Entities);
+                    if (orderReference == "next")
+                    {
+                        return General.Intent.Next;
+                    }
+                }
+            }
+
+            return generalIntent;
         }
 
         protected Task<bool> DateTimePromptValidator(PromptValidatorContext<IList<DateTimeResolution>> promptContext, CancellationToken cancellationToken)
