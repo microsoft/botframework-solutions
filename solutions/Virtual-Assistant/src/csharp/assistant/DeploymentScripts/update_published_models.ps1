@@ -33,7 +33,7 @@ function UpdateLUIS ($botFilePath, $langCode, $id) {
 function UpdateKB ($botFilePath, $langCode, $id) {
 	Write-Host "Updating $($langCode) knowledge base $($id)..."
 
-	msbot get $id --bot $botFilePath | qnamaker replace kb --in (Join-Path $PSScriptRoot $langCode $id).qna --stdin
+	msbot get $id --bot $botFilePath | qnamaker replace kb --in "$(Join-Path $PSScriptRoot $langCode $id).qna" --stdin
 	msbot get $id --bot $botFilePath | qnamaker publish kb --stdin
 }
 

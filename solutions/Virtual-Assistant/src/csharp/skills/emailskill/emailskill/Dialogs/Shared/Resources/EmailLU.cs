@@ -57,10 +57,6 @@ namespace Luis
             public double[] number;
             public double[] ordinal;
 
-            // Pattern.any
-            public string[] SenderNamePattern;
-            public string[] EmailSubjectPattern;
-
             // Instance
             public class _Instance
             {
@@ -82,8 +78,6 @@ namespace Luis
                 public InstanceData[] email;
                 public InstanceData[] number;
                 public InstanceData[] ordinal;
-                public InstanceData[] SenderNamePattern;
-                public InstanceData[] EmailSubjectPattern;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;

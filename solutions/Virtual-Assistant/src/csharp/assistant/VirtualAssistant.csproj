@@ -88,10 +88,6 @@
       <LastGenOutput>OnboardingStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="LocaleConfigurations\" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\microsoft.bot.solutions\Microsoft.Bot.Solutions.csproj" />
@@ -115,5 +111,4 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-
 </Project>
