@@ -12,32 +12,31 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
     public class CreateEventResponses : IResponseIdCollection
     {
         // Generated accessors
-		public const string NoTitle = "NoTitle";
-		public const string NoTitle_Short = "NoTitle_Short";
-		public const string NoContent = "NoContent";
-		public const string NoLocation = "NoLocation";
-		public const string ConfirmCreate_Attendees = "ConfirmCreate_Attendees";
-		public const string ConfirmCreate_Subject = "ConfirmCreate_Subject";
-		public const string ConfirmCreate_Location = "ConfirmCreate_Location";
-		public const string ConfirmCreate_Content = "ConfirmCreate_Content";
-		public const string ConfirmCreate = "ConfirmCreate";
-		public const string ConfirmCreateFailed = "ConfirmCreateFailed";
-		public const string EventCreated = "EventCreated";
-		public const string EventCreationFailed = "EventCreationFailed";
-		public const string NoAttendees = "NoAttendees";
-		public const string PromptTooManyPeople = "PromptTooManyPeople";
-		public const string PromptPersonNotFound = "PromptPersonNotFound";
-		public const string NoStartDate = "NoStartDate";
-		public const string NoStartDate_Retry = "NoStartDate_Retry";
-		public const string NoStartTime = "NoStartTime";
-		public const string NoStartTime_Retry = "NoStartTime_Retry";
-		public const string NoStartTime_NoSkip = "NoStartTime_NoSkip";
-		public const string NoDuration = "NoDuration";
-		public const string NoDuration_Retry = "NoDuration_Retry";
-		public const string GetRecreateInfo = "GetRecreateInfo";
-		public const string GetRecreateInfo_Retry = "GetRecreateInfo_Retry";
-		public const string ConfirmRecipient = "ConfirmRecipient";
-		public const string InvaildDuration = "InvaildDuration";
-
+        public const string NoTitle = "NoTitle";
+        public const string NoTitleShort = "NoTitleShort";
+        public const string NoContent = "NoContent";
+        public const string NoLocation = "NoLocation";
+        public const string ConfirmCreate_Attendees = "ConfirmCreate_Attendees";
+        public const string ConfirmCreate_Subject = "ConfirmCreate_Subject";
+        public const string ConfirmCreate_Location = "ConfirmCreate_Location";
+        public const string ConfirmCreate_Content = "ConfirmCreate_Content";
+        public const string ConfirmCreate = "ConfirmCreate";
+        public const string ConfirmCreateFailed = "ConfirmCreateFailed";
+        public const string EventCreated = "EventCreated";
+        public const string EventCreationFailed = "EventCreationFailed";
+        public const string NoAttendees = "NoAttendees";
+        public const string PromptTooManyPeople = "PromptTooManyPeople";
+        public const string PromptPersonNotFound = "PromptPersonNotFound";
+        public const string NoStartDate = "NoStartDate";
+        public const string NoStartDateRetry = "NoStartDateRetry";
+        public const string NoStartTime = "NoStartTime";
+        public const string NoStartTimeRetry = "NoStartTimeRetry";
+        public const string NoStartTimeNoSkip = "NoStartTimeNoSkip";
+        public const string NoDuration = "NoDuration";
+        public const string NoDurationRetry = "NoDurationRetry";
+        public const string GetRecreateInfo = "GetRecreateInfo";
+        public const string GetRecreateInfoRetry = "GetRecreateInfoRetry";
+        public const string ConfirmRecipient = "ConfirmRecipient";
+        public const string InvaildDuration = "InvaildDuration";
     }
 }
