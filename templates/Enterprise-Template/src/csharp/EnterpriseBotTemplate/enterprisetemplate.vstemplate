@@ -11,7 +11,7 @@
       <ProjectTemplateLink ProjectName="$safeprojectname$" CopyParameters="true">
         EnterpriseTemplate\MyTemplate.vstemplate
       </ProjectTemplateLink>
-      <ProjectTemplateLink ProjectName="$safeprojectname$Tests" CopyParameters="true">
+      <ProjectTemplateLink ProjectName="$safeprojectname$.Tests" CopyParameters="true">
         EnterpriseTestTemplate\MyTemplate.vstemplate
       </ProjectTemplateLink>
     </ProjectCollection>

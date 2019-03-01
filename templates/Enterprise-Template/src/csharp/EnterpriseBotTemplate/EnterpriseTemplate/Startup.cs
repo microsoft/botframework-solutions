@@ -79,7 +79,7 @@ namespace $safeprojectname$
             services.AddSingleton(new BotStateSet(userState, conversationState));
 
             // Add the bot with options
-            services.AddBot<$safeprojectname$>(options =>
+            services.AddBot<Bot>(options =>
             {
                 // Load the connected services from .bot file.
                 var environment = _isProduction ? "production" : "development";
