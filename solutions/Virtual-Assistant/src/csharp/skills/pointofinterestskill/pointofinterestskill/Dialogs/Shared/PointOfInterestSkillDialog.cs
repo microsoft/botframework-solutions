@@ -78,24 +78,6 @@ namespace PointOfInterestSkill.Dialogs.Shared
         }
 
         /// <summary>
-        /// Check for the current coordinates and if missing, prompt user.
-        /// </summary>
-        /// <param name="sc">Step Context.</param>
-        /// <param name="cancellationToken">Cancellation Token.</param>
-        /// <returns>Dialog Turn Result.</returns>
-        protected async Task<DialogTurnResult> CheckForCurrentCoordinates(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await Accessor.GetAsync(sc.Context);
-            var hasCurrentCoordinates = state.CheckForValidCurrentCoordinates();
-            if (hasCurrentCoordinates)
-            {
-                return await sc.ReplaceDialogAsync(Actions.FindPointOfInterest);
-            }
-
-            return await sc.PromptAsync(Actions.CurrentLocationPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(POISharedResponses.PromptForCurrentLocation) });
-        }
-
-        /// <summary>
         /// Looks up the current location and prompts user to select one.
         /// </summary>
         /// <param name="sc">Step Context.</param>
@@ -118,8 +100,9 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 else
                 {
                     PromptOptions options = GetPointOfInterestChoicePromptOptions(pointOfInterestList);
+                    options.Prompt = ResponseManager.GetResponse(POISharedResponses.CurrentLocationMultipleSelection);
 
-                    return await sc.PromptAsync(Actions.CurrentLocationPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(POISharedResponses.CurrentLocationMultipleSelection) });
+                    return await sc.PromptAsync(Actions.SelectPointOfInterestPrompt, options);
                 }
             }
             catch (Exception ex)
@@ -337,11 +320,11 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 var address = pointOfInterestList[i].Street;
 
                 List<string> synonyms = new List<string>()
-                        {
-                            item,
-                            address,
-                            (i + 1).ToString(),
-                        };
+                    {
+                        item,
+                        address,
+                        (i + 1).ToString(),
+                    };
 
                 var suggestedActionValue = item;
 
@@ -350,10 +333,10 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 {
                     var promptTemplate = POISharedResponses.PointOfInterestSuggestedActionName;
                     var promptReplacements = new StringDictionary
-                            {
-                                { "Name", item },
-                                { "Address", address },
-                            };
+                        {
+                            { "Name", item },
+                            { "Address", address },
+                        };
                     suggestedActionValue = ResponseManager.GetResponse(promptTemplate, promptReplacements).Text;
                 }
 

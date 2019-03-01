@@ -233,7 +233,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "CurrentLocationWhichSelection": {
+  "CurrentLocationMultipleSelection": {
     "replies": [
       {
         "text": "Which one?",

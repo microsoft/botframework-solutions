@@ -21,8 +21,8 @@ namespace PointOfInterestSkill.ServiceClients
         private static readonly string FindNearbyUrl = $"https://atlas.microsoft.com/search/nearby/json?api-version=1.0&lat={{0}}&lon={{1}}&radius={{2}}&limit={{3}}";
         private static readonly string FindByCategoryUrl = $"https://atlas.microsoft.com/search/poi/category/json?api-version=1.0&query={{2}}&lat={{0}}&lon={{1}}&radius={{3}}&limit={{4}}";
         private static readonly string ImageUrlByPoint = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{2}}&center={{1}},{{0}}&width=512&height=512";
-        private static readonly string GetRouteDirections = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&query={{0}}";
-        private static readonly string GetRouteDirectionsWithRouteType = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&query={{0}}&&routeType={{1}}";
+        private static readonly string GetRouteDirections = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&instructionsType=text&query={{0}}";
+        private static readonly string GetRouteDirectionsWithRouteType = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&instructionsType=text&query={{0}}&&routeType={{1}}";
         private static string apiKey;
         private static string userLocale;
         private static HttpClient httpClient;
@@ -222,7 +222,12 @@ namespace PointOfInterestSkill.ServiceClients
                 foreach (var searchResult in filteredSearchResults)
                 {
                     var newPointOfInterest = new PointOfInterestModel(searchResult);
-                    pointOfInterestList.Add(newPointOfInterest);
+
+                    // If POI is missing a street, we don't want it shown
+                    if (!string.IsNullOrEmpty(newPointOfInterest.Street))
+                    {
+                        pointOfInterestList.Add(newPointOfInterest);
+                    }
                 }
             }
 
