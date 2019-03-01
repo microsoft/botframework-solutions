@@ -37,15 +37,6 @@ namespace VirtualAssistant.Tests
         }
 
         [TestMethod]
-        public async Task Greeting()
-        {
-            await this.GetTestFlow()
-               .Send(GeneralUtterances.Greeting)
-               .AssertReply(MainStrings.GREETING)
-               .StartTestAsync();
-        }
-
-        [TestMethod]
         public async Task Escalate()
         {
             await this.GetTestFlow()
