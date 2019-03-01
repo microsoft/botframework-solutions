@@ -223,6 +223,42 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}nd.
+        /// </summary>
+        public static string OrdinalSuffixNd {
+            get {
+                return ResourceManager.GetString("OrdinalSuffixNd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}rd.
+        /// </summary>
+        public static string OrdinalSuffixRd {
+            get {
+                return ResourceManager.GetString("OrdinalSuffixRd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}st.
+        /// </summary>
+        public static string OrdinalSuffixSt {
+            get {
+                return ResourceManager.GetString("OrdinalSuffixSt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}th.
+        /// </summary>
+        public static string OrdinalSuffixTh {
+            get {
+                return ResourceManager.GetString("OrdinalSuffixTh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ^(skip|no).
         /// </summary>
         public static string SkipPhrases {
