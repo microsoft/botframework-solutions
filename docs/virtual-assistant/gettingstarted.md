@@ -13,6 +13,9 @@ Follow the instructions below to build, deploy and configure your Virtual Assist
 ## Prerequisites
 - Ensure you have updated [.NET Core](https://www.microsoft.com/net/download) to the latest version.
 - [Node.js](https://nodejs.org/) version 8.5 or higher.
+- PowerShell Core version 6
+  - [Download PowerShell Core on Windows](https://aka.ms/getps6-windows)
+  - [Download PowerShell Core on macOS and Linux](https://aka.ms/getps6-linux)
 - Install the Azure Bot Service command line (CLI) tools. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of new deployment capabilities. **Minimum version 4.3.2 required for msbot, and minimum version 1.1.0 required for ludown.**
 
 ```shell

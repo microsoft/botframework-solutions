@@ -25,7 +25,7 @@ Please read the [overview](./overview.md) for more on the Virtual Assistant arch
 
 ## Deployment
 
-Update your Virtual Assistant’s Skill and Dispatch language models with the following PowerShell script:
+Navigate in a command prompt to the `solutions\Virtual-Assistant\src\< csharp | typescript >\assistant` folder, then update your Virtual Assistant’s Skill and Dispatch language models with the following PowerShell script:
 
 ```
 ...PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\update_published_models.ps1
