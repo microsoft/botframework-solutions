@@ -183,4 +183,16 @@
   <data name="SkipPhrases" xml:space="preserve">
     <value>(跳过|不要|空着|没有)</value>
   </data>
+  <data name="OrdinalSuffixNd" xml:space="preserve">
+    <value>{0}号</value>
+  </data>
+  <data name="OrdinalSuffixRd" xml:space="preserve">
+    <value>{0}号</value>
+  </data>
+  <data name="OrdinalSuffixSt" xml:space="preserve">
+    <value>{0}号</value>
+  </data>
+  <data name="OrdinalSuffixTh" xml:space="preserve">
+    <value>{0}号</value>
+  </data>
 </root>

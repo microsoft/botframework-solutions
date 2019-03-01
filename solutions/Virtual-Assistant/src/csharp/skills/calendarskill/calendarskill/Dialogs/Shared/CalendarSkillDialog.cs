@@ -11,6 +11,7 @@ using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
+using CalendarSkill.Util;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
@@ -838,9 +839,10 @@ namespace CalendarSkill.Dialogs.Shared
             }
         }
 
-        protected List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture)
+        protected List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture, bool convertToDate = true)
         {
-            var results = DateTimeRecognizer.RecognizeDateTime(dateTimeString, culture);
+            var results = DateTimeRecognizer.RecognizeDateTime(DateTimeHelper.ConvertNumberToDateTimeString(dateTimeString, convertToDate), culture, options: DateTimeOptions.CalendarMode);
+
             if (results.Count > 0)
             {
                 // Return list of resolutions from first match
@@ -1275,7 +1277,7 @@ namespace CalendarSkill.Dialogs.Shared
         private List<DateTime> GetDateFromDateTimeString(string date, string local, TimeZoneInfo userTimeZone, bool isStart = true)
         {
             var culture = local ?? English;
-            var results = RecognizeDateTime(date, culture);
+            var results = RecognizeDateTime(date, culture, true);
             var dateTimeResults = new List<DateTime>();
             if (results != null)
             {
@@ -1319,7 +1321,7 @@ namespace CalendarSkill.Dialogs.Shared
         private List<DateTime> GetTimeFromDateTimeString(string time, string local, TimeZoneInfo userTimeZone, bool isStart = true)
         {
             var culture = local ?? English;
-            var results = RecognizeDateTime(time, culture);
+            var results = RecognizeDateTime(time, culture, false);
             var dateTimeResults = new List<DateTime>();
             if (results != null)
             {
