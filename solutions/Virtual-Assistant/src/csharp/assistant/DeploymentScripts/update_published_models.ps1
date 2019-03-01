@@ -23,9 +23,9 @@ function UpdateLUIS ($botFilePath, $langCode, $id) {
 	{
 		msbot get $id --bot $botFilePath | luis delete version --stdin --versionId backup --force --wait
 	}
-		
+	
 	msbot get $id --bot $botFilePath | luis rename version --newVersionId backup --stdin --wait
-	msbot get $id --bot $botFilePath | luis import version --stdin --in "($(Join-Path $PSScriptRoot $langCode $id).luis" --wait
+	msbot get $id --bot $botFilePath | luis import version --stdin --in "$(Join-Path $PSScriptRoot $langCode $id).luis" --wait
 	msbot get $id --bot $botFilePath | luis train version --wait --stdin 
 	msbot get $id --bot $botFilePath | luis publish version --stdin
 }
@@ -66,7 +66,7 @@ foreach ($locale in $localeArr) {
 
 foreach ($botFile in $botFiles) {
 	$botFileName = $botFile | % {$_.BaseName}
-	$botFilePath = Join-Path $basePath $botFile
+	$botFilePath = $botFile.FullName
 	$langCode = $botFileName.Substring($botFileName.Length - 2, 2)
 	$recipeBasePath = Join-Path $PSScriptRoot $langCode
 	$recipePath = Join-Path $recipeBasePath "bot.recipe"
