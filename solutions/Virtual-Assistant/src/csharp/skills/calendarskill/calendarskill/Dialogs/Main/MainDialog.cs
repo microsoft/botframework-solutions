@@ -170,7 +170,7 @@ namespace CalendarSkill.Dialogs.Main
 
                     case Luis.CalendarLU.Intent.None:
                         {
-                            if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
+                            if (generalTopIntent == General.Intent.ShowNext || generalTopIntent == General.Intent.ShowPrevious)
                             {
                                 turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog), skillOptions);
                             }

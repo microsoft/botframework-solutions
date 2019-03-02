@@ -249,7 +249,7 @@ namespace CalendarSkill.Dialogs.Summary
                     return await sc.CancelAllDialogsAsync();
                 }
 
-                if ((generalTopIntent == General.Intent.Next || topIntent == CalendarLU.Intent.ShowNextCalendar) && state.SummaryEvents != null)
+                if ((generalTopIntent == General.Intent.ShowNext || topIntent == CalendarLU.Intent.ShowNextCalendar) && state.SummaryEvents != null)
                 {
                     if ((state.ShowEventIndex + 1) * state.PageSize < state.SummaryEvents.Count)
                     {
@@ -262,7 +262,7 @@ namespace CalendarSkill.Dialogs.Summary
 
                     return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, sc.Options);
                 }
-                else if ((generalTopIntent == General.Intent.Previous || topIntent == CalendarLU.Intent.ShowPreviousCalendar) && state.SummaryEvents != null)
+                else if ((generalTopIntent == General.Intent.ShowPrevious || topIntent == CalendarLU.Intent.ShowPreviousCalendar) && state.SummaryEvents != null)
                 {
                     if (state.ShowEventIndex > 0)
                     {

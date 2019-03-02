@@ -15,11 +15,11 @@ namespace Luis
         public string Text;
         public string AlteredText;
         public enum Intent {
-            AddFlag,
-            AddMore,
-            CancelMessages,
-            ConfirmMessages, 
+            AddFlag, 
+            AddMore, 
+            CancelMessages, 
             CheckMessages, 
+            ConfirmMessages, 
             Delete, 
             Forward, 
             None, 
@@ -27,7 +27,7 @@ namespace Luis
             ReadAloud, 
             Reply, 
             SearchMessages, 
-            SendEmail,
+            SendEmail, 
             ShowNext, 
             ShowPrevious
         };
@@ -38,52 +38,46 @@ namespace Luis
             // Simple entities
             public string[] OrderReference;
             public string[] SenderName;
+            public string[] Category;
             public string[] ContactName;
-            public string[] EmailPlatform;
-            public string[] RelationshipName;
             public string[] Attachment;
             public string[] Message;
+            public string[] RelationshipName;
             public string[] Time;
-            public string[] Date;
-            public string[] PositionReference;
-            public string[] FromRelationshipName;
             public string[] Line;
-            public string[] Category;
-            public string[] SearchTexts;
+            public string[] EmailPlatform;
+            public string[] PositionReference;
+            public string[] Date;
+            public string[] FromRelationshipName;
             public string[] EmailSubject;
-            public string[] EmailSubjectPattern;
-            public string[] SenderNamePattern;
+            public string[] SearchTexts;
 
             // Built-in entities
-            public DateTimeSpec[] datetime;
+            public string[] email;
             public double[] number;
             public double[] ordinal;
-            public string[] email;
 
             // Instance
             public class _Instance
             {
                 public InstanceData[] OrderReference;
                 public InstanceData[] SenderName;
+                public InstanceData[] Category;
                 public InstanceData[] ContactName;
-                public InstanceData[] EmailPlatform;
-                public InstanceData[] RelationshipName;
                 public InstanceData[] Attachment;
                 public InstanceData[] Message;
+                public InstanceData[] RelationshipName;
                 public InstanceData[] Time;
-                public InstanceData[] Date;
-                public InstanceData[] PositionReference;
-                public InstanceData[] FromRelationshipName;
                 public InstanceData[] Line;
-                public InstanceData[] Category;
-                public InstanceData[] SearchTexts;
+                public InstanceData[] EmailPlatform;
+                public InstanceData[] PositionReference;
+                public InstanceData[] Date;
+                public InstanceData[] FromRelationshipName;
                 public InstanceData[] EmailSubject;
-                public InstanceData[] datetime;
-                public InstanceData[] EmailSubjectPattern;
-                public InstanceData[] SenderNamePattern;
+                public InstanceData[] SearchTexts;
+                public InstanceData[] email;
                 public InstanceData[] number;
                 public InstanceData[] ordinal;
-                public InstanceData[] email;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;

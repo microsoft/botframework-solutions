@@ -8,8 +8,6 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Solutions.Util;
-
 namespace Luis
 {
     public class General: IRecognizerConvert
@@ -17,38 +15,47 @@ namespace Luis
         public string Text;
         public string AlteredText;
         public enum Intent {
-            Greeting, 
-            Help, 
             Cancel, 
-            Restart, 
+            Confirm, 
             Escalate, 
-            Next, 
-            Previous, 
-            Goodbye, 
+            FinishTask, 
+            GoBack, 
+            Help, 
             Logout, 
-            ReadMore,
-            None
+            None, 
+            ReadAloud, 
+            Reject, 
+            Repeat, 
+            SelectAny, 
+            SelectItem, 
+            SelectNone, 
+            ShowNext, 
+            ShowPrevious, 
+            StartOver, 
+            Stop
         };
         public Dictionary<Intent, IntentScore> Intents;
 
         public class _Entities
         {
+            // Simple entities
+            public string[] DirectionalReference;
 
             // Built-in entities
-            public DateTimeSpec[] datetime;
             public double[] number;
+            public double[] ordinal;
 
             // Instance
             public class _Instance
             {
-                public InstanceData[] datetime;
+                public InstanceData[] DirectionalReference;
                 public InstanceData[] number;
+                public InstanceData[] ordinal;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
         }
         public virtual _Entities Entities { get; set; }
-
 
         [JsonExtensionData(ReadData = true, WriteData = true)]
         public IDictionary<string, object> Properties {get; set; }
@@ -66,7 +73,7 @@ namespace Luis
         public virtual (Intent intent, double score) TopIntent()
         {
             Intent maxIntent = Intent.None;
-            var max = CommonUtil.ScoreThreshold;
+            var max = 0.0;
             foreach (var entry in Intents)
             {
                 if (entry.Value.Score > max)

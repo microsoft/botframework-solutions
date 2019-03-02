@@ -9,9 +9,9 @@ namespace EmailSkillTest.Flow.Utterances
     {
         public GeneralTestUtterances()
         {
-            this.Add(NextPage, CreateIntent(Intent.Next));
-            this.Add(PreviousPage, CreateIntent(Intent.Previous));
-            this.Add(ReadMore, CreateIntent(Intent.ReadMore));
+            this.Add(NextPage, CreateIntent(Intent.ShowNext));
+            this.Add(PreviousPage, CreateIntent(Intent.ShowPrevious));
+            this.Add(ReadMore, CreateIntent(Intent.ShowNext));
             this.Add(Yes, CreateIntent(Intent.None));
             this.Add(No, CreateIntent(Intent.None));
             this.Add(Cancel, CreateIntent(Intent.Cancel));
