@@ -1175,6 +1175,8 @@ $ToTime:simple
 
 > # PREBUILT Entity definitions
 
+$PREBUILT:datetime
+
 $PREBUILT:number
 
 $PREBUILT:ordinal

@@ -5,12 +5,12 @@
 
 $basePath = Join-Path $PSScriptRoot ".." "LocaleConfigurations"
 $botFiles = get-childitem $basePath -recurse | where {$_.extension -eq ".bot"} 
-$localeArr = $locales.split(',')[0].split(" ")
+$localeArr = $locales.split(',')
 
 Write-Host $localeArr
 
 if ($PSBoundParameters.ContainsKey('serviceIds')) {
-	$serviceIdArr = $serviceIds.split(',')[0].split(" ")
+	$serviceIdArr = $serviceIds.split(',')
 }
 else {
 	$serviceIdArr = @()
@@ -31,13 +31,15 @@ function UpdateLUIS ($botFilePath, $langCode, $id) {
 }
 
 function UpdateKB ($botFilePath, $langCode, $id) {
-	msbot get $id --bot $botFilePath | qnamaker replace kb --in (Join-Path $PSScriptRoot $langCode $id).qna --stdin
+	Write-Host "Updating $($langCode) knowledge base $($id)..."
+
+	msbot get $id --bot $botFilePath | qnamaker replace kb --in "$(Join-Path $PSScriptRoot $langCode $id).qna" --stdin
 	msbot get $id --bot $botFilePath | qnamaker publish kb --stdin
 }
 
 function ImportLUIS ($botFileName, $botFilePath, $langCode, $id, $sampleService) {
 	$luisService = luis import application --appName "$($botFileName)_$($id)" --authoringKey $sampleService.authoringKey --subscriptionKey $sampleService.authoringKey --region $sampleService.region --in "$(Join-Path $recipeBasePath $id).luis" --wait --msbot | ConvertFrom-Json
-	Add-Member -InputObject $luisService -MemberType NoteProperty -Name id -Value $id
+	Add-Member -InputObject $luisService -MemberType NoteProperty -Name id -Value $id -Force
 
 	$botServices = Get-Content -Raw -Path $botFilePath | ConvertFrom-Json
 	$botServices.services += $luisService
@@ -49,8 +51,9 @@ function ImportLUIS ($botFileName, $botFilePath, $langCode, $id, $sampleService)
 }
 
 function ImportKB ($botFilePath, $langCode, $id, $sampleService){
+	Write-Host "Importing $($langCode) knowledge base $($id)..."
 	$qnaService = qnamaker create kb --in "$(Join-Path $recipeBasePath $id).qna" --name $id --subscriptionKey $sampleService.subscriptionKey --msbot | ConvertFrom-Json
-	Add-Member -InputObject $qnaService -MemberType NoteProperty -Name id -Value $id
+	Add-Member -InputObject $qnaService -MemberType NoteProperty -Name id -Value $id -Force
 
 	$botServices = Get-Content -Raw -Path $botFilePath | ConvertFrom-Json
 	$botServices.services += $qnaService
@@ -90,8 +93,7 @@ foreach ($botFile in $botFiles) {
 
 				# if service exists in .bot file
 				if ($service) {
-
-					# if LUIS or dispatch call UpdateLUIS, else call UpdateQnA
+					# if LUIS or dispatch call UpdateLUIS, else call UpdateKB
 					if (($service.type -eq "luis") -or ($service.type -eq "dispatch")) {
 						UpdateLUIS $botFilePath $langCode $service.id
 
@@ -102,12 +104,16 @@ foreach ($botFile in $botFiles) {
 							luisgen "$(Join-Path $basePath .. DeploymentScripts $langCode $service.id).luis" -cs "$($recipeService.Name)LU" -o "$(Join-Path $basePath .. $recipeService.luPath .. .. .. .. Dialogs Shared Resources)"
 						}
 					}
-					elseif ($service.type -eq "faq") {
-						UpdateQnA $botFilePath $langCode $service.id
+					elseif ($service.type -eq "qna") {
+						UpdateKB $botFilePath $langCode $service.id
 					}
 				}
 				elseif ($recipeService) {
 					if ($recipeService.type -eq "luis") {
+						$sampleService = $botServices.services | where { $_.type -eq "luis" } | Select-Object -First 1
+						ImportLUIS $botFileName $botFilePath $langCode $service.id $sampleService
+					}
+					elseif ($recipeService.type -eq "dispatch") {
 						$sampleService = $botServices.services | where { $_.type -eq "luis" } | Select-Object -First 1
 						ImportLUIS $botFileName $botFilePath $langCode $service.id $sampleService
 					}
@@ -137,8 +143,8 @@ foreach ($botFile in $botFiles) {
 							luisgen "$(Join-Path $basePath .. DeploymentScripts $langCode $service.id).luis" -cs "$($recipeService.Name)LU" -o "$(Join-Path $basePath .. $recipeService.luPath .. .. .. .. Dialogs Shared Resources)"
 						}
 					}
-					elseif ($service.type -eq "faq") {
-						UpdateQnA $botFilePath $langCode $service.id
+					elseif ($service.type -eq "qna") {
+						UpdateKB $botFilePath $langCode $service.id
 					}
 				}
 				else {

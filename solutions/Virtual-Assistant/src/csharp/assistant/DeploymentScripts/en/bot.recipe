@@ -38,6 +38,12 @@
       "luPath": "CognitiveModels\\QnA\\en\\faq.lu"
     },
     {
+      "type": "qna",
+      "id": "chitchat",
+      "name": "ChitChat",
+      "luPath": "CognitiveModels\\QnA\\en\\chitchat.lu"
+    },
+    {
       "type": "dispatch",
       "id": "dispatch",
       "name": "Dispatch",

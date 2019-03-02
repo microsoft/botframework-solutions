@@ -193,7 +193,7 @@ namespace CalendarSkill.Dialogs.JoinEvent
                     return await sc.CancelAllDialogsAsync();
                 }
 
-                if (generalTopIntent == General.Intent.Next && state.SummaryEvents != null)
+                if (generalTopIntent == General.Intent.ShowNext && state.SummaryEvents != null)
                 {
                     if ((state.ShowEventIndex + 1) * state.PageSize < state.SummaryEvents.Count)
                     {
@@ -206,7 +206,7 @@ namespace CalendarSkill.Dialogs.JoinEvent
 
                     return await sc.ReplaceDialogAsync(Actions.ConnectToMeeting, sc.Options);
                 }
-                else if (generalTopIntent == General.Intent.Previous && state.SummaryEvents != null)
+                else if (generalTopIntent == General.Intent.ShowPrevious && state.SummaryEvents != null)
                 {
                     if (state.ShowEventIndex > 0)
                     {
