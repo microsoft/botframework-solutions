@@ -391,18 +391,6 @@ namespace ToDoSkill.Dialogs.Shared
                 {
                     state.TaskContentML = entities.TaskContentML[0];
                 }
-
-                if (dc.Context.Activity.Text != null)
-                {
-                    var words = dc.Context.Activity.Text.Split(' ');
-                    foreach (var word in words)
-                    {
-                        if (word.Equals("all", StringComparison.OrdinalIgnoreCase))
-                        {
-                            state.MarkOrDeleteAllTasksFlag = true;
-                        }
-                    }
-                }
             }
             catch
             {
