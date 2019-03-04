@@ -1179,6 +1179,8 @@ namespace EmailSkill.Dialogs.Shared
                         case EmailLU.Intent.CheckMessages:
                         case EmailLU.Intent.SearchMessages:
                         case EmailLU.Intent.ReadAloud:
+                        case EmailLU.Intent.ShowNext:
+                        case EmailLU.Intent.ShowPrevious:
                             {
                                 // Get email search type
                                 if (dc.Context.Activity.Text != null)
