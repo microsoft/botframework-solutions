@@ -7,6 +7,7 @@ Skills for common scenarios like productivity and navigation to be used as-is or
 
 ## Table of Contents
 - [Available Skills](#available-skills)
+- [Create a New Skill](#create-a-new-skill)
 - [Skill Invocation Flow](#skill-invocation-flow)
 - [Registration](#registration)
 - [Dispatching Skills](#dispatching-skills)
@@ -14,7 +15,7 @@ Skills for common scenarios like productivity and navigation to be used as-is or
 - [Interrupting Active Skills](#interrupting-active-skills)
 - [Generating new LUIS models](#generating-new-luis-models])
 
-# Available Skills
+## Available Skills
 
 The following Skills are available:
 - [Productivity - Calendar](./productivity-calendar.md)
@@ -23,6 +24,10 @@ The following Skills are available:
 - [Point of Interest](./pointofinterest.md)
 - [Automotive](./automotive.md)
 - [Experimental Skills](./experimental-skills.md)
+
+## Create a New Skill
+
+Use the Skill Template to [Create a New Skill](./create.md) with an out-of-the-box basic Skill and unit test project. This can be customized to your new scenario.
 
 ## Skill Invocation Flow
 

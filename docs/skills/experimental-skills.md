@@ -75,7 +75,7 @@ Once you have followed the deployment instructions above, open the provided .bot
 
 ## Adding Experimental Skills to your Virtual Assistant deployment.
 
-Follow the steps in `Deploying LUIS models and updating Dispatch` and `Update Virtual Assistant` within the [Skill Enablement documentation](./virtualassistant-skillenablement.md) to configure each of the Experimental Skills as required.
+Follow the steps in `Deploying LUIS models and updating Dispatch` and `Update Virtual Assistant` within [Create a new Skill](../skills/create.md) to configure each of the Experimental Skills as required.
 
 Instead of the generic skill configuration examples shown in the documentation steps you should use the ones below which are tailored to each of the experimental skills.
 

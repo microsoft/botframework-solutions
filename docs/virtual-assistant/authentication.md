@@ -20,4 +20,4 @@ Subsequent activations benefit from the Azure Bot Service provided cache and ena
 
 # Implementing Authentication with your Skill
 
-When developing your Skill you can use Authentication in the conventional way which will ease testing. When your ready to add Skill support for Authentication see the Authentication section of the [Creating a Skill using the Skill Template](./skillenablement.md) documentation.
+When developing your Skill you can use Authentication in the conventional way which will ease testing. When your ready to add Skill support for Authentication see the Authentication section of the [Create a new Skill](../skills/create.md) documentation.
