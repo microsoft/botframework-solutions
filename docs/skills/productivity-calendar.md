@@ -47,9 +47,6 @@ The following scenarios are currently supported by the Skill:
 - Find an Event's Duration
   - How long will the next meeting last?
   - What's the duration of my 4 PM meeting?
-- Find a Meeting Room
-  - Book a conference room
-  - Can you reserve room 258 on Thursday at 1 PM?
 - Calendar Navigation
   - *Show me the next meeting please*
   - *What was my previous appointment?*
