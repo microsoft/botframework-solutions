@@ -6,7 +6,6 @@ The most common scenarios have been implemented in this beta release, with addit
 ## Table of Contents
 - [Supported Scenarios](#supported-scenarios)
 - [Language Model](#language-model)
-- [Image Assets](#image-assets)
 - [Event Responses](#event-responses)
 - [Configuration](#configuration)
 
@@ -58,10 +57,6 @@ LUIS models for the Skill are provided in .LU file format as part of the Skill. 
 |KEYWORD| Simple entity matching point of interest keywords and categories |
 |ROUTE_TYPE| Phrase list entity mapping route descriptors to `eco`,`fastest`,`shortest`,`thrilling`|
 |number| Prebuilt entity|
-
-## Image Assets
-In order for Adaptive Cards to render images associated with the Point of Interest skill you will need to take the image assets located in the wwwroot\images folder of the PointOfInterestSkill project and place in a HTTP location (potentially your Bot deployment) and place the base URI path in the skill configuration ImageAssetLocation property. 
-If you skip this step, Adaptive Cards will not render with images correctly.
 
 ## Event Responses
 
@@ -117,6 +112,8 @@ The following Parameters are accepted by the Skill and enable additional persona
 - To ease testing scenarios you can send the following message to pass a location enabling you to test the POI skill and adjust the location
   - `/event:{ "Name": "IPA.Location", "Value": "34.05222222222222,-118.24277777777778" }`
 
+Read [Handling Events With Your Virtual Assistant](../virtual-assistant/events.md) to learn how to manage events within a Skill.
+
 ### Configuration File Information
 The following Configuration entries are required to be passed to the Skill and are provided through the Virtual Assistant appSettings.json file. These should be updated to reflect your LUIS deployment.
 
@@ -154,3 +151,7 @@ The following Configuration entries are required to be passed to the Skill and a
     }
 }
 ```
+
+### Image Assets
+In order for Adaptive Cards to render images associated with the Point of Interest skill you will need to take the image assets located in the wwwroot\images folder of the PointOfInterestSkill project and place in a HTTP location (potentially your Bot deployment) and place the base URI path in the skill configuration ImageAssetLocation property. 
+If you skip this step, Adaptive Cards will not render with images correctly.

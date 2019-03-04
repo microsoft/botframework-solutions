@@ -10,7 +10,6 @@ The most common scenarios have been implemented in this beta release, with addit
 ## Supported Scenarios
 The following scenarios are currently supported by the Skill:
 
-
 - Accept a Meeting
   - *I'll attend the meeting this afternoon*
   - *Accept the event sent by Yolanda Wong*
@@ -132,8 +131,10 @@ Your Authentication Connection and corresponding Application Registration should
 
 
 ### Skill Parameters
-The following Parameters are accepted by the Skill and enable additional personalisation of responses to a given user:
+The following parameters are accepted by the Skill and enable additional personalisation of responses to a given user:
 - `IPA.Timezone`
+
+Read [Handling Events With Your Virtual Assistant](../virtual-assistant/events.md) to learn how to manage events within a Skill.
 
 ### Configuration File Information
 The following Configuration entries are required to be passed to the Skill and are provided through the Virtual Assistant appSettings.json file.
