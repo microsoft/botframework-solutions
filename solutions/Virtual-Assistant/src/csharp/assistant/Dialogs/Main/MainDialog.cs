@@ -74,24 +74,27 @@ namespace VirtualAssistant.Dialogs.Main
 
         protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)
         {
-            // get current activity locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = _services.LocaleConfigurations[locale];
-
-            // check luis intent
-            var luisService = localeConfig.LuisServices["general"];
-            var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
-            var intent = luisResult.TopIntent().intent;
-
-            // TODO - Evolve this pattern
-            if (luisResult.TopIntent().score > 0.5)
+            if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
-                switch (intent)
+                // get current activity locale
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var localeConfig = _services.LocaleConfigurations[locale];
+
+                // check luis intent
+                var luisService = localeConfig.LuisServices["general"];
+                var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
+                var intent = luisResult.TopIntent().intent;
+
+                // TODO - Evolve this pattern
+                if (luisResult.TopIntent().score > 0.5)
                 {
-                    case General.Intent.Logout:
-                        {
-                            return await LogoutAsync(dc);
-                        }
+                    switch (intent)
+                    {
+                        case General.Intent.Logout:
+                            {
+                                return await LogoutAsync(dc);
+                            }
+                    }
                 }
             }
 
