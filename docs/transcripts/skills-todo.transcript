@@ -130,7 +130,7 @@
   },
   {
     "type": "message",
-    "text": "what are on my to do list today?",
+    "text": "what's on my to do list today?",
     "from": {
       "id": "446bb6e4-2f9a-4846-a0bc-5e36caeab154",
       "name": "User"
@@ -228,7 +228,7 @@
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
       "recognizerResult": {
-        "text": "what are on my to do list today?",
+        "text": "what's on my to do list today?",
         "alteredText": null,
         "intents": {
           "l_ToDo": {
@@ -252,7 +252,7 @@
         "TimezoneOffset": null
       },
       "luisResult": {
-        "query": "what are on my to do list today?",
+        "query": "what's on my to do list today?",
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "l_ToDo",
@@ -447,7 +447,7 @@
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
       "recognizerResult": {
-        "text": "what are on my to do list today?",
+        "text": "what's on my to do list today?",
         "alteredText": null,
         "intents": {
           "ShowToDo": {
@@ -484,7 +484,7 @@
         "TimezoneOffset": null
       },
       "luisResult": {
-        "query": "what are on my to do list today?",
+        "query": "what's on my to do list today?",
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "ShowToDo",
@@ -553,7 +553,7 @@
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
       "recognizerResult": {
-        "text": "what are on my to do list today?",
+        "text": "what's on my to do list today?",
         "alteredText": null,
         "intents": {
           "Help": {
@@ -594,7 +594,7 @@
         "TimezoneOffset": null
       },
       "luisResult": {
-        "query": "what are on my to do list today?",
+        "query": "what's on my to do list today?",
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "Help",
@@ -649,7 +649,7 @@
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
       "recognizerResult": {
-        "text": "what are on my to do list today?",
+        "text": "what's on my to do list today?",
         "alteredText": null,
         "intents": {
           "ShowToDo": {
@@ -686,7 +686,7 @@
         "TimezoneOffset": null
       },
       "luisResult": {
-        "query": "what are on my to do list today?",
+        "query": "what's on my to do list today?",
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "ShowToDo",
@@ -936,7 +936,7 @@
         "content": {
           "type": "AdaptiveCard",
           "version": "1.0",
-          "speak": "Your latest tasks are celebrate mon's birthday and pick up my son. ",
+          "speak": "Your latest tasks are celebrate mom's birthday and pick up my son. ",
           "body": [
             {
               "type": "TextBlock",
@@ -963,7 +963,7 @@
                       "items": [
                         {
                           "type": "TextBlock",
-                          "text": "celebrate mon's birthday"
+                          "text": "celebrate mom's birthday"
                         }
                       ]
                     }
@@ -1811,7 +1811,7 @@
                       "items": [
                         {
                           "type": "TextBlock",
-                          "text": "celebrate mon's birthday"
+                          "text": "celebrate mom's birthday"
                         }
                       ]
                     }
@@ -6834,7 +6834,7 @@
                       "items": [
                         {
                           "type": "TextBlock",
-                          "text": "celebrate mon's birthday"
+                          "text": "celebrate mom's birthday"
                         }
                       ]
                     }
@@ -14121,7 +14121,7 @@
         "content": {
           "type": "AdaptiveCard",
           "version": "1.0",
-          "speak": "Your latest tasks are call a taxi to seattle airport before 8am and celebrate mon's birthday. ",
+          "speak": "Your latest tasks are call a taxi to seattle airport before 8am and celebrate mom's birthday. ",
           "body": [
             {
               "type": "TextBlock",
@@ -14172,7 +14172,7 @@
                       "items": [
                         {
                           "type": "TextBlock",
-                          "text": "celebrate mon's birthday"
+                          "text": "celebrate mom's birthday"
                         }
                       ]
                     }
@@ -15208,7 +15208,7 @@
                       "items": [
                         {
                           "type": "TextBlock",
-                          "text": "celebrate mon's birthday"
+                          "text": "celebrate mom's birthday"
                         }
                       ]
                     }
@@ -15276,7 +15276,7 @@
   },
   {
     "type": "message",
-    "text": "delete the task celebrate mon's birthday",
+    "text": "delete the task celebrate mom's birthday",
     "from": {
       "id": "446bb6e4-2f9a-4846-a0bc-5e36caeab154",
       "name": "User"
@@ -15344,7 +15344,7 @@
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
       "recognizerResult": {
-        "text": "delete the task celebrate mon's birthday",
+        "text": "delete the task celebrate mom's birthday",
         "alteredText": null,
         "intents": {
           "l_ToDo": {
@@ -15368,7 +15368,7 @@
         "TimezoneOffset": null
       },
       "luisResult": {
-        "query": "delete the task celebrate mon's birthday",
+        "query": "delete the task celebrate mom's birthday",
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "l_ToDo",
@@ -15541,7 +15541,7 @@
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
       "recognizerResult": {
-        "text": "delete the task celebrate mon's birthday",
+        "text": "delete the task celebrate mom's birthday",
         "alteredText": null,
         "intents": {
           "DeleteToDo": {
@@ -15554,7 +15554,7 @@
               {
                 "startIndex": 16,
                 "endIndex": 40,
-                "text": "celebrate mon ' s birthday",
+                "text": "celebrate mom ' s birthday",
                 "type": "TaskContentML",
                 "score": 0.7526743
               }
@@ -15563,16 +15563,16 @@
               {
                 "startIndex": 16,
                 "endIndex": 40,
-                "text": "celebrate mon's birthday",
+                "text": "celebrate mom's birthday",
                 "type": "TaskContentPattern"
               }
             ]
           },
           "TaskContentML": [
-            "celebrate mon ' s birthday"
+            "celebrate mom ' s birthday"
           ],
           "TaskContentPattern": [
-            "celebrate mon's birthday"
+            "celebrate mom's birthday"
           ]
         }
       },
@@ -15589,7 +15589,7 @@
         "TimezoneOffset": null
       },
       "luisResult": {
-        "query": "delete the task celebrate mon's birthday",
+        "query": "delete the task celebrate mom's birthday",
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "DeleteToDo",
@@ -15598,14 +15598,14 @@
         "intents": null,
         "entities": [
           {
-            "entity": "celebrate mon ' s birthday",
+            "entity": "celebrate mom ' s birthday",
             "type": "TaskContentML",
             "startIndex": 16,
             "endIndex": 39,
             "score": 0.7526743
           },
           {
-            "entity": "celebrate mon's birthday",
+            "entity": "celebrate mom's birthday",
             "type": "TaskContentPattern",
             "startIndex": 16,
             "endIndex": 39,
@@ -15643,7 +15643,7 @@
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
       "recognizerResult": {
-        "text": "delete the task celebrate mon's birthday",
+        "text": "delete the task celebrate mom's birthday",
         "alteredText": null,
         "intents": {
           "Help": {
@@ -15684,7 +15684,7 @@
         "TimezoneOffset": null
       },
       "luisResult": {
-        "query": "delete the task celebrate mon's birthday",
+        "query": "delete the task celebrate mom's birthday",
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "Help",
@@ -15744,7 +15744,7 @@
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
       "recognizerResult": {
-        "text": "delete the task celebrate mon's birthday",
+        "text": "delete the task celebrate mom's birthday",
         "alteredText": null,
         "intents": {
           "DeleteToDo": {
@@ -15757,7 +15757,7 @@
               {
                 "startIndex": 16,
                 "endIndex": 40,
-                "text": "celebrate mon ' s birthday",
+                "text": "celebrate mom ' s birthday",
                 "type": "TaskContentML",
                 "score": 0.7526743
               }
@@ -15766,16 +15766,16 @@
               {
                 "startIndex": 16,
                 "endIndex": 40,
-                "text": "celebrate mon's birthday",
+                "text": "celebrate mom's birthday",
                 "type": "TaskContentPattern"
               }
             ]
           },
           "TaskContentML": [
-            "celebrate mon ' s birthday"
+            "celebrate mom ' s birthday"
           ],
           "TaskContentPattern": [
-            "celebrate mon's birthday"
+            "celebrate mom's birthday"
           ]
         }
       },
@@ -15792,7 +15792,7 @@
         "TimezoneOffset": null
       },
       "luisResult": {
-        "query": "delete the task celebrate mon's birthday",
+        "query": "delete the task celebrate mom's birthday",
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "DeleteToDo",
@@ -15801,14 +15801,14 @@
         "intents": null,
         "entities": [
           {
-            "entity": "celebrate mon ' s birthday",
+            "entity": "celebrate mom ' s birthday",
             "type": "TaskContentML",
             "startIndex": 16,
             "endIndex": 39,
             "score": 0.7526743
           },
           {
-            "entity": "celebrate mon's birthday",
+            "entity": "celebrate mom's birthday",
             "type": "TaskContentPattern",
             "startIndex": 16,
             "endIndex": 39,
@@ -15983,7 +15983,7 @@
         "content": {
           "type": "AdaptiveCard",
           "version": "1.0",
-          "speak": "I have deleted celebrate mon's birthday from your To Do list.",
+          "speak": "I have deleted celebrate mom's birthday from your To Do list.",
           "body": [
             {
               "type": "TextBlock",
@@ -19622,7 +19622,7 @@
   },
   {
     "type": "message",
-    "text": "what are on my grocery list",
+    "text": "what's on my grocery list",
     "from": {
       "id": "446bb6e4-2f9a-4846-a0bc-5e36caeab154",
       "name": "User"
@@ -19690,7 +19690,7 @@
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
       "recognizerResult": {
-        "text": "what are on my grocery list",
+        "text": "what's on my grocery list",
         "alteredText": null,
         "intents": {
           "l_ToDo": {
@@ -19714,7 +19714,7 @@
         "TimezoneOffset": null
       },
       "luisResult": {
-        "query": "what are on my grocery list",
+        "query": "what's on my grocery list",
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "l_ToDo",
@@ -19887,7 +19887,7 @@
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
       "recognizerResult": {
-        "text": "what are on my grocery list",
+        "text": "what's on my grocery list",
         "alteredText": null,
         "intents": {
           "ShowToDo": {
@@ -19924,7 +19924,7 @@
         "TimezoneOffset": null
       },
       "luisResult": {
-        "query": "what are on my grocery list",
+        "query": "what's on my grocery list",
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "ShowToDo",
@@ -19971,7 +19971,7 @@
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
       "recognizerResult": {
-        "text": "what are on my grocery list",
+        "text": "what's on my grocery list",
         "alteredText": null,
         "intents": {
           "Help": {
@@ -19995,7 +19995,7 @@
         "TimezoneOffset": null
       },
       "luisResult": {
-        "query": "what are on my grocery list",
+        "query": "what's on my grocery list",
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "Help",
@@ -20034,7 +20034,7 @@
     "valueType": "https://www.luis.ai/schemas/trace",
     "value": {
       "recognizerResult": {
-        "text": "what are on my grocery list",
+        "text": "what's on my grocery list",
         "alteredText": null,
         "intents": {
           "ShowToDo": {
@@ -20071,7 +20071,7 @@
         "TimezoneOffset": null
       },
       "luisResult": {
-        "query": "what are on my grocery list",
+        "query": "what's on my grocery list",
         "alteredQuery": null,
         "topScoringIntent": {
           "intent": "ShowToDo",
