@@ -34,7 +34,7 @@ az bot directline create -g YOUR_RESOURCE_GROUP_NAME --name YOUR_BOT_NAME
 
 ### Direct Line Sample
 
-A simple Console App is provided to demonstrate the base communication interaction required with a Virtual Assistant and highlights how a device can interact with a Virtual Assistant. The Sample enables you to conduct a conversation with a Virtual Assistant and demonstrates how responses can be processed including Adaptive Cards along with retrieving the "Speak" property which is the Speech friendly variation of the response.
+A simple Console App is provided to demonstrate the base communication interaction required with a Virtual Assistant and highlights how a device can interact with a Virtual Assistant. The Sample enables you to conduct a conversation with a Virtual Assistant and demonstrates how responses can be processed including Adaptive Cards along with retrieving the `Speak` property which is the Speech friendly variation of the response.
 
 Examples are also provided on how events can be sent (device activation for example) as well as receiving responses to perform an action locally (e.g. change the navigation system or radio station).
 
@@ -52,7 +52,7 @@ See [Authentication Configuration](./linkedaccounts.md#authentication-configurat
 Update the `AzureAd` section in `appsettings.development.config` with the above authentication information along with the Direct Line secret created previously.
 
 When opening the Assistant-WebTest project for the first time you will be assigned a unique port number for local debugging - you can check this by right clicking the Assistant-WebTest project in Visual Studio, choosing **Properties** and reviewing the App URL in the **Debug** section. 
-Ensure this is entered into the Reply URLs section of your Authentication configuration. e.g. `https://localhost:44320/signin-oidc`.
+Ensure this is entered into the Reply URLs section of your Authentication configuration (e.g. `https://localhost:44320/signin-oidc`).
 
 ### Additional Platforms
 

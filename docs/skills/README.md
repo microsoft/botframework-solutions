@@ -1,14 +1,22 @@
-# Virtual Assistant Skills Overview
+# Skills Overview
 
-## Overview
-
-A key design goal for the Virtual Assistant Skills are to develop the Skill like a standard bot while having the functionality to plug-in to a Virtual Assistant. Apart from minor differences to enable this unique invocation pattern, a Skill looks and feels like a regular bot. The same protocol is maintained between the two bots to ensure a consistent approach and provide additional deployment options in the future (e.g. “out of process” invocation). Skills for scenarios like productivity and navigation are provided to be used as-is or customized in any way a customer prefers.
-
+Skills are a type of bot that allows developers to develop them like a standard but, while having the functionality to plug in to a greater Virtual Assistant solution.
+Apart from minor difference to enable this special invocation pattern, a Skill looks and behaves like a regular bot. The same protocol is maintained between two bots to ensure a consistent approach.
+Skills for common scenarios like productivity and navigation to be used as-is or customized however a customer prefers.
 > The Skill functionality for Virtual Assistants will inform the broader Azure Bot Service skill approach moving forward.
+
+## Table of Contents
+- [Available Skills](#available-skills)
+- [Skill Invocation Flow](#skill-invocation-flow)
+- [Registration](#registration)
+- [Dispatching Skills](#dispatching-skills)
+- [Using the Skill Dialog](#using-the-skill-dialog)
+- [Interrupting Active Skills](#interrupting-active-skills)
+- [Generating new LUIS models](#generating-new-luis-models])
 
 # Available Skills
 
-The following Skills are available at this time, these represent initial priority scenarios and work is ongoing:
+The following Skills are available:
 - [Productivity - Calendar](./productivity-calendar.md)
 - [Productivity - Email](./productivity-email.md)
 - [Productivity - To Do](./productivity-todo.md)
@@ -24,7 +32,7 @@ All communication between a Virtual Assistant and a Skill is performed through a
 
 ![Skill Invocation Flow](../media/virtualassistant-SkillFlow.png)
 
-## Skill Registration
+## Registration
 
 Each Skill is registered with a Virtual Assistant through the configuration entry shown below
 
@@ -64,14 +72,36 @@ Configuration| Skills are invoked in-process to the Virtual Assistant so don't h
     },
  ```
  
-## Dispatching
+## Dispatching Skills
+When a user tries to trigger a Skill, the Virtual Assistant needs to know how to process that and correctly map to a registered Skill.
+The [Dispatch](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch?view=azure-bot-service-4.0) model identifies all registered Skill LUIS models and how it should be processed locally (through LUIS and code, QnA Maker, or by invoking a Skill with `SKillDialog`).
 
+## Using the SkillDialog
+Each Skill uses a `SkillDialog` class to manage it's invocation.
+The Virtual Assistant identifies a Skill to use and creates a new `SkillDialog` instance with configuration properties as a parameter. 
+Through reflection, the dialog instantiates the Skill and invokes the `OnTurn` handler to begin the Skill. 
+Skills require a new state container, configured in your Virtual Assistant’s configured state store, to ensure state is maintained at the highest level. 
+This dialog is active on the Virtual Assistant’s `DialogStack`, ensuring that subsequent utterances are routed to your Skill. 
+When an `EndOfConversation` event is sent from the Skill, it tears down the `SkillDialog` and returns control back to the user.
 
-The Virtual Assistant needs to know how to process a given user utterance and map to a registered Skill. The [Dispatch](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch?view=azure-bot-service-4.0) model identifies all registered Skill LUIS models and how it should be processed locally, through LUIS and code, QnA Maker, or by invoking a Skill with `SKillDialog`.
+## Interrupting Active Skills
+Skills can be interrupted through a top-level interruption (e.g. "cancel"). The user is prompted to confirm before tearing down the active Skill.
 
-## Skill Dialog
+## Generating new LUIS models
+Each Skill uses a different LUIS language model that needs to be representated in code. Currently, the language models available in the Virtual Assistant are:
 
-The Skill Dialog manages the invocation of it’s Skill. When identified by the Virtual Assistant, it creates a new `SkillDialog` instance with configuration properties as a parameter. Through reflection, the dialog instantiates the skill and invokes the `OnTurn` handler to begin the Skill. Skills require a new state container, configured in your Virtual Assistant’s configured state store, to ensure state is maintained at the highest level. This dialog is active on the Virtual Assistant’s `DialogStack`, ensuring that subsequent utterances are routed to your Skill. When an `EndOfConversation` event is sent from the Skill, it tears down the `SkillDialog` and returns control back to the user.
-## Skill Interruption
+* [`Email.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/emailskill/Dialogs/Shared/Resources/Email.cs)
+* [`Calendar.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/calendarskill/Dialogs/Shared/Resources/Calendar.cs)
+* [`PointOfInterest.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/pointofinterestskill/Dialogs/Shared/Resources/PointOfInterest.cs)
+* [`ToDo.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/todoskill/Dialogs/Shared/Resources/ToDo.cs)
+* [`Dispatch.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/assistant/Dialogs/Shared/Resources/Dispatch.cs)
+* [`General.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/microsoft.bot.solutions/Resources/General.cs)
 
-The Virtual Assistant can interrupt an active Skill through a top-level interruption (e.g. "cancel"). A prompt is triggered to the user to confirm before tearing down your Skill.
+To generate the language model class, please use [LuisGen](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/LUISGen).
+
+After generating the new  *.cs class, make the following changes:
+
+* `public _Entities Entities { get; set; }` to `public virtual _Entities Entities { get; set; }`
+* `public (Intent intent, double score) TopIntent()` to `public virtual (Intent intent, double score) TopIntent()`
+
+This change is to make sure we have the ability to override the `Entities` property and `TopIntent` function in the Mock luis models for test purposes. Example of a Mock luis model: [MockEmailIntent.cs](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/tests/emailskilltest/Flow/Fakes/MockEmailIntent.cs)
