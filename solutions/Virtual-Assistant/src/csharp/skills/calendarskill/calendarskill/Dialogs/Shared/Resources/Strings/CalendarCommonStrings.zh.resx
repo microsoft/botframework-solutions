@@ -135,7 +135,7 @@
   <data name="MonthlyToken" xml:space="preserve">
     <value>每月</value>
   </data>
-  <data name="Today" xml:space="preserve">
+  <data name="TodayLower" xml:space="preserve">
     <value>今天</value>
   </data>
   <data name="WeeklyToken" xml:space="preserve">
@@ -194,5 +194,29 @@
   </data>
   <data name="OrdinalSuffixTh" xml:space="preserve">
     <value>{0}号</value>
+  </data>
+  <data name="Ago" xml:space="preserve">
+    <value>之前</value>
+  </data>
+  <data name="Before" xml:space="preserve">
+    <value>前</value>
+  </data>
+  <data name="HalfAnHour" xml:space="preserve">
+    <value>半小时</value>
+  </data>
+  <data name="Later" xml:space="preserve">
+    <value>后</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>下一个</value>
+  </data>
+  <data name="Now" xml:space="preserve">
+    <value>现在</value>
+  </data>
+  <data name="TomorrowLower" xml:space="preserve">
+    <value>明天</value>
+  </data>
+  <data name="YesterdayLower" xml:space="preserve">
+    <value>昨天</value>
   </data>
 </root>
