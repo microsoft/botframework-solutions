@@ -183,4 +183,16 @@
   <data name="SkipPhrases" xml:space="preserve">
     <value>^(skip|no)</value>
   </data>
+  <data name="OrdinalSuffixNd" xml:space="preserve">
+    <value>{0}nd</value>
+  </data>
+  <data name="OrdinalSuffixRd" xml:space="preserve">
+    <value>{0}rd</value>
+  </data>
+  <data name="OrdinalSuffixSt" xml:space="preserve">
+    <value>{0}st</value>
+  </data>
+  <data name="OrdinalSuffixTh" xml:space="preserve">
+    <value>{0}th</value>
+  </data>
 </root>

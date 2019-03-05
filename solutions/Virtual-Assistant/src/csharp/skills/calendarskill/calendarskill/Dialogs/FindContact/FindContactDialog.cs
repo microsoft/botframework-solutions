@@ -181,18 +181,17 @@ namespace CalendarSkill.Dialogs.FindContact
 
                 var unionList = new List<CustomizedPerson>();
                 var emailList = new List<string>();
+                foreach (var name in state.AttendeesNameList)
+                {
+                    if (IsEmail(name))
+                    {
+                        emailList.Add(name);
+                    }
+                }
 
                 if (state.FirstEnterFindContact)
                 {
                     state.FirstEnterFindContact = false;
-                    foreach (var name in state.AttendeesNameList)
-                    {
-                        if (IsEmail(name))
-                        {
-                            emailList.Add(name);
-                        }
-                    }
-
                     if (state.AttendeesNameList.Count > 1)
                     {
                         var nameString = await GetReadyToSendNameListStringAsync(sc);
@@ -356,11 +355,11 @@ namespace CalendarSkill.Dialogs.FindContact
                 {
                     if (sc.Result == null)
                     {
-                        if (generalTopIntent == General.Intent.Next)
+                        if (generalTopIntent == General.Intent.ShowNext)
                         {
                             state.ShowAttendeesIndex++;
                         }
-                        else if (generalTopIntent == General.Intent.Previous)
+                        else if (generalTopIntent == General.Intent.ShowPrevious)
                         {
                             if (state.ShowAttendeesIndex > 0)
                             {
@@ -476,11 +475,11 @@ namespace CalendarSkill.Dialogs.FindContact
                 {
                     if (sc.Result == null)
                     {
-                        if (generalTopIntent == General.Intent.Next)
+                        if (generalTopIntent == General.Intent.ShowNext)
                         {
                             state.ShowAttendeesIndex++;
                         }
-                        else if (generalTopIntent == General.Intent.Previous)
+                        else if (generalTopIntent == General.Intent.ShowPrevious)
                         {
                             if (state.ShowAttendeesIndex > 0)
                             {

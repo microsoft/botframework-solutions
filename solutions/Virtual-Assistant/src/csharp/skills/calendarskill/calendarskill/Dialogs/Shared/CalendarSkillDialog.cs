@@ -11,6 +11,7 @@ using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
+using CalendarSkill.Util;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
@@ -237,7 +238,7 @@ namespace CalendarSkill.Dialogs.Shared
 
             // TODO: The signature for validators has changed to return bool -- Need new way to handle this logic
             // If user want to show more recipient end current choice dialog and return the intent to next step.
-            if (generalTopIntent == Luis.General.Intent.Next || generalTopIntent == Luis.General.Intent.Previous || calendarTopIntent == CalendarLU.Intent.ShowNextCalendar || calendarTopIntent == CalendarLU.Intent.ShowNextCalendar)
+            if (generalTopIntent == Luis.General.Intent.ShowNext || generalTopIntent == Luis.General.Intent.ShowPrevious || calendarTopIntent == CalendarLU.Intent.ShowNextCalendar || calendarTopIntent == CalendarLU.Intent.ShowPreviousCalendar)
             {
                 // pc.End(topIntent);
                 return true;
@@ -260,19 +261,19 @@ namespace CalendarSkill.Dialogs.Shared
 
         protected General.Intent? MergeShowIntent(General.Intent? generalIntent, CalendarLU.Intent? calendarIntent, CalendarLU calendarLuisResult)
         {
-            if (generalIntent == General.Intent.Next || generalIntent == General.Intent.Previous)
+            if (generalIntent == General.Intent.ShowNext || generalIntent == General.Intent.ShowPrevious)
             {
                 return generalIntent;
             }
 
             if (calendarIntent == CalendarLU.Intent.ShowNextCalendar)
             {
-                return General.Intent.Next;
+                return General.Intent.ShowNext;
             }
 
             if (calendarIntent == CalendarLU.Intent.ShowPreviousCalendar)
             {
-                return General.Intent.Previous;
+                return General.Intent.ShowPrevious;
             }
 
             if (calendarIntent == CalendarLU.Intent.FindCalendarEntry)
@@ -282,7 +283,7 @@ namespace CalendarSkill.Dialogs.Shared
                     var orderReference = GetOrderReferenceFromEntity(calendarLuisResult.Entities);
                     if (orderReference == "next")
                     {
-                        return General.Intent.Next;
+                        return General.Intent.ShowNext;
                     }
                 }
             }
@@ -477,14 +478,14 @@ namespace CalendarSkill.Dialogs.Shared
                             if (entity.FromDate != null)
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (date != null)
                                 {
                                     state.CreateHasDetail = true;
                                     state.StartDate = date;
                                 }
 
-                                date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
+                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (date != null)
                                 {
                                     state.CreateHasDetail = true;
@@ -567,13 +568,13 @@ namespace CalendarSkill.Dialogs.Shared
                             if (entity.FromDate != null)
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (date != null)
                                 {
                                     state.StartDate = date;
                                 }
 
-                                date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
+                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (date != null)
                                 {
                                     state.EndDate = date;
@@ -609,13 +610,13 @@ namespace CalendarSkill.Dialogs.Shared
                             if (entity.FromDate != null)
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (date != null)
                                 {
                                     state.OriginalStartDate = date;
                                 }
 
-                                date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
+                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (date != null)
                                 {
                                     state.OriginalEndDate = date;
@@ -654,7 +655,7 @@ namespace CalendarSkill.Dialogs.Shared
                                 var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (time != null)
                                 {
-                                    state.NewEndTime = time;
+                                    state.NewStartTime = time;
                                 }
 
                                 time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
@@ -703,14 +704,14 @@ namespace CalendarSkill.Dialogs.Shared
                             if (entity.FromDate != null)
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (date != null)
                                 {
                                     state.StartDate = date;
                                     state.StartDateString = dateString;
                                 }
 
-                                date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
+                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (date != null)
                                 {
                                     state.EndDate = date;
@@ -840,9 +841,10 @@ namespace CalendarSkill.Dialogs.Shared
             }
         }
 
-        protected List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture)
+        protected List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture, bool convertToDate = true)
         {
-            var results = DateTimeRecognizer.RecognizeDateTime(dateTimeString, culture);
+            var results = DateTimeRecognizer.RecognizeDateTime(DateTimeHelper.ConvertNumberToDateTimeString(dateTimeString, convertToDate), culture, options: DateTimeOptions.CalendarMode);
+
             if (results.Count > 0)
             {
                 // Return list of resolutions from first match
@@ -1274,22 +1276,43 @@ namespace CalendarSkill.Dialogs.Shared
             return inputString.Substring(data.StartIndex, data.EndIndex - data.StartIndex);
         }
 
-        private List<DateTime> GetDateFromDateTimeString(string date, string local, TimeZoneInfo userTimeZone)
+        private List<DateTime> GetDateFromDateTimeString(string date, string local, TimeZoneInfo userTimeZone, bool isStart = true)
         {
             var culture = local ?? English;
-            var results = RecognizeDateTime(date, culture);
+            var results = RecognizeDateTime(date, culture, true);
             var dateTimeResults = new List<DateTime>();
             if (results != null)
             {
                 foreach (var result in results)
                 {
-                    var dateTime = DateTime.Parse(result.Value);
-                    var dateTimeConvertType = result.Timex;
-
-                    if (dateTime != null)
+                    if (result.Value != null)
                     {
-                        var isRelativeTime = IsRelativeTime(date, result.Value, result.Timex);
-                        dateTimeResults.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, userTimeZone) : dateTime);
+                        if (!isStart)
+                        {
+                            break;
+                        }
+
+                        var dateTime = DateTime.Parse(result.Value);
+                        var dateTimeConvertType = result.Timex;
+
+                        if (dateTime != null)
+                        {
+                            var isRelativeTime = IsRelativeTime(date, result.Value, result.Timex);
+                            dateTimeResults.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, userTimeZone) : dateTime);
+                        }
+                    }
+                    else
+                    {
+                        var startDate = DateTime.Parse(result.Start);
+                        var endDate = DateTime.Parse(result.End);
+                        if (isStart)
+                        {
+                            dateTimeResults.Add(startDate);
+                        }
+                        else
+                        {
+                            dateTimeResults.Add(endDate);
+                        }
                     }
                 }
             }
@@ -1300,7 +1323,7 @@ namespace CalendarSkill.Dialogs.Shared
         private List<DateTime> GetTimeFromDateTimeString(string time, string local, TimeZoneInfo userTimeZone, bool isStart = true)
         {
             var culture = local ?? English;
-            var results = RecognizeDateTime(time, culture);
+            var results = RecognizeDateTime(time, culture, false);
             var dateTimeResults = new List<DateTime>();
             if (results != null)
             {

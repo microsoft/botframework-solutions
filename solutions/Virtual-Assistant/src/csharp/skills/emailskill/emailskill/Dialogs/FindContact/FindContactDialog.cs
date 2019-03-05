@@ -343,12 +343,12 @@ namespace EmailSkill.Dialogs.FindContact
                 {
                     if (sc.Result == null)
                     {
-                        if (generalTopIntent == General.Intent.Next)
+                        if (generalTopIntent == General.Intent.ShowNext)
                         {
                             state.ShowRecipientIndex++;
                             state.ReadRecipientIndex = 0;
                         }
-                        else if (generalTopIntent == General.Intent.Previous)
+                        else if (generalTopIntent == General.Intent.ShowPrevious)
                         {
                             if (state.ShowRecipientIndex > 0)
                             {
@@ -482,12 +482,12 @@ namespace EmailSkill.Dialogs.FindContact
                 {
                     if (sc.Result == null)
                     {
-                        if (generalTopIntent == General.Intent.Next)
+                        if (generalTopIntent == General.Intent.ShowNext)
                         {
                             state.ShowRecipientIndex++;
                             state.ReadRecipientIndex = 0;
                         }
-                        else if (generalTopIntent == General.Intent.Previous)
+                        else if (generalTopIntent == General.Intent.ShowPrevious)
                         {
                             if (state.ShowRecipientIndex > 0)
                             {
@@ -573,8 +573,8 @@ namespace EmailSkill.Dialogs.FindContact
             var generlLuisResult = state.GeneralLuisResult;
             var generalTopIntent = generlLuisResult?.TopIntent().intent;
 
-            if ((generalTopIntent == General.Intent.Next)
-                || (generalTopIntent == General.Intent.Previous)
+            if ((generalTopIntent == General.Intent.ShowNext)
+                || (generalTopIntent == General.Intent.ShowPrevious)
                 || IsReadMoreIntent(generalTopIntent, pc.Context.Activity.Text))
             {
                 return true;

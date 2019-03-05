@@ -333,12 +333,12 @@ namespace EmailSkill.ServiceClients.GoogleAPI
 
                 if (fromTime != null)
                 {
-                    searchOperation = this.AppendFilterString(searchOperation, $"after:{fromTime.Year}/{fromTime.Month}/{fromTime.Day}");
+                    searchOperation = this.AppendFilterString(searchOperation, $"after:{GetUnixTime(fromTime)}");
                 }
 
                 if (toTime != null)
                 {
-                    searchOperation = this.AppendFilterString(searchOperation, $"before:{toTime.Year}/{toTime.Month}/{toTime.Day}");
+                    searchOperation = this.AppendFilterString(searchOperation, $"before:{GetUnixTime(toTime)}");
                 }
 
                 var request = service.Users.Messages.List("me");
@@ -433,6 +433,12 @@ namespace EmailSkill.ServiceClients.GoogleAPI
             }
 
             return result;
+        }
+
+        private int GetUnixTime(DateTime time)
+        {
+            var timeResult = (int)time.Subtract(DateTime.Parse("1970-1-1")).TotalSeconds;
+            return timeResult;
         }
 
         private async Task<(MimeMessage, string)> GetMessageById(string id)

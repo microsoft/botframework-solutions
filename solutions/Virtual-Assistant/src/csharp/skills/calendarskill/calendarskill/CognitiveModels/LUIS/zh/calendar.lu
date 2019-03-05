@@ -1031,14 +1031,13 @@ $ToTime:simple
 
 > # PREBUILT Entity definitions
 
-$PREBUILT:datetimeV2
+$PREBUILT:datetime
 
 $PREBUILT:number
 
 $PREBUILT:ordinal
 
 $PREBUILT:personName
-
 
 > # Phrase list definitions
 

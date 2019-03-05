@@ -10,15 +10,15 @@ namespace ToDoSkillTest.Flow.Utterances
         {
             this.Add(ShowNext, GetGeneralIntent(
                 ShowNext,
-                General.Intent.Next));
+                General.Intent.ShowNext));
 
             this.Add(ShowPrevious, GetGeneralIntent(
                 ShowPrevious,
-                General.Intent.Previous));
+                General.Intent.ShowPrevious));
 
             this.Add(ReadMore, GetGeneralIntent(
                 ReadMore,
-                General.Intent.ReadMore));
+                General.Intent.ShowNext));
         }
 
         public static double TopIntentScore { get; } = 0.9;

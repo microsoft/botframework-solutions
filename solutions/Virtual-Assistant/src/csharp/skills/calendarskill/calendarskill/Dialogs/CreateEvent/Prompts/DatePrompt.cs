@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
+using CalendarSkill.Util;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -86,7 +87,7 @@ namespace CalendarSkill.Dialogs.CreateEvent.Prompts
 
         private List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture)
         {
-            var results = DateTimeRecognizer.RecognizeDateTime(dateTimeString, culture, options: DateTimeOptions.CalendarMode);
+            var results = DateTimeRecognizer.RecognizeDateTime(DateTimeHelper.ConvertNumberToDateTimeString(dateTimeString, true), culture, options: DateTimeOptions.CalendarMode);
             if (results.Count > 0)
             {
                 // Return list of resolutions from first match

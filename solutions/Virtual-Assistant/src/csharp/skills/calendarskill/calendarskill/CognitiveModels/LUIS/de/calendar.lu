@@ -1130,7 +1130,7 @@ $ToTime:simple
 
 > # PREBUILT Entity definitions
 
-$PREBUILT:datetimeV2
+$PREBUILT:datetime
 
 $PREBUILT:number
 
