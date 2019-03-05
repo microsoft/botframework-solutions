@@ -27,7 +27,8 @@ The following Skills are available:
 
 ## Create a New Skill
 
-Use the Skill Template to [Create a New Skill](./create.md) with an out-of-the-box basic Skill and unit test project. This can be customized to your new scenario.
+Use the Skill Template to [Create a New Skill](./create.md) with an out-of-the-box basic Skill and unit test project.
+[Developing a new Skill](./developing-a-new-skill.md) with the best practices is key to it's success.
 
 ## Skill Invocation Flow
 
