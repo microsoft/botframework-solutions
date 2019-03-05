@@ -1,7 +1,7 @@
 # Handling Events With Your Virtual Assistant
 
-When a user communicates with their Virtual Assistant, they typically send [Message activities](https://github.com/Microsoft/botframework-obi/blob/master/protocols/botframework-activity/botframework-activity.md#Message-activity).
-In more advanced scenarios, messaging clients may need to send [Event activities](https://github.com/Microsoft/botframework-obi/blob/master/protocols/botframework-activity/botframework-activity.md#Event-activity) Activities to provide additional metadata about the user (location, timezone, etc.).
+When a user communicates with their Virtual Assistant, they typically send message Activities.
+In more advanced scenarios, messaging clients may need to send event Activities to provide additional metadata about the user (location, timezone, etc.).
 
 ## Table of Contents
 - [Inbound Events](#inbound-events)
@@ -26,7 +26,7 @@ In addition to these, a `ResetUser` event is available which provides a way to r
 
 ## Outbound Events
 In order to interact with a messaging client, your Virtual Assistant and Skills need to send events back to the client application.
-For example, the Virtual Assistant could send an event to a vehicle to set a new destination on the navigation system, adjust the temperature, queue up new music, etc.car, etc. The client application receives the event through the same [Activity](https://github.com/Microsoft/botframework-obi/blob/master/protocols/botframework-activity/botframework-activity.md) mechanism used for messages and is extensibile for additional metadata to be attached.
+For example, the Virtual Assistant could send an event to a vehicle to set a new destination on the navigation system, adjust the temperature, queue up new music, etc.car, etc. The client application receives the event through the same Activity.
 
 ## Event Debug Middleware
 

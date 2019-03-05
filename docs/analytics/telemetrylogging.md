@@ -103,11 +103,11 @@ The Bot Framework SDK provides an Application Inisghts Telemetry Initializer to 
 
 Property |Value 
 --- | --- 
- `user_id` |  [ChannelId](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#channel-id) + [From.Id](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#from)
-`session_id` |  [ConversationId](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#conversation)
-`customDimensions.activityId` | [The bot activity Id](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#id)
-`customDimensions.activityType` | [The bot activity type ](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#channel-id)
-`customDimensions.channelId` | [The bot activity channel Id ](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#channel-id)
+ `user_id` |  [ChannelId](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.channelid?view=botbuilder-dotnet-3.0) + [From.Id](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.from?view=botbuilder-dotnet-3.0)
+`session_id` |  [ConversationId](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.conversation?view=botbuilder-dotnet-3.0)
+`customDimensions.activityId` | [The bot activity Id](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity?view=botbuilder-dotnet-3.0)
+`customDimensions.activityType` | [The bot activity type ](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.type?view=botbuilder-dotnet-3.0)
+`customDimensions.channelId` | [The bot activity channel Id ](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.channelid?view=botbuilder-dotnet-3.0)
 
 ### Custom Events
 
@@ -123,13 +123,13 @@ Property |Value
 `customDimensions.activityId` | [From Telemetry Initializer](#initializer)
 `customDimensions.activityType` | [From Telemetry Initializer](#initializer)
 `customDimensions.channelId` | [From Telemetry Initializer](#initializer)
-`customDimensions.conversationName` |[Text](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#locale)
-`customDimensions.locale` |[Locale](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#conversation)
-`customDimensions.recipientId` |[Recipient.Id](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#recipient)
-`customDimensions.recipientName` | [Recipient.Name](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#recipient)
-`customDimensions.fromId` |[From.Id](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#from)
-`customDimensions.replyActivityId` | [Reply to ID](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#reply-to-id)
-`customDimensions.text` |  [Text](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#text)
+`customDimensions.conversationName` |[Conversation.Name](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.conversation?view=botbuilder-dotnet-3.0)
+`customDimensions.locale` |[Locale](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.locale?view=botbuilder-dotnet-3.0)
+`customDimensions.recipientId` |[Recipient.Id](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.recipient?view=botbuilder-dotnet-3.0)
+`customDimensions.recipientName` | [Recipient.Name](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.recipient?view=botbuilder-dotnet-3.0)
+`customDimensions.fromId` |[From.Id](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.from?view=botbuilder-dotnet-3.0)
+`customDimensions.replyActivityId` | [Reply to ID](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.replytoid?view=botbuilder-dotnet-3.0)
+`customDimensions.text` |  [Text](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.text?view=botbuilder-dotnet-3.0)
 
 #### BotMessageSend
 *Logs activites sent from the bot to their users*
@@ -143,14 +143,13 @@ Property |Value
 `customDimensions.activityId` | [From Telemetry Initializer](#initializer)
 `customDimensions.activityType` | [From Telemetry Initializer](#initializer)
 `customDimensions.channelId` | [From Telemetry Initializer](#initializer)
-`customDimensions.conversationName` |[Text](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#locale)
-`customDimensions.locale` |[Locale](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#conversation)
-`customDimensions.recipientId` |[Recipient.Id](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#recipient)
-`customDimensions.recipientName` | [Recipient.Name](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#recipient)
-`customDimensions.fromId` |[From.Id](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#from)
-`customDimensions.fromName` | [From.Name](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#from)
-`customDimensions.text` |  [Text](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#text)
-
+`customDimensions.conversationName` |[Conversation.Name](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.conversation?view=botbuilder-dotnet-3.0)
+`customDimensions.locale` |[Locale](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.locale?view=botbuilder-dotnet-3.0)
+`customDimensions.recipientId` |[Recipient.Id](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.recipient?view=botbuilder-dotnet-3.0)
+`customDimensions.recipientName` | [Recipient.Name](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.recipient?view=botbuilder-dotnet-3.0)
+`customDimensions.fromId` |[From.Id](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.from?view=botbuilder-dotnet-3.0)
+`customDimensions.fromName` | [From.Name](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.from?view=botbuilder-dotnet-3.0)
+`customDimensions.text` |  [Text](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.text?view=botbuilder-dotnet-3.0)
 #### LuisResult
 *Logs Language Understanding Service results*
 
@@ -164,8 +163,8 @@ Property |Value
 `customDimensions.activityType` | [From Telemetry Initializer](#initializer)
 `customDimensions.channelId` | [From Telemetry Initializer](#initializer)
 `customDimensions.DialogId` | ActiveDialog.Id
-`customDimensions.fromId` | [From.Id](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#from)
-`customDimensions.question` | [Text](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#text)
+`customDimensions.fromId` | [From.Id](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.from?view=botbuilder-dotnet-3.0)
+`customDimensions.question` | [Text](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.text?view=botbuilder-dotnet-3.0)
 `customDimensions.applicationId` | LUIS application Id
 `customDimensions.intent` | The top intent
 `customDimensions.intentScore` | The top intent's score
@@ -186,7 +185,7 @@ Property |Value
 `customDimensions.activityType` | [From Telemetry Initializer](#initializer)
 `customDimensions.channelId` | [From Telemetry Initializer](#initializer)
 `customDimensions.knowledgeBaseId` | QnA Knowledge Base Id
-`customDimensions.originalQuestion` | [Text](https://github.com/Microsoft/botframework-obi/blob/master/botframework-activity/botframework-activity.md#text)
+`customDimensions.originalQuestion` | [Text](https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.connector.activity.text?view=botbuilder-dotnet-3.0)
 `customDimensions.question` |  Serialized JSON of matched QnA questions
 `customDimensions.questionId` | QnA question Id
 `customDimensions.score` | QnA score
