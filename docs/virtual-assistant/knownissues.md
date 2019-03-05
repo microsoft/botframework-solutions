@@ -101,8 +101,9 @@ When you're testing in an environment you don't own the code for, chances are yo
 
 ### Error resolving type specified in JSON 'Microsoft.Bot.Solutions.Models.Proactive.ProactiveModel, Microsoft.Bot.Solutions' ...
 
-If you ever see this error, it's because there's a mismatch between previously saved proactive state objects and the current type definition in the running code. This is due to a schema change (mainly a move of the class which resulted in type full name change) on the ProactiveModel class.
+If you ever see this error, it's because there's a mismatch between previously saved proactive state objects and the current type definition in the running code. 
+This is due to a schema change (mainly a move of the class which resulted in type full name change) on the `ProactiveModel` class.
 
-To fix this issue, simply locate your cosmosdb azure resource for your bot (within the same resource group), find the collection called 'botstate-collection'. In the document list, find the one with id 'ProactiveState' and delete it. If the bot has been running for a long time and you find it hard to find the ProactiveState document, you can also delete the entire collection if all other conversations can be deleted. After the deletion, restart the app service that hosts your bot (typically with the name like 'your bot name'+some random letters). Then the bot will recreate the state documents when it starts if it doesn't exist, and the following operations will all be following the new schema to serialize and deserialize so everything will run smoothly.
-
-Our backlog is fully accessible within the [GitHub repo](https://github.com/Microsoft/AI/)
+To fix this issue, simply locate your cosmosdb azure resource for your bot (within the same resource group), find the collection called `botstate-collection`.
+In the document list, find the one with id `ProactiveState` and delete it. 
+If the bot has been running for a long time and you find it hard to find the ProactiveState document, you can also delete the entire collection if all other conversations can be deleted. After the deletion, restart the app service that hosts your bot (typically with the name like 'your bot name'+some random letters). Then the bot will recreate the state documents when it starts if it doesn't exist, and the following operations will all be following the new schema to serialize and deserialize so everything will run smoothly.
