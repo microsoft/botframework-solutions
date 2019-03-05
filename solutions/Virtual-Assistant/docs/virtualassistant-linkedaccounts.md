@@ -34,7 +34,7 @@ The ``appsettings.json`` file in the LinkedAccounts sample project has the follo
 3. From the sidedbar within, select **App Registrations (Preview)**.
 4. Select **New registration**
    *  **Name**: *Provide a friendly name*
-   *  **Redirect URI**: `https://localhost:XXXX/signin-oidc` *(update with the local port of your project or replace with the address of your deployed website*
+   *  **Redirect URI**: `http://localhost:XXXX/signin-oidc` *(update with the local port of your project or replace with the address of your deployed website*
    *  Click Register
 5. Select the Authentication section of your newly created application
    *  Select `ID tokens` under the Implicit grant section
@@ -76,8 +76,7 @@ Exchanging a Direct Line secret for a Token and providing a Trusted Origin enabl
 If you run the project within Visual Studio you will be navigated to the Linked Accounts web app. 
 You'll be prompted to login, use the same credentials that your Virtual Assistant will be using when performing operations on your behalf thus ensuring the underlying unique identifier matches.
 
-> If different accounts are used then your assistant Bot will not have access to your linked tokens and may prompt for authentication. Also ensure that you use HTTPS when testing linked accounts.
-
+> If different accounts are used then your assistant Bot will not have access to your linked tokens and may prompt for authentication.
 Once logged in you, click Linked Accounts in the top navigation page and you should see a list of the Authentication connections configured for the Bot 
 (whose MicrosoftAppId you specified in the earlier configuration step).
 
