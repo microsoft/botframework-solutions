@@ -9,6 +9,7 @@ assignees: ''
 
 🚨 The issue tracker is not for questions 🚨
 
-If you have a question, please ask it on [Stack Overflow](https://stackoverflow.com/questions/tagged/botframework)
+If you have a question, please ask it on Stack Overflow
+https://stackoverflow.com/questions/tagged/botframework
 
 [question]
