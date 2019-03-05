@@ -54,16 +54,15 @@ The ``appsettings.json`` file in the LinkedAccounts sample project has the follo
 
 > **Note** This should enable MSA accounts to be linked as well, but your provider may prevent that as a default. You can go to **Users** > **New guest user** to add additional accounts.
 
-This sample uses the AD Object Identifier claim (``AadObjectidentifierClaim``) as the unique user identifier when performing token operations. This needs to be the same claim used by the Virtual Assistant when requesting tokens. 
+This sample uses the AD Object Identifier claim (``AadObjectidentifierClaim``) as the unique user identifier when performing token operations. This needs to be the same user identifier used by the Virtual Assistant when requesting tokens. 
 
-In order to manage account linking and securely store authentication tokens, the web app requires access to your bot's ApplicationId and Secret.
+In order to manage account linking and securely store authentication tokens, the web app requires access to your bot's ApplicationId and Secret which you provide through the following configuration settings.
 ```
 "MicrosoftAppId": "YOUR_BOT_APPLICATIONID",
 "MicrosoftAppPassword": "YOUR_BOT_APPLICATION_SECRET" 
 ```
   
-The final configuration is the Direct Line secret for your Virtual Assistant bot.
-This is required to avoid prompts for magic codes, otherwise required to protect against man-in-the-middle attacks. 
+The final configuration is the Direct Line secret for your Virtual Assistant bot. This is required to avoid prompts for magic codes, otherwise required to protect against man-in-the-middle attacks. 
 Exchanging a Direct Line secret for a Token and providing a Trusted Origin enables removal of the magic code step.
 
 > Your VA Bot will need to be deployed and have a Direct Line channel configured within the Azure portal
@@ -91,3 +90,11 @@ Now that you've linked your account and stored tokens you can move back to your 
 > Equally, the principal name (upn) could be used if preferred.
 
 Asking a question that triggers a user flow which requires the specified token should now not prompt for authentication.
+
+The Bot Framework Emulator currently generates a unique UserId which can be changed to a new unique ID by clicking the down arrow next to the Restart Conversation button and choosing 'Restart with new UserId'. Unfortunately there is no current way to specify a UserId and therefore match the `AadObjectidentifierClaim` associated with your user account for use which blocks Emulator testing. At this time we have provided the ability in Linked Accounts to override the UserId enabling you to pass in the UserId currently in use by the Emulator. You can view the User identified being used by the emulator by sending a message and clicking on the entry in the log window and retrieving the from.id value.
+```
+  "from": {
+    "id": "USERID_IN_USE_HERE",
+    "role": "user"
+  },
+```
