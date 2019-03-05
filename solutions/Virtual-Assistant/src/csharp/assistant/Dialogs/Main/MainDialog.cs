@@ -72,6 +72,35 @@ namespace VirtualAssistant.Dialogs.Main
             }
         }
 
+        protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)
+        {
+            if (dc.Context.Activity.Type == ActivityTypes.Message)
+            {
+                // get current activity locale
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var localeConfig = _services.LocaleConfigurations[locale];
+
+                // check luis intent
+                var luisService = localeConfig.LuisServices["general"];
+                var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
+                var intent = luisResult.TopIntent().intent;
+
+                // TODO - Evolve this pattern
+                if (luisResult.TopIntent().score > 0.5)
+                {
+                    switch (intent)
+                    {
+                        case General.Intent.Logout:
+                            {
+                                return await LogoutAsync(dc);
+                            }
+                    }
+                }
+            }
+
+            return InterruptionAction.NoAction;
+        }
+
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = await _parametersAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>());
@@ -100,13 +129,6 @@ namespace VirtualAssistant.Dialogs.Main
                         {
                             switch (luisIntent)
                             {
-                                case General.Intent.Greeting:
-                                    {
-                                        // send greeting response
-                                        await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Greeting);
-                                        break;
-                                    }
-
                                 case General.Intent.Help:
                                     {
                                         // send help response
@@ -134,9 +156,8 @@ namespace VirtualAssistant.Dialogs.Main
                                         break;
                                     }
 
-                                case General.Intent.Next:
-                                case General.Intent.Previous:
-                                case General.Intent.ReadMore:
+                                case General.Intent.ShowNext:
+                                case General.Intent.ShowPrevious:
                                     {
                                         var lastExecutedIntent = virtualAssistantState.LastIntent;
                                         if (lastExecutedIntent != null)
@@ -185,6 +206,18 @@ namespace VirtualAssistant.Dialogs.Main
                 case Dispatch.Intent.q_FAQ:
                     {
                         var qnaService = localeConfig.QnAServices["faq"];
+                        var answers = await qnaService.GetAnswersAsync(dc.Context);
+                        if (answers != null && answers.Count() > 0)
+                        {
+                            await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Qna, answers[0].Answer);
+                        }
+
+                        break;
+                    }
+
+                case Dispatch.Intent.q_Chitchat:
+                    {
+                        var qnaService = localeConfig.QnAServices["chitchat"];
                         var answers = await qnaService.GetAnswersAsync(dc.Context);
                         if (answers != null && answers.Count() > 0)
                         {

@@ -361,7 +361,7 @@ namespace EmailSkill.Dialogs.ShowEmail
                     return await sc.BeginDialogAsync(Actions.Reply, skillOptions);
                 }
                 else if (IsReadMoreIntent(topGeneralIntent, userInput)
-                    || (topIntent == EmailLU.Intent.ShowNext || topIntent == EmailLU.Intent.ShowPrevious || topGeneralIntent == General.Intent.Previous || topGeneralIntent == General.Intent.Next))
+                    || (topIntent == EmailLU.Intent.ShowNext || topIntent == EmailLU.Intent.ShowPrevious || topGeneralIntent == General.Intent.ShowPrevious || topGeneralIntent == General.Intent.ShowNext))
                 {
                     return await sc.ReplaceDialogAsync(Actions.Display, skillOptions);
                 }

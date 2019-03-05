@@ -39,7 +39,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "ConfirmCreate_Attendees": {
+  "ConfirmCreateAttendees": {
     "replies": [
       {
         "text": ", with {Attendees}",
@@ -48,7 +48,7 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "ConfirmCreate_Subject": {
+  "ConfirmCreateSubject": {
     "replies": [
       {
         "text": " The subject of the event is {Subject}.",
@@ -57,7 +57,7 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "ConfirmCreate_Location": {
+  "ConfirmCreateLocation": {
     "replies": [
       {
         "text": " The event will take place at {Location}.",
@@ -66,7 +66,7 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "ConfirmCreate_Content": {
+  "ConfirmCreateContent": {
     "replies": [
       {
         "text": " The message is {Content}.",

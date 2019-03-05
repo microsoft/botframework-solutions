@@ -238,7 +238,7 @@ namespace CalendarSkill.Dialogs.Shared
 
             // TODO: The signature for validators has changed to return bool -- Need new way to handle this logic
             // If user want to show more recipient end current choice dialog and return the intent to next step.
-            if (generalTopIntent == Luis.General.Intent.Next || generalTopIntent == Luis.General.Intent.Previous || calendarTopIntent == CalendarLU.Intent.ShowNextCalendar || calendarTopIntent == CalendarLU.Intent.ShowNextCalendar)
+            if (generalTopIntent == Luis.General.Intent.ShowNext || generalTopIntent == Luis.General.Intent.ShowPrevious || calendarTopIntent == CalendarLU.Intent.ShowNextCalendar || calendarTopIntent == CalendarLU.Intent.ShowPreviousCalendar)
             {
                 // pc.End(topIntent);
                 return true;
@@ -261,19 +261,19 @@ namespace CalendarSkill.Dialogs.Shared
 
         protected General.Intent? MergeShowIntent(General.Intent? generalIntent, CalendarLU.Intent? calendarIntent, CalendarLU calendarLuisResult)
         {
-            if (generalIntent == General.Intent.Next || generalIntent == General.Intent.Previous)
+            if (generalIntent == General.Intent.ShowNext || generalIntent == General.Intent.ShowPrevious)
             {
                 return generalIntent;
             }
 
             if (calendarIntent == CalendarLU.Intent.ShowNextCalendar)
             {
-                return General.Intent.Next;
+                return General.Intent.ShowNext;
             }
 
             if (calendarIntent == CalendarLU.Intent.ShowPreviousCalendar)
             {
-                return General.Intent.Previous;
+                return General.Intent.ShowPrevious;
             }
 
             if (calendarIntent == CalendarLU.Intent.FindCalendarEntry)
@@ -283,7 +283,7 @@ namespace CalendarSkill.Dialogs.Shared
                     var orderReference = GetOrderReferenceFromEntity(calendarLuisResult.Entities);
                     if (orderReference == "next")
                     {
-                        return General.Intent.Next;
+                        return General.Intent.ShowNext;
                     }
                 }
             }
@@ -317,18 +317,19 @@ namespace CalendarSkill.Dialogs.Shared
 
         protected bool IsRelativeTime(string userInput, string resolverResult, string timex)
         {
-            if (userInput.Contains("ago") ||
-                userInput.Contains("before") ||
-                userInput.Contains("later") ||
-                userInput.Contains("next"))
+            var userInputLower = userInput.ToLower();
+            if (userInputLower.Contains(CalendarCommonStrings.Ago) ||
+                userInputLower.Contains(CalendarCommonStrings.Before) ||
+                userInputLower.Contains(CalendarCommonStrings.Later) ||
+                userInputLower.Contains(CalendarCommonStrings.Next))
             {
                 return true;
             }
 
-            if (userInput.Contains("today") ||
-                userInput.Contains("now") ||
-                userInput.Contains("yesterday") ||
-                userInput.Contains("tomorrow"))
+            if (userInputLower.Contains(CalendarCommonStrings.TodayLower) ||
+                userInputLower.Contains(CalendarCommonStrings.Now) ||
+                userInputLower.Contains(CalendarCommonStrings.YesterdayLower) ||
+                userInputLower.Contains(CalendarCommonStrings.TomorrowLower))
             {
                 return true;
             }
