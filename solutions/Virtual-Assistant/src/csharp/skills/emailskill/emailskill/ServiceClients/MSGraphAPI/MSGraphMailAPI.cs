@@ -135,7 +135,7 @@ namespace EmailSkill.ServiceClients.MSGraphAPI
             }
             else
             {
-                result += $" and {filterString}";
+                result += $" {filterString}";
             }
 
             return result;
