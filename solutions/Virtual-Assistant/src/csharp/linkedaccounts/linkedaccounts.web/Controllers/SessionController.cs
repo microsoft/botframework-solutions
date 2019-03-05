@@ -8,6 +8,7 @@ namespace LinkedAccounts.Web.Controllers
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using LinkedAccounts.Web.Helpers;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -23,28 +24,8 @@ namespace LinkedAccounts.Web.Controllers
         public void Post([FromQuery]string id)
         {
             // Passed the SessionID from the View which we store against the UserId for later use.
-            var userId = GetUserId();
+            var userId = UserId.GetUserId(HttpContext, this.User);
             Sessions[userId] = id;
-        }
-
-        private string GetUserId()
-        {
-            var claimsIdentity = this.User?.Identity as System.Security.Claims.ClaimsIdentity;
-
-            if (claimsIdentity == null)
-            {
-                throw new InvalidOperationException("User is not logged in and needs to be.");
-            }
-
-            // Update as appropriate for your scenario to the unique identifier claim
-            var objectId = claimsIdentity.Claims?.SingleOrDefault(c => c.Type == HomeController.AadObjectidentifierClaim)?.Value;
-
-            if (objectId == null)
-            {
-                throw new InvalidOperationException("User does not have a valid AAD ObjectId claim.");
-            }
-
-            return objectId;
         }
     }
 }
