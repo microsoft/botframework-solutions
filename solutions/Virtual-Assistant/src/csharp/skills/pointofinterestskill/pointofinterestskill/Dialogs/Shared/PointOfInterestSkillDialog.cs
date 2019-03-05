@@ -73,7 +73,11 @@ namespace PointOfInterestSkill.Dialogs.Shared
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(dc.Context);
-            await DigestLuisResult(dc, state.LuisResult);
+            if (!dc.ActiveDialog.Id.Equals(Actions.CurrentLocationPrompt))
+            {
+                await DigestLuisResult(dc, state.LuisResult);
+            }
+
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
@@ -88,7 +92,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                var service = ServiceManager.InitMapsService(Services);
+                var service = ServiceManager.InitAddressMapsService(Services);
 
                 var pointOfInterestList = await service.GetPointOfInterestListByQueryAsync(double.NaN, double.NaN, sc.Result.ToString());
                 pointOfInterestList = await GetPointOfInterestLocationCards(sc, pointOfInterestList);
@@ -153,7 +157,6 @@ namespace PointOfInterestSkill.Dialogs.Shared
                         state.LastFoundPointOfInterests = null;
                     }
 
-                    state.ClearLuisResults();
                     return await sc.NextAsync();
                 }
 
@@ -367,12 +370,20 @@ namespace PointOfInterestSkill.Dialogs.Shared
         {
             var state = await Accessor.GetAsync(sc.Context);
             var service = ServiceManager.InitMapsService(Services);
+            var addressService = ServiceManager.InitAddressMapsService(Services);
 
             if (pointOfInterestList != null && pointOfInterestList.Count > 0)
             {
                 for (int i = 0; i < pointOfInterestList.Count; i++)
                 {
-                    pointOfInterestList[i] = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[i]);
+                    if (sc.ActiveDialog.Id.Equals(Actions.CheckForCurrentLocation))
+                    {
+                        pointOfInterestList[i] = await addressService.GetPointOfInterestDetailsAsync(pointOfInterestList[i]);
+                    }
+                    else
+                    {
+                        pointOfInterestList[i] = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[i]);
+                    }
 
                     // Increase by one to avoid zero based options to the user which are confusing
                     pointOfInterestList[i].Index = i + 1;
@@ -478,7 +489,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
 
             if (timeSpan.Minutes < 1)
             {
-                timeString.Append($" {PointOfInterestSharedStrings.LESS_THAN_A_MINUTE}");
+                timeString.Append($"{PointOfInterestSharedStrings.LESS_THAN_A_MINUTE}");
             }
             else if (timeSpan.Minutes == 1)
             {
@@ -575,12 +586,14 @@ namespace PointOfInterestSkill.Dialogs.Shared
                     }
 
                     var replyMessage = ResponseManager.GetCardResponse(POISharedResponses.MultipleRoutesFound, cards);
+                    replyMessage.Speak = ResponseUtility.BuildSpeechFriendlyPoIResponse(replyMessage);
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
                 else
                 {
                     var card = new Card("RouteDirectionsViewCard", cardData.SingleOrDefault());
                     var replyMessage = ResponseManager.GetCardResponse(POISharedResponses.SingleRouteFound, card);
+                    replyMessage.Speak = ResponseUtility.BuildSpeechFriendlyPoIResponse(replyMessage);
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
             }
