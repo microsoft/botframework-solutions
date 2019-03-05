@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
+using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Util;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -73,7 +74,7 @@ namespace CalendarSkill.Dialogs.CreateEvent.Prompts
         {
             if (CreateEventWhiteList.IsSkip(message))
             {
-                message = "today";
+                message = CalendarCommonStrings.TodayLower;
 
                 // log is this one skip. may change logic in future.
                 // no use for now

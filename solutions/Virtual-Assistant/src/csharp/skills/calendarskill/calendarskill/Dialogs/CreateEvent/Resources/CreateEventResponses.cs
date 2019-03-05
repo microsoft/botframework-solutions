@@ -16,10 +16,10 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
         public const string NoTitleShort = "NoTitleShort";
         public const string NoContent = "NoContent";
         public const string NoLocation = "NoLocation";
-        public const string ConfirmCreate_Attendees = "ConfirmCreate_Attendees";
-        public const string ConfirmCreate_Subject = "ConfirmCreate_Subject";
-        public const string ConfirmCreate_Location = "ConfirmCreate_Location";
-        public const string ConfirmCreate_Content = "ConfirmCreate_Content";
+        public const string ConfirmCreateAttendees = "ConfirmCreateAttendees";
+        public const string ConfirmCreateSubject = "ConfirmCreateSubject";
+        public const string ConfirmCreateLocation = "ConfirmCreateLocation";
+        public const string ConfirmCreateContent = "ConfirmCreateContent";
         public const string ConfirmCreate = "ConfirmCreate";
         public const string ConfirmCreateFailed = "ConfirmCreateFailed";
         public const string EventCreated = "EventCreated";

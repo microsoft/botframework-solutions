@@ -28,7 +28,7 @@ namespace VirtualAssistant
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BotServices"/> class.
-        /// Default constructor to enable different instantiation of the BotConfiguration (e.g. mocking and other adapters which won't use the Bot file
+        /// Default constructor to enable different instantiation of the BotConfiguration (e.g. mocking and other adapters which won't use the Bot file.
         /// </summary>
         public BotServices()
         {

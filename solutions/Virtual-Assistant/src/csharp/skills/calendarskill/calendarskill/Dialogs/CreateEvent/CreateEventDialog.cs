@@ -359,7 +359,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 var attendeeConfirmString = string.Empty;
                 if (state.Attendees.Count > 0)
                 {
-                    var attendeeConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreate_Attendees, new StringDictionary()
+                    var attendeeConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateAttendees, new StringDictionary()
                     {
                         { "Attendees", state.Attendees.ToSpeechString(CommonStrings.And, li => li.DisplayName ?? li.Address) }
                     });
@@ -369,7 +369,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 var subjectConfirmString = string.Empty;
                 if (!string.IsNullOrEmpty(state.Title))
                 {
-                    var subjectConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreate_Subject, new StringDictionary()
+                    var subjectConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateSubject, new StringDictionary()
                     {
                         { "Subject", string.IsNullOrEmpty(state.Title) ? CalendarCommonStrings.Empty : state.Title }
                     });
@@ -379,7 +379,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 var locationConfirmString = string.Empty;
                 if (!string.IsNullOrEmpty(state.Location))
                 {
-                    var subjectConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreate_Location, new StringDictionary()
+                    var subjectConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateLocation, new StringDictionary()
                     {
                         { "Location", string.IsNullOrEmpty(state.Location) ? CalendarCommonStrings.Empty : state.Location },
                     });
@@ -389,7 +389,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 var contentConfirmString = string.Empty;
                 if (!string.IsNullOrEmpty(state.Content))
                 {
-                    var contentConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreate_Content, new StringDictionary()
+                    var contentConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateContent, new StringDictionary()
                     {
                         { "Content", string.IsNullOrEmpty(state.Content) ? CalendarCommonStrings.Empty : state.Content },
                     });
@@ -401,9 +401,9 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 var tokens = new StringDictionary
                 {
                     { "AttendeesConfirm", attendeeConfirmString },
-                    { "Date", startDateTimeInUserTimeZone.ToSpeechDateString(true) },
-                    { "Time", startDateTimeInUserTimeZone.ToSpeechTimeString(true) },
-                    { "EndTime", endDateTimeInUserTimeZone.ToSpeechTimeString(true) },
+                    { "Date", startDateTimeInUserTimeZone.ToSpeechDateString(false) },
+                    { "Time", startDateTimeInUserTimeZone.ToSpeechTimeString(false) },
+                    { "EndTime", endDateTimeInUserTimeZone.ToSpeechTimeString(false) },
                     { "SubjectConfirm", subjectConfirmString },
                     { "LocationConfirm", locationConfirmString },
                     { "ContentConfirm", contentConfirmString },
