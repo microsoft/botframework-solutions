@@ -18,7 +18,7 @@ Please read the [overview](./overview.md) for more on the Virtual Assistant arch
 - [Dive In](#dive-in)
 
 ## Getting Started
-[Getting Started with the Virtual Assistant](./gettingstarted.md) walks you through building, configuring, and deplyoing your own Virtual Assistant.
+[Getting started with the Virtual Assistant](./gettingstarted.md) walks you through building, configuring, and deplyoing your own Virtual Assistant.
 
 ## Testing
 [Testing your Virtual Assistant](./testing.md) is incredibly important for validating conversational flows and ensuring your Virtual Assistant can run smoothly with a chosen client.
@@ -51,7 +51,7 @@ The Virtual Assistant builds on the core [Enterprise Template](/templates/Enterp
 Name | Description |
 :---:  | -------------
 [Overview](../skills/README.md) | A broad set of common capabilities exist which today, which require each developer to build themselves. Our Virtual Assistant solution includes a new Skill capability enabling new capabilities to be plugged into an Virtual Assistant through configuration only and provide an authentication mechanism for Skills to request tokens for down-stream activities.
-[Create a New Skill](../skills/create.md) | The Skill Template provides an out-of-the-box basic Skill and unit test project, which can be customized to a new scenario. |
+[Create a new Skill](../skills/create.md) | The Skill Template provides an out-of-the-box basic Skill and unit test project, which can be customized to a new scenario. |
 [Developing a new Skill](../skills/developing-a-new-skill.md) |Use the best practices in language understanding, conversational design, and dialog code development to provide a high quality Skill.|
 [Calendar Skill](../skills/productivity-calendar.md) | The *preview* Skill provides a comprehensive language model for common calendar related activities, The Skill is currently integrated into Microsoft Graph (Office 365/Outlook.com) and Google APIs.
 [Email Skill](../skills/productivity-email.md) | The *preview* Skill provides a comprehensive language model for common email related activities, The Skill is currently integrated into Microsoft Graph (Office 365/Outlook.com) and Google APIs.
