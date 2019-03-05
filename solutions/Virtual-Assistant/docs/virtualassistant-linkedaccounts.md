@@ -23,19 +23,22 @@ The Linked Accounts feature of the Virtual Assistant provides a reference sample
 
 ## Authentication Configuration
 
-In order to perform Account Linking, the Linked Accounts web app will need a user to login using the same account as they'll use to authenticate as a user of your Virtual Assistant, for example `darren@contosoassistant.com`. 
-The ``appsettings.json`` file in the sample project has the following OAuth configuration entry for you to complete, the default example is for a microsoft.online.com scenario.
+In order to perform Account Linking, the Linked Accounts web app will need the end user to login using the same account as they'll use to authenticate as a user of your Virtual Assistant, for example `darren@contosoassistant.com`. This is required to retrieve the unique identifier of the user which is used as the **key** to retrieving any linked token in the future.
+
+The ``appsettings.json`` file in the LinkedAccounts sample project has the following OAuth configuration entry for you to complete, the default example is for a microsoftonline.com based scenario. You can replace this with any custom authentication solution you have, what is key is ensuring the Linked Accounts feature is authenticating the user in some way and retrieving the same unique identifier which is passed to the assistant in future conversations.
 
 ### Integrating Azure AD
 
 1. Sign in to the [Azure Portal](https://portal.azure.com/).
 2. On the left sidebar, select  **Azure Active Directory**.
 3. From the sidedbar within, select **App Registrations (Preview)**.
-4. Select **New application registration**
+4. Select **New registration**
    *  **Name**: *Provide a friendly name*
-   *  **Application Type**: Web app / API
-   *  **Sign-on URL**: `http://localhost:XXXX/signin-oidc` *(update with the local port of your project)*
-5. On the **Overview** page of your new app, copy the following values into your `appsettings.json`
+   *  **Redirect URI**: `https://localhost:XXXX/signin-oidc` *(update with the local port of your project or replace with the address of your deployed website*
+   *  Click Register
+5. Select the Authentication section of your newly created application
+   *  Select `ID tokens` under the Implicit grant section
+6. On the **Overview** page of your new app, copy the following values into your `appsettings.json`
    * `Directory (tenant) ID` maps to `TenantId`
    * `Application (client) ID` maps to `ClientId`
 
@@ -71,9 +74,9 @@ Exchanging a Direct Line secret for a Token and providing a Trusted Origin enabl
 ## Testing Linked Accounts
 
 If you run the project within Visual Studio you will be navigated to the Linked Accounts web app. 
-You'll be prompted to login, use the same credentials that your Virtual Assistant will be using when performing operations on your behalf. 
+You'll be prompted to login, use the same credentials that your Virtual Assistant will be using when performing operations on your behalf thus ensuring the underlying unique identifier matches.
 
-> If different accounts are used then the VA Bot will not have access to your linked tokens and may prompt for authentication.
+> If different accounts are used then your assistant Bot will not have access to your linked tokens and may prompt for authentication. Also ensure that you use HTTPS when testing linked accounts.
 
 Once logged in you, click Linked Accounts in the top navigation page and you should see a list of the Authentication connections configured for the Bot 
 (whose MicrosoftAppId you specified in the earlier configuration step).
