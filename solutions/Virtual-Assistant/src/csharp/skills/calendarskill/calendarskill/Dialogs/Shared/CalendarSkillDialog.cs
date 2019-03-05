@@ -317,18 +317,19 @@ namespace CalendarSkill.Dialogs.Shared
 
         protected bool IsRelativeTime(string userInput, string resolverResult, string timex)
         {
-            if (userInput.Contains("ago") ||
-                userInput.Contains("before") ||
-                userInput.Contains("later") ||
-                userInput.Contains("next"))
+            var userInputLower = userInput.ToLower();
+            if (userInputLower.Contains(CalendarCommonStrings.Ago) ||
+                userInputLower.Contains(CalendarCommonStrings.Before) ||
+                userInputLower.Contains(CalendarCommonStrings.Later) ||
+                userInputLower.Contains(CalendarCommonStrings.Next))
             {
                 return true;
             }
 
-            if (userInput.Contains("today") ||
-                userInput.Contains("now") ||
-                userInput.Contains("yesterday") ||
-                userInput.Contains("tomorrow"))
+            if (userInputLower.Contains(CalendarCommonStrings.TodayLower) ||
+                userInputLower.Contains(CalendarCommonStrings.Now) ||
+                userInputLower.Contains(CalendarCommonStrings.YesterdayLower) ||
+                userInputLower.Contains(CalendarCommonStrings.TomorrowLower))
             {
                 return true;
             }
