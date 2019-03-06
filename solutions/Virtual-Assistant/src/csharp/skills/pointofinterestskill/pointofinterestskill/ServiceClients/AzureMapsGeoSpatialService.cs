@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -13,14 +14,15 @@ namespace PointOfInterestSkill.ServiceClients
 {
     public sealed class AzureMapsGeoSpatialService : IGeoSpatialService
     {
+        private static readonly string FindByFuzzyQueryNoCoordinatesApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&query={{0}}&limit={{1}}";
         private static readonly string FindByFuzzyQueryApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}&limit={{4}}";
         private static readonly string FindByAddressQueryUrl = $"https://atlas.microsoft.com/search/address/json?api-version=1.0&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}&limit={{4}}";
         private static readonly string FindAddressByCoordinateUrl = $"https://atlas.microsoft.com/search/address/reverse/json?api-version=1.0&query={{0}},{{1}}";
         private static readonly string FindNearbyUrl = $"https://atlas.microsoft.com/search/nearby/json?api-version=1.0&lat={{0}}&lon={{1}}&radius={{2}}&limit={{3}}";
         private static readonly string FindByCategoryUrl = $"https://atlas.microsoft.com/search/poi/category/json?api-version=1.0&query={{2}}&lat={{0}}&lon={{1}}&radius={{3}}&limit={{4}}";
         private static readonly string ImageUrlByPoint = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{2}}&center={{1}},{{0}}&width=512&height=512";
-        private static readonly string GetRouteDirections = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&query={{0}}";
-        private static readonly string GetRouteDirectionsWithRouteType = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&query={{0}}&&routeType={{1}}";
+        private static readonly string GetRouteDirections = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&instructionsType=text&query={{0}}";
+        private static readonly string GetRouteDirectionsWithRouteType = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&instructionsType=text&query={{0}}&&routeType={{1}}";
         private static string apiKey;
         private static string userLocale;
         private static HttpClient httpClient;
@@ -77,6 +79,11 @@ namespace PointOfInterestSkill.ServiceClients
             if (string.IsNullOrEmpty(query))
             {
                 throw new ArgumentNullException(nameof(query));
+            }
+
+            if (double.IsNaN(latitude) || double.IsNaN(longitude))
+            {
+                return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByFuzzyQueryNoCoordinatesApiUrl, query, limit));
             }
 
             return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByFuzzyQueryApiUrl, latitude, longitude, query, radius, limit));
@@ -209,10 +216,18 @@ namespace PointOfInterestSkill.ServiceClients
 
             if (apiResponse != null && apiResponse.Results != null)
             {
-                foreach (var searchResult in apiResponse.Results)
+                // Filter Azure Maps results to Type: POI or Point Address
+                // See https://docs.microsoft.com/en-us/rest/api/maps/search/getsearchaddress#searchaddressresult for more information.
+                var filteredSearchResults = apiResponse.Results.Where(x => x.ResultType.Equals("POI") || x.ResultType.Equals("Point Address"));
+                foreach (var searchResult in filteredSearchResults)
                 {
                     var newPointOfInterest = new PointOfInterestModel(searchResult);
-                    pointOfInterestList.Add(newPointOfInterest);
+
+                    // If POI is missing a street, we don't want it shown
+                    if (!string.IsNullOrEmpty(newPointOfInterest.Street))
+                    {
+                        pointOfInterestList.Add(newPointOfInterest);
+                    }
                 }
             }
 

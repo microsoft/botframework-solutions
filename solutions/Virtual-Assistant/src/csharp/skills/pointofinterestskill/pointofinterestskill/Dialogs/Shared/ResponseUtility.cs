@@ -3,7 +3,7 @@ using Microsoft.Bot.Schema;
 
 namespace PointOfInterestSkill.Dialogs.Shared
 {
-    public class SpeakHelper
+    public class ResponseUtility
     {
         /// <summary>
         /// Build a consolidated Speak response to prevent the client from having to crack each card open and build itself.
@@ -18,12 +18,13 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 speakStrings.Add(activityToProcess.Speak);
             }
 
-            foreach (Attachment attachment in activityToProcess.Attachments)
+            for (int i = 0; i < activityToProcess.Attachments.Count; ++i)
             {
-                dynamic generatedCard = attachment.Content;
+                dynamic generatedCard = activityToProcess.Attachments[i].Content;
                 if (generatedCard != null && generatedCard.speak != null)
                 {
-                    speakStrings.Add((string)generatedCard.speak);
+                    // The dash makes the voice take a short break, which is what a human would do when reading out a numbered list.
+                    speakStrings.Add($"{(i + 1).ToString()} - {generatedCard.speak}.");
                 }
             }
 

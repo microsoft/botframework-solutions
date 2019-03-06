@@ -13,6 +13,7 @@ using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using PointOfInterestSkill.Dialogs.Route.Resources;
 using PointOfInterestSkill.Dialogs.Shared;
+using PointOfInterestSkill.Dialogs.Shared.Resources;
 using PointOfInterestSkill.Models;
 using PointOfInterestSkill.ServiceClients;
 using Actions = PointOfInterestSkill.Dialogs.Shared.Actions;
@@ -32,38 +33,84 @@ namespace PointOfInterestSkill.Dialogs.Route
         {
             TelemetryClient = telemetryClient;
 
+            var checkCurrentLocation = new WaterfallStep[]
+{
+                CheckForCurrentCoordinatesBeforeFindPointOfInterestBeforeRoute,
+                ConfirmCurrentLocation,
+                ProcessCurrentLocationSelection,
+                RouteToFindPointOfInterestBeforeRouteDialog
+};
+
             var checkForActiveRouteAndLocation = new WaterfallStep[]
             {
                 CheckIfActiveRouteExists,
                 CheckIfFoundLocationExists,
-                CheckIfActiveLocationExists,
+                CheckIfDestinationExists,
             };
 
             var findRouteToActiveLocation = new WaterfallStep[]
             {
-                GetRoutesToActiveLocation,
+                GetRoutesToDestination,
                 ResponseToStartRoutePrompt,
             };
 
             var findAlongRoute = new WaterfallStep[]
             {
                 GetPointOfInterestLocations,
-                ResponseToGetRoutePrompt,
+                ProcessPointOfInterestSelection,
+                GetRoutesToDestination,
+                ResponseToStartRoutePrompt,
             };
 
             var findPointOfInterest = new WaterfallStep[]
             {
                 GetPointOfInterestLocations,
+                ProcessPointOfInterestSelection,
+                GetRoutesToDestination,
+                ResponseToStartRoutePrompt,
             };
 
             // Define the conversation flow using a waterfall model.
+            AddDialog(new WaterfallDialog(Actions.CheckForCurrentLocation, checkCurrentLocation) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.GetActiveRoute, checkForActiveRouteAndLocation) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.FindAlongRoute, findAlongRoute) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.FindRouteToActiveLocation, findRouteToActiveLocation) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.FindPointOfInterest, findPointOfInterest) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.FindPointOfInterestBeforeRoute, findPointOfInterest) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Actions.GetActiveRoute;
+        }
+
+        /// <summary>
+        /// Check for the current coordinates and if missing, prompt user.
+        /// </summary>
+        /// <param name="sc">Step Context.</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
+        /// <returns>Dialog Turn Result.</returns>
+        public async Task<DialogTurnResult> CheckForCurrentCoordinatesBeforeFindPointOfInterestBeforeRoute(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var hasCurrentCoordinates = state.CheckForValidCurrentCoordinates();
+
+            if (hasCurrentCoordinates)
+            {
+                return await sc.ReplaceDialogAsync(Actions.FindPointOfInterestBeforeRoute);
+            }
+
+            return await sc.PromptAsync(Actions.CurrentLocationPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(POISharedResponses.PromptForCurrentLocation) });
+        }
+
+        /// <summary>
+        /// Replaces the active dialog with the FindPointOfInterestBeforeRoute waterfall dialog.
+        /// </summary>
+        /// <param name="sc">WaterfallStepContext.</param>
+        /// <param name="cancellationToken">CancellationToken.</param>
+        /// <returns>DialogTurnResult.</returns>
+        public async Task<DialogTurnResult> RouteToFindPointOfInterestBeforeRouteDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+
+            return await sc.ReplaceDialogAsync(Actions.FindPointOfInterestBeforeRoute);
         }
 
         public async Task<DialogTurnResult> CheckIfActiveRouteExists(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -138,7 +185,7 @@ namespace PointOfInterestSkill.Dialogs.Route
             }
         }
 
-        public async Task<DialogTurnResult> CheckIfActiveLocationExists(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> CheckIfDestinationExists(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -146,7 +193,7 @@ namespace PointOfInterestSkill.Dialogs.Route
                 if (state.Destination == null)
                 {
                     await sc.EndDialogAsync(true);
-                    return await sc.BeginDialogAsync(Actions.FindPointOfInterest);
+                    return await sc.BeginDialogAsync(Actions.CheckForCurrentLocation);
                 }
 
                 return await sc.BeginDialogAsync(Actions.FindRouteToActiveLocation);
@@ -158,7 +205,7 @@ namespace PointOfInterestSkill.Dialogs.Route
             }
         }
 
-        public async Task<DialogTurnResult> GetRoutesToActiveLocation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> GetRoutesToDestination(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {

@@ -7,12 +7,28 @@ namespace PointOfInterestSkill.Models
 {
     public class RouteDirectionsModelCardData : ICardData
     {
-        public string Location { get; set; }
+        public string Name { get; set; }
+
+        public string Hours { get; set; }
+
+        public string Street { get; set; }
+
+        public string City { get; set; }
+
+        public string AvailableDetails { get; set; }
+
+        public string ImageUrl { get; set; }
 
         public string TravelTime { get; set; }
 
-        public string TrafficDelay { get; set; }
+        public string ETA { get; set; }
 
-        public int RouteId { get; set; }
+        public string Distance { get; set; }
+
+        public string DelayStatus { get; set; }
+
+        public string TravelTimeSpeak { get; set; }
+
+        public string TravelDelaySpeak { get; set; }
     }
 }

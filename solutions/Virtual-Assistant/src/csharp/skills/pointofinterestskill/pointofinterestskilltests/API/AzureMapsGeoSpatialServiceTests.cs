@@ -84,9 +84,7 @@ namespace PointOfInterestSkillTests.API
             await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Limit, MockData.Locale, mockClient);
 
             var pointOfInterestList = await service.GetPointOfInterestListByAddressAsync(MockData.Latitude, MockData.Longitude, MockData.Address);
-            Assert.AreEqual(pointOfInterestList[0].City, "Issaquah");
-            Assert.AreEqual(pointOfInterestList[1].City, "West Queen Anne, Seattle");
-            Assert.AreEqual(pointOfInterestList[2].City, "Norkirk, Kirkland");
+            Assert.AreEqual(pointOfInterestList[0].City, "West Queen Anne, Seattle");
         }
 
         [TestMethod]
