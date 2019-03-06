@@ -133,7 +133,7 @@
     <value>Cc: {0}</value>
   </data>
   <data name="EmptyContent" xml:space="preserve">
-    <value>Leerstand</value>
+    <value>Leere Inhalte</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Datum: {0}</value>
@@ -141,14 +141,14 @@
   <data name="Subject" xml:space="preserve">
     <value>Betreff</value>
   </data>
-  <data name="FromFormat" xml:space="preserve">
-    <value>Von: {0}</value>
+  <data name="FromDetailsWithContentFormat" xml:space="preserve">
+    <value>Aus {0} erhalten {1} titelte {2}, Inhalt ist {3}.</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Abbrechen</value>
   </data>
   <data name="EmptySubject" xml:space="preserve">
-    <value>leeres Thema</value>
+    <value>Leere Themen</value>
   </data>
   <data name="ReplyReplyFormat" xml:space="preserve">
     <value>RE: {0}</value>
@@ -160,7 +160,7 @@
     <value>Relevant {0}</value>
   </data>
   <data name="Skip" xml:space="preserve">
-    <value>Überspringen | Pass | Nein</value>
+    <value>Skip | Pass | Nein</value>
   </data>
   <data name="UnknownSender" xml:space="preserve">
     <value>Unbekannter Absender</value>
@@ -169,10 +169,10 @@
     <value>Fw: {0}</value>
   </data>
   <data name="FromDetailsFormatAll" xml:space="preserve">
-    <value>Von {0} bei {1} betitelt {2}</value>
+    <value>Von {0} erhalten {1} titelte {2}</value>
   </data>
   <data name="FromDetailsFormat" xml:space="preserve">
-    <value>Von {0} bei {1}</value>
+    <value>Von {0} erhalten {1}</value>
   </data>
   <data name="ToDetailsFormat" xml:space="preserve">
     <value>{0} bis {1} und Inhalt ist {2}</value>
@@ -199,21 +199,21 @@
     <value>|</value>
   </data>
   <data name="High" xml:space="preserve">
-    <value>Hohe</value>
+    <value>Hoch</value>
   </data>
   <data name="ContactSeparator" xml:space="preserve">
-    <value>; | und</value>
+    <value>; | Und</value>
   </data>
   <data name="Forward" xml:space="preserve">
     <value>Fw:</value>
+  </data>
+  <data name="FromFormat" xml:space="preserve">
+    <value>Von: {0}</value>
   </data>
   <data name="ForwardMessage" xml:space="preserve">
     <value>----------weiterleitete Nachricht----------</value>
   </data>
   <data name="Participants" xml:space="preserve">
     <value>Teilnehmer</value>
-  </data>
-  <data name="FromDetailsWithContentFormat" xml:space="preserve">
-    <value>von {0} bei {1} betitelt {2}, Inhalt {3}.</value>
   </data>
 </root>

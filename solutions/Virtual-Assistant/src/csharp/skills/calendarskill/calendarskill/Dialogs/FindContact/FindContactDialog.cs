@@ -104,8 +104,7 @@ namespace CalendarSkill.Dialogs.FindContact
                             }));
                         state.ConfirmAttendeesNameIndex++;
                         state.FirstRetryInFindContact = true;
-                        await sc.CancelAllDialogsAsync();
-                        return await sc.BeginDialogAsync(Actions.ConfirmName, options: sc.Options);
+                        return await sc.ReplaceDialogAsync(Actions.ConfirmName, options: sc.Options);
                     }
                     else
                     {
@@ -158,10 +157,8 @@ namespace CalendarSkill.Dialogs.FindContact
                     state.AttendeesNameList[state.ConfirmAttendeesNameIndex] = userInput;
                 }
 
-                await sc.CancelAllDialogsAsync();
-
                 // should not return with value, next step use the return value for confirmation.
-                return await sc.BeginDialogAsync(Actions.ConfirmName, options: sc.Options);
+                return await sc.ReplaceDialogAsync(Actions.ConfirmName, options: sc.Options);
             }
             catch (Exception ex)
             {
@@ -184,18 +181,17 @@ namespace CalendarSkill.Dialogs.FindContact
 
                 var unionList = new List<CustomizedPerson>();
                 var emailList = new List<string>();
+                foreach (var name in state.AttendeesNameList)
+                {
+                    if (IsEmail(name))
+                    {
+                        emailList.Add(name);
+                    }
+                }
 
                 if (state.FirstEnterFindContact)
                 {
                     state.FirstEnterFindContact = false;
-                    foreach (var name in state.AttendeesNameList)
-                    {
-                        if (IsEmail(name))
-                        {
-                            emailList.Add(name);
-                        }
-                    }
-
                     if (state.AttendeesNameList.Count > 1)
                     {
                         var nameString = await GetReadyToSendNameListStringAsync(sc);
@@ -300,6 +296,8 @@ namespace CalendarSkill.Dialogs.FindContact
                 }
                 else
                 {
+                    state.AttendeesNameList = new List<string>();
+                    state.ConfirmAttendeesNameIndex = 0;
                     return await sc.EndDialogAsync();
                 }
 
@@ -309,7 +307,7 @@ namespace CalendarSkill.Dialogs.FindContact
 
                 if (unionList.Count == 0)
                 {
-                    return await sc.BeginDialogAsync(Actions.UpdateName, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.NotFound));
+                    return await sc.ReplaceDialogAsync(Actions.UpdateName, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.NotFound));
                 }
                 else if (unionList.Count == 1)
                 {
@@ -357,11 +355,11 @@ namespace CalendarSkill.Dialogs.FindContact
                 {
                     if (sc.Result == null)
                     {
-                        if (generalTopIntent == General.Intent.Next)
+                        if (generalTopIntent == General.Intent.ShowNext)
                         {
                             state.ShowAttendeesIndex++;
                         }
-                        else if (generalTopIntent == General.Intent.Previous)
+                        else if (generalTopIntent == General.Intent.ShowPrevious)
                         {
                             if (state.ShowAttendeesIndex > 0)
                             {
@@ -477,11 +475,11 @@ namespace CalendarSkill.Dialogs.FindContact
                 {
                     if (sc.Result == null)
                     {
-                        if (generalTopIntent == General.Intent.Next)
+                        if (generalTopIntent == General.Intent.ShowNext)
                         {
                             state.ShowAttendeesIndex++;
                         }
-                        else if (generalTopIntent == General.Intent.Previous)
+                        else if (generalTopIntent == General.Intent.ShowPrevious)
                         {
                             if (state.ShowAttendeesIndex > 0)
                             {

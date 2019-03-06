@@ -8,6 +8,7 @@ namespace LinkedAccounts.Web.Controllers
     using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
+    using LinkedAccounts.Web.Helpers;
     using LinkedAccounts.Web.Models;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
@@ -65,7 +66,7 @@ namespace LinkedAccounts.Web.Controllers
                 var body = await response.Content.ReadAsStringAsync();
                 token = JsonConvert.DeserializeObject<DirectLineToken>(body).token;
 
-                var userId = this.GetUserId();
+                var userId = UserId.GetUserId(HttpContext, this.User);
 
                 // Retrieve the status
                 TokenStatus[] tokenStatuses = await repository.GetTokenStatusAsync(userId, CredentialProvider);
@@ -92,7 +93,7 @@ namespace LinkedAccounts.Web.Controllers
         /// <returns></returns>
         public async Task<IActionResult> SignIn(TokenStatus account)
         {
-            var userId = GetUserId();
+            var userId = UserId.GetUserId(HttpContext, this.User);
 
             string link = await repository.GetSignInLinkAsync(userId, CredentialProvider, account.ConnectionName, $"{this.Request.Scheme}://{this.Request.Host.Value}/Home/LinkedAccounts");
 
@@ -106,7 +107,7 @@ namespace LinkedAccounts.Web.Controllers
         /// <returns></returns>
         public async Task<IActionResult> SignOut(TokenStatus account)
         {
-            var userId = GetUserId();
+            var userId = UserId.GetUserId(HttpContext, this.User);
 
             await this.repository.SignOutAsync(userId, CredentialProvider, account.ConnectionName);
 
@@ -115,7 +116,7 @@ namespace LinkedAccounts.Web.Controllers
 
         public async Task<IActionResult> SignOutAll()
         {
-            var userId = GetUserId();
+            var userId = UserId.GetUserId(HttpContext, this.User);
 
             await this.repository.SignOutAsync(userId, CredentialProvider);
 
@@ -152,36 +153,8 @@ namespace LinkedAccounts.Web.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = System.Diagnostics.Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        private string GetUserId()
-        {
-            // If the user has overriden (to work around emulator blocker)
-            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("ChangedUserId")))            
-            {
-                return HttpContext.Session.GetString("ChangedUserId");
-            }
-            else
-            {
-                var claimsIdentity = this.User?.Identity as System.Security.Claims.ClaimsIdentity;
-
-                if (claimsIdentity == null)
-                {
-                    throw new InvalidOperationException("User is not logged in and needs to be.");
-                }
-
-                var objectId = claimsIdentity.Claims?.SingleOrDefault(c => c.Type == AadObjectidentifierClaim)?.Value;
-
-                if (objectId == null)
-                {
-                    throw new InvalidOperationException("User does not have a valid AAD ObjectId claim.");
-                }
-
-                return objectId;
-            }
-        }
-
-        public const string AadObjectidentifierClaim = "http://schemas.microsoft.com/identity/claims/objectidentifier";
+        }       
+      
         private ICredentialProvider CredentialProvider { get; set; }
         private ILinkedAccountRepository repository = new LinkedAccountRepository();
         public IConfiguration Configuration { get; set; }

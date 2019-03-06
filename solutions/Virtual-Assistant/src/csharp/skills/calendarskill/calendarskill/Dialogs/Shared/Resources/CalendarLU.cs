@@ -15,9 +15,9 @@ namespace Luis
         public string Text;
         public string AlteredText;
         public enum Intent {
-            AcceptEventEntry,
-            ChangeCalendarEntry,
-            CheckAvailability,
+            AcceptEventEntry, 
+            ChangeCalendarEntry, 
+            CheckAvailability, 
             ConnectToMeeting, 
             ContactMeetingAttendees, 
             CreateCalendarEntry, 
@@ -31,8 +31,8 @@ namespace Luis
             FindMeetingRoom, 
             GoBack, 
             None, 
-            ShowNextCalendar,
-            ShowPreviousCalendar,
+            ShowNextCalendar, 
+            ShowPreviousCalendar, 
             TimeRemaining
         };
         public Dictionary<Intent, IntentScore> Intents;
@@ -40,51 +40,54 @@ namespace Luis
         public class _Entities
         {
             // Simple entities
-            public string[] DestinationCalendar;
-            public string[] Duration;
-            public string[] ToDate;
-            public string[] ToTime;
-            public string[] Location;
-            public string[] MeetingRoom;
-            public string[] Message;
-            public string[] MoveEarlierTimeSpan;
-            public string[] MoveLaterTimeSpan;
-            public string[] OrderReference;
-            public string[] PositionReference;
-            public string[] SlotAttribute;
+            public string[] Subject;
             public string[] FromDate;
             public string[] FromTime;
-            public string[] Subject;
+            public string[] ToTime;
+            public string[] MeetingRoom;
+            public string[] Location;
+            public string[] MoveEarlierTimeSpan;
+            public string[] MoveLaterTimeSpan;
+            public string[] ToDate;
+            public string[] SlotAttribute;
+            public string[] OrderReference;
+            public string[] PositionReference;
+            public string[] Message;
+            public string[] Duration;
+            public string[] DestinationCalendar;
 
             // Built-in entities
-            public string[] personName;
+            public DateTimeSpec[] datetime;
             public double[] number;
             public double[] ordinal;
-            public DateTimeSpec[] datetime;
+            public string[] personName;
+
+            // Lists
+            public string[][] RelationshipName;
 
             // Instance
             public class _Instance
             {
-                public InstanceData[] DestinationCalendar;
-                public InstanceData[] Duration;
-                public InstanceData[] ToDate;
-                public InstanceData[] ToTime;
-                public InstanceData[] Location;
-                public InstanceData[] MeetingRoom;
-                public InstanceData[] Message;
-                public InstanceData[] MoveEarlierTimeSpan;
-                public InstanceData[] MoveLaterTimeSpan;
-                public InstanceData[] OrderReference;
-                public InstanceData[] PositionReference;
-                public InstanceData[] SlotAttribute;
+                public InstanceData[] Subject;
                 public InstanceData[] FromDate;
                 public InstanceData[] FromTime;
-                public InstanceData[] Subject;
-
-                public InstanceData[] personName;
+                public InstanceData[] ToTime;
+                public InstanceData[] MeetingRoom;
+                public InstanceData[] Location;
+                public InstanceData[] MoveEarlierTimeSpan;
+                public InstanceData[] MoveLaterTimeSpan;
+                public InstanceData[] ToDate;
+                public InstanceData[] SlotAttribute;
+                public InstanceData[] OrderReference;
+                public InstanceData[] PositionReference;
+                public InstanceData[] Message;
+                public InstanceData[] Duration;
+                public InstanceData[] DestinationCalendar;
+                public InstanceData[] datetime;
                 public InstanceData[] number;
                 public InstanceData[] ordinal;
-                public InstanceData[] datetime;
+                public InstanceData[] personName;
+                public InstanceData[] RelationshipName;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;

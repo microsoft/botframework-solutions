@@ -121,10 +121,10 @@
     <value>Su {0}, {1} ha scritto:</value>
   </data>
   <data name="UnknownRecipient" xml:space="preserve">
-    <value>destinatario sconosciuto</value>
+    <value>Destinatario sconosciuto</value>
   </data>
   <data name="Unread" xml:space="preserve">
-    <value>Unread</value>
+    <value>non letti</value>
   </data>
   <data name="Content" xml:space="preserve">
     <value>Contenuto</value>
@@ -133,7 +133,7 @@
     <value>Cc: {0}</value>
   </data>
   <data name="EmptyContent" xml:space="preserve">
-    <value>contenuto vuoto</value>
+    <value>Contenuto vuoto</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Data: {0}</value>
@@ -141,14 +141,14 @@
   <data name="Subject" xml:space="preserve">
     <value>Oggetto</value>
   </data>
-  <data name="FromFormat" xml:space="preserve">
-    <value>Da: {0}</value>
+  <data name="FromDetailsWithContentFormat" xml:space="preserve">
+    <value>da {0} ricevuto {1} intitolato {2}, il contenuto è {3}.</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Annulla</value>
   </data>
   <data name="EmptySubject" xml:space="preserve">
-    <value>oggetto vuoto</value>
+    <value>Soggetto vuoto</value>
   </data>
   <data name="ReplyReplyFormat" xml:space="preserve">
     <value>RE: {0}</value>
@@ -157,22 +157,22 @@
     <value>A: {0}</value>
   </data>
   <data name="RelevantFormat" xml:space="preserve">
-    <value>rilevante {0}</value>
+    <value>rilevanti {0}</value>
   </data>
   <data name="Skip" xml:space="preserve">
-    <value>Skip | Passo | no</value>
+    <value>di saltare | di passaggio | No</value>
   </data>
   <data name="UnknownSender" xml:space="preserve">
-    <value>mittente sconosciuto</value>
+    <value>Mittente sconosciuto</value>
   </data>
   <data name="ForwardReplyFormat" xml:space="preserve">
     <value>FW: {0}</value>
   </data>
   <data name="FromDetailsFormatAll" xml:space="preserve">
-    <value>da {0} a {1} intitolato {2}</value>
+    <value>da {0} ricevuti {1} dal titolo {2}</value>
   </data>
   <data name="FromDetailsFormat" xml:space="preserve">
-    <value>da {0} a {1}</value>
+    <value>da {0} ricevuti {1}</value>
   </data>
   <data name="ToDetailsFormat" xml:space="preserve">
     <value>{0} a {1} e il contenuto è {2}</value>
@@ -187,7 +187,7 @@
     <value>Re</value>
   </data>
   <data name="Relevant" xml:space="preserve">
-    <value>Rilevanti</value>
+    <value>rilevante</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>Tutti</value>
@@ -199,21 +199,21 @@
     <value>|</value>
   </data>
   <data name="High" xml:space="preserve">
-    <value>Alta</value>
+    <value>alto</value>
   </data>
   <data name="ContactSeparator" xml:space="preserve">
-    <value>; | e</value>
+    <value>; | E</value>
   </data>
   <data name="Forward" xml:space="preserve">
     <value>Fw:</value>
+  </data>
+  <data name="FromFormat" xml:space="preserve">
+    <value>A partire da: {0}</value>
   </data>
   <data name="ForwardMessage" xml:space="preserve">
     <value>----------Messaggio inoltrato----------</value>
   </data>
   <data name="Participants" xml:space="preserve">
     <value>Partecipanti</value>
-  </data>
-  <data name="FromDetailsWithContentFormat" xml:space="preserve">
-    <value>da {0} a {1} intitolato {2}, il contenuto è {3}.</value>
   </data>
 </root>

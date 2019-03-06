@@ -117,40 +117,106 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AttendeesSummary" xml:space="preserve">
-    <value>{0} y {1} más</value>
-  </data>
-  <data name="AllDayLower" xml:space="preserve">
-    <value>todo el día</value>
-  </data>
-  <data name="AllDay" xml:space="preserve">
-    <value>Todo el día</value>
-  </data>
-  <data name="AtTime" xml:space="preserve">
-    <value>en {0}</value>
-  </data>
-  <data name="CancelAdjust" xml:space="preserve">
-    <value>^ (no | CANCEL | NOP | no | no)</value>
+  <data name="TomorrowLower" xml:space="preserve">
+    <value>Mañana</value>
   </data>
   <data name="NoAttendees" xml:space="preserve">
     <value>no asistentes</value>
   </data>
-  <data name="WeeklyToken" xml:space="preserve">
-    <value>Semanal</value>
-  </data>
   <data name="Empty" xml:space="preserve">
     <value>Vacío</value>
   </data>
-  <data name="WithTheSubject" xml:space="preserve">
-    <value>con un tema de {0}</value>
+  <data name="AdjustSubject" xml:space="preserve">
+    <value>(ajustar | cambiar | actualizar)?. * (tema | título)</value>
+  </data>
+  <data name="WeeklyToken" xml:space="preserve">
+    <value>Semanal</value>
+  </data>
+  <data name="CancelAdjust" xml:space="preserve">
+    <value>^ (no | CANCEL | NOP | no | no)</value>
   </data>
   <data name="DailyToken" xml:space="preserve">
     <value>Diario</value>
   </data>
+  <data name="AtTime" xml:space="preserve">
+    <value>en {0}</value>
+  </data>
+  <data name="DefaultTitle" xml:space="preserve">
+    <value>Reunión</value>
+  </data>
+  <data name="SkipPhrases" xml:space="preserve">
+    <value>^ (SKIP | no)</value>
+  </data>
+  <data name="OrdinalSuffixTh" xml:space="preserve">
+    <value>{0} TH</value>
+  </data>
+  <data name="Now" xml:space="preserve">
+    <value>Ahora</value>
+  </data>
+  <data name="AttendeesSummary" xml:space="preserve">
+    <value>{0} y {1} más</value>
+  </data>
+  <data name="WithTheSubject" xml:space="preserve">
+    <value>con un tema de {0}</value>
+  </data>
+  <data name="Before" xml:space="preserve">
+    <value>Antes</value>
+  </data>
+  <data name="AdjustLocation" xml:space="preserve">
+    <value>(ajustar | cambiar | actualizar)?. * (ubicación | lugar | donde)</value>
+  </data>
+  <data name="AllDayLower" xml:space="preserve">
+    <value>todo el día</value>
+  </data>
+  <data name="HalfAnHour" xml:space="preserve">
+    <value>media hora</value>
+  </data>
+  <data name="OrdinalSuffixSt" xml:space="preserve">
+    <value>{0} St</value>
+  </data>
+  <data name="Myself" xml:space="preserve">
+    <value>^ (yo | yo) $</value>
+  </data>
+  <data name="AdjustContent" xml:space="preserve">
+    <value>(ajustar | cambiar | actualizar)?. * (contenido | Body | detalle | detalles)</value>
+  </data>
+  <data name="YesterdayLower" xml:space="preserve">
+    <value>Ayer</value>
+  </data>
+  <data name="OrdinalSuffixNd" xml:space="preserve">
+    <value>{0} ND</value>
+  </data>
+  <data name="AdjustDuration" xml:space="preserve">
+    <value>(ajustar | cambiar | actualizar)?. * (duración | longitud)</value>
+  </data>
+  <data name="AdjustTime" xml:space="preserve">
+    <value>(ajustar | cambiar | actualizar)?. * tiempo</value>
+  </data>
+  <data name="AdjustParticipants" xml:space="preserve">
+    <value>(ajustar | cambiar | actualizar | agregar | eliminar)?. * (participantes | Attendee | asistentes | personas | persona)</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>próximo</value>
+  </data>
+  <data name="TodayLower" xml:space="preserve">
+    <value>Hoy</value>
+  </data>
+  <data name="OrdinalSuffixRd" xml:space="preserve">
+    <value>{0} Rd</value>
+  </data>
+  <data name="AllDay" xml:space="preserve">
+    <value>Todo el día</value>
+  </data>
+  <data name="Ago" xml:space="preserve">
+    <value>Hace</value>
+  </data>
+  <data name="ContactSeparator" xml:space="preserve">
+    <value>, | y |;</value>
+  </data>
   <data name="MonthlyToken" xml:space="preserve">
     <value>Mensual</value>
   </data>
-  <data name="Today" xml:space="preserve">
-    <value>Hoy</value>
+  <data name="Later" xml:space="preserve">
+    <value>Más tarde</value>
   </data>
 </root>

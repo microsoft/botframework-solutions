@@ -64,7 +64,7 @@ namespace CalendarSkill.Dialogs.TimeRemaining
                     var itemUserTimeZoneTime = TimeZoneInfo.ConvertTime(item.StartTime, TimeZoneInfo.Utc, state.GetUserTimeZone());
                     if (item.IsCancelled != true && nextEventList.Count == 0)
                     {
-                        if (state.OrderReference == "next")
+                        if (state.OrderReference.ToLower().Contains(CalendarCommonStrings.Next))
                         {
                             nextEventList.Add(item);
                         }

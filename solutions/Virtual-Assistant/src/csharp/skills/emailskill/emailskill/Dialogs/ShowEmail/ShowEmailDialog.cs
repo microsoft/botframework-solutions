@@ -72,6 +72,7 @@ namespace EmailSkill.Dialogs.ShowEmail
 
             var displayEmail = new WaterfallStep[]
             {
+                IfClearPagingConditionStep,
                 PagingStep,
                 ShowEmails,
                 PromptToHandle,
@@ -107,6 +108,29 @@ namespace EmailSkill.Dialogs.ShowEmail
             AddDialog(new ReplyEmailDialog(services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
             AddDialog(new ForwardEmailDialog(services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
             InitialDialogId = Actions.Show;
+        }
+
+        protected async Task<DialogTurnResult> IfClearPagingConditionStep(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                // Clear focus item
+                state.UserSelectIndex = 0;
+
+                // Clear search condition
+                state.SenderName = null;
+                state.SearchTexts = null;
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
         }
 
         protected async Task<DialogTurnResult> PromptToHandle(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -337,7 +361,7 @@ namespace EmailSkill.Dialogs.ShowEmail
                     return await sc.BeginDialogAsync(Actions.Reply, skillOptions);
                 }
                 else if (IsReadMoreIntent(topGeneralIntent, userInput)
-                    || (topIntent == EmailLU.Intent.ShowNext || topIntent == EmailLU.Intent.ShowPrevious || topGeneralIntent == General.Intent.Previous || topGeneralIntent == General.Intent.Next))
+                    || (topIntent == EmailLU.Intent.ShowNext || topIntent == EmailLU.Intent.ShowPrevious || topGeneralIntent == General.Intent.ShowPrevious || topGeneralIntent == General.Intent.ShowNext))
                 {
                     return await sc.ReplaceDialogAsync(Actions.Display, skillOptions);
                 }

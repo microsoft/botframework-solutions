@@ -3,13 +3,9 @@
 # l_General
 - [l_General](general.lu#Cancel)
 - [l_General](general.lu#Escalate)
-- [l_General](general.lu#Goodbye)
-- [l_General](general.lu#Greeting)
 - [l_General](general.lu#Help)
 - [l_General](general.lu#Logout)
-- [l_General](general.lu#Next)
-- [l_General](general.lu#Previous)
-- [l_General](general.lu#Restart)
+- [l_General](general.lu#StartOver)
 
 # l_Calendar
 - [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/de/calendar.lu#ChangeCalendarEntry)
@@ -43,10 +39,6 @@
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/de/email.lu#SearchMessages)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/de/email.lu#SendEmail)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/de/email.lu#Delete)
-$EmailSubjectPattern:simple
-$SenderNamePattern:simple
-$Email:phraseList
-- E-Mail, E-Mail und E-Mail
 
 # l_ToDo
 - [l_ToDo](../../../../skills/todoskill/todoskill/CognitiveModels/LUIS/de/todo.lu#AddToDo)
@@ -65,6 +57,9 @@ $ADDRESS:simple
 
 # q_FAQ
 - [q_FAQ](../../QnA/de/faq.lu#?)
+
+# q_Chitchat
+- [q_FAQ](../../QnA/de/chitchat.lu#?)
 
 # None
 - Meine Wasserflasche ist grün
