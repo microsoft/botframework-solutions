@@ -116,14 +116,14 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarSummaryByTimeRange()
         {
             DateTime now = DateTime.Now;
-            DateTime startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
-            startTime = startTime.AddDays(1);
+            DateTime nextWeekDay = now.AddDays(7);
+            DateTime startTime = new DateTime(nextWeekDay.Year, nextWeekDay.Month, nextWeekDay.Day, 18, 0, 0);
             startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
             this.ServiceManager = MockServiceManager.SetMeetingsToSpecial(new List<EventModel>()
             {
                 MockServiceManager.CreateEventModel(
-                    startDateTime: startTime.AddDays(7),
-                    endDateTime: startTime.AddDays(8))
+                    startDateTime: startTime,
+                    endDateTime: startTime.AddHours(1))
             });
 
             await this.GetTestFlow()
