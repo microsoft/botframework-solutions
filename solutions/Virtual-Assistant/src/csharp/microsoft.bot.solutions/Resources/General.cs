@@ -73,7 +73,7 @@ namespace Luis
         public virtual (Intent intent, double score) TopIntent()
         {
             Intent maxIntent = Intent.None;
-            var max = 0.5;
+            var max = 0.0;
             foreach (var entry in Intents)
             {
                 if (entry.Value.Score > max)
