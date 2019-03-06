@@ -232,7 +232,6 @@ namespace CalendarSkill.Dialogs.FindContact
             {
                 // Highest probability
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "UserName", name }, { "EmailAddress", confirmedPerson.Emails.First().Address ?? confirmedPerson.UserPrincipalName } }), });
-                //return await sc.NextAsync();
             }
             else
             {
@@ -357,12 +356,14 @@ namespace CalendarSkill.Dialogs.FindContact
                     return await sc.EndDialogAsync();
                 }
 
-                if (!string.IsNullOrEmpty(userInput) && IsEmail(userInput))
+                string currentRecipientName = string.IsNullOrEmpty(userInput) ? state.CurrentAttendeeName : userInput;
+
+                if (!string.IsNullOrEmpty(currentRecipientName) && IsEmail(currentRecipientName))
                 {
                     var attendee = new EventModel.Attendee
                     {
-                        DisplayName = userInput,
-                        Address = userInput
+                        DisplayName = currentRecipientName,
+                        Address = currentRecipientName
                     };
                     if (state.Attendees.All(r => r.Address != attendee.Address))
                     {
@@ -374,7 +375,6 @@ namespace CalendarSkill.Dialogs.FindContact
                 }
 
                 List<CustomizedPerson> unionList = new List<CustomizedPerson>();
-                string currentRecipientName = string.IsNullOrEmpty(userInput) ? state.CurrentAttendeeName : userInput;
 
                 if (CreateEventWhiteList.GetMyself(currentRecipientName))
                 {
@@ -457,7 +457,7 @@ namespace CalendarSkill.Dialogs.FindContact
                 }
                 else
                 {
-                    return await sc.ReplaceDialogAsync(Actions.SelectPerson, sc, cancellationToken);
+                    return await sc.ReplaceDialogAsync(Actions.SelectPerson, sc.Options, cancellationToken);
                 }
             }
             catch (Exception ex)

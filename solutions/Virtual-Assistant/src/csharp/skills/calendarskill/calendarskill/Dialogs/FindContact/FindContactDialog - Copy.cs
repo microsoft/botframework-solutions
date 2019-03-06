@@ -23,9 +23,9 @@
 
 //namespace CalendarSkill.Dialogs.FindContact
 //{
-//    public class FindContactDialog : CalendarSkillDialog
+//    public class FindContactDialogOld : CalendarSkillDialog
 //    {
-//        public FindContactDialog(
+//        public FindContactDialogOld(
 //           SkillConfigurationBase services,
 //           ResponseManager responseManager,
 //           IStatePropertyAccessor<CalendarSkillState> accessor,
