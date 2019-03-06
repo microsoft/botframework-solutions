@@ -460,6 +460,12 @@ namespace CalendarSkill.Dialogs.FindContact
                     return await sc.ReplaceDialogAsync(Actions.SelectPerson, sc.Options, cancellationToken);
                 }
             }
+            catch (SkillException skillEx)
+            {
+                await HandleDialogExceptions(sc, skillEx);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
             catch (Exception ex)
             {
                 await HandleDialogExceptions(sc, ex);
