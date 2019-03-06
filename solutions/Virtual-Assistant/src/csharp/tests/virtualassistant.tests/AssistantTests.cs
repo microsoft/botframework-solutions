@@ -133,11 +133,22 @@ namespace VirtualAssistant.Tests
             await this.GetTestFlow()
             .Send(PointOfInterestUtterances.FindCoffeeShop)
             .AssertReply(ValidateSkillForwardingTrace("pointOfInterestSkill"))
-            .AssertReply(this.ValidateAzureMapsKeyPrompt())
-            .AssertReply(this.CheckForPointOfInterestError())
-
-            // .AssertReply(this.CheckForEndOfConversationEvent())
+            .AssertReply(this.CheckLocationPrompt())
             .StartTestAsync();
+        }
+
+        /// <summary>
+        /// Asserts response is one of the available location prompts.
+        /// </summary>
+        /// <returns>IActivity.</returns>
+        private Action<IActivity> CheckLocationPrompt()
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+
+                CollectionAssert.Contains(ParseReplies(POISharedResponses.PromptForCurrentLocation, new StringDictionary()), messageActivity.Text);
+            };
         }
 
         /// <summary>

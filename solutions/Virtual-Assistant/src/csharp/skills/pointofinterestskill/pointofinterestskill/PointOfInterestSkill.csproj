@@ -63,6 +63,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>PointOfInterestBotResponses.tt</DependentUpon>
     </Compile>
+    <Compile Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PointOfInterestSharedStrings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Dialogs\Shared\Resources\POISharedResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -106,7 +111,6 @@
     <EmbeddedResource Include="Dialogs\Route\Resources\RouteResponses.zh.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\PointOfInterestViewCard.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCard.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\RouteDirectionsViewCardNoGetStartedButton.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.de.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.fr.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.it.json" />
@@ -149,6 +153,14 @@
     <Content Update="wwwroot\images\default_pointofinterest.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings.resx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>PointOfInterestSharedStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
