@@ -180,12 +180,12 @@
   "NoLocationsFound": {
     "replies": [
       {
-        "text": "Sorry, I didn't find anything.",
-        "speak": "Sorry, I didn't find anything."
+        "text": "Sorry, I didn't find anything. Try something like \"the mall in Bellevue\" or \"Chippenham in the UK.\"",
+        "speak": "Sorry, I didn't find anything. Try something like \"the mall in Bellevue\" or \"Chippenham in the UK.\""
       },
       {
-        "text": "Hmm...I'm not finding anything.",
-        "speak": "Hmm, I'm not finding anything."
+        "text": "Hmm...I'm not finding anything. Try something like \"the mall in Bellevue\" or \"Chippenham in the UK.\"",
+        "speak": "Hmm, I'm not finding anything. Try something like \"the mall in Bellevue\" or \"Chippenham in the UK.\""
       }
     ],
     "inputHint": "expectingInput"
