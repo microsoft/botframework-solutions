@@ -115,6 +115,15 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ago.
+        /// </summary>
+        public static string Ago {
+            get {
+                return ResourceManager.GetString("Ago", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All day.
         /// </summary>
         public static string AllDay {
@@ -147,6 +156,15 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         public static string AtTime {
             get {
                 return ResourceManager.GetString("AtTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to before.
+        /// </summary>
+        public static string Before {
+            get {
+                return ResourceManager.GetString("Before", resourceCulture);
             }
         }
         
@@ -196,6 +214,24 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to half an hour.
+        /// </summary>
+        public static string HalfAnHour {
+            get {
+                return ResourceManager.GetString("HalfAnHour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to later.
+        /// </summary>
+        public static string Later {
+            get {
+                return ResourceManager.GetString("Later", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to monthly.
         /// </summary>
         public static string MonthlyToken {
@@ -214,6 +250,15 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to next.
+        /// </summary>
+        public static string Next {
+            get {
+                return ResourceManager.GetString("Next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to me.
         /// </summary>
         public static string MyselfConst {
@@ -228,6 +273,15 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         public static string NoAttendees {
             get {
                 return ResourceManager.GetString("NoAttendees", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to now.
+        /// </summary>
+        public static string Now {
+            get {
+                return ResourceManager.GetString("Now", resourceCulture);
             }
         }
         
@@ -279,9 +333,18 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to today.
         /// </summary>
-        public static string Today {
+        public static string TodayLower {
             get {
-                return ResourceManager.GetString("Today", resourceCulture);
+                return ResourceManager.GetString("TodayLower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to tomorrow.
+        /// </summary>
+        public static string TomorrowLower {
+            get {
+                return ResourceManager.GetString("TomorrowLower", resourceCulture);
             }
         }
         
@@ -300,6 +363,15 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         public static string WithTheSubject {
             get {
                 return ResourceManager.GetString("WithTheSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to yesterday.
+        /// </summary>
+        public static string YesterdayLower {
+            get {
+                return ResourceManager.GetString("YesterdayLower", resourceCulture);
             }
         }
     }

@@ -85,7 +85,7 @@ namespace CalendarSkill.Dialogs.Summary
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.OrderReference != null && state.OrderReference == "next")
+                if (state.OrderReference != null && state.OrderReference.ToLower().Contains(CalendarCommonStrings.Next))
                 {
                     return await sc.BeginDialogAsync(Actions.ShowNextEvent, options: sc.Options);
                 }
@@ -149,7 +149,7 @@ namespace CalendarSkill.Dialogs.Summary
                             var responseParams = new StringDictionary()
                             {
                                 { "Count", searchedEvents.Count.ToString() },
-                                { "DateTime", state.StartDateString ?? CalendarCommonStrings.Today }
+                                { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower }
                             };
                             if (searchedEvents.Count == 1)
                             {
@@ -166,7 +166,7 @@ namespace CalendarSkill.Dialogs.Summary
                             {
                                 { "Count", searchedEvents.Count.ToString() },
                                 { "EventName1", searchedEvents[0].Title },
-                                { "DateTime", state.StartDateString ?? CalendarCommonStrings.Today },
+                                { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower },
                                 { "EventTime1", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(searchedEvents[0].StartTime, state.GetUserTimeZone()), searchedEvents[0].IsAllDay == true) },
                                 { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(searchedEvents[0].Attendees) }
                             };
@@ -206,7 +206,7 @@ namespace CalendarSkill.Dialogs.Summary
                         {
                             { "Count", state.SummaryEvents.Count.ToString() },
                             { "EventName1", currentPageMeetings[0].Title },
-                            { "DateTime", state.StartDateString ?? CalendarCommonStrings.Today },
+                            { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower },
                             { "EventTime1", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(currentPageMeetings[0].StartTime, state.GetUserTimeZone()), currentPageMeetings[0].IsAllDay == true) },
                             { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(currentPageMeetings[0].Attendees) }
                         };
@@ -445,15 +445,15 @@ namespace CalendarSkill.Dialogs.Summary
 
                     if (eventItem.IsOrganizer)
                     {
-                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.AskForOrgnizerAction, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.Today } }) });
+                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.AskForOrgnizerAction, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower } }) });
                     }
                     else if (eventItem.IsAccepted)
                     {
-                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.AskForAction, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.Today } }) });
+                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.AskForAction, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower } }) });
                     }
                     else
                     {
-                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.AskForChangeStatus, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.Today } }) });
+                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.AskForChangeStatus, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower } }) });
                     }
                 }
                 else
@@ -674,8 +674,8 @@ namespace CalendarSkill.Dialogs.Summary
                 var state = await Accessor.GetAsync(sc.Context);
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
-                    Prompt = ResponseManager.GetResponse(SummaryResponses.AskForShowOverview, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.Today } }),
-                    RetryPrompt = ResponseManager.GetResponse(SummaryResponses.AskForShowOverview, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.Today } })
+                    Prompt = ResponseManager.GetResponse(SummaryResponses.AskForShowOverview, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower } }),
+                    RetryPrompt = ResponseManager.GetResponse(SummaryResponses.AskForShowOverview, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower } })
                 }, cancellationToken);
             }
             catch (Exception ex)

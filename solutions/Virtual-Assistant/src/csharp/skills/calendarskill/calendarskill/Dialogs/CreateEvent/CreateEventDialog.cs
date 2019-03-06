@@ -394,9 +394,9 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 var tokens = new StringDictionary
                 {
                     { "AttendeesConfirm", attendeeConfirmString },
-                    { "Date", startDateTimeInUserTimeZone.ToSpeechDateString(true) },
-                    { "Time", startDateTimeInUserTimeZone.ToSpeechTimeString(true) },
-                    { "EndTime", endDateTimeInUserTimeZone.ToSpeechTimeString(true) },
+                    { "Date", startDateTimeInUserTimeZone.ToSpeechDateString(false) },
+                    { "Time", startDateTimeInUserTimeZone.ToSpeechTimeString(false) },
+                    { "EndTime", endDateTimeInUserTimeZone.ToSpeechTimeString(false) },
                     { "SubjectConfirm", subjectConfirmString },
                     { "LocationConfirm", locationConfirmString },
                     { "ContentConfirm", contentConfirmString },
