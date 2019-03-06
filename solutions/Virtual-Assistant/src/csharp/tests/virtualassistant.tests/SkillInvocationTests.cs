@@ -98,8 +98,19 @@ namespace VirtualAssistant.Tests.SkillInvocationTests
 
             await this.GetTestFlow()
             .Send(PointOfInterestUtterances.FindCoffeeShop)
-            .AssertReply(POISharedResponses.PointOfInterestWelcomeMessage)
+            .AssertReply(this.ValidateAzureMapsKeyPrompt())
             .StartTestAsync();
-        }       
+        }
+
+        private Action<IActivity> ValidateAzureMapsKeyPrompt()
+        {
+            return activity =>
+            {
+                var traceActivity = activity as Activity;
+                Assert.IsNotNull(traceActivity);
+
+                Assert.IsTrue(traceActivity.Text.Contains("DialogException: Could not get the required Azure Maps key. Please make sure your settings are correctly configured."));
+            };
+        }
     }
 }
