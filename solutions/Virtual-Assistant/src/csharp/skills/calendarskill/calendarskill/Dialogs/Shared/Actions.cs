@@ -14,9 +14,11 @@
         public const string ChangeEventStatus = "ChangeEventStatus";
         public const string UpdateAddress = "UpdateAddress";
         public const string UpdateName = "UpdateName";
+        public const string LoopNameList = "LoopNameList";
         public const string ConfirmAttendee = "ConfirmAttendee";
-        public const string ConfirmName = "ConfirmName";
-        public const string ConfirmEmail = "ConfirmEmail";
+        public const string ConfirmNameList = "ConfirmNameList";
+        public const string SelectPerson = "SelectPerson";
+        public const string SelectEmail = "SelectEmail";
         public const string FindContact = "FindContact";
         public const string UpdateRecipientName = "UpdateRecipientName";
         public const string ShowTimeRemaining = "ShowTimeRemaining";

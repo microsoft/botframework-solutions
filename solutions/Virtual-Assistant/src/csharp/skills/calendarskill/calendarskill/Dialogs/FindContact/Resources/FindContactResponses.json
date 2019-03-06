@@ -88,5 +88,14 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "NoAttendees": {
+    "replies": [
+      {
+        "text": "Sure, who will join?",
+        "speak": "Sure, who will join?"
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

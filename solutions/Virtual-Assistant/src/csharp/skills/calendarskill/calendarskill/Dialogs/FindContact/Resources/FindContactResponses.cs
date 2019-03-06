@@ -22,5 +22,6 @@ namespace CalendarSkill.Dialogs.FindContact.Resources
         public const string BeforeSendingMessage = "BeforeSendingMessage";
         public const string AlreadyFirstPage = "AlreadyFirstPage";
         public const string AlreadyLastPage = "AlreadyLastPage";
+        public const string NoAttendees = "NoAttendees";
     }
 }
