@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PointOfInterestSkill.Dialogs.Shared.Resources;
 using VirtualAssistant.Tests.TestHelpers;
 using VirtualAssistant.Tests.Utterances;
 
@@ -97,19 +98,8 @@ namespace VirtualAssistant.Tests.SkillInvocationTests
 
             await this.GetTestFlow()
             .Send(PointOfInterestUtterances.FindCoffeeShop)
-            .AssertReply(this.ValidateAzureMapsKeyPrompt())
+            .AssertReply(POISharedResponses.PointOfInterestWelcomeMessage)
             .StartTestAsync();
-        }
-
-        private Action<IActivity> ValidateAzureMapsKeyPrompt()
-        {
-            return activity =>
-            {
-                var traceActivity = activity as Activity;
-                Assert.IsNotNull(traceActivity);
-
-                Assert.IsTrue(traceActivity.Text.Contains("DialogException: Could not get the required Azure Maps key. Please make sure your settings are correctly configured."));
-            };
-        }
+        }       
     }
 }
