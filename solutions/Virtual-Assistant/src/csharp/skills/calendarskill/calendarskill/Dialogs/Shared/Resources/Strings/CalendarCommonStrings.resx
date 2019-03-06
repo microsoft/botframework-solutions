@@ -195,4 +195,7 @@
   <data name="OrdinalSuffixTh" xml:space="preserve">
     <value>{0}th</value>
   </data>
+  <data name="MyselfConst" xml:space="preserve">
+    <value>me</value>
+  </data>
 </root>

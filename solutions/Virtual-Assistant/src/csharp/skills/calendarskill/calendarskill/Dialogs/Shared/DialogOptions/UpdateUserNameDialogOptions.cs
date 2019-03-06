@@ -31,6 +31,11 @@ namespace CalendarSkill
             /// ConfirmNo.
             /// </summary>
             ConfirmNo,
+
+            /// <summary>
+            /// ConfirmNo.
+            /// </summary>
+            Initialize,
         }
 
         public bool SkillMode { get; set; }
