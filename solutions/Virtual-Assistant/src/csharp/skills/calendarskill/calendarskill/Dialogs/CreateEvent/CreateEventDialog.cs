@@ -54,12 +54,6 @@ namespace CalendarSkill.Dialogs.CreateEvent
                 CreateEvent,
             };
 
-            var updateAddress = new WaterfallStep[]
-            {
-                UpdateAddress,
-                AfterUpdateAddress,
-            };
-
             var updateStartDate = new WaterfallStep[]
             {
                 UpdateStartDateForCreate,
@@ -86,7 +80,6 @@ namespace CalendarSkill.Dialogs.CreateEvent
 
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.CreateEvent, createEvent) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.UpdateAddress, updateAddress) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateStartDateForCreate, updateStartDate) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateStartTimeForCreate, updateStartTime) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateDurationForCreate, updateDuration) { TelemetryClient = telemetryClient });
@@ -199,7 +192,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
 
                 if (state.Attendees.Count == 0 && (!state.CreateHasDetail || state.RecreateState == RecreateEventState.Participants || state.AttendeesNameList.Count > 0))
                 {
-                    return await sc.BeginDialogAsync(Actions.UpdateAddress, cancellationToken: cancellationToken);
+                    return await sc.BeginDialogAsync(nameof(FindContactDialog), options: sc.Options, cancellationToken: cancellationToken);
                 }
                 else
                 {
@@ -486,72 +479,6 @@ namespace CalendarSkill.Dialogs.CreateEvent
             {
                 await HandleDialogExceptions(sc, ex);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        // update address waterfall steps
-        public async Task<DialogTurnResult> UpdateAddress(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.AttendeesNameList.Any())
-                {
-                    return await sc.NextAsync(cancellationToken: cancellationToken);
-                }
-
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CreateEventResponses.NoAttendees) }, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        public async Task<DialogTurnResult> AfterUpdateAddress(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.AttendeesNameList.Any())
-                {
-                    state.FirstEnterFindContact = true;
-                    return await sc.BeginDialogAsync(nameof(FindContactDialog), options: sc.Options, cancellationToken: cancellationToken);
-                }
-
-                if (sc.Result != null)
-                {
-                    sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                    var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-                    if (state.EventSource != EventSource.Other)
-                    {
-                        if (userInput != null)
-                        {
-                            var nameList = userInput.Split(CreateEventWhiteList.GetContactNameSeparator(), StringSplitOptions.None)
-                                .Select(x => x.Trim())
-                                .Where(x => !string.IsNullOrWhiteSpace(x))
-                                .ToList();
-                            state.AttendeesNameList = nameList;
-                        }
-
-                        state.FirstEnterFindContact = true;
-                        return await sc.BeginDialogAsync(nameof(FindContactDialog), options: sc.Options, cancellationToken: cancellationToken);
-                    }
-                    else
-                    {
-                        return await sc.BeginDialogAsync(Actions.UpdateAddress, new UpdateAddressDialogOptions(UpdateAddressDialogOptions.UpdateReason.NotAnAddress), cancellationToken);
-                    }
-                }
-                else
-                {
-                    return await sc.NextAsync(cancellationToken: cancellationToken);
-                }
             }
             catch (Exception ex)
             {

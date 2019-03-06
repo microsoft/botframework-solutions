@@ -259,6 +259,15 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to me.
+        /// </summary>
+        public static string MyselfConst {
+            get {
+                return ResourceManager.GetString("MyselfConst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to no attendees.
         /// </summary>
         public static string NoAttendees {

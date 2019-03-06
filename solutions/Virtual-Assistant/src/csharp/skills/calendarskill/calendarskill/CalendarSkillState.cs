@@ -38,6 +38,7 @@ namespace CalendarSkill
             NewStartDateTime = null;
             EventSource = EventSource.Other;
             AttendeesNameList = new List<string>();
+            CurrentAttendeeName = string.Empty;
             ConfirmAttendeesNameIndex = 0;
             DialogName = string.Empty;
             ShowAttendeesIndex = 0;
@@ -131,6 +132,8 @@ namespace CalendarSkill
 
         public List<string> AttendeesNameList { get; set; }
 
+        public string CurrentAttendeeName { get; set; }
+
         public int ConfirmAttendeesNameIndex { get; set; }
 
         public string DialogName { get; set; }
@@ -214,6 +217,7 @@ namespace CalendarSkill
             NewStartDateTime = null;
             EventSource = EventSource.Other;
             AttendeesNameList = new List<string>();
+            CurrentAttendeeName = string.Empty;
             ConfirmAttendeesNameIndex = 0;
             DialogName = string.Empty;
             ShowAttendeesIndex = 0;
@@ -305,6 +309,7 @@ namespace CalendarSkill
         {
             Attendees = new List<EventModel.Attendee>();
             AttendeesNameList = new List<string>();
+            CurrentAttendeeName = string.Empty;
             ConfirmAttendeesNameIndex = 0;
             CreateHasDetail = true;
             RecreateState = RecreateEventState.Participants;
