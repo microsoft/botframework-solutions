@@ -7,8 +7,8 @@ assignees: ''
 
 ---
 
-**Project**
-<!--Virtual Assistant, Skills, Enterprise Bot Template, or Customer Support Template-->
+**Project**: <!--Virtual Assistant, Skills, Enterprise Bot Template, or Customer Support Template-->
+**Language**: <!-- C#, TypeScript -->
 
 **Description**
 <!--A clear and concise description of what the bug is.-->
