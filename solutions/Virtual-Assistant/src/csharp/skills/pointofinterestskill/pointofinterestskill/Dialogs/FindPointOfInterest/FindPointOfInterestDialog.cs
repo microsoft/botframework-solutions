@@ -74,7 +74,7 @@ namespace PointOfInterestSkill.Dialogs.FindPointOfInterest
         /// <param name="sc">WaterfallStepContext.</param>
         /// <param name="cancellationToken">CancellationToken.</param>
         /// <returns>DialogTurnResult.</returns>
-        public async Task<DialogTurnResult> RouteToFindPointOfInterestDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
+        protected async Task<DialogTurnResult> RouteToFindPointOfInterestDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             var state = await Accessor.GetAsync(sc.Context);
 

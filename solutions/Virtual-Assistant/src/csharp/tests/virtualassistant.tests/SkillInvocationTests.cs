@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Skills;
@@ -86,8 +87,7 @@ namespace VirtualAssistant.Tests.SkillInvocationTests
         }
 
         /// <summary>
-        /// Test that we can invoke the PointOfInterest Skill, if we are able to do this we will get a trace activity saying that the
-        /// Azure Maps key isn't available (through configuration) which is expected and proves we can invoke the skill.
+        /// Test that we can invoke the PointOfInterest Skill and receive the location prompt.
         /// </summary>
         /// <returns>Task.</returns>
         [TestMethod]
@@ -98,18 +98,21 @@ namespace VirtualAssistant.Tests.SkillInvocationTests
 
             await this.GetTestFlow()
             .Send(PointOfInterestUtterances.FindCoffeeShop)
-            .AssertReply(this.ValidateAzureMapsKeyPrompt())
+            .AssertReply(CheckLocationPrompt())
             .StartTestAsync();
         }
 
-        private Action<IActivity> ValidateAzureMapsKeyPrompt()
+        /// <summary>
+        /// Asserts response is one of the available location prompts.
+        /// </summary>
+        /// <returns>IActivity.</returns>
+        private Action<IActivity> CheckLocationPrompt()
         {
             return activity =>
             {
-                var traceActivity = activity as Activity;
-                Assert.IsNotNull(traceActivity);
+                var messageActivity = activity.AsMessageActivity();
 
-                Assert.IsTrue(traceActivity.Text.Contains("DialogException: Could not get the required Azure Maps key. Please make sure your settings are correctly configured."));
+                CollectionAssert.Contains(ParseReplies(POISharedResponses.PromptForCurrentLocation, new StringDictionary()), messageActivity.Text);
             };
         }
     }
