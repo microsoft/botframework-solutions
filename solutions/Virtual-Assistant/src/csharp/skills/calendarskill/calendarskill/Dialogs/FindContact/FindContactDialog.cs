@@ -36,49 +36,77 @@ namespace CalendarSkill.Dialogs.FindContact
         {
             TelemetryClient = telemetryClient;
 
-            var confirmAttendee = new WaterfallStep[]
-            {
-                ConfirmName,
-                ConfirmEmail,
-                AfterConfirmEmail
-            };
-
-            var loopNameList = new WaterfallStep[]
-            {
-                LoopNameList,
-                AfterLoopNameList
-            };
-
-            var updateName = new WaterfallStep[]
-            {
-                UpdateUserName,
-                AfterUpdateUserName,
-            };
-
+            // entry, get the name list
             var confirmNameList = new WaterfallStep[]
             {
                 ConfirmNameList,
                 AfterConfirmNameList,
             };
 
+            // go through the name list, replace the confirmNameList
+            // set state.CurrentAttendeeName
+            var loopNameList = new WaterfallStep[]
+            {
+                LoopNameList,
+                AfterLoopNameList
+            };
+
+            // check on the attendee of state.CurrentAttendeeName.
+            // called by loopNameList
+            var confirmAttendee = new WaterfallStep[]
+            {
+                // call updateName to get the person state.ConfirmedPerson.
+                // state.ConfirmedPerson should be set after this step
+                ConfirmName,
+
+                // check if the state.ConfirmedPerson
+                //  - null : failed to parse this name for multiple try.
+                //  - one email : check if this one is wanted
+                //  - multiple emails : call selectEmail
+                ConfirmEmail,
+
+                // if got no on last step, replace/restart this flow.
+                AfterConfirmEmail
+            };
+
+            // use the user name of state.CurrentAttendeeName or user input to find the persons.
+            // and will call select person.
+            // after all this done, state.ConfirmedPerson should be set.
+            var updateName = new WaterfallStep[]
+            {
+                // check whether should the bot ask for attendee name.
+                // if called by confirmAttendee then skip this step.
+                // if called by itself when can not find the last input, it will ask back or end this one when multiple try.
+                UpdateUserName,
+
+                // check if email. add email direct into attendee and set state.ConfirmedPerson null.
+                // if not, search for the attendee.
+                // if got multiple persons, call selectPerson. use replace
+                // if got no person, replace/restart this flow.
+                AfterUpdateUserName,
+            };
+
+            // select person, called bt updateName with replace.
             var selectPerson = new WaterfallStep[]
             {
                 SelectPerson,
                 AfterSelectPerson
             };
 
+            // select email.
+            // called by ConfirmEmail
             var selectEmail = new WaterfallStep[]
             {
                 SelectEmail,
                 AfterSelectEmail
             };
 
-            AddDialog(new WaterfallDialog(Actions.ConfirmAttendee, confirmAttendee) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.ConfirmNameList, confirmNameList) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.LoopNameList, loopNameList) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.ConfirmAttendee, confirmAttendee) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateName, updateName) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.SelectPerson, selectPerson) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.SelectEmail, selectEmail) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.ConfirmNameList, confirmNameList) { TelemetryClient = telemetryClient });
             InitialDialogId = Actions.ConfirmNameList;
         }
 
@@ -87,11 +115,14 @@ namespace CalendarSkill.Dialogs.FindContact
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+
+                // got attendee name list already.
                 if (state.AttendeesNameList.Any())
                 {
                     return await sc.NextAsync();
                 }
 
+                // ask for attendee
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.NoAttendees) }, cancellationToken);
             }
             catch (Exception ex)
@@ -107,15 +138,20 @@ namespace CalendarSkill.Dialogs.FindContact
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+
+                // get name list from sc.result
                 if (sc.Result != null)
                 {
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                     var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
 
+                    // if is skip. set the name list to be myself only.
                     if (CreateEventWhiteList.IsSkip(userInput))
                     {
-                        state.AttendeesNameList = new List<string>();
-                        state.AttendeesNameList.Add(CalendarCommonStrings.MyselfConst);
+                        state.AttendeesNameList = new List<string>
+                        {
+                            CalendarCommonStrings.MyselfConst
+                        };
                     }
                     else
                     if (state.EventSource != EventSource.Other)
@@ -139,8 +175,9 @@ namespace CalendarSkill.Dialogs.FindContact
                         await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.BeforeSendingMessage, new StringDictionary() { { "NameList", nameString } }));
                     }
 
+                    // go to loop to go through all the names
                     state.ConfirmAttendeesNameIndex = 0;
-                    return await sc.ReplaceDialogAsync(Actions.LoopNameList, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.Initialize), cancellationToken);
+                    return await sc.ReplaceDialogAsync(Actions.LoopNameList, sc.Options, cancellationToken);
                 }
 
                 state.AttendeesNameList = new List<string>();
@@ -164,7 +201,7 @@ namespace CalendarSkill.Dialogs.FindContact
                 if (state.ConfirmAttendeesNameIndex < state.AttendeesNameList.Count)
                 {
                     state.CurrentAttendeeName = state.AttendeesNameList[state.ConfirmAttendeesNameIndex];
-                    return await sc.BeginDialogAsync(Actions.ConfirmAttendee, sc.Options, cancellationToken);
+                    return await sc.BeginDialogAsync(Actions.ConfirmAttendee, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.Initialize), cancellationToken);
                 }
                 else
                 {
@@ -186,7 +223,7 @@ namespace CalendarSkill.Dialogs.FindContact
                 var state = await Accessor.GetAsync(sc.Context);
                 state.ConfirmAttendeesNameIndex = state.ConfirmAttendeesNameIndex + 1;
                 state.ConfirmedPerson = null;
-                return await sc.ReplaceDialogAsync(Actions.LoopNameList, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.Initialize), cancellationToken);
+                return await sc.ReplaceDialogAsync(Actions.LoopNameList, sc.Options, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -201,7 +238,13 @@ namespace CalendarSkill.Dialogs.FindContact
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+
+                // when called bt LoopNameList, the options reason is initialize.
+                // when replaced by itself, the reason will be Confirm No.
                 var options = (UpdateUserNameDialogOptions)sc.Options;
+
+                // set the ConfirmPerson to null as defaut.
+                state.ConfirmedPerson = null;
                 return await sc.BeginDialogAsync(Actions.UpdateName, options: options, cancellationToken: cancellationToken);
             }
             catch (SkillException skillEx)
@@ -246,31 +289,28 @@ namespace CalendarSkill.Dialogs.FindContact
                 var state = await Accessor.GetAsync(sc.Context);
                 var confirmedPerson = state.ConfirmedPerson;
                 var name = confirmedPerson.DisplayName;
-                if (sc.Result is bool)
+
+                // it will be new retry whether the user set this attendee down or choose to retry on this one.
+                state.FirstRetryInFindContact = true;
+
+                if (!(sc.Result is bool) || (bool)sc.Result)
                 {
-                    if ((bool)sc.Result)
+                    var attendee = new EventModel.Attendee
                     {
-                        var attendee = new EventModel.Attendee
-                        {
-                            DisplayName = name,
-                            Address = confirmedPerson.Emails.First().Address
-                        };
-                        if (state.Attendees.All(r => r.Address != attendee.Address))
-                        {
-                            state.Attendees.Add(attendee);
-                        }
+                        DisplayName = name,
+                        Address = confirmedPerson.Emails.First().Address
+                    };
+                    if (state.Attendees.All(r => r.Address != attendee.Address))
+                    {
+                        state.Attendees.Add(attendee);
+                    }
 
-                        state.FirstRetryInFindContact = true;
-                        return await sc.EndDialogAsync();
-                    }
-                    else
-                    {
-                        state.FirstRetryInFindContact = true;
-                        return await sc.ReplaceDialogAsync(Actions.ConfirmAttendee, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.ConfirmNo));
-                    }
+                    return await sc.EndDialogAsync();
                 }
-
-                return await sc.EndDialogAsync();
+                else
+                {
+                    return await sc.ReplaceDialogAsync(Actions.ConfirmAttendee, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.ConfirmNo));
+                }
             }
             catch (Exception ex)
             {
@@ -288,6 +328,8 @@ namespace CalendarSkill.Dialogs.FindContact
                 state.UnconfirmedPerson.Clear();
                 state.ConfirmedPerson = null;
                 var options = (UpdateUserNameDialogOptions)sc.Options;
+
+                // if it is confirm no, thenask user to give a new attendee
                 if (options.Reason == UpdateUserNameDialogOptions.UpdateReason.ConfirmNo)
                 {
                     return await sc.PromptAsync(
@@ -300,6 +342,7 @@ namespace CalendarSkill.Dialogs.FindContact
 
                 var currentRecipientName = state.CurrentAttendeeName;
 
+                // if not initialize ask user for attendee
                 if (options.Reason != UpdateUserNameDialogOptions.UpdateReason.Initialize)
                 {
                     if (state.FirstRetryInFindContact)
@@ -357,7 +400,9 @@ namespace CalendarSkill.Dialogs.FindContact
                 }
 
                 string currentRecipientName = string.IsNullOrEmpty(userInput) ? state.CurrentAttendeeName : userInput;
+                state.CurrentAttendeeName = currentRecipientName;
 
+                // if it's an email, add to attendee and kepp the state.ConfirmedPerson null
                 if (!string.IsNullOrEmpty(currentRecipientName) && IsEmail(currentRecipientName))
                 {
                     var attendee = new EventModel.Attendee
@@ -371,6 +416,7 @@ namespace CalendarSkill.Dialogs.FindContact
                     }
 
                     state.CurrentAttendeeName = string.Empty;
+                    state.ConfirmedPerson = null;
                     return await sc.EndDialogAsync();
                 }
 
@@ -621,22 +667,11 @@ namespace CalendarSkill.Dialogs.FindContact
                 var choiceResult = (sc.Result as FoundChoice)?.Value.Trim('*');
                 if (choiceResult != null)
                 {
-                    // Find an recipient
-                    var attendee = new EventModel.Attendee
-                    {
-                        DisplayName = choiceResult.Split(": ")[0],
-                        Address = choiceResult.Split(": ")[1],
-                    };
-                    if (state.Attendees.All(r => r.Address != attendee.Address))
-                    {
-                        state.Attendees.Add(attendee);
-                    }
-
-                    state.FirstRetryInFindContact = true;
+                    state.ConfirmedPerson.DisplayName = choiceResult.Split(": ")[0];
+                    state.ConfirmedPerson.Emails.First().Address = choiceResult.Split(": ")[1];
 
                     // Clean up data
                     state.ShowAttendeesIndex = 0;
-                    state.ConfirmedPerson = new CustomizedPerson();
                 }
 
                 return await sc.EndDialogAsync();
