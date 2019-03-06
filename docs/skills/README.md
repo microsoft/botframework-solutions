@@ -1,19 +1,22 @@
 # Skills Overview
 
-Skills are a type of bot that allows developers to develop them like a standard but, while having the functionality to plug in to a greater Virtual Assistant solution.
+Skills are a type of bot that allows developers to develop and test them like a standard bot, while having the functionality to plug in to a greater Virtual Assistant solution.
 Apart from minor difference to enable this special invocation pattern, a Skill looks and behaves like a regular bot. The same protocol is maintained between two bots to ensure a consistent approach.
 Skills for common scenarios like productivity and navigation to be used as-is or customized however a customer prefers.
 > The Skill functionality for Virtual Assistants will inform the broader Azure Bot Service skill approach moving forward.
 
 ## Table of Contents
-- [Available Skills](#available-skills)
-- [Create a New Skill](#create-a-new-skill)
-- [Skill Invocation Flow](#skill-invocation-flow)
-- [Registration](#registration)
-- [Dispatching Skills](#dispatching-skills)
-- [Using the Skill Dialog](#using-the-skill-dialog)
-- [Interrupting Active Skills](#interrupting-active-skills)
-- [Generating new LUIS models](#generating-new-luis-models])
+- [Skills Overview](#skills-overview)
+  - [Table of Contents](#table-of-contents)
+  - [Available Skills](#available-skills)
+  - [Skill Deployment](#skill-deployment)
+  - [Create a New Skill](#create-a-new-skill)
+  - [Skill Invocation Flow](#skill-invocation-flow)
+  - [Registration](#registration)
+  - [Dispatching Skills](#dispatching-skills)
+  - [Using the SkillDialog](#using-the-skilldialog)
+  - [Interrupting Active Skills](#interrupting-active-skills)
+  - [Generating new LUIS models](#generating-new-luis-models)
 
 ## Available Skills
 
@@ -25,6 +28,9 @@ The following Skills are available:
 - [Automotive](./automotive.md)
 - [Experimental Skills](./experimental-skills.md)
 
+## Skill Deployment
+The Productivity and Point of Interest skills are automatically deployed and configured as part of a Virtual Assistant deployment. Automotive and Experimental skills are not added automatically. If you wish to deploy and develop/test a skill independently of the Virtual Assistant see the local mode deployment instructions within each skills documentation page.
+
 ## Create a New Skill
 
 Use the Skill Template to [Create a New Skill](./create.md) with an out-of-the-box basic Skill and unit test project.
@@ -32,9 +38,9 @@ Use the Skill Template to [Create a New Skill](./create.md) with an out-of-the-b
 
 ## Skill Invocation Flow
 
-All communication between a Virtual Assistant and a Skill is performed through a custom `SkillDialog`, started when the dispatcher identifies a Skill that maps to a user’s utterances. Skills are invoked through a lightweight `BotAdapter`, maintaining the communication protocol and ensuring Skills can be developed using the standard Bot Framework toolkit.
+All communication between a Virtual Assistant and a Skill is performed through a custom `SkillDialog`, started when the dispatcher identifies a Skill that maps to a userï¿½s utterances. Skills are invoked through a lightweight `InProcAdapter`, maintaining the communication protocol and ensuring Skills can be developed using the standard Bot Framework toolkit.
 
-`SkillDialog` bootstraps the `BotAdapter` and processes appropriate middleware before invoking the `OnTurn` method on the Bot for each Activity. A `skillBegin` event is sent at the beginning of each Skill Dialog and the end of a Skill Dialog is marked by the sending of a `endOfConversation` event.
+`SkillDialog` bootstraps the `InProcAdapter` and processes appropriate middleware before invoking the `OnTurn` method on the Bot for each Activity. A `skillBegin` event is sent at the beginning of each Skill Dialog and the end of a Skill Dialog is marked by the sending of a `endOfConversation` event.
 
 ![Skill Invocation Flow](../media/virtualassistant-SkillFlow.png)
 
@@ -86,15 +92,15 @@ The [Dispatch](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tu
 Each Skill uses a `SkillDialog` class to manage it's invocation.
 The Virtual Assistant identifies a Skill to use and creates a new `SkillDialog` instance with configuration properties as a parameter. 
 Through reflection, the dialog instantiates the Skill and invokes the `OnTurn` handler to begin the Skill. 
-Skills require a new state container, configured in your Virtual Assistant’s configured state store, to ensure state is maintained at the highest level. 
-This dialog is active on the Virtual Assistant’s `DialogStack`, ensuring that subsequent utterances are routed to your Skill. 
+Skills require a new state container, configured in your Virtual Assistantï¿½s configured state store, to ensure state is maintained at the highest level. 
+This dialog is active on the Virtual Assistantï¿½s `DialogStack`, ensuring that subsequent utterances are routed to your Skill. 
 When an `EndOfConversation` event is sent from the Skill, it tears down the `SkillDialog` and returns control back to the user.
 
 ## Interrupting Active Skills
 Skills can be interrupted through a top-level interruption (e.g. "cancel"). The user is prompted to confirm before tearing down the active Skill.
 
 ## Generating new LUIS models
-Each Skill uses a different LUIS language model that needs to be representated in code. Currently, the language models available in the Virtual Assistant are:
+Each Skill uses a different LUIS language model that needs to be represented in code. Currently, the language models available in the Virtual Assistant are:
 
 * [`Email.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/emailskill/Dialogs/Shared/Resources/Email.cs)
 * [`Calendar.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/calendarskill/Dialogs/Shared/Resources/Calendar.cs)
