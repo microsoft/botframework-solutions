@@ -143,7 +143,7 @@ namespace VirtualAssistant
                 options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en-us"));
                 options.Middleware.Add(new EventDebuggerMiddleware());
                 options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
-                //options.Middleware.Add(new ProactiveStateMiddleware(proactiveState));
+                options.Middleware.Add(new ProactiveStateMiddleware(proactiveState));
 
                 //// Translator is an optional component for scenarios when an Assistant needs to work beyond native language support
                 // var translatorKey = Configuration.GetValue<string>("translatorKey");
