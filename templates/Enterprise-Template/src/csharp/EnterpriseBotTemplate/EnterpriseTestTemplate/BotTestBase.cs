@@ -66,7 +66,7 @@ namespace $safeprojectname$
 
         public IBot BuildBot()
         {
-            return new $ext_safeprojectname$.$ext_safeprojectname$(BotServices, ConversationState, UserState, TelemetryClient);
+            return new $ext_safeprojectname$.Bot(BotServices, ConversationState, UserState, TelemetryClient);
         }
     }
 }

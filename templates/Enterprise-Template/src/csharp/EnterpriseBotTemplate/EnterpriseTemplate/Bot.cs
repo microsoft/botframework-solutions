@@ -14,7 +14,7 @@ namespace $safeprojectname$
     /// <summary>
     /// Main entry point and orchestration for bot.
     /// </summary>
-    public class $safeprojectname$ : IBot
+    public class Bot : IBot
     {
         private readonly BotServices _services;
         private readonly ConversationState _conversationState;
@@ -28,7 +28,7 @@ namespace $safeprojectname$
         /// <param name="botServices">Bot services.</param>
         /// <param name="conversationState">Bot conversation state.</param>
         /// <param name="userState">Bot user state.</param>
-        public $safeprojectname$(BotServices botServices, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient)
+        public Bot(BotServices botServices, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
