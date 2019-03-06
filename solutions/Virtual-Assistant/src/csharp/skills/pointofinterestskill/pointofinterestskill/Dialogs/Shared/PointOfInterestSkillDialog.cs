@@ -530,7 +530,8 @@ namespace PointOfInterestSkill.Dialogs.Shared
             if (timeSpan.Minutes < 1)
             {
                 timeString.Append($"< 1 {PointOfInterestSharedStrings.MINUTE_ABBREVIATION}");
-            } else
+            }
+            else
             {
                 timeString.Append(timeSpan.Minutes + $" {PointOfInterestSharedStrings.MINUTE_ABBREVIATION}");
             }
