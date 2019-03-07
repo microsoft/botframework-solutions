@@ -142,6 +142,87 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to who.*(with|attend|join|come).
+        /// </summary>
+        public static string AskForAttendee {
+            get {
+                return ResourceManager.GetString("AskForAttendee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to what.*(content|detail).
+        /// </summary>
+        public static string AskForContent {
+            get {
+                return ResourceManager.GetString("AskForContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to what (is|are)?.*about.
+        /// </summary>
+        public static string AskForDetail {
+            get {
+                return ResourceManager.GetString("AskForDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to how long.
+        /// </summary>
+        public static string AskForDuration {
+            get {
+                return ResourceManager.GetString("AskForDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (when|what time).*(end|stop).
+        /// </summary>
+        public static string AskForEndTime {
+            get {
+                return ResourceManager.GetString("AskForEndTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to where|what.*location|waht.*room.
+        /// </summary>
+        public static string AskForLocation {
+            get {
+                return ResourceManager.GetString("AskForLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (when|what time).*(start|begin).
+        /// </summary>
+        public static string AskForStartTime {
+            get {
+                return ResourceManager.GetString("AskForStartTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to when|what time.
+        /// </summary>
+        public static string AskForTime {
+            get {
+                return ResourceManager.GetString("AskForTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to what.*(title|subject).
+        /// </summary>
+        public static string AskForTitle {
+            get {
+                return ResourceManager.GetString("AskForTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} and {1} more.
         /// </summary>
         public static string AttendeesSummary {
@@ -250,20 +331,20 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to next.
-        /// </summary>
-        public static string Next {
-            get {
-                return ResourceManager.GetString("Next", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to me.
         /// </summary>
         public static string MyselfConst {
             get {
                 return ResourceManager.GetString("MyselfConst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to next.
+        /// </summary>
+        public static string Next {
+            get {
+                return ResourceManager.GetString("Next", resourceCulture);
             }
         }
         

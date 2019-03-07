@@ -222,4 +222,31 @@
   <data name="MyselfConst" xml:space="preserve">
     <value>我</value>
   </data>
+  <data name="AskForAttendee" xml:space="preserve">
+    <value>(有)?谁.*(参加|参与|与会|在)</value>
+  </data>
+  <data name="AskForContent" xml:space="preserve">
+    <value>(什么|啥).*(内容|细节)</value>
+  </data>
+  <data name="AskForDetail" xml:space="preserve">
+    <value>(有关|是|有|关于).*(什么|啥)</value>
+  </data>
+  <data name="AskForDuration" xml:space="preserve">
+    <value>多久</value>
+  </data>
+  <data name="AskForEndTime" xml:space="preserve">
+    <value>(几点|什么时候|啥时候).*(结束|终止)</value>
+  </data>
+  <data name="AskForLocation" xml:space="preserve">
+    <value>在哪</value>
+  </data>
+  <data name="AskForStartTime" xml:space="preserve">
+    <value>(几点|什么时候|啥时候).*(开始|开放)</value>
+  </data>
+  <data name="AskForTime" xml:space="preserve">
+    <value>几点|什么时候|啥时候</value>
+  </data>
+  <data name="AskForTitle" xml:space="preserve">
+    <value>(什么|啥).*(标题|主题|抬头)</value>
+  </data>
 </root>
