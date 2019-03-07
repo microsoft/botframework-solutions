@@ -19,7 +19,11 @@ Follow the instructions below to build, deploy and configure your Virtual Assist
 - Install the Azure Bot Service command line (CLI) tools. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of new deployment capabilities. **Minimum version 4.3.2 required for msbot, and minimum version 1.1.0 required for ludown.**
 
 ```shell
-npm install -g botdispatch chatdown ludown luis-apis luisgen msbot qnamaker  
+npm install -g botdispatch chatdown ludown luis-apis msbot qnamaker  
+```
+- Install [LuisGen](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/LUISGen/src/npm/readme.md)
+```shell
+dotnet tool install -g luisgen
 ```
 - Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
 
