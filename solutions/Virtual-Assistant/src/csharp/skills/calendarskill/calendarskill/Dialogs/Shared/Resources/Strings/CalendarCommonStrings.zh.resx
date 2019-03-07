@@ -219,4 +219,7 @@
   <data name="YesterdayLower" xml:space="preserve">
     <value>昨天</value>
   </data>
+  <data name="MyselfConst" xml:space="preserve">
+    <value>我</value>
+  </data>
 </root>

@@ -121,13 +121,13 @@
     <value>Mañana</value>
   </data>
   <data name="NoAttendees" xml:space="preserve">
-    <value>no asistentes</value>
+    <value>no hay asistentes</value>
   </data>
   <data name="Empty" xml:space="preserve">
     <value>Vacío</value>
   </data>
   <data name="AdjustSubject" xml:space="preserve">
-    <value>(ajustar | cambiar | actualizar)?. * (tema | título)</value>
+    <value>(Ajuste | cambio | actualización)?. * (asunto | título)</value>
   </data>
   <data name="WeeklyToken" xml:space="preserve">
     <value>Semanal</value>
@@ -138,6 +138,9 @@
   <data name="DailyToken" xml:space="preserve">
     <value>Diario</value>
   </data>
+  <data name="Next" xml:space="preserve">
+    <value>próximo</value>
+  </data>
   <data name="AtTime" xml:space="preserve">
     <value>en {0}</value>
   </data>
@@ -145,7 +148,7 @@
     <value>Reunión</value>
   </data>
   <data name="SkipPhrases" xml:space="preserve">
-    <value>^ (SKIP | no)</value>
+    <value>^ (omitir | no)</value>
   </data>
   <data name="OrdinalSuffixTh" xml:space="preserve">
     <value>{0} TH</value>
@@ -157,13 +160,13 @@
     <value>{0} y {1} más</value>
   </data>
   <data name="WithTheSubject" xml:space="preserve">
-    <value>con un tema de {0}</value>
+    <value>con un asunto de {0}</value>
   </data>
   <data name="Before" xml:space="preserve">
     <value>Antes</value>
   </data>
   <data name="AdjustLocation" xml:space="preserve">
-    <value>(ajustar | cambiar | actualizar)?. * (ubicación | lugar | donde)</value>
+    <value>(Ajuste | cambio | actualización)?. * (ubicación | lugar | donde)</value>
   </data>
   <data name="AllDayLower" xml:space="preserve">
     <value>todo el día</value>
@@ -175,10 +178,10 @@
     <value>{0} St</value>
   </data>
   <data name="Myself" xml:space="preserve">
-    <value>^ (yo | yo) $</value>
+    <value>^ (me | yo) $</value>
   </data>
   <data name="AdjustContent" xml:space="preserve">
-    <value>(ajustar | cambiar | actualizar)?. * (contenido | Body | detalle | detalles)</value>
+    <value>(Ajuste | cambio | actualización)?. * (contenido | cuerpo | detalle | detalles)</value>
   </data>
   <data name="YesterdayLower" xml:space="preserve">
     <value>Ayer</value>
@@ -187,16 +190,16 @@
     <value>{0} ND</value>
   </data>
   <data name="AdjustDuration" xml:space="preserve">
-    <value>(ajustar | cambiar | actualizar)?. * (duración | longitud)</value>
+    <value>(Ajuste | cambio | actualización)?. * (duración | longitud)</value>
   </data>
   <data name="AdjustTime" xml:space="preserve">
-    <value>(ajustar | cambiar | actualizar)?. * tiempo</value>
+    <value>(Ajuste | cambio | actualización)?. * tiempo</value>
   </data>
   <data name="AdjustParticipants" xml:space="preserve">
-    <value>(ajustar | cambiar | actualizar | agregar | eliminar)?. * (participantes | Attendee | asistentes | personas | persona)</value>
+    <value>(ajustar | cambio | actualización | agregar | eliminar)?. * (participantes | Attendee | asistentes | personas | persona)</value>
   </data>
-  <data name="Next" xml:space="preserve">
-    <value>próximo</value>
+  <data name="MyselfConst" xml:space="preserve">
+    <value>me</value>
   </data>
   <data name="TodayLower" xml:space="preserve">
     <value>Hoy</value>

@@ -138,6 +138,9 @@
   <data name="DailyToken" xml:space="preserve">
     <value>Quotidienne</value>
   </data>
+  <data name="Next" xml:space="preserve">
+    <value>prochain</value>
+  </data>
   <data name="AtTime" xml:space="preserve">
     <value>à {0}</value>
   </data>
@@ -195,8 +198,8 @@
   <data name="AdjustParticipants" xml:space="preserve">
     <value>(ajuster | modifier | mettre à jour | ajouter | supprimer)?. * (participants | participant | participants | personnes | personne)</value>
   </data>
-  <data name="Next" xml:space="preserve">
-    <value>prochain</value>
+  <data name="MyselfConst" xml:space="preserve">
+    <value>Moi</value>
   </data>
   <data name="TodayLower" xml:space="preserve">
     <value>Aujourd'hui</value>
