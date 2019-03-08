@@ -15,6 +15,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Proactive;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.TaskExtensions;
 using Microsoft.Bot.Solutions.Telemetry;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,6 +47,10 @@ namespace NewsSkill
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // add background task queue
+            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+            services.AddHostedService<QueuedHostedService>();
+
             // Load the connected services from .bot file.
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
             var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
