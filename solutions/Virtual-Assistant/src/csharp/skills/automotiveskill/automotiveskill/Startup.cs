@@ -17,14 +17,14 @@ namespace AutomotiveSkill
     using Microsoft.Bot.Builder.Azure;
     using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
     using Microsoft.Bot.Builder.Integration.AspNet.Core;
-    using Microsoft.Bot.Configuration;
-    using Microsoft.Bot.Connector.Authentication;
-    using Microsoft.Bot.Schema;
     using Microsoft.Bot.Builder.Solutions.Proactive;
     using Microsoft.Bot.Builder.Solutions.Responses;
     using Microsoft.Bot.Builder.Solutions.Skills;
     using Microsoft.Bot.Builder.Solutions.TaskExtensions;
     using Microsoft.Bot.Builder.Solutions.Telemetry;
+    using Microsoft.Bot.Configuration;
+    using Microsoft.Bot.Connector.Authentication;
+    using Microsoft.Bot.Schema;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 

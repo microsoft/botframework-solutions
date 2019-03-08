@@ -153,20 +153,6 @@ namespace VirtualAssistant.Tests
         }
 
         /// <summary>
-        /// Asserts response is one of the available location prompts.
-        /// </summary>
-        /// <returns>IActivity.</returns>
-        private Action<IActivity> CheckLocationPrompt()
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-
-                CollectionAssert.Contains(ParseReplies(POISharedResponses.PromptForCurrentLocation, new StringDictionary()), messageActivity.Text);
-            };
-        }
-
-        /// <summary>
         /// Test that location events are processed correctly.
         /// </summary>
         /// <returns>Task.</returns>
@@ -224,6 +210,20 @@ namespace VirtualAssistant.Tests
                .Send(locationEvent)
                .AssertReply(ValidateEventReceived(locationEvent.Name))
                .StartTestAsync();
+        }
+
+        /// <summary>
+        /// Asserts response is one of the available location prompts.
+        /// </summary>
+        /// <returns>IActivity.</returns>
+        private Action<IActivity> CheckLocationPrompt()
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+
+                CollectionAssert.Contains(ParseReplies(POISharedResponses.PromptForCurrentLocation, new StringDictionary()), messageActivity.Text);
+            };
         }
 
         private Action<IActivity> ValidateIntroCard()

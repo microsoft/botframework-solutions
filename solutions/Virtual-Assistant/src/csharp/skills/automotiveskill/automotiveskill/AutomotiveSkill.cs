@@ -15,12 +15,12 @@ namespace AutomotiveSkill
     using Microsoft.AspNetCore.Http;
     using Microsoft.Bot.Builder;
     using Microsoft.Bot.Builder.Dialogs;
-    using Microsoft.Bot.Configuration;
     using Microsoft.Bot.Builder.Solutions.Proactive;
     using Microsoft.Bot.Builder.Solutions.Responses;
     using Microsoft.Bot.Builder.Solutions.Skills;
     using Microsoft.Bot.Builder.Solutions.TaskExtensions;
     using Microsoft.Bot.Builder.Solutions.Telemetry;
+    using Microsoft.Bot.Configuration;
 
     /// <summary>
     /// Main entry point and orchestration for bot.

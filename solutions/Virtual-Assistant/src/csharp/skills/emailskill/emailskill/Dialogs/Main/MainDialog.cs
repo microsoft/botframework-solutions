@@ -18,11 +18,11 @@ using EmailSkill.ServiceClients;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Schema;
 
 namespace EmailSkill.Dialogs.Main
 {

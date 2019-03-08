@@ -14,8 +14,6 @@ using EmailSkill.ServiceClients;
 using EmailSkillTest.Flow.Fakes;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
-using Microsoft.Bot.Configuration;
-using Microsoft.Bot.Schema;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -23,6 +21,8 @@ using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EmailSkillTest.Flow

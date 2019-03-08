@@ -4,8 +4,6 @@ using Autofac;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Configuration;
-using Microsoft.Bot.Schema;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
@@ -13,6 +11,8 @@ using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Builder.Solutions.Testing.Mocks;
+using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PointOfInterestSkill.Dialogs.Shared.Resources;
 

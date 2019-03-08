@@ -8,8 +8,8 @@ using EmailSkill.Util;
 using EmailSkillTest.Flow.Fakes;
 using EmailSkillTest.Flow.Strings;
 using EmailSkillTest.Flow.Utterances;
-using Microsoft.Bot.Schema;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EmailSkillTest.Flow

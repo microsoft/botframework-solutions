@@ -16,14 +16,14 @@ using CalendarSkill.ServiceClients;
 using CalendarSkillTest.Flow.Fakes;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
-using Microsoft.Bot.Configuration;
-using Microsoft.Bot.Schema;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Testing;
+using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkillTest.Flow
