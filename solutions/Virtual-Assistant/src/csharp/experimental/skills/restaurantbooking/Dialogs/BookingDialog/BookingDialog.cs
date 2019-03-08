@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -14,7 +13,8 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
-using RestaurantBooking.Dialogs.RestaurantBooking.Resources;
+using RestaurantBooking.Dialogs.BookingDialog.Resources;
+using RestaurantBooking.Dialogs.Resources.Cards;
 using RestaurantBooking.Dialogs.Shared;
 using RestaurantBooking.Dialogs.Shared.Resources;
 using RestaurantBooking.Helpers;
@@ -22,9 +22,9 @@ using RestaurantBooking.Models;
 using RestaurantBooking.Shared.Resources.Cards;
 using RestaurantBooking.SimulatedData;
 
-namespace RestaurantBooking
+namespace RestaurantBooking.Dialogs.BookingDialog
 {
-    public class BookingDialog : RestaurantBookingDialog
+    public class BookingDialog : SkillDialogBase
     {
         private IUrlResolver _urlResolver;
         private IHttpContextAccessor _httpContext;
@@ -32,19 +32,13 @@ namespace RestaurantBooking
         public BookingDialog(
            SkillConfigurationBase services,
            ResponseManager responseManager,
-           IStatePropertyAccessor<RestaurantBookingState> accessor,
-           IStatePropertyAccessor<DialogState> dialogStateAccessor,
+           IStatePropertyAccessor<RestaurantBookingState> conversationStateAccessor,
+           IStatePropertyAccessor<SkillUserState> userStateAccessor,
            IServiceManager serviceManager,
            IBotTelemetryClient telemetryClient,
            IHttpContextAccessor httpContext)
-           : base(nameof(BookingDialog), services, responseManager, accessor, dialogStateAccessor, serviceManager, telemetryClient)
+           : base(nameof(BookingDialog), services, responseManager, conversationStateAccessor, userStateAccessor, serviceManager, telemetryClient)
         {
-            TelemetryClient = telemetryClient;
-
-            Services = services;
-            ResponseManager = responseManager;
-            Accessor = accessor;
-            ServiceManager = serviceManager;
             _httpContext = httpContext;
 
             // Restaurant Booking waterfall
@@ -85,17 +79,17 @@ namespace RestaurantBooking
         /// <returns>Dialog Turn Result.</returns>
         private async Task<DialogTurnResult> Init(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(sc.Context);
+             var state = await ConversationStateAccessor.GetAsync(sc.Context);
 
-            var tokens = new StringDictionary
+             var tokens = new StringDictionary
             {
                 { "UserName", "Jane" }
             };
 
-            var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantFlowStartMessage, tokens);
-            await sc.Context.SendActivityAsync(reply);
+             var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantFlowStartMessage, tokens);
+             await sc.Context.SendActivityAsync(reply);
 
-            return await sc.NextAsync(sc.Values, cancellationToken);
+             return await sc.NextAsync(sc.Values, cancellationToken);
         }
 
         /// <summary>
@@ -106,7 +100,7 @@ namespace RestaurantBooking
         /// <returns>Dialog Turn Result.</returns>
         private async Task<DialogTurnResult> AskForFoodType(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await ConversationStateAccessor.GetAsync(sc.Context);
             var reservation = state.Booking;
 
             // If we already have a Cuisine provided we skip to next step
@@ -147,7 +141,7 @@ namespace RestaurantBooking
                                     ImageUrl = foodType.ImageUrl,
                                     ImageSize = AdaptiveImageSize.Stretch,
                                     ImageAlign = AdaptiveHorizontalAlignment.Stretch,
-                                    Type = foodType.TypeName
+                                    Cusine = foodType.TypeName
                             }));
 
                 options.Choices.Add(new Choice(foodType.TypeName));
@@ -170,7 +164,7 @@ namespace RestaurantBooking
         /// <returns>Dialog Turn Result.</returns>
         private async Task<bool> ValidateFoodType(PromptValidatorContext<FoundChoice> promptContext, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(promptContext.Context);
+            var state = await ConversationStateAccessor.GetAsync(promptContext.Context);
 
             // This is a workaround to a known issue with Adaptive Card button responses and prompts whereby the "Text" of the adaptive card button response
             // is put into a Value object not the Text as expected causing prompt validation to fail.
@@ -215,7 +209,7 @@ namespace RestaurantBooking
         /// <returns>Dialog Turn Result.</returns>
         private async Task<DialogTurnResult> AskForDate(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await ConversationStateAccessor.GetAsync(sc.Context);
             var reservation = state.Booking;
 
             // If we have the ReservationTime already provided (slot filling) then we skip
@@ -230,7 +224,7 @@ namespace RestaurantBooking
 
         private async Task<bool> ValidateReservationDate(PromptValidatorContext<IList<DateTimeResolution>> promptContext, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(promptContext.Context);
+            var state = await ConversationStateAccessor.GetAsync(promptContext.Context);
             var reservation = state.Booking;
 
             if (promptContext.Recognized.Succeeded)
@@ -250,7 +244,7 @@ namespace RestaurantBooking
         /// <returns>Dialog Turn Result.</returns>
         private async Task<DialogTurnResult> AskForTime(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await ConversationStateAccessor.GetAsync(sc.Context);
             var reservation = state.Booking;
 
             // Do we have a time from the previous date prompt (e.g. user said today at 6pm rather than just today)
@@ -270,7 +264,7 @@ namespace RestaurantBooking
 
         private async Task<bool> ValidateReservationTime(PromptValidatorContext<IList<DateTimeResolution>> promptContext, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(promptContext.Context);
+            var state = await ConversationStateAccessor.GetAsync(promptContext.Context);
             var reservation = state.Booking;
 
             if (promptContext.Recognized.Succeeded)
@@ -304,7 +298,7 @@ namespace RestaurantBooking
         /// <returns>Dialog Turn Result.</returns>
         private async Task<DialogTurnResult> AskForAttendeeCount(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await ConversationStateAccessor.GetAsync(sc.Context);
             var reservation = state.Booking;
 
             if (reservation.AttendeeCount != null)
@@ -318,7 +312,7 @@ namespace RestaurantBooking
 
         private async Task<bool> ValidateAttendeeCount(PromptValidatorContext<int> promptContext, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(promptContext.Context);
+            var state = await ConversationStateAccessor.GetAsync(promptContext.Context);
 
             if (promptContext.Recognized.Succeeded == true)
             {
@@ -337,7 +331,7 @@ namespace RestaurantBooking
         /// <returns>Dialog Turn Result.</returns>
         private async Task<DialogTurnResult> ConfirmSelectionBeforeBooking(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await ConversationStateAccessor.GetAsync(sc.Context);
             var reservation = state.Booking;
 
             var tokens = new StringDictionary
@@ -366,17 +360,17 @@ namespace RestaurantBooking
             return await sc.PromptAsync(Actions.ConfirmSelectionBeforeBookingStep, new PromptOptions { Prompt = replyMessage }, cancellationToken);
         }
 
-        private async Task<bool> ValidateBookingSelectionConfirmation(PromptValidatorContext<bool> prompt, CancellationToken cancellationToken)
+        private async Task<bool> ValidateBookingSelectionConfirmation(PromptValidatorContext<bool> promptContext, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(prompt.Context);
+            var state = await ConversationStateAccessor.GetAsync(promptContext.Context);
             var reservation = state.Booking;
 
-            if (prompt.Recognized.Succeeded == true)
+            if (promptContext.Recognized.Succeeded == true)
             {
-                reservation.Confirmed = prompt.Recognized.Value;
+                reservation.Confirmed = promptContext.Recognized.Value;
 
                 var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantRestaurantSearching);
-                await prompt.Context.SendActivityAsync(reply, cancellationToken);
+                await promptContext.Context.SendActivityAsync(reply, cancellationToken);
 
                 return true;
             }
@@ -392,7 +386,7 @@ namespace RestaurantBooking
         /// <returns>Dialog Turn Result.</returns>
         private async Task<DialogTurnResult> AskForRestaurant(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await ConversationStateAccessor.GetAsync(sc.Context);
             var reservation = state.Booking;
 
             // Reset the dialog if the user hasn't confirmed the reservation.
@@ -442,7 +436,7 @@ namespace RestaurantBooking
 
         private async Task<bool> ValidateRestaurantSelection(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(promptContext.Context);
+            var state = await ConversationStateAccessor.GetAsync(promptContext.Context);
 
             // This is a workaround to a known issue with Adaptive Card button responses and prompts whereby the "Text" of the adaptive card button response
             // is put into a Value object not the Text as expected causing prompt validation to fail.
@@ -486,7 +480,7 @@ namespace RestaurantBooking
         /// <returns>Dialog Turn Result.</returns>
         private async Task<DialogTurnResult> ProcessReservationAsync(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await ConversationStateAccessor.GetAsync(sc.Context);
             var reservation = state.Booking;
 
             // TODO Process reservation request here.

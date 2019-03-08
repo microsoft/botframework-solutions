@@ -9,7 +9,7 @@ namespace Experimental.Skills.Tests.LuisTestUtils
     {
         private static Dictionary<string, IRecognizerConvert> _utterances = new Dictionary<string, IRecognizerConvert>
         {
-            { ExperimentalUtterances.BookRestaurant, CreateIntent(ExperimentalUtterances.FindNews, Luis.Reservation.Intent.Reservation) },
+            { ExperimentalUtterances.BookRestaurant, CreateIntent(ExperimentalUtterances.BookRestaurant, Luis.Reservation.Intent.Reservation) },
         };
 
         public static MockLuisRecognizer CreateRecognizer()

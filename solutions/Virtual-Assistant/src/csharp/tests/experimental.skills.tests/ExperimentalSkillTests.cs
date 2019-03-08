@@ -3,8 +3,10 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RestaurantBooking.Dialogs.Shared.Resources;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Threading.Tasks;
 
 namespace Experimental.Skills.Tests
@@ -48,18 +50,16 @@ namespace Experimental.Skills.Tests
 
             await this.GetTestFlow()
             .Send(ExperimentalUtterances.BookRestaurant)
-            .AssertReply(ValidateAzureMapsKeyPrompt())
+            .AssertReply(RestaurantIntroMessage())
             .StartTestAsync();
         }
 
-        private Action<IActivity> ValidateAzureMapsKeyPrompt()
+        private Action<IActivity> RestaurantIntroMessage()
         {
             return activity =>
             {
-                var traceActivity = activity as Activity;
-                Assert.IsNotNull(traceActivity);
-
-                Assert.IsTrue(traceActivity.Text.Contains("DialogException: Could not get the required Azure Maps key. Please make sure your settings are correctly configured."));
+                var messageActivity = activity.AsMessageActivity();
+                CollectionAssert.Contains(ParseReplies(RestaurantBookingSharedResponses.BookRestaurantFlowStartMessage, new StringDictionary() { { "UserName", "Jane" } }), messageActivity.Text);
             };
         }
     }

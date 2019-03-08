@@ -16,31 +16,31 @@
 
   <ItemGroup>
     <Content Remove="Dialogs\Main\Resources\RestaurantBookingMainResponses.json" />
-    <Content Remove="Dialogs\RestaurantBooking\Resources\Cards\CusineChoiceCard.json" />
-    <Content Remove="Dialogs\RestaurantBooking\Resources\Cards\ReservationConfirmationCard.json" />
-    <Content Remove="Dialogs\RestaurantBooking\Resources\Cards\ReservationConfirmCard.json" />
-    <Content Remove="Dialogs\RestaurantBooking\Resources\Cards\RestaurantChoiceCard.json" />
+    <Content Remove="Dialogs\BookingDialog\Resources\Cards\CusineChoiceCard.json" />
+    <Content Remove="Dialogs\BookingDialog\Resources\Cards\ReservationConfirmationCard.json" />
+    <Content Remove="Dialogs\BookingDialog\Resources\Cards\ReservationConfirmCard.json" />
+    <Content Remove="Dialogs\BookingDialog\Resources\Cards\RestaurantChoiceCard.json" />
     <Content Remove="Dialogs\Shared\Resources\RestaurantBookingSharedResponses.json" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Dialogs\Main\Resources\RestaurantBookingMainResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\RestaurantBooking\Resources\Cards\CusineChoiceCard.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <EmbeddedResource Include="Dialogs\BookingDialog\Resources\Cards\CusineChoiceCard.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\RestaurantBooking\Resources\Cards\ReservationConfirmationCard.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <EmbeddedResource Include="Dialogs\BookingDialog\Resources\Cards\ReservationConfirmationCard.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\RestaurantBooking\Resources\Cards\ReservationConfirmCard.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <EmbeddedResource Include="Dialogs\BookingDialog\Resources\Cards\ReservationConfirmCard.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\RestaurantBooking\Resources\Cards\RestaurantChoiceCard.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <EmbeddedResource Include="Dialogs\BookingDialog\Resources\Cards\RestaurantChoiceCard.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\Shared\Resources\RestaurantBookingSharedResponses.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
 
@@ -82,7 +82,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>RestaurantBookingMainResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\RestaurantBooking\Resources\RestaurantImages.Designer.cs">
+    <Compile Update="Dialogs\BookingDialog\Resources\RestaurantImages.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>RestaurantImages.resx</DependentUpon>
@@ -104,7 +104,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CancelStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\RestaurantBooking\Resources\RestaurantImages.resx">
+    <EmbeddedResource Update="Dialogs\BookingDialog\Resources\RestaurantImages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>RestaurantImages.Designer.cs</LastGenOutput>
     </EmbeddedResource>

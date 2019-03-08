@@ -25,5 +25,13 @@ namespace RestaurantBooking
         public List<FoodTypeInfo> Cuisine { get; set; }
 
         public HashSet<string> AmbiguousTimexExpressions { get; set; }
+
+        public void Clear()
+        {
+            LuisResult = null;
+            Booking = null;
+            Cuisine = null;
+            AmbiguousTimexExpressions = null;
+        }
     }
 }

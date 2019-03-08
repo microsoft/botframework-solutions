@@ -8,129 +8,106 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Telemetry;
+using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using Microsoft.Recognizers.Text.DateTime;
 using Newtonsoft.Json.Linq;
+using RestaurantBooking.Dialogs.Shared.DialogOptions;
 using RestaurantBooking.Dialogs.Shared.Resources;
 using Constants = Microsoft.Recognizers.Text.DataTypes.TimexExpression.Constants;
 
-namespace RestaurantBooking
+namespace RestaurantBooking.Dialogs.Shared
 {
-    public class RestaurantBookingDialog : ComponentDialog
+    public class SkillDialogBase : ComponentDialog
     {
-        // Constants
-        public const string SkillModeAuth = "SkillAuth";
-        public const string LocalModeAuth = "LocalAuth";
-
-        public RestaurantBookingDialog(
-           string dialogId,
-           SkillConfigurationBase services,
-           ResponseManager responseManager,
-           IStatePropertyAccessor<RestaurantBookingState> accessor,
-           IStatePropertyAccessor<DialogState> dialogStateAccessor,
-           IServiceManager serviceManager,
-           IBotTelemetryClient telemetryClient)
-           : base(dialogId)
+        public SkillDialogBase(
+            string dialogId,
+            SkillConfigurationBase services,
+            ResponseManager responseManager,
+            IStatePropertyAccessor<RestaurantBookingState> conversationStateAccessor,
+            IStatePropertyAccessor<SkillUserState> userStateAccessor,
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient)
+            : base(dialogId)
         {
             Services = services;
             ResponseManager = responseManager;
-            Accessor = accessor;
-            DialogStateAccessor = dialogStateAccessor;
+            ConversationStateAccessor = conversationStateAccessor;
+            UserStateAccessor = userStateAccessor;
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
         }
 
-        // Fields
         protected SkillConfigurationBase Services { get; set; }
 
-        protected IStatePropertyAccessor<RestaurantBookingState> Accessor { get; set; }
+        protected IStatePropertyAccessor<RestaurantBookingState> ConversationStateAccessor { get; set; }
 
-        protected IStatePropertyAccessor<DialogState> DialogStateAccessor { get; set; }
+        protected IStatePropertyAccessor<SkillUserState> UserStateAccessor { get; set; }
 
         protected IServiceManager ServiceManager { get; set; }
 
         protected ResponseManager ResponseManager { get; set; }
 
-        // Shared steps
-        public async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            try
-            {
-                var skillOptions = (RestaurantBookingDialogOptions)sc.Options;
-
-                // If in Skill mode we ask the calling Bot for the token
-                if (skillOptions != null && skillOptions.SkillMode)
-                {
-                    // We trigger a Token Request from the Parent Bot by sending a "TokenRequest" event back and then waiting for a "TokenResponse"
-                    // TODO Error handling - if we get a new activity that isn't an event
-                    var response = sc.Context.Activity.CreateReply();
-                    response.Type = ActivityTypes.Event;
-                    response.Name = "tokens/request";
-
-                    // Send the tokens/request Event
-                    await sc.Context.SendActivityAsync(response);
-
-                    // Wait for the tokens/response event
-                    return await sc.PromptAsync(SkillModeAuth, new PromptOptions());
-                }
-                else
-                {
-                    return await sc.PromptAsync(LocalModeAuth, new PromptOptions());
-                }
-            }
-            catch (Exception ex)
-            {
-                throw await HandleDialogExceptions(sc, ex);
-            }
+            await GetLuisResult(dc);
+            return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
-        public async Task<DialogTurnResult> AfterGetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            try
-            {
-                // When the user authenticates interactively we pass on the tokens/Response event which surfaces as a JObject
-                // When the token is cached we get a TokenResponse object.
-                var skillOptions = (RestaurantBookingDialogOptions)sc.Options;
-                TokenResponse tokenResponse;
-                if (skillOptions != null && skillOptions.SkillMode)
-                {
-                    var resultType = sc.Context.Activity.Value.GetType();
-                    if (resultType == typeof(TokenResponse))
-                    {
-                        tokenResponse = sc.Context.Activity.Value as TokenResponse;
-                    }
-                    else
-                    {
-                        var tokenResponseObject = sc.Context.Activity.Value as JObject;
-                        tokenResponse = tokenResponseObject?.ToObject<TokenResponse>();
-                    }
-                }
-                else
-                {
-                    tokenResponse = sc.Result as TokenResponse;
-                }
-
-                if (tokenResponse != null)
-                {
-                    var state = await Accessor.GetAsync(sc.Context);
-                }
-
-                return await sc.NextAsync();
-            }
-            catch (Exception ex)
-            {
-                throw await HandleDialogExceptions(sc, ex);
-            }
+            await GetLuisResult(dc);
+            return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
         // Helpers
-        public async Task DigestLuisResult(DialogContext dc, Reservation luisResult)
+        protected async Task GetLuisResult(DialogContext dc)
+        {
+            if (dc.Context.Activity.Type == ActivityTypes.Message)
+            {
+                var state = await ConversationStateAccessor.GetAsync(dc.Context);
+
+                // Get luis service for current locale
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var localeConfig = Services.LocaleConfigurations[locale];
+                var luisService = localeConfig.LuisServices["reservation"];
+
+                // Get intent and entities for activity
+                var result = await luisService.RecognizeAsync<Reservation>(dc.Context, CancellationToken.None);
+                state.LuisResult = result;
+
+                // Extract key data out into state ready for use
+                await DigestLuisResult(dc, result);
+            }
+        }
+
+        // This method is called by any waterfall step that throws an exception to ensure consistency
+        protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
+        {
+            // send trace back to emulator
+            var trace = new Activity(type: ActivityTypes.Trace, text: $"DialogException: {ex.Message}, StackTrace: {ex.StackTrace}");
+            await sc.Context.SendActivityAsync(trace);
+
+            // log exception
+            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
+
+            // send error message to bot user
+            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(RestaurantBookingSharedResponses.ErrorMessage));
+
+            // clear state
+            var state = await ConversationStateAccessor.GetAsync(sc.Context);
+            state.Clear();
+        }
+
+        protected async Task DigestLuisResult(DialogContext dc, Reservation luisResult)
         {
             try
             {
-                var state = await Accessor.GetAsync(dc.Context);
+                var state = await ConversationStateAccessor.GetAsync(dc.Context);
 
                 // Extract entities and store in state here.
                 if (luisResult != null)
@@ -238,47 +215,10 @@ namespace RestaurantBooking
             }
         }
 
-        // This method is called by any waterfall step that throws an exception to ensure consistency
-        public async Task<Exception> HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
+
+        private class DialogIds
         {
-            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(RestaurantBookingSharedResponses.ErrorMessage));
-            await sc.CancelAllDialogsAsync();
-            return ex;
-        }
-
-        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await Accessor.GetAsync(dc.Context);
-
-            await DigestLuisResult(dc, state.LuisResult);
-            return await base.OnBeginDialogAsync(dc, options, cancellationToken);
-        }
-
-        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await Accessor.GetAsync(dc.Context);
-
-            // await DigestLuisResult(dc, state.LuisResult);
-            return await base.OnContinueDialogAsync(dc, cancellationToken);
-        }
-
-        // Validators
-        private Task<bool> TokenResponseValidator(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
-        {
-            var activity = pc.Recognized.Value;
-            if (activity != null && activity.Type == ActivityTypes.Event)
-            {
-                return Task.FromResult(true);
-            }
-            else
-            {
-                return Task.FromResult(false);
-            }
-        }
-
-        private Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> pc, CancellationToken cancellationToken)
-        {
-            return Task.FromResult(true);
+            public const string SkillModeAuth = "SkillAuth";
         }
     }
 }

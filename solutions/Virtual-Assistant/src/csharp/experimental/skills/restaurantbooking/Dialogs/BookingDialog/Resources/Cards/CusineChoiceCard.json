@@ -24,15 +24,13 @@
           "items": [
             {
               "type": "TextBlock",
-              "text": "{Type}",
+              "text": "{Cusine}",
               "wrap": true,
               "size": "default"
             }
           ]
         }
-      ]
-    }, 
-    {
+      ],
       "selectAction": {
         "type": "Action.Submit",
         "title": "Submit action",

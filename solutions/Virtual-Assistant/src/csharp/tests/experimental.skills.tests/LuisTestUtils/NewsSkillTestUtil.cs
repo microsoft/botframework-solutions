@@ -5,7 +5,7 @@ using Microsoft.Bot.Solutions.Testing.Mocks;
 
 namespace Experimental.Skills.Tests.LuisTestUtils
 {
-    public class NewsTestUtil
+    public class NewsSkillTestUtil
     {
         private static Dictionary<string, IRecognizerConvert> _utterances = new Dictionary<string, IRecognizerConvert>
         {

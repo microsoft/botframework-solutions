@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <CodeAnalysisRuleSet>..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Autofac;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
@@ -8,12 +9,15 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Proactive;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.TaskExtensions;
 using Microsoft.Bot.Solutions.Telemetry;
 using Microsoft.Bot.Solutions.Testing;
 using Microsoft.Bot.Solutions.Testing.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RestaurantBooking.Dialogs.Main.Resources;
+using RestaurantBooking.Dialogs.Shared.Resources;
 
 namespace Experimental.Skills.Tests
 {
@@ -36,6 +40,7 @@ namespace Experimental.Skills.Tests
         public ConversationState ConversationState { get; set; }
 
         public HttpContext MockHttpContext { get; set; }
+
         public HttpContextAccessor MockHttpContextAcessor { get; set; }
 
         public IStatePropertyAccessor<DialogState> DialogState { get; set; }
@@ -73,9 +78,14 @@ namespace Experimental.Skills.Tests
             {
                 { "general", LuisTestUtils.GeneralTestUtil.CreateRecognizer() },
                 { "reservation", LuisTestUtils.RestaurantSkillTestUtil.CreateRecognizer() },
-                { "news", LuisTestUtils.NewsTestUtil.CreateRecognizer() }
+                { "news", LuisTestUtils.NewsSkillTestUtil.CreateRecognizer() }
             },
             });
+
+            ResponseManager = new ResponseManager(
+                Services.LocaleConfigurations.Keys.ToArray(),
+                new RestaurantBookingSharedResponses(),
+                new RestaurantBookingMainResponses());
 
             // Dummy Authentication connection for Auth testing
             this.Services.AuthenticationConnections = new Dictionary<string, string>

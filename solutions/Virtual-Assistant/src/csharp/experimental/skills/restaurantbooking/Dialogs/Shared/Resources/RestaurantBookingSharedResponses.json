@@ -154,7 +154,7 @@
   "BookRestaurantFlowStartMessage": {
     "replies": [
       {
-        "text": "Sure thing {UserName}, I can help you with making reservation.",
+        "text": "Sure thing {UserName}, I can help you with making reservations.",
         "speak": "Sure thing {UserName}, I can help you with making a reservation."
       }
     ],
