@@ -6,18 +6,32 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.Bot.Solutions.Skills;
 
     public class UrlResolver : IUrlResolver
     {
-        public UrlResolver(IHttpContextAccessor httpContextAccessor)
+        public UrlResolver(IHttpContextAccessor httpContextAccessor, SkillConfigurationBase services)
         {
-            if (httpContextAccessor == null)
+            if (httpContextAccessor != null)
             {
-                return;
+                var httpContext = httpContextAccessor.HttpContext;
+                ServerUrl = httpContext.Request.Scheme + "://" + httpContext.Request.Host.Value;
             }
+            else
+            {
+                // In skill-mode we don't have HttpContext and require skills to provide their own storage for assets
+                services.Properties.TryGetValue("ImageAssetLocation", out var imageUri);
 
-            var httpContext = httpContextAccessor.HttpContext;
-            ServerUrl = httpContext.Request.Scheme + "://" + httpContext.Request.Host.Value;
+                var imageUriStr = (string)imageUri;
+                if (string.IsNullOrWhiteSpace(imageUriStr))
+                {
+                    throw new Exception("ImageAssetLocation Uri not configured on the skill.");
+                }
+                else
+                {
+                    ServerUrl = imageUriStr;
+                }
+            }
         }
 
         public string ServerUrl { get; }

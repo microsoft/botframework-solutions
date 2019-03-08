@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -8,15 +10,16 @@ using AdaptiveCards;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Ipa.Schema.Cards;
 using RestaurantBooking.Dialogs.RestaurantBooking.Resources;
 using RestaurantBooking.Dialogs.Shared;
 using RestaurantBooking.Dialogs.Shared.Resources;
 using RestaurantBooking.Helpers;
 using RestaurantBooking.Models;
+using RestaurantBooking.Shared.Resources.Cards;
 using RestaurantBooking.SimulatedData;
 
 namespace RestaurantBooking
@@ -24,27 +27,31 @@ namespace RestaurantBooking
     public class BookingDialog : RestaurantBookingDialog
     {
         private IUrlResolver _urlResolver;
+        private IHttpContextAccessor _httpContext;
 
         public BookingDialog(
            SkillConfigurationBase services,
+           ResponseManager responseManager,
            IStatePropertyAccessor<RestaurantBookingState> accessor,
+           IStatePropertyAccessor<DialogState> dialogStateAccessor,
            IServiceManager serviceManager,
            IBotTelemetryClient telemetryClient,
            IHttpContextAccessor httpContext)
-            : base(nameof(BookingDialog), services, accessor, serviceManager, telemetryClient)
+           : base(nameof(BookingDialog), services, responseManager, accessor, dialogStateAccessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
             Services = services;
+            ResponseManager = responseManager;
             Accessor = accessor;
             ServiceManager = serviceManager;
+            _httpContext = httpContext;
 
             // Restaurant Booking waterfall
             var bookingWaterfall = new WaterfallStep[]
             {
                 Init,
                 AskForFoodType,
-                AskForMeetingConfirmation,
                 AskForDate,
                 AskForTime,
                 AskForAttendeeCount,
@@ -56,18 +63,18 @@ namespace RestaurantBooking
             AddDialog(new WaterfallDialog(Actions.BookRestaurant, bookingWaterfall));
 
             // Prompts
-            AddDialog(new TextPrompt(Actions.AskForFoodType, ValidateFoodType));
-            AddDialog(new ConfirmPrompt(Actions.AskReserveForExistingMeetingStep, ValidateMeetingConfirmation));
-            AddDialog(new TextPrompt(Actions.AskReservationDateStep, ValidateReservationDate));
-            AddDialog(new TextPrompt(Actions.AskReservationTimeStep, ValidateReservationTime));
-            AddDialog(new TextPrompt(Actions.AskAttendeeCountStep, ValidateAttendeeCount));
+            AddDialog(new ChoicePrompt(Actions.AskForFoodType, ValidateFoodType) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
+            AddDialog(new DateTimePrompt(Actions.AskReservationDateStep, ValidateReservationDate));
+            AddDialog(new DateTimePrompt(Actions.AskReservationTimeStep, ValidateReservationTime));
+            AddDialog(new NumberPrompt<int>(Actions.AskAttendeeCountStep, ValidateAttendeeCount));
             AddDialog(new ConfirmPrompt(Actions.ConfirmSelectionBeforeBookingStep, ValidateBookingSelectionConfirmation));
             AddDialog(new TextPrompt(Actions.RestaurantPrompt, ValidateRestaurantSelection));
 
             // Set starting dialog for component
             InitialDialogId = Actions.BookRestaurant;
 
-            _urlResolver = new UrlResolver(httpContext);
+            // Used to help resolve image locations in both local deployment and remote
+            _urlResolver = new UrlResolver(httpContext, services);
         }
 
         /// <summary>
@@ -79,22 +86,14 @@ namespace RestaurantBooking
         private async Task<DialogTurnResult> Init(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(sc.Context);
-            var luisResult = state.LuisResult;
 
-            // Populate the Reservation with information provided in the intial utterance
-            // Steps will then be skipped if information has been provided already
-            var reservation = CreateNewReservationInfo();
-            UpdateReservationInfoFromEntities(reservation, luisResult);
-
-            state.Booking = reservation;
-
-            // TODO - Future integration into VA and pass User profile information through as Parameter.
             var tokens = new StringDictionary
             {
                 { "UserName", "Jane" }
             };
 
-            await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply(RestaurantBookingSharedResponses.BookRestaurantFlowStartMessage, ResponseBuilder, tokens));
+            var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantFlowStartMessage, tokens);
+            await sc.Context.SendActivityAsync(reply);
 
             return await sc.NextAsync(sc.Values, cancellationToken);
         }
@@ -133,124 +132,83 @@ namespace RestaurantBooking
 
             state.Cuisine = foodTypes;
 
-            // Create a card for each restaurant
-            var cardsData = new List<TitleImageTextButtonCardData>();
-            foodTypes.ForEach(ft => cardsData.Add(
-                new TitleImageTextButtonCardData
-                {
-                    ImageUrl = ft.ImageUrl,
-                    ImageSize = AdaptiveImageSize.Stretch,
-                    ImageAlign = AdaptiveHorizontalAlignment.Stretch,
-                    ButtonTitle = ft.TypeName,
-                    SelectedItemData = ft.TypeName
-                }));
+            var cards = new List<Card>();
+            var options = new PromptOptions()
+            {
+                Choices = new List<Choice>(),
+            };
 
-            var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(
-                RestaurantBookingSharedResponses.BookRestaurantFoodSelectionPrompt,
-                @"Dialogs\RestaurantBooking\Resources\Cards\TitleImageTextButton.json",
-                AttachmentLayoutTypes.Carousel, cardsData, ResponseBuilder, tokens);
+            foreach (var foodType in foodTypes)
+            {
+                cards.Add(new Card(
+                    "CusineChoiceCard",
+                    new CusineChoiceCardData
+                            {
+                                    ImageUrl = foodType.ImageUrl,
+                                    ImageSize = AdaptiveImageSize.Stretch,
+                                    ImageAlign = AdaptiveHorizontalAlignment.Stretch,
+                                    Type = foodType.TypeName
+                            }));
+
+                options.Choices.Add(new Choice(foodType.TypeName));
+            }
+
+            var replyMessage = ResponseManager.GetCardResponse(
+               RestaurantBookingSharedResponses.BookRestaurantFoodSelectionPrompt,
+               cards,
+               tokens);
 
             // Prompt for restaurant choice
-            return await sc.PromptAsync(Actions.AskForFoodType, new PromptOptions { Prompt = reply }, cancellationToken);
+            return await sc.PromptAsync(Actions.AskForFoodType, new PromptOptions { Prompt = replyMessage, Choices = options.Choices }, cancellationToken);
         }
 
         /// <summary>
         /// Validate the Food Type when we have prmpted the user.
         /// </summary>
-        /// <param name="prompt">Prompt Validator Context.</param>
+        /// <param name="promptContext">Prompt Validator Context.</param>
         /// <param name="cancellationToken">Cancellation Token.</param>
         /// <returns>Dialog Turn Result.</returns>
-        private async Task<bool> ValidateFoodType(PromptValidatorContext<string> prompt, CancellationToken cancellationToken)
+        private async Task<bool> ValidateFoodType(PromptValidatorContext<FoundChoice> promptContext, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(prompt.Context);
-            var reservation = state.Booking;
-            var foodTypes = state.Cuisine;
+            var state = await Accessor.GetAsync(promptContext.Context);
 
-            var cuisine = AdaptiveCardListHelper.ParseSelection(prompt.Context, state, foodTypes, r => r.TypeName, r => r?.TypeName);
-            if (string.IsNullOrEmpty(cuisine))
+            // This is a workaround to a known issue with Adaptive Card button responses and prompts whereby the "Text" of the adaptive card button response
+            // is put into a Value object not the Text as expected causing prompt validation to fail.
+            // If the prompt was about to fail and the Value property is set with Text set to NULL we do special handling.
+            if (!promptContext.Recognized.Succeeded && (promptContext.Context.Activity.Value != null) && string.IsNullOrEmpty(promptContext.Context.Activity.Text))
             {
-                var normalizedEntityValue = await GetNormalizedEntityValue(prompt.Context);
-                if (!normalizedEntityValue.ContainsKey(LuisEntities.Cuisine) || foodTypes.All(ft => ft.TypeName.ToLower() != normalizedEntityValue[LuisEntities.Cuisine]))
+                dynamic value = promptContext.Context.Activity.Value;
+                string promptResponse = value["selectedItem"];   // The property will be named after your choice set's ID
+
+                if (!string.IsNullOrEmpty(promptResponse))
                 {
-                    return false;
+                    // Override what the prompt has done
+                    promptContext.Recognized.Succeeded = true;
+                    var foundChoice = new FoundChoice();
+                    foundChoice.Value = promptResponse;
+                    promptContext.Recognized.Value = foundChoice;
                 }
-
-                cuisine = normalizedEntityValue[LuisEntities.Cuisine];
             }
 
-            prompt.Recognized.Succeeded = true;
-            var reply = prompt.Context.Activity.CreateReply(RestaurantBookingSharedResponses.BookRestaurantFoodSelectionEcho, ResponseBuilder, new StringDictionary { { "FoodType", cuisine } });
-            await prompt.Context.SendActivityAsync(reply, cancellationToken);
-            reservation.Category = cuisine;
-            return true;
-        }
-
-        /// <summary>
-        /// If the user has an meeting in their calendar at a similar time then we prompt and pre-fill information (e.g. attendee count).
-        /// Could also pull out peoples names/email for notification.
-        /// </summary>
-        /// <param name="sc">Waterfall Step Context.</param>
-        /// <param name="cancellationToken">Cancellation Token.</param>
-        /// <returns>Dialog Turn Result.</returns>
-        private async Task<DialogTurnResult> AskForMeetingConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken)
-        {
-            var state = await Accessor.GetAsync(sc.Context);
-
-            var reservation = state.Booking;
-            if (reservation.MeetingInfo == null)
+            if (promptContext.Recognized.Succeeded)
             {
-                return await sc.NextAsync(sc.Values, cancellationToken);
-            }
+                state.Booking.Category = (string)promptContext.Recognized.Value.Value;
 
-            var meetingInfo = reservation.MeetingInfo;
-            var attendeeList = meetingInfo.Attendees.Aggregate((s1, s2) => $"{s1}, {s2}");
-            if (meetingInfo.Attendees.Count > 1)
-            {
-                attendeeList = attendeeList.Replace($", {meetingInfo.Attendees[meetingInfo.Attendees.Count - 1]}", $" {BotStrings.And} {meetingInfo.Attendees[meetingInfo.Attendees.Count - 1]}");
-            }
+                var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantFoodSelectionEcho, new StringDictionary { { "FoodType", state.Booking.Category } });
+                await promptContext.Context.SendActivityAsync(reply, cancellationToken);
 
-            var tokens = new StringDictionary
-            {
-                { "MeetingDate", meetingInfo.Date?.ToShortDateString() },
-                { "MeetingDateSpeak", meetingInfo.Date?.ToSpeakString(true) },
-                { "MeetingTime", meetingInfo.Time?.ToShortTimeString() },
-                { "AttendeeCount", (meetingInfo.Attendees.Count + 1).ToString() },
-                { "AttendeeList", attendeeList }
-            };
-
-            return await sc.PromptAsync(Actions.AskReserveForExistingMeetingStep, new PromptOptions
-            {
-                Prompt = sc.Context.Activity.CreateReply(RestaurantBookingSharedResponses.BookRestaurantReservationMeetingInfoPrompt, ResponseBuilder)
-            });
-        }
-
-        private async Task<bool> ValidateMeetingConfirmation(PromptValidatorContext<bool> prompt, CancellationToken cancellationToken)
-        {
-            var state = await Accessor.GetAsync(prompt.Context);
-            var reservation = state.Booking;
-
-            if (prompt.Recognized.Succeeded == true && prompt.Recognized.Value == true)
-            {
-                reservation.Date = reservation.MeetingInfo.Date;
-                reservation.Time = reservation.MeetingInfo.Time;
-                reservation.AttendeeCount = (reservation.MeetingInfo.Attendees.Count + 1).ToString();
-                reservation.MeetingInfo = null;
-            }
-            else if (prompt.Recognized.Succeeded == true && prompt.Recognized.Value == false)
-            {
-                // TODO: implement NO path
-                reservation.MeetingInfo = null;
+                return true;
             }
             else
             {
                 return false;
             }
-
-            return true;
         }
 
         /// <summary>
         /// Prompt for Date if not already provided.
+        /// If the user says "today at 6pm" then we have everything we need and the time prompt is skipped
+        /// Otherwise if the user just says "today" they will then be prompted for time.
         /// </summary>
         /// <param name="sc">Waterfall Step Context.</param>
         /// <param name="cancellationToken">Cancellation Token.</param>
@@ -260,43 +218,28 @@ namespace RestaurantBooking
             var state = await Accessor.GetAsync(sc.Context);
             var reservation = state.Booking;
 
-            if (reservation.Date != null)
+            // If we have the ReservationTime already provided (slot filling) then we skip
+            if (reservation.ReservationDate != null)
             {
                 return await sc.NextAsync(sc.Values, cancellationToken);
             }
 
-            var reply = sc.Context.Activity.CreateReply(RestaurantBookingSharedResponses.BookRestaurantDatePrompt, ResponseBuilder);
+            var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantDatePrompt);
             return await sc.PromptAsync(Actions.AskReservationDateStep, new PromptOptions { Prompt = reply }, cancellationToken);
         }
 
-        private async Task<bool> ValidateReservationDate(PromptValidatorContext<string> prompt, CancellationToken cancellationToken)
+        private async Task<bool> ValidateReservationDate(PromptValidatorContext<IList<DateTimeResolution>> promptContext, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(prompt.Context);
+            var state = await Accessor.GetAsync(promptContext.Context);
             var reservation = state.Booking;
 
-            var luisDataTimeEntity = state.LuisResult?.Entities[LuisEntities.BuiltInDateTime];
-            var dateTimeEntity = LuisEntityHelper.TryGetDateTimeFromEntity(luisDataTimeEntity, true);
-            if (dateTimeEntity.HasValue)
+            if (promptContext.Recognized.Succeeded)
             {
-                reservation.Date = dateTimeEntity.Value;
-                reservation.Time = dateTimeEntity.Value;
-                await RenderSelectedDateTimeMessage(prompt.Context, reservation);
-            }
-            else
-            {
-                dateTimeEntity = LuisEntityHelper.TryGetDateFromEntity(luisDataTimeEntity, true);
-                if (dateTimeEntity.HasValue)
-                {
-                    reservation.Date = dateTimeEntity.Value;
-                }
+                reservation.ReservationDate = DateTime.Parse(promptContext.Recognized.Value.First().Value);
+                return true;
             }
 
-            if (reservation.Date == null)
-            {
-                return false;
-            }
-
-            return true;
+            return false;
         }
 
         /// <summary>
@@ -310,41 +253,45 @@ namespace RestaurantBooking
             var state = await Accessor.GetAsync(sc.Context);
             var reservation = state.Booking;
 
-            if (reservation.Time != null)
+            // Do we have a time from the previous date prompt (e.g. user said today at 6pm rather than just today)
+            if (reservation.ReservationTime != null)
             {
                 return await sc.NextAsync(sc.Values, cancellationToken);
             }
+            else if (state.AmbiguousTimexExpressions != null)
+            {
+                // We think the user did provide a time but it was ambiguous so we should clarify
+            }
 
-            var reply = sc.Context.Activity.CreateReply(RestaurantBookingSharedResponses.BookRestaurantTimePrompt, ResponseBuilder);
+            // We don't have the time component so prompt for time
+            var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantTimePrompt);
             return await sc.PromptAsync(Actions.AskReservationTimeStep, new PromptOptions { Prompt = reply }, cancellationToken);
         }
 
-        private async Task<bool> ValidateReservationTime(PromptValidatorContext<string> prompt, CancellationToken cancellationToken)
+        private async Task<bool> ValidateReservationTime(PromptValidatorContext<IList<DateTimeResolution>> promptContext, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(prompt.Context);
+            var state = await Accessor.GetAsync(promptContext.Context);
             var reservation = state.Booking;
 
-            var dateTimeEntity = LuisEntityHelper.TryGetTimeFromEntity(state.LuisResult?.Entities[LuisEntities.BuiltInDateTime], true);
-            if (dateTimeEntity.HasValue)
+            if (promptContext.Recognized.Succeeded)
             {
-                reservation.Time = dateTimeEntity.Value;
-                await RenderSelectedDateTimeMessage(prompt.Context, reservation);
+                // Add the time element to the existing date that we have
+                var recognizerValue = promptContext.Recognized.Value.First();
+
+                reservation.ReservationTime = DateTime.Parse(recognizerValue.Value);
+
+                return true;
             }
 
-            if (reservation.Time == null)
-            {
-                return false;
-            }
-
-            return true;
+            return false;
         }
 
         private async Task RenderSelectedDateTimeMessage(ITurnContext context, ReservationBooking reservation)
         {
-            var reply = context.Activity.CreateReply(RestaurantBookingSharedResponses.BookRestaurantDateTimeEcho, ResponseBuilder, new StringDictionary
+            var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantDateTimeEcho, new StringDictionary
             {
-                { "Date", reservation.Date?.ToSpeakString(true) },
-                { "Time", reservation.Time?.ToShortTimeString() }
+                { "Date", reservation.ReservationTime?.ToSpeakString(true) },
+                { "Time", reservation.ReservationTime?.ToShortTimeString() }
             });
             await context.SendActivityAsync(reply);
         }
@@ -365,37 +312,21 @@ namespace RestaurantBooking
                 return await sc.NextAsync(sc.Values, cancellationToken);
             }
 
-            var reply = sc.Context.Activity.CreateReply(RestaurantBookingSharedResponses.BookRestaurantAttendeePrompt, ResponseBuilder);
+            var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantAttendeePrompt);
             return await sc.PromptAsync(Actions.AskAttendeeCountStep, new PromptOptions { Prompt = reply }, cancellationToken);
         }
 
-        private async Task<bool> ValidateAttendeeCount(PromptValidatorContext<string> prompt, CancellationToken cancellationToken)
+        private async Task<bool> ValidateAttendeeCount(PromptValidatorContext<int> promptContext, CancellationToken cancellationToken)
         {
-            // Validate
-            var state = await Accessor.GetAsync(prompt.Context);
-            var reservation = state.Booking;
+            var state = await Accessor.GetAsync(promptContext.Context);
 
-            var normalizedEntityValue = new Dictionary<string, string>();
-            if (!string.IsNullOrEmpty(prompt.Context.Activity.AsMessageActivity().Text))
+            if (promptContext.Recognized.Succeeded == true)
             {
-                normalizedEntityValue = await GetNormalizedEntityValue(prompt.Context);
+                state.Booking.AttendeeCount = promptContext.Recognized.Value;
+                return true;
             }
 
-            if (normalizedEntityValue.ContainsKey(LuisEntities.BuiltInOrdinal))
-            {
-                LuisEntityHelper.TryGetValueFromEntity(state.LuisResult?.Entities?[LuisEntities.BuiltInOrdinal]);
-                reservation.AttendeeCount = int.Parse(normalizedEntityValue[LuisEntities.BuiltInOrdinal]).ToString();
-            }
-            else if (normalizedEntityValue.ContainsKey(LuisEntities.BuiltInNumber))
-            {
-                reservation.AttendeeCount = int.Parse(normalizedEntityValue[LuisEntities.BuiltInNumber]).ToString();
-            }
-            else
-            {
-                return false;
-            }
-
-            return true;
+            return false;
         }
 
         /// <summary>
@@ -412,31 +343,27 @@ namespace RestaurantBooking
             var tokens = new StringDictionary
             {
                 { "FoodType", reservation.Category },
-                { "ReservationDate", reservation.Date?.ToShortDateString() },
-                { "ReservationDateSpeak", reservation.Date?.ToSpeakString(true) },
-                { "ReservationTime", reservation.Time?.ToShortTimeString() },
-                { "AttendeeCount", reservation.AttendeeCount }
+                { "ReservationDate", reservation.ReservationDate?.ToShortDateString() },
+                { "ReservationDateSpeak", reservation.ReservationDate?.ToSpeakString(true) },
+                { "ReservationTime", reservation.ReservationTime?.ToShortTimeString() },
+                { "AttendeeCount", reservation.AttendeeCount.ToString() }
             };
 
-            var botResponse = RestaurantBookingSharedResponses.BookRestaurantConfirmationPrompt;
-            var textParts = botResponse.Reply.Text.Split("|");
-            var cardData = new HeaderTableFooterCardData
+            var cardData = new ReservationConfirmCard
             {
-                HeaderText = textParts[0],
-                Row1Title = textParts[1],
-                Row1Value = reservation.Category,
-                Row2Title = textParts[2],
-                Row2Value = reservation.Date?.ToShortDateString(),
-                Row3Title = textParts[3],
-                Row3Value = reservation.Time?.ToShortTimeString(),
-                Row4Title = textParts[4],
-                Row4Value = reservation.AttendeeCount,
-                FooterText = textParts[5]
+                Category = reservation.Category,
+                Location = reservation.Location,
+                ReservationDate = reservation.ReservationDate?.ToShortDateString(),
+                ReservationTime = reservation.ReservationTime?.ToShortTimeString(),
+                AttendeeCount = reservation.AttendeeCount.ToString()
             };
-            botResponse.Reply.Text = string.Empty;
 
-            var reply = sc.Context.Activity.CreateAdaptiveCardReply(botResponse, @"Dialogs\RestaurantBooking\Resources\Cards\HeaderTableFooter.json", cardData, ResponseBuilder, tokens);
-            return await sc.PromptAsync(Actions.ConfirmSelectionBeforeBookingStep, new PromptOptions { Prompt = reply }, cancellationToken);
+            var replyMessage = ResponseManager.GetCardResponse(
+                RestaurantBookingSharedResponses.BookRestaurantConfirmationPrompt,
+                new Card("ReservationConfirmCard", cardData),
+                tokens);
+
+            return await sc.PromptAsync(Actions.ConfirmSelectionBeforeBookingStep, new PromptOptions { Prompt = replyMessage }, cancellationToken);
         }
 
         private async Task<bool> ValidateBookingSelectionConfirmation(PromptValidatorContext<bool> prompt, CancellationToken cancellationToken)
@@ -444,24 +371,17 @@ namespace RestaurantBooking
             var state = await Accessor.GetAsync(prompt.Context);
             var reservation = state.Booking;
 
-            if (prompt.Recognized.Succeeded == true && prompt.Recognized.Value == true)
+            if (prompt.Recognized.Succeeded == true)
             {
-                var reply = prompt.Context.Activity.CreateReply(RestaurantBookingSharedResponses.BookRestaurantRestaurantSearching);
+                reservation.Confirmed = prompt.Recognized.Value;
+
+                var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantRestaurantSearching);
                 await prompt.Context.SendActivityAsync(reply, cancellationToken);
-                reservation.Confirmed = true;
-            }
-            else if (prompt.Recognized.Succeeded == true && prompt.Recognized.Value == false)
-            {
-                var reply = prompt.Context.Activity.CreateReply(RestaurantBookingSharedResponses.BookRestaurantRestaurantNegativeConfirm);
-                await prompt.Context.SendActivityAsync(reply, cancellationToken);
-                reservation.Confirmed = false;
-            }
-            else
-            {
-                return false;
+
+                return true;
             }
 
-            return true;
+            return false;
         }
 
         /// <summary>
@@ -475,16 +395,11 @@ namespace RestaurantBooking
             var state = await Accessor.GetAsync(sc.Context);
             var reservation = state.Booking;
 
-            if (reservation.Location != null)
-            {
-                return await sc.NextAsync(sc.Values, cancellationToken);
-            }
-
             // Reset the dialog if the user hasn't confirmed the reservation.
             if (!reservation.Confirmed)
             {
                 state.Booking = CreateNewReservationInfo();
-                return await sc.ReplaceDialogAsync(Id, cancellationToken: cancellationToken);
+                return await sc.EndDialogAsync();
             }
 
             // Prompt for restaurant
@@ -498,8 +413,6 @@ namespace RestaurantBooking
                 restaurantOptionsForSpeak.Append(i == restaurants.Count - 2 ? $" {BotStrings.Or} " : ", ");
             }
 
-            var restaurantResponse = RestaurantBookingSharedResponses.BookRestaurantRestaurantSelectionPrompt;
-
             var tokens = new StringDictionary
             {
                 { "RestaurantCount", (restaurants.Count - 1).ToString() },
@@ -507,41 +420,62 @@ namespace RestaurantBooking
                 { "RestaurantList", restaurantOptionsForSpeak.ToString() }
             };
 
-            var cardData = new List<TitleImageTextButtonCardData>();
-            restaurants.ForEach(r => cardData.Add(
-                new TitleImageTextButtonCardData
-                {
-                    ImageUrl = r.PictureUrl,
-                    ImageSize = AdaptiveImageSize.Stretch,
-                    ImageAlign = AdaptiveHorizontalAlignment.Stretch,
-                    ButtonTitle = r.Name,
-                    ButtonSubtitle = r.Location,
-                    SelectedItemData = r.Name
-                }));
+            var cards = new List<Card>();
+            restaurants.ForEach(r => cards.Add(
+                new Card(
+                   "RestaurantChoiceCard",
+                   new RestaurantChoiceCardData
+                     {
+                         ImageUrl = r.PictureUrl,
+                         ImageSize = AdaptiveImageSize.Stretch,
+                         ImageAlign = AdaptiveHorizontalAlignment.Stretch,
+                         Name = r.Name,
+                         Title = r.Name,
+                         Location = r.Location,
+                         SelectedItemData = r.Name
+                     })));
 
-            var reply = sc.Context.Activity.CreateAdaptiveCardGroupReply(
-                restaurantResponse, @"Dialogs\RestaurantBooking\Resources\Cards\TitleImageTextButton.json", AttachmentLayoutTypes.Carousel, cardData, ResponseBuilder, tokens);
+            var replyMessage = ResponseManager.GetCardResponse(RestaurantBookingSharedResponses.BookRestaurantRestaurantSelectionPrompt, cards, tokens);
 
-            return await sc.PromptAsync(Actions.RestaurantPrompt, new PromptOptions { Prompt = reply }, cancellationToken);
+            return await sc.PromptAsync(Actions.RestaurantPrompt, new PromptOptions { Prompt = replyMessage }, cancellationToken);
         }
 
-        private async Task<bool> ValidateRestaurantSelection(PromptValidatorContext<string> prompt, CancellationToken cancellationToken)
+        private async Task<bool> ValidateRestaurantSelection(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(prompt.Context);
-            var reservation = state.Booking;
-            var restaurants = state.Restaurants;
+            var state = await Accessor.GetAsync(promptContext.Context);
 
-            var restaurant = AdaptiveCardListHelper.ParseSelection(prompt.Context, state, restaurants, r => r.Name, r => r);
-            if (restaurant == null)
+            // This is a workaround to a known issue with Adaptive Card button responses and prompts whereby the "Text" of the adaptive card button response
+            // is put into a Value object not the Text as expected causing prompt validation to fail.
+            // If the prompt was about to fail and the Value property is set with Text set to NULL we do special handling.
+            if (!promptContext.Recognized.Succeeded && (promptContext.Context.Activity.Value != null) && string.IsNullOrEmpty(promptContext.Context.Activity.Text))
             {
-                return false;
+                dynamic value = promptContext.Context.Activity.Value;
+                string promptResponse = value["selectedItem"];   // The property will be named after your choice set's ID
+
+                if (!string.IsNullOrEmpty(promptResponse))
+                {
+                    // Override what the prompt has done
+                    promptContext.Recognized.Succeeded = true;
+                    promptContext.Recognized.Value = promptResponse;
+                }
             }
 
-            reservation.BookingPlace = restaurant;
+            if (promptContext.Recognized.Succeeded)
+            {
+                var restaurants = SeedReservationSampleData.GetListOfRestaurants(state.Booking.Category, "London", _urlResolver);
+                var restaurant = restaurants.Single(r => r.Name == promptContext.Recognized.Value);
+                if (restaurant != null)
+                {
+                    state.Booking.BookingPlace = restaurant;
 
-            var reply = prompt.Context.Activity.CreateReply(RestaurantBookingSharedResponses.BookRestaurantBookingPlaceSelectionEcho, ResponseBuilder, new StringDictionary { { "BookingPlaceName", restaurant.Name } });
-            await prompt.Context.SendActivityAsync(reply, cancellationToken);
-            return true;
+                    var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantBookingPlaceSelectionEcho, new StringDictionary { { "BookingPlaceName", restaurant.Name } });
+                    await promptContext.Context.SendActivityAsync(reply, cancellationToken);
+
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -564,39 +498,30 @@ namespace RestaurantBooking
                 {
                     { "BookingPlace", reservation.BookingPlace.Name },
                     { "Location", reservation.BookingPlace.Location },
-                    { "ReservationDate", reservation.Date?.ToShortDateString() },
-                    { "ReservationDateSpeak", reservation.Date?.ToSpeakString(true) },
-                    { "ReservationTime", reservation.Time?.ToShortTimeString() },
-                    { "AttendeeCount", reservation.AttendeeCount },
+                    { "ReservationDate", reservation.ReservationDate?.ToShortDateString() },
+                    { "ReservationDateSpeak", reservation.ReservationDate?.ToSpeakString(true) },
+                    { "ReservationTime", reservation.ReservationTime?.ToShortTimeString() },
+                    { "AttendeeCount", reservation.AttendeeCount.ToString() },
                 };
 
-            var response = RestaurantBookingSharedResponses.BookRestaurantAcceptedMessage;
-            var cardDataLabels = response.Reply.Text.Split("|");
-            response.Reply.Text = string.Empty;
-            var cardData = new ImageHeaderTableFooterCardData
+            var cardData = new ReservationConfirmationData
             {
                 ImageUrl = reservation.BookingPlace.PictureUrl,
                 ImageSize = AdaptiveImageSize.Stretch,
                 ImageAlign = AdaptiveHorizontalAlignment.Center,
-                HeaderText = cardDataLabels[0],
-                Row1Title = cardDataLabels[1],
-                Row1Value = reservation.BookingPlace.Name,
-                Row2Title = cardDataLabels[2],
-                Row2Value = reservation.BookingPlace.Location,
-                Row3Title = cardDataLabels[3],
-                Row3Value = reservation.Date?.ToShortDateString(),
-                Row4Title = cardDataLabels[4],
-                Row4Value = reservation.Time?.ToShortTimeString(),
-                Row5Title = cardDataLabels[5],
-                Row5Value = cardDataLabels[6],
-                FooterText = cardDataLabels[7]
+                BookingPlace = reservation.BookingPlace.Name,
+                Location = reservation.BookingPlace.Location,
+                ReservationDate = reservation.ReservationDate?.ToShortDateString(),
+                ReservationTime = reservation.ReservationTime?.ToShortTimeString(),
+                AttendeeCount = reservation.AttendeeCount.ToString()
             };
 
-            var reply = sc.Context.Activity.CreateAdaptiveCardReply(
-                response, @"Dialogs\RestaurantBooking\Resources\Cards\ImageHeaderTableFooter.json", cardData,
-                ResponseBuilder, tokens);
+            var replyMessage = ResponseManager.GetCardResponse(
+                       RestaurantBookingSharedResponses.BookRestaurantAcceptedMessage,
+                       new Card("ReservationConfirmationCard", cardData),
+                       tokens);
 
-            await sc.Context.SendActivityAsync(reply);
+            await sc.Context.SendActivityAsync(replyMessage);
 
             return await sc.EndDialogAsync(cancellationToken: cancellationToken);
         }
@@ -628,55 +553,6 @@ namespace RestaurantBooking
         }
 
         /// <summary>
-        /// Initializes the reservation instance with values found in the LUIS entities.
-        /// </summary>
-        private void UpdateReservationInfoFromEntities(ReservationBooking reservation, RecognizerResult recognizerResult)
-        {
-            if (recognizerResult == null)
-            {
-                return;
-            }
-
-            foreach (var entity in recognizerResult.Entities)
-            {
-                switch (entity.Key)
-                {
-                    case LuisEntities.Cuisine:
-                        reservation.Category = LuisEntityHelper.TryGetNormalizedValueFromListEntity(entity.Value);
-                        break;
-                    case LuisEntities.City:
-                        reservation.Location = LuisEntityHelper.TryGetValueFromEntity(entity.Value);
-                        break;
-                    case LuisEntities.BuiltInDateTime:
-                        var dateTimeEntity = LuisEntityHelper.TryGetDateTimeFromEntity(entity.Value, true);
-                        if (dateTimeEntity != null)
-                        {
-                            reservation.Date = dateTimeEntity.Value;
-                            reservation.Time = dateTimeEntity.Value;
-                        }
-                        else
-                        {
-                            var dateEntity = LuisEntityHelper.TryGetDateFromEntity(entity.Value, true);
-                            if (dateEntity.HasValue)
-                            {
-                                reservation.Date = dateEntity.Value;
-                            }
-                            else
-                            {
-                                var timeEntity = LuisEntityHelper.TryGetTimeFromEntity(entity.Value, true);
-                                if (timeEntity.HasValue)
-                                {
-                                    reservation.Time = timeEntity.Value;
-                                }
-                            }
-                        }
-
-                        break;
-                }
-            }
-        }
-
-        /// <summary>
         /// Initialise the ReservationBooking object that we use to track progress.
         /// </summary>
         /// <param name="context">TurnContext.</param>
@@ -688,45 +564,6 @@ namespace RestaurantBooking
                 // Default initialisation of reservation goes here
             };
             return restaurantReservation;
-        }
-
-        /// <summary>
-        /// Retrieve Normalised entity value.
-        /// </summary>
-        /// <param name="context">Turn Context.</param>
-        /// <returns>Entities mapped to data structure.</returns>
-        private async Task<Dictionary<string, string>> GetNormalizedEntityValue(ITurnContext context)
-        {
-            var state = await Accessor.GetAsync(context);
-            var recognizerResult = state.LuisResult;
-
-            var normalizedValue = new Dictionary<string, string>();
-
-            // Try to get the Cuisine
-            var normalizedEntityValue = LuisEntityHelper.TryGetNormalizedValueFromListEntity(recognizerResult?.Entities?[LuisEntities.Cuisine]);
-            if (normalizedEntityValue != null)
-            {
-                normalizedValue.Add(LuisEntities.Cuisine, normalizedEntityValue);
-            }
-            else
-            {
-                // See if the user provided an ordinal (i.e. the first one, the second one, etc.)
-                normalizedEntityValue = LuisEntityHelper.TryGetValueFromEntity(recognizerResult?.Entities?[LuisEntities.BuiltInOrdinal]);
-                if (normalizedEntityValue != null)
-                {
-                    normalizedValue.Add(LuisEntities.BuiltInOrdinal, normalizedEntityValue);
-                }
-                else
-                {
-                    normalizedEntityValue = LuisEntityHelper.TryGetValueFromEntity(recognizerResult?.Entities?[LuisEntities.BuiltInNumber]);
-                    if (normalizedEntityValue != null)
-                    {
-                        normalizedValue.Add(LuisEntities.BuiltInNumber, normalizedEntityValue);
-                    }
-                }
-            }
-
-            return normalizedValue;
         }
     }
 }

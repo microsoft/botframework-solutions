@@ -4,7 +4,7 @@ using Microsoft.Bot.Solutions.Responses;
 
 namespace RestaurantBooking.Models
 {
-    public class TitleImageTextCardData : ICardData
+    public class RestaurantChoiceCardData : ICardData
     {
         public string Title { get; set; }
 
@@ -14,6 +14,12 @@ namespace RestaurantBooking.Models
 
         public AdaptiveHorizontalAlignment ImageAlign { get; set; }
 
-        public string CardText { get; set; }
+        public string Name { get; set; }
+
+        public string Type { get; set; }
+
+        public string Location { get; set; }
+
+        public string SelectedItemData { get; set; }
     }
 }

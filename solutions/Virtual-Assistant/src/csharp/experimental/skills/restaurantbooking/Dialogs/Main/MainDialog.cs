@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
@@ -13,6 +14,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using RestaurantBooking.Dialogs.Main.Resources;
 using RestaurantBooking.Dialogs.Shared.Resources;
@@ -26,20 +28,28 @@ namespace RestaurantBooking
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
+        private ResponseManager _responseManager;
         private IHttpContextAccessor _httpContext;
-        private IBotTelemetryClient _telemetryClient;
         private IStatePropertyAccessor<RestaurantBookingState> _stateAccessor;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
-        private RestaurantBookingResponseBuilder _responseBuilder = new RestaurantBookingResponseBuilder();
 
-        public MainDialog(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, IBotTelemetryClient telemetryClient, IHttpContextAccessor httpContext, bool skillMode)
+        public MainDialog(
+            SkillConfigurationBase services,
+            ResponseManager responseManager,
+            ConversationState conversationState,
+            UserState userState,
+            IServiceManager serviceManager,
+            IHttpContextAccessor httpContext,
+            IBotTelemetryClient telemetryClient,
+            bool skillMode)
             : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;
             _services = services;
+            _responseManager = responseManager;
             _conversationState = conversationState;
             _userState = userState;
-            _telemetryClient = telemetryClient;
+            TelemetryClient = telemetryClient;
             _serviceManager = serviceManager;
             _httpContext = httpContext;
 
@@ -85,7 +95,7 @@ namespace RestaurantBooking
                 {
                     case "Reservation":
                         {
-                            await dc.BeginDialogAsync(nameof(RestaurantBookingDialog), skillOptions);
+                            await dc.BeginDialogAsync(nameof(BookingDialog), skillOptions);
 
                             break;
                         }
@@ -166,13 +176,17 @@ namespace RestaurantBooking
             // Events and Adaptive card postbacks (Value field populated only) will be skipped for interruption and passed on.
             if (dc.Context.Activity.Type == ActivityTypes.Message && !string.IsNullOrWhiteSpace(dc.Context.Activity.Text))
             {
-                // Update state with luis result and entities
-                var skillLuisResult = await _services.LocaleConfigurations["en"].LuisServices["reservation"].RecognizeAsync(dc.Context, cancellationToken);
+                // get current activity locale
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var localeConfig = _services.LocaleConfigurations[locale];
+
+                // Update state with email luis result and entities
+                var skillLuisResult = await localeConfig.LuisServices["reservation"].RecognizeAsync<Luis.Reservation>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
                 state.LuisResult = skillLuisResult;
 
                 // check luis intent
-                _services.LocaleConfigurations["en"].LuisServices.TryGetValue("general", out var luisService);
+                localeConfig.LuisServices.TryGetValue("general", out var luisService);
 
                 if (luisService == null)
                 {
@@ -219,7 +233,7 @@ namespace RestaurantBooking
         private void RegisterDialogs()
         {
             AddDialog(new CancelDialog());
-            AddDialog(new BookingDialog(_services, _stateAccessor, _serviceManager, _telemetryClient, _httpContext));
+            AddDialog(new BookingDialog(_services, _responseManager, _stateAccessor, _dialogStateAccessor, _serviceManager, _telemetryClient, _httpContext));
         }
 
         private class Events

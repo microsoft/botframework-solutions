@@ -5,10 +5,15 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Proactive;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.TaskExtensions;
 
 namespace NewsSkill
 {
@@ -18,6 +23,7 @@ namespace NewsSkill
     public class NewsSkill : IBot
     {
         private readonly SkillConfigurationBase _services;
+        private readonly EndpointService _endpointService;
         private readonly ConversationState _conversationState;
         private readonly IBotTelemetryClient _telemetryClient;
         private readonly UserState _userState;
@@ -25,12 +31,34 @@ namespace NewsSkill
 
         private bool _skillMode;
 
-        public NewsSkill(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, bool skillMode = false)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NewsSkill"/> class.
+        /// </summary>
+        /// <param name="services">Skill Configuration information.</param>
+        /// <param name="endpointService">Endpoint service for the bot.</param>
+        /// <param name="conversationState">Conversation State.</param>
+        /// <param name="userState">User State.</param>
+        /// <param name="proactiveState">Proative state.</param>
+        /// <param name="telemetryClient">Telemetry Client.</param>
+        /// <param name="backgroundTaskQueue">Background task queue.</param>
+        /// <param name="serviceManager">Service Manager.</param>
+        /// <param name="skillMode">Indicates whether the skill is running in skill or local mode.</param>
+        public NewsSkill(
+            SkillConfigurationBase services,
+            EndpointService endpointService,
+            ConversationState conversationState,
+            UserState userState,
+            ProactiveState proactiveState,
+            IBotTelemetryClient telemetryClient,
+            IBackgroundTaskQueue backgroundTaskQueue,
+            bool skillMode = false)
         {
             _skillMode = skillMode;
-            _services = services;
-            _conversationState = conversationState;
-            _userState = userState;
+            _services = services ?? throw new ArgumentNullException(nameof(services));
+            _endpointService = endpointService ?? throw new ArgumentNullException(nameof(endpointService));
+            _userState = userState ?? throw new ArgumentNullException(nameof(userState));
+
+            _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
