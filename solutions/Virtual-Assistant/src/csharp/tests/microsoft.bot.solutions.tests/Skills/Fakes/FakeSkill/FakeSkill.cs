@@ -6,17 +6,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using FakeSkill.Dialogs.Main;
 using FakeSkill.ServiceClients;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Auth.Resources;
-using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Main.Resources;
-using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Shared.Resources;
-using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Sample.Resources;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Auth.Resources;
+using Microsoft.Bot.Builder.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Main.Resources;
+using Microsoft.Bot.Builder.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Shared.Resources;
+using Microsoft.Bot.Builder.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Sample.Resources;
 using Microsoft.Bot.Configuration;
-using Microsoft.Bot.Solutions.TaskExtensions;
-using Microsoft.Bot.Solutions.Proactive;
+using Microsoft.Bot.Builder.Solutions.TaskExtensions;
+using Microsoft.Bot.Builder.Solutions.Proactive;
 
 namespace FakeSkill
 {

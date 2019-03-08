@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PointOfInterestSkill.Dialogs.Shared.Resources;
 using VirtualAssistant.Tests.TestHelpers;

@@ -1,7 +1,7 @@
 ﻿using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Telemetry;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

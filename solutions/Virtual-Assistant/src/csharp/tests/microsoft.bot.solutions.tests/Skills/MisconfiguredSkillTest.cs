@@ -1,9 +1,9 @@
-﻿using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Solutions.Tests.Skills.Utterances;
+﻿using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Tests.Skills.Utterances;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Solutions.Tests.Skills
+namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
 {
     [TestClass]
     public class MisconfiguredSkillTest : SkillTestBase
@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
             fakeSkillDefinition.Name = fakeSkillName;
 
             // Set Assembly name to invalid value
-            fakeSkillDefinition.Assembly = "FakeSkill.FakeSkil, Microsoft.Bot.Solutions.Tests, Version = 1.0.0.0, Culture = neutral, PublicKeyToken = null";
+            fakeSkillDefinition.Assembly = "FakeSkill.FakeSkil, Microsoft.Bot.Builder.Solutions.Tests, Version = 1.0.0.0, Culture = neutral, PublicKeyToken = null";
 
             SkillConfigurations.Add(fakeSkillDefinition.Id, Services);
 

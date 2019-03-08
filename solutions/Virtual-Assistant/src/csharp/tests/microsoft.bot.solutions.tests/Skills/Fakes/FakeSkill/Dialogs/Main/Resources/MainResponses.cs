@@ -2,9 +2,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Responses;
 
-namespace Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Main.Resources
+namespace Microsoft.Bot.Builder.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Main.Resources
 {
     /// <summary>
     /// Contains bot responses.

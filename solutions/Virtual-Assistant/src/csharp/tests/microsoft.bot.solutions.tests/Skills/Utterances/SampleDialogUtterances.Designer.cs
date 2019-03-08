@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.Bot.Solutions.Tests.Skills.Utterances {
+namespace Microsoft.Bot.Builder.Solutions.Tests.Skills.Utterances {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Microsoft.Bot.Solutions.Tests.Skills.Utterances {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.Bot.Solutions.Tests.Skills.Utterances.SampleDialogUtterances", typeof(SampleDialogUtterances).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.Bot.Builder.Solutions.Tests.Skills.Utterances.SampleDialogUtterances", typeof(SampleDialogUtterances).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

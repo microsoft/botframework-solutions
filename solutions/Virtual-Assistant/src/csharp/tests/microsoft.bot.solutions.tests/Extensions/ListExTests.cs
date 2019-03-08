@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Builder.Solutions.Extensions;
+using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Bot.Solutions.Tests.Extensions
+namespace Microsoft.Bot.Builder.Solutions.Tests.Extensions
 {
     [TestClass]
     public class ListExTests

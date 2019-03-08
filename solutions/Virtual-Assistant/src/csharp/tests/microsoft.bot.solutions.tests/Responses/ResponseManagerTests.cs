@@ -3,11 +3,11 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Tests.Responses;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Tests.Responses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Bot.Solutions.Tests
+namespace Microsoft.Bot.Builder.Solutions.Tests
 {
     [TestClass]
     public class ResponseManagerTests

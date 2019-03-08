@@ -1,14 +1,14 @@
 ﻿using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Sample.Resources;
-using Microsoft.Bot.Solutions.Tests.Skills.Utterances;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Sample.Resources;
+using Microsoft.Bot.Builder.Solutions.Tests.Skills.Utterances;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Solutions.Tests.Skills
+namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
 {
     [TestClass]
     public class InvokeSkillTests : SkillTestBase

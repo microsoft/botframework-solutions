@@ -1,10 +1,10 @@
 ﻿using Luis;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Solutions.Testing.Mocks;
-using Microsoft.Bot.Solutions.Tests.Skills.Utterances;
+using Microsoft.Bot.Builder.Solutions.Testing.Mocks;
+using Microsoft.Bot.Builder.Solutions.Tests.Skills.Utterances;
 using System.Collections.Generic;
 
-namespace Microsoft.Bot.Solutions.Tests.Skills.LuisTestUtils
+namespace Microsoft.Bot.Builder.Solutions.Tests.Skills.LuisTestUtils
 {
     public class GeneralTestUtil
     {

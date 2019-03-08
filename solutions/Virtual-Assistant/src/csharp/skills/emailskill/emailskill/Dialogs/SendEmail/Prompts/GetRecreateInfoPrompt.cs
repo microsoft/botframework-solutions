@@ -6,7 +6,7 @@ using EmailSkill.Dialogs.Shared.Resources.Strings;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Util;
+using Microsoft.Bot.Builder.Solutions.Util;
 using static EmailSkill.Models.SendEmailStateModel;
 
 namespace EmailSkill.Dialogs.SendEmail.Prompts

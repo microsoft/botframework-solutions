@@ -10,15 +10,15 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using FakeSkill.Dialogs.Sample;
 using FakeSkill.Dialogs.Shared.DialogOptions;
 using FakeSkill.ServiceClients;
 using FakeSkill.Dialogs.Auth;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Main.Resources;
-using Microsoft.Bot.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Shared.Resources;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Main.Resources;
+using Microsoft.Bot.Builder.Solutions.Tests.Skills.Fakes.FakeSkill.Dialogs.Shared.Resources;
 
 namespace FakeSkill.Dialogs.Main
 {
