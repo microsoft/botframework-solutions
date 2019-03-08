@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CalendarSkill.Dialogs.Shared.Resources.Strings;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -8,31 +9,22 @@ namespace CalendarSkill.Models.Resources
 {
     public static class AskParameterTemplate
     {
-        private static Dictionary<string, AskParameterType> templateMapping;
+        private static Dictionary<AskParameterType, string> templateMapping;
 
         static AskParameterTemplate()
         {
             // Read the regexs from data file.
-            templateMapping = new Dictionary<string, AskParameterType>();
-            var dir = Path.GetDirectoryName(typeof(AskParameterTemplate).Assembly.Location);
-            var resDir = Path.Combine(dir, @"Models\Resources\AskParameterTemplate.txt");
-            StreamReader sr = new StreamReader(resDir, Encoding.Default);
-            string line;
-            while ((line = sr.ReadLine()) != null)
-            {
-                if (line.StartsWith("#"))
-                {
-                    // Language tag, should skip and continue.
-                    continue;
-                }
+            templateMapping = new Dictionary<AskParameterType, string>();
 
-                string[] parts = line.Split("\t");
-                if (parts[0].Length > 0 && parts[1].Length > 0)
-                {
-                    AskParameterType askParameterType = Enum.Parse<AskParameterType>(parts[0], true);
-                    templateMapping.Add(parts[1], askParameterType);
-                }
-            }
+            templateMapping.Add(AskParameterType.AskForDetail, CalendarCommonStrings.AskForDetail);
+            templateMapping.Add(AskParameterType.AskForStartTime, CalendarCommonStrings.AskForStartTime);
+            templateMapping.Add(AskParameterType.AskForEndTime, CalendarCommonStrings.AskForEndTime);
+            templateMapping.Add(AskParameterType.AskForTime, CalendarCommonStrings.AskForTime);
+            templateMapping.Add(AskParameterType.AskForDuration, CalendarCommonStrings.AskForDuration);
+            templateMapping.Add(AskParameterType.AskForLocation, CalendarCommonStrings.AskForLocation);
+            templateMapping.Add(AskParameterType.AskForAttendee, CalendarCommonStrings.AskForAttendee);
+            templateMapping.Add(AskParameterType.AskForTitle, CalendarCommonStrings.AskForTitle);
+            templateMapping.Add(AskParameterType.AskForContent, CalendarCommonStrings.AskForContent);
         }
 
         public static List<AskParameterType> GetAskParameterTypes(string content)
@@ -45,12 +37,12 @@ namespace CalendarSkill.Models.Resources
                 return types;
             }
 
-            foreach (string key in templateMapping.Keys)
+            foreach (AskParameterType type in templateMapping.Keys)
             {
-                Regex regex = new Regex(key);
+                Regex regex = new Regex(templateMapping[type]);
                 if (regex.IsMatch(content))
                 {
-                    types.Add(templateMapping[key]);
+                    types.Add(type);
                 }
             }
 
