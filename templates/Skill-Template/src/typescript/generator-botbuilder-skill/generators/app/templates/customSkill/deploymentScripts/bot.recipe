@@ -1,0 +1,40 @@
+{
+  "version": "1.0",
+  "resources": [
+    {
+      "type": "endpoint",
+      "id": "1",
+      "name": "development",
+      "url": "http://localhost:3980/api/messages"
+    },
+    {
+      "type": "endpoint",
+      "id": "108",
+      "name": "production",
+      "url": "https://your-bot-url.azurewebsites.net/api/messages"
+    },
+    {
+      "type": "abs",
+      "id": "199",
+      "name": "CustomAssistantABS"
+    },
+    {
+      "type": "blob",
+      "id": "2",
+      "name": "CustomAssistantStorage",
+      "container": "transcripts"
+    },
+    {
+      "type": "appInsights",
+      "id": "3",
+      "name": "CustomAssistantInsights"
+    },
+    {
+      "type": "cosmosdb",
+      "id": "8",
+      "name": "CustomAssistantCosmosDB",
+      "database": "botstate-db",
+      "collection": "botstate-collection"
+    }
+  ]
+}
