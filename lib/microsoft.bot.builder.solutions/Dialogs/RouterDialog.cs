@@ -1,9 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
 using Microsoft.Bot.Builder.Solutions.Extensions;
+using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Solutions.Dialogs
 {
@@ -15,7 +14,10 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
             TelemetryClient = telemetryClient;
         }
 
-        protected override Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken)) => OnContinueDialogAsync(innerDc, cancellationToken);
+        protected override Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return OnContinueDialogAsync(innerDc, cancellationToken);
+        }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -88,9 +90,15 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
             }
         }
 
-        protected override Task OnEndDialogAsync(ITurnContext context, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken = default(CancellationToken)) => base.OnEndDialogAsync(context, instance, reason, cancellationToken);
+        protected override Task OnEndDialogAsync(ITurnContext context, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return base.OnEndDialogAsync(context, instance, reason, cancellationToken);
+        }
 
-        protected override Task OnRepromptDialogAsync(ITurnContext turnContext, DialogInstance instance, CancellationToken cancellationToken = default(CancellationToken)) => base.OnRepromptDialogAsync(turnContext, instance, cancellationToken);
+        protected override Task OnRepromptDialogAsync(ITurnContext turnContext, DialogInstance instance, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return base.OnRepromptDialogAsync(turnContext, instance, cancellationToken);
+        }
 
         /// <summary>
         /// Called when the inner dialog stack is empty.
@@ -119,7 +127,10 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
         /// <param name="innerDc">The dialog context for the component.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected virtual Task OnEventAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken)) => Task.CompletedTask;
+        protected virtual Task OnEventAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return Task.CompletedTask;
+        }
 
         /// <summary>
         /// Called when a system activity is received.
@@ -127,7 +138,10 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
         /// <param name="innerDc">The dialog context for the component.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected virtual Task OnSystemMessageAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken)) => Task.CompletedTask;
+        protected virtual Task OnSystemMessageAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return Task.CompletedTask;
+        }
 
         /// <summary>
         /// Called when a conversation update activity is received.
@@ -135,7 +149,10 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
         /// <param name="innerDc">The dialog context for the component.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected virtual Task OnStartAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken)) => Task.CompletedTask;
+        protected virtual Task OnStartAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return Task.CompletedTask;
+        }
 
         protected override Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {

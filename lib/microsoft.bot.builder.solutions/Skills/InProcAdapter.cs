@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Schema;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Solutions.Skills
 {

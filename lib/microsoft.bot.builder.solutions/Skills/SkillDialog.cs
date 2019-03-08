@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Configuration;
-using Microsoft.Bot.Schema;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
+using Microsoft.Bot.Configuration;
+using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Solutions.Skills
 {

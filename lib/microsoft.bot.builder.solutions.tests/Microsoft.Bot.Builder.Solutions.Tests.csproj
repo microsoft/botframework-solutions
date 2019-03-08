@@ -2,15 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-
+    <CodeAnalysisRuleSet>..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Dialogs\**" />
-    <EmbeddedResource Remove="Dialogs\**" />
-    <None Remove="Dialogs\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Responses\TestResponses.es.json" />
@@ -98,20 +92,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.0-preview-3" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.3.2" />
     <PackageReference Include="MSTest.TestFramework" Version="1.3.2" />
   </ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <CodeAnalysisRuleSet>..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <CodeAnalysisRuleSet>..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj" />
+  </ItemGroup>
+  
   <ItemGroup>
     <None Update="Responses\TestResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
