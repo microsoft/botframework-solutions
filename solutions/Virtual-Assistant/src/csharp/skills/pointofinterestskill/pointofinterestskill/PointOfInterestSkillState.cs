@@ -70,12 +70,16 @@ namespace PointOfInterestSkill
             UserSelectIndex = -1;
         }
 
-        public void CheckForValidCurrentCoordinates()
+        public bool CheckForValidCurrentCoordinates()
         {
             if (CurrentCoordinates == null)
             {
-                throw new Exception("The bot state is missing any current coordinates. Make sure your event architecture is correctly configured.");
+                return false;
+
+                // throw new Exception("The bot state is missing any current coordinates. Make sure your event architecture is correctly configured.");
             }
+
+            return true;
         }
     }
 }

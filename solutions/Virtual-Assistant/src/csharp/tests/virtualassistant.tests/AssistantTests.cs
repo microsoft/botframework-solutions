@@ -78,48 +78,63 @@ namespace VirtualAssistant.Tests
         }
 
         /// <summary>
-        /// Test that we can invoke the Email Skill through VA. If we are able to do this we will at this time get an Exception saying that the
-        /// Test Adapter doesn't support GetUserToken which signals the skill has been invoked and the GetAuth step has started
-        /// signalling the Skill has completed.
+        /// Test that we can invoke the Email Skill through VA. If we are able to do this we will get an OAuth card back.
         /// </summary>
         /// <returns>Task.</returns>
         [TestMethod]
-        [ExpectedExceptionAndMessage(typeof(InvalidOperationException), "OAuthPrompt.GetUserToken(): not supported by the current adapter")]
         public async Task CalendarSkillInvocation()
         {
             await this.GetTestFlow()
-               .Send(CalendarUtterances.BookMeeting)
-               .StartTestAsync();
+                .Send(CalendarUtterances.BookMeeting)
+                .AssertReply((activity) => Assert.AreEqual(ActivityTypes.Trace, activity.Type))
+                .AssertReply((activity) => Assert.AreEqual(ActivityTypes.Trace, activity.Type))
+                .AssertReply((activity) =>
+                {
+                    var messageActivity = activity.AsMessageActivity();
+                    Assert.AreEqual(1, messageActivity.Attachments.Count);
+                    Assert.AreEqual("application/vnd.microsoft.card.oauth", messageActivity.Attachments[0].ContentType);
+                })
+                .StartTestAsync();
         }
 
         /// <summary>
-        /// Test that we can invoke the Email Skill through VA. If we are able to do this we will at this time get an Exception saying that the
-        /// Test Adapter doesn't support GetUserToken which signals the skill has been invoked and the GetAuth step has started
-        /// signalling the Skill has completed.
+        /// Test that we can invoke the Email Skill through VA. If we are able to do this we will get an OAuth card back.
         /// </summary>
         /// <returns>Task.</returns>
         [TestMethod]
-        [ExpectedExceptionAndMessage(typeof(InvalidOperationException), "OAuthPrompt.GetUserToken(): not supported by the current adapter")]
         public async Task EmailSkillInvocation()
         {
             await this.GetTestFlow()
-               .Send(EmailUtterances.SendEmail)
-               .StartTestAsync();
+                .Send(EmailUtterances.SendEmail)
+                .AssertReply((activity) => Assert.AreEqual(ActivityTypes.Trace, activity.Type))
+                .AssertReply((activity) => Assert.AreEqual(ActivityTypes.Trace, activity.Type))
+                .AssertReply((activity) =>
+                {
+                    var messageActivity = activity.AsMessageActivity();
+                    Assert.AreEqual(1, messageActivity.Attachments.Count);
+                    Assert.AreEqual("application/vnd.microsoft.card.oauth", messageActivity.Attachments[0].ContentType);
+                })
+                .StartTestAsync();
         }
 
         /// <summary>
-        /// Test that we can invoke the ToDo Skill. If we are able to do this we will at this time get an Exception saying that the
-        /// Test Adapter doesn't support GetUserToken which signals the skill has been invoked and the GetAuth step has started
-        /// signalling the Skill has completed.
+        /// Test that we can invoke the ToDo Skill. If we are able to do this we will get an OAuth card back.
         /// </summary>
         /// <returns>Task.</returns>
         [TestMethod]
-        [ExpectedExceptionAndMessage(typeof(InvalidOperationException), "OAuthPrompt.GetUserToken(): not supported by the current adapter")]
         public async Task ToDoSkillInvocation()
         {
             await this.GetTestFlow()
-            .Send(ToDoUtterances.AddToDo)
-            .StartTestAsync();
+                .Send(ToDoUtterances.AddToDo)
+                .AssertReply((activity) => Assert.AreEqual(ActivityTypes.Trace, activity.Type))
+                .AssertReply((activity) => Assert.AreEqual(ActivityTypes.Trace, activity.Type))
+                .AssertReply((activity) =>
+                {
+                    var messageActivity = activity.AsMessageActivity();
+                    Assert.AreEqual(1, messageActivity.Attachments.Count);
+                    Assert.AreEqual("application/vnd.microsoft.card.oauth", messageActivity.Attachments[0].ContentType);
+                })
+                .StartTestAsync();
         }
 
         /// <summary>
@@ -133,11 +148,22 @@ namespace VirtualAssistant.Tests
             await this.GetTestFlow()
             .Send(PointOfInterestUtterances.FindCoffeeShop)
             .AssertReply(ValidateSkillForwardingTrace("pointOfInterestSkill"))
-            .AssertReply(this.ValidateAzureMapsKeyPrompt())
-            .AssertReply(this.CheckForPointOfInterestError())
-
-            // .AssertReply(this.CheckForEndOfConversationEvent())
+            .AssertReply(this.CheckLocationPrompt())
             .StartTestAsync();
+        }
+
+        /// <summary>
+        /// Asserts response is one of the available location prompts.
+        /// </summary>
+        /// <returns>IActivity.</returns>
+        private Action<IActivity> CheckLocationPrompt()
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+
+                CollectionAssert.Contains(ParseReplies(POISharedResponses.PromptForCurrentLocation, new StringDictionary()), messageActivity.Text);
+            };
         }
 
         /// <summary>

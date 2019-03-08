@@ -46,13 +46,6 @@
                   "text": "{Hours}",
                   "isSubtle": true,
                   "wrap": true
-                },
-                {
-                  "id": "Provider",
-                  "type": "TextBlock",
-                  "horizontalAlignment": "Right",
-                  "text": "Provided by **{Provider}**",
-                  "isSubtle": true
                 }
               ],
               "width": 90
@@ -73,20 +66,7 @@
       ]
     }
   ],
-  "actions": [
-    {
-      "type": "Action.Submit",
-      "title": "Find a route",
-      "data": {
-        "event": {
-          "name": "IPA.ActiveLocation",
-          "text": "Find a route",
-          "value": "{Name}"
-        }
-      }
-    }
-  ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
-  "speak": "{Index}, {Name} is located at {Street}"
+  "speak": "{Name} at {Street}"
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Skills;
@@ -32,62 +33,73 @@ namespace VirtualAssistant.Tests.SkillInvocationTests
         }
 
         /// <summary>
-        /// Test that we can invoke the Calendar Skill. If we are able to do this we will at this time get an Exception saying that the
-        /// Test Adapter doesn't support GetUserToken which signals the skill has been invoked and the GetAuth step has started
-        /// signalling the Skill has completed.
+        /// Test that we can invoke the Calendar Skill. If we are able to do this we will get an OAuth card.
         /// </summary>
         /// <returns>Task.</returns>
         [TestMethod]
-        [ExpectedExceptionAndMessage(typeof(InvalidOperationException), "OAuthPrompt.GetUserToken(): not supported by the current adapter")]
         public async Task CalendarSkillInvocation()
         {
             this.SkillDialogOptions = new SkillDialogOptions();
             this.SkillDialogOptions.SkillDefinition = this.skillDefinitions["calendarSkill"];
 
             await this.GetTestFlow()
-            .Send(CalendarUtterances.BookMeeting)
-            .StartTestAsync();
+                .Send(CalendarUtterances.BookMeeting)
+                .AssertReply((activity) => Assert.AreEqual(ActivityTypes.Trace, activity.Type))
+                .AssertReply((activity) =>
+                {
+                    var messageActivity = activity.AsMessageActivity();
+                    Assert.AreEqual(1, messageActivity.Attachments.Count);
+                    Assert.AreEqual("application/vnd.microsoft.card.oauth", messageActivity.Attachments[0].ContentType);
+                })
+                .StartTestAsync();
         }
 
         /// <summary>
-        /// Test that we can invoke the Email Skill. If we are able to do this we will at this time get an Exception saying that the
-        /// Test Adapter doesn't support GetUserToken which signals the skill has been invoked and the GetAuth step has started
-        /// signalling the Skill has completed.
+        /// Test that we can invoke the Email Skill. If we are able to do this we will get an OAuth card.
         /// </summary>
         /// <returns>Task.</returns>
         [TestMethod]
-        [ExpectedExceptionAndMessage(typeof(InvalidOperationException), "OAuthPrompt.GetUserToken(): not supported by the current adapter")]
         public async Task EmailSkillInvocation()
         {
             this.SkillDialogOptions = new SkillDialogOptions();
             this.SkillDialogOptions.SkillDefinition = this.skillDefinitions["emailSkill"];
 
             await this.GetTestFlow()
-            .Send(EmailUtterances.SendEmail)
-            .StartTestAsync();
+                .Send(EmailUtterances.SendEmail)
+                .AssertReply((activity) => Assert.AreEqual(ActivityTypes.Trace, activity.Type))
+                .AssertReply((activity) =>
+                {
+                    var messageActivity = activity.AsMessageActivity();
+                    Assert.AreEqual(1, messageActivity.Attachments.Count);
+                    Assert.AreEqual("application/vnd.microsoft.card.oauth", messageActivity.Attachments[0].ContentType);
+                })
+                .StartTestAsync();
         }
 
         /// <summary>
-        /// Test that we can invoke the ToDo Skill. If we are able to do this we will at this time get an Exception saying that the
-        /// Test Adapter doesn't support GetUserToken which signals the skill has been invoked and the GetAuth step has started
-        /// signalling the Skill has completed.
+        /// Test that we can invoke the ToDo Skill. If we are able to do this we will get an OAuth card.
         /// </summary>
         /// <returns>Task.</returns>
         [TestMethod]
-        [ExpectedExceptionAndMessage(typeof(InvalidOperationException), "OAuthPrompt.GetUserToken(): not supported by the current adapter")]
         public async Task ToDoSkillInvocation()
         {
             this.SkillDialogOptions = new SkillDialogOptions();
             this.SkillDialogOptions.SkillDefinition = this.skillDefinitions["toDoSkill"];
 
             await this.GetTestFlow()
-            .Send(ToDoUtterances.AddToDo)
-            .StartTestAsync();
+                .Send(ToDoUtterances.AddToDo)
+                .AssertReply((activity) => Assert.AreEqual(ActivityTypes.Trace, activity.Type))
+                .AssertReply((activity) =>
+                {
+                    var messageActivity = activity.AsMessageActivity();
+                    Assert.AreEqual(1, messageActivity.Attachments.Count);
+                    Assert.AreEqual("application/vnd.microsoft.card.oauth", messageActivity.Attachments[0].ContentType);
+                })
+                .StartTestAsync();
         }
 
         /// <summary>
-        /// Test that we can invoke the PointOfInterest Skill, if we are able to do this we will get a trace activity saying that the
-        /// Azure Maps key isn't available (through configuration) which is expected and proves we can invoke the skill.
+        /// Test that we can invoke the PointOfInterest Skill and receive the location prompt.
         /// </summary>
         /// <returns>Task.</returns>
         [TestMethod]
@@ -98,18 +110,21 @@ namespace VirtualAssistant.Tests.SkillInvocationTests
 
             await this.GetTestFlow()
             .Send(PointOfInterestUtterances.FindCoffeeShop)
-            .AssertReply(this.ValidateAzureMapsKeyPrompt())
+            .AssertReply(CheckLocationPrompt())
             .StartTestAsync();
         }
 
-        private Action<IActivity> ValidateAzureMapsKeyPrompt()
+        /// <summary>
+        /// Asserts response is one of the available location prompts.
+        /// </summary>
+        /// <returns>IActivity.</returns>
+        private Action<IActivity> CheckLocationPrompt()
         {
             return activity =>
             {
-                var traceActivity = activity as Activity;
-                Assert.IsNotNull(traceActivity);
+                var messageActivity = activity.AsMessageActivity();
 
-                Assert.IsTrue(traceActivity.Text.Contains("DialogException: Could not get the required Azure Maps key. Please make sure your settings are correctly configured."));
+                CollectionAssert.Contains(ParseReplies(POISharedResponses.PromptForCurrentLocation, new StringDictionary()), messageActivity.Text);
             };
         }
     }
