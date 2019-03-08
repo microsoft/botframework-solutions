@@ -238,7 +238,7 @@
     <value>(when|what time).*(end|stop)</value>
   </data>
   <data name="AskForLocation" xml:space="preserve">
-    <value>where|what.*location|waht.*room</value>
+    <value>where|what.*location|what.*room</value>
   </data>
   <data name="AskForStartTime" xml:space="preserve">
     <value>(when|what time).*(start|begin)</value>

@@ -187,7 +187,7 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to where|what.*location|waht.*room.
+        ///   Looks up a localized string similar to where|what.*location|what.*room.
         /// </summary>
         public static string AskForLocation {
             get {
