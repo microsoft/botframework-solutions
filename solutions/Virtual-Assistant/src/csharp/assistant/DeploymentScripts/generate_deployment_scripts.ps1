@@ -14,8 +14,8 @@ function CheckForDuplicates($lu) {
 $locale = $locale.ToLower()
 $langCode = ($locale -split "-")[0]
 $basePath = Join-Path $PSScriptRoot ".."
-$outputPath = Join-Path $basePath "DeploymentScripts" $langCode
-$recipePath = Join-Path $basePath "DeploymentScripts" $langCode "bot.recipe"
+$outputPath = Join-Path $basePath "DeploymentScripts" | Join-Path -ChildPath $langCode
+$recipePath = Join-Path $basePath "DeploymentScripts" | Join-Path -ChildPath $langCode | Join-Path -ChildPath "bot.recipe"
 $recipe = Get-Content -Raw -Path $recipePath | ConvertFrom-Json
 
 Write-Host $basePath

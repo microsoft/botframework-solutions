@@ -33,14 +33,16 @@ $localeArr = $locales.Split(',')
 foreach ($locale in $localeArr)
 {	
 	# Update deployment scripts for the locale
+	Write-Host "Invoke-Expression $(Join-Path $PSScriptRoot generate_deployment_scripts.ps1) -locale $($locale)"
 	Invoke-Expression "$(Join-Path $PSScriptRoot generate_deployment_scripts.ps1) -locale $($locale)"
 
 	# Get language code from locale (first two characters, i.e. "en")
 	$langCode = ($locale -split "-")[0]
 
+	Write-Host "Creating directory"
 	# Create LocaleConfigurations folder and change directory
-	New-Item -ItemType directory -Force -Path "$(Join-Path $PSScriptRoot .. LocaleConfigurations)" > $null
-	cd "$(Join-Path $PSScriptRoot .. LocaleConfigurations)" > $null
+	New-Item -ItemType directory -Force -Path "$(Join-Path $PSScriptRoot .. | Join-Path -ChildPath LocaleConfigurations)" > $null
+	cd "$(Join-Path $PSScriptRoot .. | Join-Path -ChildPath LocaleConfigurations)" > $null
 
 	# Deploy Dispatch, LUIS (calendar, email, todo, and general), and QnA Maker for the locale
     Write-Host "Deploying $($locale) resources..."
