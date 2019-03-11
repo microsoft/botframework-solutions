@@ -25,7 +25,7 @@ if (!$languagesOnly)
 
 	# Deploy the common resources (Azure Bot Service, App Insights, Azure Storage, Cosmos DB, etc)
 	Write-Host "Deploying common resources..."
-	msbot clone services -n $name -l $location --luisAuthoringKey $luisAuthoringKey --groupName $groupName --folder "$($PSScriptRoot)" --appId $appId --appSecret $appSecret --force --quiet 
+	msbot clone services -n $name -l $location --luisAuthoringKey $luisAuthoringKey --groupName $groupName --folder "$($PSScriptRoot)" --appId $appId --appSecret """$appSecret""" --force --quiet 
 }
 
 $localeArr = $locales.Split(',')
