@@ -1,0 +1,16 @@
+{
+    "extends": [
+        "xo",
+        "prettier"
+    ],
+    "env": {
+        "mocha": true,
+        "node": true
+    },
+    "rules": {
+        "prettier/prettier": "error"
+    },
+    "plugins": [
+        "prettier"
+    ]
+}

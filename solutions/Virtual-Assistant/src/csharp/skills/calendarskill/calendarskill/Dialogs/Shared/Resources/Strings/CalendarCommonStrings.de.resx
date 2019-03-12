@@ -117,14 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="OrdinalSuffixSt" xml:space="preserve">
+    <value>{0}st</value>
+  </data>
   <data name="TomorrowLower" xml:space="preserve">
     <value>Morgen</value>
   </data>
   <data name="NoAttendees" xml:space="preserve">
     <value>Keine Teilnehmer</value>
-  </data>
-  <data name="Empty" xml:space="preserve">
-    <value>Leer</value>
   </data>
   <data name="AdjustSubject" xml:space="preserve">
     <value>(Anpassung | ändern/aktualisieren)?. * (Betreff | Titel)</value>
@@ -135,8 +135,17 @@
   <data name="CancelAdjust" xml:space="preserve">
     <value>^ (no | abbrechen/nop/nicht/nicht)</value>
   </data>
+  <data name="AskForStartTime" xml:space="preserve">
+    <value>(Wann | welcher Zeit). * (Start | Anfang)</value>
+  </data>
   <data name="DailyToken" xml:space="preserve">
     <value>Täglich</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>nächster</value>
+  </data>
+  <data name="AskForContent" xml:space="preserve">
+    <value>Was. * (Inhalt | Detail)</value>
   </data>
   <data name="AtTime" xml:space="preserve">
     <value>at {0}</value>
@@ -144,14 +153,23 @@
   <data name="DefaultTitle" xml:space="preserve">
     <value>Sitzung</value>
   </data>
-  <data name="SkipPhrases" xml:space="preserve">
-    <value>^ (skip | no)</value>
+  <data name="AskForTime" xml:space="preserve">
+    <value>Wenn | welcher Zeit</value>
+  </data>
+  <data name="AskForEndTime" xml:space="preserve">
+    <value>(Wann | welcher Zeit). * (Ende | stop)</value>
   </data>
   <data name="OrdinalSuffixTh" xml:space="preserve">
     <value>{0}th</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>jetzt</value>
+  </data>
+  <data name="AskForDetail" xml:space="preserve">
+    <value>Was (ist | sind)?. * über</value>
+  </data>
+  <data name="AdjustParticipants" xml:space="preserve">
+    <value>(Die " * (Teilnehmer)</value>
   </data>
   <data name="AttendeesSummary" xml:space="preserve">
     <value>{0} und {1} mehr</value>
@@ -168,14 +186,20 @@
   <data name="AllDayLower" xml:space="preserve">
     <value>Ganztägig</value>
   </data>
-  <data name="HalfAnHour" xml:space="preserve">
-    <value>Eine halbe Stunde</value>
+  <data name="AskForTitle" xml:space="preserve">
+    <value>Was. * (Titel | Thema)</value>
   </data>
-  <data name="OrdinalSuffixSt" xml:space="preserve">
-    <value>{0}st</value>
+  <data name="AskForLocation" xml:space="preserve">
+    <value>Wo | was. * Lage | what. * Zimmer</value>
+  </data>
+  <data name="AdjustTime" xml:space="preserve">
+    <value>(Anpassung | ändern/aktualisieren)?. * Zeit</value>
   </data>
   <data name="Myself" xml:space="preserve">
     <value>^ (me | myself) $</value>
+  </data>
+  <data name="OrdinalSuffixNd" xml:space="preserve">
+    <value>{0}nd</value>
   </data>
   <data name="AdjustContent" xml:space="preserve">
     <value>(Anpassung | ändern/aktualisieren)?. * (Inhalt | Körper | Details)</value>
@@ -183,20 +207,20 @@
   <data name="YesterdayLower" xml:space="preserve">
     <value>Gestern</value>
   </data>
-  <data name="OrdinalSuffixNd" xml:space="preserve">
-    <value>{0}nd</value>
+  <data name="Empty" xml:space="preserve">
+    <value>Leer</value>
   </data>
   <data name="AdjustDuration" xml:space="preserve">
     <value>(Anpassung | ändern/aktualisieren)?. * (Dauer | Länge)</value>
   </data>
-  <data name="AdjustTime" xml:space="preserve">
-    <value>(Anpassung | ändern/aktualisieren)?. * Zeit</value>
+  <data name="HalfAnHour" xml:space="preserve">
+    <value>Eine halbe Stunde</value>
   </data>
-  <data name="AdjustParticipants" xml:space="preserve">
-    <value>(Die " * (Teilnehmer)</value>
+  <data name="AskForDuration" xml:space="preserve">
+    <value>Wie lange</value>
   </data>
-  <data name="Next" xml:space="preserve">
-    <value>nächster</value>
+  <data name="MyselfConst" xml:space="preserve">
+    <value>Ich</value>
   </data>
   <data name="TodayLower" xml:space="preserve">
     <value>Heute</value>
@@ -207,11 +231,17 @@
   <data name="AllDay" xml:space="preserve">
     <value>Ganztägig</value>
   </data>
+  <data name="SkipPhrases" xml:space="preserve">
+    <value>^ (skip | no)</value>
+  </data>
   <data name="Ago" xml:space="preserve">
     <value>Vor</value>
   </data>
   <data name="ContactSeparator" xml:space="preserve">
     <value>, | und |;</value>
+  </data>
+  <data name="AskForAttendee" xml:space="preserve">
+    <value>Wer. * (mit | teilnehmen | mitmachen)</value>
   </data>
   <data name="MonthlyToken" xml:space="preserve">
     <value>Monatliche</value>

@@ -222,4 +222,31 @@
   <data name="MyselfConst" xml:space="preserve">
     <value>me</value>
   </data>
+  <data name="AskForAttendee" xml:space="preserve">
+    <value>who.*(with|attend|join|come)</value>
+  </data>
+  <data name="AskForContent" xml:space="preserve">
+    <value>what.*(content|detail)</value>
+  </data>
+  <data name="AskForDetail" xml:space="preserve">
+    <value>what (is|are)?.*about</value>
+  </data>
+  <data name="AskForDuration" xml:space="preserve">
+    <value>how long</value>
+  </data>
+  <data name="AskForEndTime" xml:space="preserve">
+    <value>(when|what time).*(end|stop)</value>
+  </data>
+  <data name="AskForLocation" xml:space="preserve">
+    <value>where|what.*location|what.*room</value>
+  </data>
+  <data name="AskForStartTime" xml:space="preserve">
+    <value>(when|what time).*(start|begin)</value>
+  </data>
+  <data name="AskForTime" xml:space="preserve">
+    <value>when|what time</value>
+  </data>
+  <data name="AskForTitle" xml:space="preserve">
+    <value>what.*(title|subject)</value>
+  </data>
 </root>

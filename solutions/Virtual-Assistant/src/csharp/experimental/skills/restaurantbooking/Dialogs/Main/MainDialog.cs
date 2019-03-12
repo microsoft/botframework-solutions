@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
@@ -10,43 +11,52 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using RestaurantBooking.Dialogs.Main.Resources;
+using RestaurantBooking.Dialogs.Shared.DialogOptions;
 using RestaurantBooking.Dialogs.Shared.Resources;
 
-namespace RestaurantBooking
+namespace RestaurantBooking.Dialogs.Main
 {
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
         private SkillConfigurationBase _services;
+        private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
+        private IStatePropertyAccessor<RestaurantBookingState> _conversationStateAccessor;
+        private IStatePropertyAccessor<SkillUserState> _userStateAccessor;
         private IHttpContextAccessor _httpContext;
-        private IBotTelemetryClient _telemetryClient;
-        private IStatePropertyAccessor<RestaurantBookingState> _stateAccessor;
-        private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
-        private RestaurantBookingResponseBuilder _responseBuilder = new RestaurantBookingResponseBuilder();
 
-        public MainDialog(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IServiceManager serviceManager, IBotTelemetryClient telemetryClient, IHttpContextAccessor httpContext, bool skillMode)
+        public MainDialog(
+            SkillConfigurationBase services,
+            ResponseManager responseManager,
+            ConversationState conversationState,
+            UserState userState,
+            IBotTelemetryClient telemetryClient,
+            IServiceManager serviceManager,
+            IHttpContextAccessor httpContext,
+            bool skillMode)
             : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;
             _services = services;
+            _responseManager = responseManager;
             _conversationState = conversationState;
             _userState = userState;
-            _telemetryClient = telemetryClient;
             _serviceManager = serviceManager;
+            TelemetryClient = telemetryClient;
             _httpContext = httpContext;
 
             // Initialize state accessor
-            _stateAccessor = _conversationState.CreateProperty<RestaurantBookingState>(nameof(RestaurantBookingState));
-            _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
+            _conversationStateAccessor = _conversationState.CreateProperty<RestaurantBookingState>(nameof(BookingDialog));
+            _userStateAccessor = _userState.CreateProperty<SkillUserState>(nameof(SkillUserState));
 
+            // RegisterDialogs
             RegisterDialogs();
         }
 
@@ -55,16 +65,20 @@ namespace RestaurantBooking
             if (!_skillMode)
             {
                 // send a greeting if we're in local mode
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(RestaurantBookingMainResponses.WelcomeMessage));
+                await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingMainResponses.WelcomeMessage));
             }
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await _stateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
+            var state = await _conversationStateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
 
-            // If dispatch result is general luis model
-            _services.LocaleConfigurations["en"].LuisServices.TryGetValue("reservation", out var luisService);
+            // get current activity locale
+            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var localeConfig = _services.LocaleConfigurations[locale];
+
+            // Get skill LUIS model from configuration
+            localeConfig.LuisServices.TryGetValue("reservation", out var luisService);
 
             if (luisService == null)
             {
@@ -72,35 +86,51 @@ namespace RestaurantBooking
             }
             else
             {
-                var result = await luisService.RecognizeAsync(dc.Context, CancellationToken.None);
-                var intent = result?.GetTopScoringIntent().intent;
-
-                var skillOptions = new RestaurantBookingDialogOptions
+                var skillOptions = new SkillTemplateDialogOptions
                 {
                     SkillMode = _skillMode,
                 };
 
-                // switch on general intents
+                var turnResult = EndOfTurn;
+                var result = await luisService.RecognizeAsync<Reservation>(dc.Context, CancellationToken.None);
+                var intent = result?.TopIntent().intent;
+
                 switch (intent)
                 {
-                    case "Reservation":
+                    case Reservation.Intent.Reservation:
                         {
-                            await dc.BeginDialogAsync(nameof(RestaurantBookingDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(BookingDialog), skillOptions);
+                            break;
+                        }
+
+                    case Reservation.Intent.None:
+                        {
+                            // No intent was identified, send confused message
+                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingSharedResponses.DidntUnderstandMessage));
+                            if (_skillMode)
+                            {
+                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
+                            }
 
                             break;
                         }
 
                     default:
                         {
-                            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(RestaurantBookingMainResponses.FeatureNotAvailable));
-
+                            // intent was identified but not yet implemented
+                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingSharedResponses.DidntUnderstandMessage));
                             if (_skillMode)
                             {
-                                await CompleteAsync(dc);
+                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
                             break;
                         }
+                }
+
+                if (turnResult != EndOfTurn)
+                {
+                    await CompleteAsync(dc);
                 }
             }
         }
@@ -114,10 +144,6 @@ namespace RestaurantBooking
 
                 await dc.Context.SendActivityAsync(response);
             }
-            else
-            {
-                await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(RestaurantBookingSharedResponses.ActionEnded));
-            }
 
             // End active dialog
             await dc.EndDialogAsync(result);
@@ -129,11 +155,11 @@ namespace RestaurantBooking
             {
                 case Events.SkillBeginEvent:
                     {
-                        var state = await _stateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
+                        var state = await _conversationStateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
 
                         if (dc.Context.Activity.Value is Dictionary<string, object> userData)
                         {
-                            // capture any user data sent to the skill from the parent here.
+                            // Capture user data from event if needed
                         }
 
                         break;
@@ -162,17 +188,14 @@ namespace RestaurantBooking
         {
             var result = InterruptionAction.NoAction;
 
-            // Only interested in evaluating interruptions where we have messages and Text fields
-            // Events and Adaptive card postbacks (Value field populated only) will be skipped for interruption and passed on.
-            if (dc.Context.Activity.Type == ActivityTypes.Message && !string.IsNullOrWhiteSpace(dc.Context.Activity.Text))
+            if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
-                // Update state with luis result and entities
-                var skillLuisResult = await _services.LocaleConfigurations["en"].LuisServices["reservation"].RecognizeAsync(dc.Context, cancellationToken);
-                var state = await _stateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
-                state.LuisResult = skillLuisResult;
+                // get current activity locale
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var localeConfig = _services.LocaleConfigurations[locale];
 
-                // check luis intent
-                _services.LocaleConfigurations["en"].LuisServices.TryGetValue("general", out var luisService);
+                // check general luis intent
+                localeConfig.LuisServices.TryGetValue("general", out var luisService);
 
                 if (luisService == null)
                 {
@@ -183,7 +206,6 @@ namespace RestaurantBooking
                     var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
                     var topIntent = luisResult.TopIntent().intent;
 
-                    // check intent
                     switch (topIntent)
                     {
                         case General.Intent.Cancel:
@@ -197,6 +219,12 @@ namespace RestaurantBooking
                                 result = await OnHelp(dc);
                                 break;
                             }
+
+                        case General.Intent.Logout:
+                            {
+                                result = await OnLogout(dc);
+                                break;
+                            }
                     }
                 }
             }
@@ -206,20 +234,48 @@ namespace RestaurantBooking
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            await dc.BeginDialogAsync(nameof(CancelDialog));
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingSharedResponses.CancellingMessage));
+            await CompleteAsync(dc);
+            await dc.CancelAllDialogsAsync();
             return InterruptionAction.StartedDialog;
         }
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(dc.Context.Activity.CreateReply(RestaurantBookingMainResponses.HelpMessage));
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingMainResponses.HelpMessage));
             return InterruptionAction.MessageSentToUser;
+        }
+
+        private async Task<InterruptionAction> OnLogout(DialogContext dc)
+        {
+            BotFrameworkAdapter adapter;
+            var supported = dc.Context.Adapter is BotFrameworkAdapter;
+            if (!supported)
+            {
+                throw new InvalidOperationException("OAuthPrompt.SignOutUser(): not supported by the current adapter");
+            }
+            else
+            {
+                adapter = (BotFrameworkAdapter)dc.Context.Adapter;
+            }
+
+            await dc.CancelAllDialogsAsync();
+
+            // Sign out user
+            var tokens = await adapter.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
+            foreach (var token in tokens)
+            {
+                await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
+            }
+
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingMainResponses.LogOut));
+
+            return InterruptionAction.StartedDialog;
         }
 
         private void RegisterDialogs()
         {
-            AddDialog(new CancelDialog());
-            AddDialog(new BookingDialog(_services, _stateAccessor, _serviceManager, _telemetryClient, _httpContext));
+            AddDialog(new BookingDialog.BookingDialog(_services, _responseManager, _conversationStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient, _httpContext));
         }
 
         private class Events
