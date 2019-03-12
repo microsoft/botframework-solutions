@@ -1,34 +1,32 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { ComponentDialog,
+import { BotTelemetryClient } from 'botbuilder';
+import {
         DialogTurnResult,
         WaterfallDialog,
-        WaterfallStepContext} from 'botbuilder-dialogs';
+        WaterfallStepContext } from 'botbuilder-dialogs';
+import { BotServices } from '../../botServices';
+import { EnterpriseDialog } from '../shared/enterpriseDialog';
 import { EscalateResponses } from './escalateResponses';
 
-export class EscalateDialog extends ComponentDialog {
+export class EscalateDialog extends EnterpriseDialog {
+    // Fields
+    private static readonly responder: EscalateResponses = new EscalateResponses();
 
-    // Declare here the type of properties
-    private static readonly RESPONDER: EscalateResponses = new EscalateResponses();
-
-    // Initialize the dialog class properties
-    constructor() {
-        super(EscalateDialog.name);
+    // Constructor
+    constructor(botServices: BotServices, telemetryClient: BotTelemetryClient) {
+        super(botServices, EscalateDialog.name, telemetryClient);
         this.initialDialogId = EscalateDialog.name;
-
-        // tslint:disable-next-line:no-any
-        const value: ((sc: WaterfallStepContext<{}>) => Promise<DialogTurnResult<any>>)[] = [
-            this.end.bind(this)
+        const escalate: ((sc: WaterfallStepContext<{}>) => Promise<DialogTurnResult>)[] = [
+            EscalateDialog.sendEscalationMessage.bind(this)
         ];
-
-   // Add here the waterfall dialog
-        this.addDialog(new WaterfallDialog(this.initialDialogId, value));
+        this.addDialog(new WaterfallDialog(this.initialDialogId, escalate));
     }
 
-    // Add here end dialog waterfall.
-    private async end(sc: WaterfallStepContext): Promise<DialogTurnResult> {
+    private static async sendEscalationMessage(sc: WaterfallStepContext): Promise<DialogTurnResult> {
+        await EscalateDialog.responder.replyWith(sc.context, EscalateResponses.responseIds.sendEscalationMessage);
 
-        return sc.endDialog(<boolean> sc.result);
+        return sc.endDialog();
     }
 }
