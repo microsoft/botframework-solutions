@@ -1,4 +1,4 @@
-﻿using Microsoft.Bot.Solutions.Skills;
+﻿using Microsoft.Bot.Builder.Solutions.Skills;
 using PointOfInterestSkill.ServiceClients;
 using System;
 using System.Net.Http;

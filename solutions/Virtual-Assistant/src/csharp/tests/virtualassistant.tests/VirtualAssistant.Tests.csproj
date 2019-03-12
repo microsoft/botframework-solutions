@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.0-preview-3" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.0-preview-20181205-02" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
@@ -19,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\assistant\VirtualAssistant.csproj" />
-    <ProjectReference Include="..\..\microsoft.bot.solutions\Microsoft.Bot.Solutions.csproj" />
     <ProjectReference Include="..\..\skills\automotiveskill\automotiveskill\AutomotiveSkill.csproj" />
     <ProjectReference Include="..\..\skills\calendarskill\calendarskill\CalendarSkill.csproj" />
     <ProjectReference Include="..\..\skills\emailskill\emailskill\EmailSkill.csproj" />

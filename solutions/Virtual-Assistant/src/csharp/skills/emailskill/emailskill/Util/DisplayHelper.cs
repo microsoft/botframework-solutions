@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EmailSkill.Dialogs.Shared.Resources.Strings;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Graph;
 
 namespace EmailSkill.Util

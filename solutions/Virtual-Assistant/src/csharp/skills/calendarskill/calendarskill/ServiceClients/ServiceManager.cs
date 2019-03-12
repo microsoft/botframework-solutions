@@ -5,7 +5,7 @@ using System;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients.GoogleAPI;
 using CalendarSkill.ServiceClients.MSGraphAPI;
-using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills;
 
 namespace CalendarSkill.ServiceClients
 {

@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Configuration;
-using Microsoft.Bot.Solutions.Proactive;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Solutions.TaskExtensions;
-using Microsoft.Bot.Solutions.Testing;
+using Microsoft.Bot.Builder.Solutions.Proactive;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.TaskExtensions;
+using Microsoft.Bot.Builder.Solutions.Testing;
 
 namespace AutomotiveSkillTest.Flow
 {

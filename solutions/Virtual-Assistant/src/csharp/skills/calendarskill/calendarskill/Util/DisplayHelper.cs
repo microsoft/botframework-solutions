@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Builder.Solutions.Resources;
 using static CalendarSkill.Models.EventModel;
 
 namespace CalendarSkill.Util

@@ -10,9 +10,9 @@ using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Configuration;
-using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Solutions.Telemetry;
 
 namespace VirtualAssistant
 {
