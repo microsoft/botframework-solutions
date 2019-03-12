@@ -3,14 +3,25 @@
   "type": "AdaptiveCard",
   "version": "1.0",
   "speak": "{Speak}",
-  "id": "HeaderTableFooter",
+  "id": "ReservationConfirmationCard",
   "body": [
     {
       "type": "Container",
       "items": [
         {
+          "type": "Image",
+          "url": "{ImageUrl}",
+          "size": "{ImageSize}",
+          "horizontalAlignment": "{ImageAlign}"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
           "type": "TextBlock",
-          "text": "{HeaderText}",
+          "text": "{BookingPlace}",
           "wrap": true,
           "size": "medium"
         },
@@ -18,24 +29,20 @@
           "type": "FactSet",
           "facts": [
             {
-              "title": "{Row1Title}",
-              "value": "{Row1Value}"
+              "title": "Location",
+              "value": "{Location}"
             },
             {
-              "title": "{Row2Title}",
-              "value": "{Row2Value}"
+              "title": "Date",
+              "value": "{ReservationDate}"
             },
             {
-              "title": "{Row3Title}",
-              "value": "{Row3Value}"
+              "title": "Time",
+              "value": "{ReservationTime}"
             },
             {
-              "title": "{Row4Title}",
-              "value": "{Row4Value}"
-            },
-            {
-              "title": "{Row5Title}",
-              "value": "{Row5Value}"
+              "title": "Attendee Count",
+              "value": "{AttendeeCount}"
             }
           ]
         },

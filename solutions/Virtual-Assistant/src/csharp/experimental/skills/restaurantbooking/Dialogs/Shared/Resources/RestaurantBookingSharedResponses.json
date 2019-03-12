@@ -154,7 +154,7 @@
   "BookRestaurantFlowStartMessage": {
     "replies": [
       {
-        "text": "Sure thing {UserName}, I can help you with making reservation.",
+        "text": "Sure thing {UserName}, I can help you with making reservations.",
         "speak": "Sure thing {UserName}, I can help you with making a reservation."
       }
     ],
@@ -229,8 +229,8 @@
   "BookRestaurantConfirmationPrompt": {
     "replies": [
       {
-        "text": "Reservation request summary:|Food type:|Date:|Time:|For:|Did I get it right?",
-        "speak": "Ok. Let me make sure I have this right, you want me to make a reservation for {pluralizeAmount: 'AttendeeCount', pluralizeResource: 'People'} at a {text: 'FoodType'} restaurant for {text: 'ReservationDateSpeak'} starting at {text: 'ReservationTime'}. Is this correct?"
+        "text": "Ok. Let me make sure I have this right, you want me to make a reservation for {AttendeeCount} people at a {FoodType} restaurant for {ReservationDateSpeak} starting at {ReservationTime}. Is this correct?",
+        "speak": "Ok. Let me make sure I have this right, you want me to make a reservation for {AttendeeCount} people at a {FoodType} restaurant for {ReservationDateSpeak} starting at {ReservationTime}. Is this correct?"
       }
     ],
     "suggestedActions": [
@@ -242,7 +242,7 @@
   "BookRestaurantAcceptedMessage": {
     "replies": [
       {
-        "text": "Reservation request confirmed:|Restaurant:|Location:|Date:|Time:|For:|{AttendeeCount} people.|I also sent you an email to {UserEmail} and added the meeting to your calendar.",
+        "text": "Pardon the interruption, I just got word that {Restaurant} has confirmed your reservation for {AttendeeCount} people for {ReservationDateSpeak} at {ReservationTime}. I also added the reservation to your calendar",
         "speak": "Pardon the interruption, I just got word that {Restaurant} has confirmed your reservation for {AttendeeCount} people for {ReservationDateSpeak} at {ReservationTime}. I also added the reservation to your calendar"
       }
     ],
