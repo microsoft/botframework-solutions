@@ -163,7 +163,7 @@ The Point of Interest skill is added by default when deploying the Virtual Assis
 Run this PowerShell script from the Point of Interest skill directory to deploy shared resources and LUIS models.
 
 ```
-  PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\deploy_bot.ps1
+  pwsh.exe -ExecutionPolicy Bypass -File DeploymentScripts\deploy_bot.ps1
 ```
 
 You will be prompted to provide the following parameters:

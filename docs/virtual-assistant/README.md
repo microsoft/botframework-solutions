@@ -11,11 +11,15 @@ Common scenarios are provided as reusable conversational Skills, increasing deve
 Please read the [overview](./overview.md) for more on the Virtual Assistant architecture and principles.
 
 ## Table of Contents
-- [Getting Started](#getting-started)
-- [Testing](#testing)
-- [Deployment](#deployment)
-- [Known Issues](#known-issues)
-- [Dive In](#dive-in)
+- [Virtual Assistant Solution](#virtual-assistant-solution)
+  - [Table of Contents](#table-of-contents)
+  - [Getting Started](#getting-started)
+  - [Testing](#testing)
+  - [Deployment](#deployment)
+  - [Known Issues](#known-issues)
+  - [Dive In](#dive-in)
+    - [Skills](#skills)
+    - [Solution](#solution)
 
 ## Getting Started
 [Getting started with the Virtual Assistant](./gettingstarted.md) walks you through building, configuring, and deplyoing your own Virtual Assistant.
@@ -28,13 +32,13 @@ Please read the [overview](./overview.md) for more on the Virtual Assistant arch
 Navigate in a command prompt to the `solutions\Virtual-Assistant\src\< csharp | typescript >\assistant` folder, then update your Virtual Assistant’s Skill and Dispatch language models with the following PowerShell script:
 
 ```
-...PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\update_published_models.ps1
+...pwsh.exe -ExecutionPolicy Bypass -File DeploymentScripts\update_published_models.ps1
 ```
 
 By default, this will update all domain models for all language configuration files in your `LocaleConfigurations` folder. If you want to update a specific file for a specific language, add the `-locales` parameter.
 
 ```
-...PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\update_published_models.ps1 -locales "en-us"
+...pwsh.exe -ExecutionPolicy Bypass -File DeploymentScripts\update_published_models.ps1 -locales "en-us"
 ```
 
 This script updates your published models and saves the previous version with the id `backup`. In case of any issues with the updates models, you can revert your changes by making `backup` the active version in the LUIS portal.

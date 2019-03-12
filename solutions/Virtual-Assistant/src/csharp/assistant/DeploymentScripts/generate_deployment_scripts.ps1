@@ -1,4 +1,6 @@
-﻿param (
+﻿#Requires -Version 6
+
+param (
     [string] [Parameter(Mandatory=$true)]$locale
 )
 

@@ -166,7 +166,7 @@ The Automotive skill is not added by default when deploying the Virtual Assistan
 Run this PowerShell script to deploy your shared resources and LUIS models.
 
 ```
-  PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\deploy_bot.ps1
+  pwsh.exe -ExecutionPolicy Bypass -File DeploymentScripts\deploy_bot.ps1
 ```
 
 You will be prompted to provide the following parameters:
@@ -243,7 +243,7 @@ Follow the instructions below to add the Automotive Skill to an existing Virtual
         ```
 2. Run the following script to deploy the new Automotive Skill LUIS models and to update the dispatcher.
     ```
-    PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\update_published_models.ps1 -locales "en-us"
+    pwsh.exe -ExecutionPolicy Bypass -File DeploymentScripts\update_published_models.ps1 -locales "en-us"
     ```
 3. In Virtual Assistant, add the skill configuration entry (in an earlier section) to **appsettings.json**. This tells the Virtual Assistant that there is a new skill available for use.
    

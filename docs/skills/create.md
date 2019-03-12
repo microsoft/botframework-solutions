@@ -29,11 +29,11 @@
 
 7. If you have **already deployed your Virtual Assistant** prior to adding your skill, run **update_published_models.ps1** to deploy the new Skill LUIS models and to update the dispatcher (NOTE: if you omit the locales parameter it will update all languages).
     ```
-    PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\update_published_models.ps1 -locales "en-us"
+    pwsh.exe -ExecutionPolicy Bypass -File DeploymentScripts\update_published_models.ps1 -locales "en-us"
     ```
     Otherwise if you **have not deployed your Virtual Assistant**, run **deploy_bot.ps1** to deploy all your bot services, LUIS, QnA Maker, and Dispatch models.
     ```
-    PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\Deploy_Bot.ps1
+    pwsh.exe -ExecutionPolicy Bypass -File DeploymentScripts\Deploy_Bot.ps1
     ```
 
 8. In Virtual Assistant, add a project reference to your new skill project. This tells the Virtual Assistant that there is a new skill available for use. (Right-click your project, go to **Add > Reference** and select your skill project from the list.)
