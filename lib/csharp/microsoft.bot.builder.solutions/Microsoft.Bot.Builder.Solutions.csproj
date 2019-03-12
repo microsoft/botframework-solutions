@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AssemblyName>Microsoft.Bot.Builder.Solutions</AssemblyName>
-    <CodeAnalysisRuleSet>..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\Microsoft.Bot.Builder.Solutions.ruleset</CodeAnalysisRuleSet>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>Microsoft</Company>
     <Authors>Microsoft</Authors>
