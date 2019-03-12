@@ -125,7 +125,7 @@ The msbot tool will outline the deployment plan including location and SKU. Ensu
 
 
 - Update your `appsettings.json` file with the newly created .bot file name and .bot file secret.
-- Run the following command and retrieve the InstrumentationKey for your Application Insights instance and update `InstrumentationKey` in your `appsettings.json` file.
+- Run the following command and retrieve the InstrumentationKey for your Application Insights instance, then add the following `InstrumentationKey` entry to your `appsettings.json` file.
 
 ```
 msbot list --bot YOURBOTFILE.bot --secret YOUR_BOT_SECRET
