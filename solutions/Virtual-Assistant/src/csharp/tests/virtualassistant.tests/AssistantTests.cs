@@ -156,7 +156,7 @@ namespace VirtualAssistant.Tests
         /// Asserts response is one of the available location prompts.
         /// </summary>
         /// <returns>IActivity.</returns>
-        private Action<IActivity> CheckLocationPrompt()
+        public Action<IActivity> CheckLocationPrompt()
         {
             return activity =>
             {

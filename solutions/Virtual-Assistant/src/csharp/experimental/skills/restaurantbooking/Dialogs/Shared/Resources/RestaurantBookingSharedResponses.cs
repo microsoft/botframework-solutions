@@ -1,139 +1,38 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// https://docs.microsoft.com/en-us/visualstudio/modeling/t4-include-directive?view=vs-2017
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using Microsoft.Bot.Solutions.Dialogs;
-using Newtonsoft.Json;
+using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace RestaurantBooking.Dialogs.Shared.Resources
 {
     /// <summary>
-    /// Calendar bot responses class.
+    /// Contains bot responses.
     /// </summary>
-    public static class RestaurantBookingSharedResponses
+    public class RestaurantBookingSharedResponses : IResponseIdCollection
     {
-        private const string JsonFileName = "RestaurantBookingSharedResponses.*.json";
-
-        private static Dictionary<string, Dictionary<string, BotResponse>> jsonResponses;
-
-        // Generated code:
-        // This code runs in the text json:
-        public static BotResponse DidntUnderstandMessage => GetBotResponse();
-
-        public static BotResponse DidntUnderstandMessageIgnoringInput => GetBotResponse();
-
-        public static BotResponse CancellingMessage => GetBotResponse();
-
-        public static BotResponse NoAuth => GetBotResponse();
-
-        public static BotResponse AuthFailed => GetBotResponse();
-
-        public static BotResponse ActionEnded => GetBotResponse();
-
-        public static BotResponse ErrorMessage => GetBotResponse();
-
-        public static BotResponse BookRestaurantFlowStartMessage => GetBotResponse();
-
-        public static BotResponse BookRestaurantFoodSelectionPrompt => GetBotResponse();
-
-        public static BotResponse BookRestaurantFoodSelectionEcho => GetBotResponse();
-
-        public static BotResponse BookRestaurantAttendeePrompt => GetBotResponse();
-
-        public static BotResponse BookRestaurantReservationMeetingInfoPrompt => GetBotResponse();
-
-        public static BotResponse BookRestaurantDatePrompt => GetBotResponse();
-
-        public static BotResponse BookRestaurantTimePrompt => GetBotResponse();
-
-        public static BotResponse BookRestaurantDateTimeEcho => GetBotResponse();
-
-        public static BotResponse BookRestaurantConfirmationPrompt => GetBotResponse();
-
-        public static BotResponse BookRestaurantAcceptedMessage => GetBotResponse();
-
-        public static BotResponse BookRestaurantRestaurantSearching => GetBotResponse();
-
-        public static BotResponse BookRestaurantRestaurantSelectionPrompt => GetBotResponse();
-
-        public static BotResponse BookRestaurantBookingPlaceSelectionEcho => GetBotResponse();
-
-        public static BotResponse FoodTypeSelectionErrorMessage => GetBotResponse();
-
-        public static BotResponse BookRestaurantRestaurantNegativeConfirm => GetBotResponse();
-
-        private static Dictionary<string, Dictionary<string, BotResponse>> JsonResponses
-        {
-            get
-            {
-                if (jsonResponses != null)
-                {
-                    return jsonResponses;
-                }
-
-                jsonResponses = new Dictionary<string, Dictionary<string, BotResponse>>();
-                var dir = Path.GetDirectoryName(typeof(RestaurantBookingSharedResponses).Assembly.Location);
-                var resDir = Path.Combine(dir, "Dialogs\\Shared\\Resources");
-
-                var jsonFiles = Directory.GetFiles(resDir, JsonFileName);
-                foreach (var file in jsonFiles)
-                {
-                    var jsonData = File.ReadAllText(file);
-                    var responses = JsonConvert.DeserializeObject<Dictionary<string, BotResponse>>(jsonData);
-                    var key = new FileInfo(file).Name.Split(".")[1].ToLower();
-
-                    jsonResponses.Add(key, responses);
-                }
-
-                return jsonResponses;
-            }
-        }
-
-        private static BotResponse GetBotResponse([CallerMemberName] string propertyName = null)
-        {
-            var locale = CultureInfo.CurrentUICulture.Name;
-            var theK = GetJsonResponseKeyForLocale(locale, propertyName);
-
-            // fall back to parent language
-            if (theK == null)
-            {
-                locale = CultureInfo.CurrentUICulture.Name.Split("-")[0].ToLower();
-                theK = GetJsonResponseKeyForLocale(locale, propertyName);
-
-                // fall back to en
-                if (theK == null)
-                {
-                    locale = "en";
-                    theK = GetJsonResponseKeyForLocale(locale, propertyName);
-                }
-            }
-
-            var botResponse = JsonResponses[locale][theK ?? throw new ArgumentNullException(nameof(propertyName))];
-            return JsonConvert.DeserializeObject<BotResponse>(JsonConvert.SerializeObject(botResponse));
-        }
-
-        private static string GetJsonResponseKeyForLocale(string locale, string propertyName)
-        {
-            try
-            {
-                if (JsonResponses.ContainsKey(locale))
-                {
-                    return JsonResponses[locale].ContainsKey(propertyName) ?
-                        JsonResponses[locale].Keys.FirstOrDefault(k => string.Compare(k, propertyName, StringComparison.CurrentCultureIgnoreCase) == 0) :
-                        null;
-                }
-
-                return null;
-            }
-            catch (KeyNotFoundException)
-            {
-                return null;
-            }
-        }
+        // Generated accessors
+        public const string DidntUnderstandMessage = "DidntUnderstandMessage";
+        public const string DidntUnderstandMessageIgnoringInput = "DidntUnderstandMessageIgnoringInput";
+        public const string CancellingMessage = "CancellingMessage";
+        public const string NoAuth = "NoAuth";
+        public const string AuthFailed = "AuthFailed";
+        public const string ActionEnded = "ActionEnded";
+        public const string ErrorMessage = "ErrorMessage";
+        public const string BookRestaurantFlowStartMessage = "BookRestaurantFlowStartMessage";
+        public const string BookRestaurantFoodSelectionPrompt = "BookRestaurantFoodSelectionPrompt";
+        public const string BookRestaurantFoodSelectionEcho = "BookRestaurantFoodSelectionEcho";
+        public const string BookRestaurantAttendeePrompt = "BookRestaurantAttendeePrompt";
+        public const string BookRestaurantReservationMeetingInfoPrompt = "BookRestaurantReservationMeetingInfoPrompt";
+        public const string BookRestaurantDatePrompt = "BookRestaurantDatePrompt";
+        public const string BookRestaurantTimePrompt = "BookRestaurantTimePrompt";
+        public const string BookRestaurantDateTimeEcho = "BookRestaurantDateTimeEcho";
+        public const string BookRestaurantConfirmationPrompt = "BookRestaurantConfirmationPrompt";
+        public const string BookRestaurantAcceptedMessage = "BookRestaurantAcceptedMessage";
+        public const string BookRestaurantRestaurantSearching = "BookRestaurantRestaurantSearching";
+        public const string BookRestaurantRestaurantSelectionPrompt = "BookRestaurantRestaurantSelectionPrompt";
+        public const string BookRestaurantBookingPlaceSelectionEcho = "BookRestaurantBookingPlaceSelectionEcho";
+        public const string FoodTypeSelectionErrorMessage = "FoodTypeSelectionErrorMessage";
+        public const string BookRestaurantRestaurantNegativeConfirm = "BookRestaurantRestaurantNegativeConfirm";
     }
 }

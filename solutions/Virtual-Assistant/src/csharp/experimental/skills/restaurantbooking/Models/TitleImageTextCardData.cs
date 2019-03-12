@@ -1,10 +1,10 @@
-﻿namespace Microsoft.Ipa.Schema.Cards
-{
-    using System;
-    using AdaptiveCards;
-    using Microsoft.Bot.Solutions.Cards;
+﻿using System;
+using AdaptiveCards;
+using Microsoft.Bot.Builder.Solutions.Responses;
 
-    public class TitleImageTextCardData : CardDataBase
+namespace RestaurantBooking.Models
+{
+    public class TitleImageTextCardData : ICardData
     {
         public string Title { get; set; }
 

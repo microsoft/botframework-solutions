@@ -1,0 +1,236 @@
+{
+  "intents": [
+    {
+      "name": "Reservation"
+    },
+    {
+      "name": "None"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [
+    {
+      "name": "cuisine",
+      "subLists": [
+        {
+          "canonicalForm": "mexican",
+          "list": [
+            "tacos",
+            "chilaquiles",
+            "flautas",
+            "burrito"
+          ]
+        },
+        {
+          "canonicalForm": "indian",
+          "list": [
+            "samosas",
+            "curry"
+          ]
+        },
+        {
+          "canonicalForm": "italian",
+          "list": [
+            "pizza",
+            "pasta",
+            "spaghetti",
+            "lasagna"
+          ]
+        },
+        {
+          "canonicalForm": "chinese",
+          "list": [
+            "dumplings",
+            "kung pao",
+            "dim sum",
+            "fried rice"
+          ]
+        },
+        {
+          "canonicalForm": "german",
+          "list": [
+            "bavarian",
+            "schnitzel",
+            "pretzel"
+          ]
+        },
+        {
+          "canonicalForm": "american",
+          "list": [
+            "burger",
+            "bacon",
+            "scrambled eggs"
+          ]
+        }
+      ],
+      "roles": []
+    }
+  ],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "lunch meeting",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "book a pasta place tomorrow",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "book a tabe on sunday",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "book a table at giordano's for tomorrow for 4 people at 2 pm",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "book a table at pizza hut for two in redmond at 7",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "book a table at pizza hut for two in redmond at seven",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "book a table for tomorrow for 2 people in chicago",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "book a table for tomorrow for 4 people at 2 pm",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "book a table for two in redmond tomorrow at 7:00 pm",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "book a table for two tomorrow at 7 pm",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "can you help me out where to have dinner tomorrow night",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "can you help me plan dinner for tomorrow",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "could you make a reservation for me for tonight",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "could you reserve italian tonight",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "find food",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "get pizza for tomorrow at 10 pm for 4 people",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "get taco for tomorrow at 10 pm for 4 people",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "i am hungry",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "i feel like having italian",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "i want pasta at 5pm today",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "i want to eat german this weekend",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "i want to eat indian",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "i want to eat pizza",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "i want to make a reservation",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "make a dinner reservation for tomorrow at 6:30 pm",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "reserve a restaurant tomorrow at 7 pm",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "reserve a table for four",
+      "intent": "Reservation",
+      "entities": []
+    },
+    {
+      "text": "reserve a table tomorrow",
+      "intent": "Reservation",
+      "entities": []
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [
+    {
+      "name": "datetimeV2",
+      "roles": []
+    },
+    {
+      "name": "number",
+      "roles": []
+    },
+    {
+      "name": "geographyV2",
+      "roles": []
+    }
+  ],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "reservation",
+  "desc": "",
+  "culture": "en-us"
+}

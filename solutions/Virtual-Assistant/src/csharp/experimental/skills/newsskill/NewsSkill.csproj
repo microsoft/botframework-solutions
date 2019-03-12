@@ -1,43 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <CodeAnalysisRuleSet>..\..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <CodeAnalysisRuleSet>..\..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
- 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <CodeAnalysisRuleSet>..\..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.6.0-beta2" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.0-beta2" />
     <PackageReference Include="Microsoft.AspNetCore.All" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="2.0.0" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Connector" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Graph" Version="1.12.0" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008">
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.0-preview-3" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Graph" Version="1.14.0-preview" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.1-rc.114">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\microsoft.bot.solutions\Microsoft.Bot.Solutions.csproj" />
   </ItemGroup>
 
   <ItemGroup>
