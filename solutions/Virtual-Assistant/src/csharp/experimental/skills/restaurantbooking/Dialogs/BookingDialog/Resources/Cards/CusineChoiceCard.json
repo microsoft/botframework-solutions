@@ -1,20 +1,13 @@
-{
+  {
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
   "version": "1.0",
   "speak": "{Speak}",
-  "id": "TitleImageTextButton",
+  "id": "CusineChoiceCard",
   "body": [
     {
       "type": "Container",
       "items": [
-        {
-          "type": "TextBlock",
-          "text": "{Title}",
-          "wrap": true,
-          "size": "medium",
-          "maxLines": 2
-        },
         {
           "type": "Container",
           "items": [
@@ -31,35 +24,18 @@
           "items": [
             {
               "type": "TextBlock",
-              "text": "{CardText}",
+              "text": "{Cusine}",
               "wrap": true,
               "size": "default"
             }
           ]
-        }
-      ]
-    },
-    {
-      "type": "Container",
-      "style": "emphasis",
-      "items": [
-        {
-          "type": "TextBlock",
-          "text": "{ButtonTitle}",
-          "horizontalAlignment": "center",
-          "size": "medium"
-        },
-        {
-          "type": "TextBlock",
-          "text": "{ButtonSubtitle}",
-          "horizontalAlignment": "center"
         }
       ],
       "selectAction": {
         "type": "Action.Submit",
         "title": "Submit action",
         "data": {
-          "selectedItem": "{SelectedItemData}"
+          "selectedItem": "{Name}"
         }
       }
     }

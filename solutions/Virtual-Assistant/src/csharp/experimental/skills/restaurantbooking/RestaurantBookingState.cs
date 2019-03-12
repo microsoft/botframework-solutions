@@ -12,14 +12,26 @@ namespace RestaurantBooking
     {
         public RestaurantBookingState()
         {
+            Booking = new ReservationBooking();
+            Cuisine = new List<FoodTypeInfo>();
         }
 
-        public RecognizerResult LuisResult { get; set; }
+        public Luis.Reservation LuisResult { get; set; }
 
         public ReservationBooking Booking { get; set; }
 
         public List<BookingPlace> Restaurants { get; set; }
 
         public List<FoodTypeInfo> Cuisine { get; set; }
+
+        public HashSet<string> AmbiguousTimexExpressions { get; set; }
+
+        public void Clear()
+        {
+            LuisResult = null;
+            Booking = null;
+            Cuisine = null;
+            AmbiguousTimexExpressions = null;
+        }
     }
 }

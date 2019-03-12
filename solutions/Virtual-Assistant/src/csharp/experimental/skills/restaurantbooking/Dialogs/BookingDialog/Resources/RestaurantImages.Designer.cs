@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RestaurantBooking.Dialogs.RestaurantBooking.Resources {
+namespace RestaurantBooking.Dialogs.BookingDialog.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace RestaurantBooking.Dialogs.RestaurantBooking.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("RestaurantBooking.Dialogs.RestaurantBooking.Resources.RestaurantImages", typeof(RestaurantImages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("RestaurantBooking.Dialogs.BookingDialog.Resources.RestaurantImages", typeof(RestaurantImages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
