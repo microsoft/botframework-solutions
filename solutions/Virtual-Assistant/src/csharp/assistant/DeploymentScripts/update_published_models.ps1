@@ -1,4 +1,6 @@
-﻿param (
+﻿#Requires -Version 6
+
+param (
 	[string] $locales = "de-de,en-us,es-es,fr-fr,it-it,zh-cn",
 	[string] $serviceIds
 )
