@@ -8,12 +8,12 @@ using AutomotiveSkill.Dialogs.Shared.Resources;
 using AutomotiveSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Authentication;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
+using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Authentication;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Solutions.Telemetry;
-using Microsoft.Bot.Solutions.Util;
 
 namespace AutomotiveSkill.Dialogs.Shared
 {

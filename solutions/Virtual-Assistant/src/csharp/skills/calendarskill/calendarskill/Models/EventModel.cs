@@ -7,7 +7,7 @@ using System.Globalization;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Util;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Graph;
 
 namespace CalendarSkill.Models

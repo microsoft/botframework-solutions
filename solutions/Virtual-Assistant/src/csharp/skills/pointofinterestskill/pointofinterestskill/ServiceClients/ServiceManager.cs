@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using System;
-using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills;
 
 namespace PointOfInterestSkill.ServiceClients
 {

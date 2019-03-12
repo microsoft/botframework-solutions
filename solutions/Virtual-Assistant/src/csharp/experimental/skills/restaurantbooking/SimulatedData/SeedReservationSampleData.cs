@@ -1,7 +1,7 @@
-﻿using RestaurantBooking.Dialogs.BookingDialog.Resources;
+﻿using System.Collections.Generic;
+using RestaurantBooking.Dialogs.BookingDialog.Resources;
 using RestaurantBooking.Helpers;
 using RestaurantBooking.Models;
-using System.Collections.Generic;
 
 namespace RestaurantBooking.SimulatedData
 {

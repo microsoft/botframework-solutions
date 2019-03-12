@@ -1,4 +1,4 @@
-﻿using Microsoft.Bot.Solutions.Responses;
+﻿using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace RestaurantBooking.Dialogs.Resources.Cards
 {

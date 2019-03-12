@@ -13,7 +13,7 @@ namespace ToDoSkill.ServiceClients
     using System.Threading.Tasks;
     using System.Xml;
     using global::ToDoSkill.Models;
-    using Microsoft.Bot.Solutions.Skills;
+    using Microsoft.Bot.Builder.Solutions.Skills;
     using Microsoft.Graph;
     using Newtonsoft.Json;
 

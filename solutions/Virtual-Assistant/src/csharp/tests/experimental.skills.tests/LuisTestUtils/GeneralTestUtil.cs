@@ -2,7 +2,7 @@
 using Experimental.Skills.Tests.Utterances;
 using Luis;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Solutions.Testing.Mocks;
+using Microsoft.Bot.Builder.Solutions.Testing.Mocks;
 
 namespace Experimental.Skills.Tests.LuisTestUtils
 {

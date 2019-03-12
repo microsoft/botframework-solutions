@@ -6,7 +6,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http;
-    using Microsoft.Bot.Solutions.Skills;
+    using Microsoft.Bot.Builder.Solutions.Skills;
 
     public class UrlResolver : IUrlResolver
     {

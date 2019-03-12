@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
-using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
