@@ -26,15 +26,6 @@ npm install -g botdispatch chatdown ludown luis-apis msbot qnamaker
 dotnet tool install -g luisgen
 ```
 
-- Connect to the Microsoft AI MyGet package feed
-  - In Visual Studio, go to **Tools > NuGet Package Manager > Package Manager Settings**.
-  - Select **Package Sources** from the menu.
-  - Click the green plus sign to add a new source. 
-  - Set the **Source** field to   
-  https://botbuilder.myget.org/F/aitemplates/api/v3/index.json and click **OK**.
-
-    ![](..\media\virtualassistant_myget.jpg)
-
 - Retrieve your LUIS Authoring Key
    - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work with a europe deployment. 
    - Once signed in click on your name in the top right hand corner.
