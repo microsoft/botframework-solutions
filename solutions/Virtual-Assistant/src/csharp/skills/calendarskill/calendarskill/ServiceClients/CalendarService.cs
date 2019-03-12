@@ -29,9 +29,9 @@ namespace CalendarSkill.ServiceClients
         }
 
         /// <inheritdoc/>
-        public async Task<List<EventModel>> GetUpcomingEvents()
+        public async Task<List<EventModel>> GetUpcomingEvents(TimeSpan? timeSpan = null)
         {
-            return await calendarAPI.GetUpcomingEvents();
+            return await calendarAPI.GetUpcomingEvents(timeSpan);
         }
 
         /// <inheritdoc/>

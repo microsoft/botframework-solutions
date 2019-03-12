@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace CalendarSkill.Dialogs.UpdateEvent.Resources
 {
@@ -12,16 +12,15 @@ namespace CalendarSkill.Dialogs.UpdateEvent.Resources
     public class UpdateEventResponses : IResponseIdCollection
     {
         // Generated accessors
-		public const string NotEventOrganizer = "NotEventOrganizer";
-		public const string ConfirmUpdate = "ConfirmUpdate";
-		public const string ConfirmUpdateFailed = "ConfirmUpdateFailed";
-		public const string EventUpdated = "EventUpdated";
-		public const string NoNewTime = "NoNewTime";
-		public const string NoNewTime_Retry = "NoNewTime_Retry";
-		public const string EventWithStartTimeNotFound = "EventWithStartTimeNotFound";
-		public const string NoDeleteStartTime = "NoDeleteStartTime";
-		public const string NoUpdateStartTime = "NoUpdateStartTime";
-		public const string MultipleEventsStartAtSameTime = "MultipleEventsStartAtSameTime";
-
+        public const string NotEventOrganizer = "NotEventOrganizer";
+        public const string ConfirmUpdate = "ConfirmUpdate";
+        public const string ConfirmUpdateFailed = "ConfirmUpdateFailed";
+        public const string EventUpdated = "EventUpdated";
+        public const string NoNewTime = "NoNewTime";
+        public const string NoNewTimeRetry = "NoNewTimeRetry";
+        public const string EventWithStartTimeNotFound = "EventWithStartTimeNotFound";
+        public const string NoDeleteStartTime = "NoDeleteStartTime";
+        public const string NoUpdateStartTime = "NoUpdateStartTime";
+        public const string MultipleEventsStartAtSameTime = "MultipleEventsStartAtSameTime";
     }
 }

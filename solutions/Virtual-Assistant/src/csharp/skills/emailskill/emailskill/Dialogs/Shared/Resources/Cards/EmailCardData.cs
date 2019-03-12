@@ -1,6 +1,4 @@
-﻿using AdaptiveCards;
-using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Responses;
+﻿using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace EmailSkill.Dialogs.Shared.Resources.Cards
 {

@@ -31,10 +31,10 @@ namespace CalendarSkill.ServiceClients.MSGraphAPI
         }
 
         /// <inheritdoc/>
-        public async Task<List<EventModel>> GetUpcomingEvents()
+        public async Task<List<EventModel>> GetUpcomingEvents(TimeSpan? timeSpan = null)
         {
             var eventList = new List<EventModel>();
-            var msftEvents = await GetMyUpcomingCalendarView();
+            var msftEvents = await GetMyUpcomingCalendarView(timeSpan);
             foreach (var msftEvent in msftEvents)
             {
                 var newEvent = new EventModel(msftEvent);
@@ -198,7 +198,7 @@ namespace CalendarSkill.ServiceClients.MSGraphAPI
 
         // Get user's calendar view.
         // This snippets gets events for the next seven days.
-        private async Task<List<Event>> GetMyUpcomingCalendarView()
+        private async Task<List<Event>> GetMyUpcomingCalendarView(TimeSpan? timeSpan = null)
         {
             var items = new List<Event>();
 
@@ -206,7 +206,7 @@ namespace CalendarSkill.ServiceClients.MSGraphAPI
             var options = new List<QueryOption>
             {
                 new QueryOption("startDateTime", DateTime.UtcNow.ToString("o")),
-                new QueryOption("endDateTime", DateTime.UtcNow.AddDays(1).ToString("o")),
+                new QueryOption("endDateTime", timeSpan == null ? DateTime.UtcNow.AddDays(1).ToString("o") : DateTime.UtcNow.Add(timeSpan.Value).ToString("o")),
                 new QueryOption("$orderBy", "start/dateTime"),
             };
 

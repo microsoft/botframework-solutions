@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using CalendarSkill.Extensions;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
-using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Graph;
 
 namespace CalendarSkillTest.Flow.Fakes

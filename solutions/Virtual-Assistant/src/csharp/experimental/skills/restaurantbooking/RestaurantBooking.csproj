@@ -1,40 +1,64 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <UserSecretsId>6a3184c3-074e-45b9-ad93-eceb8268ec01</UserSecretsId>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <CodeAnalysisRuleSet>..\..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <CodeAnalysisRuleSet>..\..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AdaptiveCards" Version="1.1.0" />
-    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.9.0-beta2" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.6.0-beta2" />
+    <Content Remove="Dialogs\Main\Resources\RestaurantBookingMainResponses.json" />
+    <Content Remove="Dialogs\BookingDialog\Resources\Cards\CusineChoiceCard.json" />
+    <Content Remove="Dialogs\BookingDialog\Resources\Cards\ReservationConfirmationCard.json" />
+    <Content Remove="Dialogs\BookingDialog\Resources\Cards\ReservationConfirmCard.json" />
+    <Content Remove="Dialogs\BookingDialog\Resources\Cards\RestaurantChoiceCard.json" />
+    <Content Remove="Dialogs\Shared\Resources\RestaurantBookingSharedResponses.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Dialogs\Main\Resources\RestaurantBookingMainResponses.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\BookingDialog\Resources\Cards\CusineChoiceCard.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\BookingDialog\Resources\Cards\ReservationConfirmationCard.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\BookingDialog\Resources\Cards\ReservationConfirmCard.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\BookingDialog\Resources\Cards\RestaurantChoiceCard.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\Shared\Resources\RestaurantBookingSharedResponses.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AdaptiveCards" Version="1.1.2" />
+    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.10.0-beta2" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.0-beta2" />
     <PackageReference Include="Microsoft.AspNetCore.All" />    
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="2.0.0" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Graph" Version="1.12.0" />
-    <PackageReference Include="Microsoft.Recognizers.Text" Version="1.1.4" />
-    <PackageReference Include="Microsoft.Recognizers.Text.DataTypes.TimexExpression" Version="1.1.4" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.1-beta.61">
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.0-preview-3" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Graph" Version="1.14.0-preview" />
+    <PackageReference Include="Microsoft.Recognizers.Text" Version="1.1.5" />
+    <PackageReference Include="Microsoft.Recognizers.Text.DataTypes.TimexExpression" Version="1.1.5" />
+    <PackageReference Include="Microsoft.Recognizers.Text.DateTime" Version="1.1.5" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.1-rc.114">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -51,7 +75,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>RestaurantBookingMainResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\RestaurantBooking\Resources\RestaurantImages.Designer.cs">
+    <Compile Update="Dialogs\BookingDialog\Resources\RestaurantImages.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>RestaurantImages.resx</DependentUpon>
@@ -73,7 +97,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CancelStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\RestaurantBooking\Resources\RestaurantImages.resx">
+    <EmbeddedResource Update="Dialogs\BookingDialog\Resources\RestaurantImages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>RestaurantImages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -94,21 +118,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Dialogs\Main\Resources\RestaurantBookingMainResponses.en.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\RestaurantBooking\Resources\Cards\HeaderTableFooter.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\RestaurantBooking\Resources\Cards\ImageHeaderTableFooter.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\RestaurantBooking\Resources\Cards\TitleImageTextButton.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Dialogs\Shared\Resources\RestaurantBookingSharedResponses.en.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Update="wwwroot\assets\en\images\restaurants\bamboo-garden.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -177,14 +186,6 @@
 
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Dialogs\RestaurantBooking\Resources\Cards\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\microsoft.bot.solutions\Microsoft.Bot.Solutions.csproj" />
   </ItemGroup>
 
 </Project>

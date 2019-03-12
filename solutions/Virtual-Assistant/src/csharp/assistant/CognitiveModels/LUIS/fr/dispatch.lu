@@ -3,13 +3,9 @@
 # l_General
 - [l_General](general.lu#Cancel)
 - [l_General](general.lu#Escalate)
-- [l_General](general.lu#Goodbye)
-- [l_General](general.lu#Greeting)
 - [l_General](general.lu#Help)
 - [l_General](general.lu#Logout)
-- [l_General](general.lu#Next)
-- [l_General](general.lu#Previous)
-- [l_General](general.lu#Restart)
+- [l_General](general.lu#StartOver)
 
 # l_Calendar
 - [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/fr/calendar.lu#ChangeCalendarEntry)
@@ -35,16 +31,14 @@
 # l_Email
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/fr/email.lu#AddFlag)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/fr/email.lu#CheckMessages)
+- [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/en/email.lu#AddMore)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/fr/email.lu#Forward)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/fr/email.lu#QueryLastText)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/fr/email.lu#ReadAloud)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/fr/email.lu#Reply)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/fr/email.lu#SearchMessages)
-- [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/fr/email.lu#SelectItem)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/fr/email.lu#SendEmail)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/fr/email.lu#Delete)
-$Email:phraseList
-- email, courrier, et courrier
 
 # l_ToDo
 - [l_ToDo](../../../../skills/todoskill/todoskill/CognitiveModels/LUIS/fr/todo.lu#AddToDo)
@@ -63,6 +57,9 @@ $ADDRESS:simple
 
 # q_FAQ
 - [q_FAQ](../../QnA/fr/faq.lu#?)
+
+# q_Chitchat
+- [q_FAQ](../../QnA/fr/chitchat.lu#?)
 
 # None
 - ma bouteille d'eau est verte

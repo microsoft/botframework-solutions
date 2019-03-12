@@ -11,19 +11,20 @@ using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
+using CalendarSkill.Util;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.Solutions.Authentication;
+using Microsoft.Bot.Builder.Solutions.Prompts;
+using Microsoft.Bot.Builder.Solutions.Resources;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
+using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Authentication;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
-using Microsoft.Bot.Solutions.Prompts;
-using Microsoft.Bot.Solutions.Resources;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text;
 using Microsoft.Recognizers.Text.DateTime;
 using Newtonsoft.Json.Linq;
@@ -79,14 +80,24 @@ namespace CalendarSkill.Dialogs.Shared
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(dc.Context);
-            await DigestCalendarLuisResult(dc, state.LuisResult, true);
+
+            // find contact dialog is not a start dialog, should not run luis part.
+            if (state.LuisResult != null && Id != nameof(FindContact.FindContactDialog))
+            {
+                await DigestCalendarLuisResult(dc, state.LuisResult, true);
+            }
+
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(dc.Context);
-            await DigestCalendarLuisResult(dc, state.LuisResult, false);
+            if (state.LuisResult != null)
+            {
+                await DigestCalendarLuisResult(dc, state.LuisResult, false);
+            }
+
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
@@ -220,12 +231,14 @@ namespace CalendarSkill.Dialogs.Shared
         protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> pc, CancellationToken cancellationToken)
         {
             var state = await Accessor.GetAsync(pc.Context);
-            var luisResult = state.GeneralLuisResult;
-            var topIntent = luisResult?.TopIntent().intent;
+            var generalLuisResult = state.GeneralLuisResult;
+            var generalTopIntent = generalLuisResult?.TopIntent().intent;
+            var calendarLuisResult = state.LuisResult;
+            var calendarTopIntent = calendarLuisResult?.TopIntent().intent;
 
             // TODO: The signature for validators has changed to return bool -- Need new way to handle this logic
             // If user want to show more recipient end current choice dialog and return the intent to next step.
-            if (topIntent == Luis.General.Intent.Next || topIntent == Luis.General.Intent.Previous)
+            if (generalTopIntent == Luis.General.Intent.ShowNext || generalTopIntent == Luis.General.Intent.ShowPrevious || calendarTopIntent == CalendarLU.Intent.ShowNextCalendar || calendarTopIntent == CalendarLU.Intent.ShowPreviousCalendar)
             {
                 // pc.End(topIntent);
                 return true;
@@ -244,6 +257,38 @@ namespace CalendarSkill.Dialogs.Shared
             }
 
             return false;
+        }
+
+        protected General.Intent? MergeShowIntent(General.Intent? generalIntent, CalendarLU.Intent? calendarIntent, CalendarLU calendarLuisResult)
+        {
+            if (generalIntent == General.Intent.ShowNext || generalIntent == General.Intent.ShowPrevious)
+            {
+                return generalIntent;
+            }
+
+            if (calendarIntent == CalendarLU.Intent.ShowNextCalendar)
+            {
+                return General.Intent.ShowNext;
+            }
+
+            if (calendarIntent == CalendarLU.Intent.ShowPreviousCalendar)
+            {
+                return General.Intent.ShowPrevious;
+            }
+
+            if (calendarIntent == CalendarLU.Intent.FindCalendarEntry)
+            {
+                if (calendarLuisResult.Entities.OrderReference != null)
+                {
+                    var orderReference = GetOrderReferenceFromEntity(calendarLuisResult.Entities);
+                    if (orderReference == "next")
+                    {
+                        return General.Intent.ShowNext;
+                    }
+                }
+            }
+
+            return generalIntent;
         }
 
         protected Task<bool> DateTimePromptValidator(PromptValidatorContext<IList<DateTimeResolution>> promptContext, CancellationToken cancellationToken)
@@ -272,18 +317,19 @@ namespace CalendarSkill.Dialogs.Shared
 
         protected bool IsRelativeTime(string userInput, string resolverResult, string timex)
         {
-            if (userInput.Contains("ago") ||
-                userInput.Contains("before") ||
-                userInput.Contains("later") ||
-                userInput.Contains("next"))
+            var userInputLower = userInput.ToLower();
+            if (userInputLower.Contains(CalendarCommonStrings.Ago) ||
+                userInputLower.Contains(CalendarCommonStrings.Before) ||
+                userInputLower.Contains(CalendarCommonStrings.Later) ||
+                userInputLower.Contains(CalendarCommonStrings.Next))
             {
                 return true;
             }
 
-            if (userInput.Contains("today") ||
-                userInput.Contains("now") ||
-                userInput.Contains("yesterday") ||
-                userInput.Contains("tomorrow"))
+            if (userInputLower.Contains(CalendarCommonStrings.TodayLower) ||
+                userInputLower.Contains(CalendarCommonStrings.Now) ||
+                userInputLower.Contains(CalendarCommonStrings.YesterdayLower) ||
+                userInputLower.Contains(CalendarCommonStrings.TomorrowLower))
             {
                 return true;
             }
@@ -424,7 +470,7 @@ namespace CalendarSkill.Dialogs.Shared
                                 state.Title = GetSubjectFromEntity(entity);
                             }
 
-                            if (entity.ContactName != null)
+                            if (entity.personName != null)
                             {
                                 state.CreateHasDetail = true;
                                 state.AttendeesNameList = GetAttendeesFromEntity(entity, luisResult.Text, state.AttendeesNameList);
@@ -433,14 +479,14 @@ namespace CalendarSkill.Dialogs.Shared
                             if (entity.FromDate != null)
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (date != null)
                                 {
                                     state.CreateHasDetail = true;
                                     state.StartDate = date;
                                 }
 
-                                date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
+                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (date != null)
                                 {
                                     state.CreateHasDetail = true;
@@ -523,13 +569,13 @@ namespace CalendarSkill.Dialogs.Shared
                             if (entity.FromDate != null)
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (date != null)
                                 {
                                     state.StartDate = date;
                                 }
 
-                                date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
+                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (date != null)
                                 {
                                     state.EndDate = date;
@@ -565,13 +611,13 @@ namespace CalendarSkill.Dialogs.Shared
                             if (entity.FromDate != null)
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (date != null)
                                 {
                                     state.OriginalStartDate = date;
                                 }
 
-                                date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
+                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (date != null)
                                 {
                                     state.OriginalEndDate = date;
@@ -610,7 +656,7 @@ namespace CalendarSkill.Dialogs.Shared
                                 var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (time != null)
                                 {
-                                    state.NewEndTime = time;
+                                    state.NewStartTime = time;
                                 }
 
                                 time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
@@ -645,6 +691,11 @@ namespace CalendarSkill.Dialogs.Shared
                         }
 
                     case CalendarLU.Intent.FindCalendarEntry:
+                    case CalendarLU.Intent.FindCalendarDetail:
+                    case CalendarLU.Intent.FindCalendarWhen:
+                    case CalendarLU.Intent.FindCalendarWhere:
+                    case CalendarLU.Intent.FindCalendarWho:
+                    case CalendarLU.Intent.FindDuration:
                         {
                             if (entity.OrderReference != null)
                             {
@@ -654,14 +705,14 @@ namespace CalendarSkill.Dialogs.Shared
                             if (entity.FromDate != null)
                             {
                                 var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
                                 if (date != null)
                                 {
                                     state.StartDate = date;
                                     state.StartDateString = dateString;
                                 }
 
-                                date = GetTimeFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
+                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
                                 if (date != null)
                                 {
                                     state.EndDate = date;
@@ -704,10 +755,7 @@ namespace CalendarSkill.Dialogs.Shared
                                 }
                             }
 
-                            if (entity.AskParameter != null)
-                            {
-                                state.AskParameterContent = GetAskParameterFromEntity(entity);
-                            }
+                            state.AskParameterContent = luisResult.Text;
 
                             break;
                         }
@@ -794,9 +842,10 @@ namespace CalendarSkill.Dialogs.Shared
             }
         }
 
-        protected List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture)
+        protected List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture, bool convertToDate = true)
         {
-            var results = DateTimeRecognizer.RecognizeDateTime(dateTimeString, culture);
+            var results = DateTimeRecognizer.RecognizeDateTime(DateTimeHelper.ConvertNumberToDateTimeString(dateTimeString, convertToDate), culture, options: DateTimeOptions.CalendarMode);
+
             if (results.Count > 0)
             {
                 // Return list of resolutions from first match
@@ -1153,11 +1202,6 @@ namespace CalendarSkill.Dialogs.Shared
             return entity.Subject[0];
         }
 
-        private string GetAskParameterFromEntity(CalendarLU._Entities entity)
-        {
-            return entity.AskParameter[0];
-        }
-
         protected List<string> GetAttendeesFromEntity(CalendarLU._Entities entity, string inputString, List<string> attendees = null)
         {
             if (attendees == null)
@@ -1168,7 +1212,7 @@ namespace CalendarSkill.Dialogs.Shared
             // As luis result for email address often contains extra spaces for word breaking
             // (e.g. send email to test@test.com, email address entity will be test @ test . com)
             // So use original user input as email address.
-            var rawEntity = entity._instance.ContactName;
+            var rawEntity = entity._instance.personName;
             foreach (var name in rawEntity)
             {
                 var contactName = inputString.Substring(name.StartIndex, name.EndIndex - name.StartIndex);
@@ -1233,22 +1277,43 @@ namespace CalendarSkill.Dialogs.Shared
             return inputString.Substring(data.StartIndex, data.EndIndex - data.StartIndex);
         }
 
-        private List<DateTime> GetDateFromDateTimeString(string date, string local, TimeZoneInfo userTimeZone)
+        private List<DateTime> GetDateFromDateTimeString(string date, string local, TimeZoneInfo userTimeZone, bool isStart = true)
         {
             var culture = local ?? English;
-            var results = RecognizeDateTime(date, culture);
+            var results = RecognizeDateTime(date, culture, true);
             var dateTimeResults = new List<DateTime>();
             if (results != null)
             {
                 foreach (var result in results)
                 {
-                    var dateTime = DateTime.Parse(result.Value);
-                    var dateTimeConvertType = result.Timex;
-
-                    if (dateTime != null)
+                    if (result.Value != null)
                     {
-                        var isRelativeTime = IsRelativeTime(date, result.Value, result.Timex);
-                        dateTimeResults.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, userTimeZone) : dateTime);
+                        if (!isStart)
+                        {
+                            break;
+                        }
+
+                        var dateTime = DateTime.Parse(result.Value);
+                        var dateTimeConvertType = result.Timex;
+
+                        if (dateTime != null)
+                        {
+                            var isRelativeTime = IsRelativeTime(date, result.Value, result.Timex);
+                            dateTimeResults.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, userTimeZone) : dateTime);
+                        }
+                    }
+                    else
+                    {
+                        var startDate = DateTime.Parse(result.Start);
+                        var endDate = DateTime.Parse(result.End);
+                        if (isStart)
+                        {
+                            dateTimeResults.Add(startDate);
+                        }
+                        else
+                        {
+                            dateTimeResults.Add(endDate);
+                        }
                     }
                 }
             }
@@ -1259,7 +1324,7 @@ namespace CalendarSkill.Dialogs.Shared
         private List<DateTime> GetTimeFromDateTimeString(string time, string local, TimeZoneInfo userTimeZone, bool isStart = true)
         {
             var culture = local ?? English;
-            var results = RecognizeDateTime(time, culture);
+            var results = RecognizeDateTime(time, culture, false);
             var dateTimeResults = new List<DateTime>();
             if (results != null)
             {

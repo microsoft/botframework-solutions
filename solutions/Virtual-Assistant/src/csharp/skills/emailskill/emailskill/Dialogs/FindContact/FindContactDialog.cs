@@ -14,11 +14,10 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Solutions.Data;
-using Microsoft.Bot.Solutions.Resources;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Solutions.Util;
+using Microsoft.Bot.Builder.Solutions.Resources;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Graph;
 
 namespace EmailSkill.Dialogs.FindContact
@@ -247,7 +246,7 @@ namespace EmailSkill.Dialogs.FindContact
                     (var personList, var userList) = DisplayHelper.FormatRecipientList(originPersonList, originUserList);
 
                     // people you work with has the distinct email address has the highest priority
-                    if (personList.Count == 1 && personList.First().ScoredEmailAddresses.Count() == 1)
+                    if (personList.Count == 1 && personList.First().ScoredEmailAddresses.Count() == 1 && personList.First().ScoredEmailAddresses != null && !string.IsNullOrEmpty(personList.First().ScoredEmailAddresses.First().Address))
                     {
                         state.ConfirmedPerson = personList.First();
                         return await sc.ReplaceDialogAsync(Actions.ConfirmEmail, personList.First());
@@ -270,7 +269,13 @@ namespace EmailSkill.Dialogs.FindContact
                                 var emailList = new List<ScoredEmailAddress>();
                                 foreach (var sameNamePerson in personWithSameName)
                                 {
-                                    sameNamePerson.ScoredEmailAddresses.ToList().ForEach(e => emailList.Add(e));
+                                    sameNamePerson.ScoredEmailAddresses.ToList().ForEach(e =>
+                                    {
+                                        if (e != null && !string.IsNullOrEmpty(e.Address))
+                                        {
+                                            emailList.Add(e);
+                                        }
+                                    });
                                 }
 
                                 unionPerson.ScoredEmailAddresses = emailList;
@@ -283,6 +288,8 @@ namespace EmailSkill.Dialogs.FindContact
                 {
                     return await sc.EndDialogAsync();
                 }
+
+                unionList.RemoveAll(person => !person.ScoredEmailAddresses.ToList().Exists(email => email.Address != null));
 
                 state.UnconfirmedPerson = unionList;
 
@@ -336,12 +343,12 @@ namespace EmailSkill.Dialogs.FindContact
                 {
                     if (sc.Result == null)
                     {
-                        if (generalTopIntent == General.Intent.Next)
+                        if (generalTopIntent == General.Intent.ShowNext)
                         {
                             state.ShowRecipientIndex++;
                             state.ReadRecipientIndex = 0;
                         }
-                        else if (generalTopIntent == General.Intent.Previous)
+                        else if (generalTopIntent == General.Intent.ShowPrevious)
                         {
                             if (state.ShowRecipientIndex > 0)
                             {
@@ -475,12 +482,12 @@ namespace EmailSkill.Dialogs.FindContact
                 {
                     if (sc.Result == null)
                     {
-                        if (generalTopIntent == General.Intent.Next)
+                        if (generalTopIntent == General.Intent.ShowNext)
                         {
                             state.ShowRecipientIndex++;
                             state.ReadRecipientIndex = 0;
                         }
-                        else if (generalTopIntent == General.Intent.Previous)
+                        else if (generalTopIntent == General.Intent.ShowPrevious)
                         {
                             if (state.ShowRecipientIndex > 0)
                             {
@@ -566,8 +573,8 @@ namespace EmailSkill.Dialogs.FindContact
             var generlLuisResult = state.GeneralLuisResult;
             var generalTopIntent = generlLuisResult?.TopIntent().intent;
 
-            if ((generalTopIntent == General.Intent.Next)
-                || (generalTopIntent == General.Intent.Previous)
+            if ((generalTopIntent == General.Intent.ShowNext)
+                || (generalTopIntent == General.Intent.ShowPrevious)
                 || IsReadMoreIntent(generalTopIntent, pc.Context.Activity.Text))
             {
                 return true;
@@ -650,7 +657,7 @@ namespace EmailSkill.Dialogs.FindContact
                     {
                         options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, ConfigData.GetInstance().MaxReadSize);
                         options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
-                        options.RetryPrompt = ResponseManager.GetResponse(EmailSharedResponses.NoChoiceOptions_Retry);
+                        options.RetryPrompt = ResponseManager.GetResponse(EmailSharedResponses.NoChoiceOptionsRetry);
                         return options;
                     }
 
@@ -664,7 +671,7 @@ namespace EmailSkill.Dialogs.FindContact
 
             options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, ConfigData.GetInstance().MaxReadSize);
             options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
-            options.RetryPrompt = ResponseManager.GetResponse(EmailSharedResponses.NoChoiceOptions_Retry);
+            options.RetryPrompt = ResponseManager.GetResponse(EmailSharedResponses.NoChoiceOptionsRetry);
             return options;
         }
 
@@ -737,7 +744,7 @@ namespace EmailSkill.Dialogs.FindContact
                     {
                         options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, ConfigData.GetInstance().MaxReadSize);
                         options.Prompt.Text += "\r\n" + GetSelectPromptString(options, true);
-                        options.RetryPrompt = ResponseManager.GetResponse(EmailSharedResponses.NoChoiceOptions_Retry);
+                        options.RetryPrompt = ResponseManager.GetResponse(EmailSharedResponses.NoChoiceOptionsRetry);
                         return options;
                     }
 
@@ -751,7 +758,7 @@ namespace EmailSkill.Dialogs.FindContact
 
             options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, ConfigData.GetInstance().MaxReadSize);
             options.Prompt.Text += "\r\n" + GetSelectPromptString(options, true);
-            options.RetryPrompt = ResponseManager.GetResponse(EmailSharedResponses.NoChoiceOptions_Retry);
+            options.RetryPrompt = ResponseManager.GetResponse(EmailSharedResponses.NoChoiceOptionsRetry);
             return options;
         }
     }

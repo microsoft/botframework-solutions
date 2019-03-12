@@ -1,19 +1,56 @@
-﻿[Navigation Cancel Route](./poi_navigation_cancel_route.lu)
+[Navigation Cancel Route](./poi_navigation_cancel_route.lu)
 [Navigation Find PoI](./poi_navigation_find_poi.lu)
 [Navigation Route From X To Y](./poi_navigation_route_fromxtoy.lu)
+[Navigation Find Parking](./poi_navigation_find_parking.lu)
 
-# None
-- la mia bottiglia d'acqua è verde
-- tartarughe amano nuotare nell'oceano
-- piani di carta nel cielo
+## None
+- Sei sposato
+- Hai bambini
+- Ottieni
+- per quanto tempo i gatti vivono
+- Quanti anni hai
+- è il mio cane malato
+- C'è un animale più grande dell'elefante
+- le mie piante stanno morendo
+- Ricordarsi di acquistare latte
+- Devo chiamare un  {KEYWORD=Medico} 
+- Devo aggiornare il mio telefono
+- che tipo di dinosauro ha dente blu
+- che cosa il mio ultimo acquisto
+- che cosa il rumore più forte si può pensare di
+- Qual è la tua cosa preferita a drinkh
+- Quando sarà piovere
+- Aggiungi alla lista
+- Ricordami
+- attività completata
+- marchio che come finito
+- leggere quel messaggio fuori
+- inviare un messaggio
+- inviare un'e-mail
+- avanti questo
+- accettare tale evento
+- trovare una sala riunioni
+- trovare una stanza
+- che sarà nella riunione
+- Mostrami i partecipanti
+- Ciao
+- Saluti
+- che ha vinto il Superbowl
+- che cosa il tempo a Boston
+- che cosa il tempo a Los Angeles
+
 
 > # Entity definitions
+
 $ADDRESS:simple
-$DESCRIPTOR:simple
+
 $KEYWORD:simple
 
+
 > # PREBUILT Entity definitions
+
 $PREBUILT:number
+
 
 > # Phrase list definitions
 
@@ -23,3 +60,22 @@ $address_country:phraseList
 - india, egypt, central african republic, finland, indonesia, peru, croatia, burundi, ukraine, bosnia herzegovina, pakistan, mali, senegal, jamaica, bhutan, honduras, nishoe storeagua, united arab emirates, algeria, tanzania, guinea bissau, zimbabwe, montenegro, malawi, kuwait, marshall islands, turkey, kiribati, panama, nepal, botswana, malta, yemen, canada, italy, kenya, grenada, switzerland, united states of america, serbia, malaysia, saudi arabia, northern mariana islands, st. kitts and nevis, trinidad and tobago, cameroon, south sudan, st kitts and nevis, singapore, mauritania, cote d'ivoire, guam, uk, cuba, timor-leste, liechtenstein, togo, russia, dominican republic, sierra leone, kazakhstan, republic of the congo, burma, spain, iran, lebanon, suriname, abu dhabi, belarus, uzbekistan, turkmenistan, kosovo, morocco, north korea, sri lanka, oman, lithuania, burkina faso, czech republic, iraq, vanuatu, tunisia, luxembourg, chad, portugal, vatican city, benin, niger, colombia, azerbaijan, el salvador, mozambique, turks and caicos, laos, estonia, equatorial guinea, bangladesh, ethiopia, mauritius, thailand, eritrea, tajikistan, chile, australia, gabon, uruguay, philippines, rwanda, nigeria, japan, nauru, bosnia and herzegovina, mexico, barbados, american samoa, usa, china, guinea-bissau, angola, iceland, puerto rico, armenia, taiwan, denmark, cabo verde, germany, new zealand, ghana, haiti, latvia, qatar, sudan, democratic republic of the congo, zambia, comoros, st lucia, solomon islands, congo, dominica, macedonia, slovakia, bulgaria, seychelles, fiji, holy see, guinea, andorra, israel, libya, sao tome and principe, greece, norway, tuvalu, guyana, brunei, swaziland, cyprus, lesotho, cayman islands, paraguay, vietnam, timor leste, ireland, somalia, costa rica, kyrgyzstan, myanmar, ecuador, brunei darussalam, maldives, austria, st. lucia, palau, south africa, tonga, south korea, micronesia, syria, san marino, liberia, papua new guinea, romania, albania, moldova, hungary, belize, antigua and barbuda, slovenia, djibouti, sweden, jordan, uganda, cambodia, bahrain, netherlands, belgium, gambia, palestine, madagascar, poland, monaco, united states, namibia, nicaragua, st. vincent and the grenadines, guatemala, brazil, mongolia, afghanistan, bahamas, united kingdom, st vincent and the grenadines, bolivia, samoa, argentina, georgia, venezuela, france, bosnia
 $address_state:phraseList
 - virginia, idaho, mi, vt, florida, bc, british columbia, ga, oregon, de, ut, sd, wa, utah, michigan, hi, nova scotia, illinois, ia, arizona, new york, oh, vermont, texas, montana, ks, tx, ab, in, ma, wyoming, md, mo, prince edward island, delaware, kentucky, northwest territories, south dakota, on, maine, newfoundland, ct, me, south carolina, ms, nl, yt, va, manitoba, saskatchewan, wv, alaska, nh, la, west virginia, rhode island, ar, wisconsin, il, connecticut, wi, qc, oklahoma, al, arkansas, ak, alabama, nj, ri, nt, minnesota, quebec, or, nd, yukon, az, co, mississippi, fl, id, nebraska, ne, new mexico, massachusetts, hawaii, pa, tn, nevada, mt, ky, california, louisiana, ny, ca, new jersey, pennsylvania, newfoundland and labrador, sc, maryland, kansas, tennessee, nu, ontario, indiana, georgia, washington, nv, wy, alberta, sk, new hampshire, # canada, iowa, nb, nc, new brunswick, north dakota, north carolina, missouri, nm, pe, mn, nuvanut, ns, mb, ok, colorado, ohio
+
+> # List entities
+
+$ROUTE_TYPE:eco=
+- Economia
+- Standard
+- Equilibrato
+
+$ROUTE_TYPE:thrilling=
+- Emozionante
+- Divertimento
+
+$ROUTE_TYPE:fastest=
+- Veloce
+- Veloce
+- Ad alta velocità
+
+$ROUTE_TYPE:shortest=
+

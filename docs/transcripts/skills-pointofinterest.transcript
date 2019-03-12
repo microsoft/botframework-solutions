@@ -1,0 +1,4180 @@
+[
+  {
+    "type": "conversationUpdate",
+    "membersAdded": [
+      {
+        "id": "1",
+        "name": "Bot"
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "id": "680abf00-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:14:59-08:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2019-03-06T04:14:59.312Z",
+    "from": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "serviceUrl": "http://localhost:54510"
+  },
+  {
+    "type": "conversationUpdate",
+    "membersAdded": [
+      {
+        "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+        "name": "User"
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "id": "680b5b40-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:14:59-08:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2019-03-06T04:14:59.316Z",
+    "from": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "serviceUrl": "http://localhost:54510"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "attachmentLayout": "list",
+    "speak": "Welcome to your Virtual Assistant! Now that you're up and running, let's get started.",
+    "inputHint": "acceptingInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "speak": "Welcome to your Virtual Assistant! Now that you're up and running, let's get started.",
+          "body": [
+            {
+              "type": "Image",
+              "size": "stretch",
+              "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU"
+            },
+            {
+              "type": "TextBlock",
+              "weight": "bolder",
+              "text": "Welcome to **your** Virtual Assistant!",
+              "wrap": true,
+              "spacing": "medium",
+              "speak": "Welcome to your Virtual Assistant"
+            },
+            {
+              "type": "TextBlock",
+              "isSubtle": true,
+              "text": "Now that you have successfully run your Virtual Assistant, follow the links in this Adaptive Card to explore further.",
+              "wrap": true,
+              "speak": "Now that your up and running let's get started."
+            }
+          ],
+          "actions": [
+            {
+              "type": "Action.OpenUrl",
+              "url": "https://aka.ms/customassistantdocs",
+              "title": "Documentation"
+            },
+            {
+              "type": "Action.OpenUrl",
+              "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-linkedaccounts.md",
+              "title": "Linked Accounts"
+            },
+            {
+              "type": "Action.OpenUrl",
+              "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-skills.md",
+              "title": "Skills"
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "680abf00-3fc6-11e9-929d-a5dd668ef931",
+    "id": "6bbec650-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:15:05-08:00",
+    "timestamp": "2019-03-06T04:15:05.525Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "text": "find a chinese restaurant in town",
+    "from": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "textFormat": "plain",
+    "timestamp": "2019-03-06T04:15:16.292Z",
+    "channelData": {
+      "clientActivityId": "1551845699295.8230019306890941.0"
+    },
+    "entities": [
+      {
+        "type": "ClientCapabilities",
+        "requiresBotState": true,
+        "supportsTts": true,
+        "supportsListening": true
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "id": "7229b040-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:15:16-08:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:54510"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "7229b040-3fc6-11e9-929d-a5dd668ef931",
+    "id": "72d5cec0-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:15:17-08:00",
+    "timestamp": "2019-03-06T04:15:17.420Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-03-06T04:15:17.662Z",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "7229b040-3fc6-11e9-929d-a5dd668ef931",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "find a chinese restaurant in town",
+        "alteredText": null,
+        "intents": {
+          "l_PointOfInterest": {
+            "score": 0.999912739
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "1e229c37-d058-4daf-af82-b42d90478336"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "find a chinese restaurant in town",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "l_PointOfInterest",
+          "score": 0.999912739
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "72fabbe0-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:15:17-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "text": "-->Forwarding your utterance to the pointOfInterestSkill skill.",
+    "replyToId": "7229b040-3fc6-11e9-929d-a5dd668ef931",
+    "id": "73174490-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:15:17-08:00",
+    "timestamp": "2019-03-06T04:15:17.849Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "7229b040-3fc6-11e9-929d-a5dd668ef931",
+    "id": "741ccdb0-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:15:19-08:00",
+    "timestamp": "2019-03-06T04:15:19.562Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "7229b040-3fc6-11e9-929d-a5dd668ef931",
+    "id": "75713a20-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:15:21-08:00",
+    "timestamp": "2019-03-06T04:15:21.794Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "758cb160-3fc6-11e9-929d-a5dd668ef931",
+    "timestamp": "2019-03-06T04:15:21.973Z",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "7229b040-3fc6-11e9-929d-a5dd668ef931",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "find a chinese restaurant in town",
+        "alteredText": null,
+        "intents": {
+          "NAVIGATION_FIND_POINTOFINTEREST": {
+            "score": 0.963803053
+          }
+        },
+        "entities": {
+          "$instance": {
+            "KEYWORD": [
+              {
+                "startIndex": 7,
+                "endIndex": 25,
+                "text": "chinese restaurant",
+                "type": "KEYWORD",
+                "score": 0.9976583
+              }
+            ]
+          },
+          "KEYWORD": [
+            "chinese restaurant"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "f3169954-5299-4d58-8603-c56a3e13a64b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "find a chinese restaurant in town",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "NAVIGATION_FIND_POINTOFINTEREST",
+          "score": 0.963803053
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "chinese restaurant",
+            "type": "KEYWORD",
+            "startIndex": 7,
+            "endIndex": 24,
+            "score": 0.9976583
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-03-05T20:15:21-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "759b0940-3fc6-11e9-929d-a5dd668ef931",
+    "timestamp": "2019-03-06T04:15:22.068Z",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "7229b040-3fc6-11e9-929d-a5dd668ef931",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "find a chinese restaurant in town",
+        "alteredText": null,
+        "intents": {
+          "Help": {
+            "score": 0.0436167642
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "a60f2684-d7c4-42db-9e4a-c3d718b8989b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "find a chinese restaurant in town",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Help",
+          "score": 0.0436167642
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-03-05T20:15:22-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "75b213b0-3fc6-11e9-929d-a5dd668ef931",
+    "timestamp": "2019-03-06T04:15:22.219Z",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "7229b040-3fc6-11e9-929d-a5dd668ef931",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "find a chinese restaurant in town",
+        "alteredText": null,
+        "intents": {
+          "NAVIGATION_FIND_POINTOFINTEREST": {
+            "score": 0.963803053
+          }
+        },
+        "entities": {
+          "$instance": {
+            "KEYWORD": [
+              {
+                "startIndex": 7,
+                "endIndex": 25,
+                "text": "chinese restaurant",
+                "type": "KEYWORD",
+                "score": 0.9976583
+              }
+            ]
+          },
+          "KEYWORD": [
+            "chinese restaurant"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "f3169954-5299-4d58-8603-c56a3e13a64b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "find a chinese restaurant in town",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "NAVIGATION_FIND_POINTOFINTEREST",
+          "score": 0.963803053
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "chinese restaurant",
+            "type": "KEYWORD",
+            "startIndex": 7,
+            "endIndex": 24,
+            "score": 0.9976583
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-03-05T20:15:22-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "id": "75c3c6f0-3fc6-11e9-929d-a5dd668ef931",
+    "timestamp": "2019-03-06T04:15:22.335Z",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "text": "What address are you at?",
+    "speak": "What address are you at?",
+    "inputHint": "ignoringInput",
+    "attachments": [],
+    "replyToId": "7229b040-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:15:22-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "text": "city center plaza in bellevue",
+    "from": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "textFormat": "plain",
+    "timestamp": "2019-03-06T04:15:27.063Z",
+    "channelData": {
+      "clientActivityId": "1551845699295.8230019306890941.2"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "id": "78953670-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:15:27-08:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:54510"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "78953670-3fc6-11e9-929d-a5dd668ef931",
+    "id": "79797bf0-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:15:28-08:00",
+    "timestamp": "2019-03-06T04:15:28.559Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "78953670-3fc6-11e9-929d-a5dd668ef931",
+    "id": "7ace3680-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:15:30-08:00",
+    "timestamp": "2019-03-06T04:15:30.792Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "7b66cd00-3fc6-11e9-929d-a5dd668ef931",
+    "timestamp": "2019-03-06T04:15:31.792Z",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "78953670-3fc6-11e9-929d-a5dd668ef931",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "city center plaza in bellevue",
+        "alteredText": null,
+        "intents": {
+          "NAVIGATION_ROUTE_FROM_X_TO_Y": {
+            "score": 0.922103345
+          }
+        },
+        "entities": {
+          "$instance": {
+            "ADDRESS": [
+              {
+                "startIndex": 12,
+                "endIndex": 17,
+                "text": "plaza",
+                "type": "ADDRESS",
+                "score": 0.56900394
+              },
+              {
+                "startIndex": 21,
+                "endIndex": 29,
+                "text": "bellevue",
+                "type": "ADDRESS",
+                "score": 0.9942088
+              }
+            ]
+          },
+          "ADDRESS": [
+            "plaza",
+            "bellevue"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "f3169954-5299-4d58-8603-c56a3e13a64b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "city center plaza in bellevue",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "NAVIGATION_ROUTE_FROM_X_TO_Y",
+          "score": 0.922103345
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "plaza",
+            "type": "ADDRESS",
+            "startIndex": 12,
+            "endIndex": 16,
+            "score": 0.56900394
+          },
+          {
+            "entity": "bellevue",
+            "type": "ADDRESS",
+            "startIndex": 21,
+            "endIndex": 28,
+            "score": 0.9942088
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-03-05T20:15:31-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "7b7747c0-3fc6-11e9-929d-a5dd668ef931",
+    "timestamp": "2019-03-06T04:15:31.900Z",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "78953670-3fc6-11e9-929d-a5dd668ef931",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "city center plaza in bellevue",
+        "alteredText": null,
+        "intents": {
+          "Help": {
+            "score": 0.0397960134
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "a60f2684-d7c4-42db-9e4a-c3d718b8989b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "city center plaza in bellevue",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Help",
+          "score": 0.0397960134
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-03-05T20:15:31-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "id": "7b829260-3fc6-11e9-929d-a5dd668ef931",
+    "timestamp": "2019-03-06T04:15:31.974Z",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "attachmentLayout": "carousel",
+    "text": "I found the following.",
+    "speak": "I found the following.,1 - City Center Plaza at 474 108th Avenue Northeast.,2 - Plaza Center at 10901 NE 9th St.,3 - ChargePoint Bellevue NE 8th St at 10900 NE 8th St.",
+    "inputHint": "expectingInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "City Center Plaza at 474 108th Avenue Northeast",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "City Center Plaza",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Parking Garage",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "474 108th Avenue Northeast, Bellevue, West Bellevue",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.19475,47.61426&width=512&height=512&subscription-key=z2ruWMpF81wbqxzjYEGYdYv7pOQSwdImiLfRyH42vdo"
+                }
+              ],
+              "separator": true
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "Plaza Center at 10901 NE 9th St",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "Plaza Center",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Parking Garage",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "10901 NE 9th St, Bellevue, Northwest Bellevue",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.19493,47.61793&width=512&height=512&subscription-key=z2ruWMpF81wbqxzjYEGYdYv7pOQSwdImiLfRyH42vdo"
+                }
+              ],
+              "separator": true
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "ChargePoint Bellevue NE 8th St at 10900 NE 8th St",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "ChargePoint Bellevue NE 8th St",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Electric Vehicle Station",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "10900 NE 8th St, Bellevue, Northwest Bellevue",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.19427,47.61777&width=512&height=512&subscription-key=z2ruWMpF81wbqxzjYEGYdYv7pOQSwdImiLfRyH42vdo"
+                }
+              ],
+              "separator": true
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "78953670-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:15:31-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "id": "7b8cf2a0-3fc6-11e9-929d-a5dd668ef931",
+    "timestamp": "2019-03-06T04:15:32.042Z",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "text": "Which one?\n\n   1. City Center Plaza\n   2. Plaza Center\n   3. ChargePoint Bellevue NE 8th St",
+    "speak": "Which one?",
+    "inputHint": "expectingInput",
+    "attachments": [],
+    "replyToId": "78953670-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:15:32-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "text": "1",
+    "from": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "textFormat": "plain",
+    "timestamp": "2019-03-06T04:15:36.078Z",
+    "channelData": {
+      "clientActivityId": "1551845699295.8230019306890941.4"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "id": "7df4cae0-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:15:36-08:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:54510"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "7df4cae0-3fc6-11e9-929d-a5dd668ef931",
+    "id": "7e9bb940-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:15:37-08:00",
+    "timestamp": "2019-03-06T04:15:37.172Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "7df4cae0-3fc6-11e9-929d-a5dd668ef931",
+    "id": "7fef3b50-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:15:39-08:00",
+    "timestamp": "2019-03-06T04:15:39.397Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "7df4cae0-3fc6-11e9-929d-a5dd668ef931",
+    "id": "81452e60-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:15:41-08:00",
+    "timestamp": "2019-03-06T04:15:41.638Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "824b7ad0-3fc6-11e9-929d-a5dd668ef931",
+    "timestamp": "2019-03-06T04:15:43.357Z",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "7df4cae0-3fc6-11e9-929d-a5dd668ef931",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "1",
+        "alteredText": null,
+        "intents": {
+          "None": {
+            "score": 0.97148
+          }
+        },
+        "entities": {
+          "$instance": {
+            "number": [
+              {
+                "startIndex": 0,
+                "endIndex": 1,
+                "text": "1",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ]
+          },
+          "number": [
+            1
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "f3169954-5299-4d58-8603-c56a3e13a64b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "1",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "None",
+          "score": 0.97148
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "1",
+            "type": "builtin.number",
+            "startIndex": 0,
+            "endIndex": 0,
+            "resolution": {
+              "subtype": "integer",
+              "value": "1"
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-03-05T20:15:43-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "825cb8e0-3fc6-11e9-929d-a5dd668ef931",
+    "timestamp": "2019-03-06T04:15:43.470Z",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "7df4cae0-3fc6-11e9-929d-a5dd668ef931",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "1",
+        "alteredText": null,
+        "intents": {
+          "Cancel": {
+            "score": 0.0693425462
+          }
+        },
+        "entities": {
+          "$instance": {
+            "number": [
+              {
+                "startIndex": 0,
+                "endIndex": 1,
+                "text": "1",
+                "type": "builtin.number",
+                "subtype": "integer"
+              }
+            ]
+          },
+          "number": [
+            1
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "a60f2684-d7c4-42db-9e4a-c3d718b8989b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "1",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Cancel",
+          "score": 0.0693425462
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "1",
+            "type": "builtin.number",
+            "startIndex": 0,
+            "endIndex": 0,
+            "resolution": {
+              "subtype": "integer",
+              "value": "1"
+            }
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-03-05T20:15:43-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "id": "8269b130-3fc6-11e9-929d-a5dd668ef931",
+    "timestamp": "2019-03-06T04:15:43.555Z",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "attachmentLayout": "carousel",
+    "text": "Here are some options.",
+    "speak": "Here are some options.,1 - Kings Chinese Restaurant at 13200 NE 20th St.,2 - Kung-Ho Chinese Restaurant at 3640 Factoria Blvd SE Ste H.,3 - Nara Chinese Restaurant at 15033 Aurora Ave N.,4 - Twin Dragon Chinese Restaurant & Sports Bar at 15321 Main St NE.,5 - Stir Chinese Restaurant at 151 Sunset Blvd N.",
+    "inputHint": "expectingInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "Kings Chinese Restaurant at 13200 NE 20th St",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "Kings Chinese Restaurant",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Chinese · 6.4 ⭐ (48) · $$",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "13200 NE 20th St, Bellevue",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://fastly.4sqi.net/img/general/1920x1440/7647720_Ul-iqFUT0QrIWnzVdWZS53YjRNbXn-3zi-FxZJxIzIk.jpg"
+                }
+              ],
+              "separator": true
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "Kung-Ho Chinese Restaurant at 3640 Factoria Blvd SE Ste H",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "Kung-Ho Chinese Restaurant",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Chinese · 5.8 ⭐ (13) · $",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "3640 Factoria Blvd SE Ste H, Bellevue",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://fastly.4sqi.net/img/general/1080x1080/74304828_hNGrz5z69WAtIuKg6SFOdbl9Z-Q0FHQQNexbamPRYBE.jpg"
+                }
+              ],
+              "separator": true
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "Nara Chinese Restaurant at 15033 Aurora Ave N",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "Nara Chinese Restaurant",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Chinese · 7.4 ⭐ (12) · $",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "15033 Aurora Ave N, Shoreline",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://fastly.4sqi.net/img/general/1080x1080/47648185_faeBXNpW3Di4XRyUefHdYSbj33o65oFRLzUC7xOPh38.jpg"
+                }
+              ],
+              "separator": true
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "Twin Dragon Chinese Restaurant & Sports Bar at 15321 Main St NE",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "Twin Dragon Chinese Restaurant & Sports Bar",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Chinese · 5.6 ⭐ (16) · $$",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "15321 Main St NE, Duvall",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "Open until 9:00 PM",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://fastly.4sqi.net/img/general/960x720/9596350_4YvSxPAMveuVP68JYAOug2lXvCct6VzuSKrCHxnQsh8.jpg"
+                }
+              ],
+              "separator": true
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "PointOfInterestViewCard",
+          "speak": "Stir Chinese Restaurant at 151 Sunset Blvd N",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "90",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "Name",
+                          "size": "large",
+                          "weight": "bolder",
+                          "color": "accent",
+                          "text": "Stir Chinese Restaurant",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "AvailableDetails",
+                          "isSubtle": true,
+                          "text": "Chinese · 6.9 ⭐ (12) · $$",
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Address",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "151 Sunset Blvd N, Renton",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "id": "Hours",
+                          "color": "dark",
+                          "isSubtle": true,
+                          "text": "Open until Midnight",
+                          "wrap": true,
+                          "spacing": "none",
+                          "separation": "none"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://fastly.4sqi.net/img/general/480x480/63554041_exVIkSQNfXdx2NB1EPB9YJ2d6yXxyoOFXzbpm4RFwzQ.jpg"
+                }
+              ],
+              "separator": true
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "7df4cae0-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:15:43-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "id": "82776cd0-3fc6-11e9-929d-a5dd668ef931",
+    "timestamp": "2019-03-06T04:15:43.645Z",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "text": "Which would you like?\n\n   1. Kings Chinese Restaurant\n   2. Kung-Ho Chinese Restaurant\n   3. Nara Chinese Restaurant\n   4. Twin Dragon Chinese Restaurant & Sports Bar\n   5. Stir Chinese Restaurant",
+    "speak": "Which would you like?",
+    "inputHint": "expectingInput",
+    "attachments": [],
+    "replyToId": "7df4cae0-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:15:43-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "7df4cae0-3fc6-11e9-929d-a5dd668ef931",
+    "id": "8288f900-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:15:43-08:00",
+    "timestamp": "2019-03-06T04:15:43.760Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "text": "nara chinese restaurant",
+    "from": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "textFormat": "plain",
+    "timestamp": "2019-03-06T04:16:02.570Z",
+    "channelData": {
+      "clientActivityId": "1551845699295.8230019306890941.6"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "id": "8dbf26a0-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:16:02-08:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:54510"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "8dbf26a0-3fc6-11e9-929d-a5dd668ef931",
+    "id": "8e7900c0-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:16:03-08:00",
+    "timestamp": "2019-03-06T04:16:03.788Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "8dbf26a0-3fc6-11e9-929d-a5dd668ef931",
+    "id": "8fcd6d30-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:16:06-08:00",
+    "timestamp": "2019-03-06T04:16:06.019Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "906b81f0-3fc6-11e9-929d-a5dd668ef931",
+    "timestamp": "2019-03-06T04:16:07.055Z",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "8dbf26a0-3fc6-11e9-929d-a5dd668ef931",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "nara chinese restaurant",
+        "alteredText": null,
+        "intents": {
+          "NAVIGATION_FIND_POINTOFINTEREST": {
+            "score": 0.396445245
+          }
+        },
+        "entities": {
+          "$instance": {
+            "KEYWORD": [
+              {
+                "startIndex": 0,
+                "endIndex": 23,
+                "text": "nara chinese restaurant",
+                "type": "KEYWORD",
+                "score": 0.877638936
+              }
+            ]
+          },
+          "KEYWORD": [
+            "nara chinese restaurant"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "f3169954-5299-4d58-8603-c56a3e13a64b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "nara chinese restaurant",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "NAVIGATION_FIND_POINTOFINTEREST",
+          "score": 0.396445245
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "nara chinese restaurant",
+            "type": "KEYWORD",
+            "startIndex": 0,
+            "endIndex": 22,
+            "score": 0.877638936
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-03-05T20:16:07-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "90780510-3fc6-11e9-929d-a5dd668ef931",
+    "timestamp": "2019-03-06T04:16:07.137Z",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "8dbf26a0-3fc6-11e9-929d-a5dd668ef931",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "nara chinese restaurant",
+        "alteredText": null,
+        "intents": {
+          "Cancel": {
+            "score": 0.023098249
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "a60f2684-d7c4-42db-9e4a-c3d718b8989b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "nara chinese restaurant",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Cancel",
+          "score": 0.023098249
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-03-05T20:16:07-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "id": "9084af40-3fc6-11e9-929d-a5dd668ef931",
+    "timestamp": "2019-03-06T04:16:07.220Z",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "attachmentLayout": "list",
+    "text": "This is the best route to your destination.",
+    "speak": "This is the best route to your destination.,1 - This'll get you to Nara Chinese Restaurant in 22 minutes. There's Less than a minute delay..",
+    "inputHint": "ignoringInput",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "id": "RouteDirectionsViewCard",
+          "speak": "This'll get you to Nara Chinese Restaurant in 22 minutes. There's Less than a minute delay.",
+          "body": [
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "id": "Name",
+                  "size": "large",
+                  "weight": "bolder",
+                  "color": "accent",
+                  "text": "Nara Chinese Restaurant",
+                  "spacing": "none",
+                  "separation": "none"
+                },
+                {
+                  "type": "TextBlock",
+                  "id": "AvailableDetails",
+                  "isSubtle": true,
+                  "text": "Chinese · 7.4 ⭐ (12) · $",
+                  "spacing": "none",
+                  "separation": "none"
+                },
+                {
+                  "type": "TextBlock",
+                  "id": "Address",
+                  "color": "dark",
+                  "isSubtle": true,
+                  "text": "15033 Aurora Ave N, Shoreline",
+                  "wrap": true,
+                  "spacing": "none",
+                  "separation": "none"
+                },
+                {
+                  "type": "TextBlock",
+                  "id": "Hours",
+                  "color": "dark",
+                  "isSubtle": true,
+                  "text": "",
+                  "wrap": true,
+                  "spacing": "none",
+                  "separation": "none"
+                }
+              ],
+              "separator": true
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "Image",
+                  "url": "https://fastly.4sqi.net/img/general/1080x1080/47648185_faeBXNpW3Di4XRyUefHdYSbj33o65oFRLzUC7xOPh38.jpg"
+                }
+              ],
+              "separator": true
+            },
+            {
+              "type": "Container",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "20",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "22 min",
+                          "horizontalAlignment": "center"
+                        }
+                      ],
+                      "style": "emphasis",
+                      "verticalContentAlignment": "Center"
+                    },
+                    {
+                      "type": "Column",
+                      "width": "60",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "Less than a minute delay"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "text": "**ETA** 8:38 PM"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    },
+                    {
+                      "type": "Column",
+                      "width": "20",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "size": "medium",
+                          "text": "16.8 mi",
+                          "horizontalAlignment": "center"
+                        }
+                      ],
+                      "verticalContentAlignment": "Center"
+                    }
+                  ]
+                }
+              ],
+              "separator": true
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "8dbf26a0-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:16:07-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "id": "909f6330-3fc6-11e9-929d-a5dd668ef931",
+    "timestamp": "2019-03-06T04:16:07.395Z",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "text": "Shall we get started?",
+    "speak": "Shall we get started?",
+    "inputHint": "expectingInput",
+    "suggestedActions": {
+      "actions": [
+        {
+          "type": "imBack",
+          "title": "Yes",
+          "value": "Yes"
+        },
+        {
+          "type": "imBack",
+          "title": "No",
+          "value": "No"
+        }
+      ]
+    },
+    "attachments": [],
+    "replyToId": "8dbf26a0-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:16:07-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "text": "yes",
+    "from": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "textFormat": "plain",
+    "timestamp": "2019-03-06T04:16:11.997Z",
+    "channelData": {
+      "clientActivityId": "1551845699295.8230019306890941.8"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "id": "935d98d0-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:16:11-08:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:54510"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "935d98d0-3fc6-11e9-929d-a5dd668ef931",
+    "id": "94266710-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:16:13-08:00",
+    "timestamp": "2019-03-06T04:16:13.313Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "935d98d0-3fc6-11e9-929d-a5dd668ef931",
+    "id": "9581d860-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:16:15-08:00",
+    "timestamp": "2019-03-06T04:16:15.590Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "95f9c780-3fc6-11e9-929d-a5dd668ef931",
+    "timestamp": "2019-03-06T04:16:16.376Z",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "935d98d0-3fc6-11e9-929d-a5dd668ef931",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "yes",
+        "alteredText": null,
+        "intents": {
+          "None": {
+            "score": 0.97148
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "f3169954-5299-4d58-8603-c56a3e13a64b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "yes",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "None",
+          "score": 0.97148
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-03-05T20:16:16-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "id": "96162920-3fc6-11e9-929d-a5dd668ef931",
+    "timestamp": "2019-03-06T04:16:16.562Z",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "replyToId": "935d98d0-3fc6-11e9-929d-a5dd668ef931",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "yes",
+        "alteredText": null,
+        "intents": {
+          "Cancel": {
+            "score": 0.0693425462
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "a60f2684-d7c4-42db-9e4a-c3d718b8989b"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "yes",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Cancel",
+          "score": 0.0693425462
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "localTimestamp": "2019-03-05T20:16:16-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "id": "96274020-3fc6-11e9-929d-a5dd668ef931",
+    "timestamp": "2019-03-06T04:16:16.674Z",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "text": "I'm sending you the route details.",
+    "speak": "I'm sending you the route details.",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "replyToId": "935d98d0-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:16:16-08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "event",
+    "id": "963a7a00-3fc6-11e9-929d-a5dd668ef931",
+    "timestamp": "2019-03-06T04:16:16.800Z",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "locale": "en-us",
+    "text": "",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "935d98d0-3fc6-11e9-929d-a5dd668ef931",
+    "value": {
+      "Destination": {
+        "Id": "4c086909009a0f47202be6bf",
+        "ImageUrl": "https://fastly.4sqi.net/img/general/1080x1080/47648185_faeBXNpW3Di4XRyUefHdYSbj33o65oFRLzUC7xOPh38.jpg",
+        "Name": "Nara Chinese Restaurant",
+        "City": "Shoreline",
+        "Street": "15033 Aurora Ave N",
+        "Geolocation": {
+          "lat": 47.73839569091797,
+          "lon": -122.34622955322266
+        },
+        "Rating": "7.4",
+        "RatingCount": 12,
+        "Price": 1,
+        "Category": "Chinese",
+        "Provider": "Foursquare",
+        "Index": 3,
+        "AvailableDetails": "Chinese · 7.4 ⭐ (12) · $"
+      },
+      "Route": {
+        "Summary": {
+          "LengthInMeters": 27091,
+          "TravelTimeInSeconds": 1323,
+          "TrafficDelayInSeconds": 0,
+          "DepartureTime": "2019-03-06T04:16:05Z",
+          "ArrivalTime": "2019-03-06T04:38:07Z"
+        },
+        "Legs": [
+          {
+            "Summary": {
+              "LengthInMeters": 27091,
+              "TravelTimeInSeconds": 1323,
+              "TrafficDelayInSeconds": 0,
+              "DepartureTime": "2019-03-06T04:16:05Z",
+              "ArrivalTime": "2019-03-06T04:38:07Z"
+            },
+            "Points": [
+              {
+                "Latitude": 47.61429,
+                "Longitude": -122.194748
+              },
+              {
+                "Latitude": 47.6143,
+                "Longitude": -122.19516
+              },
+              {
+                "Latitude": 47.614,
+                "Longitude": -122.195129
+              },
+              {
+                "Latitude": 47.61395,
+                "Longitude": -122.194977
+              },
+              {
+                "Latitude": 47.61392,
+                "Longitude": -122.194962
+              },
+              {
+                "Latitude": 47.61373,
+                "Longitude": -122.194946
+              },
+              {
+                "Latitude": 47.61372,
+                "Longitude": -122.194038
+              },
+              {
+                "Latitude": 47.61372,
+                "Longitude": -122.1936
+              },
+              {
+                "Latitude": 47.61371,
+                "Longitude": -122.1935
+              },
+              {
+                "Latitude": 47.61371,
+                "Longitude": -122.193077
+              },
+              {
+                "Latitude": 47.61371,
+                "Longitude": -122.192307
+              },
+              {
+                "Latitude": 47.61371,
+                "Longitude": -122.19165
+              },
+              {
+                "Latitude": 47.61369,
+                "Longitude": -122.190941
+              },
+              {
+                "Latitude": 47.61369,
+                "Longitude": -122.190376
+              },
+              {
+                "Latitude": 47.61369,
+                "Longitude": -122.190163
+              },
+              {
+                "Latitude": 47.61368,
+                "Longitude": -122.190079
+              },
+              {
+                "Latitude": 47.61364,
+                "Longitude": -122.189941
+              },
+              {
+                "Latitude": 47.61363,
+                "Longitude": -122.189934
+              },
+              {
+                "Latitude": 47.61362,
+                "Longitude": -122.189857
+              },
+              {
+                "Latitude": 47.61358,
+                "Longitude": -122.189484
+              },
+              {
+                "Latitude": 47.61353,
+                "Longitude": -122.1893
+              },
+              {
+                "Latitude": 47.61352,
+                "Longitude": -122.18924
+              },
+              {
+                "Latitude": 47.6135,
+                "Longitude": -122.189148
+              },
+              {
+                "Latitude": 47.61344,
+                "Longitude": -122.188881
+              },
+              {
+                "Latitude": 47.61339,
+                "Longitude": -122.188713
+              },
+              {
+                "Latitude": 47.61336,
+                "Longitude": -122.188583
+              },
+              {
+                "Latitude": 47.61334,
+                "Longitude": -122.188477
+              },
+              {
+                "Latitude": 47.61325,
+                "Longitude": -122.188148
+              },
+              {
+                "Latitude": 47.61339,
+                "Longitude": -122.188141
+              },
+              {
+                "Latitude": 47.61383,
+                "Longitude": -122.188171
+              },
+              {
+                "Latitude": 47.61443,
+                "Longitude": -122.188263
+              },
+              {
+                "Latitude": 47.61475,
+                "Longitude": -122.188278
+              },
+              {
+                "Latitude": 47.61501,
+                "Longitude": -122.1883
+              },
+              {
+                "Latitude": 47.61559,
+                "Longitude": -122.188332
+              },
+              {
+                "Latitude": 47.61613,
+                "Longitude": -122.1885
+              },
+              {
+                "Latitude": 47.61622,
+                "Longitude": -122.188507
+              },
+              {
+                "Latitude": 47.61659,
+                "Longitude": -122.1885
+              },
+              {
+                "Latitude": 47.61724,
+                "Longitude": -122.188507
+              },
+              {
+                "Latitude": 47.61733,
+                "Longitude": -122.188507
+              },
+              {
+                "Latitude": 47.61739,
+                "Longitude": -122.188507
+              },
+              {
+                "Latitude": 47.61835,
+                "Longitude": -122.188553
+              },
+              {
+                "Latitude": 47.61891,
+                "Longitude": -122.18856
+              },
+              {
+                "Latitude": 47.61922,
+                "Longitude": -122.188568
+              },
+              {
+                "Latitude": 47.62184,
+                "Longitude": -122.188568
+              },
+              {
+                "Latitude": 47.62193,
+                "Longitude": -122.188583
+              },
+              {
+                "Latitude": 47.62198,
+                "Longitude": -122.188583
+              },
+              {
+                "Latitude": 47.62265,
+                "Longitude": -122.188438
+              },
+              {
+                "Latitude": 47.62344,
+                "Longitude": -122.18837
+              },
+              {
+                "Latitude": 47.62406,
+                "Longitude": -122.188248
+              },
+              {
+                "Latitude": 47.62504,
+                "Longitude": -122.188057
+              },
+              {
+                "Latitude": 47.62528,
+                "Longitude": -122.188049
+              },
+              {
+                "Latitude": 47.6255,
+                "Longitude": -122.188026
+              },
+              {
+                "Latitude": 47.6272,
+                "Longitude": -122.188042
+              },
+              {
+                "Latitude": 47.62769,
+                "Longitude": -122.188072
+              },
+              {
+                "Latitude": 47.62856,
+                "Longitude": -122.188072
+              },
+              {
+                "Latitude": 47.62885,
+                "Longitude": -122.187981
+              },
+              {
+                "Latitude": 47.62934,
+                "Longitude": -122.1879
+              },
+              {
+                "Latitude": 47.62979,
+                "Longitude": -122.187988
+              },
+              {
+                "Latitude": 47.63014,
+                "Longitude": -122.1883
+              },
+              {
+                "Latitude": 47.6302,
+                "Longitude": -122.188393
+              },
+              {
+                "Latitude": 47.63026,
+                "Longitude": -122.188492
+              },
+              {
+                "Latitude": 47.63031,
+                "Longitude": -122.188583
+              },
+              {
+                "Latitude": 47.63074,
+                "Longitude": -122.189438
+              },
+              {
+                "Latitude": 47.63106,
+                "Longitude": -122.189827
+              },
+              {
+                "Latitude": 47.63118,
+                "Longitude": -122.189941
+              },
+              {
+                "Latitude": 47.6312,
+                "Longitude": -122.189957
+              },
+              {
+                "Latitude": 47.6316,
+                "Longitude": -122.1902
+              },
+              {
+                "Latitude": 47.63216,
+                "Longitude": -122.190262
+              },
+              {
+                "Latitude": 47.63272,
+                "Longitude": -122.190079
+              },
+              {
+                "Latitude": 47.63295,
+                "Longitude": -122.189941
+              },
+              {
+                "Latitude": 47.63312,
+                "Longitude": -122.189857
+              },
+              {
+                "Latitude": 47.63329,
+                "Longitude": -122.189789
+              },
+              {
+                "Latitude": 47.63339,
+                "Longitude": -122.189774
+              },
+              {
+                "Latitude": 47.63384,
+                "Longitude": -122.189827
+              },
+              {
+                "Latitude": 47.63403,
+                "Longitude": -122.189941
+              },
+              {
+                "Latitude": 47.63407,
+                "Longitude": -122.189972
+              },
+              {
+                "Latitude": 47.63444,
+                "Longitude": -122.190369
+              },
+              {
+                "Latitude": 47.63476,
+                "Longitude": -122.1908
+              },
+              {
+                "Latitude": 47.63541,
+                "Longitude": -122.191483
+              },
+              {
+                "Latitude": 47.63586,
+                "Longitude": -122.191788
+              },
+              {
+                "Latitude": 47.63612,
+                "Longitude": -122.191978
+              },
+              {
+                "Latitude": 47.63672,
+                "Longitude": -122.192543
+              },
+              {
+                "Latitude": 47.63705,
+                "Longitude": -122.192848
+              },
+              {
+                "Latitude": 47.63772,
+                "Longitude": -122.193611
+              },
+              {
+                "Latitude": 47.63797,
+                "Longitude": -122.193932
+              },
+              {
+                "Latitude": 47.63911,
+                "Longitude": -122.195107
+              },
+              {
+                "Latitude": 47.63978,
+                "Longitude": -122.195839
+              },
+              {
+                "Latitude": 47.6401,
+                "Longitude": -122.196274
+              },
+              {
+                "Latitude": 47.64023,
+                "Longitude": -122.196426
+              },
+              {
+                "Latitude": 47.64026,
+                "Longitude": -122.196487
+              },
+              {
+                "Latitude": 47.64083,
+                "Longitude": -122.197372
+              },
+              {
+                "Latitude": 47.64141,
+                "Longitude": -122.198441
+              },
+              {
+                "Latitude": 47.64157,
+                "Longitude": -122.198769
+              },
+              {
+                "Latitude": 47.64202,
+                "Longitude": -122.19989
+              },
+              {
+                "Latitude": 47.64244,
+                "Longitude": -122.201317
+              },
+              {
+                "Latitude": 47.64246,
+                "Longitude": -122.201408
+              },
+              {
+                "Latitude": 47.64247,
+                "Longitude": -122.2015
+              },
+              {
+                "Latitude": 47.64248,
+                "Longitude": -122.201576
+              },
+              {
+                "Latitude": 47.64256,
+                "Longitude": -122.201958
+              },
+              {
+                "Latitude": 47.64281,
+                "Longitude": -122.203873
+              },
+              {
+                "Latitude": 47.64286,
+                "Longitude": -122.204231
+              },
+              {
+                "Latitude": 47.64293,
+                "Longitude": -122.204758
+              },
+              {
+                "Latitude": 47.64311,
+                "Longitude": -122.206253
+              },
+              {
+                "Latitude": 47.64318,
+                "Longitude": -122.207161
+              },
+              {
+                "Latitude": 47.64319,
+                "Longitude": -122.207336
+              },
+              {
+                "Latitude": 47.64316,
+                "Longitude": -122.208351
+              },
+              {
+                "Latitude": 47.64298,
+                "Longitude": -122.209763
+              },
+              {
+                "Latitude": 47.64293,
+                "Longitude": -122.21003
+              },
+              {
+                "Latitude": 47.64259,
+                "Longitude": -122.211311
+              },
+              {
+                "Latitude": 47.64253,
+                "Longitude": -122.211479
+              },
+              {
+                "Latitude": 47.64239,
+                "Longitude": -122.211906
+              },
+              {
+                "Latitude": 47.64229,
+                "Longitude": -122.2123
+              },
+              {
+                "Latitude": 47.64222,
+                "Longitude": -122.212509
+              },
+              {
+                "Latitude": 47.64202,
+                "Longitude": -122.213158
+              },
+              {
+                "Latitude": 47.64169,
+                "Longitude": -122.214256
+              },
+              {
+                "Latitude": 47.64071,
+                "Longitude": -122.217407
+              },
+              {
+                "Latitude": 47.64063,
+                "Longitude": -122.217651
+              },
+              {
+                "Latitude": 47.64056,
+                "Longitude": -122.21788
+              },
+              {
+                "Latitude": 47.64014,
+                "Longitude": -122.219116
+              },
+              {
+                "Latitude": 47.63993,
+                "Longitude": -122.219643
+              },
+              {
+                "Latitude": 47.63926,
+                "Longitude": -122.220917
+              },
+              {
+                "Latitude": 47.63794,
+                "Longitude": -122.2228
+              },
+              {
+                "Latitude": 47.63763,
+                "Longitude": -122.223244
+              },
+              {
+                "Latitude": 47.63703,
+                "Longitude": -122.224243
+              },
+              {
+                "Latitude": 47.63672,
+                "Longitude": -122.225037
+              },
+              {
+                "Latitude": 47.63653,
+                "Longitude": -122.2255
+              },
+              {
+                "Latitude": 47.6361,
+                "Longitude": -122.22718
+              },
+              {
+                "Latitude": 47.63605,
+                "Longitude": -122.2274
+              },
+              {
+                "Latitude": 47.63601,
+                "Longitude": -122.2277
+              },
+              {
+                "Latitude": 47.636,
+                "Longitude": -122.227882
+              },
+              {
+                "Latitude": 47.63599,
+                "Longitude": -122.228012
+              },
+              {
+                "Latitude": 47.63597,
+                "Longitude": -122.228256
+              },
+              {
+                "Latitude": 47.636,
+                "Longitude": -122.229584
+              },
+              {
+                "Latitude": 47.63618,
+                "Longitude": -122.231293
+              },
+              {
+                "Latitude": 47.6364,
+                "Longitude": -122.2325
+              },
+              {
+                "Latitude": 47.63647,
+                "Longitude": -122.232948
+              },
+              {
+                "Latitude": 47.63654,
+                "Longitude": -122.233307
+              },
+              {
+                "Latitude": 47.63663,
+                "Longitude": -122.23381
+              },
+              {
+                "Latitude": 47.63664,
+                "Longitude": -122.233887
+              },
+              {
+                "Latitude": 47.63672,
+                "Longitude": -122.23423
+              },
+              {
+                "Latitude": 47.63675,
+                "Longitude": -122.234428
+              },
+              {
+                "Latitude": 47.63688,
+                "Longitude": -122.235123
+              },
+              {
+                "Latitude": 47.63697,
+                "Longitude": -122.235588
+              },
+              {
+                "Latitude": 47.6375,
+                "Longitude": -122.238487
+              },
+              {
+                "Latitude": 47.6379,
+                "Longitude": -122.240257
+              },
+              {
+                "Latitude": 47.63817,
+                "Longitude": -122.241623
+              },
+              {
+                "Latitude": 47.63826,
+                "Longitude": -122.242126
+              },
+              {
+                "Latitude": 47.63898,
+                "Longitude": -122.2467
+              },
+              {
+                "Latitude": 47.64039,
+                "Longitude": -122.255859
+              },
+              {
+                "Latitude": 47.64043,
+                "Longitude": -122.256142
+              },
+              {
+                "Latitude": 47.64101,
+                "Longitude": -122.259911
+              },
+              {
+                "Latitude": 47.64118,
+                "Longitude": -122.261063
+              },
+              {
+                "Latitude": 47.64144,
+                "Longitude": -122.262772
+              },
+              {
+                "Latitude": 47.64191,
+                "Longitude": -122.265877
+              },
+              {
+                "Latitude": 47.64213,
+                "Longitude": -122.267258
+              },
+              {
+                "Latitude": 47.64251,
+                "Longitude": -122.269836
+              },
+              {
+                "Latitude": 47.64272,
+                "Longitude": -122.271019
+              },
+              {
+                "Latitude": 47.64342,
+                "Longitude": -122.275238
+              },
+              {
+                "Latitude": 47.64384,
+                "Longitude": -122.277267
+              },
+              {
+                "Latitude": 47.64395,
+                "Longitude": -122.277832
+              },
+              {
+                "Latitude": 47.644,
+                "Longitude": -122.2781
+              },
+              {
+                "Latitude": 47.64446,
+                "Longitude": -122.280563
+              },
+              {
+                "Latitude": 47.64459,
+                "Longitude": -122.28199
+              },
+              {
+                "Latitude": 47.64478,
+                "Longitude": -122.284668
+              },
+              {
+                "Latitude": 47.64481,
+                "Longitude": -122.285332
+              },
+              {
+                "Latitude": 47.6449,
+                "Longitude": -122.287514
+              },
+              {
+                "Latitude": 47.64493,
+                "Longitude": -122.2879
+              },
+              {
+                "Latitude": 47.64496,
+                "Longitude": -122.28849
+              },
+              {
+                "Latitude": 47.64498,
+                "Longitude": -122.288887
+              },
+              {
+                "Latitude": 47.64501,
+                "Longitude": -122.289543
+              },
+              {
+                "Latitude": 47.64507,
+                "Longitude": -122.29052
+              },
+              {
+                "Latitude": 47.64511,
+                "Longitude": -122.2911
+              },
+              {
+                "Latitude": 47.64512,
+                "Longitude": -122.29129
+              },
+              {
+                "Latitude": 47.64517,
+                "Longitude": -122.2921
+              },
+              {
+                "Latitude": 47.64532,
+                "Longitude": -122.294159
+              },
+              {
+                "Latitude": 47.64532,
+                "Longitude": -122.296539
+              },
+              {
+                "Latitude": 47.64517,
+                "Longitude": -122.298393
+              },
+              {
+                "Latitude": 47.64514,
+                "Longitude": -122.298714
+              },
+              {
+                "Latitude": 47.6451,
+                "Longitude": -122.299049
+              },
+              {
+                "Latitude": 47.64502,
+                "Longitude": -122.299583
+              },
+              {
+                "Latitude": 47.64498,
+                "Longitude": -122.2998
+              },
+              {
+                "Latitude": 47.64473,
+                "Longitude": -122.301178
+              },
+              {
+                "Latitude": 47.64462,
+                "Longitude": -122.302078
+              },
+              {
+                "Latitude": 47.64456,
+                "Longitude": -122.302681
+              },
+              {
+                "Latitude": 47.64454,
+                "Longitude": -122.302872
+              },
+              {
+                "Latitude": 47.64442,
+                "Longitude": -122.304329
+              },
+              {
+                "Latitude": 47.64439,
+                "Longitude": -122.304489
+              },
+              {
+                "Latitude": 47.64438,
+                "Longitude": -122.304573
+              },
+              {
+                "Latitude": 47.64412,
+                "Longitude": -122.305763
+              },
+              {
+                "Latitude": 47.64394,
+                "Longitude": -122.3066
+              },
+              {
+                "Latitude": 47.64354,
+                "Longitude": -122.308144
+              },
+              {
+                "Latitude": 47.64348,
+                "Longitude": -122.308472
+              },
+              {
+                "Latitude": 47.64341,
+                "Longitude": -122.308777
+              },
+              {
+                "Latitude": 47.64338,
+                "Longitude": -122.30896
+              },
+              {
+                "Latitude": 47.64322,
+                "Longitude": -122.310341
+              },
+              {
+                "Latitude": 47.6432,
+                "Longitude": -122.31105
+              },
+              {
+                "Latitude": 47.64315,
+                "Longitude": -122.313713
+              },
+              {
+                "Latitude": 47.64306,
+                "Longitude": -122.315277
+              },
+              {
+                "Latitude": 47.64297,
+                "Longitude": -122.316223
+              },
+              {
+                "Latitude": 47.64296,
+                "Longitude": -122.316391
+              },
+              {
+                "Latitude": 47.64293,
+                "Longitude": -122.316719
+              },
+              {
+                "Latitude": 47.6429,
+                "Longitude": -122.317947
+              },
+              {
+                "Latitude": 47.64286,
+                "Longitude": -122.318443
+              },
+              {
+                "Latitude": 47.64276,
+                "Longitude": -122.319283
+              },
+              {
+                "Latitude": 47.64275,
+                "Longitude": -122.319366
+              },
+              {
+                "Latitude": 47.64268,
+                "Longitude": -122.320084
+              },
+              {
+                "Latitude": 47.64264,
+                "Longitude": -122.320427
+              },
+              {
+                "Latitude": 47.6426,
+                "Longitude": -122.320869
+              },
+              {
+                "Latitude": 47.64259,
+                "Longitude": -122.321159
+              },
+              {
+                "Latitude": 47.64259,
+                "Longitude": -122.321213
+              },
+              {
+                "Latitude": 47.64265,
+                "Longitude": -122.321663
+              },
+              {
+                "Latitude": 47.64271,
+                "Longitude": -122.321777
+              },
+              {
+                "Latitude": 47.64287,
+                "Longitude": -122.3221
+              },
+              {
+                "Latitude": 47.64291,
+                "Longitude": -122.322159
+              },
+              {
+                "Latitude": 47.64318,
+                "Longitude": -122.322357
+              },
+              {
+                "Latitude": 47.64408,
+                "Longitude": -122.32251
+              },
+              {
+                "Latitude": 47.64427,
+                "Longitude": -122.32251
+              },
+              {
+                "Latitude": 47.64554,
+                "Longitude": -122.322456
+              },
+              {
+                "Latitude": 47.64654,
+                "Longitude": -122.322456
+              },
+              {
+                "Latitude": 47.64691,
+                "Longitude": -122.322441
+              },
+              {
+                "Latitude": 47.6472,
+                "Longitude": -122.322441
+              },
+              {
+                "Latitude": 47.64783,
+                "Longitude": -122.322433
+              },
+              {
+                "Latitude": 47.64847,
+                "Longitude": -122.322441
+              },
+              {
+                "Latitude": 47.64871,
+                "Longitude": -122.322441
+              },
+              {
+                "Latitude": 47.65001,
+                "Longitude": -122.322418
+              },
+              {
+                "Latitude": 47.6502,
+                "Longitude": -122.322418
+              },
+              {
+                "Latitude": 47.65194,
+                "Longitude": -122.3224
+              },
+              {
+                "Latitude": 47.65236,
+                "Longitude": -122.322388
+              },
+              {
+                "Latitude": 47.65297,
+                "Longitude": -122.32238
+              },
+              {
+                "Latitude": 47.65372,
+                "Longitude": -122.322372
+              },
+              {
+                "Latitude": 47.65444,
+                "Longitude": -122.32235
+              },
+              {
+                "Latitude": 47.65454,
+                "Longitude": -122.32235
+              },
+              {
+                "Latitude": 47.65542,
+                "Longitude": -122.322311
+              },
+              {
+                "Latitude": 47.65553,
+                "Longitude": -122.322311
+              },
+              {
+                "Latitude": 47.65591,
+                "Longitude": -122.322311
+              },
+              {
+                "Latitude": 47.6563,
+                "Longitude": -122.322289
+              },
+              {
+                "Latitude": 47.65636,
+                "Longitude": -122.322281
+              },
+              {
+                "Latitude": 47.65646,
+                "Longitude": -122.322281
+              },
+              {
+                "Latitude": 47.65661,
+                "Longitude": -122.322281
+              },
+              {
+                "Latitude": 47.65708,
+                "Longitude": -122.322258
+              },
+              {
+                "Latitude": 47.65833,
+                "Longitude": -122.3222
+              },
+              {
+                "Latitude": 47.65869,
+                "Longitude": -122.322166
+              },
+              {
+                "Latitude": 47.65899,
+                "Longitude": -122.322159
+              },
+              {
+                "Latitude": 47.6595,
+                "Longitude": -122.322121
+              },
+              {
+                "Latitude": 47.66053,
+                "Longitude": -122.322021
+              },
+              {
+                "Latitude": 47.66127,
+                "Longitude": -122.321968
+              },
+              {
+                "Latitude": 47.66136,
+                "Longitude": -122.32196
+              },
+              {
+                "Latitude": 47.66251,
+                "Longitude": -122.321861
+              },
+              {
+                "Latitude": 47.66443,
+                "Longitude": -122.321793
+              },
+              {
+                "Latitude": 47.66472,
+                "Longitude": -122.321793
+              },
+              {
+                "Latitude": 47.66474,
+                "Longitude": -122.321777
+              },
+              {
+                "Latitude": 47.66498,
+                "Longitude": -122.321777
+              },
+              {
+                "Latitude": 47.66518,
+                "Longitude": -122.321777
+              },
+              {
+                "Latitude": 47.66567,
+                "Longitude": -122.32177
+              },
+              {
+                "Latitude": 47.66786,
+                "Longitude": -122.321747
+              },
+              {
+                "Latitude": 47.66814,
+                "Longitude": -122.321747
+              },
+              {
+                "Latitude": 47.66876,
+                "Longitude": -122.321762
+              },
+              {
+                "Latitude": 47.67022,
+                "Longitude": -122.321716
+              },
+              {
+                "Latitude": 47.67081,
+                "Longitude": -122.321678
+              },
+              {
+                "Latitude": 47.6724,
+                "Longitude": -122.32135
+              },
+              {
+                "Latitude": 47.67404,
+                "Longitude": -122.320869
+              },
+              {
+                "Latitude": 47.67418,
+                "Longitude": -122.320824
+              },
+              {
+                "Latitude": 47.67462,
+                "Longitude": -122.3207
+              },
+              {
+                "Latitude": 47.67503,
+                "Longitude": -122.320618
+              },
+              {
+                "Latitude": 47.67586,
+                "Longitude": -122.3205
+              },
+              {
+                "Latitude": 47.67682,
+                "Longitude": -122.320412
+              },
+              {
+                "Latitude": 47.67697,
+                "Longitude": -122.320427
+              },
+              {
+                "Latitude": 47.67706,
+                "Longitude": -122.320427
+              },
+              {
+                "Latitude": 47.67792,
+                "Longitude": -122.320473
+              },
+              {
+                "Latitude": 47.67956,
+                "Longitude": -122.320534
+              },
+              {
+                "Latitude": 47.68042,
+                "Longitude": -122.32058
+              },
+              {
+                "Latitude": 47.68066,
+                "Longitude": -122.32061
+              },
+              {
+                "Latitude": 47.68119,
+                "Longitude": -122.320686
+              },
+              {
+                "Latitude": 47.68192,
+                "Longitude": -122.320953
+              },
+              {
+                "Latitude": 47.68286,
+                "Longitude": -122.32151
+              },
+              {
+                "Latitude": 47.68323,
+                "Longitude": -122.321777
+              },
+              {
+                "Latitude": 47.68334,
+                "Longitude": -122.321869
+              },
+              {
+                "Latitude": 47.68372,
+                "Longitude": -122.32222
+              },
+              {
+                "Latitude": 47.68433,
+                "Longitude": -122.322906
+              },
+              {
+                "Latitude": 47.6845,
+                "Longitude": -122.32312
+              },
+              {
+                "Latitude": 47.68547,
+                "Longitude": -122.324364
+              },
+              {
+                "Latitude": 47.68585,
+                "Longitude": -122.32486
+              },
+              {
+                "Latitude": 47.68675,
+                "Longitude": -122.325989
+              },
+              {
+                "Latitude": 47.68679,
+                "Longitude": -122.32605
+              },
+              {
+                "Latitude": 47.68791,
+                "Longitude": -122.327423
+              },
+              {
+                "Latitude": 47.68866,
+                "Longitude": -122.3281
+              },
+              {
+                "Latitude": 47.6893,
+                "Longitude": -122.328529
+              },
+              {
+                "Latitude": 47.69029,
+                "Longitude": -122.328934
+              },
+              {
+                "Latitude": 47.69065,
+                "Longitude": -122.329018
+              },
+              {
+                "Latitude": 47.69094,
+                "Longitude": -122.329071
+              },
+              {
+                "Latitude": 47.69303,
+                "Longitude": -122.329086
+              },
+              {
+                "Latitude": 47.69325,
+                "Longitude": -122.329079
+              },
+              {
+                "Latitude": 47.6952,
+                "Longitude": -122.329063
+              },
+              {
+                "Latitude": 47.69563,
+                "Longitude": -122.329063
+              },
+              {
+                "Latitude": 47.69591,
+                "Longitude": -122.329063
+              },
+              {
+                "Latitude": 47.70169,
+                "Longitude": -122.329353
+              },
+              {
+                "Latitude": 47.70214,
+                "Longitude": -122.329369
+              },
+              {
+                "Latitude": 47.70224,
+                "Longitude": -122.329376
+              },
+              {
+                "Latitude": 47.70236,
+                "Longitude": -122.329391
+              },
+              {
+                "Latitude": 47.70264,
+                "Longitude": -122.329407
+              },
+              {
+                "Latitude": 47.70336,
+                "Longitude": -122.32946
+              },
+              {
+                "Latitude": 47.70418,
+                "Longitude": -122.3295
+              },
+              {
+                "Latitude": 47.70542,
+                "Longitude": -122.32962
+              },
+              {
+                "Latitude": 47.70825,
+                "Longitude": -122.329773
+              },
+              {
+                "Latitude": 47.70863,
+                "Longitude": -122.329781
+              },
+              {
+                "Latitude": 47.70867,
+                "Longitude": -122.329781
+              },
+              {
+                "Latitude": 47.70945,
+                "Longitude": -122.329727
+              },
+              {
+                "Latitude": 47.71024,
+                "Longitude": -122.329521
+              },
+              {
+                "Latitude": 47.71099,
+                "Longitude": -122.329163
+              },
+              {
+                "Latitude": 47.71224,
+                "Longitude": -122.328262
+              },
+              {
+                "Latitude": 47.71264,
+                "Longitude": -122.327942
+              },
+              {
+                "Latitude": 47.71358,
+                "Longitude": -122.327179
+              },
+              {
+                "Latitude": 47.71399,
+                "Longitude": -122.326859
+              },
+              {
+                "Latitude": 47.71425,
+                "Longitude": -122.326653
+              },
+              {
+                "Latitude": 47.71597,
+                "Longitude": -122.325287
+              },
+              {
+                "Latitude": 47.71666,
+                "Longitude": -122.3249
+              },
+              {
+                "Latitude": 47.71771,
+                "Longitude": -122.324471
+              },
+              {
+                "Latitude": 47.71857,
+                "Longitude": -122.324318
+              },
+              {
+                "Latitude": 47.71936,
+                "Longitude": -122.324226
+              },
+              {
+                "Latitude": 47.72009,
+                "Longitude": -122.324219
+              },
+              {
+                "Latitude": 47.72316,
+                "Longitude": -122.324211
+              },
+              {
+                "Latitude": 47.72319,
+                "Longitude": -122.324211
+              },
+              {
+                "Latitude": 47.72356,
+                "Longitude": -122.324211
+              },
+              {
+                "Latitude": 47.72461,
+                "Longitude": -122.3242
+              },
+              {
+                "Latitude": 47.72665,
+                "Longitude": -122.324188
+              },
+              {
+                "Latitude": 47.72884,
+                "Longitude": -122.324173
+              },
+              {
+                "Latitude": 47.72928,
+                "Longitude": -122.324173
+              },
+              {
+                "Latitude": 47.72978,
+                "Longitude": -122.32402
+              },
+              {
+                "Latitude": 47.73041,
+                "Longitude": -122.323929
+              },
+              {
+                "Latitude": 47.73181,
+                "Longitude": -122.323929
+              },
+              {
+                "Latitude": 47.73219,
+                "Longitude": -122.323982
+              },
+              {
+                "Latitude": 47.73309,
+                "Longitude": -122.32386
+              },
+              {
+                "Latitude": 47.73325,
+                "Longitude": -122.323936
+              },
+              {
+                "Latitude": 47.73393,
+                "Longitude": -122.324471
+              },
+              {
+                "Latitude": 47.73406,
+                "Longitude": -122.324516
+              },
+              {
+                "Latitude": 47.7346,
+                "Longitude": -122.324753
+              },
+              {
+                "Latitude": 47.73496,
+                "Longitude": -122.324791
+              },
+              {
+                "Latitude": 47.73507,
+                "Longitude": -122.324707
+              },
+              {
+                "Latitude": 47.7351,
+                "Longitude": -122.324654
+              },
+              {
+                "Latitude": 47.73516,
+                "Longitude": -122.3245
+              },
+              {
+                "Latitude": 47.73517,
+                "Longitude": -122.324409
+              },
+              {
+                "Latitude": 47.73517,
+                "Longitude": -122.323921
+              },
+              {
+                "Latitude": 47.73517,
+                "Longitude": -122.323631
+              },
+              {
+                "Latitude": 47.73517,
+                "Longitude": -122.3235
+              },
+              {
+                "Latitude": 47.73524,
+                "Longitude": -122.3235
+              },
+              {
+                "Latitude": 47.73543,
+                "Longitude": -122.323486
+              },
+              {
+                "Latitude": 47.73561,
+                "Longitude": -122.323486
+              },
+              {
+                "Latitude": 47.73563,
+                "Longitude": -122.323486
+              },
+              {
+                "Latitude": 47.73569,
+                "Longitude": -122.323547
+              },
+              {
+                "Latitude": 47.7363,
+                "Longitude": -122.323563
+              },
+              {
+                "Latitude": 47.73648,
+                "Longitude": -122.32357
+              },
+              {
+                "Latitude": 47.73725,
+                "Longitude": -122.323593
+              },
+              {
+                "Latitude": 47.73821,
+                "Longitude": -122.323608
+              },
+              {
+                "Latitude": 47.73888,
+                "Longitude": -122.323631
+              },
+              {
+                "Latitude": 47.73902,
+                "Longitude": -122.323631
+              },
+              {
+                "Latitude": 47.73987,
+                "Longitude": -122.323647
+              },
+              {
+                "Latitude": 47.74091,
+                "Longitude": -122.3237
+              },
+              {
+                "Latitude": 47.74131,
+                "Longitude": -122.323708
+              },
+              {
+                "Latitude": 47.74131,
+                "Longitude": -122.324318
+              },
+              {
+                "Latitude": 47.74132,
+                "Longitude": -122.325577
+              },
+              {
+                "Latitude": 47.74134,
+                "Longitude": -122.326431
+              },
+              {
+                "Latitude": 47.74134,
+                "Longitude": -122.3268
+              },
+              {
+                "Latitude": 47.74135,
+                "Longitude": -122.326958
+              },
+              {
+                "Latitude": 47.74136,
+                "Longitude": -122.328346
+              },
+              {
+                "Latitude": 47.74137,
+                "Longitude": -122.32901
+              },
+              {
+                "Latitude": 47.74137,
+                "Longitude": -122.329277
+              },
+              {
+                "Latitude": 47.74138,
+                "Longitude": -122.329887
+              },
+              {
+                "Latitude": 47.7414,
+                "Longitude": -122.33181
+              },
+              {
+                "Latitude": 47.74141,
+                "Longitude": -122.3324
+              },
+              {
+                "Latitude": 47.74141,
+                "Longitude": -122.332787
+              },
+              {
+                "Latitude": 47.74141,
+                "Longitude": -122.332893
+              },
+              {
+                "Latitude": 47.74141,
+                "Longitude": -122.333031
+              },
+              {
+                "Latitude": 47.74141,
+                "Longitude": -122.33326
+              },
+              {
+                "Latitude": 47.74142,
+                "Longitude": -122.333893
+              },
+              {
+                "Latitude": 47.74142,
+                "Longitude": -122.3345
+              },
+              {
+                "Latitude": 47.74142,
+                "Longitude": -122.335068
+              },
+              {
+                "Latitude": 47.74142,
+                "Longitude": -122.335663
+              },
+              {
+                "Latitude": 47.74142,
+                "Longitude": -122.335831
+              },
+              {
+                "Latitude": 47.74142,
+                "Longitude": -122.33593
+              },
+              {
+                "Latitude": 47.74143,
+                "Longitude": -122.337173
+              },
+              {
+                "Latitude": 47.74143,
+                "Longitude": -122.338547
+              },
+              {
+                "Latitude": 47.74143,
+                "Longitude": -122.3389
+              },
+              {
+                "Latitude": 47.74142,
+                "Longitude": -122.339
+              },
+              {
+                "Latitude": 47.74142,
+                "Longitude": -122.339912
+              },
+              {
+                "Latitude": 47.7414,
+                "Longitude": -122.341232
+              },
+              {
+                "Latitude": 47.74141,
+                "Longitude": -122.3426
+              },
+              {
+                "Latitude": 47.7414,
+                "Longitude": -122.34375
+              },
+              {
+                "Latitude": 47.7414,
+                "Longitude": -122.343933
+              },
+              {
+                "Latitude": 47.7414,
+                "Longitude": -122.344368
+              },
+              {
+                "Latitude": 47.7414,
+                "Longitude": -122.3445
+              },
+              {
+                "Latitude": 47.74141,
+                "Longitude": -122.34478
+              },
+              {
+                "Latitude": 47.74142,
+                "Longitude": -122.345268
+              },
+              {
+                "Latitude": 47.74142,
+                "Longitude": -122.345421
+              },
+              {
+                "Latitude": 47.74134,
+                "Longitude": -122.345413
+              },
+              {
+                "Latitude": 47.7411,
+                "Longitude": -122.345413
+              },
+              {
+                "Latitude": 47.74062,
+                "Longitude": -122.345413
+              },
+              {
+                "Latitude": 47.74003,
+                "Longitude": -122.34539
+              },
+              {
+                "Latitude": 47.73957,
+                "Longitude": -122.345383
+              },
+              {
+                "Latitude": 47.73936,
+                "Longitude": -122.345383
+              },
+              {
+                "Latitude": 47.73893,
+                "Longitude": -122.345367
+              },
+              {
+                "Latitude": 47.73855,
+                "Longitude": -122.345352
+              },
+              {
+                "Latitude": 47.7384,
+                "Longitude": -122.345337
+              }
+            ]
+          }
+        ],
+        "Sections": [
+          {
+            "StartPointIndex": 0,
+            "EndPointIndex": 401,
+            "SectionType": "TRAVEL_MODE",
+            "TravelMode": "car"
+          }
+        ]
+      }
+    },
+    "name": "ActiveRoute.Directions",
+    "localTimestamp": "2019-03-05T20:16:16-08:00"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "text": "<--Ending the skill conversation",
+    "replyToId": "935d98d0-3fc6-11e9-929d-a5dd668ef931",
+    "id": "965491b0-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:16:16-08:00",
+    "timestamp": "2019-03-06T04:16:16.971Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "http://localhost:54510",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "6806c760-3fc6-11e9-8a3d-a1e7bb980324|livechat"
+    },
+    "recipient": {
+      "id": "323a4cc9-293d-497b-8b14-10307c7f8f52",
+      "role": "user"
+    },
+    "text": "What else can I help you with?",
+    "speak": "What else can I help you with?",
+    "inputHint": "acceptingInput",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "935d98d0-3fc6-11e9-929d-a5dd668ef931",
+    "id": "966f1e90-3fc6-11e9-929d-a5dd668ef931",
+    "localTimestamp": "2019-03-05T20:16:17-08:00",
+    "timestamp": "2019-03-06T04:16:17.145Z",
+    "locale": "en-us"
+  }
+]

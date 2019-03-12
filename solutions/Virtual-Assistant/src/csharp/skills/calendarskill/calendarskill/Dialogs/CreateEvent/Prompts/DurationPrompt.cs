@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CalendarSkill.Dialogs.CreateEvent.Prompts.Options;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
+using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -74,7 +74,7 @@ namespace CalendarSkill.Dialogs.CreateEvent.Prompts
         {
             if (CreateEventWhiteList.IsSkip(message))
             {
-                message = "half an hour";
+                message = CalendarCommonStrings.HalfAnHour;
 
                 // log is this one skip. may change logic in future.
                 // no use for now

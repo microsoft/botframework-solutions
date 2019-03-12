@@ -10,9 +10,9 @@ using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Configuration;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
-using Microsoft.Bot.Solutions.Skills;
 
 namespace VirtualAssistant
 {
@@ -28,7 +28,7 @@ namespace VirtualAssistant
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BotServices"/> class.
-        /// Default constructor to enable different instantiation of the BotConfiguration (e.g. mocking and other adapters which won't use the Bot file
+        /// Default constructor to enable different instantiation of the BotConfiguration (e.g. mocking and other adapters which won't use the Bot file.
         /// </summary>
         public BotServices()
         {
@@ -40,7 +40,8 @@ namespace VirtualAssistant
         /// <param name="botConfiguration">The <see cref="BotConfiguration"/> instance for the bot.</param>
         /// <param name="skills">List of <see cref="SkillDefinition"/> for loading skill configurations.</param>
         /// <param name="languageModels">The locale specifc language model configs for each supported language.</param>
-        public BotServices(BotConfiguration botConfiguration, Dictionary<string, Dictionary<string, string>> languageModels, List<SkillDefinition> skills)
+        /// <param name="skillEventsConfig">The configuration for skill events.</param>
+        public BotServices(BotConfiguration botConfiguration, Dictionary<string, Dictionary<string, string>> languageModels, List<SkillDefinition> skills, List<SkillEvent> skillEventsConfig)
         {
             // Create service clients for each service in the .bot file.
             foreach (var service in botConfiguration.Services)
@@ -227,6 +228,7 @@ namespace VirtualAssistant
 
                 SkillDefinitions.Add(skill);
                 SkillConfigurations.Add(skill.Id, skillConfig);
+                SkillEvents = skillEventsConfig != null ? skillEventsConfig.ToDictionary(i => i.Event) : null;
             }
         }
 
@@ -285,5 +287,14 @@ namespace VirtualAssistant
         /// The value is an <see cref="SkillConfigurationBase"/> object containing all the service clients used by the skill.
         /// </value>
         public Dictionary<string, SkillConfigurationBase> SkillConfigurations { get; set; } = new Dictionary<string, SkillConfigurationBase>();
+
+        /// <summary>
+        /// Gets or sets skill events that's loaded from skillEvents.json file.
+        /// </summary>
+        /// <value>
+        /// The mapping between skill and events defined in skillEvents.json file that specifies what happens
+        /// when different events are received.
+        /// </value>
+        public Dictionary<string, SkillEvent> SkillEvents { get; set; } = new Dictionary<string, SkillEvent>();
     }
 }

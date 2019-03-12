@@ -7,7 +7,7 @@
     "main": "lib/index.js",
     "scripts": {
         "clean": "rimraf ./lib",
-        "copy-templates": "copyfiles --up 1 ./src/**/*.json ./lib",
+        "copy-templates": "copyfiles --up 1 \"./src/**/*.json\" \"./lib\"",
         "prebuild": "npm run lint",
         "build": "tsc --p tsconfig.json && npm run copy-templates",
         "postinstall": "npm run build && node ./deploymentScripts/webConfigPrep.js",
@@ -41,7 +41,6 @@
         "@types/node": "^10.10.1",
         "@types/restify": "^7.2.4",
         "copyfiles": "^2.1.0",
-        "lodash": "^4.17.11",
         "nock": "^10.0.6",
         "nodemon": "^1.18.4",
         "replace": "^1.0.0",

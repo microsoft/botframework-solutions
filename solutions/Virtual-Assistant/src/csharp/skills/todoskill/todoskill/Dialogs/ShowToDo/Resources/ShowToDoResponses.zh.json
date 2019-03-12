@@ -1,5 +1,5 @@
 ﻿{
-  "LatestOneTask": {
+  "LatestTask": {
     "replies": [
       {
         "text": "你最新的任务是",
@@ -8,7 +8,7 @@
     ],
     "inputHint": "ignoringInput"
   },
-  "LatestTwoTasks": {
+  "LatestTasks": {
     "replies": [
       {
         "text": "你最新的任务是",
@@ -17,11 +17,11 @@
     ],
     "inputHint": "ignoringInput"
   },
-  "LatestThreeOrMoreTasks": {
+  "MostRecentTasks": {
     "replies": [
       {
-        "text": "你最新的{taskCount}个任务是",
-        "speak": "你最新的{taskCount}个任务是"
+        "text": "以下是你最新的{taskCount}个任务，他们是",
+        "speak": "以下是你最新的{taskCount}个任务，他们是"
       }
     ],
     "inputHint": "ignoringInput"
@@ -38,7 +38,7 @@
   "ReadMoreTasksPrompt": {
     "replies": [
       {
-        "text": "请问你想要听更多的任务吗？",
+        "text": "请问你想要看更多的任务吗？",
         "speak": "请问你想要听更多的任务吗？"
       }
     ],
@@ -47,13 +47,31 @@
   "ReadMoreTasksConfirmFailed": {
     "replies": [
       {
-        "text": "对不起，我没有理解您的意思。请问你想要听更多的任务吗？",
+        "text": "对不起，我没有理解您的意思。请问你想要看更多的任务吗？",
         "speak": "对不起，我没有理解您的意思。请问你想要听更多的任务吗？"
       }
     ],
     "inputHint": "expectingInput"
   },
-  "NextOneTask": {
+  "ReadMoreTasksPrompt2": {
+    "replies": [
+      {
+        "text": "您列表上还有其他事项，想要看吗？",
+        "speak": "您列表上还有其他事项，想要听吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "RetryReadMoreTasksPrompt2": {
+    "replies": [
+      {
+        "text": "对不起，我没有明白您的意思。请问您还要看更多吗？",
+        "speak": "对不起，我没有明白您的意思。请问您还要听更多吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NextTask": {
     "replies": [
       {
         "text": "下一个任务是",
@@ -62,7 +80,7 @@
     ],
     "inputHint": "ignoringInput"
   },
-  "NextTwoTasks": {
+  "NextTasks": {
     "replies": [
       {
         "text": "接下来的任务是",
@@ -71,20 +89,29 @@
     ],
     "inputHint": "ignoringInput"
   },
-  "NextThreeOrMoreTask": {
+  "PreviousTasks": {
     "replies": [
       {
-        "text": "接下来的{taskCount}个任务是",
-        "speak": "接下来的{taskCount}个任务是"
+        "text": "您前面的任务是",
+        "speak": "您前面的任务是"
       }
     ],
     "inputHint": "ignoringInput"
   },
-  "ShowPreviousTasks": {
+  "PreviousFirstTasks": {
     "replies": [
       {
-        "text": "前面的任务是",
-        "speak": "前面的任务是"
+        "text": "您最先的{taskCount}个任务是",
+        "speak": "您最先的{taskCount}个任务是"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "PreviousFirstSingleTask": {
+    "replies": [
+      {
+        "text": "您最先的{taskCount}个任务是",
+        "speak": "您最先的{taskCount}个任务是"
       }
     ],
     "inputHint": "ignoringInput"
@@ -94,15 +121,6 @@
       {
         "text": "您的{listType}列表没有事项。如果您想要创建一个的话尽管告诉我。",
         "speak": "您的{listType}列表没有事项。如果您想要创建一个的话尽管告诉我。"
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
-  "InstructionMessage": {
-    "replies": [
-      {
-        "text": "好的，如果你想要创建一个新的任务，请尽管告诉我。你也可以要求我为你完成或者删除列表中的任务。",
-        "speak": "好的，如果你想要创建一个新的任务，请尽管告诉我。你也可以要求我为你完成或者删除列表中的任务。"
       }
     ],
     "inputHint": "acceptingInput"
@@ -119,8 +137,8 @@
   "RepeatFirstPagePrompt": {
     "replies": [
       {
-        "text": "当前已经在{listType}列表的开始页了。您想要我重新读出最新的任务吗？",
-        "speak": "当前已经在{listType}列表的开始页了。您想要我重新读出最新的任务吗？"
+        "text": "当前已经在{listType}列表的开始页了。您想要重新看最新的{taskCount}个任务吗？",
+        "speak": "当前已经在{listType}列表的开始页了。您想要重新读听最新的{taskCount}个任务吗？"
       }
     ],
     "inputHint": "expectingInput"
@@ -128,26 +146,44 @@
   "RepeatFirstPageConfirmFailed": {
     "replies": [
       {
-        "text": "对不起，我没能理解您的意思。您想要我重新读出最新的任务吗？",
-        "speak": "对不起，我没能理解您的意思。您想要我重新读出最新的任务吗？"
+        "text": "对不起，我没能理解您的意思。您想要重新看最新的{taskCount}个任务吗？",
+        "speak": "对不起，我没能理解您的意思。您想要重新读听最新的{taskCount}个任务吗？"
       }
     ],
     "inputHint": "expectingInput"
   },
-  "GoBackToStartPrompt": {
+  "GoBackToStartPromptForSingleTask": {
     "replies": [
       {
-        "text": "这些已经是您{listtype}列表里面最后的任务了。您想要回到列表开头吗？",
-        "speak": "这些已经是您{listtype}列表里面最后的任务了。您想要回到列表开头吗？"
+        "text": "这已经是您{listType}列表上的最后一个任务了。您想要重新看最新的{taskCount}个任务吗？",
+        "speak": "这已经是您{listType}列表上的最后一个任务了。您想要重新听最新的{taskCount}个任务吗？"
       }
     ],
     "inputHint": "expectingInput"
   },
-  "GoBackToStartConfirmFailed": {
+  "GoBackToStartForSingleTaskConfirmFailed": {
     "replies": [
       {
-        "text": "对不起，我没能理解您的意思。您想要回到列表开头吗？",
-        "speak": "对不起，我没能理解您的意思。您想要回到列表开头吗？"
+        "text": "对不起，我没能理解您的意思。您想要重新看最新的{taskCount}个任务吗？",
+        "speak": "对不起，我没能理解您的意思。您想要重新听最新的{taskCount}个任务吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GoBackToStartPromptForTasks": {
+    "replies": [
+      {
+        "text": "这些已经是您{listType}列表上最后的任务了。您想要重新看最新的{taskCount}个任务吗？",
+        "speak": "这些已经是您{listType}列表上最后的任务了。您想要重新听最新的{taskCount}个任务吗？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GoBackToStartForTasksConfirmFailed": {
+    "replies": [
+      {
+        "text": "对不起，我没能理解您的意思。您想要重新看最新的{taskCount}个任务吗？",
+        "speak": "对不起，我没能理解您的意思。您想要重新听最新的{taskCount}个任务吗？"
       }
     ],
     "inputHint": "expectingInput"

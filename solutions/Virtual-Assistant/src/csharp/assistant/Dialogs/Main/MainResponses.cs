@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using AdaptiveCards;
@@ -65,7 +64,8 @@ namespace VirtualAssistant.Dialogs.Main
 
         public static IMessageActivity BuildIntroCard(ITurnContext turnContext, dynamic data)
         {
-            var introCard = File.ReadAllText(MainStrings.INTRO_PATH);
+            var introPath = string.Join(Path.DirectorySeparatorChar, MainStrings.INTRO_PATH.Split('\\'));
+            var introCard = File.ReadAllText(introPath);
             var card = AdaptiveCard.FromJson(introCard).Card;
             var attachment = new Attachment(AdaptiveCard.ContentType, content: card);
 

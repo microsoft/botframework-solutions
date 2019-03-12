@@ -3,7 +3,6 @@ using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.FindContact;
-using EmailSkill.Dialogs.FindContact.Resources;
 using EmailSkill.Dialogs.SendEmail.Prompts;
 using EmailSkill.Dialogs.SendEmail.Resources;
 using EmailSkill.Dialogs.Shared;
@@ -15,9 +14,9 @@ using EmailSkill.ServiceClients;
 using EmailSkill.Util;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Solutions.Util;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Util;
 using static EmailSkill.Models.SendEmailStateModel;
 
 namespace EmailSkill.Dialogs.SendEmail
@@ -94,7 +93,7 @@ namespace EmailSkill.Dialogs.SendEmail
 
                 if (!skillOptions.SubFlowMode)
                 {
-                    if (state.NameList.Count > 0 || state.EmailList.Count > 0)
+                    if ((state.Recipients != null) && (state.Recipients.Count > 0))
                     {
                         // Bypass logic: Send an email to Michelle saying I will be late today ->  Use “I will be late today” as subject. No need to ask for subject/content
                         // If information is detected as content, move to subject.
@@ -132,7 +131,7 @@ namespace EmailSkill.Dialogs.SendEmail
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                if (state.Recipients.Count == 0 || state.Recipients == null)
+                if (state.Recipients == null || state.Recipients.Count == 0)
                 {
                     state.FirstRetryInFindContact = true;
                     return await sc.EndDialogAsync();
@@ -161,7 +160,7 @@ namespace EmailSkill.Dialogs.SendEmail
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                if (state.Recipients.Count == 0 || state.Recipients == null)
+                if (state.Recipients == null || state.Recipients.Count == 0)
                 {
                     state.FirstRetryInFindContact = true;
                     return await sc.EndDialogAsync();
@@ -255,7 +254,7 @@ namespace EmailSkill.Dialogs.SendEmail
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                if (state.Recipients.Count == 0 || state.Recipients == null)
+                if (state.Recipients == null || state.Recipients.Count == 0)
                 {
                     state.FirstRetryInFindContact = true;
                     return await sc.EndDialogAsync();
@@ -327,7 +326,7 @@ namespace EmailSkill.Dialogs.SendEmail
                         return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions()
                         {
                             Prompt = ResponseManager.GetResponse(SendEmailResponses.CheckContent),
-                            RetryPrompt = ResponseManager.GetResponse(SendEmailResponses.ConfirmMessage_Retry),
+                            RetryPrompt = ResponseManager.GetResponse(SendEmailResponses.ConfirmMessageRetry),
                         });
                     }
                     else
@@ -435,7 +434,7 @@ namespace EmailSkill.Dialogs.SendEmail
                 return await sc.PromptAsync(Actions.GetRecreateInfoPrompt, new PromptOptions
                 {
                     Prompt = ResponseManager.GetResponse(SendEmailResponses.GetRecreateInfo),
-                    RetryPrompt = ResponseManager.GetResponse(SendEmailResponses.GetRecreateInfo_Retry)
+                    RetryPrompt = ResponseManager.GetResponse(SendEmailResponses.GetRecreateInfoRetry)
                 }, cancellationToken);
             }
             catch (Exception ex)

@@ -7,8 +7,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Proactive;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.TaskExtensions;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
+using Microsoft.Bot.Configuration;
 using ToDoSkill.Dialogs.AddToDo.Resources;
 using ToDoSkill.Dialogs.DeleteToDo.Resources;
 using ToDoSkill.Dialogs.Main;
@@ -36,9 +40,12 @@ namespace ToDoSkill
 
         public ToDoSkill(
             SkillConfigurationBase services,
+            EndpointService endpointService,
             ConversationState conversationState,
             UserState userState,
+            ProactiveState proactiveState,
             IBotTelemetryClient telemetryClient,
+            IBackgroundTaskQueue backgroundTaskQueue,
             bool skillMode = false,
             ResponseManager responseManager = null,
             IServiceManager serviceManager = null)
@@ -54,15 +61,13 @@ namespace ToDoSkill
             {
                 var supportedLanguages = services.LocaleConfigurations.Keys.ToArray();
                 responseManager = new ResponseManager(
-                    new IResponseIdCollection[]
-                    {
-                        new AddToDoResponses(),
-                        new DeleteToDoResponses(),
-                        new ToDoMainResponses(),
-                        new MarkToDoResponses(),
-                        new ToDoSharedResponses(),
-                        new ShowToDoResponses(),
-                    }, supportedLanguages);
+                    supportedLanguages,
+                    new AddToDoResponses(),
+                    new DeleteToDoResponses(),
+                    new ToDoMainResponses(),
+                    new MarkToDoResponses(),
+                    new ToDoSharedResponses(),
+                    new ShowToDoResponses());
             }
 
             _responseManager = responseManager;
@@ -78,6 +83,8 @@ namespace ToDoSkill
         /// <returns>A <see cref="TaskItem"/> representing the asynchronous operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
+            turnContext.TurnState.TryAdd(TelemetryLoggerMiddleware.AppInsightsServiceKey, _telemetryClient);
+
             var dc = await _dialogs.CreateContextAsync(turnContext);
 
             if (dc.ActiveDialog != null)

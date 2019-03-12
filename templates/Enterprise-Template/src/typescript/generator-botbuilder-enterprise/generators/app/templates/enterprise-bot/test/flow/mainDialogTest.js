@@ -30,7 +30,7 @@ describe("Main Dialog", function () {
 					assert.deepEqual(activity.attachments[0].content, introJson);
 				})
 
-			testNock.resolveWithMocks(this.test.title, done, flow);
+			testNock.resolveWithMocks('mainDialog_introCard_response', done, flow);
 		});
 	});
 
@@ -41,7 +41,7 @@ describe("Main Dialog", function () {
 				.send('Hi')
 				.assertReply('Hello.');
 
-			testNock.resolveWithMocks(this.test.title, done, flow);
+			testNock.resolveWithMocks('mainDialog_greeting_response', done, flow);
 		});
 	});
 
@@ -52,7 +52,7 @@ describe("Main Dialog", function () {
 				.send('Help')
 				.assertReply('This card can be used to display information to help your user interact with your bot. The buttons below can be used for sample queries or links to external sites.');
 
-			testNock.resolveWithMocks(this.test.title, done, flow);
+			testNock.resolveWithMocks('mainDialog_help_response', done, flow);
 		});
 	});
 
@@ -67,7 +67,7 @@ describe("Main Dialog", function () {
 				})
 				.assertReply('对不起, 我帮不上忙。');
 
-			testNock.resolveWithMocks(this.test.title, done, flow);
+			testNock.resolveWithMocks('mainDialog_localization_response', done, flow);
 		});
 	});
 });

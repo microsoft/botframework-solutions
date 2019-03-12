@@ -14,10 +14,10 @@ using Luis;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
 
 namespace AutomotiveSkill.Dialogs.Main
 {
@@ -31,7 +31,6 @@ namespace AutomotiveSkill.Dialogs.Main
         private IServiceManager _serviceManager;
         private IStatePropertyAccessor<AutomotiveSkillState> _stateAccessor;
         private IHttpContextAccessor _httpContext;
-        private IBotTelemetryClient _telemetryClient;
 
         public MainDialog(
             SkillConfigurationBase services,
@@ -237,7 +236,7 @@ namespace AutomotiveSkill.Dialogs.Main
 
         private void RegisterDialogs()
         {
-            AddDialog(new VehicleSettingsDialog(_services, _responseManager, _stateAccessor, _serviceManager, _telemetryClient, _httpContext));
+            AddDialog(new VehicleSettingsDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient, _httpContext));
         }
 
         private class Events

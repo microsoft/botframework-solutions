@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace PointOfInterestSkill.Dialogs.Route.Resources
 {
@@ -12,10 +12,9 @@ namespace PointOfInterestSkill.Dialogs.Route.Resources
     public class RouteResponses : IResponseIdCollection
     {
         // Generated accessors
-		public const string MissingActiveLocationErrorMessage = "MissingActiveLocationErrorMessage";
-		public const string PromptToStartRoute = "PromptToStartRoute";
-		public const string SendingRouteDetails = "SendingRouteDetails";
-		public const string AskAboutRouteLater = "AskAboutRouteLater";
-
+        public const string MissingActiveLocationErrorMessage = "MissingActiveLocationErrorMessage";
+        public const string PromptToStartRoute = "PromptToStartRoute";
+        public const string SendingRouteDetails = "SendingRouteDetails";
+        public const string AskAboutRouteLater = "AskAboutRouteLater";
     }
 }

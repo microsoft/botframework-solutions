@@ -74,7 +74,7 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
         }
 
         /// <inheritdoc/>
-        public async Task<List<EventModel>> GetUpcomingEvents()
+        public async Task<List<EventModel>> GetUpcomingEvents(TimeSpan? timeSpan = null)
         {
             var events = GetEvents();
             var results = new List<EventModel>();

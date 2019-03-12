@@ -18,11 +18,10 @@ using EmailSkill.Util;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Resources;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Solutions.Util;
+using Microsoft.Bot.Builder.Solutions.Resources;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Util;
 
 namespace EmailSkill.Dialogs.ShowEmail
 {
@@ -73,6 +72,7 @@ namespace EmailSkill.Dialogs.ShowEmail
 
             var displayEmail = new WaterfallStep[]
             {
+                IfClearPagingConditionStep,
                 PagingStep,
                 ShowEmails,
                 PromptToHandle,
@@ -108,6 +108,29 @@ namespace EmailSkill.Dialogs.ShowEmail
             AddDialog(new ReplyEmailDialog(services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
             AddDialog(new ForwardEmailDialog(services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
             InitialDialogId = Actions.Show;
+        }
+
+        protected async Task<DialogTurnResult> IfClearPagingConditionStep(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                // Clear focus item
+                state.UserSelectIndex = 0;
+
+                // Clear search condition
+                state.SenderName = null;
+                state.SearchTexts = null;
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
         }
 
         protected async Task<DialogTurnResult> PromptToHandle(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -219,7 +242,6 @@ namespace EmailSkill.Dialogs.ShowEmail
 
                 if ((topIntent == EmailLU.Intent.None
                     || topIntent == EmailLU.Intent.SearchMessages
-                    || topIntent == EmailLU.Intent.SelectItem
                     || (topIntent == EmailLU.Intent.ReadAloud && !IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
                     || (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true))
                     && message != null)
@@ -338,21 +360,8 @@ namespace EmailSkill.Dialogs.ShowEmail
                 {
                     return await sc.BeginDialogAsync(Actions.Reply, skillOptions);
                 }
-                else if ((topIntent == EmailLU.Intent.ReadAloud && !IsReadMoreIntent(topGeneralIntent, userInput)) || topIntent == EmailLU.Intent.SelectItem)
-                {
-                    var message = state.Message.FirstOrDefault();
-
-                    if (message == null)
-                    {
-                        return await sc.ReplaceDialogAsync(Actions.Display, skillOptions);
-                    }
-                    else
-                    {
-                        return await sc.ReplaceDialogAsync(Actions.Read, skillOptions);
-                    }
-                }
                 else if (IsReadMoreIntent(topGeneralIntent, userInput)
-                    || (topIntent == EmailLU.Intent.None && (topGeneralIntent == General.Intent.Previous || topGeneralIntent == General.Intent.Next)))
+                    || (topIntent == EmailLU.Intent.ShowNext || topIntent == EmailLU.Intent.ShowPrevious || topGeneralIntent == General.Intent.ShowPrevious || topGeneralIntent == General.Intent.ShowNext))
                 {
                     return await sc.ReplaceDialogAsync(Actions.Display, skillOptions);
                 }
@@ -468,23 +477,27 @@ namespace EmailSkill.Dialogs.ShowEmail
 
                 if (state.MessageList.Count > 0)
                 {
-                    state.Message.Add(state.MessageList[0]);
+                    if (state.Message.Count == 0)
+                    {
+                        state.Message.Add(state.MessageList[0]);
 
-                    if (state.MessageList.Count > 1)
-                    {
-                        await ShowMailList(sc, state.MessageList, state.MessageList.Count(), cancellationToken);
-                    }
-                    else if (state.MessageList.Count == 1)
-                    {
-                        return await sc.ReplaceDialogAsync(Actions.Read, options: sc.Options);
+                        if (state.MessageList.Count > 1)
+                        {
+                            await ShowMailList(sc, state.MessageList, state.MessageList.Count(), cancellationToken);
+                            return await sc.NextAsync();
+                        }
+                        else if (state.MessageList.Count == 1)
+                        {
+                            return await sc.ReplaceDialogAsync(Actions.Read, options: sc.Options);
+                        }
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.DidntUnderstandMessage));
-                        return await sc.EndDialogAsync(true);
+                        return await sc.ReplaceDialogAsync(Actions.Read, options: sc.Options);
                     }
 
-                    return await sc.NextAsync();
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.DidntUnderstandMessage));
+                    return await sc.EndDialogAsync(true);
                 }
                 else
                 {

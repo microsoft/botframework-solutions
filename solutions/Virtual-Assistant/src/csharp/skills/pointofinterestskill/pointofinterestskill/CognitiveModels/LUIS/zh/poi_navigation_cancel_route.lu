@@ -6,50 +6,61 @@
 - 取消 {KEYWORD} 船舶
 - 取消去 {KEYWORD} 在 {ADDRESS} 
 - 取消导航到 {KEYWORD} 
-- 取消带我去 {ADDRESS} 地址 {ADDRESS} 地址中的
+- 取消带我去 {ADDRESS} 地址 {ADDRESS} 地址中的 s
 - 清楚 {KEYWORD} 船舶
 - 明确要去 {KEYWORD} 在 {ADDRESS} 
 - 明确要去 {ADDRESS} 
 - 清除导航到 {KEYWORD} 
-- 清楚带我到 {ADDRESS} 地址 {ADDRESS} 地址中的
+- 清除导航到 {KEYWORD} 
+- 清楚带我到 {ADDRESS} 地址 {ADDRESS} 地址中的 s
 - 删除转到 {KEYWORD} 在 {ADDRESS} 
 - 删除转到 {ADDRESS} 
 - 删除导航到 {KEYWORD} 
+- 删除导航到 {KEYWORD} 
 - 删除 {KEYWORD} 船舶
-- 删除带我到 {ADDRESS} 地址 {ADDRESS} 地址中的
+- 删除带我到 {ADDRESS} 地址 {ADDRESS} 地址中的 s
+- 不导航到 {KEYWORD} 
+- 不导航到 {KEYWORD} 
+- 不要带我去 {ADDRESS} 
+- 不导航到 {KEYWORD} 
 - 不导航到 {KEYWORD} 
 - 不要带我去 {ADDRESS} 
 - 结束 {KEYWORD} 船舶
 - 结束去 {KEYWORD} 在 {ADDRESS} 
 - 结束导航到 {KEYWORD} 
-- 结束带我到 {ADDRESS} 地址 {ADDRESS} 地址中的
+- 结束带我到 {ADDRESS} 地址 {ADDRESS} 地址中的 s
 - 忘记 {KEYWORD} 船舶
 - 忘了要去 {KEYWORD} 在 {ADDRESS} 
 - 忘了要去 {ADDRESS} 
 - 忘记导航到一个 {KEYWORD} 
-- 忘了带我去 {ADDRESS} 地址 {ADDRESS} 地址中的
+- 忘记导航到一个 {KEYWORD} 
+- 忘了带我去 {ADDRESS} 地址 {ADDRESS} 地址中的 s
 - 摆脱 {KEYWORD} 船舶
 - 摆脱去 {ADDRESS} 
 - 摆脱去 {KEYWORD} 在 {ADDRESS} 
 - 摆脱导航到一个 {KEYWORD} 
 - 摆脱导航到 {KEYWORD} 
-- 摆脱带我去 {ADDRESS} 地址 {ADDRESS} 地址中的
+- 摆脱带我去 {ADDRESS} 地址 {ADDRESS} 地址中的 s
 - 没关系 {KEYWORD} 船舶
 - 没关系, 要去 {KEYWORD} 在 {ADDRESS} 
 - 别介意导航到一个 {KEYWORD} 
-- 别介意带我去 {ADDRESS} 地址 {ADDRESS} 地址中的
+- 别介意带我去 {ADDRESS} 地址 {ADDRESS} 地址中的 s
 - 在第二个想法取消去 {KEYWORD} 
+- 在第二个想法不去 {ADDRESS} 
 - 在第二个想法不去 {ADDRESS} 
 - 在第二个思想结束去 {KEYWORD} 
 - 在第二个想法忘记去 {ADDRESS} 
 - 在第二个想法没关系要去 {ADDRESS} 
+- 删除 {KEYWORD} 船舶
 - 删除要 {ADDRESS} 
 - 删除要 {KEYWORD} 在 {ADDRESS} 
+- 删除导航到 {KEYWORD} 
+- 删除带我到 {ADDRESS} 地址 {ADDRESS} 地址中的 s
 - 停止 {KEYWORD} 船舶
 - 停止去 {ADDRESS} 
 - 停止去 {KEYWORD} 在 {ADDRESS} 
 - 停止导航到 {KEYWORD} 
-- 别再带我去 {ADDRESS} 地址 {ADDRESS} 地址中的
+- 别再带我去 {ADDRESS} 地址 {ADDRESS} 地址中的 s
 - 中止目标
 - 中止导航
 - 中止路由

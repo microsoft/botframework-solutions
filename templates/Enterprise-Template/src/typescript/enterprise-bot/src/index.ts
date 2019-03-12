@@ -22,9 +22,12 @@ import {
     BotConfiguration,
     IAppInsightsService,
     IBlobStorageService,
+    IBotConfiguration,
+    IConnectedService,
     ICosmosDBService,
     IEndpointService,
-    IGenericService } from 'botframework-config';
+    IGenericService,
+    ServiceTypes } from 'botframework-config';
 
 // Read variables from .env file.
 import { config } from 'dotenv';
@@ -42,6 +45,18 @@ i18n.configure({
     defaultLocale: 'en',
     objectNotation: true
 });
+
+function searchService(botConfig: IBotConfiguration, serviceType: ServiceTypes, nameOrId: string): IConnectedService|undefined {
+    const service: IConnectedService|undefined = botConfig.services
+        .filter((s: IConnectedService) => s.type === serviceType)
+        .find((s: IConnectedService) => s.id === nameOrId || s.name === nameOrId);
+
+    if (!service && nameOrId) {
+        throw new Error(`Service '${nameOrId}' [type: ${serviceType}] not found in .bot file.`);
+    }
+
+    return service;
+}
 
 const ENV_NAME: string = process.env.NODE_ENV || 'development';
 config({ path: path.join(__dirname, '..', `.env.${ENV_NAME}`) });
@@ -63,7 +78,7 @@ try {
 const BOT_CONFIG: BotConfiguration = BotConfiguration.loadSync(CONFIGURATION_PATH, BOT_SECRET);
 
 // Get bot endpoint configuration by service name
-const ENDPOINT_CONFIG: IEndpointService = <IEndpointService> BOT_CONFIG.findServiceByNameOrId(BOT_CONFIGURATION);
+const ENDPOINT_CONFIG: IEndpointService = <IEndpointService> searchService(BOT_CONFIG, ServiceTypes.Endpoint, BOT_CONFIGURATION);
 
 // Create the adapter
 const ADAPTER: BotFrameworkAdapter = new BotFrameworkAdapter({
@@ -74,7 +89,8 @@ const ADAPTER: BotFrameworkAdapter = new BotFrameworkAdapter({
 import { TelemetryLoggerMiddleware } from './middleware/telemetry/telemetryLoggerMiddleware';
 // Get AppInsights configuration by service name
 const APPINSIGHTS_CONFIGURATION: string = process.env.APPINSIGHTS_NAME || '';
-const APPINSIGHTS_CONFIG: IAppInsightsService = <IAppInsightsService> BOT_CONFIG.findServiceByNameOrId(APPINSIGHTS_CONFIGURATION);
+const APPINSIGHTS_CONFIG: IAppInsightsService = <IAppInsightsService> searchService(
+    BOT_CONFIG, ServiceTypes.AppInsights, APPINSIGHTS_CONFIGURATION);
 if (!APPINSIGHTS_CONFIG) {
     process.exit(BOT_CONFIGURATION_ERROR);
     throw new Error('Please configure your AppInsights connection in your .bot file.');
@@ -102,7 +118,9 @@ await turnContext.sendActivity('Sorry, it looks like something went wrong.');
 
  // this is the name of the cosmos DB configuration in your .bot file
 const STORAGE_CONFIGURATION: string = process.env.STORAGE_NAME || '';
-const COSMOS_CONFIG: ICosmosDBService = <ICosmosDBService> BOT_CONFIG.findServiceByNameOrId(STORAGE_CONFIGURATION);
+const COSMOS_CONFIG: ICosmosDBService = <ICosmosDBService> BOT_CONFIG.services
+    .filter((s: IConnectedService) => s.type === ServiceTypes.CosmosDB)
+    .find((s: IConnectedService) => s.name === STORAGE_CONFIGURATION || s.id === STORAGE_CONFIGURATION);
 // For production bots use the Azure CosmosDB storage, Azure Blob, or Azure Table storage provides.
 const COSMOS_DB_STORAGE_SETTINGS: CosmosDbStorageSettings = {
     authKey: COSMOS_CONFIG.key,
@@ -130,7 +148,8 @@ ADAPTER.use(new AutoSaveStateMiddleware(CONVERSATION_STATE, USER_STATE));
 
 // Transcript Middleware (saves conversation history in a standard format)
 const BLOB_CONFIGURATION: string = process.env.BLOB_NAME || ''; // this is the name of the BlobStorage configuration in your .bot file
-const BLOB_STORAGE_CONFIG: IBlobStorageService = <IBlobStorageService> BOT_CONFIG.findServiceByNameOrId(BLOB_CONFIGURATION);
+const BLOB_STORAGE_CONFIG: IBlobStorageService = <IBlobStorageService> searchService(
+    BOT_CONFIG, ServiceTypes.BlobStorage, BLOB_CONFIGURATION);
 if (!BLOB_STORAGE_CONFIG) {
     // tslint:disable-next-line:no-console
     console.log('Please configure your Blob storage connection in your .bot file.');
@@ -150,7 +169,7 @@ adapter.use(new ShowTypingMiddleware());*/
 
 // this is the name of the Content Moderator configuration in your .bot file
 const CM_CONFIGURATION: string = process.env.CONTENT_MODERATOR_NAME || '';
-const CM_CONFIG: IGenericService = <IGenericService> BOT_CONFIG.findServiceByNameOrId(CM_CONFIGURATION);
+const CM_CONFIG: IGenericService = <IGenericService> searchService(BOT_CONFIG, ServiceTypes.Generic, CM_CONFIGURATION);
 if (CM_CONFIG && CM_CONFIG.configuration.key && CM_CONFIG.configuration.region) {
     const CONTENT_MODERATOR: ContentModeratorMiddleware = new ContentModeratorMiddleware(
         CM_CONFIG.configuration.key,

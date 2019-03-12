@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Dialogs;
 using VirtualAssistant.Dialogs.Main;
 
 namespace VirtualAssistant.Dialogs.Shared

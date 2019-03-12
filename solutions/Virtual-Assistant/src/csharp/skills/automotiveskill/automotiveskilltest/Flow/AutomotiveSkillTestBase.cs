@@ -9,9 +9,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Configuration;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Solutions.Testing;
+using Microsoft.Bot.Builder.Solutions.Proactive;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.TaskExtensions;
+using Microsoft.Bot.Builder.Solutions.Testing;
 
 namespace AutomotiveSkillTest.Flow
 {
@@ -23,6 +25,8 @@ namespace AutomotiveSkillTest.Flow
 
         public UserState UserState { get; set; }
 
+        public ProactiveState ProactiveState { get; set; }
+
         public SkillConfigurationBase Services { get; set; }
 
         public BotConfiguration Options { get; set; }
@@ -30,6 +34,10 @@ namespace AutomotiveSkillTest.Flow
         public HttpContext MockHttpContext { get; set; }
 
         public IBotTelemetryClient TelemetryClient { get; set; }
+
+        public IBackgroundTaskQueue BackgroundTaskQueue { get; set; }
+
+        public EndpointService EndpointService { get; set; }
 
         public HttpContextAccessor MockHttpContextAcessor { get; set; }
 
@@ -41,8 +49,11 @@ namespace AutomotiveSkillTest.Flow
 
             ConversationState = new ConversationState(new MemoryStorage());
             UserState = new UserState(new MemoryStorage());
+            ProactiveState = new ProactiveState(new MemoryStorage());
             AutomotiveSkillStateAccessor = ConversationState.CreateProperty<AutomotiveSkillState>(nameof(AutomotiveSkillState));
             Services = new MockSkillConfiguration();
+            BackgroundTaskQueue = new BackgroundTaskQueue();
+            EndpointService = new EndpointService();
 
             ResponseManager = new ResponseManager(
                 responseTemplates: new IResponseIdCollection[] 
@@ -72,6 +83,8 @@ namespace AutomotiveSkillTest.Flow
             {
                 HttpContext = MockHttpContext
             };
+
+
         }
 
         public TestFlow GetTestFlow()
@@ -91,7 +104,7 @@ namespace AutomotiveSkillTest.Flow
 
         public override IBot BuildBot()
         {
-            return new AutomotiveSkill.AutomotiveSkill(Services, ConversationState, UserState, TelemetryClient, true, ResponseManager, null, MockHttpContextAcessor);
+            return new AutomotiveSkill.AutomotiveSkill(Services, EndpointService, ConversationState, UserState, ProactiveState, TelemetryClient, BackgroundTaskQueue, true, ResponseManager, null, MockHttpContextAcessor);
         }
     }
 }

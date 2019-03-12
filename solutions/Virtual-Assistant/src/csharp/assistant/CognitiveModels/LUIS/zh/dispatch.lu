@@ -3,13 +3,9 @@
 # l_General
 - [l_General](general.lu#Cancel)
 - [l_General](general.lu#Escalate)
-- [l_General](general.lu#Goodbye)
-- [l_General](general.lu#Greeting)
 - [l_General](general.lu#Help)
 - [l_General](general.lu#Logout)
-- [l_General](general.lu#Next)
-- [l_General](general.lu#Previous)
-- [l_General](general.lu#Restart)
+- [l_General](general.lu#StartOver)
 
 # l_Calendar
 - [l_Calendar](../../../../skills/calendarskill/calendarskill/CognitiveModels/LUIS/zh/calendar.lu#ChangeCalendarEntry)
@@ -35,16 +31,14 @@
 # l_Email
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/zh/email.lu#AddFlag)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/zh/email.lu#CheckMessages)
+- [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/en/email.lu#AddMore)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/zh/email.lu#Forward)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/zh/email.lu#QueryLastText)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/zh/email.lu#ReadAloud)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/zh/email.lu#Reply)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/zh/email.lu#SearchMessages)
-- [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/zh/email.lu#SelectItem)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/zh/email.lu#SendEmail)
 - [l_Email](../../../../skills/emailskill/emailskill/CognitiveModels/LUIS/zh/email.lu#Delete)
-$Email:phraseList
-- 电子邮件、邮件
 
 # l_ToDo
 - [l_ToDo](../../../../skills/todoskill/todoskill/CognitiveModels/LUIS/zh/todo.lu#AddToDo)
@@ -63,6 +57,9 @@ $ADDRESS:simple
 
 # q_FAQ
 - [q_FAQ](../../QnA/zh/faq.lu#?)
+
+# q_Chitchat
+- [q_FAQ](../../QnA/zh/chitchat.lu#?)
 
 # None
 - 我的水瓶是绿色的

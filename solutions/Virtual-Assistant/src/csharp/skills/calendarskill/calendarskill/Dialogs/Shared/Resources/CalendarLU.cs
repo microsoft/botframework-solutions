@@ -30,9 +30,9 @@ namespace Luis
             FindDuration, 
             FindMeetingRoom, 
             GoBack, 
-            NoLocation, 
             None, 
-            ReadAloud, 
+            ShowNextCalendar, 
+            ShowPreviousCalendar, 
             TimeRemaining
         };
         public Dictionary<Intent, IntentScore> Intents;
@@ -43,25 +43,27 @@ namespace Luis
             public string[] Subject;
             public string[] FromDate;
             public string[] FromTime;
-            public string[] Duration;
-            public string[] ContactName;
-            public string[] MoveEarlierTimeSpan;
             public string[] ToTime;
+            public string[] MeetingRoom;
+            public string[] Location;
+            public string[] MoveEarlierTimeSpan;
             public string[] MoveLaterTimeSpan;
             public string[] ToDate;
             public string[] SlotAttribute;
-            public string[] Location;
             public string[] OrderReference;
             public string[] PositionReference;
-            public string[] RelationshipName;
-            public string[] MeetingRoom;
+            public string[] Message;
+            public string[] Duration;
             public string[] DestinationCalendar;
-            public string[] AskParameter;
 
             // Built-in entities
+            public DateTimeSpec[] datetime;
             public double[] number;
             public double[] ordinal;
-            public DateTimeSpec[] datetime;
+            public string[] personName;
+
+            // Lists
+            public string[][] RelationshipName;
 
             // Instance
             public class _Instance
@@ -69,23 +71,23 @@ namespace Luis
                 public InstanceData[] Subject;
                 public InstanceData[] FromDate;
                 public InstanceData[] FromTime;
-                public InstanceData[] Duration;
-                public InstanceData[] ContactName;
-                public InstanceData[] MoveEarlierTimeSpan;
                 public InstanceData[] ToTime;
+                public InstanceData[] MeetingRoom;
+                public InstanceData[] Location;
+                public InstanceData[] MoveEarlierTimeSpan;
                 public InstanceData[] MoveLaterTimeSpan;
                 public InstanceData[] ToDate;
                 public InstanceData[] SlotAttribute;
-                public InstanceData[] Location;
                 public InstanceData[] OrderReference;
                 public InstanceData[] PositionReference;
-                public InstanceData[] RelationshipName;
-                public InstanceData[] MeetingRoom;
+                public InstanceData[] Message;
+                public InstanceData[] Duration;
                 public InstanceData[] DestinationCalendar;
-                public InstanceData[] AskParameter;
+                public InstanceData[] datetime;
                 public InstanceData[] number;
                 public InstanceData[] ordinal;
-                public InstanceData[] datetime;
+                public InstanceData[] personName;
+                public InstanceData[] RelationshipName;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;

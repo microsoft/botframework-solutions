@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace CalendarSkill.Dialogs.Shared.Resources
 {
@@ -12,10 +12,9 @@ namespace CalendarSkill.Dialogs.Shared.Resources
     public class CalendarSharedResponses : IResponseIdCollection
     {
         // Generated accessors
-		public const string DidntUnderstandMessage = "DidntUnderstandMessage";
-		public const string ActionEnded = "ActionEnded";
-		public const string CalendarErrorMessage = "CalendarErrorMessage";
-		public const string CalendarErrorMessageBotProblem = "CalendarErrorMessageBotProblem";
-
+        public const string DidntUnderstandMessage = "DidntUnderstandMessage";
+        public const string ActionEnded = "ActionEnded";
+        public const string CalendarErrorMessage = "CalendarErrorMessage";
+        public const string CalendarErrorMessageBotProblem = "CalendarErrorMessageBotProblem";
     }
 }

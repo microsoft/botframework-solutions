@@ -8,7 +8,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "NoTitle_Short": {
+  "NoTitleShort": {
     "replies": [
       {
         "text": "What is the subject of the meeting?",
@@ -39,11 +39,47 @@
     ],
     "inputHint": "expectingInput"
   },
+  "ConfirmCreateAttendees": {
+    "replies": [
+      {
+        "text": ", with {Attendees}",
+        "speak": ", with {Attendees}"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ConfirmCreateSubject": {
+    "replies": [
+      {
+        "text": " The subject of the event is {Subject}.",
+        "speak": " The subject of the event is {Subject}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ConfirmCreateLocation": {
+    "replies": [
+      {
+        "text": " The event will take place at {Location}.",
+        "speak": " The event will take place at {Location}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ConfirmCreateContent": {
+    "replies": [
+      {
+        "text": " The message is {Content}.",
+        "speak": " The message is {Content}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "ConfirmCreate": {
     "replies": [
       {
-        "text": "I'm ready to create the event. The event is on {Date} at {Time} till {EndTime}, with {Attendees}. The subject of the event is {Subject}. The event will take place at {Location}. The message is {Content}. Can you confirm this event?",
-        "speak": "I'm ready to create the event. The event is on {Date} at {Time} till {EndTime}, with {Attendees}. The subject of the event is {Subject}. The event will take place at {Location}. The message is {Content}. Can you confirm this event?"
+        "text": "I'm ready to create the event. The event is on {Date} at {Time} till {EndTime}{AttendeesConfirm}.{SubjectConfirm}{LocationConfirm}{ContentConfirm} Can you confirm this event?",
+        "speak": "I'm ready to create the event. The event is on {Date} at {Time} till {EndTime}{AttendeesConfirm}.{SubjectConfirm}{LocationConfirm}{ContentConfirm} Can you confirm this event?"
       }
     ],
     "inputHint": "expectingInput"
@@ -52,7 +88,7 @@
     "replies": [
       {
         "text": "I'm ready to create the event. Please confirm the following:",
-        "speak": "I'll setup a meeting with {Attendees} for {Date} {Time}, is this OK?"
+        "speak": "I'm ready to create the event. Please confirm the following:"
       }
     ],
     "inputHint": "expectingInput"
@@ -144,7 +180,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "NoStartDate_Retry": {
+  "NoStartDateRetry": {
     "replies": [
       {
         "text": "I did not understand the date you preference, can you try again?",
@@ -166,7 +202,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "NoStartTime_Retry": {
+  "NoStartTimeRetry": {
     "replies": [
       {
         "text": "I don't understand the time you provided, can you try again?",
@@ -179,7 +215,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "NoStartTime_NoSkip": {
+  "NoStartTimeNoSkip": {
     "replies": [
       {
         "text": "You can not skip the Start Time. Please try again.",
@@ -197,7 +233,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "NoDuration_Retry": {
+  "NoDurationRetry": {
     "replies": [
       {
         "text": "I don't understand the duration you provided, can you try again?",
@@ -215,7 +251,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "GetRecreateInfo_Retry": {
+  "GetRecreateInfoRetry": {
     "replies": [
       {
         "text": "I don't understand your input. You can try Time, Duration, Location, Participants, Subject, or Content. Or say cancel",

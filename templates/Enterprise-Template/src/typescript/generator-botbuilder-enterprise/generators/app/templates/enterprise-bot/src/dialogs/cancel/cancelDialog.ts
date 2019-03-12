@@ -4,39 +4,38 @@
 import { ComponentDialog, ConfirmPrompt, DialogContext, DialogTurnResult, WaterfallDialog, WaterfallStepContext } from 'botbuilder-dialogs';
 import { CancelResponses } from './cancelResponses';
 
-class DialogIds {
-    public CANCEL_PROMPT: string = 'cancelprompt';
+enum DialogIds {
+    cancelPrompt = 'cancelprompt'
 }
 
 export class CancelDialog extends ComponentDialog {
 
     // Fields
 
-    private static readonly RESPONDER: CancelResponses = new CancelResponses();
-    private static readonly DIALOG_IDS: DialogIds = new DialogIds();
+    private static readonly responder: CancelResponses = new CancelResponses();
 
     constructor() {
         super(CancelDialog.name);
         this.initialDialogId = CancelDialog.name;
 
         const cancel: ((sc: WaterfallStepContext<{}>) => Promise<DialogTurnResult>)[] =  [
-            CancelDialog.ASK_TO_CANCEL.bind(this),
-            CancelDialog.FINISH_CANCEL_DIALOG.bind(this)
+            CancelDialog.askToCancel.bind(this),
+            CancelDialog.finishCancelDialog.bind(this)
         ];
 
         this.addDialog(new WaterfallDialog(this.initialDialogId, cancel));
-        this.addDialog(new ConfirmPrompt(CancelDialog.DIALOG_IDS.CANCEL_PROMPT));
+        this.addDialog(new ConfirmPrompt(DialogIds.cancelPrompt));
     }
 
-    public static async ASK_TO_CANCEL (sc: WaterfallStepContext): Promise<DialogTurnResult> {
-        return sc.prompt(CancelDialog.DIALOG_IDS.CANCEL_PROMPT, {
-            prompt : await CancelDialog.RESPONDER.renderTemplate(sc.context,
+    public static async askToCancel (sc: WaterfallStepContext): Promise<DialogTurnResult> {
+        return sc.prompt(DialogIds.cancelPrompt, {
+            prompt : await CancelDialog.responder.renderTemplate(sc.context,
                                                                  <string> sc.context.activity.locale,
-                                                                 CancelResponses.RESPONSE_IDS.CancelPrompt)
+                                                                 CancelResponses.responseIds.CancelPrompt)
         });
     }
 
-    public static async FINISH_CANCEL_DIALOG(sc: WaterfallStepContext): Promise<DialogTurnResult> {
+    public static async finishCancelDialog(sc: WaterfallStepContext): Promise<DialogTurnResult> {
         return sc.endDialog(<boolean> sc.result);
     }
 
@@ -46,13 +45,13 @@ export class CancelDialog extends ComponentDialog {
 
         if (doCancel) {
             // If user chose to cancel
-            await CancelDialog.RESPONDER.replyWith(outerDC.context, CancelResponses.RESPONSE_IDS.CancelConfirmedMessage);
+            await CancelDialog.responder.replyWith(outerDC.context, CancelResponses.responseIds.CancelConfirmedMessage);
 
             // Cancel all in outer stack of component i.e. the stack the component belongs to
             return outerDC.cancelAllDialogs();
         } else {
             // else if user chose not to cancel
-            await CancelDialog.RESPONDER.replyWith(outerDC.context, CancelResponses.RESPONSE_IDS.CancelDeniedMessage);
+            await CancelDialog.responder.replyWith(outerDC.context, CancelResponses.responseIds.CancelDeniedMessage);
 
             // End this component. Will trigger reprompt/resume on outer stack
             return outerDC.endDialog();

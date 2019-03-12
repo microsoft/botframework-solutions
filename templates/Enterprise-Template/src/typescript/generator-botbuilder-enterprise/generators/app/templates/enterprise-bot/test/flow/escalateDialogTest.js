@@ -13,7 +13,7 @@ describe("Escalate Dialog", function () {
                 .send('I want to talk to a human')
                 .assertReply('Our agents are available 24/7 at 1(800)555-1234.');
 
-            testNock.resolveWithMocks(this.test.title, done, flow);
+            testNock.resolveWithMocks('escalateDialog_response', done, flow);
         });
     });
 });

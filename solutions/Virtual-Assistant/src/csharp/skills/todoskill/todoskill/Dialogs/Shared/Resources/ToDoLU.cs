@@ -19,6 +19,8 @@ namespace Luis
             DeleteToDo, 
             MarkToDo, 
             None, 
+            ShowNextPage, 
+            ShowPreviousPage, 
             ShowToDo
         };
         public Dictionary<Intent, IntentScore> Intents;
@@ -31,16 +33,16 @@ namespace Luis
             public string[] ContainsAll;
 
             // Built-in entities
-            public double[] ordinal;
             public double[] number;
+            public double[] ordinal;
 
             // Lists
             public string[][] FoodOfGrocery;
             public string[][] ShopVerb;
 
             // Pattern.any
-            public string[] ShopContent;
             public string[] TaskContentPattern;
+            public string[] ShopContent;
 
             // Instance
             public class _Instance
@@ -48,12 +50,12 @@ namespace Luis
                 public InstanceData[] ListType;
                 public InstanceData[] TaskContentML;
                 public InstanceData[] ContainsAll;
-                public InstanceData[] ordinal;
                 public InstanceData[] number;
+                public InstanceData[] ordinal;
                 public InstanceData[] FoodOfGrocery;
                 public InstanceData[] ShopVerb;
-                public InstanceData[] ShopContent;
                 public InstanceData[] TaskContentPattern;
+                public InstanceData[] ShopContent;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;

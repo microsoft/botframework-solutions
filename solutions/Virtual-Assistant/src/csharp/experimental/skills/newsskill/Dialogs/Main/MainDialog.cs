@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
-using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Skills;
 
 namespace NewsSkill
 {

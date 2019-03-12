@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Builder.Solutions.Extensions;
+using Microsoft.Bot.Builder.Solutions.Resources;
 
 namespace CalendarSkill.Util
 {

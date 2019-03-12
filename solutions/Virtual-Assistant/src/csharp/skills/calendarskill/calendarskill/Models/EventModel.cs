@@ -3,13 +3,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
-using System.Reflection;
 using CalendarSkill.Common;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Util;
-using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Graph;
 
 namespace CalendarSkill.Models
@@ -747,6 +745,11 @@ namespace CalendarSkill.Models
                         }
 
                     case EventSource.Google:
+                        if (gmailEventData.Attendees == null)
+                        {
+                            return EventStatus.None;
+                        }
+
                         foreach (var attendee in gmailEventData.Attendees)
                         {
                             if (attendee.Self.HasValue && attendee.Self.Value)
@@ -796,6 +799,11 @@ namespace CalendarSkill.Models
 
                         break;
                     case EventSource.Google:
+                        if (gmailEventData.Attendees == null)
+                        {
+                            return;
+                        }
+
                         foreach (var attendee in gmailEventData.Attendees)
                         {
                             if (attendee.Self.HasValue && attendee.Self.Value)

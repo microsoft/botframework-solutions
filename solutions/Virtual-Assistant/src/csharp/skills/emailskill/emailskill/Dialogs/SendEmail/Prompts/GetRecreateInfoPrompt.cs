@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using EmailSkill.Dialogs.Shared.Resources.Strings;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Dialogs;
 using static EmailSkill.Models.SendEmailStateModel;
 
 namespace EmailSkill.Dialogs.SendEmail.Prompts

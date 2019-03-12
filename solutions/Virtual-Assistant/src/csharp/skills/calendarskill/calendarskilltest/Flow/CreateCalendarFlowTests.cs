@@ -9,9 +9,9 @@ using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Models;
 using CalendarSkillTest.Flow.Utterances;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
-using Microsoft.Bot.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
@@ -92,8 +92,6 @@ namespace CalendarSkillTest.Flow
                 .Send(Strings.Strings.DefaultStartDate)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
-                .AssertReplyOneOf(this.AskForDurationPrompt())
-                .Send(Strings.Strings.DefaultDuration)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
@@ -484,7 +482,7 @@ namespace CalendarSkillTest.Flow
 
         private string[] AskForSubjectShortPrompt(string userName = null)
         {
-            return this.ParseReplies(CreateEventResponses.NoTitle_Short, new StringDictionary());
+            return this.ParseReplies(CreateEventResponses.NoTitleShort, new StringDictionary());
         }
 
         private string[] AskForContentPrompt()

@@ -1,1 +1,0 @@
-Please refer to the [Enterprise Template documentation](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-enterprise-template-create-project?view=azure-bot-service-4.0) for deployment and customization instructions.

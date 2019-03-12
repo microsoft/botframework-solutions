@@ -5,7 +5,7 @@ using CalendarSkill.Models;
 using CalendarSkill.ServiceClients;
 using CalendarSkill.ServiceClients.GoogleAPI;
 using CalendarSkillTest.API.Fakes.MockGoogleClient;
-using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkillTest.API

@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace EmailSkill.Dialogs.ShowEmail.Resources
 {
@@ -12,10 +12,9 @@ namespace EmailSkill.Dialogs.ShowEmail.Resources
     public class ShowEmailResponses : IResponseIdCollection
     {
         // Generated accessors
-		public const string ReadOutMessage = "ReadOutMessage";
-		public const string ReadOutMorePrompt = "ReadOutMorePrompt";
-		public const string ReadOutOnlyOnePrompt = "ReadOutOnlyOnePrompt";
-		public const string ReadOutPrompt = "ReadOutPrompt";
-
+        public const string ReadOutMessage = "ReadOutMessage";
+        public const string ReadOutMorePrompt = "ReadOutMorePrompt";
+        public const string ReadOutOnlyOnePrompt = "ReadOutOnlyOnePrompt";
+        public const string ReadOutPrompt = "ReadOutPrompt";
     }
 }

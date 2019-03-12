@@ -18,11 +18,11 @@ using EmailSkill.ServiceClients;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Data;
-using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
 
 namespace EmailSkill.Dialogs.Main
 {
@@ -136,9 +136,14 @@ namespace EmailSkill.Dialogs.Main
                             break;
                         }
 
+                    case EmailLU.Intent.ShowNext:
+                    case EmailLU.Intent.ShowPrevious:
                     case EmailLU.Intent.None:
                         {
-                            if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
+                            if (intent == EmailLU.Intent.ShowNext
+                                || intent == EmailLU.Intent.ShowPrevious
+                                || generalTopIntent == General.Intent.ShowNext
+                                || generalTopIntent == General.Intent.ShowPrevious)
                             {
                                 turnResult = await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
                             }

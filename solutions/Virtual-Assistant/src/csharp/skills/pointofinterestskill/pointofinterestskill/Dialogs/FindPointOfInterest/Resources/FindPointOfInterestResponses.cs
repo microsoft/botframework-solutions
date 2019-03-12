@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace PointOfInterestSkill.Dialogs.FindPointOfInterest.Resources
 {
@@ -12,6 +12,5 @@ namespace PointOfInterestSkill.Dialogs.FindPointOfInterest.Resources
     public class FindPointOfInterestResponses : IResponseIdCollection
     {
         // Generated accessors
-
     }
 }

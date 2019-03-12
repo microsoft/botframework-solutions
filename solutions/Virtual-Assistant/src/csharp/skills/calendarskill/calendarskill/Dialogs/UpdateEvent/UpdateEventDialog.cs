@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Common;
-using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared;
 using CalendarSkill.Dialogs.Shared.Prompts.Options;
 using CalendarSkill.Dialogs.Shared.Resources;
@@ -14,10 +13,9 @@ using CalendarSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Solutions.Util;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 
 namespace CalendarSkill.Dialogs.UpdateEvent
@@ -209,7 +207,7 @@ namespace CalendarSkill.Dialogs.UpdateEvent
                 return await sc.PromptAsync(Actions.TimePrompt, new PromptOptions
                 {
                     Prompt = ResponseManager.GetResponse(UpdateEventResponses.NoNewTime),
-                    RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.NoNewTime_Retry)
+                    RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.NoNewTimeRetry)
                 }, cancellationToken);
             }
             catch (Exception ex)

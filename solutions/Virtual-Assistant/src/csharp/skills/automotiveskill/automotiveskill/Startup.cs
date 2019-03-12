@@ -17,12 +17,14 @@ namespace AutomotiveSkill
     using Microsoft.Bot.Builder.Azure;
     using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
     using Microsoft.Bot.Builder.Integration.AspNet.Core;
+    using Microsoft.Bot.Builder.Solutions.Proactive;
+    using Microsoft.Bot.Builder.Solutions.Responses;
+    using Microsoft.Bot.Builder.Solutions.Skills;
+    using Microsoft.Bot.Builder.Solutions.TaskExtensions;
+    using Microsoft.Bot.Builder.Solutions.Telemetry;
     using Microsoft.Bot.Configuration;
     using Microsoft.Bot.Connector.Authentication;
     using Microsoft.Bot.Schema;
-    using Microsoft.Bot.Solutions.Middleware.Telemetry;
-    using Microsoft.Bot.Solutions.Responses;
-    using Microsoft.Bot.Solutions.Skills;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -50,6 +52,10 @@ namespace AutomotiveSkill
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // add background task queue
+            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+            services.AddHostedService<QueuedHostedService>();
+
             // Load the connected services from .bot file.
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
             var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
@@ -68,14 +74,11 @@ namespace AutomotiveSkill
             services.AddSingleton<SkillConfigurationBase>(sp => connectedServices);
 
             var supportedLanguages = languageModels.Select(l => l.Key).ToArray();
-            var responses = new IResponseIdCollection[]
-            {
+            var responseManager = new ResponseManager(
+                supportedLanguages,
                 new AutomotiveSkillMainResponses(),
                 new AutomotiveSkillSharedResponses(),
-                new VehicleSettingsResponses(),
-            };
-
-            var responseManager = new ResponseManager(responses, supportedLanguages);
+                new VehicleSettingsResponses());
 
             // Register bot responses for all supported languages.
             services.AddSingleton(sp => responseManager);
@@ -93,11 +96,22 @@ namespace AutomotiveSkill
             var dataStore = new CosmosDbStorage(cosmosOptions);
             var userState = new UserState(dataStore);
             var conversationState = new ConversationState(dataStore);
+            var proactiveState = new ProactiveState(dataStore);
 
             services.AddSingleton(dataStore);
             services.AddSingleton(userState);
             services.AddSingleton(conversationState);
+            services.AddSingleton(proactiveState);
             services.AddSingleton(new BotStateSet(userState, conversationState));
+
+            var environment = _isProduction ? "production" : "development";
+            var service = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.Endpoint && s.Name == environment);
+            if (!(service is EndpointService endpointService))
+            {
+                throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
+            }
+
+            services.AddSingleton(endpointService);
 
             // Initialize service client
             services.AddSingleton<IServiceManager, ServiceManager>();
@@ -108,20 +122,12 @@ namespace AutomotiveSkill
             // Add the bot with options
             services.AddBot<AutomotiveSkill>(options =>
             {
-                // Load the connected services from .bot file.
-                var environment = _isProduction ? "production" : "development";
-                var service = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.Endpoint && s.Name == environment);
-                if (!(service is EndpointService endpointService))
-                {
-                    throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
-                }
-
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Telemetry Middleware (logs activity messages in Application Insights)
                 var sp = services.BuildServiceProvider();
                 var telemetryClient = sp.GetService<IBotTelemetryClient>();
-                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logUserName: true, logOriginalMessage: true);
+                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
                 options.Middleware.Add(appInsightsLogger);
 
                 // Catches any errors that occur during a conversation turn and logs them to AppInsights.

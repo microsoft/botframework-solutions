@@ -17,8 +17,12 @@ using EmailSkill.Dialogs.ShowEmail.Resources;
 using EmailSkill.ServiceClients;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Proactive;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.TaskExtensions;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
+using Microsoft.Bot.Configuration;
 
 namespace EmailSkill
 {
@@ -38,9 +42,12 @@ namespace EmailSkill
 
         public EmailSkill(
             SkillConfigurationBase services,
+            EndpointService endpointService,
             ConversationState conversationState,
             UserState userState,
+            ProactiveState proactiveState,
             IBotTelemetryClient telemetryClient,
+            IBackgroundTaskQueue backgroundTaskQueue,
             bool skillMode = false,
             ResponseManager responseManager = null,
             IServiceManager serviceManager = null)
@@ -56,17 +63,15 @@ namespace EmailSkill
             {
                 var supportedLanguages = services.LocaleConfigurations.Keys.ToArray();
                 responseManager = new ResponseManager(
-                    new IResponseIdCollection[]
-                    {
-                        new FindContactResponses(),
-                        new DeleteEmailResponses(),
-                        new ForwardEmailResponses(),
-                        new EmailMainResponses(),
-                        new ReplyEmailResponses(),
-                        new SendEmailResponses(),
-                        new EmailSharedResponses(),
-                        new ShowEmailResponses(),
-                    }, supportedLanguages);
+                    supportedLanguages,
+                    new FindContactResponses(),
+                    new DeleteEmailResponses(),
+                    new ForwardEmailResponses(),
+                    new EmailMainResponses(),
+                    new ReplyEmailResponses(),
+                    new SendEmailResponses(),
+                    new EmailSharedResponses(),
+                    new ShowEmailResponses());
             }
 
             _responseManager = responseManager;
@@ -82,6 +87,8 @@ namespace EmailSkill
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
+            turnContext.TurnState.TryAdd(TelemetryLoggerMiddleware.AppInsightsServiceKey, _telemetryClient);
+
             var dc = await _dialogs.CreateContextAsync(turnContext);
 
             if (dc.ActiveDialog != null)

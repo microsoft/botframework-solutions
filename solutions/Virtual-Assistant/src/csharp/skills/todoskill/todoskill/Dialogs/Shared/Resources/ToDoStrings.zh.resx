@@ -121,16 +121,16 @@
     <value>和{0}。</value>
   </data>
   <data name="EmailContent" xml:space="preserve">
-    <value>请参照链接{0}查看您的列表</value>
+    <value>请参照链接&lt;a href="{0}"&gt;{1}&lt;/a&gt;查看您的列表</value>
   </data>
   <data name="EmailSubject" xml:space="preserve">
-    <value>已为您创建好列表</value>
+    <value>您有新的任务列表</value>
   </data>
   <data name="Grocery" xml:space="preserve">
     <value>杂货</value>
   </data>
   <data name="GrocerySynonym" xml:space="preserve">
-    <value>杂货 杂物</value>
+    <value>杂货 杂物 食品购买 食品购物 食品 食物</value>
   </data>
   <data name="OneNoteBookName" xml:space="preserve">
     <value>任务笔记本</value>
@@ -148,6 +148,6 @@
     <value>待办事项</value>
   </data>
   <data name="ToDoSynonym" xml:space="preserve">
-    <value>代办事项 代办项</value>
+    <value>代办事项 代办项 待完成事项 待处理事项 待准备事项 待做事项</value>
   </data>
 </root>

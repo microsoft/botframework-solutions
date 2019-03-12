@@ -8,7 +8,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "NoTitle_Short": {
+  "NoTitleShort": {
     "replies": [
       {
         "text": "会议主题是什么？",
@@ -35,11 +35,47 @@
     ],
     "inputHint": "expectingInput"
   },
+  "ConfirmCreateAttendees": {
+    "replies": [
+      {
+        "text": "，和{Attendees}",
+        "speak": "，和{Attendees}"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ConfirmCreateSubject": {
+    "replies": [
+      {
+        "text": "会议的主题是{Subject}。",
+        "speak": "会议的主题是{Subject}。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ConfirmCreateLocation": {
+    "replies": [
+      {
+        "text": "会议将发生在{Location}。",
+        "speak": "会议将发生在{Location}。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ConfirmCreateContent": {
+    "replies": [
+      {
+        "text": "会议的内容是{Content}。",
+        "speak": "会议的内容是{Content}。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "ConfirmCreate": {
     "replies": [
       {
-        "text": "我准备好创建会议。请确认下列会议内容：",
-        "speak": "我准备好创建会议。请确认下列会议内容："
+        "text": "我准备好创建会议。会议在{Date}{Time}到{EndTime}{AttendeesConfirm}。{SubjectConfirm}{LocationConfirm}{ContentConfirm}你能确认这个会议吗？",
+        "speak": "我准备好创建会议。会议在{Date}{Time}到{EndTime}{AttendeesConfirm}。{SubjectConfirm}{LocationConfirm}{ContentConfirm}你能确认这个会议吗？"
       }
     ],
     "inputHint": "expectingInput"
@@ -143,7 +179,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "NoStartDate_Retry": {
+  "NoStartDateRetry": {
     "replies": [
       {
         "text": "我没有明白你说的日期，你可以再输入一次吗？",
@@ -164,7 +200,7 @@
       }
     ]
   },
-  "NoStartTime_Retry": {
+  "NoStartTimeRetry": {
     "replies": [
       {
         "text": "我没有明白你说的时间，你可以再输入一次吗？",
@@ -173,7 +209,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "NoStartTime_NoSkip": {
+  "NoStartTimeNoSkip": {
     "replies": [
       {
         "text": "你无法跳过开始时间，请重试。",
@@ -191,7 +227,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "NoDuration_Retry": {
+  "NoDurationRetry": {
     "replies": [
       {
         "text": "我没有明白你说的时间长度，你可以再输入一次吗？",
@@ -209,7 +245,7 @@
     ],
     "inputHint": "expectingInput"
   },
-  "GetRecreateInfo_Retry": {
+  "GetRecreateInfoRetry": {
     "replies": [
       {
         "text": "我没明白你的意思。你可以试试“时间”、“时间长度”、“地点”、“与会者”、“标题”或“内容”。",

@@ -8,13 +8,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
 using PointOfInterestSkill.Dialogs.CancelRoute;
+using PointOfInterestSkill.Dialogs.FindParking;
 using PointOfInterestSkill.Dialogs.FindPointOfInterest;
 using PointOfInterestSkill.Dialogs.Main.Resources;
 using PointOfInterestSkill.Dialogs.Route;
@@ -35,6 +37,7 @@ namespace PointOfInterestSkill.Dialogs.Main
         private ConversationState _conversationState;
         private IServiceManager _serviceManager;
         private IStatePropertyAccessor<PointOfInterestSkillState> _stateAccessor;
+        private IHttpContextAccessor _httpContext;
 
         public MainDialog(
             SkillConfigurationBase services,
@@ -42,6 +45,7 @@ namespace PointOfInterestSkill.Dialogs.Main
             ConversationState conversationState,
             UserState userState,
             IBotTelemetryClient telemetryClient,
+            IHttpContextAccessor httpContext,
             IServiceManager serviceManager,
             bool skillMode)
             : base(nameof(MainDialog), telemetryClient)
@@ -53,6 +57,7 @@ namespace PointOfInterestSkill.Dialogs.Main
             _conversationState = conversationState;
             _serviceManager = serviceManager;
             TelemetryClient = telemetryClient;
+            _httpContext = httpContext;
 
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<PointOfInterestSkillState>(nameof(PointOfInterestSkillState));
@@ -86,7 +91,7 @@ namespace PointOfInterestSkill.Dialogs.Main
             else
             {
                 var turnResult = EndOfTurn;
-                var result = await luisService.RecognizeAsync<PointOfInterestLU>(dc, true, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<PointOfInterestLU>(dc, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
                 var skillOptions = new PointOfInterestSkillDialogOptions
@@ -112,6 +117,12 @@ namespace PointOfInterestSkill.Dialogs.Main
                     case PointOfInterestLU.Intent.NAVIGATION_FIND_POINTOFINTEREST:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(FindPointOfInterestDialog), skillOptions);
+                            break;
+                        }
+
+                    case PointOfInterestLU.Intent.NAVIGATION_FIND_PARKING:
+                        {
+                            turnResult = await dc.BeginDialogAsync(nameof(FindParkingDialog), skillOptions);
                             break;
                         }
 
@@ -227,11 +238,11 @@ namespace PointOfInterestSkill.Dialogs.Main
                         var activeLocationName = dc.Context.Activity.Value.ToString();
 
                         // Set ActiveLocation if one w/ matching name is found in FoundLocations
-                        var activeLocation = state.FoundLocations?.FirstOrDefault(x => x.Name.Contains(activeLocationName, StringComparison.InvariantCultureIgnoreCase));
+                        var activeLocation = state.LastFoundPointOfInterests?.FirstOrDefault(x => x.Name.Contains(activeLocationName, StringComparison.InvariantCultureIgnoreCase));
                         if (activeLocation != null)
                         {
-                            state.ActiveLocation = activeLocation;
-                            state.FoundLocations = null;
+                            state.Destination = activeLocation;
+                            state.LastFoundPointOfInterests = null;
                         }
 
                         // Activity should have text to trigger next intent, update Type & Route again
@@ -364,15 +375,16 @@ namespace PointOfInterestSkill.Dialogs.Main
 
         private void RegisterDialogs()
         {
-            AddDialog(new RouteDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new CancelRouteDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new FindPointOfInterestDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new RouteDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient, _httpContext));
+            AddDialog(new CancelRouteDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient, _httpContext));
+            AddDialog(new FindPointOfInterestDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient, _httpContext));
+            AddDialog(new FindParkingDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient, _httpContext));
         }
 
         public class Events
         {
-            public const string ActiveLocation = "POI.ActiveLocation";
-            public const string ActiveRoute = "POI.ActiveRoute";
+            public const string ActiveLocation = "IPA.ActiveLocation";
+            public const string ActiveRoute = "IPA.ActiveRoute";
             public const string Location = "IPA.Location";
             public const string SkillBeginEvent = "skillBegin";
         }

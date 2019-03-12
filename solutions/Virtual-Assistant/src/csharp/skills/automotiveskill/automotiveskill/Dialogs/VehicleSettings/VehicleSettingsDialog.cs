@@ -20,11 +20,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Recognizers.Text;
 
 namespace AutomotiveSkill.Dialogs.VehicleSettings
@@ -421,6 +419,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
         {
             var state = await Accessor.GetAsync(sc.Context);
 
+            var change = state.Changes[0];
             var settingChangeConfirmed = false;
 
             // If we skip the ConfirmPrompt due to no confirmation needed then Result will be NULL
@@ -431,12 +430,11 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
             else
             {
                 settingChangeConfirmed = (bool)sc.Result;
+                change.IsConfirmed = settingChangeConfirmed;
             }
 
             if (settingChangeConfirmed)
             {
-                var change = state.Changes[0];
-
                 // If the change involves an amount then we add this to the change event
                 if (change.Amount != null)
                 {
@@ -458,16 +456,16 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                             promptReplacements["increasingDecreasing"] = VehicleSettingsStrings.INCREASING;
                         }
 
-                        // Send an event to the device along with the text confirmation
-                        await SendActionToDevice(sc, change, promptReplacements);
+                        // Send an event to the device along with the text
+                        await SendActionToDevice(sc, change);
 
                         await sc.Context.SendActivityAsync(ResponseManager.GetResponse(
                             VehicleSettingsResponses.VehicleSettingsChangingRelativeAmount, promptReplacements));
                     }
                     else
                     {
-                        // Send an event to the device along with the text confirmation
-                        await SendActionToDevice(sc, change, promptReplacements);
+                        // Send an event to the device along with the text
+                        await SendActionToDevice(sc, change);
 
                         await sc.Context.SendActivityAsync(ResponseManager.GetResponse(
                             VehicleSettingsResponses.VehicleSettingsChangingAmount, promptReplacements));
@@ -489,8 +487,8 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                         promptReplacements["value"] = change.Value;
                     }
 
-                    // Send an event to the device along with the text confirmation
-                    await SendActionToDevice(sc, change, promptReplacements);
+                    // Send an event to the device along with the text
+                    await SendActionToDevice(sc, change);
 
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(promptTemplate, promptReplacements));
                 }
@@ -515,15 +513,21 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
             }
         }
 
-        private async Task SendActionToDevice(WaterfallStepContext sc, SettingChange setting, StringDictionary settingDetail)
+        /// <summary>
+        /// Send an event activity to communicate to the client which change to make to the actual setting.
+        /// This event is meant to be processed by client code rather than shown to the user.
+        /// </summary>
+        /// <param name="sc">The WaterfallStepContext.</param>
+        /// <param name="change">The change that we want the client to make.</param>
+        /// <returns>A Task.</returns>
+        private async Task SendActionToDevice(WaterfallStepContext sc, SettingChange change)
         {
-            // remove whitespace to create Event Name and prefix with Automotive Skill
-            string reducedName = $"AutomotiveSkill.{Regex.Replace(setting.SettingName, @"\s+", string.Empty)}";
-
             var actionEvent = sc.Context.Activity.CreateReply();
             actionEvent.Type = ActivityTypes.Event;
-            actionEvent.Name = reducedName;
-            actionEvent.Value = settingDetail;
+
+            // The name of the event is the intent (changing vs checking, the latter of which is not yet supported).
+            actionEvent.Name = "AutomotiveSkill.SettingChange";
+            actionEvent.Value = change;
 
             await sc.Context.SendActivityAsync(actionEvent);
         }

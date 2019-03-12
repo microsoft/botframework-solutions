@@ -14,48 +14,63 @@ using CalendarSkill.Dialogs.Main.Resources;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.Summary;
 using CalendarSkill.Dialogs.TimeRemaining;
+using CalendarSkill.Dialogs.UpcomingEvent;
 using CalendarSkill.Dialogs.UpdateEvent;
 using CalendarSkill.ServiceClients;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Proactive;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.TaskExtensions;
+using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
 
 namespace CalendarSkill.Dialogs.Main
 {
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
+        private EndpointService _endpointService;
         private SkillConfigurationBase _services;
         private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
+        private ProactiveState _proactiveState;
+        private IBackgroundTaskQueue _backgroundTaskQueue;
         private IServiceManager _serviceManager;
         private IStatePropertyAccessor<CalendarSkillState> _stateAccessor;
+        private IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
 
         public MainDialog(
             SkillConfigurationBase services,
+            EndpointService endpointService,
             ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
+            ProactiveState proactiveState,
             IBotTelemetryClient telemetryClient,
+            IBackgroundTaskQueue backgroundTaskQueue,
             IServiceManager serviceManager,
             bool skillMode)
             : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;
             _services = services;
+            _endpointService = endpointService;
             _responseManager = responseManager;
             _userState = userState;
             _conversationState = conversationState;
+            _proactiveState = proactiveState;
             TelemetryClient = telemetryClient;
+            _backgroundTaskQueue = backgroundTaskQueue;
             _serviceManager = serviceManager;
 
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<CalendarSkillState>(nameof(CalendarSkillState));
+            _proactiveStateAccessor = _proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
 
             // Register dialogs
             RegisterDialogs();
@@ -130,6 +145,11 @@ namespace CalendarSkill.Dialogs.Main
                         }
 
                     case Luis.CalendarLU.Intent.FindCalendarEntry:
+                    case Luis.CalendarLU.Intent.FindCalendarDetail:
+                    case Luis.CalendarLU.Intent.FindCalendarWhen:
+                    case Luis.CalendarLU.Intent.FindCalendarWhere:
+                    case Luis.CalendarLU.Intent.FindCalendarWho:
+                    case Luis.CalendarLU.Intent.FindDuration:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog), skillOptions);
                             break;
@@ -141,9 +161,16 @@ namespace CalendarSkill.Dialogs.Main
                             break;
                         }
 
+                    case Luis.CalendarLU.Intent.ShowNextCalendar:
+                    case Luis.CalendarLU.Intent.ShowPreviousCalendar:
+                        {
+                            turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog), skillOptions);
+                            break;
+                        }
+
                     case Luis.CalendarLU.Intent.None:
                         {
-                            if (generalTopIntent == General.Intent.Next || generalTopIntent == General.Intent.Previous)
+                            if (generalTopIntent == General.Intent.ShowNext || generalTopIntent == General.Intent.ShowPrevious)
                             {
                                 turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog), skillOptions);
                             }
@@ -230,6 +257,18 @@ namespace CalendarSkill.Dialogs.Main
 
                             await dc.Context.SendActivityAsync(response);
                         }
+
+                        break;
+                    }
+
+                case Events.DeviceStart:
+                    {
+                        var skillOptions = new CalendarSkillDialogOptions
+                        {
+                            SkillMode = _skillMode,
+                        };
+
+                        await dc.BeginDialogAsync(nameof(UpcomingEventDialog), skillOptions);
 
                         break;
                     }
@@ -342,6 +381,7 @@ namespace CalendarSkill.Dialogs.Main
             AddDialog(new SummaryDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new UpdateEventDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new ConnectToMeetingDialog(_services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new UpcomingEventDialog(_services, _endpointService, _responseManager, _stateAccessor, _proactiveStateAccessor, _serviceManager, TelemetryClient, _backgroundTaskQueue));
         }
 
         private void InitializeConfig(CalendarSkillState state)
@@ -363,6 +403,7 @@ namespace CalendarSkill.Dialogs.Main
         {
             public const string TokenResponseEvent = "tokens/response";
             public const string SkillBeginEvent = "skillBegin";
+            public const string DeviceStart = "DeviceStart";
         }
     }
 }

@@ -21,6 +21,7 @@ namespace Luis
             l_ToDo, 
             l_PointOfInterest, 
             q_FAQ, 
+            q_Chitchat, 
             None
         };
         public Dictionary<Intent, IntentScore> Intents;

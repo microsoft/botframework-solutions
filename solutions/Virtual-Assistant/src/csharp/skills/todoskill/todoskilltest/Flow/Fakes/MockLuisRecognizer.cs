@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 using ToDoSkillTest.Flow.Utterances;
 
 namespace ToDoSkillTest.Flow.Fakes
@@ -25,9 +25,7 @@ namespace ToDoSkillTest.Flow.Fakes
             this.generalUtterancesManager = generalUtterancesMananger;
         }
 
-        public bool LogOriginalMessage => throw new NotImplementedException();
-
-        public bool LogUsername => throw new NotImplementedException();
+        public bool LogPersonalInformation => throw new NotImplementedException();
 
         public Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
@@ -59,13 +57,7 @@ namespace ToDoSkillTest.Flow.Fakes
             return Task.FromResult(mockResult);
         }
 
-        public Task<T> RecognizeAsync<T>(DialogContext dialogContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
-            where T : IRecognizerConvert, new()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, bool logOriginalMessage, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<T> RecognizeAsync<T>(DialogContext dialogContext, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new()
         {
             throw new NotImplementedException();

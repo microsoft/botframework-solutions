@@ -9,17 +9,16 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Dialogs;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
 using ToDoSkill.Common;
 using ToDoSkill.Dialogs.AddToDo;
 using ToDoSkill.Dialogs.DeleteToDo;
 using ToDoSkill.Dialogs.Main.Resources;
 using ToDoSkill.Dialogs.MarkToDo;
 using ToDoSkill.Dialogs.Shared.DialogOptions;
-using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Dialogs.ShowToDo;
 using ToDoSkill.ServiceClients;
 using static ToDoSkill.Dialogs.Shared.ServiceProviderTypes;
@@ -123,6 +122,8 @@ namespace ToDoSkill.Dialogs.Main
                             break;
                         }
 
+                    case ToDoLU.Intent.ShowNextPage:
+                    case ToDoLU.Intent.ShowPreviousPage:
                     case ToDoLU.Intent.ShowToDo:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(ShowToDoItemDialog), skillOptions);
@@ -131,9 +132,8 @@ namespace ToDoSkill.Dialogs.Main
 
                     case ToDoLU.Intent.None:
                         {
-                            if (generalTopIntent == General.Intent.Next
-                                || generalTopIntent == General.Intent.Previous
-                                || generalTopIntent == General.Intent.ReadMore)
+                            if (generalTopIntent == General.Intent.ShowNext
+                                || generalTopIntent == General.Intent.ShowPrevious)
                             {
                                 turnResult = await dc.BeginDialogAsync(nameof(ShowToDoItemDialog), skillOptions);
                             }
@@ -324,7 +324,7 @@ namespace ToDoSkill.Dialogs.Main
 
         private void InitializeConfig(ToDoSkillState state)
         {
-            // Initialize PageSize, ReadSize and TaskServiceType when the first input comes.
+            // Initialize PageSize and TaskServiceType when the first input comes.
             if (state.PageSize <= 0)
             {
                 var pageSize = 0;
@@ -333,18 +333,7 @@ namespace ToDoSkill.Dialogs.Main
                     int.TryParse(displaySizeObj.ToString(), out pageSize);
                 }
 
-                state.PageSize = pageSize <= 0 || pageSize > ToDoCommonUtil.MaxDisplaySize ? ToDoCommonUtil.MaxDisplaySize : pageSize;
-            }
-
-            if (state.ReadSize <= 0)
-            {
-                var readSize = 0;
-                if (_services.Properties.TryGetValue("ReadSize", out var readSizeObj))
-                {
-                    int.TryParse(readSizeObj.ToString(), out readSize);
-                }
-
-                state.ReadSize = readSize <= 0 || readSize > ToDoCommonUtil.MaxReadSize ? ToDoCommonUtil.MaxReadSize : readSize;
+                state.PageSize = pageSize <= 0 ? ToDoCommonUtil.DefaultDisplaySize : pageSize;
             }
 
             if (state.TaskServiceType == ProviderTypes.Other)

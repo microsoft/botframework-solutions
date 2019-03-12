@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace EmailSkill.Dialogs.ReplyEmail.Resources
 {
@@ -12,6 +12,5 @@ namespace EmailSkill.Dialogs.ReplyEmail.Resources
     public class ReplyEmailResponses : IResponseIdCollection
     {
         // Generated accessors
-
     }
 }

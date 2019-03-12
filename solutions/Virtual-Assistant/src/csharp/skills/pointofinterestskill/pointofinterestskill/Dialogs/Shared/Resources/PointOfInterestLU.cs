@@ -18,27 +18,30 @@ namespace Luis
             None, 
             NAVIGATION_CANCEL_ROUTE, 
             NAVIGATION_FIND_POINTOFINTEREST, 
-            NAVIGATION_ROUTE_FROM_X_TO_Y
+            NAVIGATION_ROUTE_FROM_X_TO_Y, 
+            NAVIGATION_FIND_PARKING
         };
         public Dictionary<Intent, IntentScore> Intents;
 
         public class _Entities
         {
             // Simple entities
-            public string[] ADDRESS;
-            public string[] DESCRIPTOR;
             public string[] KEYWORD;
+            public string[] ADDRESS;
 
             // Built-in entities
             public double[] number;
 
+            // Lists
+            public string[][] ROUTE_TYPE;
+
             // Instance
             public class _Instance
             {
-                public InstanceData[] ADDRESS;
-                public InstanceData[] DESCRIPTOR;
                 public InstanceData[] KEYWORD;
+                public InstanceData[] ADDRESS;
                 public InstanceData[] number;
+                public InstanceData[] ROUTE_TYPE;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
