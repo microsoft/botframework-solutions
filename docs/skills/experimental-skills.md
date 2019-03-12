@@ -29,7 +29,7 @@ Experimental Skills not added by default when deploying the Virtual Assistant du
 Run this PowerShell script to deploy shared resources and LUIS models required for an experimental skill.
 
 ```
-  PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\deploy_bot.ps1
+  pwsh.exe -ExecutionPolicy Bypass -File DeploymentScripts\deploy_bot.ps1
 ```
 
 You will be prompted to provide the following parameters:
