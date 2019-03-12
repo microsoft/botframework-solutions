@@ -16,7 +16,6 @@ Follow the instructions below to build, deploy and configure your Virtual Assist
   - [Testing](#testing)
 
 ## Prerequisites
-
 > It's important to ensure all of the following pre-requisites are installed on your machine prior to attempting deployment otherwise you may run into deployment issues.
 
 1. Ensure you have updated [.NET Core](https://www.microsoft.com/net/download) to the latest version.  
@@ -90,7 +89,7 @@ Your Virtual Assistant project has a deployment recipe enabling the `msbot clone
 
 To deploy your Virtual Assistant including all dependencies - e.g. CosmosDb, Application Insights, etc. run the following command from a command prompt within your project folder. Ensure you update the authoring key from the previous step and choose the Azure datacenter location you wish to use (e.g. westus or westeurope). You must check that the LUIS authoring key retrieved on the previous step is for the region you specify below (e.g. westus for luis.ai or westeurope for eu.luis.ai)
 
-Run this PowerShell script to deploy your shared resources and LUIS and QnA Maker resources in English. Ensure you navigate in a command prompt to the `solutions\Virtual-Assistant\src\csharp\assistant` folder. The `pwsh.exe` is the new PowerShell v6 executable which should be added to your path as part of the install, if not you find in your `ProgramFiles\PowerShell\6` directory.
+Run this PowerShell script to deploy your shared resources and LUIS and QnA Maker resources in English. Ensure you navigate in a command prompt to the `solutions\Virtual-Assistant\src\csharp\assistant` folder. The `pwsh.exe` is the new PowerShell v6 executable which should be added to your path as part of the install, if not you can find in your `ProgramFiles\PowerShell\6` directory.
 
 > Depending on the network connection this deployment process may take 10-15 minutes before progress is shown, ensure you complete the authentication step and check back later for progress.
 

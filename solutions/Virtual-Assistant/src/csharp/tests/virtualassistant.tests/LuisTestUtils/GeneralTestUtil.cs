@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Luis;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Solutions.Testing.Mocks;
+using Microsoft.Bot.Builder.Solutions.Testing.Mocks;
 using VirtualAssistant.Tests.Utterances;
 
 namespace VirtualAssistant.Tests.LuisTestUtils

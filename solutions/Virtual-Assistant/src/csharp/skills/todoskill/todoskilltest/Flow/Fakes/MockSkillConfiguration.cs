@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Bot.Builder.Azure;
-using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills;
 
 namespace ToDoSkillTest.Flow.Fakes
 {

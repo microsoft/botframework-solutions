@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using RestaurantBooking.Dialogs.RestaurantBooking.Resources;
+﻿using System.Collections.Generic;
+using RestaurantBooking.Dialogs.BookingDialog.Resources;
 using RestaurantBooking.Helpers;
 using RestaurantBooking.Models;
 
