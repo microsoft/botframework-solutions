@@ -1,9 +1,9 @@
-﻿using CalendarSkill.Dialogs.Shared.Resources.Strings;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using CalendarSkill.Dialogs.Shared.Resources.Strings;
 
 namespace CalendarSkill.Models.Resources
 {

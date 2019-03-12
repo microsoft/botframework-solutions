@@ -1,6 +1,6 @@
 ﻿using System;
 using AdaptiveCards;
-using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace RestaurantBooking.Shared.Resources.Cards
 {

@@ -13,13 +13,12 @@ namespace RestaurantBooking
     using Microsoft.AspNetCore.Http;
     using Microsoft.Bot.Builder;
     using Microsoft.Bot.Builder.Dialogs;
+    using Microsoft.Bot.Builder.Solutions.Proactive;
+    using Microsoft.Bot.Builder.Solutions.Responses;
+    using Microsoft.Bot.Builder.Solutions.Skills;
+    using Microsoft.Bot.Builder.Solutions.TaskExtensions;
     using Microsoft.Bot.Configuration;
     using Microsoft.Bot.Schema;
-    using Microsoft.Bot.Solutions.Proactive;
-    using Microsoft.Bot.Solutions.Responses;
-    using Microsoft.Bot.Solutions.Skills;
-    using Microsoft.Bot.Solutions.TaskExtensions;
-
 
     /// <summary>
     /// Main entry point and orchestration for bot.

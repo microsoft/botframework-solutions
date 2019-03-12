@@ -1,13 +1,13 @@
-using Experimental.Skills.Tests.Utterances;
-using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RestaurantBooking.Dialogs.Shared.Resources;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using Experimental.Skills.Tests.Utterances;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Schema;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RestaurantBooking.Dialogs.Shared.Resources;
 
 namespace Experimental.Skills.Tests
 {
