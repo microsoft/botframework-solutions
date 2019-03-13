@@ -529,7 +529,7 @@ namespace RestaurantBooking.Dialogs.BookingDialog
             // Send an update to the user (this would be done asynchronously and through a proactive notification
             var tokens = new StringDictionary
                 {
-                    { "BookingPlace", reservation.BookingPlace.Name },
+                    { "Restaurant", reservation.BookingPlace.Name },
                     { "Location", reservation.BookingPlace.Location },
                     { "ReservationDate", reservation.ReservationDate?.ToShortDateString() },
                     { "ReservationDateSpeak", reservation.ReservationDate?.ToSpeakString(true) },
@@ -555,6 +555,8 @@ namespace RestaurantBooking.Dialogs.BookingDialog
                        tokens);
 
             await sc.Context.SendActivityAsync(replyMessage);
+
+            state.Clear();
 
             return await sc.EndDialogAsync(cancellationToken: cancellationToken);
         }
