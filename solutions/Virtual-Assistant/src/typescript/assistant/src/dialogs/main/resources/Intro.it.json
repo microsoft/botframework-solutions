@@ -1,0 +1,49 @@
+﻿{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "speak": "Benvenuti al vostro assistente virtuale! Ora che sei in funzione, cominciamo.",
+  "body": [
+    {
+      "type": "Image",
+      "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU",
+      "size": "stretch"
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "medium",
+      "size": "default",
+      "weight": "bolder",
+      "text": "Benvenuti al vostro assistente virtuale",
+      "speak": "Benvenuti al vostro assistente virtuale",
+      "wrap": true,
+      "maxLines": 0
+    },
+    {
+      "type": "TextBlock",
+      "size": "default",
+      "isSubtle": true,
+      "text": "Ora che hai eseguito correttamente l'assistente virtuale, segui i link di questa scheda adattabile per esplorare ulteriormente.",
+      "speak": "Ora che il vostro installato e funzionante cominciamo.",
+      "wrap": true,
+      "maxLines": 0
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "Documentazione",
+      "url": "https://aka.ms/customassistantdocs"
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "Account collegati",
+      "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-linkedaccounts.md"
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "Skills",
+      "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-skills.md"
+    }
+  ]
+}
