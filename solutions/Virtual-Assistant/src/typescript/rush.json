@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
+  "rushVersion": "5.5.4",
+  "npmVersion": "6.4.0",
+  "nodeSupportedVersionRange": ">=8.9.4",
+  "ensureConsistentVersions": true,
+  "projects": [
+    {
+      "packageName": "assistant",
+      "projectFolder": "assistant"
+    },
+    {
+      "packageName": "bot-solution",
+      "projectFolder": "bot-solution"
+    }
+  ]
+}

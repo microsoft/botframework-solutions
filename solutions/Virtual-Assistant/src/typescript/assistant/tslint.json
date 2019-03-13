@@ -10,9 +10,15 @@
         ]
     },
     "rules": {
+      "function-name": [ true,
+        {
+          "static-method-regex":"^[a-z][\\w\\d]+$"
+        }
+      ],
       "linebreak-style": [false],
       "member-ordering": [false],
-      "no-relative-imports": [false]
+      "no-relative-imports": [false],
+      "completed-docs": false
     },
     "rulesDirectory": [
       "tslint-microsoft-contrib"

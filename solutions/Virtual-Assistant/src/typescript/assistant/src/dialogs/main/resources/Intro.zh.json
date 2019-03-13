@@ -1,0 +1,49 @@
+﻿{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "speak": "欢迎您来体验智能助理! 现在一切就绪，我们开始吧。",
+  "body": [
+    {
+      "type": "Image",
+      "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU",
+      "size": "stretch"
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "medium",
+      "size": "default",
+      "weight": "bolder",
+      "text": "欢迎使用您的专属智能助手！",
+      "speak": "欢迎使用您的专属智能助手！",
+      "wrap": true,
+      "maxLines": 0
+    },
+    {
+      "type": "TextBlock",
+      "size": "default",
+      "isSubtle": true,
+      "text": "现在您可以开始使用我了，请访问卡片上的选项了解更多",
+      "speak": "现在您可以开始使用我了，请访问卡片上的选项了解更多",
+      "wrap": true,
+      "maxLines": 0
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "帮助文档",
+      "url": "https://aka.ms/customassistantdocs"
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "连接账户",
+      "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-linkedaccounts.md"
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "助手技能",
+      "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-skills.md"
+    }
+  ]
+}
