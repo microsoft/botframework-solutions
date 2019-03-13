@@ -244,7 +244,7 @@ namespace VirtualAssistant.Dialogs.Main
                 default:
                     {
                         // No intent was identified, send confused message
-                        await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.SkillNotFound);
+                        await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
                         break;
                     }
             }
