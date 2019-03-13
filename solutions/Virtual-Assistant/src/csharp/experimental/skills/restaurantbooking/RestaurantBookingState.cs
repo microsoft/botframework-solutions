@@ -13,6 +13,7 @@ namespace RestaurantBooking
         {
             Booking = new ReservationBooking();
             Cuisine = new List<FoodTypeInfo>();
+            AmbiguousTimexExpressions = new Dictionary<string, string>();
         }
 
         public Luis.Reservation LuisResult { get; set; }
@@ -23,7 +24,7 @@ namespace RestaurantBooking
 
         public List<FoodTypeInfo> Cuisine { get; set; }
 
-        public HashSet<string> AmbiguousTimexExpressions { get; set; }
+        public Dictionary<string, string> AmbiguousTimexExpressions { get; set; }
 
         public void Clear()
         {

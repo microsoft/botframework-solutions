@@ -13,6 +13,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using RestaurantBooking.Dialogs.BookingDialog.Resources;
 using RestaurantBooking.Dialogs.Resources.Cards;
 using RestaurantBooking.Dialogs.Shared;
@@ -57,12 +58,15 @@ namespace RestaurantBooking.Dialogs.BookingDialog
             AddDialog(new WaterfallDialog(Actions.BookRestaurant, bookingWaterfall));
 
             // Prompts
-            AddDialog(new ChoicePrompt(Actions.AskForFoodType, ValidateFoodType) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
+            AddDialog(new ChoicePrompt(Actions.AskForFoodType, ValidateFoodType) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { IncludeNumbers = true } });
             AddDialog(new DateTimePrompt(Actions.AskReservationDateStep, ValidateReservationDate));
             AddDialog(new DateTimePrompt(Actions.AskReservationTimeStep, ValidateReservationTime));
             AddDialog(new NumberPrompt<int>(Actions.AskAttendeeCountStep, ValidateAttendeeCount));
             AddDialog(new ConfirmPrompt(Actions.ConfirmSelectionBeforeBookingStep, ValidateBookingSelectionConfirmation));
             AddDialog(new TextPrompt(Actions.RestaurantPrompt, ValidateRestaurantSelection));
+
+            // Optional
+            AddDialog(new ChoicePrompt(Actions.AmbiguousTimePrompt, ValidateAmbiguousTimePrompt) { Style = ListStyle.HeroCard, ChoiceOptions = new ChoiceFactoryOptions { IncludeNumbers = true } });
 
             // Set starting dialog for component
             InitialDialogId = Actions.BookRestaurant;
@@ -252,9 +256,19 @@ namespace RestaurantBooking.Dialogs.BookingDialog
             {
                 return await sc.NextAsync(sc.Values, cancellationToken);
             }
-            else if (state.AmbiguousTimexExpressions != null)
+            else if (state.AmbiguousTimexExpressions.Count > 0)
             {
                 // We think the user did provide a time but it was ambiguous so we should clarify
+                var ambiguousReply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.AmbiguousTimePrompt);
+
+                var choices = new List<Choice>();
+
+                foreach (var option in state.AmbiguousTimexExpressions)
+                {
+                    choices.Add(new Choice(option.Value));
+                }
+
+                return await sc.PromptAsync(Actions.AmbiguousTimePrompt, new PromptOptions { Prompt = ambiguousReply, Choices = choices }, cancellationToken);
             }
 
             // We don't have the time component so prompt for time
@@ -275,6 +289,31 @@ namespace RestaurantBooking.Dialogs.BookingDialog
                 reservation.ReservationTime = DateTime.Parse(recognizerValue.Value);
 
                 return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Validate the chosen time.
+        /// </summary>
+        /// <param name="promptContext">Prompt Validator Context.</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
+        /// <returns>Dialog Turn Result.</returns>
+        private async Task<bool> ValidateAmbiguousTimePrompt(PromptValidatorContext<FoundChoice> promptContext, CancellationToken cancellationToken)
+        {
+            var state = await ConversationStateAccessor.GetAsync(promptContext.Context);
+
+            if (promptContext.Recognized.Succeeded)
+            {
+                var timexFromNaturalLanguage = state.AmbiguousTimexExpressions.First(t => t.Value == promptContext.Recognized.Value.Value);
+                if (!string.IsNullOrEmpty(timexFromNaturalLanguage.Key))
+                {
+                    TimexProperty property = new TimexProperty(timexFromNaturalLanguage.Key);
+                    state.Booking.ReservationTime = DateTime.Parse($"{property.Hour.Value}:{property.Minute.Value}:{property.Second.Value}");
+
+                    return true;
+                }
             }
 
             return false;

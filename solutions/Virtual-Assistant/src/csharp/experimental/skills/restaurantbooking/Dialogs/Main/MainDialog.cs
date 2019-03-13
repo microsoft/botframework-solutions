@@ -239,6 +239,9 @@ namespace RestaurantBooking.Dialogs.Main
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
+            var state = await _conversationStateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
+            state.Clear();
+
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingSharedResponses.CancellingMessage));
             await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();

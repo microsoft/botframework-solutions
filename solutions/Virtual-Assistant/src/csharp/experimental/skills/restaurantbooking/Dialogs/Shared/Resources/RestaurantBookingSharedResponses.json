@@ -295,5 +295,14 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "AmbiguousTimePrompt": {
+    "replies": [
+      {
+        "text": "I couldn't quite work out the time you wanted, can you confirm please?",
+        "speak": "I couldn't quite work out the time you wanted, can you confirm please?"
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }
