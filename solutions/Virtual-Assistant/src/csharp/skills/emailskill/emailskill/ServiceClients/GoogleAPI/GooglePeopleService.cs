@@ -71,13 +71,18 @@ namespace EmailSkill.ServiceClients.GoogleAPI
             return Task.FromResult(new List<Contact>());
         }
 
+        public Task<User> GetMeAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         // get people work with
         public async Task<List<MsPerson>> GetPeopleAsync(string name)
         {
             try
             {
                 PeopleResource.ConnectionsResource.ListRequest peopleRequest = service.People.Connections.List("people/me");
-                peopleRequest.RequestMaskIncludeField = "person.emailAddresses,person.names";
+                peopleRequest.RequestMaskIncludeField = "person.emailAddresses,person.names,person.photos";
 
                 ListConnectionsResponse connectionsResponse = await ((IClientServiceRequest<ListConnectionsResponse>)peopleRequest).ExecuteAsync();
                 IList<GooglePerson> connections = connectionsResponse.Connections;
@@ -89,6 +94,7 @@ namespace EmailSkill.ServiceClients.GoogleAPI
                     {
                         // filter manually
                         var displayName = people.Names[0]?.DisplayName;
+                        //var test = people.Photos[0].Url;
                         if (people.EmailAddresses?.Count > 0 && displayName != null && displayName.ToLower().Contains(name.ToLower()))
                         {
                             result.Add(this.GooglePersonToMsPerson(people));
@@ -103,6 +109,11 @@ namespace EmailSkill.ServiceClients.GoogleAPI
                 throw GoogleClient.HandleGoogleAPIException(ex);
             }
 }
+
+        public Task<string> GetUserPhotoAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
 
         // search people in domain
         public Task<List<User>> GetUserAsync(string name)

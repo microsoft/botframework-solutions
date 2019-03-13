@@ -17,5 +17,7 @@ namespace EmailSkill.Dialogs.Shared.Resources.Cards
         public string EmailLink { get; set; }
 
         public string Speak { get; set; }
+
+        public string SenderIcon { get; set; }
     }
 }

@@ -3,6 +3,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 
@@ -157,6 +159,49 @@ namespace EmailSkill.ServiceClients.MSGraphAPI
             }
 
             return items;
+        }
+
+        public async Task<User> GetMeAsync()
+        {
+            var meRequest = this._graphClient.Me.Request();
+
+            try
+            {
+                var myInfo = await meRequest.GetAsync();
+                return myInfo;
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
+        }
+
+        public async Task<string> GetUserPhotoAsync(string id)
+        {
+            var photoRequest = this._graphClient.Users[id].Photos["48x48"].Content.Request();
+
+            Stream originalPhoto = null;
+            string photoUrl = string.Empty;
+            try
+            {
+                originalPhoto = await photoRequest.GetAsync();
+                photoUrl = Convert.ToBase64String(ReadFully(originalPhoto));
+
+                return string.Format("data:image/jpeg;base64,{0}", photoUrl);
+            }
+            catch (ServiceException ex)
+            {
+                return null;
+            }
+        }
+
+        public static byte[] ReadFully(Stream input)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                input.CopyTo(ms);
+                return ms.ToArray();
+            }
         }
     }
 }

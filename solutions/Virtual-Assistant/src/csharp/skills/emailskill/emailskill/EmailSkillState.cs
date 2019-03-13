@@ -35,7 +35,7 @@ namespace EmailSkill
             ReadRecipientIndex = 0;
             RecipientChoiceList = new List<Choice>();
             DirectlyToMe = false;
-            StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
+            StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-100, 0, 0, 0));
             EndDateTime = DateTime.UtcNow;
             UserSelectIndex = -1;
             MailSourceType = MailSource.Other;

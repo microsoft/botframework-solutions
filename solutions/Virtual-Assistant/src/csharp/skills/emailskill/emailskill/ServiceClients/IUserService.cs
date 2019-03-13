@@ -29,5 +29,9 @@ namespace EmailSkill.ServiceClients
         /// <param name="name">The contact's name.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         Task<List<Contact>> GetContactsAsync(string name);
+
+        Task<User> GetMeAsync();
+
+        Task<string> GetUserPhotoAsync(string id);
     }
 }

@@ -248,6 +248,7 @@ namespace EmailSkill.Dialogs.ShowEmail
                 {
                     var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(message.ToRecipients);
 
+                    var senderIcon = await GetUserPhotoUrlAsync(sc.Context, message.Sender.EmailAddress.Address);
                     var emailCard = new EmailCardData
                     {
                         Subject = message.Subject,
@@ -259,6 +260,7 @@ namespace EmailSkill.Dialogs.ShowEmail
                             ? CommonStrings.NotAvailable
                             : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(state.GetUserTimeZone()),
                         Speak = SpeakHelper.ToSpeechEmailDetailOverallString(message, state.GetUserTimeZone()),
+                        SenderIcon = senderIcon
                     };
 
                     var tokens = new StringDictionary()

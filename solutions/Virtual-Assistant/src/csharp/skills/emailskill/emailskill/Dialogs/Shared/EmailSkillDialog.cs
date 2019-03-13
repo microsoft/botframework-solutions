@@ -1067,6 +1067,35 @@ namespace EmailSkill.Dialogs.Shared
             return result;
         }
 
+        protected async Task<string> GetUserPhotoUrlAsync(ITurnContext context, string email)
+        {
+            var state = await EmailStateAccessor.GetAsync(context);
+            var token = state.Token;
+            var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+
+            try
+            {
+                var user = await service.GetUserAsync(email);
+                if (user != null && user.Count() == 1)
+                {
+                    var url = await service.GetUserPhotoAsync(user[0].Id);
+
+                    if (!string.IsNullOrEmpty(url))
+                    {
+                        return url;
+                    }
+                }
+
+                // return default value
+                return "http://messagecardplayground.azurewebsites.net/assets/Mostly%20Cloudy-Square.png";
+            }
+            catch (ServiceException)
+            {
+                // won't clear conversation state hear, because sometime use api is not available, like user msa account.
+                return "http://messagecardplayground.azurewebsites.net/assets/Mostly%20Cloudy-Square.png";
+            }
+        }
+
         protected async Task ClearConversationState(WaterfallStepContext sc)
         {
             try
@@ -1081,7 +1110,7 @@ namespace EmailSkill.Dialogs.Shared
                     state.ShowEmailIndex = 0;
                     state.IsUnreadOnly = true;
                     state.IsImportant = false;
-                    state.StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
+                    state.StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-100, 0, 0, 0));
                     state.EndDateTime = DateTime.UtcNow;
                     state.DirectlyToMe = false;
                     state.UserSelectIndex = -1;

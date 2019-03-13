@@ -1,9 +1,5 @@
 ﻿{
-  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
-  "version": "1.0",
-  "speak": "{Speak}",
-  "id": "EmailDetailCard",
   "body": [
     {
       "type": "Container",
@@ -13,23 +9,28 @@
           "columns": [
             {
               "type": "Column",
-              "width": "stretch",
+              "items": [
+                {
+                  "type": "Image",
+                  "url": "http://messagecardplayground.azurewebsites.net/assets/Mostly%20Cloudy-Square.png",
+                  "size": "Small"
+                }
+              ],
+              "width": "auto"
+            },
+            {
+              "type": "Column",
+              "verticalContentAlignment": "Center",
               "items": [
                 {
                   "type": "TextBlock",
-                  "text": "{Sender}",
-                  "weight": "bolder",
-                  "size": "large",
-                  "maxLines": 1
-                },
-                {
-                  "type": "TextBlock",
-                  "text": "{Subject}",
-                  "weight": "bolder",
-                  "size": "large",
-                  "maxLines": 1
+                  "id": "Header",
+                  "size": "Large",
+                  "weight": "Bolder",
+                  "text": "EMAIL OVERVIEW"
                 }
-              ]
+              ],
+              "width": "stretch"
             }
           ]
         },
@@ -38,22 +39,45 @@
           "columns": [
             {
               "type": "Column",
-              "width": "stretch",
               "items": [
-                   {
-                  "type": "TextBlock",
-                  "spacing": "none",
-                  "text": "{ReceivedDateTime}",
-                  "isSubtle": true,
-                  "wrap": true
-                },
+                {
+                  "type": "Image",
+                  "id": "UserAvatar",
+                  "style": "Person",
+                  "url": "{SenderIcon}",
+                  "size": "Small"
+                }
+              ],
+              "width": "auto"
+            },
+            {
+              "type": "Column",
+              "horizontalAlignment": "Right",
+              "verticalContentAlignment": "Center",
+              "items": [
                 {
                   "type": "TextBlock",
-                  "text": "{NameList}",
-                  "weight": "bolder",
-                  "wrap": true
+                  "id": "UserName",
+                  "horizontalAlignment": "Center",
+                  "color": "Accent",
+                  "text": "{Sender}"
                 }
-              ]
+              ],
+              "width": "stretch"
+            },
+            {
+              "type": "Column",
+              "id": "EmailSubject",
+              "verticalContentAlignment": "Center",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "id": "Subject",
+                  "horizontalAlignment": "Center",
+                  "text": "{Subject}"
+                }
+              ],
+              "width": "stretch"
             }
           ]
         }
@@ -64,18 +88,13 @@
       "items": [
         {
           "type": "TextBlock",
+          "id": "EmailBody",
           "text": "{EmailContent}",
-          "wrap": true,
-          "maxLines": 3
+          "wrap": true
         }
       ]
     }
   ],
-  "actions": [
-    {
-      "type": "Action.OpenUrl",
-      "title": "View",
-      "url": "{EmailLink}"
-    }
-  ]
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
 }
