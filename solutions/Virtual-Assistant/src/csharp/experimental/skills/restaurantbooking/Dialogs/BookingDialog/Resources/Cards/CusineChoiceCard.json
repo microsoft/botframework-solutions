@@ -35,7 +35,7 @@
         "type": "Action.Submit",
         "title": "Submit action",
         "data": {
-          "selectedItem": "{Name}"
+          "selectedItem": "{Cusine}"
         }
       }
     }

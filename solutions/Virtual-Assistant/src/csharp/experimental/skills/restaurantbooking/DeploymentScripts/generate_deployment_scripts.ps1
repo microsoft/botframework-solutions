@@ -8,7 +8,7 @@ $basePath = "$($PSScriptRoot)\.."
 $outputPath = "$($PSScriptRoot)\$($langCode)"
 
 # lu file paths
-$calendarLUPath = "$($basePath)\CognitiveModels\LUIS\$($langCode)\reservation.lu"
+$calendarLUPath = "$($basePath)\CognitiveModels\LUIS\$($langCode)\restaurant.lu"
 $generalLUPath = "$($basePath)\..\..\..\assistant\CognitiveModels\LUIS\$($langCode)\general.lu"
 
 $luArr = @($calendarLUPath, $generalLUPath)
@@ -25,5 +25,5 @@ foreach ($lu in $luArr)
 }
 
 Write-Host "Generating $($locale) LUIS and QnA Maker models from .lu files ..."
-ludown parse toluis -c $($locale) -o $outputPath --in $calendarLUPath --out reservation.luis -n reservation
+ludown parse toluis -c $($locale) -o $outputPath --in $calendarLUPath --out restaurant.luis -n reservation
 ludown parse toluis -c $($locale) -o $outputPath --in $generalLUPath --out general.luis -n General

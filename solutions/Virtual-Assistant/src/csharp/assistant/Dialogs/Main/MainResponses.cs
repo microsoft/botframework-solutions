@@ -43,6 +43,10 @@ namespace VirtualAssistant.Dialogs.Main
                     (context, data) => MessageFactory.Text(MainStrings.ERROR, MainStrings.ERROR, InputHints.AcceptingInput)
                 },
                 {
+                    ResponseIds.SkillNotFound,
+                    (context, data) => MessageFactory.Text(MainStrings.SKILL_NOTFOUND, MainStrings.SKILL_NOTFOUND, InputHints.AcceptingInput)
+                },
+                {
                     ResponseIds.Help,
                     (context, data) => BuildHelpCard(context, data)
                 },
@@ -132,6 +136,7 @@ namespace VirtualAssistant.Dialogs.Main
             public const string Error = "error";
             public const string NoActiveDialog = "noActiveDialog";
             public const string Qna = "qna";
+            public const string SkillNotFound = "skillNotFound";
         }
     }
 }

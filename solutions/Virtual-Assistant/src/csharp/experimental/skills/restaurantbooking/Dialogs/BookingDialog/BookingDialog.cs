@@ -141,7 +141,7 @@ namespace RestaurantBooking.Dialogs.BookingDialog
                                     ImageUrl = foodType.ImageUrl,
                                     ImageSize = AdaptiveImageSize.Stretch,
                                     ImageAlign = AdaptiveHorizontalAlignment.Stretch,
-                                    Cusine = foodType.TypeName
+                                    Cusine = foodType.TypeName,
                             }));
 
                 options.Choices.Add(new Choice(foodType.TypeName));

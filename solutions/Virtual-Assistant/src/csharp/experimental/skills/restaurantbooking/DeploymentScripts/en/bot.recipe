@@ -8,8 +8,8 @@
     },
     {
       "type": "luis",
-      "id": "reservation",
-      "name": "reservation"
+      "id": "restaurant",
+      "name": "restaurant"
     }
   ]
 }

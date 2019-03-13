@@ -64,6 +64,7 @@ namespace NewsSkill
             }
             else
             {
+                var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<News>(dc.Context, CancellationToken.None);
                 state.LuisResult = result;
 
@@ -75,7 +76,7 @@ namespace NewsSkill
                     case News.Intent.FindArticles:
                         {
                             // send greeting response
-                            await dc.BeginDialogAsync(nameof(FindArticlesDialog));
+                            turnResult = await dc.BeginDialogAsync(nameof(FindArticlesDialog));
                             break;
                         }
 
@@ -83,6 +84,12 @@ namespace NewsSkill
                         {
                             // No intent was identified, send confused message
                             await _responder.ReplyWith(dc.Context, MainResponses.Confused);
+
+                            if (_skillMode)
+                            {
+                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
+                            }
+
                             break;
                         }
 
@@ -90,8 +97,19 @@ namespace NewsSkill
                         {
                             // intent was identified but not yet implemented
                             await dc.Context.SendActivityAsync("This feature is not yet implemented in this skill.");
+
+                            if (_skillMode)
+                            {
+                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
+                            }
+
                             break;
                         }
+                }
+
+                if (turnResult != EndOfTurn)
+                {
+                    await CompleteAsync(dc);
                 }
             }
         }

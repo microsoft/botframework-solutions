@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Graph;
 using RestaurantBooking.Models;
 
 namespace RestaurantBooking

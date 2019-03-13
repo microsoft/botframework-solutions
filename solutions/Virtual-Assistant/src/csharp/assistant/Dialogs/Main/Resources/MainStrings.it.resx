@@ -166,4 +166,7 @@
   <data name="POI_SUGGESTEDACTION" xml:space="preserve">
     <value>Trova un coffee shop nelle vicinanze</value>
   </data>
+  <data name="SKILL_NOTFOUND" xml:space="preserve">
+    <value>Scusa, non sono riuscito a trovare l'abilità per eseguire quell'attività.</value>
+  </data>
 </root>

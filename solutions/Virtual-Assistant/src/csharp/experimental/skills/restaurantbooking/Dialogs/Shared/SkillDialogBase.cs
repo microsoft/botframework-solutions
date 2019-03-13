@@ -69,19 +69,23 @@ namespace RestaurantBooking.Dialogs.Shared
         {
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
-                var state = await ConversationStateAccessor.GetAsync(dc.Context);
+                // Adaptive card responses come through with empty text properties
+                if (!string.IsNullOrEmpty(dc.Context.Activity.Text))
+                {
+                    var state = await ConversationStateAccessor.GetAsync(dc.Context);
 
-                // Get luis service for current locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = Services.LocaleConfigurations[locale];
-                var luisService = localeConfig.LuisServices["reservation"];
+                    // Get luis service for current locale
+                    var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                    var localeConfig = Services.LocaleConfigurations[locale];
+                    var luisService = localeConfig.LuisServices["restaurant"];
 
-                // Get intent and entities for activity
-                var result = await luisService.RecognizeAsync<Reservation>(dc.Context, CancellationToken.None);
-                state.LuisResult = result;
+                    // Get intent and entities for activity
+                    var result = await luisService.RecognizeAsync<Reservation>(dc.Context, CancellationToken.None);
+                    state.LuisResult = result;
 
-                // Extract key data out into state ready for use
-                await DigestLuisResult(dc, result);
+                    // Extract key data out into state ready for use
+                    await DigestLuisResult(dc, result);
+                }
             }
         }
 
