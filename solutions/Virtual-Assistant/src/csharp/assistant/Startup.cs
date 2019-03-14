@@ -57,6 +57,9 @@ namespace VirtualAssistant
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+            services.AddSingleton<IBotFrameworkHttpAdapter, BotFrameworkHttpAdapter>();
+
             // add background task queue
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddHostedService<QueuedHostedService>();
@@ -163,7 +166,7 @@ namespace VirtualAssistant
             app.UseBotApplicationInsights()
                 .UseDefaultFiles()
                 .UseStaticFiles()
-                .UseBotFramework();
+                .UseMvc();
         }
     }
 }
