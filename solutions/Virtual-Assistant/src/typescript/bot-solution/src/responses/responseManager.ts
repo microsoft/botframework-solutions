@@ -25,7 +25,7 @@ export class ResponseManager {
 
         responseTemplates.forEach((responseTemplate: IResponseIdCollection) => {
             const resourceName: string = responseTemplate.name;
-            const resource: string = join(__dirname, '..', 'resources');
+            const resource: string = responseTemplate.pathToResource || join(__dirname, '..', 'resources');
             this.loadResponses(resourceName, resource);
             locales.forEach((locale: string) => {
                 try {

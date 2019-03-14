@@ -4,4 +4,5 @@
 // tslint:disable-next-line:no-empty-interface
 export interface IResponseIdCollection {
     readonly name: string;
+    readonly pathToResource?: string;
 }
