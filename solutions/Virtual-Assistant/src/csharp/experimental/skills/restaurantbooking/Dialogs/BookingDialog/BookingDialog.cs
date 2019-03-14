@@ -272,7 +272,18 @@ namespace RestaurantBooking.Dialogs.BookingDialog
 
                 foreach (var option in state.AmbiguousTimexExpressions)
                 {
-                    choices.Add(new Choice(option.Value));
+                    var choice = new Choice(option.Value);
+                    choice.Synonyms = new List<string>();
+
+                    // The timex natural language variant provides options in the format of "today 4am", "today 4pm" so we provide
+                    // synonyms to make things easier for the user especially when using speech                
+                    var timePortion = option.Value.Split(' ');
+                    if (timePortion != null && timePortion.Length == 2)
+                    {
+                        choice.Synonyms.Add(timePortion[1]);
+                    }
+
+                    choices.Add(choice);
                 }
 
                 return await sc.PromptAsync(Actions.AmbiguousTimePrompt, new PromptOptions { Prompt = ambiguousReply, Choices = choices }, cancellationToken);
