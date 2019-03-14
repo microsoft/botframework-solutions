@@ -83,17 +83,24 @@ namespace RestaurantBooking.Dialogs.BookingDialog
         /// <returns>Dialog Turn Result.</returns>
         private async Task<DialogTurnResult> Init(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-             var state = await ConversationStateAccessor.GetAsync(sc.Context);
+            var state = await ConversationStateAccessor.GetAsync(sc.Context);
 
-             var tokens = new StringDictionary
+            if (state.Booking == null)
+            {
+                state.Booking = new ReservationBooking();
+            }
+
+            // This would be passed from the Virtual Assistant moving forward
+            var tokens = new StringDictionary
             {
                 { "UserName", "Jane" }
             };
 
-             var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantFlowStartMessage, tokens);
-             await sc.Context.SendActivityAsync(reply);
+            // Start the flow
+            var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantFlowStartMessage, tokens);
+            await sc.Context.SendActivityAsync(reply);
 
-             return await sc.NextAsync(sc.Values, cancellationToken);
+            return await sc.NextAsync(sc.Values, cancellationToken);
         }
 
         /// <summary>
