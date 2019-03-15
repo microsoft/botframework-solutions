@@ -218,5 +218,14 @@ namespace VirtualAssistant.Dialogs.Main.Resources {
                 return ResourceManager.GetString("POI_SUGGESTEDACTION", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry, I wasn&apos;t able to find the skill to perform that task..
+        /// </summary>
+        public static string SKILL_NOTFOUND {
+            get {
+                return ResourceManager.GetString("SKILL_NOTFOUND", resourceCulture);
+            }
+        }
     }
 }

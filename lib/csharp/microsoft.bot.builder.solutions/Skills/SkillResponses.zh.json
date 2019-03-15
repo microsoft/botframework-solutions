@@ -7,5 +7,14 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "ErrorMessageSkillNotFound": {
+    "replies": [
+      {
+        "text": "对不起, 在尝试查找技能以路由您的问题时出现了问题。请稍后再试。",
+        "speak": "对不起, 在尝试查找技能以路由您的问题时出现了问题。请稍后再试。"
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }
