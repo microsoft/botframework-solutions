@@ -106,6 +106,7 @@ namespace VirtualAssistant.Dialogs.Main
 
             try
             {
+                // Some Qna responses have cards encoded in them which we verify
                 ThumbnailCard card = JsonConvert.DeserializeObject<ThumbnailCard>(answer);
 
                 response.Attachments = new List<Attachment>
@@ -120,6 +121,7 @@ namespace VirtualAssistant.Dialogs.Main
             catch (JsonException)
             {
                 response.Text = answer;
+                response.Speak = answer;
             }
 
             return response;
