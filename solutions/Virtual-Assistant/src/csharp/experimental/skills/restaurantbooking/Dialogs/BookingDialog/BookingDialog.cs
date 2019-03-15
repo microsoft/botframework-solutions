@@ -466,7 +466,7 @@ namespace RestaurantBooking.Dialogs.BookingDialog
 
             var tokens = new StringDictionary
             {
-                { "RestaurantCount", (restaurants.Count - 1).ToString() },
+                { "RestaurantCount", restaurants.Count.ToString() },
                 { "ServerUrl", _urlResolver.ServerUrl },
                 { "RestaurantList", restaurantOptionsForSpeak.ToString() }
             };
@@ -514,7 +514,7 @@ namespace RestaurantBooking.Dialogs.BookingDialog
             if (promptContext.Recognized.Succeeded)
             {
                 var restaurants = SeedReservationSampleData.GetListOfRestaurants(state.Booking.Category, "London", _urlResolver);
-                var restaurant = restaurants.Single(r => r.Name == promptContext.Recognized.Value);
+                var restaurant = restaurants.First(r => r.Name.ToLower() == promptContext.Recognized.Value.ToLower());
                 if (restaurant != null)
                 {
                     state.Booking.BookingPlace = restaurant;
