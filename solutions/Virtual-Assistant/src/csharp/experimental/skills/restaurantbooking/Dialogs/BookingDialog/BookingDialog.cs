@@ -63,7 +63,7 @@ namespace RestaurantBooking.Dialogs.BookingDialog
             AddDialog(new DateTimePrompt(Actions.AskReservationTimeStep, ValidateReservationTime));
             AddDialog(new NumberPrompt<int>(Actions.AskAttendeeCountStep, ValidateAttendeeCount));
             AddDialog(new ConfirmPrompt(Actions.ConfirmSelectionBeforeBookingStep, ValidateBookingSelectionConfirmation));
-            AddDialog(new TextPrompt(Actions.RestaurantPrompt, ValidateRestaurantSelection));
+            AddDialog(new ChoicePrompt(Actions.RestaurantPrompt, ValidateRestaurantSelection) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { IncludeNumbers = true } });
 
             // Optional
             AddDialog(new ChoicePrompt(Actions.AmbiguousTimePrompt, ValidateAmbiguousTimePrompt) { Style = ListStyle.HeroCard, ChoiceOptions = new ChoiceFactoryOptions { IncludeNumbers = true } });
@@ -472,26 +472,35 @@ namespace RestaurantBooking.Dialogs.BookingDialog
             };
 
             var cards = new List<Card>();
-            restaurants.ForEach(r => cards.Add(
-                new Card(
+            var options = new PromptOptions()
+            {
+                Choices = new List<Choice>(),
+            };
+
+            foreach (var restaurant in restaurants)
+            {
+                cards.Add(new Card(
                    "RestaurantChoiceCard",
                    new RestaurantChoiceCardData
-                     {
-                         ImageUrl = r.PictureUrl,
-                         ImageSize = AdaptiveImageSize.Stretch,
-                         ImageAlign = AdaptiveHorizontalAlignment.Stretch,
-                         Name = r.Name,
-                         Title = r.Name,
-                         Location = r.Location,
-                         SelectedItemData = r.Name
-                     })));
+                   {
+                       ImageUrl = restaurant.PictureUrl,
+                       ImageSize = AdaptiveImageSize.Stretch,
+                       ImageAlign = AdaptiveHorizontalAlignment.Stretch,
+                       Name = restaurant.Name,
+                       Title = restaurant.Name,
+                       Location = restaurant.Location,
+                       SelectedItemData = restaurant.Name
+                   }));
+
+                options.Choices.Add(new Choice(restaurant.Name));
+            }
 
             var replyMessage = ResponseManager.GetCardResponse(RestaurantBookingSharedResponses.BookRestaurantRestaurantSelectionPrompt, cards, tokens);
 
-            return await sc.PromptAsync(Actions.RestaurantPrompt, new PromptOptions { Prompt = replyMessage }, cancellationToken);
+            return await sc.PromptAsync(Actions.RestaurantPrompt, new PromptOptions { Prompt = replyMessage, Choices = options.Choices }, cancellationToken);
         }
 
-        private async Task<bool> ValidateRestaurantSelection(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
+        private async Task<bool> ValidateRestaurantSelection(PromptValidatorContext<FoundChoice> promptContext, CancellationToken cancellationToken)
         {
             var state = await ConversationStateAccessor.GetAsync(promptContext.Context);
 
@@ -507,14 +516,16 @@ namespace RestaurantBooking.Dialogs.BookingDialog
                 {
                     // Override what the prompt has done
                     promptContext.Recognized.Succeeded = true;
-                    promptContext.Recognized.Value = promptResponse;
+                    var foundChoice = new FoundChoice();
+                    foundChoice.Value = promptResponse;
+                    promptContext.Recognized.Value = foundChoice;
                 }
             }
 
             if (promptContext.Recognized.Succeeded)
             {
                 var restaurants = SeedReservationSampleData.GetListOfRestaurants(state.Booking.Category, "London", _urlResolver);
-                var restaurant = restaurants.First(r => r.Name.ToLower() == promptContext.Recognized.Value.ToLower());
+                var restaurant = restaurants.First(r => r.Name == promptContext.Recognized.Value.Value);
                 if (restaurant != null)
                 {
                     state.Booking.BookingPlace = restaurant;
