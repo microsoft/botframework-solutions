@@ -77,7 +77,7 @@ namespace Experimental.Skills.Tests
                 LuisServices = new Dictionary<string, ITelemetryLuisRecognizer>
             {
                 { "general", LuisTestUtils.GeneralTestUtil.CreateRecognizer() },
-                { "reservation", LuisTestUtils.RestaurantSkillTestUtil.CreateRecognizer() },
+                { "restaurant", LuisTestUtils.RestaurantSkillTestUtil.CreateRecognizer() },
                 { "news", LuisTestUtils.NewsSkillTestUtil.CreateRecognizer() }
             },
             });

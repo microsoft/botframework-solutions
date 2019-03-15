@@ -166,4 +166,7 @@
   <data name="POI_SUGGESTEDACTION" xml:space="preserve">
     <value>Trouver un Coffee Shop à proximité</value>
   </data>
+  <data name="SKILL_NOTFOUND" xml:space="preserve">
+    <value>Désolé, je n'ai pas pu trouver la compétence pour effectuer cette tâche.</value>
+  </data>
 </root>

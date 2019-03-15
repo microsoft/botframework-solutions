@@ -166,4 +166,7 @@
   <data name="POI_SUGGESTEDACTION" xml:space="preserve">
     <value>查找附近的咖啡店</value>
   </data>
+  <data name="SKILL_NOTFOUND" xml:space="preserve">
+    <value>对不起, 我找不到执行该任务的技能。</value>
+  </data>
 </root>

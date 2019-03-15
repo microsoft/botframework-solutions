@@ -78,7 +78,7 @@ namespace RestaurantBooking.Dialogs.Main
             var localeConfig = _services.LocaleConfigurations[locale];
 
             // Get skill LUIS model from configuration
-            localeConfig.LuisServices.TryGetValue("reservation", out var luisService);
+            localeConfig.LuisServices.TryGetValue("restaurant", out var luisService);
 
             if (luisService == null)
             {
@@ -190,41 +190,46 @@ namespace RestaurantBooking.Dialogs.Main
 
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
-                // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = _services.LocaleConfigurations[locale];
-
-                // check general luis intent
-                localeConfig.LuisServices.TryGetValue("general", out var luisService);
-
-                if (luisService == null)
+                // Adaptive card responses come through with empty text properties
+                if (!string.IsNullOrEmpty(dc.Context.Activity.Text))
                 {
-                    throw new Exception("The specified LUIS Model could not be found in your Skill configuration.");
-                }
-                else
-                {
-                    var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
-                    var topIntent = luisResult.TopIntent().intent;
 
-                    switch (topIntent)
+                    // get current activity locale
+                    var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                    var localeConfig = _services.LocaleConfigurations[locale];
+
+                    // check general luis intent
+                    localeConfig.LuisServices.TryGetValue("general", out var luisService);
+
+                    if (luisService == null)
                     {
-                        case General.Intent.Cancel:
-                            {
-                                result = await OnCancel(dc);
-                                break;
-                            }
+                        throw new Exception("The specified LUIS Model could not be found in your Skill configuration.");
+                    }
+                    else
+                    {
+                        var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
+                        var topIntent = luisResult.TopIntent().intent;
 
-                        case General.Intent.Help:
-                            {
-                                result = await OnHelp(dc);
-                                break;
-                            }
+                        switch (topIntent)
+                        {
+                            case General.Intent.Cancel:
+                                {
+                                    result = await OnCancel(dc);
+                                    break;
+                                }
 
-                        case General.Intent.Logout:
-                            {
-                                result = await OnLogout(dc);
-                                break;
-                            }
+                            case General.Intent.Help:
+                                {
+                                    result = await OnHelp(dc);
+                                    break;
+                                }
+
+                            case General.Intent.Logout:
+                                {
+                                    result = await OnLogout(dc);
+                                    break;
+                                }
+                        }
                     }
                 }
             }
@@ -234,6 +239,9 @@ namespace RestaurantBooking.Dialogs.Main
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
+            var state = await _conversationStateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
+            state.Clear();
+
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingSharedResponses.CancellingMessage));
             await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
