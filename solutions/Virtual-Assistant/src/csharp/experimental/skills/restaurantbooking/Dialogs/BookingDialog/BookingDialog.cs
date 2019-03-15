@@ -88,6 +88,7 @@ namespace RestaurantBooking.Dialogs.BookingDialog
             if (state.Booking == null)
             {
                 state.Booking = new ReservationBooking();
+                state.AmbiguousTimexExpressions = new Dictionary<string, string>();
             }
 
             // This would be passed from the Virtual Assistant moving forward
