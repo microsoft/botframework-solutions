@@ -115,7 +115,10 @@ namespace VirtualAssistant
             }
 
             services.AddSingleton(endpointService);
+
             services.AddSingleton<IBot, VirtualAssistant>();
+
+            // Add the http adapter to enable MVC style bot API
             services.AddSingleton<IBotFrameworkHttpAdapter>((sp) =>
             {
                 var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
