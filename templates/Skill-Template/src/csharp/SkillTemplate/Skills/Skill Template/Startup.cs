@@ -45,7 +45,9 @@ namespace $safeprojectname$
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
-        {
+        {       
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+        
             // Load the connected services from .bot file.
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
             var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
@@ -94,46 +96,52 @@ namespace $safeprojectname$
 
             services.AddTransient<IServiceManager, ServiceManager>();
 
-            // Add the bot with options
-            services.AddBot<$safeprojectname$>(options =>
+            // Load the connected services from .bot file.
+            var environment = _isProduction ? "production" : "development";
+            var service = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.Endpoint && s.Name == environment);
+            if (!(service is EndpointService endpointService))
             {
-                // Load the connected services from .bot file.
-                var environment = _isProduction ? "production" : "development";
-                var service = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.Endpoint && s.Name == environment);
-                if (!(service is EndpointService endpointService))
-                {
-                    throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
-                }
+                throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
+            }
 
-                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+            services.AddSingleton(endpointService);
+
+            services.AddSingleton<IBot, $safeprojectname$>();
+
+            // Add the http adapter to enable MVC style bot API
+            services.AddSingleton<IBotFrameworkHttpAdapter>(sp =>
+            {
+                var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Telemetry Middleware (logs activity messages in Application Insights)
-                var sp = services.BuildServiceProvider();
-                var telemetryClient = sp.GetService<IBotTelemetryClient>();                
-                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient);
-                options.Middleware.Add(appInsightsLogger);
-
-                // Catches any errors that occur during a conversation turn and logs them to AppInsights.
-                options.OnTurnError = async (context, exception) =>
+                var telemetryClient = sp.GetService<IBotTelemetryClient>();
+                var botFrameworkHttpAdapter = new BotFrameworkHttpAdapter(credentialProvider)
                 {
-                    CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-                    await context.SendActivityAsync(context.Activity.CreateReply(SharedResponses.ErrorMessage));
-                    await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
-                    telemetryClient.TrackExceptionEx(exception, context.Activity);
+                    OnTurnError = async (context, exception) =>
+                    {
+                        CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
+                        await context.SendActivityAsync(context.Activity.CreateReply(SharedResponses.ErrorMessage));
+                        await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
+                        telemetryClient.TrackExceptionEx(exception, context.Activity);
+                    }
                 };
+                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient);
+                botFrameworkHttpAdapter.Use(appInsightsLogger);
 
                 // Transcript Middleware (saves conversation history in a standard format)
                 var storageService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.BlobStorage) ?? throw new Exception("Please configure your Azure Storage service in your .bot file.");
                 var blobStorage = storageService as BlobStorageService;
                 var transcriptStore = new AzureBlobTranscriptStore(blobStorage.ConnectionString, blobStorage.Container);
                 var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
-                options.Middleware.Add(transcriptMiddleware);
+                botFrameworkHttpAdapter.Use(transcriptMiddleware);
 
                 // Typing Middleware (automatically shows typing when the bot is responding/working)
                 var typingMiddleware = new ShowTypingMiddleware();
-                options.Middleware.Add(typingMiddleware);
-                options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en-us"));
-                options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
+                botFrameworkHttpAdapter.Use(typingMiddleware);
+                botFrameworkHttpAdapter.Use(new SetLocaleMiddleware(defaultLocale ?? "en-us"));
+                botFrameworkHttpAdapter.Use(new AutoSaveStateMiddleware(userState, conversationState));
+
+                return botFrameworkHttpAdapter;
             });
         }
 
@@ -148,7 +156,7 @@ namespace $safeprojectname$
             app.UseBotApplicationInsights()
                 .UseDefaultFiles()
                 .UseStaticFiles()
-                .UseBotFramework();
+                .UseMvc();
         }
     }
 }
