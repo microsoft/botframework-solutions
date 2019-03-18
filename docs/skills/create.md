@@ -9,9 +9,8 @@
 
     ![Screenshot](../media/skills_projects.jpg)
 
-3. Add references to **Microsoft.Bot.Solutions** to your new skill and test projects. (Right-click your project, go to **Add > Reference** and select your skill project from the list.)
-4. Rebuild project to verify there are no errors.
-5. Add your Skill LUIS models to the bot.recipe file located within your assistant project: `assistant\DeploymentScripts\en\bot.recipe
+3. Rebuild project to verify there are no errors.
+4. Add your Skill LUIS models to the bot.recipe file located within your assistant project: `assistant\DeploymentScripts\en\bot.recipe
     ```
         {
             "type": "luis",
@@ -20,25 +19,25 @@
             "luPath": "..\\skills\\MySkill\\MySkill\\CognitiveModels\\LUIS\\en\\MySkill.lu"
         }
     ```
-6. Add dispatch references to the core LUIS intents for the skill within the `assistant\CognitiveModels\LOCALE\dispatch.lu` file as shown below and repeat for all locales your skill supports. This enables the Dispatcher to understand your new capabilities and route utterances to your skill.
+5. Add dispatch references to the core LUIS intents for the skill within the `assistant\CognitiveModels\LOCALE\dispatch.lu` file as shown below and repeat for all locales your skill supports. This enables the Dispatcher to understand your new capabilities and route utterances to your skill.
      
     ```
         # l_MySkill 
         - [Sample intent](../../../../skills/MySkill/MySkill/CognitiveModels/LUIS/en/MySkill.lu#Sample)
     ```
 
-7. If you have **already deployed your Virtual Assistant** prior to adding your skill, run **update_published_models.ps1** to deploy the new Skill LUIS models and to update the dispatcher (NOTE: if you omit the locales parameter it will update all languages).
+6. If you have **already deployed your Virtual Assistant** prior to adding your skill, run **update_published_models.ps1** to deploy the new Skill LUIS models and to update the dispatcher (NOTE: if you omit the locales parameter it will update all languages).
     ```
-    PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\update_published_models.ps1 -locales "en-us"
+    pwsh.exe -ExecutionPolicy Bypass -File DeploymentScripts\update_published_models.ps1 -locales "en-us"
     ```
     Otherwise if you **have not deployed your Virtual Assistant**, run **deploy_bot.ps1** to deploy all your bot services, LUIS, QnA Maker, and Dispatch models.
     ```
-    PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\Deploy_Bot.ps1
+    pwsh.exe -ExecutionPolicy Bypass -File DeploymentScripts\Deploy_Bot.ps1
     ```
 
-8. In Virtual Assistant, add a project reference to your new skill project. This tells the Virtual Assistant that there is a new skill available for use. (Right-click your project, go to **Add > Reference** and select your skill project from the list.)
+7. In Virtual Assistant, add a project reference to your new skill project. This tells the Virtual Assistant that there is a new skill available for use. (Right-click your project, go to **Add > Reference** and select your skill project from the list.)
 
-9. In Virtual Assistant, add your skill configuration to **appsettings.json** 
+8. In Virtual Assistant, add your skill configuration to **appsettings.json** 
 
     ```
        "skills":[
@@ -58,15 +57,15 @@
             }
         ]
     ```
-10. Run the LuisGen tool to update Dispatch.cs.
+9. Run the LuisGen tool to update Dispatch.cs.
     ```
     LUISGen assistant\DeploymentScripts\en\dispatch.luis -cs Dispatch -o assistant\Dialogs\Shared\Resources 
     ```
-11. Update **assistant\Dialogs\Main\MainDialog.cs** with the dispatch intent for your skill.
+10. Update **assistant\Dialogs\Main\MainDialog.cs** with the dispatch intent for your skill.
     ![](../media/skills_maindialogupdate.jpg)
 
-12. Run the Virtual Assistant project.
-13. Test your new skill with the query "sample dialog".
+11. Run the Virtual Assistant project.
+12. Test your new skill with the query "sample dialog".
 
     ![Screenshot](../media/skills_testnewskill.jpg)
 

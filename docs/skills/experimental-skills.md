@@ -29,7 +29,7 @@ Experimental Skills not added by default when deploying the Virtual Assistant du
 Run this PowerShell script to deploy shared resources and LUIS models required for an experimental skill.
 
 ```
-  PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\deploy_bot.ps1
+  pwsh.exe -ExecutionPolicy Bypass -File DeploymentScripts\deploy_bot.ps1
 ```
 
 You will be prompted to provide the following parameters:
@@ -91,8 +91,8 @@ Instead of the generic skill configuration examples shown in the documentation s
   {
       "type": "luis",
       "id": "restaurant",
-      "name": "reservation",
-      "luPath": "..\\experimental\\skills\\restaurantbooking\\CognitiveModels\\LUIS\\en\\reservation.lu"
+      "name": "restaurant",
+      "luPath": "..\\experimental\\skills\\restaurantbooking\\CognitiveModels\\LUIS\\en\\restaurant.lu"
   }
 ```
 
@@ -101,7 +101,7 @@ Instead of the generic skill configuration examples shown in the documentation s
     # l_News 
     - [FindArticles](../../../../experimental/skills/newsskill/CognitiveModels/LUIS/en/news.lu#FindArticles)
     # l_Restaurant
-    - [Reservation](../../../../experimental/skills/restaurantbooking/CognitiveModels/LUIS/en/reservation.lu#Reservation)
+    - [Reservation](../../../../experimental/skills/restaurantbooking/CognitiveModels/LUIS/en/restaurant.lu#Reservation)
 ```
 
 ### Skill Configuration in appSettings.config
@@ -129,10 +129,10 @@ Instead of the generic skill configuration examples shown in the documentation s
             "id": "RestaurantBooking",
             "name": "RestaurantBooking",
             "assembly": "RestaurantBooking.RestaurantBooking, RestaurantBooking, Version=1.0.0.0, Culture=neutral",
-            "dispatchIntent": "l_Reservation",
+            "dispatchIntent": "l_Restaurant",
             "supportedProviders": [],
             "luisServiceIds": [
-                "reservation",
+                "restaurant",
                 "general"
             ],
             "parameters": [],

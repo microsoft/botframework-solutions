@@ -76,24 +76,28 @@ namespace VirtualAssistant.Dialogs.Main
         {
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
-                // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = _services.LocaleConfigurations[locale];
-
-                // check luis intent
-                var luisService = localeConfig.LuisServices["general"];
-                var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
-                var intent = luisResult.TopIntent().intent;
-
-                // TODO - Evolve this pattern
-                if (luisResult.TopIntent().score > 0.5)
+                // Adaptive card responses come through with empty text properties
+                if (!string.IsNullOrEmpty(dc.Context.Activity.Text))
                 {
-                    switch (intent)
+                    // get current activity locale
+                    var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                    var localeConfig = _services.LocaleConfigurations[locale];
+
+                    // check luis intent
+                    var luisService = localeConfig.LuisServices["general"];
+                    var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
+                    var intent = luisResult.TopIntent().intent;
+
+                    // TODO - Evolve this pattern
+                    if (luisResult.TopIntent().score > 0.5)
                     {
-                        case General.Intent.Logout:
-                            {
-                                return await LogoutAsync(dc);
-                            }
+                        switch (intent)
+                        {
+                            case General.Intent.Logout:
+                                {
+                                    return await LogoutAsync(dc);
+                                }
+                        }
                     }
                 }
             }
@@ -194,11 +198,19 @@ namespace VirtualAssistant.Dialogs.Main
                         virtualAssistantState.LastIntent = intent.ToString();
                         var matchedSkill = _skillRouter.IdentifyRegisteredSkill(intent.ToString());
 
-                        await RouteToSkillAsync(dc, new SkillDialogOptions()
+                        if (matchedSkill != null)
                         {
-                            SkillDefinition = matchedSkill,
-                            Parameters = parameters,
-                        });
+                            await RouteToSkillAsync(dc, new SkillDialogOptions()
+                            {
+                                SkillDefinition = matchedSkill,
+                                Parameters = parameters,
+                            });
+                        }
+                        else
+                        {
+                            // Dispatch indicated a skill but we couldn't map to an available skill.
+                            await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.SkillNotFound);
+                        }
 
                         break;
                     }
@@ -227,7 +239,9 @@ namespace VirtualAssistant.Dialogs.Main
                         break;
                     }
 
+
                 case Dispatch.Intent.None:
+                default:
                     {
                         // No intent was identified, send confused message
                         await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);

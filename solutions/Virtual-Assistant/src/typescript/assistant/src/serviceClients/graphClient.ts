@@ -8,10 +8,10 @@ import {
 import { User } from '@microsoft/microsoft-graph-types';
 
 export class GraphClient {
-    private readonly TOKEN: string;
+    private readonly token: string;
 
-    constructor(TOKEN: string) {
-        this.TOKEN = TOKEN;
+    constructor(token: string) {
+        this.token = token;
     }
 
     public getMe(): Promise<User> {
@@ -31,7 +31,7 @@ export class GraphClient {
     private getAuthenticatedClient(): Client {
         return Client.init({
             authProvider: (done: AuthProviderCallback): void => {
-                done(undefined, this.TOKEN);
+                done(undefined, this.token);
             }
         });
     }

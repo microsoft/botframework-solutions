@@ -13,5 +13,6 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
     {
         // Generated accessors
         public const string ErrorMessageSkillError = "ErrorMessageSkillError";
+        public const string ErrorMessageSkillNotFound = "ErrorMessageSkillNotFound";
     }
 }

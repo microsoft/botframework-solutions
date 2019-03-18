@@ -7,5 +7,14 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "ErrorMessageSkillNotFound": {
+    "replies": [
+      {
+        "text": "Sorry, something went wrong whilst trying to locate the Skill to route your question. Please try again later.",
+        "speak": "Sorry, something went wrong whilst trying to locate the Skill to route your question. Please try again later."
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

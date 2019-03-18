@@ -15,5 +15,6 @@
         public const string AskAttendeeCountStep = "askAttendeeCountStep";
         public const string ConfirmSelectionBeforeBookingStep = "confirmSelectionBeforeBookingStep";
         public const string RestaurantPrompt = "restaurantPrompt";
+        public const string AmbiguousTimePrompt = "ambiguousTimePrompt";
     }
 }

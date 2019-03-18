@@ -5,28 +5,34 @@ Follow the instructions below to build, deploy and configure your Virtual Assist
 
 
 ## Table of Contents
-- [Prerequisites](#prerequisites)
-- [Deployment](#deployment)
-- [Skill Configuration](#skill-configuration)
-- [Testing](#testing)
+- [Getting Started With the Virtual Assistant](#getting-started-with-the-virtual-assistant)
+  - [Table of Contents](#table-of-contents)
+  - [Prerequisites](#prerequisites)
+    - [Clone the Repo](#clone-the-repo)
+    - [Build the Solution](#build-the-solution)
+  - [Deployment](#deployment)
+  - [Skill Configuration](#skill-configuration)
+    - [Skill Authentication](#skill-authentication)
+  - [Testing](#testing)
 
 ## Prerequisites
-- Update [.NET Core](https://www.microsoft.com/net/download) to the latest version.
-- [Node.js](https://nodejs.org/) version 8.5 or higher.
-- PowerShell Core version 6
-  - [Download PowerShell Core on Windows](https://aka.ms/getps6-windows)
-  - [Download PowerShell Core on macOS and Linux](https://aka.ms/getps6-linux)
-- Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
+> It's important to ensure all of the following pre-requisites are installed on your machine prior to attempting deployment otherwise you may run into deployment issues.
 
-```shell
-npm install -g botdispatch chatdown ludown luis-apis msbot qnamaker
-```
-- Install [LuisGen](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/LUISGen/src/npm/readme.md)
-```shell
-dotnet tool install -g luisgen
-```
-
-- Retrieve your LUIS Authoring Key
+1. Ensure you have updated [.NET Core](https://www.microsoft.com/net/download) to the latest version.  
+2. [Node.js](https://nodejs.org/) version 8.5 or higher.
+3. PowerShell Core version 6 (Required for cross platform deployment support)
+   * [Download PowerShell Core on Windows](https://aka.ms/getps6-windows)
+   * [Download PowerShell Core on macOS and Linux](https://aka.ms/getps6-linux)
+4. Install the Azure Bot Service command line (CLI) tools. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of new deployment capabilities. **Minimum version 4.3.2 required for msbot, and minimum version 1.1.0 required for ludown.**
+  ```shell
+  npm install -g botdispatch chatdown ludown luis-apis msbot qnamaker  
+  ```
+5. Install [LuisGen](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/LUISGen/src/npm/readme.md)
+  ```shell
+  dotnet tool install -g luisgen
+  ```
+6. Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
+7. Retrieve your LUIS Authoring Key
    - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work with a europe deployment. 
    - Once signed in click on your name in the top right hand corner.
    - Choose Settings and make a note of the Authoring Key for the next step.
@@ -83,25 +89,24 @@ Your Virtual Assistant project has a deployment recipe enabling the `msbot clone
 
 To deploy your Virtual Assistant including all dependencies - e.g. CosmosDb, Application Insights, etc. run the following command from a command prompt within your project folder. Ensure you update the authoring key from the previous step and choose the Azure datacenter location you wish to use (e.g. westus or westeurope). You must check that the LUIS authoring key retrieved on the previous step is for the region you specify below (e.g. westus for luis.ai or westeurope for eu.luis.ai)
 
-Run this PowerShell script to deploy your shared resources and LUIS and QnA Maker resources in English. Ensure you navigate in a command prompt to the `solutions\Virtual-Assistant\src\csharp\assistant` folder.
+Run this PowerShell script to deploy your shared resources and LUIS and QnA Maker resources in English. Ensure you navigate in a command prompt to the `solutions\Virtual-Assistant\src\csharp\assistant` folder. The `pwsh.exe` is the new PowerShell v6 executable which should be added to your path as part of the install, if not you can find in your `ProgramFiles\PowerShell\6` directory.
 
 > Depending on the network connection this deployment process may take 10-15 minutes before progress is shown, ensure you complete the authentication step and check back later for progress.
 
 
+```shell
+  pwsh.exe -ExecutionPolicy Bypass -File DeploymentScripts\deploy_bot.ps1
 ```
-  PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\deploy_bot.ps1
-```
-
 If you would like to support different languages for your scenario add the `-locales` parameter. The following languages are supported: English (en-us), Chinese (zh-cn), German (de-de), French (fr-fr), Italian (it-it), and Spanish (es-es).
 
-```
-   PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\deploy_bot.ps1 -locales "en-us,zh-cn"
+```shell
+  pwsh.exe -ExecutionPolicy Bypass -File DeploymentScripts\deploy_bot.ps1 -locales "en-us,zh-cn"
 ```
 
 If you would like to add support for additional languages **after your initial deployment**, you can specify the `-languagesOnly` parameter to deploy only the services for the new language(s).
 
 ```
-   PowerShell.exe -ExecutionPolicy Bypass -File DeploymentScripts\deploy_bot.ps1 -locales "fr-fr,it-it" -languagesOnly
+   pwsh.exe -ExecutionPolicy Bypass -File DeploymentScripts\deploy_bot.ps1 -locales "fr-fr,it-it" -languagesOnly
 ```
 
 You will be prompted to provide the following parameters:
@@ -119,7 +124,7 @@ The msbot tool will outline the deployment plan including location and SKU. Ensu
 
 
 - Update your `appsettings.json` file with the newly created .bot file name and .bot file secret.
-- Run the following command and retrieve the InstrumentationKey for your Application Insights instance and update `InstrumentationKey` in your `appsettings.json` file.
+- Run the following command and retrieve the InstrumentationKey for your Application Insights instance, then add the following `InstrumentationKey` entry to your `appsettings.json` file.
 
 ```
 msbot list --bot YOURBOTFILE.bot --secret YOUR_BOT_SECRET

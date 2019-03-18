@@ -1,3 +1,5 @@
+#Requires -Version 6
+
 # all msbot clone parameters and locales
 Param(
 	[string] [Parameter(Mandatory=$true)]$name,
