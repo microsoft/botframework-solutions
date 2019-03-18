@@ -7,8 +7,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Proactive;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.TaskExtensions;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
+using Microsoft.Bot.Configuration;
 using $safeprojectname$.Dialogs.Main;
 using $safeprojectname$.Dialogs.Main.Resources;
 using $safeprojectname$.Dialogs.Sample.Resources;
@@ -23,27 +27,36 @@ namespace $safeprojectname$
     public class $safeprojectname$ : IBot
     {
         private readonly SkillConfigurationBase _services;
+        private readonly EndpointService _endpointService;
         private readonly ResponseManager _responseManager;
         private readonly ConversationState _conversationState;
+        private readonly ProactiveState _proactiveState;
         private readonly UserState _userState;
         private readonly IBotTelemetryClient _telemetryClient;
+        private readonly IBackgroundTaskQueue _backgroundTaskQueue;
         private IServiceManager _serviceManager;
         private DialogSet _dialogs;
         private bool _skillMode;
 
         public $safeprojectname$(SkillConfigurationBase services,
+            EndpointService endpointService,
             ConversationState conversationState,
             UserState userState,
+            ProactiveState proactiveState,
             IBotTelemetryClient telemetryClient,
+            IBackgroundTaskQueue backgroundTaskQueue,
             bool skillMode = false,
             ResponseManager responseManager = null,
             IServiceManager serviceManager = null)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
+            _endpointService = endpointService ?? throw new ArgumentNullException(nameof(endpointService));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
+            _proactiveState = proactiveState ?? throw new ArgumentNullException(nameof(proactiveState));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
+            _backgroundTaskQueue = backgroundTaskQueue ?? throw new ArgumentNullException(nameof(backgroundTaskQueue));
             _serviceManager = serviceManager ?? new ServiceManager();
 
             if (responseManager == null)

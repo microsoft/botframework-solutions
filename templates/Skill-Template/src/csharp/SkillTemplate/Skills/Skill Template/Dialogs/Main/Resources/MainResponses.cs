@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace $safeprojectname$.Dialogs.Main.Resources
 {
@@ -19,6 +19,5 @@ namespace $safeprojectname$.Dialogs.Main.Resources
         public const string LogOut = "LogOut";
         public const string FeatureNotAvailable = "FeatureNotAvailable";
         public const string CancelMessage = "CancelMessage";
-
     }
 }

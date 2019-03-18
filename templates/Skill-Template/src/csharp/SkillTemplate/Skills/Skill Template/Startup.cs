@@ -14,10 +14,11 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Middleware;
-using Microsoft.Bot.Solutions.Telemetry;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Middleware;
+using Microsoft.Bot.Builder.Solutions.Proactive;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.TaskExtensions;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using $safeprojectname$.Dialogs.Main.Resources;
@@ -47,7 +48,11 @@ namespace $safeprojectname$
         public void ConfigureServices(IServiceCollection services)
         {       
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
-        
+
+            // add background task queue
+            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+            services.AddHostedService<QueuedHostedService>();
+
             // Load the connected services from .bot file.
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
             var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
@@ -88,10 +93,12 @@ namespace $safeprojectname$
             var dataStore = new CosmosDbStorage(cosmosOptions);
             var userState = new UserState(dataStore);
             var conversationState = new ConversationState(dataStore);
+            var proactiveState = new ProactiveState(dataStore);
 
             services.AddSingleton(dataStore);
             services.AddSingleton(userState);
             services.AddSingleton(conversationState);
+            services.AddSingleton(proactiveState);
             services.AddSingleton(new BotStateSet(userState, conversationState));
 
             services.AddTransient<IServiceManager, ServiceManager>();
@@ -140,6 +147,7 @@ namespace $safeprojectname$
                 botFrameworkHttpAdapter.Use(typingMiddleware);
                 botFrameworkHttpAdapter.Use(new SetLocaleMiddleware(defaultLocale ?? "en-us"));
                 botFrameworkHttpAdapter.Use(new AutoSaveStateMiddleware(userState, conversationState));
+                botFrameworkHttpAdapter.Use(new ProactiveStateMiddleware(proactiveState));
 
                 return botFrameworkHttpAdapter;
             });
