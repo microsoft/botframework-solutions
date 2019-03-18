@@ -4,7 +4,7 @@
 
 using Microsoft.Bot.Builder.Solutions.Responses;
 
-namespace SkillTemplate.Dialogs.Sample.Resources
+namespace $safeprojectname$.Dialogs.Sample.Resources
 {
     /// <summary>
     /// Contains bot responses.
