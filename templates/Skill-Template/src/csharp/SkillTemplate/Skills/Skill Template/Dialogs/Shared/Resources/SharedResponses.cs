@@ -2,9 +2,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Responses;
 
-namespace $safeprojectname$.Dialogs.Shared.Resources
+namespace SkillTemplate.Dialogs.Shared.Resources
 {
     /// <summary>
     /// Contains bot responses.
@@ -18,6 +18,5 @@ namespace $safeprojectname$.Dialogs.Shared.Resources
         public const string AuthFailed = "AuthFailed";
         public const string ActionEnded = "ActionEnded";
         public const string ErrorMessage = "ErrorMessage";
-
     }
 }
