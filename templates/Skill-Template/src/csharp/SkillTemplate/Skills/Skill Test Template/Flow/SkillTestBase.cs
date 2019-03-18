@@ -1,11 +1,13 @@
 ﻿using Autofac;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
-using Microsoft.Bot.Solutions.Telemetry;
-using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Solutions.Testing;
-using Microsoft.Bot.Solutions.Testing.Mocks;
+using Microsoft.Bot.Builder.Solutions.Proactive;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.TaskExtensions;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
+using Microsoft.Bot.Builder.Solutions.Testing;
+using Microsoft.Bot.Builder.Solutions.Testing.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using $safeprojectname$.Flow.LuisTestUtils;
 using $ext_safeprojectname$.Dialogs.Main.Resources;
@@ -23,9 +25,15 @@ namespace $safeprojectname$.Flow
 
         public UserState UserState { get; set; }
 
+        public ProactiveState ProactiveState { get; set; }
+
         public IBotTelemetryClient TelemetryClient { get; set; }
 
+        public IBackgroundTaskQueue BackgroundTaskQueue { get; set; }
+
         public SkillConfigurationBase Services { get; set; }
+
+        public EndpointService EndpointService { get; set; }
 
         [TestInitialize]
         public override void Initialize()
@@ -34,8 +42,11 @@ namespace $safeprojectname$.Flow
 
             ConversationState = new ConversationState(new MemoryStorage());
             UserState = new UserState(new MemoryStorage());
-            TelemetryClient = new NullBotTelemetryClient();
-            Services = new MockSkillConfiguration();
+            this.ProactiveState = new ProactiveState(new MemoryStorage());
+            this.TelemetryClient = new NullBotTelemetryClient();
+            this.BackgroundTaskQueue = new BackgroundTaskQueue();
+            this.Services = new MockSkillConfiguration();
+            this.EndpointService = new EndpointService();
 
             Services.LocaleConfigurations.Add("en", new LocaleConfiguration()
             {
@@ -73,7 +84,7 @@ namespace $safeprojectname$.Flow
 
         public override IBot BuildBot()
         {
-            return new $ext_safeprojectname$.$ext_safeprojectname$(Services, ConversationState, UserState, TelemetryClient, false, ResponseManager, null);
-        }
+            return new $ext_safeprojectname$.$ext_safeprojectname$(this.Services, this.EndpointService, this.ConversationState, this.UserState, this.ProactiveState, this.TelemetryClient, this.BackgroundTaskQueue, false, this.ResponseManager, null);
+}
     }
 }
