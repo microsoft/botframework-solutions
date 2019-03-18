@@ -23,7 +23,7 @@ Once the template is created and deployment steps are executed you can hit F5 to
 
 ## Getting Started
 
-- Refer to the [main documentation](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-enterprise-template-create-project?view=azure-bot-service-4.0
+- Refer to the [main documentation](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-enterprise-template-getting-started?view=azure-bot-service-4.0
 ) to get started with the Enterprise Template which is currently available for Visual Studio with Yeoman coming soon.
 - This repo contains the Source Code for the template which will continue to be evolved with the latest best practice and capabilities. Feel free to raise Issues or submit Pull Requests.
 
