@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
@@ -22,6 +23,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using VirtualAssistant.Adapters;
 using VirtualAssistant.Dialogs.Main;
 
 namespace VirtualAssistant
@@ -57,6 +59,10 @@ namespace VirtualAssistant
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddSingleton<IBotFrameworkHttpAdapter, BmwChannelAdapter>();
+
             // add background task queue
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddHostedService<QueuedHostedService>();
@@ -163,7 +169,8 @@ namespace VirtualAssistant
             app.UseBotApplicationInsights()
                 .UseDefaultFiles()
                 .UseStaticFiles()
-                .UseBotFramework();
+                .UseMvc();
+                //.UseBotFramework();
         }
     }
 }
