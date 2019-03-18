@@ -8,6 +8,7 @@ using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Builder.Solutions.Testing.Mocks;
+using Microsoft.Bot.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using $safeprojectname$.Flow.LuisTestUtils;
 using $ext_safeprojectname$.Dialogs.Main.Resources;
