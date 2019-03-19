@@ -3,6 +3,7 @@
 
 import {
     ActivityExtensions,
+    CommonUtil,
     IProviderTokenResponse,
     ITelemetryLuisRecognizer,
     LocaleConfiguration,
@@ -106,10 +107,9 @@ export class SkillDialogBase extends ComponentDialog {
         } catch (err) {
             await this.handleDialogExceptions(sc, err);
 
-            // PENDING Need to implement Util folder in bot-solution
             return {
                 status: DialogTurnStatus.cancelled,
-                result: 'cancelAllDialogs'
+                result: CommonUtil.dialogTurnResultCancelAllDialogs
             };
         }
     }
@@ -139,10 +139,9 @@ export class SkillDialogBase extends ComponentDialog {
         } catch (err) {
             await this.handleDialogExceptions(sc, err);
 
-            // PENDING Need to implement Util folder in bot-solution
             return {
                 status: DialogTurnStatus.cancelled,
-                result: 'cancelAllDialogs'
+                result: CommonUtil.dialogTurnResultCancelAllDialogs
             };
         }
     }
