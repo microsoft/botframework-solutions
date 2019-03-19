@@ -1,3 +1,8 @@
+/**
+ * Copyright(c) Microsoft Corporation.All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import { BotFrameworkAdapter, TurnContext } from 'botbuilder';
 import { Choice, ChoicePrompt, ComponentDialog, DialogTurnResult, DialogTurnStatus, FoundChoice,
     ListStyle, OAuthPrompt, PromptValidatorContext, WaterfallDialog, WaterfallStep, WaterfallStepContext } from 'botbuilder-dialogs';
@@ -5,8 +10,8 @@ import { Choice, ChoicePrompt, ComponentDialog, DialogTurnResult, DialogTurnStat
 import { TokenStatus } from 'botframework-connector/lib/tokenApi/models';
 import { ActionTypes, TokenResponse } from 'botframework-schema';
 import { __ } from 'i18n';
+import { AuthenticationResponses } from '../authentication';
 import { TelemetryExtensions } from '../middleware';
-import { CommonResponses } from '../resources';
 import { ResponseManager } from '../responses/responseManager';
 import { SkillConfigurationBase } from '../skills';
 import { getAuthenticationProvider, IProviderTokenResponse } from './providerTokenResponse';
@@ -19,7 +24,9 @@ export class MultiProviderAuthDialog extends ComponentDialog {
     constructor(skillConfiguration: SkillConfigurationBase) {
         super(MultiProviderAuthDialog.name);
         this.skillConfiguration = skillConfiguration;
-        this.responseManager = new ResponseManager([CommonResponses], Array.from(this.skillConfiguration.localeConfigurations.keys()));
+        this.responseManager = new ResponseManager(
+            Array.from(this.skillConfiguration.localeConfigurations.keys()),
+            [AuthenticationResponses]);
         if (this.skillConfiguration.isAuthenticatedSkill && !this.skillConfiguration.authenticationConnections) {
             throw new Error('You must configure an authentication connection in your bot file before using this component.');
         }
@@ -43,8 +50,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                     {
                         connectionName: connectionKey,
                         title: __('commonStrings.login'),
-                        text: __('commonStrings.loginDescription', connectionKey),
-                        timeout: 30000
+                        text: __('commonStrings.loginDescription', connectionKey)
                     },
                     this.authPromptValidator);
                 this.addDialog(connectionPrompt);
@@ -69,7 +75,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
             const matchingProviders: TokenStatus[] = tokenStatusCollection
                 .filter((val: TokenStatus) => {
-                    return val.hasToken &&
+                    return <boolean>val.hasToken &&
                         Object.keys(this.skillConfiguration.authenticationConnections)
                         .some((k: string) => k === val.connectionName);
                 });
@@ -97,7 +103,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                 });
 
                 return stepContext.prompt(DialogIds.providerPrompt, {
-                    prompt: this.responseManager.getResponse(CommonResponses.configuredAuthProvidersPrompt),
+                    prompt: this.responseManager.getResponse(AuthenticationResponses.configuredAuthProvidersPrompt),
                     choices: choices
                 });
 
@@ -116,7 +122,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                     });
 
                 return stepContext.prompt(DialogIds.providerPrompt, {
-                    prompt: this.responseManager.getResponse(CommonResponses.authProvidersPrompt),
+                    prompt: this.responseManager.getResponse(AuthenticationResponses.authProvidersPrompt),
                     choices: choices
                 });
             }

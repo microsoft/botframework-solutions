@@ -1,3 +1,8 @@
+/**
+ * Copyright(c) Microsoft Corporation.All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import { Middleware, TurnContext } from 'botbuilder';
 import { setLocale } from 'i18n';
 
