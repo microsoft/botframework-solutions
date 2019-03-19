@@ -1,18 +1,23 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License
+/**
+ * Copyright(c) Microsoft Corporation.All rights reserved.
+ * Licensed under the MIT License.
+ */
 
 import {
+    IBackgroundTaskQueue,
     InterruptionAction,
     ISkillDialogOptions,
     ITelemetryLuisRecognizer,
     ITelemetryQnAMaker,
     LocaleConfiguration,
+    ProactiveState,
     RouterDialog,
     SkillConfiguration,
     SkillDefinition,
     SkillDialog,
+    SkillEvent,
     SkillRouter,
-    TelemetryExtensions} from 'bot-solution';
+    TelemetryExtensions } from 'bot-solution';
 import {
     BotFrameworkAdapter,
     BotTelemetryClient,
@@ -45,7 +50,9 @@ export class MainDialog extends RouterDialog {
     private readonly services: BotServices;
     private readonly userState: UserState;
     private readonly conversationState: ConversationState;
+    private readonly proactiveState: ProactiveState;
     private readonly endpointService: IEndpointService;
+    private readonly backgroundTaskQueue: IBackgroundTaskQueue;
     private readonly onboardingState: StatePropertyAccessor<IOnboardingState>;
     private readonly parametersAccessor: StatePropertyAccessor<{ [key: string]: Object }>;
     private readonly virtualAssistantState: StatePropertyAccessor<IVirtualAssistantState>;
@@ -58,8 +65,10 @@ export class MainDialog extends RouterDialog {
     constructor(services: BotServices,
                 conversationState: ConversationState,
                 userState: UserState,
+                proactiveState: ProactiveState,
                 endpointService: IEndpointService,
-                telemetryClient: BotTelemetryClient) {
+                telemetryClient: BotTelemetryClient,
+                backgroundTaskQueue: IBackgroundTaskQueue) {
         super(MainDialog.name, telemetryClient);
 
         if (services) {
@@ -70,8 +79,10 @@ export class MainDialog extends RouterDialog {
 
         this.conversationState = conversationState;
         this.userState = userState;
+        this.proactiveState = proactiveState;
         this.endpointService = endpointService;
         this.telemetryClient = telemetryClient;
+        this.backgroundTaskQueue = backgroundTaskQueue;
         this.onboardingState = this.userState.createProperty<IOnboardingState>('IOnboardingState');
         this.parametersAccessor = this.userState.createProperty<{ [key: string]: Object }>('userInfo');
         this.virtualAssistantState = this.conversationState.createProperty<IVirtualAssistantState>('VirtualAssistantState');
@@ -90,7 +101,35 @@ export class MainDialog extends RouterDialog {
         }
     }
 
-    // tslint:disable-next-line:max-func-body-length
+    protected async onInterruptDialog(dc: DialogContext) : Promise<InterruptionAction> {
+        if (dc.context.activity.type === ActivityTypes.Message) {
+            // get current activity locale
+            const locale: string = getLocale();
+            const localeConfig: LocaleConfiguration = (this.services.localeConfigurations.get(locale) || new LocaleConfiguration());
+
+            // check luis intent
+            const luisService: ITelemetryLuisRecognizer | undefined = localeConfig.luisServices.get(LocaleConfigurationKeys.general);
+            if (luisService) {
+                const luisResult: RecognizerResult = await luisService.recognize(dc.context);
+                const intent: string = LuisRecognizer.topIntent(luisResult);
+
+                // C# Pending - Evolve this pattern
+                if (luisResult.intents[intent].score > 0.5) {
+                    switch (intent) {
+                        case 'logout': {
+                            return this.logout(dc);
+                        }
+                        default:
+                    }
+                }
+
+            }
+        }
+
+        return InterruptionAction.NoAction;
+    }
+
+    // tslint:disable-next-line: cyclomatic-complexity max-func-body-length
     protected async route(dc: DialogContext): Promise<void> {
         const parameters: { [key: string]: Object } = await this.parametersAccessor.get(dc.context, {});
         const virtualAssistantState: IVirtualAssistantState = await this.virtualAssistantState.get(dc.context, {});
@@ -100,7 +139,7 @@ export class MainDialog extends RouterDialog {
 
         // No dialog is currently on the stack and we haven't responded to the user
         // Check dispatch result
-        const dispatchResult: RecognizerResult = await localeConfig.dispatchRecognizer.recognize(dc, true);
+        const dispatchResult: RecognizerResult = await localeConfig.dispatchRecognizer.recognize(dc);
         const intent: string = LuisRecognizer.topIntent(dispatchResult);
 
         switch (intent) {
@@ -108,18 +147,13 @@ export class MainDialog extends RouterDialog {
                 // If dispatch result is general luis model
                 const luisService: ITelemetryLuisRecognizer | undefined = (localeConfig.luisServices.get(LocaleConfigurationKeys.general));
                 if (luisService) {
-                    const luisResult: RecognizerResult =  await luisService.recognize(dc, true);
+                    const luisResult: RecognizerResult =  await luisService.recognize(dc);
                     if (luisResult) {
                         const luisIntent: string = LuisRecognizer.topIntent(luisResult);
 
                         // switch on general intents
                         if (luisResult.intents[luisIntent].score > 0.5) {
                             switch (luisIntent) {
-                                case 'Greeting': {
-                                    // send greeting response
-                                    await this.responder.replyWith(dc.context, MainResponses.responseIds.greeting);
-                                    break;
-                                }
                                 case 'Help': {
                                     // send help response
                                     await this.responder.replyWith(dc.context, MainResponses.responseIds.help);
@@ -139,9 +173,8 @@ export class MainDialog extends RouterDialog {
                                     await this.logout(dc);
                                     break;
                                 }
-                                case 'Next':
-                                case 'Previous':
-                                case 'ReadMore': {
+                                case 'ShowNext':
+                                case 'ShowPrevious': {
                                     const lastExecutedIntent: string | undefined = virtualAssistantState.lastIntent;
                                     if (lastExecutedIntent) {
                                         const skillDialogOption: ISkillDialogOptions = {
@@ -187,6 +220,17 @@ export class MainDialog extends RouterDialog {
 
                 break;
             }
+            case 'q_Chitchat': {
+                const qnaService: ITelemetryQnAMaker | undefined = localeConfig.qnaServices.get(LocaleConfigurationKeys.chitchat);
+                if (qnaService) {
+                    const answers: QnAMakerResult[] = await qnaService.getAnswers(dc.context);
+                    if (answers && answers.length > 0) {
+                        await this.responder.replyWith(dc.context, MainResponses.responseIds.qna, answers[0].answer);
+                    }
+                }
+
+                break;
+            }
             case 'None':
             default: {
                 // No intent was identified, send confused message
@@ -202,6 +246,7 @@ export class MainDialog extends RouterDialog {
         await dc.endDialog(result);
     }
 
+    // tslint:disable-next-line: cyclomatic-complexity max-func-body-length
     protected async onEvent(dc: DialogContext): Promise<void> {
         // Indicates whether the event activity should be sent to the active dialog on the stack
         let forward: boolean = true;
@@ -215,82 +260,127 @@ export class MainDialog extends RouterDialog {
                 text: `Received event: ${ev.name}` };
             await dc.context.sendActivity(trace);
 
-            switch (ev.name) {
-                case Events.timezoneEvent: {
-                    try {
-                        const locale: String = getLocale();
-                        parameters[ev.name] = locale;
-                    } catch (err) {
-                        const activity: Partial<Activity> = { type: ActivityTypes.Trace,
-                            text: 'Timezone passed could not be mapped to a valid Timezone. Property not set.' };
-                        await dc.context.sendActivity(activity);
-                    }
-                    forward = false;
-                    break;
-                }
-                case Events.locationEvent: {
-                    parameters[ev.name] = ev.value;
-                    forward = false;
-                    break;
-                }
-                case Events.tokenResponseEvent: {
-                    forward = true;
-                    break;
-                }
-                case Events.activeLocationUpdate:
-                case Events.activeRouteUpdate: {
-                    const skillDialogOption: ISkillDialogOptions = {
-                        // Intent from skill needed, LUISGen not generating things right, an issue should be opened
-                        skillDefinition: this.skillRouter.identifyRegisteredSkill('l_PointOfInterest'),
-                        parameters: new Map<string, Object>()
-                    };
-                    await this.routeToSkill(dc, skillDialogOption);
-                    forward = false;
-                    break;
-                }
-                case Events.resetUser: {
-                    const activity: Partial<Activity> = {
-                        type: ActivityTypes.Trace,
-                        text: 'Reset User Event received, clearing down State and Tokens.' };
-                    await dc.context.sendActivity(activity);
-                    // Clear state
-                    await this.onboardingState.delete(dc.context);
-                    // Clear tokens
-                    const adapter: BotFrameworkAdapter = <BotFrameworkAdapter> dc.context.adapter;
-                    if (adapter) {
-                        await adapter.signOutUser(dc.context, '');
+            // see if there's a skillEvent mapping defined with this event
+            const skillEvents: Map<string, SkillEvent> | undefined = this.services.skillEvents;
+            if (skillEvents && skillEvents.has(ev.name)) {
+                const skillEvent: SkillEvent | undefined = skillEvents.get(ev.name);
+                if (ev.value) {
+                    const value: Object = new Map(Object.entries(ev.value));
+                    const skillIds: string[] = skillEvent ? skillEvent.skillIds : [];
+                    if (!skillIds || skillIds.length === 0) {
+                        const errorMessage: string = 'SkillIds is not specified in the skillEventConfig.' +
+                            ' Without it the assistan doesn\'t know where to route the message to.';
+                        const traceError: Partial<Activity> = {
+                            type: ActivityTypes.Trace,
+                            text: errorMessage
+                        };
+                        await dc.context.sendActivity(traceError);
+                        TelemetryExtensions.trackExceptionEx(this.telemetryClient, new Error(errorMessage), dc.context.activity);
                     }
 
-                    forward = false;
-                    break;
+                    dc.context.activity.value = value;
+                    skillIds.forEach(async (skillId: string) => {
+                        const matchedSkill: SkillDefinition | undefined = this.skillRouter.identifyRegisteredSkill(skillId);
+                        if (matchedSkill) {
+                            const skillDialogOption: ISkillDialogOptions = {
+                                skillDefinition: matchedSkill,
+                                parameters: new Map<string, Object>()
+                            };
+                            await this.routeToSkill(dc, skillDialogOption);
+                            forward = false;
+                        } else {
+                            // skill id defined in skillEventConfig is wrong
+                            const skillList: string[] = this.services.skillDefinitions.map((skillDefinition: SkillDefinition) => {
+                                return skillDefinition.dispatchIntent;
+                            });
+                            const errorMessage: string = `SkillId ${skillId} for the event {env.name}` +
+                                ` in the skillEventConfig is not supported. It should be one of these: ${skillList.join(',')}.`;
+                            const traceError: Partial<Activity> = {
+                                type: ActivityTypes.Trace,
+                                text: errorMessage
+                            };
+                            await dc.context.sendActivity(traceError);
+                            TelemetryExtensions.trackExceptionEx(this.telemetryClient, new Error(errorMessage), dc.context.activity);
+                        }
+                    });
                 }
-                case Events.startConversation: {
-                    forward = false;
-                    if (!this.conversationStarted) {
-                        if (!dc.context.activity.locale) {
-                            TelemetryExtensions.trackEventEx(
-                                this.telemetryClient,
-                                'NoLocaleInStartConversation',
-                                dc.context.activity,
-                                (dc.activeDialog ? dc.activeDialog.id : undefined));
-                            break;
+            } else {
+                switch (ev.name) {
+                    case Events.timezoneEvent: {
+                        try {
+                            const locale: String = getLocale();
+                            parameters[ev.name] = locale;
+                        } catch (err) {
+                            const activity: Partial<Activity> = { type: ActivityTypes.Trace,
+                                text: 'Timezone passed could not be mapped to a valid Timezone. Property not set.' };
+                            await dc.context.sendActivity(activity);
+                        }
+                        forward = false;
+                        break;
+                    }
+                    case Events.locationEvent: {
+                        parameters[ev.name] = ev.value;
+                        forward = false;
+                        break;
+                    }
+                    case Events.tokenResponseEvent: {
+                        forward = true;
+                        break;
+                    }
+                    case Events.activeLocationUpdate:
+                    case Events.activeRouteUpdate: {
+                        const skillDialogOption: ISkillDialogOptions = {
+                            // Intent from skill needed, LUISGen not generating things right, an issue should be opened
+                            skillDefinition: this.skillRouter.identifyRegisteredSkill('l_PointOfInterest'),
+                            parameters: new Map<string, Object>()
+                        };
+                        await this.routeToSkill(dc, skillDialogOption);
+                        forward = false;
+                        break;
+                    }
+                    case Events.resetUser: {
+                        const activity: Partial<Activity> = {
+                            type: ActivityTypes.Trace,
+                            text: 'Reset User Event received, clearing down State and Tokens.' };
+                        await dc.context.sendActivity(activity);
+                        // Clear state
+                        await this.onboardingState.delete(dc.context);
+                        // Clear tokens
+                        const adapter: BotFrameworkAdapter = <BotFrameworkAdapter> dc.context.adapter;
+                        if (adapter) {
+                            await adapter.signOutUser(dc.context, '');
                         }
 
-                        await this.startConversation(dc);
-                        this.conversationStarted = true;
+                        forward = false;
+                        break;
                     }
+                    case Events.startConversation: {
+                        forward = false;
+                        if (!this.conversationStarted) {
+                            if (!dc.context.activity.locale) {
+                                TelemetryExtensions.trackEventEx(
+                                    this.telemetryClient,
+                                    'NoLocaleInStartConversation',
+                                    dc.context.activity,
+                                    (dc.activeDialog ? dc.activeDialog.id : undefined));
+                                break;
+                            }
 
-                    break;
-                }
-                default: {
-                    const activity: Partial<Activity> = {
-                        type: ActivityTypes.Trace,
-                        text: `Unknown Event ${ev.name} was received but not processed.` };
-                    await dc.context.sendActivity(activity);
-                    forward = false;
+                            await this.startConversation(dc);
+                            this.conversationStarted = true;
+                        }
+
+                        break;
+                    }
+                    default: {
+                        const activity: Partial<Activity> = {
+                            type: ActivityTypes.Trace,
+                            text: `Unknown Event ${ev.name} was received but not processed.` };
+                        await dc.context.sendActivity(activity);
+                        forward = false;
+                    }
                 }
             }
-
             if (forward) {
                 const result: DialogTurnResult = await dc.continueDialog();
                 if (result.status === DialogTurnStatus.complete) {
@@ -357,8 +447,10 @@ export class MainDialog extends RouterDialog {
             this.addDialog(new SkillDialog(
                 definition,
                 this.services.skillConfigurations.get(definition.id) || new SkillConfiguration(),
+                this.proactiveState,
                 this.endpointService,
-                this.telemetryClient));
+                this.telemetryClient,
+                this.backgroundTaskQueue));
         });
 
         // Initialize skill dispatcher
@@ -370,8 +462,8 @@ namespace Events {
     export const tokenResponseEvent: string = 'tokens/response';
     export const timezoneEvent: string = 'IPA.Timezone';
     export const locationEvent: string = 'IPA.Location';
-    export const activeLocationUpdate: string = 'POI.ActiveLocation';
-    export const activeRouteUpdate: string = 'POI.ActiveRoute';
+    export const activeLocationUpdate: string = 'IPA.ActiveLocation';
+    export const activeRouteUpdate: string = 'IPA.ActiveRoute';
     export const resetUser: string = 'IPA.ResetUser';
     export const startConversation: string = 'startConversation';
 }
@@ -379,4 +471,5 @@ namespace Events {
 namespace LocaleConfigurationKeys {
     export const general: string = 'general';
     export const faq: string = 'faq';
+    export const chitchat: string = 'chitchat';
 }
