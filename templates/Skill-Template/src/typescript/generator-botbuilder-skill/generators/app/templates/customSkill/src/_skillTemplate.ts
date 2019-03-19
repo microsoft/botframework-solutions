@@ -10,7 +10,7 @@ import { MainResponses } from './dialogs/main/mainResponses';
 import { SampleResponses } from './dialogs/sample/sampleResponses';
 import { SharedResponses } from './dialogs/shared/sharedResponses';
 import { IServiceManager } from './serviceClients/IServiceManager';
-
+import { ServiceManager } from './serviceClients/serviceManager';
 /**
  * Here is the documentation of the <%=skillTemplateName%> class
  */

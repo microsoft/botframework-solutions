@@ -77,7 +77,7 @@ export class MainDialog extends RouterDialog {
     protected async onStart(dc: DialogContext): Promise<void> {
         if (!this.skillMode) {
             // send a greeting if we're in local mode
-            await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.responseIds.welcomeMessage));
+            await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.welcomeMessage));
         }
     }
 
@@ -106,7 +106,7 @@ export class MainDialog extends RouterDialog {
                     }
                     case 'None': {
                         // No intent was identified, send confused message
-                        await dc.context.sendActivity(this.responseManager.getResponse(SharedResponses.responseIds.didntUnderstandMessage));
+                        await dc.context.sendActivity(this.responseManager.getResponse(SharedResponses.didntUnderstandMessage));
                         if (this.skillMode) {
                             turnResult = {
                                 status: DialogTurnStatus.complete
@@ -117,7 +117,7 @@ export class MainDialog extends RouterDialog {
                     }
                     default: {
                         // intent was identified but not yet implemented
-                        await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.responseIds.featureNotAvailable));
+                        await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.featureNotAvailable));
                         if (this.skillMode) {
                             turnResult = {
                                 status: DialogTurnStatus.complete
@@ -218,7 +218,7 @@ export class MainDialog extends RouterDialog {
     }
 
     private async onCancel(dc: DialogContext): Promise<InterruptionAction> {
-        await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.responseIds.cancelMessage));
+        await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.cancelMessage));
         await this.complete(dc);
         await dc.cancelAllDialogs();
 
@@ -226,7 +226,7 @@ export class MainDialog extends RouterDialog {
     }
 
     private async onHelp(dc: DialogContext): Promise<InterruptionAction> {
-        await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.responseIds.helpMessage));
+        await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.helpMessage));
 
         return InterruptionAction.MessageSentToUser;
     }
@@ -251,7 +251,7 @@ export class MainDialog extends RouterDialog {
             }
         });
 
-        await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.responseIds.logOut));
+        await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.logOut));
 
         return InterruptionAction.StartedDialog;
     }
