@@ -37,13 +37,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AdaptiveCards" Version="1.1.2" />
-    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.10.0-beta2" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.0-beta2" />
-    <PackageReference Include="Microsoft.AspNetCore.All" />    
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="2.0.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.3.1" />
@@ -54,7 +49,6 @@
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Graph" Version="1.14.0-preview" />
     <PackageReference Include="Microsoft.Recognizers.Text" Version="1.1.5" />
     <PackageReference Include="Microsoft.Recognizers.Text.DataTypes.TimexExpression" Version="1.1.5" />
     <PackageReference Include="Microsoft.Recognizers.Text.DateTime" Version="1.1.5" />

@@ -13,6 +13,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using RestaurantBooking.Dialogs.BookingDialog.Resources;
 using RestaurantBooking.Dialogs.Resources.Cards;
 using RestaurantBooking.Dialogs.Shared;
@@ -57,12 +58,15 @@ namespace RestaurantBooking.Dialogs.BookingDialog
             AddDialog(new WaterfallDialog(Actions.BookRestaurant, bookingWaterfall));
 
             // Prompts
-            AddDialog(new ChoicePrompt(Actions.AskForFoodType, ValidateFoodType) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
+            AddDialog(new ChoicePrompt(Actions.AskForFoodType, ValidateFoodType) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { IncludeNumbers = true } });
             AddDialog(new DateTimePrompt(Actions.AskReservationDateStep, ValidateReservationDate));
             AddDialog(new DateTimePrompt(Actions.AskReservationTimeStep, ValidateReservationTime));
             AddDialog(new NumberPrompt<int>(Actions.AskAttendeeCountStep, ValidateAttendeeCount));
             AddDialog(new ConfirmPrompt(Actions.ConfirmSelectionBeforeBookingStep, ValidateBookingSelectionConfirmation));
-            AddDialog(new TextPrompt(Actions.RestaurantPrompt, ValidateRestaurantSelection));
+            AddDialog(new ChoicePrompt(Actions.RestaurantPrompt, ValidateRestaurantSelection) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { IncludeNumbers = true } });
+
+            // Optional
+            AddDialog(new ChoicePrompt(Actions.AmbiguousTimePrompt, ValidateAmbiguousTimePrompt) { Style = ListStyle.HeroCard, ChoiceOptions = new ChoiceFactoryOptions { IncludeNumbers = true } });
 
             // Set starting dialog for component
             InitialDialogId = Actions.BookRestaurant;
@@ -79,17 +83,25 @@ namespace RestaurantBooking.Dialogs.BookingDialog
         /// <returns>Dialog Turn Result.</returns>
         private async Task<DialogTurnResult> Init(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-             var state = await ConversationStateAccessor.GetAsync(sc.Context);
+            var state = await ConversationStateAccessor.GetAsync(sc.Context);
 
-             var tokens = new StringDictionary
+            if (state.Booking == null)
+            {
+                state.Booking = new ReservationBooking();
+                state.AmbiguousTimexExpressions = new Dictionary<string, string>();
+            }
+
+            // This would be passed from the Virtual Assistant moving forward
+            var tokens = new StringDictionary
             {
                 { "UserName", "Jane" }
             };
 
-             var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantFlowStartMessage, tokens);
-             await sc.Context.SendActivityAsync(reply);
+            // Start the flow
+            var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantFlowStartMessage, tokens);
+            await sc.Context.SendActivityAsync(reply);
 
-             return await sc.NextAsync(sc.Values, cancellationToken);
+            return await sc.NextAsync(sc.Values, cancellationToken);
         }
 
         /// <summary>
@@ -141,7 +153,7 @@ namespace RestaurantBooking.Dialogs.BookingDialog
                                     ImageUrl = foodType.ImageUrl,
                                     ImageSize = AdaptiveImageSize.Stretch,
                                     ImageAlign = AdaptiveHorizontalAlignment.Stretch,
-                                    Cusine = foodType.TypeName
+                                    Cusine = foodType.TypeName,
                             }));
 
                 options.Choices.Add(new Choice(foodType.TypeName));
@@ -252,9 +264,30 @@ namespace RestaurantBooking.Dialogs.BookingDialog
             {
                 return await sc.NextAsync(sc.Values, cancellationToken);
             }
-            else if (state.AmbiguousTimexExpressions != null)
+            else if (state.AmbiguousTimexExpressions.Count > 0)
             {
                 // We think the user did provide a time but it was ambiguous so we should clarify
+                var ambiguousReply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.AmbiguousTimePrompt);
+
+                var choices = new List<Choice>();
+
+                foreach (var option in state.AmbiguousTimexExpressions)
+                {
+                    var choice = new Choice(option.Value);
+                    choice.Synonyms = new List<string>();
+
+                    // The timex natural language variant provides options in the format of "today 4am", "today 4pm" so we provide
+                    // synonyms to make things easier for the user especially when using speech                
+                    var timePortion = option.Value.Split(' ');
+                    if (timePortion != null && timePortion.Length == 2)
+                    {
+                        choice.Synonyms.Add(timePortion[1]);
+                    }
+
+                    choices.Add(choice);
+                }
+
+                return await sc.PromptAsync(Actions.AmbiguousTimePrompt, new PromptOptions { Prompt = ambiguousReply, Choices = choices }, cancellationToken);
             }
 
             // We don't have the time component so prompt for time
@@ -275,6 +308,31 @@ namespace RestaurantBooking.Dialogs.BookingDialog
                 reservation.ReservationTime = DateTime.Parse(recognizerValue.Value);
 
                 return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Validate the chosen time.
+        /// </summary>
+        /// <param name="promptContext">Prompt Validator Context.</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
+        /// <returns>Dialog Turn Result.</returns>
+        private async Task<bool> ValidateAmbiguousTimePrompt(PromptValidatorContext<FoundChoice> promptContext, CancellationToken cancellationToken)
+        {
+            var state = await ConversationStateAccessor.GetAsync(promptContext.Context);
+
+            if (promptContext.Recognized.Succeeded)
+            {
+                var timexFromNaturalLanguage = state.AmbiguousTimexExpressions.First(t => t.Value == promptContext.Recognized.Value.Value);
+                if (!string.IsNullOrEmpty(timexFromNaturalLanguage.Key))
+                {
+                    TimexProperty property = new TimexProperty(timexFromNaturalLanguage.Key);
+                    state.Booking.ReservationTime = DateTime.Parse($"{property.Hour.Value}:{property.Minute.Value}:{property.Second.Value}");
+
+                    return true;
+                }
             }
 
             return false;
@@ -409,32 +467,41 @@ namespace RestaurantBooking.Dialogs.BookingDialog
 
             var tokens = new StringDictionary
             {
-                { "RestaurantCount", (restaurants.Count - 1).ToString() },
+                { "RestaurantCount", restaurants.Count.ToString() },
                 { "ServerUrl", _urlResolver.ServerUrl },
                 { "RestaurantList", restaurantOptionsForSpeak.ToString() }
             };
 
             var cards = new List<Card>();
-            restaurants.ForEach(r => cards.Add(
-                new Card(
+            var options = new PromptOptions()
+            {
+                Choices = new List<Choice>(),
+            };
+
+            foreach (var restaurant in restaurants)
+            {
+                cards.Add(new Card(
                    "RestaurantChoiceCard",
                    new RestaurantChoiceCardData
-                     {
-                         ImageUrl = r.PictureUrl,
-                         ImageSize = AdaptiveImageSize.Stretch,
-                         ImageAlign = AdaptiveHorizontalAlignment.Stretch,
-                         Name = r.Name,
-                         Title = r.Name,
-                         Location = r.Location,
-                         SelectedItemData = r.Name
-                     })));
+                   {
+                       ImageUrl = restaurant.PictureUrl,
+                       ImageSize = AdaptiveImageSize.Stretch,
+                       ImageAlign = AdaptiveHorizontalAlignment.Stretch,
+                       Name = restaurant.Name,
+                       Title = restaurant.Name,
+                       Location = restaurant.Location,
+                       SelectedItemData = restaurant.Name
+                   }));
+
+                options.Choices.Add(new Choice(restaurant.Name));
+            }
 
             var replyMessage = ResponseManager.GetCardResponse(RestaurantBookingSharedResponses.BookRestaurantRestaurantSelectionPrompt, cards, tokens);
 
-            return await sc.PromptAsync(Actions.RestaurantPrompt, new PromptOptions { Prompt = replyMessage }, cancellationToken);
+            return await sc.PromptAsync(Actions.RestaurantPrompt, new PromptOptions { Prompt = replyMessage, Choices = options.Choices }, cancellationToken);
         }
 
-        private async Task<bool> ValidateRestaurantSelection(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
+        private async Task<bool> ValidateRestaurantSelection(PromptValidatorContext<FoundChoice> promptContext, CancellationToken cancellationToken)
         {
             var state = await ConversationStateAccessor.GetAsync(promptContext.Context);
 
@@ -450,14 +517,16 @@ namespace RestaurantBooking.Dialogs.BookingDialog
                 {
                     // Override what the prompt has done
                     promptContext.Recognized.Succeeded = true;
-                    promptContext.Recognized.Value = promptResponse;
+                    var foundChoice = new FoundChoice();
+                    foundChoice.Value = promptResponse;
+                    promptContext.Recognized.Value = foundChoice;
                 }
             }
 
             if (promptContext.Recognized.Succeeded)
             {
                 var restaurants = SeedReservationSampleData.GetListOfRestaurants(state.Booking.Category, "London", _urlResolver);
-                var restaurant = restaurants.Single(r => r.Name == promptContext.Recognized.Value);
+                var restaurant = restaurants.First(r => r.Name == promptContext.Recognized.Value.Value);
                 if (restaurant != null)
                 {
                     state.Booking.BookingPlace = restaurant;
@@ -490,7 +559,7 @@ namespace RestaurantBooking.Dialogs.BookingDialog
             // Send an update to the user (this would be done asynchronously and through a proactive notification
             var tokens = new StringDictionary
                 {
-                    { "BookingPlace", reservation.BookingPlace.Name },
+                    { "Restaurant", reservation.BookingPlace.Name },
                     { "Location", reservation.BookingPlace.Location },
                     { "ReservationDate", reservation.ReservationDate?.ToShortDateString() },
                     { "ReservationDateSpeak", reservation.ReservationDate?.ToSpeakString(true) },
@@ -516,6 +585,8 @@ namespace RestaurantBooking.Dialogs.BookingDialog
                        tokens);
 
             await sc.Context.SendActivityAsync(replyMessage);
+
+            state.Clear();
 
             return await sc.EndDialogAsync(cancellationToken: cancellationToken);
         }

@@ -1,6 +1,6 @@
 ﻿using Luis;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Solutions.Testing.Mocks;
+using Microsoft.Bot.Builder.Solutions.Testing.Mocks;
 using $safeprojectname$.Flow.Utterances;
 using System.Collections.Generic;
 

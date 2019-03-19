@@ -7,24 +7,14 @@ import { join } from 'path';
  * Contains bot responses.
  */
 export class MainResponses implements IResponseIdCollection {
-    public name: string = MainResponses.name;
-    public pathToResource: string = join(__dirname, 'resources');
     // Generated accessors
-    public static responseIds: {
-        welcomeMessage: string;
-        helpMessage: string;
-        greetingMessage: string;
-        goodbyeMessage: string;
-        logOut: string;
-        featureNotAvailable: string;
-        cancelMessage: string;
-    } = {
-        welcomeMessage: 'WelcomeMessage',
-        helpMessage: 'HelpMessage',
-        greetingMessage: 'GreetingMessage',
-        goodbyeMessage: 'GoodbyeMessage',
-        logOut: 'LogOut',
-        featureNotAvailable: 'FeatureNotAvailable',
-        cancelMessage: 'CancelMessage'
-    };
+    public readonly name: string = MainResponses.name;
+    public pathToResource: string = join(__dirname, 'resources');
+    public static readonly welcomeMessage: string = 'WelcomeMessage';
+    public static readonly helpMessage: string = 'HelpMessage';
+    public static readonly greetingMessage: string = 'GreetingMessage';
+    public static readonly goodbyeMessage: string = 'GoodbyeMessage';
+    public static readonly logOut: string = 'LogOut';
+    public static readonly featureNotAvailable: string = 'FeatureNotAvailable';
+    public static readonly cancelMessage: string = 'CancelMessage';
 }

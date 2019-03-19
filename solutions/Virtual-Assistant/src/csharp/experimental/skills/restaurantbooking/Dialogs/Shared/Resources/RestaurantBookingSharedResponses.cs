@@ -34,5 +34,6 @@ namespace RestaurantBooking.Dialogs.Shared.Resources
         public const string BookRestaurantBookingPlaceSelectionEcho = "BookRestaurantBookingPlaceSelectionEcho";
         public const string FoodTypeSelectionErrorMessage = "FoodTypeSelectionErrorMessage";
         public const string BookRestaurantRestaurantNegativeConfirm = "BookRestaurantRestaurantNegativeConfirm";
+        public const string AmbiguousTimePrompt = "AmbiguousTimePrompt";
     }
 }

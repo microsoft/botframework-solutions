@@ -3,6 +3,7 @@
 
 import {
     ActivityExtensions,
+    CommonUtil,
     IProviderTokenResponse,
     ITelemetryLuisRecognizer,
     LocaleConfiguration,
@@ -100,16 +101,15 @@ export class SkillDialogBase extends ComponentDialog {
                 return await sc.prompt(DialogIds.skillModeAuth, {});
             } else {
                 return await sc.prompt(MultiProviderAuthDialog.name, {
-                    retryPrompt: this.responseManager.getResponse(SharedResponses.responseIds.noAuth)
+                    retryPrompt: this.responseManager.getResponse(SharedResponses.noAuth)
                 });
             }
         } catch (err) {
             await this.handleDialogExceptions(sc, err);
 
-            // PENDING Need to implement Util folder in bot-solution
             return {
                 status: DialogTurnStatus.cancelled,
-                result: 'cancelAllDialogs'
+                result: CommonUtil.dialogTurnResultCancelAllDialogs
             };
         }
     }
@@ -139,10 +139,9 @@ export class SkillDialogBase extends ComponentDialog {
         } catch (err) {
             await this.handleDialogExceptions(sc, err);
 
-            // PENDING Need to implement Util folder in bot-solution
             return {
                 status: DialogTurnStatus.cancelled,
-                result: 'cancelAllDialogs'
+                result: CommonUtil.dialogTurnResultCancelAllDialogs
             };
         }
     }
@@ -201,7 +200,7 @@ export class SkillDialogBase extends ComponentDialog {
         });
 
         // send error message to bot user
-        await sc.context.sendActivity(this.responseManager.getResponse(SharedResponses.responseIds.errorMessage));
+        await sc.context.sendActivity(this.responseManager.getResponse(SharedResponses.errorMessage));
 
         // clear state
         // tslint:disable-next-line:no-any

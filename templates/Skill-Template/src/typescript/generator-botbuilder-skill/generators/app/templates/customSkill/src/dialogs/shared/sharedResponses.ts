@@ -7,22 +7,13 @@ import { join } from 'path';
  * Contains bot responses.
  */
 export class SharedResponses implements IResponseIdCollection {
-    public name: string = SharedResponses.name;
-    public pathToResource: string = join(__dirname, 'resources');
     // Generated accessors
-    public static responseIds: {
-        didntUnderstandMessage : string;
-        cancellingMessage : string;
-        noAuth : string;
-        authFailed : string;
-        actionEnded : string;
-        errorMessage : string;
-    } = {
-        didntUnderstandMessage : 'DidntUnderstandMessage',
-        cancellingMessage : 'CancellingMessage',
-        noAuth : 'NoAuth',
-        authFailed : 'AuthFailed',
-        actionEnded : 'ActionEnded',
-        errorMessage : 'ErrorMessage'
-    };
+    public readonly name: string = SharedResponses.name;
+    public pathToResource: string = join(__dirname, 'resources');
+    public static readonly didntUnderstandMessage: string = 'DidntUnderstandMessage';
+    public static readonly cancellingMessage: string = 'CancellingMessage';
+    public static readonly noAuth: string = 'NoAuth';
+    public static readonly authFailed: string = 'AuthFailed';
+    public static readonly actionEnded: string = 'ActionEnded';
+    public static readonly errorMessage: string = 'ErrorMessage';
 }

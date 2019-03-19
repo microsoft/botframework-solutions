@@ -69,19 +69,23 @@ namespace RestaurantBooking.Dialogs.Shared
         {
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
-                var state = await ConversationStateAccessor.GetAsync(dc.Context);
+                // Adaptive card responses come through with empty text properties
+                if (!string.IsNullOrEmpty(dc.Context.Activity.Text))
+                {
+                    var state = await ConversationStateAccessor.GetAsync(dc.Context);
 
-                // Get luis service for current locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = Services.LocaleConfigurations[locale];
-                var luisService = localeConfig.LuisServices["reservation"];
+                    // Get luis service for current locale
+                    var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                    var localeConfig = Services.LocaleConfigurations[locale];
+                    var luisService = localeConfig.LuisServices["restaurant"];
 
-                // Get intent and entities for activity
-                var result = await luisService.RecognizeAsync<Reservation>(dc.Context, CancellationToken.None);
-                state.LuisResult = result;
+                    // Get intent and entities for activity
+                    var result = await luisService.RecognizeAsync<Reservation>(dc.Context, CancellationToken.None);
+                    state.LuisResult = result;
 
-                // Extract key data out into state ready for use
-                await DigestLuisResult(dc, result);
+                    // Extract key data out into state ready for use
+                    await DigestLuisResult(dc, result);
+                }
             }
         }
 
@@ -152,7 +156,7 @@ namespace RestaurantBooking.Dialogs.Shared
                             if (timexProperty.Types.Contains(Constants.TimexTypes.Date) && timexProperty.Types.Contains(Constants.TimexTypes.Definite))
                             {
                                 // We have definite date (no ambiguity)
-                                state.Booking.ReservationTime = new DateTime(timexProperty.Year.Value, timexProperty.Month.Value, timexProperty.DayOfMonth.Value);
+                                state.Booking.ReservationDate = new DateTime(timexProperty.Year.Value, timexProperty.Month.Value, timexProperty.DayOfMonth.Value);
 
                                 // Timex doesn't capture time ambiguity (e.g. 4 rather than 4pm)
                                 if (timexProperty.Types.Contains(Constants.TimexTypes.Time))
@@ -161,13 +165,16 @@ namespace RestaurantBooking.Dialogs.Shared
                                     if (distinctTimexExpressions.Count == 1)
                                     {
                                         // We have definite time (no ambiguity)
-                                        state.Booking.ReservationDate = new DateTime(timexProperty.Year.Value, timexProperty.Month.Value, timexProperty.DayOfMonth.Value);
                                         state.Booking.ReservationTime = DateTime.Parse($"{timexProperty.Hour.Value}:{timexProperty.Minute.Value}:{timexProperty.Second.Value}");
                                     }
                                     else
                                     {
-                                        // We don't have a distinct time so add the TimeEx expressions to enable disambiguation later
-                                        state.AmbiguousTimexExpressions = distinctTimexExpressions;
+                                        // We don't have a distinct time so add the TimeEx expressions to enable disambiguation later and prepare the natural language versions
+                                        foreach (var timex in distinctTimexExpressions)
+                                        {
+                                            TimexProperty property = new TimexProperty(timex);
+                                            state.AmbiguousTimexExpressions.Add(timex, property.ToNaturalLanguage(DateTime.Now));
+                                        }
                                     }
                                 }
                             }
@@ -182,8 +189,12 @@ namespace RestaurantBooking.Dialogs.Shared
                             }
                             else
                             {
-                                // We don't have a distinct date so add the TimeEx expressions to enable disambiguation later
-                                state.AmbiguousTimexExpressions = distinctTimexExpressions;
+                                // We don't have a distinct time so add the TimeEx expressions to enable disambiguation later and prepare the natural language versions
+                                foreach (var timex in distinctTimexExpressions)
+                                {
+                                    TimexProperty property = new TimexProperty(timex);
+                                    state.AmbiguousTimexExpressions.Add(timex, property.ToNaturalLanguage(DateTime.Now));
+                                }
                             }
                         }
                     }
