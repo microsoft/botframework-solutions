@@ -25,12 +25,12 @@ namespace AutomotiveSkillTest.API
 
             var settingFile = resourceAssembly
                 .GetManifestResourceNames()
-                .Where(x => x.Contains("available_settings.json"))
+                .Where(x => x.Contains("available_settings.yaml"))
                 .First();
 
             var alternativeSettingFileName = resourceAssembly
                 .GetManifestResourceNames()
-                .Where(x => x.Contains("setting_alternative_names.json"))
+                .Where(x => x.Contains("setting_alternative_names.yaml"))
                 .First();
 
             settingList = new SettingList(resourceAssembly, settingFile, alternativeSettingFileName);
