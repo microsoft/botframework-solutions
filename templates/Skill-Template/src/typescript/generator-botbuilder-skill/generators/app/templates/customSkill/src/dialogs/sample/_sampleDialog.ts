@@ -66,7 +66,7 @@ export class SampleDialog extends SkillDialogBase {
         // let entities = state.luisResult.entities;
 
         // tslint:disable-next-line:no-any
-        const prompt: any = this.responseManager.getResponse(SampleResponses.responseIds.namePrompt);
+        const prompt: any = this.responseManager.getResponse(SampleResponses.namePrompt);
 
         return stepContext.prompt(dialogIds.namePrompt, { prompt: prompt });
     }
@@ -77,7 +77,7 @@ export class SampleDialog extends SkillDialogBase {
         tokens.set(this.tokenKey, <string>stepContext.result);
 
         // tslint:disable-next-line:no-any
-        const response: any = this.responseManager.getResponse(SampleResponses.responseIds.namePrompt, tokens);
+        const response: any = this.responseManager.getResponse(SampleResponses.namePrompt, tokens);
         await stepContext.context.sendActivity(response);
 
         return stepContext.next();
