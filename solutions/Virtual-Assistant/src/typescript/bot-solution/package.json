@@ -22,7 +22,8 @@
         "botframework-config": "^4.2.1",
         "botframework-connector": "^4.2.1",
         "botframework-schema": "^4.2.1",
-        "i18n": "^0.8.3"
+        "i18n": "^0.8.3",
+        "p-queue": "^4.0.0"
     },
     "devDependencies": {
         "@types/documentdb": "1.10.5",
