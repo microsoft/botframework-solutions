@@ -179,7 +179,6 @@ adapter.use(new SetLocaleMiddleware(DEFAULT_LOCALE));
 adapter.use(new EventDebuggerMiddleware());
 adapter.use(new ProactiveStateMiddleware(proactiveState));
 
-
 adapter.onTurnError = async (context: TurnContext, error: Error): Promise<void> => {
     // tslint:disable-next-line:no-console
     console.error(`${error.message}/n${error.stack}`);
