@@ -167,7 +167,7 @@ namespace VirtualAssistant
                                     }
 
                                     var luisApp = new LuisApplication(luis.AppId, luis.SubscriptionKey, luis.GetEndpoint());
-                                    var recognizer = new TelemetryLuisRecognizer(luisApp);
+                                    var recognizer = new TelemetryLuisRecognizer(luisApp, logPersonalInformation: true);
                                     localeConfig.LuisServices.Add(service.Id, recognizer);
                                     break;
                                 }
@@ -181,7 +181,7 @@ namespace VirtualAssistant
                                         EndpointKey = qna.EndpointKey,
                                         Host = qna.Hostname,
                                     };
-                                    var qnaMaker = new TelemetryQnAMaker(qnaEndpoint);
+                                    var qnaMaker = new TelemetryQnAMaker(qnaEndpoint, logPersonalInformation: true);
                                     localeConfig.QnAServices.Add(qna.Id, qnaMaker);
                                     break;
                                 }

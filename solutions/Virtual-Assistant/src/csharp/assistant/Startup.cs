@@ -137,7 +137,7 @@ namespace VirtualAssistant
                 };
 
                 // Telemetry Middleware (logs activity messages in Application Insights)
-                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient);
+                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
                 botFrameworkHttpAdapter.Use(appInsightsLogger);
 
                 // Transcript Middleware (saves conversation history in a standard format)
