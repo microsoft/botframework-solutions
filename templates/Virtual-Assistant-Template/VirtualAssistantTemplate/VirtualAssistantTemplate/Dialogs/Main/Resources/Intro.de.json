@@ -1,0 +1,53 @@
+﻿{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "body": [
+    {
+      "type": "Image",
+      "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU",
+      "size": "stretch"
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "medium",
+      "size": "default",
+      "weight": "bolder",
+      "text": "Willkommen bei Bot Framework!",
+      "wrap": true,
+      "maxLines": 0
+    },
+    {
+      "type": "TextBlock",
+      "size": "default",
+      "isSubtle": true,
+      "text": "Jetzt, wo Sie Ihren bot erfolgreich laufen lassen, folgen Sie den Links in dieser Adaptive Card, um Ihr Wissen über Bot Framework zu erweitern.",
+      "wrap": true,
+      "maxLines": 0
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "Beginnen",
+      "data": {
+        "action": "startOnboarding"
+      }
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "Übersicht",
+      "url": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "Frage stellen",
+      "url": "https://stackoverflow.com/questions/tagged/botframework"
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "Einsatz-Instruktionen",
+      "url": "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0"
+    }
+  ]
+}

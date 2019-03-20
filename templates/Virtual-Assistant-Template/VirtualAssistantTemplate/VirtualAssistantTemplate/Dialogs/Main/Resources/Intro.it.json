@@ -1,0 +1,54 @@
+﻿{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "body": [
+    {
+      "type": "Image",
+      "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU",
+      "size": "stretch"
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "medium",
+      "size": "default",
+      "weight": "bolder",
+      "text": "Benvenuti a Bot Framework!",
+      "wrap": true,
+      "maxLines": 0
+    },
+    {
+      "type": "TextBlock",
+      "size": "default",
+      "isSubtle": true,
+      "text": "Ora che avete eseguito con successo il vostro bot, seguire i collegamenti in questa scheda adattabile per espandere la vostra conoscenza del Bot Framework.",
+      "wrap": true,
+      "maxLines": 0
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "Iniziare",
+      "data": {
+        "action": "startOnboarding"
+      }
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "Panoramica",
+      "url": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "Fare una domanda",
+      "url": "https://stackoverflow.com/questions/tagged/botframework"
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "Informazioni su come distribuire",
+      "url": "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0"
+    }
+  ]
+}
+ 
