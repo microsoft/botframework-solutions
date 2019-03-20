@@ -85,14 +85,24 @@ namespace EmailSkill.Dialogs.Shared
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await EmailStateAccessor.GetAsync(dc.Context);
-            await DigestEmailLuisResult(dc, state.LuisResult, true);
+
+            if (state.LuisResult != null)
+            {
+                await DigestEmailLuisResult(dc, state.LuisResult, true);
+            }
+
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await EmailStateAccessor.GetAsync(dc.Context);
-            await DigestEmailLuisResult(dc, state.LuisResult, false);
+
+            if (state.LuisResult != null)
+            {
+                await DigestEmailLuisResult(dc, state.LuisResult, false);
+            }
+
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 

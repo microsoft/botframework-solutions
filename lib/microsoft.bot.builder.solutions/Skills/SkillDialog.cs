@@ -33,8 +33,9 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         private IBot _activatedSkill;
         private bool _skillInitialized;
         private bool _useCachedTokens;
+        private ScheduledTask _scheduledTask;
 
-        public SkillDialog(SkillDefinition skillDefinition, SkillConfigurationBase skillConfiguration, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue, bool useCachedTokens = true)
+        public SkillDialog(SkillDefinition skillDefinition, SkillConfigurationBase skillConfiguration, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue, ScheduledTask scheduledTask, bool useCachedTokens = true)
             : base(skillDefinition.Id)
         {
             _skillDefinition = skillDefinition;
@@ -44,6 +45,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             _telemetryClient = telemetryClient;
             _backgroundTaskQueue = backgroundTaskQueue;
             _useCachedTokens = useCachedTokens;
+            _scheduledTask = scheduledTask;
 
             var supportedLanguages = skillConfiguration.LocaleConfigurations.Keys.ToArray();
             _responseManager = new ResponseManager(supportedLanguages, new SkillResponses());
@@ -145,7 +147,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
                         skillType,
                         BindingFlags.CreateInstance | BindingFlags.Public | BindingFlags.Instance | BindingFlags.OptionalParamBinding,
                         default(Binder),
-                        new object[] { _skillConfiguration, _endpointService, conversationState, userState, _proactiveState, _telemetryClient, _backgroundTaskQueue, true },
+                        new object[] { _skillConfiguration, _endpointService, conversationState, userState, _proactiveState, _telemetryClient, _backgroundTaskQueue, true, _scheduledTask},
                         CultureInfo.CurrentCulture);
                 }
                 catch (Exception e)

@@ -38,10 +38,11 @@ namespace VirtualAssistant.Dialogs.Main
         private IStatePropertyAccessor<VirtualAssistantState> _virtualAssistantState;
         private MainResponses _responder = new MainResponses();
         private SkillRouter _skillRouter;
+        private ScheduledTask _scheduledTask;
 
         private bool _conversationStarted = false;
 
-        public MainDialog(BotServices services, ConversationState conversationState, UserState userState, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue)
+        public MainDialog(BotServices services, ConversationState conversationState, UserState userState, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue, ScheduledTask scheduledTask)
             : base(nameof(MainDialog), telemetryClient)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
@@ -54,6 +55,7 @@ namespace VirtualAssistant.Dialogs.Main
             _onboardingState = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             _parametersAccessor = _userState.CreateProperty<Dictionary<string, object>>("userInfo");
             _virtualAssistantState = _conversationState.CreateProperty<VirtualAssistantState>(nameof(VirtualAssistantState));
+            _scheduledTask = scheduledTask;
 
             AddDialog(new OnboardingDialog(_services, _onboardingState, telemetryClient));
             AddDialog(new EscalateDialog(_services, telemetryClient));
@@ -238,7 +240,6 @@ namespace VirtualAssistant.Dialogs.Main
 
                         break;
                     }
-
 
                 case Dispatch.Intent.None:
                 default:
@@ -482,7 +483,7 @@ namespace VirtualAssistant.Dialogs.Main
         {
             foreach (var definition in skillDefinitions)
             {
-                AddDialog(new SkillDialog(definition, _services.SkillConfigurations[definition.Id], _proactiveState, _endpointService, TelemetryClient, _backgroundTaskQueue));
+                AddDialog(new SkillDialog(definition, _services.SkillConfigurations[definition.Id], _proactiveState, _endpointService, TelemetryClient, _backgroundTaskQueue, _scheduledTask));
             }
 
             // Initialize skill dispatcher

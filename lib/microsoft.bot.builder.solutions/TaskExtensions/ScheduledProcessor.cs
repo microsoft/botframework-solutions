@@ -15,9 +15,11 @@ namespace Microsoft.Bot.Builder.Solutions.TaskExtensions
         public ScheduledProcessor(IBackgroundTaskQueue backgroundTaskQueue)
         {
             _backgroundTaskQueue = backgroundTaskQueue;
+
+            this.Schedules = new List<ScheduledTaskModel>();
         }
 
-        protected List<ScheduledTaskModel> Schedules { get; }
+        protected List<ScheduledTaskModel> Schedules { get; set; }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {

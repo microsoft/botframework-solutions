@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using EmailSkill.Dialogs.DailyBrief;
 using EmailSkill.Dialogs.DeleteEmail;
 using EmailSkill.Dialogs.ForwardEmail;
 using EmailSkill.Dialogs.Main.Resources;
@@ -19,9 +20,12 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 
 namespace EmailSkill.Dialogs.Main
@@ -29,35 +33,49 @@ namespace EmailSkill.Dialogs.Main
     public class MainDialog : RouterDialog
     {
         private bool _skillMode;
+        private EndpointService _endpointService;
         private SkillConfigurationBase _skillConfig;
         private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
+        private ProactiveState _proactiveState;
+        private IBackgroundTaskQueue _backgroundTaskQueue;
         private IServiceManager _serviceManager;
         private IStatePropertyAccessor<EmailSkillState> _stateAccessor;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
+        private IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
+        private ScheduledTask _scheduledTask;
 
         public MainDialog(
             SkillConfigurationBase skillConfiguration,
+            EndpointService endpointService,
             ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
+            ProactiveState proactiveState,
             IBotTelemetryClient telemetryClient,
+            IBackgroundTaskQueue backgroundTaskQueue,
             IServiceManager serviceManager,
-            bool skillMode)
+            bool skillMode,
+            ScheduledTask scheduledTask)
             : base(nameof(MainDialog), telemetryClient)
         {
             _skillMode = skillMode;
+            _endpointService = endpointService;
             _skillConfig = skillConfiguration;
             _responseManager = responseManager;
             _conversationState = conversationState;
             _userState = userState;
+            _proactiveState = proactiveState;
             TelemetryClient = telemetryClient;
             _serviceManager = serviceManager;
+            _backgroundTaskQueue = backgroundTaskQueue;
+            _scheduledTask = scheduledTask;
 
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
+            _proactiveStateAccessor = _proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
 
             RegisterDialogs();
             GetReadingDisplayConfig();
@@ -229,6 +247,18 @@ namespace EmailSkill.Dialogs.Main
 
                         break;
                     }
+
+                case Events.DeviceStart:
+                    {
+                        var skillOptions = new EmailSkillDialogOptions
+                        {
+                            SkillMode = _skillMode,
+                        };
+
+                        await dc.BeginDialogAsync(nameof(DailyBriefDialog), skillOptions);
+
+                        break;
+                    }
             }
         }
 
@@ -334,6 +364,7 @@ namespace EmailSkill.Dialogs.Main
             AddDialog(new ShowEmailDialog(_skillConfig, _responseManager, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new ReplyEmailDialog(_skillConfig, _responseManager, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
             AddDialog(new DeleteEmailDialog(_skillConfig, _responseManager, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new DailyBriefDialog(_skillConfig, _endpointService, _responseManager, _stateAccessor, _dialogStateAccessor, _proactiveStateAccessor, _serviceManager, TelemetryClient, _backgroundTaskQueue, _scheduledTask));
         }
 
         private void GetReadingDisplayConfig()
@@ -356,6 +387,7 @@ namespace EmailSkill.Dialogs.Main
         {
             public const string TokenResponseEvent = "tokens/response";
             public const string SkillBeginEvent = "skillBegin";
+            public const string DeviceStart = "DeviceStart";
         }
     }
 }

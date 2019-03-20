@@ -27,6 +27,7 @@ namespace VirtualAssistant
         private readonly IBotTelemetryClient _telemetryClient;
         private readonly IBackgroundTaskQueue _backgroundTaskQueue;
         private DialogSet _dialogs;
+        private readonly ScheduledTask _scheduledTask;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VirtualAssistant"/> class.
@@ -38,7 +39,7 @@ namespace VirtualAssistant
         /// <param name="endpointService">Bot endpoint service.</param>
         /// <param name="telemetryClient">Bot telemetry client.</param>
         /// <param name="backgroundTaskQueue">Background task queue.</param>
-        public VirtualAssistant(BotServices botServices, ConversationState conversationState, UserState userState, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue)
+        public VirtualAssistant(BotServices botServices, ConversationState conversationState, UserState userState, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue, ScheduledTask scheduledTask)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
@@ -47,9 +48,10 @@ namespace VirtualAssistant
             _endpointService = endpointService ?? throw new ArgumentNullException(nameof(endpointService));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
             _backgroundTaskQueue = backgroundTaskQueue;
+            _scheduledTask = scheduledTask;
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(VirtualAssistant)));
-            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _proactiveState, _endpointService, _telemetryClient, _backgroundTaskQueue));
+            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _proactiveState, _endpointService, _telemetryClient, _backgroundTaskQueue, _scheduledTask));
         }
 
         /// <summary>

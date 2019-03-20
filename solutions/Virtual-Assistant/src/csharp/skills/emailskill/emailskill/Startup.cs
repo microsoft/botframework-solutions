@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using EmailSkill.Dialogs.DailyBrief.Resources;
 using EmailSkill.Dialogs.DeleteEmail.Resources;
 using EmailSkill.Dialogs.FindContact.Resources;
 using EmailSkill.Dialogs.ForwardEmail.Resources;
@@ -86,7 +87,8 @@ namespace EmailSkill
                 new ReplyEmailResponses(),
                 new SendEmailResponses(),
                 new EmailSharedResponses(),
-                new ShowEmailResponses());
+                new ShowEmailResponses(),
+                new DailyBriefResponses());
 
             // Register bot responses for all supported languages.
             services.AddSingleton(sp => responseManager);

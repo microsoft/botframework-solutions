@@ -46,7 +46,7 @@ namespace EmailSkill.ServiceClients
         /// <param name="directlyToMe">If directly to user.</param>
         /// <param name="mailAddress">Message coming from address.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        Task<List<Message>> GetMyMessagesAsync(DateTime startDateTime, DateTime endDateTime, bool getUnRead, bool isImportant, bool directlyToMe, string mailAddress);
+        Task<List<Message>> GetMyMessagesAsync(DateTime startDateTime, DateTime endDateTime, bool getUnRead = false, bool isImportant = false, bool directlyToMe = false, string mailAddress = null);
 
         /// <summary>
         /// Delete email.

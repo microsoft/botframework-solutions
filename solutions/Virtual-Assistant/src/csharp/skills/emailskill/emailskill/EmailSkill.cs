@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using EmailSkill.Dialogs.DailyBrief.Resources;
 using EmailSkill.Dialogs.DeleteEmail.Resources;
 using EmailSkill.Dialogs.FindContact.Resources;
 using EmailSkill.Dialogs.ForwardEmail.Resources;
@@ -32,10 +33,14 @@ namespace EmailSkill
     public class EmailSkill : IBot
     {
         private readonly SkillConfigurationBase _services;
+        private readonly EndpointService _endpointService;
         private readonly ResponseManager _responseManager;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
+        private readonly ProactiveState _proactiveState;
         private readonly IBotTelemetryClient _telemetryClient;
+        private readonly IBackgroundTaskQueue _backgroundTaskQueue;
+        private readonly ScheduledTask _scheduledTask;
         private IServiceManager _serviceManager;
         private DialogSet _dialogs;
         private bool _skillMode;
@@ -49,15 +54,20 @@ namespace EmailSkill
             IBotTelemetryClient telemetryClient,
             IBackgroundTaskQueue backgroundTaskQueue,
             bool skillMode = false,
+            ScheduledTask scheduledTask = null,
             ResponseManager responseManager = null,
             IServiceManager serviceManager = null)
         {
             _skillMode = skillMode;
             _services = services ?? throw new ArgumentNullException(nameof(services));
+            _endpointService = endpointService ?? throw new ArgumentNullException(nameof(endpointService));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
+            _proactiveState = proactiveState ?? throw new ArgumentNullException(nameof(proactiveState));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
             _serviceManager = serviceManager ?? new ServiceManager(services);
+            _backgroundTaskQueue = backgroundTaskQueue ?? throw new ArgumentNullException(nameof(backgroundTaskQueue));
+            _scheduledTask = scheduledTask;
 
             if (responseManager == null)
             {
@@ -71,12 +81,13 @@ namespace EmailSkill
                     new ReplyEmailResponses(),
                     new SendEmailResponses(),
                     new EmailSharedResponses(),
-                    new ShowEmailResponses());
+                    new ShowEmailResponses(),
+                    new DailyBriefResponses());
             }
 
             _responseManager = responseManager;
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(DialogState)));
-            _dialogs.Add(new MainDialog(_services, _responseManager, _conversationState, _userState, _telemetryClient, _serviceManager, _skillMode));
+            _dialogs.Add(new MainDialog(_services, _endpointService, _responseManager, _conversationState, _userState, _proactiveState, _telemetryClient, _backgroundTaskQueue, _serviceManager, _skillMode, _scheduledTask));
         }
 
         /// <summary>

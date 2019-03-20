@@ -1,0 +1,11 @@
+{
+  "EmailDailyBriefMessage": {
+    "replies": [
+      {
+        "text": "Morning! You have {EmailTotalCount} mails today.",
+        "speak": "Morning! You have {EmailTotalCount} mails today."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}

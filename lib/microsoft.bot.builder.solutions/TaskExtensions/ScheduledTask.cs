@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NCrontab;
 
 namespace Microsoft.Bot.Builder.Solutions.TaskExtensions
@@ -10,6 +11,7 @@ namespace Microsoft.Bot.Builder.Solutions.TaskExtensions
         public ScheduledTask(IBackgroundTaskQueue backgroundTaskQueue)
             : base(backgroundTaskQueue)
         {
+            this.Schedules = new List<ScheduledTaskModel>();
         }
 
         public void AddScheduledTask(ScheduledTaskModel scheduledTask)

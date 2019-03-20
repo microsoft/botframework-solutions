@@ -5,7 +5,7 @@
     <UserSecretsId>3383fcc5-4017-4e0a-9103-68603b68fe1d</UserSecretsId>
     <CodeAnalysisRuleSet>..\..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Google.Apis" Version="1.36.1" />
     <PackageReference Include="Google.Apis.Gmail.v1" Version="1.36.1.1342" />
@@ -22,7 +22,6 @@
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.0-preview-3" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.3.1" />
@@ -143,9 +142,23 @@
     <EmbeddedResource Include="Dialogs\ShowEmail\Resources\ShowEmailResponses.it.json" />
     <EmbeddedResource Include="Dialogs\ShowEmail\Resources\ShowEmailResponses.json" />
     <EmbeddedResource Include="Dialogs\ShowEmail\Resources\ShowEmailResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\DailyBrief\Resources\DailyBriefResponses.de.json" />
+    <EmbeddedResource Include="Dialogs\DailyBrief\Resources\DailyBriefResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\DailyBrief\Resources\DailyBriefResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\DailyBrief\Resources\DailyBriefResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\DailyBrief\Resources\DailyBriefResponses.json" />
+    <EmbeddedResource Include="Dialogs\DailyBrief\Resources\DailyBriefResponses.zh.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\lib\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Dialogs\DailyBrief\Resources\DailyBriefResponses.tt">
+      <LastGenOutput>DailyBriefResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
     <None Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.tt">
       <LastGenOutput>DeleteEmailResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -193,6 +206,27 @@
 
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Dialogs\DailyBrief\Resources\DailyBriefResponses.de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\DailyBrief\Resources\DailyBriefResponses.es.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\DailyBrief\Resources\DailyBriefResponses.fr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\DailyBrief\Resources\DailyBriefResponses.it.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\DailyBrief\Resources\DailyBriefResponses.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\DailyBrief\Resources\DailyBriefResponses.zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

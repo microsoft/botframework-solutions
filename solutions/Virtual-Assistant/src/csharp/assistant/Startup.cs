@@ -63,7 +63,10 @@ namespace VirtualAssistant
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddHostedService<QueuedHostedService>();
 
-            // Load the connected services from .bot file.
+            //services.AddSingleton<ScheduledTask>();
+            services.AddHostedService<ScheduledTask>();
+
+             // Load the connected services from .bot file.
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
             var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
             var botConfig = BotConfiguration.Load(botFilePath ?? throw new Exception("Please configure your bot file path in appsettings.json."), botFileSecret);
@@ -96,7 +99,7 @@ namespace VirtualAssistant
                 CollectionId = cosmosDb.Collection,
                 DatabaseId = cosmosDb.Database,
             };
-            var dataStore = new CosmosDbStorage(cosmosOptions);
+            var dataStore = new MemoryStorage();//new CosmosDbStorage(cosmosOptions);
             var userState = new UserState(dataStore);
             var conversationState = new ConversationState(dataStore);
             var proactiveState = new ProactiveState(dataStore);
