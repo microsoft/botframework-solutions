@@ -8,6 +8,7 @@ import { Activity, ActivityTypes, AutoSaveStateMiddleware, BotTelemetryClient, C
 import { CosmosDbStorage, CosmosDbStorageSettings } from 'botbuilder-azure';
 import { ComponentDialog, Dialog, DialogContext, DialogTurnResult, DialogTurnStatus } from 'botbuilder-dialogs';
 import { IEndpointService } from 'botframework-config';
+import { join } from 'path';
 import { IProviderTokenResponse, isProviderTokenResponse, MultiProviderAuthDialog } from '../authentication';
 import { ActivityExtensions } from '../extensions';
 import { EventDebuggerMiddleware, SetLocaleMiddleware, TelemetryExtensions } from '../middleware';
@@ -30,6 +31,7 @@ export class SkillDialog extends ComponentDialog {
     private readonly endpointService: IEndpointService;
     private readonly backgroundTaskQueue: IBackgroundTaskQueue;
     private readonly useCachedTokens: boolean;
+    private static readonly skillsDirectory: string = process.env.SKILLS_DIRECTORY || '';
     private inProcAdapter!: InProcAdapter;
     private activatedSkill!: { onTurn(context: TurnContext): Promise<void> }; // IBot;
     private skillInitialized: boolean;
@@ -131,14 +133,16 @@ export class SkillDialog extends ComponentDialog {
 
             // Create skill instance
             try {
-                const message: string = `Process message with '${this.skillDefinition.name}' skill`;
-                this.activatedSkill = {
-                    async onTurn(ctx: TurnContext): Promise<void> {
-                        await ctx.sendActivity(message);
-
-                        return Promise.resolve();
-                    }
-                };
+                const skillDirectory: string = join(SkillDialog.skillsDirectory, <string> this.skillConfiguration.properties['pathToBot']);
+                // tslint:disable-next-line:no-any
+                const skillModule: any = require(skillDirectory);
+                const skillClassName: string = <string> this.skillConfiguration.properties['ClassName'];
+                this.activatedSkill = new skillModule[skillClassName](
+                    this.skillConfiguration, 
+                    conversationState, 
+                    userState, 
+                    this._telemetryClient,
+                    true);
 
             } catch (error) {
                 const message: string = `Skill '${this.skillDefinition.name}' could not be created. (${error})`;
