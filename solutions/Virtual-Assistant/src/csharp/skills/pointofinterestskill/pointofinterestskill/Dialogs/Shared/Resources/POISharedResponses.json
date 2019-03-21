@@ -14,18 +14,6 @@
         "speak": "Can you try to ask in a different way?"
       },
       {
-        "text": "I didn't get what you mean, can you try in a different way?",
-        "speak": "I didn't get what you mean, can you try in a different way?"
-      },
-      {
-        "text": "Could you elaborate?",
-        "speak": "Could you elaborate?"
-      },
-      {
-        "text": "Please say that again in a different way.",
-        "speak": "Please say that again in a different way."
-      },
-      {
         "text": "I didn't quite get that.",
         "speak": "I didn't quite get that."
       },
@@ -43,8 +31,8 @@
   "CancellingMessage": {
     "replies": [
       {
-        "text": "Sure, we can do this later.",
-        "speak": "Sure, we can do this later."
+        "text": "OK, we can do this later.",
+        "speak": "OK, we can do this later."
       },
       {
         "text": "Sure, we can start this later.",
@@ -64,48 +52,6 @@
       }
     ],
     "inputHint": "acceptingInput"
-  },
-  "NoAuth": {
-    "replies": [
-      {
-        "text": "Please log in before taking further action.",
-        "speak": "Please log in before taking further action."
-      },
-      {
-        "text": "Please log in so I can take further action.",
-        "speak": "Please log in so I can take further action."
-      },
-      {
-        "text": "Please log in so I can proceed with your request.",
-        "speak": "Please log in so I can proceed with your request."
-      },
-      {
-        "text": "Can you log in so I can help you out further?",
-        "speak": "Can you log in so I can help you out further?"
-      },
-      {
-        "text": "You need to log in so I can take further action.",
-        "speak": "You need to log in so I can take further action."
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "AuthFailed": {
-    "replies": [
-      {
-        "text": "Authentication failed. Please try again",
-        "speak": "Authentication failed. Please try again."
-      },
-      {
-        "text": "You failed to log in. Please try again later.",
-        "speak": "You failed to log in. please try again later."
-      },
-      {
-        "text": "Your log in failed. Let's try this again.",
-        "speak": "Your log in failed. Let's try this again."
-      }
-    ],
-    "inputHint": "expectingInput"
   },
   "ActionEnded": {
     "replies": [
@@ -127,16 +73,16 @@
         "speak": "Sorry, it looks like something went wrong!"
       },
       {
-        "text": "An error occurred, please try again later.",
-        "speak": "An error occurred, please try again later."
+        "text": "I apologize, an error occurred. My team will look into this.",
+        "speak": "I apologize, an error occurred. My team will look into this."
       },
       {
         "text": "Something went wrong, sorry!",
         "speak": "Something went wrong, sorry!"
       },
       {
-        "text": "It seems like something went wrong. Can you try again later?",
-        "speak": "It seems like something went wrong. Can you try again later?"
+        "text": "It seems like something went wrong.",
+        "speak": "It seems like something went wrong."
       },
       {
         "text": "Sorry I can't help right now. Please try again later.",
@@ -148,12 +94,12 @@
   "PromptToGetRoute": {
     "replies": [
       {
-        "text": "Would you like me to find you a route?",
-        "speak": "Would you like me to find you a route?"
+        "text": "Should I look up directions?",
+        "speak": "Should I look up directions?"
       },
       {
-        "text": "Do you want directions?",
-        "speak": "Do you want directions?"
+        "text": "Should I get directions to this address?",
+        "speak": "Should I get directions to this address?"
       },
       {
         "text": "Do you want me to get you directions?",
@@ -164,10 +110,6 @@
   },
   "GetRouteToActiveLocationLater": {
     "replies": [
-      {
-        "text": "Ok, you can ask me about this location anytime.",
-        "speak": "Ok, you can ask me about this location anytime."
-      },
       {
         "text": "Ok, I can help you with this later.",
         "speak": "Ok, I can help you with this later."
@@ -182,8 +124,16 @@
   "MultipleLocationsFound": {
     "replies": [
       {
-        "text": "I found the following matches.",
-        "speak": "I found the following matches."
+        "text": "I found the following.",
+        "speak": "I found the following."
+      },
+      {
+        "text": "Here are some options.",
+        "speak": "Here are some options."
+      },
+      {
+        "text": "What do you think of these?",
+        "speak": "What do you think of these?"
       }
     ],
     "inputHint": "expectingInput"
@@ -191,8 +141,12 @@
   "SingleLocationFound": {
     "replies": [
       {
-        "text": "I found the following match.",
-        "speak": "I found the following match."
+        "text": "I found the following.",
+        "speak": "I found the following."
+      },
+      {
+        "text": "Here's a match.",
+        "speak": "Here's a match."
       }
     ],
     "inputHint": "expectingInput"
@@ -200,8 +154,12 @@
   "MultipleLocationsFoundAlongActiveRoute": {
     "replies": [
       {
-        "text": "I found the following matches along your active route.",
-        "speak": "I found the following matches along your active route."
+        "text": "I found the following.",
+        "speak": "I found the following."
+      },
+      {
+        "text": "Here are some matches.",
+        "speak": "Here are some matches."
       }
     ],
     "inputHint": "expectingInput"
@@ -209,8 +167,12 @@
   "SingleLocationFoundAlongActiveRoute": {
     "replies": [
       {
-        "text": "I found the following match along your active route.",
-        "speak": "I found the following match along your active route."
+        "text": "I found the following.",
+        "speak": "I found the following."
+      },
+      {
+        "text": "Here's a match.",
+        "speak": "Here's a match."
       }
     ],
     "inputHint": "expectingInput"
@@ -218,8 +180,12 @@
   "NoLocationsFound": {
     "replies": [
       {
-        "text": "Sorry, I didn't find any points of interest matching your search.",
-        "speak": "Sorry, I didn't find any points of interest matching your search."
+        "text": "Sorry, I didn't find anything. Try something like \"the mall in Bellevue\" or \"Chippenham in the UK.\"",
+        "speak": "Sorry, I didn't find anything. Try something like \"the mall in Bellevue\" or \"Chippenham in the UK.\""
+      },
+      {
+        "text": "Hmm...I'm not finding anything. Try something like \"the mall in Bellevue\" or \"Chippenham in the UK.\"",
+        "speak": "Hmm, I'm not finding anything. Try something like \"the mall in Bellevue\" or \"Chippenham in the UK.\""
       }
     ],
     "inputHint": "expectingInput"
@@ -227,12 +193,12 @@
   "MultipleRoutesFound": {
     "replies": [
       {
-        "text": "I found the several routes to your destination.",
-        "speak": "I found the several routes to your destination."
+        "text": "I found several routes to your destination.",
+        "speak": "I found several routes to your destination."
       },
       {
-        "text": "There are multiple routes you can take to your destination.",
-        "speak": "There are multiple routes you can take to your destination."
+        "text": "There are multiple routes to your destination.",
+        "speak": "There are multiple routes to your destination."
       }
     ],
     "inputHint": "expectingInput"
@@ -240,12 +206,95 @@
   "SingleRouteFound": {
     "replies": [
       {
-        "text": "I found a route to your destination.",
-        "speak": "I found a route to your destination."
+        "text": "I found a route.",
+        "speak": "I found a route."
+      },
+      {
+        "text": "Here's a route to your destination.",
+        "speak": "Here's a route to your destination."
       },
       {
         "text": "This is the best route to your destination.",
         "speak": "This is the best route to your destination."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "PointOfInterestSelection": {
+    "replies": [
+      {
+        "text": "Where would you like to go?",
+        "speak": "Where would you like to go?"
+      },
+      {
+        "text": "Which would you like?",
+        "speak": "Which would you like?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "CurrentLocationMultipleSelection": {
+    "replies": [
+      {
+        "text": "Which one?",
+        "speak": "Which one?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "CurrentLocationSingleSelection": {
+    "replies": [
+      {
+        "text": "This one?",
+        "speak": "This one?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "PointOfInterestSuggestedActionName": {
+    "replies": [
+      {
+        "text": "{Name} at {Address}",
+        "speak": "{Name} at {Address}"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "NoTrafficDelay": {
+    "replies": [
+      {
+        "text": "No traffic delay",
+        "speak": "There's no traffic delay."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "TrafficDelay": {
+    "replies": [
+      {
+        "text": "{Time} delay",
+        "speak": "There's a delay of {Time}."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "PromptForCurrentLocation": {
+    "replies": [
+      {
+        "text": "Can you tell me where you are?",
+        "speak": "Can you tell me where you are?"
+      },
+      {
+        "text": "What address are you at?",
+        "speak": "What address are you at?"
+      },
+      {
+        "text": "Where are you located?",
+        "speak": "Where are you located?"
+      },
+      {
+        "text": "Where are you?",
+        "speak": "Where are you?"
       }
     ],
     "inputHint": "ignoringInput"

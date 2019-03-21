@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace CalendarSkill.Dialogs.FindContact.Resources
 {
@@ -22,5 +22,6 @@ namespace CalendarSkill.Dialogs.FindContact.Resources
         public const string BeforeSendingMessage = "BeforeSendingMessage";
         public const string AlreadyFirstPage = "AlreadyFirstPage";
         public const string AlreadyLastPage = "AlreadyLastPage";
+        public const string NoAttendees = "NoAttendees";
     }
 }

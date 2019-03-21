@@ -17,14 +17,14 @@ namespace AutomotiveSkill
     using Microsoft.Bot.Builder.Azure;
     using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
     using Microsoft.Bot.Builder.Integration.AspNet.Core;
+    using Microsoft.Bot.Builder.Solutions.Proactive;
+    using Microsoft.Bot.Builder.Solutions.Responses;
+    using Microsoft.Bot.Builder.Solutions.Skills;
+    using Microsoft.Bot.Builder.Solutions.TaskExtensions;
+    using Microsoft.Bot.Builder.Solutions.Telemetry;
     using Microsoft.Bot.Configuration;
     using Microsoft.Bot.Connector.Authentication;
     using Microsoft.Bot.Schema;
-    using Microsoft.Bot.Solutions.Proactive;
-    using Microsoft.Bot.Solutions.Responses;
-    using Microsoft.Bot.Solutions.Skills;
-    using Microsoft.Bot.Solutions.TaskExtensions;
-    using Microsoft.Bot.Solutions.Telemetry;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -52,6 +52,8 @@ namespace AutomotiveSkill
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+
             // add background task queue
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddHostedService<QueuedHostedService>();
@@ -119,37 +121,42 @@ namespace AutomotiveSkill
             // HttpContext required for path resolution
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            // Add the bot with options
-            services.AddBot<AutomotiveSkill>(options =>
+            // Add the bot
+            services.AddSingleton<IBot, AutomotiveSkill>();
+
+            // Add the http adapter to enable MVC style bot API
+            services.AddSingleton<IBotFrameworkHttpAdapter>((sp) =>
             {
-                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+                var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Telemetry Middleware (logs activity messages in Application Insights)
-                var sp = services.BuildServiceProvider();
                 var telemetryClient = sp.GetService<IBotTelemetryClient>();
-                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
-                options.Middleware.Add(appInsightsLogger);
-
-                // Catches any errors that occur during a conversation turn and logs them to AppInsights.
-                options.OnTurnError = async (context, exception) =>
+                var botFrameworkHttpAdapter = new BotFrameworkHttpAdapter(credentialProvider)
                 {
-                    await context.SendActivityAsync(responseManager.GetResponse(AutomotiveSkillSharedResponses.ErrorMessage));
-                    await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
-                    telemetryClient.TrackExceptionEx(exception, context.Activity);
+                    OnTurnError = async (context, exception) =>
+                    {
+                        await context.SendActivityAsync(responseManager.GetResponse(AutomotiveSkillSharedResponses.ErrorMessage));
+                        await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
+                        telemetryClient.TrackExceptionEx(exception, context.Activity);
+                    }
                 };
+                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
+                botFrameworkHttpAdapter.Use(appInsightsLogger);
 
                 // Transcript Middleware (saves conversation history in a standard format)
                 var storageService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.BlobStorage) ?? throw new Exception("Please configure your Azure Storage service in your .bot file.");
                 var blobStorage = storageService as BlobStorageService;
                 var transcriptStore = new AzureBlobTranscriptStore(blobStorage.ConnectionString, blobStorage.Container);
                 var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
-                options.Middleware.Add(transcriptMiddleware);
+                botFrameworkHttpAdapter.Use(transcriptMiddleware);
 
                 // Typing Middleware (automatically shows typing when the bot is responding/working)
                 var typingMiddleware = new ShowTypingMiddleware();
-                options.Middleware.Add(typingMiddleware);
+                botFrameworkHttpAdapter.Use(typingMiddleware);
 
-                options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
+                botFrameworkHttpAdapter.Use(new AutoSaveStateMiddleware(userState, conversationState));
+
+                return botFrameworkHttpAdapter;
             });
         }
 
@@ -163,7 +170,7 @@ namespace AutomotiveSkill
             _isProduction = env.IsProduction();
             app.UseDefaultFiles()
                 .UseStaticFiles()
-                .UseBotFramework();
+                .UseMvc();
         }
     }
 }

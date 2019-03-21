@@ -81,7 +81,7 @@ namespace EnterpriseBotSample.Middleware.Telemetry
         /// <param name="context">Context object containing information for a single turn of conversation with a user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The LUIS results of the analysis of the current message text in the current turn's context activity.</returns>
-        public async Task<RecognizerResult> RecognizeAsync(ITurnContext context, CancellationToken cancellationToken = default(CancellationToken))
+        public async new Task<RecognizerResult> RecognizeAsync(ITurnContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await RecognizeInternalAsync(context, null, cancellationToken);
         }

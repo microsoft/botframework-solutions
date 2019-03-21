@@ -12,14 +12,14 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Solutions.Middleware;
+using Microsoft.Bot.Builder.Solutions.Proactive;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.TaskExtensions;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Middleware;
-using Microsoft.Bot.Solutions.Proactive;
-using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Solutions.TaskExtensions;
-using Microsoft.Bot.Solutions.Telemetry;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using VirtualAssistant.Dialogs.Main;
@@ -57,6 +57,8 @@ namespace VirtualAssistant
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+
             // add background task queue
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddHostedService<QueuedHostedService>();
@@ -114,41 +116,45 @@ namespace VirtualAssistant
 
             services.AddSingleton(endpointService);
 
-            // Add the bot with options
-            services.AddBot<VirtualAssistant>(options =>
+            services.AddSingleton<IBot, VirtualAssistant>();
+
+            // Add the http adapter to enable MVC style bot API
+            services.AddSingleton<IBotFrameworkHttpAdapter>((sp) =>
             {
-                // Load the connected services from .bot file.
-                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+                var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+
+                var telemetryClient = sp.GetService<IBotTelemetryClient>();
+                var botFrameworkHttpAdapter = new BotFrameworkHttpAdapter(credentialProvider)
+                {
+                    OnTurnError = async (context, exception) =>
+                    {
+                        CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
+                        var responseBuilder = new MainResponses();
+                        await responseBuilder.ReplyWith(context, MainResponses.ResponseIds.Error);
+                        await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Virtual Assistant Error: {exception.Message} | {exception.StackTrace}"));
+                        telemetryClient.TrackExceptionEx(exception, context.Activity);
+                    }
+                };
 
                 // Telemetry Middleware (logs activity messages in Application Insights)
-                var sp = services.BuildServiceProvider();
-                var telemetryClient = sp.GetService<IBotTelemetryClient>();
-                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient);
-                options.Middleware.Add(appInsightsLogger);
-
-                // Catches any errors that occur during a conversation turn and logs them to AppInsights.
-                options.OnTurnError = async (context, exception) =>
-                {
-                    CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-                    var responseBuilder = new MainResponses();
-                    await responseBuilder.ReplyWith(context, MainResponses.ResponseIds.Error);
-                    await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Virtual Assistant Error: {exception.Message} | {exception.StackTrace}"));
-                    telemetryClient.TrackExceptionEx(exception, context.Activity);
-                };
+                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
+                botFrameworkHttpAdapter.Use(appInsightsLogger);
 
                 // Transcript Middleware (saves conversation history in a standard format)
                 var storageService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.BlobStorage) ?? throw new Exception("Please configure your Azure Storage service in your .bot file.");
                 var blobStorage = storageService as BlobStorageService;
                 var transcriptStore = new AzureBlobTranscriptStore(blobStorage.ConnectionString, blobStorage.Container);
                 var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
-                options.Middleware.Add(transcriptMiddleware);
+                botFrameworkHttpAdapter.Use(transcriptMiddleware);
 
                 // Typing Middleware (automatically shows typing when the bot is responding/working)
-                options.Middleware.Add(new ShowTypingMiddleware());
-                options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en-us"));
-                options.Middleware.Add(new EventDebuggerMiddleware());
-                options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
-                options.Middleware.Add(new ProactiveStateMiddleware(proactiveState));
+                botFrameworkHttpAdapter.Use(new ShowTypingMiddleware());
+                botFrameworkHttpAdapter.Use(new SetLocaleMiddleware(defaultLocale ?? "en-us"));
+                botFrameworkHttpAdapter.Use(new EventDebuggerMiddleware());
+                botFrameworkHttpAdapter.Use(new AutoSaveStateMiddleware(userState, conversationState));
+                botFrameworkHttpAdapter.Use(new ProactiveStateMiddleware(proactiveState));
+
+                return botFrameworkHttpAdapter;
             });
         }
 
@@ -163,7 +169,7 @@ namespace VirtualAssistant
             app.UseBotApplicationInsights()
                 .UseDefaultFiles()
                 .UseStaticFiles()
-                .UseBotFramework();
+                .UseMvc();
         }
     }
 }

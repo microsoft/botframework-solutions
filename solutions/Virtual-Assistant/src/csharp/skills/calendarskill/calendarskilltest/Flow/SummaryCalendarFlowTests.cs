@@ -7,10 +7,10 @@ using CalendarSkill.Dialogs.UpdateEvent.Resources;
 using CalendarSkill.Models;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
+using Microsoft.Bot.Builder.Solutions.Resources;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Resources;
-using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Solutions.Telemetry;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkillTest.Flow
@@ -116,14 +116,14 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarSummaryByTimeRange()
         {
             DateTime now = DateTime.Now;
-            DateTime startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
-            startTime = startTime.AddDays(1);
+            DateTime nextWeekDay = now.AddDays(7);
+            DateTime startTime = new DateTime(nextWeekDay.Year, nextWeekDay.Month, nextWeekDay.Day, 18, 0, 0);
             startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
             this.ServiceManager = MockServiceManager.SetMeetingsToSpecial(new List<EventModel>()
             {
                 MockServiceManager.CreateEventModel(
-                    startDateTime: startTime.AddDays(7),
-                    endDateTime: startTime.AddDays(8))
+                    startDateTime: startTime,
+                    endDateTime: startTime.AddHours(1))
             });
 
             await this.GetTestFlow()

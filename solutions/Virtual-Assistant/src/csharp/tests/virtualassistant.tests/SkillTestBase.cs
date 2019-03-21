@@ -4,15 +4,17 @@ using Autofac;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Proactive;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.TaskExtensions;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
+using Microsoft.Bot.Builder.Solutions.Testing;
+using Microsoft.Bot.Builder.Solutions.Testing.Mocks;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Proactive;
-using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Solutions.TaskExtensions;
-using Microsoft.Bot.Solutions.Telemetry;
-using Microsoft.Bot.Solutions.Testing;
-using Microsoft.Bot.Solutions.Testing.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PointOfInterestSkill.Dialogs.Shared.Resources;
 
 namespace VirtualAssistant.Tests
 {
@@ -81,10 +83,19 @@ namespace VirtualAssistant.Tests
                 { "DummyAuth", "DummyAuthConnection" }
             };
 
+            this.Services.Properties.Add("AzureMapsKey", "DUMMY KEY");
+
             builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
             this.Container = builder.Build();
 
             this.Dialogs = new DialogSet(this.DialogState);
+
+            this.ResponseManager = new ResponseManager(
+               responseTemplates: new IResponseIdCollection[]
+               {
+                    new POISharedResponses()
+               },
+               locales: new string[] { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" });
 
             // Manually mange the conversation metadata when we need finer grained control
             this.ConversationReference = new ConversationReference

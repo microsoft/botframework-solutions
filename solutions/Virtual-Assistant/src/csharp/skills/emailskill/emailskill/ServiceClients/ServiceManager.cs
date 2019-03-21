@@ -5,7 +5,7 @@ using System;
 using EmailSkill.Model;
 using EmailSkill.ServiceClients.GoogleAPI;
 using EmailSkill.ServiceClients.MSGraphAPI;
-using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills;
 
 namespace EmailSkill.ServiceClients
 {

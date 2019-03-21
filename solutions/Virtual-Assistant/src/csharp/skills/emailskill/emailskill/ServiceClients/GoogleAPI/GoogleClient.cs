@@ -1,6 +1,6 @@
 ﻿using System;
 using Google;
-using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Skills;
 
 namespace EmailSkill.ServiceClients.GoogleAPI
 {

@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace PointOfInterestSkill.Dialogs.Shared.Resources
 {
@@ -14,8 +14,6 @@ namespace PointOfInterestSkill.Dialogs.Shared.Resources
         // Generated accessors
         public const string DidntUnderstandMessage = "DidntUnderstandMessage";
         public const string CancellingMessage = "CancellingMessage";
-        public const string NoAuth = "NoAuth";
-        public const string AuthFailed = "AuthFailed";
         public const string ActionEnded = "ActionEnded";
         public const string PointOfInterestErrorMessage = "PointOfInterestErrorMessage";
         public const string PromptToGetRoute = "PromptToGetRoute";
@@ -27,5 +25,12 @@ namespace PointOfInterestSkill.Dialogs.Shared.Resources
         public const string NoLocationsFound = "NoLocationsFound";
         public const string MultipleRoutesFound = "MultipleRoutesFound";
         public const string SingleRouteFound = "SingleRouteFound";
+        public const string PointOfInterestSelection = "PointOfInterestSelection";
+        public const string CurrentLocationMultipleSelection = "CurrentLocationMultipleSelection";
+        public const string CurrentLocationSingleSelection = "CurrentLocationSingleSelection";
+        public const string PointOfInterestSuggestedActionName = "PointOfInterestSuggestedActionName";
+        public const string NoTrafficDelay = "NoTrafficDelay";
+        public const string TrafficDelay = "TrafficDelay";
+        public const string PromptForCurrentLocation = "PromptForCurrentLocation";
     }
 }

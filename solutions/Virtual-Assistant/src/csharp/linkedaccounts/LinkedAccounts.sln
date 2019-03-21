@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinkedAccounts.Web", "LinkedAccounts.Web\LinkedAccounts.Web.csproj", "{C2C15C6D-720B-46B7-B1B1-F1B015487A9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinkedAccounts.Web", "linkedaccounts.web\LinkedAccounts.Web.csproj", "{C2C15C6D-720B-46B7-B1B1-F1B015487A9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

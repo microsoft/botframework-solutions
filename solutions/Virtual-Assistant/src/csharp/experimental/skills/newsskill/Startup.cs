@@ -10,12 +10,13 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Solutions.Proactive;
+using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.TaskExtensions;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
-using Microsoft.Bot.Solutions.Middleware.Telemetry;
-using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NewsSkill.Dialogs.Main.Resources;
@@ -46,6 +47,12 @@ namespace NewsSkill
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+
+            // add background task queue
+            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+            services.AddHostedService<QueuedHostedService>();
+
             // Load the connected services from .bot file.
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
             var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
@@ -77,51 +84,59 @@ namespace NewsSkill
             var dataStore = new CosmosDbStorage(cosmosOptions);
             var userState = new UserState(dataStore);
             var conversationState = new ConversationState(dataStore);
+            var proactiveState = new ProactiveState(dataStore);
 
             services.AddSingleton(dataStore);
             services.AddSingleton(userState);
             services.AddSingleton(conversationState);
+            services.AddSingleton(proactiveState);
             services.AddSingleton(new BotStateSet(userState, conversationState));
 
-            // Add the bot with options
-            services.AddBot<NewsSkill>(options =>
+            var environment = _isProduction ? "production" : "development";
+            var service = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.Endpoint && s.Name == environment);
+            if (!(service is EndpointService endpointService))
             {
-                // Load the connected services from .bot file.
-                var environment = _isProduction ? "production" : "development";
-                var service = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.Endpoint && s.Name == environment);
-                if (!(service is EndpointService endpointService))
-                {
-                    throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
-                }
+                throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
+            }
 
-                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+            services.AddSingleton(endpointService);
+
+            // Add the bot
+            services.AddSingleton<IBot, NewsSkill>();
+
+            // Add the http adapter to enable MVC style bot API
+            services.AddSingleton<IBotFrameworkHttpAdapter>(sp =>
+            {
+                var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Telemetry Middleware (logs activity messages in Application Insights)
-                var sp = services.BuildServiceProvider();
                 var telemetryClient = sp.GetService<IBotTelemetryClient>();
-                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logUserName: true, logOriginalMessage: true);
-                options.Middleware.Add(appInsightsLogger);
-
-                // Catches any errors that occur during a conversation turn and logs them to AppInsights.
-                options.OnTurnError = async (context, exception) =>
+                var botFrameworkHttpAdapter = new BotFrameworkHttpAdapter(credentialProvider)
                 {
-                    await context.SendActivityAsync(MainStrings.ERROR);
-                    await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"News Skill Error: {exception.Message} | {exception.StackTrace}"));
-                    telemetryClient.TrackExceptionEx(exception, context.Activity);
+                    OnTurnError = async (context, exception) =>
+                    {
+                        await context.SendActivityAsync(MainStrings.ERROR);
+                        await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"News Skill Error: {exception.Message} | {exception.StackTrace}"));
+                        telemetryClient.TrackExceptionEx(exception, context.Activity);
+                    }
                 };
+                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
+                botFrameworkHttpAdapter.Use(appInsightsLogger);
 
                 // Transcript Middleware (saves conversation history in a standard format)
                 var storageService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.BlobStorage) ?? throw new Exception("Please configure your Azure Storage service in your .bot file.");
                 var blobStorage = storageService as BlobStorageService;
                 var transcriptStore = new AzureBlobTranscriptStore(blobStorage.ConnectionString, blobStorage.Container);
                 var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
-                options.Middleware.Add(transcriptMiddleware);
+                botFrameworkHttpAdapter.Use(transcriptMiddleware);
 
                 // Typing Middleware (automatically shows typing when the bot is responding/working)
                 var typingMiddleware = new ShowTypingMiddleware();
-                options.Middleware.Add(typingMiddleware);
+                botFrameworkHttpAdapter.Use(typingMiddleware);
 
-                options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
+                botFrameworkHttpAdapter.Use(new AutoSaveStateMiddleware(userState, conversationState));
+
+                return botFrameworkHttpAdapter;
             });
         }
 
@@ -135,7 +150,7 @@ namespace NewsSkill
             _isProduction = env.IsProduction();
             app.UseDefaultFiles()
                 .UseStaticFiles()
-                .UseBotFramework();
+                .UseMvc();
         }
     }
 }
