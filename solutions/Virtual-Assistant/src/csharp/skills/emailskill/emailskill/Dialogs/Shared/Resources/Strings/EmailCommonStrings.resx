@@ -216,4 +216,7 @@
   <data name="FromDetailsWithContentFormat" xml:space="preserve">
     <value>from {0} recieved {1} titled {2}, content is {3}.</value>
   </data>
+  <data name="DisplayDetailDateFormat" xml:space="preserve">
+    <value>ddd MM/dd hh:mm tt</value>
+  </data>
 </root>

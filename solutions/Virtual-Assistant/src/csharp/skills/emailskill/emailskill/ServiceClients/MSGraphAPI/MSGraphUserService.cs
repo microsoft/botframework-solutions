@@ -178,7 +178,7 @@ namespace EmailSkill.ServiceClients.MSGraphAPI
 
         public async Task<string> GetUserPhotoAsync(string id)
         {
-            var photoRequest = this._graphClient.Users[id].Photos["48x48"].Content.Request();
+            var photoRequest = this._graphClient.Users[id].Photos["64x64"].Content.Request();
 
             Stream originalPhoto = null;
             string photoUrl = string.Empty;

@@ -258,7 +258,7 @@ namespace EmailSkill.Dialogs.ShowEmail
                         EmailLink = message.WebLink,
                         ReceivedDateTime = message?.ReceivedDateTime == null
                             ? CommonStrings.NotAvailable
-                            : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(state.GetUserTimeZone()),
+                            : message.ReceivedDateTime.Value.UtcDateTime.ToDetailRelativeString(state.GetUserTimeZone()),
                         Speak = SpeakHelper.ToSpeechEmailDetailOverallString(message, state.GetUserTimeZone()),
                         SenderIcon = senderIcon
                     };

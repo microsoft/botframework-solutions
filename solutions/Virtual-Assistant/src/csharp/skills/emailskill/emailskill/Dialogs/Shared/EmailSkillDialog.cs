@@ -977,7 +977,11 @@ namespace EmailSkill.Dialogs.Shared
                 { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(updatedMessages, state.GetUserTimeZone(), ConfigData.GetInstance().MaxReadSize) },
             };
 
-            var reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowEmailPrompt, cards, tokens);
+            //var reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowEmailPrompt, cards, tokens);
+            var reply = ResponseManager.GetCardResponse(
+                        EmailSharedResponses.ShowEmailPrompt,
+                        new Card("EmailOverviewCard"),
+                        tokens);
 
             if (state.ShowEmailIndex == 0)
             {
@@ -1067,7 +1071,6 @@ namespace EmailSkill.Dialogs.Shared
             return result;
         }
 
-        // test
         protected async Task<string> GetUserPhotoUrlAsync(ITurnContext context, string email)
         {
             var state = await EmailStateAccessor.GetAsync(context);

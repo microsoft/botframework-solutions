@@ -124,6 +124,15 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ddd MM/dd hh:mm tt.
+        /// </summary>
+        public static string DisplayDetailDateFormat {
+            get {
+                return ResourceManager.GetString("DisplayDetailDateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to On {0}, {1} wrote:.
         /// </summary>
         public static string EmailInfoFormat {

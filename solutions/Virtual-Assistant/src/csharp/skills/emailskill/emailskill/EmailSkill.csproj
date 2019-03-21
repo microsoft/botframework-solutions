@@ -133,6 +133,7 @@
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailCard.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailContentPreview.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailDetailCard.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailOverviewCard.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailWithOutButtonCard.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\EmailSharedResponses.de.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\EmailSharedResponses.es.json" />

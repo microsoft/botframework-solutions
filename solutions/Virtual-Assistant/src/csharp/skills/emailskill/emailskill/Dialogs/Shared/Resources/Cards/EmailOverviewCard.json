@@ -1,0 +1,528 @@
+﻿{
+    "type": "AdaptiveCard",
+    "height": "stretch",
+    "backgroundImage": "https://raw.githubusercontent.com/ryanlengel/adaptivecards/master/email/assets/background.png",
+    "body": [
+      {
+        "type": "Container",
+        "items": [
+          {
+            "type": "ColumnSet",
+            "height": "stretch",
+            "columns": [
+              {
+                "type": "Column",
+                "height": "stretch",
+                "items": [
+                  {
+                    "type": "ColumnSet",
+                    "height": "stretch",
+                    "columns": [
+                      {
+                        "type": "Column",
+                        "height": "stretch",
+                        "items": [
+                          {
+                            "type": "Image",
+                            "url": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFk%0D%0Ab2JlIElsbHVzdHJhdG9yIDIzLjAuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246%0D%0AIDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5z%0D%0APSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMu%0D%0Ab3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAyNS42IDIyLjUi%0D%0AIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDI1LjYgMjIuNTsiIHhtbDpzcGFjZT0i%0D%0AcHJlc2VydmUiPgo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsOiNGRkZGRkY7fQo8%0D%0AL3N0eWxlPgo8dGl0bGU+cGxhdGZvcm1zQXNzZXQgMzBxdWVzaXRvbnM8L3RpdGxlPgo8cGF0aCBj%0D%0AbGFzcz0ic3QwIiBkPSJNMTIuOCwwbDEyLjgsNi40djE2LjFIMFY2LjRMMTIuOCwweiBNMS42LDIw%0D%0ALjlIMjRWOS4ybC0zLjcsMy43SDUuM0wxLjYsOS4yVjIwLjl6IE0yMy43LDcuMkwxMi44LDEuOEwx%0D%0ALjksNy4yCglsNCw0aDEzLjhMMjMuNyw3LjJ6Ii8+Cjwvc3ZnPgo=",
+                            "size": "Small",
+                            "height": "35px"
+                          }
+                        ],
+                        "width": "auto"
+                      },
+                      {
+                        "type": "Column",
+                        "height": "stretch",
+                        "items": [
+                          {
+                            "type": "TextBlock",
+                            "height": "stretch",
+                            "size": "ExtraLarge",
+                            "weight": "Bolder",
+                            "color": "Light",
+                            "text": "Your email"
+                          }
+                        ],
+                        "width": "stretch"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "ColumnSet",
+                    "height": "stretch",
+                    "columns": [
+                      {
+                        "type": "Column",
+                        "height": "stretch",
+                        "items": [
+                          {
+                            "type": "TextBlock",
+                            "horizontalAlignment": "Right",
+                            "height": "stretch",
+                            "size": "Medium",
+                            "color": "Light",
+                            "text": "10"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "horizontalAlignment": "Right",
+                            "size": "Medium",
+                            "color": "Light",
+                            "text": "4"
+                          }
+                        ],
+                        "width": "auto"
+                      },
+                      {
+                        "type": "Column",
+                        "height": "stretch",
+                        "items": [
+                          {
+                            "type": "TextBlock",
+                            "height": "stretch",
+                            "size": "Medium",
+                            "weight": "Bolder",
+                            "color": "Light",
+                            "text": "messages"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "size": "Medium",
+                            "weight": "Bolder",
+                            "color": "Light",
+                            "text": "high priority messages"
+                          }
+                        ],
+                        "width": "stretch"
+                      }
+                    ]
+                  }
+                ],
+                "width": 60
+              },
+              {
+                "type": "Column",
+                "height": "stretch",
+                "items": [
+                  {
+                    "type": "Image",
+                    "horizontalAlignment": "Center",
+                    "style": "Person",
+                    "url": "https://github.com/ryanlengel/adaptivecards/blob/master/assets/heads/daenarys.jpg?raw=true",
+                    "size": "Medium"
+                  },
+                  {
+                    "type": "TextBlock",
+                    "horizontalAlignment": "Center",
+                    "size": "Medium",
+                    "weight": "Bolder",
+                    "color": "Light",
+                    "text": "March 13, 2019"
+                  }
+                ],
+                "width": 40
+              }
+            ]
+          }
+        ]
+      },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "Container",
+                    "items": [
+                        {
+                            "type": "ColumnSet",
+                            "separator": true,
+                            "height": "stretch",
+                            "columns": [
+                                {
+                                    "type": "Column",
+                                    "height": "stretch",
+                                    "items": [
+                                        {
+                                            "type": "Image",
+                                            "horizontalAlignment": "Center",
+                                            "height": "stretch",
+                                            "style": "Person",
+                                            "url": "https://raw.githubusercontent.com/ryanlengel/adaptivecards/master/assets/heads/myrcella.jpg",
+                                            "size": "Medium"
+                                        }
+                                    ],
+                                    "width": 15
+                                },
+                                {
+                                    "type": "Column",
+                                    "verticalContentAlignment": "Center",
+                                    "items": [
+                                        {
+                                            "type": "ColumnSet",
+                                            "columns": [
+                                                {
+                                                    "type": "Column",
+                                                    "verticalContentAlignment": "Center",
+                                                    "items": [
+                                                        {
+                                                            "type": "TextBlock",
+                                                            "size": "Medium",
+                                                            "weight": "Bolder",
+                                                            "color": "Dark",
+                                                            "text": "Design review"
+                                                        }
+                                                    ],
+                                                    "width": 95
+                                                },
+                                                {
+                                                    "type": "Column",
+                                                    "verticalContentAlignment": "Center",
+                                                    "width": 5
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "ColumnSet",
+                                            "spacing": "Small",
+                                            "columns": [
+                                                {
+                                                    "type": "Column",
+                                                    "items": [
+                                                        {
+                                                            "type": "TextBlock",
+                                                            "color": "Dark",
+                                                            "text": "Myrcella Baratheon"
+                                                        }
+                                                    ],
+                                                    "width": "auto"
+                                                },
+                                                {
+                                                    "type": "Column",
+                                                    "horizontalAlignment": "Right",
+                                                    "items": [
+                                                        {
+                                                            "type": "TextBlock",
+                                                            "horizontalAlignment": "Right",
+                                                            "color": "Dark",
+                                                            "text": "3:05 PM"
+                                                        }
+                                                    ],
+                                                    "width": "stretch"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "width": 80
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Container",
+                    "separator": true,
+                    "items": [
+                        {
+                            "type": "ColumnSet",
+                            "separator": true,
+                            "height": "stretch",
+                            "columns": [
+                                {
+                                    "type": "Column",
+                                    "height": "stretch",
+                                    "items": [
+                                        {
+                                            "type": "Image",
+                                            "horizontalAlignment": "Center",
+                                            "height": "stretch",
+                                            "style": "Person",
+                                            "url": "https://raw.githubusercontent.com/ryanlengel/adaptivecards/master/assets/heads/robb.jpg",
+                                            "size": "Medium"
+                                        }
+                                    ],
+                                    "width": 15
+                                },
+                                {
+                                    "type": "Column",
+                                    "verticalContentAlignment": "Center",
+                                    "items": [
+                                        {
+                                            "type": "ColumnSet",
+                                            "columns": [
+                                                {
+                                                    "type": "Column",
+                                                    "items": [
+                                                        {
+                                                            "type": "TextBlock",
+                                                            "size": "Medium",
+                                                            "weight": "Bolder",
+                                                            "color": "Dark",
+                                                            "text": "Wedding plans"
+                                                        }
+                                                    ],
+                                                    "width": 95
+                                                },
+                                                {
+                                                    "type": "Column",
+                                                    "horizontalAlignment": "Center",
+                                                    "verticalContentAlignment": "Center",
+                                                    "items": [
+                                                        {
+                                                            "type": "Image",
+                                                            "horizontalAlignment": "Center",
+                                                            "url": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFk%0D%0Ab2JlIElsbHVzdHJhdG9yIDIzLjAuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246%0D%0AIDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgYmFzZVByb2ZpbGU9InRpbnki%0D%0AIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhs%0D%0AaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIgoJIHg9IjBweCIgeT0iMHB4IiB2aWV3%0D%0AQm94PSIwIDAgMjQgMjQiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8cGF0aCBmaWxsPSIjNzY3Njc2%0D%0AIiBkPSJNMTguMSw0LjV2MTQuMmMwLDAuNy0wLjEsMS40LTAuNCwyUzE3LDIyLDE2LjUsMjIuNXMt%0D%0AMSwwLjgtMS43LDEuMXMtMS4zLDAuNC0yLDAuNHMtMS40LTAuMS0yLTAuNAoJUzkuNiwyMyw5LjEs%0D%0AMjIuNXMtMC44LTEtMS4xLTEuN3MtMC40LTEuMy0wLjQtMnYtMTVjMC0wLjUsMC4xLTEsMC4zLTEu%0D%0ANXMwLjUtMC44LDAuOC0xLjJzMC43LTAuNiwxLjItMC44UzEwLjgsMCwxMS4zLDAKCXMxLDAuMSwx%0D%0ALjUsMC4zczAuOCwwLjUsMS4yLDAuOHMwLjYsMC43LDAuOCwxLjJzMC4zLDAuOSwwLjMsMS41djE1%0D%0AYzAsMC4zLTAuMSwwLjYtMC4yLDAuOXMtMC4zLDAuNS0wLjUsMC43cy0wLjQsMC40LTAuNywwLjUK%0D%0ACVMxMy4yLDIxLDEyLjgsMjFTMTIuMiwyMSwxMiwyMC45cy0wLjUtMC4zLTAuNy0wLjVzLTAuNC0w%0D%0ALjQtMC41LTAuN3MtMC4yLTAuNi0wLjItMC45VjZoMS41djEyLjdjMCwwLjIsMC4xLDAuNCwwLjIs%0D%0AMC41CglzMC4zLDAuMiwwLjUsMC4yczAuNC0wLjEsMC41LTAuMnMwLjItMC4zLDAuMi0wLjV2LTE1%0D%0AYzAtMC4zLTAuMS0wLjYtMC4yLTAuOXMtMC4zLTAuNS0wLjUtMC43cy0wLjQtMC40LTAuNy0wLjVz%0D%0ALTAuNi0wLjItMC45LTAuMgoJcy0wLjYsMC4xLTAuOSwwLjJTOS45LDIsOS43LDIuMlM5LjQsMi42%0D%0ALDkuMywyLjlTOS4xLDMuNSw5LjEsMy44djE1YzAsMC41LDAuMSwxLDAuMywxLjVzMC41LDAuOCww%0D%0ALjgsMS4yczAuNywwLjYsMS4yLDAuOAoJczAuOSwwLjMsMS41LDAuM3MxLTAuMSwxLjUtMC4zczAu%0D%0AOC0wLjUsMS4yLTAuOHMwLjYtMC43LDAuOC0xLjJzMC4zLTAuOSwwLjMtMS41VjQuNUgxOC4xeiIv%0D%0APgo8L3N2Zz4K",
+                                                            "size": "Stretch"
+                                                        }
+                                                    ],
+                                                    "width": 5
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "ColumnSet",
+                                            "spacing": "Small",
+                                            "columns": [
+                                                {
+                                                    "type": "Column",
+                                                    "items": [
+                                                        {
+                                                            "type": "TextBlock",
+                                                            "color": "Dark",
+                                                            "text": "Robb Stark"
+                                                        }
+                                                    ],
+                                                    "width": "auto"
+                                                },
+                                                {
+                                                    "type": "Column",
+                                                    "horizontalAlignment": "Right",
+                                                    "items": [
+                                                        {
+                                                            "type": "TextBlock",
+                                                            "horizontalAlignment": "Right",
+                                                            "color": "Dark",
+                                                            "text": "11:05 AM"
+                                                        }
+                                                    ],
+                                                    "width": "stretch"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "width": 80
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Container",
+                    "separator": true,
+                    "items": [
+                        {
+                            "type": "ColumnSet",
+                            "separator": true,
+                            "height": "stretch",
+                            "columns": [
+                                {
+                                    "type": "Column",
+                                    "height": "stretch",
+                                    "items": [
+                                        {
+                                            "type": "Image",
+                                            "horizontalAlignment": "Center",
+                                            "height": "stretch",
+                                            "style": "Person",
+                                            "url": "https://raw.githubusercontent.com/ryanlengel/adaptivecards/master/assets/heads/margaery.jpg",
+                                            "size": "Medium"
+                                        }
+                                    ],
+                                    "width": 15
+                                },
+                                {
+                                    "type": "Column",
+                                    "verticalContentAlignment": "Center",
+                                    "items": [
+                                        {
+                                            "type": "ColumnSet",
+                                            "columns": [
+                                                {
+                                                    "type": "Column",
+                                                    "verticalContentAlignment": "Center",
+                                                    "items": [
+                                                        {
+                                                            "type": "TextBlock",
+                                                            "size": "Medium",
+                                                            "weight": "Bolder",
+                                                            "color": "Dark",
+                                                            "text": "SDK launch"
+                                                        }
+                                                    ],
+                                                    "width": 95
+                                                },
+                                                {
+                                                    "type": "Column",
+                                                    "verticalContentAlignment": "Center",
+                                                    "items": [
+                                                        {
+                                                            "type": "Image",
+                                                            "horizontalAlignment": "Center",
+                                                            "url": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFk%0D%0Ab2JlIElsbHVzdHJhdG9yIDIzLjAuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246%0D%0AIDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgYmFzZVByb2ZpbGU9InRpbnki%0D%0AIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhs%0D%0AaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIgoJIHg9IjBweCIgeT0iMHB4IiB2aWV3%0D%0AQm94PSIwIDAgMjQgMjQiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8cGF0aCBmaWxsPSIjNzY3Njc2%0D%0AIiBkPSJNMTguMSw0LjV2MTQuMmMwLDAuNy0wLjEsMS40LTAuNCwyUzE3LDIyLDE2LjUsMjIuNXMt%0D%0AMSwwLjgtMS43LDEuMXMtMS4zLDAuNC0yLDAuNHMtMS40LTAuMS0yLTAuNAoJUzkuNiwyMyw5LjEs%0D%0AMjIuNXMtMC44LTEtMS4xLTEuN3MtMC40LTEuMy0wLjQtMnYtMTVjMC0wLjUsMC4xLTEsMC4zLTEu%0D%0ANXMwLjUtMC44LDAuOC0xLjJzMC43LTAuNiwxLjItMC44UzEwLjgsMCwxMS4zLDAKCXMxLDAuMSwx%0D%0ALjUsMC4zczAuOCwwLjUsMS4yLDAuOHMwLjYsMC43LDAuOCwxLjJzMC4zLDAuOSwwLjMsMS41djE1%0D%0AYzAsMC4zLTAuMSwwLjYtMC4yLDAuOXMtMC4zLDAuNS0wLjUsMC43cy0wLjQsMC40LTAuNywwLjUK%0D%0ACVMxMy4yLDIxLDEyLjgsMjFTMTIuMiwyMSwxMiwyMC45cy0wLjUtMC4zLTAuNy0wLjVzLTAuNC0w%0D%0ALjQtMC41LTAuN3MtMC4yLTAuNi0wLjItMC45VjZoMS41djEyLjdjMCwwLjIsMC4xLDAuNCwwLjIs%0D%0AMC41CglzMC4zLDAuMiwwLjUsMC4yczAuNC0wLjEsMC41LTAuMnMwLjItMC4zLDAuMi0wLjV2LTE1%0D%0AYzAtMC4zLTAuMS0wLjYtMC4yLTAuOXMtMC4zLTAuNS0wLjUtMC43cy0wLjQtMC40LTAuNy0wLjVz%0D%0ALTAuNi0wLjItMC45LTAuMgoJcy0wLjYsMC4xLTAuOSwwLjJTOS45LDIsOS43LDIuMlM5LjQsMi42%0D%0ALDkuMywyLjlTOS4xLDMuNSw5LjEsMy44djE1YzAsMC41LDAuMSwxLDAuMywxLjVzMC41LDAuOCww%0D%0ALjgsMS4yczAuNywwLjYsMS4yLDAuOAoJczAuOSwwLjMsMS41LDAuM3MxLTAuMSwxLjUtMC4zczAu%0D%0AOC0wLjUsMS4yLTAuOHMwLjYtMC43LDAuOC0xLjJzMC4zLTAuOSwwLjMtMS41VjQuNUgxOC4xeiIv%0D%0APgo8L3N2Zz4K",
+                                                            "size": "Stretch"
+                                                        }
+                                                    ],
+                                                    "width": 5
+                                                },
+                                                {
+                                                    "type": "Column",
+                                                    "verticalContentAlignment": "Center",
+                                                    "items": [
+                                                        {
+                                                            "type": "Image",
+                                                            "horizontalAlignment": "Center",
+                                                            "url": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFk%0D%0Ab2JlIElsbHVzdHJhdG9yIDIzLjAuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246%0D%0AIDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgYmFzZVByb2ZpbGU9InRpbnki%0D%0AIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhs%0D%0AaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIgoJIHg9IjBweCIgeT0iMHB4IiB2aWV3%0D%0AQm94PSIwIDAgMjQgMjQiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8cGF0aCBmaWxsPSIjQzUwRjFG%0D%0AIiBkPSJNMTAuNywxNi41di0xNWgzdjE1SDEwLjd6IE0xMC43LDIyLjV2LTNoM3YzSDEwLjd6Ii8+%0D%0ACjwvc3ZnPgo=",
+                                                            "size": "Stretch"
+                                                        }
+                                                    ],
+                                                    "width": 5
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "ColumnSet",
+                                            "spacing": "Small",
+                                            "columns": [
+                                                {
+                                                    "type": "Column",
+                                                    "items": [
+                                                      {
+                                                        "type": "TextBlock",
+                                                        "color": "Dark",
+                                                        "text": "Margaery Tyrell"
+                                                      }
+                                                    ],
+                                                    "width": "auto"
+                                                },
+                                                {
+                                                    "type": "Column",
+                                                    "items": [
+                                                        {
+                                                            "type": "TextBlock",
+                                                            "horizontalAlignment": "Right",
+                                                            "color": "Dark",
+                                                            "text": "Tue 3/12"
+                                                        }
+                                                    ],
+                                                    "width": "stretch"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "width": 80
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Container",
+                    "separator": true,
+                    "items": [
+                        {
+                            "type": "ColumnSet",
+                            "separator": true,
+                            "height": "stretch",
+                            "columns": [
+                                {
+                                    "type": "Column",
+                                    "height": "stretch",
+                                    "items": [
+                                        {
+                                            "type": "Image",
+                                            "horizontalAlignment": "Center",
+                                            "height": "stretch",
+                                            "style": "Person",
+                                            "url": "https://raw.githubusercontent.com/ryanlengel/adaptivecards/master/assets/heads/sandor.jpg",
+                                            "size": "Medium"
+                                        }
+                                    ],
+                                    "width": 15
+                                },
+                                {
+                                    "type": "Column",
+                                    "verticalContentAlignment": "Center",
+                                    "items": [
+                                        {
+                                            "type": "ColumnSet",
+                                            "columns": [
+                                                {
+                                                    "type": "Column",
+                                                    "verticalContentAlignment": "Center",
+                                                    "items": [
+                                                        {
+                                                            "type": "TextBlock",
+                                                            "size": "Medium",
+                                                            "weight": "Bolder",
+                                                            "color": "Dark",
+                                                            "text": "1 on 1"
+                                                        }
+                                                    ],
+                                                    "width": 95
+                                                },
+                                                {
+                                                    "type": "Column",
+                                                    "verticalContentAlignment": "Center",
+                                                    "items": [
+                                                        {
+                                                            "type": "Image",
+                                                            "horizontalAlignment": "Center",
+                                                            "url": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFk%0D%0Ab2JlIElsbHVzdHJhdG9yIDIzLjAuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246%0D%0AIDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgYmFzZVByb2ZpbGU9InRpbnki%0D%0AIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhs%0D%0AaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIgoJIHg9IjBweCIgeT0iMHB4IiB2aWV3%0D%0AQm94PSIwIDAgMjQgMjQiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8cGF0aCBmaWxsPSIjQzUwRjFG%0D%0AIiBkPSJNMTAuNywxNi41di0xNWgzdjE1SDEwLjd6IE0xMC43LDIyLjV2LTNoM3YzSDEwLjd6Ii8+%0D%0ACjwvc3ZnPgo=",
+                                                            "size": "Stretch"
+                                                        }
+                                                    ],
+                                                    "width": 5
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "ColumnSet",
+                                            "spacing": "Small",
+                                            "columns": [
+                                                {
+                                                    "type": "Column",
+                                                    "items": [
+                                                        {
+                                                            "type": "TextBlock",
+                                                            "color": "Dark",
+                                                            "text": "Sandor Clegane"
+                                                        }
+                                                    ],
+                                                    "width": "auto"
+                                                },
+                                                {
+                                                    "type": "Column",
+                                                    "items": [
+                                                        {
+                                                            "type": "TextBlock",
+                                                            "horizontalAlignment": "Right",
+                                                            "color": "Dark",
+                                                            "text": "Mon 3/11"
+                                                        }
+                                                    ],
+                                                    "width": "stretch"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "width": 80
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0"
+}
