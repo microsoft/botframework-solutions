@@ -1067,6 +1067,7 @@ namespace EmailSkill.Dialogs.Shared
             return result;
         }
 
+        // test
         protected async Task<string> GetUserPhotoUrlAsync(ITurnContext context, string email)
         {
             var state = await EmailStateAccessor.GetAsync(context);
