@@ -113,7 +113,8 @@
             "googleClientSecret": "",
             "googleScopes": "",
             "displaySize": "3",
-            "pathToBot": "./sampleSkill/lib/sampleSkill.js"
+            "pathToBot": "./sampleSkill/lib/sampleSkill.js",
+            "ClassName": "SampleSkill"
         }
     }
 ]
