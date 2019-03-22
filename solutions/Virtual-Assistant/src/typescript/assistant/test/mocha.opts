@@ -1,0 +1,4 @@
+--timeout 50000
+--recursive
+./**/*Test.js
+--colors
