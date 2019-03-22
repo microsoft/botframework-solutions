@@ -114,7 +114,7 @@
     },
     "@rush-temp/assistant": {
       "version": "file:projects/assistant.tgz",
-      "integrity": "sha512-F7whFNeZvIWfCafRFA5XhmPiTLVrb5U7bASGCnDbAc/Gu1Zu0ZQzvGVHw/kDn2zmJtcOQ1WxJzLDQVMQoZnEVw==",
+      "integrity": "sha512-F2dHoILtMxCGQHLmWzkxV5VeXbREii8zGcePX/uMtGy4pNBmIcQxvb3R/RsNiU6kmYai+GY+2pbcpmpsJP3osg==",
       "requires": {
         "@microsoft/microsoft-graph-client": "^1.3.0",
         "@microsoft/microsoft-graph-types": "^1.5.0",
@@ -139,6 +139,7 @@
         "i18next-node-fs-backend": "^2.1.1",
         "mocha": "^5.2.0",
         "ms-rest-azure": "^2.5.0",
+        "nock": "^10.0.6",
         "nodemon": "^1.18.4",
         "replace": "^1.0.0",
         "restify": "^7.2.1",
