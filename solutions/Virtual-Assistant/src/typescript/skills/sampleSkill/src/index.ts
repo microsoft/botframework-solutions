@@ -196,7 +196,7 @@ adapter.onTurnError = async (context: TurnContext, error: Error): Promise<void> 
 
 const configuration: SkillConfiguration = new SkillConfiguration(botConfig, languageModels, skills[0].supportedProviders, skills[0].parameters, skills[0].configuration);
 
-const responseManager: ResponseManager = new ResponseManager(Array.from(configuration.localeConfigurations.keys()), [new MainResponses(), new SharedResponses(), new SampleResponses()]);
+const responseManager: ResponseManager = new ResponseManager(Array.from(configuration.localeConfigurations.keys()), [MainResponses, SharedResponses, SampleResponses]);
 
 let bot: SampleSkill;
 try {
@@ -214,7 +214,7 @@ try {
 
 // Create server
 const server: restify.Server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3979, (): void => {
+server.listen(process.env.port || process.env.PORT || 3980, (): void => {
     // tslint:disable-next-line:no-console
     console.log(`${server.name} listening to ${server.url}`);
     // tslint:disable-next-line:no-console
