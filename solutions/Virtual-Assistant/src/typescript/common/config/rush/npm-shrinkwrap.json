@@ -106,7 +106,7 @@
     },
     "@rush-temp/assistant": {
       "version": "file:projects/assistant.tgz",
-      "integrity": "sha512-Ikwz9kAPzIOULigYgQP7+xIaIeZH779MKd6FhGA/bTFhtZBE1H+3xT3BkHIMsuJmes/jSeJhLO2X4NSS892lQw==",
+      "integrity": "sha512-F2dHoILtMxCGQHLmWzkxV5VeXbREii8zGcePX/uMtGy4pNBmIcQxvb3R/RsNiU6kmYai+GY+2pbcpmpsJP3osg==",
       "requires": {
         "@microsoft/microsoft-graph-client": "^1.3.0",
         "@microsoft/microsoft-graph-types": "^1.5.0",
@@ -130,6 +130,7 @@
         "i18n": "^0.8.3",
         "mocha": "^5.2.0",
         "ms-rest-azure": "^2.5.0",
+        "nock": "^10.0.6",
         "nodemon": "^1.18.4",
         "replace": "^1.0.0",
         "restify": "^7.2.1",
@@ -228,9 +229,9 @@
       }
     },
     "@types/node": {
-      "version": "10.12.30",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-10.12.30.tgz",
-      "integrity": "sha512-nsqTN6zUcm9xtdJiM9OvOJ5EF0kOI8f1Zuug27O/rgtxCRJHGqncSWfCMZUP852dCKPsDsYXGvBhxfRjDBkF5Q=="
+      "version": "10.14.2",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-10.14.2.tgz",
+      "integrity": "sha512-Y1kCfTShKcJH4CsG5+m5RMA+0tQKa8TrxyMczy0zE8QeDKbuOAJMF8JRM5ouCFyakaSoAhhgy2beCSKLVz+daw=="
     },
     "@types/request": {
       "version": "2.48.1",
@@ -689,9 +690,9 @@
       }
     },
     "big-integer": {
-      "version": "1.6.42",
-      "resolved": "https://registry.npmjs.org/big-integer/-/big-integer-1.6.42.tgz",
-      "integrity": "sha512-3UQFKcRMx+5Z+IK5vYTMYK2jzLRJkt+XqyDdacgWgtMjjuifKpKTFneJLEgeBElOE2/lXZ1LcMcb5s8pwG2U8Q=="
+      "version": "1.6.43",
+      "resolved": "https://registry.npmjs.org/big-integer/-/big-integer-1.6.43.tgz",
+      "integrity": "sha512-9dULc9jsKmXl0Aeunug8wbF+58n+hQoFjqClN7WeZwGLh0XJUWyJJ9Ee+Ep+Ql/J9fRsTVaeThp8MhiCCrY0Jg=="
     },
     "bignumber.js": {
       "version": "7.2.1",
@@ -978,9 +979,9 @@
       "integrity": "sha1-V00xLt2Iu13YkS6Sht1sCu1KrII="
     },
     "chokidar": {
-      "version": "2.1.2",
-      "resolved": "https://registry.npmjs.org/chokidar/-/chokidar-2.1.2.tgz",
-      "integrity": "sha512-IwXUx0FXc5ibYmPC2XeEj5mpXoV66sR+t3jqu2NS2GYwCktt3KF1/Qqjws/NkegajBA4RbZ5+DDwlOiJsxDHEg==",
+      "version": "2.1.4",
+      "resolved": "https://registry.npmjs.org/chokidar/-/chokidar-2.1.4.tgz",
+      "integrity": "sha512-ZVuFiB9IGOHqu+Jh7B7fSTmzsfDmUtC6yqd/V72UPQeXbNHONbMV0chOXtLXjsP3NvdUsHTNMg02NtXPDaSmNQ==",
       "requires": {
         "anymatch": "^2.0.0",
         "async-each": "^1.0.1",
@@ -993,7 +994,7 @@
         "normalize-path": "^3.0.0",
         "path-is-absolute": "^1.0.0",
         "readdirp": "^2.2.1",
-        "upath": "^1.1.0"
+        "upath": "^1.1.1"
       }
     },
     "ci-info": {
@@ -2759,9 +2760,9 @@
       "integrity": "sha1-mGbfOVECEw449/mWvOtlRDIJwls="
     },
     "js-yaml": {
-      "version": "3.12.2",
-      "resolved": "https://registry.npmjs.org/js-yaml/-/js-yaml-3.12.2.tgz",
-      "integrity": "sha512-QHn/Lh/7HhZ/Twc7vJYQTkjuCa0kaCcDcjK5Zlk2rvnUpy7DxMJ23+Jc2dcyvltwQVg1nygAVlB2oRDFHoRS5Q==",
+      "version": "3.13.0",
+      "resolved": "https://registry.npmjs.org/js-yaml/-/js-yaml-3.13.0.tgz",
+      "integrity": "sha512-pZZoSxcCYco+DIKBTimr67J6Hy+EYGZDY/HCWC+iAEA9h1ByhMXAIVUXMcMFpOCxQ/xjXmPI2MkDL5HRm5eFrQ==",
       "requires": {
         "argparse": "^1.0.7",
         "esprima": "^4.0.0"
@@ -3691,9 +3692,9 @@
       "integrity": "sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA="
     },
     "querystringify": {
-      "version": "2.1.0",
-      "resolved": "https://registry.npmjs.org/querystringify/-/querystringify-2.1.0.tgz",
-      "integrity": "sha512-sluvZZ1YiTLD5jsqZcDmFyV2EwToyXZBfpoVOmktMmW+VEnhgakFHnasVph65fOjGPTWN0Nw3+XQaSeMayr0kg=="
+      "version": "2.1.1",
+      "resolved": "https://registry.npmjs.org/querystringify/-/querystringify-2.1.1.tgz",
+      "integrity": "sha512-w7fLxIRCRT7U8Qu53jQnJyPkYZIaR4n5151KMfcJlO/A9397Wxb1amJvROTK6TOnp7PfoAmg/qXiNHI+08jRfA=="
     },
     "rc": {
       "version": "1.2.8",
@@ -3755,9 +3756,9 @@
       }
     },
     "registry-auth-token": {
-      "version": "3.3.2",
-      "resolved": "https://registry.npmjs.org/registry-auth-token/-/registry-auth-token-3.3.2.tgz",
-      "integrity": "sha512-JL39c60XlzCVgNrO+qq68FoNb56w/m7JYvGR2jT5iR1xBrUA3Mfx5Twk5rqTThPmQKMWydGmq8oFtDlxfrmxnQ==",
+      "version": "3.4.0",
+      "resolved": "https://registry.npmjs.org/registry-auth-token/-/registry-auth-token-3.4.0.tgz",
+      "integrity": "sha512-4LM6Fw8eBQdwMYcES4yTnn2TqIasbXuwDx3um+QRs7S55aMKCBKBxvPXl2RiUjHwuJLTyYfxSpmfSAjQpcuP+A==",
       "requires": {
         "rc": "^1.1.6",
         "safe-buffer": "^5.0.1"
