@@ -194,22 +194,23 @@ export class MainDialog extends RouterDialog {
             } else {
                 const luisResult: RecognizerResult =  await luisService.recognize(dc, true);
                 const topIntent: string = LuisRecognizer.topIntent(luisResult);
-
-                switch (topIntent) {
-                    case 'Cancel': {
-                        result = await this.onCancel(dc);
-                        break;
-                    }
-                    case 'Help': {
-                        result = await this.onHelp(dc);
-                        break;
-                    }
-                    case 'Logout': {
-                        result = await this.onLogout(dc);
-                        break;
-                    }
-                    default: {
-                        // empty block
+                if (luisResult.intents[topIntent].score > 0.5) {
+                    switch (topIntent) {
+                        case 'Cancel': {
+                            result = await this.onCancel(dc);
+                            break;
+                        }
+                        case 'Help': {
+                            result = await this.onHelp(dc);
+                            break;
+                        }
+                        case 'Logout': {
+                            result = await this.onLogout(dc);
+                            break;
+                        }
+                        default: {
+                            // empty block
+                        }
                     }
                 }
             }
