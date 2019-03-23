@@ -372,9 +372,9 @@ describe("The generator-botbuilder-skill tests", function() {
                 done();
             });
         });
-    });         
-      
-    describe("should not create", function() {
+    });
+
+   describe("should not create", function() {
         before(async function() {
             if(semver.gte(process.versions.node, '10.12.0')){
                 run = false;
