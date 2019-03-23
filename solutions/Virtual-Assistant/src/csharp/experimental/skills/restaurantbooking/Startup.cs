@@ -123,7 +123,7 @@ namespace RestaurantBooking
             services.AddSingleton<IBot, RestaurantBooking>();
 
             // Add the http adapter to enable MVC style bot API
-            services.AddSingleton<IBotFrameworkHttpAdapter>(sp =>
+            services.AddTransient<IBotFrameworkHttpAdapter>(sp =>
             {
                 var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
