@@ -115,53 +115,38 @@ The Automotive Skill surfaces setting changes for testing purposes through an ev
 
 ### Customising Vehicle Settings
 
-Available vehicle settings are defined in a supporting metadata file which you can find in this location:  `automotiveskill\Dialogs\VehicleSettings\Resources\available_settings.json`.
+Available vehicle settings are defined in a supporting metadata file which you can find in this location:  `automotiveskill\Dialogs\VehicleSettings\Resources\available_settings.yaml`.
 
-To add an new setting along with appropriate setting values it's easily expressed in JSON. The example below shows a new Volume control setting with the ability to Set, Increase, Decrease and Mute the volume.
+To add an new setting along with appropriate setting values it's easily expressed in YAML. The example below shows a new Volume control setting with the ability to Set, Increase, Decrease and Mute the volume.
 
 ```
-  {
-    "allowsAmount": true,
-    "amounts": [ { "unit": "" } ],
-    "canonicalName": "Set Volume",
-    "values": [
-      {
-        "canonicalName": "Set",
-        "requiresAmount": true
-      },
-      {
-        "changesSignOfAmount": true,
-        "canonicalName": "Decrease"
-      },
-      {
-        "canonicalName": "Increase",
-        "antonym": "Decrease"
-      },
-      {
-        "canonicalName": "Mute"
-      }
-    ]
-  }
- ```
+canonicalName: Volume
+values:
+  - canonicalName: Set
+    requiresAmount: true
+  - canonicalName: Decrease
+    changesSignOfAmount: true
+  - canonicalName: Increase
+    antonym: Decrease
+  - canonicalName: Mute
+allowsAmount: true
+amounts:
+  - unit: ''
+```
 
  For key settings you may wish to prompt for confirmation, safety settings for example. This can be specified through a `requiresConfirmation` property as shown below.
 
 ```
- {
-    "canonicalName": "Lane Change Alert",
-    "values": [
-      {
-        "canonicalName": "Off",
-        "requiresConfirmation": true
-      },
-      { "canonicalName": "On" }
-    ]
-  },
+canonicalName: Lane Change Alert
+values:
+  - canonicalName: Off
+    requiresConfirmation: true
+  - canonicalName: On
 ```
 
 ### Deploying the Skill in local-mode
 
-The Automotive skill is not added by default when deploying the Virtual Assistant as this is a domain specific skill. 
+The Automotive skill is not added by default when deploying the Virtual Assistant as this is a domain specific skill.
 
 Run this PowerShell script to deploy your shared resources and LUIS models.
 
@@ -238,7 +223,7 @@ Follow the instructions below to add the Automotive Skill to an existing Virtual
         ```
     - Add dispatch references to the core LUIS intents for the skill within the **assistant\CognitiveModels\en\dispatch.lu** file as shown below. Only the vehicle settings model is required for dispatch. This enables the Dispatcher to understand your new capabilities and route utterances to your skill
         ```
-        # l_Automotive 
+        # l_Automotive
         - [VEHICLE_SETTINGS_CHANGE](../../../../skills/automotiveskill/automotiveskill/CognitiveModels/LUIS/en/settings_dispatch.lu#VEHICLE_SETTINGS_CHANGE)
         ```
 2. Run the following script to deploy the new Automotive Skill LUIS models and to update the dispatcher.
@@ -246,10 +231,10 @@ Follow the instructions below to add the Automotive Skill to an existing Virtual
     pwsh.exe -ExecutionPolicy Bypass -File DeploymentScripts\update_published_models.ps1 -locales "en-us"
     ```
 3. In Virtual Assistant, add the skill configuration entry (in an earlier section) to **appsettings.json**. This tells the Virtual Assistant that there is a new skill available for use.
-   
+
 4. Run the LuisGen tool to update the strongly-typed Dispatch class (Dispatch.cs) to reflect the additional dispatch target.
     ```
-    LUISGen DeploymentScripts\en\dispatch.luis -cs Dispatch -o Dialogs\Shared\Resources 
+    LUISGen DeploymentScripts\en\dispatch.luis -cs Dispatch -o Dialogs\Shared\Resources
     ```
 5. Update **MainDialog.cs** within your Assistant project with the dispatch intent for your skill (l_automotive). This can be found in the assistant/dialogs/main folder of your project.
     ![](../media/skills_maindialogupdate.jpg)

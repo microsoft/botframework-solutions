@@ -5,13 +5,13 @@
       "type": "luis",
       "id": "general",
       "name": "General",
-      "luPath": "..\\cognitiveModels\\LUIS\\en\\general.lu"
+      "luPath": "..\\cognitiveModels\\LUIS\\it\\general.lu"
     },
     {
       "type": "luis",
       "id": "<%= name %>",
       "name": "<%= name %>",
-      "luPath": "..\\cognitiveModels\\LUIS\\en\\<%= name %>.lu"
+      "luPath": "..\\cognitiveModels\\LUIS\\it\\<%= name %>.lu"
     }
   ]
 }
