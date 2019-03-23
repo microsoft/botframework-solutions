@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { TelemetryClient } from 'applicationinsights';
-import { EventDebuggerMiddleware, SetLocaleMiddleware, SkillDefinition, TelemetryExtensions } from 'bot-solution';
+import { EventDebuggerMiddleware, Locales, SetLocaleMiddleware, SkillDefinition, TelemetryExtensions } from 'bot-solution';
 import {
     AutoSaveStateMiddleware,
     BotFrameworkAdapter,
@@ -29,7 +29,8 @@ import {
 } from 'botframework-config';
 import { ActivityTypes } from 'botframework-schema';
 import { config } from 'dotenv';
-import { configure } from 'i18n';
+import i18next from 'i18next';
+import i18nextNodeFsBackend from 'i18next-node-fs-backend';
 import * as path from 'path';
 import * as restify from 'restify';
 import { BotServices } from './botServices';
@@ -54,10 +55,16 @@ const STORAGE_CONFIGURATION: string = process.env.STORAGE_NAME || '';
 const BLOB_NAME: string = process.env.BLOB_NAME || '';
 
 // Configure internationalization and default locale
-configure({
-    directory: path.join(__dirname, 'locales'),
-    defaultLocale: 'en',
-    objectNotation: true
+i18next.use(i18nextNodeFsBackend)
+.init({
+    fallbackLng: 'en',
+    preload: [ 'de', 'en', 'es', 'fr', 'it', 'zh' ],
+    backend: {
+        loadPath: path.join(__dirname, 'locales', '{{lng}}.json')
+    }
+})
+.then(async () => {
+    await Locales.addResourcesFromPath(i18next, 'common');
 });
 
 function searchService(botConfiguration: IBotConfiguration, serviceType?: ServiceTypes, nameOrId?: string): IConnectedService|undefined {

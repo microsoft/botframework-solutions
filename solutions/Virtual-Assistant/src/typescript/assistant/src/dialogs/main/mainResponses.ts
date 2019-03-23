@@ -12,7 +12,7 @@ import {
     ActionTypes,
     Attachment,
     ThumbnailCard } from 'botframework-schema';
-import { __ } from 'i18n';
+import i18next from 'i18next';
 import { join } from 'path';
 import {
     DictionaryRenderer,
@@ -75,32 +75,32 @@ export class MainResponses extends TemplateManager {
 
     // tslint:disable-next-line:no-any
     public static buildHelpCard(context: TurnContext, data: any): Promise<Activity> {
-        const title: string = __('main.helpTitle');
-        const text: string = __('main.helpText');
+        const title: string = i18next.t('main.helpTitle');
+        const text: string = i18next.t('main.helpText');
         const attachment: Attachment = CardFactory.heroCard(title, text);
         const response: Partial<Activity> = MessageFactory.attachment(attachment, '', text, InputHints.AcceptingInput);
 
         response.suggestedActions = {
             actions: [
             {
-                title: __('main.calendarSuggestedAction'),
+                title: i18next.t('main.calendarSuggestedAction'),
                 type: ActionTypes.ImBack,
-                value: __('main.calendarSuggestedAction')
+                value: i18next.t('main.calendarSuggestedAction')
             },
             {
-                title: __('main.emailSuggestedAction'),
+                title: i18next.t('main.emailSuggestedAction'),
                 type: ActionTypes.ImBack,
-                value: __('main.emailSuggestedAction')
+                value: i18next.t('main.emailSuggestedAction')
             },
             {
-                title: __('main.meetingSuggestedAction'),
+                title: i18next.t('main.meetingSuggestedAction'),
                 type: ActionTypes.ImBack,
-                value: __('main.meetingSuggestedAction')
+                value: i18next.t('main.meetingSuggestedAction')
             },
             {
-                title: __('main.poiSuggestedAction'),
+                title: i18next.t('main.poiSuggestedAction'),
                 type: ActionTypes.ImBack,
-                value: __('main.poiSuggestedAction')
+                value: i18next.t('main.poiSuggestedAction')
             }
             ],
             to: []
@@ -111,7 +111,7 @@ export class MainResponses extends TemplateManager {
 
     // tslint:disable-next-line:no-any
     public static buildIntroCard(context: TurnContext, data: any): Promise<Activity> {
-        const introPath: string = join(__dirname, 'resources', __('main.introPath'));
+        const introPath: string = join(__dirname, 'resources', i18next.t('main.introPath'));
         // tslint:disable-next-line:no-any non-literal-require
         const introCard: any = require(introPath);
         const attachment: Attachment = CardFactory.adaptiveCard(introCard);
@@ -140,6 +140,6 @@ export class MainResponses extends TemplateManager {
     }
 
     private static fromResources(name: string): TemplateFunction {
-        return (): Promise<string> => Promise.resolve(__(name));
+        return (): Promise<string> => Promise.resolve(i18next.t(name));
     }
 }
