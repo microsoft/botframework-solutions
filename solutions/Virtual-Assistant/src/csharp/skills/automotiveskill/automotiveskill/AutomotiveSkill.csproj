@@ -66,6 +66,9 @@
     <None Update="*.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="LocaleConfigurations\*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
