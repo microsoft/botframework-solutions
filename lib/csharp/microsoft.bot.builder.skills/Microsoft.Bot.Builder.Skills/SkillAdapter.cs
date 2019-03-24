@@ -16,7 +16,7 @@ namespace Microsoft.Bot.Builder.Skills
     /// This requires the remote Skill to be leveraging this new adapter on a different MVC controller to the usual
     /// BotFrameworkAdapter that operates on the /api/messages route (DirectLine).
     /// </summary>
-    public class SkillAdapter : BotAdapter, IAdapterIntegration
+    public class SkillAdapter : BotAdapter, IAdapterIntegration, ISkillAdapter
     {
         private readonly ICredentialProvider _credentialProvider;
         private readonly IChannelProvider _channelProvider;

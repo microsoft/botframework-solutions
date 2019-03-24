@@ -96,9 +96,12 @@ namespace Microsoft.Bot.Builder.Skills
             {            
                 var skillResponses = new List<Activity>();
                 var filteredSkillResponses = new List<Activity>();
-         
+
                 // Serialize the activity and POST to the Skill endpoint
                 // TODO - Apply Authorization header
+
+                // add header to indicate a skill call
+                _httpClient.DefaultRequestHeaders.Add("skill", "true");
                 var response = await _httpClient.PostAsJsonAsync<Activity>(_skillDefinition.Endpoint, activity);
 
                 if (response.IsSuccessStatusCode)

@@ -17,6 +17,7 @@ namespace AutomotiveSkill
     using Microsoft.Bot.Builder.Azure;
     using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
     using Microsoft.Bot.Builder.Integration.AspNet.Core;
+    using Microsoft.Bot.Builder.Skills;
     using Microsoft.Bot.Builder.Solutions.Proactive;
     using Microsoft.Bot.Builder.Solutions.Responses;
     using Microsoft.Bot.Builder.Solutions.Skills;
@@ -53,6 +54,8 @@ namespace AutomotiveSkill
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+
+            services.AddSingleton<ISkillAdapter, SkillAdapter>();
 
             // add background task queue
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
@@ -121,42 +124,37 @@ namespace AutomotiveSkill
             // HttpContext required for path resolution
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            // Add the bot
-            services.AddSingleton<IBot, AutomotiveSkill>();
-
-            // Add the http adapter to enable MVC style bot API
-            services.AddTransient<IBotFrameworkHttpAdapter>((sp) =>
+            // Add the bot with options
+            services.AddBot<AutomotiveSkill>(options =>
             {
-                var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Telemetry Middleware (logs activity messages in Application Insights)
+                var sp = services.BuildServiceProvider();
                 var telemetryClient = sp.GetService<IBotTelemetryClient>();
-                var botFrameworkHttpAdapter = new BotFrameworkHttpAdapter(credentialProvider)
-                {
-                    OnTurnError = async (context, exception) =>
-                    {
-                        await context.SendActivityAsync(responseManager.GetResponse(AutomotiveSkillSharedResponses.ErrorMessage));
-                        await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
-                        telemetryClient.TrackExceptionEx(exception, context.Activity);
-                    }
-                };
                 var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
-                botFrameworkHttpAdapter.Use(appInsightsLogger);
+                options.Middleware.Add(appInsightsLogger);
+
+                // Catches any errors that occur during a conversation turn and logs them to AppInsights.
+                options.OnTurnError = async (context, exception) =>
+                {
+                    await context.SendActivityAsync(responseManager.GetResponse(AutomotiveSkillSharedResponses.ErrorMessage));
+                    await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
+                    telemetryClient.TrackExceptionEx(exception, context.Activity);
+                };
 
                 // Transcript Middleware (saves conversation history in a standard format)
                 var storageService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.BlobStorage) ?? throw new Exception("Please configure your Azure Storage service in your .bot file.");
                 var blobStorage = storageService as BlobStorageService;
                 var transcriptStore = new AzureBlobTranscriptStore(blobStorage.ConnectionString, blobStorage.Container);
                 var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
-                botFrameworkHttpAdapter.Use(transcriptMiddleware);
+                options.Middleware.Add(transcriptMiddleware);
 
                 // Typing Middleware (automatically shows typing when the bot is responding/working)
                 var typingMiddleware = new ShowTypingMiddleware();
-                botFrameworkHttpAdapter.Use(typingMiddleware);
+                options.Middleware.Add(typingMiddleware);
 
-                botFrameworkHttpAdapter.Use(new AutoSaveStateMiddleware(userState, conversationState));
-
-                return botFrameworkHttpAdapter;
+                options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
             });
         }
 

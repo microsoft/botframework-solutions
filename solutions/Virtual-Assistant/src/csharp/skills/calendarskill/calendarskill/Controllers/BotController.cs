@@ -1,27 +1,23 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Integration;
+using Microsoft.Bot.Builder.Skills;
 
 namespace CalendarSkill.Controllers
 {
-    [Route("api/messages")]
     [ApiController]
-    public class BotController : ControllerBase
+    public class BotController : SkillController
     {
-        private readonly IBotFrameworkHttpAdapter _adapter;
+        private readonly IAdapterIntegration _adapter;
+        private readonly ISkillAdapter _skillAdapter;
         private readonly IBot _bot;
 
-        public BotController(IBotFrameworkHttpAdapter adapter, IBot bot)
+        public BotController(IAdapterIntegration adapter, ISkillAdapter skillAdapter, IBot bot)
+            : base(adapter, skillAdapter, bot)
         {
             _adapter = adapter;
+            _skillAdapter = skillAdapter;
             _bot = bot;
-        }
-
-        [HttpPost]
-        public async Task PostAsync()
-        {
-            await _adapter.ProcessAsync(Request, Response, _bot);
         }
     }
 }
