@@ -117,7 +117,7 @@ namespace Microsoft.Bot.Builder.Skills
         /// <param name="callback">bot callback</param>
         /// <param name="cancellationToken">cancellation token</param>
         /// <returns>invoke response.</returns>
-        public virtual async Task<InvokeResponse> ProcessAsync(string authHeader, Activity activity, BotCallbackHandler callback, CancellationToken cancellationToken)
+        protected virtual async Task<InvokeResponse> ProcessAsync(string authHeader, Activity activity, BotCallbackHandler callback, CancellationToken cancellationToken)
         {
             return await _adapter.ProcessActivityAsync(authHeader, activity, callback, cancellationToken);
         }
