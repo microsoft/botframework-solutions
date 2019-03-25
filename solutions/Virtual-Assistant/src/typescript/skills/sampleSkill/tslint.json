@@ -4,6 +4,11 @@
         "tslint:recommended",
         "tslint-microsoft-contrib"
     ],
+    "linterOptions": {
+      "exclude": [
+        "src/**/resources/*"
+      ]
+    },
     "rules": {
       "function-name": [ true,
         {

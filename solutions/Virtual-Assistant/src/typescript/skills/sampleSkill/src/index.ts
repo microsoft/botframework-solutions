@@ -5,17 +5,16 @@
 
 import { TelemetryClient } from 'applicationinsights';
 import {
-    BackgroundTaskQueue,
+    ActivityExtensions,
     EventDebuggerMiddleware,
-    IBackgroundTaskQueue,
     ProactiveState,
     ProactiveStateMiddleware,
+    ResponseManager,
     SetLocaleMiddleware,
-    SkillDefinition,
-    TelemetryExtensions, 
-    ActivityExtensions,
     SkillConfiguration,
-    ResponseManager} from 'bot-solution';
+    SkillDefinition,
+    TelemetryExtensions
+} from 'bot-solution';
 import {
     AutoSaveStateMiddleware,
     BotFrameworkAdapter,
@@ -46,13 +45,13 @@ import { config } from 'dotenv';
 import { configure } from 'i18n';
 import * as path from 'path';
 import * as restify from 'restify';
-import { SharedResponses } from './dialogs/shared/sharedResponses';
-import { default as languageModelsRaw } from './languageModels.json';
-import { default as skillsRaw } from './skills.json';
-import { SampleSkill } from './sampleSkill';
 import { MainResponses } from './dialogs/main/mainResponses';
 import { SampleResponses } from './dialogs/sample/sampleResponses';
+import { SharedResponses } from './dialogs/shared/sharedResponses';
+import { default as languageModelsRaw } from './languageModels.json';
+import { SampleSkill } from './sampleSkill';
 import { ServiceManager } from './serviceClients/serviceManager';
+import { default as skillsRaw } from './skills.json';
 
 // Read variables from .env file.
 const ENV_NAME: string = process.env.NODE_ENV || 'development';
@@ -95,6 +94,7 @@ const languageModels: Map<string, { botFilePath: string; botFileSecret: string }
     .map((f: [string, { botFilePath: string; botFileSecret: string }]) => {
         const fullPath: string = path.join(__dirname, f[1].botFilePath);
         f[1].botFilePath = fullPath;
+
         return f;
     })
     );
@@ -194,9 +194,16 @@ adapter.onTurnError = async (context: TurnContext, error: Error): Promise<void> 
     TelemetryExtensions.trackExceptionEx(telemetryClient, error, context.activity);
 };
 
-const configuration: SkillConfiguration = new SkillConfiguration(botConfig, languageModels, skills[0].supportedProviders, skills[0].parameters, skills[0].configuration);
+const configuration: SkillConfiguration = new SkillConfiguration(
+    botConfig,
+    languageModels,
+    skills[0].supportedProviders,
+    skills[0].parameters,
+    skills[0].configuration);
 
-const responseManager: ResponseManager = new ResponseManager(Array.from(configuration.localeConfigurations.keys()), [MainResponses, SharedResponses, SampleResponses]);
+const responseManager: ResponseManager = new ResponseManager(
+    Array.from(configuration.localeConfigurations.keys()),
+    [MainResponses, SharedResponses, SampleResponses]);
 
 let bot: SampleSkill;
 try {

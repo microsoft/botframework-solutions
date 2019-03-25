@@ -135,7 +135,7 @@ export class MainDialog extends RouterDialog {
     }
 
     protected async complete(dc: DialogContext, result?: DialogTurnResult): Promise<void> {
-         if (this.skillMode) {
+        if (this.skillMode) {
             const response: Activity = ActivityExtensions.createReply(dc.context.activity);
             response.type = ActivityTypes.EndOfConversation;
 

@@ -170,6 +170,7 @@ export class SkillDialogBase extends ComponentDialog {
     protected async getLuisResult(dc: DialogContext): Promise<void> {
         if (dc.context.activity.type === ActivityTypes.Message) {
             const state: ISampleSkillConversationState = await this.conversationStateAccessor.get(dc.context, {
+                //tslint:disable-next-line
                 clear: () => { },
                 dialogStack: []
             });
