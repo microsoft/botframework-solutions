@@ -51,6 +51,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantBooking", "experi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsSkill", "experimental\skills\newsskill\NewsSkill.csproj", "{A7FB024B-A18F-4B0D-865D-313DD941E581}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Solutions", "..\..\..\..\lib\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj", "{2EEA7099-45A1-4BFA-A2E3-EDB51F025B5C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,10 @@ Global
 		{A7FB024B-A18F-4B0D-865D-313DD941E581}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7FB024B-A18F-4B0D-865D-313DD941E581}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7FB024B-A18F-4B0D-865D-313DD941E581}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EEA7099-45A1-4BFA-A2E3-EDB51F025B5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EEA7099-45A1-4BFA-A2E3-EDB51F025B5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EEA7099-45A1-4BFA-A2E3-EDB51F025B5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EEA7099-45A1-4BFA-A2E3-EDB51F025B5C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

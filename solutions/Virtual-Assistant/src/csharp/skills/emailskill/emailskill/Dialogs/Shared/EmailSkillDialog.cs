@@ -945,6 +945,7 @@ namespace EmailSkill.Dialogs.Shared
             {
                 var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(message.ToRecipients);
 
+                var senderIcon = await GetUserPhotoUrlAsync(sc.Context, message.Sender.EmailAddress.Address);
                 var emailCard = new EmailCardData
                 {
                     Subject = message.Subject,
@@ -954,48 +955,66 @@ namespace EmailSkill.Dialogs.Shared
                     EmailLink = message.WebLink,
                     ReceivedDateTime = message.ReceivedDateTime == null
                     ? CommonStrings.NotAvailable
-                    : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(state.GetUserTimeZone()),
+                    : message.ReceivedDateTime.Value.UtcDateTime.ToOverallRelativeString(state.GetUserTimeZone()),
                     Speak = SpeakHelper.ToSpeechEmailDetailOverallString(message, state.GetUserTimeZone()),
+                    SenderIcon = senderIcon
                 };
-                cards.Add(new Card("EmailCard", emailCard));
+                cards.Add(new Card("EmailOverviewItem", emailCard));
                 updatedMessages.Add(message);
-            }
-
-            var searchType = EmailCommonStrings.Relevant;
-            if (state.IsUnreadOnly)
-            {
-                searchType = string.Format(EmailCommonStrings.RelevantFormat, EmailCommonStrings.Unread);
-            }
-            else if (state.IsImportant)
-            {
-                searchType = string.Format(EmailCommonStrings.RelevantFormat, EmailCommonStrings.Important);
             }
 
             var tokens = new StringDictionary
             {
                 { "TotalCount", totalCount.ToString() },
-                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(updatedMessages, state.GetUserTimeZone(), ConfigData.GetInstance().MaxReadSize) },
+                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(updatedMessages, state.GetUserTimeZone(), ConfigData.GetInstance().MaxReadSize) }
             };
 
-            //var reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowEmailPrompt, cards, tokens);
+            var avator = await GetMyPhotoUrlAsync(sc.Context);
+
+            var overviewData = new EmailOverviewData()
+            {
+                AvatorIcon = avator,
+                TotalMessageNumber = totalCount.ToString(),
+                HighPriorityMessagesNumber = totalCount.ToString(),
+                Now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone()).ToString(EmailCommonStrings.GeneralDateFormat),
+                MailSourceType = state.MailSourceType.ToString()
+            };
+
             var reply = ResponseManager.GetCardResponse(
                         EmailSharedResponses.ShowEmailPrompt,
-                        new Card("EmailOverviewCard"),
-                        tokens);
+                        new Card("EmailOverviewCard", overviewData),
+                        tokens,
+                        "items",
+                        cards);
 
             if (state.ShowEmailIndex == 0)
             {
                 if (updatedMessages.Count == 1)
                 {
-                    reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowOneEmailPrompt, cards, tokens);
+                    reply = ResponseManager.GetCardResponse(
+                        EmailSharedResponses.ShowOneEmailPrompt,
+                        new Card("EmailOverviewCard", overviewData),
+                        tokens,
+                        "items",
+                        cards);
                 }
             }
             else
             {
-                reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowEmailPromptOtherPage, cards, tokens);
+                reply = ResponseManager.GetCardResponse(
+                        EmailSharedResponses.ShowEmailPromptOtherPage,
+                        new Card("EmailOverviewCard", overviewData),
+                        tokens,
+                        "items",
+                        cards);
                 if (updatedMessages.Count == 1)
                 {
-                    reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowOneEmailPromptOtherPage, cards, tokens);
+                    reply = ResponseManager.GetCardResponse(
+                        EmailSharedResponses.ShowOneEmailPromptOtherPage,
+                        new Card("EmailOverviewCard", overviewData),
+                        tokens,
+                        "items",
+                        cards);
                 }
             }
 
@@ -1069,6 +1088,35 @@ namespace EmailSkill.Dialogs.Shared
             }
 
             return result;
+        }
+
+        protected async Task<string> GetMyPhotoUrlAsync(ITurnContext context)
+        {
+            var state = await EmailStateAccessor.GetAsync(context);
+            var token = state.Token;
+            var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+
+            try
+            {
+                var user = await service.GetMeAsync();
+                if (user != null)
+                {
+                    var url = await service.GetUserPhotoAsync(user.Id);
+
+                    if (!string.IsNullOrEmpty(url))
+                    {
+                        return url;
+                    }
+                }
+
+                // return default value
+                return "http://messagecardplayground.azurewebsites.net/assets/Mostly%20Cloudy-Square.png";
+            }
+            catch (ServiceException)
+            {
+                // won't clear conversation state hear, because sometime use api is not available, like user msa account.
+                return "http://messagecardplayground.azurewebsites.net/assets/Mostly%20Cloudy-Square.png";
+            }
         }
 
         protected async Task<string> GetUserPhotoUrlAsync(ITurnContext context, string email)

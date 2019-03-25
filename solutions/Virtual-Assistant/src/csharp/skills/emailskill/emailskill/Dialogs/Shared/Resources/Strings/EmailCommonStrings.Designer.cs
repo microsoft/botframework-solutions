@@ -223,6 +223,15 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MMM dd, yyyy.
+        /// </summary>
+        public static string GeneralDateFormat {
+            get {
+                return ResourceManager.GetString("GeneralDateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to high.
         /// </summary>
         public static string High {
@@ -246,6 +255,15 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         public static string Participants {
             get {
                 return ResourceManager.GetString("Participants", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ddd MM/dd.
+        /// </summary>
+        public static string PreviousDateFormat {
+            get {
+                return ResourceManager.GetString("PreviousDateFormat", resourceCulture);
             }
         }
         
@@ -318,6 +336,15 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         public static string SubjectFormat {
             get {
                 return ResourceManager.GetString("SubjectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to hh:mm tt.
+        /// </summary>
+        public static string TodayDateFormat {
+            get {
+                return ResourceManager.GetString("TodayDateFormat", resourceCulture);
             }
         }
         

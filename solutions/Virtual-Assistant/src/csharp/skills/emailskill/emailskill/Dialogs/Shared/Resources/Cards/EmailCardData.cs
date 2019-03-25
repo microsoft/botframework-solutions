@@ -19,5 +19,11 @@ namespace EmailSkill.Dialogs.Shared.Resources.Cards
         public string Speak { get; set; }
 
         public string SenderIcon { get; set; }
+
+        // Placeholder for important email flag or email attachment
+        public string AdditionalInfo1 { get; set; }
+
+        // Placeholder for email attachment
+        public string AdditionalInfo2 { get; set; }
     }
 }
