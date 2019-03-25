@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { __ } from 'i18n';
+import i18next from 'i18next';
 import {
     DictionaryRenderer,
     LanguageTemplateDictionary,
@@ -33,6 +33,6 @@ export class EscalateResponses extends TemplateManager {
     }
 
     private static fromResources(name: string): TemplateFunction {
-        return (): Promise<string> => Promise.resolve(__(name));
+        return (): Promise<string> => Promise.resolve(i18next.t(name));
     }
 }

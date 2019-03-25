@@ -9,7 +9,7 @@ import { Choice, ChoicePrompt, ComponentDialog, DialogTurnResult, DialogTurnStat
 // tslint:disable-next-line:no-submodule-imports
 import { TokenStatus } from 'botframework-connector/lib/tokenApi/models';
 import { ActionTypes, TokenResponse } from 'botframework-schema';
-import { __ } from 'i18n';
+import i18next from 'i18next';
 import { AuthenticationResponses } from '../authentication';
 import { TelemetryExtensions } from '../middleware';
 import { ResponseManager } from '../responses/responseManager';
@@ -49,8 +49,8 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                     connectionKey,
                     {
                         connectionName: connectionKey,
-                        title: __('commonStrings.login'),
-                        text: __('commonStrings.loginDescription', connectionKey)
+                        title: i18next.t('common:login'),
+                        text: i18next.t('common:loginDescription', connectionKey)
                     },
                     this.authPromptValidator);
                 this.addDialog(connectionPrompt);

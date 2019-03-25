@@ -4,7 +4,7 @@
  */
 
 import { Middleware, TurnContext } from 'botbuilder';
-import { setLocale } from 'i18n';
+import i18next from 'i18next';
 
 export class SetLocaleMiddleware implements Middleware {
     private readonly defaultLocale: string;
@@ -13,10 +13,10 @@ export class SetLocaleMiddleware implements Middleware {
         this.defaultLocale = defaultLocale;
     }
 
-    public onTurn(context: TurnContext, next: () => Promise<void>): Promise<void> {
+    public async onTurn(context: TurnContext, next: () => Promise<void>): Promise<void> {
         const cultureInfo: string = context.activity.locale || this.defaultLocale;
 
-        setLocale(cultureInfo);
+        await i18next.changeLanguage(cultureInfo);
 
         return next();
     }

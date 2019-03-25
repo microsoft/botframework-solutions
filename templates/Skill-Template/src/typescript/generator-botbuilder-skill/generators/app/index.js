@@ -212,6 +212,30 @@ module.exports = class extends Generator {
       }
     );
 
+    // Copy bot.recipes files
+    const recipeFiles = [
+      path.join("de", "bot.recipe"),
+      path.join("en", "bot.recipe"),
+      path.join("es", "bot.recipe"),
+      path.join("fr", "bot.recipe"),
+      path.join("it", "bot.recipe"),
+      path.join("zh", "bot.recipe")
+    ];
+
+    recipeFiles.forEach(fileName =>
+      this.fs.copyTpl(
+        this.templatePath(templateName, "deploymentScripts", fileName),
+        this.destinationPath(
+          skillGenerationPath,
+          "deploymentScripts",
+          fileName
+        ),
+        {
+          name: skillName
+        }
+      )
+    );
+
     // Copy index.ts
     this.fs.copyTpl(
       this.templatePath(templateName, "src", "_index.ts"),
@@ -367,6 +391,10 @@ module.exports = class extends Generator {
       "tslint.json",
       ".env.development",
       ".env.production",
+      path.join("deploymentScripts", "bot.recipe"),
+      path.join("deploymentScripts", "deploy_bot.ps1"),
+      path.join("deploymentScripts", "generate_deployment_scripts.ps1"),
+      path.join("deploymentScripts", "update_published_models.ps1"),
       path.join("src", "dialogs", "main", "mainResponses.ts"),
       path.join("src", "dialogs", "sample", "sampleResponses.ts"),
       path.join("src", "dialogs", "shared", "sharedResponses.ts")
@@ -382,7 +410,6 @@ module.exports = class extends Generator {
     // Copy commonDirectories
     const commonDirectories = [
       "cognitiveModels",
-      "deploymentScripts",
       path.join("src", "serviceClients"),
       path.join("src", "dialogs", "main", "resources"),
       path.join("src", "dialogs", "sample", "resources"),
@@ -412,15 +439,6 @@ module.exports = class extends Generator {
       )
     );
   }
-
-  // Ainstall() {
-  //   if (this.props.finalConfirmation !== true || isAlreadyCreated) {
-  //     return;
-  //   }
-
-  //   process.chdir(skillGenerationPath);
-  //   this.installDependencies({ npm: true, bower: false });
-  // }
 
   end() {
     if (this.props.finalConfirmation === true) {
