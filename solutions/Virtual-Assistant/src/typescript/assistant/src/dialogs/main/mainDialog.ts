@@ -31,7 +31,7 @@ import { TokenStatus } from 'botframework-connector/lib/tokenApi/models';
 import {
     Activity,
     ActivityTypes } from 'botframework-schema';
-import { __, getLocale } from 'i18n';
+import i18next from 'i18next';
 import { BotServices } from '../../botServices';
 import { IVirtualAssistantState } from '../../virtualAssistantState';
 import { EscalateDialog } from '../escalate/escalateDialog';
@@ -95,7 +95,7 @@ export class MainDialog extends RouterDialog {
         const parameters: { [key: string]: Object } = await this.parametersAccessor.get(dc.context, {});
         const virtualAssistantState: IVirtualAssistantState = await this.virtualAssistantState.get(dc.context, {});
         // get current activity locale
-        const locale: string = getLocale();
+        const locale: string = i18next.language;
         const localeConfig: LocaleConfiguration = (this.services.localeConfigurations.get(locale) || new LocaleConfiguration());
 
         // No dialog is currently on the stack and we haven't responded to the user
@@ -218,7 +218,7 @@ export class MainDialog extends RouterDialog {
             switch (ev.name) {
                 case Events.timezoneEvent: {
                     try {
-                        const locale: String = getLocale();
+                        const locale: String = i18next.language;
                         parameters[ev.name] = locale;
                     } catch (err) {
                         const activity: Partial<Activity> = { type: ActivityTypes.Trace,
@@ -347,7 +347,7 @@ export class MainDialog extends RouterDialog {
                 await adapter.signOutUser(dc.context, token.connectionName);
             }
         });
-        await dc.context.sendActivity(__('main.logOut'));
+        await dc.context.sendActivity(i18next.t('main.logOut'));
 
         return InterruptionAction.StartedDialog;
     }

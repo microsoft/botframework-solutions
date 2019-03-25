@@ -32,24 +32,31 @@ describe("The generator-botbuilder-skill tests", function() {
         ".env.development",
         ".env.production"
       ];
-    const commonDirectories = [
-        "cognitiveModels",
-        "deploymentScripts",
-    ];
-    const commonTestDirectories = [
-        "flow"
+    const deploymentFiles = [
+        path.join("de", "bot.recipe"),
+        path.join("en", "bot.recipe"),
+        path.join("es", "bot.recipe"),
+        path.join("fr", "bot.recipe"),
+        path.join("it", "bot.recipe"),
+        path.join("zh", "bot.recipe")
     ]
     const testFiles = [
         "mocha.opts",
-        "flow/mainDialogTests.js",
-        "flow/sampleDialogTests.js",
-        "flow/skillTestBase.js"
+        path.join("flow","mainDialogTests.js"),
+        path.join("flow","sampleDialogTests.js"),
+        path.join("flow","skillTestBase.js")
     ];
+    const commonDirectories = [
+        "cognitiveModels",
+    ];
+    
+    const commonTestDirectories = [
+        "flow"
+    ]
     const commonSrcDirectories = [
         path.join("serviceClients"),
         path.join("dialogs"),
     ]
-
     const commonDialogsDirectories = [
         path.join("main"),
         path.join("main", "resources"),
@@ -59,7 +66,6 @@ describe("The generator-botbuilder-skill tests", function() {
         path.join("shared", "dialogOptions"),
         path.join("shared", "resources")
     ]
-
     const commonDialogsFiles = [
         path.join("main", "mainDialog.ts"),
         path.join("main", "mainResponses.ts"),
@@ -154,7 +160,18 @@ describe("The generator-botbuilder-skill tests", function() {
                     );
                     done();
                 })
-            )
+            );
+        });
+
+        describe("in the deploymentScripts folder", function() {
+            deploymentFiles.forEach(fileName =>
+                it(fileName.concat(" file"), function(done){
+                    assert.file(
+                        path.join(skillGenerationPath, skillName, "deploymentScripts", fileName)
+                    );
+                    done();
+                })                
+            );
         });
 
         describe("in the src folder", function() {
@@ -225,6 +242,35 @@ describe("The generator-botbuilder-skill tests", function() {
                 done();
             });
         });
+
+        deploymentFiles.forEach(fileName =>
+            describe(`and have in the ${fileName} file`, function(done) {
+                it("an id key containing a value with the given name", function(done) {
+                    assert.fileContent(
+                        path.join(skillGenerationPath, skillName, "deploymentScripts", fileName),
+                        `"id": "${skillName}"`
+                    );
+                    done();
+                });
+
+                it("a name key containing a value with the given name", function(done) {
+                    assert.fileContent(
+                        path.join(skillGenerationPath, skillName, "deploymentScripts", fileName),
+                        `"name": "${skillName}"`
+                    );
+                    done();
+                });
+
+                it("a luPath key containing a value of the .lu path with the given name", function(done) {
+                    assert.fileContent(
+                        path.join(skillGenerationPath, skillName, "deploymentScripts", fileName),
+                        `"luPath": "..\\\\cognitiveModels\\\\LUIS\\\\${fileName.substring(0,2)}\\\\${skillName}.lu"`
+                    );
+                    done();
+                });
+            })
+        )
+        
 
         describe("and have in the mainDialog file", function() {
             it("an import component containing a ConversationState with the given name", function(done) {
@@ -361,7 +407,7 @@ describe("The generator-botbuilder-skill tests", function() {
         });
     });
 
-    describe("should not create", function() {
+   describe("should not create", function() {
         before(async function() {
             if(semver.gte(process.versions.node, '10.12.0')){
                 run = false;

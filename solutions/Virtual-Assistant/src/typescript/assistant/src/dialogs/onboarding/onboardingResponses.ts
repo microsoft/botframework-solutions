@@ -9,7 +9,7 @@ import {
     InputHints,
     MessageFactory,
     TurnContext } from 'botbuilder';
-import { __ } from 'i18n';
+import i18next from 'i18next';
 import {
     DictionaryRenderer,
     LanguageTemplateDictionary,
@@ -49,12 +49,12 @@ export class OnboardingResponses extends TemplateManager {
 
     // tslint:disable-next-line:no-any
     public static async buildLinkedAccountsCard(turnContext: TurnContext, data: any): Promise<Activity> {
-        const title: string = __('onboarding.linkedAccountsInfoTitle');
-        const text: string = __('onboarding.linkedAccountsInfoBody');
+        const title: string = i18next.t('onboarding.linkedAccountsInfoTitle');
+        const text: string = i18next.t('onboarding.linkedAccountsInfoBody');
         const images: (CardImage | string)[] = [
             {
-                url: __('onboarding.linkedAccountsInfoUrl'),
-                alt: __('onboarding.linkedAccountsInfoAlt')
+                url: i18next.t('onboarding.linkedAccountsInfoUrl'),
+                alt: i18next.t('onboarding.linkedAccountsInfoAlt')
             }
         ];
         const attachment: Attachment = CardFactory.heroCard(title, text, images);
@@ -64,7 +64,7 @@ export class OnboardingResponses extends TemplateManager {
     }
 
     private static fromResources(name: string): TemplateFunction {
-        return (): Promise<string> => Promise.resolve(__(name));
+        return (): Promise<string> => Promise.resolve(i18next.t(name));
     }
 
 }
