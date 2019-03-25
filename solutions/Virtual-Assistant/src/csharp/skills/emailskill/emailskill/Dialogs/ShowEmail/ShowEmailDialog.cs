@@ -248,7 +248,7 @@ namespace EmailSkill.Dialogs.ShowEmail
                 {
                     var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(message.ToRecipients);
 
-                    var senderIcon = await GetUserPhotoUrlAsync(sc.Context, message.Sender.EmailAddress.Address);
+                    var senderIcon = await GetUserPhotoUrlAsync(sc.Context, message.Sender.EmailAddress);
                     var emailCard = new EmailCardData
                     {
                         Subject = message.Subject,

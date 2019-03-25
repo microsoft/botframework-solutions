@@ -132,5 +132,15 @@ namespace EmailSkillTest.Flow.Fakes
 
             return contacts;
         }
+
+        public Task<User> GetMeAsync()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<string> GetUserPhotoAsync(string id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -945,7 +945,7 @@ namespace EmailSkill.Dialogs.Shared
             {
                 var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(message.ToRecipients);
 
-                var senderIcon = await GetUserPhotoUrlAsync(sc.Context, message.Sender.EmailAddress.Address);
+                var senderIcon = await GetUserPhotoUrlAsync(sc.Context, message.Sender.EmailAddress);
                 var emailCard = new EmailCardData
                 {
                     Subject = message.Subject,
@@ -1101,50 +1101,67 @@ namespace EmailSkill.Dialogs.Shared
                 var user = await service.GetMeAsync();
                 if (user != null)
                 {
-                    var url = await service.GetUserPhotoAsync(user.Id);
-
-                    if (!string.IsNullOrEmpty(url))
+                    try
                     {
-                        return url;
+                        var url = await service.GetUserPhotoAsync(user.Id);
+                        if (!string.IsNullOrEmpty(url))
+                        {
+                            return url;
+                        }
+                    }
+                    catch (ServiceException)
+                    {
+                        var displayName = user.DisplayName != null ? user.DisplayName : (user.UserPrincipalName != null ? user.UserPrincipalName : AdaptiveCardHelper.DefaultMe);
+
+                        // won't clear conversation state hear, because sometime use api is not available, like user msa account.
+                        return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
                     }
                 }
 
                 // return default value
-                return "http://messagecardplayground.azurewebsites.net/assets/Mostly%20Cloudy-Square.png";
+                return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, AdaptiveCardHelper.DefaultMe);
             }
             catch (ServiceException)
             {
                 // won't clear conversation state hear, because sometime use api is not available, like user msa account.
-                return "http://messagecardplayground.azurewebsites.net/assets/Mostly%20Cloudy-Square.png";
+                return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, AdaptiveCardHelper.DefaultMe);
             }
         }
 
-        protected async Task<string> GetUserPhotoUrlAsync(ITurnContext context, string email)
+        protected async Task<string> GetUserPhotoUrlAsync(ITurnContext context, EmailAddress email)
         {
             var state = await EmailStateAccessor.GetAsync(context);
             var token = state.Token;
             var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+            var displayName = email.Name != null ? email.Name : email.Address;
 
             try
             {
-                var user = await service.GetUserAsync(email);
-                if (user != null && user.Count() == 1)
+                var user = await service.GetUserAsync(email.Address);
+                if (user != null && user.Count() >= 1)
                 {
-                    var url = await service.GetUserPhotoAsync(user[0].Id);
-
-                    if (!string.IsNullOrEmpty(url))
+                    try
                     {
-                        return url;
+                        var url = await service.GetUserPhotoAsync(user[0].Id);
+                        if (!string.IsNullOrEmpty(url))
+                        {
+                            return url;
+                        }
+                    }
+                    catch (ServiceException)
+                    {
+                        // won't clear conversation state hear, because sometime use api is not available, like user msa account.
+                        return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
                     }
                 }
 
                 // return default value
-                return "http://messagecardplayground.azurewebsites.net/assets/Mostly%20Cloudy-Square.png";
+                return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
             }
             catch (ServiceException)
             {
                 // won't clear conversation state hear, because sometime use api is not available, like user msa account.
-                return "http://messagecardplayground.azurewebsites.net/assets/Mostly%20Cloudy-Square.png";
+                return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
             }
         }
 
