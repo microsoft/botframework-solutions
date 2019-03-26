@@ -76,12 +76,8 @@
   "ReturningUserGreetingBody": {
     "replies": [
       {
-        "text": "How can I help?",
-        "speak": "How can I help?"
-      },
-      {
-        "text": "I have lots of skills we can explore together. How can I help?",
-        "speak": "I have lots of skills we can explore together. How can I help?"
+        "text": "I have lots of skills we can explore together.",
+        "speak": "I have lots of skills we can explore together."
       }
     ],
     "inputHint": "acceptingInput"
