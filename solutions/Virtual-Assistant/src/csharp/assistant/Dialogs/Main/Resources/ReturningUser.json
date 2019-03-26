@@ -6,7 +6,7 @@
             "items": [
                 {
                     "type": "Image",
-                    "url": "{HeaderUrl}",
+                    "url": "https://github.com/ryanlengel/adaptivecards/blob/master/virtualassistant/assets/introduction_header.png?raw=true",
                     "size": "Stretch"
                 }
             ]
@@ -14,21 +14,19 @@
         {
             "type": "Container",
             "items": [
-              {
-                "id":  "title",
-                "type": "TextBlock",
-                "spacing": "Medium",
-                "weight": "Bolder",
-                "text": "{Title}",
-                "wrap": true
-              },
-              {
-                "id": "body",
-                "type": "TextBlock",
-                "text": "{Body}",
-                "isSubtle": true,
-                "wrap": true
-              }
+                {
+                    "type": "TextBlock",
+                    "spacing": "Medium",
+                    "weight": "Bolder",
+                    "text": "Welcome to **your** Virtual Assistant!",
+                    "wrap": true
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "Now that I'm up and running, explore the links in this [Adaptive Card](https://adaptivecards.io/) to learn what I can do.",
+                    "isSubtle": true,
+                    "wrap": true
+                }
             ]
         }
     ],

@@ -8,10 +8,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Proactive;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
@@ -21,6 +23,7 @@ using Newtonsoft.Json;
 using VirtualAssistant.Dialogs.Escalate;
 using VirtualAssistant.Dialogs.Main.Resources;
 using VirtualAssistant.Dialogs.Onboarding;
+using VirtualAssistant.Models;
 
 namespace VirtualAssistant.Dialogs.Main
 {
@@ -33,15 +36,17 @@ namespace VirtualAssistant.Dialogs.Main
         private ProactiveState _proactiveState;
         private EndpointService _endpointService;
         private IBackgroundTaskQueue _backgroundTaskQueue;
+        private IHttpContextAccessor _httpContext;
         private IStatePropertyAccessor<OnboardingState> _onboardingState;
         private IStatePropertyAccessor<Dictionary<string, object>> _parametersAccessor;
         private IStatePropertyAccessor<VirtualAssistantState> _virtualAssistantState;
+        private readonly ResponseManager _responseManager;
         private MainResponses _responder = new MainResponses();
         private SkillRouter _skillRouter;
 
         private bool _conversationStarted = false;
 
-        public MainDialog(BotServices services, ConversationState conversationState, UserState userState, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue)
+        public MainDialog(BotServices services, ConversationState conversationState, UserState userState, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue, ResponseManager responseManager, IHttpContextAccessor httpContext = null)
             : base(nameof(MainDialog), telemetryClient)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
@@ -51,6 +56,8 @@ namespace VirtualAssistant.Dialogs.Main
             _endpointService = endpointService;
             TelemetryClient = telemetryClient;
             _backgroundTaskQueue = backgroundTaskQueue;
+            _httpContext = httpContext;
+            _responseManager = responseManager;
             _onboardingState = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             _parametersAccessor = _userState.CreateProperty<Dictionary<string, object>>("userInfo");
             _virtualAssistantState = _conversationState.CreateProperty<VirtualAssistantState>(nameof(VirtualAssistantState));
@@ -426,6 +433,17 @@ namespace VirtualAssistant.Dialogs.Main
 
         private async Task StartConversation(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
+            var greetingCard = new GreetingCardModel()
+            {
+                HeaderUrl = "https://github.com/ryanlengel/adaptivecards/blob/master/virtualassistant/assets/introduction_header.png?raw=true",
+                Title = "Welcome to **your** Virtual Assistant!",
+                Body = "Now that I'm up and running, explore the links in this [Adaptive Card](https://adaptivecards.io/) to learn what I can do."
+            };
+            var card = new Card("Intro", greetingCard);
+            var replyMessage = _responseManager.GetCardResponse(card);
+
+            await dc.Context.SendActivityAsync(replyMessage);
+
             var view = new MainResponses();
             await view.ReplyWith(dc.Context, MainResponses.ResponseIds.Intro);
         }
@@ -487,6 +505,19 @@ namespace VirtualAssistant.Dialogs.Main
 
             // Initialize skill dispatcher
             _skillRouter = new SkillRouter(_services.SkillDefinitions);
+        }
+
+        private string GetCardImageUri(string imagePath)
+        {
+            // If we are in local mode we leverage the HttpContext to get the current path to the image assets
+            //if (_httpContext != null)
+            //{
+            //    string serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
+            //    return $"{serverUrl}/images/{imagePath}";
+            //}
+
+            string serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
+            return $"{serverUrl}/images/{imagePath}";
         }
 
         private class Events
