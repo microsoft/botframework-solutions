@@ -5,13 +5,14 @@ const { TelemetryClient } = require('applicationinsights');
 const { AutoSaveStateMiddleware, ConversationState, MemoryStorage, TestAdapter, UserState } = require('botbuilder-core');
 const { BotConfiguration, ServiceTypes } = require('botframework-config');
 const config = require('dotenv').config;
-const i18n = require('i18n');
+const i18next = require('i18next');
+const i18nextNodeFsBackend = require('i18next-node-fs-backend');
 const path = require('path');
 const BotServices = require('../../lib/botServices.js').BotServices;
 const VirtualAssistant = require('../../lib/virtualAssistant.js').VirtualAssistant;
 let languageModelsRaw;
 let skillsRaw;
-const { ProactiveState, SkillDefinition } = require('bot-solution');
+const { Locales, ProactiveState, SkillDefinition } = require('bot-solution');
 const TEST_MODE = require('../testBase').testMode;
 
 const setupEnvironment = function (testMode) {
@@ -29,12 +30,19 @@ const setupEnvironment = function (testMode) {
     }
 }
 
-const configuration = function() {
-    i18n.configure({
-        directory: path.join(__dirname, '..', '..', 'src', 'locales'),
-        defaultLocale: 'en',
-        objectNotation: true
+const configuration = async function() {
+    // Configure internationalization and default locale
+    await i18next.use(i18nextNodeFsBackend)
+    .init({
+        fallbackLng: 'en',
+        preload: [ 'de', 'en', 'es', 'fr', 'it', 'zh' ],
+        backend: {
+            loadPath: path.join(__dirname, '..', '..', 'src', 'locales', '{{lng}}.json')
+        }
     });
+
+    await Locales.addResourcesFromPath(i18next, 'common');
+
 
     setupEnvironment(TEST_MODE);
 }
@@ -53,8 +61,8 @@ const searchService = function(botConfiguration, serviceType, nameOrId) {
 /**
  * Initializes the properties for the bot to be tested.
  */
-const initialize = function(testStorage) {
-    configuration();
+const initialize = async function(testStorage) {
+    await configuration();
     
     const storage = testStorage || new MemoryStorage();
     
@@ -89,8 +97,9 @@ const initialize = function(testStorage) {
 const getTestAdapter = function() {
     const bot = this.bot;
 
-    return new TestAdapter(function (context) {
-        i18n.setLocale(context.activity.locale || 'en');
+    return new TestAdapter(async function (context) {
+        const cultureInfo = context.activity.locale || 'en';
+        await i18next.changeLanguage(cultureInfo);
         return bot.onTurn(context);
     })
     .use(new AutoSaveStateMiddleware(bot.conversationState, bot.userState));

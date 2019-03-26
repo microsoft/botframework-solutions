@@ -7,8 +7,8 @@ const testNock = require('../testBase');
 const introJson = require('../../src/dialogs/main/resources/Intro.json');
 
 describe("virtual assistant", function() {
-    before(function() {
-        assistantTestBase.initialize();
+    before(async function() {
+        await assistantTestBase.initialize();
     });
 
     describe("intro card", function() {
