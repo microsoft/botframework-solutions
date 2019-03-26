@@ -1,0 +1,53 @@
+﻿{
+    "type": "AdaptiveCard",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "Image",
+                    "url": "https://github.com/ryanlengel/adaptivecards/blob/master/virtualassistant/assets/introduction_header.png?raw=true",
+                    "size": "Stretch"
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "spacing": "Medium",
+                    "weight": "Bolder",
+                    "text": "Welcome to **your** Virtual Assistant!",
+                    "wrap": true
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "Now that I'm up and running, explore the links in this [Adaptive Card](https://adaptivecards.io/) to learn what I can do.",
+                    "isSubtle": true,
+                    "wrap": true
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.OpenUrl",
+            "title": "Documentation",
+            "url": "https://aka.ms/customassistantdocs"
+        },
+      {
+        "type": "Action.OpenUrl",
+        "title": "Linked Accounts",
+        "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-linkedaccounts.md"
+      },
+      {
+        "type": "Action.OpenUrl",
+        "title": "Skills",
+        "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-skills.md"
+      }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "speak": "Welcome to your Virtual Assistant! Now that you're up and running, let's get started."
+}
