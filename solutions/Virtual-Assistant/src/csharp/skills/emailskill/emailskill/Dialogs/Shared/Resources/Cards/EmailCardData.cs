@@ -22,10 +22,10 @@ namespace EmailSkill.Dialogs.Shared.Resources.Cards
         public string SenderIcon { get; set; }
 
         // Placeholder for important email flag or email attachment
-        public string AdditionalInfo1 { get; set; }
+        public string AdditionalIcon1 { get; set; } = AdaptiveCardHelper.DefaultIcon;
 
         // Placeholder for email attachment
-        public string AdditionalInfo2 { get; set; }
+        public string AdditionalIcon2 { get; set; } = AdaptiveCardHelper.DefaultIcon;
 
         // RecipientIcons
         public string RecipientIcon0 { get; set; } = AdaptiveCardHelper.DefaultIcon;

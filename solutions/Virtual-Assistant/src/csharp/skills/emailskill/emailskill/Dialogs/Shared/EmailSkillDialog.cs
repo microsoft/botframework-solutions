@@ -1021,6 +1021,23 @@ namespace EmailSkill.Dialogs.Shared
                     Speak = SpeakHelper.ToSpeechEmailDetailOverallString(message, state.GetUserTimeZone()),
                     SenderIcon = senderIcon
                 };
+
+                bool isImportant = message.Importance != null && message.Importance == Importance.High;
+                bool hasAttachment = message.HasAttachments.HasValue && message.HasAttachments.Value;
+                if (isImportant && hasAttachment)
+                {
+                    emailCard.AdditionalIcon1 = AdaptiveCardHelper.ImportantIcon;
+                    emailCard.AdditionalIcon2 = AdaptiveCardHelper.AttachmentIcon;
+                }
+                else if (isImportant)
+                {
+                    emailCard.AdditionalIcon1 = AdaptiveCardHelper.ImportantIcon;
+                }
+                else if (hasAttachment)
+                {
+                    emailCard.AdditionalIcon1 = AdaptiveCardHelper.AttachmentIcon;
+                }
+
                 cards.Add(new Card("EmailOverviewItem", emailCard));
                 updatedMessages.Add(message);
             }
@@ -1195,7 +1212,7 @@ namespace EmailSkill.Dialogs.Shared
                 // return default value
                 return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, AdaptiveCardHelper.DefaultMe);
             }
-            catch (ServiceException)
+            catch (Exception)
             {
                 // won't clear conversation state hear, because sometime use api is not available, like user msa account.
                 return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, AdaptiveCardHelper.DefaultMe);
@@ -1224,7 +1241,6 @@ namespace EmailSkill.Dialogs.Shared
                     }
                     catch (ServiceException)
                     {
-                        // won't clear conversation state hear, because sometime use api is not available, like user msa account.
                         return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
                     }
                 }
@@ -1232,9 +1248,8 @@ namespace EmailSkill.Dialogs.Shared
                 // return default value
                 return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
             }
-            catch (ServiceException)
+            catch (Exception)
             {
-                // won't clear conversation state hear, because sometime use api is not available, like user msa account.
                 return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
             }
         }
@@ -1287,7 +1302,6 @@ namespace EmailSkill.Dialogs.Shared
             }
             catch (ServiceException)
             {
-                // won't clear conversation state hear, because sometime use api is not available, like user msa account.
                 return null;
             }
         }
