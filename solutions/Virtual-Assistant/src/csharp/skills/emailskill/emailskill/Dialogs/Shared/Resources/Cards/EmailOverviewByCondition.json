@@ -43,7 +43,9 @@
                           "size": "Large",
                           "weight": "Bolder",
                           "color": "Light",
-                          "text": "{Description}"
+                          "text": "{Description}",
+                          "wrap": true,
+                          "maxLines": 2
                         }
                       ],
                       "width": "stretch"
@@ -52,6 +54,7 @@
                 },
                 {
                   "type": "ColumnSet",
+                  "spacing": "Medium",
                   "height": "stretch",
                   "columns": [
                     {
@@ -102,29 +105,6 @@
                 }
               ],
               "width": 60
-            },
-            {
-              "type": "Column",
-              "height": "stretch",
-              "items": [
-                {
-                  "type": "Image",
-                  "horizontalAlignment": "Center",
-                  "style": "Person",
-                  "url": "{AvatorIcon}",
-                  "width": "80px",
-                  "height": "80px"
-                },
-                {
-                  "type": "TextBlock",
-                  "horizontalAlignment": "Center",
-                  "size": "Medium",
-                  "weight": "Bolder",
-                  "color": "Light",
-                  "text": "{Now}"
-                }
-              ],
-              "width": 40
             }
           ]
         }
@@ -132,7 +112,8 @@
     },
     {
       "type": "Container",
-      "id" : "items",
+      "spacing": "medium",
+      "id": "items",
       "items": []
     },
     {

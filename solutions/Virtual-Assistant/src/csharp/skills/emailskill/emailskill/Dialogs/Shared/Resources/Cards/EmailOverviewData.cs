@@ -1,13 +1,12 @@
-﻿using Microsoft.Bot.Builder.Solutions.Responses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using EmailSkill.Dialogs.Shared.Resources.Strings;
+using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace EmailSkill.Dialogs.Shared.Resources.Cards
 {
     public class EmailOverviewData : ICardData
     {
+        public string Description { get; set; }
+
         public string AvatorIcon { get; set; }
 
         public string TotalMessageNumber { get; set; }
@@ -17,5 +16,9 @@ namespace EmailSkill.Dialogs.Shared.Resources.Cards
         public string Now { get; set; }
 
         public string MailSourceType { get; set; }
+
+        public string MessagesDiscription { get; } = EmailCommonStrings.Messages;
+
+        public string ImportantMessagesDiscription { get; } = EmailCommonStrings.ImportantMessages;
     }
 }

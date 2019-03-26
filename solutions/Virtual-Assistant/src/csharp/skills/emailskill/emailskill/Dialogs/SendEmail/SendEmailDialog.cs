@@ -308,7 +308,8 @@ namespace EmailSkill.Dialogs.SendEmail
 
                         var emailCard = new EmailCardData
                         {
-                            EmailContent = string.Format(EmailCommonStrings.ContentFormat, state.Content),
+                            Subject = EmailCommonStrings.MessageConfirm,
+                            EmailContent = state.Content,
                         };
 
                         var stringToken = new StringDictionary

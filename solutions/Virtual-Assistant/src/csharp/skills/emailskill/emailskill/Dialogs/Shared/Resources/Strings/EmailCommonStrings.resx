@@ -228,4 +228,25 @@
   <data name="TodayDateFormat" xml:space="preserve">
     <value>hh:mm tt</value>
   </data>
+  <data name="ImportantMessages" xml:space="preserve">
+    <value>High Priority Messages</value>
+  </data>
+  <data name="MessageConfirm" xml:space="preserve">
+    <value>Message Confirmation</value>
+  </data>
+  <data name="Messages" xml:space="preserve">
+    <value>Messages</value>
+  </data>
+  <data name="SearchBySender" xml:space="preserve">
+    <value>Messages from {0}</value>
+  </data>
+  <data name="SearchBySubject" xml:space="preserve">
+    <value>Messages about {0}</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>Powered by **{0}**</value>
+  </data>
+  <data name="YourEmail" xml:space="preserve">
+    <value>Your Email</value>
+  </data>
 </root>

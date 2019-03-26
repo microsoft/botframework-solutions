@@ -127,6 +127,7 @@
     <EmbeddedResource Include="Dialogs\SendEmail\Resources\SendEmailResponses.json" />
     <EmbeddedResource Include="Dialogs\SendEmail\Resources\SendEmailResponses.zh.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailCard.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailOverviewByCondition.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailContentPreview.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailDetailCard.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailOverviewCard.json" />

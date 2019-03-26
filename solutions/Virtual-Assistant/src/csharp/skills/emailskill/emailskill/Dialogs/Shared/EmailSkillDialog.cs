@@ -705,7 +705,25 @@ namespace EmailSkill.Dialogs.Shared
                     var searchSubject = state.SearchTexts?.ToLowerInvariant();
                     var searchUserInput = userInput?.ToLowerInvariant();
 
-                    messages = FilterMessages(messages, searchSender, searchSubject, searchUserInput);
+                    var searchType = EmailSearchType.None;
+                    (messages, searchType) = FilterMessages(messages, searchSender, searchSubject, searchUserInput);
+
+                    if (searchType == EmailSearchType.SearchByContact)
+                    {
+                        state.SearchTexts = null;
+                        if (state.SenderName == null)
+                        {
+                            state.SenderName = userInput;
+                        }
+                    }
+                    else if (searchType == EmailSearchType.SearchBySubject)
+                    {
+                        state.SenderName = null;
+                        if (state.SearchTexts == null)
+                        {
+                            state.SearchTexts = userInput;
+                        }
+                    }
 
                     state.MessageList = messages;
                     state.Message.Clear();
@@ -849,12 +867,14 @@ namespace EmailSkill.Dialogs.Shared
             }
         }
 
-        protected List<Message> FilterMessages(List<Message> messages, string searchSender, string searchSubject, string searchUserInput)
+        protected (List<Message>, EmailSearchType) FilterMessages(List<Message> messages, string searchSender, string searchSubject, string searchUserInput)
         {
             if ((searchSender == null) && (searchSubject == null) && (searchUserInput == null))
             {
-                return messages;
+                return (messages, EmailSearchType.None);
             }
+
+            var searchType = EmailSearchType.None;
 
             // Get display messages
             var displayMessages = new List<Message>();
@@ -863,21 +883,50 @@ namespace EmailSkill.Dialogs.Shared
                 var messageSender = messages[i].Sender?.EmailAddress?.Name?.ToLowerInvariant();
                 var messageSubject = messages[i].Subject?.ToLowerInvariant();
 
-                if (messageSender != null
-                    && (((searchSender != null) && messageSender.Contains(searchSender))
-                    || ((searchUserInput != null) && messageSender.Contains(searchUserInput))))
+                if (messageSender != null)
                 {
-                    displayMessages.Add(messages[i]);
+                    if ((searchType == EmailSearchType.None) || (searchType == EmailSearchType.SearchByContact))
+                    {
+                        if (((searchSender != null) && messageSender.Contains(searchSender))
+                        || ((searchUserInput != null) && messageSender.Contains(searchUserInput)))
+                        {
+                            displayMessages.Add(messages[i]);
+
+                            searchType = EmailSearchType.SearchByContact;
+                            if (searchSender == null)
+                            {
+                                searchSender = searchUserInput;
+                            }
+
+                            searchSubject = null;
+                            continue;
+                        }
+                    }
                 }
-                else if (messageSubject != null
-                    && (((searchSubject != null) && messageSubject.Contains(searchSubject))
-                    || ((searchUserInput != null) && messageSubject.Contains(searchUserInput))))
+
+                if (messageSubject != null)
                 {
-                    displayMessages.Add(messages[i]);
+                    if ((searchType == EmailSearchType.None) || (searchType == EmailSearchType.SearchBySubject))
+                    {
+                        if (((searchSubject != null) && messageSubject.Contains(searchSubject))
+                        || ((searchUserInput != null) && messageSubject.Contains(searchUserInput)))
+                        {
+                            displayMessages.Add(messages[i]);
+
+                            searchType = EmailSearchType.SearchBySubject;
+                            if (searchSubject == null)
+                            {
+                                searchSubject = searchUserInput;
+                            }
+
+                            searchSender = null;
+                            continue;
+                        }
+                    }
                 }
             }
 
-            return displayMessages;
+            return (displayMessages, searchType);
         }
 
         protected async Task<(List<Message>, int)> GetMessagesAsync(WaterfallStepContext sc)
@@ -903,7 +952,17 @@ namespace EmailSkill.Dialogs.Shared
             // Filter messages
             var searchSender = state.GeneralSenderName?.ToLowerInvariant();
             var searchSubject = state.GeneralSearchTexts?.ToLowerInvariant();
-            result = FilterMessages(result, searchSender, searchSubject, null);
+            var searchType = EmailSearchType.None;
+            (result, searchType) = FilterMessages(result, searchSender, searchSubject, null);
+
+            if (searchType == EmailSearchType.SearchByContact)
+            {
+                state.GeneralSearchTexts = null;
+            }
+            else if (searchType == EmailSearchType.SearchBySubject)
+            {
+                state.GeneralSenderName = null;
+            }
 
             // Go back to last page if next page didn't get anything
             if (skip >= result.Count)
@@ -970,19 +1029,31 @@ namespace EmailSkill.Dialogs.Shared
             };
 
             var avator = await GetMyPhotoUrlAsync(sc.Context);
-
             var overviewData = new EmailOverviewData()
             {
+                Description = EmailCommonStrings.YourEmail,
                 AvatorIcon = avator,
                 TotalMessageNumber = totalCount.ToString(),
                 HighPriorityMessagesNumber = totalCount.ToString(),
                 Now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone()).ToString(EmailCommonStrings.GeneralDateFormat),
-                MailSourceType = state.MailSourceType.ToString()
+                MailSourceType = string.Format(EmailCommonStrings.Source, state.MailSourceType.ToString())
             };
+
+            var overviewCard = "EmailOverviewCard";
+            if ((state.SenderName != null) || (state.GeneralSenderName != null))
+            {
+                overviewData.Description = string.Format(EmailCommonStrings.SearchBySender, state.SenderName != null ? state.SenderName : state.GeneralSenderName);
+                overviewCard = "EmailOverviewByCondition";
+            }
+            else if ((state.SearchTexts != null) || (state.GeneralSearchTexts != null))
+            {
+                overviewData.Description = string.Format(EmailCommonStrings.SearchBySubject, state.SearchTexts != null ? state.SearchTexts : state.GeneralSearchTexts);
+                overviewCard = "EmailOverviewByCondition";
+            }
 
             var reply = ResponseManager.GetCardResponse(
                         EmailSharedResponses.ShowEmailPrompt,
-                        new Card("EmailOverviewCard", overviewData),
+                        new Card(overviewCard, overviewData),
                         tokens,
                         "items",
                         cards);
@@ -993,7 +1064,7 @@ namespace EmailSkill.Dialogs.Shared
                 {
                     reply = ResponseManager.GetCardResponse(
                         EmailSharedResponses.ShowOneEmailPrompt,
-                        new Card("EmailOverviewCard", overviewData),
+                        new Card(overviewCard, overviewData),
                         tokens,
                         "items",
                         cards);
@@ -1003,7 +1074,7 @@ namespace EmailSkill.Dialogs.Shared
             {
                 reply = ResponseManager.GetCardResponse(
                         EmailSharedResponses.ShowEmailPromptOtherPage,
-                        new Card("EmailOverviewCard", overviewData),
+                        new Card(overviewCard, overviewData),
                         tokens,
                         "items",
                         cards);
@@ -1011,7 +1082,7 @@ namespace EmailSkill.Dialogs.Shared
                 {
                     reply = ResponseManager.GetCardResponse(
                         EmailSharedResponses.ShowOneEmailPromptOtherPage,
-                        new Card("EmailOverviewCard", overviewData),
+                        new Card(overviewCard, overviewData),
                         tokens,
                         "items",
                         cards);
