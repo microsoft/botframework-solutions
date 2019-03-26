@@ -1,13 +1,13 @@
 ﻿{
   "type": "AdaptiveCard",
-  "backgroundImage": "https://github.com/ryanlengel/adaptivecards/blob/master/virtualassistant/assets/white_background.png?raw=true",
+  "backgroundImage": "{BackgroundImageUrl}",
   "body": [
     {
       "type": "Container",
       "items": [
         {
           "type": "Image",
-          "url": "{HeaderUrl}",
+          "url": "{HeaderImageUrl}",
           "size": "Stretch"
         }
       ]

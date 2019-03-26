@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using Autofac;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
@@ -15,6 +16,7 @@ using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PointOfInterestSkill.Dialogs.Shared.Resources;
+using VirtualAssistant.Dialogs.Main.Resources;
 using VirtualAssistant.Tests.LuisTestUtils;
 
 namespace VirtualAssistant.Tests
@@ -37,6 +39,12 @@ namespace VirtualAssistant.Tests
 
         public IBotTelemetryClient TelemetryClient { get; set; }
 
+        public string ImageAssetLocation { get; set; }
+
+        public HttpContext MockHttpContext { get; set; }
+
+        public HttpContextAccessor MockHttpContextAcessor { get; set; }
+
         public EndpointService EndPointService { get; set; }
 
         public BotServices BotServices { get; set; }
@@ -52,6 +60,17 @@ namespace VirtualAssistant.Tests
             this.ProactiveState = new ProactiveState(new MemoryStorage());
             this.TelemetryClient = new NullBotTelemetryClient();
             this.BackgroundTaskQueue = new BackgroundTaskQueue();
+            this.ImageAssetLocation = "https://localhost";
+
+            // Mock HttpContext for image path resolution
+            MockHttpContext = new DefaultHttpContext();
+            MockHttpContext.Request.Scheme = "http";
+            MockHttpContext.Request.Host = new HostString("localhost", 3980);
+
+            MockHttpContextAcessor = new HttpContextAccessor
+            {
+                HttpContext = MockHttpContext
+            };
 
             this.EndPointService = new EndpointService();
 
@@ -59,7 +78,7 @@ namespace VirtualAssistant.Tests
             this.Container = builder.Build();
 
             var locales = new string[] { "en", "de", "es", "fr", "it", "zh" };
-            ResponseManager = new ResponseManager(locales, new POISharedResponses(), new SkillResponses(), new AuthenticationResponses());
+            ResponseManager = new ResponseManager(locales, new POISharedResponses(), new SkillResponses(), new AuthenticationResponses(), new MainDialogResponses());
 
             // Initialize the Dispatch and Luis mocks
             this.BotServices = new BotServices();
@@ -147,7 +166,7 @@ namespace VirtualAssistant.Tests
 
         public override IBot BuildBot()
         {
-            return new VirtualAssistant(this.BotServices, this.ConversationState, this.UserState, this.ProactiveState, this.EndPointService, this.TelemetryClient, this.BackgroundTaskQueue);
+            return new VirtualAssistant(this.BotServices, this.ConversationState, this.UserState, this.ProactiveState, this.EndPointService, this.TelemetryClient, this.BackgroundTaskQueue, this.ResponseManager, this.ImageAssetLocation, this.MockHttpContextAcessor);
         }
 
         /// <summary>

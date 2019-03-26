@@ -87,8 +87,10 @@ namespace VirtualAssistant
             var connectedServices = new BotServices(botConfig, languageModels, skills, skillEvents);
             services.AddSingleton(sp => connectedServices);
 
-            var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
+            var imageAssetLocation = Configuration.GetSection("imageAssetLocation").Get<string>();
+            services.AddSingleton(sp => imageAssetLocation);
 
+            var defaultLocale = Configuration.GetSection("configuration").Get<string>();
             var supportedLanguages = languageModels.Select(l => l.Key).ToArray();
             var responseManager = new ResponseManager(
                 supportedLanguages,

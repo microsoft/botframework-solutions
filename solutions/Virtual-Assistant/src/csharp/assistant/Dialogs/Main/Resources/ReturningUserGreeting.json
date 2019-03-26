@@ -1,13 +1,13 @@
 ﻿{
   "type": "AdaptiveCard",
-  "backgroundImage": "https://github.com/ryanlengel/adaptivecards/blob/master/virtualassistant/assets/white_background.png?raw=true",
+  "backgroundImage": "{BackgroundImageUrl}",
   "body": [
     {
       "type": "Container",
       "items": [
         {
           "type": "Image",
-          "url": "{HeaderUrl}",
+          "url": "{HeaderImageUrl}",
           "size": "Stretch"
         }
       ]
@@ -43,7 +43,7 @@
           "columns": [
             {
               "type": "Column",
-              "backgroundImage": "https://github.com/ryanlengel/adaptivecards/blob/master/virtualassistant/assets/skillcolumn_background.png?raw=true",
+              "backgroundImage": "{ColumnBackgroundImageUrl}",
               "items": [
                 {
                   "type": "Image",
@@ -69,7 +69,7 @@
             },
             {
               "type": "Column",
-              "backgroundImage": "https://github.com/ryanlengel/adaptivecards/blob/master/virtualassistant/assets/skillcolumn_background.png?raw=true",
+              "backgroundImage": "{ColumnBackgroundImageUrl}",
               "items": [
                 {
                   "type": "Image",
@@ -83,7 +83,7 @@
                   "horizontalAlignment": "Center",
                   "color": "Light",
                   "text": "Email",
-                  "size":  "Medium"
+                  "size": "Medium"
                 }
               ],
               "width": "stretch",
@@ -95,7 +95,7 @@
             },
             {
               "type": "Column",
-              "backgroundImage": "https://github.com/ryanlengel/adaptivecards/blob/master/virtualassistant/assets/skillcolumn_background.png?raw=true",
+              "backgroundImage": "{ColumnBackgroundImageUrl}",
               "items": [
                 {
                   "type": "Image",
@@ -121,7 +121,7 @@
             },
             {
               "type": "Column",
-              "backgroundImage": "https://github.com/ryanlengel/adaptivecards/blob/master/virtualassistant/assets/skillcolumn_background.png?raw=true",
+              "backgroundImage": "{ColumnBackgroundImageUrl}",
               "items": [
                 {
                   "type": "Image",
