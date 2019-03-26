@@ -1,0 +1,48 @@
+{
+    "SkillAuthenticationPrompt": {
+      "replies": [
+        {
+          "speak": "Sie haben noch keine Konten verlinkt, wenn möglich, melden Sie sich bitte bei Ihrem Assistenten an, um auf diesen Service zuzugreifen oder zu Ihrem Begleiterlebnis zu wechseln.",
+          "text": "Sie haben noch keine Konten verlinkt, wenn möglich, melden Sie sich bitte bei Ihrem Assistenten an, um auf diesen Service zuzugreifen oder zu Ihrem Begleiterlebnis zu wechseln."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "AuthProvidersPrompt": {
+      "replies": [
+        {
+          "speak": "Welches Konto möchten Sie nutzen?",
+          "text": "Welches Konto möchten Sie nutzen?"
+        }
+      ],
+      "inputHint": "expectingInput"
+    },
+    "SkillAuthenticationTitle": {
+      "replies": [
+        {
+          "speak": "Geschicklichkeits-Authentifizierung",
+          "text": "Geschicklichkeits-Authentifizierung"
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "ErrorMessageAuthFailure": {
+      "replies": [
+        {
+          "text": "Entschuldigung, es scheint, als sei etwas schiefgegangen, als Sie sich für Ihre {authType} -Verbindung authentifiziert haben! Bitte versuchen Sie es später erneut.",
+          "speak": "Entschuldigung, es scheint, als sei etwas schiefgegangen, als Sie sich für Ihre {authType} -Verbindung authentifiziert haben! Bitte versuchen Sie es später erneut."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "ConfiguredAuthProvidersPrompt": {
+      "replies": [
+        {
+          "speak": "Sie haben mehrere Konten konfiguriert. Welche würden Sie gerne nutzen?",
+          "text": "Sie haben mehrere Konten konfiguriert. Welche würden Sie gerne nutzen?"
+        }
+      ],
+      "inputHint": "expectingInput"
+    }
+  }
+  
