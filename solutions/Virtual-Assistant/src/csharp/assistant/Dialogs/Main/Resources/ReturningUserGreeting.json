@@ -1,0 +1,158 @@
+﻿{
+  "type": "AdaptiveCard",
+  "backgroundImage": "https://github.com/ryanlengel/adaptivecards/blob/master/virtualassistant/assets/white_background.png?raw=true",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "Image",
+          "url": "{HeaderUrl}",
+          "size": "Stretch"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "id": "title",
+          "type": "TextBlock",
+          "size": "Large",
+          "spacing": "Medium",
+          "weight": "Bolder",
+          "text": "{Title}",
+          "wrap": true,
+          "color": "dark"
+        },
+        {
+          "id": "body",
+          "type": "TextBlock",
+          "size": "Medium",
+          "text": "{Body}",
+          "wrap": true,
+          "color": "dark"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "backgroundImage": "https://github.com/ryanlengel/adaptivecards/blob/master/virtualassistant/assets/skillcolumn_background.png?raw=true",
+              "items": [
+                {
+                  "type": "Image",
+                  "horizontalAlignment": "Center",
+                  "url": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFk%0D%0Ab2JlIElsbHVzdHJhdG9yIDIzLjAuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246%0D%0AIDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5z%0D%0APSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMu%0D%0Ab3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAyNSAyMy40IiBz%0D%0AdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyNSAyMy40OyIgeG1sOnNwYWNlPSJwcmVz%0D%0AZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9Cjwvc3R5%0D%0AbGU+Cjx0aXRsZT5wbGF0Zm9ybXNBc3NldCAzNHF1ZXNpdG9uczwvdGl0bGU+CjxwYXRoIGNsYXNz%0D%0APSJzdDAiIGQ9Ik00LjcsMS42VjBoMS42djEuNmgxMi41VjBoMS42djEuNkgyNXYyMS45SDBWMS42%0D%0ASDQuN3ogTTIwLjMsMy4xdjEuNmgtMS42VjMuMUg2LjJ2MS42SDQuN1YzLjFIMS42djMuMWgyMS45%0D%0ACglWMy4xSDIwLjN6IE0yMy40LDIxLjlWNy44SDEuNnYxNC4xTDIzLjQsMjEuOXogTTYuMiwxMC45%0D%0ASDQuN1Y5LjRoMS42VjEwLjl6IE02LjIsMTQuMUg0Ljd2LTEuNmgxLjZWMTQuMXogTTYuMiwxNy4y%0D%0ASDQuN3YtMS42aDEuNgoJVjE3LjJ6IE0xMC45LDEwLjlIOS40VjkuNGgxLjZWMTAuOXogTTEwLjks%0D%0AMTQuMUg5LjR2LTEuNmgxLjZWMTQuMXogTTEwLjksMTcuMkg5LjR2LTEuNmgxLjZWMTcuMnogTTEw%0D%0ALjksMjAuM0g5LjR2LTEuNmgxLjZWMjAuM3oKCSBNMTUuNiwxMC45aC0xLjZWOS40aDEuNlYxMC45%0D%0AeiBNMTUuNiwxNC4xaC0xLjZ2LTEuNmgxLjZWMTQuMXogTTE1LjYsMTcuMmgtMS42di0xLjZoMS42%0D%0AVjE3LjJ6IE0xNS42LDIwLjNoLTEuNnYtMS42aDEuNlYyMC4zegoJIE0yMC4zLDE0LjFoLTEuNnYt%0D%0AMS42aDEuNkwyMC4zLDE0LjF6IE0yMC4zLDE3LjJoLTEuNnYtMS42aDEuNkwyMC4zLDE3LjJ6IE0y%0D%0AMC4zLDIwLjNoLTEuNnYtMS42aDEuNkwyMC4zLDIwLjN6Ii8+Cjwvc3ZnPgo=",
+                  "width": "60px",
+                  "height": "60px"
+                },
+                {
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Center",
+                  "color": "Light",
+                  "text": "Calendar",
+                  "size": "Medium"
+                }
+              ],
+              "width": "stretch",
+              "selectAction": {
+                "type": "Action.Submit",
+                "title": "Do I have any meetings today?",
+                "data": "Do I have any meetings today?"
+              }
+            },
+            {
+              "type": "Column",
+              "backgroundImage": "https://github.com/ryanlengel/adaptivecards/blob/master/virtualassistant/assets/skillcolumn_background.png?raw=true",
+              "items": [
+                {
+                  "type": "Image",
+                  "horizontalAlignment": "Center",
+                  "url": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFk%0D%0Ab2JlIElsbHVzdHJhdG9yIDIzLjAuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246%0D%0AIDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5z%0D%0APSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMu%0D%0Ab3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAyNS42IDIyLjUi%0D%0AIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDI1LjYgMjIuNTsiIHhtbDpzcGFjZT0i%0D%0AcHJlc2VydmUiPgo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsOiNGRkZGRkY7fQo8%0D%0AL3N0eWxlPgo8dGl0bGU+cGxhdGZvcm1zQXNzZXQgMzBxdWVzaXRvbnM8L3RpdGxlPgo8cGF0aCBj%0D%0AbGFzcz0ic3QwIiBkPSJNMTIuOCwwbDEyLjgsNi40djE2LjFIMFY2LjRMMTIuOCwweiBNMS42LDIw%0D%0ALjlIMjRWOS4ybC0zLjcsMy43SDUuM0wxLjYsOS4yVjIwLjl6IE0yMy43LDcuMkwxMi44LDEuOEwx%0D%0ALjksNy4yCglsNCw0aDEzLjhMMjMuNyw3LjJ6Ii8+Cjwvc3ZnPgo=",
+                  "width": "60px",
+                  "height": "60px"
+                },
+                {
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Center",
+                  "color": "Light",
+                  "text": "Email",
+                  "size":  "Medium"
+                }
+              ],
+              "width": "stretch",
+              "selectAction": {
+                "type": "Action.Submit",
+                "title": "Do I have any new messages?",
+                "data": "Do I have any new messages?"
+              }
+            },
+            {
+              "type": "Column",
+              "backgroundImage": "https://github.com/ryanlengel/adaptivecards/blob/master/virtualassistant/assets/skillcolumn_background.png?raw=true",
+              "items": [
+                {
+                  "type": "Image",
+                  "horizontalAlignment": "Center",
+                  "url": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFk%0D%0Ab2JlIElsbHVzdHJhdG9yIDIzLjAuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246%0D%0AIDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5z%0D%0APSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMu%0D%0Ab3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAyNS40IDE5LjMi%0D%0AIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDI1LjQgMTkuMzsiIHhtbDpzcGFjZT0i%0D%0AcHJlc2VydmUiPgo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsOiNGRkZGRkY7fQo8%0D%0AL3N0eWxlPgo8dGl0bGU+cGxhdGZvcm1zQXNzZXQgMzZxdWVzaXRvbnM8L3RpdGxlPgo8cGF0aCBj%0D%0AbGFzcz0ic3QwIiBkPSJNMi4yLDIuNkw0LjgsMGwxLjEsMS4xTDIuMiw0LjlMMCwyLjdsMS4xLTEu%0D%0AMUwyLjIsMi42eiBNMi4yLDcuNGwyLjYtMi42bDEuMSwxLjFMMi4yLDkuN0wwLDcuNWwxLjEtMS4x%0D%0ACglMMi4yLDcuNHogTTIuMiwxMi4ybDIuNi0yLjZsMS4xLDEuMWwtMy44LDMuOEwwLDEyLjNsMS4x%0D%0ALTEuMUwyLjIsMTIuMnogTTIuMiwxN2wyLjYtMi42bDEuMSwxLjFsLTMuOCwzLjhMMCwxNy4xTDEu%0D%0AMSwxNkwyLjIsMTd6CgkgTTcuOCwxLjZoMTcuNnYxLjZINy44VjEuNnogTTcuOCw4VjYuNGgxNy42%0D%0AVjhMNy44LDh6IE03LjgsMTIuOHYtMS42aDE3LjZ2MS42SDcuOHogTTcuOCwxNy41VjE2aDE3LjZ2%0D%0AMS42TDcuOCwxNy41eiIvPgo8L3N2Zz4K",
+                  "width": "60px",
+                  "height": "60px"
+                },
+                {
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Center",
+                  "color": "Light",
+                  "text": "To Do",
+                  "size": "Medium"
+                }
+              ],
+              "width": "stretch",
+              "selectAction": {
+                "type": "Action.Submit",
+                "title": "What's on my to do list?",
+                "data": "What's on my to do list?"
+              }
+            },
+            {
+              "type": "Column",
+              "backgroundImage": "https://github.com/ryanlengel/adaptivecards/blob/master/virtualassistant/assets/skillcolumn_background.png?raw=true",
+              "items": [
+                {
+                  "type": "Image",
+                  "horizontalAlignment": "Center",
+                  "url": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFk%0D%0Ab2JlIElsbHVzdHJhdG9yIDIzLjAuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246%0D%0AIDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5z%0D%0APSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMu%0D%0Ab3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAxNiAyNS42IiBz%0D%0AdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxNiAyNS42OyIgeG1sOnNwYWNlPSJwcmVz%0D%0AZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9Cjwvc3R5%0D%0AbGU+Cjx0aXRsZT5wbGF0Zm9ybXNBc3NldCAzNXF1ZXNpdG9uczwvdGl0bGU+CjxwYXRoIGNsYXNz%0D%0APSJzdDAiIGQ9Ik04LDBjMC43LDAsMS40LDAuMSwyLjEsMC4zYzAuNywwLjIsMS4zLDAuNSwxLjks%0D%0AMC44YzAuNiwwLjMsMS4xLDAuOCwxLjYsMS4zYzAuNSwwLjUsMC45LDEuMSwxLjIsMS43CgljMC4z%0D%0ALDAuNiwwLjYsMS4yLDAuOCwxLjlDMTUuOSw2LjYsMTYsNy4zLDE2LDhjMCwwLjYtMC4xLDEuMS0w%0D%0ALjIsMS42Yy0wLjEsMC41LTAuMywxLjEtMC42LDEuNkw4LDI1LjZMMC44LDExLjIKCWMtMC4zLTAu%0D%0ANS0wLjUtMS0wLjYtMS41QzAuMSw5LjEsMCw4LjYsMCw4YzAtMC43LDAuMS0xLjQsMC4zLTIuMUMw%0D%0ALjUsNS4yLDAuNyw0LjYsMS4xLDRDMS44LDIuOCwyLjgsMS44LDQsMS4xCgljMC42LTAuMywxLjIt%0D%0AMC42LDEuOS0wLjhDNi42LDAuMSw3LjMsMCw4LDB6IE0xMy45LDEwLjZMMTMuOSwxMC42TDEzLjks%0D%0AMTAuNmMwLjItMC40LDAuNC0wLjgsMC41LTEuMmMwLjEtMC40LDAuMi0wLjksMC4yLTEuMwoJYzAt%0D%0AMC45LTAuMi0xLjgtMC41LTIuNmMtMC4zLTAuOC0wLjgtMS41LTEuNC0yLjFjLTAuNi0wLjYtMS4z%0D%0ALTEuMS0yLjEtMS40QzkuOCwxLjYsOC45LDEuNCw4LDEuNGMtMC45LDAtMS44LDAuMi0yLjYsMC41%0D%0ACglDMy45LDIuNiwyLjYsMy45LDEuOSw1LjRDMS42LDYuMiwxLjQsNy4xLDEuNCw4YzAsMC40LDAu%0D%0AMSwwLjksMC4yLDEuM2MwLjEsMC40LDAuMiwwLjgsMC40LDEuMmwwLDBsMCwwbDYsMTEuOUwxMy45%0D%0ALDEwLjZ6IE04LDMuMwoJYzAuNiwwLDEuMywwLjEsMS44LDAuNGMxLjEsMC41LDIsMS40LDIuNSwy%0D%0ALjVjMC41LDEuMiwwLjUsMi41LDAsMy43Yy0wLjUsMS4xLTEuNCwyLTIuNSwyLjVjLTEuMiwwLjUt%0D%0AMi41LDAuNS0zLjcsMAoJYy0xLjEtMC41LTItMS40LTIuNS0yLjVjLTAuNS0xLjItMC41LTIuNSww%0D%0ALTMuN0M0LjEsNSw1LDQuMSw2LjIsMy43QzYuNywzLjQsNy40LDMuMyw4LDMuM3ogTTgsMTEuM2Mw%0D%0ALjQsMCwwLjktMC4xLDEuMy0wLjMKCWMwLjgtMC4zLDEuNC0xLDEuNy0xLjdjMC4zLTAuOCwwLjMt%0D%0AMS43LDAtMi42QzEwLjcsNS45LDEwLDUuMyw5LjMsNUM4LjUsNC43LDcuNSw0LjcsNi43LDVDNS45%0D%0ALDUuMyw1LjMsNS45LDUsNi43CglDNC43LDcuNSw0LjcsOC41LDUsOS4zQzUuMywxMCw1LjksMTAu%0D%0ANyw2LjcsMTFDNy4xLDExLjIsNy42LDExLjMsOCwxMS4zTDgsMTEuM3oiLz4KPC9zdmc+Cg==",
+                  "width": "60px",
+                  "height": "60px"
+                },
+                {
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Center",
+                  "color": "Light",
+                  "text": "Point of Interest",
+                  "size": "Medium",
+                  "wrap": true
+                }
+              ],
+              "width": "stretch",
+              "selectAction": {
+                "type": "Action.Submit",
+                "title": "Is there a coffee shop nearby?",
+                "data": "Is there a coffee shop nearby?"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0",
+  "speak": "{Speak}",
+  "id": "ReturningUserGreeting"
+}

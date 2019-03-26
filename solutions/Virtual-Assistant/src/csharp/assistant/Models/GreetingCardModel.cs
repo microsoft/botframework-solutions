@@ -10,6 +10,8 @@ namespace VirtualAssistant.Models
     {
         public string HeaderUrl { get; set; }
 
+        public string Speak { get; set; }
+
         public string Title { get; set; }
 
         public string Body { get; set; }

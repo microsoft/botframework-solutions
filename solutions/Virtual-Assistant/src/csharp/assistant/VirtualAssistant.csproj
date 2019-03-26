@@ -12,19 +12,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Dialogs\Main\Resources\Intro.json" />
+    <Content Remove="Dialogs\Main\Resources\NewUserGreeting.json" />
+    <Content Remove="Dialogs\Main\Resources\ReturningUserGreeting.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Dialogs\Main\Resources\Intro.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.de.json" />
     <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.es.json" />
     <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.fr.json" />
     <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.it.json" />
     <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.json" />
     <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\NewUserGreeting.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\ReturningUserGreeting.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -87,6 +87,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>MainStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\Onboarding\Resources\OnboardingStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>OnboardingStrings.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 

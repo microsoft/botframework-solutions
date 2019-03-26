@@ -14,7 +14,10 @@ namespace VirtualAssistant.Dialogs.Main.Resources
         // Generated accessors
         public const string NamePrompt = "NamePrompt";
         public const string HaveNameMessage = "HaveNameMessage";
-        public const string GreetingTitle = "GreetingTitle";
-        public const string GreetingBody = "GreetingBody";
+        public const string NewUserGreetingTitle = "NewUserGreetingTitle";
+        public const string NewUserGreetingBody = "NewUserGreetingBody";
+        public const string Greeting = "Greeting";
+        public const string ReturningUserGreetingTitle = "ReturningUserGreetingTitle";
+        public const string ReturningUserGreetingBody = "ReturningUserGreetingBody";
     }
 }

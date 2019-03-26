@@ -1,0 +1,60 @@
+﻿{
+  "type": "AdaptiveCard",
+  "backgroundImage": "https://github.com/ryanlengel/adaptivecards/blob/master/virtualassistant/assets/white_background.png?raw=true",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "Image",
+          "url": "{HeaderUrl}",
+          "size": "Stretch"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "id": "title",
+          "type": "TextBlock",
+          "size": "Large",
+          "spacing": "Medium",
+          "weight": "Bolder",
+          "text": "{Title}",
+          "wrap": true,
+          "color": "dark"
+        },
+        {
+          "id": "body",
+          "type": "TextBlock",
+          "size": "Medium",
+          "text": "{Body}",
+          "wrap": true,
+          "color": "dark"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "Documentation",
+      "url": "https://aka.ms/customassistantdocs"
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "Linked Accounts",
+      "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-linkedaccounts.md"
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "Skills",
+      "url": "https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-skills.md"
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0",
+  "speak": "{Speak}",
+  "id": "NewUserGreeting"
+}

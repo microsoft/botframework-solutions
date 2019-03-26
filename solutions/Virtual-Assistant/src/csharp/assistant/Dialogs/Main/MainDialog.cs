@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -39,7 +40,7 @@ namespace VirtualAssistant.Dialogs.Main
         private IHttpContextAccessor _httpContext;
         private IStatePropertyAccessor<OnboardingState> _onboardingState;
         private IStatePropertyAccessor<Dictionary<string, object>> _parametersAccessor;
-        private IStatePropertyAccessor<VirtualAssistantState> _virtualAssistantState;
+        private IStatePropertyAccessor<VirtualAssistantState> _accessors;
         private readonly ResponseManager _responseManager;
         private MainResponses _responder = new MainResponses();
         private SkillRouter _skillRouter;
@@ -60,7 +61,7 @@ namespace VirtualAssistant.Dialogs.Main
             _responseManager = responseManager;
             _onboardingState = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             _parametersAccessor = _userState.CreateProperty<Dictionary<string, object>>("userInfo");
-            _virtualAssistantState = _conversationState.CreateProperty<VirtualAssistantState>(nameof(VirtualAssistantState));
+            _accessors = _conversationState.CreateProperty<VirtualAssistantState>(nameof(VirtualAssistantState));
 
             AddDialog(new OnboardingDialog(_services, _onboardingState, telemetryClient));
             AddDialog(new EscalateDialog(_services, telemetryClient));
@@ -115,7 +116,7 @@ namespace VirtualAssistant.Dialogs.Main
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = await _parametersAccessor.GetAsync(dc.Context, () => new Dictionary<string, object>());
-            var virtualAssistantState = await _virtualAssistantState.GetAsync(dc.Context, () => new VirtualAssistantState());
+            var virtualAssistantState = await _accessors.GetAsync(dc.Context, () => new VirtualAssistantState());
 
             // get current activity locale
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
@@ -258,8 +259,6 @@ namespace VirtualAssistant.Dialogs.Main
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Completed);
-
             // End active dialog
             await dc.EndDialogAsync(result);
         }
@@ -432,19 +431,50 @@ namespace VirtualAssistant.Dialogs.Main
 
         private async Task StartConversation(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var greetingCard = new GreetingCardModel()
+            var onboardingState = await _onboardingState.GetAsync(dc.Context, () => new OnboardingState());
+
+            if (string.IsNullOrEmpty(onboardingState.Name))
             {
-                HeaderUrl = "https://github.com/ryanlengel/adaptivecards/blob/master/virtualassistant/assets/introduction_header.png?raw=true",
-                Title = "Welcome to **your** Virtual Assistant!",
-                Body = "Now that I'm up and running, explore the links in this [Adaptive Card](https://adaptivecards.io/) to learn what I can do."
-            };
-            var card = new Card("Intro", greetingCard);
-            var replyMessage = _responseManager.GetCardResponse(card);
+                var titleResponse = _responseManager.GetResponse(MainDialogResponses.NewUserGreetingTitle);
+                var bodyResponse = _responseManager.GetResponse(MainDialogResponses.NewUserGreetingBody);
 
-            await dc.Context.SendActivityAsync(replyMessage);
+                var greetingCardData = new GreetingCardModel()
+                {
+                    HeaderUrl = "http://localhost:3979/images/intro_header.png",
+                    Title = titleResponse.Text,
+                    Body = bodyResponse.Text,
+                    Speak = string.Format("{0} {1}", titleResponse.Speak, bodyResponse.Speak)
+                };
 
-            var view = new MainResponses();
-            await view.ReplyWith(dc.Context, MainResponses.ResponseIds.Intro);
+                var card = new Card("NewUserGreeting", greetingCardData);
+                var greetingCardMessage = _responseManager.GetCardResponse(card);
+
+                await dc.Context.SendActivityAsync(greetingCardMessage);
+
+                // This is the first time the user is interacting with the bot, so gather onboarding information.
+                await dc.BeginDialogAsync(nameof(OnboardingDialog));
+            }
+            else
+            {
+                var titleResponse = _responseManager.GetResponse(MainDialogResponses.ReturningUserGreetingTitle, new StringDictionary() { { "Name", onboardingState.Name } });
+                var bodyResponse = _responseManager.GetResponse(MainDialogResponses.ReturningUserGreetingBody);
+
+                var greetingCardData = new GreetingCardModel()
+                {
+                    HeaderUrl = "http://localhost:3979/images/intro_header.png",
+                    Title = titleResponse.Text,
+                    Body = bodyResponse.Text,
+                    Speak = string.Format("{0} {1}", titleResponse.Speak, bodyResponse.Speak)
+                };
+
+                var card = new Card("ReturningUserGreeting", greetingCardData);
+                var greetingCardMessage = _responseManager.GetCardResponse(card);
+
+                await dc.Context.SendActivityAsync(greetingCardMessage);
+
+                var greetingMessage = _responseManager.GetResponse(MainDialogResponses.Greeting);
+                await dc.Context.SendActivityAsync(greetingMessage);
+            }
         }
 
         private async Task RouteToSkillAsync(DialogContext dc, SkillDialogOptions options)
@@ -506,18 +536,30 @@ namespace VirtualAssistant.Dialogs.Main
             _skillRouter = new SkillRouter(_services.SkillDefinitions);
         }
 
-        private string GetCardImageUri(string imagePath)
-        {
-            // If we are in local mode we leverage the HttpContext to get the current path to the image assets
-            //if (_httpContext != null)
-            //{
-            //    string serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
-            //    return $"{serverUrl}/images/{imagePath}";
-            //}
+        //private string GetCardImageUri(string imagePath)
+        //{
+        //    // If we are in local mode we leverage the HttpContext to get the current path to the image assets
+        //    if (_httpContext != null)
+        //    {
+        //        string serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
+        //        return $"{serverUrl}/images/{imagePath}";
+        //    }
+        //    else
+        //    {
+        //        // In skill-mode we don't have HttpContext and require skills to provide their own storage for assets
+        //        //_services.Properties.TryGetValue("ImageAssetLocation", out var imageUri);
 
-            string serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
-            return $"{serverUrl}/images/{imagePath}";
-        }
+        //        //var imageUriStr = (string)imageUri;
+        //        //if (string.IsNullOrWhiteSpace(imageUriStr))
+        //        //{
+        //        //    throw new Exception("ImageAssetLocation Uri not configured on the skill.");
+        //        //}
+        //        //else
+        //        //{
+        //        //    return $"{imageUriStr}/{imagePath}";
+        //        //}
+        //    }
+        //}
 
         private class Events
         {
