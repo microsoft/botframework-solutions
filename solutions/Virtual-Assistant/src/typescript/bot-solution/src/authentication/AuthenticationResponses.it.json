@@ -1,0 +1,48 @@
+{
+    "SkillAuthenticationPrompt": {
+      "replies": [
+        {
+          "speak": "Non hai ancora collegato alcun account, se possibile per favore autentica il tuo assistente per accedere a questo servizio o passare alla tua esperienza complementare.",
+          "text": "Non hai ancora collegato alcun account, se possibile per favore autentica il tuo assistente per accedere a questo servizio o passare alla tua esperienza complementare."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "AuthProvidersPrompt": {
+      "replies": [
+        {
+          "speak": "Quale account si desidera utilizzare?",
+          "text": "Quale account si desidera utilizzare?"
+        }
+      ],
+      "inputHint": "expectingInput"
+    },
+    "SkillAuthenticationTitle": {
+      "replies": [
+        {
+          "speak": "Autenticazione delle competenze",
+          "text": "Autenticazione delle competenze"
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "ErrorMessageAuthFailure": {
+      "replies": [
+        {
+          "text": "Spiacenti, sembra che qualcosa sia andato storto durante il tentativo di autenticazione per la tua connessione {authType}! Per favore riprova più tardi.",
+          "speak": "Spiacenti, sembra che qualcosa sia andato storto durante il tentativo di autenticazione per la tua connessione {authType}! Per favore riprova più tardi."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "ConfiguredAuthProvidersPrompt": {
+      "replies": [
+        {
+          "speak": "Si dispone di più account configurati. Quale si desidera utilizzare?",
+          "text": "Si dispone di più account configurati. Quale si desidera utilizzare?"
+        }
+      ],
+      "inputHint": "expectingInput"
+    }
+  }
+  
