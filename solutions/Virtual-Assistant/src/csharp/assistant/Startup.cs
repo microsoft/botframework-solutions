@@ -99,14 +99,6 @@ namespace VirtualAssistant
             // Register bot responses for all supported languages.
             services.AddSingleton(sp => responseManager);
 
-            var supportedLanguages = languageModels.Select(l => l.Key).ToArray();
-            var responseManager = new ResponseManager(
-                supportedLanguages,
-                new MainDialogResponses());
-
-            // Register bot responses for all supported languages.
-            services.AddSingleton(sp => responseManager);
-
             // Initialize Bot State
             var cosmosDbService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.CosmosDB) ?? throw new Exception("Please configure your CosmosDb service in your .bot file.");
             var cosmosDb = cosmosDbService as CosmosDbService;
