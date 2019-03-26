@@ -22,6 +22,8 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ServiceAdapter;
+using VirtualAssistant.Adapters;
 using VirtualAssistant.Dialogs.Main;
 
 namespace VirtualAssistant
@@ -58,6 +60,8 @@ namespace VirtualAssistant
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+
+            services.AddSingleton<IServiceAdapter, CustomAdapter>();
 
             // add background task queue
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
@@ -116,45 +120,39 @@ namespace VirtualAssistant
 
             services.AddSingleton(endpointService);
 
-            services.AddSingleton<IBot, VirtualAssistant>();
-
             // Add the http adapter to enable MVC style bot API
-            services.AddSingleton<IBotFrameworkHttpAdapter>((sp) =>
+            services.AddBot<VirtualAssistant>((options) =>
             {
-                var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
+                var sp = services.BuildServiceProvider();
                 var telemetryClient = sp.GetService<IBotTelemetryClient>();
-                var botFrameworkHttpAdapter = new BotFrameworkHttpAdapter(credentialProvider)
+                options.OnTurnError = async (context, exception) =>
                 {
-                    OnTurnError = async (context, exception) =>
-                    {
-                        CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-                        var responseBuilder = new MainResponses();
-                        await responseBuilder.ReplyWith(context, MainResponses.ResponseIds.Error);
-                        await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Virtual Assistant Error: {exception.Message} | {exception.StackTrace}"));
-                        telemetryClient.TrackExceptionEx(exception, context.Activity);
-                    }
+                    CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
+                    var responseBuilder = new MainResponses();
+                    await responseBuilder.ReplyWith(context, MainResponses.ResponseIds.Error);
+                    await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Virtual Assistant Error: {exception.Message} | {exception.StackTrace}"));
+                    telemetryClient.TrackExceptionEx(exception, context.Activity);
                 };
 
                 // Telemetry Middleware (logs activity messages in Application Insights)
                 var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
-                botFrameworkHttpAdapter.Use(appInsightsLogger);
+                options.Middleware.Add(appInsightsLogger);
 
                 // Transcript Middleware (saves conversation history in a standard format)
                 var storageService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.BlobStorage) ?? throw new Exception("Please configure your Azure Storage service in your .bot file.");
                 var blobStorage = storageService as BlobStorageService;
                 var transcriptStore = new AzureBlobTranscriptStore(blobStorage.ConnectionString, blobStorage.Container);
                 var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
-                botFrameworkHttpAdapter.Use(transcriptMiddleware);
+                options.Middleware.Add(transcriptMiddleware);
 
                 // Typing Middleware (automatically shows typing when the bot is responding/working)
-                botFrameworkHttpAdapter.Use(new ShowTypingMiddleware());
-                botFrameworkHttpAdapter.Use(new SetLocaleMiddleware(defaultLocale ?? "en-us"));
-                botFrameworkHttpAdapter.Use(new EventDebuggerMiddleware());
-                botFrameworkHttpAdapter.Use(new AutoSaveStateMiddleware(userState, conversationState));
-                botFrameworkHttpAdapter.Use(new ProactiveStateMiddleware(proactiveState));
-
-                return botFrameworkHttpAdapter;
+                options.Middleware.Add(new ShowTypingMiddleware());
+                options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en-us"));
+                options.Middleware.Add(new EventDebuggerMiddleware());
+                options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
+                options.Middleware.Add(new ProactiveStateMiddleware(proactiveState));
             });
         }
 

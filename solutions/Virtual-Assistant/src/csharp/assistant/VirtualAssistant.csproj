@@ -91,6 +91,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\lib\csharp\microsoft.bot.builder.serviceadapter\microsoft.bot.builder.serviceadapter\microsoft.bot.builder.serviceadapter.csproj" />
     <ProjectReference Include="..\skills\calendarskill\calendarskill\CalendarSkill.csproj" />
     <ProjectReference Include="..\skills\emailskill\emailskill\EmailSkill.csproj" />
     <ProjectReference Include="..\skills\pointofinterestskill\pointofinterestskill\PointOfInterestSkill.csproj" />
