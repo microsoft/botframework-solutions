@@ -1,4 +1,5 @@
-﻿using Microsoft.Bot.Builder.Solutions.Responses;
+﻿using EmailSkill.Util;
+using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace EmailSkill.Dialogs.Shared.Resources.Cards
 {
@@ -25,5 +26,18 @@ namespace EmailSkill.Dialogs.Shared.Resources.Cards
 
         // Placeholder for email attachment
         public string AdditionalInfo2 { get; set; }
+
+        // RecipientIcons
+        public string RecipientIcon0 { get; set; } = AdaptiveCardHelper.DefaultIcon;
+
+        public string RecipientIcon1 { get; set; } = AdaptiveCardHelper.DefaultIcon;
+
+        public string RecipientIcon2 { get; set; } = AdaptiveCardHelper.DefaultIcon;
+
+        public string RecipientIcon3 { get; set; } = AdaptiveCardHelper.DefaultIcon;
+
+        public string RecipientIcon4 { get; set; } = AdaptiveCardHelper.DefaultIcon;
+
+        public string AdditionalRecipientNumber { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
@@ -246,14 +247,11 @@ namespace EmailSkill.Dialogs.ShowEmail
                     || (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true))
                     && message != null)
                 {
-                    var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(message.ToRecipients);
-
                     var senderIcon = await GetUserPhotoUrlAsync(sc.Context, message.Sender.EmailAddress);
                     var emailCard = new EmailCardData
                     {
                         Subject = message.Subject,
                         Sender = message.Sender.EmailAddress.Name,
-                        NameList = string.Format(EmailCommonStrings.ToFormat, nameListString),
                         EmailContent = message.BodyPreview,
                         EmailLink = message.WebLink,
                         ReceivedDateTime = message?.ReceivedDateTime == null
@@ -263,16 +261,21 @@ namespace EmailSkill.Dialogs.ShowEmail
                         SenderIcon = senderIcon
                     };
 
+                    emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, message.ToRecipients);
+
                     var tokens = new StringDictionary()
                     {
                         { "EmailDetails", SpeakHelper.ToSpeechEmailDetailString(message, state.GetUserTimeZone()) },
                         { "EmailDetailsWithContent", SpeakHelper.ToSpeechEmailDetailString(message, state.GetUserTimeZone(), true) },
                     };
 
+                    var recipientCard = message.ToRecipients.Count() > 5 ? "DetailCard_RecipientMoreThanFive" : "DetailCard_RecipientLessThanFive";
                     var replyMessage = ResponseManager.GetCardResponse(
                         ShowEmailResponses.ReadOutMessage,
                         new Card("EmailDetailCard", emailCard),
-                        tokens);
+                        tokens,
+                        "items",
+                        new List<Card>().Append(new Card(recipientCard, emailCard)));
 
                     // Set email as read.
                     var service = ServiceManager.InitMailService(state.Token, state.GetUserTimeZone(), state.MailSourceType);

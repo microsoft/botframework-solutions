@@ -1,0 +1,166 @@
+﻿{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "senderAvatar",
+                  "style": "Person",
+                  "url": "{SenderIcon}",
+                  "width": "80px",
+                  "height": "80px"
+                }
+              ],
+              "width": "auto"
+            },
+            {
+              "type": "Column",
+              "verticalContentAlignment": "Center",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "height": "stretch",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "horizontalAlignment": "Left",
+                      "verticalContentAlignment": "Center",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "senderName",
+                          "horizontalAlignment": "Left",
+                          "size": "Medium",
+                          "weight": "Bolder",
+                          "color": "Light",
+                          "text": "{Sender}"
+                        }
+                      ],
+                      "width": "stretch"
+                    },
+                    {
+                      "type": "Column",
+                      "verticalContentAlignment": "Center",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "horizontalAlignment": "Right",
+                          "size": "Medium",
+                          "weight": "Bolder",
+                          "color": "Light",
+                          "text": "{ReceivedDateTime}"
+                        }
+                      ],
+                      "width": "stretch"
+                    }
+                  ]
+                },
+                {
+                  "type": "ColumnSet",
+                  "id": "items",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "verticalContentAlignment": "Bottom",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "size": "Medium",
+                          "weight": "Bolder",
+                          "color": "Light",
+                          "text": "To"
+                        }
+                      ],
+                      "width": "auto"
+                    },
+                    {
+                      "type": "Column",
+                      "verticalContentAlignment": "Center",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "style": "Person",
+                          "url": "{RecipientIcon0}",
+                          "width": "50px",
+                          "height": "50px"
+                        }
+                      ],
+                      "width": "auto"
+                    },
+                    {
+                      "type": "Column",
+                      "horizontalAlignment": "Center",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "style": "Person",
+                          "url": "{RecipientIcon1}",
+                          "width": "50px",
+                          "height": "50px"
+                        }
+                      ],
+                      "width": "auto"
+                    },
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "style": "Person",
+                          "url": "{RecipientIcon2}",
+                          "width": "50px",
+                          "height": "50px"
+                        }
+                      ],
+                      "width": "auto"
+                    },
+                    {
+                      "type": "Column",
+                      "horizontalAlignment": "Center",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "horizontalAlignment": "Center",
+                          "style": "Person",
+                          "url": "{RecipientIcon3}",
+                          "width": "50px",
+                          "height": "50px"
+                        }
+                      ],
+                      "width": "auto"
+                    },
+                    {
+                      "type": "Column",
+                      "verticalContentAlignment": "Center",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "size": "Medium",
+                          "weight": "Bolder",
+                          "color": "Light",
+                          "text": "\\+ {AdditionalRecipientNumber}"
+                        }
+                      ],
+                      "width": "stretch"
+                    }
+                  ]
+                }
+              ],
+              "width": "stretch"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
+}

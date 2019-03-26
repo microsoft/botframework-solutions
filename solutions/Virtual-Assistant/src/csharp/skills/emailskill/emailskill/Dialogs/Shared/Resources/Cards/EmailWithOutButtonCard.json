@@ -48,83 +48,8 @@
     {
       "type": "Container",
       "spacing": "Medium",
-      "items": [
-        {
-          "type": "ColumnSet",
-          "columns": [
-            {
-              "type": "Column",
-              "verticalContentAlignment": "Bottom",
-              "items": [
-                {
-                  "type": "TextBlock",
-                  "size": "Medium",
-                  "weight": "Bolder",
-                  "color": "Light",
-                  "text": "To"
-                }
-              ],
-              "width": "auto"
-            },
-            {
-              "type": "Column",
-              "verticalContentAlignment": "Center",
-              "items": [
-                {
-                  "type": "Image",
-                  "style": "Person",
-                  "url": "https://raw.githubusercontent.com/ryanlengel/adaptivecards/master/assets/heads/robb.jpg"
-                }
-              ],
-              "width": "auto"
-            },
-            {
-              "type": "Column",
-              "items": [
-                {
-                  "type": "Image",
-                  "style": "Person",
-                  "url": "https://raw.githubusercontent.com/ryanlengel/adaptivecards/master/assets/heads/oberyn.jpg"
-                }
-              ],
-              "width": "auto"
-            },
-            {
-              "type": "Column",
-              "items": [
-                {
-                  "type": "Image",
-                  "style": "Person",
-                  "url": "https://raw.githubusercontent.com/ryanlengel/adaptivecards/master/assets/heads/gregor.jpg"
-                }
-              ],
-              "width": "auto"
-            },
-            {
-              "type": "Column",
-              "items": [
-                {
-                  "type": "Image",
-                  "style": "Person",
-                  "url": "https://raw.githubusercontent.com/ryanlengel/adaptivecards/master/assets/heads/cersei.jpg"
-                }
-              ],
-              "width": "auto"
-            },
-            {
-              "type": "Column",
-              "items": [
-                {
-                  "type": "Image",
-                  "style": "Person",
-                  "url": "https://raw.githubusercontent.com/ryanlengel/adaptivecards/master/assets/heads/sandor.jpg"
-                }
-              ],
-              "width": "auto"
-            }
-          ]
-        }
-      ]
+      "id": "items",
+      "items": []
     },
     {
       "type": "Container",

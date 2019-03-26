@@ -450,10 +450,10 @@ namespace EmailSkill.Dialogs.Shared
 
                 var emailCard = new EmailCardData
                 {
-                    Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : string.Format(EmailCommonStrings.SubjectFormat, state.Subject),
-                    NameList = string.Format(EmailCommonStrings.ToFormat, nameListString),
-                    EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : string.Format(EmailCommonStrings.ContentFormat, state.Content),
+                    Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : state.Subject,
+                    EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : state.Content,
                 };
+                emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.Recipients);
 
                 var speech = SpeakHelper.ToSpeechEmailSendDetailString(state.Subject, nameListString, state.Content);
                 var tokens = new StringDictionary
@@ -461,10 +461,13 @@ namespace EmailSkill.Dialogs.Shared
                     { "EmailDetails", speech },
                 };
 
+                var recipientCard = state.Recipients.Count() > 5 ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
                 var prompt = ResponseManager.GetCardResponse(
                     EmailSharedResponses.ConfirmSend,
                     new Card("EmailWithOutButtonCard", emailCard),
-                    tokens);
+                    tokens,
+                    "items",
+                    new List<Card>().Append(new Card(recipientCard, emailCard)));
 
                 var retry = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendFailed);
 
@@ -1233,6 +1236,59 @@ namespace EmailSkill.Dialogs.Shared
             {
                 // won't clear conversation state hear, because sometime use api is not available, like user msa account.
                 return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
+            }
+        }
+
+        protected async Task<EmailCardData> ProcessRecipientPhotoUrl(ITurnContext context, EmailCardData data, IEnumerable<Recipient> recipients)
+        {
+            try
+            {
+                var state = await EmailStateAccessor.GetAsync(context);
+
+                if (recipients == null || recipients.Count() == 0)
+                {
+                    throw new Exception("No recipient!");
+                }
+
+                int size = Math.Min(AdaptiveCardHelper.MaxDisplayRecipientNum, recipients.Count());
+
+                for (int i = 0; i < size; i++)
+                {
+                    var photoUrl = await GetUserPhotoUrlAsync(context, recipients.ElementAt(i).EmailAddress);
+
+                    switch (i)
+                    {
+                        case 0:
+                            data.RecipientIcon0 = photoUrl;
+                            break;
+                        case 1:
+                            data.RecipientIcon1 = photoUrl;
+                            break;
+                        case 2:
+                            data.RecipientIcon2 = photoUrl;
+                            break;
+                        case 3:
+                            data.RecipientIcon3 = photoUrl;
+                            break;
+                        case 4:
+                            data.RecipientIcon4 = photoUrl;
+                            break;
+                    }
+                }
+
+                if (recipients.Count() > AdaptiveCardHelper.MaxDisplayRecipientNum)
+                {
+                    int additionalNumber = recipients.Count() - AdaptiveCardHelper.MaxDisplayRecipientNum - 1;
+                    data.AdditionalRecipientNumber = additionalNumber.ToString();
+                }
+
+                // return default value
+                return data;
+            }
+            catch (ServiceException)
+            {
+                // won't clear conversation state hear, because sometime use api is not available, like user msa account.
+                return null;
             }
         }
 

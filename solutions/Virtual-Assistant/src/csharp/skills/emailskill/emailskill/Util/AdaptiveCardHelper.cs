@@ -18,5 +18,9 @@ namespace EmailSkill.Util
         public static readonly string DefaultAvatarIconPathFormat = "https://ui-avatars.com/api/?name={0}";
 
         public static readonly string DefaultMe = "Me";
+
+        public static readonly int MaxDisplayRecipientNum = 5;
+
+        public static readonly string DefaultIcon = "data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==";
     }
 }

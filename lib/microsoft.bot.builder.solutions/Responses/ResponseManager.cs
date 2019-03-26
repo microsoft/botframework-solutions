@@ -183,8 +183,13 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
             var cardObj = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(emailOverviewCard));
             var attachment = new Attachment(AdaptiveCard.ContentType, content: cardObj);
 
-            var response = GetResponse(templateId, tokens);
-            return MessageFactory.Attachment(attachment, response.Text, response.Speak, response.InputHint) as Activity;
+            if (templateId != null)
+            {
+                var response = GetResponse(templateId, tokens);
+                return MessageFactory.Attachment(attachment, response.Text, response.Speak, response.InputHint) as Activity;
+            }
+
+            return MessageFactory.Attachment(attachment, null, null, null) as Activity;
         }
 
         public ResponseTemplate GetResponseTemplate(string templateId, string locale = null)
