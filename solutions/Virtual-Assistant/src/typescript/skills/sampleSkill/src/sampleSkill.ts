@@ -59,7 +59,7 @@ export class SampleSkill {
         if (responseManager === undefined) {
             this.responseManager = new ResponseManager(
                 Array.from(this.services.localeConfigurations.keys()),
-                [new SampleResponses(), new MainResponses(), new SharedResponses()]
+                [SampleResponses, MainResponses, SharedResponses]
             );
         } else {
             this.responseManager = responseManager;

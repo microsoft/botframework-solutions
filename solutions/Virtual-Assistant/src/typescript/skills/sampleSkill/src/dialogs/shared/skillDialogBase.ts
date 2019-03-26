@@ -24,7 +24,7 @@ import {
     PromptValidatorContext,
     WaterfallStepContext} from 'botbuilder-dialogs';
 import { TokenResponse } from 'botframework-schema';
-import { getLocale } from 'i18n';
+import i18next from 'i18next';
 import { IServiceManager } from '../../serviceClients/IServiceManager';
 import { SkillTemplateDialogOptions } from './dialogOptions/skillTemplateDialogOptions';
 import { SharedResponses } from './sharedResponses';
@@ -176,7 +176,7 @@ export class SkillDialogBase extends ComponentDialog {
             });
 
             // Get luis service for current locale
-            const locale: string = getLocale();
+            const locale: string = i18next.language;
             const localeConfig: LocaleConfiguration = (this.services.localeConfigurations.get(locale) || new LocaleConfiguration());
             const luisService: ITelemetryLuisRecognizer | undefined = localeConfig.luisServices.get(this.projectName);
 
