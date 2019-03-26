@@ -124,6 +124,9 @@ namespace VirtualAssistant.Dialogs.Main
                 response.Speak = answer;
             }
 
+            // Ensure the InputHint is set to accepting
+            response.InputHint = InputHints.AcceptingInput;
+
             return response;
         }
 
