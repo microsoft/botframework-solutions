@@ -8,6 +8,12 @@ using Microsoft.Bot.Schema;
 
 namespace ServiceAdapter
 {
+    /// <summary>
+    /// ServiceAdapter is an adapter that handles requests from external service directly
+    /// It bypasses the channels BotFramework supports natively so it needs to take care of
+    /// some of the channel responsibilities, such as authenticate, throttle, payload conversation etc
+    /// Implementation of the service adapter should be in charge of detailed implementation of these.
+    /// </summary>
     public abstract class ServiceAdapter : BotAdapter, IServiceAdapter
     {
         protected string ChannelId { get; set; }
@@ -17,13 +23,28 @@ namespace ServiceAdapter
             ChannelId = channelId;
         }
 
-        public async Task ProcessAsync(HttpRequest httpRequest, Activity activity, BotCallbackHandler callback, CancellationToken cancellationToken)
+        /// <summary>
+        /// ProcessAsync implementation contains five parts:
+        /// 1. Authenticate
+        /// 2. Throttle
+        /// 3. Payload conversation
+        /// 4. Activity management
+        /// 5. RunPipeline (middleware, dialog etc)
+        /// </summary>
+        /// <param name="httpRequest">http request.</param>
+        /// <param name="callback">callback in the bot.</param>
+        /// <param name="cancellationToken">cancellation token</param>
+        /// <returns>task.</returns>
+        public async Task ProcessAsync(HttpRequest httpRequest, BotCallbackHandler callback, CancellationToken cancellationToken)
         {
             // authenticate the request
             await Authenticate(httpRequest);
 
-            // extract the activity from the request
+            // throttle the request
             await Throttle(httpRequest);
+
+            // extract the activity from the request
+            var activity = GetActivity(httpRequest);
 
             BotAssert.ActivityNotNull(activity);
 
@@ -64,5 +85,7 @@ namespace ServiceAdapter
         protected abstract Task Authenticate(HttpRequest httpRequest);
 
         protected abstract Task Throttle(HttpRequest httpRequest);
+
+        protected abstract Activity GetActivity(HttpRequest httpRequest);
     }
 }

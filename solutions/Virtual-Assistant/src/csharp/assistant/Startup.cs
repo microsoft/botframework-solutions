@@ -120,39 +120,45 @@ namespace VirtualAssistant
 
             services.AddSingleton(endpointService);
 
-            // Add the http adapter to enable MVC style bot API
-            services.AddBot<VirtualAssistant>((options) =>
-            {
-                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+            services.AddSingleton<IBot, VirtualAssistant>();
 
-                var sp = services.BuildServiceProvider();
+            // Add the http adapter to enable MVC style bot API
+            services.AddSingleton<IBotFrameworkHttpAdapter>((sp) =>
+            {
+                var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+
                 var telemetryClient = sp.GetService<IBotTelemetryClient>();
-                options.OnTurnError = async (context, exception) =>
+                var botFrameworkHttpAdapter = new BotFrameworkHttpAdapter(credentialProvider)
                 {
-                    CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-                    var responseBuilder = new MainResponses();
-                    await responseBuilder.ReplyWith(context, MainResponses.ResponseIds.Error);
-                    await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Virtual Assistant Error: {exception.Message} | {exception.StackTrace}"));
-                    telemetryClient.TrackExceptionEx(exception, context.Activity);
+                    OnTurnError = async (context, exception) =>
+                    {
+                        CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
+                        var responseBuilder = new MainResponses();
+                        await responseBuilder.ReplyWith(context, MainResponses.ResponseIds.Error);
+                        await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Virtual Assistant Error: {exception.Message} | {exception.StackTrace}"));
+                        telemetryClient.TrackExceptionEx(exception, context.Activity);
+                    }
                 };
 
                 // Telemetry Middleware (logs activity messages in Application Insights)
                 var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
-                options.Middleware.Add(appInsightsLogger);
+                botFrameworkHttpAdapter.Use(appInsightsLogger);
 
                 // Transcript Middleware (saves conversation history in a standard format)
                 var storageService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.BlobStorage) ?? throw new Exception("Please configure your Azure Storage service in your .bot file.");
                 var blobStorage = storageService as BlobStorageService;
                 var transcriptStore = new AzureBlobTranscriptStore(blobStorage.ConnectionString, blobStorage.Container);
                 var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
-                options.Middleware.Add(transcriptMiddleware);
+                botFrameworkHttpAdapter.Use(transcriptMiddleware);
 
                 // Typing Middleware (automatically shows typing when the bot is responding/working)
-                options.Middleware.Add(new ShowTypingMiddleware());
-                options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en-us"));
-                options.Middleware.Add(new EventDebuggerMiddleware());
-                options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
-                options.Middleware.Add(new ProactiveStateMiddleware(proactiveState));
+                botFrameworkHttpAdapter.Use(new ShowTypingMiddleware());
+                botFrameworkHttpAdapter.Use(new SetLocaleMiddleware(defaultLocale ?? "en-us"));
+                botFrameworkHttpAdapter.Use(new EventDebuggerMiddleware());
+                botFrameworkHttpAdapter.Use(new AutoSaveStateMiddleware(userState, conversationState));
+                botFrameworkHttpAdapter.Use(new ProactiveStateMiddleware(proactiveState));
+
+                return botFrameworkHttpAdapter;
             });
         }
 
