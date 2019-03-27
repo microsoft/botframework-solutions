@@ -18,12 +18,11 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
         public void InitSkills()
         {
             _skillDefinition = new SkillDefinition();
-            _skillDefinition.Id = "pointOfInterestSkill";
             _skillDefinition.Name = "pointOfInterestSkill";
             _skillDefinition.Endpoint = "https://djremotepoiskill.azurewebsites.net/api/skill";
 
             // Add the SkillDialog to the available dialogs passing the initialized FakeSkill
-            Dialogs.Add(new SkillDialog(_skillDefinition, null, null, null, null, false));        
+            Dialogs.Add(new SkillDialog(_skillDefinition, null));        
         }
 
         /// <summary>
