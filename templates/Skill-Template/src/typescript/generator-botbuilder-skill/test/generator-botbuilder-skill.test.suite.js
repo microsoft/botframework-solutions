@@ -9,11 +9,10 @@ const semver = require('semver');
 
 describe("The generator-botbuilder-skill tests", function() {
     var skillName;
+    var skillNameId;
     var skillDesc;
     var skillNamePascalCase;
     var skillNameCamelCase;
-    var skillConversationStateNameClass;
-    var skillConversationStateNameFile;
     var skillUserStateNameClass;
     var skillUserStateNameFile;
     var pathConfirmation;
@@ -49,7 +48,16 @@ describe("The generator-botbuilder-skill tests", function() {
     const commonDirectories = [
         "cognitiveModels",
     ];
-    
+
+    const languageDirectories = [
+        "de",
+        "en",
+        "es",
+        "fr",
+        "it",
+        "zh"
+    ];
+
     const commonTestDirectories = [
         "flow"
     ]
@@ -77,24 +85,18 @@ describe("The generator-botbuilder-skill tests", function() {
 
     describe("should create", function() {
         skillName = "mySkill";
+        skillNameId = "my";
         skillDesc = "A description for mySkill";
         skillNamePascalCase = _upperFirst(_camelCase(skillName));
         skillNameCamelCase = _camelCase(skillName);
         skillGenerationPath = path.join(__dirname, "tmp");
-        
-        skillConversationStateNameClass = `I${skillNamePascalCase.concat(
-          conversationStateTag
-        )}`;
-        skillConversationStateNameFile = skillNameCamelCase.concat(
-          conversationStateTag
-        );
         skillUserStateNameClass = `I${skillNamePascalCase.concat(userStateTag)}`;
         skillUserStateNameFile = skillNameCamelCase.concat(
           userStateTag
         );
         pathConfirmation = true;
         finalConfirmation = true;
-        srcFiles = ["index.ts", `${skillUserStateNameFile}.ts`, `${skillConversationStateNameFile}.ts`, `${skillNameCamelCase}.ts`];
+        srcFiles = ["index.ts", `${skillUserStateNameFile}.ts`, `${skillNameCamelCase}.ts`];
         before(async function(){
             await helpers
             .run(path.join(__dirname, "..", "generators", "app"))
@@ -218,7 +220,7 @@ describe("The generator-botbuilder-skill tests", function() {
             testFiles.forEach(fileName =>
                 it(fileName.concat(" file"), function(done){
                     assert.file(
-                        path.join(skillGenerationPath, skillName, "test", fileName)
+                        path.join(skillGenerationPath, skillName, "test", fileName )
                     );
                     done();
                 })
@@ -273,26 +275,11 @@ describe("The generator-botbuilder-skill tests", function() {
         
 
         describe("and have in the mainDialog file", function() {
-            it("an import component containing a ConversationState with the given name", function(done) {
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "src", "dialogs", "main", "mainDialog.ts"),
-                    `import { ${skillConversationStateNameClass} } from '../../${skillConversationStateNameFile}';`
-                );
-                done();
-            });
 
             it("an import component containing an UserState with the given name", function(done) {
                 assert.fileContent(
                     path.join(skillGenerationPath, skillName, "src", "dialogs", "main", "mainDialog.ts"),
                     `import { ${skillUserStateNameClass} } from '../../${skillUserStateNameFile}';`
-                );
-                done();
-            });
-
-            it("an accessor containing a ConversationState with the given name", function(done){
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "src", "dialogs", "main", "mainDialog.ts"),
-                    `StatePropertyAccessor<${skillConversationStateNameClass}>`
                 );
                 done();
             });
@@ -304,15 +291,7 @@ describe("The generator-botbuilder-skill tests", function() {
                 );
                 done();
             });
-
-            it("a creation of a property containing a ConversationState with the given name" , function(done){
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "src", "dialogs", "main", "mainDialog.ts"),
-                    `.createProperty('${skillConversationStateNameClass}')`
-                );
-                done();
-            });
-
+           
             it("a creation of a property containing an UserState with the given name" , function(done){
                 assert.fileContent(
                     path.join(skillGenerationPath, skillName, "src", "dialogs", "main", "mainDialog.ts"),
@@ -329,16 +308,8 @@ describe("The generator-botbuilder-skill tests", function() {
                 done()
             });
         });
-
+             
         describe("and have in the sampleDialog file", function() {
-            it("an import component containing a ConversationState with the given name", function(done) {
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "src", "dialogs", "sample", "sampleDialog.ts"),
-                    `import { ${skillConversationStateNameClass} } from '../../${skillConversationStateNameFile}';`
-                );
-                done();
-            });
-
             it("an import component containing an UserState with the given name", function(done) {
                 assert.fileContent(
                     path.join(skillGenerationPath, skillName, "src", "dialogs", "sample", "sampleDialog.ts"),
@@ -346,15 +317,7 @@ describe("The generator-botbuilder-skill tests", function() {
                 );
                 done();
             });
-
-            it("an accessor containing a ConversationState with the given name", function(done){
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "src", "dialogs", "sample", "sampleDialog.ts"),
-                    `StatePropertyAccessor<${skillConversationStateNameClass}>`
-                );
-                done();
-            });
-
+            
             it("an accessor containing an UserState with the given name", function(done){
                 assert.fileContent(
                     path.join(skillGenerationPath, skillName, "src", "dialogs", "sample", "sampleDialog.ts"),
@@ -364,50 +327,54 @@ describe("The generator-botbuilder-skill tests", function() {
             });
         });
 
+        describe("and have in the LUIS folder", function() {
+            languageDirectories.forEach(fileName => 
+                it(fileName.concat(" folder with the .lu file"), function(done){
+                     assert.file(
+                        path.join(skillGenerationPath, skillName, "cognitiveModels", "LUIS", fileName, `${skillNameId}.lu`)
+                    );
+                    done();
+                })
+            );
+        });
+
+        describe("and have in the skillConversationState file", function() {
+            it("a creation of a property containing the skillProjectName with the given name", function(done){
+                assert.fileContent(
+                    path.join(skillGenerationPath, skillName, "src", "skillConversationState.ts"),
+                    `luisResult?: '${skillNameId}LU'`
+                );
+                done();
+            });
+        });
+
+        describe("and have in the bot.recipe file", function() {
+            languageDirectories.forEach(fileName => 
+                it(fileName.concat(" folder with the skillProjectNameId in each bot.recipe file"), function(done){
+                    assert.fileContent(
+                        path.join(skillGenerationPath, skillName, "deploymentScripts", fileName, "bot.recipe"),
+                        `"id": "${skillNameId}"`,
+                        `"name": "${skillNameId}"`,
+                        `"luPath": "..\\cognitiveModels\\LUIS\\de\\${skillNameId}.lu"`
+                    );
+                    done();
+                })
+            );
+        });
+    
         describe("and have in the skillDialogBase file", function() {
-            it("an import component containing a ConversationState with the given name", function(done) {
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "src", "dialogs", "shared", "skillDialogBase.ts"),
-                    `import { ${skillConversationStateNameClass} } from '../../${skillConversationStateNameFile}';`
-                );
-                done();
-            });
-
-            it("an import component containing an UserState with the given name", function(done) {
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "src", "dialogs", "shared", "skillDialogBase.ts"),
-                    `import { ${skillUserStateNameClass} } from '../../${skillUserStateNameFile}';`
-                );
-                done();
-            });
-
-            it("an accessor containing a ConversationState with the given name", function(done){
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "src", "dialogs", "shared", "skillDialogBase.ts"),
-                    `StatePropertyAccessor<${skillConversationStateNameClass}>`
-                );
-                done();
-            });
-
-            it("an accessor containing an UserState with the given name", function(done){
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "src", "dialogs", "shared", "skillDialogBase.ts"),
-                    `StatePropertyAccessor<${skillUserStateNameClass}>`
-                );
-                done();
-            });
 
             it("a property with the name of the project", function(done){
                 assert.fileContent(
                     path.join(skillGenerationPath, skillName, "src", "dialogs", "main", "mainDialog.ts"),
                     `private projectName: string = '${skillName}'`
                 );
-                done()
+                done();
             });
         });
-    });
-
-   describe("should not create", function() {
+    });         
+      
+    describe("should not create", function() {
         before(async function() {
             if(semver.gte(process.versions.node, '10.12.0')){
                 run = false;
