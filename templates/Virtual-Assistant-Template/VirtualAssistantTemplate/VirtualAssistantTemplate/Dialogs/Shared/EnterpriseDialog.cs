@@ -8,6 +8,7 @@ using VirtualAssistantTemplate.Dialogs.Cancel;
 using VirtualAssistantTemplate.Dialogs.Main;
 using Luis;
 using Microsoft.Bot.Builder.Dialogs;
+using System.Globalization;
 
 namespace VirtualAssistantTemplate.Dialogs.Shared
 {
@@ -29,8 +30,12 @@ namespace VirtualAssistantTemplate.Dialogs.Shared
 
         protected override async Task<InterruptionStatus> OnDialogInterruptionAsync(DialogContext dc, CancellationToken cancellationToken)
         {
+            // Get cognitive models for locale
+            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var cognitiveModels = _services.CognitiveModelSets[locale];
+
             // check luis intent
-            _services.LuisServices.TryGetValue("general", out var luisService);
+            cognitiveModels.LuisServices.TryGetValue("general", out var luisService);
 
             if (luisService == null)
             {
