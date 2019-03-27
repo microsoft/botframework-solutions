@@ -117,18 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="HAVE_LOCATION" xml:space="preserve">
-    <value>我已将 {0} 设置为您的主要位置。一切就绪！</value>
-    <comment>3</comment>
-  </data>
-  <data name="LINKEDACCOUNTS_BODY" xml:space="preserve">
-    <value>切换到您的配套应用以获得设置。</value>
-  </data>
-  <data name="LINKEDACCOUNTS_TITLE" xml:space="preserve">
-    <value>我可以做更多的, 如果你链接你的帐户!</value>
-  </data>
-  <data name="LOCATION_PROMPT" xml:space="preserve">
-    <value>谢谢, {0}。您的位置在哪里？</value>
+  <data name="GREETING" xml:space="preserve">
+    <value>谢谢，{0}。 我该怎么帮忙？</value>
     <comment>2</comment>
   </data>
   <data name="NAME_PROMPT" xml:space="preserve">
