@@ -239,7 +239,6 @@ namespace VirtualAssistant.Dialogs.Main
                         break;
                     }
 
-
                 case Dispatch.Intent.None:
                 default:
                     {
