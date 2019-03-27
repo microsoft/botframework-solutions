@@ -1,0 +1,91 @@
+{
+    "name": "mockedSkillEs",
+    "description": "",
+    "services": [
+        {
+            "type": "luis",
+            "name": "mockedSkillEs_General",
+            "appId": "00000002-0000-0000-0000-000000000001",
+            "authoringKey": "mockedSkillEs-luis-authoringKey",
+            "subscriptionKey": "mockedSkillEs-luis-subscriptionKey",
+            "version": "0.1",
+            "region": "westus",
+            "id": "general"
+        },
+        {
+            "type": "luis",
+            "name": "mockedSkillEs_Calendar",
+            "appId": "00000002-0000-0000-0000-000000000001",
+            "authoringKey": "mockedSkillEs-luis-authoringKey",
+            "subscriptionKey": "mockedSkillEs-luis-subscriptionKey",
+            "version": "0.1",
+            "region": "westus",
+            "id": "calendar"
+        },
+        {
+            "type": "luis",
+            "name": "mockedSkillEs_Email",
+            "appId": "00000002-0000-0000-0000-000000000001",
+            "authoringKey": "mockedSkillEs-luis-authoringKey",
+            "subscriptionKey": "mockedSkillEs-luis-subscriptionKey","version": "0.1",
+            "region": "westus",
+            "id": "email"
+        },
+        {
+            "type": "luis",
+            "name": "mockedSkillEs_ToDo",
+            "appId": "00000002-0000-0000-0000-000000000001",
+            "authoringKey": "mockedSkillEs-luis-authoringKey",
+            "subscriptionKey": "mockedSkillEs-luis-subscriptionKey","version": "0.1",
+            "region": "westus",
+            "id": "todo"
+        },
+        {
+            "type": "luis",
+            "name": "mockedSkillEs_PointOfInterest",
+            "appId": "00000002-0000-0000-0000-000000000001",
+            "authoringKey": "mockedSkillEs-luis-authoringKey",
+            "subscriptionKey": "mockedSkillEs-luis-subscriptionKey","version": "0.1",
+            "region": "westus",
+            "id": "pointofinterest"
+        },
+        {
+            "type": "qna",
+            "name": "FAQ",
+            "id": "faq",
+            "kbId": "00000002-0000-0000-0000-000000000001",
+            "subscriptionKey": "mockedSkillEs-qna-subscriptionKey",
+            "endpointKey": "mockedSkillEs-qna-endpointKey",
+            "hostname": "https://mockedSkillEs-hostname-qnahost.azurewebsites.net/qnamaker"
+        },
+        {
+            "type": "qna",
+            "name": "ChitChat",
+            "id": "chitchat",
+            "kbId": "00000002-0000-0000-0000-000000000001",
+            "subscriptionKey": "mockedSkillEs-qna-subscriptionKey",
+            "endpointKey": "mockedSkillEs-qna-endpointKey",
+            "hostname": "https://mockedSkillEs-hostname-qnahost.azurewebsites.net/qnamaker"
+        },
+        {
+            "type": "dispatch",
+            "serviceIds": [
+                "general",
+                "calendar",
+                "email",
+                "todo",
+                "pointofinterest",
+                "faq"
+            ],
+            "name": "mockedSkillEs_Dispatch",
+            "appId": "00000002-0000-0000-0000-000000000001",
+            "authoringKey": "mockedSkillEs-dispatch-authoringKey",
+            "subscriptionKey": "mockedSkillEs-dispatch-subscriptionKey",
+            "version": "Dispatch",
+            "region": "westus",
+            "id": "dispatch"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0"
+}
