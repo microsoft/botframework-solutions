@@ -639,7 +639,7 @@ namespace EmailSkill.Dialogs.Shared
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                var (messages, totalCount) = await GetMessagesAsync(sc);
+                var (messages, totalCount, importantCount) = await GetMessagesAsync(sc);
 
                 // Get display messages
                 var displayMessages = new List<Message>();
@@ -655,7 +655,7 @@ namespace EmailSkill.Dialogs.Shared
                     state.Message.Clear();
                     state.Message.Add(displayMessages[0]);
 
-                    await ShowMailList(sc, displayMessages, totalCount, cancellationToken);
+                    await ShowMailList(sc, displayMessages, totalCount, importantCount, cancellationToken);
                     return await sc.NextAsync();
                 }
                 else
@@ -932,7 +932,7 @@ namespace EmailSkill.Dialogs.Shared
             return (displayMessages, searchType);
         }
 
-        protected async Task<(List<Message>, int)> GetMessagesAsync(WaterfallStepContext sc)
+        protected async Task<(List<Message>, int, int)> GetMessagesAsync(WaterfallStepContext sc)
         {
             var result = new List<Message>();
 
@@ -975,8 +975,14 @@ namespace EmailSkill.Dialogs.Shared
 
             // get messages for current page
             var filteredResult = new List<Message>();
+            int importantEmailCount = 0;
             for (var i = 0; i < result.Count; i++)
             {
+                if (result[i].Importance.HasValue && result[i].Importance.Value == Importance.High)
+                {
+                    importantEmailCount++;
+                }
+
                 if (skip > 0)
                 {
                     skip--;
@@ -987,17 +993,13 @@ namespace EmailSkill.Dialogs.Shared
                     {
                         filteredResult.Add(result[i]);
                     }
-                    else
-                    {
-                        break;
-                    }
                 }
             }
 
-            return (filteredResult, result.Count);
+            return (filteredResult, result.Count, importantEmailCount);
         }
 
-        protected async Task ShowMailList(WaterfallStepContext sc, List<Message> messages, int totalCount, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task ShowMailList(WaterfallStepContext sc, List<Message> messages, int totalCount, int importantCount, CancellationToken cancellationToken = default(CancellationToken))
         {
             var updatedMessages = new List<Message>();
             var state = await EmailStateAccessor.GetAsync(sc.Context);
@@ -1054,7 +1056,7 @@ namespace EmailSkill.Dialogs.Shared
                 Description = EmailCommonStrings.YourEmail,
                 AvatorIcon = avator,
                 TotalMessageNumber = totalCount.ToString(),
-                HighPriorityMessagesNumber = totalCount.ToString(),
+                HighPriorityMessagesNumber = importantCount.ToString(),
                 Now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone()).ToString(EmailCommonStrings.GeneralDateFormat),
                 MailSourceType = string.Format(EmailCommonStrings.Source, state.MailSourceType.ToString())
             };

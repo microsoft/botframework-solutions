@@ -79,7 +79,7 @@
                           "text": "To"
                         }
                       ],
-                      "width": "auto"
+                      "width": "50px"
                     },
                     {
                       "type": "Column",

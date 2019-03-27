@@ -135,12 +135,18 @@ namespace EmailSkillTest.Flow.Fakes
 
         public Task<User> GetMeAsync()
         {
-            throw new System.NotImplementedException();
+            var user = new User()
+            {
+                UserPrincipalName = "Test Test",
+                Mail = "test@test.com",
+                DisplayName = "Test Test",
+            };
+            return Task.FromResult(user);
         }
 
         public Task<string> GetUserPhotoAsync(string id)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult("data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==");
         }
     }
 }

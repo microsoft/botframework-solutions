@@ -15,8 +15,8 @@
                   "id": "senderAvatar",
                   "style": "Person",
                   "url": "{SenderIcon}",
-                  "width": "80px",
-                  "height": "80px"
+                  "width": "100px",
+                  "height": "100px"
                 }
               ],
               "width": "auto"
@@ -79,7 +79,7 @@
                           "text": "To"
                         }
                       ],
-                      "width": "auto"
+                      "width": "50px"
                     },
                     {
                       "type": "Column",

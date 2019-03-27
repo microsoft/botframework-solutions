@@ -23,6 +23,7 @@ using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Graph;
 
 namespace EmailSkill.Dialogs.ShowEmail
 {
@@ -488,7 +489,17 @@ namespace EmailSkill.Dialogs.ShowEmail
 
                         if (state.MessageList.Count > 1)
                         {
-                            await ShowMailList(sc, state.MessageList, state.MessageList.Count(), cancellationToken);
+                            int importCount = 0;
+
+                            foreach (var msg in state.MessageList)
+                            {
+                                if (msg.Importance.HasValue && msg.Importance.Value == Importance.High)
+                                {
+                                    importCount++;
+                                }
+                            }
+
+                            await ShowMailList(sc, state.MessageList, state.MessageList.Count(), importCount, cancellationToken);
                             return await sc.NextAsync();
                         }
                         else if (state.MessageList.Count == 1)
