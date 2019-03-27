@@ -30,6 +30,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
         public const string SkillModeAuth = "SkillAuth";
         public const string LocalModeAuth = "LocalAuth";
         private const string FallbackPointOfInterestImageFileName = "default_pointofinterest.jpg";
+        private const string BackgroundImageFileName = "background.png";
         private IHttpContextAccessor _httpContext;
 
         public PointOfInterestSkillDialog(
@@ -388,15 +389,17 @@ namespace PointOfInterestSkill.Dialogs.Shared
                     // Increase by one to avoid zero based options to the user which are confusing
                     pointOfInterestList[i].Index = i + 1;
 
-                    if (string.IsNullOrEmpty(pointOfInterestList[i].ImageUrl))
+                    if (string.IsNullOrEmpty(pointOfInterestList[i].PointOfInterestImageUrl))
                     {
-                        pointOfInterestList[i].ImageUrl = GetCardImageUri(FallbackPointOfInterestImageFileName);
+                        pointOfInterestList[i].PointOfInterestImageUrl = GetCardImageUri(FallbackPointOfInterestImageFileName);
                     }
 
                     if (string.IsNullOrEmpty(pointOfInterestList[i].Name))
                     {
                         pointOfInterestList[i].Name = pointOfInterestList[i].Street;
                     }
+
+                    pointOfInterestList[i].BackgroundImageUrl = GetCardImageUri(BackgroundImageFileName);
                 }
 
                 state.LastFoundPointOfInterests = pointOfInterestList;
@@ -408,7 +411,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
 
                     foreach (var pointOfInterest in pointOfInterestList)
                     {
-                        cards.Add(new Card("PointOfInterestViewCard", pointOfInterest));
+                        cards.Add(new Card("PointOfInterestDetails", pointOfInterest));
                     }
 
                     var replyMessage = ResponseManager.GetCardResponse(templateId, cards);
@@ -421,7 +424,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 {
                     var templateId = POISharedResponses.SingleLocationFound;
 
-                    var card = new Card("PointOfInterestViewCard", state.LastFoundPointOfInterests[0]);
+                    var card = new Card("PointOfInterestDetails", state.LastFoundPointOfInterests[0]);
                     var replyMessage = ResponseManager.GetCardResponse(templateId, card);
                     replyMessage.Speak = ResponseUtility.BuildSpeechFriendlyPoIResponse(replyMessage);
 
@@ -565,7 +568,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                         City = destination.City,
                         AvailableDetails = destination.AvailableDetails,
                         Hours = destination.Hours,
-                        ImageUrl = destination.ImageUrl,
+                        ImageUrl = destination.PointOfInterestImageUrl,
                         TravelTime = GetShortTravelTimespanString(travelTimeSpan),
                         DelayStatus = GetFormattedTrafficDelayString(trafficTimeSpan),
                         Distance = $"{(route.Summary.LengthInMeters / 1609.344).ToString("N1")} {PointOfInterestSharedStrings.MILES_ABBREVIATION}",

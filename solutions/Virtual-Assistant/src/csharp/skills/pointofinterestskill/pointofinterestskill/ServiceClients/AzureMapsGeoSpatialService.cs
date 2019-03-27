@@ -161,7 +161,7 @@ namespace PointOfInterestSkill.ServiceClients
                 pointOfInterest?.Geolocation?.Longitude,
                 zoom) + "&subscription-key=" + apiKey;
 
-            pointOfInterest.ImageUrl = imageUrl;
+            pointOfInterest.PointOfInterestImageUrl = imageUrl;
 
             return Task.FromResult(pointOfInterest);
         }

@@ -78,9 +78,9 @@ namespace PointOfInterestSkill.Models
             Id = !string.IsNullOrEmpty(foursquarePoi.Id)
                 ? foursquarePoi.Id
                 : Id;
-            ImageUrl = !string.IsNullOrEmpty(foursquarePoi.BestPhoto?.AbsoluteUrl)
+            PointOfInterestImageUrl = !string.IsNullOrEmpty(foursquarePoi.BestPhoto?.AbsoluteUrl)
                ? foursquarePoi.BestPhoto?.AbsoluteUrl
-               : ImageUrl;
+               : PointOfInterestImageUrl;
             Name = !string.IsNullOrEmpty(foursquarePoi.Name)
                 ? foursquarePoi.Name
                 : Name;
@@ -126,7 +126,15 @@ namespace PointOfInterestSkill.Models
         /// <value>
         /// The image URL of this point of interest.
         /// </value>
-        public string ImageUrl { get; set; }
+        public string PointOfInterestImageUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets the background image url.
+        /// </summary>
+        /// <value>
+        /// The background image URL.
+        /// </value>
+        public string BackgroundImageUrl { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the point of interest.

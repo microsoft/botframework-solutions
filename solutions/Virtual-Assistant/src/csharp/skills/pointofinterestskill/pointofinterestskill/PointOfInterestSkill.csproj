@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Dialogs\Shared\Resources\Cards\PointOfInterestDetails.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
@@ -31,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\PointOfInterestDetails.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\POISharedResponses.es.json" />
   </ItemGroup>
 
@@ -147,6 +152,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="wwwroot\images\background.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\images\default_pointofinterest.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
