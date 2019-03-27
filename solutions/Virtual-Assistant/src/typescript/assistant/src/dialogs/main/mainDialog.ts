@@ -14,10 +14,10 @@ import {
     RouterDialog,
     SkillConfiguration,
     SkillDefinition,
-    SkillDialog,
     SkillEvent,
     SkillRouter,
     TelemetryExtensions } from 'bot-solution';
+import { SkillDialog } from "bot-skill";
 import {
     BotFrameworkAdapter,
     BotTelemetryClient,
@@ -448,10 +448,7 @@ export class MainDialog extends RouterDialog {
             this.addDialog(new SkillDialog(
                 definition,
                 this.services.skillConfigurations.get(definition.id) || new SkillConfiguration(),
-                this.proactiveState,
-                this.endpointService,
-                this.telemetryClient,
-                this.backgroundTaskQueue));
+                this.telemetryClient));
         });
 
         // Initialize skill dispatcher
