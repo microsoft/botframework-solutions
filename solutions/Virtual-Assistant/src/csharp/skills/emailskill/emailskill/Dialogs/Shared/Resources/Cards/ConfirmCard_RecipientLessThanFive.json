@@ -19,7 +19,7 @@
                   "text": "To"
                 }
               ],
-              "width": "auto"
+              "width": "20px"
             },
             {
               "type": "Column",
@@ -28,7 +28,9 @@
                 {
                   "type": "Image",
                   "style": "Person",
-                  "url": "{RecipientIcon0}"
+                  "url": "{RecipientIcon0}",
+                  "width": "80px",
+                  "height": "80px"
                 }
               ],
               "width": "auto"
@@ -39,7 +41,9 @@
                 {
                   "type": "Image",
                   "style": "Person",
-                  "url": "{RecipientIcon1}"
+                  "url": "{RecipientIcon1}",
+                  "width": "80px",
+                  "height": "80px"
                 }
               ],
               "width": "auto"
@@ -50,7 +54,9 @@
                 {
                   "type": "Image",
                   "style": "Person",
-                  "url": "{RecipientIcon2}"
+                  "url": "{RecipientIcon2}",
+                  "width": "80px",
+                  "height": "80px"
                 }
               ],
               "width": "auto"
@@ -61,7 +67,9 @@
                 {
                   "type": "Image",
                   "style": "Person",
-                  "url": "{RecipientIcon3}"
+                  "url": "{RecipientIcon3}",
+                  "width": "80px",
+                  "height": "80px"
                 }
               ],
               "width": "auto"
@@ -72,7 +80,9 @@
                 {
                   "type": "Image",
                   "style": "Person",
-                  "url": "{RecipientIcon4}"
+                  "url": "{RecipientIcon4}",
+                  "width": "80px",
+                  "height": "80px"
                 }
               ],
               "width": "auto"

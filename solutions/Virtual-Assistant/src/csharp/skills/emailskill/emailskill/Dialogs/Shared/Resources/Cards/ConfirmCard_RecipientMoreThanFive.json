@@ -19,7 +19,7 @@
                   "text": "To"
                 }
               ],
-              "width": "auto"
+              "width": "20px"
             },
             {
               "type": "Column",
@@ -29,8 +29,8 @@
                   "type": "Image",
                   "style": "Person",
                   "url": "{RecipientIcon0}",
-                  "width": "65px",
-                  "height": "65px"
+                  "width": "80px",
+                  "height": "80px"
                 }
               ],
               "width": "auto"
@@ -43,8 +43,8 @@
                   "type": "Image",
                   "style": "Person",
                   "url": "{RecipientIcon1}",
-                  "width": "65px",
-                  "height": "65px"
+                  "width": "80px",
+                  "height": "80px"
                 }
               ],
               "width": "auto"
@@ -56,8 +56,8 @@
                   "type": "Image",
                   "style": "Person",
                   "url": "{RecipientIcon2}",
-                  "width": "65px",
-                  "height": "65px"
+                  "width": "80px",
+                  "height": "80px"
                 }
               ],
               "width": "auto"
@@ -70,8 +70,8 @@
                   "type": "Image",
                   "style": "Person",
                   "url": "{RecipientIcon3}",
-                  "width": "65px",
-                  "height": "65px"
+                  "width": "80px",
+                  "height": "80px"
                 }
               ],
               "width": "auto"
