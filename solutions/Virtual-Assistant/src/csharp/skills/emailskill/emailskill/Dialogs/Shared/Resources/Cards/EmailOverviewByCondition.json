@@ -1,6 +1,6 @@
 ﻿{
   "type": "AdaptiveCard",
-  "height": "stretch",
+  "id": "EmailOverviewByCondition",
   "backgroundImage": "https://raw.githubusercontent.com/ryanlengel/adaptivecards/master/email/assets/background.png",
   "body": [
     {
@@ -74,7 +74,8 @@
                           "horizontalAlignment": "Right",
                           "size": "Medium",
                           "color": "Light",
-                          "text": "{HighPriorityMessagesNumber}"
+                          "text": "{HighPriorityMessagesNumber}",
+                          "spacing":  "medium"
                         }
                       ],
                       "width": "auto"
@@ -96,7 +97,8 @@
                           "size": "Medium",
                           "weight": "Bolder",
                           "color": "Light",
-                          "text": "{ImportantMessagesDiscription}"
+                          "text": "{ImportantMessagesDiscription}",
+                          "spacing": "medium"
                         }
                       ],
                       "width": "stretch"
