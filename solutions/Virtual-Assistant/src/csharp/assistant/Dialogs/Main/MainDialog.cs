@@ -3,15 +3,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Proactive;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
@@ -21,6 +24,7 @@ using Newtonsoft.Json;
 using VirtualAssistant.Dialogs.Escalate;
 using VirtualAssistant.Dialogs.Main.Resources;
 using VirtualAssistant.Dialogs.Onboarding;
+using VirtualAssistant.Models;
 
 namespace VirtualAssistant.Dialogs.Main
 {
@@ -33,15 +37,21 @@ namespace VirtualAssistant.Dialogs.Main
         private ProactiveState _proactiveState;
         private EndpointService _endpointService;
         private IBackgroundTaskQueue _backgroundTaskQueue;
+        private IHttpContextAccessor _httpContext;
         private IStatePropertyAccessor<OnboardingState> _onboardingState;
         private IStatePropertyAccessor<Dictionary<string, object>> _parametersAccessor;
         private IStatePropertyAccessor<VirtualAssistantState> _virtualAssistantState;
+        private ResponseManager _responseManager;
+        private string _imageAssetLocation;
         private MainResponses _responder = new MainResponses();
         private SkillRouter _skillRouter;
 
+        private string headerImagePath = "header_greeting.png";
+        private string backgroundImagePath = "background_light.png";
+        private string columnBackgroundImagePath = "background_dark.png";
         private bool _conversationStarted = false;
 
-        public MainDialog(BotServices services, ConversationState conversationState, UserState userState, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue)
+        public MainDialog(BotServices services, ConversationState conversationState, UserState userState, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue, ResponseManager responseManager, string imageAssetLocation, IHttpContextAccessor httpContext = null)
             : base(nameof(MainDialog), telemetryClient)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
@@ -51,6 +61,9 @@ namespace VirtualAssistant.Dialogs.Main
             _endpointService = endpointService;
             TelemetryClient = telemetryClient;
             _backgroundTaskQueue = backgroundTaskQueue;
+            _httpContext = httpContext;
+            _imageAssetLocation = imageAssetLocation;
+            _responseManager = responseManager;
             _onboardingState = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             _parametersAccessor = _userState.CreateProperty<Dictionary<string, object>>("userInfo");
             _virtualAssistantState = _conversationState.CreateProperty<VirtualAssistantState>(nameof(VirtualAssistantState));
@@ -251,8 +264,6 @@ namespace VirtualAssistant.Dialogs.Main
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Completed);
-
             // End active dialog
             await dc.EndDialogAsync(result);
         }
@@ -423,10 +434,62 @@ namespace VirtualAssistant.Dialogs.Main
             }
         }
 
+        /// <summary>
+        /// Displays a greeting card to new and returning users.
+        /// </summary>
+        /// <param name="dc">Dialog context.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Task.</returns>
         private async Task StartConversation(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var view = new MainResponses();
-            await view.ReplyWith(dc.Context, MainResponses.ResponseIds.Intro);
+            var onboardingState = await _onboardingState.GetAsync(dc.Context, () => new OnboardingState());
+
+            if (string.IsNullOrEmpty(onboardingState.Name))
+            {
+                var titleResponse = _responseManager.GetResponse(MainDialogResponses.NewUserGreetingTitle);
+                var bodyResponse = _responseManager.GetResponse(MainDialogResponses.NewUserGreetingBody);
+
+                var greetingCardData = new GreetingCardModel()
+                {
+                    HeaderImageUrl = GetCardImageUri(headerImagePath),
+                    BackgroundImageUrl = GetCardImageUri(backgroundImagePath),
+                    ColumnBackgroundImageUrl = GetCardImageUri(columnBackgroundImagePath),
+                    Title = titleResponse.Text,
+                    Body = bodyResponse.Text,
+                    Speak = string.Format("{0} {1}", titleResponse.Speak, bodyResponse.Speak)
+                };
+
+                var card = new Card("NewUserGreeting", greetingCardData);
+                var greetingCardMessage = _responseManager.GetCardResponse(card);
+
+                await dc.Context.SendActivityAsync(greetingCardMessage);
+
+                // This is the first time the user is interacting with the bot, so gather onboarding information.
+                await dc.BeginDialogAsync(nameof(OnboardingDialog));
+            }
+            else
+            {
+                var titleResponse = _responseManager.GetResponse(MainDialogResponses.ReturningUserGreetingTitle, new StringDictionary() { { "Name", onboardingState.Name } });
+                var bodyResponse = _responseManager.GetResponse(MainDialogResponses.ReturningUserGreetingBody);
+
+                var greetingCardData = new GreetingCardModel()
+                {
+                    HeaderImageUrl = GetCardImageUri(headerImagePath),
+                    BackgroundImageUrl = GetCardImageUri(backgroundImagePath),
+                    ColumnBackgroundImageUrl = GetCardImageUri(columnBackgroundImagePath),
+                    Title = titleResponse.Text,
+                    Body = bodyResponse.Text,
+                    Speak = string.Format("{0} {1}", titleResponse.Speak, bodyResponse.Speak)
+                };
+
+                var card = new Card("ReturningUserGreeting", greetingCardData);
+                var greetingCardMessage = _responseManager.GetCardResponse(card);
+
+                await dc.Context.SendActivityAsync(greetingCardMessage);
+
+                var greetingMessage = _responseManager.GetResponse(MainDialogResponses.Greeting);
+                await dc.Context.SendActivityAsync(greetingMessage);
+            }
         }
 
         private async Task RouteToSkillAsync(DialogContext dc, SkillDialogOptions options)
@@ -486,6 +549,28 @@ namespace VirtualAssistant.Dialogs.Main
 
             // Initialize skill dispatcher
             _skillRouter = new SkillRouter(_services.SkillDefinitions);
+        }
+
+        private string GetCardImageUri(string imagePath)
+        {
+            // If we are in local mode we leverage the HttpContext to get the current path to the image assets
+            if (_httpContext != null)
+            {
+                string serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
+                return $"{serverUrl}/images/{imagePath}";
+            }
+            else
+            {
+                // Otherwise use a configured image asset location
+                if (string.IsNullOrWhiteSpace(_imageAssetLocation))
+                {
+                    throw new Exception("imageAssetLocation not configured on the skill.");
+                }
+                else
+                {
+                    return $"{_imageAssetLocation}/{imagePath}";
+                }
+            }
         }
 
         private class Events

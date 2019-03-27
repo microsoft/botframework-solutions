@@ -61,38 +61,11 @@ namespace VirtualAssistant.Dialogs.Onboarding.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to I&apos;ve added {0} as your primary location. You&apos;re all set up!.
+        ///   Looks up a localized string similar to Thanks, {0}. How can I help?.
         /// </summary>
-        public static string HAVE_LOCATION {
+        public static string GREETING {
             get {
-                return ResourceManager.GetString("HAVE_LOCATION", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Switch to your companion app to get set up..
-        /// </summary>
-        public static string LINKEDACCOUNTS_BODY {
-            get {
-                return ResourceManager.GetString("LINKEDACCOUNTS_BODY", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to I can do more if you link your accounts!.
-        /// </summary>
-        public static string LINKEDACCOUNTS_TITLE {
-            get {
-                return ResourceManager.GetString("LINKEDACCOUNTS_TITLE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Thanks, {0}. Where are you located?.
-        /// </summary>
-        public static string LOCATION_PROMPT {
-            get {
-                return ResourceManager.GetString("LOCATION_PROMPT", resourceCulture);
+                return ResourceManager.GetString("GREETING", resourceCulture);
             }
         }
         

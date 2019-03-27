@@ -4,9 +4,11 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Proactive;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
@@ -26,6 +28,9 @@ namespace VirtualAssistant
         private readonly EndpointService _endpointService;
         private readonly IBotTelemetryClient _telemetryClient;
         private readonly IBackgroundTaskQueue _backgroundTaskQueue;
+        private readonly ResponseManager _responseManager;
+        private readonly string _imageAssetLocation;
+        private IHttpContextAccessor _httpContext;
         private DialogSet _dialogs;
 
         /// <summary>
@@ -38,7 +43,10 @@ namespace VirtualAssistant
         /// <param name="endpointService">Bot endpoint service.</param>
         /// <param name="telemetryClient">Bot telemetry client.</param>
         /// <param name="backgroundTaskQueue">Background task queue.</param>
-        public VirtualAssistant(BotServices botServices, ConversationState conversationState, UserState userState, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue)
+        /// <param name="responseManager">Response manager.</param>
+        /// <param name="imageAssetLocation">Image asset location.</param>
+        /// <param name="httpContext">Http context.</param>
+        public VirtualAssistant(BotServices botServices, ConversationState conversationState, UserState userState, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue, ResponseManager responseManager, string imageAssetLocation, IHttpContextAccessor httpContext = null)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
@@ -47,9 +55,12 @@ namespace VirtualAssistant
             _endpointService = endpointService ?? throw new ArgumentNullException(nameof(endpointService));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
             _backgroundTaskQueue = backgroundTaskQueue;
+            _responseManager = responseManager;
+            _imageAssetLocation = imageAssetLocation;
+            _httpContext = httpContext ?? throw new ArgumentNullException(nameof(httpContext));
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(VirtualAssistant)));
-            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _proactiveState, _endpointService, _telemetryClient, _backgroundTaskQueue));
+            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _proactiveState, _endpointService, _telemetryClient, _backgroundTaskQueue, _responseManager, _imageAssetLocation, _httpContext));
         }
 
         /// <summary>
