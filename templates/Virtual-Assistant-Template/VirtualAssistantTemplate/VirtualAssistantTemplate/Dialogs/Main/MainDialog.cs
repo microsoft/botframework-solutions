@@ -11,6 +11,7 @@ using VirtualAssistantTemplate.Dialogs.Shared;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using System.Globalization;
 
 namespace VirtualAssistantTemplate.Dialogs.Main
 {
@@ -41,14 +42,18 @@ namespace VirtualAssistantTemplate.Dialogs.Main
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
+            // Get cognitive models for locale
+            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var cognitiveModels = _services.CognitiveModelSets[locale];
+
             // Check dispatch result
-            var dispatchResult = await _services.DispatchRecognizer.RecognizeAsync<Dispatch>(dc, CancellationToken.None);
+            var dispatchResult = await cognitiveModels.DispatchService.RecognizeAsync<Dispatch>(dc.Context, CancellationToken.None);
             var intent = dispatchResult.TopIntent().intent;
 
             if (intent == Dispatch.Intent.l_general)
             {
                 // If dispatch result is general luis model
-                _services.LuisServices.TryGetValue("general", out var luisService);
+                cognitiveModels.LuisServices.TryGetValue("general", out var luisService);
 
                 if (luisService == null)
                 {
@@ -56,7 +61,7 @@ namespace VirtualAssistantTemplate.Dialogs.Main
                 }
                 else
                 {
-                    var result = await luisService.RecognizeAsync<General>(dc, CancellationToken.None);
+                    var result = await luisService.RecognizeAsync<General>(dc.Context, CancellationToken.None);
 
                     var generalIntent = result?.TopIntent().intent;
 
@@ -99,7 +104,7 @@ namespace VirtualAssistantTemplate.Dialogs.Main
             }
             else if (intent == Dispatch.Intent.q_faq)
             {
-                _services.QnAServices.TryGetValue("faq", out var qnaService);
+                cognitiveModels.QnAServices.TryGetValue("faq", out var qnaService);
 
                 if (qnaService == null)
                 {
@@ -117,7 +122,7 @@ namespace VirtualAssistantTemplate.Dialogs.Main
             }
             else if (intent == Dispatch.Intent.q_chitchat)
             {
-                _services.QnAServices.TryGetValue("chitchat", out var qnaService);
+                cognitiveModels.QnAServices.TryGetValue("chitchat", out var qnaService);
 
                 if (qnaService == null)
                 {
