@@ -61,6 +61,10 @@ $TaskContentPattern:simple
 $KEYWORD:simple
 $ADDRESS:simple
 
+ # l_Sample 
+- [l_Sample](../../../../skills/sampleSkill/CognitiveModels/LUIS/en/sample.lu#Sample)
+- [l_Sample](../../../../skills/sampleSkill/CognitiveModels/LUIS/en/sample.lu#None)
+
 # q_FAQ
 - [q_FAQ](../../QnA/en/faq.lu#?)
 

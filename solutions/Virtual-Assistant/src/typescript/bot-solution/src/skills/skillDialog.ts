@@ -31,7 +31,7 @@ export class SkillDialog extends ComponentDialog {
     private readonly endpointService: IEndpointService;
     private readonly backgroundTaskQueue: IBackgroundTaskQueue;
     private readonly useCachedTokens: boolean;
-    private static readonly skillsDirectory: string = process.env.SKILLS_DIRECTORY || '';
+    private readonly skillsDirectory: string = process.env.SKILLS_DIRECTORY || '';
     private inProcAdapter!: InProcAdapter;
     private activatedSkill!: { onTurn(context: TurnContext): Promise<void> }; // IBot;
     private skillInitialized: boolean;
@@ -133,7 +133,7 @@ export class SkillDialog extends ComponentDialog {
 
             // Create skill instance
             try {
-                const skillDirectory: string = join(SkillDialog.skillsDirectory, <string> this.skillConfiguration.properties['pathToBot']);
+                const skillDirectory: string = join(this.skillsDirectory, <string> this.skillConfiguration.properties['pathToBot']);
                 // tslint:disable-next-line:no-any
                 const skillModule: any = require(skillDirectory);
                 const skillClassName: string = <string> this.skillConfiguration.properties['ClassName'];
