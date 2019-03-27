@@ -1,39 +1,61 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+/**
+ * Copyright(c) Microsoft Corporation.All rights reserved.
+ * Licensed under the MIT License.
+ */
 
 import { TelemetryClient } from 'applicationinsights';
+import {
+    ActivityExtensions,
+    EventDebuggerMiddleware,
+    Locales,
+    ProactiveState,
+    ProactiveStateMiddleware,
+    ResponseManager,
+    SetLocaleMiddleware,
+    SkillConfiguration,
+    SkillDefinition,
+    TelemetryExtensions
+} from 'bot-solution';
 import {
     AutoSaveStateMiddleware,
     BotFrameworkAdapter,
     ConversationState,
+    ShowTypingMiddleware,
     TranscriptLoggerMiddleware,
     TurnContext,
-    UserState } from 'botbuilder';
+    UserState
+} from 'botbuilder';
 import {
     AzureBlobTranscriptStore,
     CosmosDbStorage,
-    CosmosDbStorageSettings } from 'botbuilder-azure';
+    CosmosDbStorageSettings
+} from 'botbuilder-azure';
 import {
     BlobStorageService,
     BotConfiguration,
     IAppInsightsService,
     IBlobStorageService,
+    IBotConfiguration,
+    IConnectedService,
     ICosmosDBService,
     IEndpointService,
-    IGenericService } from 'botframework-config';
-
-// Read variables from .env file.
+    ServiceTypes
+} from 'botframework-config';
+import { ActivityTypes } from 'botframework-schema';
 import { config } from 'dotenv';
-// import * as i18n from 'i18n';
+import i18next from 'i18next';
+import i18nextNodeFsBackend from 'i18next-node-fs-backend';
 import * as path from 'path';
 import * as restify from 'restify';
+import { MainResponses } from './dialogs/main/mainResponses';
+import { SampleResponses } from './dialogs/sample/sampleResponses';
+import { SharedResponses } from './dialogs/shared/sharedResponses';
+import { default as languageModelsRaw } from './languageModels.json';
+import { <%=skillTemplateName%> } from './<%=skillTemplateFileName%>';
+import { ServiceManager } from './serviceClients/serviceManager';
+import { default as skillsRaw } from './skills.json';
 
-// i18n.configure({
-//     directory: path.join(__dirname, 'locales'),
-//     defaultLocale: 'en',
-//     objectNotation: true
-// });
-
+// Read variables from .env file.
 const ENV_NAME: string = process.env.NODE_ENV || 'development';
 config({ path: path.join(__dirname, '..', `.env.${ENV_NAME}`) });
 
@@ -43,95 +65,173 @@ const BOT_CONFIGURATION_ERROR: number = 1;
 const CONFIGURATION_PATH: string = path.join(__dirname, '..', process.env.BOT_FILE_NAME || '.bot');
 const BOT_SECRET: string = process.env.BOT_FILE_SECRET || '';
 
+const DEFAULT_LOCALE: string = process.env.DEFAULT_LOCALE || 'en';
+const APPINSIGHTS_NAME: string = process.env.APPINSIGHTS_NAME || '';
+const STORAGE_CONFIGURATION: string = process.env.STORAGE_NAME || '';
+const BLOB_NAME: string = process.env.BLOB_NAME || '';
+
+// Configure internationalization and default locale
+i18next.use(i18nextNodeFsBackend)
+.init({
+    fallbackLng: 'en',
+    preload: [ 'de', 'en', 'es', 'fr', 'it', 'zh' ],
+    backend: {
+        loadPath: path.join(__dirname, 'locales', '{{lng}}.json')
+    }
+})
+.then(async () => {
+    await Locales.addResourcesFromPath(i18next, 'common');
+});
+
+function searchService(botConfiguration: IBotConfiguration, serviceType?: ServiceTypes, nameOrId?: string): IConnectedService|undefined {
+    const candidates: IConnectedService[] = botConfiguration.services
+        .filter((s: IConnectedService) =>  !serviceType || s.type === serviceType);
+    const service: IConnectedService|undefined = candidates.find((s: IConnectedService) => s.id === nameOrId || s.name === nameOrId)
+        || candidates.find((s: IConnectedService) => true);
+
+    if (!service && nameOrId) {
+        throw new Error(`Service '${nameOrId}' [type: ${serviceType}] not found in .bot file.`);
+    }
+
+    return service;
+}
+
+// Initializes your bot language models and skills definitions
+const languageModels: Map<string, { botFilePath: string; botFileSecret: string }> = new Map(
+    Object.entries(languageModelsRaw)
+    .map((f: [string, { botFilePath: string; botFileSecret: string }]) => {
+        const fullPath: string = path.join(__dirname, f[1].botFilePath);
+        f[1].botFilePath = fullPath;
+
+        return f;
+    })
+    );
+
+const skills: SkillDefinition[] = skillsRaw.map((skill: { [key: string]: Object|undefined }) => {
+    const result: SkillDefinition = Object.assign(new SkillDefinition(), skill);
+    result.configuration = new Map<string, string>(Object.entries(skill.configuration || {}));
+
+    return result;
+});
+
 try {
     require.resolve(CONFIGURATION_PATH);
 } catch (err) {
+    // tslint:disable-next-line:no-console
+    console.error('Error reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.');
     process.exit(BOT_CONFIGURATION_ERROR);
-    throw new Error(`Error reading bot file. Please ensure you have valid botFilePath and botFileSecret set for your environment.`);
 }
 
 // Get bot configuration for services
-const BOT_CONFIG: BotConfiguration = BotConfiguration.loadSync(CONFIGURATION_PATH, BOT_SECRET);
+const botConfig: BotConfiguration = BotConfiguration.loadSync(CONFIGURATION_PATH, BOT_SECRET);
 
 // Get bot endpoint configuration by service name
-const ENDPOINT_CONFIG: IEndpointService = <IEndpointService> BOT_CONFIG.findServiceByNameOrId(BOT_CONFIGURATION);
+const endpointService: IEndpointService = <IEndpointService> searchService(botConfig, ServiceTypes.Endpoint, BOT_CONFIGURATION);
 
 // Create the adapter
-const ADAPTER: BotFrameworkAdapter = new BotFrameworkAdapter({
-    appId: ENDPOINT_CONFIG.appId || process.env.microsoftAppID,
-    appPassword: ENDPOINT_CONFIG.appPassword || process.env.microsoftAppPassword
+const adapter: BotFrameworkAdapter = new BotFrameworkAdapter({
+    appId: endpointService.appId || process.env.microsoftAppID,
+    appPassword: endpointService.appPassword || process.env.microsoftAppPassword
 });
 
 // Get AppInsights configuration by service name
-const APPINSIGHTS_CONFIGURATION: string = process.env.APPINSIGHTS_NAME || '';
-const APPINSIGHTS_CONFIG: IAppInsightsService = <IAppInsightsService> BOT_CONFIG.findServiceByNameOrId(APPINSIGHTS_CONFIGURATION);
-if (!APPINSIGHTS_CONFIG) {
+const appInsightsConfig: IAppInsightsService = <IAppInsightsService> searchService(botConfig, ServiceTypes.AppInsights, APPINSIGHTS_NAME);
+if (!appInsightsConfig) {
+    // tslint:disable-next-line:no-console
+    console.error('Please configure your AppInsights connection in your .bot file.');
     process.exit(BOT_CONFIGURATION_ERROR);
-    throw new Error('Please configure your AppInsights connection in your .bot file.');
 }
-const TELEMETRY_CLIENT: TelemetryClient = new TelemetryClient(APPINSIGHTS_CONFIG.instrumentationKey);
+const telemetryClient: TelemetryClient = new TelemetryClient(appInsightsConfig.instrumentationKey);
 
-// CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
-// is restarted, anything stored in memory will be gone.
-// const storage = new MemoryStorage();
-
- // this is the name of the cosmos DB configuration in your .bot file
-const STORAGE_CONFIGURATION: string = process.env.STORAGE_NAME || '';
-const COSMOS_CONFIG: ICosmosDBService = <ICosmosDBService> BOT_CONFIG.findServiceByNameOrId(STORAGE_CONFIGURATION);
 // For production bots use the Azure CosmosDB storage, Azure Blob, or Azure Table storage provides.
-const COSMOS_DB_STORAGE_SETTINGS: CosmosDbStorageSettings = {
-    authKey: COSMOS_CONFIG.key,
-    collectionId: COSMOS_CONFIG.collection,
-    databaseId: COSMOS_CONFIG.database,
-    serviceEndpoint: COSMOS_CONFIG.endpoint,
+const cosmosConfig: ICosmosDBService = <ICosmosDBService> searchService(botConfig, ServiceTypes.CosmosDB, STORAGE_CONFIGURATION);
+const cosmosDbStorageSettings: CosmosDbStorageSettings = {
+    authKey: cosmosConfig.key,
+    collectionId: cosmosConfig.collection,
+    databaseId: cosmosConfig.database,
+    serviceEndpoint: cosmosConfig.endpoint,
     documentCollectionRequestOptions: {},
     databaseCreationRequestOptions: {}
 };
-const STORAGE: CosmosDbStorage  = new CosmosDbStorage(COSMOS_DB_STORAGE_SETTINGS);
+const storage: CosmosDbStorage  = new CosmosDbStorage(cosmosDbStorageSettings);
 
-if (!COSMOS_CONFIG) {
+if (!cosmosConfig) {
     // tslint:disable-next-line:no-console
-    console.log('Please configure your CosmosDB connection in your .bot file.');
+    console.error('Please configure your CosmosDB connection in your .bot file.');
     process.exit(BOT_CONFIGURATION_ERROR);
 }
 
-// create conversation and user state with in-memory storage provider.
-const CONVERSATION_STATE: ConversationState = new ConversationState(STORAGE);
-const USER_STATE: UserState = new UserState(STORAGE);
+// create conversation and user state
+const conversationState: ConversationState = new ConversationState(storage);
+const userState: UserState = new UserState(storage);
+const proactiveState: ProactiveState = new ProactiveState(storage);
 
 // Use the AutoSaveStateMiddleware middleware to automatically read and write conversation and user state.
-// CONSIDER:  if only using userState, then switch to adapter.use(userState);
-ADAPTER.use(new AutoSaveStateMiddleware(CONVERSATION_STATE, USER_STATE));
+adapter.use(new AutoSaveStateMiddleware(conversationState, userState));
 
 // Transcript Middleware (saves conversation history in a standard format)
-const BLOB_CONFIGURATION: string = process.env.BLOB_NAME || ''; // this is the name of the BlobStorage configuration in your .bot file
-const BLOB_STORAGE_CONFIG: IBlobStorageService = <IBlobStorageService> BOT_CONFIG.findServiceByNameOrId(BLOB_CONFIGURATION);
-if (!BLOB_STORAGE_CONFIG) {
+const blobStorageConfig: IBlobStorageService = <IBlobStorageService> searchService(botConfig, ServiceTypes.BlobStorage, BLOB_NAME);
+if (!blobStorageConfig) {
     // tslint:disable-next-line:no-console
-    console.log('Please configure your Blob storage connection in your .bot file.');
+    console.error('Please configure your Blob storage connection in your .bot file.');
     process.exit(BOT_CONFIGURATION_ERROR);
 }
-const BLOB_STORAGE: BlobStorageService = new BlobStorageService(BLOB_STORAGE_CONFIG);
-const TRANSCRIPT_STORE: AzureBlobTranscriptStore = new AzureBlobTranscriptStore({
-    containerName: BLOB_STORAGE.container,
-    storageAccountOrConnectionString: BLOB_STORAGE.connectionString
+const blobStorage: BlobStorageService = new BlobStorageService(blobStorageConfig);
+const transcriptStore: AzureBlobTranscriptStore = new AzureBlobTranscriptStore({
+    containerName: blobStorage.container,
+    storageAccountOrConnectionString: blobStorage.connectionString
 });
-ADAPTER.use(new TranscriptLoggerMiddleware(TRANSCRIPT_STORE));
+adapter.use(new TranscriptLoggerMiddleware(transcriptStore));
 
 /* Typing Middleware
-(automatically shows typing when the bot is responding/working)
-(not implemented https://github.com/Microsoft/botbuilder-js/issues/470)
-adapter.use(new ShowTypingMiddleware());*/
+(automatically shows typing when the bot is responding/working)*/
+adapter.use(new ShowTypingMiddleware());
+adapter.use(new SetLocaleMiddleware(DEFAULT_LOCALE));
+adapter.use(new EventDebuggerMiddleware());
+adapter.use(new ProactiveStateMiddleware(proactiveState));
 
-// this is the name of the Content Moderator configuration in your .bot file
-// const CM_CONFIGURATION: string = process.env.CONTENT_MODERATOR_NAME || '';
-// const CM_CONFIG: IGenericService = <IGenericService> BOT_CONFIG.findServiceByNameOrId(CM_CONFIGURATION);
+adapter.onTurnError = async (context: TurnContext, error: Error): Promise<void> => {
+    // tslint:disable-next-line:no-console
+    console.error(`${error.message}/n${error.stack}`);
+    await context.sendActivity(ActivityExtensions.createReply(context.activity, SharedResponses.errorMessage));
+    await context.sendActivity({
+        type: ActivityTypes.Trace,
+        text: `Skill Error: ${error.message} | ${error.stack}`
+    });
+
+    TelemetryExtensions.trackExceptionEx(telemetryClient, error, context.activity);
+};
+
+const configuration: SkillConfiguration = new SkillConfiguration(
+    botConfig,
+    languageModels,
+    skills[0].supportedProviders,
+    skills[0].parameters,
+    skills[0].configuration);
+
+const responseManager: ResponseManager = new ResponseManager(
+    Array.from(configuration.localeConfigurations.keys()),
+    [MainResponses, SharedResponses, SampleResponses]);
+
+let bot: <%=skillTemplateName%>;
+try {
+    bot = new <%=skillTemplateName%>(
+        configuration,
+        conversationState,
+        userState,
+        telemetryClient,
+        false,
+        responseManager,
+        new ServiceManager());
+} catch (err) {
+    throw err;
+}
 
 // Create server
-const SERVER: restify.Server = restify.createServer();
-SERVER.listen(process.env.port || process.env.PORT || 3978, (): void => {
+const server: restify.Server = restify.createServer();
+server.listen(process.env.port || process.env.PORT || 3980, (): void => {
     // tslint:disable-next-line:no-console
-    console.log(`${SERVER.name} listening to ${SERVER.url}`);
+    console.log(`${server.name} listening to ${server.url}`);
     // tslint:disable-next-line:no-console
     console.log(`Get the Emulator: https://aka.ms/botframework-emulator`);
     // tslint:disable-next-line:no-console
@@ -139,10 +239,10 @@ SERVER.listen(process.env.port || process.env.PORT || 3978, (): void => {
 });
 
 // Listen for incoming requests
-SERVER.post('/api/messages', (req: restify.Request, res: restify.Response) => {
+server.post('/api/messages', (req: restify.Request, res: restify.Response) => {
     // Route received a request to adapter for processing
-    ADAPTER.processActivity(req, res, async (turnContext: TurnContext) => {
-        // set location using activity's locate information
-        // i18n.setLocale(turnContext.activity.locale || i18n.getLocale());
+    adapter.processActivity(req, res, async (turnContext: TurnContext) => {
+        // route to bot activity handler.
+        await bot.onTurn(turnContext);
     });
 });
