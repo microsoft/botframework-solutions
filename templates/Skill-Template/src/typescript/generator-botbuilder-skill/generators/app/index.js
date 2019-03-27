@@ -160,7 +160,6 @@ module.exports = class extends Generator {
     }
 
     const templateName = "customSkill";
-    const conversationStateTag = "ConversationState";
     const userStateTag = "UserState";
     const skillDesc = this.props.skillDesc;
     if (!this.props.skillName.replace(/\s/g, "").length) {
@@ -172,6 +171,10 @@ module.exports = class extends Generator {
     // Generate vars for templates
     const skillNamePascalCase = _upperFirst(_camelCase(this.props.skillName));
     const skillNameCamelCase = _camelCase(this.props.skillName);
+    const skillNameId = skillNameCamelCase.substring(
+      0,
+      skillNameCamelCase.indexOf("Skill")
+    );
     skillGenerationPath = path.join(skillGenerationPath, skillName);
     if (this.props.skillGenerationPath !== undefined) {
       skillGenerationPath = path.join(
@@ -180,12 +183,6 @@ module.exports = class extends Generator {
       );
     }
 
-    const skillConversationStateNameClass = `I${skillNamePascalCase.concat(
-      conversationStateTag
-    )}`;
-    const skillConversationStateNameFile = skillNameCamelCase.concat(
-      conversationStateTag
-    );
     const skillUserStateNameClass = `I${skillNamePascalCase.concat(
       userStateTag
     )}`;
@@ -241,8 +238,6 @@ module.exports = class extends Generator {
       this.templatePath(templateName, "src", "_index.ts"),
       this.destinationPath(skillGenerationPath, "src", "index.ts"),
       {
-        skillConversationStateNameClass: skillConversationStateNameClass,
-        skillConversationStateNameFile: skillConversationStateNameFile,
         skillUserStateNameClass: skillUserStateNameClass,
         skillUserStateNameFile: skillUserStateNameFile,
         skillProjectName: skillName,
@@ -256,15 +251,10 @@ module.exports = class extends Generator {
       this.destinationPath(
         skillGenerationPath,
         "src",
-        `${skillConversationStateNameFile}.ts`
+        "skillConversationState.ts"
       ),
       {
-        skillConversationStateNameClass: skillConversationStateNameClass,
-        skillConversationStateNameFile: skillConversationStateNameFile,
-        skillUserStateNameClass: skillUserStateNameClass,
-        skillUserStateNameFile: skillUserStateNameFile,
-        skillProjectName: skillName,
-        skillProjectNameLU: `${skillName}LU`
+        skillProjectNameLU: `${skillNameId}LU`
       }
     );
 
@@ -277,8 +267,6 @@ module.exports = class extends Generator {
         `${skillUserStateNameFile}.ts`
       ),
       {
-        skillConversationStateNameClass: skillConversationStateNameClass,
-        skillConversationStateNameFile: skillConversationStateNameFile,
         skillUserStateNameClass: skillUserStateNameClass,
         skillUserStateNameFile: skillUserStateNameFile,
         skillProjectName: skillName,
@@ -295,14 +283,54 @@ module.exports = class extends Generator {
         `${skillNameCamelCase}.ts`
       ),
       {
-        skillConversationStateNameClass: skillConversationStateNameClass,
-        skillConversationStateNameFile: skillConversationStateNameFile,
         skillUserStateNameClass: skillUserStateNameClass,
         skillUserStateNameFile: skillUserStateNameFile,
         skillTemplateName: skillNamePascalCase,
         skillProjectName: skillName,
         skillProjectNameLU: `${skillName}LU`
       }
+    );
+
+    const languageDirectories = ["de", "en", "es", "fr", "it", "zh"];
+
+    languageDirectories.forEach(language =>
+      this.fs.copy(
+        this.templatePath(
+          templateName,
+          "cognitiveModels",
+          "LUIS",
+          language,
+          "_skill.lu"
+        ),
+        this.destinationPath(
+          skillGenerationPath,
+          "cognitiveModels",
+          "LUIS",
+          language,
+          `${skillNameId}.lu`
+        )
+      )
+    );
+
+    // Copy bot.recipes files
+    languageDirectories.forEach(languageDirectory =>
+      this.fs.copyTpl(
+        this.templatePath(
+          templateName,
+          "deploymentScripts",
+          languageDirectory,
+          "_bot.recipe"
+        ),
+        this.destinationPath(
+          skillGenerationPath,
+          "deploymentScripts",
+          languageDirectory,
+          "bot.recipe"
+        ),
+        {
+          skillProjectName: skillNameId
+        }
+      )
     );
 
     // Copy mainDialog.ts
@@ -322,8 +350,6 @@ module.exports = class extends Generator {
         "mainDialog.ts"
       ),
       {
-        skillConversationStateNameClass: skillConversationStateNameClass,
-        skillConversationStateNameFile: skillConversationStateNameFile,
         skillUserStateNameClass: skillUserStateNameClass,
         skillUserStateNameFile: skillUserStateNameFile,
         skillProjectName: skillName
@@ -347,8 +373,6 @@ module.exports = class extends Generator {
         "sampleDialog.ts"
       ),
       {
-        skillConversationStateNameClass: skillConversationStateNameClass,
-        skillConversationStateNameFile: skillConversationStateNameFile,
         skillUserStateNameClass: skillUserStateNameClass,
         skillUserStateNameFile: skillUserStateNameFile
       }
@@ -371,8 +395,6 @@ module.exports = class extends Generator {
         "skillDialogBase.ts"
       ),
       {
-        skillConversationStateNameClass: skillConversationStateNameClass,
-        skillConversationStateNameFile: skillConversationStateNameFile,
         skillUserStateNameClass: skillUserStateNameClass,
         skillUserStateNameFile: skillUserStateNameFile,
         skillProjectName: skillName
@@ -409,7 +431,6 @@ module.exports = class extends Generator {
 
     // Copy commonDirectories
     const commonDirectories = [
-      "cognitiveModels",
       path.join("src", "serviceClients"),
       path.join("src", "dialogs", "main", "resources"),
       path.join("src", "dialogs", "sample", "resources"),
