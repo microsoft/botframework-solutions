@@ -55,8 +55,8 @@
         "speak": "欢迎回来 {Name}!"
       },
       {
-        "text": "你好 {Name}",
-        "speak": "你好 {Name}!"
+        "text": "你好{Name}",
+        "speak": "你好{Name}!"
       }
     ],
     "inputHint": "acceptingInput"
