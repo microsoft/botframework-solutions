@@ -20,6 +20,7 @@ import {
     UserState } from 'botbuilder';
 import { LuisRecognizer } from 'botbuilder-ai';
 import {
+    Dialog,
     DialogContext,
     DialogTurnResult,
     DialogTurnStatus } from 'botbuilder-dialogs';
@@ -31,9 +32,7 @@ import { SampleDialog } from '../sample/sampleDialog';
 import { SkillTemplateDialogOptions } from '../shared/dialogOptions/skillTemplateDialogOptions';
 import { SharedResponses } from '../shared/sharedResponses';
 import { MainResponses } from './mainResponses';
-
-import { <%=skillConversationStateNameClass%> } from '../../<%=skillConversationStateNameFile%>';
-
+import { ISkillConversationState } from '../../skillConversationState';
 import { <%=skillUserStateNameClass%> } from '../../<%=skillUserStateNameFile%>';
 
 /**
@@ -46,10 +45,11 @@ export class MainDialog extends RouterDialog {
     private userState: UserState;
     private conversationState: ConversationState;
     private serviceManager: IServiceManager;
-    private conversationStateAccessor: StatePropertyAccessor<<%=skillConversationStateNameClass%>>;
+    private conversationStateAccessor: StatePropertyAccessor<ISkillConversationState>;
     private userStateAccessor: StatePropertyAccessor<<%=skillUserStateNameClass%>>;
     private generalLUISName: string = 'general';
     private projectName: string = '<%=skillProjectName%>';
+    
     constructor(
         services: SkillConfigurationBase,
         responseManager: ResponseManager,
@@ -67,7 +67,7 @@ export class MainDialog extends RouterDialog {
             this.serviceManager = serviceManager;
 
             // Initialize state accessor
-            this.conversationStateAccessor = conversationState.createProperty('<%=skillConversationStateNameClass%>');
+            this.conversationStateAccessor = conversationState.createProperty('ISkillConversationState');
             this.userStateAccessor = userState.createProperty('<%=skillUserStateNameClass%>');
 
             // RegisterDialogs
@@ -127,7 +127,7 @@ export class MainDialog extends RouterDialog {
                 }
             }
 
-            if (turnResult) {
+            if (turnResult !== Dialog.EndOfTurn) {
                 await this.complete(dc);
             }
         }
@@ -194,23 +194,25 @@ export class MainDialog extends RouterDialog {
                 const luisResult: RecognizerResult =  await luisService.recognize(dc, true);
                 const topIntent: string = LuisRecognizer.topIntent(luisResult);
 
-                switch (topIntent) {
-                    case 'Cancel': {
-                        result = await this.onCancel(dc);
-                        break;
+                if (luisResult.intents[topIntent].score > 0.5) {
+                    switch (topIntent) {
+                        case 'Cancel': {
+                            result = await this.onCancel(dc);
+                            break;
+                        }
+                        case 'Help': {
+                            result = await this.onHelp(dc);
+                            break;
+                        }
+                        case 'Logout': {
+                            result = await this.onLogout(dc);
+                            break;
+                        }
+                        default: {
+                            // empty block
+                        }
                     }
-                    case 'Help': {
-                        result = await this.onHelp(dc);
-                        break;
-                    }
-                    case 'Logout': {
-                        result = await this.onLogout(dc);
-                        break;
-                    }
-                    default: {
-                        // empty block
-                    }
-                }
+                }    
             }
         }
 

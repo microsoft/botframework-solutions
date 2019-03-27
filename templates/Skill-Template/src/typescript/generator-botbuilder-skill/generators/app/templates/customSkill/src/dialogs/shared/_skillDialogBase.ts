@@ -29,7 +29,7 @@ import { IServiceManager } from '../../serviceClients/IServiceManager';
 import { SkillTemplateDialogOptions } from './dialogOptions/skillTemplateDialogOptions';
 import { SharedResponses } from './sharedResponses';
 
-import { <%=skillConversationStateNameClass%> } from '../../<%=skillConversationStateNameFile%>';
+import { ISkillConversationState } from '../../skillConversationState';
 
 import { <%=skillUserStateNameClass%> } from '../../<%=skillUserStateNameFile%>';
 
@@ -38,7 +38,7 @@ import { <%=skillUserStateNameClass%> } from '../../<%=skillUserStateNameFile%>'
  */
 export class SkillDialogBase extends ComponentDialog {
     protected services: SkillConfigurationBase;
-    protected conversationStateAccessor: StatePropertyAccessor<<%=skillConversationStateNameClass%>>;
+    protected conversationStateAccessor: StatePropertyAccessor<ISkillConversationState>;
     protected userStateAccessor: StatePropertyAccessor<<%=skillUserStateNameClass%>>;
     protected serviceManager: IServiceManager;
     protected responseManager: ResponseManager;
@@ -47,7 +47,7 @@ export class SkillDialogBase extends ComponentDialog {
         dialogId: string,
         services: SkillConfigurationBase,
         responseManager: ResponseManager,
-        conversationStateAccessor: StatePropertyAccessor<<%=skillConversationStateNameClass%>>,
+        conversationStateAccessor: StatePropertyAccessor<ISkillConversationState>,
         userStateAccessor: StatePropertyAccessor<<%=skillUserStateNameClass%>>,
         serviceManager: IServiceManager,
         telemetryClient: BotTelemetryClient) {
@@ -169,7 +169,10 @@ export class SkillDialogBase extends ComponentDialog {
     protected async getLuisResult(dc: DialogContext): Promise<void> {
         if (dc.context.activity.type === ActivityTypes.Message) {
             // tslint:disable-next-line:no-any
-            const state: any = await this.conversationStateAccessor.get(dc.context);
+            const state: ISkillConversationState = await this.conversationStateAccessor.get(dc.context, {
+                clear: () => { },
+                dialogStack: []
+            });
 
             // Get luis service for current locale
             const locale: string = getLocale();

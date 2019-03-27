@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { ResponseManager, SkillConfigurationBase } from 'bot-solution';
+import { ResponseManager, SkillConfigurationBase, RouterDialog, SkillDialog  } from 'bot-solution';
 import { BotTelemetryClient, ConversationState, UserState } from 'botbuilder';
 import { TurnContext } from 'botbuilder-core';
 import { DialogSet } from 'botbuilder-dialogs';
@@ -11,6 +11,7 @@ import { SampleResponses } from './dialogs/sample/sampleResponses';
 import { SharedResponses } from './dialogs/shared/sharedResponses';
 import { IServiceManager } from './serviceClients/IServiceManager';
 import { ServiceManager } from './serviceClients/serviceManager';
+import { SampleDialog } from './dialogs/sample/sampleDialog';
 /**
  * Here is the documentation of the <%=skillTemplateName%> class
  */
@@ -58,8 +59,8 @@ export class <%=skillTemplateName%> {
         }
         if (responseManager === undefined) {
             this.responseManager = new ResponseManager(
-                [new SampleResponses(), new MainResponses(), new SharedResponses()],
-                Array.from(this.services.localeConfigurations.keys())
+                Array.from(this.services.localeConfigurations.keys()),
+                [new SampleResponses(), new MainResponses(), new SharedResponses()]
             );
         } else {
             this.responseManager = responseManager;
