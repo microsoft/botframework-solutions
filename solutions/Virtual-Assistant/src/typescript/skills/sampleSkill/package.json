@@ -8,7 +8,7 @@
     "scripts": {
         "clean": "rimraf ./lib",
         "copy-templates": "copyfiles --up 1 \"./src/**/*.json\" \"./lib\"",
-        "prebuild": "npm run lint",
+        "pre-build": "npm run lint",
         "build": "tsc --p tsconfig.json && npm run copy-templates",
         "postinstall": "npm run build",
         "lint": "tslint -t vso ./src/**/*.ts",
@@ -19,6 +19,7 @@
     "dependencies": {
         "applicationinsights": "^1.0.4",
         "bot-solution": "^1.0.0",
+        "bot-skill": "^1.0.0",
         "botbuilder": "^4.2.1",
         "botbuilder-ai": "^4.2.1",
         "botbuilder-azure": "4.2.1",

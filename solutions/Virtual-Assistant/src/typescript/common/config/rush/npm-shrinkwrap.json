@@ -206,6 +206,37 @@
         "typescript": "^3.2.2"
       }
     },
+    "@rush-temp/sampleSkill": {
+      "version": "file:projects/sampleSkill.tgz",
+      "integrity": "sha512-MxA5MB7Mv7Hqyp2N4Ba0sDKmQQayzFMjGlgUiPLX8E2c8j6aHFPaldgAZW/ERc2m8mvmTlPRrGy+CVjzVDhPMg==",
+      "requires": {
+        "@types/documentdb": "1.10.5",
+        "@types/dotenv": "^6.0.0",
+        "@types/i18next-node-fs-backend": "^0.0.30",
+        "@types/node": "^10.10.1",
+        "@types/restify": "^7.2.4",
+        "applicationinsights": "^1.0.4",
+        "botbuilder": "^4.2.1",
+        "botbuilder-ai": "^4.2.1",
+        "botbuilder-azure": "4.2.1",
+        "botbuilder-core": "^4.2.1",
+        "botbuilder-dialogs": "^4.2.1",
+        "botframework-config": "^4.2.1",
+        "botframework-schema": "^4.2.1",
+        "copyfiles": "^2.1.0",
+        "dotenv": "^6.0.0",
+        "i18next": "^15.0.6",
+        "i18next-node-fs-backend": "^2.1.1",
+        "mocha": "^5.2.0",
+        "ms-rest-azure": "^2.5.0",
+        "replace": "^1.0.0",
+        "restify": "^7.2.1",
+        "rimraf": "^2.6.2",
+        "tslint": "^5.12.1",
+        "tslint-microsoft-contrib": "6.0.0",
+        "typescript": "^3.2.2"
+      }
+    },
     "@types/bunyan": {
       "version": "1.8.6",
       "resolved": "https://registry.npmjs.org/@types/bunyan/-/bunyan-1.8.6.tgz",
