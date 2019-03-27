@@ -200,7 +200,8 @@ export class MainDialog extends RouterDialog {
             case 'l_Calendar':
             case 'l_Email':
             case 'l_ToDo':
-            case 'l_PointOfInterest': {
+            case 'l_PointOfInterest':
+            case 'l_Sample': {
                 virtualAssistantState.lastIntent = intent;
                 const skillDialogOption: ISkillDialogOptions = {
                     skillDefinition: this.skillRouter.identifyRegisteredSkill(intent),

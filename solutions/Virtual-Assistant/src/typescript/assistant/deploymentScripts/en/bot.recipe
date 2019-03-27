@@ -18,6 +18,12 @@
       "id": "chitchat",
       "name": "ChitChat",
       "luPath": "cognitiveModels\\QnA\\en\\chitchat.lu"
+    },
+    {
+      "type": "luis",
+      "id": "sample",
+      "name": "sample",
+      "luPath": "..\\skills\\sampleSkill\\cognitiveModels\\LUIS\\en\\sample.lu"
     }
   ]
 }
