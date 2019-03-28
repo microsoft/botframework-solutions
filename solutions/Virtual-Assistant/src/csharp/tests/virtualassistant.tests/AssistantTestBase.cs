@@ -39,12 +39,6 @@ namespace VirtualAssistant.Tests
 
         public IBotTelemetryClient TelemetryClient { get; set; }
 
-        public string ImageAssetLocation { get; set; }
-
-        public HttpContext MockHttpContext { get; set; }
-
-        public HttpContextAccessor MockHttpContextAcessor { get; set; }
-
         public EndpointService EndPointService { get; set; }
 
         public BotServices BotServices { get; set; }
@@ -60,18 +54,6 @@ namespace VirtualAssistant.Tests
             this.ProactiveState = new ProactiveState(new MemoryStorage());
             this.TelemetryClient = new NullBotTelemetryClient();
             this.BackgroundTaskQueue = new BackgroundTaskQueue();
-            this.ImageAssetLocation = "https://localhost";
-
-            // Mock HttpContext for image path resolution
-            MockHttpContext = new DefaultHttpContext();
-            MockHttpContext.Request.Scheme = "http";
-            MockHttpContext.Request.Host = new HostString("localhost", 3980);
-
-            MockHttpContextAcessor = new HttpContextAccessor
-            {
-                HttpContext = MockHttpContext
-            };
-
             this.EndPointService = new EndpointService();
 
             builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
@@ -166,7 +148,7 @@ namespace VirtualAssistant.Tests
 
         public override IBot BuildBot()
         {
-            return new VirtualAssistant(this.BotServices, this.ConversationState, this.UserState, this.ProactiveState, this.EndPointService, this.TelemetryClient, this.BackgroundTaskQueue, this.ResponseManager, this.ImageAssetLocation, this.MockHttpContextAcessor);
+            return new VirtualAssistant(this.BotServices, this.ConversationState, this.UserState, this.ProactiveState, this.EndPointService, this.TelemetryClient, this.BackgroundTaskQueue, this.ResponseManager);
         }
 
         /// <summary>
