@@ -48,16 +48,14 @@ namespace VirtualAssistantTemplate
 
                 CognitiveModelSets.Add(language, set);
             }
-        }
 
-        public CosmosDbStorageOptions CosmosDbOptions { get; }
+            SkillDefinitions = settings.Skills;
+        }
 
         public Dictionary<string, string> AuthenticationConnections { get; set; } = new Dictionary<string, string>();
 
         public Dictionary<string, CognitiveModelSet> CognitiveModelSets { get; set; } = new Dictionary<string, CognitiveModelSet>();
 
         public List<SkillDefinition> SkillDefinitions { get; set; } = new List<SkillDefinition>();
-
-        // public Dictionary<string, SkillEvent> SkillEvents { get; set; } = new Dictionary<string, SkillEvent>();
     }
 }

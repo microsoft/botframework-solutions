@@ -84,17 +84,13 @@ namespace VirtualAssistantTemplate
             {
                 options.CredentialProvider = new SimpleCredentialProvider(settings.MicrosoftAppId, settings.MicrosoftAppPassword);
 
-                // Telemetry Middleware (logs activity messages in Application Insights)
-                var sp = services.BuildServiceProvider();
-                var telemetryClient = sp.GetService<IBotTelemetryClient>();
-
-                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
+                var appInsightsLogger = new TelemetryLoggerMiddleware(botTelemetryClient, logPersonalInformation: true);
                 options.Middleware.Add(appInsightsLogger);
 
                 // Catches any errors that occur during a conversation turn and logs them to AppInsights.
                 options.OnTurnError = async (context, exception) =>
                 {
-                    telemetryClient.TrackException(exception);
+                    botTelemetryClient.TrackException(exception);
                     await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.Message}" ));
                     await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.StackTrace}"));
                     await context.SendActivityAsync(MainStrings.ERROR);

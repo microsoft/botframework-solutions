@@ -10,43 +10,60 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public class Dispatch : IRecognizerConvert
+    public class General : IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
         public enum Intent
         {
-            l_calendar,
-            l_email,
-            l_todo,
-            l_pointofinterest,
-            l_settings,
-            l_general,
-            q_chitchat,
-            q_faq,
-            None
+            Cancel,
+            Confirm,
+            Escalate,
+            FinishTask,
+            GoBack,
+            Help,
+            Logout,
+            None,
+            ReadAloud,
+            Reject,
+            Repeat,
+            SelectAny,
+            SelectItem,
+            SelectNone,
+            ShowNext,
+            ShowPrevious,
+            StartOver,
+            Stop
         };
-
         public Dictionary<Intent, IntentScore> Intents;
 
         public class _Entities
         {
+            // Simple entities
+            public string[] DirectionalReference;
+
+            // Built-in entities
+            public double[] number;
+            public double[] ordinal;
 
             // Instance
             public class _Instance
             {
+                public InstanceData[] DirectionalReference;
+                public InstanceData[] number;
+                public InstanceData[] ordinal;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
         }
-        public _Entities Entities;
+        public virtual _Entities Entities { get; set; }
 
         [JsonExtensionData(ReadData = true, WriteData = true)]
         public IDictionary<string, object> Properties { get; set; }
 
         public void Convert(dynamic result)
         {
-            var app = JsonConvert.DeserializeObject<Dispatch>(JsonConvert.SerializeObject(result));
+            var app = JsonConvert.DeserializeObject<General>(JsonConvert.SerializeObject(result));
             Text = app.Text;
             AlteredText = app.AlteredText;
             Intents = app.Intents;
@@ -54,7 +71,7 @@ namespace Luis
             Properties = app.Properties;
         }
 
-        public (Intent intent, double score) TopIntent()
+        public virtual (Intent intent, double score) TopIntent()
         {
             Intent maxIntent = Intent.None;
             var max = 0.0;
