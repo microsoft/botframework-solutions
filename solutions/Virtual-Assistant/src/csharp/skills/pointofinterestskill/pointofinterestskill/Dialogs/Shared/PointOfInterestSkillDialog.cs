@@ -398,7 +398,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                         pointOfInterestList[i].Name = pointOfInterestList[i].Street;
                     }
 
-                    pointOfInterestList[i].ProviderDisplayText = pointOfInterestList[i].Provider.ToString();
+                    pointOfInterestList[i].ProviderDisplayText = pointOfInterestList[i].Provider.Aggregate((j, k) => j + "," + k).ToString();
                 }
 
                 state.LastFoundPointOfInterests = pointOfInterestList;
