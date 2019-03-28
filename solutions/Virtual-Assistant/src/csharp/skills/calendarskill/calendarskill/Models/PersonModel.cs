@@ -320,5 +320,21 @@ namespace CalendarSkill.Models
 
             set => source = value;
         }
+
+        public string Id
+        {
+            get
+            {
+                switch (source)
+                {
+                    case EventSource.Microsoft:
+                        return msftPersonData.Id;
+                    case EventSource.Google:
+                        return null;
+                    default:
+                        throw new Exception("Event Type not Defined");
+                }
+            }
+        }
     }
 }

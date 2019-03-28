@@ -134,5 +134,10 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
                 throw GoogleClient.HandleGoogleAPIException(ex);
             }
         }
+
+        public Task<string> GetUserPhotoAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

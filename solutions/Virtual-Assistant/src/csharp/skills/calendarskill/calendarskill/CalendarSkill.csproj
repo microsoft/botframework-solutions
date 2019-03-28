@@ -24,7 +24,6 @@
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.0-preview-3" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.3.1" />
@@ -74,8 +73,14 @@
     <EmbeddedResource Include="Dialogs\Shared\Resources\CalendarSharedResponses.it.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\CalendarSharedResponses.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\CalendarSharedResponses.zh.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarCard.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarCardNoJoinButton.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarDate.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarDetail.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarDetailNoJoinButton.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarItem.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarOverview.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarDetailContainerParticipantsLess.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarDetailContainerParticipantsMore.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarGeneralMeetingList.json" />
     <EmbeddedResource Include="Dialogs\Summary\Resources\SummaryResponses.de.json" />
     <EmbeddedResource Include="Dialogs\Summary\Resources\SummaryResponses.es.json" />
     <EmbeddedResource Include="Dialogs\Summary\Resources\SummaryResponses.fr.json" />
@@ -100,6 +105,10 @@
     <EmbeddedResource Include="Dialogs\UpcomingEvent\Resources\UpcomingEventResponses.it.json" />
     <EmbeddedResource Include="Dialogs\UpcomingEvent\Resources\UpcomingEventResponses.json" />
     <EmbeddedResource Include="Dialogs\UpcomingEvent\Resources\UpcomingEventResponses.zh.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\lib\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

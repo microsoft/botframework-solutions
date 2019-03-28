@@ -21,5 +21,7 @@ namespace CalendarSkill.ServiceClients
         Task<List<PersonModel>> GetContactsAsync(string name);
 
         Task<PersonModel> GetMe();
+
+        Task<string> GetUserPhotoAsync(string id);
     }
 }

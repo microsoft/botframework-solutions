@@ -1,0 +1,132 @@
+{
+  "type": "AdaptiveCard",
+  "id": "CalendarCard",
+  "height": "stretch",
+  "backgroundImage": "https://github.com/ryanlengel/adaptivecards/blob/master/calendar/assets/meeting_background.png?raw=true",
+  "body": [
+    {
+      "id": "CalendarDetailContainer",
+      "type": "Container",
+      "items": [
+        {
+          "type": "Container",
+          "items": [
+            {
+              "type": "ColumnSet",
+              "columns": [
+                {
+                  "type": "Column",
+                  "horizontalAlignment": "Center",
+                  "verticalContentAlignment": "Center",
+                  "items": [
+                    {
+                      "type": "Image",
+                      "horizontalAlignment": "Center",
+                      "url": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFk%0D%0Ab2JlIElsbHVzdHJhdG9yIDIzLjAuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246%0D%0AIDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5z%0D%0APSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMu%0D%0Ab3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAyNSAyMy40IiBz%0D%0AdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyNSAyMy40OyIgeG1sOnNwYWNlPSJwcmVz%0D%0AZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9Cjwvc3R5%0D%0AbGU+Cjx0aXRsZT5wbGF0Zm9ybXNBc3NldCAzNHF1ZXNpdG9uczwvdGl0bGU+CjxwYXRoIGNsYXNz%0D%0APSJzdDAiIGQ9Ik00LjcsMS42VjBoMS42djEuNmgxMi41VjBoMS42djEuNkgyNXYyMS45SDBWMS42%0D%0ASDQuN3ogTTIwLjMsMy4xdjEuNmgtMS42VjMuMUg2LjJ2MS42SDQuN1YzLjFIMS42djMuMWgyMS45%0D%0ACglWMy4xSDIwLjN6IE0yMy40LDIxLjlWNy44SDEuNnYxNC4xTDIzLjQsMjEuOXogTTYuMiwxMC45%0D%0ASDQuN1Y5LjRoMS42VjEwLjl6IE02LjIsMTQuMUg0Ljd2LTEuNmgxLjZWMTQuMXogTTYuMiwxNy4y%0D%0ASDQuN3YtMS42aDEuNgoJVjE3LjJ6IE0xMC45LDEwLjlIOS40VjkuNGgxLjZWMTAuOXogTTEwLjks%0D%0AMTQuMUg5LjR2LTEuNmgxLjZWMTQuMXogTTEwLjksMTcuMkg5LjR2LTEuNmgxLjZWMTcuMnogTTEw%0D%0ALjksMjAuM0g5LjR2LTEuNmgxLjZWMjAuM3oKCSBNMTUuNiwxMC45aC0xLjZWOS40aDEuNlYxMC45%0D%0AeiBNMTUuNiwxNC4xaC0xLjZ2LTEuNmgxLjZWMTQuMXogTTE1LjYsMTcuMmgtMS42di0xLjZoMS42%0D%0AVjE3LjJ6IE0xNS42LDIwLjNoLTEuNnYtMS42aDEuNlYyMC4zegoJIE0yMC4zLDE0LjFoLTEuNnYt%0D%0AMS42aDEuNkwyMC4zLDE0LjF6IE0yMC4zLDE3LjJoLTEuNnYtMS42aDEuNkwyMC4zLDE3LjJ6IE0y%0D%0AMC4zLDIwLjNoLTEuNnYtMS42aDEuNkwyMC4zLDIwLjN6Ii8+Cjwvc3ZnPgo=",
+                      "width": "35px",
+                      "height": "35px"
+                    }
+                  ],
+                  "width": "auto"
+                },
+                {
+                  "type": "Column",
+                  "verticalContentAlignment": "Center",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "horizontalAlignment": "Left",
+                      "size": "Large",
+                      "weight": "Bolder",
+                      "color": "Light",
+                      "text": "{Title}",
+                      "wrap": true
+                    }
+                  ],
+                  "width": "stretch"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "Container",
+          "spacing": "ExtraLarge",
+          "height": "stretch",
+          "items": [
+            {
+              "type": "TextBlock",
+              "id": "Date",
+              "horizontalAlignment": "Left",
+              "size": "Medium",
+              "color": "Light",
+              "text": "{DateTime}"
+            },
+            {
+              "type": "ColumnSet",
+              "spacing": "Small",
+              "columns": [
+                {
+                  "type": "Column",
+                  "horizontalAlignment": "Center",
+                  "verticalContentAlignment": "Center",
+                  "items": [
+                    {
+                      "type": "Image",
+                      "horizontalAlignment": "Center",
+                      "url": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFk%0D%0Ab2JlIElsbHVzdHJhdG9yIDIzLjAuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246%0D%0AIDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5z%0D%0APSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMu%0D%0Ab3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAxNiAyNS42IiBz%0D%0AdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxNiAyNS42OyIgeG1sOnNwYWNlPSJwcmVz%0D%0AZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9Cjwvc3R5%0D%0AbGU+Cjx0aXRsZT5wbGF0Zm9ybXNBc3NldCAzNXF1ZXNpdG9uczwvdGl0bGU+CjxwYXRoIGNsYXNz%0D%0APSJzdDAiIGQ9Ik04LDBjMC43LDAsMS40LDAuMSwyLjEsMC4zYzAuNywwLjIsMS4zLDAuNSwxLjks%0D%0AMC44YzAuNiwwLjMsMS4xLDAuOCwxLjYsMS4zYzAuNSwwLjUsMC45LDEuMSwxLjIsMS43CgljMC4z%0D%0ALDAuNiwwLjYsMS4yLDAuOCwxLjlDMTUuOSw2LjYsMTYsNy4zLDE2LDhjMCwwLjYtMC4xLDEuMS0w%0D%0ALjIsMS42Yy0wLjEsMC41LTAuMywxLjEtMC42LDEuNkw4LDI1LjZMMC44LDExLjIKCWMtMC4zLTAu%0D%0ANS0wLjUtMS0wLjYtMS41QzAuMSw5LjEsMCw4LjYsMCw4YzAtMC43LDAuMS0xLjQsMC4zLTIuMUMw%0D%0ALjUsNS4yLDAuNyw0LjYsMS4xLDRDMS44LDIuOCwyLjgsMS44LDQsMS4xCgljMC42LTAuMywxLjIt%0D%0AMC42LDEuOS0wLjhDNi42LDAuMSw3LjMsMCw4LDB6IE0xMy45LDEwLjZMMTMuOSwxMC42TDEzLjks%0D%0AMTAuNmMwLjItMC40LDAuNC0wLjgsMC41LTEuMmMwLjEtMC40LDAuMi0wLjksMC4yLTEuMwoJYzAt%0D%0AMC45LTAuMi0xLjgtMC41LTIuNmMtMC4zLTAuOC0wLjgtMS41LTEuNC0yLjFjLTAuNi0wLjYtMS4z%0D%0ALTEuMS0yLjEtMS40QzkuOCwxLjYsOC45LDEuNCw4LDEuNGMtMC45LDAtMS44LDAuMi0yLjYsMC41%0D%0ACglDMy45LDIuNiwyLjYsMy45LDEuOSw1LjRDMS42LDYuMiwxLjQsNy4xLDEuNCw4YzAsMC40LDAu%0D%0AMSwwLjksMC4yLDEuM2MwLjEsMC40LDAuMiwwLjgsMC40LDEuMmwwLDBsMCwwbDYsMTEuOUwxMy45%0D%0ALDEwLjZ6IE04LDMuMwoJYzAuNiwwLDEuMywwLjEsMS44LDAuNGMxLjEsMC41LDIsMS40LDIuNSwy%0D%0ALjVjMC41LDEuMiwwLjUsMi41LDAsMy43Yy0wLjUsMS4xLTEuNCwyLTIuNSwyLjVjLTEuMiwwLjUt%0D%0AMi41LDAuNS0zLjcsMAoJYy0xLjEtMC41LTItMS40LTIuNS0yLjVjLTAuNS0xLjItMC41LTIuNSww%0D%0ALTMuN0M0LjEsNSw1LDQuMSw2LjIsMy43QzYuNywzLjQsNy40LDMuMyw4LDMuM3ogTTgsMTEuM2Mw%0D%0ALjQsMCwwLjktMC4xLDEuMy0wLjMKCWMwLjgtMC4zLDEuNC0xLDEuNy0xLjdjMC4zLTAuOCwwLjMt%0D%0AMS43LDAtMi42QzEwLjcsNS45LDEwLDUuMyw5LjMsNUM4LjUsNC43LDcuNSw0LjcsNi43LDVDNS45%0D%0ALDUuMyw1LjMsNS45LDUsNi43CglDNC43LDcuNSw0LjcsOC41LDUsOS4zQzUuMywxMCw1LjksMTAu%0D%0ANyw2LjcsMTFDNy4xLDExLjIsNy42LDExLjMsOCwxMS4zTDgsMTEuM3oiLz4KPC9zdmc+Cg==",
+                      "height": "20px"
+                    }
+                  ],
+                  "width": "auto"
+                },
+                {
+                  "type": "Column",
+                  "horizontalAlignment": "Left",
+                  "spacing": "None",
+                  "verticalContentAlignment": "Center",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "id": "Location",
+                      "horizontalAlignment": "Left",
+                      "size": "Medium",
+                      "color": "Light",
+                      "text": "{Location}"
+                    }
+                  ],
+                  "width": "auto"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "spacing": "ExtraLarge",
+      "separator": true,
+      "items": [
+        {
+          "type": "TextBlock",
+          "id": "ContentPreview",
+          "color": "Dark",
+          "text": "{Content}",
+          "wrap": true,
+          "maxLines": 3
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "Join meeting",
+      "url": "{MeetingLink}"
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0",
+  "speak": "{Speak}"
+}

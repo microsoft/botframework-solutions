@@ -38,5 +38,10 @@ namespace CalendarSkill.ServiceClients
         {
             return await userService.GetMe();
         }
+
+        public async Task<string> GetUserPhotoAsync(string id)
+        {
+            return await userService.GetUserPhotoAsync(id);
+        }
     }
 }

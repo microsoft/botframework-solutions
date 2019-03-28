@@ -351,15 +351,22 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
 
         private Attachment BuildCardAttachment(string json, ICardData data = null)
         {
-            // If cardData was provided
-            if (data != null)
+            var card = BuildCard(json, data);
+            var cardObj = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(card));
+            return new Attachment(AdaptiveCard.ContentType, content: cardObj);
+        }
+
+        private AdaptiveCard BuildCard(string json, ICardData data = null)
+        {
+            // If cardData was provided
+            if (data != null)
             {
-                // get property names from cardData
-                var properties = data.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                // get property names from cardData
+                var properties = data.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
                 // add all properties to the list
-                var tokens = new StringDictionary();
-                foreach (var property in properties)
+                var tokens = new StringDictionary();
+                foreach (var property in properties)
                 {
                     if (!tokens.ContainsKey(property.Name))
                     {
@@ -368,16 +375,58 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
                 }
 
                 // replace tokens in json
-                if (tokens != null)
+                if (tokens != null)
                 {
                     json = SimpleTokensRegex.Replace(json, match => tokens[match.Groups[1].Value]);
                 }
             }
 
             // Deserialize/Serialize logic is needed to prevent JSON exception in prompts
-            var card = AdaptiveCard.FromJson(json).Card;
-            var cardObj = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(card));
-            return new Attachment(AdaptiveCard.ContentType, content: cardObj);
+            var card = AdaptiveCard.FromJson(json).Card;
+            return card;
+        }
+
+        public Activity GetCardResponse(
+            string templateId,
+            Card card,
+            StringDictionary tokens = null,
+            string containerName = null,
+            IEnumerable<Card> containerItems = null)
+        {
+            var locale = CultureInfo.CurrentUICulture.Name;
+            var assembly = Assembly.GetCallingAssembly();
+            var json = LoadCardJson(card.Name, locale, assembly);
+
+            var emailOverviewCard = BuildCard(json, card.Data);
+            if (!string.IsNullOrEmpty(containerName))
+            {
+                var itemsContainer = emailOverviewCard.Body.Find(item => item.Id == containerName);
+
+                if ((itemsContainer != null) && itemsContainer is AdaptiveContainer)
+                {
+                    foreach (var cardItem in containerItems)
+                    {
+                        var itemJson = LoadCardJson(cardItem.Name, locale, assembly);
+                        var itemCard = BuildCard(itemJson, cardItem.Data);
+                        var itemContainer = itemCard.Body[0] as AdaptiveContainer;
+
+                        (itemsContainer as AdaptiveContainer).Items.Add(itemContainer);
+                    }
+                }
+            }
+
+            var cardObj = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(emailOverviewCard));
+            var attachment = new Attachment(AdaptiveCard.ContentType, content: cardObj);
+
+            if (templateId != null)
+            {
+                var response = GetResponse(templateId, tokens);
+                return MessageFactory.Attachment(attachment, response.Text, response.Speak, response.InputHint) as Activity;
+            }
+            else
+            {
+                return MessageFactory.Attachment(attachment, null, null, null) as Activity;
+            }
         }
     }
 }
