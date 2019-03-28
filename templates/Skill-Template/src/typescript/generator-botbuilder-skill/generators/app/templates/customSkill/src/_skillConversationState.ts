@@ -8,7 +8,8 @@ import { DialogState } from 'botbuilder-dialogs';
  */
 export interface ISkillConversationState extends DialogState {
     token?: string;
-    luisResult?: '<%=skillProjectNameLU%>';
+    // tslint:disable-next-line:no-any
+    luisResult?: any;
 
     clear(): void;
 }

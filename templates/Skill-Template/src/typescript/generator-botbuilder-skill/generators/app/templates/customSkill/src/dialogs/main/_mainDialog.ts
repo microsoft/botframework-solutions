@@ -26,13 +26,15 @@ import {
     DialogTurnStatus } from 'botbuilder-dialogs';
 // tslint:disable-next-line:no-implicit-dependencies no-submodule-imports
 import { TokenStatus } from 'botframework-connector/lib/tokenApi/models';
-import { getLocale } from 'i18n';
+import i18next from 'i18next';
 import { IServiceManager } from '../../serviceClients/IServiceManager';
 import { SampleDialog } from '../sample/sampleDialog';
 import { SkillTemplateDialogOptions } from '../shared/dialogOptions/skillTemplateDialogOptions';
 import { SharedResponses } from '../shared/sharedResponses';
 import { MainResponses } from './mainResponses';
+
 import { ISkillConversationState } from '../../skillConversationState';
+
 import { <%=skillUserStateNameClass%> } from '../../<%=skillUserStateNameFile%>';
 
 /**
@@ -48,8 +50,8 @@ export class MainDialog extends RouterDialog {
     private conversationStateAccessor: StatePropertyAccessor<ISkillConversationState>;
     private userStateAccessor: StatePropertyAccessor<<%=skillUserStateNameClass%>>;
     private generalLUISName: string = 'general';
-    private projectName: string = '<%=skillProjectName%>';
-    
+    private projectName: string = '<%=skillProjectNameId%>';
+
     constructor(
         services: SkillConfigurationBase,
         responseManager: ResponseManager,
@@ -86,7 +88,7 @@ export class MainDialog extends RouterDialog {
         const state: any = this.conversationState.get(dc.context);
 
         // get current activity locale
-        const locale: string = getLocale();
+        const locale: string = i18next.language;
         const localeConfig: LocaleConfiguration = (this.services.localeConfigurations.get(locale) || new LocaleConfiguration());
 
         // Get skill LUIS model from configuration
@@ -183,7 +185,7 @@ export class MainDialog extends RouterDialog {
 
         if (dc.context.activity.type === ActivityTypes.Message) {
             // get current activity locale
-            const locale: string = getLocale();
+            const locale: string = i18next.language;
             const localeConfig: LocaleConfiguration = (this.services.localeConfigurations.get(locale) || new LocaleConfiguration());
 
             // check general luis intent
@@ -212,7 +214,7 @@ export class MainDialog extends RouterDialog {
                             // empty block
                         }
                     }
-                }    
+                }
             }
         }
 

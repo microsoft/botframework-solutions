@@ -24,7 +24,7 @@ import {
     PromptValidatorContext,
     WaterfallStepContext} from 'botbuilder-dialogs';
 import { TokenResponse } from 'botframework-schema';
-import { getLocale } from 'i18n';
+import i18next from 'i18next';
 import { IServiceManager } from '../../serviceClients/IServiceManager';
 import { SkillTemplateDialogOptions } from './dialogOptions/skillTemplateDialogOptions';
 import { SharedResponses } from './sharedResponses';
@@ -42,7 +42,7 @@ export class SkillDialogBase extends ComponentDialog {
     protected userStateAccessor: StatePropertyAccessor<<%=skillUserStateNameClass%>>;
     protected serviceManager: IServiceManager;
     protected responseManager: ResponseManager;
-    private projectName: string = '<%=skillProjectName%>';
+    private projectName: string = '<%=skillProjectNameId%>';
     constructor(
         dialogId: string,
         services: SkillConfigurationBase,
@@ -170,12 +170,13 @@ export class SkillDialogBase extends ComponentDialog {
         if (dc.context.activity.type === ActivityTypes.Message) {
             // tslint:disable-next-line:no-any
             const state: ISkillConversationState = await this.conversationStateAccessor.get(dc.context, {
-                clear: () => { },
+                // tslint:disable-next-line:no-empty
+                clear: (): void => { },
                 dialogStack: []
             });
 
             // Get luis service for current locale
-            const locale: string = getLocale();
+            const locale: string = i18next.language;
             const localeConfig: LocaleConfiguration = (this.services.localeConfigurations.get(locale) || new LocaleConfiguration());
             const luisService: ITelemetryLuisRecognizer | undefined = localeConfig.luisServices.get(this.projectName);
 
