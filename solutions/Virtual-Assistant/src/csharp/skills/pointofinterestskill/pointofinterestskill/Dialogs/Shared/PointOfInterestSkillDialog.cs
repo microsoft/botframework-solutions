@@ -422,7 +422,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                     var templateId = POISharedResponses.SingleLocationFound;
 
                     var card = new Card("PointOfInterestViewCard", state.LastFoundPointOfInterests[0]);
-                    var replyMessage = ResponseManager.GetCardResponse(templateId, card);
+                    var replyMessage = ResponseManager.GetCardResponse(templateId, card, tokens: null);
                     replyMessage.Speak = ResponseUtility.BuildSpeechFriendlyPoIResponse(replyMessage);
 
                     await sc.Context.SendActivityAsync(replyMessage);
@@ -593,7 +593,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 else
                 {
                     var card = new Card("RouteDirectionsViewCard", cardData.SingleOrDefault());
-                    var replyMessage = ResponseManager.GetCardResponse(POISharedResponses.SingleRouteFound, card);
+                    var replyMessage = ResponseManager.GetCardResponse(POISharedResponses.SingleRouteFound, card, tokens: null);
                     replyMessage.Speak = ResponseUtility.BuildSpeechFriendlyPoIResponse(replyMessage);
                     await sc.Context.SendActivityAsync(replyMessage);
                 }

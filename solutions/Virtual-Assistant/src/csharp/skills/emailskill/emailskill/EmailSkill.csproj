@@ -22,6 +22,7 @@
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.24-preview" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.3.1" />
@@ -150,11 +151,7 @@
     <EmbeddedResource Include="Dialogs\ShowEmail\Resources\ShowEmailResponses.json" />
     <EmbeddedResource Include="Dialogs\ShowEmail\Resources\ShowEmailResponses.zh.json" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\..\lib\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj" />
-  </ItemGroup>
-
+  
   <ItemGroup>
     <None Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.tt">
       <LastGenOutput>DeleteEmailResponses.cs</LastGenOutput>
