@@ -45,10 +45,6 @@ namespace VirtualAssistant.Dialogs.Main
         private string _imageAssetLocation;
         private MainResponses _responder = new MainResponses();
         private SkillRouter _skillRouter;
-
-        private string headerImagePath = "header_greeting.png";
-        private string backgroundImagePath = "background_light.png";
-        private string columnBackgroundImagePath = "background_dark.png";
         private bool _conversationStarted = false;
 
         public MainDialog(BotServices services, ConversationState conversationState, UserState userState, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue, ResponseManager responseManager, string imageAssetLocation, IHttpContextAccessor httpContext = null)
@@ -451,9 +447,6 @@ namespace VirtualAssistant.Dialogs.Main
 
                 var greetingCardData = new GreetingCardModel()
                 {
-                    HeaderImageUrl = GetCardImageUri(headerImagePath),
-                    BackgroundImageUrl = GetCardImageUri(backgroundImagePath),
-                    ColumnBackgroundImageUrl = GetCardImageUri(columnBackgroundImagePath),
                     Title = titleResponse.Text,
                     Body = bodyResponse.Text,
                     Speak = string.Format("{0} {1}", titleResponse.Speak, bodyResponse.Speak)
@@ -474,9 +467,6 @@ namespace VirtualAssistant.Dialogs.Main
 
                 var greetingCardData = new GreetingCardModel()
                 {
-                    HeaderImageUrl = GetCardImageUri(headerImagePath),
-                    BackgroundImageUrl = GetCardImageUri(backgroundImagePath),
-                    ColumnBackgroundImageUrl = GetCardImageUri(columnBackgroundImagePath),
                     Title = titleResponse.Text,
                     Body = bodyResponse.Text,
                     Speak = string.Format("{0} {1}", titleResponse.Speak, bodyResponse.Speak)

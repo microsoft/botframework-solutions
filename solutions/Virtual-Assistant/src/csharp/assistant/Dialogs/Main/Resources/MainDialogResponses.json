@@ -59,15 +59,15 @@
   "ReturningUserGreetingTitle": {
     "replies": [
       {
-        "text": "Welcome back {Name}",
+        "text": "Welcome back {Name}!",
         "speak": "Welcome back {Name}!"
       },
       {
-        "text": "Hi there {Name}",
+        "text": "Hi there {Name}!",
         "speak": "Hi there {Name}!"
       },
       {
-        "text": "Hi {Name}",
+        "text": "Hi {Name}!",
         "speak": "Hi {Name}!"
       }
     ],
