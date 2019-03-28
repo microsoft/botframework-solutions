@@ -30,8 +30,6 @@ namespace PointOfInterestSkill.Dialogs.Shared
         public const string SkillModeAuth = "SkillAuth";
         public const string LocalModeAuth = "LocalAuth";
         private const string FallbackPointOfInterestImageFileName = "default_pointofinterest.png";
-        private const string BackgroundImageFileName = "background.png";
-        private const string HeaderBackgroundImageFileName = "header_background.png";
         private IHttpContextAccessor _httpContext;
 
         public PointOfInterestSkillDialog(
@@ -399,9 +397,6 @@ namespace PointOfInterestSkill.Dialogs.Shared
                     {
                         pointOfInterestList[i].Name = pointOfInterestList[i].Street;
                     }
-
-                    pointOfInterestList[i].BackgroundImageUrl = GetCardImageUri(BackgroundImageFileName);
-                    pointOfInterestList[i].HeaderBackgroundImageUrl = GetCardImageUri(HeaderBackgroundImageFileName);
                 }
 
                 state.LastFoundPointOfInterests = pointOfInterestList;
@@ -566,10 +561,10 @@ namespace PointOfInterestSkill.Dialogs.Shared
                     var routeDirectionsModel = new RouteDirectionsModel()
                     {
                         Name = destination.Name,
-                        Street = destination.Street ?? " ",
-                        City = destination.City ?? " ",
+                        Street = destination.Street,
+                        City = destination.City,
                         AvailableDetails = destination.AvailableDetails,
-                        Hours = destination.Hours ?? " ",
+                        Hours = destination.Hours,
                         PointOfInterestImageUrl = destination.PointOfInterestImageUrl,
                         TravelTime = GetShortTravelTimespanString(travelTimeSpan),
                         DelayStatus = GetFormattedTrafficDelayString(trafficTimeSpan),
@@ -577,8 +572,6 @@ namespace PointOfInterestSkill.Dialogs.Shared
                         ETA = route.Summary.ArrivalTime.ToShortTimeString(),
                         TravelTimeSpeak = GetFormattedTravelTimeSpanString(travelTimeSpan),
                         TravelDelaySpeak = GetFormattedTrafficDelayString(trafficTimeSpan),
-                        BackgroundImageUrl = GetCardImageUri(BackgroundImageFileName),
-                        HeaderBackgroundImageUrl = GetCardImageUri(HeaderBackgroundImageFileName),
                         Provider = destination.Provider
                     };
 

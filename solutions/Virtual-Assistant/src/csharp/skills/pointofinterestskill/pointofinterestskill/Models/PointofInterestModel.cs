@@ -10,31 +10,13 @@ using PointOfInterestSkill.Models.Foursquare;
 namespace PointOfInterestSkill.Models
 {
     /// <summary>
-    /// Source of event.
-    /// </summary>
-    public enum PointofInterestSource
-    {
-        /// <summary>
-        /// Point of Interest from Azure Maps.
-        /// </summary>
-        AzureMaps = 1,
-
-        /// <summary>
-        /// Point of Interest from Foursquare.
-        /// </summary>
-        Foursquare = 2,
-
-        /// <summary>
-        /// Point of Interest from other.
-        /// </summary>
-        Other = 0,
-    }
-
-    /// <summary>
     /// Point of Interest mapping entity.
     /// </summary>
     public partial class PointOfInterestModel : ICardData
     {
+        public const string AzureMaps = "Azure Maps";
+        public const string Foursquare = "Foursquare";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PointOfInterestModel"/> class.、
         /// DO NOT USE THIS ONE.
@@ -66,7 +48,7 @@ namespace PointOfInterestSkill.Models
             Category = (azureMapsPoi.Poi?.Categories != null)
             ? CultureInfo.CurrentCulture.TextInfo.ToTitleCase(azureMapsPoi.Poi.Categories.First().ToLower())
             : Category;
-            Provider = Enum.GetName(typeof(PointofInterestSource), 1);
+            Provider = AzureMaps;
         }
 
         /// <summary>
@@ -107,7 +89,7 @@ namespace PointOfInterestSkill.Models
             Category = (foursquarePoi.Categories != null)
                 ? foursquarePoi.Categories.First().ShortName
                 : Category;
-            Provider = Enum.GetName(typeof(PointofInterestSource), 2);
+            Provider = Foursquare;
         }
 
         /// <summary>
@@ -127,22 +109,6 @@ namespace PointOfInterestSkill.Models
         /// The image URL of this point of interest.
         /// </value>
         public string PointOfInterestImageUrl { get; set; }
-
-        /// <summary>
-        /// Gets or sets the background image url.
-        /// </summary>
-        /// <value>
-        /// The background image URL.
-        /// </value>
-        public string BackgroundImageUrl { get; set; }
-
-        /// <summary>
-        /// Gets or sets the header background image url.
-        /// </summary>
-        /// <value>
-        /// The header background image URL.
-        /// </value>
-        public string HeaderBackgroundImageUrl { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the point of interest.
