@@ -37,21 +37,15 @@ namespace VirtualAssistant.Dialogs.Main
         private ProactiveState _proactiveState;
         private EndpointService _endpointService;
         private IBackgroundTaskQueue _backgroundTaskQueue;
-        private IHttpContextAccessor _httpContext;
         private IStatePropertyAccessor<OnboardingState> _onboardingState;
         private IStatePropertyAccessor<Dictionary<string, object>> _parametersAccessor;
         private IStatePropertyAccessor<VirtualAssistantState> _virtualAssistantState;
         private ResponseManager _responseManager;
-        private string _imageAssetLocation;
         private MainResponses _responder = new MainResponses();
         private SkillRouter _skillRouter;
-
-        private string headerImagePath = "header_greeting.png";
-        private string backgroundImagePath = "background_light.png";
-        private string columnBackgroundImagePath = "background_dark.png";
         private bool _conversationStarted = false;
 
-        public MainDialog(BotServices services, ConversationState conversationState, UserState userState, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue, ResponseManager responseManager, string imageAssetLocation, IHttpContextAccessor httpContext = null)
+        public MainDialog(BotServices services, ConversationState conversationState, UserState userState, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue, ResponseManager responseManager)
             : base(nameof(MainDialog), telemetryClient)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
@@ -61,8 +55,6 @@ namespace VirtualAssistant.Dialogs.Main
             _endpointService = endpointService;
             TelemetryClient = telemetryClient;
             _backgroundTaskQueue = backgroundTaskQueue;
-            _httpContext = httpContext;
-            _imageAssetLocation = imageAssetLocation;
             _responseManager = responseManager;
             _onboardingState = _userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             _parametersAccessor = _userState.CreateProperty<Dictionary<string, object>>("userInfo");
@@ -451,9 +443,6 @@ namespace VirtualAssistant.Dialogs.Main
 
                 var greetingCardData = new GreetingCardModel()
                 {
-                    HeaderImageUrl = GetCardImageUri(headerImagePath),
-                    BackgroundImageUrl = GetCardImageUri(backgroundImagePath),
-                    ColumnBackgroundImageUrl = GetCardImageUri(columnBackgroundImagePath),
                     Title = titleResponse.Text,
                     Body = bodyResponse.Text,
                     Speak = string.Format("{0} {1}", titleResponse.Speak, bodyResponse.Speak)
@@ -474,9 +463,6 @@ namespace VirtualAssistant.Dialogs.Main
 
                 var greetingCardData = new GreetingCardModel()
                 {
-                    HeaderImageUrl = GetCardImageUri(headerImagePath),
-                    BackgroundImageUrl = GetCardImageUri(backgroundImagePath),
-                    ColumnBackgroundImageUrl = GetCardImageUri(columnBackgroundImagePath),
                     Title = titleResponse.Text,
                     Body = bodyResponse.Text,
                     Speak = string.Format("{0} {1}", titleResponse.Speak, bodyResponse.Speak)
@@ -549,28 +535,6 @@ namespace VirtualAssistant.Dialogs.Main
 
             // Initialize skill dispatcher
             _skillRouter = new SkillRouter(_services.SkillDefinitions);
-        }
-
-        private string GetCardImageUri(string imagePath)
-        {
-            // If we are in local mode we leverage the HttpContext to get the current path to the image assets
-            if (_httpContext != null)
-            {
-                string serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
-                return $"{serverUrl}/images/{imagePath}";
-            }
-            else
-            {
-                // Otherwise use a configured image asset location
-                if (string.IsNullOrWhiteSpace(_imageAssetLocation))
-                {
-                    throw new Exception("imageAssetLocation not configured on the skill.");
-                }
-                else
-                {
-                    return $"{_imageAssetLocation}/{imagePath}";
-                }
-            }
         }
 
         private class Events
