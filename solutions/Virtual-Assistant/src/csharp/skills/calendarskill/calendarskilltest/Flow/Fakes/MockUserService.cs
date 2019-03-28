@@ -141,5 +141,10 @@ namespace CalendarSkillTest.Flow.Fakes
         {
             throw new NotImplementedException();
         }
+
+        public Task<string> GetUserPhotoAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
