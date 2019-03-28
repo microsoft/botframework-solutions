@@ -9,7 +9,7 @@ import { join } from 'path';
 export class SharedResponses implements IResponseIdCollection {
     // Generated accessors
     public readonly name: string = SharedResponses.name;
-    public pathToResource: string = join(__dirname, 'resources');
+    public static readonly pathToResource: string = join(__dirname, 'resources');
     public static readonly didntUnderstandMessage: string = 'DidntUnderstandMessage';
     public static readonly cancellingMessage: string = 'CancellingMessage';
     public static readonly noAuth: string = 'NoAuth';

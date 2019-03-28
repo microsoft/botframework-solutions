@@ -77,7 +77,7 @@ export class SampleDialog extends SkillDialogBase {
         tokens.set(this.tokenKey, <string>stepContext.result);
 
         // tslint:disable-next-line:no-any
-        const response: any = this.responseManager.getResponse(SampleResponses.namePrompt, tokens);
+        const response: any = this.responseManager.getResponse(SampleResponses.haveNameMessage, tokens);
         await stepContext.context.sendActivity(response);
 
         return stepContext.next();

@@ -20,12 +20,13 @@ import {
     UserState } from 'botbuilder';
 import { LuisRecognizer } from 'botbuilder-ai';
 import {
+    Dialog,
     DialogContext,
     DialogTurnResult,
     DialogTurnStatus } from 'botbuilder-dialogs';
 // tslint:disable-next-line:no-implicit-dependencies no-submodule-imports
 import { TokenStatus } from 'botframework-connector/lib/tokenApi/models';
-import { getLocale } from 'i18n';
+import i18next from 'i18next';
 import { IServiceManager } from '../../serviceClients/IServiceManager';
 import { SampleDialog } from '../sample/sampleDialog';
 import { SkillTemplateDialogOptions } from '../shared/dialogOptions/skillTemplateDialogOptions';
@@ -86,7 +87,7 @@ export class MainDialog extends RouterDialog {
         const state: any = this.conversationState.get(dc.context);
 
         // get current activity locale
-        const locale: string = getLocale();
+        const locale: string = i18next.language;
         const localeConfig: LocaleConfiguration = (this.services.localeConfigurations.get(locale) || new LocaleConfiguration());
 
         // Get skill LUIS model from configuration
@@ -127,7 +128,7 @@ export class MainDialog extends RouterDialog {
                 }
             }
 
-            if (turnResult) {
+            if (turnResult !== Dialog.EndOfTurn) {
                 await this.complete(dc);
             }
         }
@@ -183,7 +184,7 @@ export class MainDialog extends RouterDialog {
 
         if (dc.context.activity.type === ActivityTypes.Message) {
             // get current activity locale
-            const locale: string = getLocale();
+            const locale: string = i18next.language;
             const localeConfig: LocaleConfiguration = (this.services.localeConfigurations.get(locale) || new LocaleConfiguration());
 
             // check general luis intent
@@ -193,22 +194,23 @@ export class MainDialog extends RouterDialog {
             } else {
                 const luisResult: RecognizerResult =  await luisService.recognize(dc, true);
                 const topIntent: string = LuisRecognizer.topIntent(luisResult);
-
-                switch (topIntent) {
-                    case 'Cancel': {
-                        result = await this.onCancel(dc);
-                        break;
-                    }
-                    case 'Help': {
-                        result = await this.onHelp(dc);
-                        break;
-                    }
-                    case 'Logout': {
-                        result = await this.onLogout(dc);
-                        break;
-                    }
-                    default: {
-                        // empty block
+                if (luisResult.intents[topIntent].score > 0.5) {
+                    switch (topIntent) {
+                        case 'Cancel': {
+                            result = await this.onCancel(dc);
+                            break;
+                        }
+                        case 'Help': {
+                            result = await this.onHelp(dc);
+                            break;
+                        }
+                        case 'Logout': {
+                            result = await this.onLogout(dc);
+                            break;
+                        }
+                        default: {
+                            // empty block
+                        }
                     }
                 }
             }
