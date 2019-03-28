@@ -177,7 +177,7 @@
           "horizontalAlignment": "Right",
           "size": "Small",
           "color": "Dark",
-          "text": "Powered by **{Provider}** & **{Provider}**"
+          "text": "{ProviderDisplayText}"
         }
       ]
     }

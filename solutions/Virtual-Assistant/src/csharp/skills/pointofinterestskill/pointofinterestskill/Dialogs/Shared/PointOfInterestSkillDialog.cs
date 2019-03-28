@@ -397,6 +397,8 @@ namespace PointOfInterestSkill.Dialogs.Shared
                     {
                         pointOfInterestList[i].Name = pointOfInterestList[i].Street;
                     }
+
+                    pointOfInterestList[i].ProviderDisplayText = pointOfInterestList[i].Provider.ToString();
                 }
 
                 state.LastFoundPointOfInterests = pointOfInterestList;
@@ -572,7 +574,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                         ETA = route.Summary.ArrivalTime.ToShortTimeString(),
                         TravelTimeSpeak = GetFormattedTravelTimeSpanString(travelTimeSpan),
                         TravelDelaySpeak = GetFormattedTrafficDelayString(trafficTimeSpan),
-                        Provider = destination.Provider
+                        ProviderDisplayText = destination.Provider.ToString()
                     };
 
                     cardData.Add(routeDirectionsModel);

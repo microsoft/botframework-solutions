@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -48,7 +50,15 @@ namespace PointOfInterestSkill.Models
             Category = (azureMapsPoi.Poi?.Categories != null)
             ? CultureInfo.CurrentCulture.TextInfo.ToTitleCase(azureMapsPoi.Poi.Categories.First().ToLower())
             : Category;
-            Provider = AzureMaps;
+
+            if (Provider == null)
+            {
+                Provider = new HashSet<string> { AzureMaps };
+            }
+            else
+            {
+                Provider.Add(AzureMaps);
+            }
         }
 
         /// <summary>
@@ -89,7 +99,15 @@ namespace PointOfInterestSkill.Models
             Category = (foursquarePoi.Categories != null)
                 ? foursquarePoi.Categories.First().ShortName
                 : Category;
-            Provider = Foursquare;
+
+            if (Provider == null)
+            {
+                Provider = new HashSet<string> { Foursquare };
+            }
+            else
+            {
+                Provider.Add(Foursquare);
+            }
         }
 
         /// <summary>
@@ -208,13 +226,22 @@ namespace PointOfInterestSkill.Models
         public string Category { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the point of interest.
+        /// Gets or sets the name of the provider.
+        /// Availability: Azure Maps, Foursquare.
+        /// </summary>
+        /// <value>
+        /// The provider of this provider.
+        /// </value>
+        public HashSet<string> Provider { get; set; }
+
+        /// <summary>
+        /// Gets or sets the formatted name of providers.
         /// Availability: Azure Maps, Foursquare.
         /// </summary>
         /// <value>
         /// The provider of this point of interest.
         /// </value>
-        public string Provider { get; set; }
+        public string ProviderDisplayText { get; set; }
 
         /// <summary>
         /// Gets or sets the index number of the point of interest.
