@@ -1,6 +1,6 @@
 ﻿{
   "type": "AdaptiveCard",
-  "id": "PointOfInterestDetailsCard",
+  "id": "PointOfInterestDetailsWithRouteCard",
   "backgroundImage": "{BackgroundImageUrl}",
   "body": [
     {
@@ -113,6 +113,66 @@
       "separator": true,
       "items": [
         {
+          "type": "ColumnSet",
+          "separator": true,
+          "columns": [
+            {
+              "type": "Column",
+              "style": "emphasis",
+              "verticalContentAlignment": "Center",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Center",
+                  "size": "Medium",
+                  "color": "Dark",
+                  "text": "{TravelTime}"
+                }
+              ],
+              "width": 20
+            },
+            {
+              "type": "Column",
+              "verticalContentAlignment": "Center",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Left",
+                  "text": "{DelayStatus}"
+                },
+                {
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Left",
+                  "color": "Dark",
+                  "text": "**ETA** {ETA}"
+                }
+              ],
+              "width": 60
+            },
+            {
+              "type": "Column",
+              "style": "emphasis",
+              "verticalContentAlignment": "Center",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Center",
+                  "size": "Medium",
+                  "color": "Dark",
+                  "text": "{Distance}"
+                }
+              ],
+              "width": 20
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "items": [
+        {
           "type": "TextBlock",
           "horizontalAlignment": "Right",
           "size": "Small",
@@ -122,7 +182,7 @@
       ]
     }
   ],
-  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-  "version": "1.0",
-  "speak": "{Name} at {Street}"
-}
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "speak": "{Name} at {Street}"
+  }

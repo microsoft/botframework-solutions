@@ -29,8 +29,9 @@ namespace PointOfInterestSkill.Dialogs.Shared
         // Constants
         public const string SkillModeAuth = "SkillAuth";
         public const string LocalModeAuth = "LocalAuth";
-        private const string FallbackPointOfInterestImageFileName = "default_pointofinterest.jpg";
+        private const string FallbackPointOfInterestImageFileName = "default_pointofinterest.png";
         private const string BackgroundImageFileName = "background.png";
+        private const string HeaderBackgroundImageFileName = "header_background.png";
         private IHttpContextAccessor _httpContext;
 
         public PointOfInterestSkillDialog(
@@ -400,6 +401,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                     }
 
                     pointOfInterestList[i].BackgroundImageUrl = GetCardImageUri(BackgroundImageFileName);
+                    pointOfInterestList[i].HeaderBackgroundImageUrl = GetCardImageUri(HeaderBackgroundImageFileName);
                 }
 
                 state.LastFoundPointOfInterests = pointOfInterestList;
@@ -546,7 +548,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
         {
             var routes = routeDirections.Routes;
             var state = await Accessor.GetAsync(sc.Context);
-            var cardData = new List<RouteDirectionsModelCardData>();
+            var cardData = new List<RouteDirectionsModel>();
             var routeId = 0;
 
             if (routes != null)
@@ -561,20 +563,23 @@ namespace PointOfInterestSkill.Dialogs.Shared
                     var trafficTimeSpan = TimeSpan.FromSeconds(route.Summary.TrafficDelayInSeconds);
 
                     // Set card data with formatted time strings and distance converted to miles
-                    var routeDirectionsModel = new RouteDirectionsModelCardData()
+                    var routeDirectionsModel = new RouteDirectionsModel()
                     {
                         Name = destination.Name,
-                        Street = destination.Street,
-                        City = destination.City,
+                        Street = destination.Street ?? " ",
+                        City = destination.City ?? " ",
                         AvailableDetails = destination.AvailableDetails,
-                        Hours = destination.Hours,
-                        ImageUrl = destination.PointOfInterestImageUrl,
+                        Hours = destination.Hours ?? " ",
+                        PointOfInterestImageUrl = destination.PointOfInterestImageUrl,
                         TravelTime = GetShortTravelTimespanString(travelTimeSpan),
                         DelayStatus = GetFormattedTrafficDelayString(trafficTimeSpan),
                         Distance = $"{(route.Summary.LengthInMeters / 1609.344).ToString("N1")} {PointOfInterestSharedStrings.MILES_ABBREVIATION}",
                         ETA = route.Summary.ArrivalTime.ToShortTimeString(),
                         TravelTimeSpeak = GetFormattedTravelTimeSpanString(travelTimeSpan),
-                        TravelDelaySpeak = GetFormattedTrafficDelayString(trafficTimeSpan)
+                        TravelDelaySpeak = GetFormattedTrafficDelayString(trafficTimeSpan),
+                        BackgroundImageUrl = GetCardImageUri(BackgroundImageFileName),
+                        HeaderBackgroundImageUrl = GetCardImageUri(HeaderBackgroundImageFileName),
+                        Provider = destination.Provider
                     };
 
                     cardData.Add(routeDirectionsModel);
@@ -586,7 +591,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                     var cards = new List<Card>();
                     foreach (var data in cardData)
                     {
-                        cards.Add(new Card("RouteDirectionsViewCard", data));
+                        cards.Add(new Card("PointOfInterestDetailsWithRoute", data));
                     }
 
                     var replyMessage = ResponseManager.GetCardResponse(POISharedResponses.MultipleRoutesFound, cards);
@@ -595,7 +600,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 }
                 else
                 {
-                    var card = new Card("RouteDirectionsViewCard", cardData.SingleOrDefault());
+                    var card = new Card("PointOfInterestDetailsWithRoute", cardData.SingleOrDefault());
                     var replyMessage = ResponseManager.GetCardResponse(POISharedResponses.SingleRouteFound, card);
                     replyMessage.Speak = ResponseUtility.BuildSpeechFriendlyPoIResponse(replyMessage);
                     await sc.Context.SendActivityAsync(replyMessage);

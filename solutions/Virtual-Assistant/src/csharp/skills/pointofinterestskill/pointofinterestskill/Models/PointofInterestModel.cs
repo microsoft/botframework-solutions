@@ -137,6 +137,14 @@ namespace PointOfInterestSkill.Models
         public string BackgroundImageUrl { get; set; }
 
         /// <summary>
+        /// Gets or sets the header background image url.
+        /// </summary>
+        /// <value>
+        /// The header background image URL.
+        /// </value>
+        public string HeaderBackgroundImageUrl { get; set; }
+
+        /// <summary>
         /// Gets or sets the name of the point of interest.
         /// Availability: Azure Maps, Foursquare.
         /// </summary>
