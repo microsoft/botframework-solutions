@@ -399,7 +399,8 @@ namespace CalendarSkill.Dialogs.Shared
                     DateTime = TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, state.GetUserTimeZone()).ToString("MMMM M/d @ h:mm tt"),
                     Location = eventItem.Location,
                     Content = eventItem.ContentPreview,
-                    MeetingLink = eventItem.OnlineMeetingUrl
+                    MeetingLink = eventItem.OnlineMeetingUrl,
+                    LocationIcon = string.IsNullOrEmpty(eventItem.Location) ? AdaptiveCardHelper.BlankIcon : AdaptiveCardHelper.LocationIcon
                 }
             };
 
@@ -428,7 +429,7 @@ namespace CalendarSkill.Dialogs.Shared
         {
             if (attendees.Count <= index)
             {
-                return AdaptiveCardHelper.BlankAvatarIcon;
+                return AdaptiveCardHelper.BlankIcon;
             }
 
             return await GetUserPhotoUrlAsync(context, attendees[index]);

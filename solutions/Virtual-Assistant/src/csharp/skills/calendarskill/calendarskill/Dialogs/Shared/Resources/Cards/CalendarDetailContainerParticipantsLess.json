@@ -2,7 +2,6 @@
   "type": "AdaptiveCard",
   "id": "CalendarCard",
   "height": "stretch",
-  "backgroundImage": "https://github.com/ryanlengel/adaptivecards/blob/master/calendar/assets/meeting_background.png?raw=true",
   "body": [
     {
       "type": "Container",

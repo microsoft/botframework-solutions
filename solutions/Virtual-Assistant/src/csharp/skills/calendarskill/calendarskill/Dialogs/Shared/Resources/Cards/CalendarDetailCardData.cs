@@ -13,5 +13,7 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Cards
         public string Content { get; set; }
 
         public string MeetingLink { get; set; }
+
+        public string LocationIcon { get; set; }
     }
 }
