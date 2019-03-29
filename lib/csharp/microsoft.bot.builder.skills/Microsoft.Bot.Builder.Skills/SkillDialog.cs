@@ -3,9 +3,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Proactive;
-using Microsoft.Bot.Builder.Solutions.TaskExtensions;
-using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Skills
@@ -14,12 +11,8 @@ namespace Microsoft.Bot.Builder.Skills
     {
         private static readonly HttpClient _httpClient = new HttpClient();
         private SkillDefinition _skillDefinition;
-
-        private ProactiveState _proactiveState;
         private IBotTelemetryClient _telemetryClient;
-        private IBackgroundTaskQueue _backgroundTaskQueue;
-        private bool _useCachedTokens;
-       
+
         /// <summary>
         /// 
         /// </summary>
@@ -29,14 +22,11 @@ namespace Microsoft.Bot.Builder.Skills
         /// <param name="telemetryClient"></param>
         /// <param name="backgroundTaskQueue"></param>
         /// <param name="useCachedTokens"></param>
-        public SkillDialog(SkillDefinition skillDefinition, ProactiveState proactiveState, EndpointService endpointService, IBotTelemetryClient telemetryClient, IBackgroundTaskQueue backgroundTaskQueue, bool useCachedTokens = true)
-            : base(skillDefinition.Id)
+        public SkillDialog(SkillDefinition skillDefinition, IBotTelemetryClient telemetryClient)
+            : base(skillDefinition.Name)
         {
-            _skillDefinition = skillDefinition;            
-            _proactiveState = proactiveState;
+            _skillDefinition = skillDefinition;
             _telemetryClient = telemetryClient;
-            _backgroundTaskQueue = backgroundTaskQueue;
-            _useCachedTokens = useCachedTokens;         
         }
 
         /// <summary>
@@ -93,7 +83,7 @@ namespace Microsoft.Bot.Builder.Skills
             // TODO - Revist the synchronous approach currently in place below.
 
             try
-            {            
+            {
                 var skillResponses = new List<Activity>();
                 var filteredSkillResponses = new List<Activity>();
 
@@ -108,7 +98,7 @@ namespace Microsoft.Bot.Builder.Skills
                     skillResponses = await response.Content.ReadAsAsync<List<Activity>>();
 
                     var endOfConversation = false;
-                    foreach (Activity skillResponse in skillResponses)
+                    foreach (var skillResponse in skillResponses)
                     {
                         // Signal that the SkilLDialog should be unwound once these responses are processed.
                         if (skillResponse.Type == ActivityTypes.EndOfConversation)
@@ -125,7 +115,7 @@ namespace Microsoft.Bot.Builder.Skills
                             filteredSkillResponses.Add(skillResponse);
                         }
                     }
-                
+
                     // Send the filtered activities back (for example, token requests, EndOfConversation, etc. are removed)
                     if (filteredSkillResponses.Count > 0)
                     {

@@ -1,23 +1,13 @@
-﻿using System.Collections.Generic;
-using Microsoft.Bot.Configuration;
-using Newtonsoft.Json;
-
-namespace Microsoft.Bot.Builder.Skills
+﻿namespace Microsoft.Bot.Builder.Skills
 {
-    public class SkillDefinition : ConnectedService
+    public class SkillDefinition
     {
-        public SkillDefinition()
-            : base("skill")
-        {
-        }
+        public string Name { get; set; }
 
-        [JsonProperty("dispatchIntent")]
         public string DispatchIntent { get; set; }
 
-        [JsonProperty("Endpoint")]
         public string Endpoint { get; set; }    
 
-        [JsonProperty("supportedProviders")]
         public string[] SupportedProviders { get; set; }
     }
 }

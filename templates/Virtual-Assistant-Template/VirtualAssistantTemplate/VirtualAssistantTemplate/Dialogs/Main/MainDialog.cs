@@ -12,6 +12,7 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using System.Globalization;
+using Microsoft.Bot.Builder.Skills;
 
 namespace VirtualAssistantTemplate.Dialogs.Main
 {
@@ -32,6 +33,11 @@ namespace VirtualAssistantTemplate.Dialogs.Main
 
             AddDialog(new OnboardingDialog(_services, _userState.CreateProperty<OnboardingState>(nameof(OnboardingState)), telemetryClient));
             AddDialog(new EscalateDialog(_services));
+
+            foreach (var skill in services.SkillDefinitions)
+            {
+                AddDialog(new SkillDialog(skill, telemetryClient));
+            }
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -50,7 +56,12 @@ namespace VirtualAssistantTemplate.Dialogs.Main
             var dispatchResult = await cognitiveModels.DispatchService.RecognizeAsync<Dispatch>(dc.Context, CancellationToken.None);
             var intent = dispatchResult.TopIntent().intent;
 
-            if (intent == Dispatch.Intent.l_general)
+            if (_services.SkillDefinitions.Any(s => s.DispatchIntent == intent.ToString()))
+            {
+                var skill = _services.SkillDefinitions.Where(s => s.DispatchIntent == intent.ToString()).First();
+                await dc.BeginDialogAsync(skill.Name);
+            }
+            else if (intent == Dispatch.Intent.l_general)
             {
                 // If dispatch result is general luis model
                 cognitiveModels.LuisServices.TryGetValue("general", out var luisService);

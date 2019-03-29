@@ -34,16 +34,19 @@ namespace VirtualAssistantTemplate.Tests
             TelemetryClient = new NullBotTelemetryClient();
             BotServices = new BotServices()
             {
-                DispatchRecognizer = DispatchTestUtil.CreateRecognizer(),
-                LuisServices = new Dictionary<string, ITelemetryLuisRecognizer>
+                CognitiveModelSets = new Dictionary<string, Configuration.CognitiveModelSet>
                 {
-                    { "general", GeneralTestUtil.CreateRecognizer() }
-                },
-                QnAServices = new Dictionary<string, ITelemetryQnAMaker>
-                {
-                    { "faq", FaqTestUtil.CreateRecognizer() },
-                    { "chitchat", ChitchatTestUtil.CreateRecognizer() }
-                }
+                    {"en", new Configuration.CognitiveModelSet
+                        {
+                            DispatchService = DispatchTestUtil.CreateRecognizer(),
+                            LuisServices = new Dictionary<string, IRecognizer>
+                            {
+                                { "general", GeneralTestUtil.CreateRecognizer() }
+                            },
+                            QnAServices = null
+                        }
+                    }
+                }               
             };
 
             builder.RegisterInstance(new BotStateSet(UserState, ConversationState));
