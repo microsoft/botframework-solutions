@@ -101,7 +101,6 @@ namespace Microsoft.Bot.Builder.Skills
                 // TODO - Apply Authorization header
 
                 // add header to indicate a skill call
-                _httpClient.DefaultRequestHeaders.Add("skill", "true");
                 var response = await _httpClient.PostAsJsonAsync<Activity>(_skillDefinition.Endpoint, activity);
 
                 if (response.IsSuccessStatusCode)

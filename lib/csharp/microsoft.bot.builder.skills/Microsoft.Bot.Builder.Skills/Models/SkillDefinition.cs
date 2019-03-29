@@ -14,7 +14,7 @@ namespace Microsoft.Bot.Builder.Skills
         [JsonProperty("dispatchIntent")]
         public string DispatchIntent { get; set; }
 
-        [JsonProperty("assembly")]
+        [JsonProperty("Endpoint")]
         public string Endpoint { get; set; }    
 
         [JsonProperty("supportedProviders")]
