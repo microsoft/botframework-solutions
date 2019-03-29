@@ -67,7 +67,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>PointOfInterestBotResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings.Designer.cs">
+    <Compile Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings - Copy.Designer.cs">
+      <DependentUpon>PointOfInterestSharedStrings.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings - Copy.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>PointOfInterestSharedStrings.resx</DependentUpon>
@@ -158,10 +163,30 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings.zh.resx">
+      <LastGenOutput>PointOfInterestSharedStrings.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings.it.resx">
+      <LastGenOutput>PointOfInterestSharedStrings.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings.fr.resx">
+      <LastGenOutput>PointOfInterestSharedStrings.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings.es.resx">
+      <LastGenOutput>PointOfInterestSharedStrings.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings.de.resx">
+      <LastGenOutput>PointOfInterestSharedStrings.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings.resx">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>PointOfInterestSharedStrings.Designer.cs</LastGenOutput>
+      <LastGenOutput>PointOfInterestSharedStrings - Copy.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
