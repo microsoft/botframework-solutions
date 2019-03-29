@@ -53,7 +53,7 @@ namespace PointOfInterestSkill.Models
 
             if (Provider == null)
             {
-                Provider = new HashSet<string> { AzureMaps };
+                Provider = new SortedSet<string> { AzureMaps };
             }
             else
             {
@@ -102,7 +102,7 @@ namespace PointOfInterestSkill.Models
 
             if (Provider == null)
             {
-                Provider = new HashSet<string> { Foursquare };
+                Provider = new SortedSet<string> { Foursquare };
             }
             else
             {
@@ -232,7 +232,7 @@ namespace PointOfInterestSkill.Models
         /// <value>
         /// The provider of this provider.
         /// </value>
-        public HashSet<string> Provider { get; set; }
+        public SortedSet<string> Provider { get; set; }
 
         /// <summary>
         /// Gets or sets the formatted name of providers.

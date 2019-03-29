@@ -117,7 +117,7 @@
           "horizontalAlignment": "Right",
           "size": "Small",
           "color": "Dark",
-          "text": "{ProviderDisplayText}**"
+          "text": "{ProviderDisplayText}"
         }
       ]
     }

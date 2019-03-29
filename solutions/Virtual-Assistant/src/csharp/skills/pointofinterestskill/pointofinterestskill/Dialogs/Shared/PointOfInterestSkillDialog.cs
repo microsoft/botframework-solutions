@@ -398,7 +398,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                         pointOfInterestList[i].Name = pointOfInterestList[i].Street;
                     }
 
-                    pointOfInterestList[i].ProviderDisplayText = pointOfInterestList[i].Provider.Aggregate((j, k) => j + "," + k).ToString();
+                    pointOfInterestList[i].ProviderDisplayText = string.Format($"{PointOfInterestSharedStrings.POWERED_BY} **{{0}}**", pointOfInterestList[i].Provider.Aggregate((j, k) => j + "&" + k).ToString());
                 }
 
                 state.LastFoundPointOfInterests = pointOfInterestList;
@@ -559,6 +559,8 @@ namespace PointOfInterestSkill.Dialogs.Shared
                     var travelTimeSpan = TimeSpan.FromSeconds(route.Summary.TravelTimeInSeconds);
                     var trafficTimeSpan = TimeSpan.FromSeconds(route.Summary.TrafficDelayInSeconds);
 
+                    destination.Provider.Add(routeDirections.Provider);
+
                     // Set card data with formatted time strings and distance converted to miles
                     var routeDirectionsModel = new RouteDirectionsModel()
                     {
@@ -574,7 +576,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                         ETA = route.Summary.ArrivalTime.ToShortTimeString(),
                         TravelTimeSpeak = GetFormattedTravelTimeSpanString(travelTimeSpan),
                         TravelDelaySpeak = GetFormattedTrafficDelayString(trafficTimeSpan),
-                        ProviderDisplayText = destination.Provider.ToString()
+                        ProviderDisplayText = string.Format($"{PointOfInterestSharedStrings.POWERED_BY} **{{0}}**", destination.Provider.Aggregate((j, k) => j + " & " + k).ToString())
                     };
 
                     cardData.Add(routeDirectionsModel);

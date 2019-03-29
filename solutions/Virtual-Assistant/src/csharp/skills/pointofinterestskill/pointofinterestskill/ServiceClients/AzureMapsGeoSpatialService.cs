@@ -197,6 +197,8 @@ namespace PointOfInterestSkill.ServiceClients
 
             var apiResponse = JsonConvert.DeserializeObject<RouteDirections>(response);
 
+            apiResponse.Provider = PointOfInterestModel.AzureMaps;
+
             return apiResponse;
         }
 
