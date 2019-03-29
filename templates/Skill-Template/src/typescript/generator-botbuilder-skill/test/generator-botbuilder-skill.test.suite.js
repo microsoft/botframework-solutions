@@ -405,6 +405,32 @@ describe("The generator-botbuilder-skill tests", function() {
                 done()
             });
         });
+
+        describe("and have in the index file", function() {
+            it("an import component with the given name", function(done) {
+                assert.fileContent(
+                    path.join(skillGenerationPath, skillName, "src", "index.ts"),
+                    `import { ${skillNamePascalCase} } from './${skillNameCamelCase}';`
+                );
+                done();
+            });
+
+            it("a declaration of a property with type of the given name", function(done){
+                assert.fileContent(
+                    path.join(skillGenerationPath, skillName, "src", "index.ts"),
+                    `let bot: ${skillNamePascalCase};`
+                );
+                done();
+            });
+
+            it("an initialization of the property with type of the given name", function(done){
+                assert.fileContent(
+                    path.join(skillGenerationPath, skillName, "src", "index.ts"),
+                    `bot = new ${skillNamePascalCase}(`
+                );
+                done();
+            });
+        });
     });
 
    describe("should not create", function() {
