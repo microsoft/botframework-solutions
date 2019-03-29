@@ -118,39 +118,39 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="HOUR" xml:space="preserve">
-    <value>hour</value>
+    <value>hora</value>
   </data>
   <data name="HOURS" xml:space="preserve">
-    <value>hours</value>
+    <value>horas</value>
   </data>
   <data name="HOUR_ABBREVIATION" xml:space="preserve">
     <value>h</value>
   </data>
   <data name="KILOMETERS" xml:space="preserve">
-    <value>kilometers</value>
+    <value>kilómetros</value>
   </data>
   <data name="KILOMETERS_ABBREVIATION" xml:space="preserve">
     <value>km</value>
   </data>
   <data name="LESS_THAN_A_MINUTE" xml:space="preserve">
-    <value>Less than a minute</value>
+    <value>Menos de un minuto</value>
   </data>
   <data name="MILES" xml:space="preserve">
-    <value>miles</value>
+    <value>millas</value>
   </data>
   <data name="MILES_ABBREVIATION" xml:space="preserve">
     <value>mi</value>
   </data>
   <data name="MINUTE" xml:space="preserve">
-    <value>minute</value>
+    <value>minuto</value>
   </data>
   <data name="MINUTES" xml:space="preserve">
-    <value>minutes</value>
+    <value>minutos</value>
   </data>
   <data name="MINUTE_ABBREVIATION" xml:space="preserve">
     <value>min</value>
   </data>
   <data name="POWERED_BY" xml:space="preserve">
-    <value>Powered by</value>
+    <value>Funciona con</value>
   </data>
 </root>
