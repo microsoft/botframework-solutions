@@ -15,15 +15,17 @@ const unhandledReplies = [
     "Sorry, I didn't understand what you meant.",
     "I didn't quite get that."
 ];
+let testAdapter;
 
 describe("mainDialog", function() {
     before(async function() {
         await <%=skillTemplateName%>.initialize();
+        testAdapter = <%=skillTemplateName%>.getTestAdapter();
     });
 
     describe("intro message", function() {
         it("send conversationUpdate and verify the response", function(done){
-            const testAdapter = customSkill.getTestAdapter();
+            
             const flow = testAdapter
             .send({
                 type: "conversationUpdate",
@@ -47,7 +49,6 @@ describe("mainDialog", function() {
 
     describe("help intent", function() {
         it("send 'Help' and check you get the expected response", function(done){
-            const testAdapter = customSkill.getTestAdapter();
             const flow = testAdapter
                 .send('Help')
                 .assertReply('[Enter your help message here]');
@@ -58,7 +59,6 @@ describe("mainDialog", function() {
 
     describe("unhandled message", function() {
         it("send 'Blah Blah' and check you get the expected response", function(done){
-            const testAdapter = customSkill.getTestAdapter();
             const flow = testAdapter
                 .send('Blah Blah')
 				.assertReply(function (activity, description) {

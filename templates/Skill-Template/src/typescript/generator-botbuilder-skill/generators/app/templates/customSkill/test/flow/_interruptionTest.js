@@ -4,15 +4,16 @@
 const assert = require('assert');
 const <%=skillTemplateName%> = require('./<%=skillTemplateNameFile%>');
 const testNock = require('../testBase');
+let testAdapter;
 
 describe("interruption", function() {
     before(async function() {
         await <%=skillTemplateName%>.initialize();
+        testAdapter = <%=skillTemplateName%>.getTestAdapter();
     });
 
     describe("help", function() {
         it("send 'Help' and check you get the expected response", function(done){
-            const testAdapter = customSkill.getTestAdapter();
             const flow = testAdapter
                 .send('Help')
                 .assertReply('[Enter your help message here]');
@@ -23,7 +24,6 @@ describe("interruption", function() {
 
     describe("cancel", function() {
         it("send 'Cancel' and check you get the expected response", function(done){
-            const testAdapter = customSkill.getTestAdapter();
             const flow = testAdapter
                 .send('Cancel')
                 .assertReply(`Ok, let's start over.`);

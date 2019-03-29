@@ -420,7 +420,7 @@ describe("The generator-botbuilder-skill tests", function() {
                 );
                 assert.fileContent(
                     path.join(skillGenerationPath, skillName, "test", "flow", "interruptionTest.js"),
-                    `const testAdapter = ${skillNameCamelCase}.getTestAdapter();`
+                    `testAdapter = ${skillNameCamelCase}.getTestAdapter();`
                 );
                 done();
             })  
@@ -442,7 +442,7 @@ describe("The generator-botbuilder-skill tests", function() {
                 );
                 assert.fileContent(
                     path.join(skillGenerationPath, skillName, "test", "flow", "sampleDialogTest.js"),
-                    `const testAdapter = ${skillNameCamelCase}.getTestAdapter();`
+                    `testAdapter = ${skillNameCamelCase}.getTestAdapter();`
                 );
                 done();
             })  
@@ -464,7 +464,7 @@ describe("The generator-botbuilder-skill tests", function() {
                 );
                 assert.fileContent(
                     path.join(skillGenerationPath, skillName, "test", "flow", "mainDialogTest.js"),
-                    `const testAdapter = ${skillNameCamelCase}.getTestAdapter();`
+                    `testAdapter = ${skillNameCamelCase}.getTestAdapter();`
                 );
                 done();
             })  
