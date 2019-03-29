@@ -217,6 +217,8 @@ module.exports = class extends Generator {
       {
         skillUserStateNameClass: skillUserStateNameClass,
         skillUserStateNameFile: skillUserStateNameFile,
+        skillTemplateName: skillNamePascalCase,
+        skillTemplateFileName: skillNameCamelCase,
         skillProjectName: skillName,
         skillProjectNameLU: `${skillName}LU`
       }

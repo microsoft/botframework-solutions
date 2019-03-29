@@ -168,7 +168,6 @@ export class SkillDialogBase extends ComponentDialog {
     // Helpers
     protected async getLuisResult(dc: DialogContext): Promise<void> {
         if (dc.context.activity.type === ActivityTypes.Message) {
-            // tslint:disable-next-line:no-any
             const state: ISkillConversationState = await this.conversationStateAccessor.get(dc.context, {
                 // tslint:disable-next-line:no-empty
                 clear: (): void => { },
@@ -185,6 +184,7 @@ export class SkillDialogBase extends ComponentDialog {
                 throw new Error('luisService is null');
             }
             const result: RecognizerResult =  await luisService.recognize(dc, true);
+
             state.luisResult = result;
         }
     }

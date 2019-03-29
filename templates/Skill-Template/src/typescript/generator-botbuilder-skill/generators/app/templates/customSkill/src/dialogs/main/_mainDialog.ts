@@ -195,7 +195,6 @@ export class MainDialog extends RouterDialog {
             } else {
                 const luisResult: RecognizerResult =  await luisService.recognize(dc, true);
                 const topIntent: string = LuisRecognizer.topIntent(luisResult);
-
                 if (luisResult.intents[topIntent].score > 0.5) {
                     switch (topIntent) {
                         case 'Cancel': {
