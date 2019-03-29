@@ -158,5 +158,14 @@ namespace PointOfInterestSkill.Dialogs.Shared.Resources {
                 return ResourceManager.GetString("MINUTES", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Powered by.
+        /// </summary>
+        public static string POWERED_BY {
+            get {
+                return ResourceManager.GetString("POWERED_BY", resourceCulture);
+            }
+        }
     }
 }
