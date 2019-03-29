@@ -17,8 +17,8 @@ namespace EmailSkill.Dialogs.Shared.Resources.Cards
 
         public string MailSourceType { get; set; }
 
-        public string MessagesDiscription { get; } = EmailCommonStrings.Messages;
+        public string MessagesDescription { get; } = EmailCommonStrings.Messages;
 
-        public string ImportantMessagesDiscription { get; } = EmailCommonStrings.ImportantMessages;
+        public string ImportantMessagesDescription { get; } = EmailCommonStrings.ImportantMessages;
     }
 }
