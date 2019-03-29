@@ -13,7 +13,6 @@ describe("The generator-botbuilder-skill tests", function() {
     var skillDesc;
     var skillNamePascalCase;
     var skillNameCamelCase;
-    var skillNameId;
     var skillNameIdPascalCase;
     var skillUserStateNameClass;
     var skillUserStateNameFile;
