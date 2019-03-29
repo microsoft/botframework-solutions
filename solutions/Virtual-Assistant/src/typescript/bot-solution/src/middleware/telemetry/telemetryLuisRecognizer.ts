@@ -1,3 +1,8 @@
+/**
+ * Copyright(c) Microsoft Corporation.All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import { BotTelemetryClient, RecognizerResult, TurnContext } from 'botbuilder';
 import { LuisApplication, LuisPredictionOptions, LuisRecognizer } from 'botbuilder-ai';
 import { DialogContext } from 'botbuilder-dialogs';

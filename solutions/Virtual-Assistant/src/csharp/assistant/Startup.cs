@@ -8,12 +8,14 @@ using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Proactive;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
@@ -23,6 +25,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using VirtualAssistant.Dialogs.Main;
+using VirtualAssistant.Dialogs.Main.Resources;
 
 namespace VirtualAssistant
 {
@@ -84,7 +87,14 @@ namespace VirtualAssistant
             var connectedServices = new BotServices(botConfig, languageModels, skills, skillEvents);
             services.AddSingleton(sp => connectedServices);
 
-            var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
+            var defaultLocale = Configuration.GetSection("configuration").Get<string>();
+            var supportedLanguages = languageModels.Select(l => l.Key).ToArray();
+            var responseManager = new ResponseManager(
+                supportedLanguages,
+                new MainDialogResponses());
+
+            // Register bot responses for all supported languages.
+            services.AddSingleton(sp => responseManager);
 
             // Initialize Bot State
             var cosmosDbService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.CosmosDB) ?? throw new Exception("Please configure your CosmosDb service in your .bot file.");

@@ -44,6 +44,8 @@
         "@types/restify": "^7.2.4",
         "copyfiles": "^2.1.0",
         "mocha": "^5.2.0",
+
+        "nock": "^10.0.6",
         "nodemon": "^1.18.4",
         "replace": "^1.0.0",
         "rimraf": "^2.6.2",

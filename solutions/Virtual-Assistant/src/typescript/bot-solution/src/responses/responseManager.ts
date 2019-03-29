@@ -1,5 +1,7 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+/**
+ * Copyright(c) Microsoft Corporation.All rights reserved.
+ * Licensed under the MIT License.
+ */
 
 import { ActivityTypes } from 'botbuilder';
 import { Activity, CardFactory, MessageFactory } from 'botbuilder-core';
@@ -8,7 +10,7 @@ import { readFileSync } from 'fs';
 import i18next from 'i18next';
 import { join } from 'path';
 import { Card } from './card';
-import { ICardData } from './cardDataBase';
+import { ICardData } from './cardData';
 import { Reply } from './reply';
 import { IResponseIdCollection } from './responseIdCollection';
 import { ResponseTemplate } from './responseTemplate';
@@ -19,7 +21,7 @@ export class ResponseManager {
     private static readonly simpleTokensRegex: RegExp = /\{(\w+)\}/g;
     private static readonly complexTokensRegex: RegExp = /\{[^{\}]+(?=})\}/g;
 
-    constructor(responseTemplates: IResponseIdCollection[], locales: string[]) {
+    constructor(locales: string[], responseTemplates: IResponseIdCollection[]) {
 
         this.jsonResponses = new Map();
 

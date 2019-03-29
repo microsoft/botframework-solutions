@@ -1,0 +1,11 @@
+{
+    "ErrorMessageSkillError": {
+      "replies": [
+        {
+          "speak": "Désolé, quelque chose a mal tourné en essayant de communiquer avec la compétence. Veuillez réessayer.",
+          "text": "Désolé, quelque chose a mal tourné en essayant de communiquer avec la compétence. Veuillez réessayer."
+        }
+      ],
+      "inputHint": "expectingInput"
+    }
+  }

@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using AutomotiveSkill.Yaml;
 using SharpYaml;
 using SharpYaml.Events;
-using System;
 
 namespace AutomotiveSkill.Models
 {
