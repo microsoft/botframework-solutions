@@ -39,9 +39,9 @@ namespace EmailSkill
             EndDateTime = DateTime.UtcNow;
             UserSelectIndex = -1;
             MailSourceType = MailSource.Other;
-            UnconfirmedPerson = new List<Person>();
+            UnconfirmedPerson = new List<PersonModel>();
             FirstRetryInFindContact = true;
-            ConfirmedPerson = new Person();
+            ConfirmedPerson = new PersonModel();
             FirstEnterFindContact = true;
             SearchTexts = null;
             GeneralSenderName = null;
@@ -92,11 +92,11 @@ namespace EmailSkill
 
         public int ConfirmRecipientIndex { get; set; }
 
-        public List<Person> UnconfirmedPerson { get; set; }
+        public List<PersonModel> UnconfirmedPerson { get; set; }
 
         public bool FirstRetryInFindContact { get; set; }
 
-        public Person ConfirmedPerson { get; set; }
+        public PersonModel ConfirmedPerson { get; set; }
 
         public bool DirectlyToMe { get; set; }
 

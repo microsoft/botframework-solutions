@@ -579,7 +579,7 @@ namespace EmailSkill.Dialogs.Shared
                         return await sc.BeginDialogAsync(Actions.CollectRecipient, skillOptions);
                     }
 
-                    if (IsEmail(userInput))
+                    if (Util.Util.IsEmail(userInput))
                     {
                         state.EmailList.Add(userInput);
                     }
@@ -1131,57 +1131,55 @@ namespace EmailSkill.Dialogs.Shared
             return;
         }
 
-        protected async Task<List<Person>> GetPeopleWorkWithAsync(ITurnContext context, string name)
-        {
-            var result = new List<Person>();
-            var state = await EmailStateAccessor.GetAsync(context);
-            var token = state.Token;
-            var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+        //protected async Task<List<PersonModel>> GetPeopleWorkWithAsync(ITurnContext context, string name)
+        //{
+        //    var state = await EmailStateAccessor.GetAsync(context);
+        //    var token = state.Token;
+        //    var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
 
-            // Get users.
-            return await service.GetPeopleAsync(name);
-        }
+        //    // Get users.
+        //    return await service.GetPeopleAsync(name);
+        //}
 
-        protected async Task<List<Person>> GetUserAsync(ITurnContext context, string name)
-        {
-            var result = new List<Person>();
-            try
-            {
-                var state = await EmailStateAccessor.GetAsync(context);
-                var token = state.Token;
-                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+        //protected async Task<List<PersonModel>> GetUserAsync(ITurnContext context, string name)
+        //{
+        //    try
+        //    {
+        //        var state = await EmailStateAccessor.GetAsync(context);
+        //        var token = state.Token;
+        //        var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
 
-                // Get users.
-                var userList = await service.GetUserAsync(name);
-                foreach (var user in userList)
-                {
-                    result.Add(user.ToPerson());
-                }
-            }
-            catch (ServiceException)
-            {
-                // won't clear conversation state hear, because sometime use api is not available, like user msa account.
-            }
+        //        // Get users.
+        //        var userList = await service.GetUserAsync(name);
+        //        foreach (var user in userList)
+        //        {
+        //            result.Add(user.ToPerson());
+        //        }
+        //    }
+        //    catch (ServiceException)
+        //    {
+        //        // won't clear conversation state hear, because sometime use api is not available, like user msa account.
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
-        protected async Task<List<Person>> GetContactsAsync(ITurnContext context, string name)
-        {
-            var result = new List<Person>();
-            var state = await EmailStateAccessor.GetAsync(context);
-            var token = state.Token;
-            var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+        //protected async Task<List<Person>> GetContactsAsync(ITurnContext context, string name)
+        //{
+        //    var result = new List<Person>();
+        //    var state = await EmailStateAccessor.GetAsync(context);
+        //    var token = state.Token;
+        //    var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
 
-            // Get users.
-            var contactsList = await service.GetContactsAsync(name);
-            foreach (var contact in contactsList)
-            {
-                result.Add(contact.ToPerson());
-            }
+        //    // Get users.
+        //    var contactsList = await service.GetContactsAsync(name);
+        //    foreach (var contact in contactsList)
+        //    {
+        //        result.Add(contact.ToPerson());
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
         protected async Task<string> GetMyPhotoUrlAsync(ITurnContext context)
         {
@@ -1192,23 +1190,9 @@ namespace EmailSkill.Dialogs.Shared
             try
             {
                 var user = await service.GetMeAsync();
-                if (user != null)
+                if (user != null && !string.IsNullOrEmpty(user.Photo))
                 {
-                    try
-                    {
-                        var url = await service.GetUserPhotoAsync(user.Id);
-                        if (!string.IsNullOrEmpty(url))
-                        {
-                            return url;
-                        }
-                    }
-                    catch (ServiceException)
-                    {
-                        var displayName = user.DisplayName != null ? user.DisplayName : (user.UserPrincipalName != null ? user.UserPrincipalName : AdaptiveCardHelper.DefaultMe);
-
-                        // won't clear conversation state hear, because sometime use api is not available, like user msa account.
-                        return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
-                    }
+                    return user.Photo;
                 }
 
                 // return default value
@@ -1230,21 +1214,10 @@ namespace EmailSkill.Dialogs.Shared
 
             try
             {
-                var user = await service.GetUserAsync(email.Address);
-                if (user != null && user.Count() >= 1)
+                var url = await service.GetPhotoAsync(email.Address);
+                if (!string.IsNullOrEmpty(url))
                 {
-                    try
-                    {
-                        var url = await service.GetUserPhotoAsync(user[0].Id);
-                        if (!string.IsNullOrEmpty(url))
-                        {
-                            return url;
-                        }
-                    }
-                    catch (ServiceException)
-                    {
-                        return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
-                    }
+                    return url;
                 }
 
                 // return default value
@@ -1481,7 +1454,7 @@ namespace EmailSkill.Dialogs.Shared
                                     foreach (var emailAddress in rawEntity)
                                     {
                                         var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
-                                        if (IsEmail(email) && !state.EmailList.Contains(email))
+                                        if (Util.Util.IsEmail(email) && !state.EmailList.Contains(email))
                                         {
                                             state.EmailList.Add(email);
                                         }
@@ -1539,7 +1512,7 @@ namespace EmailSkill.Dialogs.Shared
                                     foreach (var emailAddress in rawEntity)
                                     {
                                         var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
-                                        if (IsEmail(email) && !state.EmailList.Contains(email))
+                                        if (Util.Util.IsEmail(email) && !state.EmailList.Contains(email))
                                         {
                                             state.EmailList.Add(email);
                                         }
@@ -1566,16 +1539,6 @@ namespace EmailSkill.Dialogs.Shared
             {
                 // put log here
             }
-        }
-
-        protected bool IsEmail(string email)
-        {
-            if (string.IsNullOrWhiteSpace(email))
-            {
-                return false;
-            }
-
-            return Regex.IsMatch(email, @"^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
         }
 
         protected bool IsReadMoreIntent(General.Intent? topIntent, string userInput)
