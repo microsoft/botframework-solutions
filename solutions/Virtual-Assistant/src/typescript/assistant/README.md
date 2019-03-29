@@ -5,6 +5,21 @@
 
 This bot has been created using [Microsoft Bot Framework](https://dev.botframework.com).
 
+## Table of Contents
+- [Virtual Assistant Bot](#virtual-assistant-bot)
+    - [Table of Contents](#table-of-contents)
+    - [Prerequisites](#prerequisites)
+        - [Clone the Repo](#clone-the-repo)
+        - [Build the Solution](#build-the-solution)
+    - [Deployment](#deployment)
+        - [Initial Deployment](#initial-deployment)
+        - [Post Deployment Configuration](#post-deployment-configuration)
+        - [Final Deployment](#final-deployment)
+    - [Testing](#testing)
+        - [Testing the bot using Bot Framework Emulator](#testing-the-bot-using-bot-framework-emulator)
+    - [Further Reading](#further-reading)
+- [Contributing](#contributing)
+ 
 ## Prerequisites
 
 > It's important to ensure all of the following pre-requisites are installed on your machine prior to attempting deployment otherwise you may run into deployment issues.
@@ -44,9 +59,45 @@ npm install -g @microsoft/rush
    - Once signed in click on your name in the top right hand corner.
    - Choose Settings and make a note of the Authoring Key for the next step.
 
-### Initial Deployment
+### Clone the Repo
+The first step is to clone the [Microsoft Conversational AI GitHub Repo](https://github.com/Microsoft/AI). You'll find the Virtual Assistant solution within the `solutions\Virtual-Assistant\src\typescript` folder.
 
-This instructions will help you to deploy the desired services for the first time.
+Once the Solution has been cloned you will see the following folder structure.
+
+    | - typescript
+        | - assistant
+            | - congnitiveModels
+            | - deploymentScripts
+            | - src
+            | - test
+            | - .env.development
+            | - .env.production
+        | - bot-solution
+        | - common
+        | - skills
+        | - package.json
+        | - rush.json
+
+### Build the Solution
+Once cloned the next step is to build the VirtualAssistant solution.
+
+This can be done with the following commands. Ensure you navigate in a command prompt to the `solutions\Virtual-Assistant\src\typescript` folder.
+```shell
+rush update (to install the depedencies)
+rush build (to build the project)
+```
+
+## Deployment
+
+Virtual Assistant bot require the following dependencies for end to end operation.
+- Azure Web App
+- Azure Storage Account (Transcripts)
+- Azure Application Insights (Telemetry)
+- Azure CosmosDb (State)
+- Azure Cognitive Services - Language Understanding
+- Azure Cognitive Services - QnAMaker (including Azure Search, Azure Web App)
+
+> Review the pricing and terms for the services and adjust to suit your scenario
 
 >If you have multiple Azure subscriptions and want to ensure the deployment selects the correct one, run the following commands before continuing.
 
@@ -57,19 +108,17 @@ az account list
 az account set --subscription "YOUR_SUBSCRIPTION_NAME"
 ```
 
-Virtual Assistant bot require the following dependencies for end to end operation.
-- Azure Web App
-- Azure Storage Account (Transcripts)
-- Azure Application Insights (Telemetry)
-- Azure CosmosDb (State)
-- Azure Cognitive Services - Language Understanding
-- Azure Cognitive Services - QnAMaker (including Azure Search, Azure Web App)
-
 Your Virtual Assistant project has a deployment recipe enabling the `msbot clone services` command to automate deployment of all the above services into your Azure subscription and ensure the .bot file in your project is updated with all of the services including keys enabling seamless operation of your Virtual Assistant.
 
 To deploy your Virtual Assistant including all dependencies - e.g. CosmosDb, Application Insights, etc. run the following command from a command prompt within your project folder. Ensure you update the authoring key from the previous step and choose the Azure datacenter location you wish to use (e.g. westus or westeurope). You must check that the LUIS authoring key retrieved on the previous step is for the region you specify below (e.g. westus for luis.ai or westeurope for eu.luis.ai)
 
-Run this PowerShell script to deploy your shared resources and LUIS and QnA Maker resources in English. Ensure you navigate in a command prompt to the `solutions\Virtual-Assistant\src\typescript\assistant` folder. The `pwsh.exe` is the new PowerShell v6 executable which should be added to your path as part of the install, if not you can find in your `ProgramFiles\PowerShell\6` directory.
+### Initial Deployment
+
+This instructions will help you to deploy the desired services for the first time.
+
+Run the following PowerShell script to deploy your shared resources and LUIS and QnA Maker resources in English. Ensure you navigate in a command prompt to the `solutions\Virtual-Assistant\src\typescript\assistant` folder.
+
+The `pwsh.exe` is the new PowerShell v6 executable which should be added to your path as part of the install, if not you can find in your `ProgramFiles\PowerShell\6` directory.
 
 > Depending on the network connection this deployment process may take 10-15 minutes before progress is shown, ensure you complete the authentication step and check back later for progress.
 
@@ -96,21 +145,27 @@ You will be prompted to provide the following parameters:
 
 The msbot tool will outline the deployment plan including location and SKU. Ensure you review before proceeding.
 
+![Deployment Confirmation](../../../../../docs/media/virtualassistant-deploymentplan.png)
+
 > After deployment is complete, it's **imperative** that you make a note of the .bot file secret provided as this will be required for later steps. The secret can be found near the top of the execution output and will be in purple text.
+
+Once this step has finished, you can observe some new files created:
+   - A `<NAME_OF_YOUR_BOT>.bot` file containing shared services (e.g. blob, appInsights). 
+   - A `LocaleConfigurations` folder thas has been created. Inside it, there will be many `.bot` files as languages you have selected to deploy called by the following structure `<NAME_OF_YOUR_BOT><A_LANGUAGE>.bot` with the LUIS and QnA endpoints.
 
 ### Post Deployment Configuration
 
 Now you can update your `.env.production` file (or `.env.development` file if you are going to test it locally) in the `solutions\Virtual-Assistant\src\typescript\assistant` folder with the following information.
-- `BOT_FILE_NAME`: Bot file name* (i.e. `VirtualAssistantBot.bot`)
+- `BOT_FILE_NAME`: Bot file name (i.e. `VirtualAssistantBot.bot`) (*)
 - `BOT_FILE_SECRET`: Bot file secret
-- `APPINSIGHTS_NAME`: AppInsights service name*
-- `STORAGE_NAME`: CosmosDB service name*
-- `BLOB_NAME`: BlobStorage service name*
-- `LUIS_GENERAL`: Luis service name*
+- `APPINSIGHTS_NAME`: AppInsights service name (*)
+- `STORAGE_NAME`: CosmosDB service name (*)
+- `BLOB_NAME`: BlobStorage service name (*)
+- `LUIS_GENERAL`: Luis service name (*)
 
-> \*This information can be found in the `.bot` file
+> \(*)This information can be found in the `.bot` file
 
-Also, you will need to edit the .bot file paths for each of your language configurations in the `languageModels.json` file inside the `solutions\Virtual-Assistant\src\typescript\assistant\src` folder:
+Also, you will need to edit the `.bot` file paths for each of your language configurations in the `languageModels.json` file inside the `solutions\Virtual-Assistant\src\typescript\assistant\src` folder:
 
 ```json
 {
@@ -141,16 +196,9 @@ Also, you will need to edit the .bot file paths for each of your language config
 }
 ```
 
-### Build the Solution
-After the first deploy, you **must** install the dependencies and build the project. This can be done with the following commands. Ensure you navigate in a command prompt to the `solutions\Virtual-Assistant\src\typescript` folder.
-```shell
-rush update
-rush build
-```
+### Final Deployment
 
-## Final Deployment
-
-Once the **Initial Deployment** and the **Post Deployment Configuration** are completed, the updated Bot itself can be deployed using the `publish.cmd` that the `msbot clone services` created inside the `solutions\Virtual-Assistant\src\typescript\assistant` folder, which will execute the following command
+Once the [Initial Deployment](#initial-deployment) and the [Post Deployment Configuration](#post-deployment-configuration) are completed, the updated Bot itself can be deployed using the `publish.cmd` that the `msbot clone services` created inside the `solutions\Virtual-Assistant\src\typescript\assistant` folder, which will execute the following command
 ```shell
 az bot publish --resource-group "RESOURCE_GROUP_NAME" -n "BOT_NAME" --subscription "SUBSCRIPTION_ID" -v v4 --verbose --code-dir "." 
 ```
@@ -161,7 +209,7 @@ az bot publish --resource-group "RESOURCE_GROUP_NAME" -n "BOT_NAME" --subscripti
 
 > NOTE: Currently the Virtual Assistant bot does not have any skill configured, so any message that should be handled by skills would return an error for not finding the corresponding skill.
 
-Once the **Initial Deployment** and the **Post Deployment Configuration** are completed, you can use the [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) for testing your Bot locally. After the **Final Deployment**, you can test the deployed Bot using the `production endpoint`.
+Once the [Initial Deployment](#initial-deployment) and the [Post Deployment Configuration](#post-deployment-configuration) are completed, you can use the [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) for testing your Bot locally. After the [Final Deployment](#final-deployment), you can test the deployed Bot using the `production endpoint`.
 
 ### Testing the bot using Bot Framework Emulator
 
@@ -169,7 +217,7 @@ Once the **Initial Deployment** and the **Post Deployment Configuration** are co
 
 - Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator)
 - Launch Bot Framework Emulator
-- File -> Open Bot Configuration and navigate to `TypeScript Enterprise Bot Sample` folder
+- File -> Open Bot Configuration and navigate to your`TypeScript Virtual Assistant Sample` folder
 - Select your `.bot` file
 - For debugging locally, use the command `rush start` and use the `development` endpoint (usually the `localhost`)
 
