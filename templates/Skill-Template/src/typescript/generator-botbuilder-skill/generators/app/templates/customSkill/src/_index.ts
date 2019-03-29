@@ -51,9 +51,10 @@ import { MainResponses } from './dialogs/main/mainResponses';
 import { SampleResponses } from './dialogs/sample/sampleResponses';
 import { SharedResponses } from './dialogs/shared/sharedResponses';
 import { default as languageModelsRaw } from './languageModels.json';
-import { <%=skillTemplateName%> } from './<%=skillTemplateFileName%>';
 import { ServiceManager } from './serviceClients/serviceManager';
 import { default as skillsRaw } from './skills.json';
+
+import { <%=skillTemplateName%> } from './<%=skillTemplateFileName%>';
 
 // Read variables from .env file.
 const ENV_NAME: string = process.env.NODE_ENV || 'development';

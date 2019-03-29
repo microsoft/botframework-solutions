@@ -58,8 +58,8 @@ export class <%=skillTemplateName%> {
         }
         if (responseManager === undefined) {
             this.responseManager = new ResponseManager(
-                [new SampleResponses(), new MainResponses(), new SharedResponses()],
-                Array.from(this.services.localeConfigurations.keys())
+                Array.from(this.services.localeConfigurations.keys()),
+                [SampleResponses, MainResponses, SharedResponses]
             );
         } else {
             this.responseManager = responseManager;
