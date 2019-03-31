@@ -9,9 +9,9 @@
     },
     {
       "type": "luis",
-      "id": "<%= name %>",
-      "name": "<%= name %>",
-      "luPath": "..\\cognitiveModels\\LUIS\\de\\<%= name %>.lu"
+      "id": "<%=skillProjectName%>",
+      "name": "<%=skillProjectName%>",
+      "luPath": "..\\cognitiveModels\\LUIS\\en\\<%=skillProjectName%>.lu"
     }
   ]
 }
