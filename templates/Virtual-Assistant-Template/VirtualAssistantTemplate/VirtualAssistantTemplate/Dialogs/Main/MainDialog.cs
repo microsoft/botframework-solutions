@@ -60,6 +60,14 @@ namespace VirtualAssistantTemplate.Dialogs.Main
             {
                 var skill = _services.SkillDefinitions.Where(s => s.DispatchIntent == intent.ToString()).First();
                 await dc.BeginDialogAsync(skill.Name);
+
+                // Pass the activity we have
+                var result = await dc.ContinueDialogAsync();
+
+                if (result.Status == DialogTurnStatus.Complete)
+                {
+                    await CompleteAsync(dc);
+                }
             }
             else if (intent == Dispatch.Intent.l_general)
             {
