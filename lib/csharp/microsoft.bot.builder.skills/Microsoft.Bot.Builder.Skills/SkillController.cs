@@ -42,7 +42,7 @@ namespace Microsoft.Bot.Builder.Skills
         /// This API is the endpoint the bot exposes as skill
         /// </summary>
         /// <returns></returns>
-        [Route("api/skills")]
+        [Route("api/skill/messages")]
         [HttpPost]
         public async Task SkillMessage()
         {

@@ -38,7 +38,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.3" />
+    <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.3.1" />

@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,6 +13,7 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
@@ -53,8 +55,6 @@ namespace RestaurantBooking
         {
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
 
-            services.AddSingleton<ISkillAdapter, SkillAdapter>();
-
             // add background task queue
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddHostedService<QueuedHostedService>();
@@ -85,6 +85,8 @@ namespace RestaurantBooking
 
             // Register bot responses for all supported languages.
             services.AddSingleton(sp => responseManager);
+
+            var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
 
             // Initialize Bot State
             var cosmosDbService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.CosmosDB) ?? throw new Exception("Please configure your CosmosDb service in your .bot file.");
@@ -122,37 +124,66 @@ namespace RestaurantBooking
             // HttpContext required for path resolution
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            // Add the bot with options
-            services.AddBot<RestaurantBooking>(options =>
+            // Add the bot
+            services.AddTransient<IBot, RestaurantBooking>();
+
+            var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+
+            // Create the middlewares
+            var telemetryClient = services.BuildServiceProvider().GetService<IBotTelemetryClient>();
+            var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
+
+            var storageService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.BlobStorage) ?? throw new Exception("Please configure your Azure Storage service in your .bot file.");
+            var blobStorage = storageService as BlobStorageService;
+            var transcriptStore = new AzureBlobTranscriptStore(blobStorage.ConnectionString, blobStorage.Container);
+            var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
+
+            var typingMiddleware = new ShowTypingMiddleware();
+            var setLocaleMiddleware = new SetLocaleMiddleware(defaultLocale ?? "en-us");
+            var eventDebuggerMiddleware = new EventDebuggerMiddleware();
+            var autoSaveStateMiddleware = new AutoSaveStateMiddleware(userState, conversationState);
+
+            Func<ITurnContext, Exception, Task> onTurnError = async (context, exception) =>
             {
-                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+                await context.SendActivityAsync(context.Activity.CreateReply(RestaurantBookingSharedResponses.ErrorMessage));
+                await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
+                telemetryClient.TrackExceptionEx(exception, context.Activity);
+            };
 
-                // Telemetry Middleware (logs activity messages in Application Insights)
-                var sp = services.BuildServiceProvider();
-                var telemetryClient = sp.GetService<IBotTelemetryClient>();
-                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
-                options.Middleware.Add(appInsightsLogger);
-
-                // Catches any errors that occur during a conversation turn and logs them to AppInsights.
-                options.OnTurnError = async (context, exception) =>
+            // Add the http adapter with middlewares
+            services.AddTransient<IBotFrameworkHttpAdapter>(sp =>
+            {
+                var botFrameworkHttpAdapter = new BotFrameworkHttpAdapter(credentialProvider)
                 {
-                    await context.SendActivityAsync(context.Activity.CreateReply(RestaurantBookingSharedResponses.ErrorMessage));
-                    await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
-                    telemetryClient.TrackExceptionEx(exception, context.Activity);
+                    OnTurnError = onTurnError
                 };
 
-                // Transcript Middleware (saves conversation history in a standard format)
-                var storageService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.BlobStorage) ?? throw new Exception("Please configure your Azure Storage service in your .bot file.");
-                var blobStorage = storageService as BlobStorageService;
-                var transcriptStore = new AzureBlobTranscriptStore(blobStorage.ConnectionString, blobStorage.Container);
-                var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
-                options.Middleware.Add(transcriptMiddleware);
+                botFrameworkHttpAdapter.Use(appInsightsLogger);
+                botFrameworkHttpAdapter.Use(transcriptMiddleware);
+                botFrameworkHttpAdapter.Use(typingMiddleware);
+                botFrameworkHttpAdapter.Use(setLocaleMiddleware);
+                botFrameworkHttpAdapter.Use(eventDebuggerMiddleware);
+                botFrameworkHttpAdapter.Use(autoSaveStateMiddleware);
 
-                // Typing Middleware (automatically shows typing when the bot is responding/working)
-                var typingMiddleware = new ShowTypingMiddleware();
-                options.Middleware.Add(typingMiddleware);
+                return botFrameworkHttpAdapter;
+            });
 
-                options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
+            // Add the SkillAdapter with middlewares
+            services.AddTransient(sp =>
+            {
+                var skillAdapter = new SkillAdapter(credentialProvider)
+                {
+                    OnTurnError = onTurnError
+                };
+
+                skillAdapter.Use(appInsightsLogger);
+                skillAdapter.Use(transcriptMiddleware);
+                skillAdapter.Use(typingMiddleware);
+                skillAdapter.Use(setLocaleMiddleware);
+                skillAdapter.Use(eventDebuggerMiddleware);
+                skillAdapter.Use(autoSaveStateMiddleware);
+
+                return skillAdapter;
             });
         }
 

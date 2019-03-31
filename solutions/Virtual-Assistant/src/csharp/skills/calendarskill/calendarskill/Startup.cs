@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using CalendarSkill.Dialogs.ChangeEventStatus.Resources;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
 using CalendarSkill.Dialogs.FindContact.Resources;
@@ -57,8 +58,6 @@ namespace CalendarSkill
         {
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
 
-            services.AddSingleton<ISkillAdapter, SkillAdapter>();
-
             // add background task queue
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddHostedService<QueuedHostedService>();
@@ -96,6 +95,8 @@ namespace CalendarSkill
             // Register bot responses for all supported languages.
             services.AddSingleton(sp => responseManager);
 
+            var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
+
             // Initialize Bot State
             var cosmosDbService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.CosmosDB) ?? throw new Exception("Please configure your CosmosDb service in your .bot file.");
             var cosmosDb = cosmosDbService as CosmosDbService;
@@ -129,41 +130,67 @@ namespace CalendarSkill
             // Initialize calendar service client
             services.AddSingleton<IServiceManager, ServiceManager>();
 
-            // Add the bot with options
-            services.AddBot<CalendarSkill>(options =>
+            // Add the bot
+            services.AddTransient<IBot, CalendarSkill>();
+
+            var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+
+            // Create the middlewares
+            var telemetryClient = services.BuildServiceProvider().GetService<IBotTelemetryClient>();
+            var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
+
+            var storageService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.BlobStorage) ?? throw new Exception("Please configure your Azure Storage service in your .bot file.");
+            var blobStorage = storageService as BlobStorageService;
+            var transcriptStore = new AzureBlobTranscriptStore(blobStorage.ConnectionString, blobStorage.Container);
+            var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
+
+            var typingMiddleware = new ShowTypingMiddleware();
+            var setLocaleMiddleware = new SetLocaleMiddleware(defaultLocale ?? "en-us");
+            var eventDebuggerMiddleware = new EventDebuggerMiddleware();
+            var autoSaveStateMiddleware = new AutoSaveStateMiddleware(userState, conversationState);
+
+            Func<ITurnContext, Exception, Task> onTurnError = async (context, exception) =>
             {
-                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+                CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
+                await context.SendActivityAsync(responseManager.GetResponse(CalendarSharedResponses.CalendarErrorMessage));
+                await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Calendar Skill Error: {exception.Message} | {exception.StackTrace}"));
+                telemetryClient.TrackExceptionEx(exception, context.Activity);
+            };
 
-                // Telemetry Middleware (logs activity messages in Application Insights)
-                var sp = services.BuildServiceProvider();
-                var telemetryClient = sp.GetService<IBotTelemetryClient>();
-                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
-                options.Middleware.Add(appInsightsLogger);
-
-                // Catches any errors that occur during a conversation turn and logs them to AppInsights.
-                options.OnTurnError = async (context, exception) =>
+            // Add the http adapter with middlewares
+            services.AddTransient<IBotFrameworkHttpAdapter>(sp =>
+            {
+                var botFrameworkHttpAdapter = new BotFrameworkHttpAdapter(credentialProvider)
                 {
-                    CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-                    await context.SendActivityAsync(responseManager.GetResponse(CalendarSharedResponses.CalendarErrorMessage));
-                    await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Calendar Skill Error: {exception.Message} | {exception.StackTrace}"));
-                    telemetryClient.TrackExceptionEx(exception, context.Activity);
+                    OnTurnError = onTurnError
                 };
 
-                // Transcript Middleware (saves conversation history in a standard format)
-                var storageService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.BlobStorage) ?? throw new Exception("Please configure your Azure Storage service in your .bot file.");
-                var blobStorage = storageService as BlobStorageService;
-                var transcriptStore = new AzureBlobTranscriptStore(blobStorage.ConnectionString, blobStorage.Container);
-                var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
-                options.Middleware.Add(transcriptMiddleware);
+                botFrameworkHttpAdapter.Use(appInsightsLogger);
+                botFrameworkHttpAdapter.Use(transcriptMiddleware);
+                botFrameworkHttpAdapter.Use(typingMiddleware);
+                botFrameworkHttpAdapter.Use(setLocaleMiddleware);
+                botFrameworkHttpAdapter.Use(eventDebuggerMiddleware);
+                botFrameworkHttpAdapter.Use(autoSaveStateMiddleware);
 
-                // Typing Middleware (automatically shows typing when the bot is responding/working)
-                var typingMiddleware = new ShowTypingMiddleware();
-                options.Middleware.Add(typingMiddleware);
+                return botFrameworkHttpAdapter;
+            });
 
-                options.Middleware.Add(new AutoSaveStateMiddleware(userState, conversationState));
+            // Add the SkillAdapter with middlewares
+            services.AddTransient(sp =>
+            {
+                var skillAdapter = new SkillAdapter(credentialProvider)
+                {
+                    OnTurnError = onTurnError
+                };
 
-                var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
-                options.Middleware.Add(new SetLocaleMiddleware(defaultLocale ?? "en"));
+                skillAdapter.Use(appInsightsLogger);
+                skillAdapter.Use(transcriptMiddleware);
+                skillAdapter.Use(typingMiddleware);
+                skillAdapter.Use(setLocaleMiddleware);
+                skillAdapter.Use(eventDebuggerMiddleware);
+                skillAdapter.Use(autoSaveStateMiddleware);
+
+                return skillAdapter;
             });
         }
 

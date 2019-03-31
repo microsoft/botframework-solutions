@@ -72,12 +72,16 @@ namespace PointOfInterestSkill
 
         public bool CheckForValidCurrentCoordinates()
         {
-            if (CurrentCoordinates == null)
-            {
-                return false;
+            // hack the current coordinates to seattle for now
+            CurrentCoordinates = new LatLng();
+            CurrentCoordinates.Latitude = 47.639620;
+            CurrentCoordinates.Longitude = -122.130610;
+            //if (CurrentCoordinates == null)
+            //{
+            //    return false;
 
-                // throw new Exception("The bot state is missing any current coordinates. Make sure your event architecture is correctly configured.");
-            }
+            //    // throw new Exception("The bot state is missing any current coordinates. Make sure your event architecture is correctly configured.");
+            //}
 
             return true;
         }
