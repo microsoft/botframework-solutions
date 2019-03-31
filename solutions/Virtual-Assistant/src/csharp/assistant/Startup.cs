@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -60,8 +61,6 @@ namespace VirtualAssistant
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
-
-            services.AddSingleton<IServiceAdapter, CustomAdapter>();
 
             // add background task queue
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
@@ -120,45 +119,69 @@ namespace VirtualAssistant
 
             services.AddSingleton(endpointService);
 
-            services.AddSingleton<IBot, VirtualAssistant>();
+            services.AddTransient<IBot, VirtualAssistant>();
 
-            // Add the http adapter to enable MVC style bot API
+            var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+
+            var telemetryClient = services.BuildServiceProvider().GetService<IBotTelemetryClient>();
+            Func<ITurnContext, Exception, Task> onTurnError = async (context, exception) =>
+            {
+                CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
+                var responseBuilder = new MainResponses();
+                await responseBuilder.ReplyWith(context, MainResponses.ResponseIds.Error);
+                await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Virtual Assistant Error: {exception.Message} | {exception.StackTrace}"));
+                telemetryClient.TrackExceptionEx(exception, context.Activity);
+            };
+
+            var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
+
+            var storageService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.BlobStorage) ?? throw new Exception("Please configure your Azure Storage service in your .bot file.");
+            var blobStorage = storageService as BlobStorageService;
+            var transcriptStore = new AzureBlobTranscriptStore(blobStorage.ConnectionString, blobStorage.Container);
+            var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
+
+            var showTypingMiddleware = new ShowTypingMiddleware();
+            var setLocaleMiddleware = new SetLocaleMiddleware(defaultLocale ?? "en-us");
+            var eventDebuggerMiddleware = new EventDebuggerMiddleware();
+            var autoSaveStateMiddleware = new AutoSaveStateMiddleware(userState, conversationState);
+            var proactiveStateMiddleware = new ProactiveStateMiddleware(proactiveState);
+
+            // Add the http adapter with middlewares
             services.AddSingleton<IBotFrameworkHttpAdapter>((sp) =>
             {
-                var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
-
-                var telemetryClient = sp.GetService<IBotTelemetryClient>();
                 var botFrameworkHttpAdapter = new BotFrameworkHttpAdapter(credentialProvider)
                 {
-                    OnTurnError = async (context, exception) =>
-                    {
-                        CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-                        var responseBuilder = new MainResponses();
-                        await responseBuilder.ReplyWith(context, MainResponses.ResponseIds.Error);
-                        await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Virtual Assistant Error: {exception.Message} | {exception.StackTrace}"));
-                        telemetryClient.TrackExceptionEx(exception, context.Activity);
-                    }
+                    OnTurnError = onTurnError
                 };
 
-                // Telemetry Middleware (logs activity messages in Application Insights)
-                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
                 botFrameworkHttpAdapter.Use(appInsightsLogger);
-
-                // Transcript Middleware (saves conversation history in a standard format)
-                var storageService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.BlobStorage) ?? throw new Exception("Please configure your Azure Storage service in your .bot file.");
-                var blobStorage = storageService as BlobStorageService;
-                var transcriptStore = new AzureBlobTranscriptStore(blobStorage.ConnectionString, blobStorage.Container);
-                var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
                 botFrameworkHttpAdapter.Use(transcriptMiddleware);
-
-                // Typing Middleware (automatically shows typing when the bot is responding/working)
-                botFrameworkHttpAdapter.Use(new ShowTypingMiddleware());
-                botFrameworkHttpAdapter.Use(new SetLocaleMiddleware(defaultLocale ?? "en-us"));
-                botFrameworkHttpAdapter.Use(new EventDebuggerMiddleware());
-                botFrameworkHttpAdapter.Use(new AutoSaveStateMiddleware(userState, conversationState));
-                botFrameworkHttpAdapter.Use(new ProactiveStateMiddleware(proactiveState));
+                botFrameworkHttpAdapter.Use(showTypingMiddleware);
+                botFrameworkHttpAdapter.Use(setLocaleMiddleware);
+                botFrameworkHttpAdapter.Use(eventDebuggerMiddleware);
+                botFrameworkHttpAdapter.Use(autoSaveStateMiddleware);
+                botFrameworkHttpAdapter.Use(proactiveStateMiddleware);
 
                 return botFrameworkHttpAdapter;
+            });
+
+            // Add the custom adapter with middlewares
+            services.AddSingleton<IServiceAdapter>((sp) =>
+            {
+                var customAdapter = new CustomAdapter(endpointService)
+                {
+                    OnTurnError = onTurnError
+                };
+
+                customAdapter.Use(appInsightsLogger);
+                customAdapter.Use(transcriptMiddleware);
+                customAdapter.Use(showTypingMiddleware);
+                customAdapter.Use(setLocaleMiddleware);
+                customAdapter.Use(eventDebuggerMiddleware);
+                customAdapter.Use(autoSaveStateMiddleware);
+                customAdapter.Use(proactiveStateMiddleware);
+
+                return customAdapter;
             });
         }
 

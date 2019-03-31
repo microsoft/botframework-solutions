@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
 using Microsoft.Rest.Serialization;
 using Newtonsoft.Json;
@@ -30,8 +31,8 @@ namespace VirtualAssistant.Adapters
         private Activity _response;
         private object _lockObject = new object();
 
-        public CustomAdapter()
-            : base(CustomChannelId)
+        public CustomAdapter(EndpointService endpointService)
+            : base(CustomChannelId, endpointService)
         {
         }
 
