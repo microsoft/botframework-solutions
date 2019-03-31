@@ -48,11 +48,6 @@ namespace ServiceAdapter
 
             BotAssert.ActivityNotNull(activity);
 
-            if (string.IsNullOrWhiteSpace(activity.ServiceUrl))
-            {
-                throw new ArgumentNullException(nameof(activity.ServiceUrl));
-            }
-
             // create activity id if there isn't one
             if (string.IsNullOrWhiteSpace(activity.Id))
             {
