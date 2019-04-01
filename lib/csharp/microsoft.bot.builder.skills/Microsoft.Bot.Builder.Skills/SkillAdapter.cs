@@ -73,6 +73,14 @@ namespace Microsoft.Bot.Builder.Skills
             WriteResponse(httpResponse, invokeResponse);
         }
 
+        /// <summary>
+        /// Continue the conversation by passing the activity through the pipeline.
+        /// </summary>
+        /// <param name="botId"></param>
+        /// <param name="reference"></param>
+        /// <param name="callback"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public override async Task ContinueConversationAsync(string botId, ConversationReference reference, BotCallbackHandler callback, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(botId))
@@ -132,7 +140,7 @@ namespace Microsoft.Bot.Builder.Skills
                 }
                 else
                 {
-                    // TODO - Post to the Parent Bot ServiceURL
+                    // Queue up this activity for aggregation back to the calling Bot in one overall message.
                     lock (queuedActivities)
                     {
                         queuedActivities.Enqueue(activity);
