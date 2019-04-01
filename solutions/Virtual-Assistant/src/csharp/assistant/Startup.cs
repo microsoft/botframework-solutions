@@ -166,7 +166,7 @@ namespace VirtualAssistant
             });
 
             // Add the custom adapter with middlewares
-            services.AddSingleton<IServiceAdapter>((sp) =>
+            services.AddTransient<IServiceAdapter>((sp) =>
             {
                 var customAdapter = new CustomAdapter(endpointService)
                 {
