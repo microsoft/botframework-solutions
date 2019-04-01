@@ -12,43 +12,43 @@ namespace VirtualAssistantTemplate.Tests.LuisTestUtils
     {
         private static Dictionary<string, IRecognizerConvert> _utterances = new Dictionary<string, IRecognizerConvert>
         {
-            { GeneralUtterances.Cancel, CreateIntent(GeneralUtterances.Cancel, Dispatch.Intent.l_general) },
-            { GeneralUtterances.Escalate, CreateIntent(GeneralUtterances.Escalate, Dispatch.Intent.l_general) },
-            { GeneralUtterances.FinishTask, CreateIntent(GeneralUtterances.FinishTask, Dispatch.Intent.l_general) },
-            { GeneralUtterances.GoBack, CreateIntent(GeneralUtterances.GoBack, Dispatch.Intent.l_general) },
-            { GeneralUtterances.Help, CreateIntent(GeneralUtterances.Help, Dispatch.Intent.l_general) },
-            { GeneralUtterances.Repeat, CreateIntent(GeneralUtterances.Repeat, Dispatch.Intent.l_general) },
-            { GeneralUtterances.SelectAny, CreateIntent(GeneralUtterances.SelectAny, Dispatch.Intent.l_general) },
-            { GeneralUtterances.SelectItem, CreateIntent(GeneralUtterances.SelectItem, Dispatch.Intent.l_general) },
-            { GeneralUtterances.SelectNone, CreateIntent(GeneralUtterances.SelectNone, Dispatch.Intent.l_general) },
-            { GeneralUtterances.ShowNext, CreateIntent(GeneralUtterances.ShowNext, Dispatch.Intent.l_general) },
-            { GeneralUtterances.ShowPrevious, CreateIntent(GeneralUtterances.ShowPrevious, Dispatch.Intent.l_general) },
-            { GeneralUtterances.StartOver, CreateIntent(GeneralUtterances.StartOver, Dispatch.Intent.l_general) },
-            { GeneralUtterances.Stop, CreateIntent(GeneralUtterances.Stop, Dispatch.Intent.l_general) },
-            { FaqUtterances.Overview, CreateIntent(FaqUtterances.Overview, Dispatch.Intent.q_faq) },
-            { ChitchatUtterances.Greeting, CreateIntent(ChitchatUtterances.Greeting, Dispatch.Intent.q_chitchat) },
+            { GeneralUtterances.Cancel, CreateIntent(GeneralUtterances.Cancel, DispatchLUIS.Intent.l_general) },
+            { GeneralUtterances.Escalate, CreateIntent(GeneralUtterances.Escalate, DispatchLUIS.Intent.l_general) },
+            { GeneralUtterances.FinishTask, CreateIntent(GeneralUtterances.FinishTask, DispatchLUIS.Intent.l_general) },
+            { GeneralUtterances.GoBack, CreateIntent(GeneralUtterances.GoBack, DispatchLUIS.Intent.l_general) },
+            { GeneralUtterances.Help, CreateIntent(GeneralUtterances.Help, DispatchLUIS.Intent.l_general) },
+            { GeneralUtterances.Repeat, CreateIntent(GeneralUtterances.Repeat, DispatchLUIS.Intent.l_general) },
+            { GeneralUtterances.SelectAny, CreateIntent(GeneralUtterances.SelectAny, DispatchLUIS.Intent.l_general) },
+            { GeneralUtterances.SelectItem, CreateIntent(GeneralUtterances.SelectItem, DispatchLUIS.Intent.l_general) },
+            { GeneralUtterances.SelectNone, CreateIntent(GeneralUtterances.SelectNone, DispatchLUIS.Intent.l_general) },
+            { GeneralUtterances.ShowNext, CreateIntent(GeneralUtterances.ShowNext, DispatchLUIS.Intent.l_general) },
+            { GeneralUtterances.ShowPrevious, CreateIntent(GeneralUtterances.ShowPrevious, DispatchLUIS.Intent.l_general) },
+            { GeneralUtterances.StartOver, CreateIntent(GeneralUtterances.StartOver, DispatchLUIS.Intent.l_general) },
+            { GeneralUtterances.Stop, CreateIntent(GeneralUtterances.Stop, DispatchLUIS.Intent.l_general) },
+            { FaqUtterances.Overview, CreateIntent(FaqUtterances.Overview, DispatchLUIS.Intent.q_faq) },
+            { ChitchatUtterances.Greeting, CreateIntent(ChitchatUtterances.Greeting, DispatchLUIS.Intent.q_chitchat) },
         };
 
         public static MockLuisRecognizer CreateRecognizer()
         {
-            var recognizer = new MockLuisRecognizer(defaultIntent: CreateIntent(string.Empty, Dispatch.Intent.None));
+            var recognizer = new MockLuisRecognizer(defaultIntent: CreateIntent(string.Empty, DispatchLUIS.Intent.None));
             recognizer.RegisterUtterances(_utterances);
             return recognizer;
         }
 
-        public static Dispatch CreateIntent(string userInput, Dispatch.Intent intent)
+        public static DispatchLUIS CreateIntent(string userInput, DispatchLUIS.Intent intent)
         {
-            var result = new Dispatch
+            var result = new DispatchLUIS
             {
                 Text = userInput,
-                Intents = new Dictionary<Dispatch.Intent, IntentScore>()
+                Intents = new Dictionary<DispatchLUIS.Intent, IntentScore>()
             };
 
             result.Intents.Add(intent, new IntentScore() { Score = 0.9 });
 
-            result.Entities = new Dispatch._Entities
+            result.Entities = new DispatchLUIS._Entities
             {
-                _instance = new Dispatch._Entities._Instance()
+                _instance = new DispatchLUIS._Entities._Instance()
             };
 
             return result;
