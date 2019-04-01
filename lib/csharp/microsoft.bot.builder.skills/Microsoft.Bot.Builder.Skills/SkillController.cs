@@ -1,10 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills
 {
@@ -47,6 +49,6 @@ namespace Microsoft.Bot.Builder.Skills
         public async Task SkillMessage()
         {
             await _skillAdapter.ProcessAsync(Request, Response, _bot, default(CancellationToken));
-        }
+        }        
     }
 }

@@ -3,18 +3,24 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Skills
 {
+    /// <summary>
+    /// The SkillDialog class provides the ability for a Bot to send/receive messages to a remote Skill (itself a Bot). The dialog name is that of the underlying Skill it's wrapping.
+    /// </summary>
     public class SkillDialog : ComponentDialog
     {
         private static readonly HttpClient _httpClient = new HttpClient();
-        private SkillDefinition _skillDefinition;
         private IBotTelemetryClient _telemetryClient;
 
+        // Placeholder for Manifest
+        private SkillDefinition _skillDefinition;
+
         /// <summary>
-        /// 
+        /// SkillDialog constructor that accepts the manifest description of a Skill along with TelemetryClient for end to end telemetry.
         /// </summary>
         /// <param name="skillDefinition"></param>
         /// <param name="proactiveState"></param>
@@ -30,7 +36,7 @@ namespace Microsoft.Bot.Builder.Skills
         }
 
         /// <summary>
-        /// 
+        /// When a SkillDialog is started, a skillBegin event is sent which firstly indicates the Skill is being invoked in Skill mode, also slots are also provided where the information exists in the parent Bot.
         /// </summary>
         /// <param name="innerDc"></param>
         /// <param name="options"></param>
@@ -38,7 +44,8 @@ namespace Microsoft.Bot.Builder.Skills
         /// <returns></returns>
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // TODO - The SkillDialog Orchestration should try to fill slots defined in the manifest and pass through this event
+            // TODO - The SkillDialog Orchestration should try to fill slots defined in the manifest and pass through this event.
+            object slots = null;
 
             var activity = innerDc.Context.Activity;
 
@@ -48,15 +55,15 @@ namespace Microsoft.Bot.Builder.Skills
               from: new ChannelAccount(id: activity.From.Id, name: activity.From.Name),
               recipient: new ChannelAccount(id: activity.Recipient.Id, name: activity.Recipient.Name),
               conversation: new ConversationAccount(id: activity.Conversation.Id),
-              name: Events.SkillBeginEventName,
-              value: null);
+              name: SkillEvents.SkillBeginEventName,
+              value: slots);
 
-            // Send event to Skill/Bot
+            // Send skillBegin event to Skill/Bot
             return await ForwardToSkill(innerDc, skillBeginEvent);
         }
 
         /// <summary>
-        /// 
+        /// All subsequent messages are forwarded on to the skill.
         /// </summary>
         /// <param name="innerDc"></param>
         /// <param name="cancellationToken"></param>
@@ -67,7 +74,7 @@ namespace Microsoft.Bot.Builder.Skills
         }
 
         /// <summary>
-        /// 
+        /// End the Skill dialog.
         /// </summary>
         /// <param name="outerDc"></param>
         /// <param name="result"></param>
@@ -78,40 +85,46 @@ namespace Microsoft.Bot.Builder.Skills
             return outerDc.EndDialogAsync(result, cancellationToken);
         }
 
+        /// <summary>
+        /// Forward an inbound activity on to the Skill. This is a synchronous operation whereby all response activities are aggregated and returned in one batch.
+        /// </summary>
+        /// <param name="innerDc"></param>
+        /// <param name="activity"></param>
+        /// <returns>DialogTurnResult</returns>
         private async Task<DialogTurnResult> ForwardToSkill(DialogContext innerDc, Activity activity)
         {
-            // TODO - Revist the synchronous approach currently in place below.
-
             try
             {
-                var skillResponses = new List<Activity>();
-                var filteredSkillResponses = new List<Activity>();
-
                 // Serialize the activity and POST to the Skill endpoint
                 // TODO - Apply Authorization header
-
-                // add header to indicate a skill call
+                // TODO - Add header to indicate a skill call
                 var response = await _httpClient.PostAsJsonAsync<Activity>(_skillDefinition.Endpoint, activity);
 
                 if (response.IsSuccessStatusCode)
                 {
+                    var skillResponses = new List<Activity>();
+                    var filteredSkillResponses = new List<Activity>();
+
+                    // Retrieve Activity responses
                     skillResponses = await response.Content.ReadAsAsync<List<Activity>>();
 
                     var endOfConversation = false;
                     foreach (var skillResponse in skillResponses)
                     {
-                        // Signal that the SkilLDialog should be unwound once these responses are processed.
+                        // Once a Skill has finished it signals that it's handing back control to the parent through a 
+                        // EndOfConversation event which then causes the SkillDialog to be closed. Otherwise it remains "in control".
                         if (skillResponse.Type == ActivityTypes.EndOfConversation)
                         {
                             endOfConversation = true;
                         }
-                        else if (skillResponse?.Name == Events.TokenRequestEventName)
+                        else if (skillResponse?.Name == SkillEvents.TokenRequestEventName)
                         {
-                            // TODO - Revisit token handling approach
+                            // TODO - Move across the token/request handling code.
                         }
                         else
                         {
-                            // Trace messages are not filtered out and are sent along with messages/events
+                            // Trace messages are not filtered out and are sent along with messages/events.
+                            // TODO Make trace messages configurable
                             filteredSkillResponses.Add(skillResponse);
                         }
                     }
@@ -146,13 +159,6 @@ namespace Microsoft.Bot.Builder.Skills
                 await innerDc.EndDialogAsync();
                 throw;
             }
-        }
-
-        private class Events
-        {
-            public const string SkillBeginEventName = "skillBegin";
-            public const string TokenRequestEventName = "tokens/request";
-            public const string TokenResponseEventName = "tokens/response";
-        }
+        }        
     }
 }
