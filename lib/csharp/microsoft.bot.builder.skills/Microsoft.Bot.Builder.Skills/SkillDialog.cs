@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Skills
@@ -54,7 +55,7 @@ namespace Microsoft.Bot.Builder.Skills
               from: new ChannelAccount(id: activity.From.Id, name: activity.From.Name),
               recipient: new ChannelAccount(id: activity.Recipient.Id, name: activity.Recipient.Name),
               conversation: new ConversationAccount(id: activity.Conversation.Id),
-              name: Events.SkillBeginEventName,
+              name: SkillEvents.SkillBeginEventName,
               value: slots);
 
             // Send skillBegin event to Skill/Bot
@@ -116,7 +117,7 @@ namespace Microsoft.Bot.Builder.Skills
                         {
                             endOfConversation = true;
                         }
-                        else if (skillResponse?.Name == Events.TokenRequestEventName)
+                        else if (skillResponse?.Name == SkillEvents.TokenRequestEventName)
                         {
                             // TODO - Move across the token/request handling code.
                         }
@@ -158,13 +159,6 @@ namespace Microsoft.Bot.Builder.Skills
                 await innerDc.EndDialogAsync();
                 throw;
             }
-        }
-
-        private class Events
-        {
-            public const string SkillBeginEventName = "skillBegin";
-            public const string TokenRequestEventName = "tokens/request";
-            public const string TokenResponseEventName = "tokens/response";
-        }
+        }        
     }
 }
