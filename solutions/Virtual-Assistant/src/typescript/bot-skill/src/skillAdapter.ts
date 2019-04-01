@@ -1,6 +1,6 @@
-import { BotFrameworkAdapter, BotAdapter, TurnContext, WebRequest, WebResponse } from "botbuilder";
-import { ActivityExtensions } from '../extensions';
-import { Activity, ActivityTypes, ActivityTypesEx, ConversationReference, ResourceResponse } from "botframework-schema";
+import { BotFrameworkAdapter, TurnContext } from "botbuilder";
+import { ActivityExtensions } from 'bot-solution';
+import { Activity, ActivityTypes, ConversationReference, ResourceResponse } from "botframework-schema";
 
 export class SkillAdapter extends BotFrameworkAdapter {
     private readonly queuedActivities: Partial<Activity>[];
@@ -15,8 +15,11 @@ export class SkillAdapter extends BotFrameworkAdapter {
         this.queuedActivities = [];
     }
 
-    public processActivity(req: WebRequest, res: WebResponse, logic: (context: TurnContext) => Promise<any>): Promise<void> {
-        throw new Error("Method not implemented."); 
+    public async processActivity(activity: Partial<Activity>, callback: (revocableContext: TurnContext) => Promise<void>): Promise<void> {
+
+        const context: TurnContext = new TurnContext(this, activity);
+        await this.runMiddleware(context, callback);
+
     }
 
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
@@ -70,11 +73,11 @@ export class SkillAdapter extends BotFrameworkAdapter {
     public async continueConversation(reference: Partial<ConversationReference>, logic: (revocableContext: TurnContext) => Promise<void>): Promise<void> {
       
         if (!reference) {
-            throw new Error('Missing parameter.  reference is required');
+            throw new Error('Missing parameter. reference is required');
         }
 
         if (!logic) {
-            throw new Error('Missing parameter.  logic is required');
+            throw new Error('Missing parameter. logic is required');
         }
 
         const context: TurnContext = new TurnContext(this, ActivityExtensions.getContinuationActivity(reference));
