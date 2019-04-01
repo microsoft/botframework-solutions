@@ -15,6 +15,7 @@ namespace EmailSkill.Util
                 return false;
             }
 
+            // Match email address, e.g. a@b.com
             return Regex.IsMatch(email, @"^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
         }
     }

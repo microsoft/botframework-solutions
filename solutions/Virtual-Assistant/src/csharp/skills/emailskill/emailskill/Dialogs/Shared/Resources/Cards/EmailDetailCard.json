@@ -7,10 +7,9 @@
     {
       "type": "Container",
       "id": "items",
-      "items": [
-      ]
+      "items": []
     },
-    
+
     {
       "type": "Container",
       "spacing": "Medium",
@@ -19,7 +18,7 @@
           "type": "TextBlock",
           "id": "messageBody",
           "color": "Dark",
-          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tristique nunc tellus, in tempus mi placerat lobortis. Proin volutpat elit et leo pretium sollicitudin. Aliquam pellentesque interdum augue. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec congue feugiat dapibus. Maecenas fringilla pulvinar lorem, sed tempus massa ultrices sit amet. Cras tincidunt mi nibh, vitae laoreet mauris varius ut. Suspendisse fermentum neque ut consectetur interdum. Sed consequat lacus ultricies risus fermentum, at cursus tellus ornare. Fusce non euismod mauris, nec dictum mi. Proin iaculis, arcu rhoncus suscipit eleifend, lacus nibh congue purus, at malesuada lectus libero nec mauris. Sed laoreet pharetra aliquet. Cras pretium nisi quis varius imperdiet. Pellentesque aliquet sagittis ultrices.\n\nDonec dignissim arcu id nisi fermentum, vel lacinia nibh commodo. Nulla quam nisl, bibendum et ultrices non, consequat sit amet arcu. Pellentesque vulputate semper convallis. Mauris facilisis iaculis felis, nec placerat magna semper eget. Nam rutrum placerat magna ac scelerisque. Duis non molestie turpis. Duis vehicula tortor velit, non tincidunt nulla facilisis id. Nullam et suscipit dolor, ac ullamcorper nulla.",
+          "text": "{EmailContent}",
           "wrap": true,
           "maxLines": 5
         }
@@ -30,7 +29,7 @@
     {
       "type": "Action.OpenUrl",
       "title": "View",
-      "url": "https://outlook.office365.com/owa/?ItemID=AAMkAGEwMDg4MTVlLTVjYzUtNGRmNS1hYTJkLTI3NjNmM2Q3MDA3ZABGAAAAAABw%2FWbciOIvSZejmvtHK98CBwCa0ISfUgx1RYIZgSZZYh9LAAAAAAEMAACa0ISfUgx1RYIZgSZZYh9LAAAAtDQrAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
+      "url": "{EmailLink}"
     }
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
