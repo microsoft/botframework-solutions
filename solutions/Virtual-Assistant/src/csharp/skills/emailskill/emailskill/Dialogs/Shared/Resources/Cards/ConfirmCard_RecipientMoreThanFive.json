@@ -118,7 +118,7 @@
                           "size": "Large",
                           "weight": "Bolder",
                           "color": "Light",
-                          "text": "\\+ 12"
+                          "text": "\\+ {AdditionalRecipientNumber}"
                         }
                       ],
                       "width": "stretch"

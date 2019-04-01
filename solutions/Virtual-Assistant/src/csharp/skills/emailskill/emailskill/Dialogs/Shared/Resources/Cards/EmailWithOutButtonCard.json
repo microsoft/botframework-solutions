@@ -6,8 +6,7 @@
     {
       "type": "Container",
       "id": "items",
-      "items": [
-      ]
+      "items": []
     },
     {
       "type": "Container",
