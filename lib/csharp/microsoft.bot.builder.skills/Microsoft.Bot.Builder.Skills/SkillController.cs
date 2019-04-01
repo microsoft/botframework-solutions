@@ -49,26 +49,6 @@ namespace Microsoft.Bot.Builder.Skills
         public async Task SkillMessage()
         {
             await _skillAdapter.ProcessAsync(Request, Response, _bot, default(CancellationToken));
-        }
-
-        /// <summary>
-        /// This API is the endpoint the bot exposes as skill
-        /// </summary>
-        /// <returns></returns>
-        [Route("api/skill/manifest")]
-        [HttpPost]
-        public async Task SkillManifest()
-        {
-            Response.ContentType = "application/json";
-            Response.StatusCode = 200;
-
-            using (var writer = new StreamWriter(Response.Body))
-            {
-                using (var jsonWriter = new JsonTextWriter(writer))
-                {
-                    await jsonWriter.WriteRawValue(JsonConvert.SerializeObject(manifest);                  
-                }
-            }
-        }
+        }        
     }
 }
