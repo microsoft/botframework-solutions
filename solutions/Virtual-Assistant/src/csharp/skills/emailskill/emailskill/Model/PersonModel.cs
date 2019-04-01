@@ -17,12 +17,6 @@ namespace EmailSkill.Model
         private MailSource source;
 
         /// <summary>
-        /// The photo Url.
-        /// </summary>
-        private string photoUrl;
-
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="PersonModel"/> class.、
         /// DO NOT USE THIS ONE.
         /// </summary>
@@ -71,7 +65,7 @@ namespace EmailSkill.Model
                 }
             }
 
-            this.photoUrl = gmailPerson?.Photos?[0]?.Url;
+            this.Photo = gmailPerson?.Photos?[0]?.Url;
         }
 
         public string Id {get; set;}
@@ -79,7 +73,7 @@ namespace EmailSkill.Model
         public string DisplayName {get; set;}
 
         public string UserPrincipalName {get; set;}
-        
+
         public List<string> Emails {get; set;}
 
         public string Photo {get; set;}

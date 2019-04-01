@@ -1131,56 +1131,6 @@ namespace EmailSkill.Dialogs.Shared
             return;
         }
 
-        //protected async Task<List<PersonModel>> GetPeopleWorkWithAsync(ITurnContext context, string name)
-        //{
-        //    var state = await EmailStateAccessor.GetAsync(context);
-        //    var token = state.Token;
-        //    var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
-
-        //    // Get users.
-        //    return await service.GetPeopleAsync(name);
-        //}
-
-        //protected async Task<List<PersonModel>> GetUserAsync(ITurnContext context, string name)
-        //{
-        //    try
-        //    {
-        //        var state = await EmailStateAccessor.GetAsync(context);
-        //        var token = state.Token;
-        //        var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
-
-        //        // Get users.
-        //        var userList = await service.GetUserAsync(name);
-        //        foreach (var user in userList)
-        //        {
-        //            result.Add(user.ToPerson());
-        //        }
-        //    }
-        //    catch (ServiceException)
-        //    {
-        //        // won't clear conversation state hear, because sometime use api is not available, like user msa account.
-        //    }
-
-        //    return result;
-        //}
-
-        //protected async Task<List<Person>> GetContactsAsync(ITurnContext context, string name)
-        //{
-        //    var result = new List<Person>();
-        //    var state = await EmailStateAccessor.GetAsync(context);
-        //    var token = state.Token;
-        //    var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
-
-        //    // Get users.
-        //    var contactsList = await service.GetContactsAsync(name);
-        //    foreach (var contact in contactsList)
-        //    {
-        //        result.Add(contact.ToPerson());
-        //    }
-
-        //    return result;
-        //}
-
         protected async Task<string> GetMyPhotoUrlAsync(ITurnContext context)
         {
             var state = await EmailStateAccessor.GetAsync(context);
