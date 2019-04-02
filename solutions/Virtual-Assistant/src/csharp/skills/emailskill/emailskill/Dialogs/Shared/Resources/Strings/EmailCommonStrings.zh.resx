@@ -117,8 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ImportantMessages" xml:space="preserve">
+    <value>重要邮件</value>
+  </data>
   <data name="EmailInfoFormat" xml:space="preserve">
-    <value>在{0}上，{1}写道：</value>
+    <value>在{0}上, {1}写道:</value>
   </data>
   <data name="UnknownRecipient" xml:space="preserve">
     <value>未知收件人</value>
@@ -126,35 +129,50 @@
   <data name="Unread" xml:space="preserve">
     <value>未读</value>
   </data>
+  <data name="DisplayDetailDateFormat" xml:space="preserve">
+    <value>ddd MM/dd hh:mm tt</value>
+  </data>
   <data name="Content" xml:space="preserve">
     <value>内容</value>
   </data>
+  <data name="Participants" xml:space="preserve">
+    <value>参与者</value>
+  </data>
   <data name="CCFormat" xml:space="preserve">
-    <value>抄送：{0}</value>
+    <value>Cc:{0}</value>
   </data>
   <data name="EmptyContent" xml:space="preserve">
-    <value>空白内容</value>
+    <value>空内容</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
-    <value>日期：{0}</value>
+    <value>日期: {0}</value>
+  </data>
+  <data name="SearchBySubject" xml:space="preserve">
+    <value>关于{0}的消息</value>
   </data>
   <data name="Subject" xml:space="preserve">
     <value>主题</value>
   </data>
   <data name="FromFormat" xml:space="preserve">
-    <value>发件人：{0}</value>
+    <value>发件人:{0}</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>取消</value>
   </data>
   <data name="EmptySubject" xml:space="preserve">
-    <value>空白主题</value>
+    <value>空主题</value>
+  </data>
+  <data name="Messages" xml:space="preserve">
+    <value>邮件</value>
   </data>
   <data name="ReplyReplyFormat" xml:space="preserve">
-    <value>Re:{0}</value>
+    <value>Re: {0}</value>
   </data>
   <data name="ToFormat" xml:space="preserve">
-    <value>发送至:{0}</value>
+    <value>收件人:{0}</value>
+  </data>
+  <data name="YourEmail" xml:space="preserve">
+    <value>您的电子邮件地址</value>
   </data>
   <data name="RelevantFormat" xml:space="preserve">
     <value>相关{0}</value>
@@ -166,7 +184,7 @@
     <value>未知发件人</value>
   </data>
   <data name="ForwardReplyFormat" xml:space="preserve">
-    <value>Fw:{0}</value>
+    <value>FW:{0}</value>
   </data>
   <data name="FromDetailsFormatAll" xml:space="preserve">
     <value>来自{0}于{1}标题是{2}</value>
@@ -178,13 +196,19 @@
     <value>{0}发送至{1}, 内容是{2}</value>
   </data>
   <data name="SubjectFormat" xml:space="preserve">
-    <value>主题：{0}</value>
+    <value>主题:{0}</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>由**{0}**提供支持</value>
   </data>
   <data name="ContentFormat" xml:space="preserve">
-    <value>内容：{0}</value>
+    <value>内容:{0}</value>
   </data>
-  <data name="Reply" xml:space="preserve">
-    <value>Re:</value>
+  <data name="PreviousDateFormat" xml:space="preserve">
+    <value>ddd MM/dd</value>
+  </data>
+  <data name="TodayDateFormat" xml:space="preserve">
+    <value>hh:mm tt</value>
   </data>
   <data name="Relevant" xml:space="preserve">
     <value>相关</value>
@@ -201,19 +225,28 @@
   <data name="High" xml:space="preserve">
     <value>高</value>
   </data>
+  <data name="Reply" xml:space="preserve">
+    <value>Re:</value>
+  </data>
   <data name="ContactSeparator" xml:space="preserve">
     <value>；|;|和</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>Fw:</value>
+    <value>Fw：</value>
+  </data>
+  <data name="MessageConfirm" xml:space="preserve">
+    <value>消息确认</value>
   </data>
   <data name="ForwardMessage" xml:space="preserve">
     <value>----------转发的邮件----------</value>
   </data>
-  <data name="Participants" xml:space="preserve">
-    <value>参与者</value>
-  </data>
   <data name="FromDetailsWithContentFormat" xml:space="preserve">
     <value>来自{0}于{1}标题是{2}，内容为{3}。</value>
+  </data>
+  <data name="SearchBySender" xml:space="preserve">
+    <value>来自{0}的消息</value>
+  </data>
+  <data name="GeneralDateFormat" xml:space="preserve">
+    <value>MMM dd, yyyy</value>
   </data>
 </root>

@@ -9,6 +9,7 @@ namespace AutomotiveSkill.Common
     using System.Linq;
     using System.Reflection;
     using global::AutomotiveSkill.Models;
+    using global::AutomotiveSkill.Yaml;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -25,10 +26,12 @@ namespace AutomotiveSkill.Common
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingList"/> class.
-        /// Provides access to the available settings that are stored in the available_settings JSON file.
+        /// Provides access to the available settings that are stored in the available_settings.yaml file
+        /// and to their alternative names stored in the setting_alternative_names.yaml file.
         /// </summary>
-        /// <param name="availableSettingsPath">Path to available settings file.</param>
-        /// <param name="settingAlternativeNamesPath">Path to alternative names file.</param>
+        /// <param name="resourceAssembly">The resource assembly.</param>
+        /// <param name="availableSettingsFileName">Path to available settings file, relative to the resource assembly.</param>
+        /// <param name="alternativeSettingsFileName">Path to alternative names file, relative to the resource assembly.</param>
         public SettingList(Assembly resourceAssembly, string availableSettingsFileName, string alternativeSettingsFileName)
         {
             if (string.IsNullOrEmpty(availableSettingsFileName))
@@ -43,15 +46,13 @@ namespace AutomotiveSkill.Common
 
             using (StreamReader reader = new StreamReader(resourceAssembly.GetManifestResourceStream(availableSettingsFileName)))
             {
-                string json = reader.ReadToEnd();
-                var availableSettings = JsonConvert.DeserializeObject<List<AvailableSetting>>(json);
+                var availableSettings = YamlParseUtil.ParseDocument<List<AvailableSetting>>(reader);
                 BuildSettingSearchIndexes(availableSettings, availableSettingsFileName);
             }
 
             using (StreamReader reader = new StreamReader(resourceAssembly.GetManifestResourceStream(alternativeSettingsFileName)))
             {
-                string json = reader.ReadToEnd();
-                this.alternativeNameMap = JsonConvert.DeserializeObject<Dictionary<string, SettingAlternativeNames>>(json);
+                this.alternativeNameMap = YamlParseUtil.ParseDocument<Dictionary<string, SettingAlternativeNames>>(reader);
 
                 if (this.alternativeNameMap.TryGetValue(DefaultAlternativeValueNamesKey, out SettingAlternativeNames settingAlternativeNames))
                 {

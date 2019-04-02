@@ -277,7 +277,7 @@ namespace RestaurantBooking.Dialogs.BookingDialog
                     choice.Synonyms = new List<string>();
 
                     // The timex natural language variant provides options in the format of "today 4am", "today 4pm" so we provide
-                    // synonyms to make things easier for the user especially when using speech                
+                    // synonyms to make things easier for the user especially when using speech
                     var timePortion = option.Value.Split(' ');
                     if (timePortion != null && timePortion.Length == 2)
                     {

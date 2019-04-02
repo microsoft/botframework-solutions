@@ -124,6 +124,15 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ddd MM/dd hh:mm tt.
+        /// </summary>
+        public static string DisplayDetailDateFormat {
+            get {
+                return ResourceManager.GetString("DisplayDetailDateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to On {0}, {1} wrote:.
         /// </summary>
         public static string EmailInfoFormat {
@@ -214,6 +223,15 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MMM dd, yyyy.
+        /// </summary>
+        public static string GeneralDateFormat {
+            get {
+                return ResourceManager.GetString("GeneralDateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to high.
         /// </summary>
         public static string High {
@@ -232,11 +250,47 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to High Priority Messages.
+        /// </summary>
+        public static string ImportantMessages {
+            get {
+                return ResourceManager.GetString("ImportantMessages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message Confirmation.
+        /// </summary>
+        public static string MessageConfirm {
+            get {
+                return ResourceManager.GetString("MessageConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Messages.
+        /// </summary>
+        public static string Messages {
+            get {
+                return ResourceManager.GetString("Messages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to participants.
         /// </summary>
         public static string Participants {
             get {
                 return ResourceManager.GetString("Participants", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ddd MM/dd.
+        /// </summary>
+        public static string PreviousDateFormat {
+            get {
+                return ResourceManager.GetString("PreviousDateFormat", resourceCulture);
             }
         }
         
@@ -277,11 +331,38 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Messages from {0}.
+        /// </summary>
+        public static string SearchBySender {
+            get {
+                return ResourceManager.GetString("SearchBySender", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Messages about {0}.
+        /// </summary>
+        public static string SearchBySubject {
+            get {
+                return ResourceManager.GetString("SearchBySubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to skip | pass | no.
         /// </summary>
         public static string Skip {
             get {
                 return ResourceManager.GetString("Skip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Powered by **{0}**.
+        /// </summary>
+        public static string Source {
+            get {
+                return ResourceManager.GetString("Source", resourceCulture);
             }
         }
         
@@ -309,6 +390,15 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         public static string SubjectFormat {
             get {
                 return ResourceManager.GetString("SubjectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to hh:mm tt.
+        /// </summary>
+        public static string TodayDateFormat {
+            get {
+                return ResourceManager.GetString("TodayDateFormat", resourceCulture);
             }
         }
         
@@ -354,6 +444,15 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         public static string Unread {
             get {
                 return ResourceManager.GetString("Unread", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Email.
+        /// </summary>
+        public static string YourEmail {
+            get {
+                return ResourceManager.GetString("YourEmail", resourceCulture);
             }
         }
     }

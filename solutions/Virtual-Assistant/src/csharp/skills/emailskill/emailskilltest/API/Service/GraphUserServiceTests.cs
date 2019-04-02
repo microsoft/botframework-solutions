@@ -140,7 +140,7 @@ namespace EmailSkillTest.API.Service
 
             var result = await userService.GetContactsAsync("test");
 
-            Assert.IsTrue(result.Count == 12);
+            Assert.IsTrue(result.Count == 10);
 
             // "Conf Room" is filtered
             foreach (var user in result)

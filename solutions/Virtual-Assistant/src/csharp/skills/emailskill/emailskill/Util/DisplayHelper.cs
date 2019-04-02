@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EmailSkill.Dialogs.Shared.Resources.Strings;
+using EmailSkill.Model;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Graph;
 
@@ -57,20 +58,20 @@ namespace EmailSkill.Util
             return displayString;
         }
 
-        public static (List<Person> formattedPersonList, List<Person> formattedUserList) FormatRecipientList(List<Person> personList, List<Person> userList)
+        public static (List<PersonModel> formattedPersonList, List<PersonModel> formattedUserList) FormatRecipientList(List<PersonModel> personList, List<PersonModel> userList)
         {
             // Remove dup items
-            List<Person> formattedPersonList = new List<Person>();
-            List<Person> formattedUserList = new List<Person>();
+            List<PersonModel> formattedPersonList = new List<PersonModel>();
+            List<PersonModel> formattedUserList = new List<PersonModel>();
 
             foreach (var person in personList)
             {
-                var mailAddress = person.ScoredEmailAddresses.FirstOrDefault()?.Address ?? person.UserPrincipalName;
+                var mailAddress = person.Emails?[0] ?? person.UserPrincipalName;
 
                 bool isDup = false;
                 foreach (var formattedPerson in formattedPersonList)
                 {
-                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
+                    var formattedMailAddress = formattedPerson.Emails?[0] ?? formattedPerson.UserPrincipalName;
 
                     if (mailAddress.Equals(formattedMailAddress, StringComparison.OrdinalIgnoreCase))
                     {
@@ -87,12 +88,12 @@ namespace EmailSkill.Util
 
             foreach (var user in userList)
             {
-                var mailAddress = user.ScoredEmailAddresses.FirstOrDefault()?.Address ?? user.UserPrincipalName;
+                var mailAddress = user.Emails?[0] ?? user.UserPrincipalName;
 
                 bool isDup = false;
                 foreach (var formattedPerson in formattedPersonList)
                 {
-                    var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
+                    var formattedMailAddress = formattedPerson.Emails?[0] ?? formattedPerson.UserPrincipalName;
 
                     if (mailAddress.Equals(formattedMailAddress, StringComparison.OrdinalIgnoreCase))
                     {
@@ -105,7 +106,7 @@ namespace EmailSkill.Util
                 {
                     foreach (var formattedUser in formattedUserList)
                     {
-                        var formattedMailAddress = formattedUser.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedUser.UserPrincipalName;
+                        var formattedMailAddress = formattedUser.Emails?[0] ?? formattedUser.UserPrincipalName;
 
                         if (mailAddress.Equals(formattedMailAddress))
                         {

@@ -193,7 +193,6 @@ namespace RestaurantBooking.Dialogs.Main
                 // Adaptive card responses come through with empty text properties
                 if (!string.IsNullOrEmpty(dc.Context.Activity.Text))
                 {
-
                     // get current activity locale
                     var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
                     var localeConfig = _services.LocaleConfigurations[locale];

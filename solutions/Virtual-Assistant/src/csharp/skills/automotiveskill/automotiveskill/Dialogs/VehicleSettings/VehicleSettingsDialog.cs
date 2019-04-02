@@ -30,8 +30,8 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
     public class VehicleSettingsDialog : AutomotiveSkillDialog
     {
         private const string FallbackSettingImageFileName = "Black_Car.png";
-        private const string AvailableSettingsFileName = "available_settings.json";
-        private const string AlternativeSettingsFileName = "setting_alternative_names.json";
+        private const string AvailableSettingsFileName = "available_settings.yaml";
+        private const string AlternativeSettingsFileName = "setting_alternative_names.yaml";
 
         private static readonly Regex WordCharacter = new Regex("^\\w", RegexOptions.Compiled);
         private static readonly IReadOnlyDictionary<string, string> SettingValueToSpeakableIngForm = new Dictionary<string, string>

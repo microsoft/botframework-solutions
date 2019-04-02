@@ -22,7 +22,7 @@
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.0-preview-3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.24-preview" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.3.1" />
@@ -127,9 +127,15 @@
     <EmbeddedResource Include="Dialogs\SendEmail\Resources\SendEmailResponses.it.json" />
     <EmbeddedResource Include="Dialogs\SendEmail\Resources\SendEmailResponses.json" />
     <EmbeddedResource Include="Dialogs\SendEmail\Resources\SendEmailResponses.zh.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailCard.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\ConfirmCard_RecipientLessThanFive.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\ConfirmCard_RecipientMoreThanFive.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\DetailCard_RecipientLessThanFive.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\DetailCard_RecipientMoreThanFive.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailOverviewByCondition.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailContentPreview.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailDetailCard.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailOverviewCard.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailOverviewItem.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailWithOutButtonCard.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\EmailSharedResponses.de.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\EmailSharedResponses.es.json" />
@@ -144,7 +150,7 @@
     <EmbeddedResource Include="Dialogs\ShowEmail\Resources\ShowEmailResponses.json" />
     <EmbeddedResource Include="Dialogs\ShowEmail\Resources\ShowEmailResponses.zh.json" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <None Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.tt">
       <LastGenOutput>DeleteEmailResponses.cs</LastGenOutput>
