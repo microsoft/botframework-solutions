@@ -1,0 +1,9 @@
+{
+    "Name": "Email",
+    "DispatchIntent": "l_email",
+    "Endpoint": "http://bfemailskill.azurewebsites.net/api/skill/messages",
+    "SupportedProviders": [
+        "Azure Active Directory v2",
+        "Google"
+    ]
+}
