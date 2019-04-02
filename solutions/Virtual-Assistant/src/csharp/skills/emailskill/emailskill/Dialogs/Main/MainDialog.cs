@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.DeleteEmail;
@@ -23,6 +24,8 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace EmailSkill.Dialogs.Main
 {
@@ -99,6 +102,29 @@ namespace EmailSkill.Dialogs.Main
                     SkillMode = _skillMode,
                     SubFlowMode = false
                 };
+
+                var userInput = dc.Context.Activity.Text;
+                try
+                {
+                    Regex reg = new Regex("/event:(.+)");
+                    Match match = reg.Match(userInput);
+                    if (match.Success && match.Groups.Count > 1)
+                    {
+                        userInput = match.Groups[1].Value;
+
+                        var json = (JObject)JsonConvert.DeserializeObject(userInput);
+                        if (json["Name"].ToString().Equals("IPA.Timezone"))
+                        {
+                            state.UserInfo.Timezone = TimeZoneInfo.FindSystemTimeZoneById(json["Value"].ToString());
+
+                            return;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
 
                 // switch on general intents
                 switch (intent)

@@ -30,6 +30,7 @@ using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
 using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
+using Microsoft.Recognizers.Text.DateTime;
 using Newtonsoft.Json.Linq;
 
 namespace EmailSkill.Dialogs.Shared
@@ -328,6 +329,13 @@ namespace EmailSkill.Dialogs.Shared
                     return await sc.EndDialogAsync(true);
                 }
 
+                if (state.MessageList.Count == 1)
+                {
+                    state.Message.Clear();
+                    state.Message.Add(state.MessageList[0]);
+                    return await sc.EndDialogAsync(true);
+                }
+
                 return await sc.PromptAsync(
                     Actions.Prompt,
                     new PromptOptions() { Prompt = ResponseManager.GetResponse(EmailSharedResponses.NoFocusMessage) });
@@ -429,6 +437,10 @@ namespace EmailSkill.Dialogs.Shared
                 }
 
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                state.Message.Clear();
+                state.Message.Add(state.MessageList[0]);
+
                 string nameListString;
 
                 // this means reply confirm
@@ -648,6 +660,19 @@ namespace EmailSkill.Dialogs.Shared
 
                 if (displayMessages.Count > 0)
                 {
+                    var intent = state.LuisResult.TopIntent().intent;
+                    if (intent == EmailLU.Intent.Forward || intent == EmailLU.Intent.Reply || intent == EmailLU.Intent.Delete)
+                    {
+                        if (displayMessages.Count == 1)
+                        {
+                            state.MessageList = displayMessages;
+                            state.Message.Clear();
+                            state.Message.Add(displayMessages[0]);
+
+                            return await sc.NextAsync();
+                        }
+                    }
+
                     state.MessageList = displayMessages;
                     state.Message.Clear();
                     state.Message.Add(displayMessages[0]);
@@ -849,6 +874,71 @@ namespace EmailSkill.Dialogs.Shared
             }
         }
 
+        protected List<Message> FilterMessages(List<Message> messages, string searchSender, string searchSubject, DateTime start, DateTime end, bool isAttachmentContained)
+        {
+            if ((searchSender == null) && (searchSubject == null))
+            {
+                return messages;
+            }
+
+            // Get display messages
+            var displayMessages = new List<Message>();
+            for (int i = 0; i < messages.Count(); i++)
+            {
+                var messageSender = messages[i].Sender?.EmailAddress?.Name?.ToLowerInvariant();
+                var messageSubject = messages[i].Subject?.ToLowerInvariant();
+                bool isAdd = false;
+
+                if (messageSender != null && (searchSender != null) && messageSender.Contains(searchSender))
+                {
+                    isAdd = true;
+                }
+                else if (messageSubject != null
+                    && (searchSubject != null) && messageSubject.Contains(searchSubject))
+                {
+                    isAdd = true;
+                }
+
+                if (messages[i].HasAttachments.HasValue)
+                {
+                    if (isAttachmentContained && (messages[i].HasAttachments.Value != isAttachmentContained))
+                    {
+                        //messages[i].Attachments[0].Name;
+                        isAdd = false;
+                    }
+                }
+                else
+                {
+                    if (isAttachmentContained)
+                    {
+                        isAdd = false;
+                    }
+                }
+
+                if (start != null && end != null)
+                {
+                    if (messages[i].ReceivedDateTime.HasValue)
+                    {
+                        var reciveTimeSec = messages[i].ReceivedDateTime.Value.ToUnixTimeMilliseconds();
+                        var startTimeSec = new DateTimeOffset(start).ToUnixTimeMilliseconds();
+                        var endTimeSec = new DateTimeOffset(end).ToUnixTimeMilliseconds();
+
+                        if (startTimeSec > reciveTimeSec || reciveTimeSec > endTimeSec)
+                        {
+                            isAdd = false;
+                        }
+                    }
+                }
+
+                if (isAdd)
+                {
+                    displayMessages.Add(messages[i]);
+                }
+            }
+
+            return displayMessages;
+        }
+
         protected List<Message> FilterMessages(List<Message> messages, string searchSender, string searchSubject, string searchUserInput)
         {
             if ((searchSender == null) && (searchSubject == null) && (searchUserInput == null))
@@ -889,6 +979,11 @@ namespace EmailSkill.Dialogs.Shared
             var token = state.Token;
             var serivce = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
 
+            if (state.GeneralSenderName != null || state.GeneralSearchTexts != null)
+            {
+                state.IsUnreadOnly = false;
+            }
+
             var isUnreadOnly = state.IsUnreadOnly;
             var isImportant = state.IsImportant;
             var startDateTime = state.StartDateTime;
@@ -903,7 +998,8 @@ namespace EmailSkill.Dialogs.Shared
             // Filter messages
             var searchSender = state.GeneralSenderName?.ToLowerInvariant();
             var searchSubject = state.GeneralSearchTexts?.ToLowerInvariant();
-            result = FilterMessages(result, searchSender, searchSubject, null);
+
+            result = FilterMessages(result, searchSender, searchSubject, state.SearchStartTime, state.SearchEndTime, state.IsAttachmentContained);
 
             // Go back to last page if next page didn't get anything
             if (skip >= result.Count)
@@ -1102,6 +1198,9 @@ namespace EmailSkill.Dialogs.Shared
                 state.SearchTexts = null;
                 state.GeneralSenderName = null;
                 state.GeneralSearchTexts = null;
+                state.SearchStartTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
+                state.SearchEndTime = DateTime.UtcNow;
+                state.IsAttachmentContained = false;
             }
             catch (Exception)
             {
@@ -1313,6 +1412,27 @@ namespace EmailSkill.Dialogs.Shared
                                     state.Message.Clear();
                                 }
 
+                                if (entity.Date != null)
+                                {
+                                    var time = GetTimeFromDateTimeString(entity.Date[0], dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
+                                    if (time != null && time.Count >= 1)
+                                    {
+                                        state.SearchStartTime = TimeZoneInfo.ConvertTime(time[0], state.GetUserTimeZone(), TimeZoneInfo.Utc);
+                                        state.SearchEndTime = TimeZoneInfo.ConvertTime(time[0].AddDays(1), state.GetUserTimeZone(), TimeZoneInfo.Utc);
+                                    }
+
+                                    time = GetTimeFromDateTimeString(entity.Date[0], dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
+                                    if (time != null && time.Count >= 1)
+                                    {
+                                        state.SearchEndTime = TimeZoneInfo.ConvertTime(time[0], state.GetUserTimeZone(), TimeZoneInfo.Utc);
+                                    }
+                                }
+
+                                if (entity.Attachment != null)
+                                {
+                                    state.IsAttachmentContained = true;
+                                }
+
                                 break;
                             }
 
@@ -1341,6 +1461,100 @@ namespace EmailSkill.Dialogs.Shared
         {
             var isReadMoreUserInput = userInput == null ? false : userInput.ToLowerInvariant().Contains(CommonStrings.More);
             return topIntent == General.Intent.ShowNext && isReadMoreUserInput;
+        }
+
+        private List<DateTime> GetTimeFromDateTimeString(string time, string local, TimeZoneInfo userTimeZone, bool isStart = true)
+        {
+            var culture = local ?? "en-us";
+            var results = RecognizeDateTime(time, culture, userTimeZone);
+            var dateTimeResults = new List<DateTime>();
+            if (results != null)
+            {
+                foreach (var result in results)
+                {
+                    if (result.Value != null)
+                    {
+                        if (!isStart)
+                        {
+                            break;
+                        }
+
+                        var dateTime = DateTime.Parse(result.Value);
+                        var dateTimeConvertType = result.Timex;
+
+                        if (dateTime != null)
+                        {
+                            //var isRelativeTime = IsRelativeTime(time, result.Value, result.Timex);
+                            //dateTimeResults.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, userTimeZone) : dateTime);
+                            //dateTimeResults.Add(TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, userTimeZone));
+                            dateTimeResults.Add(dateTime);
+                        }
+                    }
+                    else
+                    {
+                        var startTime = DateTime.Parse(result.Start);
+                        var endTime = DateTime.Parse(result.End);
+                        if (isStart)
+                        {
+                            dateTimeResults.Add(startTime);
+                        }
+                        else
+                        {
+                            dateTimeResults.Add(endTime);
+                        }
+                    }
+                }
+            }
+
+            return dateTimeResults;
+        }
+
+        protected List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture, TimeZoneInfo userTimeZone)
+        {
+            var time = TimeZoneInfo.ConvertTime(DateTime.UtcNow, TimeZoneInfo.Utc, userTimeZone);
+            var results = DateTimeRecognizer.RecognizeDateTime(dateTimeString, culture, refTime: time, options: DateTimeOptions.CalendarMode);
+
+            if (results.Count > 0)
+            {
+                // Return list of resolutions from first match
+                var result = new List<DateTimeResolution>();
+                var values = (List<Dictionary<string, string>>)results[0].Resolution["values"];
+                foreach (var value in values)
+                {
+                    result.Add(ReadResolution(value));
+                }
+
+                return result;
+            }
+
+            return null;
+        }
+
+        protected DateTimeResolution ReadResolution(IDictionary<string, string> resolution)
+        {
+            var result = new DateTimeResolution();
+
+            if (resolution.TryGetValue("timex", out var timex))
+            {
+                result.Timex = timex;
+            }
+
+            if (resolution.TryGetValue("value", out var value))
+            {
+                result.Value = value;
+            }
+
+            if (resolution.TryGetValue("start", out var start))
+            {
+                result.Start = start;
+            }
+
+            if (resolution.TryGetValue("end", out var end))
+            {
+                result.End = end;
+            }
+
+            return result;
         }
 
         // This method is called by any waterfall step that throws an exception to ensure consistency

@@ -42,7 +42,8 @@ namespace EmailSkill.Extensions
             }
 
             string date = CommonStrings.Today;
-            if (totalSeconds < (24 * 60 * 60))
+            //if (totalSeconds < (24 * 60 * 60))
+            if (totalSeconds < (24 * 60 * 60) && (dateTimeWithTimeZone.Day == nowWithTimeZone.Day))
             {
                 // Times
                 var time = dateTimeWithTimeZone.ToString(CommonStrings.DisplayTime);
@@ -50,27 +51,22 @@ namespace EmailSkill.Extensions
             }
 
             // Format both date and time
-            if (totalSeconds < (48 * 60 * 60))
+            //if (totalSeconds < (48 * 60 * 60))
+            if (totalSeconds < (48 * 60 * 60) && (dateTimeWithTimeZone.Day + 1 == nowWithTimeZone.Day))
             {
                 // 1 Day
-                date = future ? CommonStrings.Tomorrow : CommonStrings.Yesterday;
+                date = CommonStrings.Yesterday;
+                return string.Format(CommonStrings.AtTimeDetailsFormat, date, dateTimeWithTimeZone.ToString(CommonStrings.DisplayTime));
             }
-            else if (totalSeconds < (3 * 24 * 60 * 60))
+
+            // Absolute date
+            if (dateTimeWithTimeZone.Year == DateTime.Now.Year)
             {
-                // 2 Days
-                date = string.Format(CommonStrings.DaysFormat, 2);
+                date = dateTimeWithTimeZone.ToString(CommonStrings.DisplayDateFormat_CurrentYear);
             }
             else
             {
-                // Absolute date
-                if (dateTimeWithTimeZone.Year == DateTime.Now.Year)
-                {
-                    date = dateTimeWithTimeZone.ToString(CommonStrings.DisplayDateFormat_CurrentYear);
-                }
-                else
-                {
-                    date = dateTimeWithTimeZone.ToString(CommonStrings.DisplayDateFormat);
-                }
+                date = dateTimeWithTimeZone.ToString(CommonStrings.DisplayDateFormat);
             }
 
             // Add time

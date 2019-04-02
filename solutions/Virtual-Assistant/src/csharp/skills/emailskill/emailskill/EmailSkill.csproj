@@ -6,6 +6,10 @@
     <CodeAnalysisRuleSet>..\..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Google.Apis" Version="1.36.1" />
     <PackageReference Include="Google.Apis.Gmail.v1" Version="1.36.1.1342" />

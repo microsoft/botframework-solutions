@@ -46,6 +46,9 @@ namespace EmailSkill
             SearchTexts = null;
             GeneralSenderName = null;
             GeneralSearchTexts = null;
+            SearchStartTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
+            SearchEndTime = DateTime.UtcNow;
+            IsAttachmentContained = false;
         }
 
         public DialogState ConversationDialogState { get; set; }
@@ -67,6 +70,12 @@ namespace EmailSkill
         public string GeneralSenderName { get; set; }
 
         public string GeneralSearchTexts { get; set; }
+
+        public DateTime SearchStartTime { get; set; }
+
+        public DateTime SearchEndTime { get; set; }
+
+        public bool IsAttachmentContained { get; set; }
 
         public List<string> EmailList { get; set; }
 
