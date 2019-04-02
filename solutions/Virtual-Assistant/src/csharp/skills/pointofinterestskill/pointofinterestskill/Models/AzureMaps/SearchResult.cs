@@ -11,8 +11,11 @@ namespace PointOfInterestSkill.Models
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets ResultType string: POI, Street, Geography, Point Address, Address Range, and Cross Street.
+        /// Gets  or sets ResultType string: POI, Street, Geography, Point Address, Address Range, and Cross Street.
         /// </summary>
+        /// <value>
+        /// The result type.
+        /// </value>
         [JsonProperty(PropertyName = "type")]
         public string ResultType { get; set; }
 

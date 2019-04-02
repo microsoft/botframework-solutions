@@ -1,0 +1,10 @@
+"*DEFAULT*":
+  alternativeValueNames:
+    Off:
+      - disabled
+    On:
+      - enabled
+
+Foo:
+  alternativeNames:
+    - fooing

@@ -1,0 +1,48 @@
+{
+    "SkillAuthenticationPrompt": {
+      "replies": [
+        {
+          "speak": "Vous n'avez pas encore lié de comptes, si possible, veuillez authentifier votre Assistant pour accéder à ce service ou passer à votre expérience de compagnon.",
+          "text": "Vous n'avez pas encore lié de comptes, si possible, veuillez authentifier votre Assistant pour accéder à ce service ou passer à votre expérience de compagnon."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "AuthProvidersPrompt": {
+      "replies": [
+        {
+          "speak": "Quel compte aimeriez-vous utiliser?",
+          "text": "Quel compte aimeriez-vous utiliser?"
+        }
+      ],
+      "inputHint": "expectingInput"
+    },
+    "SkillAuthenticationTitle": {
+      "replies": [
+        {
+          "speak": "Authentification des compétences",
+          "text": "Authentification des compétences"
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "ErrorMessageAuthFailure": {
+      "replies": [
+        {
+          "text": "Désolé, il semble que quelque chose s'est mal passé lors de la tentative d'authentification de votre connexion {authType}! Veuillez réessayer plus tard.",
+          "speak": "Désolé, il semble que quelque chose s'est mal passé lors de la tentative d'authentification de votre connexion {authType}! Veuillez réessayer plus tard."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "ConfiguredAuthProvidersPrompt": {
+      "replies": [
+        {
+          "speak": "Vous avez plusieurs comptes configurés. Lequel aimeriez-vous utiliser?",
+          "text": "Vous avez plusieurs comptes configurés. Lequel aimeriez-vous utiliser?"
+        }
+      ],
+      "inputHint": "expectingInput"
+    }
+  }
+  
