@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.Bot.Configuration;
-using Newtonsoft.Json;
-
-namespace Microsoft.Bot.Builder.Skills
+﻿namespace Microsoft.Bot.Builder.Skills
 {
     public class SkillDefinition
     {

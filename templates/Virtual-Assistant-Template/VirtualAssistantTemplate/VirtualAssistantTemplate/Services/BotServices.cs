@@ -22,10 +22,13 @@ namespace VirtualAssistantTemplate.Services
                 var dispatchApp = new LuisApplication(config.DispatchModel.AppId, config.DispatchModel.SubscriptionKey, config.DispatchModel.GetEndpoint());
                 set.DispatchService = new TelemetryLuisRecognizer(dispatchApp);
 
-                foreach (var model in config.LanguageModels)
+                if (config.LanguageModels != null)
                 {
-                    var luisApp = new LuisApplication(model.AppId, model.SubscriptionKey, model.GetEndpoint());
-                    set.LuisServices.Add(model.Id, new TelemetryLuisRecognizer(luisApp));
+                    foreach (var model in config.LanguageModels)
+                    {
+                        var luisApp = new LuisApplication(model.AppId, model.SubscriptionKey, model.GetEndpoint());
+                        set.LuisServices.Add(model.Id, new TelemetryLuisRecognizer(luisApp));
+                    }
                 }
 
                 foreach (var kb in config.Knowledgebases)

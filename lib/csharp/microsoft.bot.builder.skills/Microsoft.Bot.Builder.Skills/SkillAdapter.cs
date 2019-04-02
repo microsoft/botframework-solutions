@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Security.Claims;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Integration;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
+using Microsoft.Rest.Serialization;
+using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills
 {
@@ -16,53 +21,66 @@ namespace Microsoft.Bot.Builder.Skills
     /// This requires the remote Skill to be leveraging this new adapter on a different MVC controller to the usual
     /// BotFrameworkAdapter that operates on the /api/messages route (DirectLine).
     /// </summary>
-    public class SkillAdapter : BotAdapter, IAdapterIntegration, ISkillAdapter
+    public class SkillAdapter : BotAdapter, IBotFrameworkHttpAdapter
     {
         private readonly ICredentialProvider _credentialProvider;
-        private readonly IChannelProvider _channelProvider;
         private readonly ILogger _logger;
         private readonly Queue<Activity> queuedActivities = new Queue<Activity>();
+        private readonly JsonSerializer BotMessageSerializer = JsonSerializer.Create(new JsonSerializerSettings
+        {
+            NullValueHandling = NullValueHandling.Ignore,
+            Formatting = Formatting.Indented,
+            DateFormatHandling = DateFormatHandling.IsoDateFormat,
+            DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+            ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+            ContractResolver = new ReadOnlyJsonContractResolver(),
+            Converters = new List<JsonConverter> { new Iso8601TimeSpanConverter() },
+        });
 
-        public SkillAdapter(ICredentialProvider credentialProvider = null, IChannelProvider channelProvider = null, ILogger<SkillAdapter> logger = null)
+        public SkillAdapter(ICredentialProvider credentialProvider = null, ILogger<SkillAdapter> logger = null)
         {
             _credentialProvider = credentialProvider;
-            _channelProvider = channelProvider;
             _logger = logger;
         }
 
-        public async Task<InvokeResponse> ProcessActivityAsync(string authHeader, Activity activity, BotCallbackHandler callback, CancellationToken cancellationToken)
+        public async Task ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // Ensure the Activity has been retrieved from the HTTP POST
-            BotAssert.ActivityNotNull(activity);
-
-            // Not performing authentication checks at this time
-
-            //var claimsIdentity = await JwtTokenValidation.AuthenticateRequest(activity, authHeader, _credentialProvider, _channelProvider, _httpClient).ConfigureAwait(false);
-            ClaimsIdentity claimsIdentity = null;
-            return await ProcessActivityAsync(claimsIdentity, activity, callback, cancellationToken).ConfigureAwait(false);
-        }
-
-        public async Task<InvokeResponse> ProcessActivityAsync(ClaimsIdentity identity, Activity activity, BotCallbackHandler callback, CancellationToken cancellationToken)
-        {
-            // Ensure the Activity has been retrieved from the HTTP POST
-            BotAssert.ActivityNotNull(activity);
-
-            // Process the Activity through the Middleware and the Bot, this will generate Activities which we need to send back.
-            using (var context = new TurnContext(this, activity))
+            if (httpRequest == null)
             {
-                await RunPipelineAsync(context, callback, default(CancellationToken));
+                throw new ArgumentNullException(nameof(httpRequest));
             }
 
-            // TODO - This will be removed when we have async postbacks
+            if (httpResponse == null)
+            {
+                throw new ArgumentNullException(nameof(httpResponse));
+            }
 
-            // Any Activity responses are now available (via SendActivitiesAsync) so we need to pass back for the response
-            InvokeResponse response = new InvokeResponse();
-            response.Status = (int)HttpStatusCode.OK;
-            response.Body = GetReplies();
+            if (bot == null)
+            {
+                throw new ArgumentNullException(nameof(bot));
+            }
 
-            return response;
+            // deserialize the incoming Activity
+            var activity = ReadRequest(httpRequest);
+
+            // grab the auth header from the inbound http request
+            var authHeader = httpRequest.Headers["Authorization"];
+
+            // process the inbound activity with the bot
+            var invokeResponse = await ProcessActivityAsync(authHeader, activity, bot.OnTurnAsync, cancellationToken).ConfigureAwait(false);
+
+            // write the response, potentially serializing the InvokeResponse
+            WriteResponse(httpResponse, invokeResponse);
         }
 
+        /// <summary>
+        /// Continue the conversation by passing the activity through the pipeline.
+        /// </summary>
+        /// <param name="botId"></param>
+        /// <param name="reference"></param>
+        /// <param name="callback"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public override async Task ContinueConversationAsync(string botId, ConversationReference reference, BotCallbackHandler callback, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(botId))
@@ -122,7 +140,7 @@ namespace Microsoft.Bot.Builder.Skills
                 }
                 else
                 {
-                    // TODO - Post to the Parent Bot ServiceURL
+                    // Queue up this activity for aggregation back to the calling Bot in one overall message.
                     lock (queuedActivities)
                     {
                         queuedActivities.Enqueue(activity);
@@ -135,7 +153,65 @@ namespace Microsoft.Bot.Builder.Skills
             return responses.ToArray();
         }
 
-        public List<Activity> GetReplies()
+        public override Task DeleteActivityAsync(ITurnContext turnContext, ConversationReference reference, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task<ResourceResponse> UpdateActivityAsync(ITurnContext turnContext, Activity activity, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        private async Task<InvokeResponse> ProcessActivityAsync(string authHeader, Activity activity, BotCallbackHandler callback, CancellationToken cancellationToken)
+        {
+            // Ensure the Activity has been retrieved from the HTTP POST
+            BotAssert.ActivityNotNull(activity);
+
+            // Not performing authentication checks at this time
+
+            //var claimsIdentity = await JwtTokenValidation.AuthenticateRequest(activity, authHeader, _credentialProvider, _channelProvider, _httpClient).ConfigureAwait(false);
+            ClaimsIdentity claimsIdentity = null;
+            return await ProcessActivityAsync(claimsIdentity, activity, callback, cancellationToken).ConfigureAwait(false);
+        }
+
+        private async Task<InvokeResponse> ProcessActivityAsync(ClaimsIdentity identity, Activity activity, BotCallbackHandler callback, CancellationToken cancellationToken)
+        {
+            // Ensure the Activity has been retrieved from the HTTP POST
+            BotAssert.ActivityNotNull(activity);
+
+            // Process the Activity through the Middleware and the Bot, this will generate Activities which we need to send back.
+            using (var context = new TurnContext(this, activity))
+            {
+                await RunPipelineAsync(context, callback, default(CancellationToken));
+            }
+
+            // Any Activity responses are now available (via SendActivitiesAsync) so we need to pass back for the response
+            InvokeResponse response = new InvokeResponse();
+            response.Status = (int)HttpStatusCode.OK;
+            response.Body = GetReplies();
+
+            return response;
+        }
+
+        private Activity ReadRequest(HttpRequest request)
+        {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            var activity = default(Activity);
+
+            using (var bodyReader = new JsonTextReader(new StreamReader(request.Body, Encoding.UTF8)))
+            {
+                activity = BotMessageSerializer.Deserialize<Activity>(bodyReader);
+            }
+
+            return activity;
+        }
+
+        private List<Activity> GetReplies()
         {
             var replies = new List<Activity>();
 
@@ -154,14 +230,30 @@ namespace Microsoft.Bot.Builder.Skills
             return replies;
         }
 
-        public override Task DeleteActivityAsync(ITurnContext turnContext, ConversationReference reference, CancellationToken cancellationToken)
+        private void WriteResponse(HttpResponse response, InvokeResponse invokeResponse)
         {
-            throw new NotImplementedException();
-        }
+            if (response == null)
+            {
+                throw new ArgumentNullException(nameof(response));
+            }
 
-        public override Task<ResourceResponse> UpdateActivityAsync(ITurnContext turnContext, Activity activity, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
+            if (invokeResponse == null)
+            {
+                response.StatusCode = (int)HttpStatusCode.OK;
+            }
+            else
+            {
+                response.ContentType = "application/json";
+                response.StatusCode = invokeResponse.Status;
+
+                using (var writer = new StreamWriter(response.Body))
+                {
+                    using (var jsonWriter = new JsonTextWriter(writer))
+                    {
+                        BotMessageSerializer.Serialize(jsonWriter, invokeResponse.Body);
+                    }
+                }
+            }
         }
     }
 }
