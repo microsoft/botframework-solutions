@@ -82,7 +82,7 @@ namespace CalendarSkill.Dialogs.ChangeEventStatus
                 }
 
                 var card = new Card(deleteEvent.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard", deleteEvent.ToAdaptiveCardData(state.GetUserTimeZone()));
-                var replyMessage = ResponseManager.GetCardResponse(replyResponse, card);
+                var replyMessage = ResponseManager.GetCardResponse(replyResponse, card, tokens: null);
                 var retryMessage = ResponseManager.GetResponse(retryResponse);
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions

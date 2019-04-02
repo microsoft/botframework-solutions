@@ -116,7 +116,8 @@ namespace CalendarSkill.Dialogs.UpdateEvent
                     {
                         Name = origin.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard",
                         Data = origin.ToAdaptiveCardData(state.GetUserTimeZone())
-                    });
+                    },
+                    tokens: null);
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
@@ -162,7 +163,8 @@ namespace CalendarSkill.Dialogs.UpdateEvent
                         {
                             Name = newEvent.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard",
                             Data = newEvent.ToAdaptiveCardData(state.GetUserTimeZone())
-                        });
+                        },
+                        tokens: null);
 
                     await sc.Context.SendActivityAsync(replyMessage);
                 }

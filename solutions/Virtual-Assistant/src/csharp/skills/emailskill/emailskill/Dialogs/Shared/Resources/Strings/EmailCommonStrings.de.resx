@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ImportantMessages" xml:space="preserve">
+    <value>Hohe Priorität</value>
+  </data>
   <data name="EmailInfoFormat" xml:space="preserve">
     <value>Auf {0} schrieb {1}:</value>
   </data>
@@ -126,8 +129,14 @@
   <data name="Unread" xml:space="preserve">
     <value>Ungelesene</value>
   </data>
+  <data name="DisplayDetailDateFormat" xml:space="preserve">
+    <value>ddd MM/dd hh:mm tt</value>
+  </data>
   <data name="Content" xml:space="preserve">
     <value>Inhalt</value>
+  </data>
+  <data name="Participants" xml:space="preserve">
+    <value>Teilnehmer</value>
   </data>
   <data name="CCFormat" xml:space="preserve">
     <value>Cc: {0}</value>
@@ -138,11 +147,14 @@
   <data name="DateFormat" xml:space="preserve">
     <value>Datum: {0}</value>
   </data>
+  <data name="SearchBySubject" xml:space="preserve">
+    <value>Meldungen über {0}</value>
+  </data>
   <data name="Subject" xml:space="preserve">
     <value>Betreff</value>
   </data>
-  <data name="FromDetailsWithContentFormat" xml:space="preserve">
-    <value>Aus {0} erhalten {1} titelte {2}, Inhalt ist {3}.</value>
+  <data name="FromFormat" xml:space="preserve">
+    <value>Von: {0}</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Abbrechen</value>
@@ -150,11 +162,17 @@
   <data name="EmptySubject" xml:space="preserve">
     <value>Leere Themen</value>
   </data>
+  <data name="Messages" xml:space="preserve">
+    <value>Nachrichten</value>
+  </data>
   <data name="ReplyReplyFormat" xml:space="preserve">
     <value>RE: {0}</value>
   </data>
   <data name="ToFormat" xml:space="preserve">
     <value>Zu: {0}</value>
+  </data>
+  <data name="YourEmail" xml:space="preserve">
+    <value>Ihre Email</value>
   </data>
   <data name="RelevantFormat" xml:space="preserve">
     <value>Relevant {0}</value>
@@ -180,11 +198,17 @@
   <data name="SubjectFormat" xml:space="preserve">
     <value>Thema: {0}</value>
   </data>
+  <data name="Source" xml:space="preserve">
+    <value>Powered by **{0}**</value>
+  </data>
   <data name="ContentFormat" xml:space="preserve">
     <value>Inhalt: {0}</value>
   </data>
-  <data name="Reply" xml:space="preserve">
-    <value>Re:</value>
+  <data name="PreviousDateFormat" xml:space="preserve">
+    <value>ddd MM/dd</value>
+  </data>
+  <data name="TodayDateFormat" xml:space="preserve">
+    <value>hh:mm tt</value>
   </data>
   <data name="Relevant" xml:space="preserve">
     <value>Relevanten</value>
@@ -201,19 +225,28 @@
   <data name="High" xml:space="preserve">
     <value>Hoch</value>
   </data>
+  <data name="Reply" xml:space="preserve">
+    <value>Re:</value>
+  </data>
   <data name="ContactSeparator" xml:space="preserve">
     <value>; | Und</value>
   </data>
   <data name="Forward" xml:space="preserve">
     <value>Fw:</value>
   </data>
-  <data name="FromFormat" xml:space="preserve">
-    <value>Von: {0}</value>
+  <data name="MessageConfirm" xml:space="preserve">
+    <value>Message-Bestätigung</value>
   </data>
   <data name="ForwardMessage" xml:space="preserve">
     <value>----------weiterleitete Nachricht----------</value>
   </data>
-  <data name="Participants" xml:space="preserve">
-    <value>Teilnehmer</value>
+  <data name="FromDetailsWithContentFormat" xml:space="preserve">
+    <value>Aus {0} erhalten {1} titelte {2}, Inhalt ist {3}.</value>
+  </data>
+  <data name="SearchBySender" xml:space="preserve">
+    <value>Nachrichten aus {0}</value>
+  </data>
+  <data name="GeneralDateFormat" xml:space="preserve">
+    <value>MMM dd, yyyy</value>
   </data>
 </root>
