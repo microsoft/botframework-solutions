@@ -11,12 +11,13 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using VirtualAssistantTemplate.Configuration;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.ApplicationInsights;
 using Microsoft.Bot.Builder.BotFramework;
 using VirtualAssistantTemplate.Bots;
 using Microsoft.AspNetCore.Mvc;
+using VirtualAssistantTemplate.Dialogs;
+using VirtualAssistantTemplate.Services;
 
 namespace VirtualAssistantTemplate
 {
@@ -55,6 +56,7 @@ namespace VirtualAssistantTemplate
             services.AddSingleton<BotStateSet>();
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
             services.AddSingleton<IBotFrameworkHttpAdapter, Adapter>();
+            services.AddTransient<MainDialog>();
             services.AddTransient<IBot, Bot<MainDialog>>();
         }
 

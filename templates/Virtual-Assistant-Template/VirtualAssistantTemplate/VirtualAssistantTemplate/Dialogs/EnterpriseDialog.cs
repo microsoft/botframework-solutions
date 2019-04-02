@@ -4,13 +4,14 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using VirtualAssistantTemplate.Dialogs.Cancel;
-using VirtualAssistantTemplate.Dialogs.Main;
 using Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using System.Globalization;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder;
+using VirtualAssistantTemplate.Responses.Cancel;
+using VirtualAssistantTemplate.Responses.Main;
+using VirtualAssistantTemplate.Services;
 
 namespace VirtualAssistantTemplate.Dialogs
 {

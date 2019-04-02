@@ -4,7 +4,6 @@
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
-using VirtualAssistantTemplate.Responses.Onboarding;
 
 namespace VirtualAssistantTemplate.Responses.Onboarding
 {

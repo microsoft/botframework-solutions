@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder;
 using VirtualAssistantTemplate.Responses.Escalate;
+using VirtualAssistantTemplate.Services;
 
 namespace VirtualAssistantTemplate.Dialogs
 {

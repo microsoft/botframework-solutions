@@ -2,7 +2,7 @@
 using Microsoft.Bot.Builder.AI.QnA;
 using System.Collections.Generic;
 
-namespace VirtualAssistantTemplate.Configuration
+namespace VirtualAssistantTemplate.Services
 {
     public class CognitiveModelSet
     {

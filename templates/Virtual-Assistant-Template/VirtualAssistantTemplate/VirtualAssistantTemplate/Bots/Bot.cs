@@ -8,8 +8,9 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
+using VirtualAssistantTemplate.Services;
 
-namespace VirtualAssistantTemplate
+namespace VirtualAssistantTemplate.Bots
 {
     public class Bot<T> : ActivityHandler where T : Dialog
     {
@@ -18,10 +19,10 @@ namespace VirtualAssistantTemplate
 
         public Bot(IServiceProvider serviceProvider, T dialog)
         {
-            var conversationState = serviceProvider.GetService<ConversationState>();
-            var userState = serviceProvider.GetService<UserState>();
-            var services = serviceProvider.GetService<BotServices>();
-            _telemetryClient = serviceProvider.GetService<IBotTelemetryClient>();
+            var services = serviceProvider.GetService<BotServices>() ?? throw new ArgumentNullException(nameof(BotServices));
+            var conversationState = serviceProvider.GetService<ConversationState>() ?? throw new ArgumentNullException(nameof(ConversationState));
+            var userState = serviceProvider.GetService<UserState>() ?? throw new ArgumentNullException(nameof(UserState));
+            _telemetryClient = serviceProvider.GetService<IBotTelemetryClient>() ?? throw new ArgumentNullException(nameof(IBotTelemetryClient));
 
             var dialogState = conversationState.CreateProperty<DialogState>(nameof(VirtualAssistantTemplate));
             _dialogs = new DialogSet(dialogState);
@@ -45,7 +46,7 @@ namespace VirtualAssistantTemplate
             }
             else
             {
-                await dc.BeginDialogAsync(nameof(T));
+                await dc.BeginDialogAsync(typeof(T).Name);
             }
         }
     }

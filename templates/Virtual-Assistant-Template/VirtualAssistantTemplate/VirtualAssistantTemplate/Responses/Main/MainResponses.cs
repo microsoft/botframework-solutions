@@ -7,7 +7,6 @@ using AdaptiveCards;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
-using VirtualAssistantTemplate.Responses.Main;
 
 namespace VirtualAssistantTemplate.Responses.Main
 {

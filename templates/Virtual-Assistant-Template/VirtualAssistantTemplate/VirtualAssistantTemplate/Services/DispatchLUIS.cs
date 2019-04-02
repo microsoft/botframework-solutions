@@ -7,10 +7,9 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public class DispatchLUIS : IRecognizerConvert
+    public class DispatchLuis : IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
@@ -46,7 +45,7 @@ namespace Luis
 
         public void Convert(dynamic result)
         {
-            var app = JsonConvert.DeserializeObject<DispatchLUIS>(JsonConvert.SerializeObject(result));
+            var app = JsonConvert.DeserializeObject<DispatchLuis>(JsonConvert.SerializeObject(result));
             Text = app.Text;
             AlteredText = app.AlteredText;
             Intents = app.Intents;

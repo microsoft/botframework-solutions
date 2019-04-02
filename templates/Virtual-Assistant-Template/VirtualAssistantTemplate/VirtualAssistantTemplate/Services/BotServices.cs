@@ -4,14 +4,13 @@
 using System.Collections.Generic;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
-using VirtualAssistantTemplate.Configuration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
 
-namespace VirtualAssistantTemplate
+namespace VirtualAssistantTemplate.Services
 {
     public class BotServices
-    { 
+    {
         public BotServices(BotSettings settings)
         {
             foreach (var pair in settings.CognitiveModels)

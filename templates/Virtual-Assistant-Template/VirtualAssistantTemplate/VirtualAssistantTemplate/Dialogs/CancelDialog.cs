@@ -4,6 +4,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
+using VirtualAssistantTemplate.Responses.Cancel;
 
 namespace VirtualAssistantTemplate.Dialogs
 {

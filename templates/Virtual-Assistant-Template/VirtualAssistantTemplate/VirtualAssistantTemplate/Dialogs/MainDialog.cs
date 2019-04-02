@@ -5,7 +5,6 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using VirtualAssistantTemplate.Dialogs.Onboarding;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -13,6 +12,8 @@ using System.Globalization;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using VirtualAssistantTemplate.Responses.Main;
+using VirtualAssistantTemplate.Models;
+using VirtualAssistantTemplate.Services;
 
 namespace VirtualAssistantTemplate.Dialogs
 {
@@ -57,7 +58,7 @@ namespace VirtualAssistantTemplate.Dialogs
             var cognitiveModels = _services.CognitiveModelSets[locale];
 
             // Check dispatch result
-            var dispatchResult = await cognitiveModels.DispatchService.RecognizeAsync<DispatchLUIS>(dc.Context, CancellationToken.None);
+            var dispatchResult = await cognitiveModels.DispatchService.RecognizeAsync<DispatchLuis>(dc.Context, CancellationToken.None);
             var intent = dispatchResult.TopIntent().intent;
 
             if (_services.SkillDefinitions.Any(s => s.DispatchIntent == intent.ToString()))
@@ -75,7 +76,7 @@ namespace VirtualAssistantTemplate.Dialogs
                     await CompleteAsync(dc);
                 }
             }
-            else if (intent == DispatchLUIS.Intent.l_general)
+            else if (intent == DispatchLuis.Intent.l_general)
             {
                 // If dispatch result is general luis model
                 cognitiveModels.LuisServices.TryGetValue("general", out var luisService);
@@ -127,7 +128,7 @@ namespace VirtualAssistantTemplate.Dialogs
                     }
                 }
             }
-            else if (intent == DispatchLUIS.Intent.q_faq)
+            else if (intent == DispatchLuis.Intent.q_faq)
             {
                 cognitiveModels.QnAServices.TryGetValue("faq", out var qnaService);
 
@@ -145,7 +146,7 @@ namespace VirtualAssistantTemplate.Dialogs
                     }
                 }
             }
-            else if (intent == DispatchLUIS.Intent.q_chitchat)
+            else if (intent == DispatchLuis.Intent.q_chitchat)
             {
                 cognitiveModels.QnAServices.TryGetValue("chitchat", out var qnaService);
 

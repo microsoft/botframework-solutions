@@ -4,7 +4,7 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Configuration;
 using System.Collections.Generic;
 
-namespace VirtualAssistantTemplate.Configuration
+namespace VirtualAssistantTemplate.Services
 {
     public class BotSettings
     {

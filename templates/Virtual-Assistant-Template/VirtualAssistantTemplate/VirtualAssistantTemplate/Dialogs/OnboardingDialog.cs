@@ -7,6 +7,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using VirtualAssistantTemplate.Models;
 using VirtualAssistantTemplate.Responses.Onboarding;
+using VirtualAssistantTemplate.Services;
 
 namespace VirtualAssistantTemplate.Dialogs
 {

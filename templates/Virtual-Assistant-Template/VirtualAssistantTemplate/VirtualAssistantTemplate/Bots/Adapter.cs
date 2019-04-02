@@ -8,8 +8,8 @@ using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using VirtualAssistantTemplate.Configuration;
 using VirtualAssistantTemplate.Responses.Main;
+using VirtualAssistantTemplate.Services;
 
 namespace VirtualAssistantTemplate.Bots
 {
@@ -17,7 +17,7 @@ namespace VirtualAssistantTemplate.Bots
     {
         public Adapter(
             BotSettings settings,
-            ICredentialProvider credentialProvider, 
+            ICredentialProvider credentialProvider,
             UserState userState,
             ConversationState conversationState,
             IBotTelemetryClient telemetryClient) : base(credentialProvider)
