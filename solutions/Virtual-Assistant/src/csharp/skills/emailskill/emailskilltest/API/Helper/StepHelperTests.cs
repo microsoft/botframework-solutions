@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using EmailSkill;
 using EmailSkill.Dialogs.Shared;
+using EmailSkill.Model;
 using EmailSkill.Util;
 using EmailSkillTest.API.Fakes;
 using Microsoft.Graph;
@@ -90,8 +91,8 @@ namespace EmailSkillTest.API.Helper
             var contactData = GetPersonLists(1, 6);
             personData.AddRange(contactData);
 
-            List<Person> originPersonList = personData;
-            List<Person> originUserList = GetPersonLists(2, 7);
+            List<PersonModel> originPersonList = personData;
+            List<PersonModel> originUserList = GetPersonLists(2, 7);
 
             (var personList, var userList) = DisplayHelper.FormatRecipientList(originPersonList, originUserList);
 
@@ -120,23 +121,19 @@ namespace EmailSkillTest.API.Helper
             return result;
         }
 
-        private List<Person> GetPersonLists(int start, int end)
+        private List<PersonModel> GetPersonLists(int start, int end)
         {
-            List<Person> result = new List<Person>();
+            List<PersonModel> result = new List<PersonModel>();
 
             for (int i = start; i < end; i++)
             {
-                var emailList = new List<ScoredEmailAddress>();
-                var scoredEmailAddress = new ScoredEmailAddress
-                {
-                    Address = "test" + i.ToString() + "@test.com"
-                };
-                emailList.Add(scoredEmailAddress);
+                var emailList = new List<string>();
+                emailList.Add("test" + i.ToString() + "@test.com");
 
-                var person = new Person
+                var person = new PersonModel
                 {
                     DisplayName = "test" + i.ToString(),
-                    ScoredEmailAddresses = emailList
+                    Emails = emailList
                 };
 
                 result.Add(person);

@@ -1,72 +1,25 @@
 ﻿{
-  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
-  "version": "1.0",
-  "speak": "{Speak}",
-  "id": "EmailDetailCard",
+  "id": "EmailCard",
+  "backgroundImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKwAAACeCAYAAACvg+F+AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxOTowMzoxMyAxOTo0Mjo0OBCBEeIAAAG8SURBVHhe7dJBDQAgEMCwA/+egQcmlrSfGdg6z0DE/oUEw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phCZm52U4FOCAVGHQAAAAASUVORK5CYII=",
   "body": [
     {
       "type": "Container",
-      "items": [
-        {
-          "type": "ColumnSet",
-          "columns": [
-            {
-              "type": "Column",
-              "width": "stretch",
-              "items": [
-                {
-                  "type": "TextBlock",
-                  "text": "{Sender}",
-                  "weight": "bolder",
-                  "size": "large",
-                  "maxLines": 1
-                },
-                {
-                  "type": "TextBlock",
-                  "text": "{Subject}",
-                  "weight": "bolder",
-                  "size": "large",
-                  "maxLines": 1
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "ColumnSet",
-          "columns": [
-            {
-              "type": "Column",
-              "width": "stretch",
-              "items": [
-                   {
-                  "type": "TextBlock",
-                  "spacing": "none",
-                  "text": "{ReceivedDateTime}",
-                  "isSubtle": true,
-                  "wrap": true
-                },
-                {
-                  "type": "TextBlock",
-                  "text": "{NameList}",
-                  "weight": "bolder",
-                  "wrap": true
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      "id": "items",
+      "items": []
     },
+
     {
       "type": "Container",
+      "spacing": "Medium",
       "items": [
         {
           "type": "TextBlock",
+          "id": "messageBody",
+          "color": "Dark",
           "text": "{EmailContent}",
           "wrap": true,
-          "maxLines": 3
+          "maxLines": 5
         }
       ]
     }
@@ -77,5 +30,8 @@
       "title": "View",
       "url": "{EmailLink}"
     }
-  ]
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0",
+  "speak": "{Speak}"
 }
