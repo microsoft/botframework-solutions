@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
@@ -85,24 +86,25 @@ namespace EmailSkill.Dialogs.ReplyEmail
                         await service.ReplyToMessageAsync(message.Id, content);
                     }
 
-                    var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(message?.ToRecipients);
-
                     var emailCard = new EmailCardData
                     {
-                        Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : string.Format(EmailCommonStrings.SubjectFormat, state.Subject),
-                        NameList = string.Format(EmailCommonStrings.ToFormat, nameListString),
-                        EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : string.Format(EmailCommonStrings.ContentFormat, state.Content),
+                        Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : state.Subject,
+                        EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : state.Content,
                     };
+                    emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.Recipients);
 
                     var stringToken = new StringDictionary
                     {
                         { "Subject", state.Subject },
                     };
 
+                    var recipientCard = state.Recipients.Count() > 5 ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
                     var reply = ResponseManager.GetCardResponse(
                         EmailSharedResponses.SentSuccessfully,
                         new Card("EmailWithOutButtonCard", emailCard),
-                        stringToken);
+                        stringToken,
+                        "items",
+                        new List<Card>().Append(new Card(recipientCard, emailCard)));
 
                     await sc.Context.SendActivityAsync(reply);
                 }
