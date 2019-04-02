@@ -11,8 +11,6 @@ import { SampleResponses } from './dialogs/sample/sampleResponses';
 import { SharedResponses } from './dialogs/shared/sharedResponses';
 import { IServiceManager } from './serviceClients/IServiceManager';
 import { ServiceManager } from './serviceClients/serviceManager';
-
-import { SampleDialog } from './dialogs/sample/sampleDialog';
 /**
  * Here is the documentation of the <%=skillTemplateName%> class
  */
@@ -60,8 +58,8 @@ export class <%=skillTemplateName%> {
         }
         if (responseManager === undefined) {
             this.responseManager = new ResponseManager(
-                Array.from(this.services.localeConfigurations.keys()),
-                [SampleResponses, MainResponses, SharedResponses]
+                [new SampleResponses(), new MainResponses(), new SharedResponses()],
+                Array.from(this.services.localeConfigurations.keys())
             );
         } else {
             this.responseManager = responseManager;

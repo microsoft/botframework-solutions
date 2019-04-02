@@ -9,11 +9,11 @@ const semver = require('semver');
 
 describe("The generator-botbuilder-skill tests", function() {
     var skillName;
-    var skillNameId;
     var skillDesc;
     var skillNamePascalCase;
     var skillNameCamelCase;
-    var skillNameIdPascalCase;
+    var skillConversationStateNameClass;
+    var skillConversationStateNameFile;
     var skillUserStateNameClass;
     var skillUserStateNameFile;
     var pathConfirmation;
@@ -21,10 +21,6 @@ describe("The generator-botbuilder-skill tests", function() {
     var finalConfirmation;
     var run = true;
     var srcFiles;
-    var flowTestFiles;
-    var skillServices;
-    var skillTestServices;
-    var packageJSON;
     const conversationStateTag = "ConversationState";
     const userStateTag = "UserState";
     const cognitiveDirectories = ["LUIS"];
@@ -36,41 +32,24 @@ describe("The generator-botbuilder-skill tests", function() {
         ".env.development",
         ".env.production"
       ];
-    const deploymentFiles = [
-        path.join("de", "bot.recipe"),
-        path.join("en", "bot.recipe"),
-        path.join("es", "bot.recipe"),
-        path.join("fr", "bot.recipe"),
-        path.join("it", "bot.recipe"),
-        path.join("zh", "bot.recipe")
+    const commonDirectories = [
+        "cognitiveModels",
+        "deploymentScripts",
+    ];
+    const commonTestDirectories = [
+        "flow"
     ]
     const testFiles = [
         "mocha.opts",
-        path.join("flow","mainDialogTests.js"),
-        path.join("flow","sampleDialogTests.js"),
-        path.join("flow","skillTestBase.js")
+        "flow/mainDialogTests.js",
+        "flow/sampleDialogTests.js",
+        "flow/skillTestBase.js"
     ];
-    const commonDirectories = [
-        "cognitiveModels",
-    ];
-
-    const languageDirectories = [
-        "de",
-        "en",
-        "es",
-        "fr",
-        "it",
-        "zh"
-    ];
-
-    const commonTestDirectories = [
-        "flow"
-    ];
-    const commonTestFiles = ["mocha.opts", ".env.test", "testBase.js"];
     const commonSrcDirectories = [
         path.join("serviceClients"),
         path.join("dialogs"),
     ]
+
     const commonDialogsDirectories = [
         path.join("main"),
         path.join("main", "resources"),
@@ -80,6 +59,7 @@ describe("The generator-botbuilder-skill tests", function() {
         path.join("shared", "dialogOptions"),
         path.join("shared", "resources")
     ]
+
     const commonDialogsFiles = [
         path.join("main", "mainDialog.ts"),
         path.join("main", "mainResponses.ts"),
@@ -88,40 +68,27 @@ describe("The generator-botbuilder-skill tests", function() {
         path.join("shared", "skillDialogBase.ts"),
         path.join("shared", "sharedResponses.ts")
     ]
-    const mockResourcesFiles = [
-        path.join("skills.json"),
-        path.join("languageModels.json"),
-        path.join("mockedConfiguration.bot")
-    ];
-
-    const localeConfigurationTestFiles = [
-        "mockedSkillDe.bot",
-        "mockedSkillEn.bot",
-        "mockedSkillEs.bot",
-        "mockedSkillFr.bot",
-        "mockedSkillIt.bot",
-        "mockedSkillZh.bot"
-    ];
 
     describe("should create", function() {
-        skillName = "customSkill";
-        skillDesc = "A description for customSkill";
+        skillName = "mySkill";
+        skillDesc = "A description for mySkill";
         skillNamePascalCase = _upperFirst(_camelCase(skillName));
         skillNameCamelCase = _camelCase(skillName);
         skillGenerationPath = path.join(__dirname, "tmp");
-        skillNameId = skillNameCamelCase.substring(
-            0,
-            skillNameCamelCase.indexOf("Skill")
+        
+        skillConversationStateNameClass = `I${skillNamePascalCase.concat(
+          conversationStateTag
+        )}`;
+        skillConversationStateNameFile = skillNameCamelCase.concat(
+          conversationStateTag
         );
-        skillNameIdPascalCase = _upperFirst(skillNameId);
         skillUserStateNameClass = `I${skillNamePascalCase.concat(userStateTag)}`;
         skillUserStateNameFile = skillNameCamelCase.concat(
           userStateTag
         );
         pathConfirmation = true;
         finalConfirmation = true;
-        srcFiles = ["index.ts", `${skillUserStateNameFile}.ts`, `${skillNameCamelCase}.ts`, "languageModels.json"];
-        flowTestFiles = ["interruptionTest.js", "mainDialogTest.js", "sampleDialogTest.js", `${skillName}TestBase.js`];
+        srcFiles = ["index.ts", `${skillUserStateNameFile}.ts`, `${skillConversationStateNameFile}.ts`, `${skillNameCamelCase}.ts`];
         before(async function(){
             await helpers
             .run(path.join(__dirname, "..", "generators", "app"))
@@ -134,11 +101,7 @@ describe("The generator-botbuilder-skill tests", function() {
               "-p",
               skillGenerationPath,
               "--noPrompt"
-            ]);
-
-            skillServices = require(path.join(skillGenerationPath, skillName, "src", "skills.json"))[0];
-            skillTestServices = require(path.join(skillGenerationPath, skillName, "test", "mockResources", "skills.json"))[0];
-            packageJSON = require(path.join(skillGenerationPath, skillName, "package.json"));
+            ])
         });
 
         after(function() {
@@ -191,18 +154,7 @@ describe("The generator-botbuilder-skill tests", function() {
                     );
                     done();
                 })
-            );
-        });
-
-        describe("in the deploymentScripts folder", function() {
-            deploymentFiles.forEach(fileName =>
-                it(fileName.concat(" file"), function(done){
-                    assert.file(
-                        path.join(skillGenerationPath, skillName, "deploymentScripts", fileName)
-                    );
-                    done();
-                })                
-            );
+            )
         });
 
         describe("in the src folder", function() {
@@ -246,7 +198,7 @@ describe("The generator-botbuilder-skill tests", function() {
         });
 
         describe("in the test folder", function() {
-            commonTestFiles.forEach(fileName =>
+            testFiles.forEach(fileName =>
                 it(fileName.concat(" file"), function(done){
                     assert.file(
                         path.join(skillGenerationPath, skillName, "test", fileName)
@@ -256,255 +208,45 @@ describe("The generator-botbuilder-skill tests", function() {
             );
         });
 
-        describe("in the LocaleConfigurations test folder", function() {
-            localeConfigurationTestFiles.forEach(fileName => 
-                it(fileName.concat(" file"), function(done){
-                    assert.file(
-                        path.join(skillGenerationPath, skillName, "test", "mockResources", "LocaleConfigurations", fileName)
-                    );
-                    done();
-                })
-            );
-        });
-
-        describe("in the flow folder", function() {
-            flowTestFiles.forEach(fileName =>
-                it(fileName.concat(" file"), function(done){
-                    assert.file(
-                        path.join(skillGenerationPath, skillName, "test", "flow", fileName)
-                    );
-                    done();
-                }),
-            );
-        });
-
-        describe("in the mockResources folder", function() {
-            mockResourcesFiles.forEach(fileName =>
-                it(fileName.concat(" file"), function(done){
-                    assert.file(
-                        path.join(skillGenerationPath, skillName, "test", "mockResources", fileName)
-                    );
-                    done();
-                }),
-            );
-        });
-
-        describe("in the mockedSkillDe.bot file", function() {
-            it("an id property with the given name", function(done){
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "test", "mockResources", "LocaleConfigurations", "mockedSkillDe.bot"),
-                    `"id": "${skillNameId}"`
-                );
-                done();
-            })
-        });
-
-        describe("in the mockedSkillEn.bot file", function() {
-            it("an id property with the given name", function(done){
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "test", "mockResources", "LocaleConfigurations", "mockedSkillEn.bot"),
-                    `"id": "${skillNameId}"`
-                );
-                done();
-            })
-        });
-
-        describe("in the mockedSkillEs.bot file", function() {
-            it("an id property with the given name", function(done){
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "test", "mockResources", "LocaleConfigurations", "mockedSkillEs.bot"),
-                    `"id": "${skillNameId}"`
-                );
-                done();
-            })
-        });
-
-        describe("in the mockedSkillFr.bot file", function() {
-            it("an id property with the given name", function(done){
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "test", "mockResources", "LocaleConfigurations", "mockedSkillFr.bot"),
-                    `"id": "${skillNameId}"`
-                );
-                done();
-            })
-        });
-
-        describe("in the mockedSkillIt.bot file", function() {
-            it("an id property with the given name", function(done){
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "test", "mockResources", "LocaleConfigurations", "mockedSkillIt.bot"),
-                    `"id": "${skillNameId}"`
-                );
-                done();
-            })
-        });
-
-        describe("in the mockedSkillZh.bot file", function() {
-            it("an id property with the given name", function(done){
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "test", "mockResources", "LocaleConfigurations", "mockedSkillZh.bot"),
-                    `"id": "${skillNameId}"`
-                );
-                done();
-            })
-        });
-
-        describe("in skills file of the skill", function() {
-            it("an id property with the given name", function(done){
-                assert.equal(skillServices.id, skillNameCamelCase);
-                done();
-            }),
-            it("a name property with the given name", function(done){
-                assert.equal(skillServices.name, skillNameCamelCase);
-                done();
-            }),
-            it("a dispatchIntent property with an intent containing the given name", function(done){
-                assert.equal(skillServices.dispatchIntent, `l_${skillNameIdPascalCase}`);
-                done();
-            }),
-            it("a luisServicesIds property with the given name id", function(done){
-                assert.equal(skillServices.luisServiceIds[0], skillNameId);
-                done();
-            }),
-            it("a pathToBot property to a path with the given name", function(done){
-                assert.equal(skillServices.configuration.pathToBot, `./${skillNameCamelCase}/lib/${skillNameCamelCase}.js`);
-                done();
-            }),
-            it("a ClassName property with a class of a given name", function(done){
-                assert.equal(skillServices.configuration.ClassName, skillNamePascalCase);
-                done();
-            }) 
-        });
-
-        describe("in skills file of the tests", function() {
-            it("an id property with the given name", function(done){
-                assert.equal(skillTestServices.id, skillNameCamelCase);
-                done();
-            }),
-            it("a name property with the given name", function(done){
-                assert.equal(skillTestServices.name, skillNameCamelCase);
-                done();
-            }),
-            it("a dispatchIntent property with an intent containing the given name", function(done){
-                assert.equal(skillTestServices.dispatchIntent, `l_${skillNameIdPascalCase}`);
-                done();
-            }),
-            it("a luisServicesIds property with the given name id", function(done){
-                assert.equal(skillTestServices.luisServiceIds[0], skillNameId);
-                done();
-            }),
-            it("a pathToBot property to a path with the given name", function(done){
-                assert.equal(skillTestServices.configuration.pathToBot, `./${skillNameCamelCase}/lib/${skillNameCamelCase}.js`);
-                done();
-            }),
-            it("a ClassName property with a class of a given name", function(done){
-                assert.equal(skillTestServices.configuration.ClassName, skillNamePascalCase);
-                done();
-            }) 
-        });
-        
-        describe("in interruptionTest file", function() {
-            it("and have a const value with given name", function(done){
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "test", "flow", "interruptionTest.js"),
-                    `const ${skillNameCamelCase} = require('./${skillNameCamelCase}TestBase.js');`
-                );
-                done();
-            }),
-
-            it("and have a call to an object with given name", function(done){
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "test", "flow", "interruptionTest.js"),
-                    `${skillNameCamelCase}.initialize();`
-                );
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "test", "flow", "interruptionTest.js"),
-                    `testAdapter = ${skillNameCamelCase}.getTestAdapter();`
-                );
-                done();
-            })  
-        });
-
-        describe("in sampleDialogTest file", function() {
-            it("and have a const value with given name", function(done){
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "test", "flow", "sampleDialogTest.js"),
-                    `const ${skillNameCamelCase} = require('./${skillNameCamelCase}TestBase.js');`
-                );
-                done();
-            }),
-
-            it("and have a call to an object with given name", function(done){
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "test", "flow", "sampleDialogTest.js"),
-                    `${skillNameCamelCase}.initialize();`
-                );
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "test", "flow", "sampleDialogTest.js"),
-                    `testAdapter = ${skillNameCamelCase}.getTestAdapter();`
-                );
-                done();
-            })  
-        });
-
-        describe("in mainDialogTest file", function() {
-            it("and have a const value with given name", function(done){
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "test", "flow", "mainDialogTest.js"),
-                    `const ${skillNameCamelCase} = require('./${skillNameCamelCase}TestBase.js');`
-                );
-                done();
-            }),
-
-            it("and have a call to an object with given name", function(done){
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "test", "flow", "mainDialogTest.js"),
-                    `${skillNameCamelCase}.initialize();`
-                );
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "test", "flow", "mainDialogTest.js"),
-                    `testAdapter = ${skillNameCamelCase}.getTestAdapter();`
-                );
-                done();
-            })  
-        });
-
-        describe(`in ${skillName}TestBase file`, function() {
-            it("and have a const value with given name", function(done){
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "test", "flow", `${skillName}TestBase.js`),
-                    `const ${skillNamePascalCase} = require('../../lib/${skillNameCamelCase}.js').${skillNamePascalCase};`                        
-                );
-                done();
-            }),
-
-            it("and initialize the skill with given name", function(done){
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "test", "flow", `${skillName}TestBase.js`),
-                    `this.bot = new ${skillNamePascalCase}(services, conversationState, userState, telemetryClient, skillMode);`                        
-                );
-                done();
-            })
-        });
-
         describe("and have in the package.json", function() {
             it("a name property with the given name", function(done) {
-                assert.equal(packageJSON.name, skillName);
+                assert.fileContent(
+                    path.join(skillGenerationPath, skillName, "package.json"),
+                    `"name": "${skillName}"`
+                );
                 done();
             });
 
             it("a description property with given description", function(done) {
-                assert.equal(packageJSON.description, skillDesc);
+                assert.fileContent(
+                  path.join(skillGenerationPath, skillName, "package.json"),
+                  `"description": "${skillDesc}"`
+                );
                 done();
             });
-        });        
+        });
 
         describe("and have in the mainDialog file", function() {
+            it("an import component containing a ConversationState with the given name", function(done) {
+                assert.fileContent(
+                    path.join(skillGenerationPath, skillName, "src", "dialogs", "main", "mainDialog.ts"),
+                    `import { ${skillConversationStateNameClass} } from '../../${skillConversationStateNameFile}';`
+                );
+                done();
+            });
 
             it("an import component containing an UserState with the given name", function(done) {
                 assert.fileContent(
                     path.join(skillGenerationPath, skillName, "src", "dialogs", "main", "mainDialog.ts"),
                     `import { ${skillUserStateNameClass} } from '../../${skillUserStateNameFile}';`
+                );
+                done();
+            });
+
+            it("an accessor containing a ConversationState with the given name", function(done){
+                assert.fileContent(
+                    path.join(skillGenerationPath, skillName, "src", "dialogs", "main", "mainDialog.ts"),
+                    `StatePropertyAccessor<${skillConversationStateNameClass}>`
                 );
                 done();
             });
@@ -516,7 +258,15 @@ describe("The generator-botbuilder-skill tests", function() {
                 );
                 done();
             });
-           
+
+            it("a creation of a property containing a ConversationState with the given name" , function(done){
+                assert.fileContent(
+                    path.join(skillGenerationPath, skillName, "src", "dialogs", "main", "mainDialog.ts"),
+                    `.createProperty('${skillConversationStateNameClass}')`
+                );
+                done();
+            });
+
             it("a creation of a property containing an UserState with the given name" , function(done){
                 assert.fileContent(
                     path.join(skillGenerationPath, skillName, "src", "dialogs", "main", "mainDialog.ts"),
@@ -528,13 +278,21 @@ describe("The generator-botbuilder-skill tests", function() {
             it("a property with the name of the project", function(done){
                 assert.fileContent(
                     path.join(skillGenerationPath, skillName, "src", "dialogs", "main", "mainDialog.ts"),
-                    `private projectName: string = '${skillNameId}'`
+                    `private projectName: string = '${skillName}'`
                 );
                 done()
             });
         });
-             
+
         describe("and have in the sampleDialog file", function() {
+            it("an import component containing a ConversationState with the given name", function(done) {
+                assert.fileContent(
+                    path.join(skillGenerationPath, skillName, "src", "dialogs", "sample", "sampleDialog.ts"),
+                    `import { ${skillConversationStateNameClass} } from '../../${skillConversationStateNameFile}';`
+                );
+                done();
+            });
+
             it("an import component containing an UserState with the given name", function(done) {
                 assert.fileContent(
                     path.join(skillGenerationPath, skillName, "src", "dialogs", "sample", "sampleDialog.ts"),
@@ -542,7 +300,15 @@ describe("The generator-botbuilder-skill tests", function() {
                 );
                 done();
             });
-            
+
+            it("an accessor containing a ConversationState with the given name", function(done){
+                assert.fileContent(
+                    path.join(skillGenerationPath, skillName, "src", "dialogs", "sample", "sampleDialog.ts"),
+                    `StatePropertyAccessor<${skillConversationStateNameClass}>`
+                );
+                done();
+            });
+
             it("an accessor containing an UserState with the given name", function(done){
                 assert.fileContent(
                     path.join(skillGenerationPath, skillName, "src", "dialogs", "sample", "sampleDialog.ts"),
@@ -552,80 +318,50 @@ describe("The generator-botbuilder-skill tests", function() {
             });
         });
 
-        describe("and have in the LUIS folder", function() {
-            languageDirectories.forEach(fileName => 
-                it(fileName.concat(" folder with the .lu file"), function(done){
-                     assert.file(
-                        path.join(skillGenerationPath, skillName, "cognitiveModels", "LUIS", fileName, `${skillNameId}.lu`)
-                    );
-                    done();
-                })
-            );
-        });
-
-        xdescribe("and have in the skillConversationState file", function() {
-            it("a creation of a property containing the skillProjectName with the given name", function(done){
+        describe("and have in the skillDialogBase file", function() {
+            it("an import component containing a ConversationState with the given name", function(done) {
                 assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "src", "skillConversationState.ts"),
-                    `luisResult?: '${skillNameId}LU'`
+                    path.join(skillGenerationPath, skillName, "src", "dialogs", "shared", "skillDialogBase.ts"),
+                    `import { ${skillConversationStateNameClass} } from '../../${skillConversationStateNameFile}';`
                 );
                 done();
             });
-        });
 
-        describe("and have in the bot.recipe file", function() {
-            languageDirectories.forEach(fileName => 
-                it(fileName.concat(" folder with the skillProjectNameId in each bot.recipe file"), function(done){
-                    assert.fileContent(
-                        path.join(skillGenerationPath, skillName, "deploymentScripts", fileName, "bot.recipe"),
-                        `"id": "${skillNameId}"`,
-                        `"name": "${skillNameId}"`,
-                        `"luPath": "..\\cognitiveModels\\LUIS\\de\\${skillNameId}.lu"`
-                    );
-                    done();
-                })
-            );
-        });
-    
-        describe("and have in the skillDialogBase file", function() {
+            it("an import component containing an UserState with the given name", function(done) {
+                assert.fileContent(
+                    path.join(skillGenerationPath, skillName, "src", "dialogs", "shared", "skillDialogBase.ts"),
+                    `import { ${skillUserStateNameClass} } from '../../${skillUserStateNameFile}';`
+                );
+                done();
+            });
+
+            it("an accessor containing a ConversationState with the given name", function(done){
+                assert.fileContent(
+                    path.join(skillGenerationPath, skillName, "src", "dialogs", "shared", "skillDialogBase.ts"),
+                    `StatePropertyAccessor<${skillConversationStateNameClass}>`
+                );
+                done();
+            });
+
+            it("an accessor containing an UserState with the given name", function(done){
+                assert.fileContent(
+                    path.join(skillGenerationPath, skillName, "src", "dialogs", "shared", "skillDialogBase.ts"),
+                    `StatePropertyAccessor<${skillUserStateNameClass}>`
+                );
+                done();
+            });
 
             it("a property with the name of the project", function(done){
                 assert.fileContent(
                     path.join(skillGenerationPath, skillName, "src", "dialogs", "main", "mainDialog.ts"),
-                    `private projectName: string = '${skillNameId}'`
+                    `private projectName: string = '${skillName}'`
                 );
-                done();
-            });
-        });
-
-        describe("and have in the index file", function() {
-            it("an import component with the given name", function(done) {
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "src", "index.ts"),
-                    `import { ${skillNamePascalCase} } from './${skillNameCamelCase}';`
-                );
-                done();
-            });
-
-            it("a declaration of a property with type of the given name", function(done){
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "src", "index.ts"),
-                    `let bot: ${skillNamePascalCase};`
-                );
-                done();
-            });
-
-            it("an initialization of the property with type of the given name", function(done){
-                assert.fileContent(
-                    path.join(skillGenerationPath, skillName, "src", "index.ts"),
-                    `bot = new ${skillNamePascalCase}(`
-                );
-                done();
+                done()
             });
         });
     });
 
-   describe("should not create", function() {
+    describe("should not create", function() {
         before(async function() {
             if(semver.gte(process.versions.node, '10.12.0')){
                 run = false;

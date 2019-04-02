@@ -117,8 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="GREETING" xml:space="preserve">
-    <value>Danke, {0}. Wie kann ich helfen?</value>
+  <data name="HAVE_LOCATION" xml:space="preserve">
+    <value>Ich habe {0} als primären Standort hinzugefügt. Sie sind alle eingerichtet!</value>
+    <comment>3</comment>
+  </data>
+  <data name="LINKEDACCOUNTS_BODY" xml:space="preserve">
+    <value>Wechseln Sie zu ihrer Companion App, um sich einzurichten.</value>
+  </data>
+  <data name="LINKEDACCOUNTS_TITLE" xml:space="preserve">
+    <value>Ich kann mehr tun, wenn Sie Ihre Konten verknüpfen!</value>
+  </data>
+  <data name="LOCATION_PROMPT" xml:space="preserve">
+    <value>Danke, {0}. Wo befinden Sie sich?</value>
     <comment>2</comment>
   </data>
   <data name="NAME_PROMPT" xml:space="preserve">

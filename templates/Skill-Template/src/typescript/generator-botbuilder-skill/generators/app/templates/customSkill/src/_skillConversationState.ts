@@ -4,12 +4,13 @@
 import { DialogState } from 'botbuilder-dialogs';
 
 /**
- * Here is the documentation of the SkillConversationState class
+ * Here is the documentation of the <%=skillConversationStateNameClass%> class
  */
-export interface ISkillConversationState extends DialogState {
-    token?: string;
+export interface <%=skillConversationStateNameClass%> extends DialogState {
+    token: string;
+    //PENDING search about skillProjectNameLU class
     // tslint:disable-next-line:no-any
-    luisResult?: any;
+    luisResult: any; //<%=skillConversationStateNameClass%>LU;
 
     clear(): void;
 }

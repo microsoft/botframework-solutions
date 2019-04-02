@@ -11,12 +11,12 @@
     "HaveNamePrompt": {
       "replies": [
         {
-          "text": "Hallo, {name}!",
-          "speak": "Hallo, {name}!"
+          "text": "Hallo, {Name}!",
+          "speak": "Hallo, {Name}!"
         },
         {
-          "text": "Schön, dich zu treffen, {name}!",
-          "speak": "Schön, dich zu treffen, {name}!"
+          "text": "Schön, dich zu treffen, {Name}!",
+          "speak": "Schön, dich zu treffen, {Name}!"
         }
       ],
       "inputHint": "acceptingInput"

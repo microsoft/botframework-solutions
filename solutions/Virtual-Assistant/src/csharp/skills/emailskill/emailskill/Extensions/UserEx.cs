@@ -23,7 +23,6 @@ namespace EmailSkill.Extensions
 
             var person = new Person
             {
-                Id = user.Id,
                 DisplayName = user.DisplayName,
                 UserPrincipalName = user.UserPrincipalName,
                 Surname = user.Surname,
@@ -51,7 +50,6 @@ namespace EmailSkill.Extensions
 
             var person = new Person
             {
-                Id = contact.Id,
                 DisplayName = contact.DisplayName,
                 UserPrincipalName = null,
                 Surname = contact.Surname,

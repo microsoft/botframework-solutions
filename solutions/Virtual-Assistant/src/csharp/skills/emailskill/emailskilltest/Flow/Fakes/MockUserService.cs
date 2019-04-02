@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using EmailSkill.Model;
 using EmailSkill.ServiceClients;
 using Microsoft.Graph;
 
@@ -15,15 +14,15 @@ namespace EmailSkillTest.Flow.Fakes
             this.Contacts = FakeContacts();
         }
 
-        public List<PersonModel> People { get; set; }
+        public List<Person> People { get; set; }
 
-        public List<PersonModel> Users { get; set; }
+        public List<User> Users { get; set; }
 
-        public List<PersonModel> Contacts { get; set; }
+        public List<Contact> Contacts { get; set; }
 
-        public Task<List<PersonModel>> GetPeopleAsync(string name)
+        public Task<List<Person>> GetPeopleAsync(string name)
         {
-            var result = new List<PersonModel>();
+            var result = new List<Person>();
 
             foreach (var person in this.People)
             {
@@ -36,9 +35,9 @@ namespace EmailSkillTest.Flow.Fakes
             return Task.FromResult(result);
         }
 
-        public Task<List<PersonModel>> GetUserAsync(string name)
+        public Task<List<User>> GetUserAsync(string name)
         {
-            var result = new List<PersonModel>();
+            var result = new List<User>();
 
             foreach (var user in this.Users)
             {
@@ -51,9 +50,9 @@ namespace EmailSkillTest.Flow.Fakes
             return Task.FromResult(result);
         }
 
-        public Task<List<PersonModel>> GetContactsAsync(string name)
+        public Task<List<Contact>> GetContactsAsync(string name)
         {
-            var result = new List<PersonModel>();
+            var result = new List<Contact>();
 
             foreach (var contact in this.Contacts)
             {
@@ -66,47 +65,47 @@ namespace EmailSkillTest.Flow.Fakes
             return Task.FromResult(result);
         }
 
-        private List<PersonModel> FakePeople()
+        private List<Person> FakePeople()
         {
-            var people = new List<PersonModel>();
+            var people = new List<Person>();
 
-            var emailAddressStr = "test@test.com";
-            var mails = new List<string>();
-            mails.Add(emailAddressStr);
+            var addressList = new List<ScoredEmailAddress>();
+            var emailAddress = new ScoredEmailAddress()
+            {
+                Address = "test@test.com",
+                RelevanceScore = 1,
+            };
+            addressList.Add(emailAddress);
 
-            people.Add(new PersonModel()
+            people.Add(new Person()
             {
                 UserPrincipalName = "test@test.com",
-                Emails = mails,
+                ScoredEmailAddresses = addressList,
                 DisplayName = "Test Test",
             });
 
             return people;
         }
 
-        private List<PersonModel> FakeUsers(int dupSize = 5)
+        private List<User> FakeUsers(int dupSize = 5)
         {
-            var users = new List<PersonModel>();
+            var users = new List<User>();
 
             var emailAddressStr = "test@test.com";
-            var mails = new List<string>();
-            mails.Add(emailAddressStr);
-            users.Add(new PersonModel()
+            users.Add(new User()
             {
                 UserPrincipalName = emailAddressStr,
-                Emails = mails,
+                Mail = emailAddressStr,
                 DisplayName = "Test Test",
             });
 
             for (int i = 0; i < dupSize; i++)
             {
                 emailAddressStr = "testdup" + i + "@test.com";
-                var emails = new List<string>();
-                emails.Add(emailAddressStr);
-                users.Add(new PersonModel()
+                users.Add(new User()
                 {
                     UserPrincipalName = emailAddressStr,
-                    Emails = emails,
+                    Mail = emailAddressStr,
                     DisplayName = "TestDup Test",
                 });
             }
@@ -114,38 +113,24 @@ namespace EmailSkillTest.Flow.Fakes
             return users;
         }
 
-        private List<PersonModel> FakeContacts()
+        private List<Contact> FakeContacts()
         {
-            var contacts = new List<PersonModel>();
+            var contacts = new List<Contact>();
 
-            var addressList = new List<string>();
-            addressList.Add("test@test.com");
-
-            contacts.Add(new PersonModel()
+            var addressList = new List<EmailAddress>();
+            var emailAddress = new EmailAddress()
             {
-                Emails = addressList,
+                Address = "test@test.com",
+            };
+            addressList.Add(emailAddress);
+
+            contacts.Add(new Contact()
+            {
+                EmailAddresses = addressList,
                 DisplayName = "Test Test",
             });
 
             return contacts;
-        }
-
-        public Task<PersonModel> GetMeAsync()
-        {
-            var addressList = new List<string>();
-            addressList.Add("test@test.com");
-            var user = new PersonModel()
-            {
-                UserPrincipalName = "Test Test",
-                Emails = addressList,
-                DisplayName = "Test Test",
-            };
-            return Task.FromResult(user);
-        }
-
-        public Task<string> GetPhotoAsync(string id)
-        {
-            return Task.FromResult("data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==");
         }
     }
 }

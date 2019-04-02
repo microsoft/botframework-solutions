@@ -1,0 +1,115 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "speak": "This'll get you to {Name} in {TravelTimeSpeak}. There's {TravelDelaySpeak}.",
+  "id": "RouteDirectionsViewCard",
+  "body": [
+    {
+      "type": "Container",
+      "separator": true,
+      "items": [
+        {
+          "id": "Name",
+          "type": "TextBlock",
+          "horizontalAlignment": "Left",
+          "spacing": "None",
+          "size": "Large",
+          "weight": "Bolder",
+          "color": "Accent",
+          "text": "{Name}"
+        },
+        {
+          "id": "AvailableDetails",
+          "type": "TextBlock",
+          "spacing": "None",
+          "text": "{AvailableDetails}",
+          "isSubtle": true
+        },
+        {
+          "id": "Address",
+          "type": "TextBlock",
+          "spacing": "None",
+          "color": "Dark",
+          "text": "{Street}, {City}",
+          "isSubtle": true,
+          "wrap": true
+        },
+        {
+          "id": "Hours",
+          "type": "TextBlock",
+          "spacing": "None",
+          "color": "Dark",
+          "text": "{Hours}",
+          "isSubtle": true,
+          "wrap": true
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "items": [
+        {
+          "id": "Image",
+          "type": "Image",
+          "url": "{ImageUrl}"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "style": "emphasis",
+              "verticalContentAlignment": "Center",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Center",
+                  "text": "{TravelTime}"
+                }
+              ],
+              "width": 20
+            },
+            {
+              "type": "Column",
+              "verticalContentAlignment": "Center",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Left",
+                  "text": "{DelayStatus}"
+                },
+                {
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Left",
+                  "text": "**ETA** {ETA}"
+                }
+              ],
+              "width": 60
+            },
+            {
+              "type": "Column",
+              "verticalContentAlignment": "Center",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Center",
+                  "size": "Medium",
+                  "text": "{Distance}"
+                }
+              ],
+              "width": 20
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

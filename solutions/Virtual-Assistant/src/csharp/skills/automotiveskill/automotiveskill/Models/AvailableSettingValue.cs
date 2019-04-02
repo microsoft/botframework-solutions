@@ -1,17 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
-using AutomotiveSkill.Yaml;
-using SharpYaml;
-using SharpYaml.Events;
-
 namespace AutomotiveSkill.Models
 {
     /// <summary>
     /// A supported named value of a particular setting.
     /// </summary>
-    public class AvailableSettingValue : IEquatable<AvailableSettingValue>
+    public class AvailableSettingValue
     {
         /// <summary>
         /// Gets or sets the name of this value.
@@ -49,59 +44,5 @@ namespace AutomotiveSkill.Models
         /// </summary>
         /// <value>Whether this value changes the sign.</value>
         public bool ChangesSignOfAmount { get; set; }
-
-        public static AvailableSettingValue FromYaml(IParser parser)
-        {
-            YamlParseUtil.ConsumeMappingStart(parser);
-
-            AvailableSettingValue result = new AvailableSettingValue();
-            while (!(parser.Current is MappingEnd))
-            {
-                var key = YamlParseUtil.StringFromYaml(parser);
-                switch (key)
-                {
-                    case "canonicalName":
-                        result.CanonicalName = YamlParseUtil.StringFromYaml(parser);
-                        break;
-                    case "requiresAmount":
-                        result.RequiresAmount = YamlParseUtil.BoolFromYaml(parser);
-                        break;
-                    case "requiresConfirmation":
-                        result.RequiresConfirmation = YamlParseUtil.BoolFromYaml(parser);
-                        break;
-                    case "antonym":
-                        result.Antonym = YamlParseUtil.StringFromYaml(parser);
-                        break;
-                    case "changesSignOfAmount":
-                        result.ChangesSignOfAmount = YamlParseUtil.BoolFromYaml(parser);
-                        break;
-                    default:
-                        throw YamlParseUtil.UnknownKeyWhileParsing<AvailableSettingValue>(parser, key);
-                }
-            }
-
-            YamlParseUtil.ConsumeMappingEnd(parser);
-            return result;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as AvailableSettingValue);
-        }
-
-        public bool Equals(AvailableSettingValue other)
-        {
-            return other != null &&
-                   CanonicalName == other.CanonicalName &&
-                   RequiresAmount == other.RequiresAmount &&
-                   RequiresConfirmation == other.RequiresConfirmation &&
-                   Antonym == other.Antonym &&
-                   ChangesSignOfAmount == other.ChangesSignOfAmount;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(CanonicalName, RequiresAmount, RequiresConfirmation, Antonym, ChangesSignOfAmount);
-        }
     }
 }

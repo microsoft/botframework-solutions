@@ -10,7 +10,4 @@ export { SkillConfiguration } from './skillConfiguration';
 export { SkillDefinition } from './skillDefinition';
 export { SkillDialog } from './skillDialog';
 export { ISkillDialogOptions } from './skillDialogOptions';
-export { SkillEvent } from './skillEvent';
-export { SkillException, SkillExceptionType } from './skillException';
-export { SkillResponses } from './skillResponses';
 export { SkillRouter } from './skillRouter';

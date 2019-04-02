@@ -13,6 +13,7 @@ namespace VirtualAssistant.Dialogs.Onboarding
     {
         // Constants
         public const string NamePrompt = "namePrompt";
+        public const string LocationPrompt = "locationPrompt";
 
         // Fields
         private static OnboardingResponses _responder = new OnboardingResponses();
@@ -28,6 +29,7 @@ namespace VirtualAssistant.Dialogs.Onboarding
             var onboarding = new WaterfallStep[]
             {
                 AskForName,
+                AskForLocation,
                 FinishOnboardingDialog,
             };
 
@@ -36,6 +38,7 @@ namespace VirtualAssistant.Dialogs.Onboarding
             TelemetryClient = telemetryClient;
             AddDialog(new WaterfallDialog(InitialDialogId, onboarding) { TelemetryClient = telemetryClient });
             AddDialog(new TextPrompt(NamePrompt));
+            AddDialog(new TextPrompt(LocationPrompt));
         }
 
         public async Task<DialogTurnResult> AskForName(WaterfallStepContext sc, CancellationToken cancellationToken)
@@ -46,12 +49,24 @@ namespace VirtualAssistant.Dialogs.Onboarding
             });
         }
 
-        public async Task<DialogTurnResult> FinishOnboardingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
+        public async Task<DialogTurnResult> AskForLocation(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
             _state.Name = (string)sc.Result;
 
-            await _responder.ReplyWith(sc.Context, OnboardingResponses.ResponseIds.Greeting, new { _state.Name });
+            return await sc.PromptAsync(LocationPrompt, new PromptOptions()
+            {
+                Prompt = await _responder.RenderTemplate(sc.Context, "en", OnboardingResponses.ResponseIds.LocationPrompt, new { _state.Name }),
+            });
+        }
+
+        public async Task<DialogTurnResult> FinishOnboardingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
+            _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
+            _state.Location = (string)sc.Result;
+
+            await _responder.ReplyWith(sc.Context, OnboardingResponses.ResponseIds.HaveLocation, new { _state.Location });
+            await _responder.ReplyWith(sc.Context, OnboardingResponses.ResponseIds.AddLinkedAccountsMessage);
 
             return await sc.EndDialogAsync();
         }

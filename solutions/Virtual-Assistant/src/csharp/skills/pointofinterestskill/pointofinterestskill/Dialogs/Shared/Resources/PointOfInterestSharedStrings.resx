@@ -150,7 +150,4 @@
   <data name="MINUTE_ABBREVIATION" xml:space="preserve">
     <value>min</value>
   </data>
-  <data name="POWERED_BY" xml:space="preserve">
-    <value>Powered by</value>
-  </data>
 </root>

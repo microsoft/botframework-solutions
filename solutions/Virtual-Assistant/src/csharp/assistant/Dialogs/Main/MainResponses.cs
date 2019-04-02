@@ -51,6 +51,10 @@ namespace VirtualAssistant.Dialogs.Main
                     (context, data) => BuildHelpCard(context, data)
                 },
                 {
+                    ResponseIds.Intro,
+                    (context, data) => BuildIntroCard(context, data)
+                },
+                {
                     ResponseIds.Qna,
                     (context, data) => BuildQnACard(context, data)
                 },
@@ -60,6 +64,16 @@ namespace VirtualAssistant.Dialogs.Main
         public MainResponses()
         {
             Register(new DictionaryRenderer(_responseTemplates));
+        }
+
+        public static IMessageActivity BuildIntroCard(ITurnContext turnContext, dynamic data)
+        {
+            var introPath = string.Join(Path.DirectorySeparatorChar, MainStrings.INTRO_PATH.Split('\\'));
+            var introCard = File.ReadAllText(introPath);
+            var card = AdaptiveCard.FromJson(introCard).Card;
+            var attachment = new Attachment(AdaptiveCard.ContentType, content: card);
+
+            return MessageFactory.Attachment(attachment, ssml: card.Speak, inputHint: InputHints.AcceptingInput);
         }
 
         public static IMessageActivity BuildHelpCard(ITurnContext turnContext, dynamic data)
@@ -110,9 +124,6 @@ namespace VirtualAssistant.Dialogs.Main
                 response.Speak = answer;
             }
 
-            // Ensure the InputHint is set to accepting
-            response.InputHint = InputHints.AcceptingInput;
-
             return response;
         }
 
@@ -123,6 +134,7 @@ namespace VirtualAssistant.Dialogs.Main
             public const string Confused = "confused";
             public const string Greeting = "greeting";
             public const string Help = "help";
+            public const string Intro = "intro";
             public const string Error = "error";
             public const string NoActiveDialog = "noActiveDialog";
             public const string Qna = "qna";

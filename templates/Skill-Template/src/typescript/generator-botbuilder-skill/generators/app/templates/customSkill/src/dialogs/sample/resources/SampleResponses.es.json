@@ -11,12 +11,12 @@
     "HaveNameMessage": {
       "replies": [
         {
-          "text": "¡Hola, {name}!",
-          "speak": "¡Hola, {name}!"
+          "text": "¡Hola, {Name}!",
+          "speak": "¡Hola, {Name}!"
         },
         {
-          "text": "Encantado de conocerte, {name}!",
-          "speak": "Encantado de conocerte, {name}!"
+          "text": "Encantado de conocerte, {Name}!",
+          "speak": "Encantado de conocerte, {Name}!"
         }
       ],
       "inputHint": "acceptingInput"

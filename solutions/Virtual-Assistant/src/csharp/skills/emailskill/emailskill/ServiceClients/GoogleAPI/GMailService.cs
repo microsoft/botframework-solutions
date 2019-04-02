@@ -557,28 +557,6 @@ namespace EmailSkill.ServiceClients.GoogleAPI
                 message.ReplyTo = replyTo;
             }
 
-            // Set importance
-            switch (mime.Importance)
-            {
-                case MessageImportance.Low:
-                    message.Importance = Importance.Low;
-                    break;
-                case MessageImportance.Normal:
-                    message.Importance = Importance.Normal;
-                    break;
-                case MessageImportance.High:
-                    message.Importance = Importance.High;
-                    break;
-                default:
-                    break;
-            }
-
-            // Set attachment status
-            if (mime.Attachments != null && mime.Attachments.Count() > 0)
-            {
-                message.HasAttachments = true;
-            }
-
             return message;
         }
     }

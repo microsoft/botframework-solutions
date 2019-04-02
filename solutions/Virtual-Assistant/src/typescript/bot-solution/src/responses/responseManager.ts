@@ -1,16 +1,14 @@
-/**
- * Copyright(c) Microsoft Corporation.All rights reserved.
- * Licensed under the MIT License.
- */
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 import { ActivityTypes } from 'botbuilder';
 import { Activity, CardFactory, MessageFactory } from 'botbuilder-core';
 import { ActionTypes, Attachment } from 'botframework-schema';
 import { readFileSync } from 'fs';
-import i18next from 'i18next';
+import { getLocale } from 'i18n';
 import { join } from 'path';
 import { Card } from './card';
-import { ICardData } from './cardData';
+import { ICardData } from './cardDataBase';
 import { Reply } from './reply';
 import { IResponseIdCollection } from './responseIdCollection';
 import { ResponseTemplate } from './responseTemplate';
@@ -21,7 +19,7 @@ export class ResponseManager {
     private static readonly simpleTokensRegex: RegExp = /\{(\w+)\}/g;
     private static readonly complexTokensRegex: RegExp = /\{[^{\}]+(?=})\}/g;
 
-    constructor(locales: string[], responseTemplates: IResponseIdCollection[]) {
+    constructor(responseTemplates: IResponseIdCollection[], locales: string[]) {
 
         this.jsonResponses = new Map();
 
@@ -42,7 +40,7 @@ export class ResponseManager {
     public jsonResponses: Map<string, Map<string, ResponseTemplate>>;
 
     public getResponse(templateId: string, tokens?: Map<string, string>): Partial<Activity> {
-        const locale: string = i18next.language;
+        const locale: string = getLocale();
         const template: ResponseTemplate = this.getResponseTemplate(templateId, locale);
 
         // create the response the data items
@@ -50,7 +48,7 @@ export class ResponseManager {
     }
 
     public getCardResponse(cards: Card | Card[]): Partial<Activity> {
-        const locale: string = i18next.language;
+        const locale: string = getLocale();
         const resourcePath: string = join(__dirname, '..', 'resources', 'cards');
 
         if (cards instanceof Card) {
@@ -72,7 +70,7 @@ export class ResponseManager {
 
     public getCardResponseWithTemplateId(templateId: string, cards: Card | Card[], tokens?: Map<string, string>): Partial<Activity> {
         const response: Partial<Activity> = this.getResponse(templateId, tokens);
-        const locale: string = i18next.language;
+        const locale: string = getLocale();
         const resourcePath: string = join(__dirname, '..', 'resources', 'cards');
 
         if (cards instanceof Card) {
@@ -93,7 +91,7 @@ export class ResponseManager {
     }
 
     public getResponseTemplate(templateId: string, locale?: string): ResponseTemplate {
-        let localeKey: string = locale !== undefined ? locale : i18next.language;
+        let localeKey: string = locale !== undefined ? locale : getLocale();
 
         // warm up the JsonResponses loading to see if it actually exist.
         // If not, throw with the loading time exception that's actually helpful

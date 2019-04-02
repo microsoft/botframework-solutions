@@ -11,12 +11,12 @@
     "HaveNameMessage": {
       "replies": [
         {
-          "text": "Bonjour, {name}!",
-          "speak": "Bonjour, {name}!"
+          "text": "Bonjour, {Name}!",
+          "speak": "Bonjour, {Name}!"
         },
         {
-          "text": "Enchanté, {name}!",
-          "speak": "Enchanté, {name}!"
+          "text": "Enchanté, {Name}!",
+          "speak": "Enchanté, {Name}!"
         }
       ],
       "inputHint": "acceptingInput"

@@ -12,10 +12,6 @@
     {
       "packageName": "bot-solution",
       "projectFolder": "bot-solution"
-    },
-    {
-      "packageName": "sampleSkill",
-      "projectFolder": "skills/sampleSkill"
     }
   ]
 }

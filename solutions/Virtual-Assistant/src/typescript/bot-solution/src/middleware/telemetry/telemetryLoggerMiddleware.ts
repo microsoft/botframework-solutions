@@ -1,8 +1,3 @@
-/**
- * Copyright(c) Microsoft Corporation.All rights reserved.
- * Licensed under the MIT License.
- */
-
 import { Activity, ActivityTypes, BotTelemetryClient, ConversationReference, Middleware, ResourceResponse, TurnContext } from 'botbuilder';
 import { TelemetryExtensions } from './telemetryExtensions';
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
@@ -23,7 +22,6 @@ using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
-using Microsoft.Graph;
 
 namespace EmailSkill.Dialogs.ShowEmail
 {
@@ -248,21 +246,20 @@ namespace EmailSkill.Dialogs.ShowEmail
                     || (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true))
                     && message != null)
                 {
-                    var senderIcon = await GetUserPhotoUrlAsync(sc.Context, message.Sender.EmailAddress);
+                    var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(message.ToRecipients);
+
                     var emailCard = new EmailCardData
                     {
                         Subject = message.Subject,
                         Sender = message.Sender.EmailAddress.Name,
+                        NameList = string.Format(EmailCommonStrings.ToFormat, nameListString),
                         EmailContent = message.BodyPreview,
                         EmailLink = message.WebLink,
                         ReceivedDateTime = message?.ReceivedDateTime == null
                             ? CommonStrings.NotAvailable
-                            : message.ReceivedDateTime.Value.UtcDateTime.ToDetailRelativeString(state.GetUserTimeZone()),
+                            : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(state.GetUserTimeZone()),
                         Speak = SpeakHelper.ToSpeechEmailDetailOverallString(message, state.GetUserTimeZone()),
-                        SenderIcon = senderIcon
                     };
-
-                    emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, message.ToRecipients);
 
                     var tokens = new StringDictionary()
                     {
@@ -270,13 +267,10 @@ namespace EmailSkill.Dialogs.ShowEmail
                         { "EmailDetailsWithContent", SpeakHelper.ToSpeechEmailDetailString(message, state.GetUserTimeZone(), true) },
                     };
 
-                    var recipientCard = message.ToRecipients.Count() > 5 ? "DetailCard_RecipientMoreThanFive" : "DetailCard_RecipientLessThanFive";
                     var replyMessage = ResponseManager.GetCardResponse(
                         ShowEmailResponses.ReadOutMessage,
                         new Card("EmailDetailCard", emailCard),
-                        tokens,
-                        "items",
-                        new List<Card>().Append(new Card(recipientCard, emailCard)));
+                        tokens);
 
                     // Set email as read.
                     var service = ServiceManager.InitMailService(state.Token, state.GetUserTimeZone(), state.MailSourceType);
@@ -489,17 +483,7 @@ namespace EmailSkill.Dialogs.ShowEmail
 
                         if (state.MessageList.Count > 1)
                         {
-                            int importCount = 0;
-
-                            foreach (var msg in state.MessageList)
-                            {
-                                if (msg.Importance.HasValue && msg.Importance.Value == Importance.High)
-                                {
-                                    importCount++;
-                                }
-                            }
-
-                            await ShowMailList(sc, state.MessageList, state.MessageList.Count(), importCount, cancellationToken);
+                            await ShowMailList(sc, state.MessageList, state.MessageList.Count(), cancellationToken);
                             return await sc.NextAsync();
                         }
                         else if (state.MessageList.Count == 1)

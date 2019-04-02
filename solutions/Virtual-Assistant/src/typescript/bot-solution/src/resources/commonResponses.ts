@@ -1,8 +1,3 @@
-/**
- * Copyright(c) Microsoft Corporation.All rights reserved.
- * Licensed under the MIT License.
- */
-
 import { IResponseIdCollection } from "../responses/responseIdCollection";
 
 export class CommonResponses implements IResponseIdCollection {

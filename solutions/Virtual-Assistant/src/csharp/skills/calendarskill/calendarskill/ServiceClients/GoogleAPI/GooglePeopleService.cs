@@ -101,7 +101,7 @@ namespace CalendarSkill.ServiceClients.GoogleAPI
             {
                 throw GoogleClient.HandleGoogleAPIException(ex);
             }
-        }
+}
 
         // get people work with
         private async Task<List<Person>> GetGooglePeopleAsync(string name)

@@ -1,17 +1,9 @@
-/**
- * Copyright(c) Microsoft Corporation.All rights reserved.
- * Licensed under the MIT License.
- */
-
 import { Activity, BotAdapter, ConversationReference, Middleware, ResourceResponse, TurnContext } from 'botbuilder';
 import { setTimeout } from 'timers';
 import { ActivityExtensions } from '../extensions';
-import { IBackgroundTaskQueue } from '../taskExtensions';
-import { CommonUtil } from '../util';
 
 export class InProcAdapter extends BotAdapter {
     private readonly queuedActivities: Partial<Activity>[];
-    private messageReceivedHandler?: (activities: Partial<Activity>[]) => Promise<void>;
 
     private lastId: number = 0;
 
@@ -19,17 +11,12 @@ export class InProcAdapter extends BotAdapter {
         return (this.lastId + 1).toString();
     }
 
-    public backgroundTaskQueue?: IBackgroundTaskQueue;
-
     constructor() {
         super();
         this.queuedActivities = [];
     }
 
-    public async processActivity(activity: Partial<Activity>,
-                                 callback: (revocableContext: TurnContext) => Promise<void>,
-                                 messageReceivedHandler?: (activities: Partial<Activity>[]) => Promise<void>): Promise<void> {
-        this.messageReceivedHandler = messageReceivedHandler;
+    public async processActivity(activity: Partial<Activity>, callback: (revocableContext: TurnContext) => Promise<void>): Promise<void> {
         const context: TurnContext = new TurnContext(this, activity);
         await this.runMiddleware(context, callback);
     }
@@ -66,7 +53,6 @@ export class InProcAdapter extends BotAdapter {
 
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses: ResourceResponse[] = [];
-        const proactiveActivities: Partial<Activity>[] = [];
 
         activities.forEach(async(activity: Partial<Activity>) => {
             if (!activity.id) {
@@ -85,23 +71,11 @@ export class InProcAdapter extends BotAdapter {
                 const delayMs: number = activity.value;
                 await this.sleep(delayMs);
             } else {
-                if (activity.deliveryMode === CommonUtil.deliveryModeProactive) {
-                    proactiveActivities.push(activity);
-                } else {
-                    this.queuedActivities.push(activity);
-                }
+                this.queuedActivities.push(activity);
             }
 
             responses.push({ id: activity.id });
         });
-
-        if (proactiveActivities.length > 0 && this.backgroundTaskQueue !== undefined && this.messageReceivedHandler !== undefined) {
-            this.backgroundTaskQueue.queueBackgroundWorkItem(async () => {
-                if (this.messageReceivedHandler !== undefined) {
-                    await this.messageReceivedHandler(proactiveActivities);
-                }
-            });
-        }
 
         return responses;
     }

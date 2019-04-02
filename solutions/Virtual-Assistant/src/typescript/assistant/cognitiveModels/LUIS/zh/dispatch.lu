@@ -1,4 +1,4 @@
-﻿> Construct the root dispatch LUIS model based on other .lu files
+> Construct the root dispatch LUIS model based on other .lu files
 
 # l_General
 - [l_General](general.lu#Cancel)
@@ -63,8 +63,3 @@ $ADDRESS:simple
 
 # q_FAQ
 - [q_FAQ](../../QnA/zh/faq.lu#?)
-
-# None
-- 我的水瓶是绿色的
-- 海龟喜欢在海里游泳
-- 天空中的纸飞机

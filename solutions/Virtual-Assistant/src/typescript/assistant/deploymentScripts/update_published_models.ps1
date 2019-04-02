@@ -1,18 +1,16 @@
-#Requires -Version 6
-
 param (
 	[string] $locales = "de-de,en-us,es-es,fr-fr,it-it,zh-cn",
 	[string] $serviceIds
 )
 
-$basePath = Join-Path $PSScriptRoot ".." "LocaleConfigurations"
-$botFiles = get-childitem $basePath -recurse | where {$_.extension -eq ".bot"} 
-$localeArr = $locales.split(',')
+$basePath = "$($PSScriptRoot)\..\LocaleConfigurations"
+$botFiles = get-childitem $basePath -recurse | Where-Object {$_.extension -eq ".bot"} 
+$localeArr = $locales.split(',')[0].split(" ")
 
 Write-Host $localeArr
 
 if ($PSBoundParameters.ContainsKey('serviceIds')) {
-	$serviceIdArr = $serviceIds.split(',')
+	$serviceIdArr = $serviceIds.split(',')[0].split(" ")
 }
 else {
 	$serviceIdArr = @()
@@ -21,27 +19,25 @@ else {
 function UpdateLUIS ($botFilePath, $langCode, $id) {
 	$versions = msbot get $id --bot $botFilePath | luis list versions --stdin | ConvertFrom-Json
 
-	if ($versions | where {$_.version -eq "backup"})
+	if ($versions | Where-Object {$_.version -eq "backup"})
 	{
 		msbot get $id --bot $botFilePath | luis delete version --stdin --versionId backup --force --wait
 	}
-	
+		
 	msbot get $id --bot $botFilePath | luis rename version --newVersionId backup --stdin --wait
-	msbot get $id --bot $botFilePath | luis import version --stdin --in "$(Join-Path $PSScriptRoot $langCode $id).luis" --wait
+	msbot get $id --bot $botFilePath | luis import version --stdin --in "$($PSScriptRoot)\$($langCode)\$($id).luis" --wait
 	msbot get $id --bot $botFilePath | luis train version --wait --stdin 
 	msbot get $id --bot $botFilePath | luis publish version --stdin
 }
 
 function UpdateKB ($botFilePath, $langCode, $id) {
-	Write-Host "Updating $($langCode) knowledge base $($id)..."
-
-	msbot get $id --bot $botFilePath | qnamaker replace kb --in "$(Join-Path $PSScriptRoot $langCode $id).qna" --stdin
+	msbot get $id --bot $botFilePath | qnamaker replace kb --in "$($PSScriptRoot)\$($langCode)\$($id).qna" --stdin
 	msbot get $id --bot $botFilePath | qnamaker publish kb --stdin
 }
 
 function ImportLUIS ($botFileName, $botFilePath, $langCode, $id, $sampleService) {
-	$luisService = luis import application --appName "$($botFileName)_$($id)" --authoringKey $sampleService.authoringKey --subscriptionKey $sampleService.authoringKey --region $sampleService.region --in "$(Join-Path $recipeBasePath $id).luis" --wait --msbot | ConvertFrom-Json
-	Add-Member -InputObject $luisService -MemberType NoteProperty -Name id -Value $id -Force
+	$luisService = luis import application --appName "$($botFileName)_$($id)" --authoringKey $sampleService.authoringKey --subscriptionKey $sampleService.authoringKey --region $sampleService.region --in "$($recipeBasePath)\$($id).luis" --wait --msbot | ConvertFrom-Json
+	Add-Member -InputObject $luisService -MemberType NoteProperty -Name id -Value $id
 
 	$botServices = Get-Content -Raw -Path $botFilePath | ConvertFrom-Json
 	$botServices.services += $luisService
@@ -53,9 +49,8 @@ function ImportLUIS ($botFileName, $botFilePath, $langCode, $id, $sampleService)
 }
 
 function ImportKB ($botFilePath, $langCode, $id, $sampleService){
-	Write-Host "Importing $($langCode) knowledge base $($id)..."
-	$qnaService = qnamaker create kb --in "$(Join-Path $recipeBasePath $id).qna" --name $id --subscriptionKey $sampleService.subscriptionKey --msbot | ConvertFrom-Json
-	Add-Member -InputObject $qnaService -MemberType NoteProperty -Name id -Value $id -Force
+	$qnaService = qnamaker create kb --in "$($recipeBasePath)\$($id).qna" --name $id --subscriptionKey $sampleService.subscriptionKey --msbot | ConvertFrom-Json
+	Add-Member -InputObject $qnaService -MemberType NoteProperty -Name id -Value $id
 
 	$botServices = Get-Content -Raw -Path $botFilePath | ConvertFrom-Json
 	$botServices.services += $qnaService
@@ -66,18 +61,18 @@ function ImportKB ($botFilePath, $langCode, $id, $sampleService){
 }
 
 foreach ($locale in $localeArr) {
-	Invoke-Expression "$(Join-Path $PSScriptRoot generate_deployment_scripts.ps1) -locale $($locale)"
+	Invoke-Expression "$($PSScriptRoot)\generate_deployment_scripts.ps1 -locale $($locale)"
 }
 
 foreach ($botFile in $botFiles) {
-	$botFileName = $botFile | % {$_.BaseName}
-	$botFilePath = $botFile.FullName
+	$botFileName = $botFile | ForEach-Object {$_.BaseName}
+	$botFilePath = "$($basePath)\$($botFile)"
 	$langCode = $botFileName.Substring($botFileName.Length - 2, 2)
-	$recipeBasePath = Join-Path $PSScriptRoot $langCode
-	$recipePath = Join-Path $recipeBasePath "bot.recipe"
+	$recipeBasePath = "$($PSScriptRoot)\$($langCode)"
+	$recipePath = "$($recipeBasePath)\bot.recipe"
 
 	# if locale of bot file is in the list
-	if ($localeArr | where {$_ -like "*$($langCode)*"}) {
+	if ($localeArr | Where-Object {$_ -like "*$($langCode)*"}) {
 		
 		# get the services from the bot file
 		$botServices = Get-Content -Raw -Path $botFilePath | ConvertFrom-Json
@@ -90,37 +85,34 @@ foreach ($botFile in $botFiles) {
 			foreach ($serviceId in $serviceIdArr) {
 
 				# get the service from .bot and .recipe
-				$service = $botServices.services | where { $_.id -eq $serviceId }
-				$recipeService = $recipeServices.resources | where { $_.id -eq $serviceId}
+				$service = $botServices.services | Where-Object { $_.id -eq $serviceId }
+				$recipeService = $recipeServices.resources | Where-Object { $_.id -eq $serviceId}
 
 				# if service exists in .bot file
 				if ($service) {
-					# if LUIS or dispatch call UpdateLUIS, else call UpdateKB
+
+					# if LUIS or dispatch call UpdateLUIS, else call UpdateQnA
 					if (($service.type -eq "luis") -or ($service.type -eq "dispatch")) {
 						UpdateLUIS $botFilePath $langCode $service.id
 
 						if ($service.id -eq "dispatch") {
-							luisgen "$(Join-Path $basePath .. deploymentScripts $langCode dispatch.luis)" -ts dispatch -o "$(Join-Path $basePath .. src dialogs shared resources)"
+							luisgen "$($basePath)\..\DeploymentScripts\$($langCode)\dispatch.luis" -cs Dispatch -o "$($basePath)\..\Dialogs\Shared\Resources"
 						}
 						else {
-							luisgen "$(Join-Path $basePath .. deploymentScripts $langCode $service.id).luis" -ts "$($recipeService.Name)LU" -o "$(Join-Path $basePath .. $recipeService.luPath .. .. .. .. src dialogs shared resources)"
+							luisgen "$($basePath)\..\DeploymentScripts\$($langCode)\$($service.id).luis" -cs "$($recipeService.Name)LU" -o "$($basePath)\..\$($recipeService.luPath)\..\..\..\..\Dialogs\Shared\Resources"
 						}
 					}
-					elseif ($service.type -eq "qna") {
-						UpdateKB $botFilePath $langCode $service.id
+					elseif ($service.type -eq "faq") {
+						UpdateQnA $botFilePath $langCode $service.id
 					}
 				}
 				elseif ($recipeService) {
 					if ($recipeService.type -eq "luis") {
-						$sampleService = $botServices.services | where { $_.type -eq "luis" } | Select-Object -First 1
-						ImportLUIS $botFileName $botFilePath $langCode $service.id $sampleService
-					}
-					elseif ($recipeService.type -eq "dispatch") {
-						$sampleService = $botServices.services | where { $_.type -eq "luis" } | Select-Object -First 1
+						$sampleService = $botServices.services | Where-Object { $_.type -eq "luis" } | Select-Object -First 1
 						ImportLUIS $botFileName $botFilePath $langCode $service.id $sampleService
 					}
 					elseif($recipeService.type -eq "qna"){
-						$sampleService = $botServices.services | where { $_.type -eq "qna" } | Select-Object -First 1
+						$sampleService = $botServices.services | Where-Object { $_.type -eq "qna" } | Select-Object -First 1
 						ImportKB $botFilePath $langCode $service.id $sampleService
 					}
 				}
@@ -132,37 +124,37 @@ foreach ($botFile in $botFiles) {
 			foreach ($recipeService in $recipeServices.resources) {
 
 				# if service exists in bot file
-				$service = $botServices.services | where { $_.id -eq $recipeService.id }
+				$service = $botServices.services | Where-Object { $_.id -eq $recipeService.id }
 
 				if ($service) {
 					if (($service.type -eq "luis") -or ($service.type -eq "dispatch")) {
 						UpdateLUIS $botFilePath $langCode $service.id
 
 						if ($service.id -eq "dispatch") {
-							luisgen "$(Join-Path $basePath .. deploymentScripts $langCode dispatch.luis)" -ts dispatch -o "$(Join-Path $basePath .. src dialogs shared resources)"
+							luisgen "$($basePath)\..\DeploymentScripts\$($langCode)\dispatch.luis" -cs Dispatch -o "$($basePath)\..\Dialogs\Shared\Resources"
 						}
 						else {
-							luisgen "$(Join-Path $basePath .. deploymentScripts $langCode $service.id).luis" -ts "$($recipeService.Name)LU" -o "$(Join-Path $basePath .. $recipeService.luPath .. .. .. .. src dialogs shared resources)"
+							luisgen "$($basePath)\..\DeploymentScripts\$($langCode)\$($service.id).luis" -cs "$($recipeService.Name)LU" -o "$($basePath)\..\$($recipeService.luPath)\..\..\..\..\Dialogs\Shared\Resources"
 						}
 					}
-					elseif ($service.type -eq "qna") {
-						UpdateKB $botFilePath $langCode $service.id
+					elseif ($service.type -eq "faq") {
+						UpdateQnA $botFilePath $langCode $service.id
 					}
 				}
 				else {
 					if ($recipeService.type -eq "luis") {
-						$sampleService = $botServices.services | where { $_.type -eq "luis" } | Select-Object -First 1
+						$sampleService = $botServices.services | Where-Object { $_.type -eq "luis" } | Select-Object -First 1
 						ImportLUIS $botFileName $botFilePath $langCode $recipeService.id $sampleService
 
 						if ($service.id -eq "dispatch") {
-							luisgen "$(Join-Path $basePath .. deploymentScripts $langCode dispatch.luis)" -ts dispatch -o "$(Join-Path $basePath .. src dialogs shared resources)"
+							luisgen "$($basePath)\..\DeploymentScripts\$($langCode)\dispatch.luis" -cs Dispatch -o "$($basePath)\..\Dialogs\Shared\Resources"
 						}
 						else {
-							luisgen "$(Join-Path $basePath .. deploymentScripts $langCode $service.id).luis" -ts "$($recipeService.Name)LU" -o "$(Join-Path $basePath .. $recipeService.luPath .. .. .. .. src dialogs shared resources)"
+							luisgen "$($basePath)\..\DeploymentScripts\$($langCode)\$($service.id).luis" -cs "$($recipeService.Name)LU" -o "$($basePath)\..\$($recipeService.luPath)\..\..\..\..\Dialogs\Shared\Resources"
 						}
 					}
 					elseif ($recipeService.type -eq "qna") {
-						$sampleService = $botServices.services | where { $_.type -eq "qna" } | Select-Object -First 1
+						$sampleService = $botServices.services | Where-Object { $_.type -eq "qna" } | Select-Object -First 1
 						ImportKB $botFilePath $langCode $recipeService.id $sampleService
 					}
 				}

@@ -1,4 +1,4 @@
-﻿> Construct the root dispatch LUIS model based on other .lu files
+> Construct the root dispatch LUIS model based on other .lu files
 
 # l_General
 - [l_General](general.lu#Cancel)
@@ -63,8 +63,3 @@ $ADDRESS:simple
 
 # q_FAQ
 - [q_FAQ](../../QnA/es/faq.lu#?)
-
-# None
-- mi botella de agua es verde
-- a las tortugas les gusta nadar en el océano
-- aviones de papel en el cielo

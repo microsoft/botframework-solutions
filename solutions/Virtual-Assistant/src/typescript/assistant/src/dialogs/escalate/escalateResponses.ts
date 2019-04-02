@@ -1,9 +1,7 @@
-/**
- * Copyright(c) Microsoft Corporation.All rights reserved.
- * Licensed under the MIT License.
- */
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License
 
-import i18next from 'i18next';
+import { __ } from 'i18n';
 import {
     DictionaryRenderer,
     LanguageTemplateDictionary,
@@ -33,6 +31,6 @@ export class EscalateResponses extends TemplateManager {
     }
 
     private static fromResources(name: string): TemplateFunction {
-        return (): Promise<string> => Promise.resolve(i18next.t(name));
+        return (): Promise<string> => Promise.resolve(__(name));
     }
 }

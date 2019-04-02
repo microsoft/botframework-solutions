@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using EmailSkill.Model;
 using EmailSkill.ServiceClients;
 using EmailSkill.ServiceClients.GoogleAPI;
 using EmailSkillTest.API.Fakes.Google;
@@ -38,21 +37,21 @@ namespace EmailSkillTest.API.Service
         [TestMethod]
         public async Task GetPeopleAsyncTest()
         {
-            List<PersonModel> result = await UserService.GetPeopleAsync("Doe");
+            List<Person> result = await UserService.GetPeopleAsync("Doe");
             Assert.IsTrue(result.Count == 2);
         }
 
         [TestMethod]
         public async Task GetUserAsyncTest()
         {
-            List<PersonModel> result = await UserService.GetUserAsync("Doe");
+            List<User> result = await UserService.GetUserAsync("Doe");
             Assert.IsTrue(result.Count == 0);
         }
 
         [TestMethod]
         public async Task GetContactsAsyncTest()
         {
-            List<PersonModel> result = await UserService.GetContactsAsync("Doe");
+            List<Contact> result = await UserService.GetContactsAsync("Doe");
             Assert.IsTrue(result.Count == 0);
         }
     }

@@ -5,25 +5,13 @@
       "type": "luis",
       "id": "general",
       "name": "General",
-      "luPath": "cognitiveModels\\LUIS\\en\\general.lu"
+      "luPath": "CognitiveModels\\LUIS\\en\\general.lu"
     },
     {
       "type": "qna",
       "id": "faq",
       "name": "FAQ",
-      "luPath": "cognitiveModels\\QnA\\en\\faq.lu"
-    },
-    {
-      "type": "qna",
-      "id": "chitchat",
-      "name": "ChitChat",
-      "luPath": "cognitiveModels\\QnA\\en\\chitchat.lu"
-    },
-    {
-      "type": "luis",
-      "id": "sample",
-      "name": "sample",
-      "luPath": "..\\skills\\sampleSkill\\cognitiveModels\\LUIS\\en\\sample.lu"
+      "luPath": "CognitiveModels\\QnA\\en\\faq.lu"
     }
   ]
 }

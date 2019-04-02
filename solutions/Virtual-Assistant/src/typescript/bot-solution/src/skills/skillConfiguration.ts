@@ -1,8 +1,3 @@
-/**
- * Copyright(c) Microsoft Corporation.All rights reserved.
- * Licensed under the MIT License.
- */
-
 import { LuisApplication, QnAMakerEndpoint } from 'botbuilder-ai';
 import { CosmosDbStorageSettings } from 'botbuilder-azure';
 import { BotConfiguration, DispatchService, GenericService, IConnectedService,

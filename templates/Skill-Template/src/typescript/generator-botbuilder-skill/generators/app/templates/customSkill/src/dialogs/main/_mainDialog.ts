@@ -20,20 +20,19 @@ import {
     UserState } from 'botbuilder';
 import { LuisRecognizer } from 'botbuilder-ai';
 import {
-    Dialog,
     DialogContext,
     DialogTurnResult,
     DialogTurnStatus } from 'botbuilder-dialogs';
 // tslint:disable-next-line:no-implicit-dependencies no-submodule-imports
 import { TokenStatus } from 'botframework-connector/lib/tokenApi/models';
-import i18next from 'i18next';
+import { getLocale } from 'i18n';
 import { IServiceManager } from '../../serviceClients/IServiceManager';
 import { SampleDialog } from '../sample/sampleDialog';
 import { SkillTemplateDialogOptions } from '../shared/dialogOptions/skillTemplateDialogOptions';
 import { SharedResponses } from '../shared/sharedResponses';
 import { MainResponses } from './mainResponses';
 
-import { ISkillConversationState } from '../../skillConversationState';
+import { <%=skillConversationStateNameClass%> } from '../../<%=skillConversationStateNameFile%>';
 
 import { <%=skillUserStateNameClass%> } from '../../<%=skillUserStateNameFile%>';
 
@@ -47,11 +46,10 @@ export class MainDialog extends RouterDialog {
     private userState: UserState;
     private conversationState: ConversationState;
     private serviceManager: IServiceManager;
-    private conversationStateAccessor: StatePropertyAccessor<ISkillConversationState>;
+    private conversationStateAccessor: StatePropertyAccessor<<%=skillConversationStateNameClass%>>;
     private userStateAccessor: StatePropertyAccessor<<%=skillUserStateNameClass%>>;
     private generalLUISName: string = 'general';
-    private projectName: string = '<%=skillProjectNameId%>';
-
+    private projectName: string = '<%=skillProjectName%>';
     constructor(
         services: SkillConfigurationBase,
         responseManager: ResponseManager,
@@ -69,7 +67,7 @@ export class MainDialog extends RouterDialog {
             this.serviceManager = serviceManager;
 
             // Initialize state accessor
-            this.conversationStateAccessor = conversationState.createProperty('ISkillConversationState');
+            this.conversationStateAccessor = conversationState.createProperty('<%=skillConversationStateNameClass%>');
             this.userStateAccessor = userState.createProperty('<%=skillUserStateNameClass%>');
 
             // RegisterDialogs
@@ -88,7 +86,7 @@ export class MainDialog extends RouterDialog {
         const state: any = this.conversationState.get(dc.context);
 
         // get current activity locale
-        const locale: string = i18next.language;
+        const locale: string = getLocale();
         const localeConfig: LocaleConfiguration = (this.services.localeConfigurations.get(locale) || new LocaleConfiguration());
 
         // Get skill LUIS model from configuration
@@ -129,7 +127,7 @@ export class MainDialog extends RouterDialog {
                 }
             }
 
-            if (turnResult !== Dialog.EndOfTurn) {
+            if (turnResult) {
                 await this.complete(dc);
             }
         }
@@ -185,7 +183,7 @@ export class MainDialog extends RouterDialog {
 
         if (dc.context.activity.type === ActivityTypes.Message) {
             // get current activity locale
-            const locale: string = i18next.language;
+            const locale: string = getLocale();
             const localeConfig: LocaleConfiguration = (this.services.localeConfigurations.get(locale) || new LocaleConfiguration());
 
             // check general luis intent
@@ -195,23 +193,22 @@ export class MainDialog extends RouterDialog {
             } else {
                 const luisResult: RecognizerResult =  await luisService.recognize(dc, true);
                 const topIntent: string = LuisRecognizer.topIntent(luisResult);
-                if (luisResult.intents[topIntent].score > 0.5) {
-                    switch (topIntent) {
-                        case 'Cancel': {
-                            result = await this.onCancel(dc);
-                            break;
-                        }
-                        case 'Help': {
-                            result = await this.onHelp(dc);
-                            break;
-                        }
-                        case 'Logout': {
-                            result = await this.onLogout(dc);
-                            break;
-                        }
-                        default: {
-                            // empty block
-                        }
+
+                switch (topIntent) {
+                    case 'Cancel': {
+                        result = await this.onCancel(dc);
+                        break;
+                    }
+                    case 'Help': {
+                        result = await this.onHelp(dc);
+                        break;
+                    }
+                    case 'Logout': {
+                        result = await this.onLogout(dc);
+                        break;
+                    }
+                    default: {
+                        // empty block
                     }
                 }
             }

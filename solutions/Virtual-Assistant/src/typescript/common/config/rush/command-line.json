@@ -21,13 +21,6 @@
             "summary": "Run tslint",
             "safeForSimultaneousRushProcesses": true,
             "enableParallelism": true
-        },
-        {
-            "commandKind": "bulk",
-            "name": "test",
-            "summary": "Run tests",
-            "safeForSimultaneousRushProcesses": false,
-            "enableParallelism": false
         }
     ]
 }

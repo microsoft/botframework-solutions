@@ -516,6 +516,7 @@ namespace EmailSkillTest.Flow
                     });
 
                     CollectionAssert.Contains(replies, messageActivity.Text);
+                    Assert.AreEqual(messageActivity.Attachments.Count, expectCount);
                 }
             };
         }

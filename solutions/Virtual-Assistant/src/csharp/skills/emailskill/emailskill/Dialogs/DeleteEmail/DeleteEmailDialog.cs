@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
@@ -10,12 +9,10 @@ using EmailSkill.Dialogs.Shared.DialogOptions;
 using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkill.Dialogs.Shared.Resources.Cards;
 using EmailSkill.Dialogs.Shared.Resources.Strings;
-using EmailSkill.Extensions;
 using EmailSkill.ServiceClients;
 using EmailSkill.Util;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
@@ -74,38 +71,27 @@ namespace EmailSkill.Dialogs.DeleteEmail
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
 
-                var message = state.Message?.FirstOrDefault();
-                if (message != null)
+                var focusedMessage = state.Message?.FirstOrDefault();
+                if (focusedMessage != null)
                 {
-                    var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(message.ToRecipients);
-                    var senderIcon = await GetUserPhotoUrlAsync(sc.Context, message.Sender.EmailAddress);
+                    var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(focusedMessage.ToRecipients);
                     var emailCard = new EmailCardData
                     {
-                        Subject = message.Subject,
-                        EmailContent = message.BodyPreview,
-                        Sender = message.Sender.EmailAddress.Name,
-                        EmailLink = message.WebLink,
-                        ReceivedDateTime = message?.ReceivedDateTime == null
-                            ? CommonStrings.NotAvailable
-                            : message.ReceivedDateTime.Value.UtcDateTime.ToDetailRelativeString(state.GetUserTimeZone()),
-                        Speak = SpeakHelper.ToSpeechEmailDetailOverallString(message, state.GetUserTimeZone()),
-                        SenderIcon = senderIcon
+                        Subject = string.Format(EmailCommonStrings.SubjectFormat, focusedMessage.Subject),
+                        NameList = string.Format(EmailCommonStrings.ToFormat, nameListString),
+                        EmailContent = string.Format(EmailCommonStrings.ContentFormat, focusedMessage.BodyPreview),
                     };
-                    emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, message.ToRecipients);
 
-                    var speech = SpeakHelper.ToSpeechEmailSendDetailString(message.Subject, nameListString, message.BodyPreview);
+                    var speech = SpeakHelper.ToSpeechEmailSendDetailString(focusedMessage.Subject, nameListString, focusedMessage.BodyPreview);
                     var tokens = new StringDictionary
                     {
                         { "EmailDetails", speech },
                     };
 
-                    var recipientCard = message.ToRecipients.Count() > 5 ? "DetailCard_RecipientMoreThanFive" : "DetailCard_RecipientLessThanFive";
                     var prompt = ResponseManager.GetCardResponse(
                         DeleteEmailResponses.DeleteConfirm,
-                        new Card("EmailDetailCard", emailCard),
-                        tokens,
-                        "items",
-                        new List<Card>().Append(new Card(recipientCard, emailCard)));
+                        new Card("EmailWithOutButtonCard", emailCard),
+                        tokens);
 
                     var retry = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendFailed);
 

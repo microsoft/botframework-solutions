@@ -151,6 +151,39 @@ namespace VirtualAssistant.Dialogs.Main.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {
+        ///  &quot;$schema&quot;: &quot;http://adaptivecards.io/schemas/adaptive-card.json&quot;,
+        ///  &quot;type&quot;: &quot;AdaptiveCard&quot;,
+        ///  &quot;version&quot;: &quot;1.0&quot;,
+        ///  &quot;speak&quot;: &quot;Welcome to your Virtual Assistant! Now that you&apos;re up and running, let&apos;s get started.&quot;,
+        ///  &quot;body&quot;: [
+        ///    {
+        ///      &quot;type&quot;: &quot;Image&quot;,
+        ///      &quot;url&quot;: &quot;https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU&quot;,
+        ///      &quot;size&quot;: &quot;stretch&quot;
+        ///    },
+        ///    {
+        ///      &quot;type&quot;: &quot;TextBlock&quot;,
+        ///      &quot;spacing&quot;: &quot;medium&quot;,
+        ///      &quot;size&quot;: &quot;default&quot;,
+        ///     [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Intro {
+            get {
+                return ResourceManager.GetString("Intro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .\Dialogs\Main\Resources\Intro.json.
+        /// </summary>
+        public static string INTRO_PATH {
+            get {
+                return ResourceManager.GetString("INTRO_PATH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ok, you&apos;re signed out..
         /// </summary>
         public static string LOGOUT {

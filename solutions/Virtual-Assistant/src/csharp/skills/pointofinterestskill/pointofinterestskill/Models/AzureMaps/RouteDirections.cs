@@ -15,8 +15,6 @@ namespace PointOfInterestSkill.Models
 
         public Route[] Routes { get; set; }
 
-        public string Provider { get; set; }
-
         public class Route
         {
             public Summary Summary { get; set; }

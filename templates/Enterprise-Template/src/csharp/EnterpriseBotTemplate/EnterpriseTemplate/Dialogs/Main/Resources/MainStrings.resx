@@ -160,6 +160,6 @@
     <value>HELP</value>
   </data>
   <data name="INTRO_PATH" xml:space="preserve">
-    <value>./Dialogs/Main/Resources/Intro.json</value>
+    <value>.\Dialogs\Main\Resources\Intro.json</value>
   </data>
 </root>

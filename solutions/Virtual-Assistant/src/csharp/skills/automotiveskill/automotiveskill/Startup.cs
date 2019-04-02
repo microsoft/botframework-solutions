@@ -125,7 +125,7 @@ namespace AutomotiveSkill
             services.AddSingleton<IBot, AutomotiveSkill>();
 
             // Add the http adapter to enable MVC style bot API
-            services.AddTransient<IBotFrameworkHttpAdapter>((sp) =>
+            services.AddSingleton<IBotFrameworkHttpAdapter>((sp) =>
             {
                 var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 

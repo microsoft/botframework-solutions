@@ -450,10 +450,10 @@ namespace EmailSkill.Dialogs.Shared
 
                 var emailCard = new EmailCardData
                 {
-                    Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : state.Subject,
-                    EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : state.Content,
+                    Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : string.Format(EmailCommonStrings.SubjectFormat, state.Subject),
+                    NameList = string.Format(EmailCommonStrings.ToFormat, nameListString),
+                    EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : string.Format(EmailCommonStrings.ContentFormat, state.Content),
                 };
-                emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.Recipients);
 
                 var speech = SpeakHelper.ToSpeechEmailSendDetailString(state.Subject, nameListString, state.Content);
                 var tokens = new StringDictionary
@@ -461,13 +461,10 @@ namespace EmailSkill.Dialogs.Shared
                     { "EmailDetails", speech },
                 };
 
-                var recipientCard = state.Recipients.Count() > 5 ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
                 var prompt = ResponseManager.GetCardResponse(
                     EmailSharedResponses.ConfirmSend,
                     new Card("EmailWithOutButtonCard", emailCard),
-                    tokens,
-                    "items",
-                    new List<Card>().Append(new Card(recipientCard, emailCard)));
+                    tokens);
 
                 var retry = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendFailed);
 
@@ -579,7 +576,7 @@ namespace EmailSkill.Dialogs.Shared
                         return await sc.BeginDialogAsync(Actions.CollectRecipient, skillOptions);
                     }
 
-                    if (Util.Util.IsEmail(userInput))
+                    if (IsEmail(userInput))
                     {
                         state.EmailList.Add(userInput);
                     }
@@ -639,7 +636,7 @@ namespace EmailSkill.Dialogs.Shared
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                var (messages, totalCount, importantCount) = await GetMessagesAsync(sc);
+                var (messages, totalCount) = await GetMessagesAsync(sc);
 
                 // Get display messages
                 var displayMessages = new List<Message>();
@@ -655,7 +652,7 @@ namespace EmailSkill.Dialogs.Shared
                     state.Message.Clear();
                     state.Message.Add(displayMessages[0]);
 
-                    await ShowMailList(sc, displayMessages, totalCount, importantCount, cancellationToken);
+                    await ShowMailList(sc, displayMessages, totalCount, cancellationToken);
                     return await sc.NextAsync();
                 }
                 else
@@ -708,25 +705,7 @@ namespace EmailSkill.Dialogs.Shared
                     var searchSubject = state.SearchTexts?.ToLowerInvariant();
                     var searchUserInput = userInput?.ToLowerInvariant();
 
-                    var searchType = EmailSearchType.None;
-                    (messages, searchType) = FilterMessages(messages, searchSender, searchSubject, searchUserInput);
-
-                    if (searchType == EmailSearchType.SearchByContact)
-                    {
-                        state.SearchTexts = null;
-                        if (state.SenderName == null)
-                        {
-                            state.SenderName = userInput;
-                        }
-                    }
-                    else if (searchType == EmailSearchType.SearchBySubject)
-                    {
-                        state.SenderName = null;
-                        if (state.SearchTexts == null)
-                        {
-                            state.SearchTexts = userInput;
-                        }
-                    }
+                    messages = FilterMessages(messages, searchSender, searchSubject, searchUserInput);
 
                     state.MessageList = messages;
                     state.Message.Clear();
@@ -870,14 +849,12 @@ namespace EmailSkill.Dialogs.Shared
             }
         }
 
-        protected (List<Message>, EmailSearchType) FilterMessages(List<Message> messages, string searchSender, string searchSubject, string searchUserInput)
+        protected List<Message> FilterMessages(List<Message> messages, string searchSender, string searchSubject, string searchUserInput)
         {
             if ((searchSender == null) && (searchSubject == null) && (searchUserInput == null))
             {
-                return (messages, EmailSearchType.None);
+                return messages;
             }
-
-            var searchType = EmailSearchType.None;
 
             // Get display messages
             var displayMessages = new List<Message>();
@@ -886,53 +863,24 @@ namespace EmailSkill.Dialogs.Shared
                 var messageSender = messages[i].Sender?.EmailAddress?.Name?.ToLowerInvariant();
                 var messageSubject = messages[i].Subject?.ToLowerInvariant();
 
-                if (messageSender != null)
+                if (messageSender != null
+                    && (((searchSender != null) && messageSender.Contains(searchSender))
+                    || ((searchUserInput != null) && messageSender.Contains(searchUserInput))))
                 {
-                    if ((searchType == EmailSearchType.None) || (searchType == EmailSearchType.SearchByContact))
-                    {
-                        if (((searchSender != null) && messageSender.Contains(searchSender))
-                        || ((searchUserInput != null) && messageSender.Contains(searchUserInput)))
-                        {
-                            displayMessages.Add(messages[i]);
-
-                            searchType = EmailSearchType.SearchByContact;
-                            if (searchSender == null)
-                            {
-                                searchSender = searchUserInput;
-                            }
-
-                            searchSubject = null;
-                            continue;
-                        }
-                    }
+                    displayMessages.Add(messages[i]);
                 }
-
-                if (messageSubject != null)
+                else if (messageSubject != null
+                    && (((searchSubject != null) && messageSubject.Contains(searchSubject))
+                    || ((searchUserInput != null) && messageSubject.Contains(searchUserInput))))
                 {
-                    if ((searchType == EmailSearchType.None) || (searchType == EmailSearchType.SearchBySubject))
-                    {
-                        if (((searchSubject != null) && messageSubject.Contains(searchSubject))
-                        || ((searchUserInput != null) && messageSubject.Contains(searchUserInput)))
-                        {
-                            displayMessages.Add(messages[i]);
-
-                            searchType = EmailSearchType.SearchBySubject;
-                            if (searchSubject == null)
-                            {
-                                searchSubject = searchUserInput;
-                            }
-
-                            searchSender = null;
-                            continue;
-                        }
-                    }
+                    displayMessages.Add(messages[i]);
                 }
             }
 
-            return (displayMessages, searchType);
+            return displayMessages;
         }
 
-        protected async Task<(List<Message>, int, int)> GetMessagesAsync(WaterfallStepContext sc)
+        protected async Task<(List<Message>, int)> GetMessagesAsync(WaterfallStepContext sc)
         {
             var result = new List<Message>();
 
@@ -955,17 +903,7 @@ namespace EmailSkill.Dialogs.Shared
             // Filter messages
             var searchSender = state.GeneralSenderName?.ToLowerInvariant();
             var searchSubject = state.GeneralSearchTexts?.ToLowerInvariant();
-            var searchType = EmailSearchType.None;
-            (result, searchType) = FilterMessages(result, searchSender, searchSubject, null);
-
-            if (searchType == EmailSearchType.SearchByContact)
-            {
-                state.GeneralSearchTexts = null;
-            }
-            else if (searchType == EmailSearchType.SearchBySubject)
-            {
-                state.GeneralSenderName = null;
-            }
+            result = FilterMessages(result, searchSender, searchSubject, null);
 
             // Go back to last page if next page didn't get anything
             if (skip >= result.Count)
@@ -975,14 +913,8 @@ namespace EmailSkill.Dialogs.Shared
 
             // get messages for current page
             var filteredResult = new List<Message>();
-            int importantEmailCount = 0;
             for (var i = 0; i < result.Count; i++)
             {
-                if (result[i].Importance.HasValue && result[i].Importance.Value == Importance.High)
-                {
-                    importantEmailCount++;
-                }
-
                 if (skip > 0)
                 {
                     skip--;
@@ -993,13 +925,17 @@ namespace EmailSkill.Dialogs.Shared
                     {
                         filteredResult.Add(result[i]);
                     }
+                    else
+                    {
+                        break;
+                    }
                 }
             }
 
-            return (filteredResult, result.Count, importantEmailCount);
+            return (filteredResult, result.Count);
         }
 
-        protected async Task ShowMailList(WaterfallStepContext sc, List<Message> messages, int totalCount, int importantCount, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task ShowMailList(WaterfallStepContext sc, List<Message> messages, int totalCount, CancellationToken cancellationToken = default(CancellationToken))
         {
             var updatedMessages = new List<Message>();
             var state = await EmailStateAccessor.GetAsync(sc.Context);
@@ -1009,7 +945,6 @@ namespace EmailSkill.Dialogs.Shared
             {
                 var nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(message.ToRecipients);
 
-                var senderIcon = await GetUserPhotoUrlAsync(sc.Context, message.Sender.EmailAddress);
                 var emailCard = new EmailCardData
                 {
                     Subject = message.Subject,
@@ -1019,95 +954,44 @@ namespace EmailSkill.Dialogs.Shared
                     EmailLink = message.WebLink,
                     ReceivedDateTime = message.ReceivedDateTime == null
                     ? CommonStrings.NotAvailable
-                    : message.ReceivedDateTime.Value.UtcDateTime.ToOverallRelativeString(state.GetUserTimeZone()),
+                    : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(state.GetUserTimeZone()),
                     Speak = SpeakHelper.ToSpeechEmailDetailOverallString(message, state.GetUserTimeZone()),
-                    SenderIcon = senderIcon
                 };
-
-                bool isImportant = message.Importance != null && message.Importance == Importance.High;
-                bool hasAttachment = message.HasAttachments.HasValue && message.HasAttachments.Value;
-                if (isImportant && hasAttachment)
-                {
-                    emailCard.AdditionalIcon1 = AdaptiveCardHelper.ImportantIcon;
-                    emailCard.AdditionalIcon2 = AdaptiveCardHelper.AttachmentIcon;
-                }
-                else if (isImportant)
-                {
-                    emailCard.AdditionalIcon1 = AdaptiveCardHelper.ImportantIcon;
-                }
-                else if (hasAttachment)
-                {
-                    emailCard.AdditionalIcon1 = AdaptiveCardHelper.AttachmentIcon;
-                }
-
-                cards.Add(new Card("EmailOverviewItem", emailCard));
+                cards.Add(new Card("EmailCard", emailCard));
                 updatedMessages.Add(message);
+            }
+
+            var searchType = EmailCommonStrings.Relevant;
+            if (state.IsUnreadOnly)
+            {
+                searchType = string.Format(EmailCommonStrings.RelevantFormat, EmailCommonStrings.Unread);
+            }
+            else if (state.IsImportant)
+            {
+                searchType = string.Format(EmailCommonStrings.RelevantFormat, EmailCommonStrings.Important);
             }
 
             var tokens = new StringDictionary
             {
                 { "TotalCount", totalCount.ToString() },
-                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(updatedMessages, state.GetUserTimeZone(), ConfigData.GetInstance().MaxReadSize) }
+                { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(updatedMessages, state.GetUserTimeZone(), ConfigData.GetInstance().MaxReadSize) },
             };
 
-            var avator = await GetMyPhotoUrlAsync(sc.Context);
-            var overviewData = new EmailOverviewData()
-            {
-                Description = EmailCommonStrings.YourEmail,
-                AvatorIcon = avator,
-                TotalMessageNumber = totalCount.ToString(),
-                HighPriorityMessagesNumber = importantCount.ToString(),
-                Now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone()).ToString(EmailCommonStrings.GeneralDateFormat),
-                MailSourceType = string.Format(EmailCommonStrings.Source, state.MailSourceType.ToString())
-            };
-
-            var overviewCard = "EmailOverviewCard";
-            if ((state.SenderName != null) || (state.GeneralSenderName != null))
-            {
-                overviewData.Description = string.Format(EmailCommonStrings.SearchBySender, state.SenderName != null ? state.SenderName : state.GeneralSenderName);
-                overviewCard = "EmailOverviewByCondition";
-            }
-            else if ((state.SearchTexts != null) || (state.GeneralSearchTexts != null))
-            {
-                overviewData.Description = string.Format(EmailCommonStrings.SearchBySubject, state.SearchTexts != null ? state.SearchTexts : state.GeneralSearchTexts);
-                overviewCard = "EmailOverviewByCondition";
-            }
-
-            var reply = ResponseManager.GetCardResponse(
-                        EmailSharedResponses.ShowEmailPrompt,
-                        new Card(overviewCard, overviewData),
-                        tokens,
-                        "items",
-                        cards);
+            var reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowEmailPrompt, cards, tokens);
 
             if (state.ShowEmailIndex == 0)
             {
                 if (updatedMessages.Count == 1)
                 {
-                    reply = ResponseManager.GetCardResponse(
-                        EmailSharedResponses.ShowOneEmailPrompt,
-                        new Card(overviewCard, overviewData),
-                        tokens,
-                        "items",
-                        cards);
+                    reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowOneEmailPrompt, cards, tokens);
                 }
             }
             else
             {
-                reply = ResponseManager.GetCardResponse(
-                        EmailSharedResponses.ShowEmailPromptOtherPage,
-                        new Card(overviewCard, overviewData),
-                        tokens,
-                        "items",
-                        cards);
+                reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowEmailPromptOtherPage, cards, tokens);
                 if (updatedMessages.Count == 1)
                 {
-                    reply = ResponseManager.GetCardResponse(
-                        EmailSharedResponses.ShowOneEmailPromptOtherPage,
-                        new Card(overviewCard, overviewData),
-                        tokens,
-                        "items",
-                        cards);
+                    reply = ResponseManager.GetCardResponse(EmailSharedResponses.ShowOneEmailPromptOtherPage, cards, tokens);
                 }
             }
 
@@ -1131,104 +1015,56 @@ namespace EmailSkill.Dialogs.Shared
             return;
         }
 
-        protected async Task<string> GetMyPhotoUrlAsync(ITurnContext context)
+        protected async Task<List<Person>> GetPeopleWorkWithAsync(ITurnContext context, string name)
         {
+            var result = new List<Person>();
             var state = await EmailStateAccessor.GetAsync(context);
             var token = state.Token;
             var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
 
-            try
-            {
-                var user = await service.GetMeAsync();
-                if (user != null && !string.IsNullOrEmpty(user.Photo))
-                {
-                    return user.Photo;
-                }
-
-                // return default value
-                return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, AdaptiveCardHelper.DefaultMe);
-            }
-            catch (Exception)
-            {
-                // won't clear conversation state hear, because sometime use api is not available, like user msa account.
-                return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, AdaptiveCardHelper.DefaultMe);
-            }
+            // Get users.
+            return await service.GetPeopleAsync(name);
         }
 
-        protected async Task<string> GetUserPhotoUrlAsync(ITurnContext context, EmailAddress email)
+        protected async Task<List<Person>> GetUserAsync(ITurnContext context, string name)
         {
-            var state = await EmailStateAccessor.GetAsync(context);
-            var token = state.Token;
-            var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
-            var displayName = email.Name != null ? email.Name : email.Address;
-
-            try
-            {
-                var url = await service.GetPhotoAsync(email.Address);
-                if (!string.IsNullOrEmpty(url))
-                {
-                    return url;
-                }
-
-                // return default value
-                return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
-            }
-            catch (Exception)
-            {
-                return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
-            }
-        }
-
-        protected async Task<EmailCardData> ProcessRecipientPhotoUrl(ITurnContext context, EmailCardData data, IEnumerable<Recipient> recipients)
-        {
+            var result = new List<Person>();
             try
             {
                 var state = await EmailStateAccessor.GetAsync(context);
+                var token = state.Token;
+                var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
 
-                if (recipients == null || recipients.Count() == 0)
+                // Get users.
+                var userList = await service.GetUserAsync(name);
+                foreach (var user in userList)
                 {
-                    throw new Exception("No recipient!");
+                    result.Add(user.ToPerson());
                 }
-
-                int size = Math.Min(AdaptiveCardHelper.MaxDisplayRecipientNum, recipients.Count());
-
-                for (int i = 0; i < size; i++)
-                {
-                    var photoUrl = await GetUserPhotoUrlAsync(context, recipients.ElementAt(i).EmailAddress);
-
-                    switch (i)
-                    {
-                        case 0:
-                            data.RecipientIcon0 = photoUrl;
-                            break;
-                        case 1:
-                            data.RecipientIcon1 = photoUrl;
-                            break;
-                        case 2:
-                            data.RecipientIcon2 = photoUrl;
-                            break;
-                        case 3:
-                            data.RecipientIcon3 = photoUrl;
-                            break;
-                        case 4:
-                            data.RecipientIcon4 = photoUrl;
-                            break;
-                    }
-                }
-
-                if (recipients.Count() > AdaptiveCardHelper.MaxDisplayRecipientNum)
-                {
-                    int additionalNumber = recipients.Count() - AdaptiveCardHelper.MaxDisplayRecipientNum - 1;
-                    data.AdditionalRecipientNumber = additionalNumber.ToString();
-                }
-
-                // return default value
-                return data;
             }
             catch (ServiceException)
             {
-                return null;
+                // won't clear conversation state hear, because sometime use api is not available, like user msa account.
             }
+
+            return result;
+        }
+
+        protected async Task<List<Person>> GetContactsAsync(ITurnContext context, string name)
+        {
+            var result = new List<Person>();
+            var state = await EmailStateAccessor.GetAsync(context);
+            var token = state.Token;
+            var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+
+            // Get users.
+            var contactsList = await service.GetContactsAsync(name);
+            foreach (var contact in contactsList)
+            {
+                result.Add(contact.ToPerson());
+            }
+
+            return result;
         }
 
         protected async Task ClearConversationState(WaterfallStepContext sc)
@@ -1245,7 +1081,7 @@ namespace EmailSkill.Dialogs.Shared
                     state.ShowEmailIndex = 0;
                     state.IsUnreadOnly = true;
                     state.IsImportant = false;
-                    state.StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-100, 0, 0, 0));
+                    state.StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
                     state.EndDateTime = DateTime.UtcNow;
                     state.DirectlyToMe = false;
                     state.UserSelectIndex = -1;
@@ -1404,7 +1240,7 @@ namespace EmailSkill.Dialogs.Shared
                                     foreach (var emailAddress in rawEntity)
                                     {
                                         var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
-                                        if (Util.Util.IsEmail(email) && !state.EmailList.Contains(email))
+                                        if (IsEmail(email) && !state.EmailList.Contains(email))
                                         {
                                             state.EmailList.Add(email);
                                         }
@@ -1462,7 +1298,7 @@ namespace EmailSkill.Dialogs.Shared
                                     foreach (var emailAddress in rawEntity)
                                     {
                                         var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
-                                        if (Util.Util.IsEmail(email) && !state.EmailList.Contains(email))
+                                        if (IsEmail(email) && !state.EmailList.Contains(email))
                                         {
                                             state.EmailList.Add(email);
                                         }
@@ -1489,6 +1325,16 @@ namespace EmailSkill.Dialogs.Shared
             {
                 // put log here
             }
+        }
+
+        protected bool IsEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return false;
+            }
+
+            return Regex.IsMatch(email, @"^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
         }
 
         protected bool IsReadMoreIntent(General.Intent? topIntent, string userInput)

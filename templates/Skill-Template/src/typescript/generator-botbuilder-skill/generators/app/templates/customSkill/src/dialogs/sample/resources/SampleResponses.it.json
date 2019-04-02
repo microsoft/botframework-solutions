@@ -11,12 +11,12 @@
     "HaveNameMessage": {
       "replies": [
         {
-          "text": "Ciao, {name}!",
-          "speak": "Ciao, {name}!"
+          "text": "Ciao, {Name}!",
+          "speak": "Ciao, {Name}!"
         },
         {
-          "text": "Piacere di conoscerti, {name}!",
-          "speak": "Piacere di conoscerti, {name}!"
+          "text": "Piacere di conoscerti, {Name}!",
+          "speak": "Piacere di conoscerti, {Name}!"
         }
       ],
       "inputHint": "acceptingInput"

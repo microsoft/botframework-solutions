@@ -1,8 +1,3 @@
-/**
- * Copyright(c) Microsoft Corporation.All rights reserved.
- * Licensed under the MIT License.
- */
-
 import { BotTelemetryClient, TurnContext } from 'botbuilder';
 import { QnAMaker, QnAMakerEndpoint, QnAMakerOptions, QnAMakerResult } from 'botbuilder-ai';
 
