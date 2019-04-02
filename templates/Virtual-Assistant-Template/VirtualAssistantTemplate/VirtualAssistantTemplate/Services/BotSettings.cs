@@ -26,12 +26,6 @@ namespace VirtualAssistantTemplate.Services
 
         public List<SkillDefinition> Skills { get; set; }
 
-        public class AppInsightsSettings
-        {
-            public string AppId { get; set; }
-            public string InstrumentationKey { get; set; }
-        }
-
         public class BlobStorageSettings
         {
             public string ConnectionString { get; set; }
