@@ -345,5 +345,3 @@ ASALocalRun/
 /solutions/**/.deployment
 /solutions/**/publish
 /solutions/**/publish.cmd
-/templates/Virtual-Assistant-Template/VirtualAssistantTemplate/VirtualAssistantTemplate/skills.development.json
-/templates/Virtual-Assistant-Template/VirtualAssistantTemplate/VirtualAssistantTemplate/cognitivemodels.development.json

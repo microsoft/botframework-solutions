@@ -127,7 +127,6 @@
     <EmbeddedResource Include="Dialogs\SendEmail\Resources\SendEmailResponses.it.json" />
     <EmbeddedResource Include="Dialogs\SendEmail\Resources\SendEmailResponses.json" />
     <EmbeddedResource Include="Dialogs\SendEmail\Resources\SendEmailResponses.zh.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailCard.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\ConfirmCard_RecipientLessThanFive.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\ConfirmCard_RecipientMoreThanFive.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\DetailCard_RecipientLessThanFive.json" />
