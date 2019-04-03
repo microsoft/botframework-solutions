@@ -256,7 +256,7 @@ Learn more on how you can [gather user input using a dialog prompt](https://docs
 
 ### Enable long running tasks
 
-[Proactive scenarios](../virtual-assistant/proactivemessaging.md) are a key part of ensuring a Skill Assistant can provide more intelligent and helpful capabilities to end users. 
+[Proactive scenarios](../../virtual-assistant/csharp/proactivemessaging.md) are a key part of ensuring a Skill Assistant can provide more intelligent and helpful capabilities to end users. 
 This enables a Skill to have more intelligent interactions with a user, triggered by external events.
 
 ### Handle and log errors

@@ -116,7 +116,7 @@ You will be prompted to provide the following parameters:
 
 The msbot tool will outline the deployment plan including location and SKU. Ensure you review before proceeding.
 
-![Deployment Confirmation](../media/virtualassistant-deploymentplan.png)
+![Deployment Confirmation](../../media/virtualassistant-deploymentplan.png)
 
 > There is a known issue with some users whereby you might experience the following error when running deployment `ERROR: Unable to provision MSA id automatically. Please pass them in as parameters and try again`. In this situation, please browse to https://apps.dev.microsoft.com and manually create a new application retrieving the ApplicationID and Password/Secret. Run the above msbot clone services command but provide two new arguments `appId` and `appSecret` passing the values you've just retrieved.
 
@@ -175,7 +175,7 @@ Note: update the language models for the languages that you support and feel fre
 
 ## Skill Configuration
 
-The Virtual Assistant Solution is fully integrated with all available skills out of the box. Skill configuration can be found in your appSettings.json file and is detailed further in the [Adding A Skill](../skills/README.md) documentation.
+The Virtual Assistant Solution is fully integrated with all available skills out of the box. Skill configuration can be found in your appSettings.json file and is detailed further in the [Adding A Skill](../../skills/csharp/README.md) documentation.
 
 ### Skill Authentication
 

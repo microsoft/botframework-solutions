@@ -1,1 +1,1 @@
-﻿Please refer to [Create a New Skill](https://github.com/Microsoft/AI/blob/master/docs/skills/create.md) for instructions on creating your skill.
+﻿Please refer to [Create a New Skill](../../../../../../../docs/skills/README.md#skills) for instructions on creating your skill.
