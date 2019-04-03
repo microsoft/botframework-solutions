@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +15,7 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -25,6 +27,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using PointOfInterestSkill.Dialogs.CancelRoute.Resources;
 using PointOfInterestSkill.Dialogs.FindPointOfInterest.Resources;
 using PointOfInterestSkill.Dialogs.Main.Resources;
@@ -118,6 +121,20 @@ namespace PointOfInterestSkill
             }
 
             services.AddSingleton(endpointService);
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.Authority = "https://login.microsoftonline.com/microsoft.com";
+                options.Audience = endpointService.AppId;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47/v2.0",
+                };
+            });
+
+            services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
+            services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
 
             services.AddSingleton<IServiceManager, ServiceManager>();
 

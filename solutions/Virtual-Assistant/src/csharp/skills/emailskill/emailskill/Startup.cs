@@ -4,7 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.DeleteEmail.Resources;
 using EmailSkill.Dialogs.FindContact.Resources;
@@ -15,6 +17,7 @@ using EmailSkill.Dialogs.SendEmail.Resources;
 using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkill.Dialogs.ShowEmail.Resources;
 using EmailSkill.ServiceClients;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -22,6 +25,7 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -33,6 +37,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace EmailSkill
 {
@@ -125,6 +130,20 @@ namespace EmailSkill
 
             services.AddSingleton(endpointService);
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.Authority = "https://login.microsoftonline.com/microsoft.com";
+                options.Audience = endpointService.AppId;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47/v2.0",
+                };
+            });
+
+            services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
+            services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
+
             // Initialize Email client
             services.AddSingleton<IServiceManager, ServiceManager>();
 
@@ -203,6 +222,7 @@ namespace EmailSkill
             app.UseBotApplicationInsights()
                 .UseDefaultFiles()
                 .UseStaticFiles()
+                .UseAuthentication()
                 .UseMvc();
         }
     }

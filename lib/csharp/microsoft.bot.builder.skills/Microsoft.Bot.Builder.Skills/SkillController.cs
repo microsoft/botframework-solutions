@@ -3,8 +3,10 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Skills.Auth;
 
 namespace Microsoft.Bot.Builder.Skills
 {
@@ -14,17 +16,20 @@ namespace Microsoft.Bot.Builder.Skills
     /// calls from a parent bot (to a skill bot)
     /// </summary>
     [ApiController]
+    [Authorize]
     public abstract class SkillController : ControllerBase
     {
         private readonly IBot _bot;
         private readonly IBotFrameworkHttpAdapter _botFrameworkHttpAdapter;
         private readonly SkillAdapter _skillAdapter;
+        private readonly ISkillAuthProvider _skillAuthProvider;
 
-        public SkillController(IBotFrameworkHttpAdapter botFrameworkHttpAdapter, SkillAdapter skillAdapter, IBot bot)
+        public SkillController(IBotFrameworkHttpAdapter botFrameworkHttpAdapter, SkillAdapter skillAdapter, ISkillAuthProvider skillAuthProvider, IBot bot)
         {
             _botFrameworkHttpAdapter = botFrameworkHttpAdapter;
             _skillAdapter = skillAdapter;
             _bot = bot;
+            _skillAuthProvider = skillAuthProvider;
         }
 
         /// <summary>
@@ -33,6 +38,7 @@ namespace Microsoft.Bot.Builder.Skills
         /// <returns></returns>
         [Route("api/messages")]
         [HttpPost]
+        [AllowAnonymous]
         public async Task BotMessage()
         {
             await _botFrameworkHttpAdapter.ProcessAsync(Request, Response, _bot, default(CancellationToken));
@@ -44,9 +50,16 @@ namespace Microsoft.Bot.Builder.Skills
         /// <returns></returns>
         [Route("api/skill/messages")]
         [HttpPost]
-        public async Task SkillMessage()
+        public async Task<IActionResult> SkillMessage()
         {
+            if (_skillAuthProvider != null && !_skillAuthProvider.Authenticate(HttpContext))
+            {
+                return Unauthorized();
+            }
+
             await _skillAdapter.ProcessAsync(Request, Response, _bot, default(CancellationToken));
+
+            return Ok();
         }
     }
 }

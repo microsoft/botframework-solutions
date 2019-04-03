@@ -13,6 +13,8 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using System.Globalization;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Builder.Skills.Auth;
 
 namespace VirtualAssistantTemplate.Dialogs.Main
 {
@@ -21,14 +23,16 @@ namespace VirtualAssistantTemplate.Dialogs.Main
         private BotServices _services;
         private UserState _userState;
         private ConversationState _conversationState;
+        private MicrosoftAppCredentials _microsoftAppCredentials;
         private MainResponses _responder = new MainResponses();
 
-        public MainDialog(BotServices services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient)
+        public MainDialog(BotServices services, ConversationState conversationState, UserState userState, MicrosoftAppCredentials microsoftAppCredentials, IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog))
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _conversationState = conversationState;
             _userState = userState;
+            _microsoftAppCredentials = microsoftAppCredentials;
             TelemetryClient = telemetryClient;
 
             AddDialog(new OnboardingDialog(_services, _userState.CreateProperty<OnboardingState>(nameof(OnboardingState)), telemetryClient));
@@ -36,7 +40,7 @@ namespace VirtualAssistantTemplate.Dialogs.Main
 
             foreach (var skill in services.SkillDefinitions)
             {
-                AddDialog(new SkillDialog(skill, telemetryClient));
+                AddDialog(new SkillDialog(skill, new MicrosoftAppCredentialsEx(_microsoftAppCredentials.MicrosoftAppId, _microsoftAppCredentials.MicrosoftAppPassword, skill.Scope), telemetryClient));
             }
         }
 

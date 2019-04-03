@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using VirtualAssistantTemplate.Dialogs.Main;
 
@@ -20,6 +21,7 @@ namespace VirtualAssistantTemplate
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
         private readonly IBotTelemetryClient _telemetryClient;
+        private readonly MicrosoftAppCredentials _microsoftAppCredentials;
         private DialogSet _dialogs;
 
         /// <summary>
@@ -28,15 +30,16 @@ namespace VirtualAssistantTemplate
         /// <param name="botServices">Bot services.</param>
         /// <param name="conversationState">Bot conversation state.</param>
         /// <param name="userState">Bot user state.</param>
-        public Bot(BotServices botServices, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient)
+        public Bot(BotServices botServices, ConversationState conversationState, UserState userState, MicrosoftAppCredentials microsoftAppCredentials, IBotTelemetryClient telemetryClient)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _services = botServices ?? throw new ArgumentNullException(nameof(botServices));
+            _microsoftAppCredentials = microsoftAppCredentials;
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
 
             _dialogs = new DialogSet(_conversationState.CreateProperty<DialogState>(nameof(VirtualAssistantTemplate)));
-            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _telemetryClient));
+            _dialogs.Add(new MainDialog(_services, _conversationState, _userState, _microsoftAppCredentials, _telemetryClient));
         }
 
         /// <summary>

@@ -12,7 +12,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +21,7 @@ using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Builder.Skills.Auth;
 
 namespace VirtualAssistantTemplate
 {
@@ -78,6 +78,9 @@ namespace VirtualAssistantTemplate
             services.AddSingleton(userState);
             services.AddSingleton(conversationState);
             services.AddSingleton(new BotStateSet(userState, conversationState));
+
+            var microsoftAppCredentials = new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword);
+            services.AddSingleton(microsoftAppCredentials);
 
             // Add the bot with options
             services.AddBot<Bot>(options =>
