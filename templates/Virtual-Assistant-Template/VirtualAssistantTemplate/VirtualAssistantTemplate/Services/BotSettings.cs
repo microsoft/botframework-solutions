@@ -3,6 +3,7 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Configuration;
 using System.Collections.Generic;
+using VirtualAssistantTemplate.Models;
 
 namespace VirtualAssistantTemplate.Services
 {
@@ -12,32 +13,34 @@ namespace VirtualAssistantTemplate.Services
 
         public string MicrosoftAppPassword { get; set; }
 
+        public List<OAuthConnection> OAuthConnections { get; set; }
+
         public string DefaultLocale { get; set; }
 
         public CosmosDbStorageOptions CosmosDb { get; set; }
 
         public TelemetryConfiguration AppInsights { get; set; }
 
-        public BlobStorageSettings BlobStorage { get; set; }
+        public BlobStorageConfiguration BlobStorage { get; set; }
 
-        public ContentModeratorSettings ContentModerator { get; set; }
+        public ContentModeratorConfiguration ContentModerator { get; set; }
 
-        public Dictionary<string, CognitiveModelSettings> CognitiveModels { get; set; }
+        public Dictionary<string, CognitiveModelConfiguration> CognitiveModels { get; set; }
 
         public List<SkillDefinition> Skills { get; set; }
 
-        public class BlobStorageSettings
+        public class BlobStorageConfiguration
         {
             public string ConnectionString { get; set; }
             public string Container { get; set; }
         }
 
-        public class ContentModeratorSettings
+        public class ContentModeratorConfiguration
         {
             public string Key { get; set; }
         }
 
-        public class CognitiveModelSettings
+        public class CognitiveModelConfiguration
         {
             public DispatchService DispatchModel { get; set; }
 

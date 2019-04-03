@@ -45,14 +45,8 @@ namespace VirtualAssistantTemplate.Services
 
                 CognitiveModelSets.Add(language, set);
             }
-
-            SkillDefinitions = settings.Skills;
         }
 
-        public Dictionary<string, string> AuthenticationConnections { get; set; } = new Dictionary<string, string>();
-
         public Dictionary<string, CognitiveModelSet> CognitiveModelSets { get; set; } = new Dictionary<string, CognitiveModelSet>();
-
-        public List<SkillDefinition> SkillDefinitions { get; set; } = new List<SkillDefinition>();
     }
 }

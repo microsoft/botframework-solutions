@@ -18,16 +18,15 @@ namespace VirtualAssistantTemplate.Bots
         public DefaultAdapter(
             BotSettings settings,
             ICredentialProvider credentialProvider,
-            UserState userState,
-            ConversationState conversationState,
-            IBotTelemetryClient telemetryClient) : base(credentialProvider)
+            IBotTelemetryClient telemetryClient,
+            BotStateSet botStateSet) : base(credentialProvider)
         {
-            OnTurnError = async (context, exception) =>
+            OnTurnError = async (turnContext, exception) =>
             {
-                CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-                await context.SendActivityAsync(responseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessage));
-                await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"To Do Skill Error: {exception.Message} | {exception.StackTrace}"));
-                telemetryClient.TrackExceptionEx(exception, context.Activity);
+                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.Message}"));
+                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.StackTrace}"));
+                await turnContext.SendActivityAsync(MainStrings.ERROR);
+                telemetryClient.TrackException(exception);
             };
 
             Use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));
@@ -35,7 +34,7 @@ namespace VirtualAssistantTemplate.Bots
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new AutoSaveStateMiddleware());
+            Use(new AutoSaveStateMiddleware(botStateSet));
         }
     }
 }
