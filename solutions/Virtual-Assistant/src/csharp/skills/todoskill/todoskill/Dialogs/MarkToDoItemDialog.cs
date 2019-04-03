@@ -10,20 +10,24 @@ using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
 using ToDoSkill.Models;
+using ToDoSkill.Responses.MarkToDo;
+using ToDoSkill.Responses.Shared;
 using ToDoSkill.ServiceClients;
+using ToDoSkill.Services;
 
 namespace ToDoSkill.Dialogs
 {
     public class MarkToDoItemDialog : ToDoSkillDialogBase
     {
         public MarkToDoItemDialog(
-            SkillConfigurationBase services,
+            BotSettings settings,
+            BotServices services,
             ResponseManager responseManager,
             IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
             IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(MarkToDoItemDialog), services, responseManager, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
+            : base(nameof(MarkToDoItemDialog), settings, services, responseManager, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 

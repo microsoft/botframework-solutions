@@ -5,6 +5,7 @@ namespace ToDoSkill.ServiceClients
 {
     using System.Collections.Generic;
     using global::ToDoSkill.Dialogs.Shared;
+    using ToDoSkill.Models;
 
     public interface IServiceManager
     {
@@ -15,7 +16,7 @@ namespace ToDoSkill.ServiceClients
         /// <param name="listTypeIds">Task list name and id dictionary.</param>
         /// <param name="taskServiceType">The task service type.</param>
         /// <returns>Task service itself.</returns>
-        ITaskService InitTaskService(string token, Dictionary<string, string> listTypeIds, ServiceProviderTypes.ProviderTypes taskServiceType);
+        ITaskService InitTaskService(string token, Dictionary<string, string> listTypeIds, ServiceProviderType taskServiceType);
 
         /// <summary>
         /// Init mail service.

@@ -10,13 +10,15 @@ using Microsoft.Bot.Schema;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Services;
 
-namespace ToDoSkill.Bots
+namespace ToDoSkill.Adapters
 {
     public class ToDoSkillAdapter : SkillAdapter
     {
         public ToDoSkillAdapter(
-            BotSettings settings, 
+            BotSettings settings,
             ICredentialProvider credentialProvider,
+            UserState userState,
+            ConversationState conversationState,
             ResponseManager responseManager,
             IBotTelemetryClient telemetryClient)
             : base(credentialProvider)
@@ -34,7 +36,7 @@ namespace ToDoSkill.Bots
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new AutoSaveStateMiddleware());
+            Use(new AutoSaveStateMiddleware(userState, conversationState));
         }
     }
 }

@@ -8,6 +8,8 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
+using ToDoSkill.Dialogs;
+using ToDoSkill.Services;
 
 namespace ToDoSkill
 {

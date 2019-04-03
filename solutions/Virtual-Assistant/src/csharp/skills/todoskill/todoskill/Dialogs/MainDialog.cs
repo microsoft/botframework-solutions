@@ -11,24 +11,19 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Schema;
 using ToDoSkill.Common;
-using ToDoSkill.Dialogs.AddToDo;
-using ToDoSkill.Dialogs.DeleteToDo;
-using ToDoSkill.Dialogs.Main.Resources;
-using ToDoSkill.Dialogs.MarkToDo;
-using ToDoSkill.Dialogs.Shared.DialogOptions;
-using ToDoSkill.Dialogs.ShowToDo;
+using ToDoSkill.Models;
+using ToDoSkill.Responses.Main;
 using ToDoSkill.ServiceClients;
-using static ToDoSkill.Dialogs.Shared.ServiceProviderTypes;
+using ToDoSkill.Services;
 
 namespace ToDoSkill.Dialogs
 {
     public class MainDialog : RouterDialog
     {
-        private bool _skillMode;
-        private SkillConfigurationBase _services;
+        private BotSettings _settings;
+        private BotServices _services;
         private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
@@ -37,16 +32,16 @@ namespace ToDoSkill.Dialogs
         private IStatePropertyAccessor<ToDoSkillUserState> _userStateAccessor;
 
         public MainDialog(
-            SkillConfigurationBase services,
+            BotSettings settings,
+            BotServices services,
             ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
             IBotTelemetryClient telemetryClient,
-            IServiceManager serviceManager,
-            bool skillMode)
+            IServiceManager serviceManager)
             : base(nameof(MainDialog), telemetryClient)
         {
-            _skillMode = skillMode;
+            _settings = settings;
             _services = services;
             _responseManager = responseManager;
             _conversationState = conversationState;
@@ -64,11 +59,7 @@ namespace ToDoSkill.Dialogs
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (!_skillMode)
-            {
-                // send a greeting if we're in local mode
-                await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.ToDoWelcomeMessage));
-            }
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.ToDoWelcomeMessage));
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -77,7 +68,7 @@ namespace ToDoSkill.Dialogs
 
             // get current activity locale
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var localeConfig = _services.LocaleConfigurations[locale];
+            var localeConfig = _services.CognitiveModelSets[locale];
 
             // Initialize the PageSize and ReadSize parameters in state from configuration
             InitializeConfig(state);
@@ -96,29 +87,24 @@ namespace ToDoSkill.Dialogs
                 var intent = result?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
-                var skillOptions = new ToDoSkillDialogOptions
-                {
-                    SkillMode = _skillMode,
-                };
-
                 // switch on general intents
                 switch (intent)
                 {
                     case ToDoLU.Intent.AddToDo:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(AddToDoItemDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(AddToDoItemDialog));
                             break;
                         }
 
                     case ToDoLU.Intent.MarkToDo:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(MarkToDoItemDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(MarkToDoItemDialog));
                             break;
                         }
 
                     case ToDoLU.Intent.DeleteToDo:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(DeleteToDoItemDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(DeleteToDoItemDialog));
                             break;
                         }
 
@@ -126,7 +112,7 @@ namespace ToDoSkill.Dialogs
                     case ToDoLU.Intent.ShowPreviousPage:
                     case ToDoLU.Intent.ShowToDo:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(ShowToDoItemDialog), skillOptions);
+                            turnResult = await dc.BeginDialogAsync(nameof(ShowToDoItemDialog));
                             break;
                         }
 
@@ -135,16 +121,13 @@ namespace ToDoSkill.Dialogs
                             if (generalTopIntent == General.Intent.ShowNext
                                 || generalTopIntent == General.Intent.ShowPrevious)
                             {
-                                turnResult = await dc.BeginDialogAsync(nameof(ShowToDoItemDialog), skillOptions);
+                                turnResult = await dc.BeginDialogAsync(nameof(ShowToDoItemDialog));
                             }
                             else
                             {
                                 // No intent was identified, send confused message
                                 await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.DidntUnderstandMessage));
-                                if (_skillMode)
-                                {
-                                    turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-                                }
+                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
                             break;
@@ -154,10 +137,7 @@ namespace ToDoSkill.Dialogs
                         {
                             // intent was identified but not yet implemented
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.FeatureNotAvailable));
-                            if (_skillMode)
-                            {
-                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-                            }
+                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
 
                             break;
                         }
@@ -172,13 +152,10 @@ namespace ToDoSkill.Dialogs
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (_skillMode)
-            {
-                var response = dc.Context.Activity.CreateReply();
-                response.Type = ActivityTypes.EndOfConversation;
+            var response = dc.Context.Activity.CreateReply();
+            response.Type = ActivityTypes.EndOfConversation;
 
-                await dc.Context.SendActivityAsync(response);
-            }
+            await dc.Context.SendActivityAsync(response);
 
             // End active dialog
             await dc.EndDialogAsync(result);
@@ -227,15 +204,15 @@ namespace ToDoSkill.Dialogs
             {
                 // get current activity locale
                 var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var localeConfig = _services.LocaleConfigurations[locale];
+                var cognitiveModels = _services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities
-                var toDoLuisResult = await localeConfig.LuisServices["todo"].RecognizeAsync<ToDoLU>(dc.Context, cancellationToken);
+                var toDoLuisResult = await cognitiveModels.LuisServices["todo"].RecognizeAsync<ToDoLU>(dc.Context, cancellationToken);
                 var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
                 state.LuisResult = toDoLuisResult;
 
                 // check luis intent
-                localeConfig.LuisServices.TryGetValue("general", out var luisService);
+                cognitiveModels.LuisServices.TryGetValue("general", out var luisService);
 
                 if (luisService == null)
                 {
@@ -316,10 +293,10 @@ namespace ToDoSkill.Dialogs
 
         private void RegisterDialogs()
         {
-            AddDialog(new AddToDoItemDialog(_services, _responseManager, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new MarkToDoItemDialog(_services, _responseManager, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new DeleteToDoItemDialog(_services, _responseManager, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new ShowToDoItemDialog(_services, _responseManager, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new AddToDoItemDialog(_settings, _services, _responseManager, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new MarkToDoItemDialog(_settings, _services, _responseManager, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new DeleteToDoItemDialog(_settings, _services, _responseManager, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
+            AddDialog(new ShowToDoItemDialog(_settings, _services, _responseManager, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
         }
 
         private void InitializeConfig(ToDoSkillState state)
@@ -328,7 +305,7 @@ namespace ToDoSkill.Dialogs
             if (state.PageSize <= 0)
             {
                 var pageSize = 0;
-                if (_services.Properties.TryGetValue("DisplaySize", out var displaySizeObj))
+                if (_settings.Properties.TryGetValue("DisplaySize", out var displaySizeObj))
                 {
                     int.TryParse(displaySizeObj.ToString(), out pageSize);
                 }
@@ -336,14 +313,14 @@ namespace ToDoSkill.Dialogs
                 state.PageSize = pageSize <= 0 ? ToDoCommonUtil.DefaultDisplaySize : pageSize;
             }
 
-            if (state.TaskServiceType == ProviderTypes.Other)
+            if (state.TaskServiceType == ServiceProviderType.Other)
             {
-                state.TaskServiceType = ProviderTypes.Outlook;
-                if (_services.Properties.TryGetValue("TaskServiceProvider", out var taskServiceProvider))
+                state.TaskServiceType = ServiceProviderType.Outlook;
+                if (_settings.Properties.TryGetValue("TaskServiceProvider", out var taskServiceProvider))
                 {
-                    if (taskServiceProvider.ToString().Equals(ProviderTypes.OneNote.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                    if (taskServiceProvider.ToString().Equals(ServiceProviderType.OneNote.ToString(), StringComparison.InvariantCultureIgnoreCase))
                     {
-                        state.TaskServiceType = ProviderTypes.OneNote;
+                        state.TaskServiceType = ServiceProviderType.OneNote;
                     }
                 }
             }

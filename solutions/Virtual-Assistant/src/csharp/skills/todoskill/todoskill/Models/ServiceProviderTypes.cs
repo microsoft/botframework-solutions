@@ -1,23 +1,20 @@
-﻿namespace ToDoSkill.Dialogs.Shared
+﻿namespace ToDoSkill.Models
 {
-    public class ServiceProviderTypes
+    public enum ServiceProviderType
     {
-        public enum ProviderTypes
-        {
-            /// <summary>
-            /// OneNote task list.
-            /// </summary>
-            OneNote,
+        /// <summary>
+        /// OneNote task list.
+        /// </summary>
+        OneNote,
 
-            /// <summary>
-            /// Outlook task list.
-            /// </summary>
-            Outlook,
+        /// <summary>
+        /// Outlook task list.
+        /// </summary>
+        Outlook,
 
-            /// <summary>
-            /// Other task list.
-            /// </summary>
-            Other,
-        }
+        /// <summary>
+        /// Other task list.
+        /// </summary>
+        Other,
     }
 }

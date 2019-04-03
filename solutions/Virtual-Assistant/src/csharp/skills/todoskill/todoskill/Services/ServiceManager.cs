@@ -5,6 +5,7 @@ namespace ToDoSkill.ServiceClients
 {
     using System.Collections.Generic;
     using global::ToDoSkill.Dialogs.Shared;
+    using ToDoSkill.Models;
 
     public class ServiceManager : IServiceManager
     {
@@ -15,10 +16,10 @@ namespace ToDoSkill.ServiceClients
         /// <param name="listTypeIds">Task list name and id dictionary.</param>
         /// <param name="taskServiceType">The task service type.</param>
         /// <returns>Task service itself.</returns>
-        public ITaskService InitTaskService(string token, Dictionary<string, string> listTypeIds, ServiceProviderTypes.ProviderTypes taskServiceType)
+        public ITaskService InitTaskService(string token, Dictionary<string, string> listTypeIds, ServiceProviderType taskServiceType)
         {
             ITaskService taskService;
-            if (taskServiceType == ServiceProviderTypes.ProviderTypes.OneNote)
+            if (taskServiceType == ServiceProviderType.OneNote)
             {
                 var oneNoteService = new OneNoteService();
                 taskService = oneNoteService.InitAsync(token, listTypeIds).Result;

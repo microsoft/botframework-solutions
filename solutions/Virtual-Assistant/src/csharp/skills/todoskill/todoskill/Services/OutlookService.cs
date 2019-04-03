@@ -11,6 +11,7 @@ namespace ToDoSkill.ServiceClients
     using global::ToDoSkill.Models;
     using Microsoft.Graph;
     using Newtonsoft.Json.Linq;
+    using ToDoSkill.Responses.Shared;
 
     /// <summary>
     /// To Do bot service.

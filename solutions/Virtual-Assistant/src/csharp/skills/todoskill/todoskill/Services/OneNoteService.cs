@@ -14,6 +14,7 @@ namespace ToDoSkill.ServiceClients
     using Microsoft.Graph;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
+    using ToDoSkill.Responses.Shared;
 
     /// <summary>
     /// To Do bot service.

@@ -2,7 +2,6 @@
 using Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using ToDoSkill.Models;
-using static ToDoSkill.Dialogs.Shared.ServiceProviderTypes;
 
 namespace ToDoSkill
 {
@@ -34,7 +33,7 @@ namespace ToDoSkill
             TaskContentML = null;
             TaskContent = null;
             SwitchListType = false;
-            TaskServiceType = ProviderTypes.Other;
+            TaskServiceType = ServiceProviderType.Other;
             AddDupTask = false;
             UserStateId = null;
             IsFirstPage = false;
@@ -217,7 +216,7 @@ namespace ToDoSkill
         /// <value>
         /// ToDoTaskContent.
         /// </value>
-        public ProviderTypes TaskServiceType { get; set; }
+        public ServiceProviderType TaskServiceType { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether gets or sets AddDupTask.
@@ -293,7 +292,7 @@ namespace ToDoSkill
             TaskContentML = null;
             TaskContent = null;
             SwitchListType = false;
-            TaskServiceType = ProviderTypes.Other;
+            TaskServiceType = ServiceProviderType.Other;
             AddDupTask = false;
             UserStateId = null;
             IsFirstPage = false;

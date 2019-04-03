@@ -11,13 +11,14 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ToDoSkill.Bots;
+using ToDoSkill.Adapters;
 using ToDoSkill.Dialogs;
 using ToDoSkill.Responses.AddToDo;
 using ToDoSkill.Responses.DeleteToDo;
@@ -32,8 +33,6 @@ namespace ToDoSkill
 {
     public class Startup
     {
-        private bool _isProduction = false;
-
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -53,31 +52,47 @@ namespace ToDoSkill
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
 
+            var provider = services.BuildServiceProvider();
+
+            // Load settings
             var settings = new BotSettings();
             Configuration.Bind(settings);
-
             services.AddSingleton(settings);
+
+            // Configure bot services
             services.AddSingleton<BotServices>();
+
+            // Configure credentials
+            services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
+
+            // Configure bot state
             services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
             services.AddSingleton<ProactiveState>();
-            services.AddSingleton<BotStateSet>();
-            services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
-            services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
-            services.AddTransient<ToDoSkillAdapter>();
-            services.AddTransient<IServiceManager, ServiceManager>();
-            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
-            services.AddHostedService<QueuedHostedService>();
-            services.AddTransient<MainDialog>();
-            services.AddTransient<IBot, DefaultBot<MainDialog>>();
+            services.AddSingleton(sp =>
+            {
+                var userState = sp.GetService<UserState>();
+                var conversationState = sp.GetService<ConversationState>();
+                var proactiveState = sp.GetService<ProactiveState>();
+                return new BotStateSet(userState, conversationState);
+            });
 
+            // Configure telemetry
             var telemetryClient = new BotTelemetryClient(new TelemetryClient(settings.AppInsights));
             services.AddSingleton<IBotTelemetryClient>(telemetryClient);
             services.AddBotApplicationInsights(telemetryClient);
 
+            // Configure proactive
+            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+            services.AddHostedService<QueuedHostedService>();
+
+            // Configure service manage
+            services.AddTransient<IServiceManager, ServiceManager>();
+
+            // Configure responses
             services.AddSingleton(sp => new ResponseManager(
                 settings.CognitiveModels.Select(l => l.Key).ToArray(),
                 new AddToDoResponses(),
@@ -86,6 +101,14 @@ namespace ToDoSkill
                 new MarkToDoResponses(),
                 new ToDoSharedResponses(),
                 new ShowToDoResponses()));
+
+            // Configure adapters
+            services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
+            services.AddTransient<SkillAdapter, ToDoSkillAdapter>();
+
+            // Configure bot
+            services.AddTransient<MainDialog>();
+            services.AddTransient<IBot, DefaultBot<MainDialog>>();
         }
 
         /// <summary>
@@ -95,7 +118,11 @@ namespace ToDoSkill
         /// <param name="env">Hosting Environment.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            _isProduction = env.IsProduction();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
             app.UseBotApplicationInsights()
                 .UseDefaultFiles()
                 .UseStaticFiles()

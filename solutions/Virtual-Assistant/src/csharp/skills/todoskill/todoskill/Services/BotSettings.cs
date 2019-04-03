@@ -2,6 +2,7 @@
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Configuration;
+using ToDoSkill.Models;
 
 namespace ToDoSkill.Services
 {
@@ -13,29 +14,33 @@ namespace ToDoSkill.Services
 
         public string DefaultLocale { get; set; }
 
+        public List<OAuthConnection> OAuthConnections { get; set; }
+
         public CosmosDbStorageOptions CosmosDb { get; set; }
 
         public TelemetryConfiguration AppInsights { get; set; }
 
-        public BlobStorageSettings BlobStorage { get; set; }
+        public BlobStorageConfiguration BlobStorage { get; set; }
 
-        public ContentModeratorSettings ContentModerator { get; set; }
+        public ContentModeratorConfiguration ContentModerator { get; set; }
 
-        public Dictionary<string, CognitiveModelSettings> CognitiveModels { get; set; }
+        public Dictionary<string, CognitiveModelConfiguration> CognitiveModels { get; set; }
 
-        public class BlobStorageSettings
+        public Dictionary<string, string> Properties { get; set; }
+
+        public class BlobStorageConfiguration
         {
             public string ConnectionString { get; set; }
 
             public string Container { get; set; }
         }
 
-        public class ContentModeratorSettings
+        public class ContentModeratorConfiguration
         {
             public string Key { get; set; }
         }
 
-        public class CognitiveModelSettings
+        public class CognitiveModelConfiguration
         {
             public DispatchService DispatchModel { get; set; }
 

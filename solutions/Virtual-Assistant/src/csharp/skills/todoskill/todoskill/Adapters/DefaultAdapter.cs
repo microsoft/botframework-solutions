@@ -3,6 +3,7 @@
 
 using System.Globalization;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -12,15 +13,14 @@ using Microsoft.Bot.Schema;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Services;
 
-namespace ToDoSkill.Bots
+namespace ToDoSkill.Adapters
 {
     public class DefaultAdapter : BotFrameworkHttpAdapter
     {
         public DefaultAdapter(
             BotSettings settings,
             ICredentialProvider credentialProvider,
-            UserState userState,
-            ConversationState conversationState,
+            BotStateSet botStateSet,
             IBotTelemetryClient telemetryClient,
             ResponseManager responseManager)
             : base(credentialProvider)
@@ -33,12 +33,12 @@ namespace ToDoSkill.Bots
                 telemetryClient.TrackExceptionEx(exception, context.Activity);
             };
 
-            //Use(transcriptMiddleware);
+            Use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));
             Use(new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true));
             Use(new ShowTypingMiddleware());
-            Use(new SetLocaleMiddleware(""));
+            Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new AutoSaveStateMiddleware());
+            Use(new AutoSaveStateMiddleware(botStateSet));
         }
     }
 }

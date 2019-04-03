@@ -9,20 +9,24 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
+using ToDoSkill.Responses.Shared;
+using ToDoSkill.Responses.ShowToDo;
 using ToDoSkill.ServiceClients;
+using ToDoSkill.Services;
 
 namespace ToDoSkill.Dialogs
 {
     public class ShowToDoItemDialog : ToDoSkillDialogBase
     {
         public ShowToDoItemDialog(
-            SkillConfigurationBase services,
+            BotSettings settings,
+            BotServices services,
             ResponseManager responseManager,
             IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
             IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(ShowToDoItemDialog), services, responseManager, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
+            : base(nameof(ShowToDoItemDialog), settings, services, responseManager, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 

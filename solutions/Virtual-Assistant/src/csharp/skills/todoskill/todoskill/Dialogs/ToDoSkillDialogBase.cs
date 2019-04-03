@@ -18,10 +18,16 @@ using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
 using Newtonsoft.Json.Linq;
-using ToDoSkill.Dialogs.Shared.DialogOptions;
+using ToDoSkill.Dialogs.Shared;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Models;
+using ToDoSkill.Responses.AddToDo;
+using ToDoSkill.Responses.DeleteToDo;
+using ToDoSkill.Responses.MarkToDo;
+using ToDoSkill.Responses.Shared;
+using ToDoSkill.Responses.ShowToDo;
 using ToDoSkill.ServiceClients;
+using ToDoSkill.Services;
 
 namespace ToDoSkill.Dialogs
 {
@@ -32,7 +38,8 @@ namespace ToDoSkill.Dialogs
 
         public ToDoSkillDialogBase(
             string dialogId,
-            SkillConfigurationBase services,
+            BotSettings settings,
+            BotServices services,
             ResponseManager responseManager,
             IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
             IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
@@ -47,18 +54,18 @@ namespace ToDoSkill.Dialogs
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
 
-            if (!Services.AuthenticationConnections.Any())
+            if (!settings.OAuthConnections.Any())
             {
                 throw new Exception("You must configure an authentication connection in your bot file before using this component.");
             }
 
             AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
-            AddDialog(new MultiProviderAuthDialog(services));
+            AddDialog(new AuthDialog(services.CognitiveModelSets, settings.OAuthConnections, authenticationRequired: true));
             AddDialog(new TextPrompt(Action.Prompt));
             AddDialog(new ConfirmPrompt(Action.ConfirmPrompt, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }
 
-        protected SkillConfigurationBase Services { get; set; }
+        protected BotServices Services { get; set; }
 
         protected IStatePropertyAccessor<ToDoSkillState> ToDoStateAccessor { get; set; }
 
@@ -98,27 +105,7 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                var skillOptions = (ToDoSkillDialogOptions)sc.Options;
-
-                // If in Skill mode we ask the calling Bot for the token
-                if (skillOptions != null && skillOptions.SkillMode)
-                {
-                    // We trigger a Token Request from the Parent Bot by sending a "TokenRequest" event back and then waiting for a "TokenResponse"
-                    // TODO Error handling - if we get a new activity that isn't an event
-                    var response = sc.Context.Activity.CreateReply();
-                    response.Type = ActivityTypes.Event;
-                    response.Name = "tokens/request";
-
-                    // Send the tokens/request Event
-                    await sc.Context.SendActivityAsync(response);
-
-                    // Wait for the tokens/response event
-                    return await sc.PromptAsync(SkillModeAuth, new PromptOptions());
-                }
-                else
-                {
-                    return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = ResponseManager.GetResponse(ToDoSharedResponses.NoAuth) });
-                }
+                return await sc.PromptAsync(nameof(AuthDialog), new PromptOptions() { RetryPrompt = ResponseManager.GetResponse(ToDoSharedResponses.NoAuth) });
             }
             catch (Exception ex)
             {
@@ -131,27 +118,7 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                // When the user authenticates interactively we pass on the tokens/Response event which surfaces as a JObject
-                // When the token is cached we get a TokenResponse object.
-                var skillOptions = (ToDoSkillDialogOptions)sc.Options;
-                ProviderTokenResponse providerTokenResponse;
-                if (skillOptions != null && skillOptions.SkillMode)
-                {
-                    var resultType = sc.Context.Activity.Value.GetType();
-                    if (resultType == typeof(ProviderTokenResponse))
-                    {
-                        providerTokenResponse = sc.Context.Activity.Value as ProviderTokenResponse;
-                    }
-                    else
-                    {
-                        var tokenResponseObject = sc.Context.Activity.Value as JObject;
-                        providerTokenResponse = tokenResponseObject?.ToObject<ProviderTokenResponse>();
-                    }
-                }
-                else
-                {
-                    providerTokenResponse = sc.Result as ProviderTokenResponse;
-                }
+                var providerTokenResponse = sc.Result as ProviderTokenResponse;
 
                 if (providerTokenResponse != null)
                 {
@@ -1011,7 +978,7 @@ namespace ToDoSkill.Dialogs
                     var taskServiceInit = ServiceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
                     if (taskServiceInit.IsListCreated)
                     {
-                        if (state.TaskServiceType == ProviderTypes.OneNote)
+                        if (state.TaskServiceType == ServiceProviderType.OneNote)
                         {
                             await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.SettingUpOneNoteMessage));
                             await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.AfterOneNoteSetupMessage));
