@@ -205,7 +205,7 @@
     <value>dd-MM-yyyy</value>
   </data>
   <data name="FirstItem" xml:space="preserve">
-    <value>The latest email is {0}</value>
+    <value>the first is {0}</value>
   </data>
   <data name="More" xml:space="preserve">
     <value>more</value>
@@ -214,12 +214,21 @@
     <value>the second is {0}</value>
   </data>
   <data name="ThirdItem" xml:space="preserve">
-    <value>the third is {0}</value>
+    <value>The third is {0}.</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Login</value>
   </data>
   <data name="LoginDescription" xml:space="preserve">
     <value>Please login with your {0} account</value>
+  </data>
+  <data name="FourthItem" xml:space="preserve">
+    <value>the fourth is {0}</value>
+  </data>
+  <data name="LastItem" xml:space="preserve">
+    <value>the last is {0}.</value>
+  </data>
+  <data name="LatestItem" xml:space="preserve">
+    <value>The latest is {0}</value>
   </data>
 </root>
