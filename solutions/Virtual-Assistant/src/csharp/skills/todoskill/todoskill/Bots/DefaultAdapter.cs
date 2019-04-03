@@ -1,17 +1,18 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Globalization;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions.Middleware;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using VirtualAssistantTemplate.Responses.Main;
-using VirtualAssistantTemplate.Services;
+using ToDoSkill.Responses.Shared;
+using ToDoSkill.Services;
 
-namespace VirtualAssistantTemplate.Bots
+namespace ToDoSkill.Bots
 {
     public class DefaultAdapter : BotFrameworkHttpAdapter
     {
@@ -20,7 +21,9 @@ namespace VirtualAssistantTemplate.Bots
             ICredentialProvider credentialProvider,
             UserState userState,
             ConversationState conversationState,
-            IBotTelemetryClient telemetryClient) : base(credentialProvider)
+            IBotTelemetryClient telemetryClient,
+            ResponseManager responseManager)
+            : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>
             {
@@ -30,10 +33,10 @@ namespace VirtualAssistantTemplate.Bots
                 telemetryClient.TrackExceptionEx(exception, context.Activity);
             };
 
-            Use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));
+            //Use(transcriptMiddleware);
             Use(new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true));
             Use(new ShowTypingMiddleware());
-            Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
+            Use(new SetLocaleMiddleware(""));
             Use(new EventDebuggerMiddleware());
             Use(new AutoSaveStateMiddleware());
         }

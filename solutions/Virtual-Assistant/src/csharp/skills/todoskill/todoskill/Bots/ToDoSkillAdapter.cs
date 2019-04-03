@@ -1,26 +1,25 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
+﻿using System.Globalization;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
-using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Middleware;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using VirtualAssistantTemplate.Responses.Main;
-using VirtualAssistantTemplate.Services;
+using ToDoSkill.Responses.Shared;
+using ToDoSkill.Services;
 
-namespace VirtualAssistantTemplate.Bots
+namespace ToDoSkill.Bots
 {
-    public class DefaultAdapter : BotFrameworkHttpAdapter
+    public class ToDoSkillAdapter : SkillAdapter
     {
-        public DefaultAdapter(
-            BotSettings settings,
+        public ToDoSkillAdapter(
+            BotSettings settings, 
             ICredentialProvider credentialProvider,
-            UserState userState,
-            ConversationState conversationState,
-            IBotTelemetryClient telemetryClient) : base(credentialProvider)
+            ResponseManager responseManager,
+            IBotTelemetryClient telemetryClient)
+            : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>
             {
