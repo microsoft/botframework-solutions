@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System;
@@ -105,7 +105,7 @@ namespace NewsSkill
             services.AddSingleton<IBot, NewsSkill>();
 
             // Add the http adapter to enable MVC style bot API
-            services.AddSingleton<IBotFrameworkHttpAdapter>(sp =>
+            services.AddTransient<IBotFrameworkHttpAdapter>(sp =>
             {
                 var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 

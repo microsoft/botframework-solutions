@@ -1,0 +1,11 @@
+{
+    "ErrorMessageSkillError": {
+      "replies": [
+        {
+          "speak": "Sorry, etwas ist schief gelaufen und versuchte, mit der Fähigkeit zu kommunizieren. Bitte versuchen Sie es noch einmal.",
+          "text": "Sorry, etwas ist schief gelaufen und versuchte, mit der Fähigkeit zu kommunizieren. Bitte versuchen Sie es noch einmal."
+        }
+      ],
+      "inputHint": "expectingInput"
+    }
+  }

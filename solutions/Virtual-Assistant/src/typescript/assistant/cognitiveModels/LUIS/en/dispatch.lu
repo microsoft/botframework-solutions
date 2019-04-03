@@ -1,4 +1,4 @@
-> Construct the root dispatch LUIS model based on other .lu files
+﻿> Construct the root dispatch LUIS model based on other .lu files
 
 # l_General
 - [l_General](general.lu#Cancel)
@@ -61,5 +61,14 @@ $TaskContentPattern:simple
 $KEYWORD:simple
 $ADDRESS:simple
 
+ # l_Sample 
+- [l_Sample](../../../../skills/sampleSkill/CognitiveModels/LUIS/en/sample.lu#Sample)
+- [l_Sample](../../../../skills/sampleSkill/CognitiveModels/LUIS/en/sample.lu#None)
+
 # q_FAQ
 - [q_FAQ](../../QnA/en/faq.lu#?)
+
+# None
+- my water bottle is green
+- turtles like to swim in the ocean
+- paper planes in the sky

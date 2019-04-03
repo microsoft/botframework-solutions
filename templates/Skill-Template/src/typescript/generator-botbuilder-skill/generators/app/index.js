@@ -160,7 +160,6 @@ module.exports = class extends Generator {
     }
 
     const templateName = "customSkill";
-    const conversationStateTag = "ConversationState";
     const userStateTag = "UserState";
     const skillDesc = this.props.skillDesc;
     if (!this.props.skillName.replace(/\s/g, "").length) {
@@ -172,6 +171,11 @@ module.exports = class extends Generator {
     // Generate vars for templates
     const skillNamePascalCase = _upperFirst(_camelCase(this.props.skillName));
     const skillNameCamelCase = _camelCase(this.props.skillName);
+    const skillNameId = skillNameCamelCase.substring(
+      0,
+      skillNameCamelCase.indexOf("Skill")
+    );
+    const skillNameIdPascalCase = _upperFirst(skillNameId);
     skillGenerationPath = path.join(skillGenerationPath, skillName);
     if (this.props.skillGenerationPath !== undefined) {
       skillGenerationPath = path.join(
@@ -180,12 +184,6 @@ module.exports = class extends Generator {
       );
     }
 
-    const skillConversationStateNameClass = `I${skillNamePascalCase.concat(
-      conversationStateTag
-    )}`;
-    const skillConversationStateNameFile = skillNameCamelCase.concat(
-      conversationStateTag
-    );
     const skillUserStateNameClass = `I${skillNamePascalCase.concat(
       userStateTag
     )}`;
@@ -217,10 +215,10 @@ module.exports = class extends Generator {
       this.templatePath(templateName, "src", "_index.ts"),
       this.destinationPath(skillGenerationPath, "src", "index.ts"),
       {
-        skillConversationStateNameClass: skillConversationStateNameClass,
-        skillConversationStateNameFile: skillConversationStateNameFile,
         skillUserStateNameClass: skillUserStateNameClass,
         skillUserStateNameFile: skillUserStateNameFile,
+        skillTemplateName: skillNamePascalCase,
+        skillTemplateFileName: skillNameCamelCase,
         skillProjectName: skillName,
         skillProjectNameLU: `${skillName}LU`
       }
@@ -232,15 +230,10 @@ module.exports = class extends Generator {
       this.destinationPath(
         skillGenerationPath,
         "src",
-        `${skillConversationStateNameFile}.ts`
+        "skillConversationState.ts"
       ),
       {
-        skillConversationStateNameClass: skillConversationStateNameClass,
-        skillConversationStateNameFile: skillConversationStateNameFile,
-        skillUserStateNameClass: skillUserStateNameClass,
-        skillUserStateNameFile: skillUserStateNameFile,
-        skillProjectName: skillName,
-        skillProjectNameLU: `${skillName}LU`
+        skillProjectNameLU: `${skillNameId}LU`
       }
     );
 
@@ -253,8 +246,6 @@ module.exports = class extends Generator {
         `${skillUserStateNameFile}.ts`
       ),
       {
-        skillConversationStateNameClass: skillConversationStateNameClass,
-        skillConversationStateNameFile: skillConversationStateNameFile,
         skillUserStateNameClass: skillUserStateNameClass,
         skillUserStateNameFile: skillUserStateNameFile,
         skillProjectName: skillName,
@@ -271,14 +262,55 @@ module.exports = class extends Generator {
         `${skillNameCamelCase}.ts`
       ),
       {
-        skillConversationStateNameClass: skillConversationStateNameClass,
-        skillConversationStateNameFile: skillConversationStateNameFile,
         skillUserStateNameClass: skillUserStateNameClass,
         skillUserStateNameFile: skillUserStateNameFile,
         skillTemplateName: skillNamePascalCase,
         skillProjectName: skillName,
         skillProjectNameLU: `${skillName}LU`
       }
+    );
+
+    const languageDirectories = ["de", "en", "es", "fr", "it", "zh"];
+
+    // Copy LUIS files
+    languageDirectories.forEach(language =>
+      this.fs.copy(
+        this.templatePath(
+          templateName,
+          "cognitiveModels",
+          "LUIS",
+          language,
+          "_skill.lu"
+        ),
+        this.destinationPath(
+          skillGenerationPath,
+          "cognitiveModels",
+          "LUIS",
+          language,
+          `${skillNameId}.lu`
+        )
+      )
+    );
+
+    // Copy bot.recipes files
+    languageDirectories.forEach(languageDirectory =>
+      this.fs.copyTpl(
+        this.templatePath(
+          templateName,
+          "deploymentScripts",
+          languageDirectory,
+          "_bot.recipe"
+        ),
+        this.destinationPath(
+          skillGenerationPath,
+          "deploymentScripts",
+          languageDirectory,
+          "bot.recipe"
+        ),
+        {
+          skillProjectName: skillNameId
+        }
+      )
     );
 
     // Copy mainDialog.ts
@@ -298,11 +330,10 @@ module.exports = class extends Generator {
         "mainDialog.ts"
       ),
       {
-        skillConversationStateNameClass: skillConversationStateNameClass,
-        skillConversationStateNameFile: skillConversationStateNameFile,
         skillUserStateNameClass: skillUserStateNameClass,
         skillUserStateNameFile: skillUserStateNameFile,
-        skillProjectName: skillName
+        skillProjectName: skillName,
+        skillProjectNameId: skillNameId
       }
     );
 
@@ -323,8 +354,6 @@ module.exports = class extends Generator {
         "sampleDialog.ts"
       ),
       {
-        skillConversationStateNameClass: skillConversationStateNameClass,
-        skillConversationStateNameFile: skillConversationStateNameFile,
         skillUserStateNameClass: skillUserStateNameClass,
         skillUserStateNameFile: skillUserStateNameFile
       }
@@ -347,11 +376,25 @@ module.exports = class extends Generator {
         "skillDialogBase.ts"
       ),
       {
-        skillConversationStateNameClass: skillConversationStateNameClass,
-        skillConversationStateNameFile: skillConversationStateNameFile,
         skillUserStateNameClass: skillUserStateNameClass,
         skillUserStateNameFile: skillUserStateNameFile,
-        skillProjectName: skillName
+        skillProjectName: skillName,
+        skillProjectNameId: skillNameId
+      }
+    );
+
+    // Copy skillTestBase file
+    this.fs.copyTpl(
+      this.templatePath(templateName, "test", "flow", "_skillTestBase.js"),
+      this.destinationPath(
+        skillGenerationPath,
+        "test",
+        "flow",
+        `${skillName}TestBase.js`
+      ),
+      {
+        skillTemplateName: skillNamePascalCase,
+        skillTemplateNameFile: `${skillNameCamelCase}.js`
       }
     );
 
@@ -367,6 +410,17 @@ module.exports = class extends Generator {
       "tslint.json",
       ".env.development",
       ".env.production",
+      path.join("cognitiveModels", "LUIS", "de", "general.lu"),
+      path.join("cognitiveModels", "LUIS", "en", "general.lu"),
+      path.join("cognitiveModels", "LUIS", "es", "general.lu"),
+      path.join("cognitiveModels", "LUIS", "fr", "general.lu"),
+      path.join("cognitiveModels", "LUIS", "it", "general.lu"),
+      path.join("cognitiveModels", "LUIS", "zh", "general.lu"),
+      path.join("deploymentScripts", "bot.recipe"),
+      path.join("deploymentScripts", "deploy_bot.ps1"),
+      path.join("deploymentScripts", "generate_deployment_scripts.ps1"),
+      path.join("deploymentScripts", "update_published_models.ps1"),
+      path.join("src", "languageModels.json"),
       path.join("src", "dialogs", "main", "mainResponses.ts"),
       path.join("src", "dialogs", "sample", "sampleResponses.ts"),
       path.join("src", "dialogs", "shared", "sharedResponses.ts")
@@ -381,9 +435,8 @@ module.exports = class extends Generator {
 
     // Copy commonDirectories
     const commonDirectories = [
-      "cognitiveModels",
-      "deploymentScripts",
       path.join("src", "serviceClients"),
+      path.join("src", "locales"),
       path.join("src", "dialogs", "main", "resources"),
       path.join("src", "dialogs", "sample", "resources"),
       path.join("src", "dialogs", "shared", "resources"),
@@ -397,13 +450,81 @@ module.exports = class extends Generator {
       )
     );
 
+    // Copy skills files
+    this.fs.copyTpl(
+      this.templatePath(templateName, "src", "_skills.json"),
+      this.destinationPath(skillGenerationPath, "src", "skills.json"),
+      {
+        skillTemplateName: skillNameCamelCase,
+        skillTemplateIntentName: `l_${skillNameIdPascalCase}`,
+        skillTemplateId: skillNameId,
+        skillTemplateNameClass: skillNamePascalCase
+      }
+    );
+
+    this.fs.copyTpl(
+      this.templatePath(templateName, "test", "mockResources", "_skills.json"),
+      this.destinationPath(
+        skillGenerationPath,
+        "test",
+        "mockResources",
+        "skills.json"
+      ),
+      {
+        skillTemplateName: skillNameCamelCase,
+        skillTemplateIntentName: `l_${skillNameIdPascalCase}`,
+        skillTemplateId: skillNameId,
+        skillTemplateNameClass: skillNamePascalCase
+      }
+    );
+
+    // Copy mainDialogTest file
+    this.fs.copyTpl(
+      this.templatePath(templateName, "test", "flow", "_mainDialogTest.js"),
+      this.destinationPath(
+        skillGenerationPath,
+        "test",
+        "flow",
+        "mainDialogTest.js"
+      ),
+      {
+        skillTemplateName: skillNameCamelCase,
+        skillTemplateNameFile: `${skillNameCamelCase}TestBase.js`
+      }
+    );
+
+    // Copy sampleDialogTest file
+    this.fs.copyTpl(
+      this.templatePath(templateName, "test", "flow", "_sampleDialogTest.js"),
+      this.destinationPath(
+        skillGenerationPath,
+        "test",
+        "flow",
+        "sampleDialogTest.js"
+      ),
+      {
+        skillTemplateName: skillNameCamelCase,
+        skillTemplateNameFile: `${skillNameCamelCase}TestBase.js`
+      }
+    );
+
+    // Copy interruptionTest file
+    this.fs.copyTpl(
+      this.templatePath(templateName, "test", "flow", "_interruptionTest.js"),
+      this.destinationPath(
+        skillGenerationPath,
+        "test",
+        "flow",
+        "interruptionTest.js"
+      ),
+      {
+        skillTemplateName: skillNameCamelCase,
+        skillTemplateNameFile: `${skillNameCamelCase}TestBase.js`
+      }
+    );
+
     // Copy commonFlowFiles
-    const commonTestFiles = [
-      path.join("flow", "mainDialogTests.js"),
-      path.join("flow", "sampleDialogTests.js"),
-      path.join("flow", "skillTestBase.js"),
-      "mocha.opts"
-    ];
+    const commonTestFiles = ["mocha.opts", ".env.test", "testBase.js"];
 
     commonTestFiles.forEach(testFlowFileName =>
       this.fs.copy(
@@ -411,16 +532,70 @@ module.exports = class extends Generator {
         this.destinationPath(skillGenerationPath, "test", testFlowFileName)
       )
     );
+
+    // Copy LocaleConfigurations bot files
+    const localeConfigurationTestFiles = [
+      "_mockedSkillDe.bot",
+      "_mockedSkillEn.bot",
+      "_mockedSkillEs.bot",
+      "_mockedSkillFr.bot",
+      "_mockedSkillIt.bot",
+      "_mockedSkillZh.bot"
+    ];
+
+    localeConfigurationTestFiles.forEach(fileName =>
+      this.fs.copyTpl(
+        this.templatePath(
+          templateName,
+          "test",
+          "mockResources",
+          "LocaleConfigurations",
+          fileName
+        ),
+        this.destinationPath(
+          skillGenerationPath,
+          "test",
+          "mockResources",
+          "LocaleConfigurations",
+          fileName.substring(1)
+        ),
+        {
+          skillProjectNameId: skillNameId
+        }
+      )
+    );
+
+    const commonTestDirectories = [path.join("nockFixtures")];
+
+    commonTestDirectories.forEach(testCommonDirectory =>
+      this.fs.copy(
+        this.templatePath(templateName, "test", testCommonDirectory),
+        this.destinationPath(skillGenerationPath, "test", testCommonDirectory)
+      )
+    );
+
+    const commonMockResourcesFiles = [
+      path.join("languageModels.json"),
+      path.join("mockedConfiguration.bot")
+    ];
+
+    commonMockResourcesFiles.forEach(mockResourcesFile =>
+      this.fs.copy(
+        this.templatePath(
+          templateName,
+          "test",
+          "mockResources",
+          mockResourcesFile
+        ),
+        this.destinationPath(
+          skillGenerationPath,
+          "test",
+          "mockResources",
+          mockResourcesFile
+        )
+      )
+    );
   }
-
-  // Ainstall() {
-  //   if (this.props.finalConfirmation !== true || isAlreadyCreated) {
-  //     return;
-  //   }
-
-  //   process.chdir(skillGenerationPath);
-  //   this.installDependencies({ npm: true, bower: false });
-  // }
 
   end() {
     if (this.props.finalConfirmation === true) {

@@ -1,15 +1,17 @@
+/**
+ * Copyright(c) Microsoft Corporation.All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import { TelemetryClient } from 'applicationinsights';
 import { ITelemetryLuisRecognizer, ITelemetryQnAMaker, LocaleConfiguration, SkillConfiguration, SkillConfigurationBase, SkillDefinition,
-    TelemetryLuisRecognizer, TelemetryQnAMaker } from 'bot-solution';
+    SkillEvent, TelemetryLuisRecognizer, TelemetryQnAMaker } from 'bot-solution';
 import { LuisApplication, QnAMakerEndpoint } from 'botbuilder-ai';
 import { CosmosDbStorageSettings } from 'botbuilder-azure';
 import { AppInsightsService, BotConfiguration, CosmosDbService, DispatchService,
     GenericService, IConnectedService, LuisService, QnaMakerService, ServiceTypes } from 'botframework-config';
 import { existsSync } from 'fs';
 import { join } from 'path';
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License
 
 /**
  * Represents references to external services.
@@ -30,10 +32,18 @@ export class BotServices {
 
     public skillConfigurations: Map<string, SkillConfigurationBase> = new Map();
 
+    /**
+     * Gets or sets skill events that's loaded from skillEvents.json file.
+     * @description The mapping between skill and events defined in skillEvents.json file that specifies what happens
+     * when different events are received.
+     */
+    public skillEvents?: Map<string, SkillEvent> = new Map();
+
     constructor(
         botConfiguration: BotConfiguration,
         languageModels: Map<string, { botFilePath: string; botFileSecret: string }>,
-        skills: SkillDefinition[]) {
+        skills: SkillDefinition[],
+        skillEventsConfig: SkillEvent[]) {
         // Create service clients for each service in the .bot file.
         let telemetryClient: TelemetryClient|undefined;
         let cosmosDbStorageSettings: CosmosDbStorageSettings|undefined;
@@ -107,6 +117,17 @@ export class BotServices {
 
             this.skillDefinitions.push(skill);
             this.skillConfigurations.set(skill.id, skillConfig);
+            if (skillEventsConfig) {
+                this.skillEvents = skillEventsConfig.reduce(
+                    (previous: Map<string, SkillEvent>, current: SkillEvent) => {
+                        previous.set(current.event, current);
+
+                        return previous;
+                    },
+                    new Map<string, SkillEvent>());
+            } else {
+                this.skillEvents = undefined;
+            }
         });
     }
 
@@ -225,7 +246,7 @@ export class BotServices {
             });
         }
 
-        skill.configuration.forEach((key: string, value: string) => {
+        skill.configuration.forEach((value: string, key: string) => {
             skillConfig.properties[key] = value;
         });
 

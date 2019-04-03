@@ -4,6 +4,7 @@
 namespace EmailSkill.Extensions
 {
     using System;
+    using global::EmailSkill.Dialogs.Shared.Resources.Strings;
     using Microsoft.Bot.Builder.Solutions.Resources;
 
     /// <summary>
@@ -75,6 +76,28 @@ namespace EmailSkill.Extensions
 
             // Add time
             return string.Format(CommonStrings.AtTimeDetailsFormat, date, dateTimeWithTimeZone.ToString(CommonStrings.DisplayTime));
+        }
+
+        public static string ToDetailRelativeString(this DateTime dateTime, TimeZoneInfo timeZoneInfo)
+        {
+            // Change to local time
+            var dateTimeWithTimeZone = TimeZoneInfo.ConvertTimeFromUtc(dateTime, timeZoneInfo);
+
+            return dateTimeWithTimeZone.ToString(EmailCommonStrings.DisplayDetailDateFormat);
+        }
+
+        public static string ToOverallRelativeString(this DateTime dateTime, TimeZoneInfo timeZoneInfo)
+        {
+            // Change to local time
+            var dateTimeWithTimeZone = TimeZoneInfo.ConvertTimeFromUtc(dateTime, timeZoneInfo);
+            var nowWithTimeZone = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.Local, timeZoneInfo);
+
+            if (dateTimeWithTimeZone.Day == nowWithTimeZone.Day)
+            {
+                return dateTimeWithTimeZone.ToString(EmailCommonStrings.TodayDateFormat);
+            }
+
+            return dateTimeWithTimeZone.ToString(EmailCommonStrings.PreviousDateFormat);
         }
     }
 }

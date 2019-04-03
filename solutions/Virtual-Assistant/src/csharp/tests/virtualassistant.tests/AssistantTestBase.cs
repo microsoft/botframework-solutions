@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using Autofac;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
@@ -15,6 +16,7 @@ using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PointOfInterestSkill.Dialogs.Shared.Resources;
+using VirtualAssistant.Dialogs.Main.Resources;
 using VirtualAssistant.Tests.LuisTestUtils;
 
 namespace VirtualAssistant.Tests
@@ -52,14 +54,13 @@ namespace VirtualAssistant.Tests
             this.ProactiveState = new ProactiveState(new MemoryStorage());
             this.TelemetryClient = new NullBotTelemetryClient();
             this.BackgroundTaskQueue = new BackgroundTaskQueue();
-
             this.EndPointService = new EndpointService();
 
             builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
             this.Container = builder.Build();
 
             var locales = new string[] { "en", "de", "es", "fr", "it", "zh" };
-            ResponseManager = new ResponseManager(locales, new POISharedResponses(), new SkillResponses(), new AuthenticationResponses());
+            ResponseManager = new ResponseManager(locales, new POISharedResponses(), new SkillResponses(), new AuthenticationResponses(), new MainDialogResponses());
 
             // Initialize the Dispatch and Luis mocks
             this.BotServices = new BotServices();
@@ -147,7 +148,7 @@ namespace VirtualAssistant.Tests
 
         public override IBot BuildBot()
         {
-            return new VirtualAssistant(this.BotServices, this.ConversationState, this.UserState, this.ProactiveState, this.EndPointService, this.TelemetryClient, this.BackgroundTaskQueue);
+            return new VirtualAssistant(this.BotServices, this.ConversationState, this.UserState, this.ProactiveState, this.EndPointService, this.TelemetryClient, this.BackgroundTaskQueue, this.ResponseManager);
         }
 
         /// <summary>
