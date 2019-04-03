@@ -4,12 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-<<<<<<< HEAD
-using System.Security.Claims;
-=======
->>>>>>> origin/4.4
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.DeleteEmail.Resources;
 using EmailSkill.Dialogs.FindContact.Resources;
