@@ -7,20 +7,20 @@ using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Solutions.Responses
 {
+    /// <summary>
+    /// Read order of list items.
+    /// </summary>
+    public enum ReadPreference
+    {
+        /// <summary>First item, second item, third item, etc.</summary>
+        Enumeration,
+
+        /// <summary>Latest item, second item, third item, etc.</summary>
+        Chronological
+    }
+
     public class SpeechUtility
     {
-        /// <summary>
-        /// Read order of list items.
-        /// </summary>
-        public enum ReadPreference
-        {
-            /// <summary>First item, second item, third item, etc.</summary>
-            Enumeration,
-
-            /// <summary>Latest item, second item, third item, etc.</summary>
-            Chronological
-        }
-
         /// <summary>
         /// Concatenate PromptOption string properties into a formatted speech-ready string.
         /// </summary>
