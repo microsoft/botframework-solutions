@@ -16,6 +16,7 @@ import {
     SkillDefinition,
     TelemetryExtensions
 } from 'bot-solution';
+import { SkillAdapter } from "bot-skill";
 import {
     AutoSaveStateMiddleware,
     BotFrameworkAdapter,
@@ -134,6 +135,9 @@ const adapter: BotFrameworkAdapter = new BotFrameworkAdapter({
     appPassword: endpointService.appPassword || process.env.microsoftAppPassword
 });
 
+// Create the skill adapter
+const skillAdapter: SkillAdapter = new SkillAdapter();
+
 // Get AppInsights configuration by service name
 const appInsightsConfig: IAppInsightsService = <IAppInsightsService> searchService(botConfig, ServiceTypes.AppInsights, APPINSIGHTS_NAME);
 if (!appInsightsConfig) {
@@ -168,6 +172,7 @@ const proactiveState: ProactiveState = new ProactiveState(storage);
 
 // Use the AutoSaveStateMiddleware middleware to automatically read and write conversation and user state.
 adapter.use(new AutoSaveStateMiddleware(conversationState, userState));
+skillAdapter.use(new AutoSaveStateMiddleware(conversationState, userState));
 
 // Transcript Middleware (saves conversation history in a standard format)
 const blobStorageConfig: IBlobStorageService = <IBlobStorageService> searchService(botConfig, ServiceTypes.BlobStorage, BLOB_NAME);
@@ -182,6 +187,7 @@ const transcriptStore: AzureBlobTranscriptStore = new AzureBlobTranscriptStore({
     storageAccountOrConnectionString: blobStorage.connectionString
 });
 adapter.use(new TranscriptLoggerMiddleware(transcriptStore));
+skillAdapter.use(new TranscriptLoggerMiddleware(transcriptStore));
 
 /* Typing Middleware
 (automatically shows typing when the bot is responding/working)*/
@@ -190,7 +196,22 @@ adapter.use(new SetLocaleMiddleware(DEFAULT_LOCALE));
 adapter.use(new EventDebuggerMiddleware());
 adapter.use(new ProactiveStateMiddleware(proactiveState));
 
+skillAdapter.use(new SetLocaleMiddleware(DEFAULT_LOCALE));
+skillAdapter.use(new EventDebuggerMiddleware());
+
 adapter.onTurnError = async (context: TurnContext, error: Error): Promise<void> => {
+    // tslint:disable-next-line:no-console
+    console.error(`${error.message}/n${error.stack}`);
+    await context.sendActivity(ActivityExtensions.createReply(context.activity, SharedResponses.errorMessage));
+    await context.sendActivity({
+        type: ActivityTypes.Trace,
+        text: `Skill Error: ${error.message} | ${error.stack}`
+    });
+
+    TelemetryExtensions.trackExceptionEx(telemetryClient, error, context.activity);
+};
+
+skillAdapter.onTurnError = async (context: TurnContext, error: Error): Promise<void> => {
     // tslint:disable-next-line:no-console
     console.error(`${error.message}/n${error.stack}`);
     await context.sendActivity(ActivityExtensions.createReply(context.activity, SharedResponses.errorMessage));
@@ -242,6 +263,15 @@ server.listen(process.env.port || process.env.PORT || 3980, (): void => {
 server.post('/api/messages', (req: restify.Request, res: restify.Response) => {
     // Route received a request to adapter for processing
     adapter.processActivity(req, res, async (turnContext: TurnContext) => {
+        // route to bot activity handler.
+        await bot.onTurn(turnContext);
+    });
+});
+
+// Listen for incoming requests as a skill
+server.post('/api/skill/messages', (req: restify.Request, res: restify.Response) => {
+    // Route received a request to adapter for processing
+    skillAdapter.processActivity(req, res, async (turnContext: TurnContext) => {
         // route to bot activity handler.
         await bot.onTurn(turnContext);
     });

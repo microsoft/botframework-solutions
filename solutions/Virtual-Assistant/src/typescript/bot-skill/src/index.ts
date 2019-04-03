@@ -6,4 +6,5 @@
  * Licensed under the MIT License.
  */
 
+export * from './skillAdapter';
 export * from './skillDialog';

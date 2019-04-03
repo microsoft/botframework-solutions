@@ -1,4 +1,4 @@
-import { BotFrameworkAdapter, TurnContext } from "botbuilder";
+import { BotFrameworkAdapter, TurnContext, WebRequest, WebResponse, InvokeResponse } from "botbuilder";
 import { ActivityExtensions } from 'bot-solution';
 import { Activity, ActivityTypes, ConversationReference, ResourceResponse } from "botframework-schema";
 
@@ -10,16 +10,44 @@ export class SkillAdapter extends BotFrameworkAdapter {
         return (this.lastId + 1).toString();
     }
 
-    constructor() {
+    public constructor() {
         super();
         this.queuedActivities = [];
     }
 
-    public async processActivity(activity: Partial<Activity>, callback: (revocableContext: TurnContext) => Promise<void>): Promise<void> {
+    public async processActivity(req: WebRequest, res: WebResponse, logic: (context: TurnContext) => Promise<any>): Promise<void> {
+        // deserialize the incoming Activity
+        const activity: Activity = await parseRequest(req);
 
-        const context: TurnContext = new TurnContext(this, activity);
+        // grab the auth header from the inbound http request
+        const headers = req.headers;
+
+        // process the inbound activity with the bot
+        const invokeResponse: InvokeResponse = await this.processActivityInternal(headers, activity, logic);
+
+        // write the response, potentially serializing the InvokeResponse
+        res.status(invokeResponse.status);
+        if (invokeResponse.body) {
+            res.send(invokeResponse.body);
+        }
+
+        res.end();
+    }
+
+    public async processActivityInternal(authHeader: string , activity: Partial<Activity>, callback: (revocableContext: TurnContext) => Promise<void>): Promise<InvokeResponse> {
+        // Ensure the Activity has been retrieved from the HTTP POST
+        // Not performing authentication checks at this time
+
+        // Process the Activity through the Middleware and the Bot, this will generate Activities which we need to send back.
+        const context: TurnContext = this.createContext(activity);
+
         await this.runMiddleware(context, callback);
 
+        // Any Activity responses are now available (via SendActivitiesAsync) so we need to pass back for the response
+        return {
+            status: 200,
+            body: this.getReplies()
+        }
     }
 
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
@@ -55,14 +83,14 @@ export class SkillAdapter extends BotFrameworkAdapter {
                 (this.queuedActivities);
                 {
                     this.queuedActivities.push(activity);
-                }    
+                }
             }
 
-            responses.push( new ResourceResponse (activity.id));
-        })    
+            responses.push({ id: activity.id });
+        })
 
         return responses;
-    }   
+    }
 
     public getReplies(): Partial<Activity>[] {
         return this.queuedActivities
@@ -71,7 +99,7 @@ export class SkillAdapter extends BotFrameworkAdapter {
     }
 
     public async continueConversation(reference: Partial<ConversationReference>, logic: (revocableContext: TurnContext) => Promise<void>): Promise<void> {
-      
+
         if (!reference) {
             throw new Error('Missing parameter. reference is required');
         }
@@ -97,4 +125,38 @@ export class SkillAdapter extends BotFrameworkAdapter {
     public updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
         throw new Error("Method not implemented.");
     }
+}
+
+function parseRequest(req: WebRequest): Promise<Activity> {
+    return new Promise((resolve: any, reject: any): void => {
+        function returnActivity(activity: Activity): void {
+            if (typeof activity !== 'object') { throw new Error(`BotFrameworkAdapter.parseRequest(): invalid request body.`); }
+            if (typeof activity.type !== 'string') { throw new Error(`BotFrameworkAdapter.parseRequest(): missing activity type.`); }
+            if (typeof activity.timestamp === 'string') { activity.timestamp = new Date(activity.timestamp); }
+            if (typeof activity.localTimestamp === 'string') { activity.localTimestamp = new Date(activity.localTimestamp); }
+            if (typeof activity.expiration === 'string') { activity.expiration = new Date(activity.expiration); }
+            resolve(activity);
+        }
+
+        if (req.body) {
+            try {
+                returnActivity(req.body);
+            } catch (err) {
+                reject(err);
+            }
+        } else {
+            let requestData: string = '';
+            req.on('data', (chunk: string) => {
+                requestData += chunk;
+            });
+            req.on('end', () => {
+                try {
+                    req.body = JSON.parse(requestData);
+                    returnActivity(req.body);
+                } catch (err) {
+                    reject(err);
+                }
+            });
+        }
+    });
 }
