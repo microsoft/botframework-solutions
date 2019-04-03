@@ -26,7 +26,7 @@ program
     // .option('--input <jsonfile>', 'path to arguments in JSON format { id:\'\',name:\'\', ... }')
     // .option('--secret <secret>', 'bot file secret password for encrypting service secrets')
     // .option('--stdin', 'arguments are passed in as JSON object via stdin')
-    .option('-f', '--file', 'path to Skill Manifest')
+    .option('-f, --file <file>', 'path to Skill Manifest')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const args: program.Command = program.parse(process.argv);
@@ -37,7 +37,7 @@ if (process.argv.length < 3) {
     if (!args.file) {
         console.error(chalk.default.redBright('The "file" argument should be provided.'));
     } else {
-        console.log(chalk.default.greenBright(`You provided the "file" argument which contains the following path: ${args.file}`));
+        console.log(chalk.default.greenBright(`You provided the "file" argument which contains the following path: ` + args.file));
     }
 }
 

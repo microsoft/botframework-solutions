@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Skill command line tool for manipulating Microsoft Bot Framework skills",
   "main": "lib/skill.js",
+  "bin": {
+    "skill": "lib/skill.js"
+  },
   "scripts": {
     "build": "tsc",
     "test": "cd test/ && mocha --opts mocha.opts"

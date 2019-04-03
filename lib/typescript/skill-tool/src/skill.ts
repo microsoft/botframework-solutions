@@ -9,7 +9,6 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as process from 'process';
 import * as semver from 'semver';
-const latestVersion = require('latest-version');
 
 program
     .option('--prefix', 'Append [msbot] prefix to all messages')
@@ -41,7 +40,8 @@ program
 program
     .command('connect', 'connect any skill to your assistant bot');
 
-const args: program.Command = program.parse(process.argv);
+
+const args: any = program.parse(process.argv);
 // args should be undefined is subcommand is executed
 if (args) {
     const unknownArgs: string[] = process.argv.slice(2);
