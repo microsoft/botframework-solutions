@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Bot.Builder.AI.QnA;
 
-namespace Microsoft.Bot.Builder.Solutions.Configuration
+namespace Microsoft.Bot.Builder.Solutions
 {
     public class CognitiveModelSet
     {
