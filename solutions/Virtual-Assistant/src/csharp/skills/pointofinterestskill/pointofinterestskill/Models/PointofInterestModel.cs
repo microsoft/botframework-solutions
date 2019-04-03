@@ -252,6 +252,14 @@ namespace PointOfInterestSkill.Models
         public int Index { get; set; }
 
         /// <summary>
+        /// Gets or sets the formatted speak response of the point of interest.
+        /// </summary>
+        /// <value>
+        /// The formatted speak string.
+        /// </value>
+        public string Speak { get; set; }
+
+        /// <summary>
         /// Gets the formatted string for available details.
         /// </summary>
         /// <value>

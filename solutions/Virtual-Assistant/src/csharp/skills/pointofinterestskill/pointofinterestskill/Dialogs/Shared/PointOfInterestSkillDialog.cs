@@ -52,7 +52,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
             AddDialog(new TextPrompt(Actions.CurrentLocationPrompt));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.ConfirmPrompt) { Style = ListStyle.Auto, });
-            AddDialog(new ChoicePrompt(Actions.SelectPointOfInterestPrompt) { Style = ListStyle.Auto, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
+            AddDialog(new ChoicePrompt(Actions.SelectPointOfInterestPrompt) { Style = ListStyle.SuggestedAction, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
         }
 
         protected SkillConfigurationBase Services { get; set; }
@@ -399,6 +399,23 @@ namespace PointOfInterestSkill.Dialogs.Shared
                     }
 
                     pointOfInterestList[i].ProviderDisplayText = string.Format($"{PointOfInterestSharedStrings.POWERED_BY} **{{0}}**", pointOfInterestList[i].Provider.Aggregate((j, k) => j + "&" + k).ToString());
+
+                    // If multiple points of interest share the same name, use their combined name & address as the speak property.
+                    // Otherwise, just use the name.
+                    if (pointOfInterestList.Where(x => x.Name == pointOfInterestList[i].Name).Skip(1).Any())
+                    {
+                        var promptTemplate = POISharedResponses.PointOfInterestSuggestedActionName;
+                        var promptReplacements = new StringDictionary
+                        {
+                            { "Name", pointOfInterestList[i].Name },
+                            { "Address", pointOfInterestList[i].Street },
+                        };
+                        pointOfInterestList[i].Speak = ResponseManager.GetResponse(promptTemplate, promptReplacements).Text;
+                    }
+                    else
+                    {
+                        pointOfInterestList[i].Speak = pointOfInterestList[i].Name;
+                    }
                 }
 
                 state.LastFoundPointOfInterests = pointOfInterestList;
@@ -576,7 +593,8 @@ namespace PointOfInterestSkill.Dialogs.Shared
                         ETA = route.Summary.ArrivalTime.ToShortTimeString(),
                         TravelTimeSpeak = GetFormattedTravelTimeSpanString(travelTimeSpan),
                         TravelDelaySpeak = GetFormattedTrafficDelayString(trafficTimeSpan),
-                        ProviderDisplayText = string.Format($"{PointOfInterestSharedStrings.POWERED_BY} **{{0}}**", destination.Provider.Aggregate((j, k) => j + " & " + k).ToString())
+                        ProviderDisplayText = string.Format($"{PointOfInterestSharedStrings.POWERED_BY} **{{0}}**", destination.Provider.Aggregate((j, k) => j + " & " + k).ToString()),
+                        Speak = GetFormattedTravelTimeSpanString(travelTimeSpan)
                     };
 
                     cardData.Add(routeDirectionsModel);
