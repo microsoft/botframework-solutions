@@ -432,7 +432,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
 
                     var replyMessage = ResponseManager.GetCardResponse(templateId, cards);
 
-                    replyMessage.Speak = ResponseUtility.ListToSpeechReadyString(replyMessage);
+                    replyMessage.Speak = SpeechUtility.ListToSpeechReadyString(replyMessage);
 
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
@@ -442,7 +442,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
 
                     var card = new Card("PointOfInterestDetails", state.LastFoundPointOfInterests[0]);
                     var replyMessage = ResponseManager.GetCardResponse(templateId, card, tokens: null);
-                    replyMessage.Speak = ResponseUtility.ListToSpeechReadyString(replyMessage);
+                    replyMessage.Speak = SpeechUtility.ListToSpeechReadyString(replyMessage);
 
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
@@ -610,14 +610,14 @@ namespace PointOfInterestSkill.Dialogs.Shared
                     }
 
                     var replyMessage = ResponseManager.GetCardResponse(POISharedResponses.MultipleRoutesFound, cards);
-                    replyMessage.Speak = ResponseUtility.ListToSpeechReadyString(replyMessage);
+                    replyMessage.Speak = SpeechUtility.ListToSpeechReadyString(replyMessage);
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
                 else
                 {
                     var card = new Card("PointOfInterestDetailsWithRoute", cardData.SingleOrDefault());
                     var replyMessage = ResponseManager.GetCardResponse(POISharedResponses.SingleRouteFound, card, tokens: null);
-                    replyMessage.Speak = ResponseUtility.ListToSpeechReadyString(replyMessage);
+                    replyMessage.Speak = SpeechUtility.ListToSpeechReadyString(replyMessage);
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
             }

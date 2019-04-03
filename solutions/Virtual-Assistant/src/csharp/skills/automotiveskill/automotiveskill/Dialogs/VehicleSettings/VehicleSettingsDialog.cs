@@ -300,7 +300,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                         options.Prompt.Attachments.Add(card.ToAttachment());
 
                         // Default Text property is clumsy for speech
-                        options.Prompt.Speak = ResponseUtility.ListToSpeechReadyString(options.Prompt);
+                        options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options.Prompt);
 
                         return await sc.PromptAsync(Actions.SettingValueSelectionPrompt, options);
                     }

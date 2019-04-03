@@ -7,7 +7,7 @@ using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Solutions.Responses
 {
-    public class ResponseUtility
+    public class SpeechUtility
     {
         /// <summary>
         /// Read order of list items.
@@ -102,18 +102,27 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
                         {
                             readFormat = CommonStrings.FirstItem;
                         }
-                    }
-                    else if (i == 1)
+                    } else
                     {
-                        readFormat = CommonStrings.SecondItem;
-                    }
-                    else if (i == 2)
-                    {
-                        readFormat = CommonStrings.ThirdItem;
-                    }
-                    else if (i == 3)
-                    {
-                        readFormat = CommonStrings.FourthItem;
+                        if (i == readSize - 1)
+                        {
+                            readFormat = CommonStrings.LastItem;
+                        }
+                        else
+                        {
+                            if (i == 1)
+                            {
+                                readFormat = CommonStrings.SecondItem;
+                            }
+                            else if (i == 2)
+                            {
+                                readFormat = CommonStrings.ThirdItem;
+                            }
+                            else if (i == 3)
+                            {
+                                readFormat = CommonStrings.FourthItem;
+                            }
+                        }
                     }
 
                     var selectionDetail = string.Format(readFormat, selectionStrings[i]);

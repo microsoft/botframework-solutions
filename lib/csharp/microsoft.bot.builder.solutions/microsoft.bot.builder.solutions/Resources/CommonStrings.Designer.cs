@@ -151,7 +151,7 @@ namespace Microsoft.Bot.Builder.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to the first is {0}.
+        ///   Looks up a localized string similar to The first is {0}.
         /// </summary>
         public static string FirstItem {
             get {
@@ -304,7 +304,7 @@ namespace Microsoft.Bot.Builder.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The third is {0}..
+        ///   Looks up a localized string similar to the third is {0}.
         /// </summary>
         public static string ThirdItem {
             get {
