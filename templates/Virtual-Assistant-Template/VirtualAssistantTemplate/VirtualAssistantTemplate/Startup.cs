@@ -18,6 +18,7 @@ using VirtualAssistantTemplate.Bots;
 using Microsoft.AspNetCore.Mvc;
 using VirtualAssistantTemplate.Dialogs;
 using VirtualAssistantTemplate.Services;
+using System.Collections.Generic;
 
 namespace VirtualAssistantTemplate
 {
@@ -55,9 +56,9 @@ namespace VirtualAssistantTemplate
             services.AddSingleton<ConversationState>();
             services.AddSingleton<BotStateSet>();
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
-            services.AddSingleton<IBotFrameworkHttpAdapter, Adapter>();
+            services.AddSingleton<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<MainDialog>();
-            services.AddTransient<IBot, Bot<MainDialog>>();
+            services.AddTransient<IBot, DefaultBot<MainDialog>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

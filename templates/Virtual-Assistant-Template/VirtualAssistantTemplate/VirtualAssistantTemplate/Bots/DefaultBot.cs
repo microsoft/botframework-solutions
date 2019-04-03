@@ -12,12 +12,12 @@ using VirtualAssistantTemplate.Services;
 
 namespace VirtualAssistantTemplate.Bots
 {
-    public class Bot<T> : ActivityHandler where T : Dialog
+    public class DefaultBot<T> : ActivityHandler where T : Dialog
     {
         private readonly IBotTelemetryClient _telemetryClient;
         private DialogSet _dialogs;
 
-        public Bot(IServiceProvider serviceProvider, T dialog)
+        public DefaultBot(IServiceProvider serviceProvider, T dialog)
         {
             var services = serviceProvider.GetService<BotServices>() ?? throw new ArgumentNullException(nameof(BotServices));
             var conversationState = serviceProvider.GetService<ConversationState>() ?? throw new ArgumentNullException(nameof(ConversationState));

@@ -13,9 +13,9 @@ using VirtualAssistantTemplate.Services;
 
 namespace VirtualAssistantTemplate.Bots
 {
-    public class Adapter : BotFrameworkHttpAdapter
+    public class DefaultAdapter : BotFrameworkHttpAdapter
     {
-        public Adapter(
+        public DefaultAdapter(
             BotSettings settings,
             ICredentialProvider credentialProvider,
             UserState userState,
