@@ -473,7 +473,7 @@ namespace CalendarSkill.Dialogs.Shared
                     user = userList[0];
                 }
             }
-            catch (ServiceException)
+            catch (Exception)
             {
             }
 
@@ -508,7 +508,7 @@ namespace CalendarSkill.Dialogs.Shared
                 // return default value
                 return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
             }
-            catch (ServiceException)
+            catch (Exception)
             {
                 // won't clear conversation state hear, because sometime use api is not available, like user msa account.
                 return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
