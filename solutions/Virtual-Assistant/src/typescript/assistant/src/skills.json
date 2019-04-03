@@ -96,7 +96,7 @@
         "type": "skill",
         "id": "sampleSkill",
         "name": "sampleSkill",
-        "assembly": "PointOfInterestSkill.PointOfInterestSkill, PointOfInterestSkill, Version=1.0.0.0, Culture=neutral",
+        "assembly": "http://localhost:3980/api/skill/messages",
         "dispatchIntent": "l_Sample",
         "luisServiceIds": [
             "sample",

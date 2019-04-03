@@ -3,49 +3,25 @@
  * Licensed under the MIT License.
  */
 
-import { Activity, ActivityTypes, AutoSaveStateMiddleware, BotTelemetryClient, ConversationState,
-    MemoryStorage, Storage, TurnContext, UserState } from 'botbuilder';
-import { CosmosDbStorage, CosmosDbStorageSettings } from 'botbuilder-azure';
-import { ComponentDialog, Dialog, DialogContext, DialogTurnResult, DialogTurnStatus } from 'botbuilder-dialogs';
-import { IEndpointService } from 'botframework-config';
-import { join } from 'path';
-import { IProviderTokenResponse, isProviderTokenResponse, MultiProviderAuthDialog, ActivityExtensions,
-    EventDebuggerMiddleware, SetLocaleMiddleware, TelemetryExtensions, ProactiveState, ResponseManager,
-    IBackgroundTaskQueue, InProcAdapter, SkillConfigurationBase, SkillDefinition, ISkillDialogOptions,
-    SkillResponses } from 'bot-solution';
-import { SkillAdapter } from './skillAdapter';
+import { Activity, ActivityTypes, BotTelemetryClient } from 'botbuilder';
+import { ComponentDialog, Dialog, DialogContext, DialogTurnResult } from 'botbuilder-dialogs';
+import { SkillDefinition } from 'bot-solution';
 import { post } from "request-promise-native";
 
 export class SkillDialog extends ComponentDialog {
     // Fields
     private readonly skillDefinition: SkillDefinition;
-    private readonly skillConfiguration: SkillConfigurationBase;
 
-    constructor(skillDefinition: SkillDefinition,
-                skillConfiguration: SkillConfigurationBase,
-                telemetryClient: BotTelemetryClient) {
+    constructor(skillDefinition: SkillDefinition, telemetryClient: BotTelemetryClient) {
         super(skillDefinition.id);
 
         this.skillDefinition = skillDefinition;
-        this.skillConfiguration = skillConfiguration;
         this.telemetryClient = telemetryClient;
-
-        this.addDialog(new MultiProviderAuthDialog(skillConfiguration));
     }
 
-    protected onBeginDialog(innerDC: DialogContext, options?: object): Promise<DialogTurnResult> {
-        const skillOptions: ISkillDialogOptions = <ISkillDialogOptions> options;
-
-        // Send parameters to skill in skillBegin event
-        const userData: Map<string, Object> = new Map();
-
-        if (this.skillDefinition.parameters) {
-            this.skillDefinition.parameters.forEach((parameter: string) => {
-                if (skillOptions.parameters && skillOptions.parameters.has(parameter)) {
-                    userData.set(parameter, skillOptions.parameters.get(parameter) || '');
-                }
-            });
-        }
+    protected async onBeginDialog(innerDC: DialogContext, options?: object): Promise<DialogTurnResult> {
+        // TODO - The SkillDialog Orchestration should try to fill slots defined in the manifest and pass through this event.
+        const slots: object = {};
 
         const activity: Activity = innerDC.context.activity;
 
@@ -56,31 +32,15 @@ export class SkillDialog extends ComponentDialog {
             recipient: activity.recipient,
             conversation: activity.conversation,
             name: Events.skillBeginEventName,
-            value: userData
+            value: slots
         };
 
         // Send event to Skill/Bot
-        return this.forwardToSkill(innerDC, skillBeginEvent);
+        return await this.forwardToSkill(innerDC, skillBeginEvent);
     }
 
     protected async onContinueDialog(innerDC: DialogContext): Promise<DialogTurnResult> {
-        const activity: Activity = innerDC.context.activity;
-
-        if (innerDC.activeDialog && innerDC.activeDialog.id === MultiProviderAuthDialog.name) {
-            // Handle magic code auth
-            const result: DialogTurnResult = await innerDC.continueDialog();
-
-            // forward the token response to the skill
-            if (result.status === DialogTurnStatus.complete && isProviderTokenResponse(result.result)) {
-                activity.type = ActivityTypes.Event;
-                activity.name = Events.tokenResponseEventName;
-                activity.value = <IProviderTokenResponse> result.result;
-            } else {
-                return result;
-            }
-        }
-
-        return this.forwardToSkill(innerDC, activity);
+        return await this.forwardToSkill(innerDC, innerDC.context.activity);
     }
 
     protected endComponent(outerDC: DialogContext, result: Object): Promise<DialogTurnResult> {
@@ -89,34 +49,39 @@ export class SkillDialog extends ComponentDialog {
 
     private async forwardToSkill(innerDc: DialogContext, activity: Partial<Activity>): Promise<DialogTurnResult> {
         try {
+
+            // Serialize the activity and POST to the Skill endpoint
+            // TODO - Apply Authorization header
+            // TODO - Add header to indicate a skill call
             
             const request = post({
-                uri: <string> this.skillConfiguration.properties['botUrl'],
-                headers: { 'skill': 'true' },
+                uri: <string> this.skillDefinition.assembly,
                 body: activity,
                 json: true
             });
 
-            const responses: Partial<Activity>[] = await request;
+            const skillResponses: Partial<Activity>[] = await request;
+            const filteredResponses: Partial<Activity>[] = [];
 
             let endOfConversation: boolean = false;
 
-            const filteredResponses: Partial<Activity>[] = responses.filter(skillResponse => {
+            skillResponses.forEach((skillResponse: Partial<Activity>) => {
+                // Once a Skill has finished it signals that it's handing back control to the parent through a 
+                // EndOfConversation event which then causes the SkillDialog to be closed. Otherwise it remains "in control".
                 if (skillResponse.type === ActivityTypes.EndOfConversation) {
                     endOfConversation = true;
-                    return false;
+                } else {
+                    // Trace messages are not filtered out and are sent along with messages/events.
+                    filteredResponses.push(skillResponse);
                 }
-
-                if (skillResponse.name === Events.tokenRequestEventName) {
-                    return false;
-                }
-
-                return true;
             });
 
-            await innerDc.context.sendActivities(filteredResponses);
+            // Send the filtered activities back (for example, token requests, EndOfConversation, etc. are removed)
+            if (filteredResponses.length > 0) {
+                await innerDc.context.sendActivities(filteredResponses);
+            }
 
-            // handle ending the skill conversation
+            // The skill has indicated it's finished so we unwind the Skill Dialog and hand control back.
             if (endOfConversation) {
                 const trace: Partial<Activity> = {
                     type: ActivityTypes.Trace,

@@ -445,10 +445,7 @@ export class MainDialog extends RouterDialog {
 
     private registerSkills(skillDefinitions: SkillDefinition[]): void {
         skillDefinitions.forEach((definition: SkillDefinition) => {
-            this.addDialog(new SkillDialog(
-                definition,
-                this.services.skillConfigurations.get(definition.id) || new SkillConfiguration(),
-                this.telemetryClient));
+            this.addDialog(new SkillDialog(definition, this.telemetryClient));
         });
 
         // Initialize skill dispatcher
