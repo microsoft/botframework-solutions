@@ -1,0 +1,229 @@
+{
+  "@context": "https://botframework.com/schemas",
+  "@type": "manifest",
+  "id": "calendarSkill",
+  "name": "Calendar Skill",
+  "endpoint": "https://calendarskill.azurewebsites.net/api/skill",
+  "description": "The Calendar skill provides calendaring related capabilities and supports Office and Google calendars.",
+  "suggestedAction": "What do I have on today",
+  "iconUrl": "https://calendarskill.azurewebsites.net/api/skill",
+  "authenticationConnections": [
+    {
+      "id": "Outlook",
+      "serviceProviderId": "Azure Active Directory v2",
+      "scopes": "User.Read, Calendars.ReadWrite, People.Read"
+    },
+    {
+      "id": "Google",
+      "serviceProviderId": "Google",
+      "scopes": "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts"
+    }
+  ],
+  "actions": [
+    {
+      "id": "https://calendarskill.microsoft.com/createEvent",
+      "definition": {
+        "description": "Create a new event",
+        "slots": [
+          {
+            "name": "title",
+            "types": [ "https://calendarskill.microsoft.com/title", "string" ]
+          },
+          {
+            "name": "content",
+            "types": [ "https://calendarskill.microsoft.com/content", "string" ]
+          },
+          {
+            "name": "attendees",
+            "types": [
+              "https://calendarskill.microsoft.com/person", "Darren Jefford",
+              "https://calendarskill.microsoft.com/contact", "darrenj@microsoft.com"
+            ]
+          },
+          {
+            "name": "startDate",
+            "types": [ "https://calendarskill.microsoft.com/startDate", "dateTime" ]
+          },
+          {
+            "name": "startTime",
+            "types": [ "https://calendarskill.microsoft.com/startTime", "datetime" ]
+          },
+          {
+            "name": "duration",
+            "types": [ "https://calendarskill.microsoft.com/duration", "integer" ]
+          },
+          {
+            "name": "location",
+            "types": [ "https://calendarskill.microsoft.com/location", "string" ]
+          }
+        ],
+        "triggers": {
+          "utterances": [
+            {
+              "locale":  "en",
+              "source": [
+                "luis:{AppId}#CreateCalendarEntry",
+                "luis:{AppId}#FindMeetingRoom"
+              ]
+            }          
+          ]
+        }
+      }
+    },
+    {
+      "id": "https://calendarskill.microsoft.com/changeEventStatus",
+      "definition": {
+        "description": "Change the status of an event (accept/decline).",
+        "slots": [
+          {
+            "name": "startDate",
+            "types": [ "https://calendarskill.microsoft.com/startDate", "dateTime" ]
+          },
+          {
+            "name": "startTime",
+            "types": [ "https://calendarskill.microsoft.com/startDate", "dateTime" ]
+          }
+        ],
+        "triggers": {
+          "utterances": [
+            {
+              "locale": "en",
+              "source": [
+                "luis:{AppId}#ChangeEventStatus"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "https://calendarskill.microsoft.com/joinEvent",
+      "definition": {
+        "description": "Join the upcoming meeting",
+        "slots": [],
+        "triggers": {
+          "utterances": [
+            {
+              "locale": "en",
+              "source": [
+                "luis:{AppId}#ConnectToMeeting",
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "https://calendarskill.microsoft.com/summary",
+      "definition": {
+        "description": "Retrieve a summary of meetings through an event invocation.",
+        "slots": [],
+        "triggers": {
+          "events": [
+            {
+              "Name": "summaryEvent"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "https://calendarskill.microsoft.com/timeRemaining",
+      "definition": {
+        "description": "Find out how long until the next event",
+        "slots": [],
+        "triggers": {
+          "utterances": [
+            {
+              "locale": "en",
+              "source": [
+                "luis:{AppId}#TimeRemaining"
+              ]
+            }
+          ]
+        }      
+      }
+    },
+    {
+      "id": "https://calendarskill.microsoft.com/upcomingEvent",
+      "definition": {
+        "description": "Find an upcoming event",
+        "slots": [
+          {
+            "name": "startDate",
+            "types": [ "https://calendarskill.microsoft.com/startDate", "dateTime" ]
+          },
+          {
+            "name": "startTime",
+            "types": [ "https://calendarskill.microsoft.com/startTime", "dateTime" ]
+          },
+          {
+            "name": "endDate",
+            "types": [ "https://calendarskill.microsoft.com/endDate", "dateTime" ]
+          },
+          {
+            "name": "endTime",
+            "types": [ "https://calendarskill.microsoft.com/endTime", "dateTime" ]
+          }
+        ],
+        "triggers": {
+          "utterances": [
+            {
+              "locale": "en",
+              "source": [
+                "luis:{AppId}#FindCalendarDetail",
+                "luis:{AppId}FindCalendarEntry",
+                "luis:{AppId}FindCalendarWhen",
+                "luis:{AppId}FindCalendarWhere",
+                "luis:{AppId}FindCalendarWho",
+                "luis:{AppId}FindCalendarEntry"
+              ]
+            }
+          ]
+        }    
+      }
+    },
+    {
+      "id": "https://calendarskill.microsoft.com/updateEvent",
+      "definition": {
+        "description": "Update an existing event.",
+        "slots": [
+          {
+            "name": "startDate",
+            "types": [ "https://calendarskill.microsoft.com/startDate", "dateTime" ]
+          },
+          {
+            "name": "startTime",
+            "types": [ "https://calendarskill.microsoft.com/startTime", "datetime" ]
+          },
+          {
+            "name": "endDate",
+            "types": [ "https://calendarskill.microsoft.com/endDate", "dateTime" ]
+          },
+          {
+            "name": "endTime",
+            "types": [ "https://calendarskill.microsoft.com/endTime", "datetime" ]
+          },
+          {
+            "name": "newStartDate",
+            "types": [ "https://calendarskill.microsoft.com/newStartDate", "datetime" ]
+          },
+          {
+            "name": "newStartTime",
+            "types": [ "https://calendarskill.microsoft.com/newStartTime", "datetime" ]
+          }
+        ],
+        "triggers": {
+          "utterances": [
+            {
+              "locale": "en",
+              "source": [
+                "luis:{AppId}#ChangeCalendarEntry"
+              ]
+            }
+          ]
+        }      
+      }
+    }
+  ]
+}

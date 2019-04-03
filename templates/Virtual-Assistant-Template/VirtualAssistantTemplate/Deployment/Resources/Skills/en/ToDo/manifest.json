@@ -1,0 +1,9 @@
+{
+    "Name": "ToDo",
+    "DispatchIntent": "l_todo",
+    "Endpoint": "https://bftodoskill.azurewebsites.net/api/skill/messages",
+    "SupportedProviders": [
+        "Azure Active Directory v2",
+        "Google"
+    ]
+}

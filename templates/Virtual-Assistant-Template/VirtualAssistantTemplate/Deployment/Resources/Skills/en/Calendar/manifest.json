@@ -1,0 +1,9 @@
+{
+    "Name": "Calendar",
+    "DispatchIntent": "l_calendar",
+    "Endpoint": "https://bfcalendarskill.azurewebsites.net/api/skill/messages",
+    "SupportedProviders": [
+        "Azure Active Directory v2",
+        "Google"
+    ]
+}
