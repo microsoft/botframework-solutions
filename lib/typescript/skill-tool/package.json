@@ -1,0 +1,40 @@
+{
+  "name": "skill",
+  "version": "1.0.0",
+  "description": "Skill command line tool for manipulating Microsoft Bot Framework skills",
+  "main": "lib/skill.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "cd test/ && mocha --opts mocha.opts"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib/"
+  ],
+  "engines": {
+    "node": ">=8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Microsoft/AI.git"
+  },
+  "author": "Microsoft",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Microsoft/AI/issues"
+  },
+  "homepage": "https://github.com/Microsoft/AI#readme",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "commander": "^2.20.0",
+    "semver": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^10.9.4",
+    "@types/semver": "^5.5.0",
+    "mocha": "^5.2.0",
+    "@types/get-stdin": "^5.0.1"
+  }
+}
