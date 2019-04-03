@@ -12,10 +12,10 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
         /// <summary>
         /// Read order of list items.
         /// </summary>
-        public enum ReadOrder
+        public enum ReadPreference
         {
             /// <summary>First item, second item, third item, etc.</summary>
-            Numerical,
+            Enumeration,
 
             /// <summary>Latest item, second item, third item, etc.</summary>
             Chronological
@@ -28,7 +28,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
         /// <param name="readOrder">Read order of list items.</param>
         /// <param name="maxSize">The max read size, default is 4.</param>
         /// <returns>Formatted speech-ready string.</returns>
-        public static string ListToSpeechReadyString(PromptOptions selectOption, ReadOrder readOrder = ReadOrder.Numerical,  int maxSize = 4)
+        public static string ListToSpeechReadyString(PromptOptions selectOption, ReadPreference readOrder = ReadPreference.Enumeration,  int maxSize = 4)
         {
             List<string> selectOptionSpeakStrings = new List<string>();
 
@@ -47,7 +47,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
         /// <param name="readOrder">Read order of list items.</param>
         /// <param name="maxSize">The max read size, default is 4.</param>
         /// <returns>Formatted speech-ready string.</returns>
-        public static string ListToSpeechReadyString(Activity activityToProcess, ReadOrder readOrder = ReadOrder.Numerical, int maxSize = 4)
+        public static string ListToSpeechReadyString(Activity activityToProcess, ReadPreference readOrder = ReadPreference.Enumeration, int maxSize = 4)
         {
             List<string> selectOptionSpeakStrings = new List<string>();
 
@@ -71,7 +71,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
         /// <param name="readOrder">Read order of list items.</param>
         /// <param name="maxSize">The max read size.</param>
         /// <returns>Formatted speech-ready string.</returns>
-        private static string ListToSpeechReadyString(string parentString, List<string> selectionStrings, ReadOrder readOrder, int maxSize)
+        private static string ListToSpeechReadyString(string parentString, List<string> selectionStrings, ReadPreference readOrder, int maxSize)
         {
             var result = string.Empty;
             if (!string.IsNullOrEmpty(parentString))
@@ -94,7 +94,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
 
                     if (i == 0)
                     {
-                        if (readOrder.Equals(ReadOrder.Chronological))
+                        if (readOrder.Equals(ReadPreference.Chronological))
                         {
                             readFormat = CommonStrings.LatestItem;
                         }
