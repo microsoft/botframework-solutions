@@ -137,14 +137,20 @@ namespace CalendarSkillTest.Flow.Fakes
             return await Task.FromResult(items);
         }
 
-        public Task<PersonModel> GetMe()
+        public Task<PersonModel> GetMeAsync()
         {
-            throw new NotImplementedException();
+            var user = new PersonModel()
+            {
+                UserPrincipalName = "Test Test",
+                Photo = "data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==",
+                DisplayName = "Test Test",
+            };
+            return Task.FromResult(user);
         }
 
-        public Task<string> GetUserPhotoAsync(string id)
+        public Task<string> GetPhotoAsync(string id)
         {
-            throw new NotImplementedException();
+            return Task.FromResult("data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==");
         }
     }
 }

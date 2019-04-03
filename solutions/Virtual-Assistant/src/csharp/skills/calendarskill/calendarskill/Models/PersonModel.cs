@@ -72,6 +72,7 @@ namespace CalendarSkill.Models
         {
             source = EventSource.Google;
             gmailPersonData = gmailPerson;
+            this.Photo = gmailPerson?.Photos?[0]?.Url;
         }
 
         public dynamic Value
@@ -335,6 +336,12 @@ namespace CalendarSkill.Models
                         throw new Exception("Event Type not Defined");
                 }
             }
+        }
+
+        public string Photo
+        {
+            get;
+            set;
         }
     }
 }

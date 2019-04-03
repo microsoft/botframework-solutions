@@ -59,13 +59,42 @@ namespace CalendarSkill.ServiceClients.MSGraphAPI
             return result;
         }
 
-        public async Task<PersonModel> GetMe()
+        public async Task<PersonModel> GetMeAsync()
         {
-            var me = await _graphClient.Me.Request().GetAsync();
-            return new PersonModel(me.ToPerson());
+            try
+            {
+                var me = await _graphClient.Me.Request().GetAsync();
+
+                if (me != null)
+                {
+                    var url = await GetMSUserPhotoUrlAsyc(me.Id);
+                    var personMe = new PersonModel(me.ToPerson());
+                    personMe.Photo = url;
+
+                    return personMe;
+                }
+
+                return null;
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
         }
 
-        public async Task<string> GetUserPhotoAsync(string id)
+        public async Task<string> GetPhotoAsync(string email)
+        {
+            var users = await this.GetUserAsync(email);
+
+            if (users != null && users.Count > 0 && users[0].Id != null)
+            {
+                return await GetMSUserPhotoUrlAsyc(users[0].Id);
+            }
+
+            return null;
+        }
+
+        private async Task<string> GetMSUserPhotoUrlAsyc(string id)
         {
             var photoRequest = this._graphClient.Users[id].Photos["64x64"].Content.Request();
 

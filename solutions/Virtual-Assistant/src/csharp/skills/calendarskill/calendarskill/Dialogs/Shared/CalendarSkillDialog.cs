@@ -445,15 +445,20 @@ namespace CalendarSkill.Dialogs.Shared
 
             try
             {
-                me = await service.GetMe();
+                me = await service.GetMeAsync();
+                if (me != null && !string.IsNullOrEmpty(me.Photo))
+                {
+                    return me.Photo;
+                }
+
+                var displayName = me == null ? AdaptiveCardHelper.DefaultMe : me.DisplayName != null ? me.DisplayName : (me.UserPrincipalName != null ? me.UserPrincipalName : AdaptiveCardHelper.DefaultMe);
+                return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
             }
-            catch (ServiceException)
+            catch (Exception)
             {
             }
 
-            var displayName = me == null ? AdaptiveCardHelper.DefaultMe : me.DisplayName != null ? me.DisplayName : (me.UserPrincipalName != null ? me.UserPrincipalName : AdaptiveCardHelper.DefaultMe);
-
-            return await GetUserPhotoUrlByUserAsync(context, displayName, me);
+            return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, AdaptiveCardHelper.DefaultMe);
         }
 
         protected async Task<string> GetUserPhotoUrlAsync(ITurnContext context, EventModel.Attendee attendee)
@@ -467,63 +472,19 @@ namespace CalendarSkill.Dialogs.Shared
 
             try
             {
-                var userList = await service.GetUserAsync(attendee.Address);
-                if (userList != null && userList.Count >= 1)
+                var url = await service.GetPhotoAsync(attendee.Address);
+                if (!string.IsNullOrEmpty(url))
                 {
-                    user = userList[0];
-                }
-            }
-            catch (Exception)
-            {
-            }
-
-            return await GetUserPhotoUrlByUserAsync(context, displayName, user);
-        }
-
-        protected async Task<string> GetUserPhotoUrlByUserAsync(ITurnContext context, string displayName, PersonModel user)
-        {
-            var state = await Accessor.GetAsync(context);
-            var token = state.APIToken;
-            var service = ServiceManager.InitUserService(token, state.EventSource);
-
-            try
-            {
-                if (user != null)
-                {
-                    try
-                    {
-                        var url = await service.GetUserPhotoAsync(user.Id);
-                        if (!string.IsNullOrEmpty(url))
-                        {
-                            return url;
-                        }
-                    }
-                    catch (ServiceException)
-                    {
-                        // won't clear conversation state hear, because sometime use api is not available, like user msa account.
-                        return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
-                    }
+                    return url;
                 }
 
-                // return default value
                 return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
             }
             catch (Exception)
             {
-                // won't clear conversation state hear, because sometime use api is not available, like user msa account.
-                return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
             }
-        }
 
-        private string GetJsonString(string name)
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-
-            using (Stream stream = assembly.GetManifestResourceStream(name))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                return reader.ReadToEnd();
-            }
+            return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
         }
 
         protected bool IsRelativeTime(string userInput, string resolverResult, string timex)
@@ -1298,7 +1259,7 @@ namespace CalendarSkill.Dialogs.Shared
             var state = await Accessor.GetAsync(context);
             var token = state.APIToken;
             var service = ServiceManager.InitUserService(token, state.EventSource);
-            return await service.GetMe();
+            return await service.GetMeAsync();
         }
 
         protected string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)
