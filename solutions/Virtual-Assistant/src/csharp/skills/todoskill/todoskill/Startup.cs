@@ -2,9 +2,8 @@
 // Licensed under the MIT License.
 
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.ApplicationInsights;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -15,13 +14,13 @@ using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Auth;
-using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using ToDoSkill.Adapters;
 using ToDoSkill.Dialogs;
 using ToDoSkill.Responses.AddToDo;
@@ -30,13 +29,6 @@ using ToDoSkill.Responses.Main;
 using ToDoSkill.Responses.MarkToDo;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Responses.ShowToDo;
-using Microsoft.IdentityModel.Tokens;
-using ToDoSkill.Dialogs.AddToDo.Resources;
-using ToDoSkill.Dialogs.DeleteToDo.Resources;
-using ToDoSkill.Dialogs.Main.Resources;
-using ToDoSkill.Dialogs.MarkToDo.Resources;
-using ToDoSkill.Dialogs.Shared.Resources;
-using ToDoSkill.Dialogs.ShowToDo.Resources;
 using ToDoSkill.ServiceClients;
 using ToDoSkill.Services;
 
@@ -64,8 +56,6 @@ namespace ToDoSkill
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
-
-            var provider = services.BuildServiceProvider();
 
             // Load settings
             var settings = new BotSettings();
@@ -100,21 +90,7 @@ namespace ToDoSkill
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddHostedService<QueuedHostedService>();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                options.Authority = "https://login.microsoftonline.com/microsoft.com";
-                options.Audience = endpointService.AppId;
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidIssuer = "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47/v2.0",
-                };
-            });
-
-            services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
-            services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
-
-            // Configure service manage
+            // Configure service manager
             services.AddTransient<IServiceManager, ServiceManager>();
 
             // Configure responses
@@ -126,6 +102,21 @@ namespace ToDoSkill
                 new MarkToDoResponses(),
                 new ToDoSharedResponses(),
                 new ShowToDoResponses()));
+
+            // Configure Skill authentication
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.Authority = "https://login.microsoftonline.com/microsoft.com";
+                options.Audience = settings.MicrosoftAppId;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47/v2.0",
+                };
+            });
+
+            services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
+            services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
