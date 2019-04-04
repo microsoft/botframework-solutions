@@ -53,7 +53,7 @@ namespace VirtualAssistant.Adapters
 
             _response = null;
 
-            await ProcessAsync(httpRequest, callback, cancellationToken);
+            await ProcessAsync(httpRequest, httpResponse, callback, cancellationToken);
 
             WriteResponse(httpResponse, _response);
         }
@@ -125,17 +125,6 @@ namespace VirtualAssistant.Adapters
         }
 
         /// <summary>
-        /// This method is used to authenticate an incoming request.
-        /// It will throw an exception in the case of unauthorized call.
-        /// </summary>
-        /// <param name="httpRequest">http request</param>
-        /// <returns>task.</returns>
-        protected override Task Authenticate(HttpRequest httpRequest)
-        {
-            return Task.FromResult<string>(null);
-        }
-
-        /// <summary>
         /// This method is used to throttle incoming request.
         /// Leave it empty if there's no throttling requirements.
         /// </summary>
@@ -172,6 +161,17 @@ namespace VirtualAssistant.Adapters
             }
 
             return activity;
+        }
+
+        /// <summary>
+        /// Authenticate the request
+        /// </summary>
+        /// <param name="httpRequest"></param>
+        /// <param name="httpResponse"></param>
+        /// <returns></returns>
+        protected override Task Authenticate(HttpRequest httpRequest, HttpResponse httpResponse)
+        {
+            return Task.FromResult<string>(string.Empty);
         }
 
         private void WriteResponse(HttpResponse httpResponse, Activity activity)

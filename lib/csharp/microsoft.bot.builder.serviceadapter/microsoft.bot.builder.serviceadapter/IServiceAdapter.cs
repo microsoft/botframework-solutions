@@ -7,6 +7,6 @@ namespace ServiceAdapter
 {
     public interface IServiceAdapter
     {
-        Task ProcessAsync(HttpRequest httpRequest, BotCallbackHandler callback, CancellationToken cancellationToken);
+        Task ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, BotCallbackHandler callback, CancellationToken cancellationToken);
     }
 }
