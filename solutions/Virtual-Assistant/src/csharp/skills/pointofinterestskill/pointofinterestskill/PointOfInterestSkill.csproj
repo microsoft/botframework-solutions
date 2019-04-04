@@ -7,39 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Responses\CancelRoute\CancelRouteResponses.de.json" />
-    <Content Remove="Responses\CancelRoute\CancelRouteResponses.es.json" />
-    <Content Remove="Responses\CancelRoute\CancelRouteResponses.fr.json" />
-    <Content Remove="Responses\CancelRoute\CancelRouteResponses.it.json" />
-    <Content Remove="Responses\CancelRoute\CancelRouteResponses.json" />
-    <Content Remove="Responses\CancelRoute\CancelRouteResponses.zh.json" />
-    <Content Remove="Responses\FindPointOfInterest\FindPointOfInterestResponses.de.json" />
-    <Content Remove="Responses\FindPointOfInterest\FindPointOfInterestResponses.es.json" />
-    <Content Remove="Responses\FindPointOfInterest\FindPointOfInterestResponses.fr.json" />
-    <Content Remove="Responses\FindPointOfInterest\FindPointOfInterestResponses.it.json" />
-    <Content Remove="Responses\FindPointOfInterest\FindPointOfInterestResponses.json" />
-    <Content Remove="Responses\FindPointOfInterest\FindPointOfInterestResponses.zh.json" />
-    <Content Remove="Responses\Main\POIMainResponses.de.json" />
-    <Content Remove="Responses\Main\POIMainResponses.es.json" />
-    <Content Remove="Responses\Main\POIMainResponses.fr.json" />
-    <Content Remove="Responses\Main\POIMainResponses.it.json" />
-    <Content Remove="Responses\Main\POIMainResponses.json" />
-    <Content Remove="Responses\Main\POIMainResponses.zh.json" />
-    <Content Remove="Responses\Route\RouteResponses.de.json" />
-    <Content Remove="Responses\Route\RouteResponses.es.json" />
-    <Content Remove="Responses\Route\RouteResponses.fr.json" />
-    <Content Remove="Responses\Route\RouteResponses.it.json" />
-    <Content Remove="Responses\Route\RouteResponses.json" />
-    <Content Remove="Responses\Route\RouteResponses.zh.json" />
-    <Content Remove="Responses\Shared\POISharedResponses.de.json" />
-    <Content Remove="Responses\Shared\POISharedResponses.es.json" />
-    <Content Remove="Responses\Shared\POISharedResponses.fr.json" />
-    <Content Remove="Responses\Shared\POISharedResponses.it.json" />
-    <Content Remove="Responses\Shared\POISharedResponses.json" />
-    <Content Remove="Responses\Shared\POISharedResponses.zh.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
