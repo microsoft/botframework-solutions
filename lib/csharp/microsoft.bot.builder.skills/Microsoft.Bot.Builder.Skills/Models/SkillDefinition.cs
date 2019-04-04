@@ -9,5 +9,7 @@
         public string Endpoint { get; set; }    
 
         public string[] SupportedProviders { get; set; }
+
+        public string Scope { get; set; }
     }
 }

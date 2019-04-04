@@ -1,10 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Skills.Auth;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Schema;
+using Microsoft.Rest.Serialization;
+using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills
 {
@@ -14,7 +20,21 @@ namespace Microsoft.Bot.Builder.Skills
     public class SkillDialog : ComponentDialog
     {
         private static readonly HttpClient _httpClient = new HttpClient();
+        private MicrosoftAppCredentialsEx _microsoftAppCredentialsEx;
         private IBotTelemetryClient _telemetryClient;
+        private JsonSerializerSettings _serializationSettings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            DateFormatHandling = DateFormatHandling.IsoDateFormat,
+            DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+            NullValueHandling = NullValueHandling.Ignore,
+            ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+            ContractResolver = new ReadOnlyJsonContractResolver(),
+            Converters = new List<JsonConverter>
+                    {
+                        new Iso8601TimeSpanConverter()
+                    }
+        };
 
         // Placeholder for Manifest
         private SkillDefinition _skillDefinition;
@@ -28,10 +48,11 @@ namespace Microsoft.Bot.Builder.Skills
         /// <param name="telemetryClient"></param>
         /// <param name="backgroundTaskQueue"></param>
         /// <param name="useCachedTokens"></param>
-        public SkillDialog(SkillDefinition skillDefinition, IBotTelemetryClient telemetryClient)
+        public SkillDialog(SkillDefinition skillDefinition, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient)
             : base(skillDefinition.Name)
         {
             _skillDefinition = skillDefinition;
+            _microsoftAppCredentialsEx = microsoftAppCredentialsEx;
             _telemetryClient = telemetryClient;
         }
 
@@ -96,9 +117,18 @@ namespace Microsoft.Bot.Builder.Skills
             try
             {
                 // Serialize the activity and POST to the Skill endpoint
-                // TODO - Apply Authorization header
-                // TODO - Add header to indicate a skill call
-                var response = await _httpClient.PostAsJsonAsync<Activity>(_skillDefinition.Endpoint, activity);
+                var httpRequest = new HttpRequestMessage();
+                httpRequest.Method = new HttpMethod("POST");
+                httpRequest.RequestUri = new Uri(_skillDefinition.Endpoint);
+
+                var _requestContent = SafeJsonConvert.SerializeObject(activity, _serializationSettings);
+                httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
+                httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
+
+                MicrosoftAppCredentials.TrustServiceUrl(_skillDefinition.Endpoint);
+                await _microsoftAppCredentialsEx.ProcessHttpRequestAsync(httpRequest, default(CancellationToken));
+
+                var response = await _httpClient.SendAsync(httpRequest);
 
                 if (response.IsSuccessStatusCode)
                 {

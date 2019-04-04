@@ -43,21 +43,44 @@ namespace VirtualAssistantTemplate
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            var provider = services.BuildServiceProvider();
+
+            // Load settings
             var settings = new BotSettings();
             Configuration.Bind(settings);
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSingleton(settings);
+
+            // Configure bot services
             services.AddSingleton<BotServices>();
-            services.AddSingleton<IBotTelemetryClient>(new BotTelemetryClient(new TelemetryClient(settings.AppInsights)));
+
+            // Configure credentials
+            services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
+            services.AddSingleton(new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
+
+            // Configure telemetry
+            var telemetryClient = new BotTelemetryClient(new TelemetryClient(settings.AppInsights));
+            services.AddSingleton<IBotTelemetryClient>(telemetryClient);
+            services.AddBotApplicationInsights(telemetryClient);
+
+            // Configure storage
             services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
-            services.AddSingleton<BotStateSet>();
-            services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
-            services.AddSingleton<IBotFrameworkHttpAdapter, Adapter>();
+            services.AddSingleton(sp =>
+            {
+                var userState = sp.GetService<UserState>();
+                var conversationState = sp.GetService<ConversationState>();
+                return new BotStateSet(userState, conversationState);
+            });
+
+            // Configure adapters
+            services.AddSingleton<IBotFrameworkHttpAdapter, DefaultAdapter>();
+
+            // Configure bot
             services.AddTransient<MainDialog>();
-            services.AddTransient<IBot, Bot<MainDialog>>();
+            services.AddTransient<IBot, DefaultBot<MainDialog>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
