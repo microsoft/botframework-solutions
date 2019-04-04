@@ -215,6 +215,7 @@ namespace PointOfInterestSkill
             app.UseBotApplicationInsights()
                 .UseDefaultFiles()
                 .UseStaticFiles()
+                .UseAuthentication()
                 .UseMvc();
         }
     }

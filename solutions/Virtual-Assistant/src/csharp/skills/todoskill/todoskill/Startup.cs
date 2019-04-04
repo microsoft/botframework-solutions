@@ -215,6 +215,7 @@ namespace ToDoSkill
             app.UseBotApplicationInsights()
                 .UseDefaultFiles()
                 .UseStaticFiles()
+                .UseAuthentication()
                 .UseMvc();
         }
     }

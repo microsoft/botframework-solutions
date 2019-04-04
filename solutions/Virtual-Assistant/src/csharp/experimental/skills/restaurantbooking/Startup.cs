@@ -214,6 +214,7 @@ namespace RestaurantBooking
             _isProduction = env.IsProduction();
             app.UseDefaultFiles()
                 .UseStaticFiles()
+                .UseAuthentication()
                 .UseMvc();
         }
     }

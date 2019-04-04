@@ -58,6 +58,7 @@ namespace VirtualAssistantTemplate
             services.AddSingleton<ConversationState>();
             services.AddSingleton<BotStateSet>();
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
+            services.AddSingleton<MicrosoftAppCredentials>(new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
             services.AddSingleton<IBotFrameworkHttpAdapter, Adapter>();
             services.AddTransient<MainDialog>();
             services.AddTransient<IBot, Bot<MainDialog>>();
