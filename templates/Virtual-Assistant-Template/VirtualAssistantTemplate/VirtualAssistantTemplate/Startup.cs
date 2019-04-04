@@ -13,6 +13,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.BotFramework;
 using VirtualAssistantTemplate.Bots;
 using Microsoft.AspNetCore.Mvc;
@@ -55,6 +58,7 @@ namespace VirtualAssistantTemplate
             services.AddSingleton<ConversationState>();
             services.AddSingleton<BotStateSet>();
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
+            services.AddSingleton<MicrosoftAppCredentials>(new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
             services.AddSingleton<IBotFrameworkHttpAdapter, Adapter>();
             services.AddTransient<MainDialog>();
             services.AddTransient<IBot, Bot<MainDialog>>();
