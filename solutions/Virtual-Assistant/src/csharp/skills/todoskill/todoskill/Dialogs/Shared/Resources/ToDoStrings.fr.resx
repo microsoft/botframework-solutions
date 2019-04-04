@@ -120,6 +120,15 @@
   <data name="And" xml:space="preserve">
     <value> et {0}. </value>
   </data>
+  <data name="CardMultiNumber" xml:space="preserve">
+    <value>{0} éléments</value>
+  </data>
+  <data name="CardOneNumber" xml:space="preserve">
+    <value>{0} élément</value>
+  </data>
+  <data name="CardTitle" xml:space="preserve">
+    <value>Votre {0} liste</value>
+  </data>
   <data name="EmailContent" xml:space="preserve">
     <value>Reportez-vous au lien &lt;a href="{0}"&gt;{1}&lt;/a&gt; pour voir les listes créées pour vous.</value>
   </data>

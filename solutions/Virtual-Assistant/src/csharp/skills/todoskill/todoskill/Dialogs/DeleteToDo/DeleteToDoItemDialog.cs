@@ -107,7 +107,7 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                 state.LastListType = state.ListType;
 
                 bool canDeleteAnotherTask = false;
-                var deletedTaskAttachment = new Attachment();
+                var cardReply = sc.Context.Activity.CreateReply();
                 if (!state.MarkOrDeleteAllTasksFlag)
                 {
                     var service = await InitListTypeIds(sc);
@@ -126,7 +126,7 @@ namespace ToDoSkill.Dialogs.DeleteToDo
 
                     state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
 
-                    deletedTaskAttachment = ToAdaptiveCardForTaskDeletedFlow(
+                    cardReply = ToAdaptiveCardForTaskDeletedFlow(
                         state.Tasks,
                         state.AllTasks.Count,
                         taskTopicToBeDeleted,
@@ -146,7 +146,7 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                         state.ShowTaskPageIndex = 0;
                         state.TaskIndexes = new List<int>();
 
-                        deletedTaskAttachment = ToAdaptiveCardForTaskDeletedFlow(
+                        cardReply = ToAdaptiveCardForTaskDeletedFlow(
                         state.Tasks,
                         state.AllTasks.Count,
                         null,
@@ -155,15 +155,12 @@ namespace ToDoSkill.Dialogs.DeleteToDo
                     }
                     else
                     {
-                        deletedTaskAttachment = ToAdaptiveCardForDeletionRefusedFlow(
+                        cardReply = ToAdaptiveCardForDeletionRefusedFlow(
                         state.Tasks,
                         state.AllTasks.Count,
                         state.ListType);
                     }
                 }
-
-                var cardReply = sc.Context.Activity.CreateReply();
-                cardReply.Attachments.Add(deletedTaskAttachment);
 
                 if (canDeleteAnotherTask)
                 {

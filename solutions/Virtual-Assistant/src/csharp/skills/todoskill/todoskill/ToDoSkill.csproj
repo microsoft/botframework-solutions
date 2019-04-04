@@ -66,6 +66,8 @@
     <EmbeddedResource Include="Dialogs\ShowToDo\Resources\ShowToDoResponses.it.json" />
     <EmbeddedResource Include="Dialogs\ShowToDo\Resources\ShowToDoResponses.json" />
     <EmbeddedResource Include="Dialogs\ShowToDo\Resources\ShowToDoResponses.zh.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Cards\ShowTodoCard.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Cards\ShowTodoItem.json" />
   </ItemGroup>
 
   <ItemGroup>
