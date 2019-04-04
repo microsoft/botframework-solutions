@@ -74,6 +74,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>EmailSharedResponses.tt</DependentUpon>
     </Compile>
+    <Compile Update="Responses\Shared\ResponseIdCollection.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ResponseIdCollection.t4</DependentUpon>
+    </Compile>
     <Compile Update="Responses\ShowEmail\ShowEmailResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -177,6 +182,10 @@
     <None Update="Responses\Shared\EmailSharedResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EmailSharedResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\Shared\ResponseIdCollection.t4">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ResponseIdCollection.cs</LastGenOutput>
     </None>
     <None Update="Responses\ShowEmail\ShowEmailResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

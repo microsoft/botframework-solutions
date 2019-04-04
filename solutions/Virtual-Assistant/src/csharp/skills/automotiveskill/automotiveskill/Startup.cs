@@ -134,8 +134,9 @@ namespace AutomotiveSkill
                 };
             });
 
-            services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
-            services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
+            // comment out for now to disable whitelist checking
+            //services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
+            //services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
 
             // Initialize service client
             services.AddSingleton<IServiceManager, ServiceManager>();

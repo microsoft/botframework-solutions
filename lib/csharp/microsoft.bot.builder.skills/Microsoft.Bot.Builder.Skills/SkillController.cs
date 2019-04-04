@@ -1,12 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills.Auth;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.Bot.Builder.Skills
 {
@@ -24,12 +26,12 @@ namespace Microsoft.Bot.Builder.Skills
         private readonly SkillAdapter _skillAdapter;
         private readonly ISkillAuthProvider _skillAuthProvider;
 
-        public SkillController(IBotFrameworkHttpAdapter botFrameworkHttpAdapter, SkillAdapter skillAdapter, ISkillAuthProvider skillAuthProvider, IBot bot)
+        public SkillController(IServiceProvider serviceProvider)
         {
-            _botFrameworkHttpAdapter = botFrameworkHttpAdapter;
-            _skillAdapter = skillAdapter;
-            _bot = bot;
-            _skillAuthProvider = skillAuthProvider;
+            _botFrameworkHttpAdapter = serviceProvider.GetService<IBotFrameworkHttpAdapter>() ?? throw new ArgumentNullException(nameof(IBotFrameworkHttpAdapter));
+            _skillAdapter = serviceProvider.GetService<SkillAdapter>() ?? throw new ArgumentNullException(nameof(SkillAdapter));
+            _bot = serviceProvider.GetService<IBot>() ?? throw new ArgumentNullException(nameof(IBot));
+            _skillAuthProvider = serviceProvider.GetService<ISkillAuthProvider>();
         }
 
         /// <summary>
