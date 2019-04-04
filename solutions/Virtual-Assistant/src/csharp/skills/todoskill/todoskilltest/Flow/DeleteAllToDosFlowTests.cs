@@ -92,21 +92,10 @@ namespace ToDoSkillTest.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(1, messageActivity.Attachments.Count);
-                var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
-                Assert.IsNotNull(responseCard);
-                var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;
-                Assert.IsNotNull(adaptiveCardTitle);
-                var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
-                Assert.IsNotNull(toDoChoices);
-                var toDoChoiceCount = toDoChoices.Items.Count;
-                CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessageForMultipleTasks, new StringDictionary() { { MockData.TaskCount, "0" }, { MockData.ListType, MockData.ToDo } }),
-                    adaptiveCardTitle.Text);
-                Assert.AreEqual(toDoChoiceCount, 0);
 
                 CollectionAssert.Contains(
                   this.ParseReplies(DeleteToDoResponses.AfterAllTasksDeleted, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
-                  responseCard.Speak);
+                  messageActivity.Speak);
             };
         }
 
@@ -116,21 +105,10 @@ namespace ToDoSkillTest.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(1, messageActivity.Attachments.Count);
-                var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
-                Assert.IsNotNull(responseCard);
-                var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;
-                Assert.IsNotNull(adaptiveCardTitle);
-                var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
-                Assert.IsNotNull(toDoChoices);
-                var toDoChoiceCount = toDoChoices.Items.Count;
-                CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessageForMultipleTasks, new StringDictionary() { { MockData.TaskCount, MockData.MockTaskItems.Count.ToString() }, { MockData.ListType, MockData.ToDo } }),
-                    adaptiveCardTitle.Text);
-                Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
 
                 CollectionAssert.Contains(
                   this.ParseReplies(DeleteToDoResponses.DeletionAllConfirmationRefused, new StringDictionary() { { MockData.TaskCount, MockData.MockTaskItems.Count.ToString() }, { MockData.ListType, MockData.ToDo } }),
-                  responseCard.Speak);
+                  messageActivity.Speak);
             };
         }
 

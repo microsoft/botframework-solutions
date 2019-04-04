@@ -116,31 +116,13 @@ namespace ToDoSkillTest.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
-                var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
-                Assert.IsNotNull(responseCard);
-                var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;
-                Assert.IsNotNull(adaptiveCardTitle);
-                var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
-                Assert.IsNotNull(toDoChoices);
-                var toDoChoiceCount = toDoChoices.Items.Count;
-                CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessageForMultipleTasks, new StringDictionary() { { MockData.TaskCount, (MockData.MockTaskItems.Count - 1).ToString() }, { MockData.ListType, MockData.ToDo } }),
-                    adaptiveCardTitle.Text);
-                Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
-                var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
-                Assert.IsNotNull(columnSet);
-                var column = columnSet.Columns[1] as AdaptiveColumn;
-                Assert.IsNotNull(column);
-                var content = column.Items[0] as AdaptiveTextBlock;
-                Assert.IsNotNull(content);
-                Assert.AreEqual(content.Text, MockData.MockTaskItems[1].Topic);
 
                 CollectionAssert.Contains(
                     this.ParseReplies(DeleteToDoResponses.AfterTaskDeleted, new StringDictionary()
                     {
                         { MockData.TaskContent, MockData.MockTaskItems[0].Topic },
                         { MockData.ListType, MockData.ToDo }
-                    }), responseCard.Speak);
+                    }), messageActivity.Speak);
             };
         }
 
@@ -150,31 +132,13 @@ namespace ToDoSkillTest.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
-                var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
-                Assert.IsNotNull(responseCard);
-                var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;
-                Assert.IsNotNull(adaptiveCardTitle);
-                var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
-                Assert.IsNotNull(toDoChoices);
-                var toDoChoiceCount = toDoChoices.Items.Count;
-                CollectionAssert.Contains(
-                    this.ParseReplies(ToDoSharedResponses.CardSummaryMessageForMultipleTasks, new StringDictionary() { { MockData.TaskCount, (MockData.MockShoppingItems.Count - 1).ToString() }, { MockData.ListType, MockData.Shopping } }),
-                    adaptiveCardTitle.Text);
-                Assert.AreEqual(toDoChoiceCount, MockData.PageSize);
-                var columnSet = toDoChoices.Items[0] as AdaptiveColumnSet;
-                Assert.IsNotNull(columnSet);
-                var column = columnSet.Columns[1] as AdaptiveColumn;
-                Assert.IsNotNull(column);
-                var content = column.Items[0] as AdaptiveTextBlock;
-                Assert.IsNotNull(content);
-                Assert.AreEqual(content.Text, MockData.MockShoppingItems[0].Topic);
 
                 CollectionAssert.Contains(
                     this.ParseReplies(DeleteToDoResponses.AfterTaskDeleted, new StringDictionary()
                     {
                         { MockData.TaskContent, MockData.MockShoppingItems[1].Topic },
                         { MockData.ListType, MockData.Shopping }
-                    }), responseCard.Speak);
+                    }), messageActivity.Speak);
             };
         }
 
