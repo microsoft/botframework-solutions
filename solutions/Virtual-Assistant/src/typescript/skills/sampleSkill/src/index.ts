@@ -241,7 +241,6 @@ try {
         conversationState,
         userState,
         telemetryClient,
-        true,
         responseManager,
         new ServiceManager());
 } catch (err) {

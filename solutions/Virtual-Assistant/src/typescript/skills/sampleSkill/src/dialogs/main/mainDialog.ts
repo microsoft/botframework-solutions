@@ -9,6 +9,7 @@ import {
     ResponseManager,
     RouterDialog,
     SkillConfigurationBase } from 'bot-solution';
+import { SkillAdapter } from 'bot-skill';
 import {
     Activity,
     ActivityTypes,
@@ -41,7 +42,6 @@ import { ISampleSkillUserState } from '../../sampleSkillUserState';
  * Here is the description of the MainDialog's functionality
  */
 export class MainDialog extends RouterDialog {
-    private skillMode: boolean;
     private services: SkillConfigurationBase;
     private responseManager: ResponseManager;
     private userState: UserState;
@@ -57,10 +57,8 @@ export class MainDialog extends RouterDialog {
         conversationState: ConversationState,
         userState: UserState,
         telemetryClient: BotTelemetryClient,
-        serviceManager: IServiceManager,
-        skillMode: boolean) {
+        serviceManager: IServiceManager) {
             super(MainDialog.name, telemetryClient);
-            this.skillMode = skillMode;
             this.services = services;
             this.responseManager = responseManager;
             this.conversationState = conversationState;
@@ -76,7 +74,7 @@ export class MainDialog extends RouterDialog {
     }
 
     protected async onStart(dc: DialogContext): Promise<void> {
-        if (!this.skillMode) {
+        if (!SkillAdapter.isSkillMode(dc)) {
             // send a greeting if we're in local mode
             await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.welcomeMessage));
         }
@@ -95,7 +93,7 @@ export class MainDialog extends RouterDialog {
         if (luisService === undefined) {
             throw new Error('The specified LUIS Model could not be found in your Bot Services configuration.');
         } else {
-            const skillOptions: SkillTemplateDialogOptions = new SkillTemplateDialogOptions(this.skillMode);
+            const skillOptions: SkillTemplateDialogOptions = new SkillTemplateDialogOptions(SkillAdapter.isSkillMode(dc));
             const result: RecognizerResult =  await luisService.recognize(dc, true);
             let turnResult: DialogTurnResult | undefined;
             if (result) {
@@ -108,7 +106,7 @@ export class MainDialog extends RouterDialog {
                     case 'None': {
                         // No intent was identified, send confused message
                         await dc.context.sendActivity(this.responseManager.getResponse(SharedResponses.didntUnderstandMessage));
-                        if (this.skillMode) {
+                        if (SkillAdapter.isSkillMode(dc)) {
                             turnResult = {
                                 status: DialogTurnStatus.complete
                             };
@@ -119,7 +117,7 @@ export class MainDialog extends RouterDialog {
                     default: {
                         // intent was identified but not yet implemented
                         await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.featureNotAvailable));
-                        if (this.skillMode) {
+                        if (SkillAdapter.isSkillMode(dc)) {
                             turnResult = {
                                 status: DialogTurnStatus.complete
                             };
@@ -135,7 +133,7 @@ export class MainDialog extends RouterDialog {
     }
 
     protected async complete(dc: DialogContext, result?: DialogTurnResult): Promise<void> {
-        if (this.skillMode) {
+        if (SkillAdapter.isSkillMode(dc)) {
             const response: Activity = ActivityExtensions.createReply(dc.context.activity);
             response.type = ActivityTypes.EndOfConversation;
 
