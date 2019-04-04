@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Linq;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.Bot.Builder.Skills.Auth
 {
@@ -9,9 +10,9 @@ namespace Microsoft.Bot.Builder.Skills.Auth
     {
         private readonly ISkillWhitelist _skillWhitelist;
 
-        public JwtClaimAuthProvider(ISkillWhitelist skillWhitelist)
+        public JwtClaimAuthProvider(IServiceProvider serviceProvider)
         {
-            _skillWhitelist = skillWhitelist;
+            _skillWhitelist = serviceProvider.GetService<ISkillWhitelist>();
         }
 
         public bool Authenticate(HttpContext httpContext)
