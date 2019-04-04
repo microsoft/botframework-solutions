@@ -13,7 +13,6 @@ using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
@@ -115,8 +114,9 @@ namespace ToDoSkill
                 };
             });
 
-            services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
-            services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
+            // comment out for now to disable whitelist checking
+            //services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
+            //services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
