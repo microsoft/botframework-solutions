@@ -4,16 +4,16 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using EmailSkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
-using PointOfInterestSkill.Services;
 
-namespace PointOfInterestSkill.Bots
+namespace EmailSkill
 {
     public class DefaultBot<T> : ActivityHandler
-     where T : Dialog
+    where T : Dialog
     {
         private readonly IBotTelemetryClient _telemetryClient;
         private DialogSet _dialogs;
@@ -23,7 +23,7 @@ namespace PointOfInterestSkill.Bots
             var conversationState = serviceProvider.GetService<ConversationState>() ?? throw new ArgumentNullException(nameof(ConversationState));
             _telemetryClient = serviceProvider.GetService<IBotTelemetryClient>() ?? throw new ArgumentNullException(nameof(IBotTelemetryClient));
 
-            var dialogState = conversationState.CreateProperty<DialogState>(nameof(PointOfInterestSkill));
+            var dialogState = conversationState.CreateProperty<DialogState>(nameof(EmailSkill));
             _dialogs = new DialogSet(dialogState);
             _dialogs.Add(dialog);
         }

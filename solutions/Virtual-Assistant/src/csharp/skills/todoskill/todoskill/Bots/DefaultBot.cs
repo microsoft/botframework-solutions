@@ -21,9 +21,7 @@ namespace ToDoSkill
 
         public DefaultBot(IServiceProvider serviceProvider, T dialog)
         {
-            var services = serviceProvider.GetService<BotServices>() ?? throw new ArgumentNullException(nameof(BotServices));
             var conversationState = serviceProvider.GetService<ConversationState>() ?? throw new ArgumentNullException(nameof(ConversationState));
-            var userState = serviceProvider.GetService<UserState>() ?? throw new ArgumentNullException(nameof(UserState));
             _telemetryClient = serviceProvider.GetService<IBotTelemetryClient>() ?? throw new ArgumentNullException(nameof(IBotTelemetryClient));
 
             var dialogState = conversationState.CreateProperty<DialogState>(nameof(ToDoSkill));
