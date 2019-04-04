@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 /**
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
@@ -9,10 +8,6 @@ import * as chalk from 'chalk';
 import * as program from 'commander';
 import * as process from 'process';
 import * as semver from 'semver';
-
-program
-    .option('--prefix', 'Append [msbot] prefix to all messages')
-    .on('option:prefix', () => process.env.PREFIX = 'prefix');
 
 // tslint:disable-next-line:no-var-requires no-require-imports
 const pkg: IPackage = require('../package.json');
