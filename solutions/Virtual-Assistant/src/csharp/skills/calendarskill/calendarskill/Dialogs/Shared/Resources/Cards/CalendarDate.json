@@ -1,0 +1,17 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "Container",
+      "style": "emphasis",
+      "items": [
+        {
+          "type": "TextBlock",
+          "weight": "Bolder",
+          "color": "Dark",
+          "text": "{Date}"
+        }
+      ]
+    }
+  ]
+}

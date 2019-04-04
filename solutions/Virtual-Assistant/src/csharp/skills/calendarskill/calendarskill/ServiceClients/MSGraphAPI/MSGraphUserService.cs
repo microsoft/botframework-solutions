@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using CalendarSkill.Extensions;
 using CalendarSkill.Models;
@@ -57,10 +59,58 @@ namespace CalendarSkill.ServiceClients.MSGraphAPI
             return result;
         }
 
-        public async Task<PersonModel> GetMe()
+        public async Task<PersonModel> GetMeAsync()
         {
-            var me = await _graphClient.Me.Request().GetAsync();
-            return new PersonModel(me.ToPerson());
+            try
+            {
+                var me = await _graphClient.Me.Request().GetAsync();
+
+                if (me != null)
+                {
+                    var url = await GetMSUserPhotoUrlAsyc(me.Id);
+                    var personMe = new PersonModel(me.ToPerson());
+                    personMe.Photo = url;
+
+                    return personMe;
+                }
+
+                return null;
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
+        }
+
+        public async Task<string> GetPhotoAsync(string email)
+        {
+            var users = await this.GetUserAsync(email);
+
+            if (users != null && users.Count > 0 && users[0].Id != null)
+            {
+                return await GetMSUserPhotoUrlAsyc(users[0].Id);
+            }
+
+            return null;
+        }
+
+        private async Task<string> GetMSUserPhotoUrlAsyc(string id)
+        {
+            var photoRequest = this._graphClient.Users[id].Photos["64x64"].Content.Request();
+
+            Stream originalPhoto = null;
+            string photoUrl = string.Empty;
+            try
+            {
+                originalPhoto = await photoRequest.GetAsync();
+                photoUrl = Convert.ToBase64String(ReadFully(originalPhoto));
+
+                return string.Format("data:image/jpeg;base64,{0}", photoUrl);
+            }
+            catch (ServiceException ex)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -193,6 +243,15 @@ namespace CalendarSkill.ServiceClients.MSGraphAPI
             }
 
             return items;
+        }
+
+        private byte[] ReadFully(Stream input)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                input.CopyTo(ms);
+                return ms.ToArray();
+            }
         }
     }
 }

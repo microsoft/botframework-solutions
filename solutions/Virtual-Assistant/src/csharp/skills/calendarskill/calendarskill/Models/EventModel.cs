@@ -713,7 +713,8 @@ namespace CalendarSkill.Models
                 {
                     case EventSource.Microsoft:
                         return msftEventData.ResponseStatus.Response == ResponseType.Accepted ||
-                            msftEventData.ResponseStatus.Response == ResponseType.Organizer;
+                            msftEventData.ResponseStatus.Response == ResponseType.Organizer ||
+                            (msftEventData.IsOrganizer ?? false);
                     case EventSource.Google:
                         return gmailEventData.Status.Equals("confirmed");
                     default:
@@ -848,6 +849,8 @@ namespace CalendarSkill.Models
             }
         }
 
+        public bool IsConflict { get; set; }
+
         public EventSource Source
         {
             get => source;
@@ -860,65 +863,16 @@ namespace CalendarSkill.Models
             return dateTime1.Year == dateTime2.Year && dateTime1.Month == dateTime2.Month && dateTime1.Day == dateTime2.Day;
         }
 
-        public CalendarCardData ToAdaptiveCardData(TimeZoneInfo timeZone, bool showDate = true, bool showContent = false, string culture = "")
+        public CalendarItemCardData ToAdaptiveCardData(TimeZoneInfo timeZone)
         {
-            var eventItem = this;
-
-            string participantString = null;
-            string dateString = null;
-            string timeString = null;
-            string locationString = null;
-            if (eventItem.Attendees.Count > 0)
+            var userStartDateTime = TimeConverter.ConvertUtcToUserTime(StartTime, timeZone);
+            return new CalendarItemCardData
             {
-                participantString = DisplayHelper.ToDisplayParticipantsStringSummaryInCard(eventItem.Attendees);
-            }
-
-            var userStartDateTime = TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, timeZone);
-            var userEndDateTime = TimeConverter.ConvertUtcToUserTime(eventItem.EndTime, timeZone);
-
-            if (showDate || !IsSameDate(userStartDateTime, userStartDateTime))
-            {
-                CultureInfo cultureInfo = (CultureInfo)CultureInfo.CurrentUICulture.Clone();
-                cultureInfo.DateTimeFormat.DateSeparator = "-";
-                var startDateString = userStartDateTime.ToString("d", cultureInfo);
-                var endDateString = userEndDateTime.ToString("d", cultureInfo);
-                if (IsSameDate(userStartDateTime, userEndDateTime))
-                {
-                    dateString = $"{startDateString}";
-                }
-                else
-                {
-                    dateString = $"{startDateString} - {endDateString}";
-                }
-            }
-
-            if (eventItem.IsAllDay == true)
-            {
-                timeString = $"{CalendarCommonStrings.AllDay}";
-            }
-            else
-            {
-                timeString = $"{userStartDateTime.ToString(CommonStrings.DisplayTime)} - {TimeConverter.ConvertUtcToUserTime(eventItem.EndTime, timeZone).ToString(CommonStrings.DisplayTime)}";
-            }
-
-            if (eventItem.Location != null)
-            {
-                locationString = $"{eventItem.Location}";
-            }
-
-            string speakString = string.Empty;
-            speakString = SpeakHelper.ToSpeechMeetingDetail(eventItem.Title, userStartDateTime, eventItem.IsAllDay == true);
-
-            return new CalendarCardData
-            {
-                Title = eventItem.Title,
-                Participant = participantString,
-                Date = dateString,
-                Time = timeString,
-                Location = locationString,
-                ContentPreview = showContent ? eventItem.ContentPreview : null,
-                MeetingLink = eventItem.OnlineMeetingUrl,
-                Speak = speakString,
+                Time = userStartDateTime.ToString("H:mm"),
+                TimeColor = IsConflict ? "Attention" : "Dark",
+                Title = Title,
+                Location = Location,
+                IsSubtle = !IsAccepted
             };
         }
 
@@ -944,6 +898,19 @@ namespace CalendarSkill.Models
             }
 
             return false;
+        }
+
+        public string SourceString()
+        {
+            switch (Source)
+            {
+                case EventSource.Microsoft:
+                    return "Microsoft Graph";
+                case EventSource.Google:
+                    return "Gmail";
+                default:
+                    return null;
+            }
         }
 
         public class Attendee

@@ -27,9 +27,19 @@
             ShowOverviewAgain,
 
             /// <summary>
-            /// ShowFilteredMeetings.
+            /// ShowFilteredByTitleMeetings.
             /// </summary>
-            ShowFilteredMeetings
+            ShowFilteredByTitleMeetings,
+
+            /// <summary>
+            /// ShowFilteredByTimeMeetings.
+            /// </summary>
+            ShowFilteredByTimeMeetings,
+
+            /// <summary>
+            /// ShowFilteredByParticipantNameMeetings.
+            /// </summary>
+            ShowFilteredByParticipantNameMeetings
         }
 
         public ShowMeetingReason Reason { get; set; }

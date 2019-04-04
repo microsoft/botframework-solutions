@@ -56,7 +56,7 @@ namespace CalendarSkill.Dialogs.Summary
             {
                 GetAuthToken,
                 AfterGetAuthToken,
-                ShowEventsSummary,
+                ShowEventsList,
                 CallReadEventDialog,
                 AskForShowOverview,
                 AfterAskForShowOverview
@@ -99,7 +99,7 @@ namespace CalendarSkill.Dialogs.Summary
             }
         }
 
-        public async Task<DialogTurnResult> ShowEventsSummary(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<DialogTurnResult> ShowEventsList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -186,7 +186,43 @@ namespace CalendarSkill.Dialogs.Summary
                         }
                     }
 
-                    await ShowMeetingList(sc, GetCurrentPageMeetings(searchedEvents, state), !searchTodayMeeting);
+                    // add conflict flag
+                    for (int i = 0; i < searchedEvents.Count - 1; i++)
+                    {
+                        for (int j = i + 1; j < searchedEvents.Count; j++)
+                        {
+                            if (searchedEvents[i].StartTime <= searchedEvents[j].StartTime &&
+                                searchedEvents[i].EndTime > searchedEvents[j].StartTime)
+                            {
+                                searchedEvents[i].IsConflict = true;
+                                searchedEvents[j].IsConflict = true;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+
+                    // count the conflict meetings
+                    int totalConflictCount = 0;
+                    foreach (var eventItem in searchedEvents)
+                    {
+                        if (eventItem.IsConflict)
+                        {
+                            totalConflictCount++;
+                        }
+                    }
+
+                    state.TotalConflictCount = totalConflictCount;
+
+                    await sc.Context.SendActivityAsync(await GetOverviewMeetingListResponseAsync(
+                        sc,
+                        GetCurrentPageMeetings(searchedEvents, state),
+                        searchedEvents.Count,
+                        totalConflictCount,
+                        null,
+                        null));
                     state.SummaryEvents = searchedEvents;
                     if (state.SummaryEvents.Count == 1)
                     {
@@ -196,9 +232,33 @@ namespace CalendarSkill.Dialogs.Summary
                 else
                 {
                     var currentPageMeetings = GetCurrentPageMeetings(state.SummaryEvents, state);
-                    if (options != null && options.Reason == ShowMeetingReason.ShowFilteredMeetings)
+                    if (options != null && (
+                        options.Reason == ShowMeetingReason.ShowFilteredByTitleMeetings ||
+                        options.Reason == ShowMeetingReason.ShowFilteredByTimeMeetings ||
+                        options.Reason == ShowMeetingReason.ShowFilteredByParticipantNameMeetings))
                     {
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowMultipleFilteredMeetings, new StringDictionary() { { "Count", state.SummaryEvents.Count.ToString() } }));
+                        string meetingListTitle = null;
+
+                        if (options.Reason == ShowMeetingReason.ShowFilteredByTitleMeetings)
+                        {
+                            meetingListTitle = string.Format(CalendarCommonStrings.MeetingsAbout, state.FilterMeetingKeyWord);
+                        }
+                        else if (options.Reason == ShowMeetingReason.ShowFilteredByTimeMeetings)
+                        {
+                            meetingListTitle = string.Format(CalendarCommonStrings.MeetingsAt, state.FilterMeetingKeyWord);
+                        }
+                        else if (options.Reason == ShowMeetingReason.ShowFilteredByParticipantNameMeetings)
+                        {
+                            meetingListTitle = string.Format(CalendarCommonStrings.MeetingsWith, state.FilterMeetingKeyWord);
+                        }
+
+                        var reply = await GetGeneralMeetingListResponseAsync(
+                            sc,
+                            meetingListTitle,
+                            state.SummaryEvents,
+                            SummaryResponses.ShowMultipleFilteredMeetings,
+                            new StringDictionary() { { "Count", state.SummaryEvents.Count.ToString() } });
+                        await sc.Context.SendActivityAsync(reply);
                     }
                     else
                     {
@@ -210,10 +270,16 @@ namespace CalendarSkill.Dialogs.Summary
                             { "EventTime1", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(currentPageMeetings[0].StartTime, state.GetUserTimeZone()), currentPageMeetings[0].IsAllDay == true) },
                             { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(currentPageMeetings[0].Attendees) }
                         };
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowMeetingSummaryNotFirstPageMessage, responseParams));
-                    }
+                        var reply = await GetOverviewMeetingListResponseAsync(
+                            sc,
+                            GetCurrentPageMeetings(state.SummaryEvents, state),
+                            state.SummaryEvents.Count,
+                            state.TotalConflictCount,
+                            SummaryResponses.ShowMeetingSummaryNotFirstPageMessage,
+                            responseParams);
 
-                    await ShowMeetingList(sc, GetCurrentPageMeetings(state.SummaryEvents, state), !SearchesTodayMeeting(state));
+                        await sc.Context.SendActivityAsync(reply);
+                    }
                 }
 
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.ReadOutMorePrompt) });
@@ -298,6 +364,8 @@ namespace CalendarSkill.Dialogs.Summary
                 if (state.SummaryEvents.Count > 1 && (state.ReadOutEvents == null || state.ReadOutEvents.Count <= 0))
                 {
                     var filteredMeetingList = new List<EventModel>();
+                    ShowMeetingReason showMeetingReason = ShowMeetingReason.FirstShowOverview;
+                    string filterKeyWord = null;
 
                     // filter meetings with number
                     if (luisResult.Entities.ordinal != null)
@@ -341,6 +409,8 @@ namespace CalendarSkill.Dialogs.Summary
                                     {
                                         if (meeting.StartTime.TimeOfDay == utcStartTime.TimeOfDay)
                                         {
+                                            showMeetingReason = ShowMeetingReason.ShowFilteredByTimeMeetings;
+                                            filterKeyWord = string.Format("{0:H:mm}", dateTime);
                                             filteredMeetingList.Add(meeting);
                                         }
                                     }
@@ -350,42 +420,52 @@ namespace CalendarSkill.Dialogs.Summary
                     }
 
                     // filter meetings with subject
-                    var subject = userInput;
-                    if (filteredMeetingList.Count <= 0 && luisResult.Entities.Subject != null)
+                    if (filteredMeetingList.Count <= 0)
                     {
-                        subject = GetSubjectFromEntity(luisResult.Entities);
-                    }
-
-                    foreach (var meeting in GetCurrentPageMeetings(state.SummaryEvents, state))
-                    {
-                        if (meeting.Title.ToLower().Contains(subject.ToLower()))
+                        var subject = userInput;
+                        if (luisResult.Entities.Subject != null)
                         {
-                            filteredMeetingList.Add(meeting);
+                            subject = GetSubjectFromEntity(luisResult.Entities);
+                        }
+
+                        foreach (var meeting in GetCurrentPageMeetings(state.SummaryEvents, state))
+                        {
+                            if (meeting.Title.ToLower().Contains(subject.ToLower()))
+                            {
+                                showMeetingReason = ShowMeetingReason.ShowFilteredByTitleMeetings;
+                                filterKeyWord = subject;
+                                filteredMeetingList.Add(meeting);
+                            }
                         }
                     }
 
                     // filter meetings with contact name
-                    var contactNameList = new List<string>() { userInput };
-                    if (filteredMeetingList.Count <= 0 && luisResult.Entities.personName != null)
+                    if (filteredMeetingList.Count <= 0)
                     {
-                        contactNameList = GetAttendeesFromEntity(luisResult.Entities, userInput);
-                    }
-
-                    foreach (var meeting in GetCurrentPageMeetings(state.SummaryEvents, state))
-                    {
-                        var containsAllContacts = true;
-                        foreach (var contactName in contactNameList)
+                        var contactNameList = new List<string>() { userInput };
+                        if (luisResult.Entities.personName != null)
                         {
-                            if (!meeting.ContainsAttendee(contactName))
-                            {
-                                containsAllContacts = false;
-                                break;
-                            }
+                            contactNameList = GetAttendeesFromEntity(luisResult.Entities, userInput);
                         }
 
-                        if (containsAllContacts)
+                        foreach (var meeting in GetCurrentPageMeetings(state.SummaryEvents, state))
                         {
-                            filteredMeetingList.Add(meeting);
+                            var containsAllContacts = true;
+                            foreach (var contactName in contactNameList)
+                            {
+                                if (!meeting.ContainsAttendee(contactName))
+                                {
+                                    containsAllContacts = false;
+                                    break;
+                                }
+                            }
+
+                            if (containsAllContacts)
+                            {
+                                showMeetingReason = ShowMeetingReason.ShowFilteredByParticipantNameMeetings;
+                                filterKeyWord = string.Join(", ", contactNameList);
+                                filteredMeetingList.Add(meeting);
+                            }
                         }
                     }
 
@@ -396,8 +476,9 @@ namespace CalendarSkill.Dialogs.Summary
                     }
                     else if (filteredMeetingList.Count > 1)
                     {
+                        state.FilterMeetingKeyWord = filterKeyWord;
                         state.SummaryEvents = filteredMeetingList;
-                        return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, new ShowMeetingsDialogOptions(ShowMeetingReason.ShowFilteredMeetings, sc.Options));
+                        return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, new ShowMeetingsDialogOptions(showMeetingReason, sc.Options));
                     }
                 }
 
@@ -439,8 +520,7 @@ namespace CalendarSkill.Dialogs.Summary
                         { "Subject", eventItem.Title }
                     };
 
-                    var card = new Card(eventItem.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard", eventItem.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true));
-                    var replyMessage = ResponseManager.GetCardResponse(SummaryResponses.ReadOutMessage, card, tokens);
+                    var replyMessage = await GetDetailMeetingResponseAsync(sc, eventItem, SummaryResponses.ReadOutMessage, tokens);
                     await sc.Context.SendActivityAsync(replyMessage);
 
                     if (eventItem.IsOrganizer)
@@ -649,7 +729,9 @@ namespace CalendarSkill.Dialogs.Summary
                         await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowMultipleNextMeetingMessage));
                     }
 
-                    await ShowMeetingList(sc, nextEventList, true);
+                    var reply = await GetGeneralMeetingListResponseAsync(sc, CalendarCommonStrings.UpcommingMeeting, nextEventList, null, null);
+
+                    await sc.Context.SendActivityAsync(reply);
                 }
 
                 state.Clear();

@@ -74,8 +74,14 @@
     <EmbeddedResource Include="Dialogs\Shared\Resources\CalendarSharedResponses.it.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\CalendarSharedResponses.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\CalendarSharedResponses.zh.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarCard.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarCardNoJoinButton.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarDate.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarDetail.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarDetailNoJoinButton.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarItem.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarOverview.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarDetailContainerParticipantsLess.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarDetailContainerParticipantsMore.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarGeneralMeetingList.json" />
     <EmbeddedResource Include="Dialogs\Summary\Resources\SummaryResponses.de.json" />
     <EmbeddedResource Include="Dialogs\Summary\Resources\SummaryResponses.es.json" />
     <EmbeddedResource Include="Dialogs\Summary\Resources\SummaryResponses.fr.json" />

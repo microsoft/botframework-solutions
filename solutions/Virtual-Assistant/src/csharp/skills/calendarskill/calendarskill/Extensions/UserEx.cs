@@ -30,6 +30,7 @@ namespace CalendarSkill.Extensions
             person.ScoredEmailAddresses = emailAddresses;
             person.ImAddress = user.ImAddresses?.FirstOrDefault();
             person.JobTitle = user.JobTitle;
+            person.Id = user.Id;
             return person;
         }
 
@@ -52,6 +53,7 @@ namespace CalendarSkill.Extensions
             person.ScoredEmailAddresses = emailAddresses;
             person.ImAddress = contact.ImAddresses?.FirstOrDefault();
             person.JobTitle = contact.JobTitle;
+            person.Id = contact.Id;
             return person;
         }
     }
