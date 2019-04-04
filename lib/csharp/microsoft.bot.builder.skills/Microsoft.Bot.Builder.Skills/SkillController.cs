@@ -50,16 +50,15 @@ namespace Microsoft.Bot.Builder.Skills
         /// <returns></returns>
         [Route("api/skill/messages")]
         [HttpPost]
-        public async Task<IActionResult> SkillMessage()
+        public async Task SkillMessage()
         {
             if (_skillAuthProvider != null && !_skillAuthProvider.Authenticate(HttpContext))
             {
-                return Unauthorized();
+                Response.StatusCode = 401;
+                return;
             }
 
             await _skillAdapter.ProcessAsync(Request, Response, _bot, default(CancellationToken));
-
-            return Ok();
         }
     }
 }
