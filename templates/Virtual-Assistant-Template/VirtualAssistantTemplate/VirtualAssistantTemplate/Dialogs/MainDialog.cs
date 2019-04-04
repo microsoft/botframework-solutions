@@ -21,6 +21,7 @@ namespace VirtualAssistantTemplate.Dialogs
 {
     public class MainDialog : RouterDialog
     {
+        private BotSettings _settings;
         private BotServices _services;
         private UserState _userState;
         private ConversationState _conversationState;
@@ -28,6 +29,7 @@ namespace VirtualAssistantTemplate.Dialogs
         private MainResponses _responder = new MainResponses();
 
         public MainDialog(
+            BotSettings settings,
             BotServices services,
             ConversationState conversationState,
             UserState userState,
@@ -35,6 +37,7 @@ namespace VirtualAssistantTemplate.Dialogs
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
+            _settings = settings;
             _services = services;
             _conversationState = conversationState;
             _userState = userState;
@@ -44,7 +47,7 @@ namespace VirtualAssistantTemplate.Dialogs
             AddDialog(new OnboardingDialog(_services, _userState.CreateProperty<OnboardingState>(nameof(OnboardingState)), telemetryClient));
             AddDialog(new EscalateDialog(_services, telemetryClient));
 
-            foreach (var skill in services.SkillDefinitions)
+            foreach (var skill in settings.Skills)
             {
                 AddDialog(new SkillDialog(skill, new MicrosoftAppCredentialsEx(_microsoftAppCredentials.MicrosoftAppId, _microsoftAppCredentials.MicrosoftAppPassword, skill.Scope), telemetryClient));
             }
@@ -66,9 +69,9 @@ namespace VirtualAssistantTemplate.Dialogs
             var dispatchResult = await cognitiveModels.DispatchService.RecognizeAsync<DispatchLuis>(dc.Context, CancellationToken.None);
             var intent = dispatchResult.TopIntent().intent;
 
-            if (_services.SkillDefinitions.Any(s => s.DispatchIntent == intent.ToString()))
+            if (_settings.Skills.Any(s => s.DispatchIntent == intent.ToString()))
             {
-                var skill = _services.SkillDefinitions.Where(s => s.DispatchIntent == intent.ToString()).First();
+                var skill = _settings.Skills.Where(s => s.DispatchIntent == intent.ToString()).First();
 
                 // Initialize the skill connection
                 await dc.BeginDialogAsync(skill.Name);

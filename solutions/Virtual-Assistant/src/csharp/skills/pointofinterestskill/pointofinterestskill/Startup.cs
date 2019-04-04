@@ -1,39 +1,53 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
+<<<<<<< HEAD
 using System.Threading.Tasks;
+=======
+using Microsoft.ApplicationInsights;
+>>>>>>> origin/4.4
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Auth;
+<<<<<<< HEAD
 using Microsoft.Bot.Builder.Solutions.Middleware;
+=======
+>>>>>>> origin/4.4
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
-using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+<<<<<<< HEAD
 using PointOfInterestSkill.Dialogs.CancelRoute.Resources;
 using PointOfInterestSkill.Dialogs.FindPointOfInterest.Resources;
 using PointOfInterestSkill.Dialogs.Main.Resources;
 using PointOfInterestSkill.Dialogs.Route.Resources;
 using PointOfInterestSkill.Dialogs.Shared.Resources;
 using PointOfInterestSkill.ServiceClients;
+=======
+using PointOfInterestSkill.Adapters;
+using PointOfInterestSkill.Bots;
+using PointOfInterestSkill.Dialogs;
+using PointOfInterestSkill.Responses.CancelRoute;
+using PointOfInterestSkill.Responses.FindPointOfInterest;
+using PointOfInterestSkill.Responses.Main;
+using PointOfInterestSkill.Responses.Route;
+using PointOfInterestSkill.Responses.Shared;
+using PointOfInterestSkill.Services;
+>>>>>>> origin/4.4
 
 namespace PointOfInterestSkill
 {
@@ -47,6 +61,10 @@ namespace PointOfInterestSkill
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile("cognitivemodels.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"cognitivemodels.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile("skills.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"skills.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
@@ -58,45 +76,25 @@ namespace PointOfInterestSkill
         {
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
 
-            // add background task queue
-            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
-            services.AddHostedService<QueuedHostedService>();
+            // Load settings
+            var settings = new BotSettings();
+            Configuration.Bind(settings);
+            services.AddSingleton(settings);
 
-            // Load the connected services from .bot file.
-            var botFilePath = Configuration.GetSection("botFilePath")?.Value;
-            var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
-            var botConfig = BotConfiguration.Load(botFilePath ?? @".\PointOfInterestSkill.bot", botFileSecret);
-            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded."));
+            // Configure bot services
+            services.AddSingleton<BotServices>();
 
-            // Use Application Insights
-            services.AddBotApplicationInsights(botConfig);
+            // Configure credentials
+            services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
 
-            // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
-            var parameters = Configuration.GetSection("parameters")?.Get<string[]>();
-            var configuration = Configuration.GetSection("configuration")?.GetChildren()?.ToDictionary(x => x.Key, y => y.Value as object);
-            var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
-            var connectedServices = new SkillConfiguration(botConfig, languageModels, null, parameters, configuration);
-            services.AddSingleton<SkillConfigurationBase>(sp => connectedServices);
-
-            var supportedLanguages = languageModels.Select(l => l.Key).ToArray();
-            var responseManager = new ResponseManager(
-                supportedLanguages,
-                new CancelRouteResponses(),
-                new FindPointOfInterestResponses(),
-                new POIMainResponses(),
-                new RouteResponses(),
-                new POISharedResponses());
-
-            // Register bot responses for all supported languages.
-            services.AddSingleton(sp => responseManager);
-
-            var defaultLocale = Configuration.GetSection("defaultLocale").Get<string>();
-
-            // Initialize Bot State
-            var cosmosDbService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.CosmosDB) ?? throw new Exception("Please configure your CosmosDb service in your .bot file.");
-            var cosmosDb = cosmosDbService as CosmosDbService;
-            var cosmosOptions = new CosmosDbStorageOptions()
+            // Configure bot state
+            services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
+            services.AddSingleton<UserState>();
+            services.AddSingleton<ConversationState>();
+            services.AddSingleton<ProactiveState>();
+            services.AddSingleton(sp =>
             {
+<<<<<<< HEAD
                 CosmosDBEndpoint = new Uri(cosmosDb.Endpoint),
                 AuthKey = cosmosDb.Key,
                 CollectionId = cosmosDb.Collection,
@@ -141,68 +139,60 @@ namespace PointOfInterestSkill
 
             // HttpContext required for path resolution
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+=======
+                var userState = sp.GetService<UserState>();
+                var conversationState = sp.GetService<ConversationState>();
+                var proactiveState = sp.GetService<ProactiveState>();
+                return new BotStateSet(userState, conversationState);
+            });
+>>>>>>> origin/4.4
 
-            // Add the bot
-            services.AddTransient<IBot, PointOfInterestSkill>();
+            // Configure telemetry
+            var telemetryClient = new BotTelemetryClient(new TelemetryClient(settings.AppInsights));
+            services.AddSingleton<IBotTelemetryClient>(telemetryClient);
+            services.AddBotApplicationInsights(telemetryClient);
 
-            var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+            // Configure proactive
+            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+            services.AddHostedService<QueuedHostedService>();
 
-            // Create the middlewares
-            var telemetryClient = services.BuildServiceProvider().GetService<IBotTelemetryClient>();
-            var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
+            // Configure service manager
+            services.AddTransient<IServiceManager, ServiceManager>();
 
-            var storageService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.BlobStorage) ?? throw new Exception("Please configure your Azure Storage service in your .bot file.");
-            var blobStorage = storageService as BlobStorageService;
-            var transcriptStore = new AzureBlobTranscriptStore(blobStorage.ConnectionString, blobStorage.Container);
-            var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
+            // Configure HttpContext required for path resolution
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            var typingMiddleware = new ShowTypingMiddleware();
-            var setLocaleMiddleware = new SetLocaleMiddleware(defaultLocale ?? "en-us");
-            var eventDebuggerMiddleware = new EventDebuggerMiddleware();
-            var autoSaveStateMiddleware = new AutoSaveStateMiddleware(userState, conversationState);
+            // Configure responses
+            services.AddSingleton(sp => new ResponseManager(
+                settings.CognitiveModels.Select(l => l.Key).ToArray(),
+                new CancelRouteResponses(),
+                new FindPointOfInterestResponses(),
+                new POIMainResponses(),
+                new RouteResponses(),
+                new POISharedResponses()));
 
-            Func<ITurnContext, Exception, Task> onTurnError = async (context, exception) =>
+            // Configure skill authentication
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
             {
-                CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-                await context.SendActivityAsync(responseManager.GetResponse(POISharedResponses.PointOfInterestErrorMessage));
-                await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"PointOfInterestSkill Error: {exception.Message} | {exception.StackTrace}"));
-                telemetryClient.TrackExceptionEx(exception, context.Activity);
-            };
-
-            // Add the http adapter with middlewares
-            services.AddTransient<IBotFrameworkHttpAdapter>(sp =>
-            {
-                var botFrameworkHttpAdapter = new BotFrameworkHttpAdapter(credentialProvider)
+                options.Authority = "https://login.microsoftonline.com/microsoft.com";
+                options.Audience = settings.MicrosoftAppId;
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    OnTurnError = onTurnError
+                    ValidIssuer = "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47/v2.0",
                 };
-
-                botFrameworkHttpAdapter.Use(appInsightsLogger);
-                botFrameworkHttpAdapter.Use(transcriptMiddleware);
-                botFrameworkHttpAdapter.Use(typingMiddleware);
-                botFrameworkHttpAdapter.Use(setLocaleMiddleware);
-                botFrameworkHttpAdapter.Use(eventDebuggerMiddleware);
-                botFrameworkHttpAdapter.Use(autoSaveStateMiddleware);
-
-                return botFrameworkHttpAdapter;
             });
 
-            // Add the SkillAdapter with middlewares
-            services.AddTransient(sp =>
-            {
-                var skillAdapter = new SkillAdapter(credentialProvider)
-                {
-                    OnTurnError = onTurnError
-                };
+            services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
+            services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
 
-                skillAdapter.Use(appInsightsLogger);
-                skillAdapter.Use(transcriptMiddleware);
-                skillAdapter.Use(typingMiddleware);
-                skillAdapter.Use(eventDebuggerMiddleware);
-                skillAdapter.Use(autoSaveStateMiddleware);
+            // Configure adapters
+            services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
+            services.AddTransient<SkillAdapter, POISkillAdapter>();
 
-                return skillAdapter;
-            });
+            // Configure bot
+            services.AddTransient<MainDialog>();
+            services.AddTransient<IBot, DefaultBot<MainDialog>>();
         }
 
         /// <summary>
