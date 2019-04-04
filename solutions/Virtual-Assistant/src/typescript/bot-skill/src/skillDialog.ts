@@ -6,7 +6,7 @@
 import { Activity, ActivityTypes, BotTelemetryClient } from 'botbuilder';
 import { ComponentDialog, Dialog, DialogContext, DialogTurnResult } from 'botbuilder-dialogs';
 import { SkillDefinition } from 'bot-solution';
-import { post } from "request-promise-native";
+import { post, RequestPromise } from "request-promise-native";
 
 export class SkillDialog extends ComponentDialog {
     // Fields
@@ -53,14 +53,23 @@ export class SkillDialog extends ComponentDialog {
             // Serialize the activity and POST to the Skill endpoint
             // TODO - Apply Authorization header
             // TODO - Add header to indicate a skill call
-            
-            const request = post({
+
+            const request: RequestPromise<Partial<Activity>[]> = post({
                 uri: <string> this.skillDefinition.assembly,
                 body: activity,
                 json: true
             });
 
-            const skillResponses: Partial<Activity>[] = await request;
+            const skillResponses: Partial<Activity>[] = await request.then((response) => {
+                const activities: Partial<Activity>[] = response.map((activity) => {
+                    if (typeof activity.timestamp === 'string') { activity.timestamp = new Date(activity.timestamp); }
+                    if (typeof activity.localTimestamp === 'string') { activity.localTimestamp = new Date(activity.localTimestamp); }
+                    if (typeof activity.expiration === 'string') { activity.expiration = new Date(activity.expiration); }
+                    return activity;
+                })
+                return Promise.resolve(activities);
+            });
+            
             const filteredResponses: Partial<Activity>[] = [];
 
             let endOfConversation: boolean = false;
