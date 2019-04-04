@@ -138,14 +138,12 @@ namespace ToDoSkill.Dialogs.ShowToDo
 
                     if (topIntent == ToDoLU.Intent.ShowToDo || state.GoBackToStart)
                     {
-                        var toDoListAttachment = ToAdaptiveCardForShowToDos(
+                        var toDoListCard = ToAdaptiveCardForShowToDos(
                             state.Tasks,
                             state.AllTasks.Count,
                             state.ListType);
 
-                        cardReply.Attachments.Add(toDoListAttachment);
-                        cardReply.InputHint = InputHints.IgnoringInput;
-                        await sc.Context.SendActivityAsync(cardReply);
+                        await sc.Context.SendActivityAsync(toDoListCard);
 
                         if (allTasksCount <= state.Tasks.Count)
                         {
@@ -162,14 +160,12 @@ namespace ToDoSkill.Dialogs.ShowToDo
                         }
                         else
                         {
-                            var toDoListAttachment = ToAdaptiveCardForReadMore(
+                            var toDoListCard = ToAdaptiveCardForReadMore(
                                 state.Tasks,
                                 state.AllTasks.Count,
                                 state.ListType);
 
-                            cardReply.Attachments.Add(toDoListAttachment);
-                            cardReply.InputHint = InputHints.AcceptingInput;
-                            await sc.Context.SendActivityAsync(cardReply);
+                            await sc.Context.SendActivityAsync(toDoListCard);
                             if ((state.ShowTaskPageIndex + 1) * state.PageSize >= state.AllTasks.Count)
                             {
                                 return await sc.ReplaceDialogAsync(Action.CollectGoBackToStartConfirmation);
@@ -185,15 +181,13 @@ namespace ToDoSkill.Dialogs.ShowToDo
                         }
                         else
                         {
-                            var toDoListAttachment = ToAdaptiveCardForPreviousPage(
+                            var toDoListCard = ToAdaptiveCardForPreviousPage(
                                 state.Tasks,
                                 state.AllTasks.Count,
                                 state.ShowTaskPageIndex == 0,
                                 state.ListType);
 
-                            cardReply.Attachments.Add(toDoListAttachment);
-                            cardReply.InputHint = InputHints.AcceptingInput;
-                            await sc.Context.SendActivityAsync(cardReply);
+                            await sc.Context.SendActivityAsync(toDoListCard);
                         }
                     }
 
@@ -292,23 +286,20 @@ namespace ToDoSkill.Dialogs.ShowToDo
             var allTasksCount = state.AllTasks.Count;
             var currentTaskIndex = state.ShowTaskPageIndex * state.PageSize;
             state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
-            var toDoListAttachment = ToAdaptiveCardForReadMore(
+            var toDoListCard = ToAdaptiveCardForReadMore(
                     state.Tasks,
                     allTasksCount,
                     state.ListType);
-
-            var cardReply = sc.Context.Activity.CreateReply();
-            cardReply.Attachments.Add(toDoListAttachment);
-            cardReply.InputHint = InputHints.IgnoringInput;
+            toDoListCard.InputHint = InputHints.IgnoringInput;
 
             if ((state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
             {
-                await sc.Context.SendActivityAsync(cardReply);
+                await sc.Context.SendActivityAsync(toDoListCard);
                 return await sc.EndDialogAsync(true);
             }
             else
             {
-                await sc.Context.SendActivityAsync(cardReply);
+                await sc.Context.SendActivityAsync(toDoListCard);
                 await sc.CancelAllDialogsAsync();
                 return await sc.ReplaceDialogAsync(Action.CollectGoBackToStartConfirmation);
             }
@@ -386,13 +377,10 @@ namespace ToDoSkill.Dialogs.ShowToDo
             var currentTaskIndex = state.ShowTaskPageIndex * state.PageSize;
             state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
 
-            var toDoListAttachment = ToAdaptiveCardForReadMore(
+            var cardReply = ToAdaptiveCardForReadMore(
                     state.Tasks,
                     allTasksCount,
                     state.ListType);
-
-            var cardReply = sc.Context.Activity.CreateReply();
-            cardReply.Attachments.Add(toDoListAttachment);
 
             if ((state.ShowTaskPageIndex + 1) * state.PageSize < allTasksCount)
             {
