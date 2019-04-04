@@ -20,6 +20,8 @@ namespace CalendarSkill.ServiceClients
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         Task<List<PersonModel>> GetContactsAsync(string name);
 
-        Task<PersonModel> GetMe();
+        Task<PersonModel> GetMeAsync();
+
+        Task<string> GetPhotoAsync(string email);
     }
 }

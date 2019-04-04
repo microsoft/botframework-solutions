@@ -1,0 +1,91 @@
+{
+  "type": "AdaptiveCard",
+  "id": "CalendarCard",
+  "height": "stretch",
+  "body": [
+    {
+      "type": "Container",
+      "spacing": "Large",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "id": "Participants",
+          "columns": [
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "Image",
+                  "id": "senderAvatar",
+                  "style": "Person",
+                  "url": "{ParticipantPhoto1}",
+                  "size": "Medium",
+                  "width": "70px",
+                  "height": "70px"
+                }
+              ],
+              "width": "stretch"
+            },
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "Image",
+                  "style": "Person",
+                  "url": "{ParticipantPhoto2}",
+                  "width": "70px",
+                  "height": "70px"
+                }
+              ],
+              "width": "stretch"
+            },
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "Image",
+                  "style": "Person",
+                  "url": "{ParticipantPhoto3}",
+                  "width": "70px",
+                  "height": "70px"
+                }
+              ],
+              "width": "stretch"
+            },
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "Image",
+                  "style": "Person",
+                  "url": "{ParticipantPhoto4}",
+                  "width": "70px",
+                  "height": "70px"
+                }
+              ],
+              "width": "stretch"
+            },
+            {
+              "type": "Column",
+              "verticalContentAlignment": "Center",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Center",
+                  "size": "Large",
+                  "weight": "Bolder",
+                  "color": "Light",
+                  "text": "\\+{OmittedParticipantCount}"
+                }
+              ],
+              "width": "stretch"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0",
+  "speak": "{Speak}"
+}
