@@ -1,1 +1,1 @@
-﻿Please refer to [Create a New Skill](../../../../../../../docs/skills/README.md#skills) for instructions on creating your skill.
+﻿Please refer to [Create a New Skill](../../../../../../../docs/skills/csharp/README.md#skills-overview) for instructions on creating your skill.
