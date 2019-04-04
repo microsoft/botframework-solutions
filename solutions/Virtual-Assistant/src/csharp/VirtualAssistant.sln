@@ -53,6 +53,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsSkill", "experimental\s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Solutions", "..\..\..\..\lib\csharp\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj", "{900A6592-93BB-46CF-9E9F-DB003D1CF225}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Solutions.Tests", "..\..\..\..\lib\csharp\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions.tests\Microsoft.Bot.Builder.Solutions.Tests.csproj", "{E9873331-5958-411E-BBC4-C5441A5610F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +125,10 @@ Global
 		{900A6592-93BB-46CF-9E9F-DB003D1CF225}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{900A6592-93BB-46CF-9E9F-DB003D1CF225}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{900A6592-93BB-46CF-9E9F-DB003D1CF225}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9873331-5958-411E-BBC4-C5441A5610F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9873331-5958-411E-BBC4-C5441A5610F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9873331-5958-411E-BBC4-C5441A5610F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9873331-5958-411E-BBC4-C5441A5610F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
