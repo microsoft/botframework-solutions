@@ -135,8 +135,9 @@ namespace ToDoSkill
                 };
             });
 
-            services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
-            services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
+            // comment out for now to disable whitelist checking
+            //services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
+            //services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
 
             services.AddTransient<IServiceManager, ServiceManager>();
 
