@@ -159,8 +159,8 @@ if (!cosmosConfig) {
 }
 
 // create conversation and user state
-const conversationState: ConversationState = new ConversationState(storage);
-const userState: UserState = new UserState(storage);
+const conversationState: ConversationState = new ConversationState(storage, 'assistant');
+const userState: UserState = new UserState(storage, 'assistant');
 const proactiveState: ProactiveState = new ProactiveState(storage);
 
 // Use the AutoSaveStateMiddleware middleware to automatically read and write conversation and user state.

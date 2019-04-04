@@ -166,8 +166,8 @@ if (!cosmosConfig) {
 }
 
 // create conversation and user state
-const conversationState: ConversationState = new ConversationState(storage);
-const userState: UserState = new UserState(storage);
+const conversationState: ConversationState = new ConversationState(storage, 'sampleSkill');
+const userState: UserState = new UserState(storage, 'sampleSkill');
 const proactiveState: ProactiveState = new ProactiveState(storage);
 
 // Use the AutoSaveStateMiddleware middleware to automatically read and write conversation and user state.
@@ -241,7 +241,7 @@ try {
         conversationState,
         userState,
         telemetryClient,
-        false,
+        true,
         responseManager,
         new ServiceManager());
 } catch (err) {
@@ -269,10 +269,11 @@ server.post('/api/messages', (req: restify.Request, res: restify.Response) => {
 });
 
 // Listen for incoming requests as a skill
-server.post('/api/skill/messages', (req: restify.Request, res: restify.Response) => {
+server.post('/api/skill/messages', async (req: restify.Request, res: restify.Response, next: restify.Next) => {
     // Route received a request to adapter for processing
-    skillAdapter.processActivity(req, res, async (turnContext: TurnContext) => {
+    await skillAdapter.processActivity(req, res, async (turnContext: TurnContext) => {
         // route to bot activity handler.
         await bot.onTurn(turnContext);
     });
+    await next();
 });
