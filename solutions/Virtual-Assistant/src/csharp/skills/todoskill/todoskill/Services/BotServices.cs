@@ -1,13 +1,10 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
-using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
 
-namespace VirtualAssistantTemplate.Services
+namespace ToDoSkill.Services
 {
     public class BotServices
     {
@@ -19,8 +16,11 @@ namespace VirtualAssistantTemplate.Services
                 var language = pair.Key;
                 var config = pair.Value;
 
-                var dispatchApp = new LuisApplication(config.DispatchModel.AppId, config.DispatchModel.SubscriptionKey, config.DispatchModel.GetEndpoint());
-                set.DispatchService = new TelemetryLuisRecognizer(dispatchApp);
+                if (config.DispatchModel != null)
+                {
+                    var dispatchApp = new LuisApplication(config.DispatchModel.AppId, config.DispatchModel.SubscriptionKey, config.DispatchModel.GetEndpoint());
+                    set.DispatchService = new TelemetryLuisRecognizer(dispatchApp);
+                }
 
                 if (config.LanguageModels != null)
                 {
@@ -31,16 +31,19 @@ namespace VirtualAssistantTemplate.Services
                     }
                 }
 
-                foreach (var kb in config.Knowledgebases)
+                if (config.Knowledgebases != null)
                 {
-                    var qnaEndpoint = new QnAMakerEndpoint()
+                    foreach (var kb in config.Knowledgebases)
                     {
-                        KnowledgeBaseId = kb.KbId,
-                        EndpointKey = kb.EndpointKey,
-                        Host = kb.Hostname,
-                    };
-                    var qnaMaker = new TelemetryQnAMaker(qnaEndpoint);
-                    set.QnAServices.Add(kb.Id, qnaMaker);
+                        var qnaEndpoint = new QnAMakerEndpoint()
+                        {
+                            KnowledgeBaseId = kb.KbId,
+                            EndpointKey = kb.EndpointKey,
+                            Host = kb.Hostname,
+                        };
+                        var qnaMaker = new TelemetryQnAMaker(qnaEndpoint);
+                        set.QnAServices.Add(kb.Id, qnaMaker);
+                    }
                 }
 
                 CognitiveModelSets.Add(language, set);

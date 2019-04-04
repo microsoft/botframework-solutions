@@ -1,11 +1,10 @@
-﻿using Microsoft.ApplicationInsights.Extensibility;
+﻿using System.Collections.Generic;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder.Azure;
-using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Configuration;
-using System.Collections.Generic;
-using VirtualAssistantTemplate.Models;
+using ToDoSkill.Models;
 
-namespace VirtualAssistantTemplate.Services
+namespace ToDoSkill.Services
 {
     public class BotSettings
     {
@@ -13,9 +12,9 @@ namespace VirtualAssistantTemplate.Services
 
         public string MicrosoftAppPassword { get; set; }
 
-        public List<OAuthConnection> OAuthConnections { get; set; }
-
         public string DefaultLocale { get; set; }
+
+        public List<OAuthConnection> OAuthConnections { get; set; }
 
         public CosmosDbStorageOptions CosmosDb { get; set; }
 
@@ -27,11 +26,12 @@ namespace VirtualAssistantTemplate.Services
 
         public Dictionary<string, CognitiveModelConfiguration> CognitiveModels { get; set; }
 
-        public List<SkillDefinition> Skills { get; set; }
+        public Dictionary<string, string> Properties { get; set; }
 
         public class BlobStorageConfiguration
         {
             public string ConnectionString { get; set; }
+
             public string Container { get; set; }
         }
 

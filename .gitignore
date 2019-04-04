@@ -353,3 +353,4 @@ ASALocalRun/
 **/Deployment/appsettings.json
 **/Deployment/cognitivemodels.json
 **/Deployment/skills.json
+/templates/Virtual-Assistant-Template/VirtualAssistantTemplate/Deployment/Scripts/va_add_skill.1.ps1
