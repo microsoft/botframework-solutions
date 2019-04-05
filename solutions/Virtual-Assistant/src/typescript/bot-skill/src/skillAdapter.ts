@@ -1,3 +1,8 @@
+/**
+ * Copyright(c) Microsoft Corporation.All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import { ActivityExtensions } from 'bot-solution';
 import { BotFrameworkAdapter, InvokeResponse, TurnContext, WebRequest, WebResponse } from 'botbuilder';
 import { DialogContext } from 'botbuilder-dialogs';
