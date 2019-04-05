@@ -3,6 +3,7 @@
  * Licensed under the MIT License.
  */
 
+import { SkillDialog } from 'bot-skill';
 import {
     IBackgroundTaskQueue,
     InterruptionAction,
@@ -17,7 +18,6 @@ import {
     SkillEvent,
     SkillRouter,
     TelemetryExtensions } from 'bot-solution';
-import { SkillDialog } from "bot-skill";
 import {
     BotFrameworkAdapter,
     BotTelemetryClient,
