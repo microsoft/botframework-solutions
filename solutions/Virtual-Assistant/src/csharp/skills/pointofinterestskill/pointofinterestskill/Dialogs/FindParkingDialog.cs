@@ -13,10 +13,11 @@ using Microsoft.Bot.Builder.Solutions.Util;
 using PointOfInterestSkill.Models;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
+using PointOfInterestSkill.Utilities;
 
 namespace PointOfInterestSkill.Dialogs
 {
-    public class FindParkingDialog : PointOfInterestBaseDialog
+    public class FindParkingDialog : PointOfInterestDialogBase
     {
         public FindParkingDialog(
             BotSettings settings,

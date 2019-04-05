@@ -23,7 +23,7 @@ using PointOfInterestSkill.Utilities;
 
 namespace PointOfInterestSkill.Dialogs
 {
-    public class PointOfInterestBaseDialog : ComponentDialog
+    public class PointOfInterestDialogBase : ComponentDialog
     {
         // Constants
         public const string SkillModeAuth = "SkillAuth";
@@ -31,7 +31,7 @@ namespace PointOfInterestSkill.Dialogs
         private const string FallbackPointOfInterestImageFileName = "default_pointofinterest.jpg";
         private IHttpContextAccessor _httpContext;
 
-        public PointOfInterestBaseDialog(
+        public PointOfInterestDialogBase(
             string dialogId,
             BotSettings settings,
             BotServices services,
@@ -50,10 +50,10 @@ namespace PointOfInterestSkill.Dialogs
             TelemetryClient = telemetryClient;
             _httpContext = httpContext;
 
-            AddDialog(new TextPrompt(Actions.CurrentLocationPrompt));
-            AddDialog(new TextPrompt(Actions.Prompt));
-            AddDialog(new ConfirmPrompt(Actions.ConfirmPrompt) { Style = ListStyle.Auto, });
-            AddDialog(new ChoicePrompt(Actions.SelectPointOfInterestPrompt) { Style = ListStyle.Auto, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
+            AddDialog(new TextPrompt(Utilities.Actions.CurrentLocationPrompt));
+            AddDialog(new TextPrompt(Utilities.Actions.Prompt));
+            AddDialog(new ConfirmPrompt(Utilities.Actions.ConfirmPrompt) { Style = ListStyle.Auto, });
+            AddDialog(new ChoicePrompt(Utilities.Actions.SelectPointOfInterestPrompt) { Style = ListStyle.Auto, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
         }
 
         protected BotSettings Settings { get; set; }
@@ -76,7 +76,7 @@ namespace PointOfInterestSkill.Dialogs
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await Accessor.GetAsync(dc.Context);
-            if (!dc.ActiveDialog.Id.Equals(Actions.CurrentLocationPrompt))
+            if (!dc.ActiveDialog.Id.Equals(Utilities.Actions.CurrentLocationPrompt))
             {
                 await DigestLuisResult(dc, state.LuisResult);
             }
@@ -102,14 +102,14 @@ namespace PointOfInterestSkill.Dialogs
 
                 if (pointOfInterestList?.ToList().Count == 1)
                 {
-                    return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(POISharedResponses.CurrentLocationSingleSelection) });
+                    return await sc.PromptAsync(Utilities.Actions.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(POISharedResponses.CurrentLocationSingleSelection) });
                 }
                 else
                 {
                     var options = GetPointOfInterestChoicePromptOptions(pointOfInterestList);
                     options.Prompt = ResponseManager.GetResponse(POISharedResponses.CurrentLocationMultipleSelection);
 
-                    return await sc.PromptAsync(Actions.SelectPointOfInterestPrompt, options);
+                    return await sc.PromptAsync(Utilities.Actions.SelectPointOfInterestPrompt, options);
                 }
             }
             catch (Exception ex)
@@ -230,13 +230,13 @@ namespace PointOfInterestSkill.Dialogs
 
                 if (pointOfInterestList?.ToList().Count == 1)
                 {
-                    return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(POISharedResponses.PromptToGetRoute) });
+                    return await sc.PromptAsync(Utilities.Actions.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(POISharedResponses.PromptToGetRoute) });
                 }
                 else
                 {
                     var options = GetPointOfInterestChoicePromptOptions(pointOfInterestList);
 
-                    return await sc.PromptAsync(Actions.SelectPointOfInterestPrompt, options);
+                    return await sc.PromptAsync(Utilities.Actions.SelectPointOfInterestPrompt, options);
                 }
             }
             catch (Exception ex)
@@ -287,13 +287,13 @@ namespace PointOfInterestSkill.Dialogs
                         state.LastFoundPointOfInterests = null;
                     }
 
-                    if (sc.ActiveDialog.Id.Equals(Actions.FindAlongRoute) || sc.ActiveDialog.Id.Equals(Actions.FindPointOfInterestBeforeRoute))
+                    if (sc.ActiveDialog.Id.Equals(Utilities.Actions.FindAlongRoute) || sc.ActiveDialog.Id.Equals(Utilities.Actions.FindPointOfInterestBeforeRoute))
                     {
                         return await sc.NextAsync();
                     }
                     else
                     {
-                        return await sc.ReplaceDialogAsync(nameof(RouteDialog));
+                        return await sc.ReplaceDialogAsync(nameof(Dialogs.RouteDialog));
                     }
                 }
 
@@ -379,7 +379,7 @@ namespace PointOfInterestSkill.Dialogs
             {
                 for (var i = 0; i < pointOfInterestList.Count; i++)
                 {
-                    if (sc.ActiveDialog.Id.Equals(Actions.CheckForCurrentLocation))
+                    if (sc.ActiveDialog.Id.Equals(Utilities.Actions.CheckForCurrentLocation))
                     {
                         pointOfInterestList[i] = await addressService.GetPointOfInterestDetailsAsync(pointOfInterestList[i]);
                     }

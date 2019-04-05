@@ -1,4 +1,4 @@
-﻿namespace PointOfInterestSkill.Dialogs
+﻿namespace PointOfInterestSkill.Utilities
 {
     public class Actions
     {

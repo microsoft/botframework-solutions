@@ -8,17 +8,17 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
 using PointOfInterestSkill.Models;
 using PointOfInterestSkill.Responses.Route;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
+using PointOfInterestSkill.Utilities;
 
 namespace PointOfInterestSkill.Dialogs
 {
-    public class RouteDialog : PointOfInterestBaseDialog
+    public class RouteDialog : PointOfInterestDialogBase
     {
         public RouteDialog(
             BotSettings settings,
@@ -33,12 +33,12 @@ namespace PointOfInterestSkill.Dialogs
             TelemetryClient = telemetryClient;
 
             var checkCurrentLocation = new WaterfallStep[]
-{
+            {
                 CheckForCurrentCoordinatesBeforeFindPointOfInterestBeforeRoute,
                 ConfirmCurrentLocation,
                 ProcessCurrentLocationSelection,
                 RouteToFindPointOfInterestBeforeRouteDialog
-};
+            };
 
             var checkForActiveRouteAndLocation = new WaterfallStep[]
             {
