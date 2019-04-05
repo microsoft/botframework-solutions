@@ -164,14 +164,14 @@ namespace VirtualAssistant.Adapters
         }
 
         /// <summary>
-        /// Authenticate the request
+        /// Authenticate the request.
         /// </summary>
-        /// <param name="httpRequest"></param>
-        /// <param name="httpResponse"></param>
-        /// <returns></returns>
-        protected override Task Authenticate(HttpRequest httpRequest, HttpResponse httpResponse)
+        /// <param name="httpRequest">http request.</param>
+        /// <param name="httpResponse">http response.</param>
+        /// <returns>a flag that indicates whether the request is authenticated or not.</returns>
+        protected override Task<bool> Authenticate(HttpRequest httpRequest, HttpResponse httpResponse)
         {
-            return Task.FromResult<string>(string.Empty);
+            return Task.FromResult(true);
         }
 
         private void WriteResponse(HttpResponse httpResponse, Activity activity)

@@ -46,11 +46,9 @@ namespace ServiceAdapter
         public async Task ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, BotCallbackHandler callback, CancellationToken cancellationToken)
         {
             // authenticate the request
-            await Authenticate(httpRequest, httpResponse);
-
-            // short-circuit the processing if auth doesn't pass
-            if (httpResponse.StatusCode == 401)
+            if (!await Authenticate(httpRequest, httpResponse))
             {
+                httpResponse.StatusCode = 401;
                 return;
             }
 
@@ -110,7 +108,7 @@ namespace ServiceAdapter
             }
         }
 
-        protected abstract Task Authenticate(HttpRequest httpRequest, HttpResponse httpResponse);
+        protected abstract Task<bool> Authenticate(HttpRequest httpRequest, HttpResponse httpResponse);
 
         protected abstract Task Throttle(HttpRequest httpRequest);
 
