@@ -8,3 +8,4 @@
 
 export * from './skillAdapter';
 export * from './skillDialog';
+export * from './models';

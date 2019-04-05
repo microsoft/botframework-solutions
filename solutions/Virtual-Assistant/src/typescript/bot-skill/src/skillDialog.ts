@@ -3,10 +3,10 @@
  * Licensed under the MIT License.
  */
 
+import { SkillDefinition } from 'bot-solution';
 import { Activity, ActivityTypes, BotTelemetryClient } from 'botbuilder';
 import { ComponentDialog, Dialog, DialogContext, DialogTurnResult } from 'botbuilder-dialogs';
-import { SkillDefinition } from 'bot-solution';
-import { post, RequestPromise } from "request-promise-native";
+import { post, RequestPromise } from 'request-promise-native';
 
 export class SkillDialog extends ComponentDialog {
     // Fields
@@ -20,7 +20,7 @@ export class SkillDialog extends ComponentDialog {
     }
 
     protected async onBeginDialog(innerDC: DialogContext, options?: object): Promise<DialogTurnResult> {
-        // TODO - The SkillDialog Orchestration should try to fill slots defined in the manifest and pass through this event.
+        // PENDING - The SkillDialog Orchestration should try to fill slots defined in the manifest and pass through this event.
         const slots: object = {};
 
         const activity: Activity = innerDC.context.activity;
@@ -36,11 +36,11 @@ export class SkillDialog extends ComponentDialog {
         };
 
         // Send event to Skill/Bot
-        return await this.forwardToSkill(innerDC, skillBeginEvent);
+        return this.forwardToSkill(innerDC, skillBeginEvent);
     }
 
     protected async onContinueDialog(innerDC: DialogContext): Promise<DialogTurnResult> {
-        return await this.forwardToSkill(innerDC, innerDC.context.activity);
+        return this.forwardToSkill(innerDC, innerDC.context.activity);
     }
 
     protected endComponent(outerDC: DialogContext, result: Object): Promise<DialogTurnResult> {
@@ -51,8 +51,8 @@ export class SkillDialog extends ComponentDialog {
         try {
 
             // Serialize the activity and POST to the Skill endpoint
-            // TODO - Apply Authorization header
-            // TODO - Add header to indicate a skill call
+            // PENDING - Apply Authorization header
+            // PENDING - Add header to indicate a skill call
 
             const request: RequestPromise<Partial<Activity>[]> = post({
                 uri: <string> this.skillDefinition.assembly,
@@ -60,22 +60,24 @@ export class SkillDialog extends ComponentDialog {
                 json: true
             });
 
-            const skillResponses: Partial<Activity>[] = await request.then((response) => {
-                const activities: Partial<Activity>[] = response.map((activity) => {
-                    if (typeof activity.timestamp === 'string') { activity.timestamp = new Date(activity.timestamp); }
-                    if (typeof activity.localTimestamp === 'string') { activity.localTimestamp = new Date(activity.localTimestamp); }
-                    if (typeof activity.expiration === 'string') { activity.expiration = new Date(activity.expiration); }
-                    return activity;
-                })
+            const skillResponses: Partial<Activity>[] = await request.then((response: Partial<Activity>[]) => {
+                const activities: Partial<Activity>[] = response.map((item: Partial<Activity>) => {
+                    if (typeof item.timestamp === 'string') { item.timestamp = new Date(item.timestamp); }
+                    if (typeof item.localTimestamp === 'string') { item.localTimestamp = new Date(item.localTimestamp); }
+                    if (typeof item.expiration === 'string') { item.expiration = new Date(item.expiration); }
+
+                    return item;
+                });
+
                 return Promise.resolve(activities);
             });
-            
+
             const filteredResponses: Partial<Activity>[] = [];
 
             let endOfConversation: boolean = false;
 
             skillResponses.forEach((skillResponse: Partial<Activity>) => {
-                // Once a Skill has finished it signals that it's handing back control to the parent through a 
+                // Once a Skill has finished it signals that it's handing back control to the parent through a
                 // EndOfConversation event which then causes the SkillDialog to be closed. Otherwise it remains "in control".
                 if (skillResponse.type === ActivityTypes.EndOfConversation) {
                     endOfConversation = true;
