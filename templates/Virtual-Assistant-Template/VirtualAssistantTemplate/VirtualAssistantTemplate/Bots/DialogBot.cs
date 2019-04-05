@@ -8,20 +8,17 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
-using VirtualAssistantTemplate.Services;
 
 namespace VirtualAssistantTemplate.Bots
 {
-    public class DefaultBot<T> : ActivityHandler where T : Dialog
+    public class DialogBot<T> : ActivityHandler where T : Dialog
     {
         private readonly IBotTelemetryClient _telemetryClient;
         private DialogSet _dialogs;
 
-        public DefaultBot(IServiceProvider serviceProvider, T dialog)
+        public DialogBot(IServiceProvider serviceProvider, T dialog)
         {
-            var services = serviceProvider.GetService<BotServices>() ?? throw new ArgumentNullException(nameof(BotServices));
             var conversationState = serviceProvider.GetService<ConversationState>() ?? throw new ArgumentNullException(nameof(ConversationState));
-            var userState = serviceProvider.GetService<UserState>() ?? throw new ArgumentNullException(nameof(UserState));
             _telemetryClient = serviceProvider.GetService<IBotTelemetryClient>() ?? throw new ArgumentNullException(nameof(IBotTelemetryClient));
 
             var dialogState = conversationState.CreateProperty<DialogState>(nameof(VirtualAssistantTemplate));

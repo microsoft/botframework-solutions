@@ -80,7 +80,7 @@ namespace VirtualAssistantTemplate
 
             // Configure bot
             services.AddTransient<MainDialog>();
-            services.AddTransient<IBot, DefaultBot<MainDialog>>();
+            services.AddTransient<IBot, DialogBot<MainDialog>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
