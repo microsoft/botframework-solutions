@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using EmailSkill.Dialogs.Shared.Resources.Strings;
+using EmailSkill.Models;
 using EmailSkill.Responses.Shared;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
-using static EmailSkill.Models.SendEmailStateModel;
 
-namespace EmailSkill.Dialogs.SendEmail.Prompts
+namespace EmailSkill.Prompts
 {
     public class GetRecreateInfoPrompt : Prompt<ResendEmailState?>
     {
@@ -55,7 +54,7 @@ namespace EmailSkill.Dialogs.SendEmail.Prompts
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 var message = turnContext.Activity.AsMessageActivity();
-                ResendEmailState? recreateState = GetStateFromMessage(message.Text);
+                var recreateState = GetStateFromMessage(message.Text);
 
                 var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(message.Text, turnContext.Activity.Locale);
                 if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
-using EmailSkill.Model;
+using EmailSkill.Models;
 
 namespace EmailSkill.ServiceClients
 {

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using EmailSkill.Dialogs.Shared.Resources.Strings;
-using EmailSkill.Model;
 using EmailSkill.Responses.Shared;
 using Luis;
 using Microsoft.Bot.Builder;
@@ -9,7 +7,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Graph;
 
-namespace EmailSkill
+namespace EmailSkill.Models
 {
     public class EmailSkillState
     {
@@ -111,7 +109,7 @@ namespace EmailSkill
 
         public List<Choice> RecipientChoiceList { get; set; }
 
-        public EmailLU LuisResult { get; set; }
+        public EmailLuis LuisResult { get; set; }
 
         public General GeneralLuisResult { get; set; }
 

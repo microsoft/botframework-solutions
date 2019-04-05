@@ -3,20 +3,18 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using EmailSkill.Dialogs.Shared;
-using EmailSkill.Dialogs.Shared.DialogOptions;
-using EmailSkill.Dialogs.Shared.Resources.Cards;
+using EmailSkill.Models;
 using EmailSkill.Responses.DeleteEmail;
 using EmailSkill.Responses.Shared;
 using EmailSkill.ServiceClients;
 using EmailSkill.Services;
-using EmailSkill.Util;
+using EmailSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 
-namespace EmailSkill.Dialogs.DeleteEmail
+namespace EmailSkill.Dialogs
 {
     public class DeleteEmailDialog : EmailSkillDialogBase
     {

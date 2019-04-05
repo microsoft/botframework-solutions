@@ -3,7 +3,8 @@
 
 using System.Linq;
 using EmailSkill.Adapters;
-using EmailSkill.Dialogs.Main;
+using EmailSkill.Bots;
+using EmailSkill.Dialogs;
 using EmailSkill.Responses.DeleteEmail;
 using EmailSkill.Responses.FindContact;
 using EmailSkill.Responses.ForwardEmail;
@@ -25,7 +26,6 @@ using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
@@ -131,7 +131,7 @@ namespace EmailSkill
 
             // Configure bot
             services.AddTransient<MainDialog>();
-            services.AddTransient<IBot, DefaultBot<MainDialog>>();
+            services.AddTransient<IBot, DialogBot<MainDialog>>();
         }
 
         /// <summary>

@@ -74,11 +74,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>EmailSharedResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Responses\Shared\ResponseIdCollection.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ResponseIdCollection.t4</DependentUpon>
-    </Compile>
     <Compile Update="Responses\ShowEmail\ShowEmailResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

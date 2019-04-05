@@ -6,23 +6,17 @@ using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using EmailSkill.Dialogs.FindContact;
-using EmailSkill.Dialogs.ForwardEmail;
-using EmailSkill.Dialogs.Shared.DialogOptions;
-using EmailSkill.Dialogs.Shared.Resources.Cards;
-using EmailSkill.Dialogs.Shared.Resources.Strings;
 using EmailSkill.Extensions;
-using EmailSkill.Model;
+using EmailSkill.Models;
 using EmailSkill.Responses.Shared;
 using EmailSkill.ServiceClients;
 using EmailSkill.Services;
-using EmailSkill.Util;
+using EmailSkill.Utilities;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Authentication;
-using Microsoft.Bot.Builder.Solutions.Prompts;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
@@ -32,7 +26,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
 
-namespace EmailSkill.Dialogs.Shared
+namespace EmailSkill.Dialogs
 {
     public class EmailSkillDialogBase : ComponentDialog
     {
@@ -50,6 +44,7 @@ namespace EmailSkill.Dialogs.Shared
             IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
+            Settings = settings;
             Services = services;
             ResponseManager = responseManager;
             EmailStateAccessor = emailStateAccessor;
@@ -62,7 +57,6 @@ namespace EmailSkill.Dialogs.Shared
                 throw new Exception("You must configure an authentication connection in your bot file before using this component.");
             }
 
-            AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
             AddDialog(new AuthDialog(services.CognitiveModelSets, settings.OAuthConnections, true));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
@@ -179,12 +173,12 @@ namespace EmailSkill.Dialogs.Shared
                 var generalLuisResult = state.GeneralLuisResult;
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
-                if (skillLuisResult == EmailLU.Intent.ShowNext || generalTopIntent == General.Intent.ShowNext)
+                if (skillLuisResult == EmailLuis.Intent.ShowNext || generalTopIntent == General.Intent.ShowNext)
                 {
                     state.ShowEmailIndex++;
                     state.ReadEmailIndex = 0;
                 }
-                else if ((skillLuisResult == EmailLU.Intent.ShowPrevious || generalTopIntent == General.Intent.ShowPrevious) && state.ShowEmailIndex >= 0)
+                else if ((skillLuisResult == EmailLuis.Intent.ShowPrevious || generalTopIntent == General.Intent.ShowPrevious) && state.ShowEmailIndex >= 0)
                 {
                     state.ShowEmailIndex--;
                     state.ReadEmailIndex = 0;
@@ -235,7 +229,6 @@ namespace EmailSkill.Dialogs.Shared
         {
             try
             {
-
                 var providerTokenResponse = sc.Result as ProviderTokenResponse;
 
                 if (providerTokenResponse != null)
@@ -1102,7 +1095,7 @@ namespace EmailSkill.Dialogs.Shared
             }
         }
 
-        protected async Task DigestEmailLuisResult(DialogContext dc, EmailLU luisResult, bool isBeginDialog)
+        protected async Task DigestEmailLuisResult(DialogContext dc, EmailLuis luisResult, bool isBeginDialog)
         {
             try
             {
@@ -1155,11 +1148,11 @@ namespace EmailSkill.Dialogs.Shared
 
                     switch (intent)
                     {
-                        case EmailLU.Intent.CheckMessages:
-                        case EmailLU.Intent.SearchMessages:
-                        case EmailLU.Intent.ReadAloud:
-                        case EmailLU.Intent.ShowNext:
-                        case EmailLU.Intent.ShowPrevious:
+                        case EmailLuis.Intent.CheckMessages:
+                        case EmailLuis.Intent.SearchMessages:
+                        case EmailLuis.Intent.ReadAloud:
+                        case EmailLuis.Intent.ShowNext:
+                        case EmailLuis.Intent.ShowPrevious:
                             {
                                 // Get email search type
                                 if (dc.Context.Activity.Text != null)
@@ -1230,9 +1223,9 @@ namespace EmailSkill.Dialogs.Shared
                                 break;
                             }
 
-                        case EmailLU.Intent.SendEmail:
-                        case EmailLU.Intent.Forward:
-                        case EmailLU.Intent.Reply:
+                        case EmailLuis.Intent.SendEmail:
+                        case EmailLuis.Intent.Forward:
+                        case EmailLuis.Intent.Reply:
                             {
                                 if (entity.EmailSubject != null)
                                 {

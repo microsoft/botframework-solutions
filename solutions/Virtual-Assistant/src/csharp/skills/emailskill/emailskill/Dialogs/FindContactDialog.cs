@@ -4,13 +4,12 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using EmailSkill.Dialogs.Shared;
-using EmailSkill.Dialogs.Shared.DialogOptions;
+using EmailSkill.Models;
 using EmailSkill.Responses.FindContact;
 using EmailSkill.Responses.Shared;
 using EmailSkill.ServiceClients;
 using EmailSkill.Services;
-using EmailSkill.Util;
+using EmailSkill.Utilities;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -21,7 +20,7 @@ using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Graph;
 
-namespace EmailSkill.Dialogs.FindContact
+namespace EmailSkill.Dialogs
 {
     public class FindContactDialog : EmailSkillDialogBase
     {
@@ -102,7 +101,7 @@ namespace EmailSkill.Dialogs.FindContact
                             FindContactResponses.UserNotFoundAgain,
                             new StringDictionary()
                             {
-                                { "source", state.MailSourceType == Model.MailSource.Microsoft ? "Outlook" : "Gmail" },
+                                { "source", state.MailSourceType == MailSource.Microsoft ? "Outlook" : "Gmail" },
                                 { "UserName", state.NameList[state.ConfirmRecipientIndex] }
                             }));
                         state.ConfirmRecipientIndex++;
@@ -116,7 +115,7 @@ namespace EmailSkill.Dialogs.FindContact
                           FindContactResponses.UserNotFoundAgain,
                           new StringDictionary()
                           {
-                                { "source", state.MailSourceType == Model.MailSource.Microsoft ? "Outlook" : "Gmail" },
+                                { "source", state.MailSourceType == MailSource.Microsoft ? "Outlook" : "Gmail" },
                                 { "UserName", state.NameList[state.ConfirmRecipientIndex] }
                           }));
                         state.ConfirmRecipientIndex = 0;
@@ -142,7 +141,7 @@ namespace EmailSkill.Dialogs.FindContact
 
                 if (string.IsNullOrEmpty(userInput))
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.UserNotFoundAgain, new StringDictionary() { { "source", state.MailSourceType == Model.MailSource.Microsoft ? "Outlook" : "Gmail" } }));
+                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.UserNotFoundAgain, new StringDictionary() { { "source", state.MailSourceType == MailSource.Microsoft ? "Outlook" : "Gmail" } }));
                     return await sc.EndDialogAsync();
                 }
 

@@ -2,20 +2,20 @@
 // Licensed under the MIT License.
 
 using System;
-using EmailSkill.Model;
+using EmailSkill.Models;
 using EmailSkill.ServiceClients.GoogleAPI;
 using EmailSkill.ServiceClients.MSGraphAPI;
-using Microsoft.Bot.Builder.Solutions.Skills;
+using EmailSkill.Services;
 
 namespace EmailSkill.ServiceClients
 {
     public class ServiceManager : IServiceManager
     {
-        private SkillConfigurationBase _skillConfig;
+        private BotSettings _settings;
 
-        public ServiceManager(SkillConfigurationBase config)
+        public ServiceManager(BotSettings settings)
         {
-            _skillConfig = config;
+            _settings = settings;
         }
 
         /// <inheritdoc/>
@@ -27,7 +27,7 @@ namespace EmailSkill.ServiceClients
                     var serviceClient = GraphClient.GetAuthenticatedClient(token, timeZoneInfo);
                     return new MSGraphUserService(serviceClient, timeZoneInfo);
                 case MailSource.Google:
-                    var googleClient = GoogleClient.GetGoogleClient(_skillConfig);
+                    var googleClient = GoogleClient.GetGoogleClient(_settings);
                     var googlePeopleClient = GooglePeopleService.GetServiceClient(googleClient, token);
                     return new GooglePeopleService(googlePeopleClient);
                 default:
@@ -44,7 +44,7 @@ namespace EmailSkill.ServiceClients
                     var serviceClient = GraphClient.GetAuthenticatedClient(token, timeZoneInfo);
                     return new MSGraphMailAPI(serviceClient, timeZoneInfo);
                 case MailSource.Google:
-                    var googleClient = GoogleClient.GetGoogleClient(_skillConfig);
+                    var googleClient = GoogleClient.GetGoogleClient(_settings);
                     var googleServiceClient = GMailService.GetServiceClient(googleClient, token);
                     return new GMailService(googleServiceClient);
                 default:

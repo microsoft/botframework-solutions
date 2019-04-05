@@ -4,21 +4,20 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using EmailSkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EmailSkill
+namespace EmailSkill.Bots
 {
-    public class DefaultBot<T> : ActivityHandler
-    where T : Dialog
+    public class DialogBot<T> : ActivityHandler
+        where T : Dialog
     {
         private readonly IBotTelemetryClient _telemetryClient;
         private DialogSet _dialogs;
 
-        public DefaultBot(IServiceProvider serviceProvider, T dialog)
+        public DialogBot(IServiceProvider serviceProvider, T dialog)
         {
             var conversationState = serviceProvider.GetService<ConversationState>() ?? throw new ArgumentNullException(nameof(ConversationState));
             _telemetryClient = serviceProvider.GetService<IBotTelemetryClient>() ?? throw new ArgumentNullException(nameof(IBotTelemetryClient));

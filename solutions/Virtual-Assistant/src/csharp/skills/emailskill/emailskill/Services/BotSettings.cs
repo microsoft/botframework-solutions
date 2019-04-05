@@ -1,11 +1,8 @@
-﻿using EmailSkill.Models;
+﻿using System.Collections.Generic;
+using EmailSkill.Models;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EmailSkill.Services
 {

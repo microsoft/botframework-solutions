@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using EmailSkill.Dialogs.Shared.Resources.Strings;
 using EmailSkill.Responses.Shared;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Graph;
 
-namespace EmailSkill.Util
+namespace EmailSkill.Utilities
 {
     public class DisplayHelper
     {
@@ -17,7 +16,7 @@ namespace EmailSkill.Util
                 throw new Exception("No recipient!");
             }
 
-            string toRecipient = !string.IsNullOrEmpty(recipients.FirstOrDefault()?.EmailAddress?.Name)
+            var toRecipient = !string.IsNullOrEmpty(recipients.FirstOrDefault()?.EmailAddress?.Name)
                                  ? recipients.FirstOrDefault()?.EmailAddress?.Name : EmailCommonStrings.UnknownRecipient;
 
             var nameListString = toRecipient;
@@ -36,13 +35,13 @@ namespace EmailSkill.Util
                 throw new Exception("No recipient!");
             }
 
-            string toRecipient = !string.IsNullOrEmpty(recipients.FirstOrDefault()?.EmailAddress?.Name)
+            var toRecipient = !string.IsNullOrEmpty(recipients.FirstOrDefault()?.EmailAddress?.Name)
                                  ? recipients.FirstOrDefault()?.EmailAddress?.Name : EmailCommonStrings.UnknownRecipient;
 
             var displayString = toRecipient;
             if (recipients.Count() > 1)
             {
-                for (int i = 1; i < recipients.Count(); i++)
+                for (var i = 1; i < recipients.Count(); i++)
                 {
                     if (string.IsNullOrEmpty(recipients.ElementAt(i)?.EmailAddress?.Name))
                     {
@@ -61,14 +60,14 @@ namespace EmailSkill.Util
         public static (List<Person> formattedPersonList, List<Person> formattedUserList) FormatRecipientList(List<Person> personList, List<Person> userList)
         {
             // Remove dup items
-            List<Person> formattedPersonList = new List<Person>();
-            List<Person> formattedUserList = new List<Person>();
+            var formattedPersonList = new List<Person>();
+            var formattedUserList = new List<Person>();
 
             foreach (var person in personList)
             {
                 var mailAddress = person.ScoredEmailAddresses.FirstOrDefault()?.Address ?? person.UserPrincipalName;
 
-                bool isDup = false;
+                var isDup = false;
                 foreach (var formattedPerson in formattedPersonList)
                 {
                     var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;
@@ -90,7 +89,7 @@ namespace EmailSkill.Util
             {
                 var mailAddress = user.ScoredEmailAddresses.FirstOrDefault()?.Address ?? user.UserPrincipalName;
 
-                bool isDup = false;
+                var isDup = false;
                 foreach (var formattedPerson in formattedPersonList)
                 {
                     var formattedMailAddress = formattedPerson.ScoredEmailAddresses.FirstOrDefault()?.Address ?? formattedPerson.UserPrincipalName;

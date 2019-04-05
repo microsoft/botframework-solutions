@@ -3,18 +3,13 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using EmailSkill.Dialogs.DeleteEmail;
-using EmailSkill.Dialogs.ForwardEmail;
-using EmailSkill.Dialogs.ReplyEmail;
-using EmailSkill.Dialogs.Shared;
-using EmailSkill.Dialogs.Shared.DialogOptions;
-using EmailSkill.Dialogs.Shared.Resources.Cards;
 using EmailSkill.Extensions;
+using EmailSkill.Models;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Responses.ShowEmail;
 using EmailSkill.ServiceClients;
 using EmailSkill.Services;
-using EmailSkill.Util;
+using EmailSkill.Utilities;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -23,7 +18,7 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 
-namespace EmailSkill.Dialogs.ShowEmail
+namespace EmailSkill.Dialogs
 {
     public class ShowEmailDialog : EmailSkillDialogBase
     {
@@ -241,9 +236,9 @@ namespace EmailSkill.Dialogs.ShowEmail
 
                 var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
 
-                if ((topIntent == EmailLU.Intent.None
-                    || topIntent == EmailLU.Intent.SearchMessages
-                    || (topIntent == EmailLU.Intent.ReadAloud && !IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
+                if ((topIntent == EmailLuis.Intent.None
+                    || topIntent == EmailLuis.Intent.SearchMessages
+                    || (topIntent == EmailLuis.Intent.ReadAloud && !IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
                     || (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true))
                     && message != null)
                 {
@@ -349,20 +344,20 @@ namespace EmailSkill.Dialogs.ShowEmail
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 skillOptions.SubFlowMode = true;
 
-                if (topIntent == EmailLU.Intent.Delete)
+                if (topIntent == EmailLuis.Intent.Delete)
                 {
                     return await sc.BeginDialogAsync(Actions.Delete, skillOptions);
                 }
-                else if (topIntent == EmailLU.Intent.Forward)
+                else if (topIntent == EmailLuis.Intent.Forward)
                 {
                     return await sc.BeginDialogAsync(Actions.Forward, skillOptions);
                 }
-                else if (topIntent == EmailLU.Intent.Reply)
+                else if (topIntent == EmailLuis.Intent.Reply)
                 {
                     return await sc.BeginDialogAsync(Actions.Reply, skillOptions);
                 }
                 else if (IsReadMoreIntent(topGeneralIntent, userInput)
-                    || (topIntent == EmailLU.Intent.ShowNext || topIntent == EmailLU.Intent.ShowPrevious || topGeneralIntent == General.Intent.ShowPrevious || topGeneralIntent == General.Intent.ShowNext))
+                    || (topIntent == EmailLuis.Intent.ShowNext || topIntent == EmailLuis.Intent.ShowPrevious || topGeneralIntent == General.Intent.ShowPrevious || topGeneralIntent == General.Intent.ShowNext))
                 {
                     return await sc.ReplaceDialogAsync(Actions.Display, skillOptions);
                 }

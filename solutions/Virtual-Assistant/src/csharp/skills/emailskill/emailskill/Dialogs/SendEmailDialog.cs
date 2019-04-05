@@ -2,25 +2,20 @@
 using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
-using EmailSkill.Dialogs.FindContact;
-using EmailSkill.Dialogs.SendEmail.Prompts;
-using EmailSkill.Dialogs.Shared;
-using EmailSkill.Dialogs.Shared.DialogOptions;
-using EmailSkill.Dialogs.Shared.Resources.Cards;
-using EmailSkill.Dialogs.Shared.Resources.Strings;
+using EmailSkill.Models;
+using EmailSkill.Prompts;
 using EmailSkill.Responses.SendEmail;
 using EmailSkill.Responses.Shared;
 using EmailSkill.ServiceClients;
 using EmailSkill.Services;
-using EmailSkill.Util;
+using EmailSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
-using static EmailSkill.Models.SendEmailStateModel;
 
-namespace EmailSkill.Dialogs.SendEmail
+namespace EmailSkill.Dialogs
 {
     public class SendEmailDialog : EmailSkillDialogBase
     {

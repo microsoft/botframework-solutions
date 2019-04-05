@@ -1,4 +1,5 @@
 ﻿using System;
+using EmailSkill.Services;
 using Google;
 using Microsoft.Bot.Builder.Solutions.Skills;
 
@@ -16,24 +17,24 @@ namespace EmailSkill.ServiceClients.GoogleAPI
 
         public string[] Scopes { get; set; }
 
-        public static GoogleClient GetGoogleClient(SkillConfigurationBase config)
+        public static GoogleClient GetGoogleClient(BotSettings settings)
         {
-            if (config == null)
+            if (settings == null)
             {
-                throw new ArgumentNullException(nameof(config));
+                throw new ArgumentNullException(nameof(settings));
             }
 
-            config.Properties.TryGetValue("googleAppName", out object appName);
-            config.Properties.TryGetValue("googleClientId", out object clientId);
-            config.Properties.TryGetValue("googleClientSecret", out object clientSecret);
-            config.Properties.TryGetValue("googleScopes", out object scopes);
+            settings.Properties.TryGetValue("googleAppName", out var appName);
+            settings.Properties.TryGetValue("googleClientId", out var clientId);
+            settings.Properties.TryGetValue("googleClientSecret", out var clientSecret);
+            settings.Properties.TryGetValue("googleScopes", out var scopes);
 
             var googleClient = new GoogleClient
             {
-                ApplicationName = appName as string,
-                ClientId = clientId as string,
-                ClientSecret = clientSecret as string,
-                Scopes = (scopes as string).Split(" "),
+                ApplicationName = appName,
+                ClientId = clientId,
+                ClientSecret = clientSecret,
+                Scopes = scopes.Split(" "),
             };
 
             return googleClient;

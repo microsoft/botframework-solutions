@@ -8,7 +8,6 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
-using EmailSkill.Dialogs.Shared.Resources.Strings;
 using EmailSkill.Responses.Shared;
 using Google;
 using Google.Apis.Auth.OAuth2;
@@ -89,7 +88,7 @@ namespace EmailSkill.ServiceClients.GoogleAPI
         // decode from base64url to utf-8 bytes
         public static byte[] Base64UrlDecode(string text)
         {
-            string result = text;
+            var result = text;
             result = result.Replace('-', '+'); // 62nd char of encoding
             result = result.Replace('_', '/'); // 63rd char of encoding
 
@@ -104,16 +103,16 @@ namespace EmailSkill.ServiceClients.GoogleAPI
              "Illegal base64url string!");
             }
 
-            byte[] textBytes = Convert.FromBase64String(result);
+            var textBytes = Convert.FromBase64String(result);
             return textBytes;
         }
 
         // decode to mimeMessage
         public static MimeMessage DecodeToMessage(string text)
         {
-            byte[] msg = Base64UrlDecode(text);
-            MemoryStream mm = new MemoryStream(msg);
-            MimeKit.MimeMessage mime = MimeKit.MimeMessage.Load(mm);
+            var msg = Base64UrlDecode(text);
+            var mm = new MemoryStream(msg);
+            var mime = MimeKit.MimeMessage.Load(mm);
             return mime;
         }
 
@@ -310,7 +309,7 @@ namespace EmailSkill.ServiceClients.GoogleAPI
                 var user = ((IClientServiceRequest<Profile>)profileRequest).Execute();
                 var userAddress = user.EmailAddress;
 
-                string searchOperation = string.Empty;
+                var searchOperation = string.Empty;
                 searchOperation = this.AppendFilterString(searchOperation, "in:inbox");
                 if (getUnRead)
                 {
@@ -407,8 +406,8 @@ namespace EmailSkill.ServiceClients.GoogleAPI
         {
             try
             {
-                ModifyMessageRequest mods = new ModifyMessageRequest();
-                List<string> labelsToRemove = new List<string>() { "UNREAD" };
+                var mods = new ModifyMessageRequest();
+                var labelsToRemove = new List<string>() { "UNREAD" };
                 mods.RemoveLabelIds = labelsToRemove;
 
                 var updateRequest = service.Users.Messages.Modify(
@@ -423,7 +422,7 @@ namespace EmailSkill.ServiceClients.GoogleAPI
 
         public string AppendFilterString(string old, string filterString)
         {
-            string result = old;
+            var result = old;
             if (string.IsNullOrEmpty(old))
             {
                 result += filterString;
@@ -453,7 +452,7 @@ namespace EmailSkill.ServiceClients.GoogleAPI
 
         private MSMessage MapMimeMessageToMSMessage(MimeMessage mime)
         {
-            MSMessage message = new MSMessage
+            var message = new MSMessage
             {
                 ReceivedDateTime = mime.Date
             };

@@ -1,4 +1,4 @@
-﻿namespace EmailSkill.Dialogs.Shared
+﻿namespace EmailSkill.Utilities
 {
     public class Actions
     {

@@ -1,4 +1,4 @@
-﻿namespace EmailSkill.Dialogs.Shared.DialogOptions
+﻿namespace EmailSkill.Models
 {
     public class EmailSkillDialogOptions
     {

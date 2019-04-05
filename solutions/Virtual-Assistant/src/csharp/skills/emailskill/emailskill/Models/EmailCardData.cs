@@ -1,6 +1,6 @@
 ﻿using Microsoft.Bot.Builder.Solutions.Responses;
 
-namespace EmailSkill.Dialogs.Shared.Resources.Cards
+namespace EmailSkill.Models
 {
     public class EmailCardData : ICardData
     {
