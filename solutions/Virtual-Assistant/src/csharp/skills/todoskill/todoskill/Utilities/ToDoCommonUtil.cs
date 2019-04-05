@@ -1,4 +1,4 @@
-﻿namespace ToDoSkill.Common
+﻿namespace ToDoSkill.Utilities
 {
     public class ToDoCommonUtil
     {

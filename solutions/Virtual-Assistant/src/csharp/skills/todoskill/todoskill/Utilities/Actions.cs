@@ -1,6 +1,6 @@
-﻿namespace ToDoSkill.Dialogs
+﻿namespace ToDoSkill.Utilities
 {
-    public static class Action
+    public static class Actions
     {
         public const string Prompt = "prompt";
 

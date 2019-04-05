@@ -17,8 +17,6 @@ using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
-using Newtonsoft.Json.Linq;
-using ToDoSkill.Dialogs.Shared;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Models;
 using ToDoSkill.Responses.AddToDo;
@@ -26,8 +24,8 @@ using ToDoSkill.Responses.DeleteToDo;
 using ToDoSkill.Responses.MarkToDo;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Responses.ShowToDo;
-using ToDoSkill.ServiceClients;
 using ToDoSkill.Services;
+using ToDoSkill.Utilities;
 
 namespace ToDoSkill.Dialogs
 {
@@ -61,8 +59,8 @@ namespace ToDoSkill.Dialogs
 
             AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
             AddDialog(new AuthDialog(services.CognitiveModelSets, settings.OAuthConnections, authenticationRequired: true));
-            AddDialog(new TextPrompt(Action.Prompt));
-            AddDialog(new ConfirmPrompt(Action.ConfirmPrompt, null, Culture.English) { Style = ListStyle.SuggestedAction });
+            AddDialog(new TextPrompt(Actions.Prompt));
+            AddDialog(new ConfirmPrompt(Actions.ConfirmPrompt, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }
 
         protected BotServices Services { get; set; }

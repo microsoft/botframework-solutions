@@ -1,14 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace ToDoSkill.ServiceClients
+namespace ToDoSkill.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using global::ToDoSkill.Dialogs.Shared.Resources;
-    using global::ToDoSkill.Models;
+    using ToDoSkill.Models;
     using Microsoft.Graph;
     using Newtonsoft.Json.Linq;
     using ToDoSkill.Responses.Shared;
@@ -187,7 +186,7 @@ namespace ToDoSkill.ServiceClients
 
         private async Task<Tuple<string, bool>> GetOrCreateTaskFolderAsync(string taskFolderName)
         {
-            bool folderNotExist = false;
+            var folderNotExist = false;
             var taskFolderId = await GetTaskFolderAsync(taskFolderName);
             if (string.IsNullOrEmpty(taskFolderId))
             {
@@ -230,7 +229,7 @@ namespace ToDoSkill.ServiceClients
         private async Task<string> GetTaskFolderByIdAsync(string taskFolderId)
         {
             var result = await this.httpClient.GetAsync(GraphBaseUrl + "taskFolders/" + taskFolderId);
-            string newTaskFolderId = string.Empty;
+            var newTaskFolderId = string.Empty;
             if (result.IsSuccessStatusCode)
             {
                 dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
