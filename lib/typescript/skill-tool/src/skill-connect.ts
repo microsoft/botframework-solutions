@@ -26,6 +26,7 @@ const args: program.Command = program.parse(process.argv);
 if (process.argv.length < 3) {
     program.help();
 } else {
+    // Validation of arguments
     if (!args.skillManifest) {
         console.error(chalk.redBright(`The 'skillManifest' argument should be provided.`));
         process.exit(1);
@@ -83,7 +84,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
     }
     console.log(chalk.yellow(`Appending '${skillManifest.name}' manifest to your assistant's skills configuration file.`));
     assistantSkills.push(skillManifest);
-    writeFileSync(assistantSkillsPath, JSON.stringify(assistantSkills,undefined, 4));
+    writeFileSync(assistantSkillsPath, JSON.stringify(assistantSkills, undefined, 4));
     console.log(chalk.greenBright(`Successfully appended '${skillManifest.name}' manifest to your assistant's skills configuration file!`));
 }
 
