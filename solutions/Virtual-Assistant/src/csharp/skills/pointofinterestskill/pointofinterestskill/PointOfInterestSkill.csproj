@@ -193,8 +193,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
     <None Update="Responses\Shared\ResponseIdCollection.t4">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ResponseIdCollection.cs</LastGenOutput>
+      <Generator></Generator>
     </None>
   </ItemGroup>
 

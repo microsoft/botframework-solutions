@@ -1,4 +1,4 @@
-﻿using CalendarSkill.Models.Resources;
+﻿using CalendarSkill.Utilities;
 
 namespace CalendarSkill.Models
 {
