@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /**
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
@@ -35,14 +36,14 @@ program
 program
     .command('connect', 'connect any skill to your assistant bot');
 
-
-const args: any = program.parse(process.argv);
+const args: program.Command = program.parse(process.argv);
 // args should be undefined is subcommand is executed
 if (args) {
     const unknownArgs: string[] = process.argv.slice(2);
     console.error(chalk.default.redBright(`Unknown arguments: ${unknownArgs.join(' ')}`));
     program.outputHelp((str: string) => {
         console.error(str);
+
         return '';
     });
     process.exit(1);
