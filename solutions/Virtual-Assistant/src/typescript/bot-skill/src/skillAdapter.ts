@@ -1,6 +1,8 @@
 import { BotFrameworkAdapter, TurnContext, WebRequest, WebResponse, InvokeResponse } from "botbuilder";
 import { ActivityExtensions } from 'bot-solution';
-import { Activity, ActivityTypes, ConversationReference, ResourceResponse } from "botframework-schema";
+import { BotFrameworkAdapter, InvokeResponse, TurnContext, WebRequest, WebResponse } from 'botbuilder';
+import { DialogContext } from 'botbuilder-dialogs';
+import { Activity, ActivityTypes, ConversationReference, ResourceResponse } from 'botframework-schema';
 
 export class SkillAdapter extends BotFrameworkAdapter {
     private readonly queuedActivities: Partial<Activity>[];
@@ -8,6 +10,13 @@ export class SkillAdapter extends BotFrameworkAdapter {
 
     private get nextId(): string {
         return (this.lastId + 1).toString();
+    }
+
+    public static isSkillMode(context: TurnContext|DialogContext): boolean {
+        const ctx: TurnContext = context instanceof DialogContext ? context.context : context;
+        const mode: string = 'skillMode';
+
+        return ctx.turnState.get(mode) || false;
     }
 
     public constructor() {
@@ -40,6 +49,8 @@ export class SkillAdapter extends BotFrameworkAdapter {
 
         // Process the Activity through the Middleware and the Bot, this will generate Activities which we need to send back.
         const context: TurnContext = this.createContext(activity);
+        const mode: string = 'skillMode';
+        context.turnState.set(mode, true);
 
         await this.runMiddleware(context, callback);
 

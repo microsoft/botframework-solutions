@@ -23,7 +23,6 @@ export class SampleSkill {
     private readonly telemetryClient: BotTelemetryClient;
     private readonly serviceManager: IServiceManager;
     private dialogs: DialogSet;
-    private skillMode: boolean = false;
 
     constructor (
         services: SkillConfigurationBase,
@@ -34,7 +33,6 @@ export class SampleSkill {
         responseManager: ResponseManager | undefined,
         serviceManager: IServiceManager | undefined) {
 
-        this.skillMode = skillMode;
         if (services === undefined) {
             throw new Error('services parameter is null');
         }
@@ -72,9 +70,8 @@ export class SampleSkill {
             this.conversationState,
             this.userState,
             this.telemetryClient,
-            this.serviceManager,
-            this.skillMode
-             ));
+            this.serviceManager
+            ));
         }
         /**
          * Run every turn of the conversation. Handles orchestration of messages.

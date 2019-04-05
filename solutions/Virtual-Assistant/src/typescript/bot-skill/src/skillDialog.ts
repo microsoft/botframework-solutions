@@ -20,7 +20,7 @@ export class SkillDialog extends ComponentDialog {
     }
 
     protected async onBeginDialog(innerDC: DialogContext, options?: object): Promise<DialogTurnResult> {
-        // TODO - The SkillDialog Orchestration should try to fill slots defined in the manifest and pass through this event.
+        // Pending The SkillDialog Orchestration should try to fill slots defined in the manifest and pass through this event.
         const slots: object = {};
 
         const activity: Activity = innerDC.context.activity;
@@ -51,16 +51,29 @@ export class SkillDialog extends ComponentDialog {
         try {
 
             // Serialize the activity and POST to the Skill endpoint
-            // TODO - Apply Authorization header
-            // TODO - Add header to indicate a skill call
-            
-            const request = post({
-                uri: <string> this.skillDefinition.assembly,
+            // PENDING Apply Authorization header
+            // PENDING Add header to indicate a skill call
+
+            const request: RequestPromise<Partial<Activity>[]> = post({
+                uri: this.skillDefinition.assembly,
                 body: activity,
                 json: true
             });
 
-            const skillResponses: Partial<Activity>[] = await request;
+            const skillResponses: Partial<Activity>[] = await request.then((response: Partial<Activity>[]) => {
+                const activities: Partial<Activity>[] = response.map((skillActivity: Partial<Activity>) => {
+                    if (typeof skillActivity.timestamp === 'string') { skillActivity.timestamp = new Date(skillActivity.timestamp); }
+                    if (typeof skillActivity.localTimestamp === 'string') {
+                        skillActivity.localTimestamp = new Date(skillActivity.localTimestamp);
+                    }
+                    if (typeof skillActivity.expiration === 'string') { skillActivity.expiration = new Date(skillActivity.expiration); }
+
+                    return activity;
+                });
+
+                return Promise.resolve(activities);
+            });
+
             const filteredResponses: Partial<Activity>[] = [];
 
             let endOfConversation: boolean = false;

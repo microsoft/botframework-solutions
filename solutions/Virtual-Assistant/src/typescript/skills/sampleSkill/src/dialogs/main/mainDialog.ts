@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
+import { SkillAdapter } from 'bot-skill';
 import {
     ActivityExtensions,
     InterruptionAction,
@@ -41,26 +42,23 @@ import { ISampleSkillUserState } from '../../sampleSkillUserState';
  * Here is the description of the MainDialog's functionality
  */
 export class MainDialog extends RouterDialog {
-    private skillMode: boolean;
-    private services: SkillConfigurationBase;
-    private responseManager: ResponseManager;
-    private userState: UserState;
-    private conversationState: ConversationState;
-    private serviceManager: IServiceManager;
-    private conversationStateAccessor: StatePropertyAccessor<ISampleSkillConversationState>;
-    private userStateAccessor: StatePropertyAccessor<ISampleSkillUserState>;
-    private generalLUISName: string = 'general';
-    private projectName: string = 'sample';
+    private readonly services: SkillConfigurationBase;
+    private readonly responseManager: ResponseManager;
+    private readonly userState: UserState;
+    private readonly conversationState: ConversationState;
+    private readonly serviceManager: IServiceManager;
+    private readonly conversationStateAccessor: StatePropertyAccessor<ISampleSkillConversationState>;
+    private readonly userStateAccessor: StatePropertyAccessor<ISampleSkillUserState>;
+    private readonly generalLUISName: string = 'general';
+    private readonly projectName: string = 'sample';
     constructor(
         services: SkillConfigurationBase,
         responseManager: ResponseManager,
         conversationState: ConversationState,
         userState: UserState,
         telemetryClient: BotTelemetryClient,
-        serviceManager: IServiceManager,
-        skillMode: boolean) {
+        serviceManager: IServiceManager) {
             super(MainDialog.name, telemetryClient);
-            this.skillMode = skillMode;
             this.services = services;
             this.responseManager = responseManager;
             this.conversationState = conversationState;
@@ -76,7 +74,7 @@ export class MainDialog extends RouterDialog {
     }
 
     protected async onStart(dc: DialogContext): Promise<void> {
-        if (!this.skillMode) {
+        if (!SkillAdapter.isSkillMode(dc)){
             // send a greeting if we're in local mode
             await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.welcomeMessage));
         }
@@ -108,7 +106,7 @@ export class MainDialog extends RouterDialog {
                     case 'None': {
                         // No intent was identified, send confused message
                         await dc.context.sendActivity(this.responseManager.getResponse(SharedResponses.didntUnderstandMessage));
-                        if (this.skillMode) {
+                        if (!SkillAdapter.isSkillMode(dc)) {
                             turnResult = {
                                 status: DialogTurnStatus.complete
                             };
@@ -119,7 +117,7 @@ export class MainDialog extends RouterDialog {
                     default: {
                         // intent was identified but not yet implemented
                         await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.featureNotAvailable));
-                        if (this.skillMode) {
+                        if (!SkillAdapter.isSkillMode(dc)) {
                             turnResult = {
                                 status: DialogTurnStatus.complete
                             };
@@ -135,7 +133,7 @@ export class MainDialog extends RouterDialog {
     }
 
     protected async complete(dc: DialogContext, result?: DialogTurnResult): Promise<void> {
-        if (this.skillMode) {
+        if (!SkillAdapter.isSkillMode(dc)) {
             const response: Activity = ActivityExtensions.createReply(dc.context.activity);
             response.type = ActivityTypes.EndOfConversation;
 

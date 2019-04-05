@@ -133,14 +133,16 @@ export class SkillDialog extends ComponentDialog {
 
             // Create skill instance
             try {
-                const skillDirectory: string = join(this.skillsDirectory, <string> this.skillConfiguration.properties['pathToBot']);
-                // tslint:disable-next-line:no-any
+                const path: string = 'pathToBot';
+                const skillDirectory: string = join(this.skillsDirectory, <string> this.skillConfiguration.properties[path]);
+               // tslint:disable-next-line:no-any non-literal-require
                 const skillModule: any = require(skillDirectory);
-                const skillClassName: string = <string> this.skillConfiguration.properties['ClassName'];
+                const key: string = 'ClassName';
+                const skillClassName: string = <string> this.skillConfiguration.properties[key];
                 this.activatedSkill = new skillModule[skillClassName](
-                    this.skillConfiguration, 
-                    conversationState, 
-                    userState, 
+                    this.skillConfiguration,
+                    conversationState,
+                    userState,
                     this._telemetryClient,
                     true);
 
