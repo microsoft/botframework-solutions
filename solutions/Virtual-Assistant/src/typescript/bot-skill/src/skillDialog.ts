@@ -3,10 +3,10 @@
  * Licensed under the MIT License.
  */
 
+import { SkillDefinition } from 'bot-solution';
 import { Activity, ActivityTypes, BotTelemetryClient } from 'botbuilder';
 import { ComponentDialog, Dialog, DialogContext, DialogTurnResult } from 'botbuilder-dialogs';
-import { SkillDefinition } from 'bot-solution';
-import { post } from "request-promise-native";
+import { post } from 'request-promise-native';
 
 export class SkillDialog extends ComponentDialog {
     // Fields
@@ -36,14 +36,14 @@ export class SkillDialog extends ComponentDialog {
         };
 
         // Send event to Skill/Bot
-        return await this.forwardToSkill(innerDC, skillBeginEvent);
+        return this.forwardToSkill(innerDC, skillBeginEvent);
     }
 
     protected async onContinueDialog(innerDC: DialogContext): Promise<DialogTurnResult> {
-        return await this.forwardToSkill(innerDC, innerDC.context.activity);
+        return this.forwardToSkill(innerDC, innerDC.context.activity);
     }
 
-    protected endComponent(outerDC: DialogContext, result: Object): Promise<DialogTurnResult> {
+    protected async endComponent(outerDC: DialogContext, result: Object): Promise<DialogTurnResult> {
         return outerDC.endDialog(result);
     }
 
@@ -51,11 +51,12 @@ export class SkillDialog extends ComponentDialog {
         try {
 
             // Serialize the activity and POST to the Skill endpoint
-            // PENDING Apply Authorization header
-            // PENDING Add header to indicate a skill call
+            // PENDING - Apply Authorization header
+            // PENDING - Add header to indicate a skill call
 
-            const request: RequestPromise<Partial<Activity>[]> = post({
-                uri: this.skillDefinition.assembly,
+            // tslint:disable-next-line:no-any
+            const request: any = post({
+                uri: <string> this.skillDefinition.assembly,
                 body: activity,
                 json: true
             });
@@ -79,7 +80,7 @@ export class SkillDialog extends ComponentDialog {
             let endOfConversation: boolean = false;
 
             skillResponses.forEach((skillResponse: Partial<Activity>) => {
-                // Once a Skill has finished it signals that it's handing back control to the parent through a 
+                // Once a Skill has finished it signals that it's handing back control to the parent through a
                 // EndOfConversation event which then causes the SkillDialog to be closed. Otherwise it remains "in control".
                 if (skillResponse.type === ActivityTypes.EndOfConversation) {
                     endOfConversation = true;
