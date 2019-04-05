@@ -13,7 +13,6 @@ import { IProviderTokenResponse, isProviderTokenResponse, MultiProviderAuthDialo
 import { ActivityExtensions } from '../extensions';
 import { EventDebuggerMiddleware, SetLocaleMiddleware, TelemetryExtensions } from '../middleware';
 import { ProactiveState } from '../proactive';
-import { CommonResponses } from '../resources';
 import { ResponseManager } from '../responses/responseManager';
 import { IBackgroundTaskQueue } from '../taskExtensions';
 import { InProcAdapter } from './inProcAdapter';
@@ -35,6 +34,9 @@ export class SkillDialog extends ComponentDialog {
     private inProcAdapter!: InProcAdapter;
     private activatedSkill!: { onTurn(context: TurnContext): Promise<void> }; // IBot;
     private skillInitialized: boolean;
+
+    private readonly pathToBot: string = 'pathToBot';
+    private readonly className: string = 'ClassName';
 
     constructor(skillDefinition: SkillDefinition,
                 skillConfiguration: SkillConfigurationBase,
@@ -133,14 +135,14 @@ export class SkillDialog extends ComponentDialog {
 
             // Create skill instance
             try {
-                const skillDirectory: string = join(this.skillsDirectory, <string> this.skillConfiguration.properties['pathToBot']);
-                // tslint:disable-next-line:no-any
+                const skillDirectory: string = join(this.skillsDirectory, <string> this.skillConfiguration.properties[this.pathToBot]);
+                // tslint:disable-next-line:non-literal-require no-any
                 const skillModule: any = require(skillDirectory);
-                const skillClassName: string = <string> this.skillConfiguration.properties['ClassName'];
+                const skillClassName: string = <string> this.skillConfiguration.properties[this.className];
                 this.activatedSkill = new skillModule[skillClassName](
-                    this.skillConfiguration, 
-                    conversationState, 
-                    userState, 
+                    this.skillConfiguration,
+                    conversationState,
+                    userState,
                     this._telemetryClient,
                     true);
 
