@@ -12,10 +12,10 @@ namespace ToDoSkill.Services
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using System.Xml;
-    using ToDoSkill.Models;
     using Microsoft.Bot.Builder.Solutions.Skills;
     using Microsoft.Graph;
     using Newtonsoft.Json;
+    using ToDoSkill.Models;
 
     /// <summary>
     /// To Do skill helper class.

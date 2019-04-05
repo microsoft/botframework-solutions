@@ -7,9 +7,9 @@ namespace ToDoSkill.Services
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using ToDoSkill.Models;
     using Microsoft.Graph;
     using Newtonsoft.Json.Linq;
+    using ToDoSkill.Models;
     using ToDoSkill.Responses.Shared;
 
     /// <summary>
