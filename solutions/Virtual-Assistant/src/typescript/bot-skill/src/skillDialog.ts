@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { SkillDefinition } from 'bot-solution';
+import { SkillDefinition } from './models';
 import { Activity, ActivityTypes, BotTelemetryClient } from 'botbuilder';
 import { ComponentDialog, Dialog, DialogContext, DialogTurnResult } from 'botbuilder-dialogs';
 import { post, RequestPromise } from 'request-promise-native';
@@ -13,7 +13,7 @@ export class SkillDialog extends ComponentDialog {
     private readonly skillDefinition: SkillDefinition;
 
     constructor(skillDefinition: SkillDefinition, telemetryClient: BotTelemetryClient) {
-        super(skillDefinition.id);
+        super(skillDefinition.name);
 
         this.skillDefinition = skillDefinition;
         this.telemetryClient = telemetryClient;
@@ -55,7 +55,7 @@ export class SkillDialog extends ComponentDialog {
             // PENDING - Add header to indicate a skill call
 
             const request: RequestPromise<Partial<Activity>[]> = post({
-                uri: <string> this.skillDefinition.assembly,
+                uri: <string> this.skillDefinition.endpoint,
                 body: activity,
                 json: true
             });
