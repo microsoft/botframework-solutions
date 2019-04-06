@@ -1,13 +1,13 @@
 # Create a New Skill using the Skill Template
 1. Install VSIX from [MyGet](https://botbuilder.myget.org/gallery/aitemplates).
 2. Add a new **Skill Template with Tests** project to your solution in the Skills folder. 
-    ![Screenshot](../media/skills_addproject.jpg)
+    ![Screenshot](../../media/skills_addproject.jpg)
 
-    ![Screenshot](../media/skills_addproject2.jpg)
+    ![Screenshot](../../media/skills_addproject2.jpg)
 
      > NOTE: Your skill must be in the Virtual-Assistant\src\csharp\skills directory to ensure proper resource loading.
 
-    ![Screenshot](../media/skills_projects.jpg)
+    ![Screenshot](../../media/skills_projects.jpg)
 
 3. Rebuild project to verify there are no errors.
 4. Add your Skill LUIS models to the bot.recipe file located within your assistant project: `assistant\DeploymentScripts\en\bot.recipe
@@ -62,12 +62,12 @@
     LUISGen assistant\DeploymentScripts\en\dispatch.luis -cs Dispatch -o assistant\Dialogs\Shared\Resources 
     ```
 10. Update **assistant\Dialogs\Main\MainDialog.cs** with the dispatch intent for your skill.
-    ![](../media/skills_maindialogupdate.jpg)
+    ![](../../media/skills_maindialogupdate.jpg)
 
 11. Run the Virtual Assistant project.
 12. Test your new skill with the query "sample dialog".
 
-    ![Screenshot](../media/skills_testnewskill.jpg)
+    ![Screenshot](../../media/skills_testnewskill.jpg)
 
 # Customizing your Skill
 1. Start by identifying the different tasks your skill will handle.
@@ -93,7 +93,7 @@
         ```
     - Set the build action on your Responses.json files to **EmbeddedResource**.
 
-        ![Embedded resource properties window](../media/skills_embeddedresource.jpg)
+        ![Embedded resource properties window](../../media/skills_embeddedresource.jpg)
     
     - Register your responses in Startup.cs and Bot.cs (named **YOUR_SKILL.cs**) (this ensures your skill responses will work in both local and skill mode)
 
@@ -155,7 +155,7 @@
             ]
         ```
 
-        ![Screenshot](../media/skills_oauthprovider.jpg)
+        ![Screenshot](../../media/skills_oauthprovider.jpg)
 
     - **luisServiceIds**: this section identifies which LUIS service configurations should be sent from the Virtual Assistant to your skill. Include ids for any LUIS models your skill will need to access in this list. The id for a LUIS service is found in the .bot file configuration.
         ```

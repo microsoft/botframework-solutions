@@ -14,11 +14,11 @@ In [device integration](./deviceintegration.md) scenarios you receive messages a
 
 ## Activity schema
 
-The [Bot Framework Activity schema](https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md) for the Azure Bot Service is an application-level representation of conversational actions made by humans and bots. This schema is used for all messages, including [Events](./events.md).
+The [Bot Framework Activity schema](https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md) for the Azure Bot Service is an application-level representation of conversational actions made by humans and bots. This schema is used for all messages, including [Events](../README.md#virtual-assistant-bot).
 
 ## Messages and Events
 
-Messages are a specific Type of Activity set through the `ActivityType` property and relate to Messages to and from a user that should be shown/spoken. Events are a different `ActivityType` enabling messages to be *whispered* between the client and Bot and provide an elegant mechanism for the client to trigger events within the Virtual Assistant and vice versa to perform an operation on the device. More information is in the [events](./events.md) section.
+Messages are a specific Type of Activity set through the `ActivityType` property and relate to Messages to and from a user that should be shown/spoken. Events are a different `ActivityType` enabling messages to be *whispered* between the client and Bot and provide an elegant mechanism for the client to trigger events within the Virtual Assistant and vice versa to perform an operation on the device. More information is in the [events](../README.md) section.
 
 ## Adaptive Cards
 

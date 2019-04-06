@@ -58,7 +58,7 @@ The following scenarios are currently supported by the Skill:
 LUIS models for the Skill are provided in .LU file format as part of the Skill. Further languages are being prioritized.
 
 |Supported Languages|
-|-|-|
+|-|
 |English| 
 |French| 
 |Italian| 
@@ -131,7 +131,7 @@ Your Authentication Connection and corresponding Application Registration should
 The following parameters are accepted by the Skill and enable additional personalisation of responses to a given user:
 - `IPA.Timezone`
 
-Read [Handling Events With Your Virtual Assistant](../virtual-assistant/events.md) to learn how to manage events within a Skill.
+Read [Handling Events With Your Virtual Assistant](../../virtual-assistant/csharp/events.md) to learn how to manage events within a Skill.
 
 ### Configuration File Information
 The following Configuration entries are required to be passed to the Skill and are provided through the Virtual Assistant appSettings.json file.
@@ -172,7 +172,7 @@ Run this PowerShell script from the Calendar skill directory to deploy shared re
 You will be prompted to provide the following parameters:
    - Name - A name for your bot and resource group. This must be **unique**.
    - Location - The Azure region for your services (e.g. westus)
-   - LUIS Authoring Key - Refer to [this documentation page](../virtual-assistant/gettingstarted.md) for retrieving this key.
+   - LUIS Authoring Key - Refer to [this documentation page](../../virtual-assistant/csharp/gettingstarted.md) for retrieving this key.
 
 The msbot tool will outline the deployment plan including location and SKU. Ensure you review before proceeding.
 

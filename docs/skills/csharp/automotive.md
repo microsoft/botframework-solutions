@@ -46,9 +46,9 @@ The following vehicle setting areas are supported at this time, example utteranc
 
 Vehicle settings can be selected through explicit entry of the vehicle setting name, numeric or ordinal (first one, last one).
 
-An example transcript file demonstrating the Skill in action can be found [here](../transcripts/skills-automotive.transcript), you can use the Bot Framework Emulator to open transcripts.
+An example transcript file demonstrating the Skill in action can be found [here](../../transcripts/skills-automotive.transcript), you can use the Bot Framework Emulator to open transcripts.
 
-![ Automotive Skill Transcript Example](../media/skills-auto-transcript.png)
+![ Automotive Skill Transcript Example](../../media/skills-auto-transcript.png)
 
 ## Language Model
 LUIS models for the Skill are provided in .LU file format as part of the Skill. These are currently available in English with other languages to follow.
@@ -157,7 +157,7 @@ Run this PowerShell script to deploy your shared resources and LUIS models.
 You will be prompted to provide the following parameters:
    - Name - A name for your bot and resource group. This must be **unique**.
    - Location - The Azure region for your services (e.g. westus)
-   - LUIS Authoring Key - Refer to [this documentation page](../virtual-assistant/gettingstarted.md) for retrieving this key.
+   - LUIS Authoring Key - Refer to [this documentation page](../../virtual-assistant/csharp/gettingstarted.md) for retrieving this key.
 
 The msbot tool will outline the deployment plan including location and SKU. Ensure you review before proceeding.
 
@@ -237,7 +237,7 @@ Follow the instructions below to add the Automotive Skill to an existing Virtual
     LUISGen DeploymentScripts\en\dispatch.luis -cs Dispatch -o Dialogs\Shared\Resources
     ```
 5. Update **MainDialog.cs** within your Assistant project with the dispatch intent for your skill (l_automotive). This can be found in the assistant/dialogs/main folder of your project.
-    ![](../media/skills_maindialogupdate.jpg)
+    ![](../../media/skills_maindialogupdate.jpg)
 
 6. Add a project reference from your Virtual Assistant project to the Automotive Skill, this will ensure the DLL housing the skill can be found at runtime for skill activation.
 

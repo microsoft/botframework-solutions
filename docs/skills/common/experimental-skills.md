@@ -10,17 +10,17 @@ These skills by their very nature are not complete, will likely have rudimentary
 
 The [Restaurant Booking skill](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/experimental/skills/restaurantbooking) provides a simple restaurant booking experience guiding the user through booking a table and leverages Adaptive Cards throughout to demonstrate how Speech, Text and UX can be combined for a compelling user experience. No integration to restaurant booking services exists at this time so is simulated with static data for testing purposes.
 
-An example transcript file demonstrating the Skill in action can be found [here](../transcripts/restaurantbooking.transcript), you can use the Bot Framework Emulator to open transcripts.
+An example transcript file demonstrating the Skill in action can be found [here](../../transcripts/skills-restaurantbooking.transcript), you can use the Bot Framework Emulator to open transcripts.
 
-![ Restaurant Booking Transcript Example](../media/skills-restaurant-transcript.png)
+![ Restaurant Booking Transcript Example](../../media/skills-restaurant-transcript.png)
 
 ## News Skill
 
 The [News skill](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/experimental/skills/newsskill) provides a simple Skill that integrates with the Bing News Cognitive Service to demonstrate how a news experience can be integrated into a Virtual Assistant.
 
-An example transcript file demonstrating the Skill in action can be found [here](../transcripts/newsskill.transcript), you can use the Bot Framework Emulator to open transcripts.
+An example transcript file demonstrating the Skill in action can be found [here](../../transcripts/skills-news.transcript), you can use the Bot Framework Emulator to open transcripts.
 
-![ News Skill Transcript Example](../media/skills-news-transcript.png)
+![ News Skill Transcript Example](../../media/skills-news-transcript.png)
 
 ## Deploying Experimental Skills in local-mode
 
@@ -35,7 +35,7 @@ Run this PowerShell script to deploy shared resources and LUIS models required f
 You will be prompted to provide the following parameters:
    - Name - A name for your bot and resource group. This must be **unique**.
    - Location - The Azure region for your services (e.g. westus)
-   - LUIS Authoring Key - Refer to [Virtual Assistant Deployment](../virtual-assistant/virtualassistant-gettingstarted.md) for retrieving this key.
+   - LUIS Authoring Key - Refer to [Virtual Assistant Deployment](../../virtual-assistant/README.md) for retrieving this key.
 
 The msbot tool will outline the deployment plan including location and SKU. Ensure you review before proceeding.
 
@@ -75,7 +75,7 @@ Once you have followed the deployment instructions above, open the provided .bot
 
 ## Adding Experimental Skills to your Virtual Assistant deployment.
 
-Follow the steps in `Deploying LUIS models and updating Dispatch` and `Update Virtual Assistant` within [Create a new Skill](../skills/create.md) to configure each of the Experimental Skills as required.
+Follow the steps in `Deploying LUIS models and updating Dispatch` and `Update Virtual Assistant` within [Create a new Skill](../../skills/README.md) to configure each of the Experimental Skills as required.
 
 Instead of the generic skill configuration examples shown in the documentation steps you should use the ones below which are tailored to each of the experimental skills.
 
