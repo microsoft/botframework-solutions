@@ -4,6 +4,7 @@
  */
 
 import { TelemetryClient } from 'applicationinsights';
+import { SkillAdapter } from 'bot-skill';
 import {
     ActivityExtensions,
     EventDebuggerMiddleware,
@@ -134,6 +135,9 @@ const adapter: BotFrameworkAdapter = new BotFrameworkAdapter({
     appPassword: endpointService.appPassword || process.env.microsoftAppPassword
 });
 
+// Create the skill adapter
+const skillAdapter: SkillAdapter = new SkillAdapter();
+
 // Get AppInsights configuration by service name
 const appInsightsConfig: IAppInsightsService = <IAppInsightsService> searchService(botConfig, ServiceTypes.AppInsights, APPINSIGHTS_NAME);
 if (!appInsightsConfig) {
@@ -162,12 +166,13 @@ if (!cosmosConfig) {
 }
 
 // create conversation and user state
-const conversationState: ConversationState = new ConversationState(storage);
-const userState: UserState = new UserState(storage);
+const conversationState: ConversationState = new ConversationState(storage, 'sampleSkill');
+const userState: UserState = new UserState(storage, 'sampleSkill');
 const proactiveState: ProactiveState = new ProactiveState(storage);
 
 // Use the AutoSaveStateMiddleware middleware to automatically read and write conversation and user state.
 adapter.use(new AutoSaveStateMiddleware(conversationState, userState));
+skillAdapter.use(new AutoSaveStateMiddleware(conversationState, userState));
 
 // Transcript Middleware (saves conversation history in a standard format)
 const blobStorageConfig: IBlobStorageService = <IBlobStorageService> searchService(botConfig, ServiceTypes.BlobStorage, BLOB_NAME);
@@ -182,6 +187,7 @@ const transcriptStore: AzureBlobTranscriptStore = new AzureBlobTranscriptStore({
     storageAccountOrConnectionString: blobStorage.connectionString
 });
 adapter.use(new TranscriptLoggerMiddleware(transcriptStore));
+skillAdapter.use(new TranscriptLoggerMiddleware(transcriptStore));
 
 /* Typing Middleware
 (automatically shows typing when the bot is responding/working)*/
@@ -190,7 +196,22 @@ adapter.use(new SetLocaleMiddleware(DEFAULT_LOCALE));
 adapter.use(new EventDebuggerMiddleware());
 adapter.use(new ProactiveStateMiddleware(proactiveState));
 
+skillAdapter.use(new SetLocaleMiddleware(DEFAULT_LOCALE));
+skillAdapter.use(new EventDebuggerMiddleware());
+
 adapter.onTurnError = async (context: TurnContext, error: Error): Promise<void> => {
+    // tslint:disable-next-line:no-console
+    console.error(`${error.message}/n${error.stack}`);
+    await context.sendActivity(ActivityExtensions.createReply(context.activity, SharedResponses.errorMessage));
+    await context.sendActivity({
+        type: ActivityTypes.Trace,
+        text: `Skill Error: ${error.message} | ${error.stack}`
+    });
+
+    TelemetryExtensions.trackExceptionEx(telemetryClient, error, context.activity);
+};
+
+skillAdapter.onTurnError = async (context: TurnContext, error: Error): Promise<void> => {
     // tslint:disable-next-line:no-console
     console.error(`${error.message}/n${error.stack}`);
     await context.sendActivity(ActivityExtensions.createReply(context.activity, SharedResponses.errorMessage));
@@ -220,7 +241,6 @@ try {
         conversationState,
         userState,
         telemetryClient,
-        false,
         responseManager,
         new ServiceManager());
 } catch (err) {
@@ -245,4 +265,14 @@ server.post('/api/messages', (req: restify.Request, res: restify.Response) => {
         // route to bot activity handler.
         await bot.onTurn(turnContext);
     });
+});
+
+// Listen for incoming requests as a skill
+server.post('/api/skill/messages', async (req: restify.Request, res: restify.Response, next: restify.Next) => {
+    // Route received a request to adapter for processing
+    await skillAdapter.processActivity(req, res, async (turnContext: TurnContext) => {
+        // route to bot activity handler.
+        await bot.onTurn(turnContext);
+    });
+    await next();
 });
