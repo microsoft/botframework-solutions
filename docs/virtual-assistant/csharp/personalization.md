@@ -54,7 +54,7 @@ When a new conversation is started with a Virtual Assistant, it receives a `Conv
 The first Activity the Virtual Assistant will send displays an introduction card, which is found under [/assistant/Dialogs/Main/Resources](https://github.com/Microsoft/AI/tree/master/solutions/Virtual-Assistant/src/csharp/assistant/Dialogs/Main/Resources). 
 The introduction is presented with an [Adaptive Card](https://adaptivecards.io/), where UX elements can be defined once and rendered appropriate to your client. You can copy the JSON below and paste in in [Adaptive Cards Designer](https://adaptivecards.io/designer/) to experiment with yourself.
 
-![Virtual Assistant Introduction Card](../media/virtualAssistant-introductionCard.png)
+![Virtual Assistant Introduction Card](../../media/virtualAssistant-introductionCard.png)
 
 ```
 {
@@ -116,7 +116,7 @@ The `Main\Resources` folder contains responses shared across the Virtual Assista
 
 The in-built Visual Studio resource file editor makes it easy to apply changes to suit your Virtual Assistant scenario. Once you make changes, rebuild your project for them to take effect and ensure you update the localised versions as appropriate for your scenario.
 
-![Resource File Editor](../media/virtualassistant-resourcefile.png)
+![Resource File Editor](../../media/virtualassistant-resourcefile.png)
 
 ## Update the Skill responses
 
@@ -126,7 +126,7 @@ You may wish to change the Skill responses to better suit your scenario and appl
 
 You can achieve this by updating the appropriate JSON file, for example as shown these can be found within the Resources folder of the corresponding Dialog. You will need to expand the corresponding TT file and JSON file to see all of the language variations.
 
-![Skill Text Templating JSON Response File](../media/virtualassistant-skilljsonresponses.png)
+![Skill Text Templating JSON Response File](../../media/virtualassistant-skilljsonresponses.png)
 
 An except of the `CreateEventDialog` responses files is shown below. In this case the `NoLocation` response surfaced to the Dialog code has a `Text` display and `Speak` variant enabling the client to select the most appropriate response for the users context (e.g. text versus speech led). 
 
@@ -208,8 +208,8 @@ You should now be able to leverage multiple QnA sources as part of your Assistan
 
 ## Demoing the Skills
 
-You can review [sample transcripts](../transcripts/README.md) showcasing the Productivity & Point of Interest Skills, 
+You can review [sample transcripts](../../transcripts/README.md) showcasing the Productivity & Point of Interest Skills, 
 which can be opened in the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator/wiki).
-This sample conversation shows a user having previously [linked their account](/linkedaccounts.md) and taking advantage of [event debug middleware](/events.md).
+This sample conversation shows a user having previously [linked their account](./linkedaccounts.md) and taking advantage of [event debug middleware](./events.md).
 
-![Virtual Assistant Introduction Card](../media/transcript-skillsdemo.png)
+![Virtual Assistant Introduction Card](../../media/transcript-skillsdemo.png)

@@ -22,7 +22,7 @@ The Virtual Assistant extends across a broad number of industry scenarios, some 
 
 An Architecture diagram of the Virtual Assistant is shown below along with a detailed explanation.
 
-![Virtual Assistant Architecture](../media/virtualassistant-architecture.jpg)
+![Virtual Assistant Architecture](../../media/virtualassistant-architecture.jpg)
 
 ## Our Principles
 

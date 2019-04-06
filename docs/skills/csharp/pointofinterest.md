@@ -34,7 +34,7 @@ The following scenarios are currently supported by the Skill:
 LUIS models for the Skill are provided in .LU file format as part of the Skill. Further languages are being prioritized.
 
 |Supported Languages|
-|-|-|
+|-|
 |English| 
 |French| 
 |Italian| 
@@ -112,7 +112,7 @@ The following Parameters are accepted by the Skill and enable additional persona
 - To ease testing scenarios you can send the following message to pass a location enabling you to test the POI skill and adjust the location
   - `/event:{ "Name": "IPA.Location", "Value": "34.05222222222222,-118.24277777777778" }`
 
-Read [Handling Events With Your Virtual Assistant](../virtual-assistant/events.md) to learn how to manage events within a Skill.
+Read [Handling Events With Your Virtual Assistant](../../virtual-assistant/csharp/events.md) to learn how to manage events within a Skill.
 
 ### Configuration File Information
 The following Configuration entries are required to be passed to the Skill and are provided through the Virtual Assistant appSettings.json file. These should be updated to reflect your LUIS deployment.
@@ -169,7 +169,7 @@ Run this PowerShell script from the Point of Interest skill directory to deploy 
 You will be prompted to provide the following parameters:
    - Name - A name for your bot and resource group. This must be **unique**.
    - Location - The Azure region for your services (e.g. westus)
-   - LUIS Authoring Key - Refer to [this documentation page](../virtual-assistant/gettingstarted.md) for retrieving this key.
+   - LUIS Authoring Key - Refer to [this documentation page](../../virtual-assistant/csharp/gettingstarted.md) for retrieving this key.
 
 The msbot tool will outline the deployment plan including location and SKU. Ensure you review before proceeding.
 
