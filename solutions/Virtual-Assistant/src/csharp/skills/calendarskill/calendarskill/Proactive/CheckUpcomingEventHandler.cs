@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
-using CalendarSkill.ServiceClients;
+using CalendarSkill.Services;
 
 namespace CalendarSkill.Proactive
 {

@@ -4,9 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using CalendarSkill.Common;
-using CalendarSkill.Dialogs.Shared.Resources.Strings;
-using CalendarSkill.Util;
+using CalendarSkill.Responses.Shared;
+using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Graph;
 
@@ -878,7 +877,7 @@ namespace CalendarSkill.Models
 
             if (showDate || !IsSameDate(userStartDateTime, userStartDateTime))
             {
-                CultureInfo cultureInfo = (CultureInfo)CultureInfo.CurrentUICulture.Clone();
+                var cultureInfo = (CultureInfo)CultureInfo.CurrentUICulture.Clone();
                 cultureInfo.DateTimeFormat.DateSeparator = "-";
                 var startDateString = userStartDateTime.ToString("d", cultureInfo);
                 var endDateString = userEndDateTime.ToString("d", cultureInfo);
@@ -906,7 +905,7 @@ namespace CalendarSkill.Models
                 locationString = $"{eventItem.Location}";
             }
 
-            string speakString = string.Empty;
+            var speakString = string.Empty;
             speakString = SpeakHelper.ToSpeechMeetingDetail(eventItem.Title, userStartDateTime, eventItem.IsAllDay == true);
 
             return new CalendarCardData
@@ -924,7 +923,7 @@ namespace CalendarSkill.Models
 
         public string ToDurationString()
         {
-            TimeSpan t = EndTime.Subtract(StartTime);
+            var t = EndTime.Subtract(StartTime);
             return SpeakHelper.ToSpeechMeetingDuration(t);
         }
 
