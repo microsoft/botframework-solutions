@@ -3,6 +3,7 @@
  * Licensed under the MIT License.
  */
 
+import { SkillDialog, SkillDefinition as RemoteSkillDefinition } from 'bot-skill';
 import {
     IBackgroundTaskQueue,
     InterruptionAction,
@@ -12,9 +13,7 @@ import {
     LocaleConfiguration,
     ProactiveState,
     RouterDialog,
-    SkillConfiguration,
     SkillDefinition,
-    SkillDialog,
     SkillEvent,
     SkillRouter,
     TelemetryExtensions } from 'bot-solution';
@@ -445,13 +444,12 @@ export class MainDialog extends RouterDialog {
 
     private registerSkills(skillDefinitions: SkillDefinition[]): void {
         skillDefinitions.forEach((definition: SkillDefinition) => {
-            this.addDialog(new SkillDialog(
-                definition,
-                this.services.skillConfigurations.get(definition.id) || new SkillConfiguration(),
-                this.proactiveState,
-                this.endpointService,
-                this.telemetryClient,
-                this.backgroundTaskQueue));
+            const remoteSkillDefinition: RemoteSkillDefinition = new RemoteSkillDefinition();
+            remoteSkillDefinition.name = definition.id;
+            remoteSkillDefinition.endpoint = definition.assembly;
+            remoteSkillDefinition.dispatchIntent = definition.dispatchIntent;
+            
+            this.addDialog(new SkillDialog(remoteSkillDefinition, this.telemetryClient));
         });
 
         // Initialize skill dispatcher

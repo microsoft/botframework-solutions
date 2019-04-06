@@ -23,18 +23,15 @@ export class SampleSkill {
     private readonly telemetryClient: BotTelemetryClient;
     private readonly serviceManager: IServiceManager;
     private dialogs: DialogSet;
-    private skillMode: boolean = false;
 
     constructor (
         services: SkillConfigurationBase,
         conversationState: ConversationState,
         userState: UserState,
         telemetryClient: BotTelemetryClient,
-        skillMode: boolean = false,
         responseManager: ResponseManager | undefined,
         serviceManager: IServiceManager | undefined) {
 
-        this.skillMode = skillMode;
         if (services === undefined) {
             throw new Error('services parameter is null');
         }
@@ -72,8 +69,7 @@ export class SampleSkill {
             this.conversationState,
             this.userState,
             this.telemetryClient,
-            this.serviceManager,
-            this.skillMode
+            this.serviceManager
              ));
         }
         /**
