@@ -11,8 +11,8 @@ using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Responses.ShowToDo;
-using ToDoSkill.ServiceClients;
 using ToDoSkill.Services;
+using ToDoSkill.Utilities;
 
 namespace ToDoSkill.Dialogs
 {
@@ -83,24 +83,24 @@ namespace ToDoSkill.Dialogs
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.ShowTasks, showTasks) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Action.DoShowTasks, doShowTasks) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Action.FirstReadMoreTasks, firstReadMoreTasks) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Action.SecondReadMoreTasks, secondReadMoreTasks) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Action.CollectFirstReadMoreConfirmation, collectFirstReadMoreConfirmation) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Action.CollectSecondReadMoreConfirmation, collectSecondReadMoreConfirmation) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Action.CollectGoBackToStartConfirmation, collectGoBackToStartConfirmation) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Action.CollectRepeatFirstPageConfirmation, collectRepeatFirstPageConfirmation) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.ShowTasks, showTasks) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.DoShowTasks, doShowTasks) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.FirstReadMoreTasks, firstReadMoreTasks) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.SecondReadMoreTasks, secondReadMoreTasks) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.CollectFirstReadMoreConfirmation, collectFirstReadMoreConfirmation) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.CollectSecondReadMoreConfirmation, collectSecondReadMoreConfirmation) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.CollectGoBackToStartConfirmation, collectGoBackToStartConfirmation) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.CollectRepeatFirstPageConfirmation, collectRepeatFirstPageConfirmation) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
-            InitialDialogId = Action.ShowTasks;
+            InitialDialogId = Actions.ShowTasks;
         }
 
         public async Task<DialogTurnResult> DoShowTasks(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                return await sc.BeginDialogAsync(Action.DoShowTasks);
+                return await sc.BeginDialogAsync(Actions.DoShowTasks);
             }
             catch (Exception ex)
             {
@@ -158,7 +158,7 @@ namespace ToDoSkill.Dialogs
                         if (state.IsLastPage)
                         {
                             state.IsLastPage = false;
-                            return await sc.ReplaceDialogAsync(Action.CollectGoBackToStartConfirmation);
+                            return await sc.ReplaceDialogAsync(Actions.CollectGoBackToStartConfirmation);
                         }
                         else
                         {
@@ -172,7 +172,7 @@ namespace ToDoSkill.Dialogs
                             await sc.Context.SendActivityAsync(cardReply);
                             if ((state.ShowTaskPageIndex + 1) * state.PageSize >= state.AllTasks.Count)
                             {
-                                return await sc.ReplaceDialogAsync(Action.CollectGoBackToStartConfirmation);
+                                return await sc.ReplaceDialogAsync(Actions.CollectGoBackToStartConfirmation);
                             }
                         }
                     }
@@ -181,7 +181,7 @@ namespace ToDoSkill.Dialogs
                         if (state.IsFirstPage)
                         {
                             state.IsFirstPage = false;
-                            return await sc.ReplaceDialogAsync(Action.CollectRepeatFirstPageConfirmation);
+                            return await sc.ReplaceDialogAsync(Actions.CollectRepeatFirstPageConfirmation);
                         }
                         else
                         {
@@ -225,7 +225,7 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                return await sc.BeginDialogAsync(Action.FirstReadMoreTasks);
+                return await sc.BeginDialogAsync(Actions.FirstReadMoreTasks);
             }
             catch (Exception ex)
             {
@@ -238,7 +238,7 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                return await sc.BeginDialogAsync(Action.CollectFirstReadMoreConfirmation);
+                return await sc.BeginDialogAsync(Actions.CollectFirstReadMoreConfirmation);
             }
             catch (Exception ex)
             {
@@ -253,7 +253,7 @@ namespace ToDoSkill.Dialogs
             {
                 var prompt = ResponseManager.GetResponse(ShowToDoResponses.ReadMoreTasksPrompt);
                 var retryPrompt = ResponseManager.GetResponse(ShowToDoResponses.ReadMoreTasksConfirmFailed);
-                return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
+                return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
             {
@@ -310,7 +310,7 @@ namespace ToDoSkill.Dialogs
             {
                 await sc.Context.SendActivityAsync(cardReply);
                 await sc.CancelAllDialogsAsync();
-                return await sc.ReplaceDialogAsync(Action.CollectGoBackToStartConfirmation);
+                return await sc.ReplaceDialogAsync(Actions.CollectGoBackToStartConfirmation);
             }
         }
 
@@ -318,7 +318,7 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                return await sc.BeginDialogAsync(Action.SecondReadMoreTasks);
+                return await sc.BeginDialogAsync(Actions.SecondReadMoreTasks);
             }
             catch (Exception ex)
             {
@@ -331,7 +331,7 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                return await sc.BeginDialogAsync(Action.CollectSecondReadMoreConfirmation);
+                return await sc.BeginDialogAsync(Actions.CollectSecondReadMoreConfirmation);
             }
             catch (Exception ex)
             {
@@ -346,7 +346,7 @@ namespace ToDoSkill.Dialogs
             {
                 var prompt = ResponseManager.GetResponse(ShowToDoResponses.ReadMoreTasksPrompt2);
                 var retryPrompt = ResponseManager.GetResponse(ShowToDoResponses.RetryReadMoreTasksPrompt2);
-                return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
+                return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
             {
@@ -398,7 +398,7 @@ namespace ToDoSkill.Dialogs
             {
                 cardReply.InputHint = InputHints.IgnoringInput;
                 await sc.Context.SendActivityAsync(cardReply);
-                return await sc.ReplaceDialogAsync(Action.SecondReadMoreTasks);
+                return await sc.ReplaceDialogAsync(Actions.SecondReadMoreTasks);
             }
             else
             {
@@ -412,7 +412,7 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                return await sc.BeginDialogAsync(Action.CollectGoBackToStartConfirmation);
+                return await sc.BeginDialogAsync(Actions.CollectGoBackToStartConfirmation);
             }
             catch (Exception ex)
             {
@@ -442,7 +442,7 @@ namespace ToDoSkill.Dialogs
                     retryPrompt = ResponseManager.GetResponse(ShowToDoResponses.GoBackToStartForTasksConfirmFailed, token);
                 }
 
-                return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
+                return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
             {
@@ -459,7 +459,7 @@ namespace ToDoSkill.Dialogs
             {
                 state.ShowTaskPageIndex = 0;
                 state.GoBackToStart = true;
-                return await sc.ReplaceDialogAsync(Action.DoShowTasks);
+                return await sc.ReplaceDialogAsync(Actions.DoShowTasks);
             }
             else
             {
@@ -478,7 +478,7 @@ namespace ToDoSkill.Dialogs
                 var token = new StringDictionary() { { "listType", state.ListType }, { "taskCount", taskCount.ToString() } };
                 var prompt = ResponseManager.GetResponse(ShowToDoResponses.RepeatFirstPagePrompt, token);
                 var retryPrompt = ResponseManager.GetResponse(ShowToDoResponses.RepeatFirstPageConfirmFailed, token);
-                return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
+                return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
             {
@@ -495,7 +495,7 @@ namespace ToDoSkill.Dialogs
             {
                 state.ShowTaskPageIndex = 0;
                 state.GoBackToStart = true;
-                return await sc.ReplaceDialogAsync(Action.DoShowTasks);
+                return await sc.ReplaceDialogAsync(Actions.DoShowTasks);
             }
             else
             {

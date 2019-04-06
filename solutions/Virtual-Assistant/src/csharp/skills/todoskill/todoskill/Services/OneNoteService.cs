@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace ToDoSkill.ServiceClients
+namespace ToDoSkill.Services
 {
     using System;
     using System.Collections.Generic;
@@ -9,11 +9,10 @@ namespace ToDoSkill.ServiceClients
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Xml;
-    using global::ToDoSkill.Dialogs.Shared.Resources;
-    using global::ToDoSkill.Models;
     using Microsoft.Graph;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
+    using ToDoSkill.Models;
     using ToDoSkill.Responses.Shared;
 
     /// <summary>
@@ -275,7 +274,7 @@ namespace ToDoSkill.ServiceClients
 
         private async Task<Tuple<string, bool>> GetOrCreatePageAsync(string sectionId, string pageTitle)
         {
-            bool pageNotExist = false;
+            var pageNotExist = false;
             var pagesUrl = $"{graphBaseUrl}/onenote/sections/{sectionId}/pages";
             var onenotePage = await GetOneNotePageAsync($"{pagesUrl}?filter=title eq '{pageTitle}'");
             if (onenotePage == null || onenotePage.Count == 0)
@@ -372,7 +371,7 @@ namespace ToDoSkill.ServiceClients
             }
             else
             {
-                ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+                var serviceException = ServiceHelper.GenerateServiceException(responseContent);
                 throw serviceException;
             }
         }

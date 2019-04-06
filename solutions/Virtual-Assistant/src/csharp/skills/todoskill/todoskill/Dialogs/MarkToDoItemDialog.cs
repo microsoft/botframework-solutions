@@ -12,8 +12,8 @@ using Microsoft.Bot.Schema;
 using ToDoSkill.Models;
 using ToDoSkill.Responses.MarkToDo;
 using ToDoSkill.Responses.Shared;
-using ToDoSkill.ServiceClients;
 using ToDoSkill.Services;
+using ToDoSkill.Utilities;
 
 namespace ToDoSkill.Dialogs
 {
@@ -67,21 +67,21 @@ namespace ToDoSkill.Dialogs
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Action.DoMarkTask, doMarkTask) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Action.MarkTaskCompleted, markTask) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Action.CollectListTypeForComplete, collectListTypeForComplete) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Action.CollectTaskIndexForComplete, collectTaskIndexForComplete) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Action.ContinueMarkTask, continueMarkTask) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.DoMarkTask, doMarkTask) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.MarkTaskCompleted, markTask) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.CollectListTypeForComplete, collectListTypeForComplete) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.CollectTaskIndexForComplete, collectTaskIndexForComplete) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.ContinueMarkTask, continueMarkTask) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
-            InitialDialogId = Action.MarkTaskCompleted;
+            InitialDialogId = Actions.MarkTaskCompleted;
         }
 
         protected async Task<DialogTurnResult> DoMarkTask(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                return await sc.BeginDialogAsync(Action.DoMarkTask);
+                return await sc.BeginDialogAsync(Actions.DoMarkTask);
             }
             catch (Exception ex)
             {
@@ -157,7 +157,7 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                return await sc.BeginDialogAsync(Action.CollectListTypeForComplete);
+                return await sc.BeginDialogAsync(Actions.CollectListTypeForComplete);
             }
             catch (Exception ex)
             {
@@ -174,7 +174,7 @@ namespace ToDoSkill.Dialogs
                 if (string.IsNullOrEmpty(state.ListType))
                 {
                     var prompt = ResponseManager.GetResponse(MarkToDoResponses.ListTypePromptForComplete);
-                    return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
                 }
                 else
                 {
@@ -195,7 +195,7 @@ namespace ToDoSkill.Dialogs
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.ListType))
                 {
-                    return await sc.ReplaceDialogAsync(Action.CollectListTypeForComplete);
+                    return await sc.ReplaceDialogAsync(Actions.CollectListTypeForComplete);
                 }
                 else
                 {
@@ -213,7 +213,7 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                return await sc.BeginDialogAsync(Action.CollectTaskIndexForComplete);
+                return await sc.BeginDialogAsync(Actions.CollectTaskIndexForComplete);
             }
             catch (Exception ex)
             {
@@ -248,7 +248,7 @@ namespace ToDoSkill.Dialogs
                         prompt = ResponseManager.GetResponse(MarkToDoResponses.AskTaskIndexForComplete);
                     }
 
-                    return await sc.PromptAsync(Action.Prompt, new PromptOptions() { Prompt = prompt });
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
                 }
             }
             catch (Exception ex)
@@ -306,7 +306,7 @@ namespace ToDoSkill.Dialogs
                     state.TaskContentPattern = null;
                     state.TaskContentML = null;
                     state.CollectIndexRetry = true;
-                    return await sc.ReplaceDialogAsync(Action.CollectTaskIndexForComplete);
+                    return await sc.ReplaceDialogAsync(Actions.CollectTaskIndexForComplete);
                 }
             }
             catch (Exception ex)
@@ -320,7 +320,7 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                return await sc.BeginDialogAsync(Action.ContinueMarkTask);
+                return await sc.BeginDialogAsync(Actions.ContinueMarkTask);
             }
             catch (Exception ex)
             {
@@ -335,7 +335,7 @@ namespace ToDoSkill.Dialogs
             {
                 var prompt = ResponseManager.GetResponse(MarkToDoResponses.CompleteAnotherTaskPrompt);
                 var retryPrompt = ResponseManager.GetResponse(MarkToDoResponses.CompleteAnotherTaskConfirmFailed);
-                return await sc.PromptAsync(Action.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
+                return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
             {
@@ -360,7 +360,7 @@ namespace ToDoSkill.Dialogs
                     state.TaskContent = null;
 
                     // replace current dialog to continue marking more tasks
-                    return await sc.ReplaceDialogAsync(Action.DoMarkTask);
+                    return await sc.ReplaceDialogAsync(Actions.DoMarkTask);
                 }
                 else
                 {

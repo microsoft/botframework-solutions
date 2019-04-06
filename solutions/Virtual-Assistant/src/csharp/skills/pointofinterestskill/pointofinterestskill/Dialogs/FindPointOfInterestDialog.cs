@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
 using PointOfInterestSkill.Models;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
+using PointOfInterestSkill.Utilities;
 
 namespace PointOfInterestSkill.Dialogs
 {
-    public class FindPointOfInterestDialog : PointOfInterestBaseDialog
+    public class FindPointOfInterestDialog : PointOfInterestDialogBase
     {
         public FindPointOfInterestDialog(
             BotSettings settings,

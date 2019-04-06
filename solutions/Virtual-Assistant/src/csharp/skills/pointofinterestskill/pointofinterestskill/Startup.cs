@@ -119,8 +119,8 @@ namespace PointOfInterestSkill
             });
 
             // comment out for now to disable whitelist checking
-            //services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
-            //services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
+            // services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
+            // services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
@@ -128,7 +128,7 @@ namespace PointOfInterestSkill
 
             // Configure bot
             services.AddTransient<MainDialog>();
-            services.AddTransient<IBot, DefaultBot<MainDialog>>();
+            services.AddTransient<IBot, DialogBot<MainDialog>>();
         }
 
         /// <summary>
