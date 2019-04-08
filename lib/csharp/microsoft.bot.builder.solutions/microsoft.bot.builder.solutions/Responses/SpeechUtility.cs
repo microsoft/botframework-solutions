@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AdaptiveCards;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
@@ -53,10 +54,11 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
 
             for (int i = 0; i < activityToProcess.Attachments.Count; ++i)
             {
-                dynamic generatedCard = activityToProcess.Attachments[i].Content;
-                if (generatedCard?.speak != null)
+                // Add try parse - if already an adaptive card good to go, if unknown object convert from string
+                var cardContent = AdaptiveCard.FromJson(activityToProcess.Attachments[i].Content.ToString());
+                if (!string.IsNullOrEmpty(cardContent?.Card?.Speak))
                 {
-                    selectOptionSpeakStrings.Add(generatedCard.speak.ToString());
+                    selectOptionSpeakStrings.Add(cardContent.Card.Speak);
                 }
             }
 
