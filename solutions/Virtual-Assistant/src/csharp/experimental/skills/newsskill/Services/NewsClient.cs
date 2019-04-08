@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Azure.CognitiveServices.Search.NewsSearch;
 using Microsoft.Azure.CognitiveServices.Search.NewsSearch.Models;
 
-namespace NewsSkill
+namespace NewsSkill.Services
 {
     public class NewsClient
     {

@@ -5,9 +5,8 @@ using System.Collections.Generic;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
-using NewsSkill.Dialogs.Main.Resources;
 
-namespace NewsSkill
+namespace NewsSkill.Responses.Main
 {
     public class MainResponses : TemplateManager
     {
@@ -58,18 +57,19 @@ namespace NewsSkill
         public static IMessageActivity SendHelpCard(ITurnContext turnContext, dynamic data)
         {
             var response = turnContext.Activity.CreateReply();
-            response.Attachments = new List<Attachment>();
-
-            response.Attachments.Add(new HeroCard()
+            response.Attachments = new List<Attachment>
             {
-                Title = MainStrings.HELP_TITLE,
-                Text = MainStrings.HELP_TEXT,
-                Buttons = new List<CardAction>()
+                new HeroCard()
+                {
+                    Title = MainStrings.HELP_TITLE,
+                    Text = MainStrings.HELP_TEXT,
+                    Buttons = new List<CardAction>()
                 {
                     new CardAction(type: ActionTypes.ImBack, title: "Test", value: "Hello"),
                     new CardAction(type: ActionTypes.OpenUrl, title: "Learn More", value: "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"),
                 },
-            }.ToAttachment());
+                }.ToAttachment()
+            };
 
             return response;
         }

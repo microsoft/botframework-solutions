@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NewsSkill.Dialogs.Main.Resources {
+namespace NewsSkill.Responses.Main {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace NewsSkill.Dialogs.Main.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NewsSkill.Dialogs.Main.Resources.MainStrings", typeof(MainStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NewsSkill.Responses.Main.MainStrings", typeof(MainStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

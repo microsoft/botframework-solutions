@@ -7,27 +7,29 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Skills;
-using NewsSkill.Dialogs.Main.Resources;
+using NewsSkill.Models;
+using NewsSkill.Responses.Main;
+using NewsSkill.Services;
 
-namespace NewsSkill
+namespace NewsSkill.Dialogs
 {
-    public class NewsDialog : ComponentDialog
+    public class NewsDialogBase : ComponentDialog
     {
         protected const string LuisResultKey = "LuisResult";
 
-        public NewsDialog(
-                   string dialogId,
-                   SkillConfigurationBase services,
-                   IStatePropertyAccessor<NewsSkillState> accessor,
-                   IBotTelemetryClient telemetryClient)
-                   : base(dialogId)
+        public NewsDialogBase(
+            string dialogId,
+            BotServices services,
+            IStatePropertyAccessor<NewsSkillState> accessor,
+            IBotTelemetryClient telemetryClient)
+            : base(dialogId)
         {
             Services = services;
             Accessor = accessor;
             TelemetryClient = telemetryClient;
         }
 
-        protected SkillConfigurationBase Services { get; set; }
+        protected BotServices Services { get; set; }
 
         protected IStatePropertyAccessor<NewsSkillState> Accessor { get; set; }
 

@@ -1,4 +1,4 @@
-﻿namespace NewsSkill
+﻿namespace NewsSkill.Models
 {
     public class NewsSkillState
     {
@@ -6,6 +6,6 @@
         {
         }
 
-        public Luis.News LuisResult { get; set; }
+        public Luis.NewsLuis LuisResult { get; set; }
     }
 }

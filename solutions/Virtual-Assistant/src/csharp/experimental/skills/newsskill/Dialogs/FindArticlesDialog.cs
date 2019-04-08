@@ -3,17 +3,20 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Skills;
+using NewsSkill.Models;
+using NewsSkill.Responses.FindArticles;
+using NewsSkill.Services;
 
-namespace NewsSkill
+namespace NewsSkill.Dialogs
 {
-    public class FindArticlesDialog : NewsDialog
+    public class FindArticlesDialog : NewsDialogBase
     {
         private NewsClient _client;
         private FindArticlesResponses _responder = new FindArticlesResponses();
 
         public FindArticlesDialog(
-            SkillConfigurationBase services,
+            BotSettings settings,
+            BotServices services,
             IStatePropertyAccessor<NewsSkillState> accessor,
             IBotTelemetryClient telemetryClient)
             : base(nameof(FindArticlesDialog), services, accessor, telemetryClient)
@@ -21,9 +24,9 @@ namespace NewsSkill
             Accessor = accessor;
             TelemetryClient = telemetryClient;
 
-            var key = services.Properties["BingNewsKey"] ?? throw new Exception("The BingNewsKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
+            var key = settings.Properties["BingNewsKey"] ?? throw new Exception("The BingNewsKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
 
-            _client = new NewsClient((string)key);
+            _client = new NewsClient(key);
 
             var findArticles = new WaterfallStep[]
             {

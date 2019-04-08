@@ -10,13 +10,16 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Schema;
+using NewsSkill.Models;
+using NewsSkill.Responses.Main;
+using NewsSkill.Services;
 
-namespace NewsSkill
+namespace NewsSkill.Dialogs
 {
     public class MainDialog : RouterDialog
     {
-        private bool _skillMode;
-        private SkillConfigurationBase _services;
+        private BotSettings _settings;
+        private BotServices _services;
         private UserState _userState;
         private IBotTelemetryClient _telemetryClient;
         private ConversationState _conversationState;
@@ -24,10 +27,10 @@ namespace NewsSkill
         private IStatePropertyAccessor<NewsSkillState> _stateAccessor;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
 
-        public MainDialog(SkillConfigurationBase services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient, bool skillMode)
+        public MainDialog(BotSettings settings, BotServices services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
-            _skillMode = skillMode;
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
@@ -43,11 +46,8 @@ namespace NewsSkill
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (!_skillMode)
-            {
-                // send a greeting if we're in local mode
-                await _responder.ReplyWith(dc.Context, MainResponses.Intro);
-            }
+            // send a greeting if we're in local mode
+            await _responder.ReplyWith(dc.Context, MainResponses.Intro);
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -55,7 +55,7 @@ namespace NewsSkill
             var state = await _stateAccessor.GetAsync(dc.Context, () => new NewsSkillState());
 
             // If dispatch result is general luis model
-            _services.LocaleConfigurations["en"].LuisServices.TryGetValue("news", out var luisService);
+            _services.CognitiveModelSets["en"].LuisServices.TryGetValue("news", out var luisService);
 
             if (luisService == null)
             {
@@ -64,7 +64,7 @@ namespace NewsSkill
             else
             {
                 var turnResult = EndOfTurn;
-                var result = await luisService.RecognizeAsync<News>(dc.Context, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<NewsLuis>(dc.Context, CancellationToken.None);
                 state.LuisResult = result;
 
                 var intent = result?.TopIntent().intent;
@@ -72,22 +72,18 @@ namespace NewsSkill
                 // switch on general intents
                 switch (intent)
                 {
-                    case News.Intent.FindArticles:
+                    case NewsLuis.Intent.FindArticles:
                         {
                             // send greeting response
                             turnResult = await dc.BeginDialogAsync(nameof(FindArticlesDialog));
                             break;
                         }
 
-                    case News.Intent.None:
+                    case NewsLuis.Intent.None:
                         {
                             // No intent was identified, send confused message
                             await _responder.ReplyWith(dc.Context, MainResponses.Confused);
-
-                            if (_skillMode)
-                            {
-                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-                            }
+                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
 
                             break;
                         }
@@ -96,11 +92,7 @@ namespace NewsSkill
                         {
                             // intent was identified but not yet implemented
                             await dc.Context.SendActivityAsync("This feature is not yet implemented in this skill.");
-
-                            if (_skillMode)
-                            {
-                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-                            }
+                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
 
                             break;
                         }
@@ -115,17 +107,10 @@ namespace NewsSkill
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (_skillMode)
-            {
-                var response = dc.Context.Activity.CreateReply();
-                response.Type = ActivityTypes.EndOfConversation;
+            var response = dc.Context.Activity.CreateReply();
+            response.Type = ActivityTypes.EndOfConversation;
 
-                await dc.Context.SendActivityAsync(response);
-            }
-            else
-            {
-                await _responder.ReplyWith(dc.Context, MainResponses.Completed);
-            }
+            await dc.Context.SendActivityAsync(response);
 
             // End active dialog
             await dc.EndDialogAsync(result);
@@ -138,7 +123,7 @@ namespace NewsSkill
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // check luis intent
-                _services.LocaleConfigurations["en"].LuisServices.TryGetValue("general", out var luisService);
+                _services.CognitiveModelSets["en"].LuisServices.TryGetValue("general", out var luisService);
 
                 if (luisService == null)
                 {
@@ -185,7 +170,7 @@ namespace NewsSkill
 
         private void RegisterDialogs()
         {
-            AddDialog(new FindArticlesDialog(_services, _stateAccessor, _telemetryClient));
+            AddDialog(new FindArticlesDialog(_settings, _services, _stateAccessor, _telemetryClient));
         }
     }
 }
