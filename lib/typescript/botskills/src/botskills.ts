@@ -34,7 +34,8 @@ program
     .description(`The skill program makes it easy to manipulate skills for Microsoft Bot Framework tools.`);
 
 program
-    .command('connect', 'connect any skill to your assistant bot');
+    .command('connect', 'connect any skill to your assistant bot')
+    .command('list', 'list the connected skills in the assistant');
 
 const args: program.Command = program.parse(process.argv);
 // args should be undefined is subcommand is executed
