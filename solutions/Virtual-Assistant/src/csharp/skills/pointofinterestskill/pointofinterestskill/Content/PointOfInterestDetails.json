@@ -1,6 +1,6 @@
-﻿{
+{
   "type": "AdaptiveCard",
-  "id": "PointOfInterestDetailsWithRouteCard",
+  "id": "PointOfInterestDetailsCard",
   "backgroundImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKwAAACeCAYAAACvg+F+AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxOTowMzoxMyAxOTo0Mjo0OBCBEeIAAAG8SURBVHhe7dJBDQAgEMCwA/+egQcmlrSfGdg6z0DE/oUEw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phCZm52U4FOCAVGHQAAAAASUVORK5CYII=",
   "body": [
     {
@@ -105,66 +105,6 @@
           "width": "380px",
           "horizontalAlignment": "center",
           "url": "{PointOfInterestImageUrl}"
-        }
-      ]
-    },
-    {
-      "type": "Container",
-      "separator": true,
-      "items": [
-        {
-          "type": "ColumnSet",
-          "separator": true,
-          "columns": [
-            {
-              "type": "Column",
-              "style": "emphasis",
-              "verticalContentAlignment": "Center",
-              "items": [
-                {
-                  "type": "TextBlock",
-                  "horizontalAlignment": "Center",
-                  "size": "Medium",
-                  "color": "Dark",
-                  "text": "{TravelTime}"
-                }
-              ],
-              "width": 20
-            },
-            {
-              "type": "Column",
-              "verticalContentAlignment": "Center",
-              "items": [
-                {
-                  "type": "TextBlock",
-                  "horizontalAlignment": "Left",
-                  "text": "{DelayStatus}"
-                },
-                {
-                  "type": "TextBlock",
-                  "horizontalAlignment": "Left",
-                  "color": "Dark",
-                  "text": "**ETA** {ETA}"
-                }
-              ],
-              "width": 60
-            },
-            {
-              "type": "Column",
-              "style": "emphasis",
-              "verticalContentAlignment": "Center",
-              "items": [
-                {
-                  "type": "TextBlock",
-                  "horizontalAlignment": "Center",
-                  "size": "Medium",
-                  "color": "Dark",
-                  "text": "{Distance}"
-                }
-              ],
-              "width": 20
-            }
-          ]
         }
       ]
     },

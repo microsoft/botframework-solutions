@@ -1,11 +1,9 @@
-﻿using VirtualAssistantTemplate.Dialogs.Onboarding;
-using VirtualAssistantTemplate.Dialogs.Onboarding.Resources;
-using Microsoft.Bot.Connector;
+﻿using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Threading.Tasks;
+using VirtualAssistantTemplate.Responses.Onboarding;
 
 namespace VirtualAssistantTemplate.Tests
 {

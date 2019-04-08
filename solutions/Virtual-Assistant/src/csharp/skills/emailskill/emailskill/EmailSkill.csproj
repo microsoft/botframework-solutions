@@ -7,6 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Content\ConfirmCard_RecipientLessThanFive.json" />
+    <Content Remove="Content\ConfirmCard_RecipientMoreThanFive.json" />
+    <Content Remove="Content\DetailCard_RecipientLessThanFive.json" />
+    <Content Remove="Content\DetailCard_RecipientMoreThanFive.json" />
+    <Content Remove="Content\EmailCard.json" />
+    <Content Remove="Content\EmailContentPreview.json" />
+    <Content Remove="Content\EmailDetailCard.json" />
+    <Content Remove="Content\EmailOverviewByCondition.json" />
+    <Content Remove="Content\EmailOverviewCard.json" />
+    <Content Remove="Content\EmailOverviewItem.json" />
+    <Content Remove="Content\EmailWithOutButtonCard.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Google.Apis" Version="1.36.1" />
     <PackageReference Include="Google.Apis.Gmail.v1" Version="1.36.1.1342" />
     <PackageReference Include="Google.Apis.People.v1" Version="1.25.0.830" />
@@ -91,6 +105,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Content\ConfirmCard_RecipientLessThanFive.json" />
+    <EmbeddedResource Include="Content\ConfirmCard_RecipientMoreThanFive.json" />
+    <EmbeddedResource Include="Content\DetailCard_RecipientLessThanFive.json" />
+    <EmbeddedResource Include="Content\DetailCard_RecipientMoreThanFive.json" />
+    <EmbeddedResource Include="Content\EmailOverviewByCondition.json" />
+    <EmbeddedResource Include="Content\EmailOverviewCard.json" />
+    <EmbeddedResource Include="Content\EmailOverviewItem.json" />
     <EmbeddedResource Include="Responses\DeleteEmail\DeleteEmailResponses.de.json" />
     <EmbeddedResource Include="Responses\DeleteEmail\DeleteEmailResponses.es.json" />
     <EmbeddedResource Include="Responses\DeleteEmail\DeleteEmailResponses.fr.json" />

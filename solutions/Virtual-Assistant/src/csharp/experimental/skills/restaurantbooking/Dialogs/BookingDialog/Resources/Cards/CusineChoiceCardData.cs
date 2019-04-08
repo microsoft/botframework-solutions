@@ -1,5 +1,4 @@
-﻿using System;
-using AdaptiveCards;
+﻿using AdaptiveCards;
 using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace RestaurantBooking.Dialogs.Resources.Cards

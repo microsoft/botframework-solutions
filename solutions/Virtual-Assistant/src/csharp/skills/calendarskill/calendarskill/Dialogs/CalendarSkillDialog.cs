@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,10 +24,8 @@ using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
-using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
 using Microsoft.Recognizers.Text.DateTime;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using static Microsoft.Recognizers.Text.Culture;
 

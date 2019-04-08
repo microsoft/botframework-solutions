@@ -1,12 +1,11 @@
-﻿using VirtualAssistantTemplate.Dialogs.Cancel.Resources;
-using VirtualAssistantTemplate.Dialogs.Onboarding.Resources;
-using VirtualAssistantTemplate.Tests.Utterances;
+﻿using VirtualAssistantTemplate.Tests.Utterances;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Threading.Tasks;
+using VirtualAssistantTemplate.Responses.Onboarding;
+using VirtualAssistantTemplate.Responses.Cancel;
 
 namespace VirtualAssistantTemplate.Tests
 {

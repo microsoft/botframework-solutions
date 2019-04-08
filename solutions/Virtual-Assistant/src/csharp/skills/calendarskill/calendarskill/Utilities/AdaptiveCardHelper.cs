@@ -1,4 +1,4 @@
-﻿namespace CalendarSkill.Util
+﻿namespace CalendarSkill.Utilities
 {
     public class AdaptiveCardHelper
     {

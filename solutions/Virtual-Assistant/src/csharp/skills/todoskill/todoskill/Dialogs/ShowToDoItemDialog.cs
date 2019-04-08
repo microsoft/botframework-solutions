@@ -9,6 +9,7 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
+using ToDoSkill.Models;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Responses.ShowToDo;
 using ToDoSkill.Services;

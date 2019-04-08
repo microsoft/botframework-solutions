@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Responses.JoinEvent;
+using CalendarSkill.Responses.Shared;
 using CalendarSkill.Responses.Summary;
 using CalendarSkill.Services;
 using CalendarSkill.Utilities;
@@ -18,6 +19,8 @@ using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
+using static CalendarSkill.Models.ShowMeetingsDialogOptions;
+using static Microsoft.Recognizers.Text.Culture;
 
 namespace CalendarSkill.Dialogs
 {

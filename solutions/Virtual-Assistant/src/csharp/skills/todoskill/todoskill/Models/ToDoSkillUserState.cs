@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace ToDoSkill
+namespace ToDoSkill.Models
 {
     public class ToDoSkillUserState : DialogState
     {

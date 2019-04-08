@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using EmailSkill.Extensions;
 using EmailSkill.Models;
 using EmailSkill.Responses.DeleteEmail;
 using EmailSkill.Responses.Shared;

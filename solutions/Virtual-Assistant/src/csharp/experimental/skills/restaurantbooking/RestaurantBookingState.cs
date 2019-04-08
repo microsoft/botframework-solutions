@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Luis;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Dialogs;
+﻿using System.Collections.Generic;
 using RestaurantBooking.Models;
 
 namespace RestaurantBooking

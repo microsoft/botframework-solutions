@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Extensions;
@@ -538,7 +537,7 @@ namespace EmailSkill.Dialogs
                         return await sc.BeginDialogAsync(Actions.CollectRecipient, skillOptions);
                     }
 
-                    if (Util.Util.IsEmail(userInput))
+                    if (Utilities.Util.IsEmail(userInput))
                     {
                         state.EmailList.Add(userInput);
                     }
@@ -1363,7 +1362,7 @@ namespace EmailSkill.Dialogs
                                     foreach (var emailAddress in rawEntity)
                                     {
                                         var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
-                                        if (Util.Util.IsEmail(email) && !state.EmailList.Contains(email))
+                                        if (Utilities.Util.IsEmail(email) && !state.EmailList.Contains(email))
                                         {
                                             state.EmailList.Add(email);
                                         }
@@ -1421,7 +1420,7 @@ namespace EmailSkill.Dialogs
                                     foreach (var emailAddress in rawEntity)
                                     {
                                         var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
-                                        if (Util.Util.IsEmail(email) && !state.EmailList.Contains(email))
+                                        if (Utilities.Util.IsEmail(email) && !state.EmailList.Contains(email))
                                         {
                                             state.EmailList.Add(email);
                                         }

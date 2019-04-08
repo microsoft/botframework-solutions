@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using Autofac;
-using VirtualAssistantTemplate;
-using VirtualAssistantTemplate.Dialogs.Onboarding;
-using VirtualAssistantTemplate.Middleware.Telemetry;
 using VirtualAssistantTemplate.Tests.LuisTestUtils;
-using VirtualAssistantTemplate.Tests.LUTestUtils;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VirtualAssistantTemplate.Services;
+using VirtualAssistantTemplate.Bots;
+using VirtualAssistantTemplate.Dialogs;
 
 namespace VirtualAssistantTemplate.Tests
 {
@@ -34,9 +33,9 @@ namespace VirtualAssistantTemplate.Tests
             TelemetryClient = new NullBotTelemetryClient();
             BotServices = new BotServices()
             {
-                CognitiveModelSets = new Dictionary<string, Configuration.CognitiveModelSet>
+                CognitiveModelSets = new Dictionary<string, CognitiveModelSet>
                 {
-                    {"en", new Configuration.CognitiveModelSet
+                    {"en", new CognitiveModelSet
                         {
                             DispatchService = DispatchTestUtil.CreateRecognizer(),
                             LuisServices = new Dictionary<string, IRecognizer>
@@ -46,7 +45,7 @@ namespace VirtualAssistantTemplate.Tests
                             QnAServices = null
                         }
                     }
-                }               
+                }
             };
 
             builder.RegisterInstance(new BotStateSet(UserState, ConversationState));
@@ -69,7 +68,8 @@ namespace VirtualAssistantTemplate.Tests
 
         public IBot BuildBot()
         {
-            return new VirtualAssistantTemplate.Bot(BotServices, ConversationState, UserState, TelemetryClient);
+            // TODO: need to mock IServiceProvider to fix tests
+            return new DialogBot<MainDialog>(null, null);
         }
     }
 }

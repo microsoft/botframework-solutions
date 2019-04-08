@@ -9,6 +9,14 @@
   <ItemGroup>
     <Content Remove="Content\CalendarCard.json" />
     <Content Remove="Content\CalendarCardNoJoinButton.json" />
+    <Content Remove="Content\CalendarDate.json" />
+    <Content Remove="Content\CalendarDetail.json" />
+    <Content Remove="Content\CalendarDetailContainerParticipantsLess.json" />
+    <Content Remove="Content\CalendarDetailContainerParticipantsMore.json" />
+    <Content Remove="Content\CalendarDetailNoJoinButton.json" />
+    <Content Remove="Content\CalendarGeneralMeetingList.json" />
+    <Content Remove="Content\CalendarItem.json" />
+    <Content Remove="Content\CalendarOverview.json" />
     <Content Remove="Responses\ChangeEventStatus\ChangeEventStatusResponses.de.json" />
     <Content Remove="Responses\ChangeEventStatus\ChangeEventStatusResponses.es.json" />
     <Content Remove="Responses\ChangeEventStatus\ChangeEventStatusResponses.fr.json" />
@@ -104,6 +112,14 @@
   <ItemGroup>
     <EmbeddedResource Include="Content\CalendarCard.json" />
     <EmbeddedResource Include="Content\CalendarCardNoJoinButton.json" />
+    <EmbeddedResource Include="Content\CalendarDate.json" />
+    <EmbeddedResource Include="Content\CalendarDetail.json" />
+    <EmbeddedResource Include="Content\CalendarDetailContainerParticipantsLess.json" />
+    <EmbeddedResource Include="Content\CalendarDetailContainerParticipantsMore.json" />
+    <EmbeddedResource Include="Content\CalendarDetailNoJoinButton.json" />
+    <EmbeddedResource Include="Content\CalendarGeneralMeetingList.json" />
+    <EmbeddedResource Include="Content\CalendarItem.json" />
+    <EmbeddedResource Include="Content\CalendarOverview.json" />
     <EmbeddedResource Include="Responses\ChangeEventStatus\ChangeEventStatusResponses.de.json" />
     <EmbeddedResource Include="Responses\ChangeEventStatus\ChangeEventStatusResponses.es.json" />
     <EmbeddedResource Include="Responses\ChangeEventStatus\ChangeEventStatusResponses.fr.json" />

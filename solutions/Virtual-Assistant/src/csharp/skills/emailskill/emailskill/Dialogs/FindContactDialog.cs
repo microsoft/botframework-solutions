@@ -145,7 +145,7 @@ namespace EmailSkill.Dialogs
                     return await sc.EndDialogAsync();
                 }
 
-                if (Util.Util.IsEmail(userInput))
+                if (Utilities.Util.IsEmail(userInput))
                 {
                     if (!state.EmailList.Contains(userInput))
                     {

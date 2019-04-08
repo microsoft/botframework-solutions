@@ -7,8 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Dialogs\Shared\Resources\Cards\PointOfInterestDetails.json" />
-    <Content Remove="Dialogs\Shared\Resources\Cards\PointOfInterestDetailsWithRoute.json" />
+    <Content Remove="Content\PointOfInterestDetails.json" />
+    <Content Remove="Content\PointOfInterestDetailsWithRoute.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Content\PointOfInterestDetailsWithRoute.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -59,16 +63,6 @@
     <Compile Update="Responses\Shared\PointOfInterestSharedStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>PointOfInterestBotResponses.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings - Copy.Designer.cs">
-      <DependentUpon>PointOfInterestSharedStrings.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings - Copy.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
       <DependentUpon>PointOfInterestSharedStrings.resx</DependentUpon>
     </Compile>
     <Compile Update="Responses\Shared\POISharedResponses.cs">
@@ -88,8 +82,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Content\PointOfInterestViewCard.json" />
-    <EmbeddedResource Include="Content\RouteDirectionsViewCard.json" />
+    <EmbeddedResource Include="Content\PointOfInterestDetails.json" />
     <EmbeddedResource Include="Responses\CancelRoute\CancelRouteResponses.de.json">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </EmbeddedResource>
@@ -223,29 +216,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings.zh.resx">
-      <LastGenOutput>PointOfInterestSharedStrings.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
+    <EmbeddedResource Update="Responses\Shared\PointOfInterestSharedStrings.zh.resx">
+      <Generator></Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings.it.resx">
-      <LastGenOutput>PointOfInterestSharedStrings.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
+    <EmbeddedResource Update="Responses\Shared\PointOfInterestSharedStrings.it.resx">
+      <Generator></Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings.fr.resx">
-      <LastGenOutput>PointOfInterestSharedStrings.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
+    <EmbeddedResource Update="Responses\Shared\PointOfInterestSharedStrings.fr.resx">
+      <Generator></Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings.es.resx">
-      <LastGenOutput>PointOfInterestSharedStrings.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
+    <EmbeddedResource Update="Responses\Shared\PointOfInterestSharedStrings.es.resx">
+      <Generator></Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings.de.resx">
-      <LastGenOutput>PointOfInterestSharedStrings.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings.resx">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    <Folder Include="Responses\FindParking\" />
   </ItemGroup>
 
   <ItemGroup>

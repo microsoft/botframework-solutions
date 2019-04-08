@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Autofac;
-using Microsoft.Bot.Builder;
+﻿using Autofac;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;
@@ -75,7 +73,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
                 }
                 else
                 {
-                    await dc.BeginDialogAsync(skillDefinition.Id, skillDefinition);
+                    await dc.BeginDialogAsync(skillDefinition.Name, skillDefinition);
                     var result = await dc.ContinueDialogAsync();
                 }
             });

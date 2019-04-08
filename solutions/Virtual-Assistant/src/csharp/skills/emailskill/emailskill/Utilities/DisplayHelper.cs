@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using EmailSkill.Models;
 using EmailSkill.Responses.Shared;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Graph;

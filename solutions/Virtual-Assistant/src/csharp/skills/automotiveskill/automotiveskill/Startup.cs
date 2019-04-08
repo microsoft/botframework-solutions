@@ -20,7 +20,6 @@ namespace AutomotiveSkill
     using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
     using Microsoft.Bot.Builder.Integration.AspNet.Core;
     using Microsoft.Bot.Builder.Skills;
-    using Microsoft.Bot.Builder.Skills.Auth;
     using Microsoft.Bot.Builder.Solutions.Middleware;
     using Microsoft.Bot.Builder.Solutions.Proactive;
     using Microsoft.Bot.Builder.Solutions.Responses;

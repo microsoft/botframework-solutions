@@ -7,16 +7,12 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
-using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using Microsoft.Recognizers.Text.DateTime;
-using Newtonsoft.Json.Linq;
-using RestaurantBooking.Dialogs.Shared.DialogOptions;
 using RestaurantBooking.Dialogs.Shared.Resources;
 using Constants = Microsoft.Recognizers.Text.DataTypes.TimexExpression.Constants;
 

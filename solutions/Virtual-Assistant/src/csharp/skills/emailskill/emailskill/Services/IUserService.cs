@@ -5,8 +5,7 @@ namespace EmailSkill.ServiceClients
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using global::EmailSkill.Model;
-    using Microsoft.Graph;
+    using global::EmailSkill.Models;
 
     public interface IUserService
     {

@@ -1,10 +1,5 @@
 ﻿namespace RestaurantBooking.Dialogs.Shared
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-
     public class Actions
     {
         public const string BookRestaurant = "bookRestaurant";

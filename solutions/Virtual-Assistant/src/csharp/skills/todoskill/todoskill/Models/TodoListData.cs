@@ -1,6 +1,6 @@
 ﻿using Microsoft.Bot.Builder.Solutions.Responses;
 
-namespace ToDoSkill.Dialogs.Shared.Cards
+namespace ToDoSkill.Models
 {
     public class TodoListData : ICardData
     {

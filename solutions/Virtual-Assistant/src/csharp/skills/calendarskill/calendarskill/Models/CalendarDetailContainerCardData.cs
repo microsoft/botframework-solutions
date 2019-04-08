@@ -1,6 +1,6 @@
 ﻿using Microsoft.Bot.Builder.Solutions.Responses;
 
-namespace CalendarSkill.Dialogs.Shared.Resources.Cards
+namespace CalendarSkill.Models
 {
     public class CalendarDetailContainerCardData : ICardData
     {

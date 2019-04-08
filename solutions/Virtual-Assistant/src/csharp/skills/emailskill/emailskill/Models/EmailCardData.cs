@@ -1,4 +1,4 @@
-﻿using EmailSkill.Util;
+﻿using EmailSkill.Utilities;
 using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace EmailSkill.Models

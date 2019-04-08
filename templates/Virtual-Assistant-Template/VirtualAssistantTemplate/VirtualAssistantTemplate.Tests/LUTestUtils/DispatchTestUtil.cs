@@ -2,9 +2,7 @@
 using VirtualAssistantTemplate.Tests.Utterances;
 using Luis;
 using Microsoft.Bot.Builder;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace VirtualAssistantTemplate.Tests.LuisTestUtils
 {

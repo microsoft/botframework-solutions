@@ -4,10 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Http;
 using System.Threading.Tasks;
 using EmailSkill.Extensions;
-using EmailSkill.Model;
+using EmailSkill.Models;
 using Microsoft.Graph;
 
 namespace EmailSkill.ServiceClients.MSGraphAPI

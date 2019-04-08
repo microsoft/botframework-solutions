@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CalendarSkill.Models;
 using Microsoft.Graph;
 using static CalendarSkill.Models.CreateEventStateModel;
 

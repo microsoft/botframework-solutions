@@ -18,7 +18,6 @@ namespace RestaurantBooking
     using Microsoft.Bot.Builder.Solutions.Skills;
     using Microsoft.Bot.Builder.Solutions.TaskExtensions;
     using Microsoft.Bot.Configuration;
-    using Microsoft.Bot.Schema;
 
     /// <summary>
     /// Main entry point and orchestration for bot.

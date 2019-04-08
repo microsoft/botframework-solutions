@@ -1,10 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-using System;
 using System.Collections.Generic;
 
-namespace EmailSkill.Model
+namespace EmailSkill.Models
 {
     /// <summary>
     /// Event mapping entity.
@@ -68,15 +67,15 @@ namespace EmailSkill.Model
             this.Photo = gmailPerson?.Photos?[0]?.Url;
         }
 
-        public string Id {get; set;}
+        public string Id { get; set; }
 
-        public string DisplayName {get; set;}
+        public string DisplayName { get; set; }
 
-        public string UserPrincipalName {get; set;}
+        public string UserPrincipalName { get; set; }
 
-        public List<string> Emails {get; set;}
+        public List<string> Emails { get; set; }
 
-        public string Photo {get; set;}
+        public string Photo { get; set; }
 
         public MailSource Source
         {
