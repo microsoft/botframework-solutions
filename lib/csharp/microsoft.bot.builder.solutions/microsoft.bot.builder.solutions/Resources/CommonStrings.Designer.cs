@@ -151,11 +151,38 @@ namespace Microsoft.Bot.Builder.Solutions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The latest email is {0}.
+        ///   Looks up a localized string similar to The first is {0}.
         /// </summary>
         public static string FirstItem {
             get {
                 return ResourceManager.GetString("FirstItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the fourth is {0}.
+        /// </summary>
+        public static string FourthItem {
+            get {
+                return ResourceManager.GetString("FourthItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the last is {0}..
+        /// </summary>
+        public static string LastItem {
+            get {
+                return ResourceManager.GetString("LastItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The latest is {0}.
+        /// </summary>
+        public static string LatestItem {
+            get {
+                return ResourceManager.GetString("LatestItem", resourceCulture);
             }
         }
         
