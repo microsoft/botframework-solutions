@@ -1,6 +1,6 @@
 # Virtual Assistant Solution Accelerator
 
-Here you will find the following structure of the documentation
+The documentation for the Virtual Assistant solution accelerator is shown below:
 
 :runner: - Indicates planned and work in progress.
 
