@@ -22,6 +22,8 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
 
     public class SpeechUtility
     {
+        public const string BreakString = "<break/>";
+
         /// <summary>
         /// Concatenate PromptOption string properties into a formatted speech-ready string.
         /// </summary>
@@ -89,7 +91,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
             var result = string.Empty;
             if (!string.IsNullOrEmpty(parentString))
             {
-                result += parentString + "<break/>";
+                result += parentString + BreakString;
             }
 
             List<string> itemDetails = new List<string>();

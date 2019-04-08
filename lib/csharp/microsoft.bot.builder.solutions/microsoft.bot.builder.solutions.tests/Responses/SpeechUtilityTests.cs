@@ -4,13 +4,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AdaptiveCards;
 using System.Collections.Generic;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Resources;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 
 namespace Microsoft.Bot.Builder.Solutions.Tests
 {
     [TestClass]
     public class SpeechUtilityTests
     {
-
         private Activity _activity;
 
         private PromptOptions _promptOptions;
@@ -23,22 +24,103 @@ namespace Microsoft.Bot.Builder.Solutions.Tests
         public void Setup()
         {            
             _activity = new Activity() { Speak = parentSpeakProperty };
-            _promptOptions = new PromptOptions() { Prompt = new Activity() { Speak = parentSpeakProperty } };
+            _promptOptions = new PromptOptions() { Prompt = new Activity() { Text = parentSpeakProperty, Speak = parentSpeakProperty } };
         }
 
         [TestMethod]
-        public void GetSpeechReadyStringFromPromptOptions()
+        public void GetSpeechReadyStringFromOnePromptOption()
         {
+            _promptOptions.Choices = new List<Choice>()
+            {
+                new Choice(listItemSpeakProperty)
+            };
 
+            var response = SpeechUtility.ListToSpeechReadyString(_promptOptions);
+
+            Assert.AreEqual(response, string.Format($"{parentSpeakProperty}{SpeechUtility.BreakString}{listItemSpeakProperty}"));
         }
 
         [TestMethod]
-        public void GetSpeechReadyStringFromActivityWithAttachments()
+        public void GetSpeechReadyStringFromTwoPromptOptionsChronological()
         {
-            _activity.Attachments = new List<Attachment> { new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName }) };
+            _promptOptions.Choices = new List<Choice>()
+            {
+                new Choice(listItemSpeakProperty),
+                new Choice(listItemSpeakProperty)
+            };
+
+            var response = SpeechUtility.ListToSpeechReadyString(_promptOptions, ReadPreference.Chronological);
+
+            var item1 = string.Format(CommonStrings.LatestItem, listItemSpeakProperty);
+            var item2 = string.Format(CommonStrings.LastItem, listItemSpeakProperty);
+            Assert.AreEqual(response, string.Format($"{parentSpeakProperty}{SpeechUtility.BreakString}{item1} {CommonStrings.And} {item2}"));
+        }
+
+        [TestMethod]
+        public void GetSpeechReadyStringFromActivityWithOneAttachment()
+        {
+            _activity.Attachments = new List<Attachment>
+            {
+                new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName })
+            };
+
             var response = SpeechUtility.ListToSpeechReadyString(_activity);
 
-            Assert.AreEqual(response, string.Format($"{parentSpeakProperty}<break/>{listItemSpeakProperty}"));
+            Assert.AreEqual(response, string.Format($"{parentSpeakProperty}{SpeechUtility.BreakString}{listItemSpeakProperty}"));
+        }
+        
+        [TestMethod]
+        public void GetSpeechReadyStringFromActivityWithTwoAttachments()
+        {
+            _activity.Attachments = new List<Attachment>
+            {
+                new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName }),
+                new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName })
+            };
+
+            var response = SpeechUtility.ListToSpeechReadyString(_activity);
+
+            var item1 = string.Format(CommonStrings.FirstItem, listItemSpeakProperty);
+            var item2 = string.Format(CommonStrings.LastItem, listItemSpeakProperty);
+            Assert.AreEqual(response, string.Format($"{parentSpeakProperty}{SpeechUtility.BreakString}{item1} {CommonStrings.And} {item2}"));
+        }
+
+        [TestMethod]
+        public void GetSpeechReadyStringFromActivityWithThreeAttachments()
+        {
+            _activity.Attachments = new List<Attachment>
+            {
+                new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName }),
+                new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName }),
+                new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName })
+            };
+
+            var response = SpeechUtility.ListToSpeechReadyString(_activity);
+
+            var item1 = string.Format(CommonStrings.FirstItem, listItemSpeakProperty);
+            var item2 = string.Format(CommonStrings.SecondItem, listItemSpeakProperty);
+            var item3 = string.Format(CommonStrings.LastItem, listItemSpeakProperty);
+            Assert.AreEqual(response, string.Format($"{parentSpeakProperty}{SpeechUtility.BreakString}{item1}, {item2} {CommonStrings.And} {item3}"));
+        }
+
+        [TestMethod]
+        public void GetSpeechReadyStringFromActivityWithFourAttachments()
+        {
+            _activity.Attachments = new List<Attachment>
+            {
+                new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName }),
+                new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName }),
+                new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName }),
+                new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName })
+            };
+
+            var response = SpeechUtility.ListToSpeechReadyString(_activity);
+
+            var item1 = string.Format(CommonStrings.FirstItem, listItemSpeakProperty);
+            var item2 = string.Format(CommonStrings.SecondItem, listItemSpeakProperty);
+            var item3 = string.Format(CommonStrings.ThirdItem, listItemSpeakProperty);
+            var item4 = string.Format(CommonStrings.LastItem, listItemSpeakProperty);
+            Assert.AreEqual(response, string.Format($"{parentSpeakProperty}{SpeechUtility.BreakString}{item1}, {item2}, {item3} {CommonStrings.And} {item4}"));
         }
     }
 }
