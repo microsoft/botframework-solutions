@@ -1,10 +1,10 @@
 {
-  "name": "skill",
+  "name": "botskills",
   "version": "1.0.0",
   "description": "Skill command line tool for manipulating Microsoft Bot Framework skills",
-  "main": "lib/skill.js",
+  "main": "lib/botskills.js",
   "bin": {
-    "skill": "lib/skill.js"
+    "botskills": "lib/botskills.js"
   },
   "scripts": {
     "build": "tsc",
