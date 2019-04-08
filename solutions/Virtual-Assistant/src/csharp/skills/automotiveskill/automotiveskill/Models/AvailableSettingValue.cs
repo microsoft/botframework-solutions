@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
-using AutomotiveSkill.Yaml;
+using AutomotiveSkill.Utilities;
 using SharpYaml;
 using SharpYaml.Events;
 
@@ -54,7 +54,7 @@ namespace AutomotiveSkill.Models
         {
             YamlParseUtil.ConsumeMappingStart(parser);
 
-            AvailableSettingValue result = new AvailableSettingValue();
+            var result = new AvailableSettingValue();
             while (!(parser.Current is MappingEnd))
             {
                 var key = YamlParseUtil.StringFromYaml(parser);

@@ -6,7 +6,7 @@ namespace AutomotiveSkill.Models
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using global::AutomotiveSkill.Yaml;
+    using AutomotiveSkill.Utilities;
     using SharpYaml;
     using SharpYaml.Events;
 
@@ -32,7 +32,7 @@ namespace AutomotiveSkill.Models
         {
             YamlParseUtil.ConsumeMappingStart(parser);
 
-            SettingAlternativeNames result = new SettingAlternativeNames();
+            var result = new SettingAlternativeNames();
             while (!(parser.Current is MappingEnd))
             {
                 var key = YamlParseUtil.StringFromYaml(parser);
