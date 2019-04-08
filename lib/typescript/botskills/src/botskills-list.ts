@@ -45,10 +45,10 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
     //tslint:disable-next-line: no-var-requires non-literal-require
     const assistantSkills: ISkillManifest[] = require(assistantSkillsPath);
     let message: string = `The skills already connected to the assistant are the following:`;
-    assistantSkills.forEach((skillManifest) => {
+    assistantSkills.forEach((skillManifest: ISkillManifest) => {
         message += `\n\t- ${skillManifest.name}`;
     });
-    console.log(chalk.white(message))
+    console.log(chalk.white(message));
 }
 
 function showErrorHelp(): void {

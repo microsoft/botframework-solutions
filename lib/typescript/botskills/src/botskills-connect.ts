@@ -65,8 +65,8 @@ if (process.argv.length < 3) {
     const assistantSkillsPath: string = isAbsolute(args.assistantSkills) ? args.assistantSkills : join(resolve('./'), args.assistantSkills);
     if (!existsSync(assistantSkillsPath)) {
         console.error(chalk.redBright(
-        `The 'assistantSkills' argument leads to a non-existing file.`
-        + `\nPlease make sure to provide a valid path to your Assistant Skills configuration file.`));
+        `The 'assistantSkills' argument leads to a non-existing file.
+Please make sure to provide a valid path to your Assistant Skills configuration file.`));
         process.exit(1);
     }
 
