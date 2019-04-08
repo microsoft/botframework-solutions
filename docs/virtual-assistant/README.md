@@ -2,21 +2,21 @@
 
 The documentation for the Virtual Assistant solution accelerator is shown below:
 
-:runner: - Indicates planned and work in progress.
+:runner: - Indicates planned work which is in progress.
 
 | Documentation       | Description                              | common                                | csharp                                 | typescript                            |
 |---------------------|---------------------------------------   |---------------------------------------|----------------------------------------|---------------------------------------|
-| Overview            | Architecture and principle               | [View](./common/overview.md)          |                                        |                                       |
+| Overview            | Architecture and principles               | [View](./common/overview.md)          |                                        |                                       |
 | Getting Started     | Basic configuration                      |                                       | [View](./csharp/gettingstarted.md)     | [View](./typescript/gettingstarted.md)|
-| Personalization     | Personalize the key components           |                                       | [View](./csharp/personalization.md)    |                                       |
+| Personalization     | Personalize your assistant           |                                       | [View](./csharp/personalization.md)    |                                       |
 | Authentication      | Authentication approach                  | [View](./common/authentication.md)    |                                        |                                       |
 | Responses           | Types of responses                       | [View](./common/responses.md)         |                                        |                                       |
-| Testing             | Steps to test it                         |                                       | [View](./csharp/testing.md)            |                                       |
-| Events              | Handle the events                        |                                       | [View](./csharp/events.md)             |                                       | 
-| Device Integration  | Experience of the integration of devices | [View](./common/deviceintegration.md) |                                        |                                       |           
-| Proactive Messaging | Expand the scenarios                     |                                       | [View](./csharp/proactivemessaging.md) |                                       |
-| Linked Accounts     | Steps to link the accounts               |                                       | [View](./csharp/linkedaccounts.md)     |                                       |
-| Known Issues        | Our known issues                         |                                       | [View](./csharp/knownissues.md)        |                                       |
+| Testing             | Testing steps                         |                                       | [View](./csharp/testing.md)            |                                       |
+| Events              | Event handling                        |                                       | [View](./csharp/events.md)             |                                       | 
+| Device Integration  | Device integration examples | [View](./common/deviceintegration.md) |                                        |                                       |           
+| Proactive Messaging | Adding proactive experiences to your assistant                     |                                       | [View](./csharp/proactivemessaging.md) |                                       |
+| Linked Accounts     | Enable users to link 3rd party accounts (e.g. o365) to their assistant               |                                       | [View](./csharp/linkedaccounts.md)     |                                       |
+| Known Issues        | Our current known issues                         |                                       | [View](./csharp/knownissues.md)        |                                       |
 
 # Contributing
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
