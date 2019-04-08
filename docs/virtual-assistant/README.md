@@ -1,4 +1,4 @@
-# Virtual Assistant Bot
+# Virtual Assistant Solution Accelerator
 
 Here you will find the following structure of the documentation
 
