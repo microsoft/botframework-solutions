@@ -423,7 +423,7 @@ namespace CalendarSkill.Dialogs
 
                 if (CreateEventWhiteList.GetMyself(currentRecipientName))
                 {
-                    var me = await GetMe(sc);
+                    var me = await GetMe(sc.Context);
                     unionList.Add(new CustomizedPerson(me));
                 }
                 else

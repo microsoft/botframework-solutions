@@ -313,6 +313,51 @@ namespace CalendarSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Meetings about {0}.
+        /// </summary>
+        public static string MeetingsAbout {
+            get {
+                return ResourceManager.GetString("MeetingsAbout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Meetings at {0}.
+        /// </summary>
+        public static string MeetingsAt {
+            get {
+                return ResourceManager.GetString("MeetingsAt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Meetings to choose.
+        /// </summary>
+        public static string MeetingsToChoose {
+            get {
+                return ResourceManager.GetString("MeetingsToChoose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Meetings to join.
+        /// </summary>
+        public static string MeetingsToJoin {
+            get {
+                return ResourceManager.GetString("MeetingsToJoin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Meetings with {0}.
+        /// </summary>
+        public static string MeetingsWith {
+            get {
+                return ResourceManager.GetString("MeetingsWith", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to monthly.
         /// </summary>
         public static string MonthlyToken {
@@ -403,6 +448,51 @@ namespace CalendarSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Powered by **{0}**.
+        /// </summary>
+        public static string OverviewEventSource {
+            get {
+                return ResourceManager.GetString("OverviewEventSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Events overlap.
+        /// </summary>
+        public static string OverviewOverlapMeeting {
+            get {
+                return ResourceManager.GetString("OverviewOverlapMeeting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your schedule.
+        /// </summary>
+        public static string OverviewTitle {
+            get {
+                return ResourceManager.GetString("OverviewTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event {0}.
+        /// </summary>
+        public static string OverviewTotalMeetingOne {
+            get {
+                return ResourceManager.GetString("OverviewTotalMeetingOne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Events {0}.
+        /// </summary>
+        public static string OverviewTotalMeetingPlural {
+            get {
+                return ResourceManager.GetString("OverviewTotalMeetingPlural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ^(skip|no).
         /// </summary>
         public static string SkipPhrases {
@@ -426,6 +516,15 @@ namespace CalendarSkill.Responses.Shared {
         public static string TomorrowLower {
             get {
                 return ResourceManager.GetString("TomorrowLower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upcomming meeting.
+        /// </summary>
+        public static string UpcommingMeeting {
+            get {
+                return ResourceManager.GetString("UpcommingMeeting", resourceCulture);
             }
         }
         

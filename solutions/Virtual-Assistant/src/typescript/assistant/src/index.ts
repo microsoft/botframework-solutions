@@ -1,12 +1,25 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+/**
+ * Copyright(c) Microsoft Corporation.All rights reserved.
+ * Licensed under the MIT License.
+ */
 
 import { TelemetryClient } from 'applicationinsights';
-import { EventDebuggerMiddleware, SetLocaleMiddleware, SkillDefinition, TelemetryExtensions } from 'bot-solution';
+import {
+    BackgroundTaskQueue,
+    EventDebuggerMiddleware,
+    IBackgroundTaskQueue,
+    Locales,
+    ProactiveState,
+    ProactiveStateMiddleware,
+    SetLocaleMiddleware,
+    SkillDefinition,
+    SkillEvent,
+    TelemetryExtensions } from 'bot-solution';
 import {
     AutoSaveStateMiddleware,
     BotFrameworkAdapter,
     ConversationState,
+    ShowTypingMiddleware,
     TranscriptLoggerMiddleware,
     TurnContext,
     UserState
@@ -29,12 +42,14 @@ import {
 } from 'botframework-config';
 import { ActivityTypes } from 'botframework-schema';
 import { config } from 'dotenv';
-import { configure } from 'i18n';
+import i18next from 'i18next';
+import i18nextNodeFsBackend from 'i18next-node-fs-backend';
 import * as path from 'path';
 import * as restify from 'restify';
 import { BotServices } from './botServices';
 import { MainResponses } from './dialogs/main/mainResponses';
 import { default as languageModelsRaw } from './languageModels.json';
+import { default as skillEventsRaw } from './skillEvents.json';
 import { default as skillsRaw } from './skills.json';
 import { VirtualAssistant } from './virtualAssistant';
 
@@ -54,10 +69,16 @@ const STORAGE_CONFIGURATION: string = process.env.STORAGE_NAME || '';
 const BLOB_NAME: string = process.env.BLOB_NAME || '';
 
 // Configure internationalization and default locale
-configure({
-    directory: path.join(__dirname, 'locales'),
-    defaultLocale: 'en',
-    objectNotation: true
+i18next.use(i18nextNodeFsBackend)
+.init({
+    fallbackLng: 'en',
+    preload: [ 'de', 'en', 'es', 'fr', 'it', 'zh' ],
+    backend: {
+        loadPath: path.join(__dirname, 'locales', '{{lng}}.json')
+    }
+})
+.then(async () => {
+    await Locales.addResourcesFromPath(i18next, 'common');
 });
 
 function searchService(botConfiguration: IBotConfiguration, serviceType?: ServiceTypes, nameOrId?: string): IConnectedService|undefined {
@@ -73,6 +94,9 @@ function searchService(botConfiguration: IBotConfiguration, serviceType?: Servic
     return service;
 }
 
+// add background task queue
+const backgroundTaskQueue: IBackgroundTaskQueue = new BackgroundTaskQueue();
+
 // Initializes your bot language models and skills definitions
 const languageModels: Map<string, { botFilePath: string; botFileSecret: string }> = new Map(Object.entries(languageModelsRaw));
 
@@ -81,6 +105,10 @@ const skills: SkillDefinition[] = skillsRaw.map((skill: { [key: string]: Object|
     result.configuration = new Map<string, string>(Object.entries(skill.configuration || {}));
 
     return result;
+});
+
+const skillEvents: SkillEvent[] = skillEventsRaw.map((skillEvent: { [key: string]: Object|undefined }) => {
+    return Object.assign(new SkillEvent(), skillEvent);
 });
 
 try {
@@ -131,8 +159,9 @@ if (!cosmosConfig) {
 }
 
 // create conversation and user state
-const conversationState: ConversationState = new ConversationState(storage);
-const userState: UserState = new UserState(storage);
+const conversationState: ConversationState = new ConversationState(storage, 'assistant');
+const userState: UserState = new UserState(storage, 'assistant');
+const proactiveState: ProactiveState = new ProactiveState(storage);
 
 // Use the AutoSaveStateMiddleware middleware to automatically read and write conversation and user state.
 adapter.use(new AutoSaveStateMiddleware(conversationState, userState));
@@ -152,11 +181,11 @@ const transcriptStore: AzureBlobTranscriptStore = new AzureBlobTranscriptStore({
 adapter.use(new TranscriptLoggerMiddleware(transcriptStore));
 
 /* Typing Middleware
-(automatically shows typing when the bot is responding/working)
-(not implemented https://github.com/Microsoft/botbuilder-js/issues/470)
-adapter.use(new ShowTypingMiddleware());*/
+(automatically shows typing when the bot is responding/working)*/
+adapter.use(new ShowTypingMiddleware());
 adapter.use(new SetLocaleMiddleware(DEFAULT_LOCALE));
 adapter.use(new EventDebuggerMiddleware());
+adapter.use(new ProactiveStateMiddleware(proactiveState));
 
 adapter.onTurnError = async (context: TurnContext, error: Error): Promise<void> => {
     // tslint:disable-next-line:no-console
@@ -173,8 +202,15 @@ adapter.onTurnError = async (context: TurnContext, error: Error): Promise<void> 
 
 let bot: VirtualAssistant;
 try {
-    const botServices: BotServices = new BotServices(botConfig, languageModels, skills);
-    bot = new VirtualAssistant(botServices, conversationState, userState, endpointService, telemetryClient);
+    const botServices: BotServices = new BotServices(botConfig, languageModels, skills, skillEvents);
+    bot = new VirtualAssistant(
+        botServices,
+        conversationState,
+        userState,
+        proactiveState,
+        endpointService,
+        telemetryClient,
+        backgroundTaskQueue);
 } catch (err) {
     throw err;
 }

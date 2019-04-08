@@ -399,13 +399,8 @@ namespace CalendarSkill.Dialogs
                     { "ContentConfirm", contentConfirmString },
                 };
 
-                var card = new Card()
-                {
-                    Name = newEvent.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard",
-                    Data = newEvent.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true)
-                };
+                var prompt = await GetDetailMeetingResponseAsync(sc, newEvent, CreateEventResponses.ConfirmCreate, tokens);
 
-                var prompt = ResponseManager.GetCardResponse(CreateEventResponses.ConfirmCreate, card, tokens);
                 var retryPrompt = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateFailed, tokens);
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt, RetryPrompt = retryPrompt }, cancellationToken);
             }
@@ -446,14 +441,7 @@ namespace CalendarSkill.Dialogs
 
                         newEvent.ContentPreview = state.Content;
 
-                        var replyMessage = ResponseManager.GetCardResponse(
-                            CreateEventResponses.EventCreated,
-                            new Card()
-                            {
-                                Name = newEvent.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard",
-                                Data = newEvent.ToAdaptiveCardData(state.GetUserTimeZone(), showContent: true)
-                            },
-                            tokens);
+                        var replyMessage = await GetDetailMeetingResponseAsync(sc, newEvent, CreateEventResponses.EventCreated, tokens);
 
                         await sc.Context.SendActivityAsync(replyMessage, cancellationToken);
                     }

@@ -148,7 +148,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\..\lib\csharp\microsoft.bot.builder.skills\Microsoft.Bot.Builder.Skills\Microsoft.Bot.Builder.Skills.csproj" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <None Update="Responses\DeleteEmail\DeleteEmailResponses.tt">
       <LastGenOutput>DeleteEmailResponses.cs</LastGenOutput>

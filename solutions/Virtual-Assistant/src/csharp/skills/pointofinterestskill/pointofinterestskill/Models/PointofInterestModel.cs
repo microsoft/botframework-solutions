@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -10,31 +12,13 @@ using PointOfInterestSkill.Models.Foursquare;
 namespace PointOfInterestSkill.Models
 {
     /// <summary>
-    /// Source of event.
-    /// </summary>
-    public enum PointofInterestSource
-    {
-        /// <summary>
-        /// Point of Interest from Azure Maps.
-        /// </summary>
-        AzureMaps = 1,
-
-        /// <summary>
-        /// Point of Interest from Foursquare.
-        /// </summary>
-        Foursquare = 2,
-
-        /// <summary>
-        /// Point of Interest from other.
-        /// </summary>
-        Other = 0,
-    }
-
-    /// <summary>
     /// Point of Interest mapping entity.
     /// </summary>
     public partial class PointOfInterestModel : ICardData
     {
+        public const string AzureMaps = "Azure Maps";
+        public const string Foursquare = "Foursquare";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PointOfInterestModel"/> class.、
         /// DO NOT USE THIS ONE.
@@ -66,7 +50,15 @@ namespace PointOfInterestSkill.Models
             Category = (azureMapsPoi.Poi?.Categories != null)
             ? CultureInfo.CurrentCulture.TextInfo.ToTitleCase(azureMapsPoi.Poi.Categories.First().ToLower())
             : Category;
-            Provider = Enum.GetName(typeof(PointofInterestSource), 1);
+
+            if (Provider == null)
+            {
+                Provider = new SortedSet<string> { AzureMaps };
+            }
+            else
+            {
+                Provider.Add(AzureMaps);
+            }
         }
 
         /// <summary>
@@ -78,9 +70,9 @@ namespace PointOfInterestSkill.Models
             Id = !string.IsNullOrEmpty(foursquarePoi.Id)
                 ? foursquarePoi.Id
                 : Id;
-            ImageUrl = !string.IsNullOrEmpty(foursquarePoi.BestPhoto?.AbsoluteUrl)
+            PointOfInterestImageUrl = !string.IsNullOrEmpty(foursquarePoi.BestPhoto?.AbsoluteUrl)
                ? foursquarePoi.BestPhoto?.AbsoluteUrl
-               : ImageUrl;
+               : PointOfInterestImageUrl;
             Name = !string.IsNullOrEmpty(foursquarePoi.Name)
                 ? foursquarePoi.Name
                 : Name;
@@ -107,7 +99,15 @@ namespace PointOfInterestSkill.Models
             Category = (foursquarePoi.Categories != null)
                 ? foursquarePoi.Categories.First().ShortName
                 : Category;
-            Provider = Enum.GetName(typeof(PointofInterestSource), 2);
+
+            if (Provider == null)
+            {
+                Provider = new SortedSet<string> { Foursquare };
+            }
+            else
+            {
+                Provider.Add(Foursquare);
+            }
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace PointOfInterestSkill.Models
         /// <value>
         /// The image URL of this point of interest.
         /// </value>
-        public string ImageUrl { get; set; }
+        public string PointOfInterestImageUrl { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the point of interest.
@@ -226,13 +226,22 @@ namespace PointOfInterestSkill.Models
         public string Category { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the point of interest.
+        /// Gets or sets the name of the provider.
+        /// Availability: Azure Maps, Foursquare.
+        /// </summary>
+        /// <value>
+        /// The provider of this provider.
+        /// </value>
+        public SortedSet<string> Provider { get; set; }
+
+        /// <summary>
+        /// Gets or sets the formatted name of providers.
         /// Availability: Azure Maps, Foursquare.
         /// </summary>
         /// <value>
         /// The provider of this point of interest.
         /// </value>
-        public string Provider { get; set; }
+        public string ProviderDisplayText { get; set; }
 
         /// <summary>
         /// Gets or sets the index number of the point of interest.

@@ -145,7 +145,7 @@ namespace EmailSkill.Dialogs
                     return await sc.EndDialogAsync();
                 }
 
-                if (IsEmail(userInput))
+                if (Util.Util.IsEmail(userInput))
                 {
                     if (!state.EmailList.Contains(userInput))
                     {
@@ -184,7 +184,7 @@ namespace EmailSkill.Dialogs
                     return await sc.BeginDialogAsync(Actions.UpdateRecipientName, new UpdateUserDialogOptions(UpdateUserDialogOptions.UpdateReason.NotFound));
                 }
 
-                var unionList = new List<Person>();
+                var unionList = new List<PersonModel>();
 
                 if (state.FirstEnterFindContact || state.EmailList.Count > 0)
                 {
@@ -230,14 +230,16 @@ namespace EmailSkill.Dialogs
                 {
                     var currentRecipientName = state.NameList[state.ConfirmRecipientIndex];
 
-                    var originPersonList = await GetPeopleWorkWithAsync(sc.Context, currentRecipientName);
-                    var originContactList = await GetContactsAsync(sc.Context, currentRecipientName);
+                    var token = state.Token;
+                    var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
+                    var originPersonList = await service.GetPeopleAsync(currentRecipientName);
+                    var originContactList = await service.GetContactsAsync(currentRecipientName);
                     originPersonList.AddRange(originContactList);
 
-                    var originUserList = new List<Person>();
+                    var originUserList = new List<PersonModel>();
                     try
                     {
-                        originUserList = await GetUserAsync(sc.Context, currentRecipientName);
+                        originUserList = await service.GetUserAsync(currentRecipientName);
                     }
                     catch
                     {
@@ -247,7 +249,7 @@ namespace EmailSkill.Dialogs
                     (var personList, var userList) = DisplayHelper.FormatRecipientList(originPersonList, originUserList);
 
                     // people you work with has the distinct email address has the highest priority
-                    if (personList.Count == 1 && personList.First().ScoredEmailAddresses.Count() == 1 && personList.First().ScoredEmailAddresses != null && !string.IsNullOrEmpty(personList.First().ScoredEmailAddresses.First().Address))
+                    if (personList.Count == 1 && personList.First().Emails != null && personList.First().Emails?.Count() == 1 && !string.IsNullOrEmpty(personList.First().Emails.First()))
                     {
                         state.ConfirmedPerson = personList.First();
                         return await sc.ReplaceDialogAsync(Actions.ConfirmEmail, personList.First());
@@ -267,19 +269,19 @@ namespace EmailSkill.Dialogs
                             else
                             {
                                 var unionPerson = personWithSameName.FirstOrDefault();
-                                var emailList = new List<ScoredEmailAddress>();
+                                var emailList = new List<string>();
                                 foreach (var sameNamePerson in personWithSameName)
                                 {
-                                    sameNamePerson.ScoredEmailAddresses.ToList().ForEach(e =>
+                                    foreach (var email in sameNamePerson.Emails)
                                     {
-                                        if (e != null && !string.IsNullOrEmpty(e.Address))
+                                        if (!string.IsNullOrEmpty(email))
                                         {
-                                            emailList.Add(e);
+                                            emailList.Add(email);
                                         }
-                                    });
+                                    }
                                 }
 
-                                unionPerson.ScoredEmailAddresses = emailList;
+                                unionPerson.Emails = emailList;
                                 unionList.Add(unionPerson);
                             }
                         }
@@ -290,7 +292,8 @@ namespace EmailSkill.Dialogs
                     return await sc.EndDialogAsync();
                 }
 
-                unionList.RemoveAll(person => !person.ScoredEmailAddresses.ToList().Exists(email => email.Address != null));
+                unionList.RemoveAll(person => !person.Emails.Exists(email => email != null));
+                unionList.RemoveAll(person => !person.Emails.Any());
 
                 state.UnconfirmedPerson = unionList;
 
@@ -411,17 +414,17 @@ namespace EmailSkill.Dialogs
         public async Task<DialogTurnResult> ConfirmEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await EmailStateAccessor.GetAsync(sc.Context);
-            var confirmedPerson = sc.Options as Person;
+            var confirmedPerson = sc.Options as PersonModel;
             var name = confirmedPerson.DisplayName;
-            if (confirmedPerson.ScoredEmailAddresses.Count() == 1)
+            if (confirmedPerson.Emails.Count == 1)
             {
                 // Highest probability
-                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "UserName", name }, { "EmailAddress", confirmedPerson.ScoredEmailAddresses.First().Address } }), });
+                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "UserName", name }, { "EmailAddress", confirmedPerson.Emails.First() } }), });
             }
             else
             {
                 var emailString = string.Empty;
-                var emailList = confirmedPerson.ScoredEmailAddresses.ToList();
+                var emailList = confirmedPerson.Emails;
 
                 if (emailList.Count <= ConfigData.GetInstance().MaxDisplaySize)
                 {
@@ -449,7 +452,7 @@ namespace EmailSkill.Dialogs
                         var emailAddress = new EmailAddress
                         {
                             Name = name,
-                            Address = confirmedPerson.ScoredEmailAddresses.First().Address
+                            Address = confirmedPerson.Emails.First()
                         };
                         recipient.EmailAddress = emailAddress;
                         if (state.Recipients.All(r => r.EmailAddress.Address != emailAddress.Address))
@@ -544,7 +547,7 @@ namespace EmailSkill.Dialogs
                         // Clean up data
                         state.ShowRecipientIndex = 0;
                         state.ReadRecipientIndex = 0;
-                        state.ConfirmedPerson = new Person();
+                        state.ConfirmedPerson = new PersonModel();
                         state.RecipientChoiceList.Clear();
                     }
                 }
@@ -606,13 +609,13 @@ namespace EmailSkill.Dialogs
             return nameString;
         }
 
-        private async Task<PromptOptions> GenerateOptionsForEmail(WaterfallStepContext sc, Person confirmedPerson, ITurnContext context, bool isSinglePage = true)
+        private async Task<PromptOptions> GenerateOptionsForEmail(WaterfallStepContext sc, PersonModel confirmedPerson, ITurnContext context, bool isSinglePage = true)
         {
             var state = await EmailStateAccessor.GetAsync(context);
             var pageIndex = state.ShowRecipientIndex;
             var pageSize = ConfigData.GetInstance().MaxDisplaySize;
             var skip = pageSize * pageIndex;
-            var emailList = confirmedPerson.ScoredEmailAddresses.ToList();
+            var emailList = confirmedPerson.Emails;
 
             // Go back to the last page when reaching the end.
             if (skip >= emailList.Count && pageIndex > 0)
@@ -638,7 +641,7 @@ namespace EmailSkill.Dialogs
             for (var i = 0; i < emailList.Count; i++)
             {
                 var user = confirmedPerson;
-                var mailAddress = emailList[i].Address ?? user.UserPrincipalName;
+                var mailAddress = emailList[i] ?? user.UserPrincipalName;
 
                 var choice = new Choice()
                 {
@@ -694,7 +697,7 @@ namespace EmailSkill.Dialogs
             return result;
         }
 
-        private async Task<PromptOptions> GenerateOptionsForName(WaterfallStepContext sc, List<Person> unionList, ITurnContext context, bool isSinglePage = true)
+        private async Task<PromptOptions> GenerateOptionsForName(WaterfallStepContext sc, List<PersonModel> unionList, ITurnContext context, bool isSinglePage = true)
         {
             var state = await EmailStateAccessor.GetAsync(context);
             var pageIndex = state.ShowRecipientIndex;

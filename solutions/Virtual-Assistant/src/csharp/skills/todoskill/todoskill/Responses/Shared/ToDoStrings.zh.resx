@@ -120,6 +120,15 @@
   <data name="And" xml:space="preserve">
     <value>和{0}。</value>
   </data>
+  <data name="CardMultiNumber" xml:space="preserve">
+    <value>{0}个代办事项</value>
+  </data>
+  <data name="CardOneNumber" xml:space="preserve">
+    <value>{0}个代办事项</value>
+  </data>
+  <data name="CardTitle" xml:space="preserve">
+    <value>您的{0}列表</value>
+  </data>
   <data name="EmailContent" xml:space="preserve">
     <value>请参照链接&lt;a href="{0}"&gt;{1}&lt;/a&gt;查看您的列表</value>
   </data>

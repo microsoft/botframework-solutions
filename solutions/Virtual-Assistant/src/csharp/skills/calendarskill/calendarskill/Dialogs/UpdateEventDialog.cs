@@ -110,14 +110,7 @@ namespace CalendarSkill.Dialogs
                 origin.StartTime = newStartTime;
                 origin.EndTime = (newStartTime + last).AddSeconds(1);
 
-                var replyMessage = ResponseManager.GetCardResponse(
-                    UpdateEventResponses.ConfirmUpdate,
-                    new Card()
-                    {
-                        Name = origin.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard",
-                        Data = origin.ToAdaptiveCardData(state.GetUserTimeZone())
-                    },
-                    null);
+                var replyMessage = await GetDetailMeetingResponseAsync(sc, origin, UpdateEventResponses.ConfirmUpdate);
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
@@ -157,14 +150,7 @@ namespace CalendarSkill.Dialogs
                     var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                     var newEvent = await calendarService.UpdateEventById(updateEvent);
 
-                    var replyMessage = ResponseManager.GetCardResponse(
-                        UpdateEventResponses.EventUpdated,
-                        new Card()
-                        {
-                            Name = newEvent.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard",
-                            Data = newEvent.ToAdaptiveCardData(state.GetUserTimeZone())
-                        },
-                        null);
+                    var replyMessage = await GetDetailMeetingResponseAsync(sc, newEvent, UpdateEventResponses.EventUpdated);
 
                     await sc.Context.SendActivityAsync(replyMessage);
                 }
@@ -468,19 +454,9 @@ namespace CalendarSkill.Dialogs
                         options.Choices.Add(choice);
                     }
 
-                    var cards = new List<Card>();
-                    foreach (var item in state.Events)
-                    {
-                        cards.Add(new Card()
-                        {
-                            Name = item.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard",
-                            Data = item.ToAdaptiveCardData(state.GetUserTimeZone())
-                        });
-                    }
+                    var prompt = await GetGeneralMeetingListResponseAsync(sc, CalendarCommonStrings.MeetingsToChoose, state.Events, UpdateEventResponses.MultipleEventsStartAtSameTime, null);
 
-                    options.Prompt = ResponseManager.GetCardResponse(
-                        UpdateEventResponses.MultipleEventsStartAtSameTime,
-                        cards);
+                    options.Prompt = prompt;
 
                     return await sc.PromptAsync(Actions.EventChoice, options);
                 }

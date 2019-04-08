@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Dialogs\Shared\Resources\Cards\PointOfInterestDetails.json" />
+    <Content Remove="Dialogs\Shared\Resources\Cards\PointOfInterestDetailsWithRoute.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
@@ -52,6 +57,16 @@
       <DependentUpon>RouteResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Responses\Shared\PointOfInterestSharedStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PointOfInterestBotResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings - Copy.Designer.cs">
+      <DependentUpon>PointOfInterestSharedStrings.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings - Copy.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>PointOfInterestSharedStrings.resx</DependentUpon>
@@ -202,12 +217,34 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="wwwroot\images\default_pointofinterest.jpg">
+    <Content Update="wwwroot\images\header_background.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings.zh.resx">
+      <LastGenOutput>PointOfInterestSharedStrings.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings.it.resx">
+      <LastGenOutput>PointOfInterestSharedStrings.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings.fr.resx">
+      <LastGenOutput>PointOfInterestSharedStrings.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings.es.resx">
+      <LastGenOutput>PointOfInterestSharedStrings.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings.de.resx">
+      <LastGenOutput>PointOfInterestSharedStrings.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Dialogs\Shared\Resources\PointOfInterestSharedStrings.resx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     <Folder Include="Responses\FindParking\" />
   </ItemGroup>
 

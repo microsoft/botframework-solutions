@@ -34,9 +34,14 @@ namespace CalendarSkill.Services
             return await userService.GetContactsAsync(name);
         }
 
-        public async Task<PersonModel> GetMe()
+        public async Task<PersonModel> GetMeAsync()
         {
-            return await userService.GetMe();
+            return await userService.GetMeAsync();
+        }
+
+        public async Task<string> GetPhotoAsync(string id)
+        {
+            return await userService.GetPhotoAsync(id);
         }
     }
 }

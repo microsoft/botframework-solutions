@@ -1,4 +1,5 @@
-﻿using Microsoft.Bot.Builder.Solutions.Responses;
+﻿using EmailSkill.Util;
+using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace EmailSkill.Models
 {
@@ -17,5 +18,26 @@ namespace EmailSkill.Models
         public string EmailLink { get; set; }
 
         public string Speak { get; set; }
+
+        public string SenderIcon { get; set; }
+
+        // Placeholder for important email flag or email attachment
+        public string AdditionalIcon1 { get; set; } = AdaptiveCardHelper.DefaultIcon;
+
+        // Placeholder for email attachment
+        public string AdditionalIcon2 { get; set; } = AdaptiveCardHelper.DefaultIcon;
+
+        // RecipientIcons
+        public string RecipientIcon0 { get; set; } = AdaptiveCardHelper.DefaultIcon;
+
+        public string RecipientIcon1 { get; set; } = AdaptiveCardHelper.DefaultIcon;
+
+        public string RecipientIcon2 { get; set; } = AdaptiveCardHelper.DefaultIcon;
+
+        public string RecipientIcon3 { get; set; } = AdaptiveCardHelper.DefaultIcon;
+
+        public string RecipientIcon4 { get; set; } = AdaptiveCardHelper.DefaultIcon;
+
+        public string AdditionalRecipientNumber { get; set; }
     }
 }

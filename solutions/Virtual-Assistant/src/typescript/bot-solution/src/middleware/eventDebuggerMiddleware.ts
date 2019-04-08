@@ -1,3 +1,8 @@
+/**
+ * Copyright(c) Microsoft Corporation.All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import { Activity, ActivityTypes, Middleware, TurnContext } from 'botbuilder';
 
 export class EventDebuggerMiddleware implements Middleware {

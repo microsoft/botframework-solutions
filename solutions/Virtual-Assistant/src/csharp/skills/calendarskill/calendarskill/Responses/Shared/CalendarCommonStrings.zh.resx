@@ -249,4 +249,37 @@
   <data name="AskForTitle" xml:space="preserve">
     <value>(什么|啥).*(标题|主题|抬头)</value>
   </data>
+  <data name="OverviewEventSource" xml:space="preserve">
+    <value>由**{0}**提供</value>
+  </data>
+  <data name="OverviewOverlapMeeting" xml:space="preserve">
+    <value>个会议有冲突</value>
+  </data>
+  <data name="OverviewTitle" xml:space="preserve">
+    <value>您的日程</value>
+  </data>
+  <data name="OverviewTotalMeetingOne" xml:space="preserve">
+    <value>个会议在 {0}</value>
+  </data>
+  <data name="OverviewTotalMeetingPlural" xml:space="preserve">
+    <value>个会议在 {0}</value>
+  </data>
+  <data name="MeetingsAbout" xml:space="preserve">
+    <value>关于{0}的会议</value>
+  </data>
+  <data name="MeetingsAt" xml:space="preserve">
+    <value>发生在{0}的会议</value>
+  </data>
+  <data name="MeetingsToChoose" xml:space="preserve">
+    <value>候选会议</value>
+  </data>
+  <data name="MeetingsToJoin" xml:space="preserve">
+    <value>将要参加的会议</value>
+  </data>
+  <data name="MeetingsWith" xml:space="preserve">
+    <value>与{0}的会议</value>
+  </data>
+  <data name="UpcommingMeeting" xml:space="preserve">
+    <value>即将发生的会议</value>
+  </data>
 </root>

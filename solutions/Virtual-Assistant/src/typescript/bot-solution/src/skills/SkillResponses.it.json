@@ -1,0 +1,11 @@
+{
+    "ErrorMessageSkillError": {
+      "replies": [
+        {
+          "speak": "Ci dispiace, qualcosa è andato storto cercando di comunicare con l'abilità. Per favore riprova.",
+          "text": "Ci dispiace, qualcosa è andato storto cercando di comunicare con l'abilità. Per favore riprova."
+        }
+      ],
+      "inputHint": "expectingInput"
+    }
+  }

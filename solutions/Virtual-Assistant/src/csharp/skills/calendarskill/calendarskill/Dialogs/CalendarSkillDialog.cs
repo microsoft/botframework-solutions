@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,8 +26,10 @@ using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
+using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
 using Microsoft.Recognizers.Text.DateTime;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using static Microsoft.Recognizers.Text.Culture;
 
@@ -299,22 +304,188 @@ namespace CalendarSkill.Dialogs
         }
 
         // Helpers
-        protected async Task ShowMeetingList(DialogContext dc, List<EventModel> events, bool showDate = true)
+        protected async Task<Activity> GetOverviewMeetingListResponseAsync(DialogContext dc, List<EventModel> events, int totalCount, int overlapEventCount, string templateId, StringDictionary tokens = null)
         {
             var state = await Accessor.GetAsync(dc.Context);
 
-            var cards = new List<Card>();
+            var overviewCard = new Card()
+            {
+                Name = "CalendarOverview",
+                Data = new CalendarMeetingListCardData()
+                {
+                    ListTitle = CalendarCommonStrings.OverviewTitle,
+                    TotalEventCount = totalCount.ToString(),
+                    OverlapEventCount = overlapEventCount.ToString(),
+                    TotalEventCountUnit = string.Format(
+                        totalCount == 1 ? CalendarCommonStrings.OverviewTotalMeetingOne : CalendarCommonStrings.OverviewTotalMeetingPlural,
+                        state.StartDateString ?? CalendarCommonStrings.TodayLower),
+                    OverlapEventCountUnit = CalendarCommonStrings.OverviewOverlapMeeting,
+                    Provider = string.Format(CalendarCommonStrings.OverviewEventSource, events[0].SourceString()),
+                    UserPhoto = await GetMyPhotoUrlAsync(dc.Context)
+                }
+            };
+
+            var eventItemList = await GetMeetingCardListAsync(dc, events);
+
+            return ResponseManager.GetCardResponse(templateId, overviewCard, tokens, "EventItemContainer", eventItemList);
+        }
+
+        protected async Task<Activity> GetGeneralMeetingListResponseAsync(DialogContext dc, string listTitle, List<EventModel> events, string templateId, StringDictionary tokens = null)
+        {
+            var state = await Accessor.GetAsync(dc.Context);
+
+            var overviewCard = new Card()
+            {
+                Name = "CalendarGeneralMeetingList",
+                Data = new CalendarMeetingListCardData()
+                {
+                    ListTitle = listTitle,
+                    TotalEventCount = null,
+                    OverlapEventCount = null,
+                    TotalEventCountUnit = null,
+                    OverlapEventCountUnit = null,
+                    Provider = string.Format(CalendarCommonStrings.OverviewEventSource, events[0].SourceString()),
+                    UserPhoto = await GetMyPhotoUrlAsync(dc.Context)
+                }
+            };
+
+            var eventItemList = await GetMeetingCardListAsync(dc, events);
+
+            return ResponseManager.GetCardResponse(templateId, overviewCard, tokens, "EventItemContainer", eventItemList);
+        }
+
+        private async Task<List<Card>> GetMeetingCardListAsync(DialogContext dc, List<EventModel> events)
+        {
+            var state = await Accessor.GetAsync(dc.Context);
+
+            var eventItemList = new List<Card>();
+
+            DateTime? currentAddedDateUser = null;
             foreach (var item in events)
             {
-                cards.Add(new Card()
+                var itemDateUser = TimeConverter.ConvertUtcToUserTime(item.StartTime, state.GetUserTimeZone());
+                if (currentAddedDateUser == null || !currentAddedDateUser.Value.Date.Equals(itemDateUser.Date))
                 {
-                    Name = item.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard",
-                    Data = item.ToAdaptiveCardData(state.GetUserTimeZone(), showDate)
+                    currentAddedDateUser = itemDateUser;
+                    eventItemList.Add(new Card()
+                    {
+                        Name = "CalendarDate",
+                        Data = new CalendarDateCardData()
+                        {
+                            Date = currentAddedDateUser.Value.ToString("dddd, MMMM d").ToUpper()
+                        }
+                    });
+                }
+
+                eventItemList.Add(new Card()
+                {
+                    Name = "CalendarItem",
+                    Data = item.ToAdaptiveCardData(state.GetUserTimeZone())
                 });
             }
 
-            var reply = ResponseManager.GetCardResponse(cards);
-            await dc.Context.SendActivityAsync(reply);
+            return eventItemList;
+        }
+
+        protected async Task<Activity> GetDetailMeetingResponseAsync(DialogContext dc, EventModel eventItem, string templateId, StringDictionary tokens = null)
+        {
+            var state = await Accessor.GetAsync(dc.Context);
+
+            var detailCard = new Card()
+            {
+                Name = eventItem.OnlineMeetingUrl == null ? "CalendarDetailNoJoinButton" : "CalendarDetail",
+                Data = new CalendarDetailCardData()
+                {
+                    Title = eventItem.Title,
+                    DateTime = TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, state.GetUserTimeZone()).ToString("MMMM M/d @ h:mm tt"),
+                    Location = eventItem.Location,
+                    Content = eventItem.ContentPreview,
+                    MeetingLink = eventItem.OnlineMeetingUrl,
+                    LocationIcon = string.IsNullOrEmpty(eventItem.Location) ? AdaptiveCardHelper.BlankIcon : AdaptiveCardHelper.LocationIcon
+                }
+            };
+
+            var participantContainerList = new List<Card>();
+
+            var participantContainerCard = new Card()
+            {
+                Name = eventItem.Attendees.Count > 5 ? "CalendarDetailContainerParticipantsMore" : "CalendarDetailContainerParticipantsLess",
+                Data = new CalendarDetailContainerCardData()
+                {
+                    ParticipantPhoto1 = await GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, 0),
+                    ParticipantPhoto2 = await GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, 1),
+                    ParticipantPhoto3 = await GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, 2),
+                    ParticipantPhoto4 = await GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, 3),
+                    ParticipantPhoto5 = await GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, 4),
+                    OmittedParticipantCount = eventItem.Attendees.Count - 4
+                }
+            };
+
+            participantContainerList.Add(participantContainerCard);
+
+            return ResponseManager.GetCardResponse(templateId, detailCard, tokens, "CalendarDetailContainer", participantContainerList);
+        }
+
+        private async Task<string> GetPhotoByIndexAsync(ITurnContext context, List<EventModel.Attendee> attendees, int index)
+        {
+            if (attendees.Count <= index)
+            {
+                return AdaptiveCardHelper.BlankIcon;
+            }
+
+            return await GetUserPhotoUrlAsync(context, attendees[index]);
+        }
+
+        protected async Task<string> GetMyPhotoUrlAsync(ITurnContext context)
+        {
+            var state = await Accessor.GetAsync(context);
+            var token = state.APIToken;
+            var service = ServiceManager.InitUserService(token, state.EventSource);
+
+            PersonModel me = null;
+
+            try
+            {
+                me = await service.GetMeAsync();
+                if (me != null && !string.IsNullOrEmpty(me.Photo))
+                {
+                    return me.Photo;
+                }
+
+                var displayName = me == null ? AdaptiveCardHelper.DefaultMe : me.DisplayName != null ? me.DisplayName : (me.UserPrincipalName != null ? me.UserPrincipalName : AdaptiveCardHelper.DefaultMe);
+                return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
+            }
+            catch (Exception)
+            {
+            }
+
+            return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, AdaptiveCardHelper.DefaultMe);
+        }
+
+        protected async Task<string> GetUserPhotoUrlAsync(ITurnContext context, EventModel.Attendee attendee)
+        {
+            var state = await Accessor.GetAsync(context);
+            var token = state.APIToken;
+            var service = ServiceManager.InitUserService(token, state.EventSource);
+            var displayName = attendee.DisplayName != null ? attendee.DisplayName : attendee.Address;
+
+            PersonModel user = null;
+
+            try
+            {
+                var url = await service.GetPhotoAsync(attendee.Address);
+                if (!string.IsNullOrEmpty(url))
+                {
+                    return url;
+                }
+
+                return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
+            }
+            catch (Exception)
+            {
+            }
+
+            return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
         }
 
         protected bool IsRelativeTime(string userInput, string resolverResult, string timex)
@@ -1084,12 +1255,12 @@ namespace CalendarSkill.Dialogs
             return result;
         }
 
-        protected async Task<PersonModel> GetMe(WaterfallStepContext sc)
+        protected async Task<PersonModel> GetMe(ITurnContext context)
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await Accessor.GetAsync(context);
             var token = state.APIToken;
             var service = ServiceManager.InitUserService(token, state.EventSource);
-            return await service.GetMe();
+            return await service.GetMeAsync();
         }
 
         protected string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)

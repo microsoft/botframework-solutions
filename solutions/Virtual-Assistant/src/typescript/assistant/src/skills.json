@@ -21,7 +21,8 @@
             "googleClientId": "",
             "googleClientSecret": "",
             "googleScopes": "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts",
-            "displaySize": "3"
+            "displaySize": "3",
+            "ClassName": "CalendarSkill"
         }
     },
     {
@@ -47,7 +48,8 @@
             "googleClientSecret": "",
             "googleScopes": "https://mail.google.com/ https://www.googleapis.com/auth/contacts",
             "readSize": "3",
-            "displaySize": "3"
+            "displaySize": "3",
+            "ClassName": "EmailSkill"
         }
     },
     {
@@ -67,7 +69,8 @@
         "configuration": {
             "TaskServiceProvider": "Outlook",
             "ReadSize": "3",
-            "DisplaySize": "6"
+            "DisplaySize": "6",
+            "ClassName": "ToDoSkill"
         }
     },
     {
@@ -85,7 +88,28 @@
             "IPA.Timezone"
         ],
         "configuration": {
-            "AzureMapsKey": ""
+            "AzureMapsKey": "",
+            "ClassName": "PointOfInterestSkill"
+        }
+    },
+    {
+        "type": "skill",
+        "id": "sampleSkill",
+        "name": "sampleSkill",
+        "assembly": "http://localhost:3980/api/skill/messages",
+        "dispatchIntent": "l_Sample",
+        "luisServiceIds": [
+            "sample",
+            "general"
+        ],
+        "parameters": [
+            "IPA.Location",
+            "IPA.Timezone"
+        ],
+        "configuration": {
+            "AzureMapsKey": "",
+            "ClassName": "SampleSkill",
+            "botUrl": "http://localhost:3980/api/skill/messages"
         }
     }
 ]

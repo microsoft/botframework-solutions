@@ -1,47 +1,64 @@
-/* tslint:disable:no-any */
+/**
+ * Copyright(c) Microsoft Corporation.All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import { Activity, ActivityTypes, AutoSaveStateMiddleware, BotTelemetryClient, ConversationState,
     MemoryStorage, Storage, TurnContext, UserState } from 'botbuilder';
 import { CosmosDbStorage, CosmosDbStorageSettings } from 'botbuilder-azure';
 import { ComponentDialog, Dialog, DialogContext, DialogTurnResult, DialogTurnStatus } from 'botbuilder-dialogs';
 import { IEndpointService } from 'botframework-config';
+import { join } from 'path';
 import { IProviderTokenResponse, isProviderTokenResponse, MultiProviderAuthDialog } from '../authentication';
 import { ActivityExtensions } from '../extensions';
 import { EventDebuggerMiddleware, SetLocaleMiddleware, TelemetryExtensions } from '../middleware';
-import { CommonResponses } from '../resources';
+import { ProactiveState } from '../proactive';
 import { ResponseManager } from '../responses/responseManager';
+import { IBackgroundTaskQueue } from '../taskExtensions';
 import { InProcAdapter } from './inProcAdapter';
 import { SkillConfigurationBase } from './skillConfigurationBase';
 import { SkillDefinition } from './skillDefinition';
 import { ISkillDialogOptions } from './skillDialogOptions';
+import { SkillResponses } from './skillResponses';
 
 export class SkillDialog extends ComponentDialog {
     // Fields
     private readonly skillDefinition: SkillDefinition;
     private readonly skillConfiguration: SkillConfigurationBase;
-    private readonly responseManager: any; // ResponseManager;
+    private readonly responseManager: ResponseManager;
+    private readonly proactiveState: ProactiveState;
     private readonly endpointService: IEndpointService;
+    private readonly backgroundTaskQueue: IBackgroundTaskQueue;
     private readonly useCachedTokens: boolean;
-    private inProcAdapter: InProcAdapter = new InProcAdapter();
-    private activatedSkill: any; // IBot;
+    private readonly skillsDirectory: string = process.env.SKILLS_DIRECTORY || '';
+    private inProcAdapter!: InProcAdapter;
+    private activatedSkill!: { onTurn(context: TurnContext): Promise<void> }; // IBot;
     private skillInitialized: boolean;
+
+    private readonly pathToBot: string = 'pathToBot';
+    private readonly className: string = 'ClassName';
 
     constructor(skillDefinition: SkillDefinition,
                 skillConfiguration: SkillConfigurationBase,
+                proactiveState: ProactiveState,
                 endpointService: IEndpointService,
                 telemetryClient: BotTelemetryClient,
+                backgroundTaskQueue: IBackgroundTaskQueue,
                 useCachedTokens: boolean = true) {
         super(skillDefinition.id);
 
         this.skillDefinition = skillDefinition;
         this.skillConfiguration = skillConfiguration;
+        this.proactiveState = proactiveState;
         this.endpointService = endpointService;
         this.telemetryClient = telemetryClient;
+        this.backgroundTaskQueue = backgroundTaskQueue;
         this.useCachedTokens = useCachedTokens;
 
         this.skillInitialized = false;
 
         const supportedLanguages: string[] = Array.from(skillConfiguration.localeConfigurations.keys());
-        this.responseManager = new ResponseManager([CommonResponses], supportedLanguages);
+        this.responseManager = new ResponseManager(supportedLanguages, [SkillResponses]);
 
         this.addDialog(new MultiProviderAuthDialog(skillConfiguration));
     }
@@ -96,7 +113,7 @@ export class SkillDialog extends ComponentDialog {
         return this.forwardToSkill(innerDC, activity);
     }
 
-    protected endComponent(outerDC: DialogContext, result: any): Promise<DialogTurnResult> {
+    protected endComponent(outerDC: DialogContext, result: Object): Promise<DialogTurnResult> {
         return outerDC.endDialog(result);
     }
 
@@ -118,9 +135,16 @@ export class SkillDialog extends ComponentDialog {
 
             // Create skill instance
             try {
-                // PENDING: create skill
-                this.activatedSkill = undefined;
-                throw new Error('Creation of skills not implemented');
+                const skillDirectory: string = join(this.skillsDirectory, <string> this.skillConfiguration.properties[this.pathToBot]);
+                // tslint:disable-next-line:non-literal-require no-any
+                const skillModule: any = require(skillDirectory);
+                const skillClassName: string = <string> this.skillConfiguration.properties[this.className];
+                this.activatedSkill = new skillModule[skillClassName](
+                    this.skillConfiguration,
+                    conversationState,
+                    userState,
+                    this._telemetryClient,
+                    true);
 
             } catch (error) {
                 const message: string = `Skill '${this.skillDefinition.name}' could not be created. (${error})`;
@@ -131,7 +155,7 @@ export class SkillDialog extends ComponentDialog {
             this.inProcAdapter = new InProcAdapter();
 
             this.inProcAdapter.onTurnError = async (context: TurnContext, error: Error): Promise<void> => {
-                await context.sendActivity(this.responseManager.getResponse(CommonResponses.errorMessage_SkillError));
+                await context.sendActivity(this.responseManager.getResponse(SkillResponses.errorMessageSkillError));
 
                 const traceActivity: Partial<Activity> = {
                     type: ActivityTypes.Trace,
@@ -144,9 +168,16 @@ export class SkillDialog extends ComponentDialog {
                 TelemetryExtensions.trackExceptionEx(this.telemetryClient, error, context.activity);
             };
 
+            this.inProcAdapter.backgroundTaskQueue = this.backgroundTaskQueue;
+
             this.inProcAdapter.use(new EventDebuggerMiddleware());
-            // PENDING: Apply this fix from C# https://github.com/Microsoft/AI/pull/878
-            this.inProcAdapter.use(new SetLocaleMiddleware(dc.context.activity.locale || 'en-us'));
+
+            let locale: string = 'en-us';
+            if (dc.context.activity.locale) {
+                locale = dc.context.activity.locale;
+            }
+            this.inProcAdapter.use(new SetLocaleMiddleware(locale));
+
             this.inProcAdapter.use(new AutoSaveStateMiddleware(userState, conversationState));
 
             this.skillInitialized = true;
@@ -165,9 +196,21 @@ export class SkillDialog extends ComponentDialog {
                 await this.initializeSkill(innerDc);
             }
 
-            await this.inProcAdapter.processActivity(activity, async (skillContext: TurnContext): Promise<void> => {
+            const callback: (skillContext: TurnContext) => Promise<void> =
+            async (skillContext: TurnContext): Promise<void> => {
                 await this.activatedSkill.onTurn(skillContext);
-            });
+            };
+
+            const messageReceivedHandler: (activities: Partial<Activity>[]) => Promise<void> =
+            async (activities: Partial<Activity>[]): Promise<void> => {
+                activities.forEach(async (response: Partial<Activity>) => {
+                    await innerDc.context.adapter.continueConversation(
+                        TurnContext.getConversationReference(response),
+                        this.createCallback(response));
+                });
+            };
+
+            await this.inProcAdapter.processActivity(activity, callback, messageReceivedHandler);
 
             const queue: Activity[] = [];
             let endOfConversation: boolean = false;
@@ -222,16 +265,8 @@ export class SkillDialog extends ComponentDialog {
 
             // send skill queue to User
             if (queue.length > 0) {
-                const firstActivity: Activity = queue[0];
-                if (firstActivity.conversation.id === innerDc.context.activity.conversation.id) {
-                    // if the conversation id from the activity is the same as the context activity, it's reactive message
-                    await innerDc.context.sendActivities(queue);
-                } else {
-                    // if the conversation id from the activity is different from the context activity, it's proactive message
-                    await innerDc.context.adapter.continueConversation(
-                        TurnContext.getConversationReference(firstActivity),
-                        this.createCallback(queue));
-                }
+                // if the conversation id from the activity is the same as the context activity, it's reactive message
+                await innerDc.context.sendActivities(queue);
             }
 
             // handle ending the skill conversation
@@ -255,11 +290,44 @@ export class SkillDialog extends ComponentDialog {
         }
     }
 
-    private createCallback(activities: Activity[]): (context: TurnContext) => Promise<void> {
+    private createCallback(activity: Partial<Activity>): (context: TurnContext) => Promise<void> {
         return async (turnContext: TurnContext): Promise<void> => {
+            const activityToSend: Partial<Activity> = this.ensureActivity(activity);
+
             // Send back the activities in the proactive context
-            await turnContext.sendActivities(activities);
+            await turnContext.sendActivity(activityToSend);
         };
+    }
+
+    /**
+     * Ensure the activity objects are correctly set for proactive messages
+     * There is known issues about not being able to send these messages back
+     * correctly if the properties are not set in a certain way.
+     *
+     * @param activity activity that's being sent out.
+     */
+    private ensureActivity(activity: Partial<Activity>): Partial<Activity> {
+        const result: Partial<Activity> = activity;
+
+        if (result) {
+            if (result.from) {
+                result.from = {
+                    id: 'User',
+                    name: 'User',
+                    role: 'user'
+                };
+            }
+
+            if (result.recipient) {
+                result.recipient = {
+                    id: '1',
+                    name: 'Bot',
+                    role: 'bot'
+                };
+            }
+        }
+
+        return result;
     }
 }
 

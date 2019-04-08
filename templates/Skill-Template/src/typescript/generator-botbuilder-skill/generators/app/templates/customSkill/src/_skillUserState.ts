@@ -4,7 +4,7 @@
 import { DialogState } from 'botbuilder-dialogs';
 
 /**
- * Here is the documentation of the <%=skillConversationStateNameClass%> class
+ * Here is the documentation of the <%=skillUserStateNameClass%> class
  */
 export interface <%=skillUserStateNameClass%> extends DialogState {
     clear(): void;

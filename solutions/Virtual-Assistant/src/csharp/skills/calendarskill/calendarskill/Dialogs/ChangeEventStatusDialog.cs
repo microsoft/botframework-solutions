@@ -82,8 +82,8 @@ namespace CalendarSkill.Dialogs
                     retryResponse = ChangeEventStatusResponses.ConfirmAcceptFailed;
                 }
 
-                var card = new Card(deleteEvent.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard", deleteEvent.ToAdaptiveCardData(state.GetUserTimeZone()));
-                var replyMessage = ResponseManager.GetCardResponse(replyResponse, card, null);
+                var replyMessage = await GetDetailMeetingResponseAsync(sc, deleteEvent, replyResponse);
+
                 var retryMessage = ResponseManager.GetResponse(retryResponse);
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
@@ -293,20 +293,9 @@ namespace CalendarSkill.Dialogs
                         options.Choices.Add(choice);
                     }
 
-                    var cards = new List<Card>();
-                    foreach (var item in state.Events)
-                    {
-                        var card = new Card()
-                        {
-                            Name = item.OnlineMeetingUrl == null ? "CalendarCardNoJoinButton" : "CalendarCard",
-                            Data = item.ToAdaptiveCardData(state.GetUserTimeZone())
-                        };
-                        cards.Add(card);
-                    }
+                    var prompt = await GetGeneralMeetingListResponseAsync(sc, CalendarCommonStrings.MeetingsToChoose, state.Events, ChangeEventStatusResponses.MultipleEventsStartAtSameTime, null);
 
-                    options.Prompt = ResponseManager.GetCardResponse(
-                        templateId: ChangeEventStatusResponses.MultipleEventsStartAtSameTime,
-                        cards: cards);
+                    options.Prompt = prompt;
 
                     return await sc.PromptAsync(Actions.EventChoice, options);
                 }

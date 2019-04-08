@@ -12,6 +12,14 @@
     {
       "packageName": "bot-solution",
       "projectFolder": "bot-solution"
+    },
+    {
+      "packageName": "bot-skill",
+      "projectFolder": "bot-skill"
+    },
+    {
+      "packageName": "sampleSkill",
+      "projectFolder": "skills/sampleSkill"
     }
   ]
 }

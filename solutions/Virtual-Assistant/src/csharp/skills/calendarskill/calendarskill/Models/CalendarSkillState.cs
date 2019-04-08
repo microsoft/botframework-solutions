@@ -58,6 +58,8 @@ namespace CalendarSkill.Models
             FirstEnterFindContact = true;
             IsActionFromSummary = false;
             ConfirmedMeeting = new List<EventModel>();
+            TotalConflictCount = 0;
+            FilterMeetingKeyWord = null;
         }
 
         public User User { get; set; }
@@ -178,6 +180,10 @@ namespace CalendarSkill.Models
 
         public List<EventModel> ConfirmedMeeting { get; set; }
 
+        public int TotalConflictCount { get; set; }
+
+        public string FilterMeetingKeyWord { get; set; }
+
         public TimeZoneInfo GetUserTimeZone()
         {
             if ((UserInfo != null) && (UserInfo.Timezone != null))
@@ -237,6 +243,8 @@ namespace CalendarSkill.Models
             FirstEnterFindContact = true;
             IsActionFromSummary = false;
             ConfirmedMeeting = new List<EventModel>();
+            TotalConflictCount = 0;
+            FilterMeetingKeyWord = null;
         }
 
         public void ClearChangeStautsInfo()

@@ -70,6 +70,33 @@ namespace ToDoSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} items.
+        /// </summary>
+        public static string CardMultiNumber {
+            get {
+                return ResourceManager.GetString("CardMultiNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} item.
+        /// </summary>
+        public static string CardOneNumber {
+            get {
+                return ResourceManager.GetString("CardOneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your {0} List.
+        /// </summary>
+        public static string CardTitle {
+            get {
+                return ResourceManager.GetString("CardTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please refer to the link &lt;a href=&quot;{0}&quot;&gt;{1}&lt;/a&gt; to see the lists created for you..
         /// </summary>
         public static string EmailContent {

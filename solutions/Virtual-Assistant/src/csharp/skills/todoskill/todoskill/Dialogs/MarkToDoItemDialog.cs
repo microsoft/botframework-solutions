@@ -117,27 +117,24 @@ namespace ToDoSkill.Dialogs
                 var allTasksCount = state.AllTasks.Count;
                 var currentTaskIndex = state.ShowTaskPageIndex * state.PageSize;
                 state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
-                var markToDoAttachment = ToAdaptiveCardForTaskCompletedFlow(
+                var markToDoCard = ToAdaptiveCardForTaskCompletedFlow(
                     state.Tasks,
                     state.AllTasks.Count,
                     taskTopicToBeMarked,
                     state.ListType,
                     state.MarkOrDeleteAllTasksFlag);
 
-                var cardReply = sc.Context.Activity.CreateReply();
-                cardReply.Attachments.Add(markToDoAttachment);
-
                 var uncompletedTaskIndex = state.AllTasks.FindIndex(t => t.IsCompleted == false);
                 if (state.MarkOrDeleteAllTasksFlag || uncompletedTaskIndex < 0)
                 {
-                    cardReply.InputHint = InputHints.AcceptingInput;
-                    await sc.Context.SendActivityAsync(cardReply);
+                    markToDoCard.InputHint = InputHints.AcceptingInput;
+                    await sc.Context.SendActivityAsync(markToDoCard);
                     return await sc.EndDialogAsync(true);
                 }
                 else
                 {
-                    cardReply.InputHint = InputHints.IgnoringInput;
-                    await sc.Context.SendActivityAsync(cardReply);
+                    markToDoCard.InputHint = InputHints.IgnoringInput;
+                    await sc.Context.SendActivityAsync(markToDoCard);
                     return await sc.NextAsync();
                 }
             }

@@ -113,16 +113,14 @@ namespace ToDoSkill.Dialogs
                     state.ShowTaskPageIndex = 0;
                     var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
                     state.Tasks = state.AllTasks.GetRange(0, rangeCount);
-                    var toDoListAttachment = ToAdaptiveCardForTaskAddedFlow(
+                    var toDoListCard = ToAdaptiveCardForTaskAddedFlow(
                         state.Tasks,
                         state.TaskContent,
                         state.AllTasks.Count,
                         state.ListType);
 
-                    var cardReply = sc.Context.Activity.CreateReply();
-                    cardReply.Attachments.Add(toDoListAttachment);
-                    cardReply.InputHint = InputHints.IgnoringInput;
-                    await sc.Context.SendActivityAsync(cardReply);
+                    toDoListCard.InputHint = InputHints.IgnoringInput;
+                    await sc.Context.SendActivityAsync(toDoListCard);
 
                     return await sc.NextAsync();
                 }

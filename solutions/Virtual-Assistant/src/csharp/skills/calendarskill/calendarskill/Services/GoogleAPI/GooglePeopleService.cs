@@ -24,6 +24,8 @@ namespace CalendarSkill.Services.GoogleAPI
     {
         private static PeopleService service;
 
+        private List<PersonModel> cachedPeople;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GooglePeopleService"/> class.
         /// </summary>
@@ -31,6 +33,7 @@ namespace CalendarSkill.Services.GoogleAPI
         public GooglePeopleService(PeopleService peopleService)
         {
             service = peopleService;
+            cachedPeople = null;
         }
 
         public static PeopleService GetServiceClient(GoogleClient config, string token)
@@ -66,14 +69,36 @@ namespace CalendarSkill.Services.GoogleAPI
         // search people in domain
         public async Task<List<PersonModel>> GetPeopleAsync(string name)
         {
-            List<Person> persons = await GetGooglePeopleAsync(name);
-            List<PersonModel> result = new List<PersonModel>();
-            foreach (Person person in persons)
+            try
             {
-                result.Add(new PersonModel(person));
-            }
+                List<PersonModel> persons = null;
+                if (this.cachedPeople != null)
+                {
+                    persons = this.cachedPeople;
+                }
+                else
+                {
+                    persons = await GetGooglePeopleAsync();
+                }
 
-            return result;
+                List<PersonModel> result = new List<PersonModel>();
+                foreach (var person in persons)
+                {
+                    // filter manually
+                    var displayName = person.DisplayName;
+                    if (person.Emails?.Count > 0 && displayName != null && displayName.ToLower().Contains(name.ToLower()))
+                    {
+                        result.Add(person);
+                    }
+                }
+
+                this.cachedPeople = result;
+                return result;
+            }
+            catch (GoogleApiException ex)
+            {
+                throw GoogleClient.HandleGoogleAPIException(ex);
+            }
         }
 
         // search people in domain
@@ -88,41 +113,73 @@ namespace CalendarSkill.Services.GoogleAPI
             return Task.FromResult(new List<PersonModel>());
         }
 
-        public async Task<PersonModel> GetMe()
+        public async Task<PersonModel> GetMeAsync()
         {
             try
             {
                 var peopleRequest = service.People.Get("people/me");
-                peopleRequest.RequestMaskIncludeField = "person.emailAddresses,person.names";
+                peopleRequest.RequestMaskIncludeField = "person.emailAddresses,person.names,person.photos";
                 var me = await peopleRequest.ExecuteAsync();
-                return new PersonModel(me);
+
+                if (me != null)
+                {
+                    return new PersonModel(me);
+                }
+
+                return null;
             }
             catch (GoogleApiException ex)
             {
                 throw GoogleClient.HandleGoogleAPIException(ex);
             }
-}
+        }
+
+        public async Task<string> GetPhotoAsync(string email)
+        {
+            List<PersonModel> persons = null;
+            if (this.cachedPeople != null)
+            {
+                persons = this.cachedPeople;
+            }
+            else
+            {
+                persons = await GetGooglePeopleAsync();
+            }
+
+            foreach (var person in persons)
+            {
+                // filter manually
+                var displayName = person.DisplayName;
+                foreach (var personEmail in person.Emails)
+                {
+                    if (email.Equals(personEmail))
+                    {
+                        return person.Photo;
+                    }
+                }
+            }
+
+            return null;
+        }
 
         // get people work with
-        private async Task<List<Person>> GetGooglePeopleAsync(string name)
+        private async Task<List<PersonModel>> GetGooglePeopleAsync()
         {
             try
             {
                 PeopleResource.ConnectionsResource.ListRequest peopleRequest = service.People.Connections.List("people/me");
-                peopleRequest.RequestMaskIncludeField = "person.emailAddresses,person.names";
+                peopleRequest.RequestMaskIncludeField = "person.emailAddresses,person.names,person.photos";
 
                 ListConnectionsResponse connectionsResponse = await ((IClientServiceRequest<ListConnectionsResponse>)peopleRequest).ExecuteAsync();
                 IList<Person> connections = connectionsResponse.Connections;
-                List<Person> result = new List<Person>();
+                List<PersonModel> result = new List<PersonModel>();
                 if (connections != null && connections.Count > 0)
                 {
                     foreach (var people in connections)
                     {
-                        // filter manually
-                        var displayName = people.Names[0]?.DisplayName;
-                        if (people.EmailAddresses?.Count > 0 && displayName != null && displayName.ToLower().Contains(name.ToLower()))
+                        if (people != null)
                         {
-                            result.Add(people);
+                            result.Add(new PersonModel(people));
                         }
                     }
                 }
