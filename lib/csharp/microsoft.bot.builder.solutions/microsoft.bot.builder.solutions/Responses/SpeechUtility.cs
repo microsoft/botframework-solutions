@@ -54,11 +54,22 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
 
             for (int i = 0; i < activityToProcess.Attachments.Count; ++i)
             {
-                // Add try parse - if already an adaptive card good to go, if unknown object convert from string
-                var cardContent = AdaptiveCard.FromJson(activityToProcess.Attachments[i].Content.ToString());
-                if (!string.IsNullOrEmpty(cardContent?.Card?.Speak))
+                // Card attachments may be formatted as card or generic objects
+                if (activityToProcess.Attachments[i].Content is AdaptiveCard)
                 {
-                    selectOptionSpeakStrings.Add(cardContent.Card.Speak);
+                    dynamic cardContent = activityToProcess.Attachments[i].Content;
+                    if (!string.IsNullOrEmpty(cardContent?.Speak))
+                    {
+                        selectOptionSpeakStrings.Add(cardContent.Speak);
+                    }
+                }
+                else
+                {
+                    dynamic cardContent = activityToProcess.Attachments[i].Content;
+                    if (cardContent?.speak != null)
+                    {
+                        selectOptionSpeakStrings.Add(cardContent.speak.ToString());
+                    }
                 }
             }
 

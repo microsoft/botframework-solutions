@@ -35,7 +35,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests
         [TestMethod]
         public void GetSpeechReadyStringFromActivityWithAttachments()
         {
-            _activity.Attachments = new List<Attachment> { new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty }) };
+            _activity.Attachments = new List<Attachment> { new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName }) };
             var response = SpeechUtility.ListToSpeechReadyString(_activity);
 
             Assert.AreEqual(response, string.Format($"{parentSpeakProperty}<break/>{listItemSpeakProperty}"));
