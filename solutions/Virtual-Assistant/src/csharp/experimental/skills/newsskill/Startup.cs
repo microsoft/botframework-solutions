@@ -60,6 +60,7 @@ namespace NewsSkill
             // Load settings
             var settings = new BotSettings();
             Configuration.Bind(settings);
+            services.AddSingleton<BotSettings>(settings);
             services.AddSingleton<BotSettingsBase>(settings);
 
             // Configure bot services
