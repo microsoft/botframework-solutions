@@ -26,7 +26,7 @@ using RestaurantBooking.Bots;
 using RestaurantBooking.Dialogs;
 using RestaurantBooking.Responses.Main;
 using RestaurantBooking.Responses.Shared;
-using RestaurantSkill.Services;
+using RestaurantBooking.Services;
 
 namespace RestaurantBooking
 {

@@ -8,7 +8,7 @@ using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using RestaurantBooking.Responses.Shared;
-using RestaurantSkill.Services;
+using RestaurantBooking.Services;
 
 namespace RestaurantBooking.Adapters
 {
