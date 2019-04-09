@@ -31,21 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Dialogs\Main\Resources\MainStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>MainStrings.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Dialogs\Main\Resources\MainStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>MainStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
@@ -59,6 +44,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="appsettings.development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -68,6 +56,21 @@
     <None Update="LocaleConfigurations\newsskillen.bot">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Responses\Main\MainStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MainStrings.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Responses\Main\MainStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MainStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 <PropertyGroup><UserSecretsId>0db1c89b-fe8e-42ab-8a6b-88bf81cd8e02</UserSecretsId></PropertyGroup>
