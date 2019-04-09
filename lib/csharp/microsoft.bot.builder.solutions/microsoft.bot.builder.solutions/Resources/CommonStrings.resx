@@ -228,4 +228,7 @@
   <data name="Yesterday" xml:space="preserve">
     <value>Yesterday</value>
   </data>
+  <data name="More" xml:space="preserve">
+    <value>more</value>
+  </data>
 </root>

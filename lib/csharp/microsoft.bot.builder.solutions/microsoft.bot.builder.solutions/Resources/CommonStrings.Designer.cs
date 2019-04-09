@@ -205,6 +205,15 @@ namespace Microsoft.Bot.Builder.Solutions.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to more.
+        /// </summary>
+        public static string More {
+            get {
+                return ResourceManager.GetString("More", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not available.
         /// </summary>
         public static string NotAvailable {
