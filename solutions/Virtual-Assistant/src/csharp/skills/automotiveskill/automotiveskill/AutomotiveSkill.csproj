@@ -5,6 +5,11 @@
     <UserSecretsId>6a3184c3-074e-45b9-ad93-eceb8268ec01</UserSecretsId>
     <CodeAnalysisRuleSet>..\..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Content\ListSelection.json" />
+    <Content Remove="Content\SettingChoice.json" />
+  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
@@ -34,22 +39,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Dialogs\Main\Resources\AutomotiveSkillMainResponses.cs">
+    <Compile Update="Responses\Main\AutomotiveSkillMainResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>AutomotiveSkillMainResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\Shared\Resources\AutomotiveskillSharedResponses.cs">
+    <Compile Update="Responses\Shared\AutomotiveSkillSharedResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>AutomotiveSkillSharedResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\VehicleSettings\Resources\VehicleSettingsResponses.cs">
+    <Compile Update="Responses\VehicleSettings\VehicleSettingsResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>VehicleSettingsResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\VehicleSettings\Resources\VehicleSettingsStrings.Designer.cs">
+    <Compile Update="Responses\VehicleSettings\VehicleSettingsStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>VehicleSettingsStrings.resx</DependentUpon>
@@ -57,7 +62,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Dialogs\VehicleSettings\Resources\VehicleSettingsStrings.resx">
+    <EmbeddedResource Update="Responses\VehicleSettings\VehicleSettingsStrings.resx">
       <LastGenOutput>VehicleSettingsStrings.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
@@ -73,31 +78,31 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\available_settings.yaml" />
-    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\setting_alternative_names.yaml" />
-    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\normalization\amount_percentage.tsv" />
-    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\normalization\amount_type.tsv" />
-    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\normalization\amount_unit.tsv" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\AutomotiveSkillMainResponses.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\AutomotiveSkillMainResponses.zh.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\AutomotiveSkillMainResponses.de.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\AutomotiveSkillMainResponses.es.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\AutomotiveSkillMainResponses.fr.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\AutomotiveSkillMainResponses.it.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\AutomotiveSkillSharedResponses.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\AutomotiveSkillSharedResponses.zh.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\AutomotiveSkillSharedResponses.de.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\AutomotiveSkillSharedResponses.es.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\AutomotiveSkillSharedResponses.fr.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\AutomotiveSkillSharedResponses.it.json" />
-    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\Cards\ListSelection.json" />
-    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\Cards\SettingChoice.json" />
-    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\VehicleSettingsResponses.json" />
-    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\VehicleSettingsResponses.zh.json" />
-    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\VehicleSettingsResponses.de.json" />
-    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\VehicleSettingsResponses.es.json" />
-    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\VehicleSettingsResponses.fr.json" />
-    <EmbeddedResource Include="Dialogs\VehicleSettings\Resources\VehicleSettingsResponses.it.json" />
+    <EmbeddedResource Include="Data\available_settings.yaml" />
+    <EmbeddedResource Include="Data\setting_alternative_names.yaml" />
+    <EmbeddedResource Include="Data\normalization\amount_percentage.tsv" />
+    <EmbeddedResource Include="Data\normalization\amount_type.tsv" />
+    <EmbeddedResource Include="Data\normalization\amount_unit.tsv" />
+    <EmbeddedResource Include="Responses\Main\AutomotiveSkillMainResponses.json" />
+    <EmbeddedResource Include="Responses\Main\AutomotiveSkillMainResponses.zh.json" />
+    <EmbeddedResource Include="Responses\Main\AutomotiveSkillMainResponses.de.json" />
+    <EmbeddedResource Include="Responses\Main\AutomotiveSkillMainResponses.es.json" />
+    <EmbeddedResource Include="Responses\Main\AutomotiveSkillMainResponses.fr.json" />
+    <EmbeddedResource Include="Responses\Main\AutomotiveSkillMainResponses.it.json" />
+    <EmbeddedResource Include="Responses\Shared\AutomotiveSkillSharedResponses.json" />
+    <EmbeddedResource Include="Responses\Shared\AutomotiveSkillSharedResponses.zh.json" />
+    <EmbeddedResource Include="Responses\Shared\AutomotiveSkillSharedResponses.de.json" />
+    <EmbeddedResource Include="Responses\Shared\AutomotiveSkillSharedResponses.es.json" />
+    <EmbeddedResource Include="Responses\Shared\AutomotiveSkillSharedResponses.fr.json" />
+    <EmbeddedResource Include="Responses\Shared\AutomotiveSkillSharedResponses.it.json" />
+    <EmbeddedResource Include="Content\ListSelection.json" />
+    <EmbeddedResource Include="Content\SettingChoice.json" />
+    <EmbeddedResource Include="Responses\VehicleSettings\VehicleSettingsResponses.json" />
+    <EmbeddedResource Include="Responses\VehicleSettings\VehicleSettingsResponses.zh.json" />
+    <EmbeddedResource Include="Responses\VehicleSettings\VehicleSettingsResponses.de.json" />
+    <EmbeddedResource Include="Responses\VehicleSettings\VehicleSettingsResponses.es.json" />
+    <EmbeddedResource Include="Responses\VehicleSettings\VehicleSettingsResponses.fr.json" />
+    <EmbeddedResource Include="Responses\VehicleSettings\VehicleSettingsResponses.it.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -111,20 +116,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Dialogs\Main\Resources\AutomotiveSkillMainResponses.tt">
+    <None Update="Responses\Main\AutomotiveSkillMainResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AutomotiveSkillMainResponses.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Dialogs\Shared\Resources\AutomotiveSkillSharedResponses.tt">
+    <None Update="Responses\Shared\AutomotiveSkillSharedResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AutomotiveSkillSharedResponses.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Dialogs\Shared\Resources\SharedResponses.tt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Dialogs\VehicleSettings\Resources\VehicleSettingsResponses.tt">
+    <None Update="Responses\VehicleSettings\VehicleSettingsResponses.tt">
       <LastGenOutput>VehicleSettingsResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
