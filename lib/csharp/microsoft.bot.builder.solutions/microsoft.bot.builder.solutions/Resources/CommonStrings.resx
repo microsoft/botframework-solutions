@@ -236,6 +236,7 @@
   </data>
   <data name="ThirdItem" xml:space="preserve">
     <value>the third is {0}</value>
+  </data>
   <data name="Today" xml:space="preserve">
     <value>Today</value>
   </data>
