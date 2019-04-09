@@ -110,20 +110,6 @@
                         }
                       ],
                       "width": 60
-                    },
-                    {
-                      "type": "Column",
-                      "height": "stretch",
-                      "items": [
-                        {
-                          "type": "Image",
-                          "horizontalAlignment": "Center",
-                          "style": "Person",
-                          "url": "{UserPhoto}",
-                          "size": "Medium"
-                        }
-                      ],
-                      "width": 30
                     }
                   ]
                 }

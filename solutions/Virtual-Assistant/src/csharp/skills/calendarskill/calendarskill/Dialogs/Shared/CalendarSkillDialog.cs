@@ -368,7 +368,6 @@ namespace CalendarSkill.Dialogs.Shared
                     TotalEventCountUnit = null,
                     OverlapEventCountUnit = null,
                     Provider = string.Format(CalendarCommonStrings.OverviewEventSource, events[0].SourceString()),
-                    UserPhoto = await GetMyPhotoUrlAsync(dc.Context),
                     Indicator = string.Format(CalendarCommonStrings.ShowMeetingsIndicator, (firstIndex + 1).ToString(), lastIndex.ToString(), totalCount.ToString())
                 }
             };
