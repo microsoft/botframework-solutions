@@ -3,11 +3,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using CalendarSkill.Common;
-using CalendarSkill.Dialogs.Shared.Resources.Strings;
-using CalendarSkill.Util;
-using Microsoft.Bot.Builder.Solutions.Resources;
+using CalendarSkill.Utilities;
 using Microsoft.Graph;
 
 namespace CalendarSkill.Models
@@ -878,7 +874,7 @@ namespace CalendarSkill.Models
 
         public string ToDurationString()
         {
-            TimeSpan t = EndTime.Subtract(StartTime);
+            var t = EndTime.Subtract(StartTime);
             return SpeakHelper.ToSpeechMeetingDuration(t);
         }
 

@@ -1,0 +1,27 @@
+﻿{
+  "cognitiveModels": {
+    "en": {
+      "languageModels": [
+        {
+          "id": "general",
+          "name": "",
+          "appId": "",
+          "authoringKey": "",
+          "subscriptionKey": "",
+          "version": "",
+          "region": ""
+        },
+        {
+          "id": "todo",
+          "name": "",
+          "appId": "",
+          "authoringKey": "",
+          "subscriptionKey": "",
+          "version": "",
+          "region": ""
+        }
+      ]
+    }
+  },
+  "defaultLocale": "en-us"
+}

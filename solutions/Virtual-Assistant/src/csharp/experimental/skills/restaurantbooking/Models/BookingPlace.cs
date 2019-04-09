@@ -1,6 +1,5 @@
 ﻿namespace RestaurantBooking.Models
 {
-    using System;
     using Newtonsoft.Json;
 
     public class BookingPlace

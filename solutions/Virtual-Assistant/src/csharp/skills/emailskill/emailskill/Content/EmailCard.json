@@ -1,0 +1,81 @@
+﻿{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "speak": "{Speak}",
+  "id": "EmailCard",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "{Sender}",
+                  "weight": "bolder",
+                  "size": "large",
+                  "maxLines": 1
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "{Subject}",
+                  "weight": "bolder",
+                  "size": "large",
+                  "maxLines": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                   {
+                  "type": "TextBlock",
+                  "spacing": "none",
+                  "text": "{ReceivedDateTime}",
+                  "isSubtle": true,
+                  "wrap": true
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "{NameList}",
+                  "weight": "bolder",
+                  "wrap": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "{EmailContent}",
+          "wrap": true,
+          "maxLines": 2
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "View",
+      "url": "{EmailLink}"
+    }
+  ]
+}

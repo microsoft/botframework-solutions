@@ -3,30 +3,32 @@
 
 namespace AutomotiveSkill
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using global::AutomotiveSkill.Dialogs.Main.Resources;
-    using global::AutomotiveSkill.Dialogs.Shared.Resources;
-    using global::AutomotiveSkill.Dialogs.VehicleSettings.Resources;
-    using global::AutomotiveSkill.ServiceClients;
+    using AutomotiveSkill.Adapters;
+    using AutomotiveSkill.Bots;
+    using AutomotiveSkill.Dialogs;
+    using AutomotiveSkill.Responses.Main;
+    using AutomotiveSkill.Responses.Shared;
+    using AutomotiveSkill.Responses.VehicleSettings;
+    using AutomotiveSkill.Services;
+    using Microsoft.ApplicationInsights;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.Bot.Builder;
+    using Microsoft.Bot.Builder.ApplicationInsights;
     using Microsoft.Bot.Builder.Azure;
+    using Microsoft.Bot.Builder.BotFramework;
     using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
     using Microsoft.Bot.Builder.Integration.AspNet.Core;
+    using Microsoft.Bot.Builder.Skills;
     using Microsoft.Bot.Builder.Solutions.Proactive;
     using Microsoft.Bot.Builder.Solutions.Responses;
-    using Microsoft.Bot.Builder.Solutions.Skills;
     using Microsoft.Bot.Builder.Solutions.TaskExtensions;
-    using Microsoft.Bot.Builder.Solutions.Telemetry;
-    using Microsoft.Bot.Configuration;
     using Microsoft.Bot.Connector.Authentication;
-    using Microsoft.Bot.Schema;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.IdentityModel.Tokens;
 
     public class Startup
     {
@@ -38,6 +40,10 @@ namespace AutomotiveSkill
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile("cognitivemodels.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"cognitivemodels.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile("skills.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"skills.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
             if (env.IsDevelopment())
@@ -52,112 +58,71 @@ namespace AutomotiveSkill
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
 
-            // add background task queue
+            // Load settings
+            var settings = new BotSettings();
+            Configuration.Bind(settings);
+            services.AddSingleton(settings);
+
+            // Configure bot services
+            services.AddSingleton<BotServices>();
+
+            // Configure credentials
+            services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
+
+            // Configure bot state
+            services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
+            services.AddSingleton<UserState>();
+            services.AddSingleton<ConversationState>();
+            services.AddSingleton<ProactiveState>();
+            services.AddSingleton(sp =>
+            {
+                var userState = sp.GetService<UserState>();
+                var conversationState = sp.GetService<ConversationState>();
+                var proactiveState = sp.GetService<ProactiveState>();
+                return new BotStateSet(userState, conversationState);
+            });
+
+            // Configure telemetry
+            var telemetryClient = new BotTelemetryClient(new TelemetryClient(settings.AppInsights));
+            services.AddSingleton<IBotTelemetryClient>(telemetryClient);
+            services.AddBotApplicationInsights(telemetryClient);
+
+            // Configure proactive
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddHostedService<QueuedHostedService>();
 
-            // Load the connected services from .bot file.
-            var botFilePath = Configuration.GetSection("botFilePath")?.Value;
-            var botFileSecret = Configuration.GetSection("botFileSecret")?.Value;
-            var botConfig = BotConfiguration.Load(botFilePath ?? @".\automotiveskill.bot", botFileSecret);
-            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded."));
-
-            // Use Application Insights
-            services.AddBotApplicationInsights(botConfig);
-
-            // Initializes your bot service clients and adds a singleton that your Bot can access through dependency injection.
-            var parameters = Configuration.GetSection("Parameters")?.Get<string[]>();
-            var configuration = Configuration.GetSection("Configuration")?.Get<Dictionary<string, object>>();
-            var supportedProviders = Configuration.GetSection("SupportedProviders")?.Get<string[]>();
-            var languageModels = Configuration.GetSection("languageModels").Get<Dictionary<string, Dictionary<string, string>>>();
-            var connectedServices = new SkillConfiguration(botConfig, languageModels, supportedProviders, parameters, configuration);
-            services.AddSingleton<SkillConfigurationBase>(sp => connectedServices);
-
-            var supportedLanguages = languageModels.Select(l => l.Key).ToArray();
-            var responseManager = new ResponseManager(
-                supportedLanguages,
+            // Configure responses
+            services.AddSingleton(sp => new ResponseManager(
+                settings.CognitiveModels.Select(l => l.Key).ToArray(),
                 new AutomotiveSkillMainResponses(),
                 new AutomotiveSkillSharedResponses(),
-                new VehicleSettingsResponses());
+                new VehicleSettingsResponses()));
 
-            // Register bot responses for all supported languages.
-            services.AddSingleton(sp => responseManager);
-
-            // Initialize Bot State
-            var cosmosDbService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.CosmosDB) ?? throw new Exception("Please configure your CosmosDb service in your .bot file.");
-            var cosmosDb = cosmosDbService as CosmosDbService;
-            var cosmosOptions = new CosmosDbStorageOptions()
+            // Configure Skill authentication
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
             {
-                CosmosDBEndpoint = new Uri(cosmosDb.Endpoint),
-                AuthKey = cosmosDb.Key,
-                CollectionId = cosmosDb.Collection,
-                DatabaseId = cosmosDb.Database,
-            };
-            var dataStore = new CosmosDbStorage(cosmosOptions);
-            var userState = new UserState(dataStore);
-            var conversationState = new ConversationState(dataStore);
-            var proactiveState = new ProactiveState(dataStore);
-
-            services.AddSingleton(dataStore);
-            services.AddSingleton(userState);
-            services.AddSingleton(conversationState);
-            services.AddSingleton(proactiveState);
-            services.AddSingleton(new BotStateSet(userState, conversationState));
-
-            var environment = _isProduction ? "production" : "development";
-            var service = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.Endpoint && s.Name == environment);
-            if (!(service is EndpointService endpointService))
-            {
-                throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
-            }
-
-            services.AddSingleton(endpointService);
-
-            // Initialize service client
-            services.AddSingleton<IServiceManager, ServiceManager>();
-
-            // HttpContext required for path resolution
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            // Add the bot
-            services.AddSingleton<IBot, AutomotiveSkill>();
-
-            // Add the http adapter to enable MVC style bot API
-            services.AddTransient<IBotFrameworkHttpAdapter>((sp) =>
-            {
-                var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
-
-                // Telemetry Middleware (logs activity messages in Application Insights)
-                var telemetryClient = sp.GetService<IBotTelemetryClient>();
-                var botFrameworkHttpAdapter = new BotFrameworkHttpAdapter(credentialProvider)
+                options.Authority = "https://login.microsoftonline.com/microsoft.com";
+                options.Audience = settings.MicrosoftAppId;
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    OnTurnError = async (context, exception) =>
-                    {
-                        await context.SendActivityAsync(responseManager.GetResponse(AutomotiveSkillSharedResponses.ErrorMessage));
-                        await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
-                        telemetryClient.TrackExceptionEx(exception, context.Activity);
-                    }
+                    ValidIssuer = "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47/v2.0",
                 };
-                var appInsightsLogger = new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true);
-                botFrameworkHttpAdapter.Use(appInsightsLogger);
-
-                // Transcript Middleware (saves conversation history in a standard format)
-                var storageService = botConfig.Services.FirstOrDefault(s => s.Type == ServiceTypes.BlobStorage) ?? throw new Exception("Please configure your Azure Storage service in your .bot file.");
-                var blobStorage = storageService as BlobStorageService;
-                var transcriptStore = new AzureBlobTranscriptStore(blobStorage.ConnectionString, blobStorage.Container);
-                var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
-                botFrameworkHttpAdapter.Use(transcriptMiddleware);
-
-                // Typing Middleware (automatically shows typing when the bot is responding/working)
-                var typingMiddleware = new ShowTypingMiddleware();
-                botFrameworkHttpAdapter.Use(typingMiddleware);
-
-                botFrameworkHttpAdapter.Use(new AutoSaveStateMiddleware(userState, conversationState));
-
-                return botFrameworkHttpAdapter;
             });
+
+            // comment out for now to disable whitelist checking
+            // services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
+            // services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
+
+            // Configure adapters
+            services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
+            services.AddTransient<SkillAdapter, AutomotiveSkillAdapter>();
+
+            // Configure bot
+            services.AddTransient<MainDialog>();
+            services.AddTransient<IBot, DialogBot<MainDialog>>();
         }
 
         /// <summary>
@@ -170,6 +135,7 @@ namespace AutomotiveSkill
             _isProduction = env.IsProduction();
             app.UseDefaultFiles()
                 .UseStaticFiles()
+                .UseAuthentication()
                 .UseMvc();
         }
     }

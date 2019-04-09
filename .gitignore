@@ -334,6 +334,10 @@ ASALocalRun/
 # AppSettings
 **/appsettings.production.json
 **/appsettings.development.json
+**/cognitivemodels.production.json
+**/cognitivemodels.development.json
+**/skills.production.json
+**/skills.development.json
 
 # LUIS json files
 /solutions/**/*.luis
@@ -345,3 +349,8 @@ ASALocalRun/
 /solutions/**/.deployment
 /solutions/**/publish
 /solutions/**/publish.cmd
+**/Deployment/Resources/Dispatch/**
+**/Deployment/appsettings.json
+**/Deployment/cognitivemodels.json
+**/Deployment/skills.json
+/templates/Virtual-Assistant-Template/VirtualAssistantTemplate/Deployment/Scripts/va_add_skill.1.ps1

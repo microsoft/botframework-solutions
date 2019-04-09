@@ -1,0 +1,55 @@
+{
+  "Skills": [
+    {
+      "Name": "CalendarSkill",
+      "DispatchIntent": "l_calendar",
+      "Endpoint": "",
+      "SupportedProviders": [
+        "Azure Active Directory v2",
+        "Google"
+      ]
+    },
+    {
+      "Name": "EmailSkill",
+      "DispatchIntent": "l_email",
+      "Endpoint": "",
+      "SupportedProviders": [
+        "Azure Active Directory v2",
+        "Google"
+      ]
+    },
+    {
+      "Name": "ToDoSkill",
+      "DispatchIntent": "l_todo",
+      "Endpoint": "",
+      "SupportedProviders": [
+        "Azure Active Directory v2",
+        "Todoist"
+      ]
+    },
+    {
+      "Name": "PointOfInterestSkill",
+      "DispatchIntent": "l_pointofinterest",
+      "Endpoint": "",
+      "SupportedProviders": []
+    },
+    {
+      "Name": "AutomotiveSkill",
+      "DispatchIntent": "l_settings",
+      "Endpoint": "",
+      "SupportedProviders": []
+    },
+    {
+      "Name": "NewsSkill",
+      "DispatchIntent": "l_news",
+      "Endpoint": "",
+      "SupportedProviders": []
+    },
+    {
+      "Name": "RestaurantSkill",
+      "DispatchIntent": "l_restaurant",
+      "Endpoint": "",
+      "SupportedProviders": []
+    }
+  ]
+}

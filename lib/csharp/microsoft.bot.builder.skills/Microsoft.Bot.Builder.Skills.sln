@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.Skills", "Microsoft.Bot.Builder.Skills\Microsoft.Bot.Builder.Skills.csproj", "{7B0B88F2-D921-49F8-8BBD-41419EA83354}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.Skills.Tests", "Microsoft.Bot.Builder.Skills.Tests\Microsoft.Bot.Builder.Skills.Tests.csproj", "{1A37A65E-0C86-45E2-BD35-117EF12C7831}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B0B88F2-D921-49F8-8BBD-41419EA83354}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B0B88F2-D921-49F8-8BBD-41419EA83354}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B0B88F2-D921-49F8-8BBD-41419EA83354}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B0B88F2-D921-49F8-8BBD-41419EA83354}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A37A65E-0C86-45E2-BD35-117EF12C7831}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A37A65E-0C86-45E2-BD35-117EF12C7831}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A37A65E-0C86-45E2-BD35-117EF12C7831}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A37A65E-0C86-45E2-BD35-117EF12C7831}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9990775D-5FC4-4B23-8374-05AE6A536EC8}
+	EndGlobalSection
+EndGlobal

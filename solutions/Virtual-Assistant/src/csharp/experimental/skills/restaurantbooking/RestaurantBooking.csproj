@@ -7,31 +7,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Dialogs\Main\Resources\RestaurantBookingMainResponses.json" />
-    <Content Remove="Dialogs\BookingDialog\Resources\Cards\CusineChoiceCard.json" />
-    <Content Remove="Dialogs\BookingDialog\Resources\Cards\ReservationConfirmationCard.json" />
-    <Content Remove="Dialogs\BookingDialog\Resources\Cards\ReservationConfirmCard.json" />
-    <Content Remove="Dialogs\BookingDialog\Resources\Cards\RestaurantChoiceCard.json" />
-    <Content Remove="Dialogs\Shared\Resources\RestaurantBookingSharedResponses.json" />
+    <Content Remove="Responses\Main\RestaurantBookingMainResponses.json" />
+    <Content Remove="Responses\Shared\RestaurantBookingSharedResponses.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Dialogs\Main\Resources\RestaurantBookingMainResponses.json">
+    <EmbeddedResource Include="Responses\Main\RestaurantBookingMainResponses.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\BookingDialog\Resources\Cards\CusineChoiceCard.json">
+    <EmbeddedResource Include="Content\CusineChoiceCard.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\BookingDialog\Resources\Cards\ReservationConfirmationCard.json">
+    <EmbeddedResource Include="Content\ReservationConfirmationCard.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\BookingDialog\Resources\Cards\ReservationConfirmCard.json">
+    <EmbeddedResource Include="Content\ReservationConfirmCard.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\BookingDialog\Resources\Cards\RestaurantChoiceCard.json">
+    <EmbeddedResource Include="Content\RestaurantChoiceCard.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\Shared\Resources\RestaurantBookingSharedResponses.json">
+    <EmbeddedResource Include="Responses\Shared\RestaurantBookingSharedResponses.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
@@ -45,7 +41,7 @@
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.24-preview" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.34-preview" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.3.1" />
@@ -59,27 +55,31 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Dialogs\Cancel\Resources\CancelStrings.Designer.cs">
+    <ProjectReference Include="..\..\..\..\..\..\..\lib\csharp\microsoft.bot.builder.skills\Microsoft.Bot.Builder.Skills\Microsoft.Bot.Builder.Skills.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Responses\Cancel\CancelStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>CancelStrings.resx</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\Main\Resources\RestaurantBookingMainResponses.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>RestaurantBookingMainResponses.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Dialogs\BookingDialog\Resources\RestaurantImages.Designer.cs">
+    <Compile Update="Content\RestaurantImages.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>RestaurantImages.resx</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\Shared\Resources\BotStrings.Designer.cs">
+    <Compile Update="Responses\Main\RestaurantBookingMainResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RestaurantBookingMainResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\Shared\BotStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>BotStrings.resx</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\Shared\Resources\RestaurantBookingSharedResponses.cs">
+    <Compile Update="Responses\Shared\RestaurantBookingSharedResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>RestaurantBookingSharedResponses.tt</DependentUpon>
@@ -87,15 +87,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Dialogs\Cancel\Resources\CancelStrings.resx">
+    <EmbeddedResource Update="Responses\Cancel\CancelStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CancelStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\BookingDialog\Resources\RestaurantImages.resx">
+    <EmbeddedResource Update="Content\RestaurantImages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>RestaurantImages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\Shared\Resources\BotStrings.resx">
+    <EmbeddedResource Update="Responses\Shared\BotStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>BotStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -166,17 +166,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Dialogs\Main\Resources\RestaurantBookingMainResponses.tt">
+    <None Update="Responses\Main\RestaurantBookingMainResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>RestaurantBookingMainResponses.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Dialogs\Shared\Resources\RestaurantBookingSharedResponses.tt">
+    <None Update="Responses\Shared\RestaurantBookingSharedResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>RestaurantBookingSharedResponses.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Dialogs\Shared\Resources\SharedResponses.tt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

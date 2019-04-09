@@ -1,27 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Skills;
 
 namespace EmailSkill.Controllers
 {
-    [Route("api/messages")]
     [ApiController]
-    public class BotController : ControllerBase
+    public class BotController : SkillController
     {
-        private readonly IBotFrameworkHttpAdapter _adapter;
-        private readonly IBot _bot;
-
-        public BotController(IBotFrameworkHttpAdapter adapter, IBot bot)
+        public BotController(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
-            _adapter = adapter;
-            _bot = bot;
-        }
-
-        [HttpPost]
-        public async Task PostAsync()
-        {
-            await _adapter.ProcessAsync(Request, Response, _bot);
         }
     }
 }

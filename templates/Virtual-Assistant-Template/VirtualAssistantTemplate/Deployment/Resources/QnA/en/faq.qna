@@ -1,0 +1,405 @@
+{
+  "urls": [],
+  "qnaList": [
+    {
+      "id": 0,
+      "answer": "We have seen significant need from our customers and partners to deliver a conversational assistant tailored to their brand, personalized to their customers and made available across a broad range of conversational canvases and devices. Continuing Microsoft open-sourced approach toward Bot Framework SDK, the open source Virtual Assistant solution provides full control over the end user experience built on a set of foundational capabilities. Additionally, the experience can be infused with intelligence about the end-user and any device/ecosystem information for a truly integrated and intelligent experience.\r\nFind out more [here](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/README.md).",
+      "source": "custom editorial",
+      "questions": [
+        "What is a Virtual Assistant"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "A broad set of common capabilities exist which today, which require each developer to build themselves. Our Virtual Assistant solution includes a new Skill capability enabling new capabilities to be plugged into an Virtual Assistant through configuration only and provide an authentication mechanism for Skills to request tokens for down-stream activities.\r\nFind out more [here](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-skills.md).",
+      "source": "custom editorial",
+      "questions": [
+        "What is a Skill"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "## Overview\r\nThe Calendar Skill provides Calendar related capabilities to a Virtual Assistant. The most common scenarios have been implemented in this first release with additional scenarios in development.\r\n## Supported Scenarios\r\nThe following scenarios are currently supported by the Skill:\r\n- Show meeting summary - e.g **What's in my calendar**\r\n- Next Meeting - e.g. **what's my next meeting**\r\n- Create a meeting - e.g. Book a meeting\r\n- Update a meeting - e.g. Update meeting\r\n- Delete a meeting - e.g. Delete a meeting",
+      "source": "custom editorial",
+      "questions": [
+        "What can the Calendar Skill do"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "# Overview\r\nThe Email Skill provides Email related capabilities to a Virtual Assistant. The most common scenarios have been implemented in this first release with additional scenarios in development.\r\n## Supported Scenarios\r\nThe following scenarios are currently supported by the Skill:\r\n- Send an Email\r\n- Send an email to John Smith\r\n- Send an email\r\n- Find Email\r\n- Find email from John Smith\r\n- What email do I have",
+      "source": "custom editorial",
+      "questions": [
+        "What can the Email Skill do"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "## Overview\r\nThe Point of Interest Skill provides PoI related capabilities to a Virtual Assistant. The most common scenarios have been implemented in this first release with additional scenarios in development.\r\n## Supported Scenarios\r\nThe following scenarios are currently supported by the Skill:\r\n- NAVIGATION_ROUTE_FROM_X_TO_Y\r\n- What's the fastest way to get to 221B Baker Street?\r\n- How do I get to the grocery store?\r\n- I need directions to a cafe\r\n- NAVIGATION_FIND_POINTOFINTEREST\r\n- What's nearby?\r\n- Are there any pharmacies in town?\r\n- Can you recommend an affordable restaurant in Seattle?\r\n- NAVIGATION_CANCEL_ROUTE\r\n- I don't want to go to the shop anymore\r\n- Would you cancel my route?\r\n- On second thought, forget going to the airport",
+      "source": "custom editorial",
+      "questions": [
+        "What can the Point of Interest Skill do"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "## Overview\r\nThe Task Skill provides Task related capabilities to a Virtual Assistant. The most common scenarios have been implemented in this first release with additional scenarios in development.\r\n## Supported Scenarios\r\nThe following scenarios are currently supported by the Skill:\r\n- Add a Task\r\n- Remind me to pickup milk\r\n- Add task\r\n- Find Tasks\r\n- What tasks do I have",
+      "source": "custom editorial",
+      "questions": [
+        "What can the ToDo Skill do"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "The Virtual Assistant recently released new localisation for the Virtual Assistant and Skills enabling usage in English, French, Italian, German, Spanish and Chinese Simplified.",
+      "source": "custom editorial",
+      "questions": [
+        "What's New"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "Raise an issue on the [GitHub repo](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/README.md)",
+      "source": "custom editorial",
+      "questions": [
+        "How do I raise a bug"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "{'text':'The tire inflation pressure table, refer to page 219, contains all tire inflation pressure specifications for the specified tire sizes at the ambient temperature. The tire inflation pressure values apply to tire sizes approved by the manufacturer of the vehicle for the vehicle type. To identify the correct tire inflation pressure, please note the following:\r\n- Tire sizes of your vehicle.\r\n- Maximum permitted driving speed.'}",
+      "source": "custom editorial",
+      "questions": [
+        "Recommended tire pressure"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "{'text':'\r\n1. Unlock the vehicle with the remote control or switch on the ignition.\r\n2. If you are carrying the remote control on your person, grasp the door handle on the driver or front passenger door completely'}",
+      "source": "custom editorial",
+      "questions": [
+        "How do I turn off the alarm"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "{'text':'In the vicinity of the steering wheel...'}",
+      "source": "custom editorial",
+      "questions": [
+        "Where is the button to heat the steering wheel"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "{'text':'E.g., in the event of an electrical malfunction. Have fuel filler flap unlocked by a dealer\\'s service center or another qualified service center or repair shop.'}",
+      "source": "custom editorial",
+      "questions": [
+        "Where is the emergency release for the fuel tank"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "{'text':'Grasp the door handle on the driver\\'s or front passenger door completely. This corresponds with pressing the button on the remote control.'}",
+      "source": "custom editorial",
+      "questions": [
+        "How do I unlock the door without hitting the unlock button"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "{'text':'The curvature of the seat backrest can be adjusted in a way that it supports the lumbar region of the spine. The lower back and the spine are supported for upright posture.\r\n- Press the front/rear section of the button: The curvature is increased/ decreased.\r\n-  Press the upper/lower section of the button: The curvature is shifted up/ down.'}",
+      "source": "custom editorial",
+      "questions": [
+        "How do I use my lumbar support",
+        "is there low back support",
+        "does my car have lumbar support"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "{'text':'The air quality inside the vehicle is improved by an emissions-tested interior, a microfilter, and a climate-control system for regulating temperature, air flow, and recirculated-air mode. In addition there are other functions which depend on the vehicle\\'s equipment, for instance microfilter/activated-charcoal filter, automatic climate control with automatic recirculated-air control AUC, and parked-car ventilation'}",
+      "source": "custom editorial",
+      "questions": [
+        "How does the climate system work"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "{'text':'You can wirelessly charge your phone by inserting it into the wireless charging tray.'}",
+      "source": "custom editorial",
+      "questions": [
+        "How do I charge my Phone"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "{'text':'Automatic unlocking:\r\n1. My Vehicle\r\n2. Vehicle settings\r\n3. Doors/Key\r\n4. Unlock at end of trip\r\n\r\nAfter the engine is switched off by pressing the Start/Stop button, the locked vehicle is automatically unlocked.'}",
+      "source": "custom editorial",
+      "questions": [
+        "How can I set all my doors to unlock"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "{'text':'Locking the safety belt\r\n1. Pull out the belt strap completely.\r\n2. Secure the child restraint system with the safety belt.\r\n3. Allow the belt strap to be pulled in and pull it tight against the child restraint system.\r\n\r\nThe safety belt is locked'}",
+      "source": "custom editorial",
+      "questions": [
+        "how do you use a seat belt to secure a car seat"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "{'title':'Tire pressure monitor (yellow)','subtitle':'If this indicator lamp comes on in yellow, the tire pressure is off about 10% or more.','text':'','images':[{'url':'https://virtualasspc5f.blob.core.windows.net/images/TirePressureYellow.png'}]}",
+      "source": "custom editorial",
+      "questions": [
+        "What is that yellow tire light on my dash",
+        "What is that yellow light"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "{'title':'Tire pressure monitor (red)','subtitle':'If this warning lights up in red, it means your tire or tires have rapidly deflated.','text':'','images':[{'url':'https://virtualasspc5f.blob.core.windows.net/images/TirePressureRed.png'}]}",
+      "source": "custom editorial",
+      "questions": [
+        "What is that red tire light on my dash"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "{'title':'Break fluid monitor (red)','subtitle':'If this signal lights up in red, your brake fluid level is too low.','text':'','images':[{'url':'https://virtualasspc5f.blob.core.windows.net/images/BreakFluidRed.png''}]}",
+      "source": "custom editorial",
+      "questions": [
+        "What is that red circle light on my dash"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "{'text':'In-car productivity helps you do more while driving, try asking me things like **When is my next appointment?, What can I do in the car while driving?, What is in my to-do list?, Remind me to call mom** or **Capture a memo.**'}",
+      "source": "custom editorial",
+      "questions": [
+        "In car productivity"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "{'text':'I can help you making dinner or lunch reservations, just say, **Make a Reservation** and I will guide you through the rest.'}",
+      "source": "custom editorial",
+      "questions": [
+        "Make a reservation"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "{'text':'Have you thought about winterizing your car?\r\nWinterization is a practice originated in Nashville, Tennessee but not very well known in other parts of the world.\r\nIt involves replacing your vehicle fluids with Jack Daniels.\r\nYour vehicle will still freeze, but you can have a drink while you wait for help.\r\n\r\n... don\\'t look at me like that, it is all true!'}",
+      "source": "custom editorial",
+      "questions": [
+        "Winter is coming"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "Try asking me things like:\r\n**What is that red light on the dash?** or\r\n**How do I charge my phone?**",
+      "source": "custom editorial",
+      "questions": [
+        "Car Info"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "You should change your oil every 10,000 miles or every 6 months.",
+      "source": "custom editorial",
+      "questions": [
+        "When should I change my oil"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "I can help you making dinner or lunch reservations, just say, **Make a Reservation** and I will guide you through the rest.",
+      "source": "custom editorial",
+      "questions": [
+        "Make a reservation"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "In this version I can work in both English and Chinese! The team is hard at work on more productivity features as well.",
+      "source": "custom editorial",
+      "questions": [
+        "What's new",
+        "What's up",
+        "Yo brother"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "Sorry, I don't currently have information on how to setup a Bluetooth Phone. Please keep checking as I am getting smarter all the time.",
+      "source": "custom editorial",
+      "questions": [
+        "How do I pair my Bluetooth phone",
+        "Where can I pair my Bluetooth Phone"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "Memory seats allow two drivers to store and recall their unique seat positions for driving the vehicle.",
+      "source": "custom editorial",
+      "questions": [
+        "What are memory seats"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "Sorry, I don't currently know information on your vehicle's safety features, but keep checking back as I am getting smarter all the time.",
+      "source": "custom editorial",
+      "questions": [
+        "What are some safety features",
+        "Can you tell me about safety features",
+        "Can you tell me about my car's safety features",
+        "What are my vehicles safety features"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "Cruise control helps you maintain a consistent speed.",
+      "source": "custom editorial",
+      "questions": [
+        "What is cruise control"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "How to use cruise control.\r\nStep 1. Press the cruise control ON/OFF button.\r\nStep 2. Set your cruising speed to your current speed by pressing the SET button.\r\nStep 3. Select how closely you want to follow a vehicle in front of you, by pressing the GAP button.",
+      "source": "custom editorial",
+      "questions": [
+        "How do I use Cruise Control",
+        "How do I work Cruise Control",
+        "How do I operate Cruse Control",
+        "How do I turn on Cruise Control"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "Don't worry, your vehicle has a spare tire available in the back under the rear flooring.",
+      "source": "custom editorial",
+      "questions": [
+        "Do I have a spare tire",
+        "I have a flat tire.",
+        "My tire is flat."
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "The spare tire can be found in the back under the rear floor. Just lift up the flooring and it will be under the plastic panel in the rear.",
+      "source": "custom editorial",
+      "questions": [
+        "Where is the spare tire",
+        "How do I find the spare tire"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "Regular Unleaded is fine, but I enjoy the flavors of Ethanol and Premium Unleaded as well. Diesel is not my favorite however there are versions of me that prefer it.",
+      "source": "custom editorial",
+      "questions": [
+        "What is my fuel type",
+        "What kind of gas does my car use",
+        "Is my car a diesel",
+        "Should I use premium gas",
+        "What fuel do you recommend"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "14.9 Gallons or 56.4 Liters",
+      "source": "custom editorial",
+      "questions": [
+        "What is my fuel capacity",
+        "How much gas does my car hold"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "You will need to pull up to the gas station with the pump on the left of the vehicle. The fuel filler is on the left back side of the vehicle.",
+      "source": "custom editorial",
+      "questions": [
+        "Where is my fuel filler location",
+        "Where do I put gas in on the car",
+        "Where is the gas cap",
+        "what side of the car is the gas cap",
+        "Do you put gas in on the right or the left"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "Your current tire pressure is 34 pounds",
+      "source": "custom editorial",
+      "questions": [
+        "What is my tire pressure",
+        "What is my tire level"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "Your current fuel level is 35 percent",
+      "source": "custom editorial",
+      "questions": [
+        "What is my fuel level",
+        "How much gas do I have"
+      ],
+      "metadata": []
+    },
+    {
+      "id": 0,
+      "answer": "I have set your defrost to maximum",
+      "source": "custom editorial",
+      "questions": [
+        "Set defrost to max.",
+        "Max defrost",
+        "maximum defrost",
+        "set defrost to maximum"
+      ],
+      "metadata": []
+    }
+  ],
+  "files": [],
+  "name": "faq"
+}

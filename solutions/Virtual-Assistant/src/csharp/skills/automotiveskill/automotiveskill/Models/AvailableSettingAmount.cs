@@ -3,7 +3,7 @@
 
 using System;
 using System.Collections.Generic;
-using AutomotiveSkill.Yaml;
+using AutomotiveSkill.Utilities;
 using SharpYaml;
 using SharpYaml.Events;
 
@@ -38,7 +38,7 @@ namespace AutomotiveSkill.Models
         {
             YamlParseUtil.ConsumeMappingStart(parser);
 
-            AvailableSettingAmount result = new AvailableSettingAmount();
+            var result = new AvailableSettingAmount();
             while (!(parser.Current is MappingEnd))
             {
                 var key = YamlParseUtil.StringFromYaml(parser);
