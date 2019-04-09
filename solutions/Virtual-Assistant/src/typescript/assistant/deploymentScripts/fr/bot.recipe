@@ -5,13 +5,19 @@
       "type": "luis",
       "id": "general",
       "name": "General",
-      "luPath": "CognitiveModels\\LUIS\\fr\\general.lu"
+      "luPath": "cognitiveModels\\LUIS\\fr\\general.lu"
     },
     {
       "type": "qna",
       "id": "faq",
       "name": "FAQ",
-      "luPath": "CognitiveModels\\QnA\\fr\\faq.lu"
+      "luPath": "cognitiveModels\\QnA\\fr\\faq.lu"
+    },
+    {
+      "type": "qna",
+      "id": "chitchat",
+      "name": "ChitChat",
+      "luPath": "cognitiveModels\\QnA\\fr\\chitchat.lu"
     }
   ]
 }

@@ -2,7 +2,6 @@
 using VirtualAssistantTemplate.Tests.Utterances;
 using Microsoft.Bot.Builder.AI.QnA;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
 

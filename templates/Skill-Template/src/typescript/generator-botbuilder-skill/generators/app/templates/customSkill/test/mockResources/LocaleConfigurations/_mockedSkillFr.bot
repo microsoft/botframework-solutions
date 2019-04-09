@@ -1,0 +1,28 @@
+{
+    "name": "mockedSkillFr",
+    "description": "",
+    "services": [
+        {
+            "type": "luis",
+            "name": "mockedSkillFr_General",
+            "appId": "00000002-0000-0000-0000-000000000001",
+            "authoringKey": "mockedSkillFr-luis-authoringKey",
+            "subscriptionKey": "mockedSkillFr-luis-subscriptionKey",
+            "version": "0.1",
+            "region": "westus",
+            "id": "general"
+        },
+        {
+            "type": "luis",
+            "name": "mockedSkillFr_Sample",
+            "appId": "00000002-0000-0000-0000-000000000001",
+            "authoringKey": "mockedSkillFr-luis-authoringKey",
+            "subscriptionKey": "mockedSkillFr-luis-subscriptionKey",
+            "version": "0.1",
+            "region": "westus",
+            "id": "<%= skillProjectNameId %>"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0"
+}

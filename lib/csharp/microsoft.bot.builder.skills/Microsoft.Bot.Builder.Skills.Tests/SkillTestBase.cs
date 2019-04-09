@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Autofac;
-using Microsoft.Bot.Builder;
+﻿using Autofac;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Configuration;

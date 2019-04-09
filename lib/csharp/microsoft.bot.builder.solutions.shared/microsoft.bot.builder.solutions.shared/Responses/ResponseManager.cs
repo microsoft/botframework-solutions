@@ -151,6 +151,55 @@ namespace Microsoft.Bot.Builder.Solutions.Shared.Responses
             return MessageFactory.Carousel(attachments, response.Text, response.Speak, response.InputHint) as Activity;
         }
 
+        /// <summary>
+        /// Get a response from template with Text, Speak, InputHint, SuggestedActions, and a Card attachments with list items inside.
+        /// </summary>
+        /// <param name="templateId">The name of the response template.</param>
+        /// <param name="card">The main card container contains list.</param
+        /// <param name="tokens">Optional StringDictionary of tokens to replace in the response.</param>
+        /// <param name="containerName">Target container.</param>
+        /// <param name="containerItems">Card list which will be injected to target container.</param>
+        /// <returns>An Activity.</returns>
+        public Activity GetCardResponse(
+            string templateId,
+            Card card,
+            StringDictionary tokens = null,
+            string containerName = null,
+            IEnumerable<Card> containerItems = null)
+        {
+            var locale = CultureInfo.CurrentUICulture.Name;
+            var assembly = Assembly.GetCallingAssembly();
+            var json = LoadCardJson(card.Name, locale, assembly);
+
+            var emailOverviewCard = BuildCard(json, card.Data);
+            if (!string.IsNullOrEmpty(containerName))
+            {
+                var itemsContainer = emailOverviewCard.Body.Find(item => item.Id == containerName);
+                if ((itemsContainer != null) && itemsContainer is AdaptiveContainer)
+                {
+                    foreach (var cardItem in containerItems)
+                    {
+                        var itemJson = LoadCardJson(cardItem.Name, locale, assembly);
+                        var itemCard = BuildCard(itemJson, cardItem.Data);
+                        var itemContainer = itemCard.Body[0] as AdaptiveContainer;
+
+                        (itemsContainer as AdaptiveContainer).Items.Add(itemContainer);
+                    }
+                }
+            }
+
+            var cardObj = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(emailOverviewCard));
+            var attachment = new Attachment(AdaptiveCard.ContentType, content: cardObj);
+
+            if (templateId != null)
+            {
+                var response = GetResponse(templateId, tokens);
+                return MessageFactory.Attachment(attachment, response.Text, response.Speak, response.InputHint) as Activity;
+            }
+
+            return MessageFactory.Attachment(attachment, null, null, null) as Activity;
+        }
+
         public ResponseTemplate GetResponseTemplate(string templateId, string locale = null)
         {
             locale = locale ?? CultureInfo.CurrentUICulture.Name;
@@ -350,6 +399,13 @@ namespace Microsoft.Bot.Builder.Solutions.Shared.Responses
 
         private Attachment BuildCardAttachment(string json, ICardData data = null)
         {
+            var card = BuildCard(json, data);
+            var cardObj = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(card));
+            return new Attachment(AdaptiveCard.ContentType, content: cardObj);
+        }
+
+        private AdaptiveCard BuildCard(string json, ICardData data = null)
+        {
             // If cardData was provided
             if (data != null)
             {
@@ -375,8 +431,7 @@ namespace Microsoft.Bot.Builder.Solutions.Shared.Responses
 
             // Deserialize/Serialize logic is needed to prevent JSON exception in prompts
             var card = AdaptiveCard.FromJson(json).Card;
-            var cardObj = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(card));
-            return new Attachment(AdaptiveCard.ContentType, content: cardObj);
+            return card;
         }
     }
 }

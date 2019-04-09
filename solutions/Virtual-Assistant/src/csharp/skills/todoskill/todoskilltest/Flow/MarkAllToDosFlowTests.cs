@@ -56,26 +56,10 @@ namespace ToDoSkillTest.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
-                var responseCard = messageActivity.Attachments[0].Content as AdaptiveCard;
-                Assert.IsNotNull(responseCard);
-                var adaptiveCardTitle = responseCard.Body[0] as AdaptiveTextBlock;
-                Assert.IsNotNull(adaptiveCardTitle);
-                var toDoChoices = responseCard.Body[1] as AdaptiveContainer;
-                Assert.IsNotNull(toDoChoices);
-                foreach (var choice in toDoChoices.Items)
-                {
-                    var columnSet = choice as AdaptiveColumnSet;
-                    Assert.IsNotNull(columnSet);
-                    var column = columnSet.Columns[0];
-                    Assert.IsNotNull(column);
-                    var image = column.Items[0] as AdaptiveImage;
-                    Assert.IsNotNull(image);
-                    Assert.AreEqual(image.UrlString, IconImageSource.CheckIconSource);
-                }
 
                 CollectionAssert.Contains(
                   this.ParseReplies(MarkToDoResponses.AfterAllTasksCompleted, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
-                  responseCard.Speak);
+                  messageActivity.Speak);
             };
         }
 

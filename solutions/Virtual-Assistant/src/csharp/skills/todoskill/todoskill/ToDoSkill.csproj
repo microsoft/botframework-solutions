@@ -18,6 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Content\ShowTodoCard.json" />
+    <Content Remove="Content\ShowTodoItem.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
@@ -41,6 +46,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Content\ShowTodoCard.json" />
+    <EmbeddedResource Include="Content\ShowTodoItem.json" />
     <EmbeddedResource Include="Responses\AddToDo\AddToDoResponses.de.json" />
     <EmbeddedResource Include="Responses\AddToDo\AddToDoResponses.es.json" />
     <EmbeddedResource Include="Responses\AddToDo\AddToDoResponses.fr.json" />
@@ -166,10 +173,6 @@
 
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Content\" />
   </ItemGroup>
 
 </Project>

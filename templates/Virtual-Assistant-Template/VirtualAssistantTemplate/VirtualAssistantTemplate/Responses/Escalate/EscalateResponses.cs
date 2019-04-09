@@ -5,7 +5,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
 using System.Collections.Generic;
-using VirtualAssistantTemplate.Responses.Escalate;
 
 namespace VirtualAssistantTemplate.Responses.Escalate
 {

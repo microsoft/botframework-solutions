@@ -4,6 +4,7 @@
 namespace EmailSkill.Extensions
 {
     using System;
+    using EmailSkill.Responses.Shared;
     using Microsoft.Bot.Builder.Solutions.Resources;
 
     /// <summary>
@@ -23,10 +24,10 @@ namespace EmailSkill.Extensions
             // Change to local time
             var dateTimeWithTimeZone = TimeZoneInfo.ConvertTimeFromUtc(dateTime, timeZoneInfo);
             var nowWithTimeZone = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.Local, timeZoneInfo);
-            TimeSpan span = nowWithTimeZone - dateTimeWithTimeZone;
+            var span = nowWithTimeZone - dateTimeWithTimeZone;
 
             // Normalize time span
-            bool future = false;
+            var future = false;
             if (span.TotalSeconds < 0)
             {
                 // In the future
@@ -35,13 +36,13 @@ namespace EmailSkill.Extensions
             }
 
             // Test for Now
-            double totalSeconds = span.TotalSeconds;
+            var totalSeconds = span.TotalSeconds;
             if (totalSeconds < 0.9)
             {
                 return CommonStrings.Now;
             }
 
-            string date = CommonStrings.Today;
+            var date = CommonStrings.Today;
             if (totalSeconds < (24 * 60 * 60))
             {
                 // Times
@@ -75,6 +76,28 @@ namespace EmailSkill.Extensions
 
             // Add time
             return string.Format(CommonStrings.AtTimeDetailsFormat, date, dateTimeWithTimeZone.ToString(CommonStrings.DisplayTime));
+        }
+
+        public static string ToDetailRelativeString(this DateTime dateTime, TimeZoneInfo timeZoneInfo)
+        {
+            // Change to local time
+            var dateTimeWithTimeZone = TimeZoneInfo.ConvertTimeFromUtc(dateTime, timeZoneInfo);
+
+            return dateTimeWithTimeZone.ToString(EmailCommonStrings.DisplayDetailDateFormat);
+        }
+
+        public static string ToOverallRelativeString(this DateTime dateTime, TimeZoneInfo timeZoneInfo)
+        {
+            // Change to local time
+            var dateTimeWithTimeZone = TimeZoneInfo.ConvertTimeFromUtc(dateTime, timeZoneInfo);
+            var nowWithTimeZone = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.Local, timeZoneInfo);
+
+            if (dateTimeWithTimeZone.Day == nowWithTimeZone.Day)
+            {
+                return dateTimeWithTimeZone.ToString(EmailCommonStrings.TodayDateFormat);
+            }
+
+            return dateTimeWithTimeZone.ToString(EmailCommonStrings.PreviousDateFormat);
         }
     }
 }

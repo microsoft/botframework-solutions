@@ -1,6 +1,4 @@
-﻿using Microsoft.Bot.Builder;
-
-namespace NewsSkill
+﻿namespace NewsSkill
 {
     public class NewsSkillState
     {

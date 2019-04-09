@@ -4,21 +4,20 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AdaptiveCards;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Authentication;
+using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Prompts;
+using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
-using Newtonsoft.Json.Linq;
-using ToDoSkill.Dialogs.Shared;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Models;
 using ToDoSkill.Responses.AddToDo;
@@ -26,8 +25,8 @@ using ToDoSkill.Responses.DeleteToDo;
 using ToDoSkill.Responses.MarkToDo;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Responses.ShowToDo;
-using ToDoSkill.ServiceClients;
 using ToDoSkill.Services;
+using ToDoSkill.Utilities;
 
 namespace ToDoSkill.Dialogs
 {
@@ -61,8 +60,8 @@ namespace ToDoSkill.Dialogs
 
             AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
             AddDialog(new AuthDialog(services.CognitiveModelSets, settings.OAuthConnections, authenticationRequired: true));
-            AddDialog(new TextPrompt(Action.Prompt));
-            AddDialog(new ConfirmPrompt(Action.ConfirmPrompt, null, Culture.English) { Style = ListStyle.SuggestedAction });
+            AddDialog(new TextPrompt(Actions.Prompt));
+            AddDialog(new ConfirmPrompt(Actions.ConfirmPrompt, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }
 
         protected BotServices Services { get; set; }
@@ -360,14 +359,17 @@ namespace ToDoSkill.Dialogs
             }
         }
 
-        protected Attachment ToAdaptiveCardForShowToDos(
+        protected Activity ToAdaptiveCardForShowToDos(
            List<TaskItem> todos,
            int allTasksCount,
            string listType)
         {
-            var toDoCard = new AdaptiveCard();
+            var cardReply = BuildTodoCard(null, todos, allTasksCount, listType);
+
             ResponseTemplate response;
             var speakText = string.Empty;
+            var showText = string.Empty;
+
             if (allTasksCount <= todos.Count)
             {
                 if (todos.Count == 1)
@@ -383,183 +385,66 @@ namespace ToDoSkill.Dialogs
             }
             else
             {
-                response = ResponseManager.GetResponseTemplate(ShowToDoResponses.TaskSummaryMessage);
+                if (todos.Count == 1)
+                {
+                    response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForSingleTask);
+                }
+                else
+                {
+                    response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForMultipleTasks);
+                }
+
                 speakText = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
+                showText = speakText;
+
                 response = ResponseManager.GetResponseTemplate(ShowToDoResponses.MostRecentTasks);
                 var mostRecentTasksString = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", todos.Count.ToString() } });
                 speakText += mostRecentTasksString;
             }
 
-            toDoCard.Speak = speakText;
+            speakText += todos.ToSpeechString(CommonStrings.And, li => li.Topic);
+            cardReply.Speak = speakText;
+            cardReply.Text = showText;
 
-            var body = new List<AdaptiveElement>();
-            if (allTasksCount == 1)
-            {
-                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForSingleTask);
-            }
-            else
-            {
-                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForMultipleTasks);
-            }
-
-            var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
-            var textBlock = new AdaptiveTextBlock
-            {
-                Text = showText,
-            };
-            body.Add(textBlock);
-
-            var container = new AdaptiveContainer();
-            var index = 0;
-            foreach (var todo in todos)
-            {
-                var columnSet = new AdaptiveColumnSet();
-
-                var icon = new AdaptiveImage
-                {
-                    UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource
-                };
-                var iconColumn = new AdaptiveColumn
-                {
-                    Width = "auto"
-                };
-                iconColumn.Items.Add(icon);
-                columnSet.Columns.Add(iconColumn);
-
-                var content = new AdaptiveTextBlock(todo.Topic);
-                var contentColumn = new AdaptiveColumn();
-                iconColumn.Width = "auto";
-                contentColumn.Items.Add(content);
-                columnSet.Columns.Add(contentColumn);
-
-                container.Items.Add(columnSet);
-
-                if (index < todos.Count)
-                {
-                    if (todos.Count == 1)
-                    {
-                        toDoCard.Speak += todo.Topic + ". ";
-                    }
-                    else if (index == todos.Count - 2)
-                    {
-                        toDoCard.Speak += todo.Topic;
-                    }
-                    else if (index == todos.Count - 1)
-                    {
-                        toDoCard.Speak += string.Format(ToDoStrings.And, todo.Topic);
-                    }
-                    else
-                    {
-                        toDoCard.Speak += todo.Topic + ", ";
-                    }
-                }
-
-                index++;
-            }
-
-            body.Add(container);
-            toDoCard.Body = body;
-
-            var attachment = new Attachment()
-            {
-                ContentType = AdaptiveCard.ContentType,
-                Content = toDoCard,
-            };
-            return attachment;
+            return cardReply;
         }
 
-        protected Attachment ToAdaptiveCardForReadMore(
+        protected Activity ToAdaptiveCardForReadMore(
            List<TaskItem> todos,
            int allTasksCount,
            string listType)
         {
-            var toDoCard = new AdaptiveCard();
+            var cardReply = BuildTodoCard(null, todos, allTasksCount, listType);
+
+            // Build up speach
+            var speakText = string.Empty;
             var response = new ResponseTemplate();
 
             if (todos.Count == 1)
             {
                 response = ResponseManager.GetResponseTemplate(ShowToDoResponses.NextTask);
-                toDoCard.Speak = response.Reply.Speak;
+                speakText = response.Reply.Speak;
             }
             else if (todos.Count >= 2)
             {
                 response = ResponseManager.GetResponseTemplate(ShowToDoResponses.NextTasks);
-                toDoCard.Speak = response.Reply.Speak;
+                speakText = response.Reply.Speak;
             }
 
-            var body = new List<AdaptiveElement>();
-            response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForMultipleTasks);
-            var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
-            var textBlock = new AdaptiveTextBlock
-            {
-                Text = showText,
-            };
-            body.Add(textBlock);
+            speakText += todos.ToSpeechString(CommonStrings.And, li => li.Topic);
+            cardReply.Speak = speakText;
 
-            var container = new AdaptiveContainer();
-            var index = 0;
-            foreach (var todo in todos)
-            {
-                var columnSet = new AdaptiveColumnSet();
-
-                var icon = new AdaptiveImage
-                {
-                    UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource
-                };
-                var iconColumn = new AdaptiveColumn
-                {
-                    Width = "auto"
-                };
-                iconColumn.Items.Add(icon);
-                columnSet.Columns.Add(iconColumn);
-
-                var content = new AdaptiveTextBlock(todo.Topic);
-                var contentColumn = new AdaptiveColumn();
-                iconColumn.Width = "auto";
-                contentColumn.Items.Add(content);
-                columnSet.Columns.Add(contentColumn);
-                container.Items.Add(columnSet);
-
-                if (index < todos.Count)
-                {
-                    if (todos.Count == 1)
-                    {
-                        toDoCard.Speak += todo.Topic + ". ";
-                    }
-                    else if (index == todos.Count - 2)
-                    {
-                        toDoCard.Speak += todo.Topic;
-                    }
-                    else if (index == todos.Count - 1)
-                    {
-                        toDoCard.Speak += string.Format(ToDoStrings.And, todo.Topic);
-                    }
-                    else
-                    {
-                        toDoCard.Speak += todo.Topic + ", ";
-                    }
-                }
-
-                index++;
-            }
-
-            body.Add(container);
-            toDoCard.Body = body;
-
-            var attachment = new Attachment()
-            {
-                ContentType = AdaptiveCard.ContentType,
-                Content = toDoCard,
-            };
-            return attachment;
+            return cardReply;
         }
 
-        protected Attachment ToAdaptiveCardForPreviousPage(
+        protected Activity ToAdaptiveCardForPreviousPage(
            List<TaskItem> todos,
            int allTasksCount,
            bool isFirstPage,
            string listType)
         {
+            var cardReply = BuildTodoCard(ToDoSharedResponses.CardSummaryMessageForMultipleTasks, todos, allTasksCount, listType);
+
             var response = ResponseManager.GetResponseTemplate(ShowToDoResponses.PreviousTasks);
             var speakText = response.Reply.Speak;
             if (isFirstPage)
@@ -576,159 +461,48 @@ namespace ToDoSkill.Dialogs
                 speakText = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", todos.Count.ToString() } });
             }
 
-            var toDoCard = new AdaptiveCard
-            {
-                Speak = speakText
-            };
-            var body = new List<AdaptiveElement>();
-            response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForMultipleTasks);
-            var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
-            var textBlock = new AdaptiveTextBlock
-            {
-                Text = showText,
-            };
-            body.Add(textBlock);
+            speakText += todos.ToSpeechString(CommonStrings.And, li => li.Topic);
+            cardReply.Speak = speakText;
 
-            var container = new AdaptiveContainer();
-            var index = 0;
-            foreach (var todo in todos)
-            {
-                var columnSet = new AdaptiveColumnSet();
-
-                var icon = new AdaptiveImage
-                {
-                    UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource
-                };
-                var iconColumn = new AdaptiveColumn
-                {
-                    Width = "auto"
-                };
-                iconColumn.Items.Add(icon);
-                columnSet.Columns.Add(iconColumn);
-
-                var content = new AdaptiveTextBlock(todo.Topic);
-                var contentColumn = new AdaptiveColumn();
-                iconColumn.Width = "auto";
-                contentColumn.Items.Add(content);
-                columnSet.Columns.Add(contentColumn);
-                container.Items.Add(columnSet);
-
-                if (index < todos.Count)
-                {
-                    if (index == todos.Count - 2)
-                    {
-                        toDoCard.Speak += todo.Topic;
-                    }
-                    else if (index == todos.Count - 1)
-                    {
-                        toDoCard.Speak += string.Format(ToDoStrings.And, todo.Topic);
-                    }
-                    else
-                    {
-                        toDoCard.Speak += todo.Topic + ", ";
-                    }
-                }
-
-                index++;
-            }
-
-            body.Add(container);
-            toDoCard.Body = body;
-
-            var attachment = new Attachment()
-            {
-                ContentType = AdaptiveCard.ContentType,
-                Content = toDoCard,
-            };
-            return attachment;
+            return cardReply;
         }
 
-        protected Attachment ToAdaptiveCardForTaskAddedFlow(
+        protected Activity ToAdaptiveCardForTaskAddedFlow(
            List<TaskItem> todos,
            string taskContent,
            int allTasksCount,
            string listType)
         {
+            var cardReply = BuildTodoCard(null, todos, allTasksCount, listType);
+
             var response = ResponseManager.GetResponseTemplate(AddToDoResponses.AfterTaskAdded);
-            var toDoCard = new AdaptiveCard
-            {
-                Speak = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskContent", taskContent }, { "listType", listType } })
-            };
+            cardReply.Text = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskContent", taskContent }, { "listType", listType } });
+            cardReply.Speak = cardReply.Text;
 
-            var body = new List<AdaptiveElement>();
-            if (allTasksCount == 1)
-            {
-                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForSingleTask);
-            }
-            else
-            {
-                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForMultipleTasks);
-            }
-
-            var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
-            var textBlock = new AdaptiveTextBlock
-            {
-                Text = showText,
-            };
-            body.Add(textBlock);
-
-            var container = new AdaptiveContainer();
-            foreach (var todo in todos)
-            {
-                var columnSet = new AdaptiveColumnSet();
-
-                var icon = new AdaptiveImage
-                {
-                    UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource
-                };
-                var iconColumn = new AdaptiveColumn
-                {
-                    Width = "auto"
-                };
-                iconColumn.Items.Add(icon);
-                columnSet.Columns.Add(iconColumn);
-
-                var content = new AdaptiveTextBlock(todo.Topic);
-                var contentColumn = new AdaptiveColumn();
-                iconColumn.Width = "auto";
-                contentColumn.Items.Add(content);
-                columnSet.Columns.Add(contentColumn);
-
-                container.Items.Add(columnSet);
-            }
-
-            body.Add(container);
-            toDoCard.Body = body;
-
-            var attachment = new Attachment()
-            {
-                ContentType = AdaptiveCard.ContentType,
-                Content = toDoCard,
-            };
-            return attachment;
+            return cardReply;
         }
 
-        protected Attachment ToAdaptiveCardForTaskCompletedFlow(
+        protected Activity ToAdaptiveCardForTaskCompletedFlow(
             List<TaskItem> todos,
             int allTasksCount,
             string taskContent,
             string listType,
             bool isCompleteAll)
         {
-            var toDoCard = new AdaptiveCard();
+            var cardReply = BuildTodoCard(null, todos, allTasksCount, listType);
+
             var response = new ResponseTemplate();
             if (isCompleteAll)
             {
                 response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterAllTasksCompleted);
-                toDoCard.Speak = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "listType", listType } });
+                cardReply.Speak = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "listType", listType } });
             }
             else
             {
                 response = ResponseManager.GetResponseTemplate(MarkToDoResponses.AfterTaskCompleted);
-                toDoCard.Speak = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskContent", taskContent }, { "listType", listType } });
+                cardReply.Speak = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskContent", taskContent }, { "listType", listType } });
             }
 
-            var body = new List<AdaptiveElement>();
             if (allTasksCount == 1)
             {
                 response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForSingleTask);
@@ -739,182 +513,89 @@ namespace ToDoSkill.Dialogs
             }
 
             var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
-            var textBlock = new AdaptiveTextBlock
-            {
-                Text = showText,
-            };
-            body.Add(textBlock);
+            cardReply.Text = showText;
 
-            var container = new AdaptiveContainer();
-            foreach (var todo in todos)
-            {
-                var columnSet = new AdaptiveColumnSet();
-
-                var icon = new AdaptiveImage
-                {
-                    UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource
-                };
-                var iconColumn = new AdaptiveColumn
-                {
-                    Width = "auto"
-                };
-                iconColumn.Items.Add(icon);
-                columnSet.Columns.Add(iconColumn);
-
-                var content = new AdaptiveTextBlock(todo.Topic);
-                var contentColumn = new AdaptiveColumn();
-                iconColumn.Width = "auto";
-                contentColumn.Items.Add(content);
-                columnSet.Columns.Add(contentColumn);
-
-                container.Items.Add(columnSet);
-            }
-
-            body.Add(container);
-            toDoCard.Body = body;
-
-            var attachment = new Attachment()
-            {
-                ContentType = AdaptiveCard.ContentType,
-                Content = toDoCard,
-            };
-            return attachment;
+            return cardReply;
         }
 
-        protected Attachment ToAdaptiveCardForTaskDeletedFlow(
+        protected Activity ToAdaptiveCardForTaskDeletedFlow(
             List<TaskItem> todos,
             int allTasksCount,
             string taskContent,
             string listType,
             bool isDeleteAll)
         {
-            var toDoCard = new AdaptiveCard();
-            var response = new ResponseTemplate();
+            var cardReply = BuildTodoCard(null, todos, allTasksCount, listType);
 
+            var response = new ResponseTemplate();
             if (isDeleteAll)
             {
                 response = ResponseManager.GetResponseTemplate(DeleteToDoResponses.AfterAllTasksDeleted);
-                toDoCard.Speak = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "listType", listType } });
+                cardReply.Speak = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "listType", listType } });
             }
             else
             {
                 response = ResponseManager.GetResponseTemplate(DeleteToDoResponses.AfterTaskDeleted);
-                toDoCard.Speak = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskContent", taskContent }, { "listType", listType } });
+                cardReply.Speak = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskContent", taskContent }, { "listType", listType } });
             }
 
-            var body = new List<AdaptiveElement>();
-            if (allTasksCount == 1)
-            {
-                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForSingleTask);
-            }
-            else
-            {
-                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForMultipleTasks);
-            }
-
-            var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
-            var textBlock = new AdaptiveTextBlock
-            {
-                Text = showText,
-            };
-            body.Add(textBlock);
-
-            var container = new AdaptiveContainer();
-            foreach (var todo in todos)
-            {
-                var columnSet = new AdaptiveColumnSet();
-
-                var icon = new AdaptiveImage
-                {
-                    UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource
-                };
-                var iconColumn = new AdaptiveColumn
-                {
-                    Width = "auto"
-                };
-                iconColumn.Items.Add(icon);
-                columnSet.Columns.Add(iconColumn);
-
-                var content = new AdaptiveTextBlock(todo.Topic);
-                var contentColumn = new AdaptiveColumn();
-                iconColumn.Width = "auto";
-                contentColumn.Items.Add(content);
-                columnSet.Columns.Add(contentColumn);
-
-                container.Items.Add(columnSet);
-            }
-
-            body.Add(container);
-            toDoCard.Body = body;
-
-            var attachment = new Attachment()
-            {
-                ContentType = AdaptiveCard.ContentType,
-                Content = toDoCard,
-            };
-            return attachment;
+            cardReply.Text = cardReply.Speak;
+            return cardReply;
         }
 
-        protected Attachment ToAdaptiveCardForDeletionRefusedFlow(
+        protected Activity ToAdaptiveCardForDeletionRefusedFlow(
             List<TaskItem> todos,
             int allTasksCount,
             string listType)
         {
-            var toDoCard = new AdaptiveCard();
+            var cardReply = BuildTodoCard(null, todos, allTasksCount, listType);
+
             var response = ResponseManager.GetResponseTemplate(DeleteToDoResponses.DeletionAllConfirmationRefused);
-            toDoCard.Speak = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
+            cardReply.Speak = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
+            cardReply.Text = cardReply.Speak;
+            return cardReply;
+        }
 
-            var body = new List<AdaptiveElement>();
-            if (allTasksCount == 1)
+        private Activity BuildTodoCard(
+            string tempId,
+            List<TaskItem> todos,
+            int allTasksCount,
+            string listType)
+        {
+            var tokens = new StringDictionary()
             {
-                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForSingleTask);
-            }
-            else
-            {
-                response = ResponseManager.GetResponseTemplate(ToDoSharedResponses.CardSummaryMessageForMultipleTasks);
-            }
-
-            var showText = ResponseManager.Format(response.Reply.Text, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
-            var textBlock = new AdaptiveTextBlock
-            {
-                Text = showText,
+                { "taskCount", allTasksCount.ToString() },
+                { "listType", listType },
             };
-            body.Add(textBlock);
 
-            var container = new AdaptiveContainer();
+            var showTodoListData = new TodoListData
+            {
+                Title = string.Format(ToDoStrings.CardTitle, listType),
+                TotalNumber = allTasksCount > 1 ? string.Format(ToDoStrings.CardMultiNumber, allTasksCount.ToString()) : string.Format(ToDoStrings.CardOneNumber, allTasksCount.ToString())
+            };
+
+            List<Card> todoItems = new List<Card>();
+
+            int index = 0;
             foreach (var todo in todos)
             {
-                var columnSet = new AdaptiveColumnSet();
-
-                var icon = new AdaptiveImage
+                todoItems.Add(new Card("ShowTodoItem", new TodoItemData
                 {
-                    UrlString = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource
-                };
-                var iconColumn = new AdaptiveColumn
-                {
-                    Width = "auto"
-                };
-                iconColumn.Items.Add(icon);
-                columnSet.Columns.Add(iconColumn);
+                    CheckIconUrl = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource,
+                    Topic = todo.Topic
+                }));
 
-                var content = new AdaptiveTextBlock(todo.Topic);
-                var contentColumn = new AdaptiveColumn();
-                iconColumn.Width = "auto";
-                contentColumn.Items.Add(content);
-                columnSet.Columns.Add(contentColumn);
-
-                container.Items.Add(columnSet);
+                index++;
             }
 
-            body.Add(container);
-            toDoCard.Body = body;
+            var cardReply = ResponseManager.GetCardResponse(
+                tempId,
+                new Card("ShowTodoCard", showTodoListData),
+                tokens,
+                "items",
+                todoItems);
 
-            var attachment = new Attachment()
-            {
-                ContentType = AdaptiveCard.ContentType,
-                Content = toDoCard,
-            };
-            return attachment;
+            return cardReply;
         }
 
         // This method is called by any waterfall step that throws an exception to ensure consistency

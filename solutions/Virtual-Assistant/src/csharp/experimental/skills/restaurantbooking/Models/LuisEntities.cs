@@ -1,10 +1,5 @@
 ﻿namespace RestaurantBooking.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-
     public class LuisEntities
     {
         public const string Cuisine = "cuisine";

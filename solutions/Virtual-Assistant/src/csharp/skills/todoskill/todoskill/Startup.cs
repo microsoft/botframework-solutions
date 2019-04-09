@@ -21,6 +21,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using ToDoSkill.Adapters;
+using ToDoSkill.Bots;
 using ToDoSkill.Dialogs;
 using ToDoSkill.Responses.AddToDo;
 using ToDoSkill.Responses.DeleteToDo;
@@ -28,7 +29,6 @@ using ToDoSkill.Responses.Main;
 using ToDoSkill.Responses.MarkToDo;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Responses.ShowToDo;
-using ToDoSkill.ServiceClients;
 using ToDoSkill.Services;
 
 namespace ToDoSkill
@@ -115,8 +115,8 @@ namespace ToDoSkill
             });
 
             // comment out for now to disable whitelist checking
-            //services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
-            //services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
+            // services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
+            // services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
@@ -124,7 +124,7 @@ namespace ToDoSkill
 
             // Configure bot
             services.AddTransient<MainDialog>();
-            services.AddTransient<IBot, DefaultBot<MainDialog>>();
+            services.AddTransient<IBot, DialogBot<MainDialog>>();
         }
 
         /// <summary>

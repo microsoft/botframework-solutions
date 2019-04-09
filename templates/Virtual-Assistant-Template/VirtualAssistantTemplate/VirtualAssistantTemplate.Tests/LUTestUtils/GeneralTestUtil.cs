@@ -2,9 +2,7 @@
 using VirtualAssistantTemplate.Tests.Utterances;
 using Luis;
 using Microsoft.Bot.Builder;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace VirtualAssistantTemplate.Tests.LuisTestUtils
 {
@@ -27,7 +25,7 @@ namespace VirtualAssistantTemplate.Tests.LuisTestUtils
             { GeneralUtterances.Stop, CreateIntent(GeneralUtterances.Stop, General.Intent.Stop) },
         };
 
-        public static MockLuisRecognizer CreateRecognizer()
+        public static IRecognizer CreateRecognizer()
         {
             var recognizer = new MockLuisRecognizer(defaultIntent: CreateIntent(string.Empty, General.Intent.None));
             recognizer.RegisterUtterances(_utterances);

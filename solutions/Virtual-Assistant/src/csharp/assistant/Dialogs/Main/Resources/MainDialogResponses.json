@@ -1,0 +1,85 @@
+{
+  "NamePrompt": {
+    "replies": [
+      {
+        "text": "What is your name?",
+        "speak": "What is your name?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "HaveNameMessage": {
+    "replies": [
+      {
+        "text": "Hi, {Name}!",
+        "speak": "Hi, {Name}!"
+      },
+      {
+        "text": "Nice to meet you, {Name}! How can I help?",
+        "speak": "Nice to meet you, {Name}! How can I help?"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "NewUserGreetingTitle": {
+    "replies": [
+      {
+        "text": "Hi, I'm **your** Virtual Assistant",
+        "speak": "Hi, I'm **your** Virtual Assistant!"
+      },
+      {
+        "text": "Hey, I'm **your** Virtual Assistant",
+        "speak": "Hey, I'm **your** Virtual Assistant!"
+      },
+      {
+        "text": "Hey there, I'm **your** Virtual Assistant",
+        "speak": "Hey there, I'm **your** Virtual Assistant!"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "NewUserGreetingBody": {
+    "replies": [
+      {
+        "text": "Now that I'm up and running, explore the links here to learn what I can do.",
+        "speak": "Now that I'm up and running, explore the links here to learn what I can do."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "Greeting": {
+    "replies": [
+      {
+        "text": "How can I help?",
+        "speak": "How can I help?"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ReturningUserGreetingTitle": {
+    "replies": [
+      {
+        "text": "Welcome back {Name}!",
+        "speak": "Welcome back {Name}!"
+      },
+      {
+        "text": "Hi there {Name}!",
+        "speak": "Hi there {Name}!"
+      },
+      {
+        "text": "Hi {Name}!",
+        "speak": "Hi {Name}!"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ReturningUserGreetingBody": {
+    "replies": [
+      {
+        "text": "I have lots of skills we can explore together.",
+        "speak": "I have lots of skills we can explore together."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}

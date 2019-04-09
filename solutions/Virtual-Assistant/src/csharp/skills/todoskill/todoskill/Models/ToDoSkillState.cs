@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using Luis;
 using Microsoft.Bot.Builder.Dialogs;
-using ToDoSkill.Models;
 
-namespace ToDoSkill
+namespace ToDoSkill.Models
 {
     public class ToDoSkillState : DialogState
     {

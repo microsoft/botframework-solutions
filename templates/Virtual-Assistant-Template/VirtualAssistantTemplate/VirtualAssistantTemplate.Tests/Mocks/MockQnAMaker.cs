@@ -1,12 +1,8 @@
-﻿using VirtualAssistantTemplate.Middleware.Telemetry;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.AI.Luis;
+﻿using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
-using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace VirtualAssistantTemplate.Tests.Mocks

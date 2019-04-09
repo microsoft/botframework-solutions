@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace ToDoSkill.ServiceClients
+namespace ToDoSkill.Services
 {
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using global::ToDoSkill.Models;
+    using ToDoSkill.Models;
 
     /// <summary>
     /// Task service.

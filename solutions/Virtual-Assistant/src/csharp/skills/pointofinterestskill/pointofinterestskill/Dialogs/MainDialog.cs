@@ -13,7 +13,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Schema;
 using PointOfInterestSkill.Models;
 using PointOfInterestSkill.Responses.Main;

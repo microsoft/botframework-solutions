@@ -7,6 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Content\ConfirmCard_RecipientLessThanFive.json" />
+    <Content Remove="Content\ConfirmCard_RecipientMoreThanFive.json" />
+    <Content Remove="Content\DetailCard_RecipientLessThanFive.json" />
+    <Content Remove="Content\DetailCard_RecipientMoreThanFive.json" />
+    <Content Remove="Content\EmailCard.json" />
+    <Content Remove="Content\EmailContentPreview.json" />
+    <Content Remove="Content\EmailDetailCard.json" />
+    <Content Remove="Content\EmailOverviewByCondition.json" />
+    <Content Remove="Content\EmailOverviewCard.json" />
+    <Content Remove="Content\EmailOverviewItem.json" />
+    <Content Remove="Content\EmailWithOutButtonCard.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Google.Apis" Version="1.36.1" />
     <PackageReference Include="Google.Apis.Gmail.v1" Version="1.36.1.1342" />
     <PackageReference Include="Google.Apis.People.v1" Version="1.25.0.830" />
@@ -33,50 +47,50 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Dialogs\FindContact\Resources\FindContactResponses.cs">
+    <Compile Update="Responses\DeleteEmail\DeleteEmailResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DeleteEmailResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\FindContact\FindContactResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>FindContactResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.cs">
+    <Compile Update="Responses\ForwardEmail\ForwardEmailResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ForwardEmailResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\Main\Resources\EmailMainResponses.cs">
+    <Compile Update="Responses\Main\EmailMainResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>EmailMainResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.cs">
+    <Compile Update="Responses\ReplyEmail\ReplyEmailResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ReplyEmailResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\SendEmail\Resources\SendEmailResponses.cs">
+    <Compile Update="Responses\SendEmail\SendEmailResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>SendEmailResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\Shared\Resources\EmailSharedResponses.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>EmailSharedResponses.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Dialogs\Shared\Resources\Strings\EmailCommonStrings.Designer.cs">
+    <Compile Update="Responses\Shared\EmailCommonStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>EmailCommonStrings.resx</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\ShowEmail\Resources\ShowEmailResponses.cs">
+    <Compile Update="Responses\Shared\EmailSharedResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EmailSharedResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\ShowEmail\ShowEmailResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ShowEmailResponses.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>DeleteEmailResponses.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   
@@ -90,58 +104,65 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.de.json" />
-    <EmbeddedResource Include="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.es.json" />
-    <EmbeddedResource Include="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.fr.json" />
-    <EmbeddedResource Include="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.it.json" />
-    <EmbeddedResource Include="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.json" />
-    <EmbeddedResource Include="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.zh.json" />
-    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.de.json" />
-    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.es.json" />
-    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.fr.json" />
-    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.it.json" />
-    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.json" />
-    <EmbeddedResource Include="Dialogs\FindContact\Resources\FindContactResponses.zh.json" />
-    <EmbeddedResource Include="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.de.json" />
-    <EmbeddedResource Include="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.es.json" />
-    <EmbeddedResource Include="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.fr.json" />
-    <EmbeddedResource Include="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.it.json" />
-    <EmbeddedResource Include="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.json" />
-    <EmbeddedResource Include="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.zh.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\EmailMainResponses.de.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\EmailMainResponses.es.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\EmailMainResponses.fr.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\EmailMainResponses.it.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\EmailMainResponses.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\EmailMainResponses.zh.json" />
-    <EmbeddedResource Include="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.de.json" />
-    <EmbeddedResource Include="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.es.json" />
-    <EmbeddedResource Include="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.fr.json" />
-    <EmbeddedResource Include="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.it.json" />
-    <EmbeddedResource Include="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.json" />
-    <EmbeddedResource Include="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.zh.json" />
-    <EmbeddedResource Include="Dialogs\SendEmail\Resources\SendEmailResponses.de.json" />
-    <EmbeddedResource Include="Dialogs\SendEmail\Resources\SendEmailResponses.es.json" />
-    <EmbeddedResource Include="Dialogs\SendEmail\Resources\SendEmailResponses.fr.json" />
-    <EmbeddedResource Include="Dialogs\SendEmail\Resources\SendEmailResponses.it.json" />
-    <EmbeddedResource Include="Dialogs\SendEmail\Resources\SendEmailResponses.json" />
-    <EmbeddedResource Include="Dialogs\SendEmail\Resources\SendEmailResponses.zh.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailCard.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailContentPreview.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailDetailCard.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\EmailWithOutButtonCard.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\EmailSharedResponses.de.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\EmailSharedResponses.es.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\EmailSharedResponses.fr.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\EmailSharedResponses.it.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\EmailSharedResponses.json" />
-    <EmbeddedResource Include="Dialogs\Shared\Resources\EmailSharedResponses.zh.json" />
-    <EmbeddedResource Include="Dialogs\ShowEmail\Resources\ShowEmailResponses.de.json" />
-    <EmbeddedResource Include="Dialogs\ShowEmail\Resources\ShowEmailResponses.es.json" />
-    <EmbeddedResource Include="Dialogs\ShowEmail\Resources\ShowEmailResponses.fr.json" />
-    <EmbeddedResource Include="Dialogs\ShowEmail\Resources\ShowEmailResponses.it.json" />
-    <EmbeddedResource Include="Dialogs\ShowEmail\Resources\ShowEmailResponses.json" />
-    <EmbeddedResource Include="Dialogs\ShowEmail\Resources\ShowEmailResponses.zh.json" />
+    <EmbeddedResource Include="Content\ConfirmCard_RecipientLessThanFive.json" />
+    <EmbeddedResource Include="Content\ConfirmCard_RecipientMoreThanFive.json" />
+    <EmbeddedResource Include="Content\DetailCard_RecipientLessThanFive.json" />
+    <EmbeddedResource Include="Content\DetailCard_RecipientMoreThanFive.json" />
+    <EmbeddedResource Include="Content\EmailOverviewByCondition.json" />
+    <EmbeddedResource Include="Content\EmailOverviewCard.json" />
+    <EmbeddedResource Include="Content\EmailOverviewItem.json" />
+    <EmbeddedResource Include="Responses\DeleteEmail\DeleteEmailResponses.de.json" />
+    <EmbeddedResource Include="Responses\DeleteEmail\DeleteEmailResponses.es.json" />
+    <EmbeddedResource Include="Responses\DeleteEmail\DeleteEmailResponses.fr.json" />
+    <EmbeddedResource Include="Responses\DeleteEmail\DeleteEmailResponses.it.json" />
+    <EmbeddedResource Include="Responses\DeleteEmail\DeleteEmailResponses.json" />
+    <EmbeddedResource Include="Responses\DeleteEmail\DeleteEmailResponses.zh.json" />
+    <EmbeddedResource Include="Responses\FindContact\FindContactResponses.de.json" />
+    <EmbeddedResource Include="Responses\FindContact\FindContactResponses.es.json" />
+    <EmbeddedResource Include="Responses\FindContact\FindContactResponses.fr.json" />
+    <EmbeddedResource Include="Responses\FindContact\FindContactResponses.it.json" />
+    <EmbeddedResource Include="Responses\FindContact\FindContactResponses.json" />
+    <EmbeddedResource Include="Responses\FindContact\FindContactResponses.zh.json" />
+    <EmbeddedResource Include="Responses\ForwardEmail\ForwardEmailResponses.de.json" />
+    <EmbeddedResource Include="Responses\ForwardEmail\ForwardEmailResponses.es.json" />
+    <EmbeddedResource Include="Responses\ForwardEmail\ForwardEmailResponses.fr.json" />
+    <EmbeddedResource Include="Responses\ForwardEmail\ForwardEmailResponses.it.json" />
+    <EmbeddedResource Include="Responses\ForwardEmail\ForwardEmailResponses.json" />
+    <EmbeddedResource Include="Responses\ForwardEmail\ForwardEmailResponses.zh.json" />
+    <EmbeddedResource Include="Responses\Main\EmailMainResponses.de.json" />
+    <EmbeddedResource Include="Responses\Main\EmailMainResponses.es.json" />
+    <EmbeddedResource Include="Responses\Main\EmailMainResponses.fr.json" />
+    <EmbeddedResource Include="Responses\Main\EmailMainResponses.it.json" />
+    <EmbeddedResource Include="Responses\Main\EmailMainResponses.json" />
+    <EmbeddedResource Include="Responses\Main\EmailMainResponses.zh.json" />
+    <EmbeddedResource Include="Responses\ReplyEmail\ReplyEmailResponses.de.json" />
+    <EmbeddedResource Include="Responses\ReplyEmail\ReplyEmailResponses.es.json" />
+    <EmbeddedResource Include="Responses\ReplyEmail\ReplyEmailResponses.fr.json" />
+    <EmbeddedResource Include="Responses\ReplyEmail\ReplyEmailResponses.it.json" />
+    <EmbeddedResource Include="Responses\ReplyEmail\ReplyEmailResponses.json" />
+    <EmbeddedResource Include="Responses\ReplyEmail\ReplyEmailResponses.zh.json" />
+    <EmbeddedResource Include="Responses\SendEmail\SendEmailResponses.de.json" />
+    <EmbeddedResource Include="Responses\SendEmail\SendEmailResponses.es.json" />
+    <EmbeddedResource Include="Responses\SendEmail\SendEmailResponses.fr.json" />
+    <EmbeddedResource Include="Responses\SendEmail\SendEmailResponses.it.json" />
+    <EmbeddedResource Include="Responses\SendEmail\SendEmailResponses.json" />
+    <EmbeddedResource Include="Responses\SendEmail\SendEmailResponses.zh.json" />
+    <EmbeddedResource Include="Content\EmailCard.json" />
+    <EmbeddedResource Include="Content\EmailContentPreview.json" />
+    <EmbeddedResource Include="Content\EmailDetailCard.json" />
+    <EmbeddedResource Include="Content\EmailWithOutButtonCard.json" />
+    <EmbeddedResource Include="Responses\Shared\EmailSharedResponses.de.json" />
+    <EmbeddedResource Include="Responses\Shared\EmailSharedResponses.es.json" />
+    <EmbeddedResource Include="Responses\Shared\EmailSharedResponses.fr.json" />
+    <EmbeddedResource Include="Responses\Shared\EmailSharedResponses.it.json" />
+    <EmbeddedResource Include="Responses\Shared\EmailSharedResponses.json" />
+    <EmbeddedResource Include="Responses\Shared\EmailSharedResponses.zh.json" />
+    <EmbeddedResource Include="Responses\ShowEmail\ShowEmailResponses.de.json" />
+    <EmbeddedResource Include="Responses\ShowEmail\ShowEmailResponses.es.json" />
+    <EmbeddedResource Include="Responses\ShowEmail\ShowEmailResponses.fr.json" />
+    <EmbeddedResource Include="Responses\ShowEmail\ShowEmailResponses.it.json" />
+    <EmbeddedResource Include="Responses\ShowEmail\ShowEmailResponses.json" />
+    <EmbeddedResource Include="Responses\ShowEmail\ShowEmailResponses.zh.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -149,48 +170,52 @@
     <ProjectReference Include="..\..\..\..\..\..\..\lib\csharp\microsoft.bot.builder.solutions.shared\microsoft.bot.builder.solutions.shared\Microsoft.Bot.Builder.Solutions.Shared.csproj" />
     <ProjectReference Include="..\..\..\..\..\..\..\lib\csharp\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj" />
   </ItemGroup>
-
+  
   <ItemGroup>
-    <None Update="Dialogs\DeleteEmail\Resources\DeleteEmailResponses.tt">
+    <None Update="Responses\DeleteEmail\DeleteEmailResponses.tt">
       <LastGenOutput>DeleteEmailResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
-    <None Update="Dialogs\FindContact\Resources\FindContactResponses.tt">
+    <None Update="Responses\FindContact\FindContactResponses.tt">
       <LastGenOutput>FindContactResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
-    <None Update="Dialogs\ForwardEmail\Resources\ForwardEmailResponses.tt">
+    <None Update="Responses\ForwardEmail\ForwardEmailResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ForwardEmailResponses.cs</LastGenOutput>
     </None>
-    <None Update="Dialogs\Main\Resources\EmailMainResponses.tt">
+    <None Update="Responses\Main\EmailMainResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EmailMainResponses.cs</LastGenOutput>
     </None>
-    <None Update="Dialogs\ReplyEmail\Resources\ReplyEmailResponses.tt">
+    <None Update="Responses\ReplyEmail\ReplyEmailResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ReplyEmailResponses.cs</LastGenOutput>
     </None>
-    <None Update="Dialogs\SendEmail\Resources\SendEmailResponses.tt">
+    <None Update="Responses\SendEmail\SendEmailResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SendEmailResponses.cs</LastGenOutput>
     </None>
-    <None Update="Dialogs\Shared\Resources\EmailSharedResponses.tt">
+    <None Update="Responses\Shared\EmailSharedResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EmailSharedResponses.cs</LastGenOutput>
     </None>
-    <None Update="Dialogs\ShowEmail\Resources\ShowEmailResponses.tt">
+    <None Update="Responses\Shared\ResponseIdCollection.t4">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ResponseIdCollection.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\ShowEmail\ShowEmailResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ShowEmailResponses.cs</LastGenOutput>
     </None>
   </ItemGroup>
   
   <ItemGroup>
-    <EmbeddedResource Update="Dialogs\Shared\Resources\EmailCommonStrings.resx">
+    <EmbeddedResource Update="Responses\Shared\EmailCommonStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>EmailCommonStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\Shared\Resources\Strings\EmailCommonStrings.resx">
+    <EmbeddedResource Update="Responses\Shared\EmailCommonStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>EmailCommonStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -198,6 +223,12 @@
 
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="cognitivemodels.development.json">
+      <DependentUpon>cognitivemodels.json</DependentUpon>
+    </Content>
   </ItemGroup>
 
 </Project>

@@ -12,11 +12,10 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
-using ToDoSkill.Common;
 using ToDoSkill.Models;
 using ToDoSkill.Responses.Main;
-using ToDoSkill.ServiceClients;
 using ToDoSkill.Services;
+using ToDoSkill.Utilities;
 
 namespace ToDoSkill.Dialogs
 {

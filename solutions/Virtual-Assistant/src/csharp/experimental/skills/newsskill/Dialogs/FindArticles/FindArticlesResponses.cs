@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Azure.CognitiveServices.Search.NewsSearch.Models;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;

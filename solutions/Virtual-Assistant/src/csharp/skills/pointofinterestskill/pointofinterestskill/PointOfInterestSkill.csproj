@@ -7,6 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Content\PointOfInterestDetails.json" />
+    <Content Remove="Content\PointOfInterestDetailsWithRoute.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Content\PointOfInterestDetailsWithRoute.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
@@ -73,8 +82,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Content\PointOfInterestViewCard.json" />
-    <EmbeddedResource Include="Content\RouteDirectionsViewCard.json" />
+    <EmbeddedResource Include="Content\PointOfInterestDetails.json" />
     <EmbeddedResource Include="Responses\CancelRoute\CancelRouteResponses.de.json">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </EmbeddedResource>
@@ -193,8 +201,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
     <None Update="Responses\Shared\ResponseIdCollection.t4">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ResponseIdCollection.cs</LastGenOutput>
+      <Generator></Generator>
     </None>
   </ItemGroup>
 
@@ -203,13 +210,24 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="wwwroot\images\default_pointofinterest.jpg">
+    <Content Update="wwwroot\images\header_background.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Responses\FindParking\" />
+    <EmbeddedResource Update="Responses\Shared\PointOfInterestSharedStrings.zh.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Responses\Shared\PointOfInterestSharedStrings.it.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Responses\Shared\PointOfInterestSharedStrings.fr.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Responses\Shared\PointOfInterestSharedStrings.es.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

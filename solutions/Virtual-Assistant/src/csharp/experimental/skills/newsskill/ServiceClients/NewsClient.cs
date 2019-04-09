@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Azure.CognitiveServices.Search.NewsSearch;
 using Microsoft.Azure.CognitiveServices.Search.NewsSearch.Models;

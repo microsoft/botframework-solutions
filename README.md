@@ -1,6 +1,6 @@
-# Conversational AI Solutions
+# ![Conversational AI Solutions](./docs/media/conversationalai_solutions_header.png)
 
-This repository is the home for a set of templates and solutions to help build conversational experiences using [Azure Bot Service](https://aka.ms/azurebotservice) and [Bot Framework](https://botframework).
+This repository is the home for a set of templates and solutions to help build conversational experiences using [Azure Bot Service](https://aka.ms/azurebotservice) and [Bot Framework](https://botframework.com).
 
 ## Templates
 
@@ -13,7 +13,7 @@ Enterprise Template | A high quality conversational experience requires a founda
 Name | Description | Link 
 ------------ | ------------- | :-----------:
 Virtual Assistant | Customers and partners have a significant need to deliver a conversational assistant tailored to their brand, personalized to their users, and made available across a broad range of canvases and devices. <br/><br/> Continuing Microsoft's open-sourced approach towards the Bot Framework SDK, the open-source Virtual Assistant solution provides you with a set of core foundational capabilities and full control over the end user experience.| [Get Started](./docs/virtual-assistant/README.md)
-Analytics | Gain key insights into your bot’s health and behavior with the Conversational AI Analytics solutions. Review available telemetry, sample Application Insights queries, and Power BI dashboards to understand the full breadth of your bot’s conversations with users. | [Get Started](./docs/analytics/README.md)
+Analytics | Gain key insights into your botâ€™s health and behavior with the Conversational AI Analytics solutions. Review available telemetry, sample Application Insights queries, and Power BI dashboards to understand the full breadth of your botâ€™s conversations with users. | [Get Started](./docs/analytics/README.md)
 
 ## Contributing
 
