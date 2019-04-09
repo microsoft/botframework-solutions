@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Solutions.Shared.Authentication;
 using Microsoft.Bot.Configuration;
-using ToDoSkill.Models;
 
 namespace ToDoSkill.Services
 {

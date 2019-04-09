@@ -8,13 +8,13 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Solutions.Authentication;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Extensions;
-using Microsoft.Bot.Builder.Solutions.Prompts;
 using Microsoft.Bot.Builder.Solutions.Resources;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
+using Microsoft.Bot.Builder.Solutions.Shared;
+using Microsoft.Bot.Builder.Solutions.Shared.Authentication;
+using Microsoft.Bot.Builder.Solutions.Shared.Responses;
+using Microsoft.Bot.Builder.Solutions.Shared.Telemetry;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
@@ -58,8 +58,7 @@ namespace ToDoSkill.Dialogs
                 throw new Exception("You must configure an authentication connection in your bot file before using this component.");
             }
 
-            AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
-            AddDialog(new AuthDialog(services.CognitiveModelSets, settings.OAuthConnections, authenticationRequired: true));
+            AddDialog(new MultiProviderAuthDialog(ResponseManager, settings.OAuthConnections));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.ConfirmPrompt, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }
@@ -104,7 +103,7 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                return await sc.PromptAsync(nameof(AuthDialog), new PromptOptions() { RetryPrompt = ResponseManager.GetResponse(ToDoSharedResponses.NoAuth) });
+                return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = ResponseManager.GetResponse(ToDoSharedResponses.NoAuth) });
             }
             catch (Exception ex)
             {
