@@ -8,10 +8,10 @@ using VirtualAssistantTemplate.Services;
 using VirtualAssistantTemplate.Bots;
 using VirtualAssistantTemplate.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
-using VirtualAssistantTemplate.Tests.Adapters;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Shared.Telemetry;
+using Microsoft.Bot.Builder.Solutions.Testing;
 
 namespace VirtualAssistantTemplate.Tests
 {

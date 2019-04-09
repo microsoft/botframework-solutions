@@ -233,6 +233,11 @@ namespace Microsoft.Bot.Builder.Solutions.Shared.Authentication
             {
                 return Task.FromResult(true);
             }
+            else if (promptContext.Context.Activity.AsEventActivity().Name == "tokens/response")
+            {
+                promptContext.Recognized.Value = promptContext.Context.Activity.AsEventActivity().Value as TokenResponse;
+                return Task.FromResult(true);
+            }
             else
             {
                 return Task.FromResult(false);

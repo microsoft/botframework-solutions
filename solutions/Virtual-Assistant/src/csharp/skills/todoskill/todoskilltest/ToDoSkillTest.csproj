@@ -28,6 +28,7 @@
   </ItemGroup>
     
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\lib\csharp\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj" />
     <ProjectReference Include="..\todoskill\ToDoSkill.csproj" />
   </ItemGroup>
 

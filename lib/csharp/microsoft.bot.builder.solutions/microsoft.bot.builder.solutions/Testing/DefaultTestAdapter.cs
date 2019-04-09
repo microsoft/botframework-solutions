@@ -1,7 +1,6 @@
-﻿using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Adapters;
+﻿using Microsoft.Bot.Builder.Adapters;
 
-namespace VirtualAssistantTemplate.Tests.Adapters
+namespace Microsoft.Bot.Builder.Solutions.Testing
 {
     public class DefaultTestAdapter : TestAdapter
     {
