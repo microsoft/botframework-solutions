@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AutomotiveSkill.Utilities
+namespace AutomotiveSkill.Models
 {
     /// <summary>
     /// Precomputed information about a bag of tokens.
