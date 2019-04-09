@@ -17,5 +17,7 @@ namespace CalendarSkill.Dialogs.Shared.Resources.Cards
         public string Provider { get; set; }
 
         public string UserPhoto { get; set; }
+
+        public string Indicator { get; set; }
     }
 }

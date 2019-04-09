@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using Microsoft.Bot.Builder.Solutions.Resources;
@@ -40,6 +41,32 @@ namespace CalendarSkill.Util
             }
 
             return participantString;
+        }
+
+        public static string ToDisplayMeetingDuration(TimeSpan timeSpan)
+        {
+            if (timeSpan == null)
+            {
+                return string.Empty;
+            }
+
+            if (timeSpan.TotalHours < 1)
+            {
+                return string.Format(CalendarCommonStrings.ShortDisplayDurationMinute, timeSpan.Minutes);
+            }
+            else
+            {
+                if (timeSpan.Minutes == 0)
+                {
+                    return string.Format(CalendarCommonStrings.ShortDisplayDurationHour, timeSpan.Hours);
+                }
+                else
+                {
+                    string result = string.Format(CalendarCommonStrings.ShortDisplayDurationHour, timeSpan.Hours);
+                    result += string.Format(CalendarCommonStrings.ShortDisplayDurationMinute, timeSpan.Minutes);
+                    return result;
+                }
+            }
         }
     }
 }
