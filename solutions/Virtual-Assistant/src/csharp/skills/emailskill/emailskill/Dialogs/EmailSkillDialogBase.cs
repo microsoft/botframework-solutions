@@ -15,11 +15,12 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Solutions.Authentication;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Resources;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
+using Microsoft.Bot.Builder.Solutions.Shared;
+using Microsoft.Bot.Builder.Solutions.Shared.Authentication;
+using Microsoft.Bot.Builder.Solutions.Shared.Responses;
+using Microsoft.Bot.Builder.Solutions.Shared.Telemetry;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
 using Microsoft.Graph;
@@ -29,8 +30,6 @@ namespace EmailSkill.Dialogs
 {
     public class EmailSkillDialogBase : ComponentDialog
     {
-        // Constants
-        public const string SkillModeAuth = "SkillAuth";
 
         public EmailSkillDialogBase(
             string dialogId,
@@ -56,7 +55,7 @@ namespace EmailSkill.Dialogs
                 throw new Exception("You must configure an authentication connection in your bot file before using this component.");
             }
 
-            AddDialog(new AuthDialog(services.CognitiveModelSets, settings.OAuthConnections, true));
+            AddDialog(new MultiProviderAuthDialog(ResponseManager, settings.OAuthConnections));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }
@@ -212,10 +211,8 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                return await sc.PromptAsync(nameof(AuthDialog), new PromptOptions()
-                {
-                    RetryPrompt = ResponseManager.GetResponse(EmailSharedResponses.NoAuth)
-                });
+                var retry = ResponseManager.GetResponse(EmailSharedResponses.NoAuth);
+                return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions() { RetryPrompt = retry });
             }
             catch (Exception ex)
             {

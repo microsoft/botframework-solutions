@@ -16,26 +16,22 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Solutions.Authentication;
-using Microsoft.Bot.Builder.Solutions.Prompts;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Resources;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
+using Microsoft.Bot.Builder.Solutions.Shared;
+using Microsoft.Bot.Builder.Solutions.Shared.Authentication;
+using Microsoft.Bot.Builder.Solutions.Shared.Responses;
+using Microsoft.Bot.Builder.Solutions.Shared.Telemetry;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
 using Microsoft.Recognizers.Text.DateTime;
-using Newtonsoft.Json.Linq;
 using static Microsoft.Recognizers.Text.Culture;
 
 namespace CalendarSkill.Dialogs
 {
     public class CalendarSkillDialog : ComponentDialog
     {
-        // Constants
-        private const string SkillModeAuth = "SkillAuth";
-
         public CalendarSkillDialog(
             string dialogId,
             BotSettings settings,
@@ -58,8 +54,7 @@ namespace CalendarSkill.Dialogs
                 throw new Exception("You must configure an authentication connection in your bot file before using this component.");
             }
 
-            AddDialog(new EventPrompt(SkillModeAuth, "tokens/response", TokenResponseValidator));
-            AddDialog(new AuthDialog(services.CognitiveModelSets, settings.OAuthConnections, true));
+            AddDialog(new MultiProviderAuthDialog(ResponseManager, settings.OAuthConnections));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
             AddDialog(new DateTimePrompt(Actions.DateTimePrompt, DateTimeValidator, Culture.English));
@@ -109,27 +104,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var skillOptions = (CalendarSkillDialogOptions)sc.Options;
-
-                // If in Skill mode we ask the calling Bot for the token
-                if (skillOptions != null && skillOptions.SkillMode)
-                {
-                    // We trigger a Token Request from the Parent Bot by sending a "TokenRequest" event back and then waiting for a "TokenResponse"
-                    // TODO Error handling - if we get a new activity that isn't an event
-                    var response = sc.Context.Activity.CreateReply();
-                    response.Type = ActivityTypes.Event;
-                    response.Name = "tokens/request";
-
-                    // Send the tokens/request Event
-                    await sc.Context.SendActivityAsync(response);
-
-                    // Wait for the tokens/response event
-                    return await sc.PromptAsync(SkillModeAuth, new PromptOptions());
-                }
-                else
-                {
-                    return await sc.PromptAsync(nameof(AuthDialog), new PromptOptions());
-                }
+                return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions());
             }
             catch (SkillException ex)
             {
@@ -149,25 +124,7 @@ namespace CalendarSkill.Dialogs
             {
                 // When the user authenticates interactively we pass on the tokens/Response event which surfaces as a JObject
                 // When the token is cached we get a TokenResponse object.
-                var skillOptions = (CalendarSkillDialogOptions)sc.Options;
-                ProviderTokenResponse providerTokenResponse;
-                if (skillOptions != null && skillOptions.SkillMode)
-                {
-                    var resultType = sc.Context.Activity.Value.GetType();
-                    if (resultType == typeof(ProviderTokenResponse))
-                    {
-                        providerTokenResponse = sc.Context.Activity.Value as ProviderTokenResponse;
-                    }
-                    else
-                    {
-                        var tokenResponseObject = sc.Context.Activity.Value as JObject;
-                        providerTokenResponse = tokenResponseObject?.ToObject<ProviderTokenResponse>();
-                    }
-                }
-                else
-                {
-                    providerTokenResponse = sc.Result as ProviderTokenResponse;
-                }
+                var providerTokenResponse = sc.Result as ProviderTokenResponse;
 
                 if (providerTokenResponse != null)
                 {

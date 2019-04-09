@@ -1,7 +1,7 @@
 ﻿using System;
 using EmailSkill.Services;
 using Google;
-using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Skills;
 
 namespace EmailSkill.ServiceClients.GoogleAPI
 {

@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills.Auth;
-using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Builder.Skills.Models;
+using Microsoft.Bot.Builder.Solutions.Shared;
+using Microsoft.Bot.Builder.Solutions.Shared.Authentication;
+using Microsoft.Bot.Builder.Solutions.Shared.Responses;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Rest.Serialization;
 using Newtonsoft.Json;
@@ -48,12 +52,32 @@ namespace Microsoft.Bot.Builder.Skills
         /// <param name="telemetryClient"></param>
         /// <param name="backgroundTaskQueue"></param>
         /// <param name="useCachedTokens"></param>
-        public SkillDialog(SkillDefinition skillDefinition, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient)
+        public SkillDialog(SkillDefinition skillDefinition, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient)
             : base(skillDefinition.Name)
         {
             _skillDefinition = skillDefinition;
             _microsoftAppCredentialsEx = microsoftAppCredentialsEx;
             _telemetryClient = telemetryClient;
+
+            if (_skillDefinition.SupportedProviders != null)
+            {
+                // hack for oauth connection for now
+                var list = new List<OAuthConnection>();
+                foreach (var provider in _skillDefinition.SupportedProviders)
+                {
+                    if (provider.Contains("Azure"))
+                    {
+                        list.Add(new OAuthConnection { Name = "office365", Provider = provider });
+                        break;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+
+                AddDialog(new MultiProviderAuthDialog(responseManager, list));
+            }
         }
 
         /// <summary>
@@ -91,7 +115,27 @@ namespace Microsoft.Bot.Builder.Skills
         /// <returns></returns>
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await ForwardToSkill(innerDc, innerDc.Context.Activity);
+            var activity = innerDc.Context.Activity;
+
+            if (innerDc.ActiveDialog?.Id == nameof(MultiProviderAuthDialog))
+            {
+                // Handle magic code auth
+                var result = await innerDc.ContinueDialogAsync(cancellationToken);
+
+                // forward the token response to the skill
+                if (result.Status == DialogTurnStatus.Complete && result.Result is ProviderTokenResponse)
+                {
+                    activity.Type = ActivityTypes.Event;
+                    activity.Name = TokenEvents.TokenResponseEventName;
+                    activity.Value = result.Result as ProviderTokenResponse;
+                }
+                else
+                {
+                    return result;
+                }
+            }
+
+            return await ForwardToSkill(innerDc, activity);
         }
 
         /// <summary>
@@ -122,7 +166,7 @@ namespace Microsoft.Bot.Builder.Skills
                 httpRequest.RequestUri = new Uri(_skillDefinition.Endpoint);
 
                 var _requestContent = SafeJsonConvert.SerializeObject(activity, _serializationSettings);
-                httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
+                httpRequest.Content = new StringContent(_requestContent, Encoding.UTF8);
                 httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
 
                 MicrosoftAppCredentials.TrustServiceUrl(_skillDefinition.Endpoint);
@@ -147,9 +191,26 @@ namespace Microsoft.Bot.Builder.Skills
                         {
                             endOfConversation = true;
                         }
-                        else if (skillResponse?.Name == SkillEvents.TokenRequestEventName)
+                        else if (skillResponse?.Name == TokenEvents.TokenRequestEventName)
                         {
-                            // TODO - Move across the token/request handling code.
+                            // Send trace to emulator
+                            await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Received a Token Request from a skill"));
+
+                            var authResult = await innerDc.BeginDialogAsync(nameof(MultiProviderAuthDialog));
+
+                            if (authResult.Result?.GetType() == typeof(ProviderTokenResponse))
+                            {
+                                var tokenEvent = skillResponse.CreateReply();
+                                tokenEvent.Type = ActivityTypes.Event;
+                                tokenEvent.Name = TokenEvents.TokenResponseEventName;
+                                tokenEvent.Value = authResult.Result as ProviderTokenResponse;
+
+                                return await ForwardToSkill(innerDc, tokenEvent);
+                            }
+                            else
+                            {
+                                return authResult;
+                            }
                         }
                         else
                         {

@@ -12,10 +12,14 @@ using System.Globalization;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Builder.Skills.Auth;
-using Microsoft.Bot.Builder.Solutions.Dialogs;
 using VirtualAssistantTemplate.Responses.Main;
 using VirtualAssistantTemplate.Models;
 using VirtualAssistantTemplate.Services;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Builder.Solutions.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Shared.Responses;
+using Microsoft.Bot.Builder.Solutions.Shared.Authentication;
+using Microsoft.Bot.Builder.Solutions.Shared;
 
 namespace VirtualAssistantTemplate.Dialogs
 {
@@ -27,6 +31,7 @@ namespace VirtualAssistantTemplate.Dialogs
         private ConversationState _conversationState;
         private MicrosoftAppCredentials _microsoftAppCredentials;
         private MainResponses _responder = new MainResponses();
+        private readonly ResponseManager _responseManager;
 
         public MainDialog(
             BotSettings settings,
@@ -44,12 +49,14 @@ namespace VirtualAssistantTemplate.Dialogs
             _microsoftAppCredentials = microsoftAppCredentials;
             TelemetryClient = telemetryClient;
 
+            _responseManager = new ResponseManager(new string[] { "en" }, new AuthenticationResponses());
+
             AddDialog(new OnboardingDialog(_services, _userState.CreateProperty<OnboardingState>(nameof(OnboardingState)), telemetryClient));
             AddDialog(new EscalateDialog(_services, telemetryClient));
 
             foreach (var skill in settings.Skills)
             {
-                AddDialog(new SkillDialog(skill, new MicrosoftAppCredentialsEx(_microsoftAppCredentials.MicrosoftAppId, _microsoftAppCredentials.MicrosoftAppPassword, skill.Scope), telemetryClient));
+                AddDialog(new SkillDialog(skill, _responseManager, new MicrosoftAppCredentialsEx(_microsoftAppCredentials.MicrosoftAppId, _microsoftAppCredentials.MicrosoftAppPassword, skill.Scope), telemetryClient));
             }
         }
 
@@ -189,6 +196,36 @@ namespace VirtualAssistantTemplate.Dialogs
                 {
                     await dc.BeginDialogAsync(nameof(OnboardingDialog));
                     return;
+                }
+            }
+
+            var forward = true;
+            var ev = dc.Context.Activity.AsEventActivity();
+            if (!string.IsNullOrWhiteSpace(ev.Name))
+            {
+                switch (ev.Name)
+                {
+                    case TokenEvents.TokenResponseEventName:
+                        {
+                            forward = true;
+                            break;
+                        }
+                    default:
+                        {
+                            await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event {ev.Name} was received but not processed."));
+                            forward = false;
+                            break;
+                        }
+                }
+            }
+
+            if (forward)
+            {
+                var result = await dc.ContinueDialogAsync();
+
+                if (result.Status == DialogTurnStatus.Complete)
+                {
+                    await CompleteAsync(dc);
                 }
             }
         }

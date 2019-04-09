@@ -1,5 +1,5 @@
 ﻿using EmailSkill.Utilities;
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Shared.Responses;
 
 namespace EmailSkill.Models
 {

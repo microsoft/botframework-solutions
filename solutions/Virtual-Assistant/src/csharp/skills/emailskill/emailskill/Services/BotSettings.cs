@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using EmailSkill.Models;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Solutions.Shared.Authentication;
 using Microsoft.Bot.Configuration;
 
 namespace EmailSkill.Services
