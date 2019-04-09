@@ -1,4 +1,4 @@
-﻿using Microsoft.Bot.Builder.Solutions.Responses;
+﻿using Microsoft.Bot.Builder.Solutions.Shared.Responses;
 
 namespace EmailSkill.Dialogs.Shared.Resources.Cards
 {

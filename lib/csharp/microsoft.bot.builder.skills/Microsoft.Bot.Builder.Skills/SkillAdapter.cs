@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Solutions.Shared;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
@@ -21,7 +22,7 @@ namespace Microsoft.Bot.Builder.Skills
     /// This requires the remote Skill to be leveraging this new adapter on a different MVC controller to the usual
     /// BotFrameworkAdapter that operates on the /api/messages route (DirectLine).
     /// </summary>
-    public class SkillAdapter : BotAdapter, IBotFrameworkHttpAdapter
+    public class SkillAdapter : BotAdapter, IBotFrameworkHttpAdapter, IRemoteUserTokenProvider
     {
         private readonly ICredentialProvider _credentialProvider;
         private readonly ILogger _logger;
@@ -254,6 +255,18 @@ namespace Microsoft.Bot.Builder.Skills
                     }
                 }
             }
+        }
+
+        public async Task SendRemoteTokenRequestEvent(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            // We trigger a Token Request from the Parent Bot by sending a "TokenRequest" event back and then waiting for a "TokenResponse"
+            // TODO Error handling - if we get a new activity that isn't an event
+            var response = turnContext.Activity.CreateReply();
+            response.Type = ActivityTypes.Event;
+            response.Name = "tokens/request";
+
+            // Send the tokens/request Event
+            await SendActivitiesAsync(turnContext, new Activity[] { response }, cancellationToken);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using Google;
-using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Skills;
 
 namespace CalendarSkill.ServiceClients.GoogleAPI
 {

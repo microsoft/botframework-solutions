@@ -4,9 +4,8 @@
 using System.Collections.Specialized;
 using System.Text.RegularExpressions;
 using Autofac;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Shared.Responses;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.Bot.Builder.Solutions.Testing

@@ -22,7 +22,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
             _skillDefinition.Endpoint = "https://djremotepoiskill.azurewebsites.net/api/skill";
 
             // Add the SkillDialog to the available dialogs passing the initialized FakeSkill
-            Dialogs.Add(new SkillDialog(_skillDefinition, null));        
+            Dialogs.Add(new SkillDialog(_skillDefinition, null, null));        
         }
 
         /// <summary>

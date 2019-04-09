@@ -20,10 +20,10 @@ using CalendarSkill.ServiceClients;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Proactive;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Shared.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
@@ -286,45 +286,45 @@ namespace CalendarSkill.Dialogs.Main
                 var localeConfig = _services.LocaleConfigurations[locale];
 
                 // Update state with email luis result and entities
-                var calendarLuisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<Luis.CalendarLU>(dc.Context, cancellationToken);
-                var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
-                state.LuisResult = calendarLuisResult;
+                //var calendarLuisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<Luis.CalendarLU>(dc.Context, cancellationToken);
+                //var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
+                //state.LuisResult = calendarLuisResult;
 
-                // check luis intent
-                localeConfig.LuisServices.TryGetValue("general", out var luisService);
+                //// check luis intent
+                //localeConfig.LuisServices.TryGetValue("general", out var luisService);
 
-                if (luisService == null)
-                {
-                    throw new Exception("The specified LUIS Model could not be found in your Skill configuration.");
-                }
-                else
-                {
-                    var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
-                    state.GeneralLuisResult = luisResult;
-                    var topIntent = luisResult.TopIntent().intent;
+                //if (luisService == null)
+                //{
+                //    throw new Exception("The specified LUIS Model could not be found in your Skill configuration.");
+                //}
+                //else
+                //{
+                //    var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
+                //    state.GeneralLuisResult = luisResult;
+                //    var topIntent = luisResult.TopIntent().intent;
 
-                    // check intent
-                    switch (topIntent)
-                    {
-                        case General.Intent.Cancel:
-                            {
-                                result = await OnCancel(dc);
-                                break;
-                            }
+                //    // check intent
+                //    switch (topIntent)
+                //    {
+                //        case General.Intent.Cancel:
+                //            {
+                //                result = await OnCancel(dc);
+                //                break;
+                //            }
 
-                        case General.Intent.Help:
-                            {
-                                // result = await OnHelp(dc);
-                                break;
-                            }
+                //        case General.Intent.Help:
+                //            {
+                //                // result = await OnHelp(dc);
+                //                break;
+                //            }
 
-                        case General.Intent.Logout:
-                            {
-                                result = await OnLogout(dc);
-                                break;
-                            }
-                    }
-                }
+                //        case General.Intent.Logout:
+                //            {
+                //                result = await OnLogout(dc);
+                //                break;
+                //            }
+                //    }
+                //}
             }
 
             return result;

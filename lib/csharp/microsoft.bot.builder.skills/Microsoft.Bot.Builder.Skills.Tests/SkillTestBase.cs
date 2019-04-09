@@ -75,7 +75,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
                 }
                 else
                 {
-                    await dc.BeginDialogAsync(skillDefinition.Id, skillDefinition);
+                    await dc.BeginDialogAsync(skillDefinition.Name, skillDefinition);
                     var result = await dc.ContinueDialogAsync();
                 }
             });
