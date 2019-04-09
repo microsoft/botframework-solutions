@@ -4,7 +4,7 @@ using Luis;
 using Microsoft.Bot.Builder;
 using System.Collections.Generic;
 
-namespace VirtualAssistantTemplate.Tests.LuisTestUtils
+namespace VirtualAssistantTemplate.Tests.Utilities
 {
     public class DispatchTestUtil
     {

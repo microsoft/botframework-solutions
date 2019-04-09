@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 
-namespace VirtualAssistantTemplate.Tests.LUTestUtils
+namespace VirtualAssistantTemplate.Tests.Utilities
 {
     public class FaqTestUtil
     {

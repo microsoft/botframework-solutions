@@ -1,75 +1,78 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
-using Autofac;
-using VirtualAssistantTemplate.Tests.LuisTestUtils;
+using VirtualAssistantTemplate.Tests.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VirtualAssistantTemplate.Services;
 using VirtualAssistantTemplate.Bots;
 using VirtualAssistantTemplate.Dialogs;
+using Microsoft.Extensions.DependencyInjection;
+using VirtualAssistantTemplate.Tests.Adapters;
+using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Shared.Telemetry;
 
 namespace VirtualAssistantTemplate.Tests
 {
     public class BotTestBase
     {
-        public IContainer Container { get; set; }
-
-        public BotServices BotServices { get; set; }
-
-        public ConversationState ConversationState { get; set; }
-
-        public UserState UserState { get; set; }
-
-        public IBotTelemetryClient TelemetryClient { get; set; }
+        private IServiceCollection services;
 
         [TestInitialize]
         public virtual void Initialize()
         {
-            var builder = new ContainerBuilder();
-
-            ConversationState = new ConversationState(new MemoryStorage());
-            UserState = new UserState(new MemoryStorage());
-            TelemetryClient = new NullBotTelemetryClient();
-            BotServices = new BotServices()
+            services = new ServiceCollection();
+            services.AddSingleton(new BotSettings());
+            services.AddSingleton(new BotServices()
             {
                 CognitiveModelSets = new Dictionary<string, CognitiveModelSet>
                 {
-                    {"en", new CognitiveModelSet
+                    { "en", new CognitiveModelSet
                         {
                             DispatchService = DispatchTestUtil.CreateRecognizer(),
                             LuisServices = new Dictionary<string, IRecognizer>
                             {
                                 { "general", GeneralTestUtil.CreateRecognizer() }
                             },
-                            QnAServices = null
+                            QnAServices = new Dictionary<string, ITelemetryQnAMaker>
+                            {
+                                { "faq", FaqTestUtil.CreateRecognizer() },
+                                { "chitchat", ChitchatTestUtil.CreateRecognizer() }
+                            }
                         }
                     }
                 }
-            };
+            });
 
-            builder.RegisterInstance(new BotStateSet(UserState, ConversationState));
-            Container = builder.Build();
+            services.AddSingleton<IBotTelemetryClient, NullBotTelemetryClient>();
+            services.AddSingleton(new MicrosoftAppCredentials("appId", "password"));
+            services.AddSingleton(new UserState(new MemoryStorage()));
+            services.AddSingleton(new ConversationState(new MemoryStorage()));
+            services.AddSingleton(sp =>
+            {
+                var userState = sp.GetService<UserState>();
+                var conversationState = sp.GetService<ConversationState>();
+                return new BotStateSet(userState, conversationState);
+            });
+
+            services.AddSingleton<TestAdapter, DefaultTestAdapter>();
+            services.AddTransient<MainDialog>();
+            services.AddTransient<IBot, DialogBot<MainDialog>>();
         }
 
         public TestFlow GetTestFlow()
         {
-            var adapter = new TestAdapter()
-                .Use(new AutoSaveStateMiddleware(UserState, ConversationState));
+            var sp = services.BuildServiceProvider();
+            var adapter = sp.GetService<TestAdapter>();
 
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {
-                var bot = BuildBot();
+                var bot = sp.GetService<IBot>();
                 await bot.OnTurnAsync(context, CancellationToken.None);
             });
 
             return testFlow;
-        }
-
-        public IBot BuildBot()
-        {
-            // TODO: need to mock IServiceProvider to fix tests
-            return new DialogBot<MainDialog>(null, null);
         }
     }
 }
