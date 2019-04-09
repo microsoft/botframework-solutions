@@ -1,0 +1,26 @@
+{
+  "id": "restaurantBookingSkill",
+  "name": "Restaurant Booking Skill",
+  "description": "The Restaurant Booking experimental skill provides an example of Restaurant Booking.",
+  "iconUrl": "restaurantBookingSkill.png",
+  "authenticationConnections": [],
+  "actions": [
+    {
+      "id": "https://restaurantbooking.microsoft.com/restaurantBooking",
+      "definition": {
+        "description": "Restaurant Booking",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "restaurant#Reservation"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

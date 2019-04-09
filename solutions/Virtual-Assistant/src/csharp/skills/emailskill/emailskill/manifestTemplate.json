@@ -1,0 +1,108 @@
+{
+  "id": "emailSkill",
+  "name": "Email Skill",
+  "description": "The Email skill provides email related capabilities and supports Office and Google calendars.",
+  "iconUrl": "emailSkill.png",
+  "authenticationConnections": [
+    {
+      "id": "Outlook",
+      "serviceProviderId": "Azure Active Directory v2",
+      "scopes": "User.Read, User.ReadBasic.All, Mail.Read, Mail.Send, People.Read"
+    },
+    {
+      "id": "Google",
+      "serviceProviderId": "Google",
+      "scopes": "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts"
+    }
+  ],
+  "actions": [
+    {
+      "id": "https://emailskill.microsoft.com/sendEmail",
+      "definition": {
+        "description": "Send an email",
+        "slots": [ ],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "Email#SendEmail"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "https://emailskill.microsoft.com/forwardEmail",
+      "definition": {
+        "description": "Forward an email",
+        "slots": [ ],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "Email#Forward"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "https://emailskill.microsoft.com/replyEmail",
+      "definition": {
+        "description": "Reply to an email",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "Email#Reply"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "https://emailskill.microsoft.com/showEmail",
+      "definition": {
+        "description": "Retrieve a summary of emails.",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "Email#SearchMessages",
+                "Email#CheckMessages",
+                "Email#ReadAloud",
+                "Email#QueryLastText"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "https://emailskill.microsoft.com/deleteEmail",
+      "definition": {
+        "description": "Delete an email",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "Email#Delete"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

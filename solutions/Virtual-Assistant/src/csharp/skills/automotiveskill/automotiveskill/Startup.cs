@@ -24,6 +24,7 @@ namespace AutomotiveSkill
     using Microsoft.Bot.Builder.Skills;
     using Microsoft.Bot.Builder.Solutions.Proactive;
     using Microsoft.Bot.Builder.Solutions.Responses;
+    using Microsoft.Bot.Builder.Solutions.Shared;
     using Microsoft.Bot.Builder.Solutions.TaskExtensions;
     using Microsoft.Bot.Connector.Authentication;
     using Microsoft.Extensions.Configuration;
@@ -63,7 +64,7 @@ namespace AutomotiveSkill
             // Load settings
             var settings = new BotSettings();
             Configuration.Bind(settings);
-            services.AddSingleton(settings);
+            services.AddSingleton<BotSettingsBase>(settings);
 
             // Configure bot services
             services.AddSingleton<BotServices>();

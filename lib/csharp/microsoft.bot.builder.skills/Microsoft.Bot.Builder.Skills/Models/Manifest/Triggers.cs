@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Microsoft.Bot.Builder.Skills.Models.Manifest
 {
@@ -8,12 +9,12 @@ namespace Microsoft.Bot.Builder.Skills.Models.Manifest
     public class Triggers
     {
         [JsonProperty(PropertyName = "utterances")]
-        public Utterance[] Utterances { get; set; }
+        public List<Utterance> Utterances { get; set; }
 
         [JsonProperty(PropertyName = "utteranceSources")]
-        public UtteranceSource[] UtteranceSources { get; set; }
+        public List<UtteranceSource> UtteranceSources { get; set; }
 
         [JsonProperty(PropertyName = "events")]
-        public Event[] Events { get; set; }
+        public List<Event> Events { get; set; }
     }
 }

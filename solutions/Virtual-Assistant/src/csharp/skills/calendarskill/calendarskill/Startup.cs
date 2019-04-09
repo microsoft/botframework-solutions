@@ -27,6 +27,7 @@ using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Proactive;
+using Microsoft.Bot.Builder.Solutions.Shared;
 using Microsoft.Bot.Builder.Solutions.Shared.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
@@ -64,7 +65,7 @@ namespace CalendarSkill
             // Load settings
             var settings = new BotSettings();
             Configuration.Bind(settings);
-            services.AddSingleton(settings);
+            services.AddSingleton<BotSettingsBase>(settings);
 
             // Configure bot services
             services.AddSingleton<BotServices>();

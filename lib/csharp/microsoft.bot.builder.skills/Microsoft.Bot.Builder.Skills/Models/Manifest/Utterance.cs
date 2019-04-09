@@ -7,6 +7,12 @@ namespace Microsoft.Bot.Builder.Skills.Models.Manifest
     /// </summary>
     public class Utterance
     {
+        public Utterance(string locale, string [] text)
+        {
+            Locale = locale;
+            Text = text;
+        }
+
         [JsonProperty(PropertyName = "locale")]
         public string Locale { get; set; }
 

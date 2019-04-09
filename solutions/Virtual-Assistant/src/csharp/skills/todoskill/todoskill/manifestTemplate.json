@@ -1,0 +1,83 @@
+{
+  "id": "toDoSkill",
+  "name": "ToDo Skill",
+  "description": "The ToDo skill provides task related capabilities and supports Office based tasks.",
+  "iconUrl": "emailSkill.png",
+  "authenticationConnections": [
+    {
+      "id": "Outlook",
+      "serviceProviderId": "Azure Active Directory v2",
+      "scopes": "Notes.ReadWrite, User.ReadBasic.All"
+    }
+  ],
+  "actions": [
+    {
+      "id": "https://todoskill.microsoft.com/addToDo",
+      "definition": {
+        "description": "Add a task",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "todo#AddToDo"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "https://todoskill.microsoft.com/showToDo",
+      "definition": {
+        "description": "Show tasks",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "todo#ShowToDo"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "https://todoskill.microsoft.com/markToDo",
+      "definition": {
+        "description": "Mark a task",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "todo#MarkToDo"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "https://todoskill.microsoft.com/deleteToDo",
+      "definition": {
+        "description": "Delete a task",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "todo#DeleteToDo"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
