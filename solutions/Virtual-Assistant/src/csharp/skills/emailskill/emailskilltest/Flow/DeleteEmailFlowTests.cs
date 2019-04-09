@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using EmailSkill.Dialogs.DeleteEmail.Resources;
-using EmailSkill.Dialogs.Shared.Resources;
-using EmailSkill.Util;
+using EmailSkill.Responses.DeleteEmail;
+using EmailSkill.Responses.Shared;
+using EmailSkill.Utilities;
 using EmailSkillTest.Flow.Fakes;
 using EmailSkillTest.Flow.Utterances;
 using Microsoft.Bot.Builder.Solutions.Util;

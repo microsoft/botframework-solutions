@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
-using CalendarSkill.ServiceClients;
+using CalendarSkill.Services;
 using CalendarSkillTest.API.Fakes.MockBaseClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -39,7 +39,7 @@ namespace CalendarSkillTest.API
         [TestMethod]
         public async Task CreateEventTest()
         {
-            EventModel newEvent = new EventModel(EventSource.Microsoft);
+            var newEvent = new EventModel(EventSource.Microsoft);
             await calendarService.CreateEvent(newEvent);
         }
 
@@ -124,7 +124,7 @@ namespace CalendarSkillTest.API
         [TestMethod]
         public async Task UpdateEventsById()
         {
-            EventModel updateEvent = new EventModel(EventSource.Microsoft)
+            var updateEvent = new EventModel(EventSource.Microsoft)
             {
                 Id = "update_event",
                 TimeZone = TimeZoneInfo.Utc,

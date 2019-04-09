@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkillTest.Flow.Utterances;
-using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
+using Microsoft.Bot.Builder.Solutions.Shared.Telemetry;
 
 namespace EmailSkillTest.Flow.Fakes
 {
@@ -40,7 +39,7 @@ namespace EmailSkillTest.Flow.Fakes
             where T : IRecognizerConvert, new()
         {
             var text = turnContext.Activity.Text;
-            EmailLU mockEmail = emailUtterancesManager.GetValueOrDefault(text, emailUtterancesManager.GetBaseNoneIntent());
+            var mockEmail = emailUtterancesManager.GetValueOrDefault(text, emailUtterancesManager.GetBaseNoneIntent());
 
             var test = mockEmail as object;
             var mockResult = (T)test;

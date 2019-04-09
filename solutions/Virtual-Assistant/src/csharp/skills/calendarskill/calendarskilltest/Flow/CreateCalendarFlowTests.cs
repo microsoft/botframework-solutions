@@ -1,19 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Globalization;
 using System.Threading.Tasks;
-using CalendarSkill.Dialogs.CreateEvent.Resources;
-using CalendarSkill.Dialogs.FindContact.Resources;
-using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkillTest.Flow.Fakes;
-using CalendarSkillTest.Flow.Models;
 using CalendarSkillTest.Flow.Utterances;
-using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 
 namespace CalendarSkillTest.Flow
 {
@@ -37,10 +29,10 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarCreate()
         {
-            string testRecipient = Strings.Strings.DefaultUserName;
-            string testEmailAddress = Strings.Strings.DefaultUserEmail;
+            var testRecipient = Strings.Strings.DefaultUserName;
+            var testEmailAddress = Strings.Strings.DefaultUserEmail;
 
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
 
             await this.GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
@@ -158,10 +150,10 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarCreate_ConfirmNo_ChangeParticipants()
         {
-            string testRecipient = Strings.Strings.DefaultUserName;
-            string testEmailAddress = Strings.Strings.DefaultUserEmail;
+            var testRecipient = Strings.Strings.DefaultUserName;
+            var testEmailAddress = Strings.Strings.DefaultUserEmail;
 
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
 
             await this.GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
@@ -277,15 +269,15 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarCreateWithMultipleContacts()
         {
-            string testDupRecipient = string.Format(Strings.Strings.UserName, 0);
-            string testDupEmailAddress = string.Format(Strings.Strings.UserEmailAddress, 0);
-            string testRecipient = Strings.Strings.DefaultUserName;
-            string testEmailAddress = Strings.Strings.DefaultUserEmail;
+            var testDupRecipient = string.Format(Strings.Strings.UserName, 0);
+            var testDupEmailAddress = string.Format(Strings.Strings.UserEmailAddress, 0);
+            var testRecipient = Strings.Strings.DefaultUserName;
+            var testEmailAddress = Strings.Strings.DefaultUserEmail;
 
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
-            StringDictionary recipientDupDict = new StringDictionary() { { "UserName", testDupRecipient }, { "EmailAddress", testDupEmailAddress } };
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDupDict = new StringDictionary() { { "UserName", testDupRecipient }, { "EmailAddress", testDupEmailAddress } };
 
-            int peopleCount = 3;
+            var peopleCount = 3;
             this.ServiceManager = MockServiceManager.SetPeopleToMultiple(peopleCount);
 
             await this.GetTestFlow()

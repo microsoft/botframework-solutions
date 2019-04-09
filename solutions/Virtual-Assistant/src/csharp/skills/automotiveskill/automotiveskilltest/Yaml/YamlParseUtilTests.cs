@@ -1,10 +1,9 @@
 ﻿using AutomotiveSkill.Models;
-using AutomotiveSkill.Yaml;
+using AutomotiveSkill.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 
 namespace AutomotiveSkillTest.Yaml
 {
@@ -14,9 +13,9 @@ namespace AutomotiveSkillTest.Yaml
         [TestMethod]
         public void Test_ParseDocumentAsNonGeneric()
         {
-            string yaml = "unit: bar";
+            var yaml = "unit: bar";
 
-            AvailableSettingAmount expectedAmount = new AvailableSettingAmount
+            var expectedAmount = new AvailableSettingAmount
             {
                 Unit = "bar",
             };
@@ -31,7 +30,7 @@ namespace AutomotiveSkillTest.Yaml
         [TestMethod]
         public void Test_ParseDocumentAsList()
         {
-            AvailableSetting foo = new AvailableSetting
+            var foo = new AvailableSetting
             {
                 CanonicalName = "Foo",
                 Values = new List<AvailableSettingValue>
@@ -74,7 +73,7 @@ namespace AutomotiveSkillTest.Yaml
                 },
             };
 
-            AvailableSetting qux = new AvailableSetting
+            var qux = new AvailableSetting
             {
                 CanonicalName = "Qux",
                 Values = new List<AvailableSettingValue>
@@ -91,7 +90,7 @@ namespace AutomotiveSkillTest.Yaml
                 },
             };
 
-            List<AvailableSetting> expectedAvailableSettings = new List<AvailableSetting>
+            var expectedAvailableSettings = new List<AvailableSetting>
             {
                 foo,
                 qux,
@@ -107,7 +106,7 @@ namespace AutomotiveSkillTest.Yaml
         [TestMethod]
         public void Test_ParseDocumentAsDictionaryWithNestedGenerics()
         {
-            SettingAlternativeNames defaultAlternativeNames = new SettingAlternativeNames
+            var defaultAlternativeNames = new SettingAlternativeNames
             {
                 AlternativeValueNames = new Dictionary<string, IList<string>>
                 {
@@ -116,12 +115,12 @@ namespace AutomotiveSkillTest.Yaml
                 },
             };
 
-            SettingAlternativeNames fooAlternativeNames = new SettingAlternativeNames
+            var fooAlternativeNames = new SettingAlternativeNames
             {
                 AlternativeNames = new List<string> { "fooing" },
             };
 
-            Dictionary<string, SettingAlternativeNames> expectedAlternativeNameMap = new Dictionary<string, SettingAlternativeNames>
+            var expectedAlternativeNameMap = new Dictionary<string, SettingAlternativeNames>
             {
                 { "*DEFAULT*", defaultAlternativeNames },
                 { "Foo", fooAlternativeNames },
@@ -137,7 +136,7 @@ namespace AutomotiveSkillTest.Yaml
 
         private StreamReader GetTestResourceStream(string fileName)
         {
-            Assembly resourceAssembly = typeof(YamlParseUtilTests).Assembly;
+            var resourceAssembly = typeof(YamlParseUtilTests).Assembly;
             var filePath = resourceAssembly
                 .GetManifestResourceNames()
                 .Where(x => x.Contains(fileName))

@@ -171,6 +171,9 @@
       <LastGenOutput>RestaurantBookingMainResponses.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Responses\Shared\ResponseIdCollection.t4">
+      <Generator></Generator>
+    </None>
     <None Update="Responses\Shared\RestaurantBookingSharedResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>RestaurantBookingSharedResponses.cs</LastGenOutput>

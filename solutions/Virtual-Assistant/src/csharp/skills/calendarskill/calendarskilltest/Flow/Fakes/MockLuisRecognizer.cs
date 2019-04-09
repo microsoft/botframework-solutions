@@ -20,7 +20,7 @@ namespace CalendarSkillTest.Flow.Fakes
             this.utterancesManager = utterancesManager;
         }
 
-        public MockLuisRecognizer()
+        public MockLuisRecognizer(TimeRemainingUtterances utterancesManager)
         {
             this.generalUtterancesManager = new GeneralTestUtterances();
         }

@@ -1,9 +1,5 @@
 ﻿using System.Threading;
 using Autofac;
-using AutomotiveSkill;
-using AutomotiveSkill.Dialogs.Main.Resources;
-using AutomotiveSkill.Dialogs.Shared.Resources;
-using AutomotiveSkill.Dialogs.VehicleSettings.Resources;
 using AutomotiveSkillTest.Flow.Fakes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
@@ -14,6 +10,10 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Testing;
+using AutomotiveSkill.Responses.VehicleSettings;
+using AutomotiveSkill.Responses.Shared;
+using AutomotiveSkill.Responses.Main;
+using AutomotiveSkill.Models;
 
 namespace AutomotiveSkillTest.Flow
 {
@@ -56,7 +56,7 @@ namespace AutomotiveSkillTest.Flow
             EndpointService = new EndpointService();
 
             ResponseManager = new ResponseManager(
-                responseTemplates: new IResponseIdCollection[] 
+                responseTemplates: new IResponseIdCollection[]
                 {
                     new AutomotiveSkillMainResponses(),
                     new AutomotiveSkillSharedResponses(),
@@ -64,9 +64,9 @@ namespace AutomotiveSkillTest.Flow
                 },
                 locales: new string[] { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" });
             ImageAssetLocation = "https://localhost";
-            this.Services.Properties.Add("ImageAssetLocation", ImageAssetLocation);
+            Services.Properties.Add("ImageAssetLocation", ImageAssetLocation);
 
-            builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
+            builder.RegisterInstance(new BotStateSet(UserState, ConversationState));
 
             builder.RegisterInstance(new BotStateSet(UserState, ConversationState));
 

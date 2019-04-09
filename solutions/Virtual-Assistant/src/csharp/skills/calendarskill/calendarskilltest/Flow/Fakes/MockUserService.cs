@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarSkill.Extensions;
 using CalendarSkill.Models;
-using CalendarSkill.ServiceClients;
-using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Graph;
 
 namespace CalendarSkillTest.Flow.Fakes
@@ -40,7 +38,7 @@ namespace CalendarSkillTest.Flow.Fakes
         {
             var users = new List<User>();
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 var emailAddressStr = string.Format(Strings.Strings.UserEmailAddress, i);
                 var userNameStr = string.Format(Strings.Strings.UserName, i);
@@ -59,7 +57,7 @@ namespace CalendarSkillTest.Flow.Fakes
         {
             var people = new List<Person>();
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 var emailAddressStr = string.Format(Strings.Strings.UserEmailAddress, i);
                 var userNameStr = string.Format(Strings.Strings.UserName, i);
@@ -106,7 +104,7 @@ namespace CalendarSkillTest.Flow.Fakes
 
         public async Task<List<PersonModel>> GetContactsAsync(string name)
         {
-            List<PersonModel> items = new List<PersonModel>();
+            var items = new List<PersonModel>();
             return await Task.FromResult(items);
         }
 
@@ -117,8 +115,8 @@ namespace CalendarSkillTest.Flow.Fakes
                 throw new SkillException(SkillExceptionType.APIAccessDenied, Strings.Strings.ThrowErrorAccessDenied, new Exception());
             }
 
-            List<PersonModel> items = new List<PersonModel>();
-            foreach (Person people in this.People)
+            var items = new List<PersonModel>();
+            foreach (var people in this.People)
             {
                 items.Add(new PersonModel(people));
             }
@@ -128,8 +126,8 @@ namespace CalendarSkillTest.Flow.Fakes
 
         public async Task<List<PersonModel>> GetUserAsync(string name)
         {
-            List<PersonModel> items = new List<PersonModel>();
-            foreach (User user in this.Users)
+            var items = new List<PersonModel>();
+            foreach (var user in this.Users)
             {
                 items.Add(new PersonModel(user.ToPerson()));
             }

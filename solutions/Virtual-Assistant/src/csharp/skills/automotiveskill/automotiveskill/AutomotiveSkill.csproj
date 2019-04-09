@@ -126,6 +126,9 @@
       <LastGenOutput>AutomotiveSkillSharedResponses.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Responses\Shared\ResponseIdCollection.t4">
+      <Generator></Generator>
+    </None>
     <None Update="Responses\VehicleSettings\VehicleSettingsResponses.tt">
       <LastGenOutput>VehicleSettingsResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>

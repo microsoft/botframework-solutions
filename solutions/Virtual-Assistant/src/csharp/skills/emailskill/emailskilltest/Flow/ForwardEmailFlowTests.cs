@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using EmailSkill.Dialogs.FindContact.Resources;
-using EmailSkill.Dialogs.Shared.Resources;
-using EmailSkill.Dialogs.Shared.Resources.Strings;
-using EmailSkill.Util;
+using EmailSkill.Responses.FindContact;
+using EmailSkill.Responses.Shared;
+using EmailSkill.Utilities;
 using EmailSkillTest.Flow.Fakes;
 using EmailSkillTest.Flow.Strings;
 using EmailSkillTest.Flow.Utterances;
@@ -29,10 +28,10 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_NotSendingEmail()
         {
-            string testRecipient = ContextStrings.TestRecipient;
-            string testEmailAddress = ContextStrings.TestEmailAdress;
+            var testRecipient = ContextStrings.TestRecipient;
+            var testEmailAddress = ContextStrings.TestEmailAdress;
 
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
 
             await this.GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmails)
@@ -57,10 +56,10 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_SendingEmail()
         {
-            string testRecipient = ContextStrings.TestRecipient;
-            string testEmailAddress = ContextStrings.TestEmailAdress;
+            var testRecipient = ContextStrings.TestRecipient;
+            var testEmailAddress = ContextStrings.TestEmailAdress;
 
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
 
             await this.GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmails)
@@ -85,10 +84,10 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_ForwardEmailToRecipient()
         {
-            string testRecipient = ContextStrings.TestRecipient;
-            string testEmailAddress = ContextStrings.TestEmailAdress;
+            var testRecipient = ContextStrings.TestRecipient;
+            var testEmailAddress = ContextStrings.TestEmailAdress;
 
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
 
             await this.GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmailsToRecipient)
@@ -111,10 +110,10 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_ForwardEmailToRecipientWithContent()
         {
-            string testRecipient = ContextStrings.TestRecipient;
-            string testEmailAddress = ContextStrings.TestEmailAdress;
+            var testRecipient = ContextStrings.TestRecipient;
+            var testEmailAddress = ContextStrings.TestEmailAdress;
 
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
 
             await this.GetTestFlow()
                 .Send(ForwardEmailUtterances.ForwardEmailsToRecipientWithContent)

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PointOfInterestSkill.Dialogs.CancelRoute.Resources;
-using PointOfInterestSkill.Dialogs.Route.Resources;
-using PointOfInterestSkill.Dialogs.Shared.Resources;
+using PointOfInterestSkill.Responses.CancelRoute;
+using PointOfInterestSkill.Responses.Route;
+using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkillTests.Flow.Utterances;
 using System;
 using System.Collections.Specialized;
@@ -216,9 +216,11 @@ namespace PointOfInterestSkillTests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                int index = messageActivity.Text.IndexOf("\n");
+                var index = messageActivity.Text.IndexOf("\n");
                 if (index > 0)
+                {
                     messageActivity.Text = messageActivity.Text.Substring(0, index);
+                }
 
                 CollectionAssert.Contains(ParseReplies(POISharedResponses.PointOfInterestSelection, new StringDictionary()), messageActivity.Text);
             };
@@ -266,7 +268,7 @@ namespace PointOfInterestSkillTests.Flow
                 CollectionAssert.Contains(ParseReplies(POISharedResponses.MultipleRoutesFound, new StringDictionary()), messageActivity.Text);
             };
         }
-        
+
 
         /// <summary>
         /// Asserts bot response of PromptToStartRoute

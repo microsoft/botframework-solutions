@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using EmailSkill;
-using EmailSkill.Dialogs.Shared;
-using EmailSkill.Model;
-using EmailSkill.Util;
+using EmailSkill.Dialogs;
+using EmailSkill.Models;
+using EmailSkill.Utilities;
 using EmailSkillTest.API.Fakes;
 using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace EmailSkillTest.API.Helper
 {
     [TestClass]
-    public class StepHelperTests : EmailSkillDialog
+    public class StepHelperTests : EmailSkillDialogBase
     {
         private const string DialogId = "test";
         private MockDialogStateAccessor mockDialogStateAccessor;
@@ -91,8 +90,8 @@ namespace EmailSkillTest.API.Helper
             var contactData = GetPersonLists(1, 6);
             personData.AddRange(contactData);
 
-            List<PersonModel> originPersonList = personData;
-            List<PersonModel> originUserList = GetPersonLists(2, 7);
+            var originPersonList = personData;
+            var originUserList = GetPersonLists(2, 7);
 
             (var personList, var userList) = DisplayHelper.FormatRecipientList(originPersonList, originUserList);
 
@@ -102,9 +101,9 @@ namespace EmailSkillTest.API.Helper
 
         private List<Recipient> GetRecipients(int count)
         {
-            List<Recipient> result = new List<Recipient>();
+            var result = new List<Recipient>();
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 var recipient = new Recipient
                 {
@@ -123,12 +122,14 @@ namespace EmailSkillTest.API.Helper
 
         private List<PersonModel> GetPersonLists(int start, int end)
         {
-            List<PersonModel> result = new List<PersonModel>();
+            var result = new List<PersonModel>();
 
-            for (int i = start; i < end; i++)
+            for (var i = start; i < end; i++)
             {
-                var emailList = new List<string>();
-                emailList.Add("test" + i.ToString() + "@test.com");
+                var emailList = new List<string>
+                {
+                    "test" + i.ToString() + "@test.com"
+                };
 
                 var person = new PersonModel
                 {

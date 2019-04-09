@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using EmailSkill.Model;
+using EmailSkill.Models;
 using EmailSkill.ServiceClients;
 using EmailSkill.ServiceClients.GoogleAPI;
 using EmailSkillTest.API.Fakes.Google;

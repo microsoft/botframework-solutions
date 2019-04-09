@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
-using CalendarSkill.ServiceClients;
-using CalendarSkill.ServiceClients.MSGraphAPI;
+using CalendarSkill.Services;
+using CalendarSkill.Services.MSGraphAPI;
 using CalendarSkillTest.API.Fakes.MockMSGraphClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using CalendarSkill.Dialogs.ChangeEventStatus.Resources;
 using CalendarSkill.Models;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
-using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -55,8 +52,8 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarDeleteByStartTime()
         {
-            DateTime now = DateTime.Now;
-            DateTime startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
+            var now = DateTime.Now;
+            var startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
             startTime = startTime.AddDays(1);
             startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
             var serviceManager = this.ServiceManager as MockCalendarServiceManager;
@@ -83,8 +80,8 @@ namespace CalendarSkillTest.Flow
         public async Task Test_CalendarDeleteWithStartTimeEntity()
         {
             var serviceManager = this.ServiceManager as MockCalendarServiceManager;
-            DateTime now = DateTime.Now;
-            DateTime startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
+            var now = DateTime.Now;
+            var startTime = new DateTime(now.Year, now.Month, now.Day, 18, 0, 0);
             startTime = startTime.AddDays(1);
             startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
             serviceManager.SetupCalendarService(new List<EventModel>()

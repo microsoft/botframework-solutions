@@ -2,14 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using CalendarSkill.Dialogs.Summary.Resources;
-using CalendarSkill.Dialogs.UpdateEvent.Resources;
 using CalendarSkill.Models;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
 using Microsoft.Bot.Builder.Solutions.Resources;
-using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -62,7 +58,7 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarSummaryGetMultipleMeetings()
         {
-            int eventCount = 3;
+            var eventCount = 3;
             this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
@@ -115,9 +111,9 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarSummaryByTimeRange()
         {
-            DateTime now = DateTime.Now;
-            DateTime nextWeekDay = now.AddDays(7);
-            DateTime startTime = new DateTime(nextWeekDay.Year, nextWeekDay.Month, nextWeekDay.Day, 18, 0, 0);
+            var now = DateTime.Now;
+            var nextWeekDay = now.AddDays(7);
+            var startTime = new DateTime(nextWeekDay.Year, nextWeekDay.Month, nextWeekDay.Day, 18, 0, 0);
             startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
             this.ServiceManager = MockServiceManager.SetMeetingsToSpecial(new List<EventModel>()
             {

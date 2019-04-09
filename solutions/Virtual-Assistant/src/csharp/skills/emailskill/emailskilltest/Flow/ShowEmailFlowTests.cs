@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using EmailSkill.Dialogs.DeleteEmail.Resources;
-using EmailSkill.Dialogs.FindContact.Resources;
-using EmailSkill.Dialogs.Shared.Resources;
-using EmailSkill.Dialogs.ShowEmail.Resources;
-using EmailSkill.Util;
+using EmailSkill.Responses.DeleteEmail;
+using EmailSkill.Responses.FindContact;
+using EmailSkill.Responses.Shared;
+using EmailSkill.Responses.ShowEmail;
+using EmailSkill.Utilities;
 using EmailSkillTest.Flow.Fakes;
 using EmailSkillTest.Flow.Strings;
 using EmailSkillTest.Flow.Utterances;
@@ -504,7 +504,7 @@ namespace EmailSkillTest.Flow
                 }
                 else
                 {
-                    for (int i = ConfigData.GetInstance().MaxDisplaySize * page; i < totalEmails.Count; i++)
+                    for (var i = ConfigData.GetInstance().MaxDisplaySize * page; i < totalEmails.Count; i++)
                     {
                         showEmails.Add(totalEmails[i]);
                     }

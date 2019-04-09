@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using CalendarSkill.Models;
-using CalendarSkill.ServiceClients;
-using Microsoft.Bot.Builder.Solutions.Skills;
+using CalendarSkill.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 
 namespace CalendarSkillTest.API
 {
@@ -20,7 +18,7 @@ namespace CalendarSkillTest.API
             mockConfig = new Mock<SkillConfigurationBase>();
             mockConfig.SetupGet(config => config.Properties).Returns(() =>
             {
-                Dictionary<string, object> props = new Dictionary<string, object>
+                var props = new Dictionary<string, object>
                 {
                     { "googleAppName", "testAppName" },
                     { "googleClientId", "testClientId" },
