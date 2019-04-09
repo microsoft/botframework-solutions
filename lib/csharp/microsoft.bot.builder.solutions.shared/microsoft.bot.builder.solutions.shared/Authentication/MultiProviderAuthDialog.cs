@@ -14,10 +14,10 @@ namespace Microsoft.Bot.Builder.Solutions.Shared.Authentication
     public class MultiProviderAuthDialog : ComponentDialog
     {
         private string _selectedAuthType = string.Empty;
-        private Dictionary<string, string> _authenticationConnections;
+        private List<OAuthConnection> _authenticationConnections;
         private ResponseManager _responseManager;
 
-        public MultiProviderAuthDialog(ResponseManager responseManager, Dictionary<string, string> authenticationConnections)
+        public MultiProviderAuthDialog(ResponseManager responseManager, List<OAuthConnection> authenticationConnections)
             : base(nameof(MultiProviderAuthDialog))
         {
             _authenticationConnections = authenticationConnections;
@@ -57,12 +57,12 @@ namespace Microsoft.Bot.Builder.Solutions.Shared.Authentication
             foreach (var connection in _authenticationConnections)
             {
                 AddDialog(new OAuthPrompt(
-                    connection.Key,
+                    connection.Name,
                     new OAuthPromptSettings
                     {
-                        ConnectionName = connection.Key,
+                        ConnectionName = connection.Name,
                         Title = "login",
-                        Text = string.Format("login with {0}", connection.Key),
+                        Text = string.Format("login with {0}", connection.Name),
                     },
                     AuthPromptValidator));
             }
@@ -126,7 +126,7 @@ namespace Microsoft.Bot.Builder.Solutions.Shared.Authentication
         {
             if (_authenticationConnections.Count() == 1)
             {
-                var result = _authenticationConnections.ElementAt(0).Key;
+                var result = _authenticationConnections.ElementAt(0).Name;
                 return await stepContext.NextAsync(result);
             }
             else
@@ -134,7 +134,7 @@ namespace Microsoft.Bot.Builder.Solutions.Shared.Authentication
                 var adapter = stepContext.Context.Adapter as BotFrameworkAdapter;
                 var tokenStatusCollection = await adapter.GetTokenStatusAsync(stepContext.Context, stepContext.Context.Activity.From.Id);
 
-                var matchingProviders = tokenStatusCollection.Where(p => (bool)p.HasToken && _authenticationConnections.Any(t => t.Key == p.ConnectionName)).ToList();
+                var matchingProviders = tokenStatusCollection.Where(p => (bool)p.HasToken && _authenticationConnections.Any(t => t.Name == p.ConnectionName)).ToList();
 
                 if (matchingProviders.Count() == 1)
                 {
@@ -168,8 +168,8 @@ namespace Microsoft.Bot.Builder.Solutions.Shared.Authentication
                     {
                         choices.Add(new Choice()
                         {
-                            Action = new CardAction(ActionTypes.ImBack, connection.Key, value: connection.Key),
-                            Value = connection.Key,
+                            Action = new CardAction(ActionTypes.ImBack, connection.Name, value: connection.Name),
+                            Value = connection.Name,
                         });
                     }
 

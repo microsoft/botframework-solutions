@@ -61,12 +61,13 @@ namespace Microsoft.Bot.Builder.Skills
 
             if (_skillDefinition.SupportedProviders != null)
             {
-                var dic = new Dictionary<string, string>();
+                // hack for oauth connection for now
+                var list = new List<OAuthConnection>();
                 foreach (var provider in _skillDefinition.SupportedProviders)
                 {
                     if (provider.Contains("Azure"))
                     {
-                        dic.Add("office365", provider);
+                        list.Add(new OAuthConnection { Name = "office365", Provider = provider });
                         break;
                     }
                     else
@@ -75,7 +76,7 @@ namespace Microsoft.Bot.Builder.Skills
                     }
                 }
 
-                AddDialog(new MultiProviderAuthDialog(responseManager, dic));
+                AddDialog(new MultiProviderAuthDialog(responseManager, list));
             }
         }
 

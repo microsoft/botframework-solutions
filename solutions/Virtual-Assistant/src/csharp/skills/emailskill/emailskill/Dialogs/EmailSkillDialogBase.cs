@@ -55,22 +55,7 @@ namespace EmailSkill.Dialogs
                 throw new Exception("You must configure an authentication connection in your bot file before using this component.");
             }
 
-            // hack for now for auth connections
-            var authConnections = new Dictionary<string, string>();
-            foreach (var authConnection in settings.OAuthConnections)
-            {
-                if (authConnection.Provider.Contains("Azure"))
-                {
-                    authConnections.Add(authConnection.Name, authConnection.Provider);
-                    break;
-                }
-                else
-                {
-                    continue;
-                }
-            }
-
-            AddDialog(new MultiProviderAuthDialog(ResponseManager, authConnections));
+            AddDialog(new MultiProviderAuthDialog(ResponseManager, settings.OAuthConnections));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }
