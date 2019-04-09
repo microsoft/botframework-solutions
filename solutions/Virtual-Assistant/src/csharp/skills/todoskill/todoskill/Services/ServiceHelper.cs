@@ -12,7 +12,7 @@ namespace ToDoSkill.Services
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using System.Xml;
-    using Microsoft.Bot.Builder.Solutions.Skills;
+    using Microsoft.Bot.Builder.Skills;
     using Microsoft.Graph;
     using Newtonsoft.Json;
     using ToDoSkill.Models;
