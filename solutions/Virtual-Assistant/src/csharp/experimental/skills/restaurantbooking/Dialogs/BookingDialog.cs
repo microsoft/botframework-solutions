@@ -17,8 +17,8 @@ using RestaurantBooking.Content;
 using RestaurantBooking.Data;
 using RestaurantBooking.Models;
 using RestaurantBooking.Responses.Shared;
+using RestaurantBooking.Services;
 using RestaurantBooking.Utilities;
-using RestaurantSkill.Services;
 
 namespace RestaurantBooking.Dialogs
 {
@@ -146,12 +146,12 @@ namespace RestaurantBooking.Dialogs
                 cards.Add(new Card(
                     "CusineChoiceCard",
                     new CusineChoiceCardData
-                            {
-                                    ImageUrl = foodType.ImageUrl,
-                                    ImageSize = AdaptiveImageSize.Stretch,
-                                    ImageAlign = AdaptiveHorizontalAlignment.Stretch,
-                                    Cusine = foodType.TypeName,
-                            }));
+                    {
+                        ImageUrl = foodType.ImageUrl,
+                        ImageSize = AdaptiveImageSize.Stretch,
+                        ImageAlign = AdaptiveHorizontalAlignment.Stretch,
+                        Cusine = foodType.TypeName,
+                    }));
 
                 options.Choices.Add(new Choice(foodType.TypeName));
             }
@@ -187,15 +187,17 @@ namespace RestaurantBooking.Dialogs
                 {
                     // Override what the prompt has done
                     promptContext.Recognized.Succeeded = true;
-                    var foundChoice = new FoundChoice();
-                    foundChoice.Value = promptResponse;
+                    var foundChoice = new FoundChoice
+                    {
+                        Value = promptResponse
+                    };
                     promptContext.Recognized.Value = foundChoice;
                 }
             }
 
             if (promptContext.Recognized.Succeeded)
             {
-                state.Booking.Category = (string)promptContext.Recognized.Value.Value;
+                state.Booking.Category = promptContext.Recognized.Value.Value;
 
                 var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantFoodSelectionEcho, new StringDictionary { { "FoodType", state.Booking.Category } });
                 await promptContext.Context.SendActivityAsync(reply, cancellationToken);
@@ -270,8 +272,10 @@ namespace RestaurantBooking.Dialogs
 
                 foreach (var option in state.AmbiguousTimexExpressions)
                 {
-                    var choice = new Choice(option.Value);
-                    choice.Synonyms = new List<string>();
+                    var choice = new Choice(option.Value)
+                    {
+                        Synonyms = new List<string>()
+                    };
 
                     // The timex natural language variant provides options in the format of "today 4am", "today 4pm" so we provide
                     // synonyms to make things easier for the user especially when using speech
@@ -325,7 +329,7 @@ namespace RestaurantBooking.Dialogs
                 var timexFromNaturalLanguage = state.AmbiguousTimexExpressions.First(t => t.Value == promptContext.Recognized.Value.Value);
                 if (!string.IsNullOrEmpty(timexFromNaturalLanguage.Key))
                 {
-                    TimexProperty property = new TimexProperty(timexFromNaturalLanguage.Key);
+                    var property = new TimexProperty(timexFromNaturalLanguage.Key);
                     state.Booking.ReservationTime = DateTime.Parse($"{property.Hour.Value}:{property.Minute.Value}:{property.Second.Value}");
 
                     return true;
@@ -514,8 +518,10 @@ namespace RestaurantBooking.Dialogs
                 {
                     // Override what the prompt has done
                     promptContext.Recognized.Succeeded = true;
-                    var foundChoice = new FoundChoice();
-                    foundChoice.Value = promptResponse;
+                    var foundChoice = new FoundChoice
+                    {
+                        Value = promptResponse
+                    };
                     promptContext.Recognized.Value = foundChoice;
                 }
             }

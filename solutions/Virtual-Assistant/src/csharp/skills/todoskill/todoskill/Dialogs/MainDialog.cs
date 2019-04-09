@@ -10,7 +10,7 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Shared.Responses;
 using Microsoft.Bot.Schema;
 using ToDoSkill.Models;
 using ToDoSkill.Responses.Main;

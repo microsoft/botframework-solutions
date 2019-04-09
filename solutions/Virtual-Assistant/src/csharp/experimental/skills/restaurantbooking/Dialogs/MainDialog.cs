@@ -17,7 +17,6 @@ using RestaurantBooking.Models;
 using RestaurantBooking.Responses.Main;
 using RestaurantBooking.Responses.Shared;
 using RestaurantBooking.Services;
-using RestaurantSkill.Services;
 
 namespace RestaurantBooking.Dialogs
 {

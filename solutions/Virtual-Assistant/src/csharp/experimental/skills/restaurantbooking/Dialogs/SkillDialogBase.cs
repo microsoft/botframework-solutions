@@ -14,7 +14,7 @@ using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using Microsoft.Recognizers.Text.DateTime;
 using RestaurantBooking.Models;
 using RestaurantBooking.Responses.Shared;
-using RestaurantSkill.Services;
+using RestaurantBooking.Services;
 using Constants = Microsoft.Recognizers.Text.DataTypes.TimexExpression.Constants;
 
 namespace RestaurantBooking.Dialogs
@@ -148,7 +148,7 @@ namespace RestaurantBooking.Dialogs
 
                             // Now we have the timex properties let's see if we have a definite date and time
                             // If so we slot-fill this and move on, if we don't we'll ignore for now meaning the user will be prompted
-                            TimexProperty timexProperty = new TimexProperty(distinctTimexExpressions.First());
+                            var timexProperty = new TimexProperty(distinctTimexExpressions.First());
 
                             if (timexProperty.Types.Contains(Constants.TimexTypes.Date) && timexProperty.Types.Contains(Constants.TimexTypes.Definite))
                             {
@@ -169,7 +169,7 @@ namespace RestaurantBooking.Dialogs
                                         // We don't have a distinct time so add the TimeEx expressions to enable disambiguation later and prepare the natural language versions
                                         foreach (var timex in distinctTimexExpressions)
                                         {
-                                            TimexProperty property = new TimexProperty(timex);
+                                            var property = new TimexProperty(timex);
                                             state.AmbiguousTimexExpressions.Add(timex, property.ToNaturalLanguage(DateTime.Now));
                                         }
                                     }
@@ -189,7 +189,7 @@ namespace RestaurantBooking.Dialogs
                                 // We don't have a distinct time so add the TimeEx expressions to enable disambiguation later and prepare the natural language versions
                                 foreach (var timex in distinctTimexExpressions)
                                 {
-                                    TimexProperty property = new TimexProperty(timex);
+                                    var property = new TimexProperty(timex);
                                     state.AmbiguousTimexExpressions.Add(timex, property.ToNaturalLanguage(DateTime.Now));
                                 }
                             }
@@ -208,7 +208,7 @@ namespace RestaurantBooking.Dialogs
                         var attendeesComposite = entities.attendees.First();
                         if (attendeesComposite != null)
                         {
-                            int.TryParse(attendeesComposite.number.First().ToString(), out int attendeeCount);
+                            int.TryParse(attendeesComposite.number.First().ToString(), out var attendeeCount);
                             if (attendeeCount > 0)
                             {
                                 state.Booking.AttendeeCount = attendeeCount;
