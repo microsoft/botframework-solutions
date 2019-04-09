@@ -31,7 +31,7 @@
                   "size": "Large",
                   "weight": "Bolder",
                   "color": "Light",
-                  "text": "Hi there Ryan!",
+                  "text": "{Title}",
                   "wrap": true
                 },
                 {
@@ -39,7 +39,7 @@
                   "id": "body",
                   "size": "Medium",
                   "color": "Light",
-                  "text": "I have lots of skills we can explore together.",
+                  "text": "{Body}",
                   "wrap": true
                 },
                 {
