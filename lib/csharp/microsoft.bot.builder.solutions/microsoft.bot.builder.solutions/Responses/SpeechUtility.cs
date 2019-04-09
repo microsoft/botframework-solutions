@@ -1,13 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using AdaptiveCards;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Extensions;
-using Microsoft.Bot.Builder.Solutions.Resources;
-using Microsoft.Bot.Schema;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 namespace Microsoft.Bot.Builder.Solutions.Responses
 {
+    using System;
+    using System.Collections.Generic;
+    using AdaptiveCards;
+    using Microsoft.Bot.Builder.Dialogs;
+    using Microsoft.Bot.Builder.Solutions.Extensions;
+    using Microsoft.Bot.Builder.Solutions.Resources;
+    using Microsoft.Bot.Schema;
+
     /// <summary>
     /// Read order of list items.
     /// </summary>
@@ -31,7 +34,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
         /// <param name="readOrder">Read order of list items.</param>
         /// <param name="maxSize">The max read size, default is 4.</param>
         /// <returns>Formatted speech-ready string.</returns>
-        public static string ListToSpeechReadyString(PromptOptions selectOption, ReadPreference readOrder = ReadPreference.Enumeration,  int maxSize = 4)
+        public static string ListToSpeechReadyString(PromptOptions selectOption, ReadPreference readOrder = ReadPreference.Enumeration, int maxSize = 4)
         {
             List<string> selectOptionSpeakStrings = new List<string>();
 
@@ -117,7 +120,8 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
                         {
                             readFormat = CommonStrings.FirstItem;
                         }
-                    } else
+                    }
+                    else
                     {
                         if (i == readSize - 1)
                         {

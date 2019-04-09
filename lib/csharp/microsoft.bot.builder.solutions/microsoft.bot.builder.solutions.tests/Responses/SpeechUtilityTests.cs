@@ -18,11 +18,11 @@ namespace Microsoft.Bot.Builder.Solutions.Tests
 
         private string parentSpeakProperty = "Parent speak property";
 
-        private string listItemSpeakProperty ="List item speak property";
+        private string listItemSpeakProperty = "List item speak property";
 
         [TestInitialize]
         public void Setup()
-        {            
+        {
             _activity = new Activity() { Speak = parentSpeakProperty };
             _promptOptions = new PromptOptions() { Prompt = new Activity() { Text = parentSpeakProperty, Speak = parentSpeakProperty } };
         }
@@ -68,7 +68,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests
 
             Assert.AreEqual(response, string.Format($"{parentSpeakProperty}{SpeechUtility.BreakString}{listItemSpeakProperty}"));
         }
-        
+
         [TestMethod]
         public void GetSpeechReadyStringFromActivityWithTwoAttachments()
         {
