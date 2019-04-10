@@ -1,5 +1,5 @@
 ﻿using AdaptiveCards;
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Shared.Responses;
 
 namespace RestaurantBooking.Models
 {
