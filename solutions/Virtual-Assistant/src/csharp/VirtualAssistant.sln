@@ -55,8 +55,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Skill
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Solutions", "..\..\..\..\lib\csharp\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj", "{93E6BF6B-9BBA-4561-8E7E-43D11960C5DB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Solutions.Shared", "..\..\..\..\lib\csharp\microsoft.bot.builder.solutions.shared\microsoft.bot.builder.solutions.shared\Microsoft.Bot.Builder.Solutions.Shared.csproj", "{F85AC677-83BB-414B-A684-F2B7A66BC4BA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -131,10 +129,6 @@ Global
 		{93E6BF6B-9BBA-4561-8E7E-43D11960C5DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93E6BF6B-9BBA-4561-8E7E-43D11960C5DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93E6BF6B-9BBA-4561-8E7E-43D11960C5DB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F85AC677-83BB-414B-A684-F2B7A66BC4BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F85AC677-83BB-414B-A684-F2B7A66BC4BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F85AC677-83BB-414B-A684-F2B7A66BC4BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F85AC677-83BB-414B-A684-F2B7A66BC4BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

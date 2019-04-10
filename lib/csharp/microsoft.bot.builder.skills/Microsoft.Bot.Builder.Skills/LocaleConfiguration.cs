@@ -1,4 +1,4 @@
-﻿using Microsoft.Bot.Builder.Solutions.Shared.Telemetry;
+﻿using Microsoft.Bot.Builder.Solutions.Telemetry;
 using System.Collections.Generic;
 
 namespace Microsoft.Bot.Builder.Skills

@@ -1,4 +1,4 @@
-﻿using Microsoft.Bot.Builder.Solutions.Shared;
+﻿using Microsoft.Bot.Builder.Solutions;
 
 namespace AutomotiveSkill.Services
 {
