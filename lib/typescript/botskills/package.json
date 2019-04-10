@@ -7,6 +7,7 @@
     "botskills": "lib/botskills.js"
   },
   "scripts": {
+    "prebuild": "npm run lint",
     "build": "tsc",
     "lint": "tslint -t vso ./src/**/*.ts",
     "lint-fix": "tslint --fix ./src/**/*.ts",
