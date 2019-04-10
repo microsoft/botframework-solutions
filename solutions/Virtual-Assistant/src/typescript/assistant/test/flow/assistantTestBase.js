@@ -12,7 +12,7 @@ const BotServices = require('../../lib/botServices.js').BotServices;
 const VirtualAssistant = require('../../lib/virtualAssistant.js').VirtualAssistant;
 let languageModelsRaw;
 let skillsRaw;
-const { Locales, ProactiveState, SkillDefinition } = require('bot-solution');
+const { Locales, ProactiveState, SkillDefinition } = require('botbuilder-solutions');
 const TEST_MODE = require('../testBase').testMode;
 
 const setupEnvironment = function (testMode) {

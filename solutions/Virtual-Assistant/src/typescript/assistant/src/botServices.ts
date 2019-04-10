@@ -5,7 +5,7 @@
 
 import { TelemetryClient } from 'applicationinsights';
 import { ITelemetryLuisRecognizer, ITelemetryQnAMaker, LocaleConfiguration, SkillConfiguration, SkillConfigurationBase, SkillDefinition,
-    SkillEvent, TelemetryLuisRecognizer, TelemetryQnAMaker } from 'bot-solution';
+    SkillEvent, TelemetryLuisRecognizer, TelemetryQnAMaker } from 'botbuilder-solutions';
 import { LuisApplication, QnAMakerEndpoint } from 'botbuilder-ai';
 import { CosmosDbStorageSettings } from 'botbuilder-azure';
 import { AppInsightsService, BotConfiguration, CosmosDbService, DispatchService,

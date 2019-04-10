@@ -14,7 +14,7 @@ import {
     SetLocaleMiddleware,
     SkillDefinition,
     SkillEvent,
-    TelemetryExtensions } from 'bot-solution';
+    TelemetryExtensions } from 'botbuilder-solutions';
 import {
     AutoSaveStateMiddleware,
     BotFrameworkAdapter,

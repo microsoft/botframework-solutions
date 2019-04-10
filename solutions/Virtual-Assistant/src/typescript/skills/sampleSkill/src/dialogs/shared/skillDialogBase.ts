@@ -9,7 +9,7 @@ import {
     LocaleConfiguration,
     MultiProviderAuthDialog,
     ResponseManager,
-    SkillConfigurationBase } from 'bot-solution';
+    SkillConfigurationBase } from 'botbuilder-solutions';
 import {
     Activity,
     ActivityTypes,

@@ -10,12 +10,12 @@
       "projectFolder": "assistant"
     },
     {
-      "packageName": "bot-solution",
-      "projectFolder": "bot-solution"
+      "packageName": "botbuilder-solutions",
+      "projectFolder": "botbuilder-solutions"
     },
     {
-      "packageName": "bot-skill",
-      "projectFolder": "bot-skill"
+      "packageName": "botbuilder-skills",
+      "projectFolder": "botbuilder-skills"
     },
     {
       "packageName": "sampleSkill",
