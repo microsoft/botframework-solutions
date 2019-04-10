@@ -201,7 +201,6 @@ namespace PointOfInterestSkillTests.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-
                 CollectionAssert.Contains(ParseReplies(POISharedResponses.MultipleLocationsFound, new StringDictionary()), messageActivity.Text);
             };
         }

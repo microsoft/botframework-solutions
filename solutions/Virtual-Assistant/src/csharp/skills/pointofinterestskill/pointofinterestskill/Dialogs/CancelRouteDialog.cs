@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Shared.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using PointOfInterestSkill.Models;
 using PointOfInterestSkill.Responses.CancelRoute;

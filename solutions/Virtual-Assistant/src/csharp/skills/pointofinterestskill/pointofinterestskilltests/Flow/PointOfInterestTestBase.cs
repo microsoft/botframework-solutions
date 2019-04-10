@@ -1,4 +1,5 @@
-﻿using Microsoft.Bot.Builder;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Proactive;
@@ -13,6 +14,7 @@ using PointOfInterestSkill.Responses.CancelRoute;
 using PointOfInterestSkill.Responses.Route;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
+using PointOfInterestSkillTests.API.Fakes;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -27,7 +29,13 @@ namespace PointOfInterestSkillTests.Flow
         {
             // Initialize service collection
             Services = new ServiceCollection();
-            Services.AddSingleton(new BotSettings());
+            Services.AddSingleton(new BotSettings()
+            {
+                Properties = new Dictionary<string, string>()
+                {
+                    { "AzureMapsKey", MockData.Key }
+                }
+            });
             Services.AddSingleton(new BotServices()
             {
                 CognitiveModelSets = new Dictionary<string, CognitiveModelSet>
@@ -37,6 +45,8 @@ namespace PointOfInterestSkillTests.Flow
                         {
                             LuisServices = new Dictionary<string, IRecognizer>
                             {
+                                { "general", new Fakes.MockLuisRecognizer() },
+                                { "pointofinterest", new Fakes.MockLuisRecognizer() }
                             }
                         }
                     }
@@ -65,10 +75,16 @@ namespace PointOfInterestSkillTests.Flow
                 });
             Services.AddSingleton(ResponseManager);
 
+            Services.AddSingleton<IServiceManager, MockServiceManager>();
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<MainDialog>();
             Services.AddTransient<IBot, DialogBot<MainDialog>>();
+
+            var mockHttpContext = new DefaultHttpContext();
+            mockHttpContext.Request.Scheme = "http";
+            mockHttpContext.Request.Host = new HostString("localhost", 3980);
+            Services.AddSingleton<IHttpContextAccessor>(new HttpContextAccessor { HttpContext = mockHttpContext });
         }
 
         public TestFlow GetTestFlow()
