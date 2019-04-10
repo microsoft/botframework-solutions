@@ -40,7 +40,7 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventPrompt())
-                .AssertReply(this.ShowCalendarList(1))
+                .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -69,7 +69,7 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundMultipleEventPrompt(eventCount))
-                .AssertReply(this.ShowCalendarList(eventCount))
+                .AssertReply(this.ShowCalendarList())
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
@@ -131,7 +131,7 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventPrompt("next week"))
-                .AssertReply(this.ShowCalendarList(1))
+                .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -145,7 +145,7 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventPrompt("tomorrow"))
-                .AssertReply(this.ShowCalendarList(1))
+                .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -263,12 +263,12 @@ namespace CalendarSkillTest.Flow
             return this.ParseReplies(SummaryResponses.ShowMultipleMeetingSummaryMessage, responseParams);
         }
 
-        private Action<IActivity> ShowCalendarList(int count)
+        private Action<IActivity> ShowCalendarList()
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                //Assert.AreEqual(messageActivity.Attachments.Count, count);
+                Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }
 

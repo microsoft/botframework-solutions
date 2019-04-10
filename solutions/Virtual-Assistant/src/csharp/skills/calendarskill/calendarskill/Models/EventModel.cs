@@ -866,17 +866,26 @@ namespace CalendarSkill.Models
         public CalendarItemCardData ToAdaptiveCardData(TimeZoneInfo timeZone)
         {
             var userStartDateTime = TimeConverter.ConvertUtcToUserTime(StartTime, timeZone);
+            var duration = EndTime - StartTime;
+
             return new CalendarItemCardData
             {
                 Time = userStartDateTime.ToString("H:mm"),
                 TimeColor = IsConflict ? "Attention" : "Dark",
                 Title = Title,
                 Location = Location,
+                Duration = ToDisplayDurationString(),
                 IsSubtle = !IsAccepted
             };
         }
 
-        public string ToDurationString()
+        public string ToDisplayDurationString()
+        {
+            TimeSpan t = EndTime.Subtract(StartTime);
+            return DisplayHelper.ToDisplayMeetingDuration(t);
+        }
+
+        public string ToSpeechDurationString()
         {
             TimeSpan t = EndTime.Subtract(StartTime);
             return SpeakHelper.ToSpeechMeetingDuration(t);
