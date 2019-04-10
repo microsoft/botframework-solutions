@@ -3,60 +3,53 @@
     {
       "Name": "CalendarSkill",
       "DispatchIntent": "l_calendar",
-      "Endpoint": "https://bfcalendarskill.azurewebsites.net/api/skill/messages",
+      "Endpoint": "",
       "SupportedProviders": [
         "Azure Active Directory v2",
         "Google"
-      ],
-      "Scope": "f67037d3-3cb9-4a96-820c-bd3ee5e8c06e"
+      ]
     },
     {
       "Name": "EmailSkill",
       "DispatchIntent": "l_email",
-      "Endpoint": "https://bfemailskill.azurewebsites.net/api/skill/messages",
+      "Endpoint": "",
       "SupportedProviders": [
         "Azure Active Directory v2",
         "Google"
-      ],
-      "Scope": "b522fc85-bd55-4c4f-ba8d-c7063113338c"
+      ]
     },
     {
       "Name": "ToDoSkill",
       "DispatchIntent": "l_todo",
-      "Endpoint": "https://bftodoskill.azurewebsites.net/api/skill/messages",
+      "Endpoint": "",
       "SupportedProviders": [
         "Azure Active Directory v2",
         "Todoist"
-      ],
-      "Scope": "082ed740-5b26-4177-8f13-40d97096a81a"
+      ]
     },
     {
       "Name": "PointOfInterestSkill",
       "DispatchIntent": "l_pointofinterest",
-      "Endpoint": "https://bfpoiskill.azurewebsites.net/api/skill/messages",
-      "SupportedProviders": [],
-      "Scope": "c06bda4c-db35-47d7-be2a-c541c4236fd6"
+      "Endpoint": "",
+      "SupportedProviders": []
     },
     {
       "Name": "AutomotiveSkill",
       "DispatchIntent": "l_settings",
-      "Endpoint": "https://bfautomotiveskill.azurewebsites.net/api/skill/messages",
-      "SupportedProviders": [],
-      "Scope": "8595a1a1-0d1c-4555-b4c7-4137cd97d9ea"
+      "Endpoint": "",
+      "SupportedProviders": []
     },
     {
       "Name": "NewsSkill",
       "DispatchIntent": "l_news",
-      "Endpoint": "https://bfnewsskill.azurewebsites.net/api/skill/messages",
-      "SupportedProviders": [],
-      "Scope": "0f2fa036-1de3-4012-9b34-64ca1da5f754"
+      "Endpoint": "",
+      "SupportedProviders": []
     },
     {
       "Name": "RestaurantSkill",
       "DispatchIntent": "l_restaurant",
-      "Endpoint": "https://bfrestaurantbookingskill.azurewebsites.net/api/skill/messages",
-      "SupportedProviders": [],
-      "Scope": "7a5489b8-19c4-4976-9a92-43bce27d558b"
+      "Endpoint": "",
+      "SupportedProviders": []
     }
   ]
 }
