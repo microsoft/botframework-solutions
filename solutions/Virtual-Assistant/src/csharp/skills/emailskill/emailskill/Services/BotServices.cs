@@ -2,7 +2,7 @@
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Shared.Telemetry;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 
 namespace EmailSkill.Services
 {

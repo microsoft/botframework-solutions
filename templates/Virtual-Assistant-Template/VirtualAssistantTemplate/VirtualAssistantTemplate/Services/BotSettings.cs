@@ -1,5 +1,5 @@
 ﻿using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Solutions.Shared;
+using Microsoft.Bot.Builder.Solutions;
 using System.Collections.Generic;
 
 namespace VirtualAssistantTemplate.Services

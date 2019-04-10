@@ -1,4 +1,4 @@
-﻿namespace Microsoft.Bot.Builder.Solutions.Shared.Authentication
+﻿namespace Microsoft.Bot.Builder.Solutions.Authentication
 {
     public class OAuthConnection
     {

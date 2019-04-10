@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.Bot.Builder.Solutions.Shared.Telemetry
+namespace Microsoft.Bot.Builder.Solutions.Telemetry
 {
     public interface ITelemetryLoggerMiddleware
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Solutions.Shared;
+using Microsoft.Bot.Builder.Solutions;
 
 namespace NewsSkill.Controllers
 {

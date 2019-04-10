@@ -1,6 +1,6 @@
 ﻿using Microsoft.Bot.Schema;
 
-namespace Microsoft.Bot.Builder.Solutions.Shared
+namespace Microsoft.Bot.Builder.Solutions.Authentication
 {
     public class ProviderTokenResponse
     {

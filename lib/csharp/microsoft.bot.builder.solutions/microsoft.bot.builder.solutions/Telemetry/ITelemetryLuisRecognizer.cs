@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace Microsoft.Bot.Builder.Solutions.Shared.Telemetry
+namespace Microsoft.Bot.Builder.Solutions.Telemetry
 {
     public interface ITelemetryLuisRecognizer : IRecognizer
     {

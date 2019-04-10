@@ -16,7 +16,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
-using Microsoft.Bot.Builder.Solutions.Shared.Responses;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Recognizers.Text.DateTime;
 using static CalendarSkill.Models.CreateEventStateModel;

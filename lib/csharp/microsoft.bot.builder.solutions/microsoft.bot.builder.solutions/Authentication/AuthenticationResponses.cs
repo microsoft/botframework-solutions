@@ -2,9 +2,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Builder.Solutions.Shared.Responses;
+using Microsoft.Bot.Builder.Solutions.Responses;
 
-namespace Microsoft.Bot.Builder.Solutions.Shared.Authentication
+namespace Microsoft.Bot.Builder.Solutions.Authentication
 {
     /// <summary>
     /// Contains bot responses.

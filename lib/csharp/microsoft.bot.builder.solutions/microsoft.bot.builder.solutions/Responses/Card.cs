@@ -1,4 +1,4 @@
-﻿namespace Microsoft.Bot.Builder.Solutions.Shared.Responses
+﻿namespace Microsoft.Bot.Builder.Solutions.Responses
 {
     public class Card
     {

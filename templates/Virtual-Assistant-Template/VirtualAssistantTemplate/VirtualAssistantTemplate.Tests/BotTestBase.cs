@@ -10,7 +10,7 @@ using VirtualAssistantTemplate.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Shared.Telemetry;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Builder.Solutions.Testing;
 
 namespace VirtualAssistantTemplate.Tests

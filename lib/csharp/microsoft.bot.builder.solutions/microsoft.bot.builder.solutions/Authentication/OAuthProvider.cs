@@ -1,4 +1,4 @@
-﻿namespace Microsoft.Bot.Builder.Solutions.Shared
+﻿namespace Microsoft.Bot.Builder.Solutions.Authentication
 {
     public enum OAuthProvider
     {

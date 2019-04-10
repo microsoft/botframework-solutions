@@ -5,11 +5,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Solutions.Shared.Responses;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
 using Microsoft.Rest.Serialization;
 
-namespace Microsoft.Bot.Builder.Solutions.Shared.Authentication
+namespace Microsoft.Bot.Builder.Solutions.Authentication
 {
     public class MultiProviderAuthDialog : ComponentDialog
     {

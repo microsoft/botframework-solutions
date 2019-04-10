@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Microsoft.Bot.Builder.Solutions.Shared
+namespace Microsoft.Bot.Builder.Solutions.Authentication
 {
     public static class OAuthProviderExtensions
     {

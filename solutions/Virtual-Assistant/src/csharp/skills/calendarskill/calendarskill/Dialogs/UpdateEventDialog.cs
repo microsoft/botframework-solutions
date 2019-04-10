@@ -13,7 +13,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Solutions.Shared.Responses;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 

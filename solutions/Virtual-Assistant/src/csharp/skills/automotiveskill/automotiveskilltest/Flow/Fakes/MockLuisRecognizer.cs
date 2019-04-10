@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Shared.Telemetry;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 
 namespace AutomotiveSkillTest.Flow.Fakes
 {

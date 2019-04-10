@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Microsoft.Bot.Builder.Solutions.Shared
+namespace Microsoft.Bot.Builder.Solutions
 {
     public class Serialization
     {
