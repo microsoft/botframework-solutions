@@ -3,7 +3,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Middleware;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;

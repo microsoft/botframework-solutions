@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PointOfInterestSkill.ServiceClients;
+using PointOfInterestSkill.Services;
 using PointOfInterestSkillTests.API.Fakes;
 
 namespace PointOfInterestSkillTests.API

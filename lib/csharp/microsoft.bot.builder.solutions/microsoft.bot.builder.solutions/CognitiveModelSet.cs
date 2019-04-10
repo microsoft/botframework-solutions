@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Bot.Builder.AI.QnA;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 
 namespace Microsoft.Bot.Builder.Solutions
 {
@@ -9,6 +9,6 @@ namespace Microsoft.Bot.Builder.Solutions
 
         public Dictionary<string, IRecognizer> LuisServices { get; set; } = new Dictionary<string, IRecognizer>();
 
-        public Dictionary<string, QnAMaker> QnAServices { get; set; } = new Dictionary<string, QnAMaker>();
+        public Dictionary<string, ITelemetryQnAMaker> QnAServices { get; set; } = new Dictionary<string, ITelemetryQnAMaker>();
     }
 }

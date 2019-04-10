@@ -4,6 +4,7 @@
 using System.Collections.Generic;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
 
 namespace VirtualAssistantTemplate.Services

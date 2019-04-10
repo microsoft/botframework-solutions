@@ -28,7 +28,7 @@ namespace PointOfInterestSkillTests.Flow.Fakes
 
             var t = typeof(T);
             var text = turnContext.Activity.Text;
-            if (t.Name.Equals(typeof(PointOfInterestLU).Name))
+            if (t.Name.Equals(typeof(PointOfInterestLuis).Name))
             {
                 var mockPointOfInterest = new MockPointOfInterestIntent(text);
 
@@ -53,7 +53,7 @@ namespace PointOfInterestSkillTests.Flow.Fakes
 
             var t = typeof(T);
             var text = dialogContext.Context.Activity.Text;
-            if (t.Name.Equals(typeof(PointOfInterestLU).Name))
+            if (t.Name.Equals(typeof(PointOfInterestLuis).Name))
             {
                 var mockPointOfInterest = new MockPointOfInterestIntent(text);
 

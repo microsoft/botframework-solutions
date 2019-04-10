@@ -7,22 +7,39 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.34-preview" />
+    <Compile Remove="Utterances\**" />
+    <EmbeddedResource Remove="Utterances\**" />
+    <None Remove="Utterances\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="InvokeSkillTests.cs" />
+    <Compile Remove="SkillTestBase.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="calendarSkill.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="calendarSkill.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.3.2" />
     <PackageReference Include="MSTest.TestFramework" Version="1.3.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj" />
     <ProjectReference Include="..\Microsoft.Bot.Builder.Skills\Microsoft.Bot.Builder.Skills.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Utterances\" />
   </ItemGroup>
 
 </Project>

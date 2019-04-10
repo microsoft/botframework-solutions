@@ -13,9 +13,9 @@ namespace CalendarSkillTest.Flow.Utterances
 
         public static string NextMeetingTimeRemaining { get; } = $"how much time do i have before my {Strings.Strings.Next} appointment";
 
-        private CalendarLU GetBaseTimeRemainingIntent(
+        private CalendarLuis GetBaseTimeRemainingIntent(
             string userInput,
-            CalendarLU.Intent intents = CalendarLU.Intent.TimeRemaining,
+            CalendarLuis.Intent intents = CalendarLuis.Intent.TimeRemaining,
             string[] fromDate = null,
             string[] toDate = null,
             string[] fromTime = null,

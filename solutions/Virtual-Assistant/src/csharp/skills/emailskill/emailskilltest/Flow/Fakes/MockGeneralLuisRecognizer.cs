@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkillTest.Flow.Utterances;
-using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
@@ -31,7 +30,7 @@ namespace EmailSkillTest.Flow.Fakes
         {
             var text = turnContext.Activity.Text;
 
-            General mockGeneral = generalUtterancesManager.GetValueOrDefault(text, generalUtterancesManager.GetBaseNoneIntent());
+            var mockGeneral = generalUtterancesManager.GetValueOrDefault(text, generalUtterancesManager.GetBaseNoneIntent());
 
             var test = mockGeneral as object;
             var mockResult = (T)test;

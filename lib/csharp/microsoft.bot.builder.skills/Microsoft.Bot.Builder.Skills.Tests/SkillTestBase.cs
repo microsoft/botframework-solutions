@@ -1,12 +1,14 @@
-﻿using Autofac;
+﻿using System.Collections.Generic;
+using System.Threading;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Configuration;
-using Microsoft.Bot.Schema;
-using Microsoft.Bot.Builder.Solutions.Proactive;
-using Microsoft.Bot.Builder.Solutions.TaskExtensions;
-using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Shared.Telemetry;
+using Microsoft.Bot.Builder.Solutions.Testing;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
 
 namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
@@ -14,42 +16,14 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
     [TestClass]
     public class SkillTestBase : BotTestBase
     {
+        public IServiceCollection Services { get; set; }
+
         public DialogSet Dialogs { get; set; }
-
-        public UserState UserState { get; set; }
-
-        public ConversationState ConversationState { get; set; }
-
-        public ProactiveState ProactiveState { get; set; }
-
-        public IStatePropertyAccessor<DialogState> DialogState { get; set; }
-
-        public IBotTelemetryClient TelemetryClient { get; set; }
-        
-        public IBackgroundTaskQueue BackgroundTaskQueue { get; set; }
-
-        public EndpointService EndpointService { get; set; }
-
-        public ConversationReference ConversationReference { get; set; }
 
         [TestInitialize]
         public new void Initialize()
         {
-            var builder = new ContainerBuilder();
-
-            ConversationState = new ConversationState(new MemoryStorage());
-            DialogState = ConversationState.CreateProperty<DialogState>(nameof(DialogState));
-            UserState = new UserState(new MemoryStorage());
-            ProactiveState = new ProactiveState(new MemoryStorage());
-            TelemetryClient = new NullBotTelemetryClient();
-            BackgroundTaskQueue = new BackgroundTaskQueue();
-            EndpointService = new EndpointService();
-
-            builder.RegisterInstance(new BotStateSet(UserState, ConversationState));
-            Container = builder.Build();
-
-            Dialogs = new DialogSet(DialogState);
-        
+            Services = new ServiceCollection();
         }
 
         /// <summary>
@@ -60,8 +34,8 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
         /// <returns></returns>
         public TestFlow GetTestFlow(SkillDefinition skillDefinition, string locale = null)
         {
-            var adapter = new TestAdapter(sendTraceActivity: false)
-                .Use(new AutoSaveStateMiddleware(ConversationState));
+            var sp = Services.BuildServiceProvider();
+            var adapter = sp.GetService<TestAdapter>();
 
             var testFlow = new TestFlow(adapter, async (context, cancellationToken) =>
             {
@@ -79,11 +53,6 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
             });
 
             return testFlow;
-        }
-
-        public override IBot BuildBot()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

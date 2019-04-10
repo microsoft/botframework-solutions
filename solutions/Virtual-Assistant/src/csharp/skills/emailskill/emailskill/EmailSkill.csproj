@@ -200,8 +200,7 @@
       <LastGenOutput>EmailSharedResponses.cs</LastGenOutput>
     </None>
     <None Update="Responses\Shared\ResponseIdCollection.t4">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ResponseIdCollection.cs</LastGenOutput>
+      <Generator></Generator>
     </None>
     <None Update="Responses\ShowEmail\ShowEmailResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

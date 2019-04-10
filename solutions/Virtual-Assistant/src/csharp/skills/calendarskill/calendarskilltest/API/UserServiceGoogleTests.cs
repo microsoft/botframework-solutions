@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
-using CalendarSkill.ServiceClients;
-using CalendarSkill.ServiceClients.GoogleAPI;
+using CalendarSkill.Services;
+using CalendarSkill.Services.GoogleAPI;
 using CalendarSkillTest.API.Fakes.MockGoogleClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

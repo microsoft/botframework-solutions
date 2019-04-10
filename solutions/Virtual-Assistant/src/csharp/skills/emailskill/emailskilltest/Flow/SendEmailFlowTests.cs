@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using EmailSkill.Dialogs.FindContact.Resources;
-using EmailSkill.Dialogs.SendEmail.Resources;
-using EmailSkill.Dialogs.Shared.Resources;
+using EmailSkill.Responses.FindContact;
+using EmailSkill.Responses.SendEmail;
+using EmailSkill.Responses.Shared;
 using EmailSkillTest.Flow.Fakes;
 using EmailSkillTest.Flow.Strings;
 using EmailSkillTest.Flow.Utterances;
@@ -15,22 +15,13 @@ namespace EmailSkillTest.Flow
     [TestClass]
     public class SendEmailFlowTests : EmailBotTestBase
     {
-        [TestInitialize]
-        public void SetupLuisService()
-        {
-            var luisServices = this.Services.LocaleConfigurations["en"].LuisServices;
-            luisServices.Clear();
-            luisServices.Add("email", new MockEmailLuisRecognizer(new SendEmailUtterances()));
-            luisServices.Add("general", new MockGeneralLuisRecognizer());
-        }
-
         [TestMethod]
         public async Task Test_NotSendingEmail()
         {
-            string testRecipient = ContextStrings.TestRecipient;
-            string testEmailAddress = ContextStrings.TestEmailAdress;
+            var testRecipient = ContextStrings.TestRecipient;
+            var testEmailAddress = ContextStrings.TestEmailAdress;
 
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmails)
@@ -55,10 +46,10 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_SendingEmail()
         {
-            string testRecipient = ContextStrings.TestRecipient;
-            string testEmailAddress = ContextStrings.TestEmailAdress;
+            var testRecipient = ContextStrings.TestRecipient;
+            var testEmailAddress = ContextStrings.TestEmailAdress;
 
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmails)
@@ -85,10 +76,10 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_SendEmailToRecipient()
         {
-            string testRecipient = ContextStrings.TestRecipient;
-            string testEmailAddress = ContextStrings.TestEmailAdress;
+            var testRecipient = ContextStrings.TestRecipient;
+            var testEmailAddress = ContextStrings.TestEmailAdress;
 
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmailToRecipient)
@@ -113,10 +104,10 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_SendEmailToRecipientWithSubject()
         {
-            string testRecipient = ContextStrings.TestRecipient;
-            string testEmailAddress = ContextStrings.TestEmailAdress;
+            var testRecipient = ContextStrings.TestRecipient;
+            var testEmailAddress = ContextStrings.TestEmailAdress;
 
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmailToRecipientWithSubject)
@@ -134,10 +125,10 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_SendEmailToRecipientWithSubjectAndContext()
         {
-            string testRecipient = ContextStrings.TestRecipient;
-            string testEmailAddress = ContextStrings.TestEmailAdress;
+            var testRecipient = ContextStrings.TestRecipient;
+            var testEmailAddress = ContextStrings.TestEmailAdress;
 
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmailToRecipientWithSubjectAndContext)
@@ -155,9 +146,9 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_SendEmailWithMultiUserSelect_Ordinal()
         {
-            string testRecipient = ContextStrings.TestRecipientWithDup;
-            string testEmail = ContextStrings.TestDupEmail;
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmail } };
+            var testRecipient = ContextStrings.TestRecipientWithDup;
+            var testEmail = ContextStrings.TestDupEmail;
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmail } };
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmails)
@@ -184,9 +175,9 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_SendEmailWithMultiUserSelect_Number()
         {
-            string testRecipient = ContextStrings.TestRecipientWithDup;
-            string testEmail = ContextStrings.TestDupEmail;
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmail } };
+            var testRecipient = ContextStrings.TestRecipientWithDup;
+            var testEmail = ContextStrings.TestDupEmail;
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmail } };
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmails)
@@ -213,8 +204,8 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_SendEmailWithEmailAdressInput()
         {
-            string testRecipient = ContextStrings.TestEmailAdress;
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testRecipient } };
+            var testRecipient = ContextStrings.TestEmailAdress;
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testRecipient } };
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmailToEmailAdress)
@@ -237,10 +228,10 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_SendEmailWithEmailAdressConfirm()
         {
-            string testRecipient = ContextStrings.Nobody;
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient } };
-            string testRecipientConfirm = ContextStrings.TestEmailAdress;
-            StringDictionary recipientConfirmDict = new StringDictionary() { { "UserName", testRecipientConfirm }, { "EmailAddress", testRecipientConfirm } };
+            var testRecipient = ContextStrings.Nobody;
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient } };
+            var testRecipientConfirm = ContextStrings.TestEmailAdress;
+            var recipientConfirmDict = new StringDictionary() { { "UserName", testRecipientConfirm }, { "EmailAddress", testRecipientConfirm } };
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmailToNobody)
@@ -265,13 +256,13 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_SendEmailToMultiRecipient()
         {
-            string testDupRecipient = ContextStrings.TestRecipientWithDup;
-            string testDupEmail = ContextStrings.TestDupEmail;
-            StringDictionary recipientDupDict = new StringDictionary() { { "UserName", testDupRecipient }, { "EmailAddress", testDupEmail } };
+            var testDupRecipient = ContextStrings.TestRecipientWithDup;
+            var testDupEmail = ContextStrings.TestDupEmail;
+            var recipientDupDict = new StringDictionary() { { "UserName", testDupRecipient }, { "EmailAddress", testDupEmail } };
 
-            string testRecipient = ContextStrings.TestRecipient;
-            string testEmail = ContextStrings.TestEmailAdress;
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmail } };
+            var testRecipient = ContextStrings.TestRecipient;
+            var testEmail = ContextStrings.TestEmailAdress;
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmail } };
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmailToMultiRecipient)
@@ -299,10 +290,10 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_SendEmailToEmpty()
         {
-            string testRecipient = ContextStrings.TestRecipient;
-            string testEmailAddress = ContextStrings.TestEmailAdress;
+            var testRecipient = ContextStrings.TestRecipient;
+            var testEmailAddress = ContextStrings.TestEmailAdress;
 
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
 
             await this.GetTestFlow()
                 .Send(SendEmailUtterances.SendEmails)
@@ -486,8 +477,8 @@ namespace EmailSkillTest.Flow
                 var recipientConfirmedMessage = this.ParseReplies(EmailSharedResponses.RecipientConfirmed, recipients);
                 var noSubjectMessage = this.ParseReplies(SendEmailResponses.NoSubject, new StringDictionary());
 
-                string[] subjectVerifyInfo = new string[recipientConfirmedMessage.Length * noSubjectMessage.Length];
-                int index = -1;
+                var subjectVerifyInfo = new string[recipientConfirmedMessage.Length * noSubjectMessage.Length];
+                var index = -1;
                 foreach (var confirmNsg in recipientConfirmedMessage)
                 {
                     foreach (var noSubjectMsg in noSubjectMessage)
@@ -510,8 +501,8 @@ namespace EmailSkillTest.Flow
                 var recipientConfirmedMessage = this.ParseReplies(EmailSharedResponses.RecipientConfirmed, recipients);
                 var noSubjectMessage = this.ParseReplies(SendEmailResponses.NoSubject, new StringDictionary());
 
-                string[] subjectVerifyInfo = new string[recipientConfirmedMessage.Length * noSubjectMessage.Length];
-                int index = -1;
+                var subjectVerifyInfo = new string[recipientConfirmedMessage.Length * noSubjectMessage.Length];
+                var index = -1;
                 foreach (var confirmNsg in recipientConfirmedMessage)
                 {
                     foreach (var noSubjectMsg in noSubjectMessage)
@@ -534,8 +525,8 @@ namespace EmailSkillTest.Flow
                 var recipientConfirmedMessage = this.ParseReplies(EmailSharedResponses.RecipientConfirmed, recipients);
                 var noMessage = this.ParseReplies(SendEmailResponses.NoMessageBody, new StringDictionary());
 
-                string[] verifyInfo = new string[recipientConfirmedMessage.Length * noMessage.Length];
-                int index = -1;
+                var verifyInfo = new string[recipientConfirmedMessage.Length * noMessage.Length];
+                var index = -1;
                 foreach (var confirmNsg in recipientConfirmedMessage)
                 {
                     foreach (var noSubjectMsg in noMessage)
@@ -558,8 +549,9 @@ namespace EmailSkillTest.Flow
         {
             return activity =>
             {
-                var eventActivity = activity.AsEventActivity();
-                Assert.AreEqual(eventActivity.Name, "tokens/request");
+                var message = activity.AsMessageActivity();
+                Assert.AreEqual(1, message.Attachments.Count);
+                Assert.AreEqual("application/vnd.microsoft.card.oauth", message.Attachments[0].ContentType);
             };
         }
     }

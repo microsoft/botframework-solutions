@@ -8,6 +8,10 @@ namespace CalendarSkill.Services
 {
     public class BotServices
     {
+        public BotServices()
+        {
+        }
+
         public BotServices(BotSettings settings)
         {
             foreach (var pair in settings.CognitiveModels)

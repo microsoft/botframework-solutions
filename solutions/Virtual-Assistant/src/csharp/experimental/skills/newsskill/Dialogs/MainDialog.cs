@@ -8,7 +8,6 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Schema;
 using NewsSkill.Models;
 using NewsSkill.Responses.Main;

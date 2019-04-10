@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ToDoSkill.Models;
-using ToDoSkill.ServiceClients;
+using ToDoSkill.Services;
 using ToDoSkillTest.Flow.Fakes;
 
 namespace ToDoSkillTest.Fakes

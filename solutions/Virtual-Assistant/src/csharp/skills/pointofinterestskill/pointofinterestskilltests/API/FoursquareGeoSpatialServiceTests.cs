@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PointOfInterestSkill.ServiceClients;
+using PointOfInterestSkill.Services;
 using PointOfInterestSkillTests.API.Fakes;
 
 namespace PointOfInterestSkillTests.API
@@ -48,7 +48,7 @@ namespace PointOfInterestSkillTests.API
             await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Radius, MockData.Limit, MockData.Locale, mockClient);
 
             var pointOfInterestList = await service.GetNearbyPointOfInterestListAsync(MockData.Latitude, MockData.Longitude);
-            
+
             var pointOfInterest = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[0]); Assert.AreEqual(pointOfInterest.Id, "412d2800f964a520df0c1fe3");
 
             Assert.AreEqual(pointOfInterest.Name, "Central Park");

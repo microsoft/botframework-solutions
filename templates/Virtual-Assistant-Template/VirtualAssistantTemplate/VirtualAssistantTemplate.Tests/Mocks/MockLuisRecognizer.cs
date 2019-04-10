@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Solutions.Shared.Telemetry;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 
 namespace VirtualAssistantTemplate.Tests.Mocks
 {

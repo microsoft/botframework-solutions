@@ -280,6 +280,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CalendarSharedResponses.cs</LastGenOutput>
     </None>
+    <None Update="Responses\Shared\ResponseIdCollection.t4">
+      <Generator></Generator>
+    </None>
     <None Update="Responses\Summary\SummaryResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SummaryResponses.cs</LastGenOutput>

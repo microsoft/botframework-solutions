@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToDoSkill.ServiceClients;
+using ToDoSkill.Services;
 using ToDoSkillTest.API.Fakes;
 
 namespace ToDoSkillTest.API

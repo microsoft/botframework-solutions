@@ -1,110 +1,118 @@
 ﻿using System.Threading;
-using Autofac;
-using AutomotiveSkill;
-using AutomotiveSkill.Dialogs.Main.Resources;
-using AutomotiveSkill.Dialogs.Shared.Resources;
-using AutomotiveSkill.Dialogs.VehicleSettings.Resources;
-using AutomotiveSkillTest.Flow.Fakes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
-using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Builder.Solutions.Proactive;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Testing;
+using AutomotiveSkill.Responses.VehicleSettings;
+using AutomotiveSkill.Responses.Shared;
+using AutomotiveSkill.Responses.Main;
+using AutomotiveSkill.Models;
+using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
+using Microsoft.Bot.Builder.Solutions;
+using AutomotiveSkill.Services;
+using AutomotiveSkill.Dialogs;
+using AutomotiveSkill.Bots;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using AutomotiveSkillTest.Flow.Fakes;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutomotiveSkillTest.Flow
 {
     public class AutomotiveSkillTestBase : BotTestBase
     {
-        public IStatePropertyAccessor<AutomotiveSkillState> AutomotiveSkillStateAccessor { get; set; }
+        public IServiceCollection Services { get; set; }
 
-        public ConversationState ConversationState { get; set; }
+        public string ImageAssetLocation { get; set; } = "http://localhost";
 
-        public UserState UserState { get; set; }
-
-        public ProactiveState ProactiveState { get; set; }
-
-        public SkillConfigurationBase Services { get; set; }
-
-        public BotConfiguration Options { get; set; }
-
-        public HttpContext MockHttpContext { get; set; }
-
-        public IBotTelemetryClient TelemetryClient { get; set; }
-
-        public IBackgroundTaskQueue BackgroundTaskQueue { get; set; }
-
-        public EndpointService EndpointService { get; set; }
-
-        public HttpContextAccessor MockHttpContextAcessor { get; set; }
-
-        public string ImageAssetLocation { get; set; }
-
+        [TestInitialize]
         public override void Initialize()
         {
-            var builder = new ContainerBuilder();
+            // Initialize service collection
+            Services = new ServiceCollection();
+            Services.AddSingleton(new BotSettings()
+            {
+                Properties = new Dictionary<string, string>()
+                {
+                    { "ImageAssetLocation", ImageAssetLocation }
+                }
+            });
 
-            ConversationState = new ConversationState(new MemoryStorage());
-            UserState = new UserState(new MemoryStorage());
-            ProactiveState = new ProactiveState(new MemoryStorage());
-            AutomotiveSkillStateAccessor = ConversationState.CreateProperty<AutomotiveSkillState>(nameof(AutomotiveSkillState));
-            Services = new MockSkillConfiguration();
-            BackgroundTaskQueue = new BackgroundTaskQueue();
-            EndpointService = new EndpointService();
+            Services.AddSingleton(new BotServices()
+            {
+                CognitiveModelSets = new Dictionary<string, CognitiveModelSet>
+                {
+                    {
+                        "en", new CognitiveModelSet()
+                        {
+                            LuisServices = new Dictionary<string, IRecognizer>
+                            {
+                                { "general", new MockLuisRecognizer() },
+                                { "settings", new MockLuisRecognizer() },
+                                { "settings_name", new MockLuisRecognizer() },
+                                { "settings_value", new MockLuisRecognizer() }
+                            }
+                        }
+                    }
+                }
+            });
+
+            Services.AddSingleton<IBotTelemetryClient, NullBotTelemetryClient>();
+            Services.AddSingleton(new UserState(new MemoryStorage()));
+            Services.AddSingleton(new ConversationState(new MemoryStorage()));
+            Services.AddSingleton(new ProactiveState(new MemoryStorage()));
+            Services.AddSingleton(sp =>
+            {
+                var userState = sp.GetService<UserState>();
+                var conversationState = sp.GetService<ConversationState>();
+                var proactiveState = sp.GetService<ProactiveState>();
+                return new BotStateSet(userState, conversationState);
+            });
 
             ResponseManager = new ResponseManager(
-                responseTemplates: new IResponseIdCollection[] 
-                {
-                    new AutomotiveSkillMainResponses(),
-                    new AutomotiveSkillSharedResponses(),
-                    new VehicleSettingsResponses()
-                },
-                locales: new string[] { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" });
-            ImageAssetLocation = "https://localhost";
-            this.Services.Properties.Add("ImageAssetLocation", ImageAssetLocation);
+                new string[] { "en", "de", "es", "fr", "it", "zh" },
+                new AutomotiveSkillMainResponses(),
+                new AutomotiveSkillSharedResponses(),
+                new VehicleSettingsResponses());
+            Services.AddSingleton(ResponseManager);
 
-            builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
+            Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+            // Services.AddSingleton<IServiceManager>(ServiceManager);
+            Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
+            Services.AddTransient<MainDialog>();
+            Services.AddTransient<IBot, DialogBot<MainDialog>>();
 
-            builder.RegisterInstance(new BotStateSet(UserState, ConversationState));
-
-            Container = builder.Build();
-
-            TelemetryClient = new NullBotTelemetryClient();
 
             // Mock HttpContext for image path resolution
-            MockHttpContext = new DefaultHttpContext();
-            MockHttpContext.Request.Scheme = "http";
-            MockHttpContext.Request.Host = new HostString("localhost", 3980);
+            var mockHttpContext = new DefaultHttpContext();
+            mockHttpContext.Request.Scheme = "http";
+            mockHttpContext.Request.Host = new HostString("localhost", 3980);
 
-            MockHttpContextAcessor = new HttpContextAccessor
+            var mockHttpContextAcessor = new HttpContextAccessor
             {
-                HttpContext = MockHttpContext
+                HttpContext = mockHttpContext
             };
 
-
+            Services.AddSingleton<IHttpContextAccessor>(mockHttpContextAcessor);
         }
 
         public TestFlow GetTestFlow()
         {
-            var adapter = new TestAdapter()
-                .Use(new AutoSaveStateMiddleware(ConversationState));
+            var sp = Services.BuildServiceProvider();
+            var adapter = sp.GetService<TestAdapter>();
+            var conversationState = sp.GetService<ConversationState>();
+            var stateAccessor = conversationState.CreateProperty<AutomotiveSkillState>(nameof(AutomotiveSkillState));
 
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {
-                var bot = BuildBot() as AutomotiveSkill.AutomotiveSkill;
-                var state = await AutomotiveSkillStateAccessor.GetAsync(context, () => new AutomotiveSkillState());
+                var bot = sp.GetService<IBot>();
+                var state = await stateAccessor.GetAsync(context, () => new AutomotiveSkillState());
                 await bot.OnTurnAsync(context, CancellationToken.None);
             });
 
             return testFlow;
-        }
-
-        public override IBot BuildBot()
-        {
-            return new AutomotiveSkill.AutomotiveSkill(Services, EndpointService, ConversationState, UserState, ProactiveState, TelemetryClient, BackgroundTaskQueue, true, ResponseManager, null, MockHttpContextAcessor);
         }
     }
 }

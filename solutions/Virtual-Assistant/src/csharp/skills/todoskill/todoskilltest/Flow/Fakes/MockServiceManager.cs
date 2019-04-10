@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using ToDoSkill.Dialogs.Shared;
-using ToDoSkill.ServiceClients;
+using ToDoSkill.Models;
+using ToDoSkill.Services;
 using ToDoSkillTest.Fakes;
 
 namespace ToDoSkillTest.Flow.Fakes
@@ -20,7 +20,7 @@ namespace ToDoSkillTest.Flow.Fakes
             return service.InitAsync(token).Result;
         }
 
-        public ITaskService InitTaskService(string token, Dictionary<string, string> listTypeIds, ServiceProviderTypes.ProviderTypes taskServiceType)
+        public ITaskService InitTaskService(string token, Dictionary<string, string> listTypeIds, ServiceProviderType taskServiceType)
         {
             return MockTaskService.InitAsync(token, listTypeIds).Result;
         }

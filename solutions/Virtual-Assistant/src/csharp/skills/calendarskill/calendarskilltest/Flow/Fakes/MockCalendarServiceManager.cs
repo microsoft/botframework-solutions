@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using CalendarSkill.Models;
-using CalendarSkill.ServiceClients;
+using CalendarSkill.Services;
 using Microsoft.Graph;
 
 namespace CalendarSkillTest.Flow.Fakes

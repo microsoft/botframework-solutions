@@ -6,6 +6,6 @@ namespace VirtualAssistantTemplate.Services
 {
     public class BotSettings : BotSettingsBase
     {
-        public List<SkillDefinition> Skills { get; set; }
+        public List<SkillDefinition> Skills { get; set; } = new List<SkillDefinition>();
     }
 }

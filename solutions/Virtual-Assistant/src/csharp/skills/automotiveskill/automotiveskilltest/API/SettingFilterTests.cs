@@ -1,11 +1,10 @@
-﻿using AutomotiveSkill;
-using AutomotiveSkill.Common;
-using AutomotiveSkill.Dialogs.VehicleSettings;
+﻿using AutomotiveSkill.Dialogs;
+using AutomotiveSkill.Models;
+using AutomotiveSkill.Utilities;
 using AutomotiveSkillTest.Flow;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace AutomotiveSkillTest.API
 {
@@ -21,7 +20,7 @@ namespace AutomotiveSkillTest.API
             base.Initialize();
 
             // Supporting setting files are stored as embeddded resources
-            Assembly resourceAssembly = typeof(VehicleSettingsDialog).Assembly;
+            var resourceAssembly = typeof(VehicleSettingsDialog).Assembly;
 
             var settingFile = resourceAssembly
                 .GetManifestResourceNames()
@@ -40,8 +39,8 @@ namespace AutomotiveSkillTest.API
         [TestMethod]
         public void Test_SettingFilter_Temperature()
         {
-            AutomotiveSkillState state = new AutomotiveSkillState();
-            state.Entities.Add("SETTING", new List<string>{ "temperature"});
+            var state = new AutomotiveSkillState();
+            state.Entities.Add("SETTING", new List<string> { "temperature" });
             state.Entities.Add("AMOUNT", new List<string> { "21" });
             state.Entities.Add("UNIT", new List<string> { "degrees" });
 
@@ -54,7 +53,7 @@ namespace AutomotiveSkillTest.API
         [TestMethod]
         public void Test_SettingFilter_Defog()
         {
-            AutomotiveSkillState state = new AutomotiveSkillState();
+            var state = new AutomotiveSkillState();
             state.Entities.Add("SETTING", new List<string> { "defog" });
 
             settingFilter.PostProcessSettingName(state);
@@ -66,11 +65,11 @@ namespace AutomotiveSkillTest.API
         [TestMethod]
         public void Test_SettingFilter_ColdInTheBack()
         {
-            AutomotiveSkillState state = new AutomotiveSkillState();
+            var state = new AutomotiveSkillState();
             state.Entities.Add("SETTING", new List<string> { "back" });
             state.Entities.Add("VALUE", new List<string> { "cold" });
 
-            settingFilter.PostProcessSettingName(state,true);
+            settingFilter.PostProcessSettingName(state, true);
 
             Assert.AreEqual("Rear Combined Set Temperature", state.Changes[0].SettingName);
             Assert.AreEqual("Increase", state.Changes[0].Value);
@@ -79,11 +78,11 @@ namespace AutomotiveSkillTest.API
         [TestMethod]
         public void Test_SettingFilter_PassengerFeelingCold()
         {
-            AutomotiveSkillState state = new AutomotiveSkillState();
+            var state = new AutomotiveSkillState();
             state.Entities.Add("SETTING", new List<string> { "passenger" });
             state.Entities.Add("VALUE", new List<string> { "cold" });
 
-            settingFilter.PostProcessSettingName(state,true);
+            settingFilter.PostProcessSettingName(state, true);
 
             Assert.AreEqual("Front Right Set Temperature", state.Changes[0].SettingName);
             Assert.AreEqual("Increase", state.Changes[0].Value);
@@ -92,11 +91,11 @@ namespace AutomotiveSkillTest.API
         [TestMethod]
         public void Test_SettingFilter_FeetFeelingCold()
         {
-            AutomotiveSkillState state = new AutomotiveSkillState();
+            var state = new AutomotiveSkillState();
             state.Entities.Add("SETTING", new List<string> { "feet" });
             state.Entities.Add("VALUE", new List<string> { "cold" });
 
-            settingFilter.PostProcessSettingName(state,true);
+            settingFilter.PostProcessSettingName(state, true);
 
             Assert.AreEqual("Temperature", state.Changes[0].SettingName);
             Assert.AreEqual("Increase", state.Changes[0].Value);

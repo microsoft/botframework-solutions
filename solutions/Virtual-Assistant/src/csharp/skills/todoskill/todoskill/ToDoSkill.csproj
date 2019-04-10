@@ -161,6 +161,9 @@
       <LastGenOutput>MarkToDoResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
+    <None Update="Responses\Shared\ResponseIdCollection.t4">
+      <Generator></Generator>
+    </None>
     <None Update="Responses\Shared\ToDoSharedResponses.tt">
       <LastGenOutput>ToDoSharedResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>

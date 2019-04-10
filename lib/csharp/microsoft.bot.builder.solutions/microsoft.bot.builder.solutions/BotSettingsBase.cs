@@ -32,7 +32,7 @@
         public List<OAuthConnection> OAuthConnections { get; set; }
 
         /// <summary>
-        /// Gets of sets the CosmosDB Configuration for the bot.
+        /// Gets or sets the CosmosDB Configuration for the bot.
         /// </summary>
         public CosmosDbStorageOptions CosmosDb { get; set; }
 
@@ -54,12 +54,12 @@
         /// <summary>
         /// Gets or sets the dictionary of cognitive model configurations by locale for the bot.
         /// </summary>
-        public Dictionary<string, CognitiveModelConfiguration> CognitiveModels { get; set; }
+        public Dictionary<string, CognitiveModelConfiguration> CognitiveModels { get; set; } = new Dictionary<string, CognitiveModelConfiguration>();
 
         /// <summary>
         /// Gets or sets the Properties dictionary.
         /// </summary>
-        public Dictionary<string, string> Properties { get; set; }
+        public Dictionary<string, string> Properties { get; set; } = new Dictionary<string, string>();
 
         /// <summary>
         /// Class representing configuration for an Azure Blob Storage service.
