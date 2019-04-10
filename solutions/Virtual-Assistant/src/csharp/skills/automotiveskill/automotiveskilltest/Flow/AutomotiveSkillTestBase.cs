@@ -1,9 +1,5 @@
 ﻿using System.Threading;
 using Autofac;
-using AutomotiveSkill;
-using AutomotiveSkill.Dialogs.Main.Resources;
-using AutomotiveSkill.Dialogs.Shared.Resources;
-using AutomotiveSkill.Dialogs.VehicleSettings.Resources;
 using AutomotiveSkillTest.Flow.Fakes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
@@ -15,6 +11,9 @@ using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using AutomotiveSkill.Models;
+using AutomotiveSkill.Responses.Main;
+using AutomotiveSkill.Responses.Shared;
+using AutomotiveSkill.Responses.VehicleSettings;
 
 namespace AutomotiveSkillTest.Flow
 {
