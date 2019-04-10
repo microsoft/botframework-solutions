@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace Microsoft.Bot.Builder.Solutions.Shared.Telemetry
+namespace Microsoft.Bot.Builder.Solutions.Telemetry
 {
     /// <summary>
     /// The Application Insights property names that we're logging.

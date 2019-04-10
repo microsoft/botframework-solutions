@@ -8,7 +8,6 @@ using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Shared.Telemetry;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

@@ -1,9 +1,9 @@
-﻿namespace Microsoft.Bot.Builder.Solutions.Shared
+﻿namespace Microsoft.Bot.Builder.Solutions
 {
     using System.Collections.Generic;
     using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.Bot.Builder.Azure;
-    using Microsoft.Bot.Builder.Solutions.Shared.Authentication;
+    using Microsoft.Bot.Builder.Solutions.Authentication;
     using Microsoft.Bot.Configuration;
 
     /// <summary>

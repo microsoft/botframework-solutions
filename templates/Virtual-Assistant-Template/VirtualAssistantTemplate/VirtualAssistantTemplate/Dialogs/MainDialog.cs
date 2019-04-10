@@ -16,10 +16,10 @@ using VirtualAssistantTemplate.Responses.Main;
 using VirtualAssistantTemplate.Models;
 using VirtualAssistantTemplate.Services;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Shared.Responses;
-using Microsoft.Bot.Builder.Solutions.Shared.Authentication;
-using Microsoft.Bot.Builder.Solutions.Shared;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Authentication;
 
 namespace VirtualAssistantTemplate.Dialogs
 {

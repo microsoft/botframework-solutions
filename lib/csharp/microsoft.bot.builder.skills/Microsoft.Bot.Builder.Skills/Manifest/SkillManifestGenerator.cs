@@ -8,7 +8,7 @@ using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using static Microsoft.Bot.Builder.Solutions.Shared.BotSettingsBase;
+using static Microsoft.Bot.Builder.Solutions.BotSettingsBase;
 
 namespace Microsoft.Bot.Builder.Skills
 {

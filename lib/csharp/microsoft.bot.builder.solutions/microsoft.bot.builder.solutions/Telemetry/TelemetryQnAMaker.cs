@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.AI.QnA;
 using Newtonsoft.Json;
 
-namespace Microsoft.Bot.Builder.Solutions.Shared.Telemetry
+namespace Microsoft.Bot.Builder.Solutions.Telemetry
 {
     /// <summary>
     /// TelemetryQnaRecognizer invokes the Qna Maker and logs some results into Application Insights.

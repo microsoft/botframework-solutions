@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Azure;
-using Microsoft.Bot.Builder.Solutions.Shared.Telemetry;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Configuration;
 
 namespace Microsoft.Bot.Builder.Skills

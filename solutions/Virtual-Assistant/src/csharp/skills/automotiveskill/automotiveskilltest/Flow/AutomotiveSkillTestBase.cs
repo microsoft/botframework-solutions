@@ -15,7 +15,7 @@ using Microsoft.Bot.Builder.Solutions;
 using AutomotiveSkill.Services;
 using AutomotiveSkill.Dialogs;
 using AutomotiveSkill.Bots;
-using Microsoft.Bot.Builder.Solutions.Shared.Responses;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using AutomotiveSkillTest.Flow.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

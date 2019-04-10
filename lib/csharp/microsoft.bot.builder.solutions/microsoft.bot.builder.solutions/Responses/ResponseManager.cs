@@ -10,7 +10,7 @@ using AdaptiveCards;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
 
-namespace Microsoft.Bot.Builder.Solutions.Shared.Responses
+namespace Microsoft.Bot.Builder.Solutions.Responses
 {
     public class ResponseManager
     {

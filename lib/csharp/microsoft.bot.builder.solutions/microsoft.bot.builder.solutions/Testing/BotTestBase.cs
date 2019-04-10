@@ -3,7 +3,7 @@
 
 using System.Collections.Specialized;
 using System.Text.RegularExpressions;
-using Microsoft.Bot.Builder.Solutions.Shared.Responses;
+using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace Microsoft.Bot.Builder.Solutions.Testing
 {

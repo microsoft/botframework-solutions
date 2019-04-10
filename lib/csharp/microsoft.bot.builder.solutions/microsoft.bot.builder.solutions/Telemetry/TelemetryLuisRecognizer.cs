@@ -9,7 +9,7 @@ using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Newtonsoft.Json.Linq;
 
-namespace Microsoft.Bot.Builder.Solutions.Shared.Telemetry
+namespace Microsoft.Bot.Builder.Solutions.Telemetry
 {
     /// <summary>
     /// TelemetryLuisRecognizer invokes the Luis Recognizer and logs some results into Application Insights.

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.Bot.Builder.Solutions.Shared
+namespace Microsoft.Bot.Builder.Solutions
 {
     public class EventPrompt : ActivityPrompt
     {
