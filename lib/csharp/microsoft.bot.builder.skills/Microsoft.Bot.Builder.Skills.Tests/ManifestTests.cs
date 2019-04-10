@@ -18,5 +18,4 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             }                
         }
     }
-
 }
