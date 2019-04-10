@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
-using CalendarSkill.ServiceClients;
+using CalendarSkill.Services;
 using Moq;
 
 namespace CalendarSkillTest.API.Fakes.MockBaseClient

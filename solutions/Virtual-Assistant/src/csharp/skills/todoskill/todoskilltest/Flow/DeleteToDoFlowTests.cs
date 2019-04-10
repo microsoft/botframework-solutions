@@ -2,16 +2,12 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using AdaptiveCards;
-using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToDoSkill.Dialogs.DeleteToDo.Resources;
-using ToDoSkill.Dialogs.Shared.Resources;
+using ToDoSkill.Responses.DeleteToDo;
+using ToDoSkill.Responses.Shared;
 using ToDoSkillTest.Flow.Fakes;
 using ToDoSkillTest.Flow.Utterances;
 
@@ -20,24 +16,10 @@ namespace ToDoSkillTest.Flow
     [TestClass]
     public class DeleteToDoFlowTests : ToDoBotTestBase
     {
-        [TestInitialize]
-        public void SetupLuisService()
-        {
-            this.Services.LocaleConfigurations.Add(MockData.LocaleEN, new LocaleConfiguration()
-            {
-                Locale = MockData.LocaleENUS,
-                LuisServices = new Dictionary<string, ITelemetryLuisRecognizer>()
-                {
-                    { "general", new MockLuisRecognizer(new GeneralTestUtterances()) },
-                    { "todo", new MockLuisRecognizer(new DeleteToDoFlowTestUtterances()) }
-                }
-            });
-        }
-
         [TestMethod]
         public async Task Test_DeleteToDoItem()
         {
-            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
+            ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(DeleteToDoFlowTestUtterances.BaseDeleteTask)
                 .AssertReply(this.ShowAuth())
@@ -58,7 +40,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_DeleteToDoItem_By_Specific_Index()
         {
-            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
+            ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(DeleteToDoFlowTestUtterances.DeleteSpecificTask)
                 .AssertReply(this.ShowAuth())
@@ -77,7 +59,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_DeleteToDoItem_By_Specific_Index_And_ListType()
         {
-            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
+            ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(DeleteToDoFlowTestUtterances.DeleteSpecificTaskWithListType)
                 .AssertReply(this.ShowAuth())
@@ -94,7 +76,7 @@ namespace ToDoSkillTest.Flow
         [TestMethod]
         public async Task Test_DeleteToDoItem_By_Specific_Content()
         {
-            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
+            ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(DeleteToDoFlowTestUtterances.DeleteTaskByContent)
                 .AssertReply(this.ShowAuth())
@@ -161,7 +143,9 @@ namespace ToDoSkillTest.Flow
         {
             return activity =>
             {
-                Assert.AreEqual(activity.Type, ActivityTypes.Event);
+                var message = activity.AsMessageActivity();
+                Assert.AreEqual(1, message.Attachments.Count);
+                Assert.AreEqual("application/vnd.microsoft.card.oauth", message.Attachments[0].ContentType);
             };
         }
 

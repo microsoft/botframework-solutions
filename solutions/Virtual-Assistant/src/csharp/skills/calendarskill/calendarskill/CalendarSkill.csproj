@@ -184,7 +184,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\..\lib\csharp\microsoft.bot.builder.skills\Microsoft.Bot.Builder.Skills\Microsoft.Bot.Builder.Skills.csproj" />
-    <ProjectReference Include="..\..\..\..\..\..\..\lib\csharp\microsoft.bot.builder.solutions.shared\microsoft.bot.builder.solutions.shared\Microsoft.Bot.Builder.Solutions.Shared.csproj" />
     <ProjectReference Include="..\..\..\..\..\..\..\lib\csharp\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj" />
   </ItemGroup>
 
@@ -280,6 +279,9 @@
     <None Update="Responses\Shared\CalendarSharedResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CalendarSharedResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\Shared\ResponseIdCollection.t4">
+      <Generator></Generator>
     </None>
     <None Update="Responses\Summary\SummaryResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

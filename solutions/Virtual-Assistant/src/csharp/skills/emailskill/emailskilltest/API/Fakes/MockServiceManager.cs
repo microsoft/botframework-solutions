@@ -1,5 +1,5 @@
 ﻿using System;
-using EmailSkill.Model;
+using EmailSkill.Models;
 using EmailSkill.ServiceClients;
 using EmailSkill.ServiceClients.MSGraphAPI;
 using EmailSkillTest.API.Fakes.MSGraph;

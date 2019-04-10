@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using CalendarSkill.Models;
-using CalendarSkill.ServiceClients;
+﻿using System.Threading.Tasks;
+using CalendarSkill.Services;
 using CalendarSkillTest.API.Fakes.MockBaseClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -36,21 +34,21 @@ namespace CalendarSkillTest.API
         [TestMethod]
         public async Task GetPeopleAsyncTest()
         {
-            List<PersonModel> result = await userService.GetPeopleAsync("Doe");
+            var result = await userService.GetPeopleAsync("Doe");
             Assert.IsTrue(result.Count == 0);
         }
 
         [TestMethod]
         public async Task GetUserAsyncTest()
         {
-            List<PersonModel> result = await userService.GetUserAsync("Doe");
+            var result = await userService.GetUserAsync("Doe");
             Assert.IsTrue(result.Count == 0);
         }
 
         [TestMethod]
         public async Task GetContactsAsyncTest()
         {
-            List<PersonModel> result = await userService.GetContactsAsync("Doe");
+            var result = await userService.GetContactsAsync("Doe");
             Assert.IsTrue(result.Count == 0);
         }
     }

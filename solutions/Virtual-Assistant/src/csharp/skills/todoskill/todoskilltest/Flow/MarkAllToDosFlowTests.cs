@@ -5,13 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using AdaptiveCards;
-using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToDoSkill.Dialogs.MarkToDo.Resources;
-using ToDoSkill.Dialogs.Shared.Resources;
+using ToDoSkill.Responses.MarkToDo;
+using ToDoSkill.Responses.Shared;
 using ToDoSkillTest.Flow.Fakes;
 using ToDoSkillTest.Flow.Utterances;
 
@@ -20,24 +17,10 @@ namespace ToDoSkillTest.Flow
     [TestClass]
     public class MarkAllToDosFlowTests : ToDoBotTestBase
     {
-        [TestInitialize]
-        public void SetupLuisService()
-        {
-            this.Services.LocaleConfigurations.Add(MockData.LocaleEN, new LocaleConfiguration()
-            {
-                Locale = MockData.LocaleENUS,
-                LuisServices = new Dictionary<string, ITelemetryLuisRecognizer>()
-                {
-                    { MockData.LuisGeneral, new MockLuisRecognizer(new GeneralTestUtterances()) },
-                    { MockData.LuisToDo, new MockLuisRecognizer(new MarkToDoFlowTestUtterances()) }
-                }
-            });
-        }
-
         [TestMethod]
         public async Task Test_MarkAllToDoItems()
         {
-            (this.ServiceManager as MockServiceManager).MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
+            ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(MarkToDoFlowTestUtterances.MarkAllTasksAsCompleted)
                 .AssertReply(this.ShowAuth())
@@ -82,7 +65,9 @@ namespace ToDoSkillTest.Flow
         {
             return activity =>
             {
-                Assert.AreEqual(activity.Type, ActivityTypes.Event);
+                var message = activity.AsMessageActivity();
+                Assert.AreEqual(1, message.Attachments.Count);
+                Assert.AreEqual("application/vnd.microsoft.card.oauth", message.Attachments[0].ContentType);
             };
         }
     }

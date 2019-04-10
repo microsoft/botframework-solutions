@@ -1,5 +1,5 @@
 ﻿using System;
-using CalendarSkill.Common;
+using CalendarSkill.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkillTest.Common
@@ -30,18 +30,18 @@ namespace CalendarSkillTest.Common
         [TestMethod]
         public void IanaToWindowsTest()
         {
-            string input = "Asia/Shanghai";
+            var input = "Asia/Shanghai";
             string result = TimeZoneConverter.IanaToWindows(input);
-            string expect = "China Standard Time";
+            var expect = "China Standard Time";
             Assert.AreEqual(result, expect);
         }
 
         [TestMethod]
         public void WindowsToIanaTest()
         {
-            string input = "China Standard Time";
+            var input = "China Standard Time";
             string result = TimeZoneConverter.WindowsToIana(input);
-            string expect = "Asia/Shanghai";
+            var expect = "Asia/Shanghai";
             Assert.AreEqual(result, expect);
         }
 
@@ -50,7 +50,7 @@ namespace CalendarSkillTest.Common
         {
             try
             {
-                string input = "test";
+                var input = "test";
                 string result = TimeZoneConverter.IanaToWindows(input);
             }
             catch (InvalidTimeZoneException)
@@ -66,7 +66,7 @@ namespace CalendarSkillTest.Common
         {
             try
             {
-                string input = "test";
+                var input = "test";
                 string result = TimeZoneConverter.WindowsToIana(input);
             }
             catch (InvalidTimeZoneException)

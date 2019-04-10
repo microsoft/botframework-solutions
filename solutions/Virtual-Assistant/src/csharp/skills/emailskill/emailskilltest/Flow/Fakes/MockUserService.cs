@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using EmailSkill.Model;
+using EmailSkill.Models;
 using EmailSkill.ServiceClients;
-using Microsoft.Graph;
 
 namespace EmailSkillTest.Flow.Fakes
 {
@@ -71,8 +70,10 @@ namespace EmailSkillTest.Flow.Fakes
             var people = new List<PersonModel>();
 
             var emailAddressStr = "test@test.com";
-            var mails = new List<string>();
-            mails.Add(emailAddressStr);
+            var mails = new List<string>
+            {
+                emailAddressStr
+            };
 
             people.Add(new PersonModel()
             {
@@ -89,8 +90,10 @@ namespace EmailSkillTest.Flow.Fakes
             var users = new List<PersonModel>();
 
             var emailAddressStr = "test@test.com";
-            var mails = new List<string>();
-            mails.Add(emailAddressStr);
+            var mails = new List<string>
+            {
+                emailAddressStr
+            };
             users.Add(new PersonModel()
             {
                 UserPrincipalName = emailAddressStr,
@@ -98,11 +101,13 @@ namespace EmailSkillTest.Flow.Fakes
                 DisplayName = "Test Test",
             });
 
-            for (int i = 0; i < dupSize; i++)
+            for (var i = 0; i < dupSize; i++)
             {
                 emailAddressStr = "testdup" + i + "@test.com";
-                var emails = new List<string>();
-                emails.Add(emailAddressStr);
+                var emails = new List<string>
+                {
+                    emailAddressStr
+                };
                 users.Add(new PersonModel()
                 {
                     UserPrincipalName = emailAddressStr,
@@ -118,8 +123,10 @@ namespace EmailSkillTest.Flow.Fakes
         {
             var contacts = new List<PersonModel>();
 
-            var addressList = new List<string>();
-            addressList.Add("test@test.com");
+            var addressList = new List<string>
+            {
+                "test@test.com"
+            };
 
             contacts.Add(new PersonModel()
             {
@@ -132,8 +139,10 @@ namespace EmailSkillTest.Flow.Fakes
 
         public Task<PersonModel> GetMeAsync()
         {
-            var addressList = new List<string>();
-            addressList.Add("test@test.com");
+            var addressList = new List<string>
+            {
+                "test@test.com"
+            };
             var user = new PersonModel()
             {
                 UserPrincipalName = "Test Test",

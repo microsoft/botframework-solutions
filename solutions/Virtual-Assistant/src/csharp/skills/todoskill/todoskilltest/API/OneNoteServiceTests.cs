@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToDoSkill.ServiceClients;
+using ToDoSkill.Services;
 using ToDoSkillTest.API.Fakes;
 
 namespace ToDoSkillTest.API

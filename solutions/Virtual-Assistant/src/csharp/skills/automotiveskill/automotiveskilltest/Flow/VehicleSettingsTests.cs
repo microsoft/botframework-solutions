@@ -10,12 +10,6 @@ namespace AutomotiveSkillTest.Flow
     [TestClass]
     public class VehicleSettingsTests: AutomotiveSkillTestBase
     {
-        [TestInitialize]
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
-
         [TestMethod]
         public async Task Test_SettingTemperature()
         {

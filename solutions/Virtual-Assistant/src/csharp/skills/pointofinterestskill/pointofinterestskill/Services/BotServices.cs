@@ -2,12 +2,16 @@
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
+using Microsoft.Bot.Builder.Solutions.Shared.Telemetry;
 
 namespace PointOfInterestSkill.Services
 {
     public class BotServices
     {
+        public BotServices()
+        {
+        }
+
         public BotServices(BotSettings settings)
         {
             foreach (var pair in settings.CognitiveModels)

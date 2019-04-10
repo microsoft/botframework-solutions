@@ -1,89 +1,93 @@
-﻿using System.Threading;
-using Autofac;
-using CalendarSkill;
-using CalendarSkill.Dialogs.ChangeEventStatus.Resources;
-using CalendarSkill.Dialogs.CreateEvent.Resources;
-using CalendarSkill.Dialogs.FindContact.Resources;
-using CalendarSkill.Dialogs.JoinEvent.Resources;
-using CalendarSkill.Dialogs.Main.Resources;
-using CalendarSkill.Dialogs.Shared.Resources;
-using CalendarSkill.Dialogs.Summary.Resources;
-using CalendarSkill.Dialogs.TimeRemaining.Resources;
-using CalendarSkill.Dialogs.UpcomingEvent.Resources;
-using CalendarSkill.Dialogs.UpdateEvent.Resources;
+﻿using System.Collections.Generic;
+using System.Threading;
+using CalendarSkill.Bots;
+using CalendarSkill.Dialogs;
 using CalendarSkill.Models;
-using CalendarSkill.ServiceClients;
+using CalendarSkill.Responses.ChangeEventStatus;
+using CalendarSkill.Responses.CreateEvent;
+using CalendarSkill.Responses.FindContact;
+using CalendarSkill.Responses.JoinEvent;
+using CalendarSkill.Responses.Main;
+using CalendarSkill.Responses.Shared;
+using CalendarSkill.Responses.Summary;
+using CalendarSkill.Responses.TimeRemaining;
+using CalendarSkill.Responses.UpcomingEvent;
+using CalendarSkill.Responses.UpdateEvent;
+using CalendarSkill.Services;
 using CalendarSkillTest.Flow.Fakes;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
-using Microsoft.Bot.Builder.Solutions.Authentication;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Proactive;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Shared;
+using Microsoft.Bot.Builder.Solutions.Shared.Authentication;
+using Microsoft.Bot.Builder.Solutions.Shared.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Testing;
-using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkillTest.Flow
 {
     public class CalendarBotTestBase : BotTestBase
     {
+        public IServiceCollection Services { get; set; }
+
         public IStatePropertyAccessor<CalendarSkillState> CalendarStateAccessor { get; set; }
 
-        public ConversationState ConversationState { get; set; }
-
-        public UserState UserState { get; set; }
-
-        public ProactiveState ProactiveState { get; set; }
-
-        public IBotTelemetryClient TelemetryClient { get; set; }
-
-        public IBackgroundTaskQueue BackgroundTaskQueue { get; set; }
-
         public IServiceManager ServiceManager { get; set; }
-
-        public SkillConfiguration Services { get; set; }
-
-        public EndpointService EndpointService { get; set; }
-
-        public BotConfiguration Options { get; set; }
 
         [TestInitialize]
         public override void Initialize()
         {
-            var builder = new ContainerBuilder();
-
-            this.ConversationState = new ConversationState(new MemoryStorage());
-            this.UserState = new UserState(new MemoryStorage());
-            this.ProactiveState = new ProactiveState(new MemoryStorage());
-            this.TelemetryClient = new NullBotTelemetryClient();
-            this.BackgroundTaskQueue = new BackgroundTaskQueue();
-            this.CalendarStateAccessor = this.ConversationState.CreateProperty<CalendarSkillState>(nameof(CalendarSkillState));
-            this.Services = new MockSkillConfiguration();
-            this.EndpointService = new EndpointService();
-
-            builder.RegisterInstance(new BotStateSet(this.UserState, this.ConversationState));
-
-            this.Container = builder.Build();
             this.ServiceManager = MockServiceManager.GetCalendarService();
 
-            ResponseManager = new ResponseManager(
-                responseTemplates: new IResponseIdCollection[]
+            // Initialize service collection
+            Services = new ServiceCollection();
+            Services.AddSingleton(new BotSettings()
+            {
+                OAuthConnections = new List<OAuthConnection>()
                 {
-                    new FindContactResponses(),
-                    new ChangeEventStatusResponses(),
-                    new CreateEventResponses(),
-                    new JoinEventResponses(),
-                    new CalendarMainResponses(),
-                    new CalendarSharedResponses(),
-                    new SummaryResponses(),
-                    new TimeRemainingResponses(),
-                    new UpdateEventResponses(),
-                    new UpcomingEventResponses()
-                },
-                locales: new string[] { "en", "de", "es", "fr", "it", "zh" });
+                    new OAuthConnection() { Name = "Microsoft", Provider = "Microsoft" }
+                }
+            });
+
+            Services.AddSingleton(new BotServices());
+            Services.AddSingleton<IBotTelemetryClient, NullBotTelemetryClient>();
+            Services.AddSingleton(new UserState(new MemoryStorage()));
+            Services.AddSingleton(new ConversationState(new MemoryStorage()));
+            Services.AddSingleton(new ProactiveState(new MemoryStorage()));
+            Services.AddSingleton(sp =>
+            {
+                var userState = sp.GetService<UserState>();
+                var conversationState = sp.GetService<ConversationState>();
+                var proactiveState = sp.GetService<ProactiveState>();
+                return new BotStateSet(userState, conversationState);
+            });
+
+            ResponseManager = new ResponseManager(
+                new string[] { "en", "de", "es", "fr", "it", "zh" },
+                new FindContactResponses(),
+                new ChangeEventStatusResponses(),
+                new CreateEventResponses(),
+                new JoinEventResponses(),
+                new CalendarMainResponses(),
+                new CalendarSharedResponses(),
+                new SummaryResponses(),
+                new TimeRemainingResponses(),
+                new UpdateEventResponses(),
+                new UpcomingEventResponses());
+            Services.AddSingleton(ResponseManager);
+
+            Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+            Services.AddSingleton(ServiceManager);
+            Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
+            Services.AddTransient<MainDialog>();
+            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+
+            var state = Services.BuildServiceProvider().GetService<ConversationState>();
+            CalendarStateAccessor = state.CreateProperty<CalendarSkillState>(nameof(CalendarSkillState));
         }
 
         [TestCleanup]
@@ -103,12 +107,12 @@ namespace CalendarSkillTest.Flow
 
         public TestFlow GetTestFlow()
         {
-            var adapter = new TestAdapter()
-                .Use(new AutoSaveStateMiddleware(this.ConversationState));
+            var sp = Services.BuildServiceProvider();
+            var adapter = sp.GetService<TestAdapter>();
 
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {
-                var bot = this.BuildBot() as CalendarSkill.CalendarSkill;
+                var bot = sp.GetService<IBot>();
                 var state = await CalendarStateAccessor.GetAsync(context, () => new CalendarSkillState());
                 state.APIToken = "test";
                 state.EventSource = EventSource.Microsoft;
@@ -116,11 +120,6 @@ namespace CalendarSkillTest.Flow
             });
 
             return testFlow;
-        }
-
-        public override IBot BuildBot()
-        {
-            return new CalendarSkill.CalendarSkill(this.Services, this.EndpointService, this.ConversationState, this.UserState, this.ProactiveState, this.TelemetryClient, this.BackgroundTaskQueue, true, ResponseManager, this.ServiceManager);
         }
     }
 }

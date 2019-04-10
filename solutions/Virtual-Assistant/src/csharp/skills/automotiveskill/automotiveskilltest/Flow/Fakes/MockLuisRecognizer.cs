@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
+using Microsoft.Bot.Builder.Solutions.Shared.Telemetry;
 
 namespace AutomotiveSkillTest.Flow.Fakes
 {
@@ -27,21 +27,21 @@ namespace AutomotiveSkillTest.Flow.Fakes
 
             var t = typeof(T);
             var text = turnContext.Activity.Text;
-            if (t.Name.Equals(typeof(VehicleSettings).Name))
+            if (t.Name.Equals(typeof(VehicleSettingsLuis).Name))
             {
                 var mockVehicle = new MockVehicleSettingsIntent(text);
 
                 var test = mockVehicle as object;
                 mockResult = (T)test;
             }
-            else if (t.Name.Equals(typeof(VehicleSettingsNameSelection).Name))
+            else if (t.Name.Equals(typeof(VehicleSettingsNameSelectionLuis).Name))
             {
                 var mockVehicleNameIntent = new MockVehicleSettingsNameIntent(text);
 
                 var test = mockVehicleNameIntent as object;
                 mockResult = (T)test;
             }
-            else if (t.Name.Equals(typeof(VehicleSettingsValueSelection).Name))
+            else if (t.Name.Equals(typeof(VehicleSettingsValueSelectionLuis).Name))
             {
                 var mockVehicleValueIntent = new MockVehicleSettingsValueIntent(text);
 

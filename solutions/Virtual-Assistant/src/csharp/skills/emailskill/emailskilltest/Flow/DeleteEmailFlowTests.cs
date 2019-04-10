@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using EmailSkill.Dialogs.DeleteEmail.Resources;
-using EmailSkill.Dialogs.Shared.Resources;
-using EmailSkill.Util;
+using EmailSkill.Responses.DeleteEmail;
+using EmailSkill.Responses.Shared;
+using EmailSkill.Utilities;
 using EmailSkillTest.Flow.Fakes;
 using EmailSkillTest.Flow.Utterances;
 using Microsoft.Bot.Builder.Solutions.Util;
@@ -15,15 +15,6 @@ namespace EmailSkillTest.Flow
     [TestClass]
     public class DeleteEmailFlowTests : EmailBotTestBase
     {
-        [TestInitialize]
-        public void SetupLuisService()
-        {
-            var luisServices = this.Services.LocaleConfigurations["en"].LuisServices;
-            luisServices.Clear();
-            luisServices.Add("email", new MockEmailLuisRecognizer(new DeleteEmailUtterances()));
-            luisServices.Add("general", new MockGeneralLuisRecognizer());
-        }
-
         [TestMethod]
         public async Task Test_NotDeleteEmail()
         {
@@ -127,8 +118,9 @@ namespace EmailSkillTest.Flow
         {
             return activity =>
             {
-                var eventActivity = activity.AsEventActivity();
-                Assert.AreEqual(eventActivity.Name, "tokens/request");
+                var message = activity.AsMessageActivity();
+                Assert.AreEqual(1, message.Attachments.Count);
+                Assert.AreEqual("application/vnd.microsoft.card.oauth", message.Attachments[0].ContentType);
             };
         }
     }

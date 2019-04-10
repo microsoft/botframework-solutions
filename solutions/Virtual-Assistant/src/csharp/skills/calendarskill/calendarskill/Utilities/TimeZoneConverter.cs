@@ -36,7 +36,7 @@ namespace CalendarSkill.Utilities
         {
             var assembly = Assembly.GetExecutingAssembly();
 
-            using (var sr = new StreamReader(assembly.GetManifestResourceStream("CalendarSkill.Common.WindowsIanaMapping")))
+            using (var sr = new StreamReader(assembly.GetManifestResourceStream("CalendarSkill.Utilities.WindowsIanaMapping")))
             {
                 string line;
                 while ((line = sr.ReadLine()) != null)

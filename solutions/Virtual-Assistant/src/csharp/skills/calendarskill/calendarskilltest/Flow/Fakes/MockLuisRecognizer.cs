@@ -6,7 +6,7 @@ using CalendarSkillTest.Flow.Utterances;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
+using Microsoft.Bot.Builder.Solutions.Shared.Telemetry;
 
 namespace CalendarSkillTest.Flow.Fakes
 {
@@ -18,6 +18,19 @@ namespace CalendarSkillTest.Flow.Fakes
         public MockLuisRecognizer(BaseTestUtterances utterancesManager)
         {
             this.utterancesManager = utterancesManager;
+        }
+
+        public MockLuisRecognizer(params BaseTestUtterances[] utterancesManagers)
+        {
+            this.utterancesManager = new BaseTestUtterances();
+
+            foreach (var manager in utterancesManagers)
+            {
+                foreach (var pair in manager)
+                {
+                    this.utterancesManager.TryAdd(pair.Key, pair.Value);
+                }
+            }
         }
 
         public MockLuisRecognizer()
@@ -35,20 +48,20 @@ namespace CalendarSkillTest.Flow.Fakes
         public async Task<T> RecognizeAsync<T>(ITurnContext turnContext, CancellationToken cancellationToken)
             where T : IRecognizerConvert, new()
         {
-            T mockResult = new T();
+            var mockResult = new T();
 
-            Type t = typeof(T);
+            var t = typeof(T);
             var text = turnContext.Activity.Text;
-            if (t.Name.Equals(typeof(CalendarLU).Name))
+            if (t.Name.Equals(typeof(CalendarLuis).Name))
             {
-                CalendarLU mockCalendar = utterancesManager.GetValueOrDefault(text, utterancesManager.GetBaseNoneIntent());
+                CalendarLuis mockCalendar = utterancesManager.GetValueOrDefault(text, utterancesManager.GetBaseNoneIntent());
 
                 var test = mockCalendar as object;
                 mockResult = (T)test;
             }
             else if (t.Name.Equals(typeof(General).Name))
             {
-                General mockGeneralIntent = generalUtterancesManager.GetValueOrDefault(text, generalUtterancesManager.GetBaseNoneIntent());
+                var mockGeneralIntent = generalUtterancesManager.GetValueOrDefault(text, generalUtterancesManager.GetBaseNoneIntent());
 
                 var test = mockGeneralIntent as object;
                 mockResult = (T)test;

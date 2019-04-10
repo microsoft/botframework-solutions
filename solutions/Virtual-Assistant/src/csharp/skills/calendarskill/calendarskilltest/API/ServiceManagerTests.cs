@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using CalendarSkill.Models;
-using CalendarSkill.ServiceClients;
-using Microsoft.Bot.Builder.Solutions.Skills;
+using CalendarSkill.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 
 namespace CalendarSkillTest.API
 {
@@ -12,25 +10,20 @@ namespace CalendarSkillTest.API
     public class ServiceManagerTests
     {
         private static IServiceManager serviceManager;
-        private static Mock<SkillConfigurationBase> mockConfig;
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            mockConfig = new Mock<SkillConfigurationBase>();
-            mockConfig.SetupGet(config => config.Properties).Returns(() =>
+            var mockConfig = new BotSettings();
+            mockConfig.Properties = new Dictionary<string, string>
             {
-                Dictionary<string, object> props = new Dictionary<string, object>
-                {
-                    { "googleAppName", "testAppName" },
-                    { "googleClientId", "testClientId" },
-                    { "googleClientSecret", "testClientSecret" },
-                    { "googleScopes", "testScopes" }
-                };
+                { "googleAppName", "testAppName" },
+                { "googleClientId", "testClientId" },
+                { "googleClientSecret", "testClientSecret" },
+                { "googleScopes", "testScopes" }
+            };
 
-                return props;
-            });
-            serviceManager = new ServiceManager(mockConfig.Object);
+            serviceManager = new ServiceManager(mockConfig);
         }
 
         [ClassCleanup]
