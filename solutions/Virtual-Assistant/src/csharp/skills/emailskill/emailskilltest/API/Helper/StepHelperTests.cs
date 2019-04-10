@@ -19,7 +19,7 @@ namespace EmailSkillTest.API.Helper
         public StepHelperTests()
             : base(DialogId)
         {
-            Services = new MockSkillConfiguration();
+            // Services = new MockSkillConfiguration();
 
             this.mockEmailStateAccessor = new MockEmailStateAccessor();
             EmailStateAccessor = mockEmailStateAccessor.GetMock().Object;

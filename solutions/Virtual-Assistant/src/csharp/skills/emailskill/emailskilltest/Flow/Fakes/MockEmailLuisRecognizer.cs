@@ -23,6 +23,19 @@ namespace EmailSkillTest.Flow.Fakes
             this.emailUtterancesManager = utterancesManager;
         }
 
+        public MockEmailLuisRecognizer(params BaseTestUtterances[] utterancesManagers)
+        {
+            this.emailUtterancesManager = new BaseTestUtterances();
+
+            foreach (var manager in utterancesManagers)
+            {
+                foreach (var pair in manager)
+                {
+                    this.emailUtterancesManager.TryAdd(pair.Key, pair.Value);
+                }
+            }
+        }
+
         public bool LogPersonalInformation => throw new NotImplementedException();
 
         public void AddUtteranceManager(BaseTestUtterances utterancesManager)

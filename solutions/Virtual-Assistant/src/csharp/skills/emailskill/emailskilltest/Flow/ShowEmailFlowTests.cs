@@ -20,21 +20,6 @@ namespace EmailSkillTest.Flow
     [TestClass]
     public class ShowEmailFlowTests : EmailBotTestBase
     {
-        [TestInitialize]
-        public void SetupLuisService()
-        {
-            var luisServices = this.Services.LocaleConfigurations["en"].LuisServices;
-            luisServices.Clear();
-
-            var emailLuisRecognizer = new MockEmailLuisRecognizer(new ShowEmailUtterances());
-            emailLuisRecognizer.AddUtteranceManager(new ForwardEmailUtterances());
-            emailLuisRecognizer.AddUtteranceManager(new ReplyEmailUtterances());
-            emailLuisRecognizer.AddUtteranceManager(new DeleteEmailUtterances());
-
-            luisServices.Add("email", emailLuisRecognizer);
-            luisServices.Add("general", new MockGeneralLuisRecognizer());
-        }
-
         [TestMethod]
         public async Task Test_ShowEmail()
         {
@@ -574,8 +559,9 @@ namespace EmailSkillTest.Flow
         {
             return activity =>
             {
-                var eventActivity = activity.AsEventActivity();
-                Assert.AreEqual(eventActivity.Name, "tokens/request");
+                var message = activity.AsMessageActivity();
+                Assert.AreEqual(1, message.Attachments.Count);
+                Assert.AreEqual("application/vnd.microsoft.card.oauth", message.Attachments[0].ContentType);
             };
         }
     }
