@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using AdaptiveCards;
 using AutomotiveSkill.Common;
 using AutomotiveSkill.Dialogs.Shared;
 using AutomotiveSkill.Dialogs.VehicleSettings.Resources;
@@ -167,15 +168,22 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
 
                         options.Prompt = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsSettingNameSelection);
 
-                        var card = new ThumbnailCard
+                        var card = new AdaptiveCard();
+                        card.Body.Add(new AdaptiveImage()
                         {
-                            Images = new List<CardImage> { new CardImage(GetSettingCardImageUri(FallbackSettingImageFileName)) },
-                            Text = options.Prompt.Text,
-                            Buttons = options.Choices.Select(choice =>
-                                new CardAction(ActionTypes.ImBack, choice.Value, value: choice.Value)).ToList(),
-                        };
+                            Url = new Uri(GetSettingCardImageUri(FallbackSettingImageFileName))
+                        });
+                        card.Body.Add(new AdaptiveTextBlock()
+                        {
+                            Text = options.Prompt.Text
+                        });
 
-                        options.Prompt.Attachments.Add(card.ToAttachment());
+                        foreach (var choice in options.Choices)
+                        {
+                            card.Actions.Add(new AdaptiveSubmitAction() { Data = choice.Value, Title = choice.Value });
+                        }
+
+                        options.Prompt.Attachments.Add(new Attachment(contentType: AdaptiveCard.ContentType, content: card));
 
                         // Default Text property is clumsy for speech
                         options.Prompt.Speak = $"{options.Prompt.Text} {GetSpeakableOptions(options.Choices)}";
@@ -289,15 +297,22 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                         var promptReplacements = new StringDictionary { { "settingName", settingName } };
                         options.Prompt = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsSettingValueSelection, promptReplacements);
 
-                        var card = new ThumbnailCard
+                        var card = new AdaptiveCard();
+                        card.Body.Add(new AdaptiveImage()
                         {
-                            Text = options.Prompt.Text,
-                            Images = new List<CardImage> { new CardImage(GetSettingCardImageUri(imageName)) },
-                            Buttons = options.Choices.Select(choice =>
-                                new CardAction(ActionTypes.ImBack, choice.Value, value: choice.Value)).ToList(),
-                        };
+                            Url = new Uri(GetSettingCardImageUri(imageName))
+                        });
+                        card.Body.Add(new AdaptiveTextBlock()
+                        {
+                            Text = options.Prompt.Text
+                        });
 
-                        options.Prompt.Attachments.Add(card.ToAttachment());
+                        foreach (var choice in options.Choices)
+                        {
+                            card.Actions.Add(new AdaptiveSubmitAction() { Data = choice.Value, Title = choice.Value });
+                        }
+
+                        options.Prompt.Attachments.Add(new Attachment(contentType: AdaptiveCard.ContentType, content: card));
 
                         // Default Text property is clumsy for speech
                         options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options.Prompt);

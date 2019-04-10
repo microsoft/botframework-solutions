@@ -1,3 +1,4 @@
+using AdaptiveCards;
 using AutomotiveSkill.Models;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -211,7 +212,7 @@ namespace AutomotiveSkillTest.Flow
                 .Send("adjust equalizer")
                 .AssertReply(this.CheckReply("Here are the matching settings. Which one? (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)"))
                 .Send("Equalizer (Bass)")
-                .AssertReply(this.CheckReply("Here are the possible values for Equalizer (Bass). Which one? (1) Decrease(2) Increase"))                
+                .AssertReply(this.CheckReply("Here are the possible values for Equalizer (Bass). Which one? The first is Decrease, and the last is Increase"))                
                  .Send("Decrease")
                 .AssertReply(this.CheckForSettingEvent(new SettingChange()
                 {
@@ -354,8 +355,10 @@ namespace AutomotiveSkillTest.Flow
             return activity =>
             {
                 var messageReceived = activity.AsMessageActivity();
-                var card = JsonConvert.DeserializeObject<ThumbnailCard>(messageReceived.Attachments[0].Content.ToString());
-                Assert.IsTrue(card.Images[0].Url.StartsWith(ImageAssetLocation), $"Image URI was expected to be prefixed with {ImageAssetLocation} but was actually {card.Images[0].Url.ToString()}");
+                var card = JsonConvert.DeserializeObject<AdaptiveCard>(messageReceived.Attachments[0].Content.ToString());
+                Assert.IsInstanceOfType(card.Body[0], typeof(AdaptiveImage));
+                var adaptiveImage = (AdaptiveImage)card.Body[0];
+                Assert.IsTrue(adaptiveImage.UrlString.StartsWith(ImageAssetLocation), $"Image URI was expected to be prefixed with {ImageAssetLocation} but was actually {adaptiveImage.UrlString}");
             };
         }
     }
