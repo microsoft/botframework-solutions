@@ -63,6 +63,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\lib\csharp\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Dialogs\Escalate\Resources\EscalateStrings - Copy.Designer.cs">
       <DependentUpon>EscalateStrings.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -114,13 +118,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>OnboardingStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\skills\calendarskill\calendarskill\CalendarSkill.csproj" />
-    <ProjectReference Include="..\skills\emailskill\emailskill\EmailSkill.csproj" />
-    <ProjectReference Include="..\skills\pointofinterestskill\pointofinterestskill\PointOfInterestSkill.csproj" />
-    <ProjectReference Include="..\skills\todoskill\todoskill\ToDoSkill.csproj" />
   </ItemGroup>
 
   <ItemGroup>
