@@ -110,7 +110,7 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.NextMeetingPrompt())
-                .AssertReply(this.ShowCalendarList(eventCount))
+                .AssertReply(this.ShowCalendarList())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -170,12 +170,12 @@ namespace CalendarSkillTest.Flow
             };
         }
 
-        private Action<IActivity> ShowCalendarList(int eventCount = 1)
+        private Action<IActivity> ShowCalendarList()
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                //Assert.AreEqual(messageActivity.Attachments.Count, eventCount);
+                Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }
 

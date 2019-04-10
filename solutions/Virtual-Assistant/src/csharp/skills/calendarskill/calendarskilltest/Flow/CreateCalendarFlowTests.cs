@@ -528,7 +528,7 @@ namespace CalendarSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                //Assert.AreEqual(messageActivity.Attachments.Count, 1);
+                Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }
 
@@ -537,7 +537,7 @@ namespace CalendarSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                //Assert.AreEqual(messageActivity.Attachments.Count, 1);
+                Assert.AreEqual(messageActivity.Attachments.Count, 1);
 
                 //var meetingCardJsonString = ((Newtonsoft.Json.Linq.JObject)messageActivity.Attachments[0].Content).ToString();
                 //var meetingCard = JsonConvert.DeserializeObject<MeetingAdaptiveCard>(meetingCardJsonString);

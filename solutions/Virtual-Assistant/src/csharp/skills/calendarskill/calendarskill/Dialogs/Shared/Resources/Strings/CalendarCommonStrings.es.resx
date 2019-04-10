@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ShortDisplayDurationMinute" xml:space="preserve">
+    <value>{0} m</value>
+  </data>
   <data name="TomorrowLower" xml:space="preserve">
     <value>Mañana</value>
   </data>
@@ -146,6 +149,9 @@
   </data>
   <data name="Next" xml:space="preserve">
     <value>próximo</value>
+  </data>
+  <data name="MeetingsAt" xml:space="preserve">
+    <value>Reuniones en {0}</value>
   </data>
   <data name="AskForContent" xml:space="preserve">
     <value>Qué. * (contenido | detalle)</value>
@@ -201,14 +207,17 @@
   <data name="OrdinalSuffixSt" xml:space="preserve">
     <value>{0} St</value>
   </data>
-  <data name="AllDayLower" xml:space="preserve">
-    <value>todo el día</value>
+  <data name="TodayLower" xml:space="preserve">
+    <value>Hoy</value>
   </data>
   <data name="AdjustTime" xml:space="preserve">
     <value>(Ajuste | cambio | actualización)?. * tiempo</value>
   </data>
   <data name="Myself" xml:space="preserve">
     <value>^ (me | yo) $</value>
+  </data>
+  <data name="AllDayLower" xml:space="preserve">
+    <value>todo el día</value>
   </data>
   <data name="OrdinalSuffixNd" xml:space="preserve">
     <value>{0} ND</value>
@@ -237,8 +246,8 @@
   <data name="MyselfConst" xml:space="preserve">
     <value>me</value>
   </data>
-  <data name="TodayLower" xml:space="preserve">
-    <value>Hoy</value>
+  <data name="ShortDisplayDurationHour" xml:space="preserve">
+    <value>{0} h</value>
   </data>
   <data name="OrdinalSuffixRd" xml:space="preserve">
     <value>{0} Rd</value>
@@ -261,8 +270,8 @@
   <data name="ContactSeparator" xml:space="preserve">
     <value>, | y |;</value>
   </data>
-  <data name="MeetingsAt" xml:space="preserve">
-    <value>Reuniones en {0}</value>
+  <data name="ShowMeetingsIndicator" xml:space="preserve">
+    <value>* * {0}-{1} * * de {2}</value>
   </data>
   <data name="AskForAttendee" xml:space="preserve">
     <value>who. * (con | asista | join | come)</value>

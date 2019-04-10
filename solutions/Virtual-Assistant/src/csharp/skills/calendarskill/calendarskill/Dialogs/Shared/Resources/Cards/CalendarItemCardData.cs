@@ -12,6 +12,8 @@ namespace CalendarSkill
 
         public string Location { get; set; }
 
+        public string Duration { get; set; }
+
         public bool IsSubtle { get; set; }
     }
 }
