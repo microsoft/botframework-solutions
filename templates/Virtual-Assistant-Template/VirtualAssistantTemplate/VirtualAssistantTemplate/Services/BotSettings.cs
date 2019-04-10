@@ -1,4 +1,4 @@
-﻿using Microsoft.Bot.Builder.Skills;
+﻿using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions;
 using System.Collections.Generic;
 
@@ -6,6 +6,6 @@ namespace VirtualAssistantTemplate.Services
 {
     public class BotSettings : BotSettingsBase
     {
-        public List<SkillDefinition> Skills { get; set; } = new List<SkillDefinition>();
+        public List<SkillManifest> Skills { get; set; } = new List<SkillManifest>();
     }
 }

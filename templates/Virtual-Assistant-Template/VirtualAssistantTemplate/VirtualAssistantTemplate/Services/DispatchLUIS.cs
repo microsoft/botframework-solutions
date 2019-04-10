@@ -15,11 +15,10 @@ namespace Luis
         public string AlteredText;
         public enum Intent
         {
-            l_calendar,
-            l_email,
-            l_todo,
-            l_pointofinterest,
-            l_settings,
+            calendarSkill,
+            emailSkill,
+            toDoSkill,
+            pointOfInterestSkill,
             l_general,
             q_chitchat,
             q_faq,
