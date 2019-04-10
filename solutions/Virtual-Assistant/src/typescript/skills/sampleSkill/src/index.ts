@@ -4,7 +4,7 @@
  */
 
 import { TelemetryClient } from 'applicationinsights';
-import { SkillAdapter } from 'bot-skill';
+import { SkillAdapter } from 'botbuilder-skills';
 import {
     ActivityExtensions,
     EventDebuggerMiddleware,
@@ -16,7 +16,7 @@ import {
     SkillConfiguration,
     SkillDefinition,
     TelemetryExtensions
-} from 'bot-solution';
+} from 'botbuilder-solutions';
 import {
     AutoSaveStateMiddleware,
     BotFrameworkAdapter,

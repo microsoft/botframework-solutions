@@ -1,5 +1,5 @@
 /**
- * @module bot-solution
+ * @module botbuilder-solutions
  */
 /**
  * Copyright(c) Microsoft Corporation.All rights reserved.

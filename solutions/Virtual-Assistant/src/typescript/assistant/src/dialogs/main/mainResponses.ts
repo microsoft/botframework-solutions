@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { ActivityExtensions } from 'bot-solution';
+import { ActivityExtensions } from 'botbuilder-solutions';
 import {
     Activity,
     CardFactory,

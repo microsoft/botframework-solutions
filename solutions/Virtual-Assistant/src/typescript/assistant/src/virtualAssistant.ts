@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { IBackgroundTaskQueue, ProactiveState } from 'bot-solution';
+import { IBackgroundTaskQueue, ProactiveState } from 'botbuilder-solutions';
 import { BotTelemetryClient, ConversationState, EndOfConversationCodes, TurnContext, UserState } from 'botbuilder';
 import { DialogContext, DialogSet, DialogState, DialogTurnResult } from 'botbuilder-dialogs';
 import { IEndpointService } from 'botframework-config';
