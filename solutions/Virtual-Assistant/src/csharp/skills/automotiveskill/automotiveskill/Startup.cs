@@ -24,6 +24,7 @@ namespace AutomotiveSkill
     using Microsoft.Bot.Builder.Skills;
     using Microsoft.Bot.Builder.Solutions.Proactive;
     using Microsoft.Bot.Builder.Solutions.Responses;
+    using Microsoft.Bot.Builder.Solutions.Shared.Responses;
     using Microsoft.Bot.Builder.Solutions.TaskExtensions;
     using Microsoft.Bot.Connector.Authentication;
     using Microsoft.Extensions.Configuration;
