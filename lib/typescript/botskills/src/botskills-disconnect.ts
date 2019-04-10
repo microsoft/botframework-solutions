@@ -28,9 +28,9 @@ program.Command.prototype.unknownOption = (flag: string): void => {
 program
     .name('botskills disconnect')
     .description('Disconnect a specific skill from your assitant bot')
-    .option('-a, --assistantSkills <path>', 'Path to Virtual Assistant\'s Skills')
     .option('-s, --skillName <name>', 'Name of the skill to remove from your assistant')
-    .option('--verbose', '[OPTIONAL] Outputs detailed information about the processing of the tool')
+    .option('-a, --assistantSkills <path>', 'Path to the assistant Skills configuration file')
+    .option('--verbose', '[OPTIONAL] Output detailed information about the processing of the tool')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const args: program.Command = program.parse(process.argv);

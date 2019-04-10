@@ -47,8 +47,8 @@ program
     .name('botskills connect')
     .description('Connect the skill to your assistant bot')
     .option('-m, --skillManifest <path>', 'Path to Skill Manifest')
-    .option('-a, --assistantSkills <path>', 'Path to Virtual Assistant\'s Skills')
-    .option('--verbose', '[OPTIONAL] Outputs detailed information about the processing of the tool')
+    .option('-a, --assistantSkills <path>', 'Path to assistant Skills configuration file')
+    .option('--verbose', '[OPTIONAL] Output detailed information about the processing of the tool')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
 const args: program.Command = program.parse(process.argv);
