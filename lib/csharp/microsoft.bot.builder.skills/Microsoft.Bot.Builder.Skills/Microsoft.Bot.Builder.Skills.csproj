@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\SkillDefinition.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.3.1" />

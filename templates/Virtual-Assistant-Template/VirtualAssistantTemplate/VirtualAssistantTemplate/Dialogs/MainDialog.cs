@@ -56,7 +56,7 @@ namespace VirtualAssistantTemplate.Dialogs
 
             foreach (var skill in settings.Skills)
             {
-                AddDialog(new SkillDialog(skill, _responseManager, new MicrosoftAppCredentialsEx(_microsoftAppCredentials.MicrosoftAppId, _microsoftAppCredentials.MicrosoftAppPassword, skill.Scope), telemetryClient));
+                AddDialog(new SkillDialog(skill, _responseManager, new MicrosoftAppCredentialsEx(_microsoftAppCredentials.MicrosoftAppId, _microsoftAppCredentials.MicrosoftAppPassword, skill.MSAappId), telemetryClient));
             }
         }
 
@@ -76,12 +76,12 @@ namespace VirtualAssistantTemplate.Dialogs
             var dispatchResult = await cognitiveModels.DispatchService.RecognizeAsync<DispatchLuis>(dc.Context, CancellationToken.None);
             var intent = dispatchResult.TopIntent().intent;
 
-            if (_settings.Skills.Any(s => s.DispatchIntent == intent.ToString()))
+            if (_settings.Skills.Any(s => s.Id == intent.ToString()))
             {
-                var skill = _settings.Skills.Where(s => s.DispatchIntent == intent.ToString()).First();
+                var skill = _settings.Skills.Where(s => s.Id == intent.ToString()).First();
 
                 // Initialize the skill connection
-                await dc.BeginDialogAsync(skill.Name);
+                await dc.BeginDialogAsync(skill.Id);
 
                 // Pass the activity we have
                 var result = await dc.ContinueDialogAsync();

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models;
+using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Shared;
 using Microsoft.Bot.Builder.Solutions.Shared.Authentication;
 using Microsoft.Bot.Builder.Solutions.Shared.Responses;
@@ -41,33 +42,33 @@ namespace Microsoft.Bot.Builder.Skills
         };
 
         // Placeholder for Manifest
-        private SkillDefinition _skillDefinition;
+        private SkillManifest _skillManifest;
 
         /// <summary>
         /// SkillDialog constructor that accepts the manifest description of a Skill along with TelemetryClient for end to end telemetry.
         /// </summary>
-        /// <param name="skillDefinition"></param>
+        /// <param name="skillManifest"></param>
         /// <param name="proactiveState"></param>
         /// <param name="endpointService"></param>
         /// <param name="telemetryClient"></param>
         /// <param name="backgroundTaskQueue"></param>
         /// <param name="useCachedTokens"></param>
-        public SkillDialog(SkillDefinition skillDefinition, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient)
-            : base(skillDefinition.Name)
+        public SkillDialog(SkillManifest skillManifest, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient)
+            : base(skillManifest.Id)
         {
-            _skillDefinition = skillDefinition;
+            _skillManifest = skillManifest;
             _microsoftAppCredentialsEx = microsoftAppCredentialsEx;
             _telemetryClient = telemetryClient;
 
-            if (_skillDefinition.SupportedProviders != null)
+            if (_skillManifest.AuthenticationConnections != null)
             {
                 // hack for oauth connection for now
                 var list = new List<OAuthConnection>();
-                foreach (var provider in _skillDefinition.SupportedProviders)
+                foreach (var provider in _skillManifest.AuthenticationConnections)
                 {
-                    if (provider.Contains("Azure"))
+                    if (provider.ServiceProviderId.Contains("Azure"))
                     {
-                        list.Add(new OAuthConnection { Name = "office365", Provider = provider });
+                        list.Add(new OAuthConnection { Name = "office365", Provider = provider.ServiceProviderId });
                         break;
                     }
                     else
@@ -163,13 +164,13 @@ namespace Microsoft.Bot.Builder.Skills
                 // Serialize the activity and POST to the Skill endpoint
                 var httpRequest = new HttpRequestMessage();
                 httpRequest.Method = new HttpMethod("POST");
-                httpRequest.RequestUri = new Uri(_skillDefinition.Endpoint);
+                httpRequest.RequestUri = _skillManifest.Endpoint;
 
                 var _requestContent = SafeJsonConvert.SerializeObject(activity, _serializationSettings);
                 httpRequest.Content = new StringContent(_requestContent, Encoding.UTF8);
                 httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
 
-                MicrosoftAppCredentials.TrustServiceUrl(_skillDefinition.Endpoint);
+                MicrosoftAppCredentials.TrustServiceUrl(_skillManifest.Endpoint.AbsoluteUri);
                 await _microsoftAppCredentialsEx.ProcessHttpRequestAsync(httpRequest, default(CancellationToken));
 
                 var response = await _httpClient.SendAsync(httpRequest);
