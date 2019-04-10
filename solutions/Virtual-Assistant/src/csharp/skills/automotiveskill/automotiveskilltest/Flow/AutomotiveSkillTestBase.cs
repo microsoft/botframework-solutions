@@ -14,6 +14,7 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Testing;
+using AutomotiveSkill.Models;
 
 namespace AutomotiveSkillTest.Flow
 {

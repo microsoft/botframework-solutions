@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace AutomotiveSkillTest.Flow.Fakes
 {
-    public class MockVehicleSettingsIntent : VehicleSettings
+    public class MockVehicleSettingsIntent : VehicleSettingsLuis
     {
         public string userInput;
         private Intent intent;
@@ -18,7 +18,7 @@ namespace AutomotiveSkillTest.Flow.Fakes
                 throw new ArgumentNullException(nameof(userInput));
             }
 
-            this.Entities = new VehicleSettings._Entities();
+            this.Entities = new VehicleSettingsLuis._Entities();
             this.Intents = new Dictionary<Intent, IntentScore>();
 
             this.userInput = userInput;
@@ -80,12 +80,12 @@ namespace AutomotiveSkillTest.Flow.Fakes
                     break;
                 case "i'm feeling cold":                   
                     this.Entities.VALUE = new string[] { "cold" };
-                    this.Intents.Add(VehicleSettings.Intent.VEHICLE_SETTINGS_DECLARATIVE, intentScore);
+                    this.Intents.Add(VehicleSettingsLuis.Intent.VEHICLE_SETTINGS_DECLARATIVE, intentScore);
                     break;
                 case "it's feeling cold in the back":
                     this.Entities.SETTING = new string[] { "back" };
                     this.Entities.VALUE = new string[] { "cold" };
-                    this.Intents.Add(VehicleSettings.Intent.VEHICLE_SETTINGS_DECLARATIVE, intentScore);
+                    this.Intents.Add(VehicleSettingsLuis.Intent.VEHICLE_SETTINGS_DECLARATIVE, intentScore);
                     break;
                 case "adjust equalizer":
                     this.Entities.SETTING = new string[] { "equalizer" };
@@ -94,13 +94,13 @@ namespace AutomotiveSkillTest.Flow.Fakes
                     this.Entities.SETTING = new string[] { "pedestrian detection" };
                     break;
                 default:
-                    return (VehicleSettings.Intent.None, 0.0);
+                    return (VehicleSettingsLuis.Intent.None, 0.0);
             }
 
             // Default is setting change apart from declarative used ocassionally above
             if (this.Intents.Count == 0)
             {
-                this.Intents.Add(VehicleSettings.Intent.VEHICLE_SETTINGS_CHANGE, intentScore);
+                this.Intents.Add(VehicleSettingsLuis.Intent.VEHICLE_SETTINGS_CHANGE, intentScore);
             }
 
             return this.TopIntent();

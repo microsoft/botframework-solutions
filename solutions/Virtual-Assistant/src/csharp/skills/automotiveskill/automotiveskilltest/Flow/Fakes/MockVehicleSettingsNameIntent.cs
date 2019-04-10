@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace AutomotiveSkillTest.Flow.Fakes
 {
-    public class MockVehicleSettingsNameIntent : VehicleSettingsNameSelection
+    public class MockVehicleSettingsNameIntent : VehicleSettingsNameSelectionLuis
     {
         public string userInput;
         private Intent intent;
@@ -18,7 +18,7 @@ namespace AutomotiveSkillTest.Flow.Fakes
                 throw new ArgumentNullException(nameof(userInput));
             }
 
-            this.Entities = new VehicleSettingsNameSelection._Entities();
+            this.Entities = new VehicleSettingsNameSelectionLuis._Entities();
             this.Intents = new Dictionary<Intent, IntentScore>();
 
             this.userInput = userInput;
@@ -27,7 +27,7 @@ namespace AutomotiveSkillTest.Flow.Fakes
             intentScore.Score = 0.9909704;
             intentScore.Properties = new Dictionary<string, object>();
 
-            this.Intents.Add(VehicleSettingsNameSelection.Intent.SETTING_NAME_SELECTION, intentScore);
+            this.Intents.Add(VehicleSettingsNameSelectionLuis.Intent.SETTING_NAME_SELECTION, intentScore);
 
             switch (userInput.ToLower())
             {
