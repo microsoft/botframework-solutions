@@ -1,5 +1,5 @@
 /**
- * @module bot-skill
+ * @module botbuilder-skills
  */
 /**
  * Copyright(c) Microsoft Corporation.All rights reserved.
