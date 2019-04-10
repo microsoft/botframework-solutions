@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { SkillAdapter } from 'bot-skill';
+import { SkillAdapter } from 'botbuilder-skills';
 import {
     ActivityExtensions,
     InterruptionAction,
@@ -9,7 +9,7 @@ import {
     LocaleConfiguration,
     ResponseManager,
     RouterDialog,
-    SkillConfigurationBase } from 'bot-solution';
+    SkillConfigurationBase } from 'botbuilder-solutions';
 import {
     Activity,
     ActivityTypes,
