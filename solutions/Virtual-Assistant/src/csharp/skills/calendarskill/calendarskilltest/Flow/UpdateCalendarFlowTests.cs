@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
+using CalendarSkill.Responses.UpdateEvent;
+using CalendarSkill.Services;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkillTest.Flow
@@ -16,10 +21,10 @@ namespace CalendarSkillTest.Flow
         [TestInitialize]
         public void SetupLuisService()
         {
-            this.Services.LocaleConfigurations.Add("en", new LocaleConfiguration()
+            var botServices = Services.BuildServiceProvider().GetService<BotServices>();
+            botServices.CognitiveModelSets.Add("en", new CognitiveModelSet()
             {
-                Locale = "en-us",
-                LuisServices = new Dictionary<string, ITelemetryLuisRecognizer>()
+                LuisServices = new Dictionary<string, IRecognizer>()
                 {
                     { "general", new MockLuisRecognizer() },
                     { "calendar", new MockLuisRecognizer(new UpdateMeetingTestUtterances()) }

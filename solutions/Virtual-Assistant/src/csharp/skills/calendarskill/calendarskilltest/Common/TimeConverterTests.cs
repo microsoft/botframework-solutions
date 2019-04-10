@@ -1,5 +1,5 @@
 ﻿using System;
-using CalendarSkill.Common;
+using CalendarSkill.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkillTest.Common
@@ -30,22 +30,22 @@ namespace CalendarSkillTest.Common
         [TestMethod]
         public void ConvertLuisLocalToUtcTest()
         {
-            DateTime testTime = new DateTime(2020, 1, 1, 8, 0, 0, DateTimeKind.Local);
-            TimeZoneInfo timezone = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
+            var testTime = new DateTime(2020, 1, 1, 8, 0, 0, DateTimeKind.Local);
+            var timezone = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
             DateTime resultTime = TimeConverter.ConvertLuisLocalToUtc(testTime, timezone);
 
-            DateTime expectTime = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var expectTime = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             Assert.AreEqual(resultTime, expectTime);
         }
 
         [TestMethod]
         public void ConvertUtcToUserTimeTest()
         {
-            DateTime testTime = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            TimeZoneInfo timezone = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
+            var testTime = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var timezone = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
             DateTime resultTime = TimeConverter.ConvertUtcToUserTime(testTime, timezone);
 
-            DateTime expectTime = new DateTime(2020, 1, 1, 8, 0, 0, DateTimeKind.Local);
+            var expectTime = new DateTime(2020, 1, 1, 8, 0, 0, DateTimeKind.Local);
             Assert.AreEqual(resultTime, expectTime);
         }
 
@@ -54,8 +54,8 @@ namespace CalendarSkillTest.Common
         {
             try
             {
-                DateTime testTime = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Local);
-                TimeZoneInfo timezone = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
+                var testTime = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Local);
+                var timezone = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
                 DateTime resultTime = TimeConverter.ConvertUtcToUserTime(testTime, timezone);
             }
             catch (Exception e)

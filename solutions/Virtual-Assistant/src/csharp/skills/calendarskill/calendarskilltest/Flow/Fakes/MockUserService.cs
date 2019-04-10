@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarSkill.Extensions;
 using CalendarSkill.Models;
+using CalendarSkill.Services;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Graph;
 
 namespace CalendarSkillTest.Flow.Fakes

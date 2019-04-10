@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Services;
+using Moq;
 
 namespace CalendarSkillTest.API.Fakes.MockBaseClient
 {
