@@ -15,19 +15,23 @@ namespace Microsoft.Bot.Builder.Skills
     public class SkillManifestGenerator
     {
         private const string _skillRoute = "/api/skill/messages";
-        private const string _manifestTemplateFilename = "manifestTemplate.json";
+        private readonly HttpClient _httpClient;
 
-        public async Task<SkillManifest> GenerateManifest(string appId, Dictionary<string, CognitiveModelConfiguration> cognitiveModels, string uriBase, bool inlineTriggerUtterances = false)
+        public SkillManifestGenerator(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
+
+        public async Task<SkillManifest> GenerateManifest(string manifestFile, string appId, Dictionary<string, CognitiveModelConfiguration> cognitiveModels, string uriBase, bool inlineTriggerUtterances = false)
         {
             SkillManifest skillManifest = null;
 
             // Each skill has a manifest template in the root directory and is used as foundation for the generated manifest
-            using (StreamReader reader = new StreamReader(_manifestTemplateFilename))
+            using (StreamReader reader = new StreamReader(manifestFile))
             {
                 skillManifest = JsonConvert.DeserializeObject<SkillManifest>(reader.ReadToEnd());
 
                 // TODO - Perform validation;
-
                 skillManifest.MSAappId = appId;
                 skillManifest.Endpoint = new Uri($"{uriBase}{_skillRoute}");
                 skillManifest.IconUrl = new Uri($"{uriBase}/{skillManifest.IconUrl.ToString()}");
@@ -41,7 +45,7 @@ namespace Microsoft.Bot.Builder.Skills
 
                     // TODO - Multi-locale support
                     var modelCache = await PreFetchLuisModelContents(cognitiveModels["en"].LanguageModels);
-                    
+
                     foreach (var action in skillManifest.Actions)
                     {
                         // Is this Action triggerd by LUIS utterances rather than events?
@@ -64,7 +68,7 @@ namespace Microsoft.Bot.Builder.Skills
                                         throw new Exception($"Utterance source for action: {action.Id} didn't include an intent reference: {source}");
                                     }
 
-                                    // We now have the name of the LUIS model and the Intent 
+                                    // We now have the name of the LUIS model and the Intent
                                     var modelName = source.Substring(0, intentIndex);
                                     string intentToMatch = source.Substring(intentIndex + 1);
 
@@ -78,13 +82,13 @@ namespace Microsoft.Bot.Builder.Skills
 
                                     // Validate that the intent in the manifest exists in this LUIS model
                                     IEnumerable<JToken> intents = model.intents;
-                                   
+
                                     if (!intents.Any(i => string.Equals(i["name"].ToString(), intentToMatch, StringComparison.CurrentCultureIgnoreCase)))
                                     {
                                         throw new Exception($"Utterance source for action: '{action.Id}' references the '{modelName}' model and '{intentToMatch}' intent which does not exist.");
                                     }
 
-                                    // Retrieve the utterances that match this intent 
+                                    // Retrieve the utterances that match this intent
                                     IEnumerable<JToken> utterancesList = model.utterances;
                                     var utterances = utterancesList.Where(s => string.Equals(s["intent"].ToString(), intentToMatch, StringComparison.CurrentCultureIgnoreCase));
 
@@ -113,23 +117,21 @@ namespace Microsoft.Bot.Builder.Skills
         /// Retrieve the LUIS model definition for each LUIS model registered in this skill so we have the utterance training data.
         /// </summary>
         /// <param name="luisServices"></param>
-        /// <returns></returns>
+        /// <returns>Collection of LUIS model definitions grouped by model name.</returns>
         private async Task<Dictionary<string, dynamic>> PreFetchLuisModelContents(List<LuisService> luisServices)
         {
-            HttpClient httpClient = new HttpClient();
-
             Dictionary<string, dynamic> utteranceCache = new Dictionary<string, dynamic>();
 
             // For each luisSource we identify the Intent and match with available luisServices to identify the LuisAppId which we update
             foreach (LuisService luisService in luisServices)
-            {                
+            {
                 string exportModelUri = string.Format("https://{0}.api.cognitive.microsoft.com/luis/api/v2.0/apps/{1}/versions/{2}/export", luisService.Region, luisService.AppId, luisService.Version);
-                httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", luisService.AuthoringKey);
-                var httpResponse = await httpClient.GetAsync(exportModelUri);
+                _httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", luisService.AuthoringKey);
+                var httpResponse = await _httpClient.GetAsync(exportModelUri);
 
                 if (httpResponse.IsSuccessStatusCode)
                 {
-                    string json = await httpResponse.Content.ReadAsStringAsync();                    
+                    string json = await httpResponse.Content.ReadAsStringAsync();
                     var luisApp = JsonConvert.DeserializeObject<dynamic>(json);
 
                     utteranceCache.Add(luisService.Id, luisApp);

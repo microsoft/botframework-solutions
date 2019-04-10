@@ -44,6 +44,7 @@ namespace Microsoft.Bot.Builder.Skills
         private SkillDefinition _skillDefinition;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="SkillDialog"/> class.
         /// SkillDialog constructor that accepts the manifest description of a Skill along with TelemetryClient for end to end telemetry.
         /// </summary>
         /// <param name="skillDefinition"></param>
@@ -165,8 +166,8 @@ namespace Microsoft.Bot.Builder.Skills
                 httpRequest.Method = new HttpMethod("POST");
                 httpRequest.RequestUri = new Uri(_skillDefinition.Endpoint);
 
-                var _requestContent = SafeJsonConvert.SerializeObject(activity, _serializationSettings);
-                httpRequest.Content = new StringContent(_requestContent, Encoding.UTF8);
+                var requestContent = SafeJsonConvert.SerializeObject(activity, _serializationSettings);
+                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
                 httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
 
                 MicrosoftAppCredentials.TrustServiceUrl(_skillDefinition.Endpoint);
@@ -185,7 +186,7 @@ namespace Microsoft.Bot.Builder.Skills
                     var endOfConversation = false;
                     foreach (var skillResponse in skillResponses)
                     {
-                        // Once a Skill has finished it signals that it's handing back control to the parent through a 
+                        // Once a Skill has finished it signals that it's handing back control to the parent through a
                         // EndOfConversation event which then causes the SkillDialog to be closed. Otherwise it remains "in control".
                         if (skillResponse.Type == ActivityTypes.EndOfConversation)
                         {
@@ -250,6 +251,6 @@ namespace Microsoft.Bot.Builder.Skills
                 await innerDc.EndDialogAsync();
                 throw;
             }
-        }        
+        }
     }
 }
