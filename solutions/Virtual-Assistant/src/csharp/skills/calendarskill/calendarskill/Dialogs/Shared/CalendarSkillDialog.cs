@@ -428,7 +428,8 @@ namespace CalendarSkill.Dialogs.Shared
 
             var participantContainerCard = new Card()
             {
-                Name = eventItem.Attendees.Count > 5 ? "CalendarDetailContainerParticipantsMore" : "CalendarDetailContainerParticipantsLess",
+                Name = eventItem.Attendees.Count == 0 ? "CalendarDetailContainerNoParticipants" :
+                    eventItem.Attendees.Count > 5 ? "CalendarDetailContainerParticipantsMore" : "CalendarDetailContainerParticipantsLess",
                 Data = new CalendarDetailContainerCardData()
                 {
                     Title = eventItem.Title,

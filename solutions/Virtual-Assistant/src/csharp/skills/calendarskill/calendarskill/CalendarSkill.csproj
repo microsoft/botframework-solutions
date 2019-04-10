@@ -79,6 +79,7 @@
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarDetailNoJoinButton.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarItem.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarOverview.json" />
+    <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarDetailContainerNoParticipants.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarDetailContainerParticipantsLess.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarDetailContainerParticipantsMore.json" />
     <EmbeddedResource Include="Dialogs\Shared\Resources\Cards\CalendarGeneralMeetingList.json" />

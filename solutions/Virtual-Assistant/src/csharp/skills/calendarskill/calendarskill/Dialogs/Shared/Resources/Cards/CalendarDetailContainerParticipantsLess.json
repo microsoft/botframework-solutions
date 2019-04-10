@@ -83,12 +83,9 @@
                               "items": [
                                 {
                                   "type": "Image",
-                                  "id": "senderAvatar",
                                   "style": "Person",
                                   "url": "{ParticipantPhoto1}",
-                                  "size": "Medium",
-                                  "width": "70px",
-                                  "height": "70px"
+                                  "size": "Medium"
                                 }
                               ],
                               "width": "stretch"
@@ -100,8 +97,7 @@
                                   "type": "Image",
                                   "style": "Person",
                                   "url": "{ParticipantPhoto2}",
-                                  "width": "70px",
-                                  "height": "70px"
+                                  "size": "Medium"
                                 }
                               ],
                               "width": "stretch"
@@ -113,8 +109,7 @@
                                   "type": "Image",
                                   "style": "Person",
                                   "url": "{ParticipantPhoto3}",
-                                  "width": "70px",
-                                  "height": "70px"
+                                  "size": "Medium"
                                 }
                               ],
                               "width": "stretch"
@@ -126,8 +121,7 @@
                                   "type": "Image",
                                   "style": "Person",
                                   "url": "{ParticipantPhoto4}",
-                                  "width": "70px",
-                                  "height": "70px"
+                                  "size": "Medium"
                                 }
                               ],
                               "width": "stretch"
@@ -139,8 +133,7 @@
                                   "type": "Image",
                                   "style": "Person",
                                   "url": "{ParticipantPhoto5}",
-                                  "width": "70px",
-                                  "height": "70px"
+                                  "size": "Medium"
                                 }
                               ],
                               "width": "stretch"
