@@ -16,15 +16,16 @@ npm uninstall -g botskills
 ```
 
 ## Botskills functionality
-- Connect a skill to your assistant
-- List all connected skill to your assistant
+- [Connect](./docs/connect-disconnect.md) a Skill to your assistant
+- [Disconnect](./docs/connect-disconnect.md) a Skill from your assistant
+- [List](./docs/list.md) all Skills connected to your assistant
 
 ## Nightly builds
 Nightly builds are based on the latest development code which means they may or may not be stable and probably won't be documented. These builds are better suited for more experienced users and developers although everyone is welcome to give them a shot and provide feedback.
 
 You can get the latest nightly build of Botskills from the [BotBuilder MyGet]() feed. To install the nightly
 ```bash
-npm config set registry https://botbuilder.myget.org/F/botbuilder-ai-daily/npm
+npm config set registry https://botbuilder.myget.org/F/aitemplates/npm/
 ```
 Install using npm
 ```bash
@@ -36,4 +37,4 @@ npm config set registry https://registry.npmjs.org/
 ```
 
 ## Further Reading
-- [Create and customize Skills for your assistant]().
+- [Create and customize Skills for your assistant](https://github.com/Microsoft/AI/blob/master/docs/skills/typescript/create.md).
