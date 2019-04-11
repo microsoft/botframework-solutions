@@ -66,6 +66,41 @@ namespace VirtualAssistantTemplate.Dialogs
             await view.ReplyWith(dc.Context, MainResponses.ResponseIds.Intro);
         }
 
+        protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)
+        {
+            if (dc.Context.Activity.Type == ActivityTypes.Message && !string.IsNullOrWhiteSpace(dc.Context.Activity.Text))
+            {
+                // get current activity locale
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var cognitiveModels = _services.CognitiveModelSets[locale];
+
+                // check luis intent
+                cognitiveModels.LuisServices.TryGetValue("general", out var luisService);
+                if (luisService == null)
+                {
+                    throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
+                }
+                else
+                {
+                    var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
+                    var intent = luisResult.TopIntent().intent;
+
+                    if (luisResult.TopIntent().score > 0.5)
+                    {
+                        switch (intent)
+                        {
+                            case General.Intent.Logout:
+                                {
+                                    return await LogoutAsync(dc);
+                                }
+                        }
+                    }
+                }
+            }
+
+            return InterruptionAction.NoAction;
+        }
+
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Get cognitive models for locale
@@ -98,7 +133,7 @@ namespace VirtualAssistantTemplate.Dialogs
 
                 if (luisService == null)
                 {
-                    throw new Exception("The specified LUIS Model could not be found in your Bot Services configuration.");
+                    throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
                 }
                 else
                 {
@@ -123,6 +158,12 @@ namespace VirtualAssistantTemplate.Dialogs
                             {
                                 // start escalate dialog
                                 await dc.BeginDialogAsync(nameof(EscalateDialog));
+                                break;
+                            }
+
+                        case General.Intent.Logout:
+                            {
+                                await LogoutAsync(dc);
                                 break;
                             }
 
@@ -234,6 +275,33 @@ namespace VirtualAssistantTemplate.Dialogs
         {
             // The active dialog's stack ended with a complete status
             await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Completed);
+        }
+
+        private async Task<InterruptionAction> LogoutAsync(DialogContext dc)
+        {
+            IUserTokenProvider tokenProvider;
+            var supported = dc.Context.Adapter is IUserTokenProvider;
+            if (!supported)
+            {
+                throw new InvalidOperationException("OAuthPrompt.SignOutUser(): not supported by the current adapter");
+            }
+            else
+            {
+                tokenProvider = (IUserTokenProvider)dc.Context.Adapter;
+            }
+
+            await dc.CancelAllDialogsAsync();
+
+            // Sign out user
+            var tokens = await tokenProvider.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
+            foreach (var token in tokens)
+            {
+                await tokenProvider.SignOutUserAsync(dc.Context, token.ConnectionName);
+            }
+
+            await dc.Context.SendActivityAsync(MainStrings.LOGOUT);
+
+            return InterruptionAction.StartedDialog;
         }
     }
 }
