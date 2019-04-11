@@ -5,7 +5,7 @@
 
 import * as program from 'commander';
 import { existsSync } from 'fs';
-import { isAbsolute, join, resolve } from 'path';
+import { extname, isAbsolute, join, resolve } from 'path';
 import { ConsoleLogger, ILogger} from './logger/logger';
 import { ISkillManifest } from './skillManifest';
 
@@ -45,7 +45,7 @@ logger.isVerbose = args.verbose;
 if (!args.assistantSkills) {
     logger.error(`The 'assistantSkills' argument should be provided.`);
     process.exit(1);
-} else if (args.assistantSkills.substring(args.assistantSkills.lastIndexOf('.') + 1) !== 'json') {
+} else if (extname(args.assistantSkills) !== '.json') {
     logger.error(`The 'assistantSkills' argument should be a JSON file.`);
     process.exit(1);
 }
@@ -63,6 +63,6 @@ let message: string = `The skills already connected to the assistant are the fol
 assistantSkills.forEach((skillManifest: ISkillManifest) => {
     message += `\n\t- ${skillManifest.name}`;
 });
-logger.message(message);
+logger.success(message, true);
 
 process.exit(0);

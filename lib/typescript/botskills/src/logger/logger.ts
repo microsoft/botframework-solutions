@@ -12,7 +12,7 @@ export interface ILogger {
 
     error(message: string): void;
     message(message: string): void;
-    success(message: string): void;
+    success(message: string, withoutFormat?: boolean): void;
     warning(message: string): void;
 }
 
@@ -36,8 +36,12 @@ export class ConsoleLogger implements ILogger {
         }
     }
 
-    public success(message: string): void {
-        console.log(chalk.greenBright(message));
+    public success(message: string, withoutFormat: boolean = false): void {
+        if (withoutFormat) {
+            console.log(message);
+        } else {
+            console.log(chalk.greenBright(message));
+        }
     }
 
     public warning(message: string): void {

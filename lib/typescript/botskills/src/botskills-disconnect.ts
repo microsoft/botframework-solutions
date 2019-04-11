@@ -5,7 +5,7 @@
 
 import * as program from 'commander';
 import { existsSync, writeFileSync } from 'fs';
-import { isAbsolute, join, resolve } from 'path';
+import { extname, isAbsolute, join, resolve } from 'path';
 import { ConsoleLogger, ILogger} from './logger/logger';
 import { ISkillManifest } from './skillManifest';
 
@@ -46,7 +46,7 @@ logger.isVerbose = args.verbose;
 if (!args.assistantSkills) {
     logger.error(`The 'assistantSkills' argument should be provided.`);
     process.exit(1);
-} else if (args.assistantSkills.substring(args.assistantSkills.lastIndexOf('.') + 1) !== 'json') {
+} else if (extname(args.assistantSkills) !== '.json') {
     logger.error(`The 'assistantSkills' argument should be a JSON file.`);
     process.exit(1);
 }
