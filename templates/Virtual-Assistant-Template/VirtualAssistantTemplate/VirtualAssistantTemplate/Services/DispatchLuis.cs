@@ -15,7 +15,6 @@ namespace Luis
         public string Text;
         public string AlteredText;
         public enum Intent {
-            calendarSkill, 
             l_general, 
             q_chitchat, 
             q_faq, 
