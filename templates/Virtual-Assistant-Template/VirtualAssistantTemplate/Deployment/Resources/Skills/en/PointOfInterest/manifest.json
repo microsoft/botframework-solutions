@@ -1,6 +1,0 @@
-{
-    "Name": "PointOfInterest",
-    "DispatchIntent": "l_pointofinterest",
-    "Endpoint": "https://bfpoiskill.azurewebsites.net/api/skill/messages",
-    "SupportedProviders": []
-}
