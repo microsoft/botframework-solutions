@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.28803.156
+VisualStudioVersion = 15.0.28010.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistant", "assistant\VirtualAssistant.csproj", "{D207238E-C1C2-4449-9984-1BE1F15B9B35}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DFCBFFD7-4882-4C3B-9E21-83EE29CE59BF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "tests", "{DFCBFFD7-4882-4C3B-9E21-83EE29CE59BF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CalendarSkill", "CalendarSkill", "{B80B8316-D162-4115-ADAB-9BB1D59F5B9F}"
 EndProject
@@ -45,7 +45,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Experimental.Skills.Tests",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Experimental", "Experimental", "{9CA69448-91DF-4207-A206-3E4443B4A48A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills", "Skills", "{D47AE889-7F23-4025-836E-3ACD2D060895}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills", "skills", "{D47AE889-7F23-4025-836E-3ACD2D060895}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantBooking", "experimental\skills\restaurantbooking\RestaurantBooking.csproj", "{43529B7E-B96C-4D9A-97FA-9D42CA9D7FF9}"
 EndProject
