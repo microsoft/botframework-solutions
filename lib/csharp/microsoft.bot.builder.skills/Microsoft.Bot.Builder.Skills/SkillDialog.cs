@@ -61,38 +61,20 @@ namespace Microsoft.Bot.Builder.Skills
             _microsoftAppCredentialsEx = microsoftAppCredentialsEx;
             _telemetryClient = telemetryClient;
 
-            if (_skillManifest.AuthenticationConnections != null)
+            if (authDialog != null)
             {
-                // hack for oauth connection for now
-                var list = new List<OAuthConnection>();
-                foreach (var provider in _skillManifest.AuthenticationConnections)
-                {
-                    if (provider.ServiceProviderId.Contains("Azure"))
-                    {
-                        list.Add(new OAuthConnection { Name = "office365", Provider = provider.ServiceProviderId });
-                        break;
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
-
-                if (authDialog != null)
-                {
-                    _authDialog = authDialog;
-                    AddDialog(authDialog);
-                }
+                _authDialog = authDialog;
+                AddDialog(authDialog);
             }
         }
 
         /// <summary>
         /// When a SkillDialog is started, a skillBegin event is sent which firstly indicates the Skill is being invoked in Skill mode, also slots are also provided where the information exists in the parent Bot.
         /// </summary>
-        /// <param name="innerDc"></param>
-        /// <param name="options"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="innerDc">inner dialog context.</param>
+        /// <param name="options">options.</param>
+        /// <param name="cancellationToken">cancellation token.</param>
+        /// <returns>dialog turn result.</returns>
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
             // TODO - The SkillDialog Orchestration should try to fill slots defined in the manifest and pass through this event.
@@ -116,9 +98,9 @@ namespace Microsoft.Bot.Builder.Skills
         /// <summary>
         /// All subsequent messages are forwarded on to the skill.
         /// </summary>
-        /// <param name="innerDc"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="innerDc">inner dialog context.</param>
+        /// <param name="cancellationToken">cancellation token.</param>
+        /// <returns>dialog turn result.</returns>
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var activity = innerDc.Context.Activity;
@@ -149,10 +131,10 @@ namespace Microsoft.Bot.Builder.Skills
         /// <summary>
         /// End the Skill dialog.
         /// </summary>
-        /// <param name="outerDc"></param>
-        /// <param name="result"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="outerDc">outer dialog context.</param>
+        /// <param name="result">dialog result.</param>
+        /// <param name="cancellationToken">cancellation token.</param>
+        /// <returns>dialog turn result.</returns>
         protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
         {
             return outerDc.EndDialogAsync(result, cancellationToken);
@@ -161,8 +143,8 @@ namespace Microsoft.Bot.Builder.Skills
         /// <summary>
         /// Forward an inbound activity on to the Skill. This is a synchronous operation whereby all response activities are aggregated and returned in one batch.
         /// </summary>
-        /// <param name="innerDc"></param>
-        /// <param name="activity"></param>
+        /// <param name="innerDc">inner dialog context.</param>
+        /// <param name="activity">activity to forward.</param>
         /// <returns>DialogTurnResult</returns>
         private async Task<DialogTurnResult> ForwardToSkill(DialogContext innerDc, Activity activity)
         {
