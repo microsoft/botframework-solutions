@@ -177,12 +177,12 @@ namespace EmailSkill.Dialogs.Shared
                 var generalLuisResult = state.GeneralLuisResult;
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
-                if (skillLuisResult == EmailLU.Intent.ShowNext || generalTopIntent == General.Intent.ShowNext)
+                if (skillLuisResult == EmailLU.Intent.ShowNext && generalTopIntent == General.Intent.ShowNext)
                 {
                     state.ShowEmailIndex++;
                     state.ReadEmailIndex = 0;
                 }
-                else if ((skillLuisResult == EmailLU.Intent.ShowPrevious || generalTopIntent == General.Intent.ShowPrevious) && state.ShowEmailIndex >= 0)
+                else if ((skillLuisResult == EmailLU.Intent.ShowPrevious && generalTopIntent == General.Intent.ShowPrevious) && state.ShowEmailIndex >= 0)
                 {
                     state.ShowEmailIndex--;
                     state.ReadEmailIndex = 0;
@@ -356,6 +356,7 @@ namespace EmailSkill.Dialogs.Shared
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
                 var luisResult = state.LuisResult;
 
+                state.Message.Clear();
                 await DigestFocusEmailAsync(sc);
                 var focusedMessage = state.Message.FirstOrDefault();
 
@@ -438,8 +439,11 @@ namespace EmailSkill.Dialogs.Shared
 
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                state.Message.Clear();
-                state.Message.Add(state.MessageList[0]);
+                if (state.MessageList != null && state.MessageList.Count() == 1)
+                {
+                    state.Message.Clear();
+                    state.Message.Add(state.MessageList[0]);
+                }
 
                 string nameListString;
 
@@ -895,7 +899,7 @@ namespace EmailSkill.Dialogs.Shared
             }
         }
 
-        protected List<Message> FilterMessages(List<Message> messages, string searchSender, string searchSubject, DateTime start, DateTime end, bool isAttachmentContained)
+        protected async Task<List<Message>> FilterMessagesAsync(IMailService service, List<Message> messages, string searchSender, string searchSubject, DateTime start, DateTime end, bool isAttachmentContained, string attachmentType)
         {
             if ((searchSender == null) && (searchSubject == null))
             {
@@ -924,8 +928,31 @@ namespace EmailSkill.Dialogs.Shared
                 {
                     if (isAttachmentContained && (messages[i].HasAttachments.Value != isAttachmentContained))
                     {
-                        //messages[i].Attachments[0].Name;
                         isAdd = false;
+                    }
+
+                    if (isAttachmentContained &&
+                        messages[i].HasAttachments.Value)
+                    {
+                        var attachments = await service.GetMessageAttachmentAsync(messages[i].Id);
+
+                        if (attachments != null)
+                        {
+                            bool isMatch = false;
+                            for (int j = 0; j < attachments.Count(); j++)
+                            {
+                                isMatch = isMatch || Util.Util.IsTargetAttachment(attachmentType, attachments[0].Name);
+                            }
+
+                            if (!isMatch)
+                            {
+                                isAdd = false;
+                            }
+                        }
+                        else
+                        {
+                            isAdd = false;
+                        }
                     }
                 }
                 else
@@ -1050,9 +1077,8 @@ namespace EmailSkill.Dialogs.Shared
             // Filter messages
             var searchSender = state.GeneralSenderName?.ToLowerInvariant();
             var searchSubject = state.GeneralSearchTexts?.ToLowerInvariant();
-            var searchType = EmailSearchType.None;
-            result = FilterMessages(result, searchSender, searchSubject, state.SearchStartTime, state.SearchEndTime, state.IsAttachmentContained);
 
+            result = await FilterMessagesAsync(serivce, result, searchSender, searchSubject, state.SearchStartTime, state.SearchEndTime, state.IsAttachmentContained, state.GeneralSearchAttachment);
 
             if (searchSender != null)
             {
@@ -1362,6 +1388,7 @@ namespace EmailSkill.Dialogs.Shared
                 state.SearchTexts = null;
                 state.GeneralSenderName = null;
                 state.GeneralSearchTexts = null;
+                state.GeneralSearchAttachment = null;
                 state.SearchStartTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
                 state.SearchEndTime = DateTime.UtcNow;
                 state.IsAttachmentContained = false;
@@ -1595,6 +1622,7 @@ namespace EmailSkill.Dialogs.Shared
                                 if (entity.Attachment != null)
                                 {
                                     state.IsAttachmentContained = true;
+                                    state.GeneralSearchAttachment = entity.Attachment[0];
                                 }
 
                                 break;
@@ -1638,9 +1666,6 @@ namespace EmailSkill.Dialogs.Shared
 
                         if (dateTime != null)
                         {
-                            //var isRelativeTime = IsRelativeTime(time, result.Value, result.Timex);
-                            //dateTimeResults.Add(isRelativeTime ? TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, userTimeZone) : dateTime);
-                            //dateTimeResults.Add(TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, userTimeZone));
                             dateTimeResults.Add(dateTime);
                         }
                     }

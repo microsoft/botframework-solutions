@@ -61,5 +61,12 @@ namespace EmailSkill.ServiceClients
         /// <param name="id">Id of email to update.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         Task MarkMessageAsReadAsync(string id);
+
+        /// <summary>
+        /// Mark an email as read.
+        /// </summary>
+        /// <param name="id">Id of email.</param>
+        /// <returns>A <see cref="Task"/> email attachments.</returns>
+        Task<List<Attachment>> GetMessageAttachmentAsync(string id);
     }
 }

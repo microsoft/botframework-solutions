@@ -581,5 +581,10 @@ namespace EmailSkill.ServiceClients.GoogleAPI
 
             return message;
         }
+
+        public Task<List<Microsoft.Graph.Attachment>> GetMessageAttachmentAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

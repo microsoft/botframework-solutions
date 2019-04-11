@@ -120,6 +120,29 @@ namespace EmailSkill.ServiceClients.MSGraphAPI
             }
         }
 
+        public async Task<List<Attachment>> GetMessageAttachmentAsync(string id)
+        {
+            try
+            {
+                var attachments = await this._graphClient.Me.MailFolders.Inbox.Messages[id].Attachments.Request().GetAsync();
+                List<Attachment> result = new List<Attachment>();
+
+                if (attachments?.Count() > 0)
+                {
+                    foreach (var attachment in attachments)
+                    {
+                        result.Add(attachment);
+                    }
+                }
+
+                return result;
+            }
+            catch (ServiceException ex)
+            {
+                throw GraphClient.HandleGraphAPIException(ex);
+            }
+        }
+
         /// <summary>
         /// Add a new filter condition of.
         /// </summary>
