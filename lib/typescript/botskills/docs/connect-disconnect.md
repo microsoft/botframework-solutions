@@ -10,7 +10,8 @@ botskills connect [options]
 
 | Option                        | Description                                                             |
 |-------------------------------|-------------------------------------------------------------------------|
-| -m, --skillManifest <path>    | Path to Skill Manifest                                                  |
+| -l, --localResource <path>    | Path to local Skill Manifest file                                       |
+| -r, --remoteResource <path>   | URL to remote Skill Manifest                                            |
 | -a, --assistantSkills <path>  | Path to the assistant Skills configuration file                         |
 | --verbose                     | (OPTIONAL) Output detailed information about the processing of the tool |
 | -h, --help                    | Output usage information                                                |

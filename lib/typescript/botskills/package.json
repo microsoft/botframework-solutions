@@ -35,11 +35,14 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "commander": "^2.20.0",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.7",
     "semver": "^6.0.0"
   },
   "devDependencies": {
     "@types/get-stdin": "^5.0.1",
     "@types/node": "^10.9.4",
+    "@types/request-promise-native": "^1.0.15",
     "@types/semver": "^5.5.0",
     "mocha": "^5.2.0",
     "tslint": "^5.12.1",
