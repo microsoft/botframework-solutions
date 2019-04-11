@@ -49,12 +49,11 @@ namespace Microsoft.Bot.Builder.Skills
         /// Initializes a new instance of the <see cref="SkillDialog"/> class.
         /// SkillDialog constructor that accepts the manifest description of a Skill along with TelemetryClient for end to end telemetry.
         /// </summary>
-        /// <param name="skillManifest"></param>
-        /// <param name="proactiveState"></param>
-        /// <param name="endpointService"></param>
-        /// <param name="telemetryClient"></param>
-        /// <param name="backgroundTaskQueue"></param>
-        /// <param name="useCachedTokens"></param>
+        /// <param name="skillManifest">skill manifest object.</param>
+        /// <param name="responseManager">response manager.</param>
+        /// <param name="microsoftAppCredentialsEx">MicrosoftAppCredentialsEx object that customizes scope and authority.</param>
+        /// <param name="telemetryClient">telemetry client.</param>
+        /// <param name="authDialog">optional: auth dialog.</param>
         public SkillDialog(SkillManifest skillManifest, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient, MultiProviderAuthDialog authDialog = null)
             : base(skillManifest.Id)
         {
