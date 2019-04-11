@@ -12,19 +12,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Dialogs\Main\Resources\NewUserGreeting.json" />
-    <Content Remove="Dialogs\Main\Resources\ReturningUserGreeting.json" />
+    <Content Remove="Dialogs\Main\Resources\Cards\NewUserGreeting.json" />
+    <Content Remove="Dialogs\Main\Resources\Cards\ReturningUserGreeting.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.it.json" />
     <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.de.json" />
     <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.es.json" />
     <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.fr.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.it.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.json" />
     <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.zh.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\NewUserGreeting.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\ReturningUserGreeting.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\Cards\NewUserGreeting.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\Cards\ReturningUserGreeting.json" />
   </ItemGroup>
 
   <ItemGroup>
