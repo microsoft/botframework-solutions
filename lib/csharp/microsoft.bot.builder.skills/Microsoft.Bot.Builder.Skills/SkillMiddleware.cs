@@ -6,7 +6,7 @@ using Microsoft.Bot.Schema;
 namespace Microsoft.Bot.Builder.Skills
 {
     /// <summary>
-    /// The Skill middleware is responsible for processing Skill mode specifics, for example the skillBegin event used to signal the start of a skill conversation. 
+    /// The Skill middleware is responsible for processing Skill mode specifics, for example the skillBegin event used to signal the start of a skill conversation.
     /// </summary>
     public class SkillMiddleware : IMiddleware
     {

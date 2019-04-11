@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -31,7 +32,6 @@ namespace Microsoft.Bot.Builder.Skills
         private readonly SkillAdapter _skillAdapter;
         private readonly ISkillAuthProvider _skillAuthProvider;
         private readonly BotSettingsBase _botSettings;
-
         private readonly JsonSerializer _jsonSerializer = JsonSerializer.Create(new JsonSerializerSettings
         {
             NullValueHandling = NullValueHandling.Ignore,
@@ -43,6 +43,9 @@ namespace Microsoft.Bot.Builder.Skills
             Converters = new List<JsonConverter> { new Iso8601TimeSpanConverter() },
         });
 
+        private string manifestTemplateFilename = "manifestTemplate.json";
+        private HttpClient httpClient = new HttpClient();
+
         public SkillController(IServiceProvider serviceProvider, BotSettingsBase botSettings)
         {
             _botFrameworkHttpAdapter = serviceProvider.GetService<IBotFrameworkHttpAdapter>() ?? throw new ArgumentNullException(nameof(IBotFrameworkHttpAdapter));
@@ -51,6 +54,12 @@ namespace Microsoft.Bot.Builder.Skills
             _skillAuthProvider = serviceProvider.GetService<ISkillAuthProvider>();
             _botSettings = botSettings;
         }
+
+        // Each skill provides a template manifest file which we use to fill in the dynamic elements.
+        // There are protected to enable unit tests to mock.
+        protected HttpClient HttpClient { get => httpClient; set => httpClient = value; }
+
+        protected string ManifestTemplateFilename { get => manifestTemplateFilename; set => manifestTemplateFilename = value; }
 
         /// <summary>
         /// This API is the endpoint for when a bot receives a message from a channel or a parent bot
@@ -86,18 +95,19 @@ namespace Microsoft.Bot.Builder.Skills
         /// The base template is provided by the template and at runtime we fill in endpoint, msaAppId
         /// and as requested the triggering utterances inline within the manifest.
         /// </summary>
+        /// <param name="inlineTriggerUtterances">Include triggering utterances inline in manifest.</param>
         /// <returns>Task.</returns>
         [Route("api/skill/manifest")]
         [HttpGet]
         [AllowAnonymous]
         public async Task SkillManifest([Bind, FromQuery] bool inlineTriggerUtterances = false)
-        {           
+        {
             try
             {
                 string skillUriBase = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
 
-                SkillManifestGenerator manifestGenerator = new SkillManifestGenerator();
-                var skillManifest = await manifestGenerator.GenerateManifest(_botSettings.MicrosoftAppId, _botSettings.CognitiveModels, skillUriBase, inlineTriggerUtterances);
+                SkillManifestGenerator manifestGenerator = new SkillManifestGenerator(HttpClient);
+                var skillManifest = await manifestGenerator.GenerateManifest(ManifestTemplateFilename, _botSettings.MicrosoftAppId, _botSettings.CognitiveModels, skillUriBase, inlineTriggerUtterances);
 
                 Response.ContentType = "application/json";
                 Response.StatusCode = 200;
@@ -123,6 +133,6 @@ namespace Microsoft.Bot.Builder.Skills
                     }
                 }
             }
-        }            
+        }
     }
 }
