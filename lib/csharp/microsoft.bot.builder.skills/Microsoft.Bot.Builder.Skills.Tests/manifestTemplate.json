@@ -1,17 +1,13 @@
 {
-  "@context": "https://botframework.com/schemas",
-  "@type": "manifest",
   "id": "calendarSkill",
   "name": "Calendar Skill",
-  "endpoint": "https://calendarskill.azurewebsites.net/api/skill",
   "description": "The Calendar skill provides calendaring related capabilities and supports Office and Google calendars.",
-  "suggestedAction": "What do I have on today",
-  "iconUrl": "https://calendarskill.azurewebsites.net/api/skill",
+  "iconUrl": "calendarSkill.png",
   "authenticationConnections": [
     {
       "id": "Outlook",
       "serviceProviderId": "Azure Active Directory v2",
-      "scopes": "User.Read, Calendars.ReadWrite, People.Read"
+      "scopes": "User.Read, User.ReadBasic.All, Calendars.ReadWrite, People.Read"
     },
     {
       "id": "Google",
@@ -27,45 +23,42 @@
         "slots": [
           {
             "name": "title",
-            "types": [ "https://calendarskill.microsoft.com/title", "string" ]
+            "types": [ "string" ]
           },
           {
             "name": "content",
-            "types": [ "https://calendarskill.microsoft.com/content", "string" ]
+            "types": [ "string" ]
           },
           {
             "name": "attendees",
-            "types": [
-              "https://calendarskill.microsoft.com/person", "Darren Jefford",
-              "https://calendarskill.microsoft.com/contact", "darrenj@microsoft.com"
-            ]
+            "types": [ "string" ]
           },
           {
             "name": "startDate",
-            "types": [ "https://calendarskill.microsoft.com/startDate", "dateTime" ]
+            "types": [ "string" ]
           },
           {
             "name": "startTime",
-            "types": [ "https://calendarskill.microsoft.com/startTime", "datetime" ]
+            "types": [ "string" ]
           },
           {
             "name": "duration",
-            "types": [ "https://calendarskill.microsoft.com/duration", "integer" ]
+            "types": [ "string" ]
           },
           {
             "name": "location",
-            "types": [ "https://calendarskill.microsoft.com/location", "string" ]
+            "types": [ "string" ]
           }
         ],
         "triggers": {
-          "utterances": [
+          "utteranceSources": [
             {
-              "locale":  "en",
+              "locale": "en",
               "source": [
-                "luis:{AppId}#CreateCalendarEntry",
-                "luis:{AppId}#FindMeetingRoom"
+                "Calendar#CreateCalendarEntry",
+                "Calendar#FindMeetingRoom"
               ]
-            }          
+            }
           ]
         }
       }
@@ -77,19 +70,20 @@
         "slots": [
           {
             "name": "startDate",
-            "types": [ "https://calendarskill.microsoft.com/startDate", "dateTime" ]
+            "types": [ "string" ]
           },
           {
             "name": "startTime",
-            "types": [ "https://calendarskill.microsoft.com/startDate", "dateTime" ]
+            "types": [ "string" ]
           }
         ],
         "triggers": {
-          "utterances": [
+          "utteranceSources": [
             {
               "locale": "en",
               "source": [
-                "luis:{AppId}#ChangeEventStatus"
+                "Calendar#AcceptEventEntry",
+                "Calendar#DeleteCalendarEntry"
               ]
             }
           ]
@@ -102,11 +96,11 @@
         "description": "Join the upcoming meeting",
         "slots": [],
         "triggers": {
-          "utterances": [
+          "utteranceSources": [
             {
               "locale": "en",
               "source": [
-                "luis:{AppId}#ConnectToMeeting",
+                "Calendar#ConnectToMeeting"
               ]
             }
           ]
@@ -133,54 +127,54 @@
         "description": "Find out how long until the next event",
         "slots": [],
         "triggers": {
-          "utterances": [
+          "utteranceSources": [
             {
               "locale": "en",
               "source": [
-                "luis:{AppId}#TimeRemaining"
+                "Calendar#TimeRemaining"
               ]
             }
           ]
-        }      
+        }
       }
     },
     {
-      "id": "https://calendarskill.microsoft.com/upcomingEvent",
+      "id": "https://calendarskill.microsoft.com/summary",
       "definition": {
         "description": "Find an upcoming event",
         "slots": [
           {
             "name": "startDate",
-            "types": [ "https://calendarskill.microsoft.com/startDate", "dateTime" ]
+            "types": [ "string" ]
           },
           {
             "name": "startTime",
-            "types": [ "https://calendarskill.microsoft.com/startTime", "dateTime" ]
+            "types": [ "string" ]
           },
           {
             "name": "endDate",
-            "types": [ "https://calendarskill.microsoft.com/endDate", "dateTime" ]
+            "types": [ "string" ]
           },
           {
             "name": "endTime",
-            "types": [ "https://calendarskill.microsoft.com/endTime", "dateTime" ]
+            "types": [ "string" ]
           }
         ],
         "triggers": {
-          "utterances": [
+          "utteranceSources": [
             {
               "locale": "en",
               "source": [
-                "luis:{AppId}#FindCalendarDetail",
-                "luis:{AppId}FindCalendarEntry",
-                "luis:{AppId}FindCalendarWhen",
-                "luis:{AppId}FindCalendarWhere",
-                "luis:{AppId}FindCalendarWho",
-                "luis:{AppId}FindCalendarEntry"
+                "Calendar#FindCalendarDetail",
+                "Calendar#FindCalendarEntry",
+                "Calendar#FindCalendarWhen",
+                "Calendar#FindCalendarWhere",
+                "Calendar#FindCalendarWho",
+                "Calendar#FindDuration"
               ]
             }
           ]
-        }    
+        }
       }
     },
     {
@@ -190,39 +184,39 @@
         "slots": [
           {
             "name": "startDate",
-            "types": [ "https://calendarskill.microsoft.com/startDate", "dateTime" ]
+            "types": [ "string" ]
           },
           {
             "name": "startTime",
-            "types": [ "https://calendarskill.microsoft.com/startTime", "datetime" ]
+            "types": [ "string" ]
           },
           {
             "name": "endDate",
-            "types": [ "https://calendarskill.microsoft.com/endDate", "dateTime" ]
+            "types": [ "string" ]
           },
           {
             "name": "endTime",
-            "types": [ "https://calendarskill.microsoft.com/endTime", "datetime" ]
+            "types": [ "string" ]
           },
           {
             "name": "newStartDate",
-            "types": [ "https://calendarskill.microsoft.com/newStartDate", "datetime" ]
+            "types": [ "string" ]
           },
           {
             "name": "newStartTime",
-            "types": [ "https://calendarskill.microsoft.com/newStartTime", "datetime" ]
+            "types": [ "string" ]
           }
         ],
         "triggers": {
-          "utterances": [
+          "utteranceSources": [
             {
               "locale": "en",
               "source": [
-                "luis:{AppId}#ChangeCalendarEntry"
+                "Calendar#ChangeCalendarEntry"
               ]
             }
           ]
-        }      
+        }
       }
     }
   ]

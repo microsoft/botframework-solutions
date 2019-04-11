@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System;
 
 namespace Microsoft.Bot.Builder.Skills.Models.Manifest
 {
-
     public class Action
     {
         [JsonProperty(PropertyName = "id")]
