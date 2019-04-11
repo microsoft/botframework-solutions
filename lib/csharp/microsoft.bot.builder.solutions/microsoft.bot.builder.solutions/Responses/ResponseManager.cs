@@ -35,8 +35,8 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
                 {
                     try
                     {
-                        resourceAssembly = resourceAssembly.GetSatelliteAssembly(new CultureInfo(locale));
-                        LoadResponses(resourceName, resourceAssembly, locale);
+                        var localizedResourceAssembly = resourceAssembly.GetSatelliteAssembly(new CultureInfo(locale));
+                        LoadResponses(resourceName, localizedResourceAssembly, locale);
                     }
                     catch
                     {
