@@ -1,6 +1,6 @@
-﻿using Microsoft.Rest.Serialization;
+﻿using System.Collections.Generic;
+using Microsoft.Rest.Serialization;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace Microsoft.Bot.Builder.Solutions
 {

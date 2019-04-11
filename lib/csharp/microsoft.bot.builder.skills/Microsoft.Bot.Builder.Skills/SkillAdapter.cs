@@ -27,7 +27,7 @@ namespace Microsoft.Bot.Builder.Skills
         private readonly ICredentialProvider _credentialProvider;
         private readonly ILogger _logger;
         private readonly Queue<Activity> queuedActivities = new Queue<Activity>();
-        private readonly JsonSerializer BotMessageSerializer = JsonSerializer.Create(new JsonSerializerSettings
+        private readonly JsonSerializer botMessageSerializer = JsonSerializer.Create(new JsonSerializerSettings
         {
             NullValueHandling = NullValueHandling.Ignore,
             Formatting = Formatting.Indented,
@@ -164,6 +164,18 @@ namespace Microsoft.Bot.Builder.Skills
             throw new NotImplementedException();
         }
 
+        public async Task SendRemoteTokenRequestEvent(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            // We trigger a Token Request from the Parent Bot by sending a "TokenRequest" event back and then waiting for a "TokenResponse"
+            // TODO Error handling - if we get a new activity that isn't an event
+            var response = turnContext.Activity.CreateReply();
+            response.Type = ActivityTypes.Event;
+            response.Name = "tokens/request";
+
+            // Send the tokens/request Event
+            await SendActivitiesAsync(turnContext, new Activity[] { response }, cancellationToken);
+        }
+
         private async Task<InvokeResponse> ProcessActivityAsync(string authHeader, Activity activity, BotCallbackHandler callback, CancellationToken cancellationToken)
         {
             // Ensure the Activity has been retrieved from the HTTP POST
@@ -171,7 +183,7 @@ namespace Microsoft.Bot.Builder.Skills
 
             // Not performing authentication checks at this time
 
-            //var claimsIdentity = await JwtTokenValidation.AuthenticateRequest(activity, authHeader, _credentialProvider, _channelProvider, _httpClient).ConfigureAwait(false);
+            // var claimsIdentity = await JwtTokenValidation.AuthenticateRequest(activity, authHeader, _credentialProvider, _channelProvider, _httpClient).ConfigureAwait(false);
             ClaimsIdentity claimsIdentity = null;
             return await ProcessActivityAsync(claimsIdentity, activity, callback, cancellationToken).ConfigureAwait(false);
         }
@@ -206,7 +218,7 @@ namespace Microsoft.Bot.Builder.Skills
 
             using (var bodyReader = new JsonTextReader(new StreamReader(request.Body, Encoding.UTF8)))
             {
-                activity = BotMessageSerializer.Deserialize<Activity>(bodyReader);
+                activity = botMessageSerializer.Deserialize<Activity>(bodyReader);
             }
 
             return activity;
@@ -251,22 +263,10 @@ namespace Microsoft.Bot.Builder.Skills
                 {
                     using (var jsonWriter = new JsonTextWriter(writer))
                     {
-                        BotMessageSerializer.Serialize(jsonWriter, invokeResponse.Body);
+                        botMessageSerializer.Serialize(jsonWriter, invokeResponse.Body);
                     }
                 }
             }
-        }
-
-        public async Task SendRemoteTokenRequestEvent(ITurnContext turnContext, CancellationToken cancellationToken)
-        {
-            // We trigger a Token Request from the Parent Bot by sending a "TokenRequest" event back and then waiting for a "TokenResponse"
-            // TODO Error handling - if we get a new activity that isn't an event
-            var response = turnContext.Activity.CreateReply();
-            response.Type = ActivityTypes.Event;
-            response.Name = "tokens/request";
-
-            // Send the tokens/request Event
-            await SendActivitiesAsync(turnContext, new Activity[] { response }, cancellationToken);
         }
     }
 }

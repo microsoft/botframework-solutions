@@ -6,7 +6,7 @@
 
         public string DispatchIntent { get; set; }
 
-        public string Endpoint { get; set; }    
+        public string Endpoint { get; set; }
 
         public string[] SupportedProviders { get; set; }
 
