@@ -12,19 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Dialogs\Main\Resources\Cards\NewUserGreeting.json" />
-    <Content Remove="Dialogs\Main\Resources\Cards\ReturningUserGreeting.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.it.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.de.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.es.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.fr.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.zh.json" />
     <EmbeddedResource Include="Dialogs\Main\Resources\Cards\NewUserGreeting.json" />
     <EmbeddedResource Include="Dialogs\Main\Resources\Cards\ReturningUserGreeting.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.es.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.fr.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.it.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.zh.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -67,25 +61,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Dialogs\Escalate\Resources\EscalateStrings - Copy.Designer.cs">
-      <DependentUpon>EscalateStrings.resx</DependentUpon>
+    <Compile Update="Dialogs\Main\Resources\MainDialogResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Dialogs\Escalate\Resources\EscalateStrings - Copy.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>EscalateStrings.resx</DependentUpon>
+      <DependentUpon>MainDialogResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Dialogs\Escalate\Resources\EscalateStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>EscalateStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Dialogs\Main\Resources\MainDialogResponses.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>MainDialogResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Dialogs\Main\Resources\MainStrings.Designer.cs">
       <DesignTime>True</DesignTime>
