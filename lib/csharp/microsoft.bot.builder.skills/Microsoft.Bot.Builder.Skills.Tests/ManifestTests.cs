@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
-using Microsoft.Bot.Builder.Solutions.Shared;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Rest.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -314,7 +314,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 
         public class MockBot : IBot
         {
-            public Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
+            public Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
             {
                 throw new NotImplementedException();
             }
@@ -331,7 +331,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 
         public class MockBotFrameworkHttpAdapter : IBotFrameworkHttpAdapter
         {
-            public Task ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default)
+            public Task ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default(CancellationToken))
             {
                 throw new NotImplementedException();
             }
