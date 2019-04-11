@@ -2,24 +2,25 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using System.Globalization;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Builder.Skills.Auth;
-using VirtualAssistantTemplate.Responses.Main;
-using VirtualAssistantTemplate.Models;
-using VirtualAssistantTemplate.Services;
-using Microsoft.Bot.Schema;
 using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Authentication;
+using Microsoft.Bot.Schema;
+using VirtualAssistantTemplate.Models;
+using VirtualAssistantTemplate.Responses.Main;
+using VirtualAssistantTemplate.Services;
+using System.Collections.Generic;
 
 namespace VirtualAssistantTemplate.Dialogs
 {
@@ -54,10 +55,7 @@ namespace VirtualAssistantTemplate.Dialogs
             AddDialog(new OnboardingDialog(_services, _userState.CreateProperty<OnboardingState>(nameof(OnboardingState)), telemetryClient));
             AddDialog(new EscalateDialog(_services, telemetryClient));
 
-            foreach (var skill in settings.Skills)
-            {
-                AddDialog(new SkillDialog(skill, _responseManager, new MicrosoftAppCredentialsEx(_microsoftAppCredentials.MicrosoftAppId, _microsoftAppCredentials.MicrosoftAppPassword, skill.MSAappId), telemetryClient));
-            }
+            AddSkillDialogs();
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -302,6 +300,41 @@ namespace VirtualAssistantTemplate.Dialogs
             await dc.Context.SendActivityAsync(MainStrings.LOGOUT);
 
             return InterruptionAction.StartedDialog;
+        }
+
+        private void AddSkillDialogs()
+        {
+            foreach (var skill in _settings.Skills)
+            {
+                MultiProviderAuthDialog authDialog = null;
+                if (skill.AuthenticationConnections != null && skill.AuthenticationConnections.Count() > 0)
+                {
+                    List<OAuthConnection> oauthConnections = new List<OAuthConnection>();
+
+                    if (_settings.OAuthConnections != null && _settings.OAuthConnections.Count > 0)
+                    {
+                        foreach (var authConnection in skill.AuthenticationConnections)
+                        {
+                            var connection = _settings.OAuthConnections.FirstOrDefault(o => o.Provider.Equals(authConnection.ServiceProviderId, StringComparison.InvariantCultureIgnoreCase));
+                            if (connection != null)
+                            {
+                                oauthConnections.Add(connection);
+                            }
+                        }
+                    }
+
+                    if (oauthConnections.Count > 0)
+                    {
+                        authDialog = new MultiProviderAuthDialog(_responseManager, oauthConnections);
+                    }
+                    else
+                    {
+                        throw new Exception($"None of the oauth types that the skill {skill.Name} requires is supported by the bot!");
+                    }
+                }
+
+                AddDialog(new SkillDialog(skill, _responseManager, new MicrosoftAppCredentialsEx(_microsoftAppCredentials.MicrosoftAppId, _microsoftAppCredentials.MicrosoftAppPassword, skill.MSAappId), TelemetryClient, authDialog));
+            }
         }
     }
 }

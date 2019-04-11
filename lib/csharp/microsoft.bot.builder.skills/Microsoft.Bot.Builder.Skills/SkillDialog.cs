@@ -25,6 +25,7 @@ namespace Microsoft.Bot.Builder.Skills
     public class SkillDialog : ComponentDialog
     {
         private static readonly HttpClient _httpClient = new HttpClient();
+        private readonly MultiProviderAuthDialog _authDialog;
         private MicrosoftAppCredentialsEx _microsoftAppCredentialsEx;
         private IBotTelemetryClient _telemetryClient;
         private JsonSerializerSettings _serializationSettings = new JsonSerializerSettings
@@ -54,7 +55,7 @@ namespace Microsoft.Bot.Builder.Skills
         /// <param name="telemetryClient"></param>
         /// <param name="backgroundTaskQueue"></param>
         /// <param name="useCachedTokens"></param>
-        public SkillDialog(SkillManifest skillManifest, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient)
+        public SkillDialog(SkillManifest skillManifest, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient, MultiProviderAuthDialog authDialog = null)
             : base(skillManifest.Id)
         {
             _skillManifest = skillManifest;
@@ -78,7 +79,11 @@ namespace Microsoft.Bot.Builder.Skills
                     }
                 }
 
-                AddDialog(new MultiProviderAuthDialog(responseManager, list));
+                if (authDialog != null)
+                {
+                    _authDialog = authDialog;
+                    AddDialog(authDialog);
+                }
             }
         }
 
@@ -119,11 +124,13 @@ namespace Microsoft.Bot.Builder.Skills
         {
             var activity = innerDc.Context.Activity;
 
-            if (innerDc.ActiveDialog?.Id == nameof(MultiProviderAuthDialog))
+            if (_authDialog != null && innerDc.ActiveDialog?.Id == _authDialog.Id)
             {
                 // Handle magic code auth
                 var result = await innerDc.ContinueDialogAsync(cancellationToken);
 
+                // this is dependent on a specific type coming out from the MultiProviderAuthDialog which is wrong
+                // TODO: refactor this
                 // forward the token response to the skill
                 if (result.Status == DialogTurnStatus.Complete && result.Result is ProviderTokenResponse)
                 {
@@ -195,11 +202,18 @@ namespace Microsoft.Bot.Builder.Skills
                         }
                         else if (skillResponse?.Name == TokenEvents.TokenRequestEventName)
                         {
+                            if (_authDialog == null)
+                            {
+                                throw new Exception($"Skill {_skillManifest.Id} is asking for a token but the skill doesn't have an auth dialog to handle it!");
+                            }
+
                             // Send trace to emulator
                             await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Received a Token Request from a skill"));
 
-                            var authResult = await innerDc.BeginDialogAsync(nameof(MultiProviderAuthDialog));
+                            var authResult = await innerDc.BeginDialogAsync(_authDialog.Id);
 
+                            // this is dependent on a specific type coming out from the MultiProviderAuthDialog which is wrong
+                            // TODO: refactor this
                             if (authResult.Result?.GetType() == typeof(ProviderTokenResponse))
                             {
                                 var tokenEvent = skillResponse.CreateReply();
