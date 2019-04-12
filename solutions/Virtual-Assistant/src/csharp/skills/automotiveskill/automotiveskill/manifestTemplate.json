@@ -6,7 +6,7 @@
   "authenticationConnections": [],
   "actions": [
     {
-      "id": "https://automotiveSkill.microsoft.com/vehicleSettings",
+      "id": "automotiveSkill/vehicleSettings",
       "definition": {
         "description": "Vehicle Settings",
         "slots": [ ],

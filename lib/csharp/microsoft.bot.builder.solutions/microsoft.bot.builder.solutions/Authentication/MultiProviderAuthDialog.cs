@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Schema;
 using Microsoft.Rest.Serialization;
 
@@ -208,7 +209,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             }
             else
             {
-                // TelemetryClient.TrackEventEx("TokenRetrievalFailure", stepContext.Context.Activity);
+                TelemetryClient.TrackEventEx("TokenRetrievalFailure", stepContext.Context.Activity);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }

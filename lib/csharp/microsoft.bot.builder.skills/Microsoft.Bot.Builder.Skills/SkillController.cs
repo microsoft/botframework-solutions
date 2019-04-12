@@ -23,7 +23,6 @@ namespace Microsoft.Bot.Builder.Skills
     /// This is the default Controller that contains APIs for handling
     /// calls from a channel and calls from a parent bot (to a skill bot).
     /// </summary>
-    [ApiController]
     [Authorize]
     public abstract class SkillController : ControllerBase
     {
@@ -64,7 +63,7 @@ namespace Microsoft.Bot.Builder.Skills
         /// <summary>
         /// This API is the endpoint for when a bot receives a message from a channel or a parent bot.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [Route("api/messages")]
         [HttpPost]
         [AllowAnonymous]
@@ -76,7 +75,7 @@ namespace Microsoft.Bot.Builder.Skills
         /// <summary>
         /// This API is the endpoint the bot exposes as skill.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [Route("api/skill/messages")]
         [HttpPost]
         public async Task SkillMessage()

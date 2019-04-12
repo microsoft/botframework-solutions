@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -23,7 +24,7 @@ namespace Microsoft.Bot.Builder.Solutions.Middleware
 
                 if (!string.IsNullOrEmpty(text) && text.StartsWith("/event:"))
                 {
-                    var json = text.Split("/event:")[1];
+                    var json = text.Split(new string[] { "/event:" }, StringSplitOptions.None)[1];
                     var body = JsonConvert.DeserializeObject<Activity>(json);
 
                     turnContext.Activity.Type = ActivityTypes.Event;

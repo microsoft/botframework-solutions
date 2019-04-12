@@ -6,7 +6,7 @@
   "authenticationConnections": [],
   "actions": [
     {
-      "id": "https://newsskill.microsoft.com/findArticles",
+      "id": "newsSkill/findArticles",
       "definition": {
         "description": "Find News articles",
         "slots": [ ],

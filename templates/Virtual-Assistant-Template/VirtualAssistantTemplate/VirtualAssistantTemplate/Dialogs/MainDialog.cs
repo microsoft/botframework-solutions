@@ -2,24 +2,25 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using System.Globalization;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Builder.Skills.Auth;
-using VirtualAssistantTemplate.Responses.Main;
-using VirtualAssistantTemplate.Models;
-using VirtualAssistantTemplate.Services;
-using Microsoft.Bot.Schema;
 using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Authentication;
+using Microsoft.Bot.Schema;
+using VirtualAssistantTemplate.Models;
+using VirtualAssistantTemplate.Responses.Main;
+using VirtualAssistantTemplate.Services;
 
 namespace VirtualAssistantTemplate.Dialogs
 {
@@ -54,16 +55,48 @@ namespace VirtualAssistantTemplate.Dialogs
             AddDialog(new OnboardingDialog(_services, _userState.CreateProperty<OnboardingState>(nameof(OnboardingState)), telemetryClient));
             AddDialog(new EscalateDialog(_services, telemetryClient));
 
-            foreach (var skill in settings.Skills)
-            {
-                AddDialog(new SkillDialog(skill, _responseManager, new MicrosoftAppCredentialsEx(_microsoftAppCredentials.MicrosoftAppId, _microsoftAppCredentials.MicrosoftAppPassword, skill.MSAappId), telemetryClient));
-            }
+            AddSkillDialogs();
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var view = new MainResponses();
             await view.ReplyWith(dc.Context, MainResponses.ResponseIds.Intro);
+        }
+
+        protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)
+        {
+            if (dc.Context.Activity.Type == ActivityTypes.Message && !string.IsNullOrWhiteSpace(dc.Context.Activity.Text))
+            {
+                // get current activity locale
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var cognitiveModels = _services.CognitiveModelSets[locale];
+
+                // check luis intent
+                cognitiveModels.LuisServices.TryGetValue("general", out var luisService);
+                if (luisService == null)
+                {
+                    throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
+                }
+                else
+                {
+                    var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
+                    var intent = luisResult.TopIntent().intent;
+
+                    if (luisResult.TopIntent().score > 0.5)
+                    {
+                        switch (intent)
+                        {
+                            case General.Intent.Logout:
+                                {
+                                    return await LogoutAsync(dc);
+                                }
+                        }
+                    }
+                }
+            }
+
+            return InterruptionAction.NoAction;
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -80,8 +113,8 @@ namespace VirtualAssistantTemplate.Dialogs
             {
                 var skill = _settings.Skills.Where(s => s.Id == intent.ToString()).First();
 
-                // Initialize the skill connection
-                await dc.BeginDialogAsync(skill.Id);
+                // Initialize the skill connection, the dispatch intent is the Action ID of the Skill enabling us to resolve the specific action and identify slots
+                await dc.BeginDialogAsync(skill.Id, intent);
 
                 // Pass the activity we have
                 var result = await dc.ContinueDialogAsync();
@@ -98,7 +131,7 @@ namespace VirtualAssistantTemplate.Dialogs
 
                 if (luisService == null)
                 {
-                    throw new Exception("The specified LUIS Model could not be found in your Bot Services configuration.");
+                    throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
                 }
                 else
                 {
@@ -123,6 +156,12 @@ namespace VirtualAssistantTemplate.Dialogs
                             {
                                 // start escalate dialog
                                 await dc.BeginDialogAsync(nameof(EscalateDialog));
+                                break;
+                            }
+
+                        case General.Intent.Logout:
+                            {
+                                await LogoutAsync(dc);
                                 break;
                             }
 
@@ -234,6 +273,69 @@ namespace VirtualAssistantTemplate.Dialogs
         {
             // The active dialog's stack ended with a complete status
             await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Completed);
+        }
+
+        private async Task<InterruptionAction> LogoutAsync(DialogContext dc)
+        {
+            IUserTokenProvider tokenProvider;
+            var supported = dc.Context.Adapter is IUserTokenProvider;
+            if (!supported)
+            {
+                throw new InvalidOperationException("OAuthPrompt.SignOutUser(): not supported by the current adapter");
+            }
+            else
+            {
+                tokenProvider = (IUserTokenProvider)dc.Context.Adapter;
+            }
+
+            await dc.CancelAllDialogsAsync();
+
+            // Sign out user
+            var tokens = await tokenProvider.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
+            foreach (var token in tokens)
+            {
+                await tokenProvider.SignOutUserAsync(dc.Context, token.ConnectionName);
+            }
+
+            await dc.Context.SendActivityAsync(MainStrings.LOGOUT);
+
+            return InterruptionAction.StartedDialog;
+        }
+
+        private void AddSkillDialogs()
+        {
+            // Each Skill has a number of actions but there are wrapper under one single SkillDialog per Skill.
+            foreach (var skill in _settings.Skills)
+            {          
+                MultiProviderAuthDialog authDialog = null;
+                if (skill.AuthenticationConnections != null && skill.AuthenticationConnections.Count() > 0)
+                {
+                    List<OAuthConnection> oauthConnections = new List<OAuthConnection>();
+
+                    if (_settings.OAuthConnections != null && _settings.OAuthConnections.Count > 0)
+                    {
+                        foreach (var authConnection in skill.AuthenticationConnections)
+                        {
+                            var connection = _settings.OAuthConnections.FirstOrDefault(o => o.Provider.Equals(authConnection.ServiceProviderId, StringComparison.InvariantCultureIgnoreCase));
+                            if (connection != null)
+                            {
+                                oauthConnections.Add(connection);
+                            }
+                        }
+                    }
+
+                    if (oauthConnections.Count > 0)
+                    {
+                        authDialog = new MultiProviderAuthDialog(_responseManager, oauthConnections);
+                    }
+                    else
+                    {
+                        throw new Exception($"None of the oauth types that the skill {skill.Name} requires is supported by the bot!");
+                    }
+                }
+
+                AddDialog(new SkillDialog(skill, _responseManager, new MicrosoftAppCredentialsEx(_microsoftAppCredentials.MicrosoftAppId, _microsoftAppCredentials.MicrosoftAppPassword, skill.MSAappId), TelemetryClient, _userState, authDialog));
+            }
         }
     }
 }

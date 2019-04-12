@@ -1,6 +1,0 @@
-{
-    "Name": "Automotive",
-    "DispatchIntent": "l_automotive",
-    "Endpoint": "https://bfautomotiveskill.azurewebsites.net/api/skill/messages",
-    "SupportedProviders": []
-}

@@ -82,4 +82,4 @@ $settings | Add-Member -Type NoteProperty -Force -Name 'contentModerator' -Value
 $settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $outFolder appsettings.json)
 
 # Deploy cognitive models
-Invoke-Expression "$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1') -name $($name) -location $($location) -luisAuthoringKey $luisAuthoringKey -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -outFolder $($outFolder)"
+Invoke-Expression "$(Join-Path $PSScriptRoot 'va_deploy_cognitive_models.ps1') -name $($name) -location $($location) -luisAuthoringKey $luisAuthoringKey -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -outFolder $($outFolder)"
