@@ -33,6 +33,7 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
         private const string FallbackSettingImageFileName = "Black_Car.png";
         private const string AvailableSettingsFileName = "available_settings.yaml";
         private const string AlternativeSettingsFileName = "setting_alternative_names.yaml";
+        private const string AdaptiveCardBackgroundSVG = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKwAAACeCAYAAACvg+F+AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxOTowMzoxMyAxOTo0Mjo0OBCBEeIAAAG8SURBVHhe7dJBDQAgEMCwA/+egQcmlrSfGdg6z0DE/oUEw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phCZm52U4FOCAVGHQAAAAASUVORK5CYII=";
 
         private static readonly Regex WordCharacter = new Regex("^\\w", RegexOptions.Compiled);
         private static readonly IReadOnlyDictionary<string, string> SettingValueToSpeakableIngForm = new Dictionary<string, string>
@@ -169,14 +170,19 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                         options.Prompt = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsSettingNameSelection);
 
                         var card = new AdaptiveCard();
-                        card.Body.Add(new AdaptiveImage()
+                        card.BackgroundImage = new Uri(AdaptiveCardBackgroundSVG);
+                        card.Body = new List<AdaptiveElement>()
                         {
-                            Url = new Uri(GetSettingCardImageUri(FallbackSettingImageFileName))
-                        });
-                        card.Body.Add(new AdaptiveTextBlock()
-                        {
-                            Text = options.Prompt.Text
-                        });
+                            new AdaptiveImage()
+                            {
+                                Url = new Uri(GetSettingCardImageUri(FallbackSettingImageFileName)),
+                                HorizontalAlignment = AdaptiveHorizontalAlignment.Center
+                            },
+                            new AdaptiveTextBlock()
+                            {
+                                Text = options.Prompt.Text
+                            }
+                        };
 
                         foreach (var choice in options.Choices)
                         {
@@ -298,14 +304,20 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                         options.Prompt = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsSettingValueSelection, promptReplacements);
 
                         var card = new AdaptiveCard();
-                        card.Body.Add(new AdaptiveImage()
+                        card.BackgroundImage = new Uri(AdaptiveCardBackgroundSVG);
+
+                        card.Body = new List<AdaptiveElement>()
                         {
-                            Url = new Uri(GetSettingCardImageUri(imageName))
-                        });
-                        card.Body.Add(new AdaptiveTextBlock()
-                        {
-                            Text = options.Prompt.Text
-                        });
+                            new AdaptiveImage()
+                            {
+                                Url = new Uri(GetSettingCardImageUri(imageName)),
+                                HorizontalAlignment = AdaptiveHorizontalAlignment.Center
+                            },
+                            new AdaptiveTextBlock()
+                            {
+                                Text = options.Prompt.Text
+                            }
+                        };
 
                         foreach (var choice in options.Choices)
                         {
