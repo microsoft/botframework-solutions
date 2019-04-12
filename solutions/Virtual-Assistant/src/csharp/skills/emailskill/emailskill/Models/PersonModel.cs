@@ -53,7 +53,7 @@ namespace EmailSkill.Models
             source = MailSource.Google;
             this.Id = gmailPerson?.EmailAddresses?[0]?.Value;
             this.DisplayName = gmailPerson?.Names?[0]?.DisplayName;
-            this.UserPrincipalName = gmailPerson?.Names?[0]?.DisplayNameLastFirst; ;
+            this.UserPrincipalName = gmailPerson?.Names?[0]?.DisplayNameLastFirst;
 
             this.Emails = new List<string>();
             if (gmailPerson?.EmailAddresses != null)
