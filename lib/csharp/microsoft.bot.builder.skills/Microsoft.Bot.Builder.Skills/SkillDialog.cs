@@ -46,7 +46,7 @@ namespace Microsoft.Bot.Builder.Skills
         /// <param name="telemetryClient">Telemetry Client.</param>
         /// <param name="backgroundTaskQueue">Background Task Queue.</param>
         /// <param name="useCachedTokens">Use Cached Tokens.</param>
-        public SkillDialog(SkillManifest skillManifest, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient)
+        public SkillDialog(SkillManifest skillManifest, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient, UserState userState, MultiProviderAuthDialog authDialog = null)
             : base(skillManifest.Id)
         {
             _skillManifest = skillManifest;
@@ -107,18 +107,6 @@ namespace Microsoft.Bot.Builder.Skills
                     }
                 }
             }
-
-        /// <summary>
-        /// When a SkillDialog is started, a skillBegin event is sent which firstly indicates the Skill is being invoked in Skill mode, also slots are also provided where the information exists in the parent Bot.
-        /// </summary>
-        /// <param name="innerDc">Inner Dialog Context.</param>
-        /// <param name="options">Dialog Options (Action Name).</param>
-        /// <param name="cancellationToken">Cancellation Token.</param>
-        /// <returns>DialogTurnResult.</returns>
-        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            // TODO - The SkillDialog Orchestration should try to fill slots defined in the manifest and pass through this event.
-            object slots = null;
 
             var activity = innerDc.Context.Activity;
 
