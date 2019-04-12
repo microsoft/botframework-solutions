@@ -2,7 +2,7 @@
   "id": "toDoSkill",
   "name": "ToDo Skill",
   "description": "The ToDo skill provides task related capabilities and supports Office based tasks.",
-  "iconUrl": "emailSkill.png",
+  "iconUrl": "toDoSkill.png",
   "authenticationConnections": [
     {
       "id": "Outlook",
@@ -12,7 +12,7 @@
   ],
   "actions": [
     {
-      "id": "https://todoskill.microsoft.com/addToDo",
+      "id": "toDoSkill/addToDo",
       "definition": {
         "description": "Add a task",
         "slots": [],
@@ -29,7 +29,7 @@
       }
     },
     {
-      "id": "https://todoskill.microsoft.com/showToDo",
+      "id": "toDoSkill/showToDo",
       "definition": {
         "description": "Show tasks",
         "slots": [],
@@ -46,7 +46,7 @@
       }
     },
     {
-      "id": "https://todoskill.microsoft.com/markToDo",
+      "id": "toDoSkill/markToDo",
       "definition": {
         "description": "Mark a task",
         "slots": [],
@@ -63,7 +63,7 @@
       }
     },
     {
-      "id": "https://todoskill.microsoft.com/deleteToDo",
+      "id": "toDoSkill/deleteToDo",
       "definition": {
         "description": "Delete a task",
         "slots": [],

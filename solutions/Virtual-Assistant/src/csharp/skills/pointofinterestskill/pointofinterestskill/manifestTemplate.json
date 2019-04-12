@@ -1,15 +1,20 @@
 {
-  "id": "pointOfInteretSkill",
+  "id": "pointOfInterestSkill",
   "name": "Point Of Interest Skill",
   "description": "The Point of Interest skill provides PoI search capabilities leveraging Azure Maps and Foursquare.",
   "iconUrl": "poiSkill.png",
   "authenticationConnections": [ ],
   "actions": [
     {
-      "id": "https://poiskill.microsoft.com/routeFromXToY",
+      "id": "poiskill/routeFromXToY",
       "definition": {
         "description": "Find a route from X to Y",
-        "slots": [ ],
+        "slots": [
+          {
+            "name": "location",
+            "types": [ "string" ]
+          }
+        ],
         "triggers": {
           "utteranceSources": [
             {
@@ -23,10 +28,15 @@
       }
     },
     {
-      "id": "https://poiskill.microsoft.com/cancelRoute",
+      "id": "poiskill/cancelRoute",
       "definition": {
         "description": "Cancel an active route.",
-        "slots": [],
+        "slots": [
+          {
+            "name": "location",
+            "types": [ "string" ]
+          }
+        ],
         "triggers": {
           "utteranceSources": [
             {
@@ -40,10 +50,15 @@
       }
     },
     {
-      "id": "https://poiskill.microsoft.com/findPoI",
+      "id": "poiskill/findPoI",
       "definition": {
         "description": "Find a point of interest.",
-        "slots": [],
+        "slots": [
+          {
+            "name": "location",
+            "types": [ "string" ]
+          }
+        ],
         "triggers": {
           "utteranceSources": [
             {
@@ -57,10 +72,15 @@
       }
     },
     {
-      "id": "https://poiskill.microsoft.com/findParking",
+      "id": "poiskill/findParking",
       "definition": {
         "description": "Find parking",
-        "slots": [],
+        "slots": [
+          {
+            "name": "location",
+            "types": [ "string" ]
+          }
+        ],
         "triggers": {
           "utteranceSources": [
             {

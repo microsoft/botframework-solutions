@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills.Models.Manifest
@@ -31,6 +32,6 @@ namespace Microsoft.Bot.Builder.Skills.Models.Manifest
         public AuthenticationConnection[] AuthenticationConnections { get; set; }
 
         [JsonProperty(PropertyName = "actions")]
-        public Action[] Actions { get; set; }
+        public List<Action> Actions { get; set; }
     }
 }

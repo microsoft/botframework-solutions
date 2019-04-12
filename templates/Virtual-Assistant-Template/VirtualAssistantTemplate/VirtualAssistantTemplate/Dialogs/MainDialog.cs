@@ -54,9 +54,15 @@ namespace VirtualAssistantTemplate.Dialogs
             AddDialog(new OnboardingDialog(_services, _userState.CreateProperty<OnboardingState>(nameof(OnboardingState)), telemetryClient));
             AddDialog(new EscalateDialog(_services, telemetryClient));
 
+            // Each Skill has a number of actions, these actions are added as their own SkillDialog enabling
+            // the SkillDialog to know which action is invoked and identify the slots as appropriate.
             foreach (var skill in settings.Skills)
             {
-                AddDialog(new SkillDialog(skill, _responseManager, new MicrosoftAppCredentialsEx(_microsoftAppCredentials.MicrosoftAppId, _microsoftAppCredentials.MicrosoftAppPassword, skill.MSAappId), telemetryClient));
+                // Each action within a Skill is registered on it's own as a child of the overall Skill
+                foreach (var action in skill.Actions)
+                {
+                    AddDialog(new SkillDialog(skill, action, _responseManager, new MicrosoftAppCredentialsEx(_microsoftAppCredentials.MicrosoftAppId, _microsoftAppCredentials.MicrosoftAppPassword, skill.MSAappId), telemetryClient, userState));
+                }
             }
         }
 

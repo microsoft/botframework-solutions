@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -24,9 +25,10 @@ namespace Microsoft.Bot.Builder.Skills
     /// </summary>
     public class SkillDialog : ComponentDialog
     {
-        private static readonly HttpClient _httpClient = new HttpClient();
+        protected HttpClient _httpClient = new HttpClient();
         private MicrosoftAppCredentialsEx _microsoftAppCredentialsEx;
         private IBotTelemetryClient _telemetryClient;
+        private UserState _userState;
         private JsonSerializerSettings _serializationSettings = new JsonSerializerSettings
         {
             Formatting = Formatting.Indented,
@@ -36,13 +38,13 @@ namespace Microsoft.Bot.Builder.Skills
             ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
             ContractResolver = new ReadOnlyJsonContractResolver(),
             Converters = new List<JsonConverter>
-                    {
-                        new Iso8601TimeSpanConverter()
-                    }
+            {
+                new Iso8601TimeSpanConverter()
+            }
         };
 
-        // Placeholder for Manifest
         private SkillManifest _skillManifest;
+        private Models.Manifest.Action _action;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SkillDialog"/> class.
@@ -54,12 +56,14 @@ namespace Microsoft.Bot.Builder.Skills
         /// <param name="telemetryClient"></param>
         /// <param name="backgroundTaskQueue"></param>
         /// <param name="useCachedTokens"></param>
-        public SkillDialog(SkillManifest skillManifest, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient)
-            : base(skillManifest.Id)
+        public SkillDialog(SkillManifest skillManifest, Models.Manifest.Action action, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient, UserState userState)
+            : base(action.Id)
         {
             _skillManifest = skillManifest;
+            _action = action;
             _microsoftAppCredentialsEx = microsoftAppCredentialsEx;
             _telemetryClient = telemetryClient;
+            _userState = userState;
 
             if (_skillManifest.AuthenticationConnections != null)
             {
@@ -91,8 +95,29 @@ namespace Microsoft.Bot.Builder.Skills
         /// <returns></returns>
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // TODO - The SkillDialog Orchestration should try to fill slots defined in the manifest and pass through this event.
-            object slots = null;
+            // Retrieve the SkillContext state object to identify slots (parameters) that can be used
+            // to slot-fill when invoking the skill
+            var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
+            var skillContext = await accessor.GetAsync(innerDc.Context, () => new SkillContext());
+
+            Dictionary<string, object> slotsToPass = new Dictionary<string, object>();
+
+            // If we don't have any state then we skip Slot filling
+            if (skillContext != null && skillContext.Count > 0)
+            {
+                // Do we have slots?
+                if (_action != null && _action.Definition.Slots != null)
+                {
+                    // For each slot we check to see if there is an exact match, if so we pass this slot across to the skill
+                    foreach (Slot slot in _action.Definition.Slots)
+                    {
+                        if (skillContext.TryGetValue(slot.Name, out object slotValue))
+                        {
+                            slotsToPass.Add(slot.Name, slotValue);
+                        }
+                    }
+                }
+            }
 
             var activity = innerDc.Context.Activity;
 
@@ -103,7 +128,7 @@ namespace Microsoft.Bot.Builder.Skills
               recipient: new ChannelAccount(id: activity.Recipient.Id, name: activity.Recipient.Name),
               conversation: new ConversationAccount(id: activity.Conversation.Id),
               name: SkillEvents.SkillBeginEventName,
-              value: slots);
+              value: slotsToPass);
 
             // Send skillBegin event to Skill/Bot
             return await ForwardToSkill(innerDc, skillBeginEvent);
