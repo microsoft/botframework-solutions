@@ -61,13 +61,14 @@
       "items": [
         {
           "type": "Image",
-          "url": "xxx"
+          "url": "{ImageUrl}",
+          "horizontalAlignment": "center"
         },
         {
           "type": "TextBlock",
           "id": "messageBody",
           "color": "Dark",
-          "text": "testtest",
+          "text": "{Body}",
           "wrap": true
         }
       ]

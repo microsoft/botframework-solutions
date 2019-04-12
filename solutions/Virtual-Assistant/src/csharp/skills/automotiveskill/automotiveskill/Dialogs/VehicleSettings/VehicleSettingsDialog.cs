@@ -101,8 +101,8 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
             AddDialog(new WaterfallDialog(Actions.ProcessVehicleSettingChange, processVehicleSettingChangeWaterfall) { TelemetryClient = telemetryClient });
 
             // Prompts
-            AddDialog(new ChoicePrompt(Actions.SettingNameSelectionPrompt, SettingNameSelectionValidator, Culture.English) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
-            AddDialog(new ChoicePrompt(Actions.SettingValueSelectionPrompt, SettingValueSelectionValidator, Culture.English) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
+            AddDialog(new ChoicePrompt(Actions.SettingNameSelectionPrompt, SettingNameSelectionValidator, Culture.English) { Style = ListStyle.Auto, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
+            AddDialog(new ChoicePrompt(Actions.SettingValueSelectionPrompt, SettingValueSelectionValidator, Culture.English) { Style = ListStyle.Auto, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
 
             AddDialog(new ConfirmPrompt(Actions.SettingConfirmationPrompt));
 
@@ -167,32 +167,17 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                             options.Choices.Add(choice);
                         }
 
-                        options.Prompt = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsSettingNameSelection);
-
-                        var card = new AdaptiveCard();
-                        card.BackgroundImage = new Uri(AdaptiveCardBackgroundSVG);
-                        card.Body = new List<AdaptiveElement>()
+                        var cardModel = new AutomotiveCardModel()
                         {
-                            new AdaptiveImage()
-                            {
-                                Url = new Uri(GetSettingCardImageUri(FallbackSettingImageFileName)),
-                                HorizontalAlignment = AdaptiveHorizontalAlignment.Center
-                            },
-                            new AdaptiveTextBlock()
-                            {
-                                Text = options.Prompt.Text
-                            }
+                            ImageUrl = GetSettingCardImageUri(FallbackSettingImageFileName)
                         };
 
-                        foreach (var choice in options.Choices)
-                        {
-                            card.Actions.Add(new AdaptiveSubmitAction() { Data = choice.Value, Title = choice.Value });
-                        }
+                        var card = new Card("AutomotiveCard", cardModel);
 
-                        options.Prompt.Attachments.Add(new Attachment(contentType: AdaptiveCard.ContentType, content: card));
+                        options.Prompt = ResponseManager.GetCardResponse(VehicleSettingsResponses.VehicleSettingsSettingNameSelection, card, tokens: null);
 
                         // Default Text property is clumsy for speech
-                        options.Prompt.Speak = $"{options.Prompt.Text} {GetSpeakableOptions(options.Choices)}";
+                        options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options);
 
                         return await sc.PromptAsync(Actions.SettingNameSelectionPrompt, options);
                     }
@@ -301,30 +286,14 @@ namespace AutomotiveSkill.Dialogs.VehicleSettings
                         }
 
                         var promptReplacements = new StringDictionary { { "settingName", settingName } };
-                        options.Prompt = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsSettingValueSelection, promptReplacements);
-
-                        var card = new AdaptiveCard();
-                        card.BackgroundImage = new Uri(AdaptiveCardBackgroundSVG);
-
-                        card.Body = new List<AdaptiveElement>()
+                        var cardModel = new AutomotiveCardModel()
                         {
-                            new AdaptiveImage()
-                            {
-                                Url = new Uri(GetSettingCardImageUri(imageName)),
-                                HorizontalAlignment = AdaptiveHorizontalAlignment.Center
-                            },
-                            new AdaptiveTextBlock()
-                            {
-                                Text = options.Prompt.Text
-                            }
+                            ImageUrl = GetSettingCardImageUri(imageName)
                         };
 
-                        foreach (var choice in options.Choices)
-                        {
-                            card.Actions.Add(new AdaptiveSubmitAction() { Data = choice.Value, Title = choice.Value });
-                        }
+                        var card = new Card("AutomotiveCard", cardModel);
 
-                        options.Prompt.Attachments.Add(new Attachment(contentType: AdaptiveCard.ContentType, content: card));
+                        options.Prompt = ResponseManager.GetCardResponse(VehicleSettingsResponses.VehicleSettingsSettingValueSelection, card, promptReplacements);
 
                         // Default Text property is clumsy for speech
                         options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options.Prompt);
