@@ -1,3 +1,4 @@
+using AdaptiveCards;
 using AutomotiveSkill.Models;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -151,7 +152,7 @@ namespace AutomotiveSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("put the air on my feet")
-                .AssertReply(this.CheckReply("Here are the matching settings. Which one? (1) Front Combined Air Delivery Mode Control(2) Rear Combined Air Delivery Mode Control"))
+                .AssertReply(this.CheckReply("Here are the matching settings. Which one?\n\n   1. Front Combined Air Delivery Mode Control\n   2. Rear Combined Air Delivery Mode Control"))
                 .Send("front combined air delivery mode control")
                 .AssertReply(this.CheckForSettingEvent(new SettingChange()
                 {
@@ -209,7 +210,7 @@ namespace AutomotiveSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("adjust equalizer")
-                .AssertReply(this.CheckReply("Here are the matching settings. Which one? (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)"))
+                .AssertReply(this.CheckReply("Here are the matching settings. Which one?\n\n   1. Equalizer (Bass)\n   2. Equalizer (Midrange)\n   3. Equalizer (Treble)\n   4. Equalizer (Surround)"))
                 .Send("Equalizer (Bass)")
                 .AssertReply(this.CheckReply("Here are the possible values for Equalizer (Bass). Which one? (1) Decrease(2) Increase"))                
                  .Send("Decrease")
@@ -227,9 +228,9 @@ namespace AutomotiveSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("change pedestrian detection")
-                .AssertReply(this.CheckReply("Here are the matching settings. Which one? (1) Front Pedestrian Safety Detection(2) Rear Pedestrian Safety Detection"))
+                .AssertReply(this.CheckReply("Here are the matching settings. Which one?\n\n   1. Front Pedestrian Safety Detection\n   2. Rear Pedestrian Safety Detection"))
                 .Send("front")
-                .AssertReply(this.CheckReply("Here are the possible values for Front Pedestrian Safety Detection. Which one? (1) Off(2) Alert(3) Alert and Brake(4) Alert, Brake, and Steer"))
+                .AssertReply(this.CheckReply("Here are the possible values for Front Pedestrian Safety Detection. Which one?\n\n   1. Off\n   2. Alert\n   3. Alert and Brake\n   4. Alert, Brake, and Steer"))
                 .Send("steer")
                 .AssertReply(this.CheckForSettingEvent(new SettingChange()
                 {
@@ -245,9 +246,9 @@ namespace AutomotiveSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("change pedestrian detection")
-                .AssertReply(this.CheckReply("Here are the matching settings. Which one? (1) Front Pedestrian Safety Detection(2) Rear Pedestrian Safety Detection"))
+                .AssertReply(this.CheckReply("Here are the matching settings. Which one?\n\n   1. Front Pedestrian Safety Detection\n   2. Rear Pedestrian Safety Detection"))
                 .Send("alerts for people in the back")
-                .AssertReply(this.CheckReply("Here are the possible values for Rear Pedestrian Safety Detection. Which one? (1) Off(2) Alert(3) Alert and Brake(4) Alert, Brake, and Steer"))
+                .AssertReply(this.CheckReply("Here are the possible values for Rear Pedestrian Safety Detection. Which one?\n\n   1. Off\n   2. Alert\n   3. Alert and Brake\n   4. Alert, Brake, and Steer"))
                 .Send("braking and alerts")
                 .AssertReply(this.CheckForSettingEvent(new SettingChange()
                 {
@@ -263,7 +264,7 @@ namespace AutomotiveSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("adjust equalizer")
-                .AssertReply(this.CheckReply("Here are the matching settings. Which one? (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)"))
+                .AssertReply(this.CheckReply("Here are the matching settings. Which one?\n\n   1. Equalizer (Bass)\n   2. Equalizer (Midrange)\n   3. Equalizer (Treble)\n   4. Equalizer (Surround)"))
                 .Send("first one")
                 .AssertReply(this.CheckReply("Here are the possible values for Equalizer (Bass). Which one? (1) Decrease(2) Increase"))
                 .Send("second one")
@@ -281,9 +282,9 @@ namespace AutomotiveSkillTest.Flow
         {
             await this.GetTestFlow()
                 .Send("adjust equalizer")
-                .AssertReply(this.CheckReply("Here are the matching settings. Which one? (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)"))
+                .AssertReply(this.CheckReply("Here are the matching settings. Which one?\n\n   1. Equalizer (Bass)\n   2. Equalizer (Midrange)\n   3. Equalizer (Treble)\n   4. Equalizer (Surround)"))
                 .Send("blah blah")
-                .AssertReply(this.CheckReply("Here are the matching settings. Which one? (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)"))
+                .AssertReply(this.CheckReply("Here are the matching settings. Which one?\n\n   1. Equalizer (Bass)\n   2. Equalizer (Midrange)\n   3. Equalizer (Treble)\n   4. Equalizer (Surround)"))
                 .Send("first one")
                 .AssertReply(this.CheckReply("Here are the possible values for Equalizer (Bass). Which one? (1) Decrease(2) Increase"))
                 .Send("blah blah")
@@ -354,8 +355,12 @@ namespace AutomotiveSkillTest.Flow
             return activity =>
             {
                 var messageReceived = activity.AsMessageActivity();
-                var card = JsonConvert.DeserializeObject<ThumbnailCard>(messageReceived.Attachments[0].Content.ToString());
-                Assert.IsTrue(card.Images[0].Url.StartsWith(ImageAssetLocation), $"Image URI was expected to be prefixed with {ImageAssetLocation} but was actually {card.Images[0].Url.ToString()}");
+                var card = JsonConvert.DeserializeObject<AdaptiveCard>(messageReceived.Attachments[0].Content.ToString());
+                Assert.IsInstanceOfType(card.Body[1], typeof(AdaptiveContainer));
+                var container = (AdaptiveContainer)card.Body[1];
+                Assert.IsInstanceOfType(container.Items[0], typeof(AdaptiveImage));
+                var image = (AdaptiveImage)container.Items[0];
+                Assert.IsTrue(image.Url.OriginalString.StartsWith(ImageAssetLocation), $"Image URI was expected to be prefixed with {ImageAssetLocation} but was actually {image.Url.OriginalString}");
             };
         }
     }
