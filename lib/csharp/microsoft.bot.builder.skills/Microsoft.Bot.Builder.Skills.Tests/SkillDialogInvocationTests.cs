@@ -33,7 +33,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                 "testSkill/testAction");
 
             // Add the SkillDialog to the available dialogs passing the initialized FakeSkill
-            Dialogs.Add(new SkillDialogTest(_skillManifest, _skillManifest.Actions[0], null, new DummyMicrosoftAppCredentialsEx(null, null, null), null, _mockHttp, UserState));
+            Dialogs.Add(new SkillDialogTest(_skillManifest, null, new DummyMicrosoftAppCredentialsEx(null, null, null), null, _mockHttp, UserState));
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             // HTTP mock returns "no activities" as per the real scenario and enables the SkillDialog to continue
             _mockHttp.When("https://testskill.tempuri.org/api/skill")
                .Respond("application/json", "[]");
-            
+
             await this.GetTestFlow(_skillManifest, "testSkill/testAction", null)
                   .Send("hello")
                   .StartTestAsync();
@@ -61,7 +61,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             catch  (InvalidOperationException)
             {
                 Assert.Fail("The SkillDialog didn't post an Activity to the HTTP endpoint as expected");
-            }            
+            }
         }
     }
 }

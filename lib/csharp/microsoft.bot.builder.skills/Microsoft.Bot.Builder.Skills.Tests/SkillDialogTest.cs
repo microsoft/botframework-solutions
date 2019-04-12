@@ -14,7 +14,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
     internal class SkillDialogTest : SkillDialog
     {
         private MockHttpMessageHandler _mockHttpMessageHandler;
-        public SkillDialogTest(SkillManifest skillManifest, Models.Manifest.Action action, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient, MockHttpMessageHandler mockHttpMessageHandler, UserState userState) : base(skillManifest, action, responseManager, microsoftAppCredentialsEx, telemetryClient, userState)
+        public SkillDialogTest(SkillManifest skillManifest, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient, MockHttpMessageHandler mockHttpMessageHandler, UserState userState) : base(skillManifest, responseManager, microsoftAppCredentialsEx, telemetryClient, userState)
         {
             _mockHttpMessageHandler = mockHttpMessageHandler;
             _httpClient = mockHttpMessageHandler.ToHttpClient();

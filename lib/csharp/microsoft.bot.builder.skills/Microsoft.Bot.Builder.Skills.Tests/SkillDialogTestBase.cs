@@ -75,7 +75,8 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                 }
                 else
                 {
-                    await dc.BeginDialogAsync(actionId, skillManifest);
+                    // ActionID lets the SkillDialog know which action to call
+                    await dc.BeginDialogAsync(skillManifest.Id, actionId);
                     // We don't continue as we don't care about the message being sent
                     // just the initial instantiation, we need to send a message within tests
                     // to invoke the flow. If continue is called then HttpMocks need be updated

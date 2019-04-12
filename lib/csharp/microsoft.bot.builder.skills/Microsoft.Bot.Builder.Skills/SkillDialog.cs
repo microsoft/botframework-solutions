@@ -30,19 +30,6 @@ namespace Microsoft.Bot.Builder.Skills
         private MicrosoftAppCredentialsEx _microsoftAppCredentialsEx;
         private IBotTelemetryClient _telemetryClient;
         private UserState _userState;
-        private JsonSerializerSettings _serializationSettings = new JsonSerializerSettings
-        {
-            Formatting = Formatting.Indented,
-            DateFormatHandling = DateFormatHandling.IsoDateFormat,
-            DateTimeZoneHandling = DateTimeZoneHandling.Utc,
-            NullValueHandling = NullValueHandling.Ignore,
-            ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
-            ContractResolver = new ReadOnlyJsonContractResolver(),
-            Converters = new List<JsonConverter>
-            {
-                new Iso8601TimeSpanConverter()
-            }
-        };
 
         private SkillManifest _skillManifest;
         private Models.Manifest.Action _action;
@@ -57,11 +44,10 @@ namespace Microsoft.Bot.Builder.Skills
         /// <param name="telemetryClient"></param>
         /// <param name="backgroundTaskQueue"></param>
         /// <param name="useCachedTokens"></param>
-        public SkillDialog(SkillManifest skillManifest, Models.Manifest.Action action, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient, UserState userState,  MultiProviderAuthDialog authDialog = null)
-            : base(action.Id)
+        public SkillDialog(SkillManifest skillManifest, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient, UserState userState,  MultiProviderAuthDialog authDialog = null)
+            : base(skillManifest.Id)
         {
             _skillManifest = skillManifest;
-            _action = action;
             _microsoftAppCredentialsEx = microsoftAppCredentialsEx;
             _telemetryClient = telemetryClient;
             _userState = userState;
@@ -82,6 +68,20 @@ namespace Microsoft.Bot.Builder.Skills
         /// <returns>dialog turn result.</returns>
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
+            var actionName = options as string;
+            if (actionName == null)
+            {
+                throw new ArgumentException("SkillDialog requires an Action in order to be able to identify which Action within a skill to invoke.");
+            }
+            else
+            {
+                _action = _skillManifest.Actions.Single(a => a.Id == actionName);
+                if (_action == null)
+                {
+                    throw new ArgumentException($"Passed Action ({actionName}) could not be found within the {_skillManifest.Id} skill manifest action definition.");
+                }
+            }
+
             // Retrieve the SkillContext state object to identify slots (parameters) that can be used
             // to slot-fill when invoking the skill
             var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));

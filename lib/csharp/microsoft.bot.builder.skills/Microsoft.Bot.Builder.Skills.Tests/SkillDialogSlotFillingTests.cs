@@ -50,13 +50,9 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             // the SkillDialog to know which action is invoked and identify the slots as appropriate.
             foreach (var skill in _skillManifests)
             {
-                // Each action within a Skill is registered on it's own as a child of the overall Skill
-                foreach (var action in skill.Actions)
-                {
-                    Dialogs.Add(new SkillDialogTest(skill, action, null, new DummyMicrosoftAppCredentialsEx(null, null, null), null, _mockHttp, UserState));          
-                }
+                Dialogs.Add(new SkillDialogTest(skill, null, new DummyMicrosoftAppCredentialsEx(null, null, null), null, _mockHttp, UserState));          
             }
-        }      
+        }
 
         /// <summary>
         /// Ensure the SkillBegin event activity is sent to the Skill when starting a skill conversation
@@ -157,5 +153,5 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             var activityReceived = request.Content.ReadAsStringAsync().Result;
             return string.Equals(activityReceived, activityToMatch);
         }
-    }   
+    }
 }

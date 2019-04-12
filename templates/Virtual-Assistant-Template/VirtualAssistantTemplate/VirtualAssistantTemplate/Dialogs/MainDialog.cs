@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -20,7 +21,6 @@ using Microsoft.Bot.Schema;
 using VirtualAssistantTemplate.Models;
 using VirtualAssistantTemplate.Responses.Main;
 using VirtualAssistantTemplate.Services;
-using System.Collections.Generic;
 
 namespace VirtualAssistantTemplate.Dialogs
 {
@@ -113,8 +113,8 @@ namespace VirtualAssistantTemplate.Dialogs
             {
                 var skill = _settings.Skills.Where(s => s.Id == intent.ToString()).First();
 
-                // Initialize the skill connection
-                await dc.BeginDialogAsync(skill.Id);
+                // Initialize the skill connection, the dispatch intent is the Action ID of the Skill enabling us to resolve the specific action and identify slots
+                await dc.BeginDialogAsync(skill.Id, intent);
 
                 // Pass the activity we have
                 var result = await dc.ContinueDialogAsync();
@@ -304,16 +304,9 @@ namespace VirtualAssistantTemplate.Dialogs
 
         private void AddSkillDialogs()
         {
-            // Each Skill has a number of actions, these actions are added as their own SkillDialog enabling
-            // the SkillDialog to know which action is invoked and identify the slots as appropriate.
+            // Each Skill has a number of actions but there are wrapper under one single SkillDialog per Skill.
             foreach (var skill in _settings.Skills)
-            {
-                // Each action within a Skill is registered on it's own as a child of the overall Skill
-                foreach (var action in skill.Actions)
-                {
-                    AddDialog(new SkillDialog(skill, action, _responseManager, new MicrosoftAppCredentialsEx(_microsoftAppCredentials.MicrosoftAppId, _microsoftAppCredentials.MicrosoftAppPassword, skill.MSAappId), telemetryClient, userState));
-                }
-
+            {          
                 MultiProviderAuthDialog authDialog = null;
                 if (skill.AuthenticationConnections != null && skill.AuthenticationConnections.Count() > 0)
                 {
@@ -341,7 +334,7 @@ namespace VirtualAssistantTemplate.Dialogs
                     }
                 }
 
-                AddDialog(new SkillDialog(skill, _responseManager, new MicrosoftAppCredentialsEx(_microsoftAppCredentials.MicrosoftAppId, _microsoftAppCredentials.MicrosoftAppPassword, skill.MSAappId), TelemetryClient, authDialog));
+                AddDialog(new SkillDialog(skill, _responseManager, new MicrosoftAppCredentialsEx(_microsoftAppCredentials.MicrosoftAppId, _microsoftAppCredentials.MicrosoftAppPassword, skill.MSAappId), TelemetryClient, _userState, authDialog));
             }
         }
     }
