@@ -27,19 +27,6 @@ namespace Microsoft.Bot.Builder.Skills
         private static readonly HttpClient _httpClient = new HttpClient();
         private MicrosoftAppCredentialsEx _microsoftAppCredentialsEx;
         private IBotTelemetryClient _telemetryClient;
-        private JsonSerializerSettings _serializationSettings = new JsonSerializerSettings
-        {
-            Formatting = Formatting.Indented,
-            DateFormatHandling = DateFormatHandling.IsoDateFormat,
-            DateTimeZoneHandling = DateTimeZoneHandling.Utc,
-            NullValueHandling = NullValueHandling.Ignore,
-            ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
-            ContractResolver = new ReadOnlyJsonContractResolver(),
-            Converters = new List<JsonConverter>
-                    {
-                        new Iso8601TimeSpanConverter()
-                    }
-        };
 
         // Placeholder for Manifest
         private SkillManifest _skillManifest;
@@ -48,12 +35,14 @@ namespace Microsoft.Bot.Builder.Skills
         /// Initializes a new instance of the <see cref="SkillDialog"/> class.
         /// SkillDialog constructor that accepts the manifest description of a Skill along with TelemetryClient for end to end telemetry.
         /// </summary>
-        /// <param name="skillManifest"></param>
-        /// <param name="proactiveState"></param>
-        /// <param name="endpointService"></param>
-        /// <param name="telemetryClient"></param>
-        /// <param name="backgroundTaskQueue"></param>
-        /// <param name="useCachedTokens"></param>
+        /// <param name="skillManifest">Skill manifest.</param>
+        /// <param name="responseManager">Response Manager.</param>
+        /// <param name="microsoftAppCredentialsEx">Microsoft App Credentials.</param>
+        /// <param name="proactiveState">Proactive State.</param>
+        /// <param name="endpointService">Endpoint Service.</param>
+        /// <param name="telemetryClient">Telemetry Client.</param>
+        /// <param name="backgroundTaskQueue">Background Task Queue.</param>
+        /// <param name="useCachedTokens">Use Cached Tokens.</param>
         public SkillDialog(SkillManifest skillManifest, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient)
             : base(skillManifest.Id)
         {
@@ -85,10 +74,10 @@ namespace Microsoft.Bot.Builder.Skills
         /// <summary>
         /// When a SkillDialog is started, a skillBegin event is sent which firstly indicates the Skill is being invoked in Skill mode, also slots are also provided where the information exists in the parent Bot.
         /// </summary>
-        /// <param name="innerDc"></param>
-        /// <param name="options"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="innerDc">Inner Dialog Context.</param>
+        /// <param name="options">Dialog Options (Action Name).</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
+        /// <returns>DialogTurnResult.</returns>
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
             // TODO - The SkillDialog Orchestration should try to fill slots defined in the manifest and pass through this event.
@@ -112,9 +101,9 @@ namespace Microsoft.Bot.Builder.Skills
         /// <summary>
         /// All subsequent messages are forwarded on to the skill.
         /// </summary>
-        /// <param name="innerDc"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="innerDc">Inner Dialog Context.</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
+        /// <returns>DialogTurnResult.</returns>
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var activity = innerDc.Context.Activity;
@@ -143,10 +132,10 @@ namespace Microsoft.Bot.Builder.Skills
         /// <summary>
         /// End the Skill dialog.
         /// </summary>
-        /// <param name="outerDc"></param>
-        /// <param name="result"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="outerDc">Outer Dialog Context.</param>
+        /// <param name="result">Result.</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
+        /// <returns>DialogTurnResult.</returns>
         protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
         {
             return outerDc.EndDialogAsync(result, cancellationToken);
@@ -155,9 +144,9 @@ namespace Microsoft.Bot.Builder.Skills
         /// <summary>
         /// Forward an inbound activity on to the Skill. This is a synchronous operation whereby all response activities are aggregated and returned in one batch.
         /// </summary>
-        /// <param name="innerDc"></param>
-        /// <param name="activity"></param>
-        /// <returns>DialogTurnResult</returns>
+        /// <param name="innerDc">Inner DialogContext.</param>
+        /// <param name="activity">Activity.</param>
+        /// <returns>DialogTurnResult.</returns>
         private async Task<DialogTurnResult> ForwardToSkill(DialogContext innerDc, Activity activity)
         {
             try
@@ -167,7 +156,7 @@ namespace Microsoft.Bot.Builder.Skills
                 httpRequest.Method = new HttpMethod("POST");
                 httpRequest.RequestUri = _skillManifest.Endpoint;
 
-                var requestContent = SafeJsonConvert.SerializeObject(activity, _serializationSettings);
+                var requestContent = SafeJsonConvert.SerializeObject(activity, Serialization.Settings);
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
                 httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
 

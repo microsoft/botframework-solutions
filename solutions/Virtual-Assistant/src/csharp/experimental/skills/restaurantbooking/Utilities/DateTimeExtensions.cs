@@ -1,5 +1,5 @@
-﻿using RestaurantBooking.Responses.Shared;
-using System;
+﻿using System;
+using RestaurantBooking.Responses.Shared;
 
 namespace RestaurantBooking.Utilities
 {

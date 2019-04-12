@@ -6,7 +6,7 @@ namespace Microsoft.Bot.Builder.Solutions
 {
     public class Serialization
     {
-        public static JsonSerializerSettings Settings = new JsonSerializerSettings
+        private static JsonSerializerSettings settings = new JsonSerializerSettings
         {
             Formatting = Formatting.Indented,
             DateFormatHandling = DateFormatHandling.IsoDateFormat,
@@ -19,5 +19,7 @@ namespace Microsoft.Bot.Builder.Solutions
                         new Iso8601TimeSpanConverter()
                     }
         };
+
+        public static JsonSerializerSettings Settings { get => settings; set => settings = value; }
     }
 }

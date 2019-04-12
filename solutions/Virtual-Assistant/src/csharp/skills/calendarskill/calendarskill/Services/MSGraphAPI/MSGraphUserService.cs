@@ -107,7 +107,7 @@ namespace CalendarSkill.Services.MSGraphAPI
 
                 return string.Format("data:image/jpeg;base64,{0}", photoUrl);
             }
-            catch (ServiceException ex)
+            catch (ServiceException)
             {
                 return null;
             }

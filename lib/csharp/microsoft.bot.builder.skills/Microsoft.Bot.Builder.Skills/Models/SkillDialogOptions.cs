@@ -1,5 +1,5 @@
-﻿using Microsoft.Bot.Builder.Skills.Models.Manifest;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.Bot.Builder.Skills.Models.Manifest;
 
 namespace Microsoft.Bot.Builder.Skills.Models
 {

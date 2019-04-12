@@ -21,7 +21,7 @@ namespace Microsoft.Bot.Builder.Skills
 {
     /// <summary>
     /// This is the default Controller that contains APIs for handling
-    /// calls from a channel and calls from a parent bot (to a skill bot)
+    /// calls from a channel and calls from a parent bot (to a skill bot).
     /// </summary>
     [ApiController]
     [Authorize]
@@ -62,7 +62,7 @@ namespace Microsoft.Bot.Builder.Skills
         protected string ManifestTemplateFilename { get => manifestTemplateFilename; set => manifestTemplateFilename = value; }
 
         /// <summary>
-        /// This API is the endpoint for when a bot receives a message from a channel or a parent bot
+        /// This API is the endpoint for when a bot receives a message from a channel or a parent bot.
         /// </summary>
         /// <returns></returns>
         [Route("api/messages")]
@@ -74,7 +74,7 @@ namespace Microsoft.Bot.Builder.Skills
         }
 
         /// <summary>
-        /// This API is the endpoint the bot exposes as skill
+        /// This API is the endpoint the bot exposes as skill.
         /// </summary>
         /// <returns></returns>
         [Route("api/skill/messages")]

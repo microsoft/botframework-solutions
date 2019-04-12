@@ -270,7 +270,8 @@ namespace CalendarSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                //Assert.AreEqual(messageActivity.Attachments.Count, count);
+
+                // Assert.AreEqual(messageActivity.Attachments.Count, count);
             };
         }
 
