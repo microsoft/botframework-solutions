@@ -28,19 +28,6 @@ namespace Microsoft.Bot.Builder.Skills
         private readonly MultiProviderAuthDialog _authDialog;
         private MicrosoftAppCredentialsEx _microsoftAppCredentialsEx;
         private IBotTelemetryClient _telemetryClient;
-        private JsonSerializerSettings _serializationSettings = new JsonSerializerSettings
-        {
-            Formatting = Formatting.Indented,
-            DateFormatHandling = DateFormatHandling.IsoDateFormat,
-            DateTimeZoneHandling = DateTimeZoneHandling.Utc,
-            NullValueHandling = NullValueHandling.Ignore,
-            ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
-            ContractResolver = new ReadOnlyJsonContractResolver(),
-            Converters = new List<JsonConverter>
-                    {
-                        new Iso8601TimeSpanConverter()
-                    }
-        };
 
         // Placeholder for Manifest
         private SkillManifest _skillManifest;
@@ -155,7 +142,7 @@ namespace Microsoft.Bot.Builder.Skills
                 httpRequest.Method = new HttpMethod("POST");
                 httpRequest.RequestUri = _skillManifest.Endpoint;
 
-                var requestContent = SafeJsonConvert.SerializeObject(activity, _serializationSettings);
+                var requestContent = SafeJsonConvert.SerializeObject(activity, Serialization.Settings);
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
                 httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
 
@@ -170,7 +157,8 @@ namespace Microsoft.Bot.Builder.Skills
                     var filteredSkillResponses = new List<Activity>();
 
                     // Retrieve Activity responses
-                    skillResponses = await response.Content.ReadAsAsync<List<Activity>>();
+                    var responseStr = await response.Content.ReadAsStringAsync();
+                    skillResponses = SafeJsonConvert.DeserializeObject<List<Activity>>(responseStr, Serialization.Settings);
 
                     var endOfConversation = false;
                     foreach (var skillResponse in skillResponses)
