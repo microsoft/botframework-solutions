@@ -16,7 +16,6 @@ namespace CalendarSkill.Utilities
             random = new Random();
             whiteList = new WhiteList
             {
-
                 // Get skip regex
                 SkipPhrases = new Regex(CalendarCommonStrings.SkipPhrases),
 

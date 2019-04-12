@@ -177,7 +177,8 @@ namespace CalendarSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                //Assert.AreEqual(messageActivity.Attachments.Count, eventCount);
+
+                // Assert.AreEqual(messageActivity.Attachments.Count, eventCount);
             };
         }
 

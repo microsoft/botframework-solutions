@@ -1,5 +1,5 @@
-﻿using Microsoft.Bot.Builder.Solutions.Telemetry;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 
 namespace Microsoft.Bot.Builder.Skills
 {

@@ -68,18 +68,6 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             }
         }
 
-        private async Task<DialogTurnResult> FirstStep(WaterfallStepContext stepContext, CancellationToken canellationToken)
-        {
-            if (stepContext.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter)
-            {
-                return await stepContext.BeginDialogAsync(DialogIds.RemoteAuthPrompt);
-            }
-            else
-            {
-                return await stepContext.BeginDialogAsync(DialogIds.LocalAuthPrompt);
-            }
-        }
-
         // Validators
         protected Task<bool> TokenResponseValidator(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
         {
@@ -91,6 +79,18 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             else
             {
                 return Task.FromResult(false);
+            }
+        }
+
+        private async Task<DialogTurnResult> FirstStep(WaterfallStepContext stepContext, CancellationToken canellationToken)
+        {
+            if (stepContext.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter)
+            {
+                return await stepContext.BeginDialogAsync(DialogIds.RemoteAuthPrompt);
+            }
+            else
+            {
+                return await stepContext.BeginDialogAsync(DialogIds.LocalAuthPrompt);
             }
         }
 
@@ -208,7 +208,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             }
             else
             {
-                //TelemetryClient.TrackEventEx("TokenRetrievalFailure", stepContext.Context.Activity);
+                // TelemetryClient.TrackEventEx("TokenRetrievalFailure", stepContext.Context.Activity);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }

@@ -65,6 +65,26 @@ namespace EmailSkillTest.Flow.Fakes
             return Task.FromResult(result);
         }
 
+        public Task<PersonModel> GetMeAsync()
+        {
+            var addressList = new List<string>
+            {
+                "test@test.com"
+            };
+            var user = new PersonModel()
+            {
+                UserPrincipalName = "Test Test",
+                Emails = addressList,
+                DisplayName = "Test Test",
+            };
+            return Task.FromResult(user);
+        }
+
+        public Task<string> GetPhotoAsync(string id)
+        {
+            return Task.FromResult("data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==");
+        }
+
         private List<PersonModel> FakePeople()
         {
             var people = new List<PersonModel>();
@@ -135,26 +155,6 @@ namespace EmailSkillTest.Flow.Fakes
             });
 
             return contacts;
-        }
-
-        public Task<PersonModel> GetMeAsync()
-        {
-            var addressList = new List<string>
-            {
-                "test@test.com"
-            };
-            var user = new PersonModel()
-            {
-                UserPrincipalName = "Test Test",
-                Emails = addressList,
-                DisplayName = "Test Test",
-            };
-            return Task.FromResult(user);
-        }
-
-        public Task<string> GetPhotoAsync(string id)
-        {
-            return Task.FromResult("data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==");
         }
     }
 }
