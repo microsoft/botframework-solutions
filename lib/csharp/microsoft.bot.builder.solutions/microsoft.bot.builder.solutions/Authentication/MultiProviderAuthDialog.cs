@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Schema;
 using Microsoft.Rest.Serialization;
 
@@ -68,19 +69,6 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             }
         }
 
-        private async Task<DialogTurnResult> FirstStep(WaterfallStepContext stepContext, CancellationToken canellationToken)
-        {
-            if (stepContext.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter)
-            {
-                return await stepContext.BeginDialogAsync(DialogIds.RemoteAuthPrompt);
-            }
-            else
-            {
-                return await stepContext.BeginDialogAsync(DialogIds.LocalAuthPrompt);
-            }
-        }
-
-        // Validators
         protected Task<bool> TokenResponseValidator(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
         {
             var activity = pc.Recognized.Value;
@@ -91,6 +79,18 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             else
             {
                 return Task.FromResult(false);
+            }
+        }
+
+        private async Task<DialogTurnResult> FirstStep(WaterfallStepContext stepContext, CancellationToken canellationToken)
+        {
+            if (stepContext.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter)
+            {
+                return await stepContext.BeginDialogAsync(DialogIds.RemoteAuthPrompt);
+            }
+            else
+            {
+                return await stepContext.BeginDialogAsync(DialogIds.LocalAuthPrompt);
             }
         }
 
@@ -208,7 +208,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             }
             else
             {
-                //TelemetryClient.TrackEventEx("TokenRetrievalFailure", stepContext.Context.Activity);
+                TelemetryClient.TrackEventEx("TokenRetrievalFailure", stepContext.Context.Activity);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }

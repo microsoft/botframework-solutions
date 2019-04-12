@@ -210,7 +210,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
             // if no matching json file found for locale, try parent language
             if (key == null)
             {
-                locale = locale.Split("-")[0].ToLower();
+                locale = locale.Split('-')[0].ToLower();
                 key = GetJsonResponseKeyForLocale(templateId, locale);
 
                 // fall back to default
@@ -287,7 +287,10 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
 
                         foreach (var item in responses)
                         {
-                            localeResponses.TryAdd(item.Key, item.Value);
+                            if (!localeResponses.ContainsKey(item.Key))
+                            {
+                                localeResponses.Add(item.Key, item.Value);
+                            }
                         }
 
                         JsonResponses[localeKey] = localeResponses;
