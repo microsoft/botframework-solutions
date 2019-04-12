@@ -16,9 +16,8 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Solutions.Resources;
-using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
+using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Builder.Solutions.Util;
@@ -30,7 +29,6 @@ namespace EmailSkill.Dialogs
 {
     public class EmailSkillDialogBase : ComponentDialog
     {
-
         public EmailSkillDialogBase(
             string dialogId,
             BotSettings settings,

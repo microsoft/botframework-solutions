@@ -39,7 +39,12 @@ namespace Microsoft.Bot.Builder.Solutions.Testing.Mocks
         {
             var text = dialogContext.Context.Activity.Text;
 
-            var mockResult = TestUtterances.GetValueOrDefault(text, DefaultIntent);
+            var mockResult = DefaultIntent;
+            if (TestUtterances != null && TestUtterances.ContainsKey(text))
+            {
+                mockResult = TestUtterances[text];
+            }
+
             return Task.FromResult((T)mockResult);
         }
 
@@ -48,7 +53,12 @@ namespace Microsoft.Bot.Builder.Solutions.Testing.Mocks
         {
             var text = turnContext.Activity.Text;
 
-            var mockResult = TestUtterances.GetValueOrDefault(text, DefaultIntent);
+            var mockResult = DefaultIntent;
+            if (TestUtterances != null && TestUtterances.ContainsKey(text))
+            {
+                mockResult = TestUtterances[text];
+            }
+
             return Task.FromResult((T)mockResult);
         }
     }

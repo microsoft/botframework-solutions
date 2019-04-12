@@ -162,4 +162,7 @@
   <data name="INTRO_PATH" xml:space="preserve">
     <value>./Content/Intro.json</value>
   </data>
+  <data name="LOGOUT" xml:space="preserve">
+    <value>Ok, you're signed out.</value>
+  </data>
 </root>
