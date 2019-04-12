@@ -6,10 +6,19 @@
   "authenticationConnections": [],
   "actions": [
     {
-      "id": "https://restaurantbooking.microsoft.com/restaurantBooking",
+      "id": "restaurantBookingSkill/booking",
       "definition": {
         "description": "Restaurant Booking",
-        "slots": [],
+        "slots": [
+          {
+            "name": "name",
+            "types": [ "string" ]
+          },
+          {
+            "name": "location",
+            "types": [ "string" ]
+          }
+        ],
         "triggers": {
           "utteranceSources": [
             {

@@ -89,7 +89,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         [ExpectedException(typeof(JsonSerializationException))]
         public async Task DeserializeInvalidManifestFile()
         {
-            using (StreamReader sr = new StreamReader("malformedManifestTemplate.json"))
+            using (StreamReader sr = new StreamReader(@".\TestData\malformedManifestTemplate.json"))
             {
                 string manifestBody = await sr.ReadToEndAsync();
                 JsonConvert.DeserializeObject<SkillManifest>(manifestBody);
@@ -144,7 +144,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         [TestMethod]
         public async Task SkillControllerManifestRequestInlineTriggerUtterances()
         {
-            string luisResponse = await File.ReadAllTextAsync("luisCalendarModelResponse.json");
+            string luisResponse = await File.ReadAllTextAsync(@".\TestData\luisCalendarModelResponse.json");
 
             // Mock the call to LUIS for the model contents
             _mockHttp.When("https://westus.api.cognitive.microsoft.com*")
@@ -195,14 +195,14 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         [TestMethod]
         public async Task SkillControllerManifestMissingIntent()
         {
-            string luisResponse = await File.ReadAllTextAsync("luisCalendarModelResponse.json");
+            string luisResponse = await File.ReadAllTextAsync(@".\TestData\luisCalendarModelResponse.json");
 
             // Mock the call to LUIS for the model contents
             _mockHttp.When("https://westus.api.cognitive.microsoft.com*")
                     .Respond("application/json", luisResponse);
 
             // Pass a manifest that references an intent that does not exist (MISSINGINTENT)
-            var controller = CreateMockSkillController("manifestInvalidIntent.json");
+            var controller = CreateMockSkillController(@".\TestData\manifestInvalidIntent.json");
 
             // Replace the NullStream with a MemoryStream
             var ms = new MemoryStream();
@@ -236,14 +236,14 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         [TestMethod]
         public async Task SkillControllerManifestMissingModel()
         {
-            string luisResponse = await File.ReadAllTextAsync("luisCalendarModelResponse.json");
+            string luisResponse = await File.ReadAllTextAsync(@".\TestData\luisCalendarModelResponse.json");
 
             // Mock the call to LUIS for the model contents
             _mockHttp.When("https://westus.api.cognitive.microsoft.com*")
                     .Respond("application/json", luisResponse);
 
             // Pass a manifest that references an intent that does not exist (MISSINGINTENT)
-            var controller = CreateMockSkillController("manifestInvalidLUISModel.json");
+            var controller = CreateMockSkillController(@".\TestData\manifestInvalidLUISModel.json");
 
             // Replace the NullStream with a MemoryStream
             var ms = new MemoryStream();

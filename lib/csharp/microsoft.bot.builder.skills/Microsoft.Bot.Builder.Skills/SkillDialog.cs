@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -24,29 +25,32 @@ namespace Microsoft.Bot.Builder.Skills
     /// </summary>
     public class SkillDialog : ComponentDialog
     {
-        private static readonly HttpClient _httpClient = new HttpClient();
+        protected HttpClient _httpClient = new HttpClient();
         private readonly MultiProviderAuthDialog _authDialog;
         private MicrosoftAppCredentialsEx _microsoftAppCredentialsEx;
         private IBotTelemetryClient _telemetryClient;
+        private UserState _userState;
 
-        // Placeholder for Manifest
         private SkillManifest _skillManifest;
+        private Models.Manifest.Action _action;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SkillDialog"/> class.
         /// SkillDialog constructor that accepts the manifest description of a Skill along with TelemetryClient for end to end telemetry.
         /// </summary>
-        /// <param name="skillManifest">skill manifest object.</param>
-        /// <param name="responseManager">response manager.</param>
-        /// <param name="microsoftAppCredentialsEx">MicrosoftAppCredentialsEx object that customizes scope and authority.</param>
-        /// <param name="telemetryClient">telemetry client.</param>
-        /// <param name="authDialog">optional: auth dialog.</param>
-        public SkillDialog(SkillManifest skillManifest, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient, MultiProviderAuthDialog authDialog = null)
+        /// <param name="skillManifest"></param>
+        /// <param name="proactiveState"></param>
+        /// <param name="endpointService"></param>
+        /// <param name="telemetryClient"></param>
+        /// <param name="backgroundTaskQueue"></param>
+        /// <param name="useCachedTokens"></param>
+        public SkillDialog(SkillManifest skillManifest, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient, UserState userState,  MultiProviderAuthDialog authDialog = null)
             : base(skillManifest.Id)
         {
             _skillManifest = skillManifest;
             _microsoftAppCredentialsEx = microsoftAppCredentialsEx;
             _telemetryClient = telemetryClient;
+            _userState = userState;
 
             if (authDialog != null)
             {
@@ -64,8 +68,43 @@ namespace Microsoft.Bot.Builder.Skills
         /// <returns>dialog turn result.</returns>
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // TODO - The SkillDialog Orchestration should try to fill slots defined in the manifest and pass through this event.
-            object slots = null;
+            var actionName = options as string;
+            if (actionName == null)
+            {
+                throw new ArgumentException("SkillDialog requires an Action in order to be able to identify which Action within a skill to invoke.");
+            }
+            else
+            {
+                _action = _skillManifest.Actions.Single(a => a.Id == actionName);
+                if (_action == null)
+                {
+                    throw new ArgumentException($"Passed Action ({actionName}) could not be found within the {_skillManifest.Id} skill manifest action definition.");
+                }
+            }
+
+            // Retrieve the SkillContext state object to identify slots (parameters) that can be used
+            // to slot-fill when invoking the skill
+            var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
+            var skillContext = await accessor.GetAsync(innerDc.Context, () => new SkillContext());
+
+            Dictionary<string, object> slotsToPass = new Dictionary<string, object>();
+
+            // If we don't have any state then we skip Slot filling
+            if (skillContext != null && skillContext.Count > 0)
+            {
+                // Do we have slots?
+                if (_action != null && _action.Definition.Slots != null)
+                {
+                    // For each slot we check to see if there is an exact match, if so we pass this slot across to the skill
+                    foreach (Slot slot in _action.Definition.Slots)
+                    {
+                        if (skillContext.TryGetValue(slot.Name, out object slotValue))
+                        {
+                            slotsToPass.Add(slot.Name, slotValue);
+                        }
+                    }
+                }
+            }
 
             var activity = innerDc.Context.Activity;
 
@@ -76,7 +115,7 @@ namespace Microsoft.Bot.Builder.Skills
               recipient: new ChannelAccount(id: activity.Recipient.Id, name: activity.Recipient.Name),
               conversation: new ConversationAccount(id: activity.Conversation.Id),
               name: SkillEvents.SkillBeginEventName,
-              value: slots);
+              value: slotsToPass);
 
             // Send skillBegin event to Skill/Bot
             return await ForwardToSkill(innerDc, skillBeginEvent);

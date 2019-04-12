@@ -17,7 +17,7 @@
   ],
   "actions": [
     {
-      "id": "https://emailskill.microsoft.com/sendEmail",
+      "id": "emailskill/sendEmail",
       "definition": {
         "description": "Send an email",
         "slots": [ ],
@@ -34,10 +34,10 @@
       }
     },
     {
-      "id": "https://emailskill.microsoft.com/forwardEmail",
+      "id": "emailskill/forwardEmail",
       "definition": {
         "description": "Forward an email",
-        "slots": [ ],
+        "slots": [],
         "triggers": {
           "utteranceSources": [
             {
@@ -51,7 +51,7 @@
       }
     },
     {
-      "id": "https://emailskill.microsoft.com/replyEmail",
+      "id": "emailskill/replyEmail",
       "definition": {
         "description": "Reply to an email",
         "slots": [],
@@ -68,7 +68,7 @@
       }
     },
     {
-      "id": "https://emailskill.microsoft.com/showEmail",
+      "id": "emailskill/showEmail",
       "definition": {
         "description": "Retrieve a summary of emails.",
         "slots": [],
@@ -88,7 +88,7 @@
       }
     },
     {
-      "id": "https://emailskill.microsoft.com/deleteEmail",
+      "id": "emailskill/deleteEmail",
       "definition": {
         "description": "Delete an email",
         "slots": [],

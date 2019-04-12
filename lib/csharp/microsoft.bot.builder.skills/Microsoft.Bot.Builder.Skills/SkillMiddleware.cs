@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Schema;
@@ -10,17 +11,25 @@ namespace Microsoft.Bot.Builder.Skills
     /// </summary>
     public class SkillMiddleware : IMiddleware
     {
+        private UserState _userState;
+
+        public SkillMiddleware(UserState userState)
+        {
+            _userState = userState;
+        }
+
         public async Task OnTurnAsync(ITurnContext turnContext, NextDelegate next, CancellationToken cancellationToken = default(CancellationToken))
         {
             // The skillBegin event signals the start of a skill conversation to a Bot.
             var activity = turnContext.Activity;
             if (activity != null && activity.Type == ActivityTypes.Event && activity?.Name == SkillEvents.SkillBeginEventName)
             {
-                // Slots (parameters) are passed through the Event on the Value property.
-                if (activity.Value != null)
+                if (activity.Value is Dictionary<string, object> slotData)
                 {
-                    // Push slots into state.
-                    // turnContext.TurnState?
+                    // If we have slotData then we create the SkillContext object within UserState for the skill to access
+                    SkillContext skillContext = new SkillContext(slotData);
+                    var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
+                    await accessor.SetAsync(turnContext, skillContext);
                 }
             }
 
