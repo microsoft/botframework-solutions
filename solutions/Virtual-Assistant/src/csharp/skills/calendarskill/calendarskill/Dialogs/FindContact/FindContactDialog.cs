@@ -733,7 +733,7 @@ namespace CalendarSkill.Dialogs.FindContact
                 {
                     if (options.Choices.Count >= pageSize)
                     {
-                        options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, Common.ConfigData.GetInstance().MaxDisplaySize);
+                        options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
                         options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
                         options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
                         return options;
@@ -747,7 +747,7 @@ namespace CalendarSkill.Dialogs.FindContact
                 }
             }
 
-            options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, Common.ConfigData.GetInstance().MaxDisplaySize);
+            options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
             options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
             options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
             return options;
@@ -819,7 +819,7 @@ namespace CalendarSkill.Dialogs.FindContact
                 {
                     if (options.Choices.Count >= pageSize)
                     {
-                        options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, Common.ConfigData.GetInstance().MaxDisplaySize);
+                        options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
                         options.Prompt.Text = GetSelectPromptString(options, true);
                         options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
                         return options;
@@ -833,7 +833,7 @@ namespace CalendarSkill.Dialogs.FindContact
                 }
             }
 
-            options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, Common.ConfigData.GetInstance().MaxDisplaySize);
+            options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
             options.Prompt.Text = GetSelectPromptString(options, true);
             options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
             return options;
