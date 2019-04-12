@@ -12,19 +12,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Dialogs\Main\Resources\NewUserGreeting.json" />
-    <Content Remove="Dialogs\Main\Resources\ReturningUserGreeting.json" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <EmbeddedResource Include="Dialogs\Main\Resources\Cards\NewUserGreeting.json" />
+    <EmbeddedResource Include="Dialogs\Main\Resources\Cards\ReturningUserGreeting.json" />
     <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.de.json" />
     <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.es.json" />
     <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.fr.json" />
     <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.it.json" />
     <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.json" />
     <EmbeddedResource Include="Dialogs\Main\Resources\MainDialogResponses.zh.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\NewUserGreeting.json" />
-    <EmbeddedResource Include="Dialogs\Main\Resources\ReturningUserGreeting.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,7 +44,7 @@
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.24-preview" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.36-preview" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.3.1" />
@@ -63,25 +58,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Dialogs\Escalate\Resources\EscalateStrings - Copy.Designer.cs">
-      <DependentUpon>EscalateStrings.resx</DependentUpon>
+    <Compile Update="Dialogs\Main\Resources\MainDialogResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Dialogs\Escalate\Resources\EscalateStrings - Copy.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>EscalateStrings.resx</DependentUpon>
+      <DependentUpon>MainDialogResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Dialogs\Escalate\Resources\EscalateStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>EscalateStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Dialogs\Main\Resources\MainDialogResponses.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>MainDialogResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Dialogs\Main\Resources\MainStrings.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -114,13 +99,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>OnboardingStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\skills\calendarskill\calendarskill\CalendarSkill.csproj" />
-    <ProjectReference Include="..\skills\emailskill\emailskill\EmailSkill.csproj" />
-    <ProjectReference Include="..\skills\pointofinterestskill\pointofinterestskill\PointOfInterestSkill.csproj" />
-    <ProjectReference Include="..\skills\todoskill\todoskill\ToDoSkill.csproj" />
   </ItemGroup>
 
   <ItemGroup>
