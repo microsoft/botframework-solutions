@@ -218,7 +218,9 @@ namespace CalendarSkill.Dialogs.Summary
 
                     await sc.Context.SendActivityAsync(await GetOverviewMeetingListResponseAsync(
                         sc,
-                        GetCurrentPageMeetings(searchedEvents, state),
+                        GetCurrentPageMeetings(searchedEvents, state, out int firstIndex, out int lastIndex),
+                        firstIndex,
+                        lastIndex,
                         searchedEvents.Count,
                         totalConflictCount,
                         null,
@@ -272,7 +274,9 @@ namespace CalendarSkill.Dialogs.Summary
                         };
                         var reply = await GetOverviewMeetingListResponseAsync(
                             sc,
-                            GetCurrentPageMeetings(state.SummaryEvents, state),
+                            GetCurrentPageMeetings(state.SummaryEvents, state, out int firstIndex, out int lastIndex),
+                            firstIndex,
+                            lastIndex,
                             state.SummaryEvents.Count,
                             state.TotalConflictCount,
                             SummaryResponses.ShowMeetingSummaryNotFirstPageMessage,
@@ -676,7 +680,7 @@ namespace CalendarSkill.Dialogs.Summary
                                 { "EventName", nextEventList[0].Title },
                                 { "EventStartTime", TimeConverter.ConvertUtcToUserTime(nextEventList[0].StartTime, state.GetUserTimeZone()).ToString("h:mm tt") },
                                 { "EventEndTime", TimeConverter.ConvertUtcToUserTime(nextEventList[0].EndTime, state.GetUserTimeZone()).ToString("h:mm tt") },
-                                { "EventDuration", nextEventList[0].ToDurationString() },
+                                { "EventDuration", nextEventList[0].ToSpeechDurationString() },
                                 { "EventLocation", nextEventList[0].Location },
                             };
 
@@ -792,7 +796,14 @@ namespace CalendarSkill.Dialogs.Summary
 
         private List<EventModel> GetCurrentPageMeetings(List<EventModel> allMeetings, CalendarSkillState state)
         {
-            return allMeetings.GetRange(state.ShowEventIndex * state.PageSize, Math.Min(state.PageSize, allMeetings.Count - (state.ShowEventIndex * state.PageSize)));
+            return GetCurrentPageMeetings(allMeetings, state, out int firstIndex, out int lastIndex);
+        }
+
+        private List<EventModel> GetCurrentPageMeetings(List<EventModel> allMeetings, CalendarSkillState state, out int firstIndex, out int lastIndex)
+        {
+            firstIndex = state.ShowEventIndex * state.PageSize;
+            lastIndex = Math.Min(state.PageSize, allMeetings.Count - (state.ShowEventIndex * state.PageSize));
+            return allMeetings.GetRange(firstIndex, lastIndex);
         }
 
         private bool SearchesTodayMeeting(CalendarSkillState state)

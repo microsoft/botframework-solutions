@@ -10,18 +10,23 @@
             {
               "type": "Column",
               "style": "emphasis",
+              "verticalContentAlignment": "Center",
               "items": [
                 {
                   "type": "TextBlock",
                   "horizontalAlignment": "Center",
                   "spacing": "Medium",
-                  "separator": true,
-                  "height": "stretch",
                   "size": "Medium",
                   "weight": "Bolder",
                   "color": "{TimeColor}",
                   "text": "{Time}",
                   "isSubtle": "{IsSubtle}"
+                },
+                {
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Center",
+                  "spacing": "Small",
+                  "text": "{Duration}"
                 }
               ],
               "width": 20

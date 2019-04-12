@@ -7,7 +7,7 @@ import {
     InterruptableDialog,
     InterruptionAction,
     ITelemetryLuisRecognizer,
-    LocaleConfiguration } from 'bot-solution';
+    LocaleConfiguration } from 'botbuilder-solutions';
 import {
     BotTelemetryClient,
     RecognizerResult } from 'botbuilder';

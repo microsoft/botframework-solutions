@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { ActivityExtensions } from 'bot-solution';
+import { ActivityExtensions } from 'botbuilder-solutions';
 import { BotFrameworkAdapter, InvokeResponse, TurnContext, WebRequest, WebResponse } from 'botbuilder';
 import { DialogContext } from 'botbuilder-dialogs';
 import { Activity, ActivityTypes, ConversationReference, ResourceResponse } from 'botframework-schema';

@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { SkillDialog, SkillDefinition as RemoteSkillDefinition } from 'bot-skill';
+import { SkillDialog, SkillDefinition as RemoteSkillDefinition } from 'botbuilder-skills';
 import {
     IBackgroundTaskQueue,
     InterruptionAction,
@@ -16,7 +16,7 @@ import {
     SkillDefinition,
     SkillEvent,
     SkillRouter,
-    TelemetryExtensions } from 'bot-solution';
+    TelemetryExtensions } from 'botbuilder-solutions';
 import {
     BotFrameworkAdapter,
     BotTelemetryClient,
