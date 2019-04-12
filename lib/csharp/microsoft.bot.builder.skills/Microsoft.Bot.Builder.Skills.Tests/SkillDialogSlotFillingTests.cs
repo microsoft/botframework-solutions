@@ -29,13 +29,14 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         [TestInitialize]
         public void AddSkills()
         {
+            // Simple skill, no slots
             _skillManifests.Add(ManifestUtilities.CreateSkill(
                 "testskill", 
                 "testskill", 
                 "https://testskill.tempuri.org/api/skill",
-                "testSkill/testAction",
-                null));
+                "testSkill/testAction"));
 
+            // Simple skill, with one slot (param1)
             var slots = new List<Slot>();
             slots.Add(new Slot("param1", new List<string>() { "string" }));
             _skillManifests.Add(ManifestUtilities.CreateSkill(
