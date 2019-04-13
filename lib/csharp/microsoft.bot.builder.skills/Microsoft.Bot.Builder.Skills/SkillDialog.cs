@@ -44,11 +44,12 @@ namespace Microsoft.Bot.Builder.Skills
         /// <param name="proactiveState">Proactive State.</param>
         /// <param name="endpointService">Endpoint Service.</param>
         /// <param name="telemetryClient">Telemetry Client.</param>
-        /// <param name="backgroundTaskQueue">Background Task Queue.</param>
-        /// <param name="useCachedTokens">Use Cached Tokens.</param>
+        /// <param name="userState">UserState.</param>
+        /// <param name="authDialog">Auth Dialog.</param>
         public SkillDialog(SkillManifest skillManifest, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient, UserState userState, MultiProviderAuthDialog authDialog = null)
             : base(skillManifest.Id)
         {
+
             _skillManifest = skillManifest;
             _microsoftAppCredentialsEx = microsoftAppCredentialsEx;
             _telemetryClient = telemetryClient;
@@ -70,6 +71,12 @@ namespace Microsoft.Bot.Builder.Skills
         /// <returns>dialog turn result.</returns>
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
+            Dictionary<string, object> slotsToPass = new Dictionary<string, object>();
+
+            // Retrieve the SkillContext state object to identify slots (parameters) that can be used to slot-fill when invoking the skill
+            var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
+            var skillContext = await accessor.GetAsync(innerDc.Context, () => new SkillContext());
+
             var actionName = options as string;
             if (actionName == null)
             {
@@ -77,34 +84,27 @@ namespace Microsoft.Bot.Builder.Skills
             }
             else
             {
+                // Find the Action within the selected Skill for slot filling evaluation
                 _action = _skillManifest.Actions.Single(a => a.Id == actionName);
-                if (_action == null)
+                if (_action != null)
                 {
-                    throw new ArgumentException($"Passed Action ({actionName}) could not be found within the {_skillManifest.Id} skill manifest action definition.");
-                }
-            }
-
-            // Retrieve the SkillContext state object to identify slots (parameters) that can be used
-            // to slot-fill when invoking the skill
-            var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
-            var skillContext = await accessor.GetAsync(innerDc.Context, () => new SkillContext());
-
-            Dictionary<string, object> slotsToPass = new Dictionary<string, object>();
-
-            // If we don't have any state then we skip Slot filling
-            if (skillContext != null && skillContext.Count > 0)
-            {
-                // Do we have slots?
-                if (_action != null && _action.Definition.Slots != null)
-                {
-                    // For each slot we check to see if there is an exact match, if so we pass this slot across to the skill
-                    foreach (Slot slot in _action.Definition.Slots)
+                    // If the action doesn't define any Slots or SkillContext is empty then we skip slot evaluation
+                    if (_action.Definition.Slots != null && skillContext.Count > 0)
                     {
-                        if (skillContext.TryGetValue(slot.Name, out object slotValue))
+                        foreach (Slot slot in _action.Definition.Slots)
                         {
-                            slotsToPass.Add(slot.Name, slotValue);
+                            // For each slot we check to see if there is an exact match, if so we pass this slot across to the skill
+                            if (skillContext.TryGetValue(slot.Name, out object slotValue))
+                            {
+                                slotsToPass.Add(slot.Name, slotValue);
+                            }
                         }
                     }
+                }
+                else
+                {
+                    // Loosening checks for current Dispatch evaluation, TODO - Review
+                    //throw new ArgumentException($"Passed Action ({actionName}) could not be found within the {_skillManifest.Id} skill manifest action definition.");
                 }
             }
 
