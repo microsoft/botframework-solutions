@@ -419,7 +419,10 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
                 {
                     if (!tokens.ContainsKey(property.Name))
                     {
-                        tokens.Add(property.Name, property.GetValue(data)?.ToString());
+                        var escapedTokenStr = property.GetValue(data)?.ToString()?.Replace("\\", "\\\\");
+                        escapedTokenStr = escapedTokenStr?.Replace("\"", "\\\"");
+                        escapedTokenStr = escapedTokenStr?.Replace("\'", "\\\'");
+                        tokens.Add(property.Name, escapedTokenStr);
                     }
                 }
 
