@@ -10,6 +10,7 @@ using Luis;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
@@ -114,6 +115,22 @@ namespace RestaurantBooking.Dialogs
                 if (turnResult != EndOfTurn)
                 {
                     await CompleteAsync(dc);
+                }
+            }
+        }
+
+        private async Task PopulateStateFromSkillContext(ITurnContext context)
+        {
+            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
+            // and make available in local state as appropriate.
+            var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
+            var skillContext = await accessor.GetAsync(context, () => new SkillContext());
+            if (skillContext != null)
+            {
+                if (skillContext.ContainsKey("Name"))
+                {
+                    var state = await _conversationStateAccessor.GetAsync(context, () => new RestaurantBookingState());
+                    state.Name = skillContext["Name"] as string;
                 }
             }
         }

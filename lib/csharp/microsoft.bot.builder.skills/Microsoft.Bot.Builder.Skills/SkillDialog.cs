@@ -25,7 +25,7 @@ namespace Microsoft.Bot.Builder.Skills
     /// </summary>
     public class SkillDialog : ComponentDialog
     {
-        protected HttpClient _httpClient = new HttpClient();
+        private HttpClient _httpClient = new HttpClient();
         private readonly MultiProviderAuthDialog _authDialog;
         private MicrosoftAppCredentialsEx _microsoftAppCredentialsEx;
         private IBotTelemetryClient _telemetryClient;
@@ -44,7 +44,7 @@ namespace Microsoft.Bot.Builder.Skills
         /// <param name="proactiveState">Proactive State.</param>
         /// <param name="endpointService">Endpoint Service.</param>
         /// <param name="telemetryClient">Telemetry Client.</param>
-        /// <param name="userState">UserState.</param>
+        /// <param name="userState">User State.</param>
         /// <param name="authDialog">Auth Dialog.</param>
         public SkillDialog(SkillManifest skillManifest, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient, UserState userState, MultiProviderAuthDialog authDialog = null)
             : base(skillManifest.Id)
@@ -62,6 +62,9 @@ namespace Microsoft.Bot.Builder.Skills
             }
         }
 
+        // Protected to enable mocking
+        protected HttpClient HttpClient { get => _httpClient; set => _httpClient = value; }
+
         /// <summary>
         /// When a SkillDialog is started, a skillBegin event is sent which firstly indicates the Skill is being invoked in Skill mode, also slots are also provided where the information exists in the parent Bot.
         /// </summary>
@@ -71,7 +74,7 @@ namespace Microsoft.Bot.Builder.Skills
         /// <returns>dialog turn result.</returns>
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            Dictionary<string, object> slotsToPass = new Dictionary<string, object>();
+            SkillContext slots = new SkillContext();
 
             // Retrieve the SkillContext state object to identify slots (parameters) that can be used to slot-fill when invoking the skill
             var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
@@ -96,7 +99,7 @@ namespace Microsoft.Bot.Builder.Skills
                             // For each slot we check to see if there is an exact match, if so we pass this slot across to the skill
                             if (skillContext.TryGetValue(slot.Name, out object slotValue))
                             {
-                                slotsToPass.Add(slot.Name, slotValue);
+                                slots.Add(slot.Name, slotValue);
                             }
                         }
                     }
@@ -104,7 +107,7 @@ namespace Microsoft.Bot.Builder.Skills
                 else
                 {
                     // Loosening checks for current Dispatch evaluation, TODO - Review
-                    //throw new ArgumentException($"Passed Action ({actionName}) could not be found within the {_skillManifest.Id} skill manifest action definition.");
+                    // throw new ArgumentException($"Passed Action ({actionName}) could not be found within the {_skillManifest.Id} skill manifest action definition.");
                 }
             }
 
@@ -117,7 +120,7 @@ namespace Microsoft.Bot.Builder.Skills
               recipient: new ChannelAccount(id: activity.Recipient.Id, name: activity.Recipient.Name),
               conversation: new ConversationAccount(id: activity.Conversation.Id),
               name: SkillEvents.SkillBeginEventName,
-              value: slotsToPass);
+              value: slots);
 
             // Send skillBegin event to Skill/Bot
             return await ForwardToSkill(innerDc, skillBeginEvent);

@@ -39,6 +39,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Extensions
         private class SomeComplexType
         {
             public string Number { get; set; }
+
             public object SomeOtherProperty { get; set; }
         }
     }

@@ -37,6 +37,7 @@ namespace ToDoSkill.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
             Use(new AutoSaveStateMiddleware(userState, conversationState));
+            Use(new SkillMiddleware(userState));
         }
     }
 }

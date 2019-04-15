@@ -19,7 +19,8 @@ namespace CalendarSkill.Adapters
             ICredentialProvider credentialProvider,
             BotStateSet botStateSet,
             ResponseManager responseManager,
-            IBotTelemetryClient telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            UserState userState)
             : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>
@@ -36,6 +37,7 @@ namespace CalendarSkill.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
             Use(new AutoSaveStateMiddleware(botStateSet));
+            Use(new SkillMiddleware(userState));
         }
     }
 }

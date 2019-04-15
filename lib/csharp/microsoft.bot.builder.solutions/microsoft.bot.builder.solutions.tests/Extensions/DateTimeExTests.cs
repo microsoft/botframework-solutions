@@ -117,11 +117,17 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Extensions
             {
                 Culture = new CultureInfo(culture);
             }
+
             public CultureInfo Culture { get; }
+
             public DateTime InputDateTime { get; set; }
+
             public string ExpectedDateSpeech { get; set; }
+
             public string ExpectedDateSpeechWithSuffix { get; set; }
+
             public string ExpectedTimeSpeech { get; set; }
+
             public string ExpectedTimeSpeechWithSuffix { get; set; }
         }
     }
