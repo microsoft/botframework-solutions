@@ -11,6 +11,7 @@ using Luis;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
@@ -63,7 +64,7 @@ namespace PointOfInterestSkill.Dialogs
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // send a greeting if we're in local mode
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.PointOfInterestWelcomeMessage));
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.PointOfInterestWelcomeMessage));      
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -71,6 +72,8 @@ namespace PointOfInterestSkill.Dialogs
             // get current activity locale
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.CognitiveModelSets[locale];
+
+            await PopulateStateFromSkillContext(dc.Context);
 
             // If dispatch result is general luis model
             localeConfig.LuisServices.TryGetValue("pointofinterest", out var luisService);
@@ -136,6 +139,36 @@ namespace PointOfInterestSkill.Dialogs
             }
         }
 
+        private async Task PopulateStateFromSkillContext(ITurnContext context)
+        {
+            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
+            // and make available in local state as appropriate.
+            var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
+            var skillContext = await accessor.GetAsync(context, () => new SkillContext());
+            if (skillContext != null)
+            {
+                if (skillContext.ContainsKey("Location"))
+                {
+                    var location = skillContext["Location"];
+                    var coords = ((string)location).Split(',');
+                    if (coords.Length == 2)
+                    {
+                        if (double.TryParse(coords[0], out var lat) && double.TryParse(coords[1], out var lng))
+                        {
+                            var coordinates = new LatLng
+                            {
+                                Latitude = lat,
+                                Longitude = lng,
+                            };
+
+                            var state = await _stateAccessor.GetAsync(context, () => new PointOfInterestSkillState());
+                            state.CurrentCoordinates = coordinates;
+                        }
+                    }
+                }
+            }
+        }
+
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var response = dc.Context.Activity.CreateReply();
@@ -153,31 +186,6 @@ namespace PointOfInterestSkill.Dialogs
 
             switch (dc.Context.Activity.Name)
             {
-                case Events.SkillBeginEvent:
-                    {
-                        if (dc.Context.Activity.Value is Dictionary<string, object> userData)
-                        {
-                            if (userData.TryGetValue("IPA.Location", out var location))
-                            {
-                                var coords = ((string)location).Split(',');
-                                if (coords.Length == 2)
-                                {
-                                    if (double.TryParse(coords[0], out var lat) && double.TryParse(coords[1], out var lng))
-                                    {
-                                        var coordinates = new LatLng
-                                        {
-                                            Latitude = lat,
-                                            Longitude = lng,
-                                        };
-                                        state.CurrentCoordinates = coordinates;
-                                    }
-                                }
-                            }
-                        }
-
-                        break;
-                    }
-
                 case Events.Location:
                     {
                         // Test trigger with
