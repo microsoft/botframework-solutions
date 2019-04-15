@@ -250,7 +250,7 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to High Priority Messages.
+        ///   Looks up a localized string similar to High priority messages.
         /// </summary>
         public static string ImportantMessages {
             get {
@@ -273,6 +273,15 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         public static string Messages {
             get {
                 return ResourceManager.GetString("Messages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to **{0}-{1}** of {2}.
+        /// </summary>
+        public static string PageIndexerFormat {
+            get {
+                return ResourceManager.GetString("PageIndexerFormat", resourceCulture);
             }
         }
         
@@ -448,7 +457,7 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your Email.
+        ///   Looks up a localized string similar to Your inbox.
         /// </summary>
         public static string YourEmail {
             get {

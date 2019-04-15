@@ -121,10 +121,10 @@
     <value> and {0}. </value>
   </data>
   <data name="CardMultiNumber" xml:space="preserve">
-    <value>{0} items</value>
+    <value>{0} Items</value>
   </data>
   <data name="CardOneNumber" xml:space="preserve">
-    <value>{0} item</value>
+    <value>{0} Item</value>
   </data>
   <data name="CardTitle" xml:space="preserve">
     <value>Your {0} List</value>

@@ -229,7 +229,7 @@
     <value>hh:mm tt</value>
   </data>
   <data name="ImportantMessages" xml:space="preserve">
-    <value>High Priority Messages</value>
+    <value>High priority messages</value>
   </data>
   <data name="MessageConfirm" xml:space="preserve">
     <value>Message Confirmation</value>
@@ -247,6 +247,9 @@
     <value>Powered by **{0}**</value>
   </data>
   <data name="YourEmail" xml:space="preserve">
-    <value>Your Email</value>
+    <value>Your inbox</value>
+  </data>
+  <data name="PageIndexerFormat" xml:space="preserve">
+    <value>**{0}-{1}** of {2}</value>
   </data>
 </root>
