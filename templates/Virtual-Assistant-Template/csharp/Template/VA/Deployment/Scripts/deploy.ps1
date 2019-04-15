@@ -38,6 +38,7 @@ $appId = az ad app create `
     --display-name $name `
     --password $appPassword `
     --available-to-other-tenants `
+	--reply-urls https://token.botframework.com/.auth/web/redirect `
 | ConvertFrom-Json `
 | Select-Object -ExpandProperty appId
 
