@@ -49,6 +49,7 @@ namespace Microsoft.Bot.Builder.Skills
         public SkillDialog(SkillManifest skillManifest, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient, UserState userState, MultiProviderAuthDialog authDialog = null)
             : base(skillManifest.Id)
         {
+
             _skillManifest = skillManifest;
             _microsoftAppCredentialsEx = microsoftAppCredentialsEx;
             _telemetryClient = telemetryClient;
@@ -86,6 +87,7 @@ namespace Microsoft.Bot.Builder.Skills
             }
             else
             {
+                // Find the Action within the selected Skill for slot filling evaluation
                 _action = _skillManifest.Actions.Single(a => a.Id == actionName);
                 if (_action != null)
                 {
