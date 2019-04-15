@@ -4,7 +4,7 @@ Param(
     [string] $luisAuthoringKey,
     [string] $qnaSubscriptionKey,
     [string] $languages = "en-us",
-    [string] $outFolder = $PSScriptRoot
+    [string] $outFolder = $(Get-Location)
 )
 
 . $PSScriptRoot\luis_functions.ps1

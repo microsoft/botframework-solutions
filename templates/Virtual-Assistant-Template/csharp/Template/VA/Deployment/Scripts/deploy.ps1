@@ -4,7 +4,7 @@ Param(
     [string] $appPassword,
     [string] $luisAuthoringKey,
     [string] $resourceGroup = $name,
-    [string] $outFolder = $(Join-Path $PSScriptRoot '..'),
+    [string] $outFolder = $(Get-Location),
     [string] $parametersFile
 )
 
