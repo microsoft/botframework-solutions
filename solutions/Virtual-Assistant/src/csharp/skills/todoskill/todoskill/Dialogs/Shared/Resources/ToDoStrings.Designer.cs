@@ -70,7 +70,7 @@ namespace ToDoSkill.Dialogs.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} items.
+        ///   Looks up a localized string similar to {0} Items.
         /// </summary>
         public static string CardMultiNumber {
             get {
@@ -79,7 +79,7 @@ namespace ToDoSkill.Dialogs.Shared.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} item.
+        ///   Looks up a localized string similar to {0} Item.
         /// </summary>
         public static string CardOneNumber {
             get {
