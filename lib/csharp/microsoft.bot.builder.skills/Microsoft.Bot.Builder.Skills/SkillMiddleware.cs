@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Schema;
+using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills
 {
@@ -22,12 +23,11 @@ namespace Microsoft.Bot.Builder.Skills
         {
             // The skillBegin event signals the start of a skill conversation to a Bot.
             var activity = turnContext.Activity;
-            if (activity != null && activity.Type == ActivityTypes.Event && activity?.Name == SkillEvents.SkillBeginEventName)
+            if (activity != null && activity.Type == ActivityTypes.Event && activity.Name == SkillEvents.SkillBeginEventName && activity.Value != null)
             {
-                if (activity.Value is Dictionary<string, object> slotData)
+                var skillContext = activity.Value as SkillContext;
+                if (skillContext != null)
                 {
-                    // If we have slotData then we create the SkillContext object within UserState for the skill to access
-                    SkillContext skillContext = new SkillContext(slotData);
                     var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
                     await accessor.SetAsync(turnContext, skillContext);
                 }

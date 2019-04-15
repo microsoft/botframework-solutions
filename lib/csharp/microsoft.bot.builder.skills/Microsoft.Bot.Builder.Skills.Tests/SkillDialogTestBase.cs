@@ -16,7 +16,9 @@ namespace Microsoft.Bot.Builder.Skills.Tests
     public class SkillDialogTestBase : BotTestBase
     {
         public IServiceCollection Services { get; set; }
+
         public DialogSet Dialogs { get; set; }
+
         public UserState UserState { get; set; }
 
         public IStatePropertyAccessor<SkillContext> SkillContextAccessor { get; set; }

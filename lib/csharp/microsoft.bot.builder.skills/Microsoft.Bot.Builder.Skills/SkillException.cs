@@ -17,7 +17,7 @@ namespace Microsoft.Bot.Builder.Skills
         /// <summary>
         /// Other types of exceptions
         /// </summary>
-        Other
+        Other,
     }
 
     public class SkillException : Exception
