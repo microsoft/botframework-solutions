@@ -7,7 +7,7 @@ import * as program from 'commander';
 import { existsSync, writeFileSync } from 'fs';
 import { extname, isAbsolute, join, resolve } from 'path';
 import { ConsoleLogger, ILogger} from './logger/logger';
-import { ISkillManifest } from './skillManifest';
+import { ISkillManifest } from './models/skillManifest';
 
 function showErrorHelp(): void {
     program.outputHelp((str: string) => {

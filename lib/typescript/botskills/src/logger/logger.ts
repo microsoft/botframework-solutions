@@ -10,6 +10,7 @@ export interface ILogger {
     isError: boolean;
     isVerbose: boolean;
 
+    command(message: string, command: string): void;
     error(message: string): void;
     message(message: string): void;
     success(message: string, withoutFormat?: boolean): void;
@@ -31,20 +32,22 @@ export class ConsoleLogger implements ILogger {
     }
 
     public message(message: string): void {
-        if (this.isVerbose) {
-            console.log(chalk.white(message));
-        }
+        console.log(chalk.bold(message));
     }
 
-    public success(message: string, withoutFormat: boolean = false): void {
-        if (withoutFormat) {
-            console.log(message);
-        } else {
-            console.log(chalk.greenBright(message));
-        }
+    public success(message: string): void {
+        console.log(chalk.greenBright(message));
     }
 
     public warning(message: string): void {
         console.log(chalk.yellow(message));
+    }
+
+    public command(message: string, command: string): void {
+        if (this.isVerbose) {
+            console.log(chalk.cyan(command));
+        } else {
+            this.message(message);
+        }
     }
 }

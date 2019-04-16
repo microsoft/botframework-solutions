@@ -7,7 +7,7 @@ import * as program from 'commander';
 import { existsSync } from 'fs';
 import { extname, isAbsolute, join, resolve } from 'path';
 import { ConsoleLogger, ILogger} from './logger/logger';
-import { ISkillManifest } from './skillManifest';
+import { ISkillManifest } from './models/skillManifest';
 
 function showErrorHelp(): void {
     program.outputHelp((str: string) => {
@@ -63,6 +63,6 @@ let message: string = `The skills already connected to the assistant are the fol
 assistantSkills.forEach((skillManifest: ISkillManifest) => {
     message += `\n\t- ${skillManifest.name}`;
 });
-logger.success(message, true);
+logger.message(message);
 
 process.exit(0);
