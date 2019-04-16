@@ -431,22 +431,25 @@ namespace EmailSkill.Dialogs.Shared
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
                 string nameListString;
 
-                // this means reply confirm
+                var action = Actions.Send;
                 if (state.Recipients.FirstOrDefault() == null)
                 {
-                    await GetPreviewSubject(sc, Actions.Reply);
-                    nameListString = await GetPreviewNameListString(sc, Actions.Reply);
+                    // this means reply confirm
+                    action = Actions.Reply;
+                    await GetPreviewSubject(sc, action);
                 }
                 else if (state.Subject == null)
                 {
                     // this mean forward confirm
-                    await GetPreviewSubject(sc, Actions.Forward);
-                    nameListString = await GetPreviewNameListString(sc, Actions.Forward);
+                    action = Actions.Forward;
+                    await GetPreviewSubject(sc, action);
                 }
                 else
                 {
-                    nameListString = await GetPreviewNameListString(sc, Actions.Send);
+                    action = Actions.Send;
                 }
+
+                nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(state.Recipients);
 
                 var emailCard = new EmailCardData
                 {
@@ -462,16 +465,77 @@ namespace EmailSkill.Dialogs.Shared
                 };
 
                 var recipientCard = state.Recipients.Count() > 5 ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
-                var prompt = ResponseManager.GetCardResponse(
+
+                if (state.Recipients.Count > DisplayHelper.MaxReadoutNumber && (action == Actions.Send || action == Actions.Forward))
+                {
+                    var confirmRecipientsMessages = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendRecipientsMessage);
+
+                    var prompt = ResponseManager.GetCardResponse(
                     EmailSharedResponses.ConfirmSend,
                     new Card("EmailWithOutButtonCard", emailCard),
                     tokens,
                     "items",
                     new List<Card>().Append(new Card(recipientCard, emailCard)));
+                    prompt.Text += confirmRecipientsMessages.Text;
+                    prompt.Speak += confirmRecipientsMessages.Speak;
 
-                var retry = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendFailed);
+                    var retry = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendRecipientsFailed);
 
-                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt, RetryPrompt = retry });
+                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt, RetryPrompt = retry });
+                }
+                else
+                {
+                    var confirmEmailMessages = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendMessage);
+
+                    var prompt = ResponseManager.GetCardResponse(
+                    EmailSharedResponses.ConfirmSend,
+                    new Card("EmailWithOutButtonCard", emailCard),
+                    tokens,
+                    "items",
+                    new List<Card>().Append(new Card(recipientCard, emailCard)));
+                    prompt.Text += confirmEmailMessages.Text;
+                    prompt.Speak += confirmEmailMessages.Speak;
+
+                    var retry = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendFailed);
+
+                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt, RetryPrompt = retry });
+                }
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> ConfirmAllRecipient(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+                if (state.Recipients.Count > DisplayHelper.MaxReadoutNumber)
+                {
+                    var nameListString = DisplayHelper.ToDisplayRecipientsString(state.Recipients);
+                    var tokens = new StringDictionary
+                    {
+                        { "RecipientsList", nameListString },
+                    };
+
+                    var confirmRecipients = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendRecipients, tokens);
+                    var confirmEmail = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendMessage);
+                    confirmRecipients.Text += confirmEmail.Text;
+                    confirmRecipients.Speak += confirmEmail.Speak;
+
+                    var retry = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendFailed);
+
+                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = confirmRecipients, RetryPrompt = retry });
+                }
+                else
+                {
+                    return await sc.NextAsync(sc.Result);
+                }
             }
             catch (Exception ex)
             {
@@ -816,27 +880,6 @@ namespace EmailSkill.Dialogs.Shared
             }
 
             return result;
-        }
-
-        protected async Task<string> GetPreviewNameListString(WaterfallStepContext sc, string actionType)
-        {
-            var state = await EmailStateAccessor.GetAsync(sc.Context);
-            var nameListString = string.Empty;
-
-            switch (actionType)
-            {
-                case Actions.Send:
-                    nameListString = DisplayHelper.ToDisplayRecipientsString(state.Recipients);
-                    break;
-                case Actions.Reply:
-                case Actions.Forward:
-                case Actions.Delete:
-                default:
-                    nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(state.Recipients);
-                    break;
-            }
-
-            return nameListString;
         }
 
         protected async Task<bool> GetPreviewSubject(WaterfallStepContext sc, string actionType)
