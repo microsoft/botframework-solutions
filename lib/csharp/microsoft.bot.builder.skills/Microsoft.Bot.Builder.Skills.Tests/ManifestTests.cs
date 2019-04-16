@@ -96,6 +96,23 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             }
         }
 
+        [TestMethod()]
+        public async Task TestIsSkillHelper()
+        {
+            using (StreamReader sr = new StreamReader(@".\manifestTemplate.json"))
+            {
+                string manifestBody = await sr.ReadToEndAsync();
+                var skillManifest = JsonConvert.DeserializeObject<SkillManifest>(manifestBody);
+
+                List<SkillManifest> skillManifests = new List<SkillManifest>();
+                skillManifests.Add(skillManifest);
+
+                Assert.IsNotNull(SkillRouter.IsSkill(skillManifests, "calendarSkill/createEvent"));
+                Assert.IsNotNull(SkillRouter.IsSkill(skillManifests, "calendarSkill/updateEvent"));
+                Assert.IsNull(SkillRouter.IsSkill(skillManifests, "calendarSkill/MISSINGEVENT"));
+            }
+        }
+
         /// <summary>
         /// Test that a manifest is generated and the basic dynamic properties are changed.
         /// </summary>
