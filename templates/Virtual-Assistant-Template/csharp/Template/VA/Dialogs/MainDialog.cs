@@ -109,12 +109,14 @@ namespace $safeprojectname$.Dialogs
             var dispatchResult = await cognitiveModels.DispatchService.RecognizeAsync<DispatchLuis>(dc.Context, CancellationToken.None);
             var intent = dispatchResult.TopIntent().intent;
 
-            if (_settings.Skills.Any(s => s.Id == intent.ToString()))
-            {
-                var skill = _settings.Skills.Where(s => s.Id == intent.ToString()).First();
+            // Identify if the dispatch intent matches any Action within a Skill if so, we pass to the appropriate SkillDialog to hand-off
+            var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, intent.ToString());
 
-                // Initialize the skill connection, the dispatch intent is the Action ID of the Skill enabling us to resolve the specific action and identify slots
-                await dc.BeginDialogAsync(skill.Id, intent);
+            if(identifiedSkill != null)
+            {
+                // We have identiifed a skill so initialize the skill connection with the target skill 
+                // the dispatch intent is the Action ID of the Skill enabling us to resolve the specific action and identify slots
+                await dc.BeginDialogAsync(identifiedSkill.Id, intent);
 
                 // Pass the activity we have
                 var result = await dc.ContinueDialogAsync();

@@ -11,6 +11,8 @@ namespace RestaurantBooking.Models
             AmbiguousTimexExpressions = new Dictionary<string, string>();
         }
 
+        public string Name { get; set; }
+
         public Luis.ReservationLuis LuisResult { get; set; }
 
         public ReservationBooking Booking { get; set; }
@@ -23,6 +25,7 @@ namespace RestaurantBooking.Models
 
         public void Clear()
         {
+            Name = null;
             LuisResult = null;
             Booking = null;
             Cuisine = null;
