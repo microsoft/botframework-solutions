@@ -97,5 +97,23 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "AddMoreUserPrompt": {
+    "replies": [
+      {
+        "text": "I have included {Users}, do you want to add another participant?",
+        "speak": "I have included {Users}, do you want to add another participant?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AddMoreAttendees": {
+    "replies": [
+      {
+        "text": "Who do you want to add?",
+        "speak": "Who do you want to add?"
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

@@ -10,6 +10,7 @@ using CalendarSkill.Dialogs.CreateEvent.Prompts.Options;
 using CalendarSkill.Dialogs.CreateEvent.Resources;
 using CalendarSkill.Dialogs.FindContact;
 using CalendarSkill.Dialogs.Shared;
+using CalendarSkill.Dialogs.Shared.DialogOptions;
 using CalendarSkill.Dialogs.Shared.Resources;
 using CalendarSkill.Dialogs.Shared.Resources.Strings;
 using CalendarSkill.Models;
@@ -201,7 +202,7 @@ namespace CalendarSkill.Dialogs.CreateEvent
 
                 if (state.Attendees.Count == 0 || state.RecreateState == RecreateEventState.Participants)
                 {
-                    return await sc.BeginDialogAsync(nameof(FindContactDialog), options: sc.Options, cancellationToken: cancellationToken);
+                    return await sc.BeginDialogAsync(nameof(FindContactDialog), options: new FindContactDialogOptions(sc.Options), cancellationToken: cancellationToken);
                 }
                 else
                 {
