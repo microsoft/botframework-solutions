@@ -6,7 +6,7 @@
   "authenticationConnections": [],
   "actions": [
     {
-      "id": "newsSkill/findArticles",
+      "id": "newsSkill_findArticles",
       "definition": {
         "description": "Find News articles",
         "slots": [ ],

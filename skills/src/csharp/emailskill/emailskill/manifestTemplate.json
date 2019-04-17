@@ -17,7 +17,7 @@
   ],
   "actions": [
     {
-      "id": "emailskill/sendEmail",
+      "id": "emailskill_sendEmail",
       "definition": {
         "description": "Send an email",
         "slots": [ ],
@@ -34,7 +34,7 @@
       }
     },
     {
-      "id": "emailskill/forwardEmail",
+      "id": "emailskill_forwardEmail",
       "definition": {
         "description": "Forward an email",
         "slots": [],
@@ -51,7 +51,7 @@
       }
     },
     {
-      "id": "emailskill/replyEmail",
+      "id": "emailskill_replyEmail",
       "definition": {
         "description": "Reply to an email",
         "slots": [],
@@ -68,7 +68,7 @@
       }
     },
     {
-      "id": "emailskill/showEmail",
+      "id": "emailskill_showEmail",
       "definition": {
         "description": "Retrieve a summary of emails.",
         "slots": [],
@@ -88,7 +88,7 @@
       }
     },
     {
-      "id": "emailskill/deleteEmail",
+      "id": "emailskill_deleteEmail",
       "definition": {
         "description": "Delete an email",
         "slots": [],

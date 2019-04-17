@@ -6,7 +6,7 @@
   "authenticationConnections": [],
   "actions": [
     {
-      "id": "automotiveSkill/vehicleSettings",
+      "id": "automotiveSkill_vehicleSettings",
       "definition": {
         "description": "Vehicle Settings",
         "slots": [ ],
@@ -15,7 +15,7 @@
             {
               "locale": "en",
               "source": [
-                "settings_dispatch#VEHICLE_SETTINGS_CHANGE",
+                "settings_dispatch#VEHICLE_SETTINGS_CHANGE"
               ]
             }
           ]
