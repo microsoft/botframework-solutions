@@ -434,11 +434,20 @@ namespace CalendarSkill.Dialogs.CreateEvent
 
         public async Task<DialogTurnResult> ConfirmBeforeCreatePrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
+            try
             {
-                Prompt = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreatePrompt),
-                RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateFailed)
-            }, cancellationToken);
+                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
+                {
+                    Prompt = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreatePrompt),
+                    RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateFailed)
+                }, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
         }
 
         public async Task<DialogTurnResult> CreateEvent(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -856,23 +865,41 @@ namespace CalendarSkill.Dialogs.CreateEvent
 
         public async Task<DialogTurnResult> ShowRestParticipantsPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
+            try
             {
-                Prompt = ResponseManager.GetResponse(CreateEventResponses.ShowRestParticipantsPrompt),
-                RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.ShowRestParticipantsPrompt)
-            }, cancellationToken);
+                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
+                {
+                    Prompt = ResponseManager.GetResponse(CreateEventResponses.ShowRestParticipantsPrompt),
+                    RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.ShowRestParticipantsPrompt)
+                }, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
         }
 
         public async Task<DialogTurnResult> ShowRestParticipants(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-            var confirmResult = (bool)sc.Result;
-            if (confirmResult)
+            try
             {
-                await sc.Context.SendActivityAsync(state.Attendees.GetRange(5, state.Attendees.Count - 5).ToSpeechString(CommonStrings.And, li => li.DisplayName ?? li.Address));
-            }
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var confirmResult = (bool)sc.Result;
+                if (confirmResult)
+                {
+                    await sc.Context.SendActivityAsync(state.Attendees.GetRange(5, state.Attendees.Count - 5).ToSpeechString(CommonStrings.And, li => li.DisplayName ?? li.Address));
+                }
 
-            return await sc.EndDialogAsync(true, cancellationToken);
+                return await sc.EndDialogAsync(true, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
         }
     }
 }

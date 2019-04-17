@@ -729,26 +729,44 @@ namespace CalendarSkill.Dialogs.FindContact
 
         public async Task<DialogTurnResult> AddMoreUserPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(sc.Context);
-            return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
+            try
             {
-                Prompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.Attendees.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}") } }),
-                RetryPrompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.Attendees.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}") } })
-            }, cancellationToken);
+                var state = await Accessor.GetAsync(sc.Context);
+                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
+                {
+                    Prompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.Attendees.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}") } }),
+                    RetryPrompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.Attendees.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}") } })
+                }, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
         }
 
         public async Task<DialogTurnResult> AfterAddMoreUserPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var result = (bool)sc.Result;
-            if (result)
+            try
             {
-                var options = sc.Options as FindContactDialogOptions;
-                options.FindContactReason = FindContactDialogOptions.FindContactReasonType.FindContactAgain;
-                return await sc.ReplaceDialogAsync(Actions.ConfirmNameList, options);
+                var result = (bool)sc.Result;
+                if (result)
+                {
+                    var options = sc.Options as FindContactDialogOptions;
+                    options.FindContactReason = FindContactDialogOptions.FindContactReasonType.FindContactAgain;
+                    return await sc.ReplaceDialogAsync(Actions.ConfirmNameList, options);
+                }
+                else
+                {
+                    return await sc.EndDialogAsync();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return await sc.EndDialogAsync();
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
