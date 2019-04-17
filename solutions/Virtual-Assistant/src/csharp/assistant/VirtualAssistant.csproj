@@ -58,6 +58,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\skills\calendarskill\calendarskill\CalendarSkill.csproj" />
+    <ProjectReference Include="..\skills\emailskill\emailskill\EmailSkill.csproj" />
+    <ProjectReference Include="..\skills\pointofinterestskill\pointofinterestskill\PointOfInterestSkill.csproj" />
+    <ProjectReference Include="..\skills\todoskill\todoskill\ToDoSkill.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Dialogs\Main\Resources\MainDialogResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
