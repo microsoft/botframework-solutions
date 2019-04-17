@@ -3,14 +3,14 @@
 
 namespace EmailSkill.Dialogs.Shared.DialogOptions
 {
-    public class UpdateUserDialogOptions
+    public class UpdateUserNameDialogOptions
     {
-        public UpdateUserDialogOptions()
+        public UpdateUserNameDialogOptions()
         {
-            this.Reason = UpdateReason.TooMany;
+            this.Reason = UpdateReason.NotFound;
         }
 
-        public UpdateUserDialogOptions(UpdateReason reason)
+        public UpdateUserNameDialogOptions(UpdateReason reason)
         {
             this.Reason = reason;
         }
@@ -31,7 +31,14 @@ namespace EmailSkill.Dialogs.Shared.DialogOptions
             /// Confirm no.
             /// </summary>
             ConfirmNo,
+
+            /// <summary>
+            /// ConfirmNo.
+            /// </summary>
+            Initialize,
         }
+
+        public bool SkillMode { get; set; }
 
         public UpdateReason Reason { get; set; }
     }

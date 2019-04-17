@@ -95,7 +95,7 @@ namespace EmailSkill.Dialogs.SendEmail
 
                 if (!skillOptions.SubFlowMode)
                 {
-                    if ((state.Recipients != null) && (state.Recipients.Count > 0))
+                    if ((state.Attendees != null) && (state.Attendees.Count > 0))
                     {
                         // Bypass logic: Send an email to Michelle saying I will be late today ->  Use “I will be late today” as subject. No need to ask for subject/content
                         // If information is detected as content, move to subject.
@@ -133,7 +133,7 @@ namespace EmailSkill.Dialogs.SendEmail
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                if (state.Recipients == null || state.Recipients.Count == 0)
+                if (state.Attendees == null || state.Attendees.Count == 0)
                 {
                     state.FirstRetryInFindContact = true;
                     return await sc.EndDialogAsync();
@@ -162,7 +162,7 @@ namespace EmailSkill.Dialogs.SendEmail
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                if (state.Recipients == null || state.Recipients.Count == 0)
+                if (state.Attendees == null || state.Attendees.Count == 0)
                 {
                     state.FirstRetryInFindContact = true;
                     return await sc.EndDialogAsync();
@@ -256,7 +256,7 @@ namespace EmailSkill.Dialogs.SendEmail
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                if (state.Recipients == null || state.Recipients.Count == 0)
+                if (state.Attendees == null || state.Attendees.Count == 0)
                 {
                     state.FirstRetryInFindContact = true;
                     return await sc.EndDialogAsync();
@@ -386,21 +386,21 @@ namespace EmailSkill.Dialogs.SendEmail
                     // send user message.
                     var subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? string.Empty : state.Subject;
                     var content = state.Content.Equals(EmailCommonStrings.EmptyContent) ? string.Empty : state.Content;
-                    await service.SendMessageAsync(content, subject, state.Recipients);
+                    await service.SendMessageAsync(content, subject, state.Attendees);
 
                     var emailCard = new EmailCardData
                     {
                         Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : string.Format(EmailCommonStrings.SubjectFormat, state.Subject),
                         EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : string.Format(EmailCommonStrings.ContentFormat, state.Content),
                     };
-                    emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.Recipients);
+                    emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.Attendees);
 
                     var stringToken = new StringDictionary
                     {
                         { "Subject", state.Subject },
                     };
 
-                    var recipientCard = state.Recipients.Count() > 5 ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
+                    var recipientCard = state.Attendees.Count() > 5 ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
                     var replyMessage = ResponseManager.GetCardResponse(
                         EmailSharedResponses.SentSuccessfully,
                         new Card("EmailWithOutButtonCard", emailCard),

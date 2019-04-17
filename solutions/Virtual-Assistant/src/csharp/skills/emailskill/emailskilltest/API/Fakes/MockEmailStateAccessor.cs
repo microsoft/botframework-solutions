@@ -24,7 +24,7 @@ namespace EmailSkillTest.API.Fakes
         {
             this.MockEmailSkillState = new EmailSkillState
             {
-                Recipients = new List<Microsoft.Graph.Recipient>()
+                Attendees = new List<Microsoft.Graph.Recipient>()
             };
         }
 

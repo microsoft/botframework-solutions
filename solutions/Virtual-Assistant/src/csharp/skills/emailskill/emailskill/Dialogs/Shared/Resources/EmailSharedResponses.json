@@ -193,15 +193,6 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "NoRecipients": {
-    "replies": [
-      {
-        "text": "Sure, who's the email going to?",
-        "speak": "Sure, Who's the email going to?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
   "NoEmailContent": {
     "replies": [
       {

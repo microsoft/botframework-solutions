@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using EmailSkill.Dialogs.Shared.Resources.Strings;
 using EmailSkill.Model;
 using Luis;
@@ -17,19 +18,19 @@ namespace EmailSkill
             User = new User();
             Message = new List<Message>();
             MessageList = new List<Message>();
-            NameList = new List<string>();
+            AttendeesNameList = new List<string>();
             SenderName = null;
             EmailList = new List<string>();
             TimeZoneInfo = TimeZoneInfo.Utc;
-            Recipients = new List<Recipient>();
+            Attendees = new List<Recipient>();
             Subject = null;
             Content = null;
             IsFlaged = false;
             IsUnreadOnly = true;
             IsImportant = false;
-            ConfirmRecipientIndex = 0;
+            ConfirmAttendeesNameIndex = 0;
             ShowEmailIndex = 0;
-            ShowRecipientIndex = 0;
+            ShowAttendeesIndex = 0;
             Token = null;
             ReadEmailIndex = 0;
             ReadRecipientIndex = 0;
@@ -46,6 +47,7 @@ namespace EmailSkill
             SearchTexts = null;
             GeneralSenderName = null;
             GeneralSearchTexts = null;
+            CurrentAttendeeName = string.Empty;
         }
 
         public DialogState ConversationDialogState { get; set; }
@@ -58,8 +60,6 @@ namespace EmailSkill
 
         public List<Message> MessageList { get; set; }
 
-        public List<string> NameList { get; set; }
-
         public string SenderName { get; set; }
 
         public string SearchTexts { get; set; }
@@ -68,11 +68,33 @@ namespace EmailSkill
 
         public string GeneralSearchTexts { get; set; }
 
-        public List<string> EmailList { get; set; }
-
         public TimeZoneInfo TimeZoneInfo { get; set; }
 
-        public List<Recipient> Recipients { get; set; }
+        // Find contact related:
+
+        public List<string> AttendeesNameList { get; set; }
+
+        public List<string> EmailList { get; set; }
+
+        public List<Recipient> Attendees { get; set; }
+
+        public int ConfirmAttendeesNameIndex { get; set; }
+
+        public List<PersonModel> UnconfirmedPerson { get; set; }
+
+        public bool FirstRetryInFindContact { get; set; }
+
+        public PersonModel ConfirmedPerson { get; set; }
+
+        public int ShowAttendeesIndex { get; set; }
+
+        public int ReadRecipientIndex { get; set; }
+
+        public List<Choice> RecipientChoiceList { get; set; }
+
+        public bool FirstEnterFindContact { get; set; }
+
+        public string CurrentAttendeeName { get; set; }
 
         public string Subject { get; set; }
 
@@ -90,25 +112,11 @@ namespace EmailSkill
 
         public string Token { get; set; }
 
-        public int ConfirmRecipientIndex { get; set; }
-
-        public List<PersonModel> UnconfirmedPerson { get; set; }
-
-        public bool FirstRetryInFindContact { get; set; }
-
-        public PersonModel ConfirmedPerson { get; set; }
-
         public bool DirectlyToMe { get; set; }
 
         public int ShowEmailIndex { get; set; }
 
         public int ReadEmailIndex { get; set; }
-
-        public int ShowRecipientIndex { get; set; }
-
-        public int ReadRecipientIndex { get; set; }
-
-        public List<Choice> RecipientChoiceList { get; set; }
 
         public EmailLU LuisResult { get; set; }
 
@@ -119,8 +127,6 @@ namespace EmailSkill
         public MailSource MailSourceType { get; set; }
 
         public int UserSelectIndex { get; set; }
-
-        public bool FirstEnterFindContact { get; set; }
 
         public TimeZoneInfo GetUserTimeZone()
         {
@@ -134,18 +140,18 @@ namespace EmailSkill
 
         public bool IsNoRecipientAvailable()
         {
-            return (NameList.Count == 0) && (EmailList.Count == 0);
+            return (AttendeesNameList.Count == 0) && (EmailList.Count == 0);
         }
 
         public void ClearParticipants()
         {
-            NameList.Clear();
-            Recipients.Clear();
-            ConfirmRecipientIndex = 0;
+            AttendeesNameList.Clear();
+            Attendees.Clear();
+            ConfirmAttendeesNameIndex = 0;
             ReadRecipientIndex = 0;
             RecipientChoiceList.Clear();
             EmailList = new List<string>();
-            ShowRecipientIndex = 0;
+            ShowAttendeesIndex = 0;
 
             Subject = string.IsNullOrEmpty(Subject) ? EmailCommonStrings.Skip : Subject;
             Content = string.IsNullOrEmpty(Content) ? EmailCommonStrings.Skip : Content;
@@ -172,6 +178,27 @@ namespace EmailSkill
             public string SecondaryMail { get; set; }
 
             public TimeZoneInfo Timezone { get; set; }
+        }
+
+        public class CustomizedPerson
+        {
+            public CustomizedPerson()
+            {
+            }
+
+            public CustomizedPerson(PersonModel person)
+            {
+                this.Emails = new List<ScoredEmailAddress>();
+                person.Emails.ToList().ForEach(e => this.Emails.Add(new ScoredEmailAddress() { Address = e }));
+                this.DisplayName = person.DisplayName;
+                this.UserPrincipalName = person.UserPrincipalName;
+            }
+
+            public List<ScoredEmailAddress> Emails { get; set; }
+
+            public string DisplayName { get; set; }
+
+            public string UserPrincipalName { get; set; }
         }
     }
 }

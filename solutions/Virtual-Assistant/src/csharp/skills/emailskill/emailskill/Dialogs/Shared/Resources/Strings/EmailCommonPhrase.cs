@@ -21,5 +21,17 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings
 
             return isSkip;
         }
+
+        public static string[] GetContactNameSeparator()
+        {
+            var skipItems = EmailCommonStrings.Skip.Split(EmailCommonStrings.Split);
+
+            for (int i = 0; i < skipItems.Count(); i++)
+            {
+                skipItems[i] = skipItems[i].Trim();
+            }
+
+            return skipItems;
+        }
     }
 }
