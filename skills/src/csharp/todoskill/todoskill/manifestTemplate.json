@@ -12,7 +12,7 @@
   ],
   "actions": [
     {
-      "id": "toDoSkill/addToDo",
+      "id": "toDoSkill_addToDo",
       "definition": {
         "description": "Add a task",
         "slots": [],
@@ -29,7 +29,7 @@
       }
     },
     {
-      "id": "toDoSkill/showToDo",
+      "id": "toDoSkill_showToDo",
       "definition": {
         "description": "Show tasks",
         "slots": [],
@@ -46,7 +46,7 @@
       }
     },
     {
-      "id": "toDoSkill/markToDo",
+      "id": "toDoSkill_markToDo",
       "definition": {
         "description": "Mark a task",
         "slots": [],
@@ -63,7 +63,7 @@
       }
     },
     {
-      "id": "toDoSkill/deleteToDo",
+      "id": "toDoSkill_deleteToDo",
       "definition": {
         "description": "Delete a task",
         "slots": [],

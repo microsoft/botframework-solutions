@@ -6,7 +6,7 @@
   "authenticationConnections": [ ],
   "actions": [
     {
-      "id": "poiskill/routeFromXToY",
+      "id": "poiskill_routeFromXToY",
       "definition": {
         "description": "Find a route from X to Y",
         "slots": [
@@ -28,7 +28,7 @@
       }
     },
     {
-      "id": "poiskill/cancelRoute",
+      "id": "poiskill_cancelRoute",
       "definition": {
         "description": "Cancel an active route.",
         "slots": [
@@ -50,7 +50,7 @@
       }
     },
     {
-      "id": "poiskill/findPoI",
+      "id": "poiskill_findPoI",
       "definition": {
         "description": "Find a point of interest.",
         "slots": [
@@ -72,7 +72,7 @@
       }
     },
     {
-      "id": "poiskill/findParking",
+      "id": "poiskill_findParking",
       "definition": {
         "description": "Find parking",
         "slots": [
