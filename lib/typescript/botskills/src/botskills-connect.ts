@@ -12,21 +12,57 @@ import * as util from 'util';
 import { ConsoleLogger, ILogger} from './logger/logger';
 import { IAction, ISkillManifest, IUtteranceSource } from './models';
 
+async function execDispatch(args: string[]): Promise<string> {
+    const dispatchPath: string = join(__dirname, '..', 'node_modules', 'botdispatch', 'bin', 'netcoreapp2.1', 'Dispatch.dll');
+    return new Promise((pResolve, pReject) => {
+        child_process.spawn('dotnet', [ dispatchPath, ...args], { stdio: 'inherit' })
+        .on('close', (code: number) => {
+            pResolve('');
+        })
+        .on('error', (err: Error) => {
+            pReject(err);
+        });
+    });
+}
+
+async function spawn(command: string, args: string[]): Promise<string> {
+    return new Promise((pResolve, pReject) => {
+        child_process.spawn(command, args, { stdio: 'inherit', env: process.env, argv0: command, cwd: join(__dirname, '..') })
+        .on('close', (code: number) => {
+            pResolve('');
+        })
+        .on('error', (err: Error) => {
+            pReject(err);
+        });
+    });
+}
+
+async function execute(command: string, args: string[]): Promise<string> {
+    if (command === 'dispatch') {
+        return execDispatch(args);
+    }
+    
+    return new Promise((pResolve, pReject) => {
+        child_process.exec(command + ' ' + args.join(' '), (err, stdout, stderr) => {
+            if (stderr) pReject(stderr);
+            pResolve(stdout);
+        });
+    });
+}
+
 // tslint:disable-next-line: no-any
 async function runCommand(command: string, description: string): Promise<any> {
     logger.command(description, command);
     // tslint:disable-next-line: no-any
-    const commandResult: any = await exec(
-        command,
-        { maxBuffer: 1024 * 2048 });
-    try {
-        if (commandResult.stderr) {
-            return JSON.stringify(commandResult.stderr);
-        }
+    const parts: string[] = command.split(' ');
+    const cmd: string = parts[0];
+    const args: string[] = parts.slice(1).filter(arg => arg);
 
-        return commandResult.stdout;
+    try {
+        const result: string = await execute(cmd, args);
+        return result;
     } catch (err) {
-        return commandResult.stdout;
+        return err;
     }
 }
 
