@@ -2,8 +2,8 @@
   "NoTitle": {
     "replies": [
       {
-        "text": "好的，我将添加{UserName}，会议主题是什么？或者您可以回复“跳过”来跳过这一项并使用默认设置",
-        "speak": "好的，我将添加{UserName}，会议主题是什么？或者您可以回复跳过来跳过这一项并使用默认设置"
+        "text": "好的，我将向{UserName}发送邀请，会议主题是什么？",
+        "speak": "好的，我将向{UserName}发送邀请，会议主题是什么？"
       }
     ],
     "inputHint": "expectingInput"
@@ -74,8 +74,8 @@
   "ConfirmCreate": {
     "replies": [
       {
-        "text": "我准备好创建会议。会议在{Date}{Time}到{EndTime}{AttendeesConfirm}。{SubjectConfirm}{LocationConfirm}{ContentConfirm}你能确认这个会议吗？",
-        "speak": "我准备好创建会议。会议在{Date}{Time}到{EndTime}{AttendeesConfirm}。{SubjectConfirm}{LocationConfirm}{ContentConfirm}你能确认这个会议吗？"
+        "text": "我准备好创建会议。会议在{Date}，{Time}到{EndTime}{AttendeesConfirm}。{SubjectConfirm}{LocationConfirm}{ContentConfirm}你能确认这个会议吗？",
+        "speak": "我准备好创建会议。会议在{Date}，{Time}到{EndTime}{AttendeesConfirm}。{SubjectConfirm}{LocationConfirm}{ContentConfirm}你能确认这个会议吗？"
       }
     ],
     "inputHint": "expectingInput"
