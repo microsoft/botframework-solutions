@@ -43,5 +43,6 @@
         public const string GetEventsInit = "getEventsInit";
         public const string ShowUpcomingMeeting = "ShowUpcomingMeeting";
         public const string ConfirmNumber = "ConfirmNumber";
+        public const string ShowRestParticipants = "ShowRestParticipants";
     }
 }
