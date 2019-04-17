@@ -56,7 +56,7 @@ if (-not $skillConfig) {
 $skillConfig | ConvertTo-Json -depth 100 | Out-File $skillConfigFile
 
 # configuring bot auth settings
-Write-Host "Checking for authentication settings ..."
+Write-Host "Checking for authentication settings ..."  -ForegroundColor Yellow
 if ($manifest.authenticationConnections) {
 	if ($manifest.authenticationConnections | Where-Object { $_.serviceProviderId -eq "Azure Active Directory v2" })
 	{
@@ -101,13 +101,18 @@ if ($manifest.authenticationConnections) {
 		$scopes = $scopes | Select -unique
 		$scopeManifest = $(CreateScopeManifest($scopes)).Replace("`"", "'")
 
-		Write-Host "Updating Microsoft App scopes ..."
+		Write-Host "Updating Microsoft App scopes ..." -ForegroundColor Yellow
 		# Update MSA scopes
-		az ad app update `
+		$errorResult = az ad app update `
 			--id "$($appSettings.microsoftAppId)" `
-			--required-resource-accesses "`"[$($scopeManifest)]`""
+			--required-resource-accesses "`"[$($scopeManifest)]`"" 2>&1
 
-		Write-Host "updating Bot OAuth settings ..."
+		#  Updates to converged applications are not allowed in this version.
+		if ($errorResult) {
+			$manualScopesRequired = $true
+		}
+
+		Write-Host "updating Bot OAuth settings ..." -ForegroundColor Yellow
 		az bot authsetting create `
 			--name $botName `
 			--resource-group $resourceGroup `
@@ -178,6 +183,10 @@ dispatch refresh --dispatch $(Join-Path $dispatchFolder "$($dispatchName).dispat
 
 Write-Host "Running LuisGen ..." -ForegroundColor Yellow 
 luisgen $(Join-Path $dispatchFolder "$($dispatchName).json") -cs "DispatchLuis" -o $lgOutFolder | Out-Null
+
+if ($manualScopesRequired) {
+	Write-Host "Could not configure scopes automatically. You must configure the following scopes in the Azure Portal to use this skill: $($newScopes -Join ', ')" -ForegroundColor Magenta
+}
 
 if ($manualAuthRequired) {
 	Write-Host "Could not configure authentication connection automatically. You must configure one of the following connection types manually in the Azure Portal: $($manifest.authenticationConnections.serviceProviderId -Join ', ')" -ForegroundColor Magenta
