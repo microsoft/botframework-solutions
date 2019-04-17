@@ -50,6 +50,8 @@ namespace CalendarSkillTest.Flow
                 .Send(Strings.Strings.DefaultUserName)
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(this.AskForSubjectWithContactNamePrompt())
                 .Send(Strings.Strings.DefaultEventName)
                 .AssertReplyOneOf(this.AskForContentPrompt())
@@ -63,6 +65,7 @@ namespace CalendarSkillTest.Flow
                 .AssertReplyOneOf(this.AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
                 .AssertReply(this.ActionEndMessage())
@@ -78,9 +81,14 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.ConfirmOneContactPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(this.AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(this.AskForRecreateInfoPrompt())
                 .Send(Strings.Strings.RecreateWithTime)
@@ -93,6 +101,7 @@ namespace CalendarSkillTest.Flow
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
                 .AssertReply(this.ActionEndMessage())
@@ -108,9 +117,14 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.ConfirmOneContactPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(this.AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(this.AskForRecreateInfoPrompt())
                 .Send(Strings.Strings.RecreateWithDuration)
@@ -122,6 +136,7 @@ namespace CalendarSkillTest.Flow
                 .Send(Strings.Strings.DefaultDuration)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.ConfirmPrompt())
                 .AssertReply(this.ShowCalendarList())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -136,9 +151,14 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.ConfirmOneContactPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(this.AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(this.AskForRecreateInfoPrompt())
                 .Send(Strings.Strings.RecreateWithLocation)
@@ -149,6 +169,7 @@ namespace CalendarSkillTest.Flow
                 .AssertReplyOneOf(this.AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
                 .AssertReply(this.ActionEndMessage())
@@ -169,9 +190,14 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.ConfirmOneContactPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(this.AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(this.AskForRecreateInfoPrompt())
                 .Send(Strings.Strings.RecreateWithParticipants)
@@ -183,7 +209,10 @@ namespace CalendarSkillTest.Flow
                 .Send(Strings.Strings.DefaultUserName)
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
                 .AssertReply(this.ActionEndMessage())
@@ -199,9 +228,14 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.ConfirmOneContactPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(this.AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(this.AskForRecreateInfoPrompt())
                 .Send(Strings.Strings.RecreateWithSubject)
@@ -212,6 +246,7 @@ namespace CalendarSkillTest.Flow
                 .AssertReplyOneOf(this.AskForSubjectShortPrompt())
                 .Send(Strings.Strings.DefaultEventName)
                 .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
                 .AssertReply(this.ActionEndMessage())
@@ -227,9 +262,14 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.ConfirmOneContactPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(this.AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(this.AskForRecreateInfoPrompt())
                 .Send(Strings.Strings.RecreateWithContent)
@@ -240,6 +280,7 @@ namespace CalendarSkillTest.Flow
                 .AssertReplyOneOf(this.AskForContentPrompt())
                 .Send(Strings.Strings.DefaultContent)
                 .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
                 .AssertReply(this.ActionEndMessage())
@@ -255,6 +296,8 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserEmail)
+                .AssertReplyOneOf(this.AddMoreUserPrompt(Strings.Strings.DefaultUserEmail))
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(this.AskForSubjectWithEmailAddressPrompt())
                 .Send(Strings.Strings.DefaultEventName)
                 .AssertReplyOneOf(this.AskForContentPrompt())
@@ -268,6 +311,7 @@ namespace CalendarSkillTest.Flow
                 .AssertReplyOneOf(this.AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
                 .AssertReply(this.ActionEndMessage())
@@ -298,7 +342,9 @@ namespace CalendarSkillTest.Flow
                 .Send(CreateMeetingTestUtterances.ChooseFirstUser)
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDupDict))
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReplyOneOf(this.AskForSubjectWithContactNamePrompt(string.Format(Strings.Strings.UserName, 0)))
+                .AssertReplyOneOf(this.AddMoreUserPrompt(testDupRecipient, testDupEmailAddress))
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(this.AskForSubjectWithContactNamePrompt(string.Format(Strings.Strings.UserName, 0), testDupEmailAddress))
                 .Send(Strings.Strings.DefaultEventName)
                 .AssertReplyOneOf(this.AskForContentPrompt())
                 .Send(Strings.Strings.DefaultContent)
@@ -311,6 +357,7 @@ namespace CalendarSkillTest.Flow
                 .AssertReplyOneOf(this.AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
                 .AssertReply(this.ActionEndMessage())
@@ -320,13 +367,24 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarCreateWithTitleEntity()
         {
+            string testRecipient = Strings.Strings.DefaultUserName;
+            string testEmailAddress = Strings.Strings.DefaultUserEmail;
+            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+
             await this.GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithTitleEntity)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.AskForParticpantsPrompt())
+                .Send(Strings.Strings.DefaultUserName)
+                .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
                 .AssertReply(this.ActionEndMessage())
@@ -342,9 +400,14 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.ConfirmOneContactPrompt())
                 .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(this.AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
                 .AssertReply(this.ActionEndMessage())
@@ -354,11 +417,24 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarCreateWithDateTimeEntity()
         {
+            string testRecipient = Strings.Strings.DefaultUserName;
+            string testEmailAddress = Strings.Strings.DefaultUserEmail;
+            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+
             await this.GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithDateTimeEntity)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.AskForParticpantsPrompt())
+                .Send(Strings.Strings.DefaultUserName)
+                .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(this.AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
                 .AssertReply(this.CheckCreatedMeetingInFuture())
+                .AssertReplyOneOf(this.ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
                 .AssertReply(this.ActionEndMessage())
@@ -368,13 +444,26 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarCreateWithLocationEntity()
         {
+            string testRecipient = Strings.Strings.DefaultUserName;
+            string testEmailAddress = Strings.Strings.DefaultUserEmail;
+            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+
             await this.GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithLocationEntity)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.AskForParticpantsPrompt())
+                .Send(Strings.Strings.DefaultUserName)
+                .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(this.AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
                 .AssertReply(this.ActionEndMessage())
@@ -384,13 +473,26 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarCreateWithDurationEntity()
         {
+            string testRecipient = Strings.Strings.DefaultUserName;
+            string testEmailAddress = Strings.Strings.DefaultUserEmail;
+            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+
             await this.GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithDurationEntity)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.AskForParticpantsPrompt())
+                .Send(Strings.Strings.DefaultUserName)
+                .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(this.AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(this.AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
                 .AssertReplyOneOf(this.AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(this.ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
                 .AssertReply(this.ActionEndMessage())
@@ -406,6 +508,8 @@ namespace CalendarSkillTest.Flow
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserEmail)
+                .AssertReplyOneOf(this.AddMoreUserPrompt(Strings.Strings.DefaultUserEmail))
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(this.AskForSubjectWithEmailAddressPrompt())
                 .Send(Strings.Strings.DefaultEventName)
                 .AssertReplyOneOf(this.AskForContentPrompt())
@@ -419,6 +523,7 @@ namespace CalendarSkillTest.Flow
                 .AssertReplyOneOf(this.AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(this.CheckCreatedMeetingInFuture())
+                .AssertReplyOneOf(this.ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReply(this.ShowCalendarList())
                 .AssertReply(this.ActionEndMessage())
@@ -444,6 +549,15 @@ namespace CalendarSkillTest.Flow
             return this.ParseReplies(FindContactResponses.PromptOneNameOneAddress, recipientDict);
         }
 
+        private string[] AddMoreUserPrompt(string userName = null, string userEmail = null)
+        {
+            var responseParams = new StringDictionary()
+            {
+                { "Users", $"{userName ?? Strings.Strings.DefaultUserName}: {userEmail ?? Strings.Strings.DefaultUserEmail}" }
+            };
+            return this.ParseReplies(FindContactResponses.AddMoreUserPrompt, responseParams);
+        }
+
         private string[] AskForParticpantsPrompt()
         {
             return this.ParseReplies(CreateEventResponses.NoAttendees, new StringDictionary());
@@ -453,17 +567,17 @@ namespace CalendarSkillTest.Flow
         {
             var responseParams = new StringDictionary()
             {
-                { "UserName", Strings.Strings.DefaultUserEmail },
+                { "UserName", $"{Strings.Strings.DefaultUserEmail}: {Strings.Strings.DefaultUserEmail}" },
             };
 
             return this.ParseReplies(CreateEventResponses.NoTitle, responseParams);
         }
 
-        private string[] AskForSubjectWithContactNamePrompt(string userName = null)
+        private string[] AskForSubjectWithContactNamePrompt(string userName = null, string userEmail = null)
         {
             var responseParams = new StringDictionary()
             {
-                { "UserName", userName ?? Strings.Strings.DefaultUserName },
+                { "UserName", $"{userName ?? Strings.Strings.DefaultUserName}: {userEmail ?? Strings.Strings.DefaultUserEmail}" },
             };
 
             return this.ParseReplies(CreateEventResponses.NoTitle, responseParams);
@@ -530,6 +644,11 @@ namespace CalendarSkillTest.Flow
                 var messageActivity = activity.AsMessageActivity();
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
+        }
+
+        private string[] ConfirmPrompt()
+        {
+            return this.ParseReplies(CreateEventResponses.ConfirmCreatePrompt, new StringDictionary());
         }
 
         private Action<IActivity> CheckCreatedMeetingInFuture()
