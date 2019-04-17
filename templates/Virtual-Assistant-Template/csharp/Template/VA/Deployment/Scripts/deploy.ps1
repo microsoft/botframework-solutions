@@ -23,7 +23,7 @@ if (-not $appPassword) {
 }
 
 if (-not $luisAuthoringKey) {
-    $luisAuthoringKey = Read-Host "LUIS Authoring Key (found at https://www.luis.ai/user/settings)"
+    $luisAuthoringKey = Read-Host "LUIS Authoring Key (found at https://www.luis.ai/user/settings or https://eu.luis.ai/user/settings)"
 }
 
 # Get timestamp
@@ -37,7 +37,6 @@ az group create --name $name --location $location | Out-Null
 $appId = az ad app create `
     --display-name $name `
     --password $appPassword `
-    --available-to-other-tenants `
 	--reply-urls https://token.botframework.com/.auth/web/redirect `
 | ConvertFrom-Json `
 | Select-Object -ExpandProperty appId
@@ -45,19 +44,42 @@ $appId = az ad app create `
 # Deploy Azure services (deploys LUIS, QnA Maker, Content Moderator, CosmosDB)
 Write-Host "Deploying Azure services ..."
 if ($parametersFile) {
-    az group deployment create `
-        --name $timestamp `
-        --resource-group $resourceGroup `
-        --template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
+	$validation = az group deployment validate `
+		--resource-group $resourceGroup `
+		--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
         --parameters "@$($parametersFile)" `
-        --parameters microsoftAppId=$appId microsoftAppPassword=$appPassword | Out-Null
+        --parameters microsoftAppId=$appId microsoftAppPassword=$appPassword
+
+	if (-not $validation.error) {
+		az group deployment create `
+			--name $timestamp `
+			--resource-group $resourceGroup `
+			--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
+			--parameters "@$($parametersFile)" `
+			--parameters microsoftAppId=$appId microsoftAppPassword=$appPassword | Out-Null
+	}
+	else {
+		Write-Error $result.error
+		Break
+	}
 }
 else {
-    az group deployment create `
-        --name $timestamp `
-        --resource-group $resourceGroup `
-        --template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
-        --parameters microsoftAppId=$appId microsoftAppPassword=$appPassword | Out-Null
+	$validation = az group deployment validate `
+		--resource-group $resourceGroup `
+		--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
+        --parameters microsoftAppId=$appId microsoftAppPassword=$appPassword
+
+	if (-not $validation.error) {
+		az group deployment create `
+			--name $timestamp `
+			--resource-group $resourceGroup `
+			--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
+			--parameters microsoftAppId=$appId microsoftAppPassword=$appPassword | Out-Null
+	}
+	else {
+		Write-Error $result.error
+		Break
+	}
 }
 
 # Get deployment outputs
