@@ -156,7 +156,7 @@ namespace CalendarSkill.Dialogs.JoinEvent
                 {
                     { "EventName1", firstEvent.Title },
                     { "EventTime1", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(firstEvent.StartTime, state.GetUserTimeZone()), firstEvent.IsAllDay == true) },
-                    { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(firstEvent.Attendees) }
+                    { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(firstEvent.Attendees, 1) }
                 };
 
                 var reply = await GetGeneralMeetingListResponseAsync(sc, CalendarCommonStrings.MeetingsToJoin, GetCurrentPageMeetings(state.SummaryEvents, state), JoinEventResponses.SelectMeeting, responseParams);
