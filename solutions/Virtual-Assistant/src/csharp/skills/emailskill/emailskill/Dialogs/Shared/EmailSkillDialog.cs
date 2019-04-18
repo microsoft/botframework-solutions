@@ -464,7 +464,7 @@ namespace EmailSkill.Dialogs.Shared
                     { "EmailDetails", speech },
                 };
 
-                var recipientCard = state.Recipients.Count() > 5 ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
+                var recipientCard = state.Recipients.Count() > DisplayHelper.MaxReadoutNumber ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
 
                 if (state.Recipients.Count > DisplayHelper.MaxReadoutNumber && (action == Actions.Send || action == Actions.Forward))
                 {

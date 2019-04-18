@@ -29,8 +29,8 @@
   "ReadOutPrompt": {
     "replies": [
       {
-        "speak": "Want to know the content of the first email? Let me know if you want to know the next or another email.",
-        "text": "Want to know the content of the first email? Let me know if you want to know the next or another email."
+        "speak": "Do you want more detail on the first email? You can also ask about other emails too either by subject or sender.",
+        "text": "Do you want more detail on the first email? You can also ask about other emails too either by subject or sender."
       }
     ],
     "inputHint": "expectingInput"
