@@ -1094,6 +1094,8 @@ namespace EmailSkill.Dialogs.Shared
             };
 
             var avator = await GetMyPhotoUrlAsync(sc.Context);
+            var startIndex = (state.ShowEmailIndex * ConfigData.GetInstance().MaxDisplaySize) + 1;
+            var endIndex = (startIndex + ConfigData.GetInstance().MaxDisplaySize - 1) > totalCount ? totalCount : (startIndex + ConfigData.GetInstance().MaxDisplaySize - 1);
             var overviewData = new EmailOverviewData()
             {
                 Description = EmailCommonStrings.YourEmail,
@@ -1101,7 +1103,12 @@ namespace EmailSkill.Dialogs.Shared
                 TotalMessageNumber = totalCount.ToString(),
                 HighPriorityMessagesNumber = importantCount.ToString(),
                 Now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone()).ToString(EmailCommonStrings.GeneralDateFormat),
-                MailSourceType = string.Format(EmailCommonStrings.Source, state.MailSourceType.ToString())
+                MailSourceType = string.Format(EmailCommonStrings.Source, AdaptiveCardHelper.GetSourceType(state.MailSourceType)),
+                EmailIndexer = string.Format(
+                    EmailCommonStrings.PageIndexerFormat,
+                    startIndex.ToString(),
+                    endIndex.ToString(),
+                    totalCount.ToString())
             };
 
             var overviewCard = "EmailOverviewCard";

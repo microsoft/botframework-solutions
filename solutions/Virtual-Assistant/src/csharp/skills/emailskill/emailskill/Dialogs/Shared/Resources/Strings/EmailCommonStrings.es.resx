@@ -172,7 +172,7 @@
     <value>Para: {0}</value>
   </data>
   <data name="YourEmail" xml:space="preserve">
-    <value>Su correo electrónico</value>
+    <value>Tu bandeja de entrada</value>
   </data>
   <data name="RelevantFormat" xml:space="preserve">
     <value>relevante {0}</value>
@@ -248,5 +248,8 @@
   </data>
   <data name="GeneralDateFormat" xml:space="preserve">
     <value>MMM dd, yyyy</value>
+  </data>
+  <data name="PageIndexerFormat" xml:space="preserve">
+    <value>**{0}-{1}** de {2}</value>
   </data>
 </root>

@@ -20,5 +20,7 @@ namespace EmailSkill.Dialogs.Shared.Resources.Cards
         public string MessagesDescription { get; } = EmailCommonStrings.Messages;
 
         public string ImportantMessagesDescription { get; } = EmailCommonStrings.ImportantMessages;
+
+        public string EmailIndexer { get; set; }
     }
 }
