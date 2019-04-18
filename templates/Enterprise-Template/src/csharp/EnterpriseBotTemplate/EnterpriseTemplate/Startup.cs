@@ -78,6 +78,8 @@ namespace $safeprojectname$
             services.AddSingleton(conversationState);
             services.AddSingleton(new BotStateSet(userState, conversationState));
 
+            RegisterDialogs(services);
+
             // Add the bot with options
             services.AddBot<Bot>(options =>
             {
@@ -139,6 +141,17 @@ namespace $safeprojectname$
                 .UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
+        }
+
+        /// <summary>
+        /// Register dialogs with Dependency Injection
+        /// </summary>
+        /// <param name="services"></param>
+        private void RegisterDialogs(IServiceCollection services)
+        {
+            services.AddTransient<Dialogs.Main.MainDialog>();
+            services.AddTransient<Dialogs.Escalate.EscalateDialog>();
+            services.AddTransient<Dialogs.Onboarding.OnboardingDialog>();
         }
     }
 }

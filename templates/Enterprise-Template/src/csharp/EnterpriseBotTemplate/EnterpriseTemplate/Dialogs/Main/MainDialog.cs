@@ -17,20 +17,17 @@ namespace $safeprojectname$.Dialogs.Main
     public class MainDialog : RouterDialog
     {
         private BotServices _services;
-        private UserState _userState;
-        private ConversationState _conversationState;
         private MainResponses _responder = new MainResponses();
 
-        public MainDialog(BotServices services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient)
+        public MainDialog(BotServices services, IBotTelemetryClient telemetryClient,
+            OnboardingDialog onboardingDialog, EscalateDialog escalateDialog)
             : base(nameof(MainDialog))
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
-            _conversationState = conversationState;
-            _userState = userState;
             TelemetryClient = telemetryClient;
 
-            AddDialog(new OnboardingDialog(_services, _userState.CreateProperty<OnboardingState>(nameof(OnboardingState)), telemetryClient));
-            AddDialog(new EscalateDialog(_services));
+            AddDialog(onboardingDialog);
+            AddDialog(escalateDialog);
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))

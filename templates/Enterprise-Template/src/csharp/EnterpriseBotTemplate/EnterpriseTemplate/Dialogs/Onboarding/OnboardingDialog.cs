@@ -16,10 +16,10 @@ namespace $safeprojectname$.Dialogs.Onboarding
         private IStatePropertyAccessor<OnboardingState> _accessor;
         private OnboardingState _state;
 
-        public OnboardingDialog(BotServices botServices, IStatePropertyAccessor<OnboardingState> accessor, IBotTelemetryClient telemetryClient)
+        public OnboardingDialog(BotServices botServices, UserState userState, IBotTelemetryClient telemetryClient)
             : base(botServices, nameof(OnboardingDialog))
         {
-            _accessor = accessor;
+            _accessor = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             InitialDialogId = nameof(OnboardingDialog);
 
             var onboarding = new WaterfallStep[]
