@@ -92,23 +92,30 @@ if ($manifest.authenticationConnections) {
 		# update appsettings.json
 		Write-Host "Updating appsettings.json ..."
 		$appSettings = Get-Content $appSettingsFile | ConvertFrom-Json
-		$appSettings.oauthConnections = @($appSettings.oauthConnections | Where-Object -FilterScript { $_.provider -ne "Azure Active Directory v2" })
-		$oauthSetting = @{ "name" = $connectionName; "provider" = "Azure Active Directory v2" }
 
+		# check for and remove existing aad connections
+		if ($appSettings.oauthConnections) {
+			$appSettings.oauthConnections = @($appSettings.oauthConnections | Where-Object -FilterScript { $_.provider -ne "Azure Active Directory v2" })
+		}
+
+		# set or add new oauth setting
+		$oauthSetting = @{ "name" = $connectionName; "provider" = "Azure Active Directory v2" }
 		if (-not $appSettings.oauthConnections) {
-			$appSettings.oauthConnections = @($oauthSetting)
+			$appSettings | Add-Member -Type NoteProperty -Force -Name 'oauthConnections' -Value @($oauthSetting)
 		}
 		else {
 			$appSettings.oauthConnections += @($oauthSetting)
 		}
+
+		# update appsettings.json
 		ConvertTo-Json $appSettings -depth 100 | Out-File $appSettingsFile
 
 		# Remove duplicate scopes
 		$scopes = $scopes | Select -unique
 		$scopeManifest = $(CreateScopeManifest($scopes)).Replace("`"", "'")
 
-		Write-Host "Configuring MSA app scopes ..."
 		# Update MSA scopes
+		Write-Host "Configuring MSA app scopes ..."
 		$errorResult = az ad app update `
 			--id "$($appSettings.microsoftAppId)" `
 			--required-resource-accesses "`"[$($scopeManifest)]`"" 2>&1
@@ -187,8 +194,7 @@ foreach ($luisApp in $dictionary.Keys) {
 Write-Host "Running dispatch refresh ..." 
 dispatch refresh `
 	--dispatch $(Join-Path $dispatchFolder "$($dispatchName).dispatch") `
-	--dataFolder $dispatchFolder *>&1 `
-	| Out-Null
+	--dataFolder $dispatchFolder *>&1 | Out-Null
 
 Write-Host "Running LuisGen ..." 
 luisgen $(Join-Path $dispatchFolder "$($dispatchName).json") -cs "DispatchLuis" -o $lgOutFolder | Out-Null
