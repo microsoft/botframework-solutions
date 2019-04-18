@@ -1,11 +1,12 @@
 Param(
     [string] $name,
+	[string] $resourceGroup = $name,
     [string] $location,
+	[string] $appId,
     [string] $appPassword,
     [string] $luisAuthoringKey,
-    [string] $resourceGroup = $name,
-    [string] $outFolder = $(Join-Path $PSScriptRoot '..'),
-    [string] $parametersFile
+    [string] $parametersFile,
+	[string] $outFolder = $(Get-Location)
 )
 
 # Get mandatory parameters
@@ -26,20 +27,28 @@ if (-not $luisAuthoringKey) {
     $luisAuthoringKey = Read-Host "LUIS Authoring Key (found at https://www.luis.ai/user/settings)"
 }
 
+if (-not $appId) {
+	# Create app registration
+	$appId = az ad app create `
+		--display-name $name `
+		--password $appPassword `
+		--available-to-other-tenants `
+		--reply-urls https://token.botframework.com/.auth/web/redirect `
+	| ConvertFrom-Json `
+	| Select-Object -ExpandProperty appId
+
+	if(-not $appId) {
+		Write-Host "Could not provision Microsoft App Registration automatically. Please provide the -appId and -appPassword arguments for an existing app and try again." -ForegroundColor Red
+		Break
+	}
+}
+
 # Get timestamp
 $timestamp = Get-Date -f MMddyyyyHHmmss
 
 # Create resource group
 Write-Host "Creating resource group ..."
 az group create --name $name --location $location | Out-Null
-
-# Create bot registration
-$appId = az ad app create `
-    --display-name $name `
-    --password $appPassword `
-    --available-to-other-tenants `
-| ConvertFrom-Json `
-| Select-Object -ExpandProperty appId
 
 # Deploy Azure services (deploys LUIS, QnA Maker, Content Moderator, CosmosDB)
 Write-Host "Deploying Azure services ..."
@@ -82,4 +91,4 @@ $settings | Add-Member -Type NoteProperty -Force -Name 'contentModerator' -Value
 $settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $outFolder appsettings.json)
 
 # Deploy cognitive models
-Invoke-Expression "$(Join-Path $PSScriptRoot 'va_deploy_cognitive_models.ps1') -name $($name) -location $($location) -luisAuthoringKey $luisAuthoringKey -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -outFolder $($outFolder)"
+Invoke-Expression "$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1') -name $($name) -location $($location) -luisAuthoringKey $luisAuthoringKey -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -outFolder $($outFolder)"

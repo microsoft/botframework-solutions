@@ -1,10 +1,10 @@
 Param(
 	[Parameter(Mandatory=$true)][string] $name,
     [Parameter(Mandatory=$true)][string] $location,
-    [string] $luisAuthoringKey,
-    [string] $qnaSubscriptionKey,
+    [Parameter(Mandatory=$true)][string] $luisAuthoringKey,
+    [Parameter(Mandatory=$true)][string] $qnaSubscriptionKey,
     [string] $languages = "en-us",
-    [string] $outFolder = $PSScriptRoot
+    [string] $outFolder = $(Get-Location)
 )
 
 . $PSScriptRoot\luis_functions.ps1
