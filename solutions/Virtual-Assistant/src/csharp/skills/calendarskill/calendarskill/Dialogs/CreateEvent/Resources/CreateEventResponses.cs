@@ -21,6 +21,8 @@ namespace CalendarSkill.Dialogs.CreateEvent.Resources
         public const string ConfirmCreateLocation = "ConfirmCreateLocation";
         public const string ConfirmCreateContent = "ConfirmCreateContent";
         public const string ConfirmCreate = "ConfirmCreate";
+        public const string ConfirmCreatePrompt = "ConfirmCreatePrompt";
+        public const string ShowRestParticipantsPrompt = "ShowRestParticipantsPrompt";
         public const string ConfirmCreateFailed = "ConfirmCreateFailed";
         public const string EventCreated = "EventCreated";
         public const string EventCreationFailed = "EventCreationFailed";

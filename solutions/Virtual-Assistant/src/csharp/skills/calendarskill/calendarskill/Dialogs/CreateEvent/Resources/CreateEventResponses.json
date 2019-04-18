@@ -2,8 +2,8 @@
   "NoTitle": {
     "replies": [
       {
-        "text": "Alright, I will send an invite to {UserName}, what is the subject of the meeting? Or you can say skip to use the default title.",
-        "speak": "Alright, I will send an invite to {UserName}, what is the subject of the meeting? Or you can say skip to use the default title."
+        "text": "Alright, I will send an invite to {UserName}, what is the subject of the meeting?",
+        "speak": "Alright, I will send an invite to {UserName}, what is the subject of the meeting?"
       }
     ],
     "inputHint": "expectingInput"
@@ -20,8 +20,8 @@
   "NoContent": {
     "replies": [
       {
-        "text": "What do you want to add in the meeting details?",
-        "speak": "What would you like to add in the meeting details?"
+        "text": "What do you want to add as content?",
+        "speak": "What do you want to add as content?"
       },
       {
         "text": "What do you want to add as content?",
@@ -78,12 +78,33 @@
   "ConfirmCreate": {
     "replies": [
       {
-        "text": "I'm ready to create the event. The event is on {Date} at {Time} till {EndTime}{AttendeesConfirm}.{SubjectConfirm}{LocationConfirm}{ContentConfirm} Can you confirm this event?",
-        "speak": "I'm ready to create the event. The event is on {Date} at {Time} till {EndTime}{AttendeesConfirm}.{SubjectConfirm}{LocationConfirm}{ContentConfirm} Can you confirm this event?"
+        "text": "I'm ready to create the event. The event is {Date}, from {Time} till {EndTime}{AttendeesConfirm}.{SubjectConfirm}{LocationConfirm}{ContentConfirm}",
+        "speak": "I'm ready to create the event. The event is {Date}, from {Time} till {EndTime}{AttendeesConfirm}.{SubjectConfirm}{LocationConfirm}{ContentConfirm} Can you confirm this event?"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+
+  "ConfirmCreatePrompt": {
+    "replies": [
+      {
+        "text": "Can you confirm this event?",
+        "speak": "Can you confirm this event?"
       }
     ],
     "inputHint": "expectingInput"
   },
+
+  "ShowRestParticipantsPrompt": {
+    "replies": [
+      {
+        "text": "Do you want to go through the rest of the participants?",
+        "speak": "Do you want to go through the rest of the participants?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+
   "ConfirmCreateFailed": {
     "replies": [
       {
