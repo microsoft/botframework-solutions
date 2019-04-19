@@ -68,36 +68,36 @@ namespace Microsoft.Bot.Builder.Skills
             var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
             var skillContext = await accessor.GetAsync(innerDc.Context, () => new SkillContext());
 
-            //var actionName = options as string;
-            //if (actionName == null)
-            //{
-            //    throw new ArgumentException("SkillDialog requires an Action in order to be able to identify which Action within a skill to invoke.");
-            //}
-            //else
-            //{
-            //    // Find the Action within the selected Skill for slot filling evaluation
-            //    _action = _skillManifest.Actions.Single(a => a.Id == actionName);
-            //    if (_action != null)
-            //    {
-            //        // If the action doesn't define any Slots or SkillContext is empty then we skip slot evaluation
-            //        if (_action.Definition.Slots != null && skillContext.Count > 0)
-            //        {
-            //            foreach (Slot slot in _action.Definition.Slots)
-            //            {
-            //                // For each slot we check to see if there is an exact match, if so we pass this slot across to the skill
-            //                if (skillContext.TryGetValue(slot.Name, out object slotValue))
-            //                {
-            //                    slots.Add(slot.Name, slotValue);
-            //                }
-            //            }
-            //        }
-            //    }
-            //    else
-            //    {
-            //        // Loosening checks for current Dispatch evaluation, TODO - Review
-            //        // throw new ArgumentException($"Passed Action ({actionName}) could not be found within the {_skillManifest.Id} skill manifest action definition.");
-            //    }
-            //}
+            // var actionName = options as string;
+            // if (actionName == null)
+            // {
+            //     throw new ArgumentException("SkillDialog requires an Action in order to be able to identify which Action within a skill to invoke.");
+            // }
+            // else
+            // {
+            //     // Find the Action within the selected Skill for slot filling evaluation
+            //     _action = _skillManifest.Actions.Single(a => a.Id == actionName);
+            //     if (_action != null)
+            //     {
+            //         // If the action doesn't define any Slots or SkillContext is empty then we skip slot evaluation
+            //         if (_action.Definition.Slots != null && skillContext.Count > 0)
+            //         {
+            //             foreach (Slot slot in _action.Definition.Slots)
+            //             {
+            //                 // For each slot we check to see if there is an exact match, if so we pass this slot across to the skill
+            //                 if (skillContext.TryGetValue(slot.Name, out object slotValue))
+            //                 {
+            //                     slots.Add(slot.Name, slotValue);
+            //                 }
+            //             }
+            //         }
+            //     }
+            //     else
+            //     {
+            //         // Loosening checks for current Dispatch evaluation, TODO - Review
+            //         // throw new ArgumentException($"Passed Action ({actionName}) could not be found within the {_skillManifest.Id} skill manifest action definition.");
+            //     }
+            // }
 
             var activity = innerDc.Context.Activity;
 

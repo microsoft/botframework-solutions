@@ -17,7 +17,7 @@
   ],
   "actions": [
     {
-      "id": "calendarskill/createEvent",
+      "id": "calendarskill_createEvent",
       "definition": {
         "description": "Create a new event",
         "slots": [
@@ -64,7 +64,7 @@
       }
     },
     {
-      "id": "calendarskill/changeEventStatus",
+      "id": "calendarskill_changeEventStatus",
       "definition": {
         "description": "Change the status of an event (accept/decline).",
         "slots": [
@@ -91,7 +91,7 @@
       }
     },
     {
-      "id": "calendarskill/joinEvent",
+      "id": "calendarskill_joinEvent",
       "definition": {
         "description": "Join the upcoming meeting",
         "slots": [],
@@ -108,7 +108,7 @@
       }
     },
     {
-      "id": "calendarskill/summary",
+      "id": "calendarskill_summary",
       "definition": {
         "description": "Retrieve a summary of meetings through an event invocation.",
         "slots": [],
@@ -122,7 +122,7 @@
       }
     },
     {
-      "id": "calendarskill/timeRemaining",
+      "id": "calendarskill_timeRemaining",
       "definition": {
         "description": "Find out how long until the next event",
         "slots": [],
@@ -139,7 +139,7 @@
       }
     },
     {
-      "id": "calendarskill/summary",
+      "id": "calendarskill_summary",
       "definition": {
         "description": "Find an upcoming event",
         "slots": [
@@ -178,7 +178,7 @@
       }
     },
     {
-      "id": "calendarskill/updateEvent",
+      "id": "calendarskill_updateEvent",
       "definition": {
         "description": "Update an existing event.",
         "slots": [

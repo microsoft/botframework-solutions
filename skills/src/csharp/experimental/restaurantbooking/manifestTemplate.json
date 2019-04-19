@@ -6,7 +6,7 @@
   "authenticationConnections": [],
   "actions": [
     {
-      "id": "restaurantBookingSkill/booking",
+      "id": "restaurantBookingSkill_booking",
       "definition": {
         "description": "Restaurant Booking",
         "slots": [

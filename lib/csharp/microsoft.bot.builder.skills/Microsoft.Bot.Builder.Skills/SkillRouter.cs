@@ -4,32 +4,20 @@ using Microsoft.Bot.Builder.Skills.Models.Manifest;
 
 namespace Microsoft.Bot.Builder.Skills
 {
-    public class SkillRouter
+    /// <summary>
+    /// Skill Router class that helps Bots identify if a registered Skill matches the identified dispatch intent.
+    /// </summary>
+    public static class SkillRouter
     {
-        private List<SkillManifest> _registeredSkills;
-
-        public SkillRouter(List<SkillManifest> registeredSkills)
+        /// <summary>
+        /// Helper method to go through a SkillManifeste and match the passed dispatch intent to a registered action.
+        /// </summary>
+        /// <param name="skillConfiguration">The Skill Configuration for the current Bot.</param>
+        /// <param name="dispatchIntent">The Dispatch intent to try and match to a skill.</param>
+        /// <returns>Whether the intent matches a Skill.</returns>
+        public static SkillManifest IsSkill(List<SkillManifest> skillConfiguration, string dispatchIntent)
         {
-            // Retrieve any Skills that have been registered with the Bot
-            _registeredSkills = registeredSkills;
-        }
-
-        public SkillManifest IdentifyRegisteredSkill(string skillName)
-        {
-            SkillManifest matchedSkill = null;
-
-            // Did we find any skills?
-            if (_registeredSkills != null)
-            {
-                // Identify a skill by taking the LUIS model name identified by the dispatcher and matching to the skill luis model name
-                // Bug raised on dispatcher to move towards LuisModelId instead perhaps?
-                matchedSkill = _registeredSkills.FirstOrDefault(s => s.Name == skillName);
-                return matchedSkill;
-            }
-            else
-            {
-                return null;
-            }
+            return skillConfiguration.SingleOrDefault(s => s.Id == dispatchIntent.ToString());
         }
     }
 }
