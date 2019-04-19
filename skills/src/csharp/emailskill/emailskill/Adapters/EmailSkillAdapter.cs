@@ -3,24 +3,25 @@ using EmailSkill.Responses.Shared;
 using EmailSkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
-using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 
 namespace EmailSkill.Adapters
 {
-    public class EmailSkillHttpAdapter : SkillHttpBotAdapter
+    public class EmailSkillAdapter : SkillAdapter
     {
-        public EmailSkillHttpAdapter(
+        public EmailSkillAdapter(
             BotSettings settings,
+            ICredentialProvider credentialProvider,
             BotStateSet botStateSet,
-            ConversationState conversationState,
             ResponseManager responseManager,
             IBotTelemetryClient telemetryClient,
             UserState userState)
+            : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>
             {
@@ -36,7 +37,7 @@ namespace EmailSkill.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
             Use(new AutoSaveStateMiddleware(botStateSet));
-            Use(new SkillMiddleware(userState, conversationState, conversationState.CreateProperty<DialogState>(nameof(EmailSkill))));
+            Use(new SkillMiddleware(userState));
         }
     }
 }
