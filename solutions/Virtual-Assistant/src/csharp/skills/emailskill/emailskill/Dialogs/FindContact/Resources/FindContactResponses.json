@@ -11,8 +11,8 @@
   "PromptOneNameOneAddress": {
     "replies": [
       {
-        "text": "Okay, I will send this to {UserName}: {EmailAddress}. If this is not the {UserName} you were looking for, let me know.",
-        "speak": "Okay, I will send this to {UserName}: {EmailAddress}. If this is not the {UserName} you were looking for, let me know."
+        "text": "Okay, I will add {UserName}: {EmailAddress}. Is this the {UserName} you were looking for?",
+        "speak": "Okay, I will add {UserName}: {EmailAddress}. Is this the {UserName} you were looking for?"
       }
     ],
     "inputHint": "expectingInput"
@@ -94,6 +94,24 @@
       {
         "text": "This is already the last page.",
         "speak": " "
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AddMoreContactsPrompt": {
+    "replies": [
+      {
+        "text": "I have included {NameList}, do you want to add another?",
+        "speak": "I have included {NameList}, do you want to add another?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AddMoreContacts": {
+    "replies": [
+      {
+        "text": "Who do you want to add?",
+        "speak": "Who do you want to add?"
       }
     ],
     "inputHint": "expectingInput"

@@ -23,6 +23,8 @@ namespace EmailSkill.Dialogs.FindContact.Resources
         public const string BeforeSendingMessage = "BeforeSendingMessage";
         public const string AlreadyFirstPage = "AlreadyFirstPage";
         public const string AlreadyLastPage = "AlreadyLastPage";
+        public const string AddMoreContactsPrompt = "AddMoreContactsPrompt";
+        public const string AddMoreContacts = "AddMoreContacts";
         public const string DidntUnderstandMessage = "DidntUnderstandMessage";
         public const string ErrorMessage = "ErrorMessage";
     }

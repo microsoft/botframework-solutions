@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Dialogs.FindContact;
+using EmailSkill.Dialogs.FindContact.DialogOptions;
 using EmailSkill.Dialogs.ForwardEmail;
 using EmailSkill.Dialogs.Shared.DialogOptions;
 using EmailSkill.Dialogs.Shared.Resources;
@@ -449,7 +450,7 @@ namespace EmailSkill.Dialogs.Shared
                     action = Actions.Send;
                 }
 
-                nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(state.Recipients);
+                nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(state.FindContactInfor.Contacts);
 
                 var emailCard = new EmailCardData
                 {
@@ -464,9 +465,9 @@ namespace EmailSkill.Dialogs.Shared
                     { "EmailDetails", speech },
                 };
 
-                var recipientCard = state.Recipients.Count() > DisplayHelper.MaxReadoutNumber ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
+                var recipientCard = state.FindContactInfor.Contacts.Count() > DisplayHelper.MaxReadoutNumber ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
 
-                if (state.Recipients.Count > DisplayHelper.MaxReadoutNumber && (action == Actions.Send || action == Actions.Forward))
+                if (state.FindContactInfor.Contacts.Count > DisplayHelper.MaxReadoutNumber && (action == Actions.Send || action == Actions.Forward))
                 {
                     var confirmRecipientsMessages = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendRecipientsMessage);
 
@@ -515,9 +516,9 @@ namespace EmailSkill.Dialogs.Shared
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                if (state.Recipients.Count > DisplayHelper.MaxReadoutNumber)
+                if (state.FindContactInfor.Contacts.Count > DisplayHelper.MaxReadoutNumber)
                 {
-                    var nameListString = DisplayHelper.ToDisplayRecipientsString(state.Recipients);
+                    var nameListString = DisplayHelper.ToDisplayRecipientsString(state.FindContactInfor.Contacts);
                     var tokens = new StringDictionary
                     {
                         { "RecipientsList", nameListString },
@@ -650,7 +651,7 @@ namespace EmailSkill.Dialogs.Shared
                     state.FindContactInfor.ContactsNameList = nameList;
                 }
 
-                return await sc.BeginDialogAsync(nameof(FindContactDialog), skillOptions);
+                return await sc.BeginDialogAsync(nameof(FindContactDialog), options: new FindContactDialogOptions(sc.Options), cancellationToken: cancellationToken);
             }
             catch (Exception ex)
             {
@@ -872,27 +873,6 @@ namespace EmailSkill.Dialogs.Shared
             }
 
             return result;
-        }
-
-        protected async Task<string> GetPreviewNameListString(WaterfallStepContext sc, string actionType)
-        {
-            var state = await EmailStateAccessor.GetAsync(sc.Context);
-            var nameListString = string.Empty;
-
-            switch (actionType)
-            {
-                case Actions.Send:
-                    nameListString = DisplayHelper.ToDisplayRecipientsString(state.Recipients);
-                    break;
-                case Actions.Reply:
-                case Actions.Forward:
-                case Actions.Delete:
-                default:
-                    nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(state.Recipients);
-                    break;
-            }
-
-            return nameListString;
         }
 
         protected async Task<bool> GetPreviewSubject(WaterfallStepContext sc, string actionType)

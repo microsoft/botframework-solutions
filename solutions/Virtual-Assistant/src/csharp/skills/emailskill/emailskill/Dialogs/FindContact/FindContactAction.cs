@@ -28,5 +28,7 @@ namespace EmailSkill.Dialogs.FindContact
         public const string SelectPerson = "selectPerson";
 
         public const string SelectEmail = "selectEmail";
+
+        public const string AddMoreContactsPrompt = "AddMoreUserPrompt";
     }
 }

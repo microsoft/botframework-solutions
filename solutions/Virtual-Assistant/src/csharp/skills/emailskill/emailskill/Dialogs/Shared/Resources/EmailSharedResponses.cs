@@ -22,7 +22,6 @@ namespace EmailSkill.Dialogs.Shared.Resources
         public const string EmailErrorMessageBotProblem = "EmailErrorMessageBotProblem";
         public const string EmailErrorMessageAccountProblem = "EmailErrorMessageAccountProblem";
         public const string SentSuccessfully = "SentSuccessfully";
-        public const string NoRecipients = "NoRecipients";
         public const string NoEmailContent = "NoEmailContent";
         public const string RecipientConfirmed = "RecipientConfirmed";
         public const string ConfirmSend = "ConfirmSend";
@@ -40,5 +39,6 @@ namespace EmailSkill.Dialogs.Shared.Resources
         public const string FirstPageAlready = "FirstPageAlready";
         public const string LastPageAlready = "LastPageAlready";
         public const string NoChoiceOptionsRetry = "NoChoiceOptionsRetry";
+        public const string NoRecipients = "NoRecipients";
     }
 }

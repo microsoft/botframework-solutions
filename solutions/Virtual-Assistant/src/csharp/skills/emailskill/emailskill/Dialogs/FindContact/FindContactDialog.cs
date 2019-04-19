@@ -13,6 +13,7 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
@@ -26,6 +27,8 @@ namespace EmailSkill.Dialogs.FindContact
 {
     public class FindContactDialog : ComponentDialog
     {
+        public static readonly int MaxAcceptContactsNum = 20;
+
         public FindContactDialog(
            SkillConfigurationBase services,
            ResponseManager responseManager,
@@ -63,9 +66,8 @@ namespace EmailSkill.Dialogs.FindContact
                 AfterLoopNameList
             };
 
-            // check on the attendee of state.CurrentAttendeeName.
             // called by loopNameList
-            var confirmAttendee = new WaterfallStep[]
+            var confirmContacts = new WaterfallStep[]
             {
                 // call updateName to get the person state.ConfirmedPerson.
                 // state.ConfirmedPerson should be set after this step
@@ -113,15 +115,22 @@ namespace EmailSkill.Dialogs.FindContact
                 AfterSelectEmail
             };
 
+            var addMoreContactsPrompt = new WaterfallStep[]
+            {
+                AddMoreUserPrompt,
+                AfterAddMoreUserPrompt
+            };
+
             AddDialog(new TextPrompt(FindContactAction.Prompt));
             AddDialog(new ConfirmPrompt(FindContactAction.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
             AddDialog(new WaterfallDialog(FindContactAction.ConfirmNameList, confirmNameList) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(FindContactAction.LoopNameList, loopNameList) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(FindContactAction.ConfirmAttendee, confirmAttendee) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(FindContactAction.ConfirmAttendee, confirmContacts) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(FindContactAction.UpdateName, updateName) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(FindContactAction.SelectPerson, selectPerson) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(FindContactAction.SelectEmail, selectEmail) { TelemetryClient = telemetryClient });
             AddDialog(new ChoicePrompt(FindContactAction.Choice, ChoiceValidator, Culture.English) { Style = ListStyle.None, });
+            AddDialog(new WaterfallDialog(FindContactAction.AddMoreContactsPrompt, addMoreContactsPrompt) { TelemetryClient = telemetryClient });
             InitialDialogId = FindContactAction.ConfirmNameList;
         }
 
@@ -140,15 +149,31 @@ namespace EmailSkill.Dialogs.FindContact
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                var options = sc.Options as FindContactDialogOptions;
 
                 // got attendee name list already.
                 if (state.FindContactInfor.ContactsNameList.Any())
                 {
+                    if (options != null && options.FindContactReason == FindContactDialogOptions.FindContactReasonType.FirstFindContact)
+                    {
+                        if (state.FindContactInfor.ContactsNameList.Count > 1)
+                        {
+                            options.PromptMoreContact = false;
+                        }
+                    }
+
                     return await sc.NextAsync();
                 }
 
                 // ask for attendee
-                return await sc.PromptAsync(FindContactAction.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.NoRecipients) }, cancellationToken);
+                if (options.FindContactReason == FindContactDialogOptions.FindContactReasonType.FirstFindContact)
+                {
+                    return await sc.PromptAsync(FindContactAction.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.NoRecipients) }, cancellationToken);
+                }
+                else
+                {
+                    return await sc.PromptAsync(FindContactAction.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.AddMoreContacts) }, cancellationToken);
+                }
             }
             catch (Exception ex)
             {
@@ -187,7 +212,7 @@ namespace EmailSkill.Dialogs.FindContact
                 {
                     if (state.FindContactInfor.ContactsNameList.Count > 1)
                     {
-                        var nameString = await GetReadyToSendNameListStringAsync(sc);
+                        var nameString = await GetNameListStringAsync(sc);
                         await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.BeforeSendingMessage, new StringDictionary() { { "NameList", nameString } }));
                     }
 
@@ -217,11 +242,25 @@ namespace EmailSkill.Dialogs.FindContact
                 if (state.FindContactInfor.ConfirmContactsNameIndex < state.FindContactInfor.ContactsNameList.Count)
                 {
                     state.FindContactInfor.CurrentContactName = state.FindContactInfor.ContactsNameList[state.FindContactInfor.ConfirmContactsNameIndex];
-                    return await sc.BeginDialogAsync(FindContactAction.ConfirmAttendee, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.Initialize), cancellationToken);
+
+                    var options = sc.Options as FindContactDialogOptions;
+                    options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.Initialize;
+                    return await sc.BeginDialogAsync(FindContactAction.ConfirmAttendee, sc.Options, cancellationToken);
                 }
                 else
                 {
-                    return await sc.EndDialogAsync();
+                    state.FindContactInfor.ContactsNameList = new List<string>();
+                    state.FindContactInfor.CurrentContactName = string.Empty;
+                    state.FindContactInfor.ConfirmContactsNameIndex = 0;
+                    var options = sc.Options as FindContactDialogOptions;
+                    if (options.PromptMoreContact && state.FindContactInfor.Contacts.Count < MaxAcceptContactsNum)
+                    {
+                        return await sc.ReplaceDialogAsync(FindContactAction.AddMoreContactsPrompt, options);
+                    }
+                    else
+                    {
+                        return await sc.EndDialogAsync();
+                    }
                 }
             }
             catch (Exception ex)
@@ -257,7 +296,7 @@ namespace EmailSkill.Dialogs.FindContact
 
                 // when called bt LoopNameList, the options reason is initialize.
                 // when replaced by itself, the reason will be Confirm No.
-                var options = (UpdateUserNameDialogOptions)sc.Options;
+                var options = (FindContactDialogOptions)sc.Options;
 
                 // set the ConfirmPerson to null as defaut.
                 state.FindContactInfor.ConfirmedContact = null;
@@ -328,7 +367,9 @@ namespace EmailSkill.Dialogs.FindContact
                 }
                 else
                 {
-                    return await sc.ReplaceDialogAsync(FindContactAction.ConfirmAttendee, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.ConfirmNo));
+                    var options = sc.Options as FindContactDialogOptions;
+                    options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.ConfirmNo;
+                    return await sc.ReplaceDialogAsync(FindContactAction.ConfirmAttendee, options);
                 }
             }
             catch (Exception ex)
@@ -346,10 +387,10 @@ namespace EmailSkill.Dialogs.FindContact
                 var state = await Accessor.GetAsync(sc.Context);
                 state.FindContactInfor.UnconfirmedContact.Clear();
                 state.FindContactInfor.ConfirmedContact = null;
-                var options = (UpdateUserNameDialogOptions)sc.Options;
+                var options = (FindContactDialogOptions)sc.Options;
 
                 // if it is confirm no, then ask user to give a new attendee
-                if (options.Reason == UpdateUserNameDialogOptions.UpdateReason.ConfirmNo)
+                if (options.UpdateUserNameReason == FindContactDialogOptions.UpdateUserNameReasonType.ConfirmNo)
                 {
                     return await sc.PromptAsync(
                         FindContactAction.Prompt,
@@ -362,7 +403,7 @@ namespace EmailSkill.Dialogs.FindContact
                 var currentRecipientName = state.FindContactInfor.CurrentContactName;
 
                 // if not initialize ask user for attendee
-                if (options.Reason != UpdateUserNameDialogOptions.UpdateReason.Initialize)
+                if (options.UpdateUserNameReason != FindContactDialogOptions.UpdateUserNameReasonType.Initialize)
                 {
                     if (state.FindContactInfor.FirstRetryInFindContact)
                     {
@@ -410,9 +451,9 @@ namespace EmailSkill.Dialogs.FindContact
             {
                 var userInput = sc.Result as string;
                 var state = await Accessor.GetAsync(sc.Context);
-                var options = (UpdateUserNameDialogOptions)sc.Options;
+                var options = (FindContactDialogOptions)sc.Options;
 
-                if (string.IsNullOrEmpty(userInput) && options.Reason != UpdateUserNameDialogOptions.UpdateReason.Initialize)
+                if (string.IsNullOrEmpty(userInput) && options.UpdateUserNameReason != FindContactDialogOptions.UpdateUserNameReasonType.Initialize)
                 {
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.UserNotFoundAgain, new StringDictionary() { { "source", state.MailSourceType == MailSource.Microsoft ? "Outlook Calendar" : "Google Calendar" } }));
                     return await sc.EndDialogAsync();
@@ -507,7 +548,8 @@ namespace EmailSkill.Dialogs.FindContact
 
                 if (unionList.Count == 0)
                 {
-                    return await sc.ReplaceDialogAsync(FindContactAction.UpdateName, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.NotFound));
+                    options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.NotFound;
+                    return await sc.ReplaceDialogAsync(FindContactAction.UpdateName, options);
                 }
                 else
                 if (unionList.Count == 1)
@@ -696,6 +738,50 @@ namespace EmailSkill.Dialogs.FindContact
             }
         }
 
+        public async Task<DialogTurnResult> AddMoreUserPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context);
+                var nameString = state.FindContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.EmailAddress.Name ?? li.EmailAddress.Name}: {li.EmailAddress.Address}");
+                return await sc.PromptAsync(FindContactAction.TakeFurtherAction, new PromptOptions
+                {
+                    Prompt = ResponseManager.GetResponse(FindContactResponses.AddMoreContactsPrompt, new StringDictionary() { { "NameList", nameString } }),
+                    RetryPrompt = ResponseManager.GetResponse(FindContactResponses.AddMoreContactsPrompt, new StringDictionary() { { "NameList", nameString } })
+                }, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> AfterAddMoreUserPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var result = (bool)sc.Result;
+                if (result)
+                {
+                    var options = sc.Options as FindContactDialogOptions;
+                    options.FindContactReason = FindContactDialogOptions.FindContactReasonType.FindContactAgain;
+                    return await sc.ReplaceDialogAsync(FindContactAction.ConfirmNameList, options);
+                }
+                else
+                {
+                    return await sc.EndDialogAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
         private async Task<PromptOptions> GenerateOptionsForEmail(WaterfallStepContext sc, PersonModel confirmedPerson, ITurnContext context, bool isSinglePage = true)
         {
             var state = await Accessor.GetAsync(sc.Context);
@@ -851,7 +937,7 @@ namespace EmailSkill.Dialogs.FindContact
             return options;
         }
 
-        private async Task<string> GetReadyToSendNameListStringAsync(WaterfallStepContext sc)
+        private async Task<string> GetNameListStringAsync(WaterfallStepContext sc)
         {
             var state = await Accessor.GetAsync(sc.Context);
             var unionList = state.FindContactInfor.ContactsNameList.ToList();
