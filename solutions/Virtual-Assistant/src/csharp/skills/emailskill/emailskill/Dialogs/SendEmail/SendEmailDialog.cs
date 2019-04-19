@@ -46,6 +46,7 @@ namespace EmailSkill.Dialogs.SendEmail
                 CollectSubject,
                 CollectText,
                 ConfirmBeforeSending,
+                ConfirmAllRecipient,
                 SendEmail,
             };
 
