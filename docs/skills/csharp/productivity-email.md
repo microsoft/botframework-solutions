@@ -15,31 +15,34 @@ The following scenarios are currently supported by the Skill:
     - *Send an email*
 - Find Email
     - *Find email from John Smith*
-    - *What email do I have*
+    - *Read email about Microsoft*
  - Add Flag
-   - *This email needs to be flagged*
-   - *Add a flag to the email Simone Jones just sent to me*
- - Check Messages
-   - *Do I have any new mail*
-   - *Check my email*
+    - *This email needs to be flagged*
+    - *Add a flag to the email Simone Jones just sent to me*
+- Check Messages
+    - *Do I have any new mail*
+    - *Check my email*
+- Check Unread/Important/All Emails
+    - *Show my unread emails*
+    - *Show my important emails*
+    - *Show all emails*
  - Delete 
-   - *Do I have any new mail*
-   - *Check my email*
+    - *Delete this email*
  - Forward
-   - *Forward all files from Petrina to Jim*
-   - *Could you forward this message to Cosmo my email*
+    - *Forward all files from Petrina to Jim*
+    - *Could you forward this message to Cosmo my email*
  - Query Last Text
-   - *Who emailed me last*
-   - *What was the last email I got from Dad*
+    - *Who emailed me last*
+    - *What was the last email I got from Dad*
  - Read Aloud
-   - *Read the last email from Philippe*
-   - *Read unread email* 
+    - *Read the last email from Philippe*
+    - *Read unread email* 
  - Reply to an Email
-   - *Reply with "I will call you back"*
-   - *Respond to my last email*
+    - *Reply with "I will call you back"*
+    - *Respond to my last email*
  - Select an Email
-   - *The third search result please*
-   - *Open this one*
+    - *The third search result please*
+    - *Open this one*
 
 
 ## Language Model

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EmailSkill.Dialogs.Shared.Resources.Strings;
 using EmailSkill.Model;
+using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Graph;
 
@@ -10,6 +11,8 @@ namespace EmailSkill.Util
 {
     public class DisplayHelper
     {
+        public static readonly int MaxReadoutNumber = 5;
+
         public static string ToDisplayRecipientsString_Summay(IEnumerable<Recipient> recipients)
         {
             if (recipients == null || recipients.Count() == 0)
@@ -17,16 +20,31 @@ namespace EmailSkill.Util
                 throw new Exception("No recipient!");
             }
 
-            string toRecipient = !string.IsNullOrEmpty(recipients.FirstOrDefault()?.EmailAddress?.Name)
-                                 ? recipients.FirstOrDefault()?.EmailAddress?.Name : EmailCommonStrings.UnknownRecipient;
-
-            var nameListString = toRecipient;
-            if (recipients.Count() > 1)
+            var recipientsList = new List<string>();
+            for (int i = 0; i < Math.Min(recipients.Count(), MaxReadoutNumber); i++)
             {
-                nameListString += string.Format(CommonStrings.RecipientsSummary, recipients.Count() - 1);
+                if (string.IsNullOrEmpty(recipients.ElementAt(i)?.EmailAddress?.Name))
+                {
+                    recipientsList.Add(EmailCommonStrings.UnknownRecipient);
+                }
+                else
+                {
+                    recipientsList.Add(recipients.ElementAt(i)?.EmailAddress?.Name);
+                }
             }
 
-            return nameListString;
+            var toRecipient = string.Empty;
+            if (recipients.Count() > MaxReadoutNumber)
+            {
+                toRecipient = recipientsList.ToSpeechString(", ", li => li);
+                toRecipient += string.Format(CommonStrings.RecipientsSummary, recipients.Count() - MaxReadoutNumber);
+            }
+            else
+            {
+                toRecipient = recipientsList.ToSpeechString(CommonStrings.And, li => li);
+            }
+
+            return toRecipient;
         }
 
         public static string ToDisplayRecipientsString(IEnumerable<Recipient> recipients)
@@ -36,26 +54,20 @@ namespace EmailSkill.Util
                 throw new Exception("No recipient!");
             }
 
-            string toRecipient = !string.IsNullOrEmpty(recipients.FirstOrDefault()?.EmailAddress?.Name)
-                                 ? recipients.FirstOrDefault()?.EmailAddress?.Name : EmailCommonStrings.UnknownRecipient;
-
-            var displayString = toRecipient;
-            if (recipients.Count() > 1)
+            var recipientsList = new List<string>();
+            for (int i = 0; i < recipients.Count(); i++)
             {
-                for (int i = 1; i < recipients.Count(); i++)
+                if (string.IsNullOrEmpty(recipients.ElementAt(i)?.EmailAddress?.Name))
                 {
-                    if (string.IsNullOrEmpty(recipients.ElementAt(i)?.EmailAddress?.Name))
-                    {
-                        displayString += string.Format("; {0}", EmailCommonStrings.UnknownRecipient);
-                    }
-                    else
-                    {
-                        displayString += string.Format("; {0}", recipients.ElementAt(i)?.EmailAddress?.Name);
-                    }
+                    recipientsList.Add(EmailCommonStrings.UnknownRecipient);
+                }
+                else
+                {
+                    recipientsList.Add(recipients.ElementAt(i)?.EmailAddress?.Name);
                 }
             }
 
-            return displayString;
+            return recipientsList.ToSpeechString(CommonStrings.And, li => li);
         }
 
         public static (List<PersonModel> formattedPersonList, List<PersonModel> formattedUserList) FormatRecipientList(List<PersonModel> personList, List<PersonModel> userList)
