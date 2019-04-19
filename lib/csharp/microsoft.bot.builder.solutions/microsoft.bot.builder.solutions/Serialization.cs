@@ -15,9 +15,9 @@ namespace Microsoft.Bot.Builder.Solutions
             ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
             ContractResolver = new ReadOnlyJsonContractResolver(),
             Converters = new List<JsonConverter>
-                    {
-                        new Iso8601TimeSpanConverter()
-                    }
+            {
+                new Iso8601TimeSpanConverter(),
+            },
         };
 
         public static JsonSerializerSettings Settings { get => settings; set => settings = value; }
