@@ -4,10 +4,8 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using EmailSkill.Dialogs.FindContact.DialogOptions;
 using EmailSkill.Dialogs.FindContact.Resources;
-using EmailSkill.Dialogs.Shared;
-using EmailSkill.Dialogs.Shared.DialogOptions;
-using EmailSkill.Dialogs.Shared.Resources;
 using EmailSkill.Dialogs.Shared.Resources.Strings;
 using EmailSkill.Model;
 using EmailSkill.ServiceClients;
@@ -18,13 +16,15 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Schema;
 using Microsoft.Graph;
-using static EmailSkill.EmailSkillState;
+using Microsoft.Recognizers.Text;
 
 namespace EmailSkill.Dialogs.FindContact
 {
-    public class FindContactDialog : EmailSkillDialog
+    public class FindContactDialog : ComponentDialog
     {
         public FindContactDialog(
            SkillConfigurationBase services,
@@ -33,9 +33,20 @@ namespace EmailSkill.Dialogs.FindContact
            IStatePropertyAccessor<DialogState> dialogStateAccessor,
            IServiceManager serviceManager,
            IBotTelemetryClient telemetryClient)
-           : base(nameof(FindContactDialog), services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
+            : base(nameof(FindContactDialog))
         {
             TelemetryClient = telemetryClient;
+            Services = services;
+            ResponseManager = responseManager;
+            Accessor = emailStateAccessor;
+            DialogStateAccessor = dialogStateAccessor;
+            ServiceManager = serviceManager;
+            TelemetryClient = telemetryClient;
+
+            if (!Services.AuthenticationConnections.Any())
+            {
+                throw new Exception("You must configure an authentication connection in your bot file before using this component.");
+            }
 
             // entry, get the name list
             var confirmNameList = new WaterfallStep[]
@@ -102,29 +113,42 @@ namespace EmailSkill.Dialogs.FindContact
                 AfterSelectEmail
             };
 
-            AddDialog(new WaterfallDialog(Actions.ConfirmNameList, confirmNameList) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.LoopNameList, loopNameList) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.ConfirmAttendee, confirmAttendee) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.UpdateName, updateName) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.SelectPerson, selectPerson) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.SelectEmail, selectEmail) { TelemetryClient = telemetryClient });
-            InitialDialogId = Actions.ConfirmNameList;
+            AddDialog(new TextPrompt(FindContactAction.Prompt));
+            AddDialog(new ConfirmPrompt(FindContactAction.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
+            AddDialog(new WaterfallDialog(FindContactAction.ConfirmNameList, confirmNameList) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(FindContactAction.LoopNameList, loopNameList) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(FindContactAction.ConfirmAttendee, confirmAttendee) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(FindContactAction.UpdateName, updateName) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(FindContactAction.SelectPerson, selectPerson) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(FindContactAction.SelectEmail, selectEmail) { TelemetryClient = telemetryClient });
+            AddDialog(new ChoicePrompt(FindContactAction.Choice, ChoiceValidator, Culture.English) { Style = ListStyle.None, });
+            InitialDialogId = FindContactAction.ConfirmNameList;
         }
+
+        protected SkillConfigurationBase Services { get; set; }
+
+        protected IStatePropertyAccessor<EmailSkillState> Accessor { get; set; }
+
+        protected IStatePropertyAccessor<DialogState> DialogStateAccessor { get; set; }
+
+        protected IServiceManager ServiceManager { get; set; }
+
+        protected ResponseManager ResponseManager { get; set; }
 
         public async Task<DialogTurnResult> ConfirmNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
 
-                //// got attendee name list already.
-                if (state.AttendeesNameList.Any())
+                // got attendee name list already.
+                if (state.FindContactInfor.ContactsNameList.Any())
                 {
                     return await sc.NextAsync();
                 }
 
                 // ask for attendee
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.NoRecipients) }, cancellationToken);
+                return await sc.PromptAsync(FindContactAction.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.NoRecipients) }, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -138,7 +162,7 @@ namespace EmailSkill.Dialogs.FindContact
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
 
                 // get name list from sc.result
                 if (sc.Result != null)
@@ -146,15 +170,6 @@ namespace EmailSkill.Dialogs.FindContact
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                     var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
 
-                    // if is skip. set the name list to be myself only.
-                    //if (CreateEventWhiteList.IsSkip(userInput))
-                    //{
-                    //    state.AttendeesNameList = new List<string>
-                    //    {
-                    //        CalendarCommonStrings.MyselfConst
-                    //    };
-                    //}
-                    //else
                     if (state.MailSourceType != MailSource.Other)
                     {
                         if (userInput != null)
@@ -163,27 +178,27 @@ namespace EmailSkill.Dialogs.FindContact
                                 .Select(x => x.Trim())
                                 .Where(x => !string.IsNullOrWhiteSpace(x))
                                 .ToList();
-                            state.AttendeesNameList = nameList;
+                            state.FindContactInfor.ContactsNameList = nameList;
                         }
                     }
                 }
 
-                if (state.AttendeesNameList.Any())
+                if (state.FindContactInfor.ContactsNameList.Any())
                 {
-                    if (state.AttendeesNameList.Count > 1)
+                    if (state.FindContactInfor.ContactsNameList.Count > 1)
                     {
                         var nameString = await GetReadyToSendNameListStringAsync(sc);
                         await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.BeforeSendingMessage, new StringDictionary() { { "NameList", nameString } }));
                     }
 
                     // go to loop to go through all the names
-                    state.ConfirmAttendeesNameIndex = 0;
-                    return await sc.ReplaceDialogAsync(Actions.LoopNameList, sc.Options, cancellationToken);
+                    state.FindContactInfor.ConfirmContactsNameIndex = 0;
+                    return await sc.ReplaceDialogAsync(FindContactAction.LoopNameList, sc.Options, cancellationToken);
                 }
 
-                state.AttendeesNameList = new List<string>();
-                state.CurrentAttendeeName = string.Empty;
-                state.ConfirmAttendeesNameIndex = 0;
+                state.FindContactInfor.ContactsNameList = new List<string>();
+                state.FindContactInfor.CurrentContactName = string.Empty;
+                state.FindContactInfor.ConfirmContactsNameIndex = 0;
                 return await sc.EndDialogAsync();
             }
             catch (Exception ex)
@@ -198,11 +213,11 @@ namespace EmailSkill.Dialogs.FindContact
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                if (state.ConfirmAttendeesNameIndex < state.AttendeesNameList.Count)
+                var state = await Accessor.GetAsync(sc.Context);
+                if (state.FindContactInfor.ConfirmContactsNameIndex < state.FindContactInfor.ContactsNameList.Count)
                 {
-                    state.CurrentAttendeeName = state.AttendeesNameList[state.ConfirmAttendeesNameIndex];
-                    return await sc.BeginDialogAsync(Actions.ConfirmAttendee, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.Initialize), cancellationToken);
+                    state.FindContactInfor.CurrentContactName = state.FindContactInfor.ContactsNameList[state.FindContactInfor.ConfirmContactsNameIndex];
+                    return await sc.BeginDialogAsync(FindContactAction.ConfirmAttendee, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.Initialize), cancellationToken);
                 }
                 else
                 {
@@ -221,10 +236,10 @@ namespace EmailSkill.Dialogs.FindContact
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                state.ConfirmAttendeesNameIndex = state.ConfirmAttendeesNameIndex + 1;
-                state.ConfirmedPerson = null;
-                return await sc.ReplaceDialogAsync(Actions.LoopNameList, sc.Options, cancellationToken);
+                var state = await Accessor.GetAsync(sc.Context);
+                state.FindContactInfor.ConfirmContactsNameIndex = state.FindContactInfor.ConfirmContactsNameIndex + 1;
+                state.FindContactInfor.ConfirmedContact = null;
+                return await sc.ReplaceDialogAsync(FindContactAction.LoopNameList, sc.Options, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -238,15 +253,15 @@ namespace EmailSkill.Dialogs.FindContact
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
 
                 // when called bt LoopNameList, the options reason is initialize.
                 // when replaced by itself, the reason will be Confirm No.
                 var options = (UpdateUserNameDialogOptions)sc.Options;
 
                 // set the ConfirmPerson to null as defaut.
-                state.ConfirmedPerson = null;
-                return await sc.BeginDialogAsync(Actions.UpdateName, options: options, cancellationToken: cancellationToken);
+                state.FindContactInfor.ConfirmedContact = null;
+                return await sc.BeginDialogAsync(FindContactAction.UpdateName, options: options, cancellationToken: cancellationToken);
             }
             catch (SkillException skillEx)
             {
@@ -264,8 +279,8 @@ namespace EmailSkill.Dialogs.FindContact
 
         public async Task<DialogTurnResult> ConfirmEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await EmailStateAccessor.GetAsync(sc.Context);
-            var confirmedPerson = state.ConfirmedPerson;
+            var state = await Accessor.GetAsync(sc.Context);
+            var confirmedPerson = state.FindContactInfor.ConfirmedContact;
             if (confirmedPerson == null)
             {
                 return await sc.EndDialogAsync();
@@ -275,11 +290,11 @@ namespace EmailSkill.Dialogs.FindContact
             if (confirmedPerson.Emails.Count() == 1)
             {
                 // Highest probability
-                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "UserName", name }, { "EmailAddress", confirmedPerson.Emails.First() ?? confirmedPerson.UserPrincipalName } }), });
+                return await sc.PromptAsync(FindContactAction.TakeFurtherAction, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.PromptOneNameOneAddress, new StringDictionary() { { "UserName", name }, { "EmailAddress", confirmedPerson.Emails.First() ?? confirmedPerson.UserPrincipalName } }), });
             }
             else
             {
-                return await sc.BeginDialogAsync(Actions.SelectEmail);
+                return await sc.BeginDialogAsync(FindContactAction.SelectEmail);
             }
         }
 
@@ -287,12 +302,12 @@ namespace EmailSkill.Dialogs.FindContact
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var confirmedPerson = state.ConfirmedPerson;
+                var state = await Accessor.GetAsync(sc.Context);
+                var confirmedPerson = state.FindContactInfor.ConfirmedContact;
                 var name = confirmedPerson.DisplayName;
 
                 // it will be new retry whether the user set this attendee down or choose to retry on this one.
-                state.FirstRetryInFindContact = true;
+                state.FindContactInfor.FirstRetryInFindContact = true;
 
                 if (!(sc.Result is bool) || (bool)sc.Result)
                 {
@@ -304,16 +319,16 @@ namespace EmailSkill.Dialogs.FindContact
                             Address = confirmedPerson.Emails.First()
                         }
                     };
-                    if (state.Attendees.All(r => r.EmailAddress.Address != attendee.EmailAddress.Address))
+                    if (state.FindContactInfor.Contacts.All(r => r.EmailAddress.Address != attendee.EmailAddress.Address))
                     {
-                        state.Attendees.Add(attendee);
+                        state.FindContactInfor.Contacts.Add(attendee);
                     }
 
                     return await sc.EndDialogAsync();
                 }
                 else
                 {
-                    return await sc.ReplaceDialogAsync(Actions.ConfirmAttendee, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.ConfirmNo));
+                    return await sc.ReplaceDialogAsync(FindContactAction.ConfirmAttendee, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.ConfirmNo));
                 }
             }
             catch (Exception ex)
@@ -328,32 +343,32 @@ namespace EmailSkill.Dialogs.FindContact
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                state.UnconfirmedPerson.Clear();
-                state.ConfirmedPerson = null;
+                var state = await Accessor.GetAsync(sc.Context);
+                state.FindContactInfor.UnconfirmedContact.Clear();
+                state.FindContactInfor.ConfirmedContact = null;
                 var options = (UpdateUserNameDialogOptions)sc.Options;
 
                 // if it is confirm no, then ask user to give a new attendee
                 if (options.Reason == UpdateUserNameDialogOptions.UpdateReason.ConfirmNo)
                 {
                     return await sc.PromptAsync(
-                        Actions.Prompt,
+                        FindContactAction.Prompt,
                         new PromptOptions
                         {
                             Prompt = ResponseManager.GetResponse(FindContactResponses.NoRecipients)
                         });
                 }
 
-                var currentRecipientName = state.CurrentAttendeeName;
+                var currentRecipientName = state.FindContactInfor.CurrentContactName;
 
                 // if not initialize ask user for attendee
                 if (options.Reason != UpdateUserNameDialogOptions.UpdateReason.Initialize)
                 {
-                    if (state.FirstRetryInFindContact)
+                    if (state.FindContactInfor.FirstRetryInFindContact)
                     {
-                        state.FirstRetryInFindContact = false;
+                        state.FindContactInfor.FirstRetryInFindContact = false;
                         return await sc.PromptAsync(
-                            Actions.Prompt,
+                            FindContactAction.Prompt,
                             new PromptOptions
                             {
                                 Prompt = ResponseManager.GetResponse(
@@ -373,8 +388,8 @@ namespace EmailSkill.Dialogs.FindContact
                             { "source", state.MailSourceType == MailSource.Microsoft ? "Outlook" : "Gmail" },
                             { "UserName", currentRecipientName }
                             }));
-                        state.FirstRetryInFindContact = true;
-                        state.CurrentAttendeeName = string.Empty;
+                        state.FindContactInfor.FirstRetryInFindContact = true;
+                        state.FindContactInfor.CurrentContactName = string.Empty;
                         return await sc.EndDialogAsync();
                     }
                 }
@@ -394,7 +409,7 @@ namespace EmailSkill.Dialogs.FindContact
             try
             {
                 var userInput = sc.Result as string;
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
                 var options = (UpdateUserNameDialogOptions)sc.Options;
 
                 if (string.IsNullOrEmpty(userInput) && options.Reason != UpdateUserNameDialogOptions.UpdateReason.Initialize)
@@ -403,8 +418,8 @@ namespace EmailSkill.Dialogs.FindContact
                     return await sc.EndDialogAsync();
                 }
 
-                string currentRecipientName = string.IsNullOrEmpty(userInput) ? state.CurrentAttendeeName : userInput;
-                state.CurrentAttendeeName = currentRecipientName;
+                string currentRecipientName = string.IsNullOrEmpty(userInput) ? state.FindContactInfor.CurrentContactName : userInput;
+                state.FindContactInfor.CurrentContactName = currentRecipientName;
 
                 // if it's an email, add to attendee and keep the state.ConfirmedPerson null
                 if (!string.IsNullOrEmpty(currentRecipientName) && Util.Util.IsEmail(currentRecipientName))
@@ -417,100 +432,92 @@ namespace EmailSkill.Dialogs.FindContact
                             Address = currentRecipientName
                         }
                     };
-                    if (state.Attendees.All(r => r.EmailAddress.Address != attendee.EmailAddress.Address))
+                    if (state.FindContactInfor.Contacts.All(r => r.EmailAddress.Address != attendee.EmailAddress.Address))
                     {
-                        state.Attendees.Add(attendee);
+                        state.FindContactInfor.Contacts.Add(attendee);
                     }
 
-                    state.CurrentAttendeeName = string.Empty;
-                    state.ConfirmedPerson = null;
+                    state.FindContactInfor.CurrentContactName = string.Empty;
+                    state.FindContactInfor.ConfirmedContact = null;
                     return await sc.EndDialogAsync();
                 }
 
-                List<CustomizedPerson> unionList = new List<CustomizedPerson>();
+                List<PersonModel> unionList = new List<PersonModel>();
 
-                //if (CreateEventWhiteList.GetMyself(currentRecipientName))
-                //{
-                //    var me = await GetMe(sc.Context);
-                //    unionList.Add(new CustomizedPerson(me));
-                //}
-                //else
+                var originPersonList = await GetPeopleWorkWithAsync(sc, currentRecipientName);
+                var originContactList = await GetContactsAsync(sc, currentRecipientName);
+                originPersonList.AddRange(originContactList);
+
+                var originUserList = new List<PersonModel>();
+                try
                 {
-                    var originPersonList = await GetPeopleWorkWithAsync(sc, currentRecipientName);
-                    var originContactList = await GetContactsAsync(sc, currentRecipientName);
-                    originPersonList.AddRange(originContactList);
+                    originUserList = await GetUserAsync(sc, currentRecipientName);
+                }
+                catch
+                {
+                    // do nothing when get user failed. because can not use token to ensure user use a work account.
+                }
 
-                    var originUserList = new List<PersonModel>();
-                    try
-                    {
-                        originUserList = await GetUserAsync(sc, currentRecipientName);
-                    }
-                    catch
-                    {
-                        // do nothing when get user failed. because can not use token to ensure user use a work account.
-                    }
+                (var personList, var userList) = FormatRecipientList(originPersonList, originUserList);
 
-                    (var personList, var userList) = FormatRecipientList(originPersonList, originUserList);
+                // people you work with has the distinct email address has the highest priority
+                if (personList.Count == 1 && personList.First().Emails.Any() && personList.First().Emails.First() != null)
+                {
+                    unionList.Add(personList.First());
+                }
+                else
+                {
+                    personList.AddRange(userList);
 
-                    // people you work with has the distinct email address has the highest priority
-                    if (personList.Count == 1 && personList.First().Emails.Any() && personList.First().Emails.First() != null)
+                    foreach (var person in personList)
                     {
-                        unionList.Add(new CustomizedPerson(personList.First()));
-                    }
-                    else
-                    {
-                        personList.AddRange(userList);
-
-                        foreach (var person in personList)
+                        if (unionList.Find(p => p.DisplayName == person.DisplayName) == null)
                         {
-                            if (unionList.Find(p => p.DisplayName == person.DisplayName) == null)
+                            var personWithSameName = personList.FindAll(p => p.DisplayName == person.DisplayName);
+                            if (personWithSameName.Count == 1)
                             {
-                                var personWithSameName = personList.FindAll(p => p.DisplayName == person.DisplayName);
-                                if (personWithSameName.Count == 1)
+                                unionList.Add(personWithSameName.First());
+                            }
+                            else
+                            {
+                                var unionPerson = personWithSameName.FirstOrDefault();
+                                var curEmailList = new List<string>();
+                                foreach (var sameNamePerson in personWithSameName)
                                 {
-                                    unionList.Add(new CustomizedPerson(personWithSameName.First()));
-                                }
-                                else
-                                {
-                                    var unionPerson = new CustomizedPerson(personWithSameName.FirstOrDefault());
-                                    var curEmailList = new List<ScoredEmailAddress>();
-                                    foreach (var sameNamePerson in personWithSameName)
+                                    sameNamePerson.Emails.ToList().ForEach(e =>
                                     {
-                                        sameNamePerson.Emails.ToList().ForEach(e =>
+                                        if (!string.IsNullOrEmpty(e))
                                         {
-                                            if (!string.IsNullOrEmpty(e))
-                                            {
-                                                curEmailList.Add(new ScoredEmailAddress { Address = e });
-                                            }
-                                        });
-                                    }
-
-                                    unionPerson.Emails = curEmailList;
-                                    unionList.Add(unionPerson);
+                                            curEmailList.Add(e);
+                                        }
+                                    });
                                 }
+
+                                unionPerson.Emails = curEmailList;
+                                unionList.Add(unionPerson);
                             }
                         }
                     }
                 }
 
-                unionList.RemoveAll(person => !person.Emails.Exists(email => email.Address != null));
+                unionList.RemoveAll(person => !person.Emails.Exists(email => email != null));
                 unionList.RemoveAll(person => !person.Emails.Any());
 
-                state.UnconfirmedPerson = unionList;
+                state.FindContactInfor.UnconfirmedContact = unionList;
 
                 if (unionList.Count == 0)
                 {
-                    return await sc.ReplaceDialogAsync(Actions.UpdateName, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.NotFound));
+                    return await sc.ReplaceDialogAsync(FindContactAction.UpdateName, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.NotFound));
                 }
                 else
                 if (unionList.Count == 1)
                 {
-                    state.ConfirmedPerson = unionList.First();
+                    state.FindContactInfor.ConfirmedContact = unionList.First();
                     return await sc.EndDialogAsync();
                 }
                 else
                 {
-                    return await sc.ReplaceDialogAsync(Actions.SelectPerson, sc.Options, cancellationToken);
+                    return await sc.ReplaceDialogAsync(FindContactAction.SelectPerson, sc.Options, cancellationToken);
                 }
             }
             catch (SkillException skillEx)
@@ -531,15 +538,15 @@ namespace EmailSkill.Dialogs.FindContact
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var unionList = state.UnconfirmedPerson;
+                var state = await Accessor.GetAsync(sc.Context);
+                var unionList = state.FindContactInfor.UnconfirmedContact;
                 if (unionList.Count <= ConfigData.GetInstance().MaxDisplaySize)
                 {
-                    return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForName(sc, unionList, sc.Context, true));
+                    return await sc.PromptAsync(FindContactAction.Choice, await GenerateOptionsForName(sc, unionList, sc.Context, true));
                 }
                 else
                 {
-                    return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForName(sc, unionList, sc.Context, false));
+                    return await sc.PromptAsync(FindContactAction.Choice, await GenerateOptionsForName(sc, unionList, sc.Context, false));
                 }
             }
             catch (Exception ex)
@@ -554,24 +561,23 @@ namespace EmailSkill.Dialogs.FindContact
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
                 var luisResult = state.LuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
                 var generlLuisResult = state.GeneralLuisResult;
                 var generalTopIntent = generlLuisResult?.TopIntent().intent;
-                generalTopIntent = MergeShowIntent(generalTopIntent, topIntent, luisResult);
 
                 if (sc.Result == null)
                 {
                     if (generalTopIntent == General.Intent.ShowNext)
                     {
-                        state.ShowAttendeesIndex++;
+                        state.FindContactInfor.ShowContactsIndex++;
                     }
                     else if (generalTopIntent == General.Intent.ShowPrevious)
                     {
-                        if (state.ShowAttendeesIndex > 0)
+                        if (state.FindContactInfor.ShowContactsIndex > 0)
                         {
-                            state.ShowAttendeesIndex--;
+                            state.FindContactInfor.ShowContactsIndex--;
                         }
                         else
                         {
@@ -581,21 +587,21 @@ namespace EmailSkill.Dialogs.FindContact
                     else
                     {
                         // result is null when just update the recipient name. show recipients page should be reset.
-                        state.ShowAttendeesIndex = 0;
+                        state.FindContactInfor.ShowContactsIndex = 0;
                     }
 
-                    return await sc.ReplaceDialogAsync(Actions.SelectPerson, options: sc.Options, cancellationToken: cancellationToken);
+                    return await sc.ReplaceDialogAsync(FindContactAction.SelectPerson, options: sc.Options, cancellationToken: cancellationToken);
                 }
 
                 var choiceResult = (sc.Result as FoundChoice)?.Value.Trim('*');
                 if (choiceResult != null)
                 {
                     // Clean up data
-                    state.ShowAttendeesIndex = 0;
+                    state.FindContactInfor.ShowContactsIndex = 0;
 
                     // Start to confirm the email
-                    var confirmedPerson = state.UnconfirmedPerson.Where(p => p.DisplayName.ToLower() == choiceResult.ToLower()).First();
-                    state.ConfirmedPerson = confirmedPerson;
+                    var confirmedPerson = state.FindContactInfor.UnconfirmedContact.Where(p => p.DisplayName.ToLower() == choiceResult.ToLower()).First();
+                    state.FindContactInfor.ConfirmedContact = confirmedPerson;
                 }
 
                 return await sc.EndDialogAsync();
@@ -612,18 +618,18 @@ namespace EmailSkill.Dialogs.FindContact
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var confirmedPerson = state.ConfirmedPerson;
+                var state = await Accessor.GetAsync(sc.Context);
+                var confirmedPerson = state.FindContactInfor.ConfirmedContact;
                 var emailString = string.Empty;
                 var emailList = confirmedPerson.Emails.ToList();
 
                 if (emailList.Count <= ConfigData.GetInstance().MaxDisplaySize)
                 {
-                    return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForEmail(sc, confirmedPerson, sc.Context, true));
+                    return await sc.PromptAsync(FindContactAction.Choice, await GenerateOptionsForEmail(sc, confirmedPerson, sc.Context, true));
                 }
                 else
                 {
-                    return await sc.PromptAsync(Actions.Choice, await GenerateOptionsForEmail(sc, confirmedPerson, sc.Context, false));
+                    return await sc.PromptAsync(FindContactAction.Choice, await GenerateOptionsForEmail(sc, confirmedPerson, sc.Context, false));
                 }
             }
             catch (Exception ex)
@@ -638,24 +644,23 @@ namespace EmailSkill.Dialogs.FindContact
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = await Accessor.GetAsync(sc.Context);
                 var luisResult = state.LuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
                 var generlLuisResult = state.GeneralLuisResult;
                 var generalTopIntent = generlLuisResult?.TopIntent().intent;
-                generalTopIntent = MergeShowIntent(generalTopIntent, topIntent, luisResult);
 
                 if (sc.Result == null)
                 {
                     if (generalTopIntent == General.Intent.ShowNext)
                     {
-                        state.ShowAttendeesIndex++;
+                        state.FindContactInfor.ShowContactsIndex++;
                     }
                     else if (generalTopIntent == General.Intent.ShowPrevious)
                     {
-                        if (state.ShowAttendeesIndex > 0)
+                        if (state.FindContactInfor.ShowContactsIndex > 0)
                         {
-                            state.ShowAttendeesIndex--;
+                            state.FindContactInfor.ShowContactsIndex--;
                         }
                         else
                         {
@@ -665,20 +670,20 @@ namespace EmailSkill.Dialogs.FindContact
                     else
                     {
                         // result is null when just update the recipient name. show recipients page should be reset.
-                        state.ShowAttendeesIndex = 0;
+                        state.FindContactInfor.ShowContactsIndex = 0;
                     }
 
-                    return await sc.ReplaceDialogAsync(Actions.SelectEmail, sc.Options, cancellationToken);
+                    return await sc.ReplaceDialogAsync(FindContactAction.SelectEmail, sc.Options, cancellationToken);
                 }
 
                 var choiceResult = (sc.Result as FoundChoice)?.Value.Trim('*');
                 if (choiceResult != null)
                 {
-                    state.ConfirmedPerson.DisplayName = choiceResult.Split(": ")[0];
-                    state.ConfirmedPerson.Emails.First().Address = choiceResult.Split(": ")[1];
+                    state.FindContactInfor.ConfirmedContact.DisplayName = choiceResult.Split(": ")[0];
+                    state.FindContactInfor.ConfirmedContact.Emails.Add(choiceResult.Split(": ")[1]);
 
                     // Clean up data
-                    state.ShowAttendeesIndex = 0;
+                    state.FindContactInfor.ShowContactsIndex = 0;
                 }
 
                 return await sc.EndDialogAsync();
@@ -691,10 +696,10 @@ namespace EmailSkill.Dialogs.FindContact
             }
         }
 
-        private async Task<PromptOptions> GenerateOptionsForEmail(WaterfallStepContext sc, CustomizedPerson confirmedPerson, ITurnContext context, bool isSinglePage = true)
+        private async Task<PromptOptions> GenerateOptionsForEmail(WaterfallStepContext sc, PersonModel confirmedPerson, ITurnContext context, bool isSinglePage = true)
         {
-            var state = await EmailStateAccessor.GetAsync(sc.Context);
-            var pageIndex = state.ShowAttendeesIndex;
+            var state = await Accessor.GetAsync(sc.Context);
+            var pageIndex = state.FindContactInfor.ShowContactsIndex;
             var pageSize = 3;
             var skip = pageSize * pageIndex;
             var emailList = confirmedPerson.Emails.ToList();
@@ -702,8 +707,8 @@ namespace EmailSkill.Dialogs.FindContact
             // Go back to the last page when reaching the end.
             if (skip >= emailList.Count && pageIndex > 0)
             {
-                state.ShowAttendeesIndex--;
-                pageIndex = state.ShowAttendeesIndex;
+                state.FindContactInfor.ShowContactsIndex--;
+                pageIndex = state.FindContactInfor.ShowContactsIndex;
                 skip = pageSize * pageIndex;
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.AlreadyLastPage));
             }
@@ -722,7 +727,7 @@ namespace EmailSkill.Dialogs.FindContact
             for (var i = 0; i < emailList.Count; i++)
             {
                 var user = confirmedPerson;
-                var mailAddress = emailList[i].Address ?? user.UserPrincipalName;
+                var mailAddress = emailList[i] ?? user.UserPrincipalName;
 
                 var choice = new Choice()
                 {
@@ -742,7 +747,7 @@ namespace EmailSkill.Dialogs.FindContact
                     {
                         options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
                         options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
-                        options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
+                        options.RetryPrompt = ResponseManager.GetResponse(FindContactResponses.DidntUnderstandMessage);
                         return options;
                     }
 
@@ -756,7 +761,7 @@ namespace EmailSkill.Dialogs.FindContact
 
             options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
             options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
-            options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
+            options.RetryPrompt = ResponseManager.GetResponse(FindContactResponses.DidntUnderstandMessage);
             return options;
         }
 
@@ -778,19 +783,19 @@ namespace EmailSkill.Dialogs.FindContact
             return result;
         }
 
-        private async Task<PromptOptions> GenerateOptionsForName(WaterfallStepContext sc, List<CustomizedPerson> unionList, ITurnContext context, bool isSinglePage = true)
+        private async Task<PromptOptions> GenerateOptionsForName(WaterfallStepContext sc, List<PersonModel> unionList, ITurnContext context, bool isSinglePage = true)
         {
-            var state = await EmailStateAccessor.GetAsync(sc.Context);
-            var pageIndex = state.ShowAttendeesIndex;
+            var state = await Accessor.GetAsync(sc.Context);
+            var pageIndex = state.FindContactInfor.ShowContactsIndex;
             var pageSize = 3;
             var skip = pageSize * pageIndex;
-            var currentRecipientName = state.CurrentAttendeeName;
+            var currentRecipientName = state.FindContactInfor.CurrentContactName;
 
             // Go back to the last page when reaching the end.
             if (skip >= unionList.Count && pageIndex > 0)
             {
-                state.ShowAttendeesIndex--;
-                pageIndex = state.ShowAttendeesIndex;
+                state.FindContactInfor.ShowContactsIndex--;
+                pageIndex = state.FindContactInfor.ShowContactsIndex;
                 skip = pageSize * pageIndex;
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.AlreadyLastPage));
             }
@@ -828,7 +833,7 @@ namespace EmailSkill.Dialogs.FindContact
                     {
                         options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
                         options.Prompt.Text = GetSelectPromptString(options, true);
-                        options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
+                        options.RetryPrompt = ResponseManager.GetResponse(FindContactResponses.DidntUnderstandMessage);
                         return options;
                     }
 
@@ -842,14 +847,14 @@ namespace EmailSkill.Dialogs.FindContact
 
             options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
             options.Prompt.Text = GetSelectPromptString(options, true);
-            options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
+            options.RetryPrompt = ResponseManager.GetResponse(FindContactResponses.DidntUnderstandMessage);
             return options;
         }
 
         private async Task<string> GetReadyToSendNameListStringAsync(WaterfallStepContext sc)
         {
-            var state = await EmailStateAccessor.GetAsync(sc.Context);
-            var unionList = state.AttendeesNameList.ToList();
+            var state = await Accessor.GetAsync(sc.Context);
+            var unionList = state.FindContactInfor.ContactsNameList.ToList();
             if (unionList.Count == 1)
             {
                 return unionList.First();
@@ -929,7 +934,7 @@ namespace EmailSkill.Dialogs.FindContact
         protected async Task<List<PersonModel>> GetContactsAsync(WaterfallStepContext sc, string name)
         {
             var result = new List<PersonModel>();
-            var state = await EmailStateAccessor.GetAsync(sc.Context);
+            var state = await Accessor.GetAsync(sc.Context);
             var token = state.Token;
             var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
 
@@ -941,7 +946,7 @@ namespace EmailSkill.Dialogs.FindContact
         protected async Task<List<PersonModel>> GetPeopleWorkWithAsync(WaterfallStepContext sc, string name)
         {
             var result = new List<PersonModel>();
-            var state = await EmailStateAccessor.GetAsync(sc.Context);
+            var state = await Accessor.GetAsync(sc.Context);
             var token = state.Token;
             var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
 
@@ -954,7 +959,7 @@ namespace EmailSkill.Dialogs.FindContact
         protected async Task<List<PersonModel>> GetUserAsync(WaterfallStepContext sc, string name)
         {
             var result = new List<PersonModel>();
-            var state = await EmailStateAccessor.GetAsync(sc.Context);
+            var state = await Accessor.GetAsync(sc.Context);
             var token = state.Token;
             var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
 
@@ -962,6 +967,73 @@ namespace EmailSkill.Dialogs.FindContact
             result = await service.GetUserAsync(name);
 
             return result;
+        }
+
+        protected string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)
+        {
+            var result = string.Empty;
+            for (var i = 0; i < selectOption.Choices.Count; i++)
+            {
+                var choice = selectOption.Choices[i];
+                result += "  ";
+                if (containNumbers)
+                {
+                    result += i + 1 + "-";
+                }
+
+                result += choice.Value + "\r\n";
+            }
+
+            return result;
+        }
+
+        // This method is called by any waterfall step that throws an exception to ensure consistency
+        protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
+        {
+            // send trace back to emulator
+            var trace = new Activity(type: ActivityTypes.Trace, text: $"DialogException: {ex.Message}, StackTrace: {ex.StackTrace}");
+            await sc.Context.SendActivityAsync(trace);
+
+            // log exception
+            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
+
+            // send error message to bot user
+            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.ErrorMessage));
+
+            // clear state
+            var state = await Accessor.GetAsync(sc.Context);
+            state.Clear();
+        }
+
+        protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> pc, CancellationToken cancellationToken)
+        {
+            var state = await Accessor.GetAsync(pc.Context);
+            var generalLuisResult = state.GeneralLuisResult;
+            var generalTopIntent = generalLuisResult?.TopIntent().intent;
+            var emailLuisResult = state.LuisResult;
+            var emailTopIntent = emailLuisResult?.TopIntent().intent;
+
+            // TODO: The signature for validators has changed to return bool -- Need new way to handle this logic
+            // If user want to show more recipient end current choice dialog and return the intent to next step.
+            if (generalTopIntent == Luis.General.Intent.ShowNext || generalTopIntent == Luis.General.Intent.ShowPrevious || emailTopIntent == EmailLU.Intent.ShowNext || emailTopIntent == EmailLU.Intent.ShowPrevious)
+            {
+                // pc.End(topIntent);
+                return true;
+            }
+            else
+            {
+                if (!pc.Recognized.Succeeded || pc.Recognized == null)
+                {
+                    // do nothing when not recognized.
+                }
+                else
+                {
+                    // pc.End(pc.Recognized.Value);
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

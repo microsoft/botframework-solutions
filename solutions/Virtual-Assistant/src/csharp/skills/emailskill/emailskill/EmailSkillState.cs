@@ -18,36 +18,25 @@ namespace EmailSkill
             User = new User();
             Message = new List<Message>();
             MessageList = new List<Message>();
-            AttendeesNameList = new List<string>();
+            FindContactInfor = new FindContactInformation();
             SenderName = null;
-            EmailList = new List<string>();
             TimeZoneInfo = TimeZoneInfo.Utc;
-            Attendees = new List<Recipient>();
             Subject = null;
             Content = null;
             IsFlaged = false;
             IsUnreadOnly = true;
             IsImportant = false;
-            ConfirmAttendeesNameIndex = 0;
             ShowEmailIndex = 0;
-            ShowAttendeesIndex = 0;
             Token = null;
             ReadEmailIndex = 0;
-            ReadRecipientIndex = 0;
-            RecipientChoiceList = new List<Choice>();
             DirectlyToMe = false;
-            StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-100, 0, 0, 0));
+            StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
             EndDateTime = DateTime.UtcNow;
             UserSelectIndex = -1;
             MailSourceType = MailSource.Other;
-            UnconfirmedPerson = new List<PersonModel>();
-            FirstRetryInFindContact = true;
-            ConfirmedPerson = new PersonModel();
-            FirstEnterFindContact = true;
             SearchTexts = null;
             GeneralSenderName = null;
             GeneralSearchTexts = null;
-            CurrentAttendeeName = string.Empty;
         }
 
         public DialogState ConversationDialogState { get; set; }
@@ -70,31 +59,7 @@ namespace EmailSkill
 
         public TimeZoneInfo TimeZoneInfo { get; set; }
 
-        // Find contact related:
-
-        public List<string> AttendeesNameList { get; set; }
-
-        public List<string> EmailList { get; set; }
-
-        public List<Recipient> Attendees { get; set; }
-
-        public int ConfirmAttendeesNameIndex { get; set; }
-
-        public List<PersonModel> UnconfirmedPerson { get; set; }
-
-        public bool FirstRetryInFindContact { get; set; }
-
-        public PersonModel ConfirmedPerson { get; set; }
-
-        public int ShowAttendeesIndex { get; set; }
-
-        public int ReadRecipientIndex { get; set; }
-
-        public List<Choice> RecipientChoiceList { get; set; }
-
-        public bool FirstEnterFindContact { get; set; }
-
-        public string CurrentAttendeeName { get; set; }
+        public FindContactInformation FindContactInfor { get; set; }
 
         public string Subject { get; set; }
 
@@ -138,20 +103,9 @@ namespace EmailSkill
             return TimeZoneInfo.Local;
         }
 
-        public bool IsNoRecipientAvailable()
-        {
-            return (AttendeesNameList.Count == 0) && (EmailList.Count == 0);
-        }
-
         public void ClearParticipants()
         {
-            AttendeesNameList.Clear();
-            Attendees.Clear();
-            ConfirmAttendeesNameIndex = 0;
-            ReadRecipientIndex = 0;
-            RecipientChoiceList.Clear();
-            EmailList = new List<string>();
-            ShowAttendeesIndex = 0;
+            FindContactInfor.Clear();
 
             Subject = string.IsNullOrEmpty(Subject) ? EmailCommonStrings.Skip : Subject;
             Content = string.IsNullOrEmpty(Content) ? EmailCommonStrings.Skip : Content;
@@ -169,6 +123,42 @@ namespace EmailSkill
             Subject = string.IsNullOrEmpty(Subject) ? EmailCommonStrings.Skip : Subject;
         }
 
+        public void Clear()
+        {
+            Message.Clear();
+            ShowEmailIndex = 0;
+            IsUnreadOnly = true;
+            IsImportant = false;
+            StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
+            EndDateTime = DateTime.UtcNow;
+            DirectlyToMe = false;
+            UserSelectIndex = -1;
+
+            FindContactInfor.Clear();
+            Content = null;
+            Subject = null;
+            SenderName = null;
+            LuisResultPassedFromSkill = null;
+            ReadEmailIndex = 0;
+            SearchTexts = null;
+            GeneralSenderName = null;
+            GeneralSearchTexts = null;
+        }
+
+        // Keep email display and focus data when in sub flow mode
+        public void PartialClear()
+        {
+            FindContactInfor.Clear();
+            Content = null;
+            Subject = null;
+            SenderName = null;
+            LuisResultPassedFromSkill = null;
+            ReadEmailIndex = 0;
+            SearchTexts = null;
+            GeneralSenderName = null;
+            GeneralSearchTexts = null;
+        }
+
         public class UserInformation
         {
             public string Name { get; set; }
@@ -180,25 +170,47 @@ namespace EmailSkill
             public TimeZoneInfo Timezone { get; set; }
         }
 
-        public class CustomizedPerson
+        public class FindContactInformation
         {
-            public CustomizedPerson()
+            public FindContactInformation()
             {
+                CurrentContactName = string.Empty;
+                ContactsNameList = new List<string>();
+                Contacts = new List<Recipient>();
+                ConfirmContactsNameIndex = 0;
+                ShowContactsIndex = 0;
+                UnconfirmedContact = new List<PersonModel>();
+                FirstRetryInFindContact = true;
+                ConfirmedContact = new PersonModel();
             }
 
-            public CustomizedPerson(PersonModel person)
+            public List<string> ContactsNameList { get; set; }
+
+            public List<Recipient> Contacts { get; set; }
+
+            public int ConfirmContactsNameIndex { get; set; }
+
+            public List<PersonModel> UnconfirmedContact { get; set; }
+
+            public bool FirstRetryInFindContact { get; set; }
+
+            public PersonModel ConfirmedContact { get; set; }
+
+            public int ShowContactsIndex { get; set; }
+
+            public string CurrentContactName { get; set; }
+
+            public void Clear()
             {
-                this.Emails = new List<ScoredEmailAddress>();
-                person.Emails.ToList().ForEach(e => this.Emails.Add(new ScoredEmailAddress() { Address = e }));
-                this.DisplayName = person.DisplayName;
-                this.UserPrincipalName = person.UserPrincipalName;
+                CurrentContactName = string.Empty;
+                ContactsNameList.Clear();
+                Contacts.Clear();
+                ConfirmContactsNameIndex = 0;
+                ShowContactsIndex = 0;
+                UnconfirmedContact.Clear();
+                FirstRetryInFindContact = true;
+                ConfirmedContact = new PersonModel();
             }
-
-            public List<ScoredEmailAddress> Emails { get; set; }
-
-            public string DisplayName { get; set; }
-
-            public string UserPrincipalName { get; set; }
         }
     }
 }

@@ -24,14 +24,14 @@ namespace EmailSkill.Dialogs.Shared.Resources.Strings
 
         public static string[] GetContactNameSeparator()
         {
-            var skipItems = EmailCommonStrings.Skip.Split(EmailCommonStrings.Split);
+            var contactItems = EmailCommonStrings.ContactSeparator.Split(EmailCommonStrings.Split);
 
-            for (int i = 0; i < skipItems.Count(); i++)
+            for (int i = 0; i < contactItems.Count(); i++)
             {
-                skipItems[i] = skipItems[i].Trim();
+                contactItems[i] = contactItems[i].Trim();
             }
 
-            return skipItems;
+            return contactItems;
         }
     }
 }

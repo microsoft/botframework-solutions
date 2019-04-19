@@ -432,7 +432,7 @@ namespace EmailSkill.Dialogs.Shared
                 string nameListString;
 
                 // this means reply confirm
-                if (state.Attendees.FirstOrDefault() == null)
+                if (state.FindContactInfor.Contacts.FirstOrDefault() == null)
                 {
                     await GetPreviewSubject(sc, Actions.Reply);
                     nameListString = await GetPreviewNameListString(sc, Actions.Reply);
@@ -453,7 +453,7 @@ namespace EmailSkill.Dialogs.Shared
                     Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : state.Subject,
                     EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : state.Content,
                 };
-                emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.Attendees);
+                emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.FindContactInfor.Contacts);
 
                 var speech = SpeakHelper.ToSpeechEmailSendDetailString(state.Subject, nameListString, state.Content);
                 var tokens = new StringDictionary
@@ -461,7 +461,7 @@ namespace EmailSkill.Dialogs.Shared
                     { "EmailDetails", speech },
                 };
 
-                var recipientCard = state.Attendees.Count() > 5 ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
+                var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
                 var prompt = ResponseManager.GetCardResponse(
                     EmailSharedResponses.ConfirmSend,
                     new Card("EmailWithOutButtonCard", emailCard),
@@ -492,9 +492,9 @@ namespace EmailSkill.Dialogs.Shared
                     var noEmailContentMessage = ResponseManager.GetResponse(EmailSharedResponses.NoEmailContent);
                     if (sc.ActiveDialog.Id == nameof(ForwardEmailDialog))
                     {
-                        if (state.Attendees.Count == 0 || state.Attendees == null)
+                        if (state.FindContactInfor.Contacts.Count == 0 || state.FindContactInfor.Contacts == null)
                         {
-                            state.FirstRetryInFindContact = true;
+                            state.FindContactInfor.FirstRetryInFindContact = true;
                             return await sc.EndDialogAsync();
                         }
 
@@ -526,7 +526,7 @@ namespace EmailSkill.Dialogs.Shared
             {
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                if (state.Attendees.Count() == 0)
+                if (!state.FindContactInfor.Contacts.Any())
                 {
                     return await sc.BeginDialogAsync(Actions.CollectRecipient, skillOptions);
                 }
@@ -546,13 +546,13 @@ namespace EmailSkill.Dialogs.Shared
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
-                if (state.IsNoRecipientAvailable())
+                if (state.FindContactInfor.ContactsNameList.Any())
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(EmailSharedResponses.NoRecipients) });
+                    return await sc.NextAsync();
                 }
                 else
                 {
-                    return await sc.NextAsync();
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(EmailSharedResponses.NoRecipients) });
                 }
             }
             catch (Exception ex)
@@ -571,7 +571,7 @@ namespace EmailSkill.Dialogs.Shared
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
                 // ensure state.nameList is not null or empty
-                if (state.IsNoRecipientAvailable())
+                if (!state.FindContactInfor.ContactsNameList.Any())
                 {
                     var userInput = sc.Result.ToString();
                     if (string.IsNullOrWhiteSpace(userInput))
@@ -579,21 +579,13 @@ namespace EmailSkill.Dialogs.Shared
                         return await sc.BeginDialogAsync(Actions.CollectRecipient, skillOptions);
                     }
 
-                    if (Util.Util.IsEmail(userInput))
-                    {
-                        state.EmailList.Add(userInput);
-                    }
-                    else
-                    {
-                        var nameList = userInput.Split(new[] { ",", CommonStrings.And }, options: StringSplitOptions.None)
+                    var nameList = userInput.Split(EmailCommonPhrase.GetContactNameSeparator(), options: StringSplitOptions.None)
                         .Select(x => x.Trim())
                         .Where(x => !string.IsNullOrWhiteSpace(x))
                         .ToList();
-                        state.AttendeesNameList = nameList;
-                    }
+                    state.FindContactInfor.ContactsNameList = nameList;
                 }
 
-                state.FirstEnterFindContact = true;
                 return await sc.BeginDialogAsync(nameof(FindContactDialog), skillOptions);
             }
             catch (Exception ex)
@@ -773,7 +765,7 @@ namespace EmailSkill.Dialogs.Shared
         protected async Task<string> GetNameListStringAsync(WaterfallStepContext sc)
         {
             var state = await EmailStateAccessor.GetAsync(sc?.Context);
-            var recipients = state.Attendees;
+            var recipients = state.FindContactInfor.Contacts;
 
             if (recipients == null || recipients.Count == 0)
             {
@@ -800,24 +792,6 @@ namespace EmailSkill.Dialogs.Shared
             return result;
         }
 
-        protected string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)
-        {
-            var result = string.Empty;
-            for (var i = 0; i < selectOption.Choices.Count; i++)
-            {
-                var choice = selectOption.Choices[i];
-                result += "  ";
-                if (containNumbers)
-                {
-                    result += i + 1 + "-";
-                }
-
-                result += choice.Value + "\r\n";
-            }
-
-            return result;
-        }
-
         protected async Task<string> GetPreviewNameListString(WaterfallStepContext sc, string actionType)
         {
             var state = await EmailStateAccessor.GetAsync(sc.Context);
@@ -826,13 +800,13 @@ namespace EmailSkill.Dialogs.Shared
             switch (actionType)
             {
                 case Actions.Send:
-                    nameListString = DisplayHelper.ToDisplayRecipientsString(state.Attendees);
+                    nameListString = DisplayHelper.ToDisplayRecipientsString(state.FindContactInfor.Contacts);
                     break;
                 case Actions.Reply:
                 case Actions.Forward:
                 case Actions.Delete:
                 default:
-                    nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(state.Attendees);
+                    nameListString = DisplayHelper.ToDisplayRecipientsString_Summay(state.FindContactInfor.Contacts);
                     break;
             }
 
@@ -851,7 +825,7 @@ namespace EmailSkill.Dialogs.Shared
                 {
                     case Actions.Reply:
                         state.Subject = focusedMessage.Subject.ToLower().StartsWith(EmailCommonStrings.Reply) ? focusedMessage.Subject : string.Format(EmailCommonStrings.ReplyReplyFormat, focusedMessage?.Subject);
-                        state.Attendees = focusedMessage.ToRecipients.ToList();
+                        state.FindContactInfor.Contacts = focusedMessage.ToRecipients.ToList();
                         break;
                     case Actions.Forward:
                         state.Subject = focusedMessage.Subject.ToLower().StartsWith(EmailCommonStrings.Forward) ? focusedMessage.Subject : string.Format(EmailCommonStrings.ForwardReplyFormat, focusedMessage?.Subject);
@@ -1245,34 +1219,14 @@ namespace EmailSkill.Dialogs.Shared
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
 
-                // Keep email display and focus data when in sub flow mode
                 if (skillOptions == null || !skillOptions.SubFlowMode)
                 {
-                    state.Message.Clear();
-                    state.ShowEmailIndex = 0;
-                    state.IsUnreadOnly = true;
-                    state.IsImportant = false;
-                    state.StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-100, 0, 0, 0));
-                    state.EndDateTime = DateTime.UtcNow;
-                    state.DirectlyToMe = false;
-                    state.UserSelectIndex = -1;
+                    state.Clear();
                 }
-
-                state.AttendeesNameList.Clear();
-                state.Content = null;
-                state.Subject = null;
-                state.Attendees.Clear();
-                state.ConfirmAttendeesNameIndex = 0;
-                state.SenderName = null;
-                state.EmailList = new List<string>();
-                state.ShowAttendeesIndex = 0;
-                state.LuisResultPassedFromSkill = null;
-                state.ReadEmailIndex = 0;
-                state.ReadRecipientIndex = 0;
-                state.RecipientChoiceList.Clear();
-                state.SearchTexts = null;
-                state.GeneralSenderName = null;
-                state.GeneralSearchTexts = null;
+                else
+                {
+                    state.PartialClear();
+                }
             }
             catch (Exception)
             {
@@ -1395,9 +1349,9 @@ namespace EmailSkill.Dialogs.Shared
                                 {
                                     foreach (var name in entity.ContactName)
                                     {
-                                        if (!state.AttendeesNameList.Contains(name))
+                                        if (!state.FindContactInfor.ContactsNameList.Contains(name))
                                         {
-                                            state.AttendeesNameList.Add(name);
+                                            state.FindContactInfor.ContactsNameList.Add(name);
                                         }
                                     }
                                 }
@@ -1411,9 +1365,9 @@ namespace EmailSkill.Dialogs.Shared
                                     foreach (var emailAddress in rawEntity)
                                     {
                                         var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
-                                        if (Util.Util.IsEmail(email) && !state.EmailList.Contains(email))
+                                        if (Util.Util.IsEmail(email) && !state.FindContactInfor.ContactsNameList.Contains(email))
                                         {
-                                            state.EmailList.Add(email);
+                                            state.FindContactInfor.ContactsNameList.Add(email);
                                         }
                                     }
                                 }
@@ -1453,9 +1407,9 @@ namespace EmailSkill.Dialogs.Shared
                                 {
                                     foreach (var name in entity.ContactName)
                                     {
-                                        if (!state.AttendeesNameList.Contains(name))
+                                        if (!state.FindContactInfor.ContactsNameList.Contains(name))
                                         {
-                                            state.AttendeesNameList.Add(name);
+                                            state.FindContactInfor.ContactsNameList.Add(name);
                                         }
                                     }
                                 }
@@ -1469,9 +1423,9 @@ namespace EmailSkill.Dialogs.Shared
                                     foreach (var emailAddress in rawEntity)
                                     {
                                         var email = luisResult.Text.Substring(emailAddress.StartIndex, emailAddress.EndIndex - emailAddress.StartIndex);
-                                        if (Util.Util.IsEmail(email) && !state.EmailList.Contains(email))
+                                        if (Util.Util.IsEmail(email) && !state.FindContactInfor.ContactsNameList.Contains(email))
                                         {
-                                            state.EmailList.Add(email);
+                                            state.FindContactInfor.ContactsNameList.Add(email);
                                         }
                                     }
                                 }

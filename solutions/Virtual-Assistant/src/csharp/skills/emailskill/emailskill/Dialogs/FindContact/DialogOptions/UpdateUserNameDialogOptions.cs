@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace EmailSkill.Dialogs.Shared.DialogOptions
+namespace EmailSkill.Dialogs.FindContact.DialogOptions
 {
     public class UpdateUserNameDialogOptions
     {

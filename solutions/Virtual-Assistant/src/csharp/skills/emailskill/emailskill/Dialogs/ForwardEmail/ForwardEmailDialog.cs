@@ -87,7 +87,7 @@ namespace EmailSkill.Dialogs.ForwardEmail
                     var token = state.Token;
                     var message = state.Message;
                     var id = message.FirstOrDefault()?.Id;
-                    var recipients = state.Attendees;
+                    var recipients = state.FindContactInfor.Contacts;
 
                     var service = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
 
@@ -100,14 +100,14 @@ namespace EmailSkill.Dialogs.ForwardEmail
                         Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : state.Subject,
                         EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : state.Content,
                     };
-                    emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.Attendees);
+                    emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.FindContactInfor.Contacts);
 
                     var stringToken = new StringDictionary
                     {
                         { "Subject", state.Subject },
                     };
 
-                    var recipientCard = state.Attendees.Count() > 5 ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
+                    var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
                     var reply = ResponseManager.GetCardResponse(
                         EmailSharedResponses.SentSuccessfully,
                         new Card("EmailWithOutButtonCard", emailCard),
