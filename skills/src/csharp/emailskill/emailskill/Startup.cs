@@ -1,7 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Linq;
+using System.Net.WebSockets;
+using System.Threading;
+using System.Threading.Tasks;
 using EmailSkill.Adapters;
 using EmailSkill.Bots;
 using EmailSkill.Dialogs;
@@ -19,6 +23,7 @@ using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
@@ -61,6 +66,18 @@ namespace EmailSkill
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+
+            services.AddCors(options =>
+                {
+                    options.AddPolicy("AllowAllOrigins",
+                      builder =>
+                      {
+                          builder.AllowAnyOrigin();
+                          builder.AllowAnyHeader();
+                          builder.AllowAnyMethod();
+                      });
+                }
+            );
 
             // Load settings
             var settings = new BotSettings();
@@ -129,7 +146,14 @@ namespace EmailSkill
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
-            services.AddTransient<SkillAdapter, EmailSkillAdapter>();
+
+            // register skill websocket adapters needed
+            services.AddTransient<SkillWebSocketAdapter>();
+            services.AddTransient<SkillWebSocketBotAdapter, EmailSkillWebSocketAdapter>();
+
+            // register skill http adapters needed
+            services.AddTransient<SkillHttpAdapter>();
+            services.AddTransient<SkillHttpBotAdapter, EmailSkillHttpAdapter>();
 
             // Configure bot
             services.AddTransient<MainDialog>();
@@ -148,6 +172,7 @@ namespace EmailSkill
                 .UseDefaultFiles()
                 .UseStaticFiles()
                 .UseAuthentication()
+                .UseWebSockets()
                 .UseMvc();
         }
     }
