@@ -149,7 +149,7 @@ namespace Microsoft.Bot.Builder.Skills
             return dialogResult;
         }
 
-        public override async Task EndDialogAsync(ITurnContext turnContext, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken = default)
+        public override async Task EndDialogAsync(ITurnContext turnContext, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken)
         {
             if (reason == DialogReason.CancelCalled)
             {
