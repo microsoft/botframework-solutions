@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -12,11 +11,9 @@ using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Rest.Serialization;
-using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills
 {
@@ -46,7 +43,7 @@ namespace Microsoft.Bot.Builder.Skills
         /// <param name="telemetryClient">Telemetry Client.</param>
         /// <param name="userState">User State.</param>
         /// <param name="authDialog">Auth Dialog.</param>
-        public SkillDialog(SkillManifest skillManifest, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient, UserState userState, MultiProviderAuthDialog authDialog = null)
+        public SkillDialog(SkillManifest skillManifest, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient, UserState userState, MultiProviderAuthDialog authDialog = null)
             : base(skillManifest.Id)
         {
 
@@ -74,7 +71,7 @@ namespace Microsoft.Bot.Builder.Skills
         /// <returns>dialog turn result.</returns>
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            SkillContext slots = new SkillContext();
+            var slots = new SkillContext();
 
             // Retrieve the SkillContext state object to identify slots (parameters) that can be used to slot-fill when invoking the skill
             var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
@@ -181,9 +178,11 @@ namespace Microsoft.Bot.Builder.Skills
             try
             {
                 // Serialize the activity and POST to the Skill endpoint
-                var httpRequest = new HttpRequestMessage();
-                httpRequest.Method = new HttpMethod("POST");
-                httpRequest.RequestUri = _skillManifest.Endpoint;
+                var httpRequest = new HttpRequestMessage
+                {
+                    Method = new HttpMethod("POST"),
+                    RequestUri = _skillManifest.Endpoint
+                };
 
                 var requestContent = SafeJsonConvert.SerializeObject(activity, Serialization.Settings);
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
