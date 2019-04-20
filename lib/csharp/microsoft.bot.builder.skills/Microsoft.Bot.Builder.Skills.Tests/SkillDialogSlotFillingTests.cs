@@ -1,19 +1,16 @@
-﻿using Microsoft.Bot.Builder.Adapters;
-using Microsoft.Bot.Builder.Skills.Auth;
-using Microsoft.Bot.Builder.Skills.Models.Manifest;
-using Microsoft.Bot.Builder.Skills.Tests.Mocks;
-using Microsoft.Bot.Builder.Skills.Tests.Utilities;
-using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RichardSzalay.MockHttp;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Adapters;
+using Microsoft.Bot.Builder.Skills.Models.Manifest;
+using Microsoft.Bot.Builder.Skills.Tests.Mocks;
+using Microsoft.Bot.Builder.Skills.Tests.Utilities;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RichardSzalay.MockHttp;
 
 namespace Microsoft.Bot.Builder.Skills.Tests
 {
@@ -25,14 +22,15 @@ namespace Microsoft.Bot.Builder.Skills.Tests
     {
         private MockHttpMessageHandler _mockHttp = new MockHttpMessageHandler();
         private List<SkillManifest> _skillManifests = new List<SkillManifest>();
+        private MockTelemetryClient _mockTelemetryClient = new MockTelemetryClient();
 
         [TestInitialize]
         public void AddSkills()
         {
             // Simple skill, no slots
             _skillManifests.Add(ManifestUtilities.CreateSkill(
-                "testskill", 
-                "testskill", 
+                "testskill",
+                "testskill",
                 "https://testskill.tempuri.org/api/skill",
                 "testSkill/testAction"));
 
@@ -40,24 +38,24 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             var slots = new List<Slot>();
             slots.Add(new Slot("param1", new List<string>() { "string" }));
             _skillManifests.Add(ManifestUtilities.CreateSkill(
-                "testskillwithslots", 
                 "testskillwithslots",
-                "https://testskillwithslots.tempuri.org/api/skill", 
-                "testSkill/testActionWithSlots", 
+                "testskillwithslots",
+                "https://testskillwithslots.tempuri.org/api/skill",
+                "testSkill/testActionWithSlots",
                 slots));
 
             // Each Skill has a number of actions, these actions are added as their own SkillDialog enabling
             // the SkillDialog to know which action is invoked and identify the slots as appropriate.
             foreach (var skill in _skillManifests)
             {
-                Dialogs.Add(new SkillDialogTest(skill, null, new DummyMicrosoftAppCredentialsEx(null, null, null), null, _mockHttp, UserState));          
+                Dialogs.Add(new SkillDialogTest(skill, null, new DummyMicrosoftAppCredentialsEx(null, null, null), _mockTelemetryClient, _mockHttp, UserState));          
             }
         }
 
         /// <summary>
-        /// Ensure the SkillBegin event activity is sent to the Skill when starting a skill conversation
+        /// Ensure the SkillBegin event activity is sent to the Skill when starting a skill conversation.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [TestMethod]
         public async Task SkilllBeginEventTest()
         {
@@ -66,17 +64,17 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             // When invoking a Skill the first Activity that is sent is skillBegin so we validate this is sent
             // HTTP mock returns "no activities" as per the real scenario and enables the SkillDialog to continue
             _mockHttp.When("https://testskill.tempuri.org/api/skill")
-               .With(request=> validateActivity(request, eventToMatch))
+               .With(request => ValidateActivity(request, eventToMatch))
                .Respond("application/json", "[]");
 
             // If the request isn't matched then the event wasn't received as expected
-           _mockHttp.Fallback.Throw(new InvalidOperationException("Expected Skill Begin event not found"));
+            _mockHttp.Fallback.Throw(new InvalidOperationException("Expected Skill Begin event not found"));
 
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
 
-            await this.GetTestFlow(_skillManifests.Single(s=>s.Name == "testskill"), "testSkill/testAction", null)
-                  .Send("hello")               
+            await this.GetTestFlow(_skillManifests.Single(s => s.Name == "testskill"), "testSkill/testAction", null)
+                  .Send("hello")
                   .StartTestAsync();
         }
 
@@ -84,16 +82,16 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         /// Ensure the skillBegin event is sent and includes the slots that were configured in the manifest
         /// and present in State.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [TestMethod]
         public async Task SkilllBeginEventWithSlotsTest()
         {
             string eventToMatch = await File.ReadAllTextAsync(@".\TestData\skillBeginEventWithOneParam.json");
-           
+
             // When invoking a Skill the first Activity that is sent is skillBegin so we validate this is sent
             // HTTP mock returns "no activities" as per the real scenario and enables the SkillDialog to continue
             _mockHttp.When("https://testskillwithslots.tempuri.org/api/skill")
-               .With(request => validateActivity(request, eventToMatch))
+               .With(request => ValidateActivity(request, eventToMatch))
                .Respond("application/json", "[]");
 
             // If the request isn't matched then the event wasn't received as expected
@@ -117,7 +115,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         /// This test has extra data in the SkillContext "memory" which should not be sent across
         /// and present in State.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [TestMethod]
         public async Task SkilllBeginEventWithSlotsTestExtraItems()
         {
@@ -126,7 +124,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             // When invoking a Skill the first Activity that is sent is skillBegin so we validate this is sent
             // HTTP mock returns "no activities" as per the real scenario and enables the SkillDialog to continue
             _mockHttp.When("https://testskillwithslots.tempuri.org/api/skill")
-               .With(request => validateActivity(request, eventToMatch))
+               .With(request => ValidateActivity(request, eventToMatch))
                .Respond("application/json", "[]");
 
             // If the request isn't matched then the event wasn't received as expected
@@ -148,7 +146,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                   .StartTestAsync();
         }
 
-        private bool validateActivity(HttpRequestMessage request, string activityToMatch)
+        private bool ValidateActivity(HttpRequestMessage request, string activityToMatch)
         {
             var activityReceived = request.Content.ReadAsStringAsync().Result;
             return string.Equals(activityReceived, activityToMatch);

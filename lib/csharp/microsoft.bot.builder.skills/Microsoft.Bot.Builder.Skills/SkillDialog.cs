@@ -53,6 +53,21 @@ namespace Microsoft.Bot.Builder.Skills
             }
         }
 
+        public override async Task EndDialogAsync(ITurnContext turnContext, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken)
+        {
+            if (reason == DialogReason.CancelCalled)
+            {
+                // when dialog is being ended/cancelled, send an activity to skill
+                // to cancel all dialogs on the skill side
+                if (_skillTransport != null)
+                {
+                    await _skillTransport.CancelRemoteDialogsAsync(turnContext);
+                }
+            }
+
+            await base.EndDialogAsync(turnContext, instance, reason, cancellationToken);
+        }
+
         /// <summary>
         /// When a SkillDialog is started, a skillBegin event is sent which firstly indicates the Skill is being invoked in Skill mode, also slots are also provided where the information exists in the parent Bot.
         /// </summary>
@@ -147,21 +162,6 @@ namespace Microsoft.Bot.Builder.Skills
             _skillTransport.Disconnect();
 
             return dialogResult;
-        }
-
-        public override async Task EndDialogAsync(ITurnContext turnContext, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken)
-        {
-            if (reason == DialogReason.CancelCalled)
-            {
-                // when dialog is being ended/cancelled, send an activity to skill
-                // to cancel all dialogs on the skill side
-                if (_skillTransport != null)
-                {
-                    await _skillTransport.CancelRemoteDialogsAsync(turnContext);
-                }
-            }
-
-            base.EndDialogAsync(turnContext, instance, reason, cancellationToken);
         }
 
         /// <summary>
