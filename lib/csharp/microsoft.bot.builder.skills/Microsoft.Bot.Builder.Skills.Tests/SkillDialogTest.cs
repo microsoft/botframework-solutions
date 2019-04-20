@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using Microsoft.Bot.Builder.Skills.Auth;
+﻿using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RichardSzalay.MockHttp;
 
 namespace Microsoft.Bot.Builder.Skills.Tests
@@ -15,10 +10,10 @@ namespace Microsoft.Bot.Builder.Skills.Tests
     {
         private MockHttpMessageHandler _mockHttpMessageHandler;
 
-        public SkillDialogTest(SkillManifest skillManifest, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient, MockHttpMessageHandler mockHttpMessageHandler, UserState userState) : base(skillManifest, responseManager, microsoftAppCredentialsEx, telemetryClient, userState)
+        public SkillDialogTest(SkillManifest skillManifest, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient, MockHttpMessageHandler mockHttpMessageHandler, UserState userState)
+            : base(skillManifest, responseManager, microsoftAppCredentialsEx, telemetryClient, userState)
         {
             _mockHttpMessageHandler = mockHttpMessageHandler;
-            HttpClient = mockHttpMessageHandler.ToHttpClient();
         }
     }
 }

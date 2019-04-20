@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -9,9 +8,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Rest.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -42,7 +41,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             _mockHttp = new MockHttpMessageHandler();
 
             _botSettings = new BotSettingsBase();
-            _botSettings.MicrosoftAppId = System.Guid.NewGuid().ToString();
+            _botSettings.MicrosoftAppId = Guid.NewGuid().ToString();
             _botSettings.MicrosoftAppPassword = "MockPassword";
 
             // Initialise the Calendar LUIS model mock configuration
@@ -85,7 +84,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(JsonSerializationException))]
         public async Task DeserializeInvalidManifestFile()
         {
@@ -96,7 +95,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public async Task TestIsSkillHelper()
         {
             using (StreamReader sr = new StreamReader(@".\manifestTemplate.json"))
@@ -116,7 +115,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         /// <summary>
         /// Test that a manifest is generated and the basic dynamic properties are changed.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task. </returns>
         [TestMethod]
         public async Task SkillControllerManifestRequest()
         {
@@ -136,17 +135,18 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             try
             {
                 var skillManifest = JsonConvert.DeserializeObject<SkillManifest>(jsonResponse);
-             
+
                 string skillUriBase = $"{controller.ControllerContext.HttpContext.Request.Scheme}://{controller.ControllerContext.HttpContext.Request.Host}";
 
-                Assert.IsTrue(skillManifest.Endpoint.ToString() == $"{skillUriBase}/api/skill/messages",
+                Assert.IsTrue(
+                    skillManifest.Endpoint.ToString() == $"{skillUriBase}/api/skill/messages",
                     "Skill Manifest endpoint not set correctly");
 
                 Assert.IsTrue(skillManifest.MSAappId == _botSettings.MicrosoftAppId, "Skill Manifest msaAppId not set correctly");
 
                 Assert.IsTrue(skillManifest.IconUrl.ToString().StartsWith(skillUriBase), "Skill Manifest iconUrl not set correctly");
             }
-            catch (Exception)
+            catch
             {
                 // Skill manifest generation returns a reason which we capture as the reason for the test failure
                 var skillManifestError = JsonConvert.DeserializeObject<string>(jsonResponse);
@@ -157,7 +157,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         /// <summary>
         /// Test that when requesting inline utterances they are added to the returned manifest.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [TestMethod]
         public async Task SkillControllerManifestRequestInlineTriggerUtterances()
         {
@@ -185,17 +185,18 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                 var skillManifest = JsonConvert.DeserializeObject<SkillManifest>(jsonResponse);
 
                 Assert.IsTrue(skillManifest.MSAappId == _botSettings.MicrosoftAppId, "Skill Manifest msaAppId not set correctly");
+
                 // Ensure each of the registered actions has triggering utterances added
                 for (int i = 0; i < 7; ++i)
                 {
                     // If the trigger is an event we don't expect utterances
                     if (skillManifest.Actions[i].Definition.Triggers.Events == null)
                     {
-                        Assert.IsTrue(skillManifest.Actions[i].Definition.Triggers.Utterances[0].Text.Length > 0,
+                        Assert.IsTrue(
+                            skillManifest.Actions[i].Definition.Triggers.Utterances[0].Text.Length > 0,
                             $"The {skillManifest.Actions[i].Id} action has no LUIS utterances added as part of manifest generation.");
                     }
                 }
-
             }
             catch (Exception)
             {
@@ -208,7 +209,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         /// <summary>
         /// Test that when requesting inline utterances test that missing intents are detected.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [TestMethod]
         public async Task SkillControllerManifestMissingIntent()
         {
@@ -237,7 +238,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                 var skillManifest = JsonConvert.DeserializeObject<SkillManifest>(jsonResponse);
                 Assert.Fail("MISSINGINTENT was not detected as missing.");
             }
-            catch (Exception)
+            catch
             {
                 // Skill manifest generation returns a reason which we capture as the reason for the test failure
                 // In this case we expect it to spot the intent which it can't find
@@ -250,6 +251,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         /// <summary>
         /// Test that when requesting inline utterances test that missing luis models are detected.
         /// </summary>
+        /// <returns>Task.</returns>
         [TestMethod]
         public async Task SkillControllerManifestMissingModel()
         {
@@ -278,7 +280,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                 var skillManifest = JsonConvert.DeserializeObject<SkillManifest>(jsonResponse);
                 Assert.Fail("MISSINGLUISMODEL was not detected as missing.");
             }
-            catch (Exception)
+            catch
             {
                 // Skill manifest generation returns a reason which we capture as the reason for the test failure
                 // In this case we expect it to spot the intent which it can't find
@@ -290,7 +292,8 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 
         public class MockSkillController : SkillController
         {
-            public MockSkillController(IServiceProvider serviceProvider, BotSettingsBase botSettings, HttpClient httpClient, string manifestFileOverride = null) : base(serviceProvider, botSettings)
+            public MockSkillController(IServiceProvider serviceProvider, BotSettingsBase botSettings, HttpClient httpClient, string manifestFileOverride = null)
+                : base(serviceProvider, botSettings)
             {
                 // Provide Mocked HttpClient
                 HttpClient = httpClient;
@@ -310,17 +313,29 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                 {
                     return new MockBotFrameworkHttpAdapter();
                 }
-                else if (serviceType == typeof(SkillAdapter))
+                else if (serviceType == typeof(SkillHttpAdapter))
                 {
-                    return new SkillAdapter(null, null);
+                    return new SkillHttpAdapter(this);
+                }
+                else if (serviceType == typeof(SkillHttpBotAdapter))
+                {
+                    return new SkillHttpBotAdapter();
+                }
+                else if (serviceType == typeof(SkillWebSocketAdapter))
+                {
+                    return new SkillWebSocketAdapter(this);
+                }
+                else if (serviceType == typeof(SkillWebSocketBotAdapter))
+                {
+                    return new SkillWebSocketBotAdapter();
+                }
+                else if (serviceType == typeof(ICredentialProvider))
+                {
+                    return new MockCredentialProvider();
                 }
                 else if (serviceType == typeof(IBot))
                 {
                     return new MockBot();
-                }
-                else if (serviceType == typeof(ISkillAuthProvider))
-                {
-                    return new MockSkillAuthProvider();
                 }
                 else
                 {
@@ -337,18 +352,27 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             }
         }
 
-        public class MockSkillAuthProvider : ISkillAuthProvider
+        public class MockBotFrameworkHttpAdapter : IBotFrameworkHttpAdapter
         {
-            public bool Authenticate(HttpContext httpContext)
+            public Task ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default(CancellationToken))
             {
                 throw new NotImplementedException();
             }
         }
 
-
-        public class MockBotFrameworkHttpAdapter : IBotFrameworkHttpAdapter
+        public class MockCredentialProvider : ICredentialProvider
         {
-            public Task ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default(CancellationToken))
+            public Task<string> GetAppPasswordAsync(string appId)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<bool> IsAuthenticationDisabledAsync()
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<bool> IsValidAppIdAsync(string appId)
             {
                 throw new NotImplementedException();
             }
