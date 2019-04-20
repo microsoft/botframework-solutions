@@ -1,31 +1,32 @@
 ﻿using System.Globalization;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Middleware;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
-using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using NewsSkill.Responses.Main;
-using NewsSkill.Services;
+using PointOfInterestSkill.Responses.Shared;
+using PointOfInterestSkill.Services;
 
-namespace NewsSkill.Adapters
+namespace PointOfInterestSkill.Adapters
 {
-    public class NewsSkillAdapter : SkillAdapter
+    public class POISkillHttpBotAdapter : SkillHttpBotAdapter
     {
-        public NewsSkillAdapter(
+        public POISkillHttpBotAdapter(
             BotSettings settings,
-            ICredentialProvider credentialProvider,
             UserState userState,
             ConversationState conversationState,
+            BotStateSet botStateSet,
+            ResponseManager responseManager,
             IBotTelemetryClient telemetryClient)
-            : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-                await context.SendActivityAsync(MainStrings.ERROR);
-                await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"News Skill Error: {exception.Message} | {exception.StackTrace}"));
+                await context.SendActivityAsync(responseManager.GetResponse(POISharedResponses.PointOfInterestErrorMessage));
+                await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"PointOfInterest Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackExceptionEx(exception, context.Activity);
             };
 
@@ -34,8 +35,8 @@ namespace NewsSkill.Adapters
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new AutoSaveStateMiddleware(userState, conversationState));
-            Use(new SkillMiddleware(userState));
+            Use(new AutoSaveStateMiddleware(botStateSet));
+            Use(new SkillMiddleware(userState, conversationState, conversationState.CreateProperty<DialogState>(nameof(PointOfInterestSkill))));
         }
     }
 }
