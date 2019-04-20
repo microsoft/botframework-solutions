@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
@@ -43,7 +42,6 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             });
 
             _serviceCollection.AddSingleton<TestAdapter, DefaultTestAdapter>();
-
         }
 
         [TestMethod]

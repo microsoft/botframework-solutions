@@ -1,14 +1,11 @@
-﻿using System;
-using System.Threading;
+﻿using System.Collections.Generic;
 using Microsoft.Bot.Builder.Adapters;
-using Microsoft.Bot.Builder.Solutions.Testing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Proactive;
-using System.Collections.Generic;
+using Microsoft.Bot.Builder.Solutions.Testing;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Bot.Builder.Skills.Tests
 {
@@ -41,7 +38,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             Services.AddSingleton(UserState);
 
             Services.AddSingleton(sp =>
-            {               
+            {
                 return new BotStateSet(UserState, conversationState);
             });
 
@@ -79,6 +76,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                 {
                     // ActionID lets the SkillDialog know which action to call
                     await dc.BeginDialogAsync(skillManifest.Id, actionId);
+
                     // We don't continue as we don't care about the message being sent
                     // just the initial instantiation, we need to send a message within tests
                     // to invoke the flow. If continue is called then HttpMocks need be updated

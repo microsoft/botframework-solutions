@@ -10,7 +10,8 @@ namespace Microsoft.Bot.Builder.Skills.Tests
     {
         private MockHttpMessageHandler _mockHttpMessageHandler;
 
-        public SkillDialogTest(SkillManifest skillManifest, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient, MockHttpMessageHandler mockHttpMessageHandler, UserState userState) : base(skillManifest, responseManager, microsoftAppCredentialsEx, telemetryClient, userState)
+        public SkillDialogTest(SkillManifest skillManifest, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient, MockHttpMessageHandler mockHttpMessageHandler, UserState userState)
+            : base(skillManifest, responseManager, microsoftAppCredentialsEx, telemetryClient, userState)
         {
             _mockHttpMessageHandler = mockHttpMessageHandler;
         }
