@@ -30,7 +30,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                 "testSkill/testAction");
 
             // Add the SkillDialog to the available dialogs passing the initialized FakeSkill
-            Dialogs.Add(new SkillDialogTest(_skillManifest, null, new DummyMicrosoftAppCredentialsEx(null, null, null), _mockTelemetryClient, _mockHttp, UserState));
+            Dialogs.Add(new SkillDialogTest(_skillManifest, new DummyMicrosoftAppCredentialsEx(null, null, null), _mockTelemetryClient, _mockHttp, UserState));
         }
 
         /// <summary>
