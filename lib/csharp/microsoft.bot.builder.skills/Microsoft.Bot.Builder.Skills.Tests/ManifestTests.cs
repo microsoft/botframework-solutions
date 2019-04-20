@@ -310,9 +310,9 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                 {
                     return new MockBotFrameworkHttpAdapter();
                 }
-                else if (serviceType == typeof(SkillAdapter))
+                else if (serviceType == typeof(SkillHttpAdapter))
                 {
-                    return new SkillAdapter(null, null);
+                    return new SkillHttpAdapter(this);
                 }
                 else if (serviceType == typeof(IBot))
                 {

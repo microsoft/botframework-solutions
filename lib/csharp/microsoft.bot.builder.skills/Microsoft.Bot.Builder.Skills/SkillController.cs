@@ -2,19 +2,15 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Rest.Serialization;
 using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills
@@ -28,19 +24,10 @@ namespace Microsoft.Bot.Builder.Skills
     {
         private readonly IBot _bot;
         private readonly IBotFrameworkHttpAdapter _botFrameworkHttpAdapter;
-        private readonly SkillAdapter _skillAdapter;
-        private readonly ISkillAuthProvider _skillAuthProvider;
+        private readonly SkillHttpAdapter _skillHttpAdapter;
+        private readonly SkillWebSocketAdapter _skillWebSocketAdapter;
         private readonly BotSettingsBase _botSettings;
-        private readonly JsonSerializer _jsonSerializer = JsonSerializer.Create(new JsonSerializerSettings
-        {
-            NullValueHandling = NullValueHandling.Ignore,
-            Formatting = Formatting.Indented,
-            DateFormatHandling = DateFormatHandling.IsoDateFormat,
-            DateTimeZoneHandling = DateTimeZoneHandling.Utc,
-            ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
-            ContractResolver = new ReadOnlyJsonContractResolver(),
-            Converters = new List<JsonConverter> { new Iso8601TimeSpanConverter() },
-        });
+        private readonly JsonSerializer _jsonSerializer = JsonSerializer.Create(Serialization.Settings);
 
         private string manifestTemplateFilename = "manifestTemplate.json";
         private HttpClient httpClient = new HttpClient();
@@ -48,9 +35,10 @@ namespace Microsoft.Bot.Builder.Skills
         public SkillController(IServiceProvider serviceProvider, BotSettingsBase botSettings)
         {
             _botFrameworkHttpAdapter = serviceProvider.GetService<IBotFrameworkHttpAdapter>() ?? throw new ArgumentNullException(nameof(IBotFrameworkHttpAdapter));
-            _skillAdapter = serviceProvider.GetService<SkillAdapter>() ?? throw new ArgumentNullException(nameof(SkillAdapter));
+            _skillHttpAdapter = serviceProvider.GetService<SkillHttpAdapter>();
+            _skillWebSocketAdapter = serviceProvider.GetService<SkillWebSocketAdapter>();
+
             _bot = serviceProvider.GetService<IBot>() ?? throw new ArgumentNullException(nameof(IBot));
-            _skillAuthProvider = serviceProvider.GetService<ISkillAuthProvider>();
             _botSettings = botSettings;
         }
 
@@ -69,7 +57,26 @@ namespace Microsoft.Bot.Builder.Skills
         [AllowAnonymous]
         public async Task BotMessage()
         {
-            await _botFrameworkHttpAdapter.ProcessAsync(Request, Response, _bot, default(CancellationToken));
+            await _botFrameworkHttpAdapter.ProcessAsync(Request, Response, _bot);
+        }
+
+        /// <summary>
+        /// This API is the endpoint the bot exposes as skill.
+        /// </summary>
+        /// <returns>Task.</returns>
+        [Route("api/skill/messages")]
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task SkillMessageWebSocket()
+        {
+            if (_skillWebSocketAdapter != null)
+            {
+                await _skillWebSocketAdapter.ProcessAsync(Request, Response, _bot);
+            }
+            else
+            {
+                Response.StatusCode = (int)HttpStatusCode.MethodNotAllowed;
+            }
         }
 
         /// <summary>
@@ -78,15 +85,17 @@ namespace Microsoft.Bot.Builder.Skills
         /// <returns>Task.</returns>
         [Route("api/skill/messages")]
         [HttpPost]
+        [AllowAnonymous]
         public async Task SkillMessage()
         {
-            if (_skillAuthProvider != null && !_skillAuthProvider.Authenticate(HttpContext))
+            if (_skillHttpAdapter != null)
             {
-                Response.StatusCode = 401;
-                return;
+                await _skillHttpAdapter.ProcessAsync(Request, Response, _bot);
             }
-
-            await _skillAdapter.ProcessAsync(Request, Response, _bot, default(CancellationToken));
+            else
+            {
+                Response.StatusCode = (int)HttpStatusCode.MethodNotAllowed;
+            }
         }
 
         /// <summary>

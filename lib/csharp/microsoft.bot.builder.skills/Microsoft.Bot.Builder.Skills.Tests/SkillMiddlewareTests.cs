@@ -1,15 +1,16 @@
-﻿using Microsoft.Bot.Builder.Adapters;
-using Microsoft.Bot.Builder.Solutions.Testing;
-using Microsoft.Bot.Schema;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Adapters;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Solutions.Testing;
+using Microsoft.Bot.Schema;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills.Tests
 {
@@ -18,7 +19,9 @@ namespace Microsoft.Bot.Builder.Skills.Tests
     {
         private ServiceCollection _serviceCollection;
         private UserState _userState;
+        private ConversationState _conversationState;
         private IStatePropertyAccessor<SkillContext> _skillContextAccessor;
+        private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
 
         [TestInitialize]
         public void AddSkillManifest()
@@ -29,7 +32,9 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             var conversationState = new ConversationState(new MemoryStorage());
             _serviceCollection.AddSingleton(conversationState);
             _userState = new UserState(new MemoryStorage());
+            _conversationState = new ConversationState(new MemoryStorage());
             _skillContextAccessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
+            _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
             _serviceCollection.AddSingleton(_userState);
 
             _serviceCollection.AddSingleton(sp =>
@@ -55,7 +60,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             skillBeginEvent.Value = new SkillContext(skillContextData);
 
             TestAdapter adapter = new TestAdapter()
-                .Use(new SkillMiddleware(_userState));
+                .Use(new SkillMiddleware(_userState, _conversationState, _dialogStateAccessor));
 
             var testFlow = new TestFlow(adapter, async (context, cancellationToken) =>
             {
@@ -81,7 +86,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             skillBeginEvent.Value = new SkillContext(skillContextData);
 
             TestAdapter adapter = new TestAdapter()
-                .Use(new SkillMiddleware(_userState));
+                .Use(new SkillMiddleware(_userState, _conversationState, _dialogStateAccessor));
 
             var testFlow = new TestFlow(adapter, async (context, cancellationToken) =>
             {
@@ -102,7 +107,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             skillBeginEvent.Value = new SkillContext();
 
             TestAdapter adapter = new TestAdapter()
-                .Use(new SkillMiddleware(_userState));
+                .Use(new SkillMiddleware(_userState, _conversationState, _dialogStateAccessor));
 
             var testFlow = new TestFlow(adapter, async (context, cancellationToken) =>
             {
@@ -122,7 +127,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             skillBeginEvent.Value = null;
 
             TestAdapter adapter = new TestAdapter()
-                .Use(new SkillMiddleware(_userState));
+                .Use(new SkillMiddleware(_userState, _conversationState, _dialogStateAccessor));
 
             var testFlow = new TestFlow(adapter, async (context, cancellationToken) =>
             {
@@ -140,7 +145,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             skillBeginEvent.Name = null;
 
             TestAdapter adapter = new TestAdapter()
-                .Use(new SkillMiddleware(_userState));
+                .Use(new SkillMiddleware(_userState, _conversationState, _dialogStateAccessor));
 
             var testFlow = new TestFlow(adapter, async (context, cancellationToken) =>
             {
