@@ -63,6 +63,10 @@
       "type": "string",
       "defaultValue": "S0"
     },
+    "contentModeratorLocation": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    },
     "luisServiceName": {
       "type": "string",
       "defaultValue": "[concat(parameters('name'), '-luis')]"
@@ -71,6 +75,10 @@
       "type": "string",
       "defaultValue": "S0"
     },
+    "luisServiceLocation": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    },
     "qnaMakerServiceName": {
       "type": "string",
       "defaultValue": "[concat(parameters('name'), '-qna')]"
@@ -78,6 +86,10 @@
     "qnaMakerServiceSku": {
       "type": "string",
       "defaultValue": "S0"
+    },
+    "qnaServiceLocation": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
     },
     "qnaMakerSearchName": {
       "type": "string",
@@ -206,7 +218,7 @@
       "kind": "ContentModerator",
       "apiVersion": "2017-04-18",
       "name": "[parameters('contentModeratorName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('contentModeratorLocation')]",
       "sku": {
         "name": "[parameters('contentModeratorSku')]"
       }
@@ -217,7 +229,7 @@
       "kind": "LUIS",
       "apiVersion": "2017-04-18",
       "name": "[parameters('luisServiceName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('luisServiceLocation')]",
       "sku": {
         "name": "[parameters('luisServiceSku')]"
       }
@@ -228,7 +240,7 @@
       "kind": "QnAMaker",
       "apiVersion": "2017-04-18",
       "name": "[parameters('qnaMakerServiceName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('qnaServiceLocation')]",
       "sku": {
         "name": "[parameters('qnaMakerServiceSku')]"
       },
@@ -248,7 +260,7 @@
       "type": "Microsoft.Search/searchServices",
       "apiVersion": "2015-08-19",
       "name": "[parameters('qnaMakerSearchName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('qnaServiceLocation')]",
       "sku": {
         "name": "[parameters('qnaMakerSearchSku')]"
       },
@@ -263,7 +275,7 @@
       "type": "Microsoft.Web/sites",
       "apiVersion": "2016-08-01",
       "name": "[parameters('qnaMakerWebAppName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('qnaServiceLocation')]",
       "properties": {
         "enabled": true,
         "name": "[parameters('qnaMakerWebAppName')]",
