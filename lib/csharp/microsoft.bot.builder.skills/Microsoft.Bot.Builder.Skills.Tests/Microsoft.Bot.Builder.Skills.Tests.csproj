@@ -65,7 +65,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj" />
     <ProjectReference Include="..\Microsoft.Bot.Builder.Skills\Microsoft.Bot.Builder.Skills.csproj" />
   </ItemGroup>
 

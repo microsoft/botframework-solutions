@@ -1,10 +1,7 @@
-﻿using Microsoft.Bot.Builder.Skills.Auth;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
+﻿using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Skills.Auth;
 
 namespace Microsoft.Bot.Builder.Skills.Tests.Mocks
 {
