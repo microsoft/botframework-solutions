@@ -120,13 +120,12 @@ namespace PointOfInterestSkill
                 };
             });
 
-            // comment out for now to disable whitelist checking
-            // services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
-            // services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
-
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
-            services.AddTransient<SkillAdapter, POISkillAdapter>();
+            services.AddTransient<SkillWebSocketBotAdapter, POISkillWebSocketBotAdapter>();
+            services.AddTransient<SkillWebSocketAdapter>();
+            services.AddTransient<SkillHttpBotAdapter, POISkillHttpBotAdapter>();
+            services.AddTransient<SkillHttpAdapter>();
 
             // Configure bot
             services.AddTransient<MainDialog>();
@@ -145,6 +144,7 @@ namespace PointOfInterestSkill
                 .UseDefaultFiles()
                 .UseStaticFiles()
                 .UseAuthentication()
+                .UseWebSockets()
                 .UseMvc();
         }
     }
