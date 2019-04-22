@@ -15,7 +15,7 @@ using $safeprojectname$.Services;
 
 namespace $safeprojectname$.Dialogs
 {
-    public class EnterpriseDialog : InterruptableDialog
+    public class DialogBase : InterruptableDialog
     {
         protected const string LuisResultKey = "LuisResult";
 
@@ -23,7 +23,7 @@ namespace $safeprojectname$.Dialogs
         private readonly BotServices _services;
         private readonly CancelResponses _responder = new CancelResponses();
 
-        public EnterpriseDialog(string dialogId, BotServices botServices, IBotTelemetryClient telemetryClient)
+        public DialogBase(string dialogId, BotServices botServices, IBotTelemetryClient telemetryClient)
             : base(dialogId, telemetryClient)
         {
             _services = botServices;

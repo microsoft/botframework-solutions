@@ -18,6 +18,13 @@ using $safeprojectname$.Bots;
 using Microsoft.AspNetCore.Mvc;
 using $safeprojectname$.Dialogs;
 using $safeprojectname$.Services;
+using System.Collections.Generic;
+using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Auth;
+using Microsoft.Bot.Builder.Solutions.Authentication;
+using Microsoft.Bot.Builder.Skills.Models.Manifest;
+using System;
+using System.Linq;
 
 namespace $safeprojectname$
 {
@@ -75,12 +82,54 @@ namespace $safeprojectname$
                 return new BotStateSet(userState, conversationState);
             });
 
+            // Register dialogs
+            services.AddTransient<AuthenticationDialog>();
+            services.AddTransient<CancelDialog>();
+            services.AddTransient<EscalateDialog>();
+            services.AddTransient<MainDialog>();
+            services.AddTransient<OnboardingDialog>();
+
+            // Register skill dialogs
+            services.AddTransient(sp =>
+            {
+                var userState = sp.GetService<UserState>();
+                var skillDialogs = new List<SkillDialog>();
+
+                foreach (var skill in settings.Skills)
+                {
+                    var authDialog = BuildAuthDialog(skill, settings);
+                    var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MSAappId);
+                    skillDialogs.Add(new SkillDialog(skill, credentials, telemetryClient, userState, authDialog));
+                }
+
+                return skillDialogs;
+            });
+
             // Configure adapters
             services.AddSingleton<IBotFrameworkHttpAdapter, DefaultAdapter>();
 
             // Configure bot
             services.AddTransient<MainDialog>();
             services.AddTransient<IBot, DialogBot<MainDialog>>();
+        }
+
+    // This method creates a MultiProviderAuthDialog based on a skill manifest.
+        private MultiProviderAuthDialog BuildAuthDialog(SkillManifest skill, BotSettings settings)
+        {
+            if (skill.AuthenticationConnections?.Count() > 0)
+            {
+                if (settings.OAuthConnections.Any() && settings.OAuthConnections.Any(o => skill.AuthenticationConnections.Any(s => s.ServiceProviderId == o.Provider)))
+                {
+                    var oauthConnections = settings.OAuthConnections.Where(o => skill.AuthenticationConnections.Any(s => s.ServiceProviderId == o.Provider)).ToList();
+                    return new MultiProviderAuthDialog(oauthConnections);
+                }
+                else
+                {
+                    throw new Exception($"You must configure at least one supported OAuth connection to use this skill: {skill.Name}.");
+                }
+            }
+
+            return null;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
