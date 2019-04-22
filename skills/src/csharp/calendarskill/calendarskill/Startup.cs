@@ -124,13 +124,12 @@ namespace CalendarSkill
                 };
             });
 
-            // comment out for now to disable whitelist checking
-            // services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
-            // services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
-
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
-            services.AddTransient<SkillAdapter, CalendarSkillAdapter>();
+            services.AddTransient<SkillWebSocketBotAdapter, CalendarSkillWebSocketBotAdapter>();
+            services.AddTransient<SkillWebSocketAdapter>();
+            services.AddTransient<SkillHttpBotAdapter, CalendarSkillHttpBotAdapter>();
+            services.AddTransient<SkillHttpAdapter>();
 
             // Configure bot
             services.AddTransient<MainDialog>();
@@ -149,6 +148,7 @@ namespace CalendarSkill
                 .UseDefaultFiles()
                 .UseStaticFiles()
                 .UseAuthentication()
+                .UseWebSockets()
                 .UseMvc();
         }
     }

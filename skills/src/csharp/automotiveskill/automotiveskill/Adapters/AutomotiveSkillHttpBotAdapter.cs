@@ -1,33 +1,32 @@
 ﻿using System.Globalization;
-using CalendarSkill.Responses.Shared;
-using CalendarSkill.Services;
+using AutomotiveSkill.Responses.Shared;
+using AutomotiveSkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
-using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 
-namespace CalendarSkill.Adapters
+namespace AutomotiveSkill.Adapters
 {
-    public class CalendarSkillAdapter : SkillAdapter
+    public class AutomotiveSkillHttpBotAdapter : SkillHttpBotAdapter
     {
-        public CalendarSkillAdapter(
+        public AutomotiveSkillHttpBotAdapter(
             BotSettings settings,
-            ICredentialProvider credentialProvider,
+            UserState userState,
+            ConversationState conversationState,
             BotStateSet botStateSet,
             ResponseManager responseManager,
-            IBotTelemetryClient telemetryClient,
-            UserState userState)
-            : base(credentialProvider)
+            IBotTelemetryClient telemetryClient)
         {
             OnTurnError = async (context, exception) =>
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-                await context.SendActivityAsync(responseManager.GetResponse(CalendarSharedResponses.CalendarErrorMessage));
-                await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Calendar Skill Error: {exception.Message} | {exception.StackTrace}"));
+                await context.SendActivityAsync(responseManager.GetResponse(AutomotiveSkillSharedResponses.ErrorMessage));
+                await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Automotive Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackExceptionEx(exception, context.Activity);
             };
 
@@ -37,7 +36,7 @@ namespace CalendarSkill.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
             Use(new AutoSaveStateMiddleware(botStateSet));
-            Use(new SkillMiddleware(userState));
+            Use(new SkillMiddleware(userState, conversationState, conversationState.CreateProperty<DialogState>(nameof(AutomotiveSkill))));
         }
     }
 }
