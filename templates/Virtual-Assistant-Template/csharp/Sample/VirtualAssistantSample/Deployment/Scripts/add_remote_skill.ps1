@@ -1,39 +1,70 @@
 ﻿Param(
 	[Parameter(Mandatory = $true)][string] $botName,
-    [Parameter(Mandatory = $true)][string] $skillConfigFile,
     [Parameter(Mandatory = $true)][string] $manifestUrl,
-    [Parameter(Mandatory = $true)][string] $dispatchName,
-    [string] $language = "en-us",
     [string] $luisFolder,
     [string] $dispatchFolder,
+	[string] $dispatchName,
+	[string] $language = "en-us",
+	[string] $resourceGroup = $botName,
     [string] $outFolder = $(Get-Location),
     [string] $lgOutFolder = $(Join-Path $outFolder Services),
 	[string] $appSettingsFile = $(Join-Path $outFolder 'appsettings.json'),
-	[string] $resourceGroup = $botName
+	[string] $skillsFile = $(Join-Path $outFolder 'skills.json'),
+	[string] $cognitiveModelsFile = $(Join-Path $outFolder 'cognitivemodels.json')
 )
 
 . $PSScriptRoot\skill_functions.ps1
 
-# Set folder defaults
+# Set defaults and validate file paths
 $langCode = ($language -split "-")[0]
 if (-not $luisFolder) {
     $luisFolder = $(Join-Path $PSScriptRoot .. Resources Skills $langCode)
 }
+
 if (-not $dispatchFolder) {
     $dispatchFolder = $(Join-Path $PSScriptRoot .. Resources Dispatch $langCode)
 }
 
+if (-not $dispatchName) {
+	if (Test-Path $cognitiveModelsFile) {
+		$cognitiveModels = Get-Content $cognitiveModelsFile | ConvertFrom-Json
+		$models = $($cognitiveModels.cognitiveModels.PSObject.Properties | Where-Object { $_.Name -eq $langCode } | Select-Object -First 1).Value
+		$dispatchName = $models.dispatchModel.name
+	}
+	else {
+		Write-Host "Could not find file: $($cognitiveModelsFile). Please provide a valid path, or the dispatchName and dispatchFolder parameters." -ForegroundColor DarkRed
+		Break
+	}
+}
+
+if (-not $(Test-Path $appSettingsFile)) {
+	Write-Host "Could not find file: $($appSettingsFile)." -ForegroundColor DarkRed
+	Break
+}
+
+$dispatchPath = $(Join-Path $dispatchFolder "$($dispatchName).dispatch")
+if (-not $(Test-Path $dispatchPath)) {
+	Write-Host "Could not find file: $($dispatchPath). Please provide the dispatchName and dispatchFolder parameters." -ForegroundColor DarkRed
+	Break
+}
+
+$dispatchJsonPath = $(Join-Path $dispatchFolder "$($dispatchName).json")
+if (-not $(Test-Path $dispatchJsonPath)) {
+	Write-Host "Could not find file: $($dispatchPath). LuisGen will not be run." -ForegroundColor DarkRed
+}
+
+# Processing
 Write-Host "Loading skill manifest ..."
 $manifest = Invoke-WebRequest -Uri $manifestUrl | ConvertFrom-Json
 
 Write-Host "Initializing skill.config ..."
-if (Test-Path $skillConfigFile) {
-    $skillConfig = Get-Content $skillConfigFile | ConvertFrom-Json
+if (Test-Path $skillsFile) {
+    $skillConfig = Get-Content $skillsFile | ConvertFrom-Json
 
     if ($skillConfig) {
         if ($skillConfig.skills) {
             if ($skillConfig.skills.Id -eq $manifest.Id) {
-                Write-Host "$($manifest.Id) is already registered." -ForegroundColor Red
+                Write-Host "$($manifest.Id) is already registered." -ForegroundColor DarkRed
                 Break
             }
             else {
@@ -53,7 +84,7 @@ if (-not $skillConfig) {
     $skillConfig = @{ skills = @($manifest) }
 }
 
-$skillConfig | ConvertTo-Json -depth 100 | Out-File $skillConfigFile
+$skillConfig | ConvertTo-Json -depth 100 | Out-File $skillsFile
 
 # configuring bot auth settings
 Write-Host "Checking for authentication settings ..."
@@ -166,38 +197,40 @@ foreach ($action in $manifest.actions) {
 Write-Host "Adding skill to dispatch ..." 
 $intentName = $manifest.Id
 foreach ($luisApp in $dictionary.Keys) {
-    $intents = $dictionary[$luisApp]
-    $luFile = Get-ChildItem -Path $(Join-Path $luisFolder "$($luisApp).lu") `
+	$intents = $dictionary[$luisApp]
+	$luFile = Get-ChildItem -Path $(Join-Path $luisFolder "$($luisApp).lu") `
 
-    # Parse LU file
-    ludown parse toluis `
-        --in $luFile `
-        --luis_culture $language `
-        --out_folder $luisFolder `
-        --out "$($luisApp).luis"
+	# Parse LU file
+	ludown parse toluis `
+		--in $luFile `
+		--luis_culture $language `
+		--out_folder $luisFolder `
+		--out "$($luisApp).luis"
 
-    $luisFile = Get-ChildItem `
-        -Path $luisFolder `
-        -Filter "$($luisApp).luis" `
-        -ErrorAction SilentlyContinue `
-        -Recurse `
-        -Force
+	$luisFile = Get-ChildItem `
+		-Path $luisFolder `
+		-Filter "$($luisApp).luis" `
+		-ErrorAction SilentlyContinue `
+		-Recurse `
+		-Force
 
 	dispatch add `
-        --type file `
-        --filePath $luisFile `
-        --intentName $intentName `
-        --dataFolder $dispatchFolder `
-        --dispatch $(Join-Path $dispatchFolder "$($dispatchName).dispatch") *>&1 | Out-Null
+		--type file `
+		--filePath $luisFile `
+		--intentName $intentName `
+		--dataFolder $dispatchFolder `
+		--dispatch $(Join-Path $dispatchFolder "$($dispatchName).dispatch") *>&1 | Out-Null
 }
 
-Write-Host "Running dispatch refresh ..." 
+Write-Host "Running dispatch refresh ..."
 dispatch refresh `
 	--dispatch $(Join-Path $dispatchFolder "$($dispatchName).dispatch") `
 	--dataFolder $dispatchFolder *>&1 | Out-Null
 
-Write-Host "Running LuisGen ..." 
-luisgen $(Join-Path $dispatchFolder "$($dispatchName).json") -cs "DispatchLuis" -o $lgOutFolder | Out-Null
+if (Test-Path $dispatchJsonPath) {
+	Write-Host "Running LuisGen ..." 
+	luisgen $dispatchJsonPath -cs "DispatchLuis" -o $lgOutFolder | Out-Null
+}
 
 if ($manualScopesRequired) {
 	Write-Host "Could not configure scopes automatically. You must configure the following scopes in the Azure Portal to use this skill: $($newScopes -Join ', ')" -ForegroundColor Magenta
