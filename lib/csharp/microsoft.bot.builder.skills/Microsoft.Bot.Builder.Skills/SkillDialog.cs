@@ -103,6 +103,8 @@ namespace Microsoft.Bot.Builder.Skills
             //                 if (skillContext.TryGetValue(slot.Name, out object slotValue))
             //                 {
             //                     slots.Add(slot.Name, slotValue);
+            //                     // Send trace to emulator
+            //                     dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Matched the {slot.Name} slot within SkillContext and passing to the {actionName} action.")).GetAwaiter().GetResult();
             //                 }
             //             }
             //         }

@@ -116,13 +116,12 @@ namespace ToDoSkill
                 };
             });
 
-            // comment out for now to disable whitelist checking
-            // services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
-            // services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
-
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
-            services.AddTransient<SkillAdapter, ToDoSkillAdapter>();
+            services.AddTransient<SkillWebSocketBotAdapter, ToDoSkillWebSocketBotAdapter>();
+            services.AddTransient<SkillWebSocketAdapter>();
+            services.AddTransient<SkillHttpBotAdapter, ToDoSkillHttpBotAdapter>();
+            services.AddTransient<SkillHttpAdapter>();
 
             // Configure bot
             services.AddTransient<MainDialog>();
@@ -145,6 +144,7 @@ namespace ToDoSkill
                 .UseDefaultFiles()
                 .UseStaticFiles()
                 .UseAuthentication()
+                .UseWebSockets()
                 .UseMvc();
         }
     }
