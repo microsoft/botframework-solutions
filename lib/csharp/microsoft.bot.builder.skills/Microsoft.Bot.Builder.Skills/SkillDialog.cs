@@ -49,7 +49,6 @@ namespace Microsoft.Bot.Builder.Skills
         public SkillDialog(SkillManifest skillManifest, ResponseManager responseManager, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient, UserState userState, MultiProviderAuthDialog authDialog = null)
             : base(skillManifest.Id)
         {
-
             _skillManifest = skillManifest;
             _microsoftAppCredentialsEx = microsoftAppCredentialsEx;
             _telemetryClient = telemetryClient;
