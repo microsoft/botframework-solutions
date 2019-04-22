@@ -47,6 +47,7 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
                 {
                     case ActivityTypes.Message:
                         {
+                            // Note: This check is a workaround for adaptive card buttons that should map to an event (i.e. startOnboarding button in intro card)
                             if (activity.Value != null)
                             {
                                 await OnEventAsync(innerDc);
