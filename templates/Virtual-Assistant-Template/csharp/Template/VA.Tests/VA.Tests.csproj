@@ -5,13 +5,13 @@
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.4.0-preview-8" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.0-preview-8" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.4.0-preview-21" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.0-preview-21" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />

@@ -117,7 +117,7 @@
       <Folder Name="Dialogs" TargetFolderName="Dialogs">
         <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationDialog.cs">AuthenticationDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="CancelDialog.cs">CancelDialog.cs</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="EnterpriseDialog.cs">EnterpriseDialog.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="DialogBase.cs">DialogBase.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="EscalateDialog.cs">EscalateDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="MainDialog.cs">MainDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingDialog.cs">OnboardingDialog.cs</ProjectItem>
