@@ -122,7 +122,10 @@ namespace RestaurantBooking
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
-            services.AddTransient<SkillAdapter, RestaurantSkillAdapter>();
+            services.AddTransient<SkillWebSocketBotAdapter, RestaurantSkillWebSocketBotAdapter>();
+            services.AddTransient<SkillWebSocketAdapter>();
+            services.AddTransient<SkillHttpBotAdapter, RestaurantSkillHttpBotAdapter>();
+            services.AddTransient<SkillHttpAdapter>();
 
             // Configure bot
             services.AddTransient<MainDialog>();
@@ -140,6 +143,7 @@ namespace RestaurantBooking
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseAuthentication()
+                .UseWebSockets()
                 .UseMvc();
         }
     }

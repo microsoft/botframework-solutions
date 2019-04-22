@@ -24,6 +24,7 @@
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.4.0-preview-19" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.3.1" />
@@ -102,11 +103,6 @@
     <EmbeddedResource Include="Responses\VehicleSettings\VehicleSettingsResponses.es.json" />
     <EmbeddedResource Include="Responses\VehicleSettings\VehicleSettingsResponses.fr.json" />
     <EmbeddedResource Include="Responses\VehicleSettings\VehicleSettingsResponses.it.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\lib\csharp\microsoft.bot.builder.skills\Microsoft.Bot.Builder.Skills\Microsoft.Bot.Builder.Skills.csproj" />
-    <ProjectReference Include="..\..\..\..\..\lib\csharp\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

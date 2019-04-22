@@ -114,13 +114,12 @@ namespace AutomotiveSkill
                 };
             });
 
-            // comment out for now to disable whitelist checking
-            // services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
-            // services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
-
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
-            services.AddTransient<SkillAdapter, AutomotiveSkillAdapter>();
+            services.AddTransient<SkillWebSocketBotAdapter, AutomotiveSkillWebSocketBotAdapter>();
+            services.AddTransient<SkillWebSocketAdapter>();
+            services.AddTransient<SkillHttpBotAdapter, AutomotiveSkillHttpBotAdapter>();
+            services.AddTransient<SkillHttpAdapter>();
 
             // Configure bot
             services.AddTransient<MainDialog>();
@@ -138,6 +137,7 @@ namespace AutomotiveSkill
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseAuthentication()
+                .UseWebSockets()
                 .UseMvc();
         }
     }
