@@ -27,7 +27,7 @@ namespace Microsoft.Bot.Builder.Skills
             _microsoftAppCredentialsEx = microsoftAppCredentialsEx ?? throw new ArgumentNullException(nameof(microsoftAppCredentialsEx));
         }
 
-        public async Task<bool> ForwardToSkillAsync(ITurnContext turnContext, Activity activity, Func<Activity, Activity> tokenRequestHandler = null)
+        public async Task<bool> ForwardToSkillAsync(ITurnContext turnContext, Activity activity, Action<Activity> tokenRequestHandler = null)
         {
             if (_webSocketClient == null)
             {
@@ -77,18 +77,13 @@ namespace Microsoft.Bot.Builder.Skills
             }
         }
 
-        private Action<Activity> GetTokenCallback(ITurnContext turnContext, Func<Activity, Activity> tokenRequestHandler)
+        private Action<Activity> GetTokenCallback(ITurnContext turnContext, Action<Activity> tokenRequestHandler)
         {
-            return async (activity) =>
+            return (activity) =>
             {
                 if (tokenRequestHandler != null)
                 {
-                    var tokenResponseActivity = tokenRequestHandler(activity);
-
-                    if (tokenResponseActivity != null)
-                    {
-                        await ForwardToSkillAsync(turnContext, tokenResponseActivity);
-                    }
+                    tokenRequestHandler(activity);
                 }
             };
         }

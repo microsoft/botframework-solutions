@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
@@ -25,6 +26,9 @@ namespace Microsoft.Bot.Builder.Skills
         private SkillManifest _skillManifest;
         private ISkillTransport _skillTransport;
         private Models.Manifest.Action _action;
+
+        private Queue<Activity> _queuedResponses = new Queue<Activity>();
+        private object _lockObject = new object();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SkillDialog"/> class.
@@ -161,6 +165,13 @@ namespace Microsoft.Bot.Builder.Skills
 
             var dialogResult = await ForwardToSkillAsync(innerDc, activity);
 
+            // if there's any response we need to send to the skill queued
+            // forward to skill and start a new turn
+            while (_queuedResponses.Count > 0)
+            {
+                await ForwardToSkillAsync(innerDc, _queuedResponses.Dequeue());
+            }
+
             _skillTransport.Disconnect();
 
             return dialogResult;
@@ -196,7 +207,7 @@ namespace Microsoft.Bot.Builder.Skills
             }
         }
 
-        private Func<Activity, Activity> GetTokenRequestCallback(DialogContext dialogContext)
+        private Action<Activity> GetTokenRequestCallback(DialogContext dialogContext)
         {
             return (activity) =>
             {
@@ -212,11 +223,10 @@ namespace Microsoft.Bot.Builder.Skills
                     tokenEvent.Name = TokenEvents.TokenResponseEventName;
                     tokenEvent.Value = authResult.Result as ProviderTokenResponse;
 
-                    return tokenEvent;
-                }
-                else
-                {
-                    return null;
+                    lock (_lockObject)
+                    {
+                        _queuedResponses.Enqueue(tokenEvent);
+                    }
                 }
             };
         }
