@@ -218,9 +218,9 @@ namespace PointOfInterestSkill.ServiceClients
 
             if (apiResponse != null && apiResponse.Results != null)
             {
-                // Filter Azure Maps results to Type: POI or Point Address
+                // Filter Azure Maps results to Type: POI, Point Address, Geography
                 // See https://docs.microsoft.com/en-us/rest/api/maps/search/getsearchaddress#searchaddressresult for more information.
-                var filteredSearchResults = apiResponse.Results.Where(x => x.ResultType.Equals("POI") || x.ResultType.Equals("Point Address"));
+                var filteredSearchResults = apiResponse.Results.Where(x => x.ResultType.Equals("POI") || x.ResultType.Equals("Point Address") || x.ResultType.Equals("Geography"));
                 foreach (var searchResult in filteredSearchResults)
                 {
                     var newPointOfInterest = new PointOfInterestModel(searchResult);

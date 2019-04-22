@@ -44,7 +44,7 @@ namespace PointOfInterestSkill.Models
                 : City;
             Street = !string.IsNullOrEmpty(azureMapsPoi.Address?.ToBingAddress()?.AddressLine)
                 ? azureMapsPoi.Address?.ToBingAddress()?.AddressLine
-                : Street;
+                : azureMapsPoi.Address?.FreeformAddress;
             Geolocation = azureMapsPoi.Position
                 ?? Geolocation;
             Category = (azureMapsPoi.Poi?.Categories != null)
