@@ -47,8 +47,8 @@ namespace PointOfInterestSkill.Models
                 : azureMapsPoi.Address?.FreeformAddress;
             Geolocation = azureMapsPoi.Position
                 ?? Geolocation;
-            Category = (azureMapsPoi.Poi?.Categories != null)
-            ? CultureInfo.CurrentCulture.TextInfo.ToTitleCase(azureMapsPoi.Poi.Categories.First().ToLower())
+            Category = (azureMapsPoi.Poi?.Classifications != null)
+            ? CultureInfo.CurrentCulture.TextInfo.ToTitleCase(azureMapsPoi.Poi.Classifications[0].Code)
             : Category;
 
             if (Provider == null)
