@@ -96,7 +96,6 @@ function RunLuisGen($lu_file, $outName, $outFolder) {
     $id = $lu_file.BaseName
 	$luisFolder = $lu_file.DirectoryName
 	$luisFile = Join-Path $luisFolder "$($id).luis"
-	$outName = (Get-Culture).TextInfo.ToTitleCase($outName)
 
 	luisgen $luisFile -cs "$($outName)Luis" -o $outFolder
 }
