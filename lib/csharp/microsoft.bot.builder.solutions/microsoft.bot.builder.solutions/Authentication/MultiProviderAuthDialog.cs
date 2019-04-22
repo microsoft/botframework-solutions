@@ -18,11 +18,13 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
         private List<OAuthConnection> _authenticationConnections;
         private ResponseManager _responseManager;
 
-        public MultiProviderAuthDialog(ResponseManager responseManager, List<OAuthConnection> authenticationConnections)
+        public MultiProviderAuthDialog(List<OAuthConnection> authenticationConnections)
             : base(nameof(MultiProviderAuthDialog))
         {
             _authenticationConnections = authenticationConnections;
-            _responseManager = responseManager;
+            _responseManager = new ResponseManager(
+                new string[] { "en", "de", "es", "fr", "it", "zh" },
+                new AuthenticationResponses());
 
             if (!_authenticationConnections.Any())
             {
