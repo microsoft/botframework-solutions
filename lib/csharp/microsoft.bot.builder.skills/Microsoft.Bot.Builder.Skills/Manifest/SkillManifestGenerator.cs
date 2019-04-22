@@ -8,7 +8,6 @@ using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using static Microsoft.Bot.Builder.Solutions.BotSettingsBase;
 
 namespace Microsoft.Bot.Builder.Skills
 {
@@ -22,19 +21,52 @@ namespace Microsoft.Bot.Builder.Skills
             _httpClient = httpClient;
         }
 
-        public async Task<SkillManifest> GenerateManifest(string manifestFile, string appId, Dictionary<string, CognitiveModelConfiguration> cognitiveModels, string uriBase, bool inlineTriggerUtterances = false)
+        public async Task<SkillManifest> GenerateManifest(string manifestFile, string appId, Dictionary<string, Solutions.BotSettingsBase.CognitiveModelConfiguration> cognitiveModels, string uriBase, bool inlineTriggerUtterances = false)
         {
             SkillManifest skillManifest = null;
+
+            if (string.IsNullOrEmpty(manifestFile))
+            {
+                throw new ArgumentNullException(nameof(manifestFile));
+            }
+
+            if (string.IsNullOrEmpty(appId))
+            {
+                throw new ArgumentNullException(nameof(appId));
+            }
+
+            if (cognitiveModels == null)
+            {
+                throw new ArgumentNullException(nameof(cognitiveModels));
+            }
+
+            if (string.IsNullOrEmpty(uriBase))
+            {
+                throw new ArgumentNullException(nameof(uriBase));
+            }
 
             // Each skill has a manifest template in the root directory and is used as foundation for the generated manifest
             using (StreamReader reader = new StreamReader(manifestFile))
             {
                 skillManifest = JsonConvert.DeserializeObject<SkillManifest>(reader.ReadToEnd());
 
-                // TODO - Perform validation;
+                if (string.IsNullOrEmpty(skillManifest.Id))
+                {
+                    throw new Exception("Skill manifest ID property was not present in the template manifest file.");
+                }
+
+                if (string.IsNullOrEmpty(skillManifest.Name))
+                {
+                    throw new Exception("Skill manifest Name property was not present in the template manifest file.");
+                }
+
                 skillManifest.MSAappId = appId;
                 skillManifest.Endpoint = new Uri($"{uriBase}{_skillRoute}");
-                skillManifest.IconUrl = new Uri($"{uriBase}/{skillManifest.IconUrl.ToString()}");
+
+                if (skillManifest.IconUrl != null)
+                {
+                    skillManifest.IconUrl = new Uri($"{uriBase}/{skillManifest.IconUrl.ToString()}");
+                }
 
                 // The manifest can either return a pointer to the triggering utterances or include them inline in the manifest
                 // If the developer has requested inline, we need to go through all utteranceSource references and retrieve the utterances and insert inline
