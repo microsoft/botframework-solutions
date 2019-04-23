@@ -19,7 +19,6 @@ namespace Microsoft.Bot.Builder.Skills
     /// This is the default Controller that contains APIs for handling
     /// calls from a channel and calls from a parent bot (to a skill bot).
     /// </summary>
-    [Authorize]
     public abstract class SkillController : ControllerBase
     {
         private readonly IBot _bot;
@@ -54,7 +53,6 @@ namespace Microsoft.Bot.Builder.Skills
         /// <returns>Task.</returns>
         [Route("api/messages")]
         [HttpPost]
-        [AllowAnonymous]
         public async Task BotMessage()
         {
             await _botFrameworkHttpAdapter.ProcessAsync(Request, Response, _bot);
@@ -66,7 +64,6 @@ namespace Microsoft.Bot.Builder.Skills
         /// <returns>Task.</returns>
         [Route("api/skill/messages")]
         [HttpGet]
-        [AllowAnonymous]
         public async Task SkillMessageWebSocket()
         {
             if (_skillWebSocketAdapter != null)
@@ -85,7 +82,6 @@ namespace Microsoft.Bot.Builder.Skills
         /// <returns>Task.</returns>
         [Route("api/skill/messages")]
         [HttpPost]
-        [AllowAnonymous]
         public async Task SkillMessage()
         {
             if (_skillHttpAdapter != null)
@@ -107,7 +103,6 @@ namespace Microsoft.Bot.Builder.Skills
         /// <returns>Task.</returns>
         [Route("api/skill/manifest")]
         [HttpGet]
-        [AllowAnonymous]
         public async Task SkillManifest([Bind, FromQuery] bool inlineTriggerUtterances = false)
         {
             try

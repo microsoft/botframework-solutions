@@ -6,8 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -23,7 +23,6 @@ namespace Microsoft.Bot.Builder.Skills
     /// </summary>
     public class SkillHttpAdapter : IBotFrameworkHttpAdapter
     {
-        private readonly ICredentialProvider _credentialProvider;
         private readonly IAuthenticationProvider _authenticationProvider;
         private readonly ILogger _logger;
         private readonly IActivityHandler _skillHttpBotAdapter;
@@ -32,7 +31,6 @@ namespace Microsoft.Bot.Builder.Skills
         public SkillHttpAdapter(IServiceProvider serviceProvider)
         {
             _skillHttpBotAdapter = serviceProvider.GetService<SkillHttpBotAdapter>() ?? throw new ArgumentNullException(nameof(SkillHttpBotAdapter));
-            _credentialProvider = serviceProvider.GetService<ICredentialProvider>() ?? throw new ArgumentNullException(nameof(ICredentialProvider));
             _authenticationProvider = serviceProvider.GetService<IAuthenticationProvider>();
             _logger = serviceProvider.GetService<ILogger>();
         }
@@ -56,7 +54,7 @@ namespace Microsoft.Bot.Builder.Skills
 
             if (_authenticationProvider != null)
             {
-                var authenticated = await _authenticationProvider.AuthenticateAsync(httpRequest.Headers["Authorization"], _credentialProvider);
+                var authenticated = _authenticationProvider.Authenticate(httpRequest.Headers["Authorization"]);
 
                 if (!authenticated)
                 {
