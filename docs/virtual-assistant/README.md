@@ -36,9 +36,9 @@ The documentation outline for the preview Conversational AI Skills capability is
 
 |Documentation|Description|common|csharp|typescript|
 |-------|-------|-------|-------|-------|
-|Skills Overview|Overview|:runner:|||
+|Skills Overview|Overview|[View](/docs/skills/csharp/README.md)|||
 |Creating a new skill|Creating a new skill using template||[View](/docs/skills/csharp/gettingstarted.md)|[View](/docs/skills/typescript/gettingstarted.md)|
-|Adding a new skill to solution| Adding a skill|:runner:||
+|Adding a new skill to solution| Adding a skill|[View](/docs/skills/common/addingskill.md)||
 |Skills Architecture|Architecture|:runner:||
 |Skills Under the covers| SkillDialog, Adapter, Middleware||:runner:|:runner:
 |Parent Bot to Skill Authentication|Principles, Flow|:runner:||                    
