@@ -1,12 +1,57 @@
 Param(
-	[Parameter(Mandatory=$true)][string] $name,
-    [Parameter(Mandatory=$true)][string] $location,
-    [Parameter(Mandatory=$true)][string] $luisAuthoringKey,
+	[string] $name,
+	[string] $luisAuthoringRegion,
+    [string] $luisAuthoringKey,
     [string] $languages = "en-us",
-    [string] $outFolder = $(Get-Location)
+    [string] $outFolder = $(Get-Location),
+	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_cognitive_models_log.txt")
 )
 
 . $PSScriptRoot\luis_functions.ps1
+
+
+# Reset log file
+if (Test-Path $logFile) {
+	Clear-Content $logFile -Force | Out-Null
+}
+else {
+	New-Item -Path $logFile | Out-Null
+}
+
+# Get mandatory parameters
+if (-not $name) {
+    $name = Read-Host "? Base name for Cognitive Models"
+    $resourceGroup = $name
+}
+
+if (-not $luisAuthoringRegion) {
+    $luisAuthoringRegion = Read-Host "? LUIS Authoring Region (westus, westeurope, or australiaeast)"
+}
+
+if (-not $luisAuthoringKey) {
+	Switch ($luisAuthoringRegion) {
+		"westus" { 
+			$luisAuthoringKey = Read-Host "? LUIS Authoring Key (found at https://luis.ai/user/settings)"
+			Break
+		}
+		"westeurope" {
+		    $luisAuthoringKey = Read-Host "? LUIS Authoring Key (found at https://eu.luis.ai/user/settings)"
+			Break
+		}
+		"australiaeast" {
+			$luisAuthoringKey = Read-Host "? LUIS Authoring Key (found at https://au.luis.ai/user/settings)"
+			Break
+		}
+		default {
+			Write-Host "! $($luisAuthoringRegion) is not a valid LUIS authoring region." -ForegroundColor DarkRed
+			Break
+		}
+	}
+
+	if (-not $luisAuthoringKey) {
+		Break
+	}
+}
 
 # Initialize settings obj
 $settings = @{ cognitiveModels = New-Object PSObject }
@@ -26,20 +71,25 @@ foreach ($language in $languages -split ",")
     foreach ($lu in $luisFiles)
     {
         # Deploy LUIS model
-        $luisApp = DeployLUIS -name $name -lu_file $lu -region $location -luisAuthoringKey $luisAuthoringKey -language $language
+        $luisApp = DeployLUIS -name $name -lu_file $lu -region $location -luisAuthoringKey $luisAuthoringKey -language $language -log $logFile
         
-        # Add to config 
-        $config.languageModels += @{
-            id = $lu.BaseName
-            name = $luisApp.name
-            appid = $luisApp.id
-            authoringkey = $luisauthoringkey
-            subscriptionkey = $luisauthoringkey
-            version = $luisApp.activeVersion
-            region = $location
-        }
+		if ($luisApp) {
+			# Add to config 
+			$config.languageModels += @{
+				id = $lu.BaseName
+				name = $luisApp.name
+				appid = $luisApp.id
+				authoringkey = $luisauthoringkey
+				subscriptionkey = $luisauthoringkey
+				version = $luisApp.activeVersion
+				region = $location
+			}
 
-		RunLuisGen $lu "$($lu.BaseName)" $(Join-Path $outFolder Services)
+			RunLuisGen $lu "$($lu.BaseName)" $(Join-Path $outFolder Services)
+		}
+		else {
+			Write-Host "! Deployment failed for LUIS app: $($lu.BaseName)" -ForegroundColor Cyan
+		}
     }
 
     # Add config to cognitivemodels dictionary
