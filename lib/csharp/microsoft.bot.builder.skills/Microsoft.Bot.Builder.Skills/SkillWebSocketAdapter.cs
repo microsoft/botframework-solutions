@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Protocol.WebSockets;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -20,7 +20,6 @@ namespace Microsoft.Bot.Builder.Skills
     /// </summary>
     public class SkillWebSocketAdapter : IBotFrameworkHttpAdapter
     {
-        private readonly ICredentialProvider _credentialProvider;
         private readonly ILogger _logger;
         private readonly SkillWebSocketBotAdapter _skillWebSocketBotAdapter;
         private readonly IAuthenticationProvider _authenticationProvider;
@@ -29,7 +28,6 @@ namespace Microsoft.Bot.Builder.Skills
         {
             _skillWebSocketBotAdapter = serviceProvider.GetService<SkillWebSocketBotAdapter>() ?? throw new ArgumentNullException(nameof(SkillWebSocketBotAdapter));
             _authenticationProvider = serviceProvider.GetService<IAuthenticationProvider>();
-            _credentialProvider = serviceProvider.GetService<ICredentialProvider>();
             _logger = serviceProvider.GetService<ILogger>();
         }
 
@@ -59,7 +57,7 @@ namespace Microsoft.Bot.Builder.Skills
 
             if (_authenticationProvider != null)
             {
-                var authenticated = await _authenticationProvider.AuthenticateAsync(httpRequest.Headers["Authorization"], _credentialProvider);
+                var authenticated = _authenticationProvider.Authenticate(httpRequest.Headers["Authorization"]);
 
                 if (!authenticated)
                 {
