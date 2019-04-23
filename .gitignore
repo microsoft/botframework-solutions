@@ -352,3 +352,4 @@ ASALocalRun/
 **/Deployment/Resources/Dispatch/**
 **/Deployment/**/*.luis
 **/Deployment/**/*.qna
+/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Deployment
