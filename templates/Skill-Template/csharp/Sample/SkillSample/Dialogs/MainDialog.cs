@@ -16,6 +16,7 @@ using SkillSample.Models;
 using SkillSample.Responses.Main;
 using SkillSample.Services;
 using SkillSample.Responses.Shared;
+using Microsoft.Bot.Builder.Skills;
 
 namespace SkillSample.Dialogs
 {
@@ -58,6 +59,9 @@ namespace SkillSample.Dialogs
             // get current activity locale
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.CognitiveModelSets[locale];
+
+            // Populate state from SkillContext slots as required 
+            await PopulateStateFromSkillContext(dc.Context);
 
             // Get skill LUIS model from configuration
             localeConfig.LuisServices.TryGetValue("skill", out var luisService);
@@ -237,6 +241,29 @@ namespace SkillSample.Dialogs
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.LogOut));
 
             return InterruptionAction.StartedDialog;
+        }
+
+        private async Task PopulateStateFromSkillContext(ITurnContext context)
+        {
+            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
+            // and make available in local state as appropriate.
+            var contextAccessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
+            var skillContext = await contextAccessor.GetAsync(context, () => new SkillContext());
+            if (skillContext != null)
+            {
+                // Example of populating local state with data passed through Skill Context
+                //if (skillContext.ContainsKey("Location"))
+                //{
+                //    // Add to your local state
+                //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
+                //    state.Location = skillContext["Location"];
+                //}
+            }
+        }
+
+        private void RegisterDialogs()
+        {
+            AddDialog(new SampleDialog(_settings, _services, _responseManager, _stateAccessor, TelemetryClient));
         }
 
         private class Events
