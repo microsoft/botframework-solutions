@@ -120,6 +120,8 @@ namespace Microsoft.Bot.Builder.Skills
             //     }
             // }
 
+            await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Handing off to the {_skillManifest.Name} skill."));
+
             var activity = innerDc.Context.Activity;
 
             var skillBeginEvent = new Activity(
@@ -191,6 +193,7 @@ namespace Microsoft.Bot.Builder.Skills
 
                 if (endOfConversation)
                 {
+                    await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot."));
                     return await innerDc.EndDialogAsync();
                 }
                 else
