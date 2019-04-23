@@ -1,15 +1,16 @@
+# ![Conversational AI Solutions](/docs/media/conversationalai_solutions_header.png)
+
 # Skills Overview
 
-Skills are a type of bot that allows developers to develop and test them like a standard bot, while having the functionality to plug in to a greater Virtual Assistant solution.
+Skills are a type of bot that allows developers to develop and test them just like a standard bot, whilst having the functionality to be connected to a broader solution as part of a complex Virtual Assistant or perhaps an Enterprise Bot seeking to stitch together multiple Bots within an organisation.
 Apart from minor difference to enable this special invocation pattern, a Skill looks and behaves like a regular bot. The same protocol is maintained between two bots to ensure a consistent approach.
 Skills for common scenarios like productivity and navigation to be used as-is or customized however a customer prefers.
-> The Skill functionality for Virtual Assistants will inform the broader Azure Bot Service skill approach moving forward.
 
 ## Table of Contents
+- [!Conversational AI Solutions](#conversational-ai-solutions)
 - [Skills Overview](#skills-overview)
   - [Table of Contents](#table-of-contents)
   - [Available Skills](#available-skills)
-  - [Skill Deployment](#skill-deployment)
   - [Create a New Skill](#create-a-new-skill)
   - [Skill Invocation Flow](#skill-invocation-flow)
   - [Registration](#registration)
@@ -20,16 +21,14 @@ Skills for common scenarios like productivity and navigation to be used as-is or
 
 ## Available Skills
 
-The following Skills are available:
+The following Skills are available out of the box, each of the documentation links below has the deployment steps required to deploy and configure Skills for your use.
+
 - [Productivity - Calendar](./productivity-calendar.md)
 - [Productivity - Email](./productivity-email.md)
 - [Productivity - To Do](./productivity-todo.md)
 - [Point of Interest](./pointofinterest.md)
 - [Automotive](./automotive.md)
 - [Experimental Skills](./experimental-skills.md)
-
-## Skill Deployment
-The Productivity and Point of Interest skills are automatically deployed and configured as part of a Virtual Assistant deployment. Automotive and Experimental skills are not added automatically. If you wish to deploy and develop/test a skill independently of the Virtual Assistant see the local mode deployment instructions within each skills documentation page.
 
 ## Create a New Skill
 
