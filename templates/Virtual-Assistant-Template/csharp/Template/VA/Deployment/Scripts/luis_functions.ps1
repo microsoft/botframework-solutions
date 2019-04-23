@@ -98,3 +98,11 @@ function UpdateLUIS ($lu_file, $appId, $version, $authoringKey, $subscriptionKey
     $(luis train version --appId $appId --authoringKey $authoringKey --versionId $version --wait 
     & luis publish version --appId $appId --authoringKey $authoringKey --versionId $version --wait) 2>&1 | Out-Null
 }
+
+function RunLuisGen($lu_file, $outName, $outFolder) {
+    $id = $lu_file.BaseName
+	$luisFolder = $lu_file.DirectoryName
+	$luisFile = Join-Path $luisFolder "$($id).luis"
+
+	luisgen $luisFile -cs "$($outName)Luis" -o $outFolder
+}
