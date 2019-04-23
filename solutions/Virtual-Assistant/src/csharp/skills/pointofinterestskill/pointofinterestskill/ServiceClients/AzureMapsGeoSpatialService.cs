@@ -14,7 +14,7 @@ namespace PointOfInterestSkill.ServiceClients
 {
     public sealed class AzureMapsGeoSpatialService : IGeoSpatialService
     {
-        private static readonly string FindByFuzzyQueryNoCoordinatesApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&query={{0}}&limit={{1}}";
+        private static readonly string FindByFuzzyQueryNoCoordinatesApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&query={{0}}&limit={{1}}&idxSet=Geo,PAD";
         private static readonly string FindByFuzzyQueryApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}&limit={{4}}";
         private static readonly string FindByAddressQueryUrl = $"https://atlas.microsoft.com/search/address/json?api-version=1.0&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}&limit={{4}}";
         private static readonly string FindAddressByCoordinateUrl = $"https://atlas.microsoft.com/search/address/reverse/json?api-version=1.0&query={{0}},{{1}}";
@@ -83,6 +83,7 @@ namespace PointOfInterestSkill.ServiceClients
 
             if (double.IsNaN(latitude) || double.IsNaN(longitude))
             {
+                // If missing either coordinate, the skill needs to run a fuzzy search on the query and will filter to Geographies & Point Addresses
                 return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByFuzzyQueryNoCoordinatesApiUrl, query, limit));
             }
 
@@ -218,10 +219,7 @@ namespace PointOfInterestSkill.ServiceClients
 
             if (apiResponse != null && apiResponse.Results != null)
             {
-                // Filter Azure Maps results to Type: POI, Point Address, Geography
-                // See https://docs.microsoft.com/en-us/rest/api/maps/search/getsearchaddress#searchaddressresult for more information.
-                var filteredSearchResults = apiResponse.Results.Where(x => x.ResultType.Equals("POI") || x.ResultType.Equals("Point Address") || x.ResultType.Equals("Geography"));
-                foreach (var searchResult in filteredSearchResults)
+                foreach (var searchResult in apiResponse.Results)
                 {
                     var newPointOfInterest = new PointOfInterestModel(searchResult);
 

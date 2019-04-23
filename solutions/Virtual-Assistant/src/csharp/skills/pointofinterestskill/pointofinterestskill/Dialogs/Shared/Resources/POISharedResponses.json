@@ -281,22 +281,22 @@
   "PromptForCurrentLocation": {
     "replies": [
       {
-        "text": "Can you tell me where you are?",
-        "speak": "Can you tell me where you are?"
+        "text": "Can you tell me where you are? Try providing a city or address.",
+        "speak": "Can you tell me where you are? Try providing a city or address."
       },
       {
         "text": "What address are you at?",
         "speak": "What address are you at?"
       },
       {
-        "text": "Where are you located?",
-        "speak": "Where are you located?"
+        "text": "Where are you located? Try providing a city or address.",
+        "speak": "Where are you located? Try providing a city or address."
       },
       {
-        "text": "Where are you?",
-        "speak": "Where are you?"
+        "text": "Where are you? Try providing a city or address.",
+        "speak": "Where are you? Try providing a city or address."
       }
     ],
-    "inputHint": "ignoringInput"
+    "inputHint": "expectingInput"
   }
 }
