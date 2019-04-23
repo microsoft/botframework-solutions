@@ -15,42 +15,40 @@ The documentation outline for the Virtual Assistant solution accelerator is show
 
 |Documentation|Description|common|csharp|typescript|
 |-------|-------|-------|-------|-------|
-|Overview| Architecture and Principles| [View](./common/overview.md)|||
+|Overview| Architecture and Principles|:runner:|||
 |Getting Started|Creating your assistant using the Virtual Assistant template||[View](./csharp/gettingstarted.md)|[View](./typescript/gettingstarted.md)|
-|Project Structure|Walkthrough of your Assistant project||[View](./csharp/projectstructure.md)|[View](./typescript/projectstructure.md)|
-|Under the covers|Detailed documentation covering what the template provides and how it works|[View](./common/underthecovers.md)|||
-|Customizing your assistant|Personalize your assistant||[View](./csharp/personalization.md)|:runner:|
-|Migration from Enterprise Template|Guidance on how to move from an Enterprise Template based Bot to the new Template||[View](./csharp/personalization.md)||Migration from the old Virtual Assistant solution|Guidance on how to move from the original Virtual Assistant solution to the new Template||[View](./csharp/personalization.md)|
+|Project Structure|Walkthrough of your Assistant project||:runner:|:runner:|
+|Under the covers|Detailed documentation covering what the template provides and how it works|:runner:|||
+|Customizing your assistant|Personalize your assistant||:runner:|:runner:|
+|Migration from Enterprise Template|Guidance on how to move from an Enterprise Template based Bot to the new Template||:runner:||Migration from the old Virtual Assistant solution|Guidance on how to move from the original Virtual Assistant solution to the new Template||:runner:|
 |Authentication|Authentication approach|[View](./common/authentication.md)|||
 |Responses|Types of responses|[View](./common/responses.md)|||
 |Testing|Testing steps||[View](./csharp/testing.md)||
 |Events|Event handling||[View](./csharp/events.md)|| 
-|Device Integration|Device integration examples|[View](./common/deviceintegration.md)|||           
+|Device Integration|Device integration examples|[View](./common/deviceintegration.md)||          
 |Proactive Messaging|Adding proactive experiences to your assistant||[View](./csharp/proactivemessaging.md)||
 |Linked Accounts|Enable users to link 3rd party accounts (e.g. o365) to their assistant||[View](./csharp/linkedaccounts.md)||
-|Known Issues|Our current known issues||[View](./csharp/knownissues.md)||
+|Known Issues|Our current known issues||:runner:|:runner:|
 
 ## Skills Documentation
 The documentation outline for the preview Conversational AI Skills capability is shown below. C# and Typescript programming languages are supported.
 
 |Documentation|Description|common|csharp|typescript|
 |-------|-------|-------|-------|-------|
-|Skills Overview|Overview|[View](/docs/skills/common/skillsoverview.md)|||
+|Skills Overview|Overview|:runner:|||
 |Creating a new skill|Creating a new skill using template||[View](/docs/skills/csharp/gettingstarted.md)|[View](/docs/skills/typescript/gettingstarted.md)|
-|Adding a new skill to solution| Adding a skill|||
-|Skills Architecture|Architecture|||
-|Skills Under the covers| SkillDialog, Adapter, Middleware|||
-|Parent Bot to Skill Authentication|Principles, Flow|||                    
-|Skill Token Flow|How tokens are requested|||
-|Manifest | Manifest File, Actions, triggering utterances|||
-|Skill CLI | Skill CLI, what it does under covers|||
-|Speech Enablement|SpeechUtility,etc.|||
-|Adaptive Card Styling|Adjusting look/feel - design packs?|||
-|Add SkillSupport to a non VA template project|How to add Skills to an exist/non VA template solution|||
-|Turning an existing Bot into a Skill|Steps required to enable Skill mode for existing v4 bots|||
-|Preview Limitations / Known Issues       |||
-
-
+|Adding a new skill to solution| Adding a skill|:runner:||
+|Skills Architecture|Architecture|:runner:||
+|Skills Under the covers| SkillDialog, Adapter, Middleware||:runner:|:runner:
+|Parent Bot to Skill Authentication|Principles, Flow|:runner:||                    
+|Skill Token Flow|How tokens are requested|:runner:||
+|Manifest | Manifest File, Actions, triggering utterances|:runner:||
+|Skill CLI | Skill CLI, what it does under covers|:runner:||
+|Speech Enablement|SpeechUtility,etc.|:runner:||
+|Adaptive Card Styling|Adjusting look/feel - design packs?|:runner:||
+|Add SkillSupport to a non VA template project|How to add Skills to an existing/non VA template solution||:runner:|:runner:
+|Turning an existing Bot into a Skill|Steps required to enable Skill mode for existing v4 bots||:runner:|:runner:
+|Preview Limitations / Known Issues||:runner:|:runner:|:runner:
 
 # Contributing
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
