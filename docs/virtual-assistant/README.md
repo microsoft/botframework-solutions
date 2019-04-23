@@ -17,6 +17,7 @@ The documentation outline for the Virtual Assistant solution accelerator is show
 |-------|-------|-------|-------|-------|
 |Overview| Architecture and Principles|:runner:|||
 |Getting Started|Creating your assistant using the Virtual Assistant template||[View](./csharp/gettingstarted.md)|[View](./typescript/gettingstarted.md)|
+|Adding Skills|Adding the out of the box Skills to your Virtual Assistant|[View](./common/addingskills.md)|||
 |Project Structure|Walkthrough of your Assistant project||:runner:|:runner:|
 |Under the covers|Detailed documentation covering what the template provides and how it works|:runner:|||
 |Customizing your assistant|Personalize your assistant||:runner:|:runner:|
