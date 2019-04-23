@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
@@ -25,11 +26,13 @@ namespace $safeprojectname$.Dialogs
         private BotServices _services;
         private ResponseManager _responseManager;
         private IStatePropertyAccessor<SkillState> _stateAccessor;
+        private IStatePropertyAccessor<SkillContext> _contextAccessor;
 
         public MainDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
+            UserState userState,
             ConversationState conversationState,
             SampleDialog sampleDialog,
             IBotTelemetryClient telemetryClient)
@@ -42,6 +45,7 @@ namespace $safeprojectname$.Dialogs
 
             // Initialize state accessor
             _stateAccessor = conversationState.CreateProperty<SkillState>(nameof(SkillState));
+            _contextAccessor = userState.CreateProperty<SkillContext>(nameof(SkillContext));
 
             // Register dialogs
             AddDialog(sampleDialog);
@@ -58,6 +62,9 @@ namespace $safeprojectname$.Dialogs
             // get current activity locale
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.CognitiveModelSets[locale];
+
+            // Populate state from SkillContext slots as required 
+            await PopulateStateFromSkillContext(dc.Context);
 
             // Get skill LUIS model from configuration
             localeConfig.LuisServices.TryGetValue("$safeprojectname$", out var luisService);
@@ -237,6 +244,23 @@ namespace $safeprojectname$.Dialogs
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.LogOut));
 
             return InterruptionAction.StartedDialog;
+        }
+
+        private async Task PopulateStateFromSkillContext(ITurnContext context)
+        {
+            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
+            // and make available in local state as appropriate.
+            var skillContext = await _contextAccessor.GetAsync(context, () => new SkillContext());
+            if (skillContext != null)
+            {
+                // Example of populating local state with data passed through Skill Context
+                //if (skillContext.ContainsKey("Location"))
+                //{
+                //    // Add to your local state
+                //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
+                //    state.Location = skillContext["Location"];
+                //}
+            }
         }
 
         private class Events

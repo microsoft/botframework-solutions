@@ -26,11 +26,13 @@ namespace SkillSample.Dialogs
         private BotServices _services;
         private ResponseManager _responseManager;
         private IStatePropertyAccessor<SkillState> _stateAccessor;
+        private IStatePropertyAccessor<SkillContext> _contextAccessor;
 
         public MainDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
+            UserState userState,
             ConversationState conversationState,
             SampleDialog sampleDialog,
             IBotTelemetryClient telemetryClient)
@@ -43,6 +45,7 @@ namespace SkillSample.Dialogs
 
             // Initialize state accessor
             _stateAccessor = conversationState.CreateProperty<SkillState>(nameof(SkillState));
+            _contextAccessor = userState.CreateProperty<SkillContext>(nameof(SkillContext));
 
             // Register dialogs
             AddDialog(sampleDialog);
@@ -247,8 +250,7 @@ namespace SkillSample.Dialogs
         {
             // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
             // and make available in local state as appropriate.
-            var contextAccessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
-            var skillContext = await contextAccessor.GetAsync(context, () => new SkillContext());
+            var skillContext = await _contextAccessor.GetAsync(context, () => new SkillContext());
             if (skillContext != null)
             {
                 // Example of populating local state with data passed through Skill Context
@@ -259,11 +261,6 @@ namespace SkillSample.Dialogs
                 //    state.Location = skillContext["Location"];
                 //}
             }
-        }
-
-        private void RegisterDialogs()
-        {
-            AddDialog(new SampleDialog(_settings, _services, _responseManager, _stateAccessor, TelemetryClient));
         }
 
         private class Events
