@@ -12,6 +12,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Builder.Solutions.Testing;
+using Microsoft.Bot.Builder.Skills;
 
 namespace VirtualAssistantSample.Tests
 {
@@ -56,8 +57,13 @@ namespace VirtualAssistantSample.Tests
                 return new BotStateSet(userState, conversationState);
             });
 
-            Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
+            Services.AddTransient<AuthenticationDialog>();
+            Services.AddTransient<CancelDialog>();
+            Services.AddTransient<EscalateDialog>();
             Services.AddTransient<MainDialog>();
+            Services.AddTransient<OnboardingDialog>();
+            Services.AddTransient<List<SkillDialog>>();
+            Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<IBot, DialogBot<MainDialog>>();
         }
 

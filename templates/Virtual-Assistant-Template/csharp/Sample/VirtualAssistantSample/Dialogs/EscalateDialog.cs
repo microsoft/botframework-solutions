@@ -10,7 +10,7 @@ using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Dialogs
 {
-    public class EscalateDialog : EnterpriseDialog
+    public class EscalateDialog : DialogBase
     {
         private EscalateResponses _responder = new EscalateResponses();
 

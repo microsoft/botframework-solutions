@@ -11,14 +11,9 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
-using $safeprojectname$.Models;
 using $safeprojectname$.Responses.Main;
 using $safeprojectname$.Services;
 
@@ -28,34 +23,28 @@ namespace $safeprojectname$.Dialogs
     {
         private BotSettings _settings;
         private BotServices _services;
-        private UserState _userState;
-        private ConversationState _conversationState;
-        private MicrosoftAppCredentials _microsoftAppCredentials;
         private MainResponses _responder = new MainResponses();
-        private readonly ResponseManager _responseManager;
 
         public MainDialog(
             BotSettings settings,
             BotServices services,
-            ConversationState conversationState,
-            UserState userState,
-            MicrosoftAppCredentials microsoftAppCredentials, 
+            OnboardingDialog onboardingDialog,
+            EscalateDialog escalateDialog,
+            List<SkillDialog> skillDialogs,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
             _settings = settings;
             _services = services;
-            _conversationState = conversationState;
-            _userState = userState;
-            _microsoftAppCredentials = microsoftAppCredentials;
             TelemetryClient = telemetryClient;
 
-            _responseManager = new ResponseManager(new string[] { "en" }, new AuthenticationResponses());
+            AddDialog(onboardingDialog);
+            AddDialog(escalateDialog);
 
-            AddDialog(new OnboardingDialog(_services, _userState.CreateProperty<OnboardingState>(nameof(OnboardingState)), telemetryClient));
-            AddDialog(new EscalateDialog(_services, telemetryClient));
-
-            AddSkillDialogs();
+            foreach (var skillDialog in skillDialogs)
+            {
+                AddDialog(skillDialog);
+            }
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -302,42 +291,6 @@ namespace $safeprojectname$.Dialogs
             await dc.Context.SendActivityAsync(MainStrings.LOGOUT);
 
             return InterruptionAction.StartedDialog;
-        }
-
-        private void AddSkillDialogs()
-        {
-            // Each Skill has a number of actions but there are wrapper under one single SkillDialog per Skill.
-            foreach (var skill in _settings.Skills)
-            {          
-                MultiProviderAuthDialog authDialog = null;
-                if (skill.AuthenticationConnections != null && skill.AuthenticationConnections.Count() > 0)
-                {
-                    List<OAuthConnection> oauthConnections = new List<OAuthConnection>();
-
-                    if (_settings.OAuthConnections != null && _settings.OAuthConnections.Count > 0)
-                    {
-                        foreach (var authConnection in skill.AuthenticationConnections)
-                        {
-                            var connection = _settings.OAuthConnections.FirstOrDefault(o => o.Provider.Equals(authConnection.ServiceProviderId, StringComparison.InvariantCultureIgnoreCase));
-                            if (connection != null)
-                            {
-                                oauthConnections.Add(connection);
-                            }
-                        }
-                    }
-
-                    if (oauthConnections.Count > 0)
-                    {
-                        authDialog = new MultiProviderAuthDialog(_responseManager, oauthConnections);
-                    }
-                    else
-                    {
-                        throw new Exception($"None of the oauth types that the skill {skill.Name} requires is supported by the bot!");
-                    }
-                }
-
-                AddDialog(new SkillDialog(skill, _responseManager, new MicrosoftAppCredentialsEx(_microsoftAppCredentials.MicrosoftAppId, _microsoftAppCredentials.MicrosoftAppPassword, skill.MSAappId), TelemetryClient, _userState, authDialog));
-            }
         }
     }
 }

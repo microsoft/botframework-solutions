@@ -45,7 +45,7 @@ namespace Microsoft.Bot.Builder.Skills
             // doesn't have to do any disconnect for http
         }
 
-        public async Task<bool> ForwardToSkillAsync(ITurnContext dialogContext, Activity activity, Func<Activity, Activity> tokenRequestHandler = null)
+        public async Task<bool> ForwardToSkillAsync(ITurnContext dialogContext, Activity activity, Action<Activity> tokenRequestHandler = null)
         {
             // Serialize the activity and POST to the Skill endpoint
             var httpRequest = new HttpRequestMessage();
@@ -83,11 +83,7 @@ namespace Microsoft.Bot.Builder.Skills
                     {
                         if (tokenRequestHandler != null)
                         {
-                            var tokenResponseActivity = tokenRequestHandler(skillResponse);
-                            if (tokenResponseActivity != null)
-                            {
-                                return await ForwardToSkillAsync(dialogContext, tokenResponseActivity);
-                            }
+                            tokenRequestHandler(skillResponse);
                         }
                     }
                     else

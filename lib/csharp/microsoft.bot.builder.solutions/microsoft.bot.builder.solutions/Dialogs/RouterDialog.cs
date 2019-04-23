@@ -47,27 +47,44 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
                 {
                     case ActivityTypes.Message:
                         {
-                            var result = await innerDc.ContinueDialogAsync();
-
-                            switch (result.Status)
+                            // Note: This check is a workaround for adaptive card buttons that should map to an event (i.e. startOnboarding button in intro card)
+                            if (activity.Value != null)
                             {
-                                case DialogTurnStatus.Empty:
-                                    {
-                                        await RouteAsync(innerDc);
-                                        break;
-                                    }
+                                await OnEventAsync(innerDc);
+                            }
+                            else if (!string.IsNullOrEmpty(activity.Text))
+                            {
+                                var result = await innerDc.ContinueDialogAsync();
 
-                                case DialogTurnStatus.Complete:
-                                case DialogTurnStatus.Cancelled:
-                                    {
-                                        await CompleteAsync(innerDc, result);
-                                        break;
-                                    }
+                                switch (result.Status)
+                                {
+                                    case DialogTurnStatus.Empty:
+                                        {
+                                            await RouteAsync(innerDc);
 
-                                default:
-                                    {
-                                        break;
-                                    }
+                                            // Waterfalls with no turns should Complete.
+                                            if (innerDc.ActiveDialog == null)
+                                            {
+                                                await CompleteAsync(innerDc);
+                                            }
+
+                                            break;
+                                        }
+
+                                    case DialogTurnStatus.Complete:
+                                        {
+                                            await CompleteAsync(innerDc);
+
+                                            // End active dialog
+                                            await innerDc.EndDialogAsync();
+                                            break;
+                                        }
+
+                                    default:
+                                        {
+                                            break;
+                                        }
+                                }
                             }
 
                             break;

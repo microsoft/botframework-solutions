@@ -11,16 +11,19 @@ using $safeprojectname$.Services;
 
 namespace $safeprojectname$.Dialogs
 {
-    public class OnboardingDialog : EnterpriseDialog
+    public class OnboardingDialog : DialogBase
     {
         private static OnboardingResponses _responder = new OnboardingResponses();
         private IStatePropertyAccessor<OnboardingState> _accessor;
         private OnboardingState _state;
 
-        public OnboardingDialog(BotServices botServices, IStatePropertyAccessor<OnboardingState> accessor, IBotTelemetryClient telemetryClient)
+        public OnboardingDialog(
+            BotServices botServices,
+            ConversationState conversationState,
+            IBotTelemetryClient telemetryClient)
             : base(nameof(OnboardingDialog), botServices, telemetryClient)
         {
-            _accessor = accessor;
+            _accessor = conversationState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             InitialDialogId = nameof(OnboardingDialog);
 
             var onboarding = new WaterfallStep[]
