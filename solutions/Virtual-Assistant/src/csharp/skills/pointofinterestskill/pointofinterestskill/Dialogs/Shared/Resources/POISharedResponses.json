@@ -281,16 +281,8 @@
   "PromptForCurrentLocation": {
     "replies": [
       {
-        "text": "Can you tell me where you are? Try providing a city or address.",
-        "speak": "Can you tell me where you are? Try providing a city or address."
-      },
-      {
         "text": "What address are you at?",
         "speak": "What address are you at?"
-      },
-      {
-        "text": "Where are you located? Try providing a city or address.",
-        "speak": "Where are you located? Try providing a city or address."
       },
       {
         "text": "Where are you? Try providing a city or address.",
