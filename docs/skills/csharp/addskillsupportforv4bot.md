@@ -1,9 +1,13 @@
 # Adding Skills Support to a V4 Bot (not based on Virtual Assistant Template)
 
 ## Table of Contents
-- [Language understanding](#language-understanding)
-- [Conversational design](#conversational-design)
-- [Developing a dialog](#devloping-a-dialog)
+- [Adding Skills Support to a V4 Bot (not based on Virtual Assistant Template)](#adding-skills-support-to-a-v4-bot-not-based-on-virtual-assistant-template)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Libraries](#libraries)
+  - [Skill Configuration](#skill-configuration)
+  - [Skill Dialog Registration](#skill-dialog-registration)
+  - [Routing utterances to Skills](#routing-utterances-to-skills)
 
 ## Overview
 
@@ -98,5 +102,3 @@ else
     // Your normal intent routing logic
 }
 ```
-
-

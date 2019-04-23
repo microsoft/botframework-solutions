@@ -47,8 +47,8 @@ The documentation outline for the preview Conversational AI Skills capability is
 |Skill CLI | Skill CLI, what it does under covers|:runner:||
 |Speech Enablement|SpeechUtility,etc.|:runner:||
 |Adaptive Card Styling|Adjusting look/feel - design packs?|:runner:||
-|Add SkillSupport to a non VA template project|How to add Skills to an existing/non VA template solution||:runner:|:runner:
-|Turning an existing Bot into a Skill|Steps required to enable Skill mode for existing v4 bots||[View](/docs/skills/csharp/skillsupportforv4bot.md)|:runner:
+|Add Skill support to a non VA template project|How to add Skills to an existing/non VA template solution||[View](/docs/skills/csharp/addskillsupportforv4bot.md)|:runner:
+|Skill enabling an existing Bot|Steps required to take an existing v4 Bot and make it available as a skill||[View](/docs/skills/csharp/skillenablingav4bot.md)|:runner:
 |Preview Limitations / Known Issues||:runner:|:runner:|:runner:
 
 :runner: is work in progress
