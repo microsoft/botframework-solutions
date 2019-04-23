@@ -16,9 +16,9 @@ namespace SkillSample.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<SkillState> stateAccessor,
+            ConversationState conversationState,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(SampleDialog), settings, services, responseManager, stateAccessor, telemetryClient)
+            : base(nameof(SampleDialog), settings, services, responseManager, conversationState, telemetryClient)
         {
             var sample = new WaterfallStep[]
             {

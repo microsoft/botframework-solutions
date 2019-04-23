@@ -24,8 +24,6 @@ namespace $safeprojectname$.Dialogs
         private BotSettings _settings;
         private BotServices _services;
         private ResponseManager _responseManager;
-        private UserState _userState;
-        private ConversationState _conversationState;
         private IStatePropertyAccessor<SkillState> _stateAccessor;
 
         public MainDialog(
@@ -33,22 +31,20 @@ namespace $safeprojectname$.Dialogs
             BotServices services,
             ResponseManager responseManager,
             ConversationState conversationState,
-            UserState userState,
+            SampleDialog sampleDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
             _settings = settings;
             _services = services;
             _responseManager = responseManager;
-            _conversationState = conversationState;
-            _userState = userState;
             TelemetryClient = telemetryClient;
 
             // Initialize state accessor
-            _stateAccessor = _conversationState.CreateProperty<SkillState>(nameof(SkillState));
+            _stateAccessor = conversationState.CreateProperty<SkillState>(nameof(SkillState));
 
             // Register dialogs
-            RegisterDialogs();
+            AddDialog(sampleDialog);
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -241,11 +237,6 @@ namespace $safeprojectname$.Dialogs
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.LogOut));
 
             return InterruptionAction.StartedDialog;
-        }
-
-        private void RegisterDialogs()
-        {
-            AddDialog(new SampleDialog(_settings, _services, _responseManager, _stateAccessor, TelemetryClient));
         }
 
         private class Events

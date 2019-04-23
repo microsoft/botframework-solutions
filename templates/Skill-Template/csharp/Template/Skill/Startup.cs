@@ -111,6 +111,10 @@ namespace $safeprojectname$
             // services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
             // services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
 
+            // Register dialogs
+            services.AddTransient<SampleDialog>();
+            services.AddTransient<MainDialog>();
+
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<SkillAdapter, CustomSkillAdapter>();

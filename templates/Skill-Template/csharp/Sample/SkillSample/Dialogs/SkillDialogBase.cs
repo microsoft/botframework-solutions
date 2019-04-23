@@ -24,14 +24,13 @@ namespace SkillSample.Dialogs
              BotSettings settings,
              BotServices services,
              ResponseManager responseManager,
-             IStatePropertyAccessor<SkillState> stateAccessor,
+             ConversationState conversationState,
              IBotTelemetryClient telemetryClient)
              : base(dialogId)
         {
             Services = services;
-            StateAccessor = stateAccessor;
             ResponseManager = responseManager;
-            StateAccessor = stateAccessor;
+            StateAccessor = conversationState.CreateProperty<SkillState>(nameof(SkillState));
             TelemetryClient = telemetryClient;
 
             // NOTE: Uncomment the following if your skill requires authentication
