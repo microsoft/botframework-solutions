@@ -15,7 +15,7 @@ The documentation outline for the Virtual Assistant solution accelerator is show
 
 |Documentation|Description|common|csharp|typescript|
 |-------|-------|-------|-------|-------|
-|Overview| Architecture and Principles|:runner:|||
+|Overview| Architecture and Principles|[View](./common/overview.md)|||
 |Getting Started|Creating your assistant using the Virtual Assistant template||[View](./csharp/gettingstarted.md)|[View](./typescript/gettingstarted.md)|
 |Adding Skills|Adding the out of the box Skills to your Virtual Assistant|[View](./common/addingskills.md)|||
 |Project Structure|Walkthrough of your Assistant project||:runner:|:runner:|
@@ -42,13 +42,13 @@ The documentation outline for the preview Conversational AI Skills capability is
 |Skills Architecture|Architecture|:runner:||
 |Skills Under the covers| SkillDialog, Adapter, Middleware||:runner:|:runner:
 |Parent Bot to Skill Authentication|Principles, Flow|:runner:||                    
-|Skill Token Flow|How tokens are requested|:runner:||
-|Manifest | Manifest File, Actions, triggering utterances|:runner:||
+|Skill Token Flow|How a Skill can request a User authentication token||[View](/docs/skills/common/skilltokenflow.md)||
+|Skill Manifest| Overview of the Skill Manifest file and it's role with Skill registration and invocation|:runner:||
 |Skill CLI | Skill CLI, what it does under covers|:runner:||
 |Speech Enablement|SpeechUtility,etc.|:runner:||
 |Adaptive Card Styling|Adjusting look/feel - design packs?|:runner:||
-|Add Skill support to a non VA template project|How to add Skills to an existing/non VA template solution||[View](/docs/skills/csharp/addskillsupportforv4bot.md)|:runner:
-|Skill enabling an existing Bot|Steps required to take an existing v4 Bot and make it available as a skill||[View](/docs/skills/csharp/skillenablingav4bot.md)|:runner:
+|Adding Skill support to a v4 SDK Bot|How to add Skills to an existing/non VA template solution||[View](/docs/skills/csharp/addskillsupportforv4bot.md)|:runner:
+|Skill enabling an existing v4 SDK Bot|Steps required to take an existing v4 Bot and make it available as a skill||[View](/docs/skills/csharp/skillenablingav4bot.md)|:runner:
 |Preview Limitations / Known Issues||:runner:|:runner:|:runner:
 
 :runner: is work in progress
