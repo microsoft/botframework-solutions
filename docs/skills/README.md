@@ -2,9 +2,9 @@
 
 # Skills Overview
 
-Skills are a type of bot that allows developers to develop and test them just like a standard bot, whilst having the functionality to be connected to a broader solution as part of a complex Virtual Assistant or perhaps an Enterprise Bot seeking to stitch together multiple Bots within an organisation.
+A Skill is like a standard conversational bot but with the ability to be plugged in to a broader solution. This can be a complex Virtual Assistant or perhaps an Enterprise Bot seeking to stitch together multiple bots within an organization.
 
-Apart from minor difference to enable this special invocation pattern, a Skill looks and behaves like a regular bot. The same protocol is maintained between two bots to ensure a consistent approach. Skills for common scenarios like productivity and navigation to be used as-is or customized however a customer prefers.
+Apart from some minor differences that enable this special invocation pattern, a Skill looks and behaves like a regular bot. The same protocol is maintained between two bots to ensure a consistent approach. Skills for common scenarios like productivity and navigation to be used as-is or customized however a customer prefers.
 
 ## Table of Contents
 - [Skills Overview](#skills-overview)
@@ -17,10 +17,10 @@ The documentation outline for the preview Conversational AI Skills capability is
 
 |Documentation|Description|common|csharp|typescript|
 |-------|-------|-------|-------|-------|
-|Creating a new skill|Creating a new skill using template||[View](/docs/skills/csharp/gettingstarted.md)|[View](/docs/skills/typescript/gettingstarted.md)|
-|Adding a new skill to solution| Adding a skill|[View](/docs/skills/common/addingskill.md)||
+|Creating a new Skill|Creating a new Skill using the template||[View](/docs/skills/csharp/gettingstarted.md)|[View](/docs/skills/typescript/gettingstarted.md)|
+|Adding a new Skill to solution| Adding a Skill|[View](/docs/skills/common/addingskill.md)||
 |Skills Architecture|Architecture|[View](/docs/skills/common/architecture.md)||
-|Skill Best Practice|Architecture||[View](/docs/skills/csharp/bestpractices.md)|:runner:
+|Best Practices for your Skill|Architecture||[View](/docs/skills/csharp/bestpractices.md)|:runner:
 |Skills Under the covers| SkillDialog, Adapter, Middleware||:runner:|:runner:
 |Parent Bot to Skill Authentication|Principles, Flow|:runner:||                    
 |Skill Token Flow|How a Skill can request a User authentication token||[View](/docs/skills/common/skilltokenflow.md)||
