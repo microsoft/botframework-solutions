@@ -81,8 +81,9 @@
           "id": "Address",
           "spacing": "None",
           "color": "Dark",
-          "text": "{Street}, {City}",
-          "wrap": true
+          "text": "{Address}",
+          "wrap": true,
+          "maxLines": 2
         },
         {
           "type": "TextBlock",

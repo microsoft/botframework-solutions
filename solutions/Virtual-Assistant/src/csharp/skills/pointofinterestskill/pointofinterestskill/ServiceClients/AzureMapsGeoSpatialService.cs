@@ -14,9 +14,10 @@ namespace PointOfInterestSkill.ServiceClients
 {
     public sealed class AzureMapsGeoSpatialService : IGeoSpatialService
     {
-        private static readonly string FindByFuzzyQueryNoCoordinatesApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&query={{0}}&limit={{1}}&idxSet=Geo,PAD";
+        private static readonly string FindByFuzzyQueryNoCoordinatesApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&query={{0}}&limit={{1}}";
         private static readonly string FindByFuzzyQueryApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}&limit={{4}}";
         private static readonly string FindByAddressQueryUrl = $"https://atlas.microsoft.com/search/address/json?api-version=1.0&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}&limit={{4}}";
+        private static readonly string FindByAddressNoCoordinatesQueryUrl = $"https://atlas.microsoft.com/search/address/json?api-version=1.0&query={{0}}&limit={{1}}";
         private static readonly string FindAddressByCoordinateUrl = $"https://atlas.microsoft.com/search/address/reverse/json?api-version=1.0&query={{0}},{{1}}";
         private static readonly string FindNearbyUrl = $"https://atlas.microsoft.com/search/nearby/json?api-version=1.0&lat={{0}}&lon={{1}}&radius={{2}}&limit={{3}}";
         private static readonly string FindByCategoryUrl = $"https://atlas.microsoft.com/search/poi/category/json?api-version=1.0&query={{2}}&lat={{0}}&lon={{1}}&radius={{3}}&limit={{4}}";
@@ -83,7 +84,7 @@ namespace PointOfInterestSkill.ServiceClients
 
             if (double.IsNaN(latitude) || double.IsNaN(longitude))
             {
-                // If missing either coordinate, the skill needs to run a fuzzy search on the query and will filter to Geographies & Point Addresses
+                // If missing either coordinate, the skill needs to run a fuzzy search on the query
                 return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByFuzzyQueryNoCoordinatesApiUrl, query, limit));
             }
 
@@ -102,6 +103,12 @@ namespace PointOfInterestSkill.ServiceClients
             if (string.IsNullOrEmpty(address))
             {
                 throw new ArgumentNullException(nameof(address));
+            }
+
+            if (double.IsNaN(latitude) || double.IsNaN(longitude))
+            {
+                // If missing either coordinate, the skill needs to run an address search on the query
+                return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByAddressNoCoordinatesQueryUrl, Uri.EscapeDataString(address), limit));
             }
 
             return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByAddressQueryUrl, latitude, longitude, Uri.EscapeDataString(address), radius, limit));
@@ -224,7 +231,7 @@ namespace PointOfInterestSkill.ServiceClients
                     var newPointOfInterest = new PointOfInterestModel(searchResult);
 
                     // If POI is missing a street, we don't want it shown
-                    if (!string.IsNullOrEmpty(newPointOfInterest.Street))
+                    if (!string.IsNullOrEmpty(newPointOfInterest.Address))
                     {
                         pointOfInterestList.Add(newPointOfInterest);
                     }

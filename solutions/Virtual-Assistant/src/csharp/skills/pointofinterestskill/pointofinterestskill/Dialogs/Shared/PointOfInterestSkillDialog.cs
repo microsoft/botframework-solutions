@@ -94,7 +94,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                 var state = await Accessor.GetAsync(sc.Context);
                 var service = ServiceManager.InitAddressMapsService(Services);
 
-                var pointOfInterestList = await service.GetPointOfInterestListByQueryAsync(double.NaN, double.NaN, sc.Result.ToString());
+                var pointOfInterestList = await service.GetPointOfInterestListByAddressAsync(double.NaN, double.NaN, sc.Result.ToString());
                 var cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList);
 
                 if (cards.Count() == 0)
@@ -340,7 +340,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
             for (var i = 0; i < pointOfInterestList.Count; ++i)
             {
                 var item = pointOfInterestList[i].Name;
-                var address = pointOfInterestList[i].Street;
+                var address = pointOfInterestList[i].Address;
 
                 List<string> synonyms = new List<string>()
                     {
@@ -418,7 +418,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
 
                     if (string.IsNullOrEmpty(pointOfInterestList[i].Name))
                     {
-                        pointOfInterestList[i].Name = pointOfInterestList[i].Street;
+                        pointOfInterestList[i].Name = pointOfInterestList[i].Address;
                     }
 
                     pointOfInterestList[i].ProviderDisplayText = string.Format($"{PointOfInterestSharedStrings.POWERED_BY} **{{0}}**", pointOfInterestList[i].Provider.Aggregate((j, k) => j + "&" + k).ToString());
@@ -431,7 +431,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                         var promptReplacements = new StringDictionary
                         {
                             { "Name", pointOfInterestList[i].Name },
-                            { "Address", pointOfInterestList[i].Street },
+                            { "Address", pointOfInterestList[i].Address },
                         };
                         pointOfInterestList[i].Speak = ResponseManager.GetResponse(promptTemplate, promptReplacements).Text;
                     }
@@ -579,8 +579,7 @@ namespace PointOfInterestSkill.Dialogs.Shared
                     var routeDirectionsModel = new RouteDirectionsModel()
                     {
                         Name = destination.Name,
-                        Street = destination.Street,
-                        City = destination.City,
+                        Address = destination.Address,
                         AvailableDetails = destination.AvailableDetails,
                         Hours = destination.Hours,
                         PointOfInterestImageUrl = destination.PointOfInterestImageUrl,
