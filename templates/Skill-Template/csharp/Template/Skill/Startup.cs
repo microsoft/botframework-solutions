@@ -26,8 +26,6 @@ using $safeprojectname$.Responses.Shared;
 using $safeprojectname$.Responses.Sample;
 using Microsoft.Bot.Builder.Skills;
 using $safeprojectname$.Adapters;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.Bot.Builder.Solutions;
 
 namespace $safeprojectname$
@@ -95,29 +93,14 @@ namespace $safeprojectname$
                 new SharedResponses(),
                 new SampleResponses()));
 
-            // Configure Skill authentication
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                options.Authority = "https://login.microsoftonline.com/microsoft.com";
-                options.Audience = settings.MicrosoftAppId;
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidIssuer = "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47/v2.0",
-                };
-            });
-
-            // comment out for now to disable whitelist checking
-            // services.AddSingleton<ISkillAuthProvider, JwtClaimAuthProvider>();
-            // services.AddSingleton<ISkillWhitelist, SkillWhitelist>();
-
             // Register dialogs
             services.AddTransient<SampleDialog>();
             services.AddTransient<MainDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
-            services.AddTransient<SkillAdapter, CustomSkillAdapter>();
+            services.AddTransient<SkillWebSocketBotAdapter, CustomSkillAdapter>();
+            services.AddTransient<SkillWebSocketAdapter>();
 
             // Configure bot
             services.AddTransient<MainDialog>();
@@ -135,6 +118,7 @@ namespace $safeprojectname$
             app.UseBotApplicationInsights()
                 .UseDefaultFiles()
                 .UseStaticFiles()
+                .UseWebSockets()
                 .UseMvc();
         }
     }
