@@ -1,4 +1,4 @@
-# Developing a new Skill
+# Skill Best Practices
 
 ## Table of Contents
 - [Language understanding](#language-understanding)
