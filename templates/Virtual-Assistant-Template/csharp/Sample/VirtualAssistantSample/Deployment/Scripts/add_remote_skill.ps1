@@ -1,7 +1,7 @@
 ﻿Param(
 	[string] $botName,
     [string] $manifestUrl,
-    [string] $luisFolder,
+	[string] $luisFolder,
     [string] $dispatchFolder,
 	[string] $dispatchName,
 	[string] $language = "en-us",
@@ -31,7 +31,7 @@ if (-not $luisFolder) {
 }
 
 if (-not $botName) {
-	$botName = Read-Host "? Virtual Assitant Name (used to configure skill authentication)"
+	$botName = Read-Host "? Virtual Assistant Name (used to configure skill authentication)"
 }
 
 if (-not $manifestUrl) {
@@ -81,6 +81,89 @@ $manifest = $(Invoke-WebRequest -Uri $manifestUrl | ConvertFrom-Json) 2>> $logFi
 if (-not $manifest) {
 	Write-Host "! Could not load manifest from $($manifestUrl). Please check the url and try again." -ForegroundColor DarkRed
 	Break
+}
+
+Write-Host "> Getting intents for dispatch ..." 
+$dictionary = @{ }
+foreach ($action in $manifest.actions) {
+   if ($action.definition.triggers.utteranceSources) {
+       foreach ($source in $action.definition.triggers.utteranceSources) {
+           foreach ($luisStr in $source.source) {
+               $luis = $luisStr -Split '#'                
+               if ($dictionary.ContainsKey($luis[0])) {
+                   $intents = $dictionary[$luis[0]]
+                   $intents += $luis[1]
+                   $dictionary[$luis[0]] = $intents
+               }
+               else {
+                   $dictionary.Add($luis[0], @($luis[1]))
+               }
+           }
+       }
+   }
+}
+
+Write-Host "> Adding skill to dispatch ..." 
+try {
+	$intentName = $manifest.Id
+	foreach ($luisApp in $dictionary.Keys) {
+		$intents = $dictionary[$luisApp]
+		$luFile = Get-ChildItem -Path $(Join-Path $luisFolder "$($luisApp).lu") ` 2>> $logFile
+
+		if (-not $luFile) {
+			$luFile = Get-ChildItem -Path $(Join-Path $luisFolder $langCode "$($luisApp).lu") ` 2>> $logFile
+
+			if ($luFile) {
+				$luisFolder = $(Join-Path $luisFolder $langCode)
+			}
+			else {
+				Write-Host "! Could not find $($manifest.Name) LU file. Please provide the -luisFolder parameter." -ForegroundColor DarkRed
+				Write-Host "! Checked the following locations:"  -ForegroundColor DarkRed
+				Write-Host "	$(Join-Path $luisFolder "$($luisApp).lu")"  -ForegroundColor DarkRed
+				Write-Host "	$(Join-Path $luisFolder $langCode "$($luisApp).lu")"  -ForegroundColor DarkRed
+				Throw
+			}
+		}
+
+		# Parse LU file
+		ludown parse toluis `
+			--in $luFile `
+			--luis_culture $language `
+			--out_folder $luisFolder `
+			--out "$($luisApp).luis"
+
+		$luisFile = Get-ChildItem `
+			-Path $luisFolder `
+			-Filter "$($luisApp).luis" `
+			-Recurse `
+			-Force 2>> $logFile
+
+		if ($luisFile) {
+			(dispatch add `
+			--type file `
+			--filePath $luisFile `
+			--intentName $intentName `
+			--dataFolder $dispatchFolder `
+			--dispatch $(Join-Path $dispatchFolder "$($dispatchName).dispatch")) 2>> $logFile | Out-Null
+		}
+		else {
+			Write-Host "! Could not find LUIS file: $(Join-Path $luisFolder "$($luisApp).luis")" -ForegroundColor DarkRed
+			Break
+		}
+	}
+}
+catch {
+	Break
+}
+
+Write-Host "> Running dispatch refresh ..."
+(dispatch refresh `
+	--dispatch $(Join-Path $dispatchFolder "$($dispatchName).dispatch") `
+	--dataFolder $dispatchFolder) 2>> $logFile | Out-Null
+
+if (Test-Path $dispatchJsonPath) {
+	Write-Host "> Running LuisGen ..." 
+	luisgen $dispatchJsonPath -cs "DispatchLuis" -o $lgOutFolder 2>> $logFile | Out-Null
 }
 
 Write-Host "> Initializing skill.config ..."
@@ -199,64 +282,6 @@ if ($manifest.authenticationConnections) {
 		Write-Host "! Could not configure authentication connection automatically." -ForegroundColor Cyan
 		$manualAuthRequired = $true
 	}
-}
-
-Write-Host "> Getting intents for dispatch ..." 
-$dictionary = @{ }
-foreach ($action in $manifest.actions) {
-   if ($action.definition.triggers.utteranceSources) {
-       foreach ($source in $action.definition.triggers.utteranceSources) {
-           foreach ($luisStr in $source.source) {
-               $luis = $luisStr -Split '#'                
-               if ($dictionary.ContainsKey($luis[0])) {
-                   $intents = $dictionary[$luis[0]]
-                   $intents += $luis[1]
-                   $dictionary[$luis[0]] = $intents
-               }
-               else {
-                   $dictionary.Add($luis[0], @($luis[1]))
-               }
-           }
-       }
-   }
-}
-
-Write-Host "> Adding skill to dispatch ..." 
-$intentName = $manifest.Id
-foreach ($luisApp in $dictionary.Keys) {
-	$intents = $dictionary[$luisApp]
-	$luFile = Get-ChildItem -Path $(Join-Path $luisFolder "$($luisApp).lu") `
-
-	# Parse LU file
-	ludown parse toluis `
-		--in $luFile `
-		--luis_culture $language `
-		--out_folder $luisFolder `
-		--out "$($luisApp).luis"
-
-	$luisFile = Get-ChildItem `
-		-Path $luisFolder `
-		-Filter "$($luisApp).luis" `
-		-ErrorAction SilentlyContinue `
-		-Recurse `
-		-Force
-
-	(dispatch add `
-		--type file `
-		--filePath $luisFile `
-		--intentName $intentName `
-		--dataFolder $dispatchFolder `
-		--dispatch $(Join-Path $dispatchFolder "$($dispatchName).dispatch")) 2>> $logFile | Out-Null
-}
-
-Write-Host "> Running dispatch refresh ..."
-(dispatch refresh `
-	--dispatch $(Join-Path $dispatchFolder "$($dispatchName).dispatch") `
-	--dataFolder $dispatchFolder) 2>> $logFile | Out-Null
-
-if (Test-Path $dispatchJsonPath) {
-	Write-Host "> Running LuisGen ..." 
-	luisgen $dispatchJsonPath -cs "DispatchLuis" -o $lgOutFolder 2>> $logFile | Out-Null
 }
 
 if ($manualScopesRequired) {
