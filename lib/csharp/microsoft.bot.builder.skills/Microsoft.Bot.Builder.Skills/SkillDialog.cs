@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
@@ -48,8 +49,8 @@ namespace Microsoft.Bot.Builder.Skills
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException();
             _userState = userState;
             _skillTransport = new SkillWebSocketTransport(_skillManifest, _microsoftAppCredentialsEx);
-            //_skillTransport = new SkillHttpTransport(_skillManifest, _microsoftAppCredentialsEx);
 
+            // _skillTransport = new SkillHttpTransport(_skillManifest, _microsoftAppCredentialsEx);
             if (authDialog != null)
             {
                 _authDialog = authDialog;
@@ -87,38 +88,39 @@ namespace Microsoft.Bot.Builder.Skills
             var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
             var skillContext = await accessor.GetAsync(innerDc.Context, () => new SkillContext());
 
-            // var actionName = options as string;
-            // if (actionName == null)
-            // {
-            //     throw new ArgumentException("SkillDialog requires an Action in order to be able to identify which Action within a skill to invoke.");
-            // }
-            // else
-            // {
-            //     // Find the Action within the selected Skill for slot filling evaluation
-            //     _action = _skillManifest.Actions.Single(a => a.Id == actionName);
-            //     if (_action != null)
-            //     {
-            //         // If the action doesn't define any Slots or SkillContext is empty then we skip slot evaluation
-            //         if (_action.Definition.Slots != null && skillContext.Count > 0)
-            //         {
-            //             foreach (Slot slot in _action.Definition.Slots)
-            //             {
-            //                 // For each slot we check to see if there is an exact match, if so we pass this slot across to the skill
-            //                 if (skillContext.TryGetValue(slot.Name, out object slotValue))
-            //                 {
-            //                     slots.Add(slot.Name, slotValue);
-            //                     // Send trace to emulator
-            //                     dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Matched the {slot.Name} slot within SkillContext and passing to the {actionName} action.")).GetAwaiter().GetResult();
-            //                 }
-            //             }
-            //         }
-            //     }
-            //     else
-            //     {
-            //         // Loosening checks for current Dispatch evaluation, TODO - Review
-            //         // throw new ArgumentException($"Passed Action ({actionName}) could not be found within the {_skillManifest.Id} skill manifest action definition.");
-            //     }
-            // }
+            var actionName = options as string;
+            if (actionName == null)
+            {
+                throw new ArgumentException("SkillDialog requires an Action in order to be able to identify which Action within a skill to invoke.");
+            }
+            else
+            {
+                // Find the Action within the selected Skill for slot filling evaluation
+                _action = _skillManifest.Actions.SingleOrDefault(a => a.Id == actionName);
+                if (_action != null)
+                {
+                    // If the action doesn't define any Slots or SkillContext is empty then we skip slot evaluation
+                    if (_action.Definition.Slots != null && skillContext.Count > 0)
+                    {
+                        foreach (Slot slot in _action.Definition.Slots)
+                        {
+                            // For each slot we check to see if there is an exact match, if so we pass this slot across to the skill
+                            if (skillContext.TryGetValue(slot.Name, out object slotValue))
+                            {
+                                slots.Add(slot.Name, slotValue);
+
+                                // Send trace to emulator
+                                innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Matched the {slot.Name} slot within SkillContext and passing to the {actionName} action.")).GetAwaiter().GetResult();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // Loosening checks for current Dispatch evaluation, TODO - Review
+                    // throw new ArgumentException($"Passed Action ({actionName}) could not be found within the {_skillManifest.Id} skill manifest action definition.");
+                }
+            }
 
             await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Handing off to the {_skillManifest.Name} skill."));
 

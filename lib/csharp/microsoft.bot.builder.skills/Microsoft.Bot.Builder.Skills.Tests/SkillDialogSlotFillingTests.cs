@@ -48,7 +48,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             // the SkillDialog to know which action is invoked and identify the slots as appropriate.
             foreach (var skill in _skillManifests)
             {
-                Dialogs.Add(new SkillDialogTest(skill, new DummyMicrosoftAppCredentialsEx(null, null, null), _mockTelemetryClient, _mockHttp, UserState));          
+                Dialogs.Add(new SkillDialogTest(skill, new DummyMicrosoftAppCredentialsEx(null, null, null), _mockTelemetryClient, _mockHttp, UserState));
             }
         }
 

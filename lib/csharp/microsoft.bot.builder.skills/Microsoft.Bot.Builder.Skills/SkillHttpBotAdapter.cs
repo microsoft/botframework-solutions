@@ -121,7 +121,7 @@ namespace Microsoft.Bot.Builder.Skills
             return response;
         }
 
-        public async Task SendRemoteTokenRequestEvent(ITurnContext turnContext, CancellationToken cancellationToken)
+        public async Task SendRemoteTokenRequestEventAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             // We trigger a Token Request from the Parent Bot by sending a "TokenRequest" event back and then waiting for a "TokenResponse"
             var response = turnContext.Activity.CreateReply();

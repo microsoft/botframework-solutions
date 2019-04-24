@@ -16,11 +16,11 @@ namespace Microsoft.Bot.Builder.Solutions.TaskExtensions
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                var workItem = await TaskQueue.DequeueAsync(stoppingToken);
+                var workItem = await TaskQueue.DequeueAsync(stoppingToken).ConfigureAwait(false);
 
                 try
                 {
-                    await workItem(stoppingToken);
+                    await workItem(stoppingToken).ConfigureAwait(false);
                 }
                 catch
                 {

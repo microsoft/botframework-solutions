@@ -7,7 +7,8 @@ namespace Microsoft.Bot.Builder.Skills.Tests.Mocks
 {
     public class DummyMicrosoftAppCredentialsEx : MicrosoftAppCredentialsEx
     {
-        public DummyMicrosoftAppCredentialsEx(string appId, string password, string scope) : base(appId, password, scope)
+        public DummyMicrosoftAppCredentialsEx(string appId, string password, string scope)
+            : base(appId, password, scope)
         {
         }
 

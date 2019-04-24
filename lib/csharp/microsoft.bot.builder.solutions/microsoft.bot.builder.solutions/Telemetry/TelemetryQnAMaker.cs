@@ -43,7 +43,7 @@ namespace Microsoft.Bot.Builder.Solutions.Telemetry
         public new async Task<QueryResult[]> GetAnswersAsync(ITurnContext context, QnAMakerOptions options = null)
         {
             // Call QnA Maker
-            var queryResults = await base.GetAnswersAsync(context, options);
+            var queryResults = await base.GetAnswersAsync(context, options).ConfigureAwait(false);
 
             // Find the Application Insights Telemetry Client
             if (queryResults != null && context.TurnState.TryGetValue(TelemetryLoggerMiddleware.AppInsightsServiceKey, out var telemetryClient))
