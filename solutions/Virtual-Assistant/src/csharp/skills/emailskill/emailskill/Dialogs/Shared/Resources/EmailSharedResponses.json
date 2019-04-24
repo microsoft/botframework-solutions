@@ -193,15 +193,6 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "NoRecipients": {
-    "replies": [
-      {
-        "text": "Sure, who's the email going to?",
-        "speak": "Sure, Who's the email going to?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
   "NoEmailContent": {
     "replies": [
       {
@@ -375,6 +366,15 @@
       {
         "text": "I don't understand what you input.",
         "speak": "I don't understand what you input."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoRecipients": {
+    "replies": [
+      {
+        "text": "Sure, who's the email going to?",
+        "speak": "Sure, Who's the email going to?"
       }
     ],
     "inputHint": "expectingInput"

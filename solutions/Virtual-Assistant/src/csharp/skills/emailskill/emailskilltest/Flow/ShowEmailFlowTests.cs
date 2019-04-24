@@ -129,6 +129,10 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_ShowEmailThenForwardWithSelection()
         {
+            string testRecipient = ContextStrings.TestRecipient;
+            string testEmailAddress = ContextStrings.TestEmailAdress;
+            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipient + ": " + testEmailAddress } };
+
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmails)
                 .AssertReply(this.ShowAuth())
@@ -142,6 +146,8 @@ namespace EmailSkillTest.Flow
                 .Send(ContextStrings.TestRecipient)
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress())
                 .Send(GeneralTestUtterances.Yes)
+                .AssertReplyOneOf(this.AddMoreContacts(recipientList))
+                .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
@@ -157,6 +163,10 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_ShowEmailThenForwardCurrentSelection()
         {
+            string testRecipient = ContextStrings.TestRecipient;
+            string testEmailAddress = ContextStrings.TestEmailAdress;
+            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipient + ": " + testEmailAddress } };
+
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmails)
                 .AssertReply(this.ShowAuth())
@@ -173,6 +183,8 @@ namespace EmailSkillTest.Flow
                 .Send(ContextStrings.TestRecipient)
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress())
                 .Send(GeneralTestUtterances.Yes)
+                .AssertReplyOneOf(this.AddMoreContacts(recipientList))
+                .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
@@ -445,6 +457,11 @@ namespace EmailSkillTest.Flow
         private string[] DeleteConfirm()
         {
             return this.ParseReplies(DeleteEmailResponses.DeleteConfirm, new StringDictionary());
+        }
+
+        private string[] AddMoreContacts(StringDictionary recipientDict)
+        {
+            return this.ParseReplies(FindContactResponses.AddMoreContactsPrompt, recipientDict);
         }
 
         private Action<IActivity> AssertSelectOneOfTheMessage(int selection)
