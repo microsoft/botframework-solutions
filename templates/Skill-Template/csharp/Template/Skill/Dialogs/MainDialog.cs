@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
@@ -24,31 +25,30 @@ namespace $safeprojectname$.Dialogs
         private BotSettings _settings;
         private BotServices _services;
         private ResponseManager _responseManager;
-        private UserState _userState;
-        private ConversationState _conversationState;
         private IStatePropertyAccessor<SkillState> _stateAccessor;
+        private IStatePropertyAccessor<SkillContext> _contextAccessor;
 
         public MainDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            ConversationState conversationState,
             UserState userState,
+            ConversationState conversationState,
+            SampleDialog sampleDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
             _settings = settings;
             _services = services;
             _responseManager = responseManager;
-            _conversationState = conversationState;
-            _userState = userState;
             TelemetryClient = telemetryClient;
 
             // Initialize state accessor
-            _stateAccessor = _conversationState.CreateProperty<SkillState>(nameof(SkillState));
+            _stateAccessor = conversationState.CreateProperty<SkillState>(nameof(SkillState));
+            _contextAccessor = userState.CreateProperty<SkillContext>(nameof(SkillContext));
 
             // Register dialogs
-            RegisterDialogs();
+            AddDialog(sampleDialog);
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -62,6 +62,9 @@ namespace $safeprojectname$.Dialogs
             // get current activity locale
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.CognitiveModelSets[locale];
+
+            // Populate state from SkillContext slots as required 
+            await PopulateStateFromSkillContext(dc.Context);
 
             // Get skill LUIS model from configuration
             localeConfig.LuisServices.TryGetValue("$safeprojectname$", out var luisService);
@@ -243,9 +246,21 @@ namespace $safeprojectname$.Dialogs
             return InterruptionAction.StartedDialog;
         }
 
-        private void RegisterDialogs()
+        private async Task PopulateStateFromSkillContext(ITurnContext context)
         {
-            AddDialog(new SampleDialog(_settings, _services, _responseManager, _stateAccessor, TelemetryClient));
+            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
+            // and make available in local state as appropriate.
+            var skillContext = await _contextAccessor.GetAsync(context, () => new SkillContext());
+            if (skillContext != null)
+            {
+                // Example of populating local state with data passed through Skill Context
+                //if (skillContext.ContainsKey("Location"))
+                //{
+                //    // Add to your local state
+                //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
+                //    state.Location = skillContext["Location"];
+                //}
+            }
         }
 
         private class Events

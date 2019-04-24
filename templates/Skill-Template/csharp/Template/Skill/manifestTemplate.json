@@ -3,30 +3,19 @@
   "name": "$safeprojectname$",
   "description": "",
   "iconUrl": "",
-  "authenticationConnections": [
-    {
-      "id": "",
-      "serviceProviderId": "",
-      "scopes": ""
-    }
-  ],
+  "authenticationConnections": [],
   "actions": [
     {
-      "id": "",
+      "id": "$safeprojectname$_Sample",
       "definition": {
-        "description": "",
-        "slots": [
-          {
-            "name": "",
-            "types": [ "string" ]
-          }
-        ],
+        "description": "Sample Skill action with no slots",
+        "slots": [],
         "triggers": {
           "utteranceSources": [
             {
               "locale": "en",
               "source": [
-                "luisModel#intent"
+                "$safeprojectname$#Sample"
               ]
             }
           ]

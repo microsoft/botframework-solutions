@@ -63,8 +63,9 @@ namespace $safeprojectname$
                 new SampleResponses());
 
             Services.AddSingleton(ResponseManager);
-            Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<MainDialog>();
+            Services.AddTransient<SampleDialog>();
+            Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<IBot, DialogBot<MainDialog>>();
         }
 

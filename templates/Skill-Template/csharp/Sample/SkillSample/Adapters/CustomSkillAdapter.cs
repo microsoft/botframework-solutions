@@ -1,10 +1,10 @@
 ﻿using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Telemetry;
-using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using SkillSample.Responses.Shared;
 using SkillSample.Services;
@@ -12,16 +12,15 @@ using System.Globalization;
 
 namespace SkillSample.Adapters
 {
-    public class CustomSkillAdapter : SkillAdapter
+    public class CustomSkillAdapter : SkillWebSocketBotAdapter
     {
         public CustomSkillAdapter(
             BotSettings settings,
-            ICredentialProvider credentialProvider,
+            UserState userState,
+            ConversationState conversationState,
             BotStateSet botStateSet,
             ResponseManager responseManager,
-            IBotTelemetryClient telemetryClient,
-            UserState userState)
-            : base(credentialProvider)
+            IBotTelemetryClient telemetryClient)
         {
             OnTurnError = async (context, exception) =>
             {
@@ -37,7 +36,7 @@ namespace SkillSample.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
             Use(new AutoSaveStateMiddleware(botStateSet));
-            Use(new SkillMiddleware(userState));
+            Use(new SkillMiddleware(userState, conversationState, conversationState.CreateProperty<DialogState>(nameof(SkillSample))));
         }
     }
 }
