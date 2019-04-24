@@ -142,7 +142,7 @@ namespace PointOfInterestSkill.Dialogs.FindParking
                 }
                 else
                 {
-                    PromptOptions options = GetPointOfInterestPrompt(Actions.SelectPointOfInterestPrompt, pointOfInterestList, cards);
+                    PromptOptions options = GetPointOfInterestPrompt(POISharedResponses.MultipleLocationsFound, pointOfInterestList, cards);
 
                     return await sc.PromptAsync(Actions.SelectPointOfInterestPrompt, options);
                 }

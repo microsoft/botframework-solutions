@@ -24,10 +24,8 @@ namespace PointOfInterestSkillTests.Flow
                 .Send(PointOfInterestDialogUtterances.LocationEvent)
                 .Send(PointOfInterestDialogUtterances.WhatsNearby)
                 .AssertReply(MultipleLocationsFound())
-                .AssertReply(PointOfInterestSelection())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .AssertReply(PromptToStartRoute())
                 .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
@@ -46,10 +44,8 @@ namespace PointOfInterestSkillTests.Flow
                 .Send(PointOfInterestDialogUtterances.LocationEvent)
                 .Send(PointOfInterestDialogUtterances.WhatsNearby)
                 .AssertReply(MultipleLocationsFound())
-                .AssertReply(PointOfInterestSelection())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .AssertReply(PromptToStartRoute())
                 .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
@@ -68,10 +64,8 @@ namespace PointOfInterestSkillTests.Flow
                 .Send(PointOfInterestDialogUtterances.LocationEvent)
                 .Send(PointOfInterestDialogUtterances.WhatsNearby)
                 .AssertReply(MultipleLocationsFound())
-                .AssertReply(PointOfInterestSelection())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .AssertReply(PromptToStartRoute())
                 .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
@@ -90,10 +84,8 @@ namespace PointOfInterestSkillTests.Flow
                 .Send(PointOfInterestDialogUtterances.LocationEvent)
                 .Send(PointOfInterestDialogUtterances.WhatsNearby)
                 .AssertReply(MultipleLocationsFound())
-                .AssertReply(PointOfInterestSelection())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .AssertReply(PromptToStartRoute())
                 .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
@@ -112,10 +104,8 @@ namespace PointOfInterestSkillTests.Flow
                 .Send(PointOfInterestDialogUtterances.LocationEvent)
                 .Send(PointOfInterestDialogUtterances.WhatsNearby)
                 .AssertReply(MultipleLocationsFound())
-                .AssertReply(PointOfInterestSelection())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .AssertReply(PromptToStartRoute())
                 .Send(GeneralUtterances.No)
                 .AssertReply(AskAboutRouteLater())
                 .AssertReply(CompleteDialog())
@@ -136,10 +126,8 @@ namespace PointOfInterestSkillTests.Flow
                 .Send(PointOfInterestDialogUtterances.LocationEvent)
                 .Send(PointOfInterestDialogUtterances.WhatsNearby)
                 .AssertReply(MultipleLocationsFound())
-                .AssertReply(PointOfInterestSelection())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .AssertReply(PromptToStartRoute())
                 .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
@@ -159,10 +147,8 @@ namespace PointOfInterestSkillTests.Flow
                 .Send(PointOfInterestDialogUtterances.LocationEvent)
                 .Send(PointOfInterestDialogUtterances.FindParkingNearby)
                 .AssertReply(MultipleLocationsFound())
-                .AssertReply(PointOfInterestSelection())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .AssertReply(PromptToStartRoute())
                 .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
@@ -181,10 +167,8 @@ namespace PointOfInterestSkillTests.Flow
                 .Send(PointOfInterestDialogUtterances.LocationEvent)
                 .Send(PointOfInterestDialogUtterances.FindParkingNearAddress)
                 .AssertReply(MultipleLocationsFound())
-                .AssertReply(PointOfInterestSelection())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .AssertReply(PromptToStartRoute())
                 .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
@@ -247,8 +231,9 @@ namespace PointOfInterestSkillTests.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
+                var textRemovedPrompt = messageActivity.Text.Replace(" (1) Yes or (2) No", "");
 
-                CollectionAssert.Contains(ParseReplies(POISharedResponses.SingleRouteFound, new StringDictionary()), messageActivity.Text);
+                CollectionAssert.Contains(ParseReplies(POISharedResponses.SingleRouteFound, new StringDictionary()), textRemovedPrompt);
             };
         }
 
