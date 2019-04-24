@@ -7,7 +7,7 @@ import * as child_process from 'child_process';
 import { join } from 'path';
 
 async function execDispatch(args: string[]): Promise<string> {
-    const dispatchPath: string = join(__dirname, '..', 'node_modules', 'botdispatch', 'bin', 'netcoreapp2.1', 'Dispatch.dll');
+    const dispatchPath: string = join(__dirname, '..', '..', 'node_modules', 'botdispatch', 'bin', 'netcoreapp2.1', 'Dispatch.dll');
 
     // tslint:disable-next-line: typedef
     return new Promise((pResolve, pReject) => {

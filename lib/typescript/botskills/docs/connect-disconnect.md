@@ -52,8 +52,8 @@ botskills disconnect [option]
 
 | Option                   | Description                                                             |
 |--------------------------|-------------------------------------------------------------------------|
-| -s, --skillName <path>   | Name or id of the skill to remove from your assistant (case sensitive)  |
-| -a, --skillsFile <path>  | Path to the assistant Skills configuration file                         |
+| -n, --skillName <path>   | Name or id of the skill to remove from your assistant (case sensitive)  |
+| -f, --skillsFile <path>  | Path to the assistant Skills configuration file                         |
 | --verbose                | (OPTIONAL) Output detailed information about the processing of the tool |
 | -h, --help               | Output usage information                                                |
 

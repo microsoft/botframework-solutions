@@ -123,9 +123,7 @@ configuration.luisFolder = args.luisFolder || join(configuration.outFolder, 'Dep
 configuration.dispatchFolder = args.dispatchFolder || join(configuration.outFolder, 'Deployment', 'Resources', 'Dispatch', languageCode);
 
 // lgOutFolder validation
-if (!args.lgOutFolder) {
-    args.lgOutFolder = join(args.outFolder, 'services');
-}
+configuration.lgOutFolder = args.lgOutFolder || join(configuration.outFolder, 'Services');
 
 // dispatchName validation
 if (!args.dispatchName) {

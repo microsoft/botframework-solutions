@@ -7,7 +7,7 @@ import { existsSync, writeFileSync } from 'fs';
 import { isAbsolute, join, resolve } from 'path';
 import { get } from 'request-promise-native';
 import { ConsoleLogger, ILogger} from '../logger';
-import { IAction, IConnectConfiguration, ISkillManifest, IUtteranceSource } from '../models';
+import { IAction, IConnectConfiguration, ISkillFIle, ISkillManifest, IUtteranceSource } from '../models';
 import { execute } from '../utils';
 
 async function runCommand(command: string, description: string): Promise<string> {
@@ -105,7 +105,7 @@ async function updateDispatch(configuration: IConnectConfiguration, manifest: IS
         ludownParseCommand += `--in ${join(configuration.luisFolder, luFile)} `;
         ludownParseCommand += `--luis_culture ${configuration.language} `;
         ludownParseCommand += `--out_folder ${configuration.luisFolder} `; //luisFolder should point to 'en' folder inside LUIS folder
-        ludownParseCommand += `--out "${luisApp}.luis" `;
+        ludownParseCommand += `--out "${luisApp}.luis"`;
 
         let dispatchAddCommand: string = `dispatch add `;
         dispatchAddCommand += `--type file `;
@@ -113,7 +113,7 @@ async function updateDispatch(configuration: IConnectConfiguration, manifest: IS
         dispatchAddCommand += `--filePath ${join(configuration.luisFolder, luisFile)} `;
         dispatchAddCommand += `--intentName ${intentName} `;
         dispatchAddCommand += `--dataFolder ${configuration.dispatchFolder} `;
-        dispatchAddCommand += `--dispatch ${join(configuration.dispatchFolder, dispatchFile)} `;
+        dispatchAddCommand += `--dispatch ${join(configuration.dispatchFolder, dispatchFile)}`;
 
         logger.message(await runCommand(ludownParseCommand, `Parsing ${luisApp} LU file`));
         logger.message(await runCommand(dispatchAddCommand, `Executing dispatch add for the ${luisApp} LU file`));
@@ -123,7 +123,7 @@ async function updateDispatch(configuration: IConnectConfiguration, manifest: IS
 
     let dispatchRefreshCommand: string = `dispatch refresh `;
     dispatchRefreshCommand += `--dispatch ${join(configuration.dispatchFolder, dispatchFile)} `;
-    dispatchRefreshCommand += `--dataFolder ${configuration.dispatchFolder} `;
+    dispatchRefreshCommand += `--dataFolder ${configuration.dispatchFolder}`;
 
     await runCommand(dispatchRefreshCommand, `Executing dispatch refresh for the ${configuration.dispatchName} file`);
 
@@ -131,8 +131,8 @@ async function updateDispatch(configuration: IConnectConfiguration, manifest: IS
 
     let luisgenCommand: string = `luisgen `;
     luisgenCommand += `${join(configuration.dispatchFolder, dispatchJsonFile)} `;
-    luisgenCommand += `-cs "DispatchLuis `;
-    luisgenCommand += `-o ${configuration.lgOutFolder} `;
+    luisgenCommand += `-cs "DispatchLuis" `;
+    luisgenCommand += `-o ${configuration.lgOutFolder}`;
 
     await runCommand(luisgenCommand, `Executing luisgen for the ${configuration.dispatchName} file`);
 }
@@ -157,7 +157,8 @@ export async function connectSkill(configuration: IConnectConfiguration): Promis
 
     // Take VA Skills configurations
     //tslint:disable-next-line: no-var-requires non-literal-require
-    const assistantSkills: ISkillManifest[] = require(configuration.skillsFile);
+    const assistantSkillsFile: ISkillFIle = require(configuration.skillsFile);
+    const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills;
 
     // Check if the skill is already connected to the assistant
     if (assistantSkills.find((assistantSkill: ISkillManifest) => assistantSkill.id === skillManifest.id)) {
@@ -167,8 +168,12 @@ export async function connectSkill(configuration: IConnectConfiguration): Promis
     // Adding the skill manifest to the assistant skills array
     logger.warning(`Appending '${skillManifest.name}' manifest to your assistant's skills configuration file.`);
     assistantSkills.push(skillManifest);
+
+    // Updating the assistant skills file's skills property with the assistant skills array
+    assistantSkillsFile.skills = assistantSkills;
+
     // Writing (and overriding) the assistant skills file
-    writeFileSync(configuration.skillsFile, JSON.stringify(assistantSkills, undefined, 4));
+    writeFileSync(configuration.skillsFile, JSON.stringify(assistantSkillsFile, undefined, 4));
     logger.success(`Successfully appended '${skillManifest.name}' manifest to your assistant's skills configuration file!`);
     await updateDispatch(configuration, skillManifest);
 }
