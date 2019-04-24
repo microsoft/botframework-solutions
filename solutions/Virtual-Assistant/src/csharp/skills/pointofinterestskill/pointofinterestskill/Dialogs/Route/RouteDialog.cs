@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -157,7 +158,7 @@ namespace PointOfInterestSkill.Dialogs.Route
                 if (!string.IsNullOrEmpty(state.Address) && state.LastFoundPointOfInterests != null)
                 {
                     // Set ActiveLocation if one w/ matching address is found in FoundLocations
-                    var activeLocation = state.LastFoundPointOfInterests?.FirstOrDefault(x => x.City.Contains(state.Address, StringComparison.InvariantCultureIgnoreCase));
+                    var activeLocation = state.LastFoundPointOfInterests?.FirstOrDefault(x => x.Address.Contains(state.Address, StringComparison.InvariantCultureIgnoreCase));
                     if (activeLocation != null)
                     {
                         state.Destination = activeLocation;
@@ -212,6 +213,7 @@ namespace PointOfInterestSkill.Dialogs.Route
                 var state = await Accessor.GetAsync(sc.Context);
                 var service = ServiceManager.InitRoutingMapsService(Services);
                 var routeDirections = new RouteDirections();
+                var cards = new List<Card>();
 
                 state.CheckForValidCurrentCoordinates();
 
@@ -225,18 +227,23 @@ namespace PointOfInterestSkill.Dialogs.Route
                 {
                     routeDirections = await service.GetRouteDirectionsToDestinationAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Destination.Geolocation.Latitude, state.Destination.Geolocation.Longitude, state.RouteType);
 
-                    await GetRouteDirectionsViewCards(sc, routeDirections);
+                    cards = await GetRouteDirectionsViewCards(sc, routeDirections);
                 }
                 else
                 {
                     routeDirections = await service.GetRouteDirectionsToDestinationAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Destination.Geolocation.Latitude, state.Destination.Geolocation.Longitude);
 
-                    await GetRouteDirectionsViewCards(sc, routeDirections);
+                    cards = await GetRouteDirectionsViewCards(sc, routeDirections);
                 }
 
-                if (routeDirections?.Routes?.ToList().Count == 1)
+                if (cards.Count() == 0)
                 {
-                    return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(RouteResponses.PromptToStartRoute) });
+                    var replyMessage = ResponseManager.GetResponse(POISharedResponses.NoLocationsFound);
+                    await sc.Context.SendActivityAsync(replyMessage);
+                }
+                else if (cards.Count() == 1)
+                {
+                    return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetCardResponse(POISharedResponses.SingleRouteFound, cards) });
                 }
 
                 state.ClearLuisResults();

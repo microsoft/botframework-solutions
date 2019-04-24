@@ -28,7 +28,7 @@ namespace PointOfInterestSkillTests.API
             var pointOfInterestList = await service.GetNearbyPointOfInterestListAsync(MockData.Latitude, MockData.Longitude);
             Assert.AreEqual(pointOfInterestList[0].Id, "US/POI/p1/101761");
             Assert.AreEqual(pointOfInterestList[0].Name, "Microsoft Way");
-            Assert.AreEqual(pointOfInterestList[0].Street, "157th Ave NE");
+            Assert.AreEqual(pointOfInterestList[0].Address, "157th Ave NE, Redmond, WA 98052");
             Assert.AreEqual(pointOfInterestList[0].Geolocation.Latitude, 47.63954);
             Assert.AreEqual(pointOfInterestList[0].Geolocation.Longitude, -122.1307);
             Assert.AreEqual(pointOfInterestList[0].Category, "Bus Stop");
@@ -58,7 +58,7 @@ namespace PointOfInterestSkillTests.API
             var pointOfInterestList = await service.GetPointOfInterestListByQueryAsync(MockData.Latitude, MockData.Longitude, MockData.Query);
             Assert.AreEqual(pointOfInterestList[0].Id, "US/POI/p1/101761");
             Assert.AreEqual(pointOfInterestList[0].Name, "Microsoft Way");
-            Assert.AreEqual(pointOfInterestList[0].Street, "157th Ave NE");
+            Assert.AreEqual(pointOfInterestList[0].Address, "157th Ave NE, Redmond, WA 98052");
             Assert.AreEqual(pointOfInterestList[0].Geolocation.Latitude, 47.63954);
             Assert.AreEqual(pointOfInterestList[0].Geolocation.Longitude, -122.1307);
             Assert.AreEqual(pointOfInterestList[0].Category, "Bus Stop");
@@ -84,7 +84,7 @@ namespace PointOfInterestSkillTests.API
             await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Limit, MockData.Locale, mockClient);
 
             var pointOfInterestList = await service.GetPointOfInterestListByAddressAsync(MockData.Latitude, MockData.Longitude, MockData.Address);
-            Assert.AreEqual(pointOfInterestList[0].City, "West Queen Anne, Seattle");
+            Assert.AreEqual(pointOfInterestList[0].Address, "1635 11th Avenue Northwest, Issaquah, WA 98027");
         }
 
         [TestMethod]

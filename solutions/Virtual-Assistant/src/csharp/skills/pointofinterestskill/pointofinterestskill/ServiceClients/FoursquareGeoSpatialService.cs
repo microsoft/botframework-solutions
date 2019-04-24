@@ -18,6 +18,8 @@ namespace PointOfInterestSkill.ServiceClients
         private static readonly string SearchForVenuesUrl = $"https://api.foursquare.com/v2/venues/search?ll={{0}},{{1}}&query={{2}}&radius={{3}}&intent=browse&limit={{4}}";
         private static readonly string SearchForVenuesByCategoryUrl = $"https://api.foursquare.com/v2/venues/search?categoryId={{2}}&ll={{0}},{{1}}&radius={{3}}&intent=browse&limit={{4}}";
         private static readonly string ExploreNearbyVenuesUrl = $"https://api.foursquare.com/v2/venues/explore?ll={{0}},{{1}}&radius={{2}}&limit={{3}}";
+        private static readonly string ExploreVenuesUrl = $"https://api.foursquare.com/v2/venues/explore?ll={{0}},{{1}}&query={{2}}&radius={{3}}&limit={{4}}&sortByDistance=1";
+
         private static readonly string GetVenueDetailsUrl = $"https://api.foursquare.com/v2/venues/{{0}}?";
 
         /// <summary>
@@ -90,7 +92,7 @@ namespace PointOfInterestSkill.ServiceClients
                 throw new ArgumentNullException(nameof(query));
             }
 
-            return await GetVenueAsync(string.Format(CultureInfo.InvariantCulture, SearchForVenuesUrl, latitude, longitude, query, radius, limit));
+            return await GetVenueAsync(string.Format(CultureInfo.InvariantCulture, ExploreVenuesUrl, latitude, longitude, query, radius, limit));
         }
 
         /// <summary>
