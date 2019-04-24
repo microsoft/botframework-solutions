@@ -10,7 +10,7 @@ using $safeprojectname$.Services;
 
 namespace $safeprojectname$.Dialogs
 {
-    public class EscalateDialog : EnterpriseDialog
+    public class EscalateDialog : DialogBase
     {
         private EscalateResponses _responder = new EscalateResponses();
 

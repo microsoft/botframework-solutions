@@ -94,7 +94,9 @@
               <ProjectItem ReplaceParameters="false" TargetFileName="automotive.lu">automotive.lu</ProjectItem>
               <ProjectItem ReplaceParameters="false" TargetFileName="calendar.lu">calendar.lu</ProjectItem>
               <ProjectItem ReplaceParameters="false" TargetFileName="email.lu">email.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="news.lu">news.lu</ProjectItem>
               <ProjectItem ReplaceParameters="false" TargetFileName="pointofinterest.lu">pointofinterest.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="restaurant.lu">restaurant.lu</ProjectItem>
               <ProjectItem ReplaceParameters="false" TargetFileName="todo.lu">todo.lu</ProjectItem>
             </Folder>
           </Folder>
@@ -108,13 +110,14 @@
           <ProjectItem ReplaceParameters="false" TargetFileName="deploy_cognitive_models.ps1">deploy_cognitive_models.ps1</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="luis_functions.ps1">luis_functions.ps1</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="qna_functions.ps1">qna_functions.ps1</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="skill_functions.ps1">skill_functions.ps1</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="update_cognitive_models.ps1">update_cognitive_models.ps1</ProjectItem>
         </Folder>
       </Folder>
       <Folder Name="Dialogs" TargetFolderName="Dialogs">
         <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationDialog.cs">AuthenticationDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="CancelDialog.cs">CancelDialog.cs</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="EnterpriseDialog.cs">EnterpriseDialog.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="DialogBase.cs">DialogBase.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="EscalateDialog.cs">EscalateDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="MainDialog.cs">MainDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingDialog.cs">OnboardingDialog.cs</ProjectItem>

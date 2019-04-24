@@ -352,3 +352,6 @@ ASALocalRun/
 **/Deployment/Resources/Dispatch/**
 **/Deployment/**/*.luis
 **/Deployment/**/*.qna
+**/deploy_log.txt
+**/deploy_cognitive_models_log.txt
+**/add_remote_skill_log.txt

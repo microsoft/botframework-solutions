@@ -160,7 +160,10 @@
     <value>HELP</value>
   </data>
   <data name="INTRO_PATH" xml:space="preserve">
-    <value>./Content/Intro.json</value>
+    <value>./Content/NewUserGreeting.json</value>
+  </data>
+  <data name="INTRO_RETURNING" xml:space="preserve">
+    <value>./Content/ReturningUserGreeting.json</value>
   </data>
   <data name="LOGOUT" xml:space="preserve">
     <value>Ok, you're signed out.</value>

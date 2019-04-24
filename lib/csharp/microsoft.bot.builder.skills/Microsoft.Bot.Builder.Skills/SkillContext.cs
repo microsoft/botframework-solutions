@@ -13,7 +13,7 @@ namespace Microsoft.Bot.Builder.Skills
         {
         }
 
-        public SkillContext(IDictionary<string, object> collection) 
+        public SkillContext(IDictionary<string, object> collection)
             : base(collection)
         {
         }

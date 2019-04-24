@@ -11,12 +11,8 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
 using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Responses.Main;
@@ -28,40 +24,45 @@ namespace VirtualAssistantSample.Dialogs
     {
         private BotSettings _settings;
         private BotServices _services;
-        private UserState _userState;
-        private ConversationState _conversationState;
-        private MicrosoftAppCredentials _microsoftAppCredentials;
+        private IStatePropertyAccessor<OnboardingState> _onboardingAccessor;
         private MainResponses _responder = new MainResponses();
-        private readonly ResponseManager _responseManager;
 
         public MainDialog(
             BotSettings settings,
             BotServices services,
             ConversationState conversationState,
-            UserState userState,
-            MicrosoftAppCredentials microsoftAppCredentials,
+            OnboardingDialog onboardingDialog,
+            EscalateDialog escalateDialog,
+            List<SkillDialog> skillDialogs,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
             _settings = settings;
             _services = services;
-            _conversationState = conversationState;
-            _userState = userState;
-            _microsoftAppCredentials = microsoftAppCredentials;
+            _onboardingAccessor = conversationState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             TelemetryClient = telemetryClient;
 
-            _responseManager = new ResponseManager(new string[] { "en" }, new AuthenticationResponses());
+            AddDialog(onboardingDialog);
+            AddDialog(escalateDialog);
 
-            AddDialog(new OnboardingDialog(_services, _userState.CreateProperty<OnboardingState>(nameof(OnboardingState)), telemetryClient));
-            AddDialog(new EscalateDialog(_services, telemetryClient));
-
-            AddSkillDialogs();
+            foreach (var skillDialog in skillDialogs)
+            {
+                AddDialog(skillDialog);
+            }
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var view = new MainResponses();
-            await view.ReplyWith(dc.Context, MainResponses.ResponseIds.Intro);
+            var onboardingState = await _onboardingAccessor.GetAsync(dc.Context, () => new OnboardingState());
+            if (string.IsNullOrEmpty(onboardingState.Name))
+            {
+                await view.ReplyWith(dc.Context, MainResponses.ResponseIds.NewUserGreeting);
+            }
+            else
+            {
+                await view.ReplyWith(dc.Context, MainResponses.ResponseIds.ReturningUserGreeting);
+            }
         }
 
         protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)
@@ -109,12 +110,14 @@ namespace VirtualAssistantSample.Dialogs
             var dispatchResult = await cognitiveModels.DispatchService.RecognizeAsync<DispatchLuis>(dc.Context, CancellationToken.None);
             var intent = dispatchResult.TopIntent().intent;
 
-            if (_settings.Skills.Any(s => s.Id == intent.ToString()))
-            {
-                var skill = _settings.Skills.Where(s => s.Id == intent.ToString()).First();
+            // Identify if the dispatch intent matches any Action within a Skill if so, we pass to the appropriate SkillDialog to hand-off
+            var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, intent.ToString());
 
-                // Initialize the skill connection, the dispatch intent is the Action ID of the Skill enabling us to resolve the specific action and identify slots
-                await dc.BeginDialogAsync(skill.Id, intent);
+            if (identifiedSkill != null)
+            {
+                // We have identiifed a skill so initialize the skill connection with the target skill 
+                // the dispatch intent is the Action ID of the Skill enabling us to resolve the specific action and identify slots
+                await dc.BeginDialogAsync(identifiedSkill.Id, intent);
 
                 // Pass the activity we have
                 var result = await dc.ContinueDialogAsync();
@@ -300,42 +303,6 @@ namespace VirtualAssistantSample.Dialogs
             await dc.Context.SendActivityAsync(MainStrings.LOGOUT);
 
             return InterruptionAction.StartedDialog;
-        }
-
-        private void AddSkillDialogs()
-        {
-            // Each Skill has a number of actions but there are wrapper under one single SkillDialog per Skill.
-            foreach (var skill in _settings.Skills)
-            {
-                MultiProviderAuthDialog authDialog = null;
-                if (skill.AuthenticationConnections != null && skill.AuthenticationConnections.Count() > 0)
-                {
-                    List<OAuthConnection> oauthConnections = new List<OAuthConnection>();
-
-                    if (_settings.OAuthConnections != null && _settings.OAuthConnections.Count > 0)
-                    {
-                        foreach (var authConnection in skill.AuthenticationConnections)
-                        {
-                            var connection = _settings.OAuthConnections.FirstOrDefault(o => o.Provider.Equals(authConnection.ServiceProviderId, StringComparison.InvariantCultureIgnoreCase));
-                            if (connection != null)
-                            {
-                                oauthConnections.Add(connection);
-                            }
-                        }
-                    }
-
-                    if (oauthConnections.Count > 0)
-                    {
-                        authDialog = new MultiProviderAuthDialog(_responseManager, oauthConnections);
-                    }
-                    else
-                    {
-                        throw new Exception($"None of the oauth types that the skill {skill.Name} requires is supported by the bot!");
-                    }
-                }
-
-                AddDialog(new SkillDialog(skill, _responseManager, new MicrosoftAppCredentialsEx(_microsoftAppCredentials.MicrosoftAppId, _microsoftAppCredentials.MicrosoftAppPassword, skill.MSAappId), TelemetryClient, _userState, authDialog));
-            }
         }
     }
 }

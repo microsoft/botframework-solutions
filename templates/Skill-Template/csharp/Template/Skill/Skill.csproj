@@ -1,0 +1,120 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Responses\Main\MainResponses.de.json" />
+    <Content Remove="Responses\Main\MainResponses.es.json" />
+    <Content Remove="Responses\Main\MainResponses.fr.json" />
+    <Content Remove="Responses\Main\MainResponses.it.json" />
+    <Content Remove="Responses\Main\MainResponses.json" />
+    <Content Remove="Responses\Main\MainResponses.zh.json" />
+    <Content Remove="Responses\Sample\SampleResponses.de.json" />
+    <Content Remove="Responses\Sample\SampleResponses.es.json" />
+    <Content Remove="Responses\Sample\SampleResponses.fr.json" />
+    <Content Remove="Responses\Sample\SampleResponses.it.json" />
+    <Content Remove="Responses\Sample\SampleResponses.json" />
+    <Content Remove="Responses\Sample\SampleResponses.zh.json" />
+    <Content Remove="Responses\Shared\SharedResponses.de.json" />
+    <Content Remove="Responses\Shared\SharedResponses.es.json" />
+    <Content Remove="Responses\Shared\SharedResponses.fr.json" />
+    <Content Remove="Responses\Shared\SharedResponses.it.json" />
+    <Content Remove="Responses\Shared\SharedResponses.json" />
+    <Content Remove="Responses\Shared\SharedResponses.zh.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Responses\Main\MainResponses.de.json" />
+    <EmbeddedResource Include="Responses\Main\MainResponses.es.json" />
+    <EmbeddedResource Include="Responses\Main\MainResponses.fr.json" />
+    <EmbeddedResource Include="Responses\Main\MainResponses.it.json" />
+    <EmbeddedResource Include="Responses\Main\MainResponses.json" />
+    <EmbeddedResource Include="Responses\Main\MainResponses.zh.json" />
+    <EmbeddedResource Include="Responses\Sample\SampleResponses.de.json" />
+    <EmbeddedResource Include="Responses\Sample\SampleResponses.es.json" />
+    <EmbeddedResource Include="Responses\Sample\SampleResponses.fr.json" />
+    <EmbeddedResource Include="Responses\Sample\SampleResponses.it.json" />
+    <EmbeddedResource Include="Responses\Sample\SampleResponses.json" />
+    <EmbeddedResource Include="Responses\Sample\SampleResponses.zh.json" />
+    <EmbeddedResource Include="Responses\Shared\SharedResponses.de.json" />
+    <EmbeddedResource Include="Responses\Shared\SharedResponses.es.json" />
+    <EmbeddedResource Include="Responses\Shared\SharedResponses.fr.json" />
+    <EmbeddedResource Include="Responses\Shared\SharedResponses.it.json" />
+    <EmbeddedResource Include="Responses\Shared\SharedResponses.json" />
+    <EmbeddedResource Include="Responses\Shared\SharedResponses.zh.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AdaptiveCards" Version="1.1.2" />
+    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.8.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" Version="2.8.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.4.0-preview-8" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.0-preview-8" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Graph" Version="1.12.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Responses\Main\MainResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MainResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\Sample\SampleResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SampleResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\Shared\SharedResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SharedResponses.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Responses\Main\MainResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MainResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\Sample\SampleResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SampleResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\Shared\SharedResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SharedResponses.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>
