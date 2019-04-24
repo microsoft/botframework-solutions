@@ -160,6 +160,9 @@
     <value>Ayuda para el asistente virtual</value>
   </data>
   <data name="INTRO_PATH" xml:space="preserve">
-    <value>./Content/Intro.es.json</value>
+    <value>./Content/NewUserGreeting.es.json</value>
+  </data>
+  <data name="INTRO_RETURNING" xml:space="preserve">
+    <value>./Content/ReturningUserGreeting.es.json</value>
   </data>
 </root>

@@ -14,6 +14,7 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Schema;
+using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Responses.Main;
 using VirtualAssistantSample.Services;
 
@@ -23,11 +24,13 @@ namespace VirtualAssistantSample.Dialogs
     {
         private BotSettings _settings;
         private BotServices _services;
+        private IStatePropertyAccessor<OnboardingState> _onboardingAccessor;
         private MainResponses _responder = new MainResponses();
 
         public MainDialog(
             BotSettings settings,
             BotServices services,
+            ConversationState conversationState,
             OnboardingDialog onboardingDialog,
             EscalateDialog escalateDialog,
             List<SkillDialog> skillDialogs,
@@ -36,6 +39,7 @@ namespace VirtualAssistantSample.Dialogs
         {
             _settings = settings;
             _services = services;
+            _onboardingAccessor = conversationState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             TelemetryClient = telemetryClient;
 
             AddDialog(onboardingDialog);
@@ -50,7 +54,15 @@ namespace VirtualAssistantSample.Dialogs
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var view = new MainResponses();
-            await view.ReplyWith(dc.Context, MainResponses.ResponseIds.Intro);
+            var onboardingState = await _onboardingAccessor.GetAsync(dc.Context, () => new OnboardingState());
+            if (string.IsNullOrEmpty(onboardingState.Name))
+            {
+                await view.ReplyWith(dc.Context, MainResponses.ResponseIds.NewUserGreeting);
+            }
+            else
+            {
+                await view.ReplyWith(dc.Context, MainResponses.ResponseIds.ReturningUserGreeting);
+            }
         }
 
         protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)
