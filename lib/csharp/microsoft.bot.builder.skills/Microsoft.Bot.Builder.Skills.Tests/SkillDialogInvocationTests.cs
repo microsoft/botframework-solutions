@@ -30,12 +30,12 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                 "testSkill/testAction");
 
             // Add the SkillDialog to the available dialogs passing the initialized FakeSkill
-            Dialogs.Add(new SkillDialogTest(_skillManifest, new DummyMicrosoftAppCredentialsEx(null, null, null), _mockTelemetryClient, _mockHttp, UserState));
+            Dialogs.Add(new SkillDialogTest(_skillManifest, new DummyMicrosoftAppCredentialsEx(Guid.NewGuid().ToString(), "PASSWORD", "SCOPE"), _mockTelemetryClient, _mockHttp, UserState));
         }
 
         /// <summary>
         /// Create a SkillDialog and send a mesage triggering a HTTP call to the remote skill which the mock intercepts.
-        /// This ensures the SkillDialog is handling the SkillManifest correctly and sending the HttpRequest to the skill
+        /// This ensures the SkillDialog is handling the SkillManifest correctly and sending the HttpRequest to the skill.
         /// </summary>
         /// <returns>Task.</returns>
         [TestMethod]

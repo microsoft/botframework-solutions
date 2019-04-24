@@ -71,7 +71,7 @@ namespace Microsoft.Bot.Builder.Solutions.Telemetry
                 throw new ArgumentNullException(nameof(dialogContext));
             }
 
-            return await RecognizeInternalAsync(dialogContext.Context, dialogContext.ActiveDialog?.Id, cancellationToken);
+            return await RecognizeInternalAsync(dialogContext.Context, dialogContext.ActiveDialog?.Id, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Microsoft.Bot.Builder.Solutions.Telemetry
         /// <returns>The LUIS results of the analysis of the current message text in the current turn's context activity.</returns>
         public new async Task<RecognizerResult> RecognizeAsync(ITurnContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await RecognizeInternalAsync(context, null, cancellationToken);
+            return await RecognizeInternalAsync(context, null, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Microsoft.Bot.Builder.Solutions.Telemetry
             }
 
             // Call Luis Recognizer
-            var recognizerResult = await base.RecognizeAsync(context, cancellationToken);
+            var recognizerResult = await base.RecognizeAsync(context, cancellationToken).ConfigureAwait(false);
 
             // Find the Telemetry Client
             if (context.TurnState.TryGetValue(TelemetryLoggerMiddleware.AppInsightsServiceKey, out var telemetryClient) && recognizerResult != null)

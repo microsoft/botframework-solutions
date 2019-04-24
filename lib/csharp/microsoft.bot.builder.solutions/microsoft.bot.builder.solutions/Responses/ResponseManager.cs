@@ -340,14 +340,14 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
                 Type = ActivityTypes.Message,
                 Text = reply.Text,
                 Speak = reply.Speak,
-                InputHint = template.InputHint
+                InputHint = template.InputHint,
             };
 
             if (template.SuggestedActions != null && template.SuggestedActions.Count() > 0)
             {
                 activity.SuggestedActions = new SuggestedActions
                 {
-                    Actions = new List<CardAction>()
+                    Actions = new List<CardAction>(),
                 };
 
                 foreach (var action in template.SuggestedActions)

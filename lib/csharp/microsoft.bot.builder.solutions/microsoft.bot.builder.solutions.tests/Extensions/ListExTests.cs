@@ -12,7 +12,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Extensions
         public void Defaults()
         {
             // Default is ToString and final separator is "and"
-            var testList = new List<string> {"One", "Two", "Three"};
+            var testList = new List<string> { "One", "Two", "Three" };
             Assert.AreEqual("One, Two and Three", testList.ToSpeechString(CommonStrings.And));
         }
 
@@ -21,18 +21,18 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Extensions
         {
             var testList = new List<SomeComplexType>();
 
-            Assert.AreEqual("", testList.ToSpeechString(CommonStrings.Or, li => li.Number));
+            Assert.AreEqual(string.Empty, testList.ToSpeechString(CommonStrings.Or, li => li.Number));
 
-            testList.Add(new SomeComplexType {Number = "One", SomeOtherProperty = "Don't care"});
+            testList.Add(new SomeComplexType { Number = "One", SomeOtherProperty = "Don't care" });
             Assert.AreEqual("One", testList.ToSpeechString(CommonStrings.Or, li => li.Number));
 
-            testList.Add(new SomeComplexType {Number = "Two", SomeOtherProperty = "Don't care"});
+            testList.Add(new SomeComplexType { Number = "Two", SomeOtherProperty = "Don't care" });
             Assert.AreEqual("One or Two", testList.ToSpeechString(CommonStrings.Or, li => li.Number));
 
-            testList.Add(new SomeComplexType {Number = "Three", SomeOtherProperty = "Don't care"});
+            testList.Add(new SomeComplexType { Number = "Three", SomeOtherProperty = "Don't care" });
             Assert.AreEqual("One, Two or Three", testList.ToSpeechString(CommonStrings.Or, li => li.Number));
 
-            testList.Add(new SomeComplexType {Number = "Four", SomeOtherProperty = "Don't care"});
+            testList.Add(new SomeComplexType { Number = "Four", SomeOtherProperty = "Don't care" });
             Assert.AreEqual("One, Two, Three or Four", testList.ToSpeechString(CommonStrings.Or, li => li.Number));
         }
 

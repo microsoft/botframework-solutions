@@ -21,14 +21,14 @@ namespace Microsoft.Bot.Builder.Skills
         private readonly SkillManifest _skillManifest;
         private readonly MicrosoftAppCredentialsEx _microsoftAppCredentialsEx;
 
-        // Protected to enable mocking
-        protected HttpClient HttpClient { get => _httpClient; set => _httpClient = value; }
-
         public SkillHttpTransport(SkillManifest skillManifest, MicrosoftAppCredentialsEx microsoftAppCredentialsEx)
         {
             _skillManifest = skillManifest ?? throw new ArgumentNullException(nameof(skillManifest));
             _microsoftAppCredentialsEx = microsoftAppCredentialsEx ?? throw new ArgumentNullException(nameof(microsoftAppCredentialsEx));
         }
+
+        // Protected to enable mocking
+        protected HttpClient HttpClient { get => _httpClient; set => _httpClient = value; }
 
         public async Task CancelRemoteDialogsAsync(ITurnContext turnContext)
         {

@@ -33,26 +33,26 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
 
             var firstStep = new WaterfallStep[]
             {
-                FirstStep,
+                FirstStepAsync,
             };
 
             var remoteAuth = new WaterfallStep[]
             {
-                SendRemoteEvent,
-                ReceiveRemoteEvent,
+                SendRemoteEventAsync,
+                ReceiveRemoteEventAsync,
             };
 
             var localAuth = new WaterfallStep[]
             {
-                PromptForProvider,
-                PromptForAuth,
-                HandleTokenResponse,
+                PromptForProviderAsync,
+                PromptForAuthAsync,
+                HandleTokenResponseAsync,
             };
 
             AddDialog(new WaterfallDialog(DialogIds.FirstStepPrompt, firstStep));
 
             AddDialog(new WaterfallDialog(DialogIds.RemoteAuthPrompt, remoteAuth));
-            AddDialog(new EventPrompt(DialogIds.RemoteAuthEventPrompt, TokenEvents.TokenResponseEventName, TokenResponseValidator));
+            AddDialog(new EventPrompt(DialogIds.RemoteAuthEventPrompt, TokenEvents.TokenResponseEventName, TokenResponseValidatorAsync));
 
             AddDialog(new WaterfallDialog(DialogIds.LocalAuthPrompt, localAuth));
             AddDialog(new ChoicePrompt(DialogIds.ProviderPrompt) { Style = ListStyle.SuggestedAction });
@@ -67,12 +67,12 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                         Title = "login",
                         Text = string.Format("login with {0}", connection.Name),
                     },
-                    AuthPromptValidator));
+                    AuthPromptValidatorAsync));
             }
         }
 
         // Validators
-        protected Task<bool> TokenResponseValidator(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
+        protected Task<bool> TokenResponseValidatorAsync(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
         {
             var activity = pc.Recognized.Value;
             if (activity != null && activity.Type == ActivityTypes.Event)
@@ -85,26 +85,26 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             }
         }
 
-        private async Task<DialogTurnResult> FirstStep(WaterfallStepContext stepContext, CancellationToken canellationToken)
+        private async Task<DialogTurnResult> FirstStepAsync(WaterfallStepContext stepContext, CancellationToken canellationToken)
         {
             if (stepContext.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter)
             {
-                return await stepContext.BeginDialogAsync(DialogIds.RemoteAuthPrompt);
+                return await stepContext.BeginDialogAsync(DialogIds.RemoteAuthPrompt).ConfigureAwait(false);
             }
             else
             {
-                return await stepContext.BeginDialogAsync(DialogIds.LocalAuthPrompt);
+                return await stepContext.BeginDialogAsync(DialogIds.LocalAuthPrompt).ConfigureAwait(false);
             }
         }
 
-        private async Task<DialogTurnResult> SendRemoteEvent(WaterfallStepContext stepContext, CancellationToken canellationToken)
+        private async Task<DialogTurnResult> SendRemoteEventAsync(WaterfallStepContext stepContext, CancellationToken canellationToken)
         {
             if (stepContext.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter)
             {
-                await remoteInvocationAdapter.SendRemoteTokenRequestEvent(stepContext.Context, canellationToken);
+                await remoteInvocationAdapter.SendRemoteTokenRequestEventAsync(stepContext.Context, canellationToken).ConfigureAwait(false);
 
                 // Wait for the tokens/response event
-                return await stepContext.PromptAsync(DialogIds.RemoteAuthEventPrompt, new PromptOptions());
+                return await stepContext.PromptAsync(DialogIds.RemoteAuthEventPrompt, new PromptOptions()).ConfigureAwait(false);
             }
             else
             {
@@ -112,12 +112,12 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             }
         }
 
-        private async Task<DialogTurnResult> ReceiveRemoteEvent(WaterfallStepContext stepContext, CancellationToken canellationToken)
+        private async Task<DialogTurnResult> ReceiveRemoteEventAsync(WaterfallStepContext stepContext, CancellationToken canellationToken)
         {
             if (stepContext.Context.Activity != null && stepContext.Context.Activity.Value != null)
             {
                 var tokenResponse = SafeJsonConvert.DeserializeObject<ProviderTokenResponse>(stepContext.Context.Activity.Value.ToString(), Serialization.Settings);
-                return await stepContext.EndDialogAsync(tokenResponse);
+                return await stepContext.EndDialogAsync(tokenResponse).ConfigureAwait(false);
             }
             else
             {
@@ -125,24 +125,24 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             }
         }
 
-        private async Task<DialogTurnResult> PromptForProvider(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> PromptForProviderAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             if (_authenticationConnections.Count() == 1)
             {
                 var result = _authenticationConnections.ElementAt(0).Name;
-                return await stepContext.NextAsync(result);
+                return await stepContext.NextAsync(result).ConfigureAwait(false);
             }
             else
             {
                 var adapter = stepContext.Context.Adapter as BotFrameworkAdapter;
-                var tokenStatusCollection = await adapter.GetTokenStatusAsync(stepContext.Context, stepContext.Context.Activity.From.Id);
+                var tokenStatusCollection = await adapter.GetTokenStatusAsync(stepContext.Context, stepContext.Context.Activity.From.Id).ConfigureAwait(false);
 
                 var matchingProviders = tokenStatusCollection.Where(p => (bool)p.HasToken && _authenticationConnections.Any(t => t.Name == p.ConnectionName)).ToList();
 
                 if (matchingProviders.Count() == 1)
                 {
                     var authType = matchingProviders[0].ConnectionName;
-                    return await stepContext.NextAsync(authType);
+                    return await stepContext.NextAsync(authType).ConfigureAwait(false);
                 }
                 else if (matchingProviders.Count() > 1)
                 {
@@ -161,7 +161,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                     {
                         Prompt = _responseManager.GetResponse(AuthenticationResponses.ConfiguredAuthProvidersPrompt),
                         Choices = choices,
-                    });
+                    }).ConfigureAwait(false);
                 }
                 else
                 {
@@ -180,12 +180,12 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                     {
                         Prompt = _responseManager.GetResponse(AuthenticationResponses.AuthProvidersPrompt),
                         Choices = choices,
-                    });
+                    }).ConfigureAwait(false);
                 }
             }
         }
 
-        private async Task<DialogTurnResult> PromptForAuth(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> PromptForAuthAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             if (stepContext.Result is string)
             {
@@ -197,17 +197,17 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                 _selectedAuthType = choice.Value;
             }
 
-            return await stepContext.PromptAsync(_selectedAuthType, new PromptOptions());
+            return await stepContext.PromptAsync(_selectedAuthType, new PromptOptions()).ConfigureAwait(false);
         }
 
-        private async Task<DialogTurnResult> HandleTokenResponse(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> HandleTokenResponseAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var tokenResponse = stepContext.Result as TokenResponse;
             if (tokenResponse != null && !string.IsNullOrWhiteSpace(tokenResponse.Token))
             {
-                var result = await CreateProviderTokenResponse(stepContext.Context, tokenResponse);
+                var result = await CreateProviderTokenResponseAsync(stepContext.Context, tokenResponse).ConfigureAwait(false);
 
-                return await stepContext.EndDialogAsync(result);
+                return await stepContext.EndDialogAsync(result).ConfigureAwait(false);
             }
             else
             {
@@ -216,10 +216,10 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             }
         }
 
-        private async Task<ProviderTokenResponse> CreateProviderTokenResponse(ITurnContext context, TokenResponse tokenResponse)
+        private async Task<ProviderTokenResponse> CreateProviderTokenResponseAsync(ITurnContext context, TokenResponse tokenResponse)
         {
             var adapter = context.Adapter as BotFrameworkAdapter;
-            var tokens = await adapter.GetTokenStatusAsync(context, context.Activity.From.Id);
+            var tokens = await adapter.GetTokenStatusAsync(context, context.Activity.From.Id).ConfigureAwait(false);
             var match = Array.Find(tokens, t => t.ConnectionName == tokenResponse.ConnectionName);
 
             return new ProviderTokenResponse
@@ -229,7 +229,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             };
         }
 
-        private Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)
+        private Task<bool> AuthPromptValidatorAsync(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)
         {
             var token = promptContext.Recognized.Value;
             if (token != null && !string.IsNullOrWhiteSpace(token.Token))
