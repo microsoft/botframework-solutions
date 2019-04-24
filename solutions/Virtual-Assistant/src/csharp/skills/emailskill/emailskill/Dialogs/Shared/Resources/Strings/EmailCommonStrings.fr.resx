@@ -229,7 +229,7 @@
     <value>Re:</value>
   </data>
   <data name="ContactSeparator" xml:space="preserve">
-    <value>; | Et</value>
+    <value>, | ; | Et</value>
   </data>
   <data name="Forward" xml:space="preserve">
     <value>Fw:</value>

@@ -42,8 +42,11 @@ namespace EmailSkillTest.API.Helper
             // Mock data
             mockEmailStateAccessor.MockEmailSkillState = new EmailSkillState
             {
-                Recipients = GetRecipients(1)
+                FindContactInfor = new EmailSkillState.FindContactInformation()
             };
+
+            mockEmailStateAccessor.MockEmailSkillState.FindContactInfor.Contacts = GetRecipients(1);
+
             mockEmailStateAccessor.SetMockBehavior();
             EmailStateAccessor = mockEmailStateAccessor.GetMock().Object;
 
@@ -58,8 +61,11 @@ namespace EmailSkillTest.API.Helper
             // Mock data
             mockEmailStateAccessor.MockEmailSkillState = new EmailSkillState
             {
-                Recipients = GetRecipients(2)
+                FindContactInfor = new EmailSkillState.FindContactInformation()
             };
+
+            mockEmailStateAccessor.MockEmailSkillState.FindContactInfor.Contacts = GetRecipients(2);
+
             mockEmailStateAccessor.SetMockBehavior();
             EmailStateAccessor = mockEmailStateAccessor.GetMock().Object;
 
@@ -74,8 +80,11 @@ namespace EmailSkillTest.API.Helper
             // Mock data
             mockEmailStateAccessor.MockEmailSkillState = new EmailSkillState
             {
-                Recipients = GetRecipients(3)
+                FindContactInfor = new EmailSkillState.FindContactInformation()
             };
+
+            mockEmailStateAccessor.MockEmailSkillState.FindContactInfor.Contacts = GetRecipients(3);
+
             mockEmailStateAccessor.SetMockBehavior();
             EmailStateAccessor = mockEmailStateAccessor.GetMock().Object;
 
