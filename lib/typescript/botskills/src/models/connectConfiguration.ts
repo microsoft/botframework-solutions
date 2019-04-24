@@ -1,9 +1,9 @@
-import { ILogger } from '../logger';
-
 /**
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+
+import { ILogger } from '../logger';
 
 export interface IConnectConfiguration {
     botName: string;
@@ -19,5 +19,5 @@ export interface IConnectConfiguration {
     resourceGroup: string;
     appSettingsFile: string;
     cognitiveModelsFile: string;
-    logger: ILogger;
+    logger?: ILogger;
 }

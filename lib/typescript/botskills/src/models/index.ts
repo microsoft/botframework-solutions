@@ -7,6 +7,7 @@ export { IAction } from './action';
 export { IActionDefinition } from './actionDefinition';
 export { IAuthenticationConnection } from './authenticationConnection';
 export { IConnectConfiguration } from './connectConfiguration';
+export { IDisconnectConfiguration } from './disconnectConfiguration';
 export { IEvent } from './event';
 export { ISkillManifest } from './skillManifest';
 export { ISlot } from './slot';

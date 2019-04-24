@@ -139,6 +139,9 @@ async function updateDispatch(configuration: IConnectConfiguration, manifest: IS
 
 export async function connectSkill(configuration: IConnectConfiguration): Promise<void> {
 
+    if (configuration.logger) {
+        logger = configuration.logger;
+    }
     // Take skillManifest
     const skillManifest: ISkillManifest = configuration.localManifest
     ? getLocalManifest(configuration.localManifest)
@@ -170,4 +173,4 @@ export async function connectSkill(configuration: IConnectConfiguration): Promis
     await updateDispatch(configuration, skillManifest);
 }
 
-const logger: ILogger = new ConsoleLogger();
+let logger: ILogger = new ConsoleLogger();

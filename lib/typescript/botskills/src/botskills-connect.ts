@@ -135,6 +135,8 @@ if (!args.dispatchName) {
     configuration.dispatchName = cognitiveModelsFile.cognitiveModels[languageCode].dispatchModel.name;
 }
 
+configuration.logger = logger;
+
 // End of arguments validation
 
 connectSkill(<IConnectConfiguration> configuration);
