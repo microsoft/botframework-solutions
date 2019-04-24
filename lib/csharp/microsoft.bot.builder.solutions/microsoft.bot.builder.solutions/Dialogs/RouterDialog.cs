@@ -21,7 +21,7 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var status = await OnInterruptDialogAsync(innerDc, cancellationToken);
+            var status = await OnInterruptDialogAsync(innerDc, cancellationToken).ConfigureAwait(false);
 
             if (status == InterruptionAction.MessageSentToUser)
             {
@@ -40,7 +40,7 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
 
                 if (activity.IsStartActivity())
                 {
-                    await OnStartAsync(innerDc);
+                    await OnStartAsync(innerDc).ConfigureAwait(false);
                 }
 
                 switch (activity.Type)
@@ -50,22 +50,22 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
                             // Note: This check is a workaround for adaptive card buttons that should map to an event (i.e. startOnboarding button in intro card)
                             if (activity.Value != null)
                             {
-                                await OnEventAsync(innerDc);
+                                await OnEventAsync(innerDc).ConfigureAwait(false);
                             }
                             else if (!string.IsNullOrEmpty(activity.Text))
                             {
-                                var result = await innerDc.ContinueDialogAsync();
+                                var result = await innerDc.ContinueDialogAsync().ConfigureAwait(false);
 
                                 switch (result.Status)
                                 {
                                     case DialogTurnStatus.Empty:
                                         {
-                                            await RouteAsync(innerDc);
+                                            await RouteAsync(innerDc).ConfigureAwait(false);
 
                                             // Waterfalls with no turns should Complete.
                                             if (innerDc.ActiveDialog == null)
                                             {
-                                                await CompleteAsync(innerDc);
+                                                await CompleteAsync(innerDc).ConfigureAwait(false);
                                             }
 
                                             break;
@@ -73,10 +73,10 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
 
                                     case DialogTurnStatus.Complete:
                                         {
-                                            await CompleteAsync(innerDc);
+                                            await CompleteAsync(innerDc).ConfigureAwait(false);
 
                                             // End active dialog
-                                            await innerDc.EndDialogAsync();
+                                            await innerDc.EndDialogAsync().ConfigureAwait(false);
                                             break;
                                         }
 
@@ -92,13 +92,13 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
 
                     case ActivityTypes.Event:
                         {
-                            await OnEventAsync(innerDc);
+                            await OnEventAsync(innerDc).ConfigureAwait(false);
                             break;
                         }
 
                     default:
                         {
-                            await OnSystemMessageAsync(innerDc);
+                            await OnSystemMessageAsync(innerDc).ConfigureAwait(false);
                             break;
                         }
                 }

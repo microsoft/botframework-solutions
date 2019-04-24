@@ -127,7 +127,9 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             TestAdapter adapter = new TestAdapter()
                 .Use(new SkillMiddleware(_userState, _conversationState, _dialogStateAccessor));
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
             var testFlow = new TestFlow(adapter, async (context, cancellationToken) =>
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
             {
             });
 
@@ -145,7 +147,9 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             TestAdapter adapter = new TestAdapter()
                 .Use(new SkillMiddleware(_userState, _conversationState, _dialogStateAccessor));
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
             var testFlow = new TestFlow(adapter, async (context, cancellationToken) =>
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
             {
             });
 
@@ -162,7 +166,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                 $"SkillContext didn't contain the expected data after Skill middleware processing: {CreateCollectionMismatchMessage(skillContext, skillTestDataToValidate)} ");
         }
 
-        private string CreateCollectionMismatchMessage (SkillContext context, Dictionary<string, object> test)
+        private string CreateCollectionMismatchMessage(SkillContext context, Dictionary<string, object> test)
         {
             var contextData = string.Join(",", context.Select(x => x.Key + "=" + x.Value));
             var testData = string.Join(",", test.Select(x => x.Key + "=" + x.Value));

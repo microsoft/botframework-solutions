@@ -24,18 +24,18 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
             if (dc.Dialogs.Find(PrimaryDialogName) != null)
             {
                 // Overrides default behavior which starts the first dialog added to the stack (i.e. Cancel waterfall)
-                return await dc.BeginDialogAsync(PrimaryDialogName, options);
+                return await dc.BeginDialogAsync(PrimaryDialogName, options).ConfigureAwait(false);
             }
             else
             {
                 // If we don't have a matching dialog, start the initial dialog
-                return await dc.BeginDialogAsync(InitialDialogId, options);
+                return await dc.BeginDialogAsync(InitialDialogId, options).ConfigureAwait(false);
             }
         }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken)
         {
-            var status = await OnInterruptDialogAsync(dc, cancellationToken);
+            var status = await OnInterruptDialogAsync(dc, cancellationToken).ConfigureAwait(false);
 
             if (status == InterruptionAction.MessageSentToUser)
             {
@@ -49,7 +49,7 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
                 return EndOfTurn;
             }
 
-            return await base.OnContinueDialogAsync(dc, cancellationToken);
+            return await base.OnContinueDialogAsync(dc, cancellationToken).ConfigureAwait(false);
         }
 
         protected abstract Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken);

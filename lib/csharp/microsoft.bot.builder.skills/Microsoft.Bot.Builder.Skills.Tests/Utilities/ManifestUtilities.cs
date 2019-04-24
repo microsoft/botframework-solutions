@@ -1,7 +1,6 @@
-﻿using Microsoft.Bot.Builder.Skills.Models.Manifest;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using Microsoft.Bot.Builder.Skills.Models.Manifest;
 
 namespace Microsoft.Bot.Builder.Skills.Tests.Utilities
 {
@@ -14,18 +13,18 @@ namespace Microsoft.Bot.Builder.Skills.Tests.Utilities
                 Name = name,
                 Id = id,
                 Endpoint = new Uri(endpoint),
-                Actions = new List<Models.Manifest.Action>()
+                Actions = new List<Models.Manifest.Action>(),
             };
 
             var action = new Models.Manifest.Action
             {
                 Id = actionId,
-                Definition = new ActionDefinition()
+                Definition = new ActionDefinition(),
             };
 
             // Provide slots if we have them
             if (slots != null)
-            {              
+            {
                 action.Definition.Slots = slots;
             }
 

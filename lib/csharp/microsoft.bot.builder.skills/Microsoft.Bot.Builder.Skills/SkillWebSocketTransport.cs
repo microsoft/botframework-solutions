@@ -105,7 +105,9 @@ namespace Microsoft.Bot.Builder.Skills
 
             var httpPrefix = "http://";
             var httpsPrefix = "https://";
+#pragma warning disable SA1305 // Field names should not use Hungarian notation
             var wsPrefix = "ws://";
+#pragma warning restore SA1305 // Field names should not use Hungarian notation
             var wssPrefix = "wss://";
 
             if (url.StartsWith(httpPrefix))

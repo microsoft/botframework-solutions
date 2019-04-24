@@ -8,6 +8,6 @@ namespace Microsoft.Bot.Builder.Solutions
     /// </summary>
     public interface IRemoteUserTokenProvider
     {
-        Task SendRemoteTokenRequestEvent(ITurnContext turnContext, CancellationToken cancellationToken);
+        Task SendRemoteTokenRequestEventAsync(ITurnContext turnContext, CancellationToken cancellationToken);
     }
 }
