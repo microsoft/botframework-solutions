@@ -206,19 +206,15 @@
   "SingleRouteFound": {
     "replies": [
       {
-        "text": "I found a route.",
-        "speak": "I found a route."
+        "text": "I found a route. Ready to begin?",
+        "speak": "I found a route. Ready to begin?"
       },
       {
-        "text": "Here's a route to your destination.",
-        "speak": "Here's a route to your destination."
-      },
-      {
-        "text": "This is the best route to your destination.",
-        "speak": "This is the best route to your destination."
+        "text": "I found a route. Ready to start?",
+        "speak": "I found a route. Ready to start?"
       }
     ],
-    "inputHint": "ignoringInput"
+    "inputHint": "expectingInput"
   },
   "PointOfInterestSelection": {
     "replies": [
