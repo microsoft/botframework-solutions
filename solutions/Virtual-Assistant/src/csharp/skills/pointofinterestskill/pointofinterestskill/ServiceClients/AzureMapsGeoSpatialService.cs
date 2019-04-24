@@ -224,14 +224,14 @@ namespace PointOfInterestSkill.ServiceClients
 
             var pointOfInterestList = new List<PointOfInterestModel>();
 
-            if (apiResponse != null && apiResponse.Results != null)
+            if (apiResponse?.Results != null)
             {
                 foreach (var searchResult in apiResponse.Results)
                 {
                     var newPointOfInterest = new PointOfInterestModel(searchResult);
 
-                    // If POI is missing a street, we don't want it shown
-                    if (!string.IsNullOrEmpty(newPointOfInterest.Address))
+                    // If the POI list doesn't already have an item with an identical address, add it to the list
+                    if (!pointOfInterestList.Any(poi => poi.Address == newPointOfInterest.Address))
                     {
                         pointOfInterestList.Add(newPointOfInterest);
                     }
