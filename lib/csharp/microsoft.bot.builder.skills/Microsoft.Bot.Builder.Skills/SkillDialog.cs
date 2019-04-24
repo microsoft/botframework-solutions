@@ -26,7 +26,6 @@ namespace Microsoft.Bot.Builder.Skills
 
         private SkillManifest _skillManifest;
         private ISkillTransport _skillTransport;
-        private Models.Manifest.Action _action;
 
         private Queue<Activity> _queuedResponses = new Queue<Activity>();
         private object _lockObject = new object();
@@ -96,13 +95,13 @@ namespace Microsoft.Bot.Builder.Skills
             else
             {
                 // Find the Action within the selected Skill for slot filling evaluation
-                _action = _skillManifest.Actions.SingleOrDefault(a => a.Id == actionName);
-                if (_action != null)
+                var action = _skillManifest.Actions.SingleOrDefault(a => a.Id == actionName);
+                if (action != null)
                 {
                     // If the action doesn't define any Slots or SkillContext is empty then we skip slot evaluation
-                    if (_action.Definition.Slots != null && skillContext.Count > 0)
+                    if (action.Definition.Slots != null && skillContext.Count > 0)
                     {
-                        foreach (Slot slot in _action.Definition.Slots)
+                        foreach (Slot slot in action.Definition.Slots)
                         {
                             // For each slot we check to see if there is an exact match, if so we pass this slot across to the skill
                             if (skillContext.TryGetValue(slot.Name, out object slotValue))
