@@ -29,3 +29,13 @@ In this situation for Microsoft Graph based skills follow the instructions below
 3. In the API permissions section click Add Permission, then Microsoft Graph and Delegated Permissions. Find each scope provided in the message shown during Skill registration and add.
 
 For Skills that require other Authentication connection configuration please follow the skill specific configuration information.
+
+
+## Updating an existing Skill to reflect changes to Actions or LUIS model
+
+TBC
+
+## Removing a Skill from your Virtual Assistant
+
+TBC
+

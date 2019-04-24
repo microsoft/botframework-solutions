@@ -1,4 +1,4 @@
-# ![Conversational AI Solutions](/docs/media/conversationalai_solutions_header.png)
+![Conversational AI Solutions](/docs/media/conversationalai_solutions_header.png)
 
 # Virtual Assistant Solution Accelerator
 
@@ -36,10 +36,11 @@ The documentation outline for the preview Conversational AI Skills capability is
 
 |Documentation|Description|common|csharp|typescript|
 |-------|-------|-------|-------|-------|
-|Skills Overview|Overview|[View](/docs/skills/csharp/README.md)|||
+|Skills Overview|Overview|[View](/docs/skills/README.md)|||
 |Creating a new skill|Creating a new skill using template||[View](/docs/skills/csharp/gettingstarted.md)|[View](/docs/skills/typescript/gettingstarted.md)|
 |Adding a new skill to solution| Adding a skill|[View](/docs/skills/common/addingskill.md)||
-|Skills Architecture|Architecture|:runner:||
+|Skills Architecture|Architecture|[View](/docs/skills/common/architecture.md)||
+|Skill Best Practice|Architecture||[View](/docs/skills/csharp/bestpractices.md)|:runner:
 |Skills Under the covers| SkillDialog, Adapter, Middleware||:runner:|:runner:
 |Parent Bot to Skill Authentication|Principles, Flow|:runner:||                    
 |Skill Token Flow|How a Skill can request a User authentication token||[View](/docs/skills/common/skilltokenflow.md)||

@@ -1,24 +1,46 @@
-# Skills
+![Conversational AI Solutions](/docs/media/conversationalai_solutions_header.png)
 
-Here you will find the following structure of the documentation
+# Skills Overview
 
-:runner: - Indicates planned and work in progress.
+Skills are a type of bot that allows developers to develop and test them just like a standard bot, whilst having the functionality to be connected to a broader solution as part of a complex Virtual Assistant or perhaps an Enterprise Bot seeking to stitch together multiple Bots within an organisation.
 
-| Documentation          | Description                               | common                                  | csharp                                     | typescript                                     |
-|------------------------|-------------------------------------------|-----------------------------------------|--------------------------------------------|------------------------------------------------|
-| Create a Skill         | Steps to create a skill                   |                                         | [View](./csharp/create.md)                 | [View](./typescript/create.md)                 |
-| Developing a new Skill | Steps to develop a new skill              |                                         | [View](./csharp/developing-a-new-skill.md) |                                                |
-| Productivity Calendar  | Explanation of Calendar Skill             |                                         | [View](./csharp/productivity-calendar.md)  |                                                |
-| Productivity ToDo      | Explanation of ToDo Skill                 |                                         | [View](./csharp/productivity-todo.md)      |                                                |
-| Productivity Email     | Explanation of Email Skill                |                                         | [View](./csharp/productivity-email.md)     |                                                |
-| Point of Interest      | Explanation of POI Skill                  |                                         | [View](./csharp/pointofinterest.md)        |                                                |
-| Automotive             | Explanation of Automotive Skill           |                                         | [View](./csharp/automotive.md)             |                                                | 
-| Experimental Skills    | Explanation of Early prototypes of skills | [View](./common/experimental-skills.md) |                                            |                                                |           
+Apart from minor difference to enable this special invocation pattern, a Skill looks and behaves like a regular bot. The same protocol is maintained between two bots to ensure a consistent approach. Skills for common scenarios like productivity and navigation to be used as-is or customized however a customer prefers.
 
-# Contributing
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+## Table of Contents
+- [Skills Overview](#skills-overview)
+  - [Table of Contents](#table-of-contents)
+  - [Skills Documentation](#skills-documentation)
+  - [Available Skills](#available-skills)
+
+## Skills Documentation
+The documentation outline for the preview Conversational AI Skills capability is shown below. C# and Typescript programming languages are supported.
+
+|Documentation|Description|common|csharp|typescript|
+|-------|-------|-------|-------|-------|
+|Creating a new skill|Creating a new skill using template||[View](/docs/skills/csharp/gettingstarted.md)|[View](/docs/skills/typescript/gettingstarted.md)|
+|Adding a new skill to solution| Adding a skill|[View](/docs/skills/common/addingskill.md)||
+|Skills Architecture|Architecture|[View](/docs/skills/common/architecture.md)||
+|Skill Best Practice|Architecture||[View](/docs/skills/csharp/bestpractices.md)|:runner:
+|Skills Under the covers| SkillDialog, Adapter, Middleware||:runner:|:runner:
+|Parent Bot to Skill Authentication|Principles, Flow|:runner:||                    
+|Skill Token Flow|How a Skill can request a User authentication token||[View](/docs/skills/common/skilltokenflow.md)||
+|Skill Manifest| Overview of the Skill Manifest file and it's role with Skill registration and invocation|:runner:||
+|Skill CLI | Skill CLI, what it does under covers|:runner:||
+|Speech Enablement|SpeechUtility,etc.|:runner:||
+|Adaptive Card Styling|Adjusting look/feel - design packs?|:runner:||
+|Adding Skill support to a v4 SDK Bot|How to add Skills to an existing/non VA template solution||[View](/docs/skills/csharp/addskillsupportforv4bot.md)|:runner:
+|Skill enabling an existing v4 SDK Bot|Steps required to take an existing v4 Bot and make it available as a skill||[View](/docs/skills/csharp/skillenablingav4bot.md)|:runner:
+|Preview Limitations / Known Issues||:runner:|:runner:|:runner:
+
+:runner: is work in progress
+
+## Available Skills
+
+The following Skills are available out of the box, each of the documentation links below has the deployment steps required to deploy and configure Skills for your use.
+
+- [Productivity - Calendar](./productivity-calendar.md)
+- [Productivity - Email](./productivity-email.md)
+- [Productivity - To Do](./productivity-todo.md)
+- [Point of Interest](./pointofinterest.md)
+- [Automotive](./automotive.md)
+- [Experimental Skills](./experimental-skills.md)
