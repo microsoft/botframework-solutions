@@ -67,7 +67,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
         /// <summary>
         /// Get a response with an Adaptive Card attachment.
         /// </summary>
-        /// <param name="card">The card to add to the response.</param
+        /// <param name="card">The card to add to the response.</param>
         /// <returns>An Activity.</returns>
         public Activity GetCardResponse(Card card)
         {
@@ -82,7 +82,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
         /// <summary>
         /// Get a response with a list of Adaptive Card attachments.
         /// </summary>
-        /// <param name="cards">The list of Adaptive Cards to add to the response.</param
+        /// <param name="cards">The list of Adaptive Cards to add to the response.</param>
         /// <param name="attachmentLayout">Optional AttachmentLayout for resulting activity.</param>
         /// <returns>An Activity.</returns>
         public Activity GetCardResponse(
@@ -106,7 +106,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
         /// Get a response from template with Text, Speak, InputHint, SuggestedActions, and an Adaptive Card attachment.
         /// </summary>
         /// <param name="templateId">The name of the response template.</param>
-        /// <param name="card">The card object to add to the response.</param
+        /// <param name="card">The card object to add to the response.</param>
         /// <param name="tokens">Optional StringDictionary of tokens to replace in the response.</param>
         /// <returns>An Activity.</returns>
         public Activity GetCardResponse(
@@ -127,7 +127,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
         /// Get a response from template with Text, Speak, InputHint, SuggestedActions, and a list of Adaptive Card attachments.
         /// </summary>
         /// <param name="templateId">The name of the response template.</param>
-        /// <param name="cards">The collection of Adaptive Cards to add to the response.</param
+        /// <param name="cards">The collection of Adaptive Cards to add to the response.</param>
         /// <param name="tokens">Optional StringDictionary of tokens to replace in the response.</param>
         /// <param name="attachmentLayout">Optional AttachmentLayout for the resulting activity.</param>
         /// <returns>An Activity.</returns>
@@ -155,7 +155,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
         /// Get a response from template with Text, Speak, InputHint, SuggestedActions, and a Card attachments with list items inside.
         /// </summary>
         /// <param name="templateId">The name of the response template.</param>
-        /// <param name="card">The main card container contains list.</param
+        /// <param name="card">The main card container contains list.</param>
         /// <param name="tokens">Optional StringDictionary of tokens to replace in the response.</param>
         /// <param name="containerName">Target container.</param>
         /// <param name="containerItems">Card list which will be injected to target container.</param>
