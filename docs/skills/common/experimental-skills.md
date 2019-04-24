@@ -22,123 +22,18 @@ An example transcript file demonstrating the Skill in action can be found [here]
 
 ![ News Skill Transcript Example](../../media/skills-news-transcript.png)
 
-## Deploying Experimental Skills in local-mode
+## Experimental Skill Deployment
 
-Experimental Skills not added by default when deploying the Virtual Assistant due to their experimental nature.
+The Experimental Skills require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
 
-Run this PowerShell script to deploy shared resources and LUIS models required for an experimental skill.
+- Azure Web App
+- Azure Storage Account (Transcripts)
+- Azure Application Insights (Telemetry)
+- Azure CosmosDb (State)
+- Azure Cognitive Services - Language Understanding
 
-```
-  pwsh.exe -ExecutionPolicy Bypass -File DeploymentScripts\deploy_bot.ps1
-```
+> Review the pricing and terms for the services and adjust to suit your scenario.
 
-You will be prompted to provide the following parameters:
-   - Name - A name for your bot and resource group. This must be **unique**.
-   - Location - The Azure region for your services (e.g. westus)
-   - LUIS Authoring Key - Refer to [Virtual Assistant Deployment](../../virtual-assistant/README.md) for retrieving this key.
-
-The msbot tool will outline the deployment plan including location and SKU. Ensure you review before proceeding.
-
-> After deployment is complete, it's **imperative** that you make a note of the .bot file secret provided as this will be required for later steps. The secret can be found near the top of the execution output and will be in purple text.
-
-- Update your `appsettings.json` file with the newly created .bot file name and .bot file secret.
-- Run the following command and retrieve the InstrumentationKey for your Application Insights instance and update `InstrumentationKey` in your `appsettings.json` file.
-
-```
-msbot list --bot YOURBOTFILE.bot --secret YOUR_BOT_SECRET
-```
-
-```
-  {
-    "botFilePath": ".\\YOURBOTFILE.bot",
-    "botFileSecret": "YOUR_BOT_SECRET",
-    "ApplicationInsights": {
-      "InstrumentationKey": "YOUR_INSTRUMENTATION_KEY"
-    }
-  }
-```
-
-- Finally, add the .bot file paths for each of your language configurations (English only at this time).
-
-```
-"defaultLocale": "en-us",
-  "languageModels": {
-    "en": {
-      "botFilePath": ".\\LocaleConfigurations\\YOUR_EN_BOT_PATH.bot",
-      "botFileSecret": ""
-    }
-    }
-```
-## Testing the skill in local-mode
-
-Once you have followed the deployment instructions above, open the provided .bot file with the Bot Framework Emulator.
-
-## Adding Experimental Skills to your Virtual Assistant deployment.
-
-Follow the steps in `Deploying LUIS models and updating Dispatch` and `Update Virtual Assistant` within [Create a new Skill](../../skills/README.md) to configure each of the Experimental Skills as required.
-
-Instead of the generic skill configuration examples shown in the documentation steps you should use the ones below which are tailored to each of the experimental skills.
-
-### Recipe File updates
-
-```
-  {
-      "type": "luis",
-      "id": "news",
-      "name": "news",
-      "luPath": "..\\experimental\\skills\\newsskill\\CognitiveModels\\LUIS\\en\\news.lu"
-  },
-  {
-      "type": "luis",
-      "id": "restaurant",
-      "name": "restaurant",
-      "luPath": "..\\experimental\\skills\\restaurantbooking\\CognitiveModels\\LUIS\\en\\restaurant.lu"
-  }
-```
-
-### Dispatch References
-```
-    # l_News 
-    - [FindArticles](../../../../experimental/skills/newsskill/CognitiveModels/LUIS/en/news.lu#FindArticles)
-    # l_Restaurant
-    - [Reservation](../../../../experimental/skills/restaurantbooking/CognitiveModels/LUIS/en/restaurant.lu#Reservation)
-```
-
-### Skill Configuration in appSettings.config
-
- ```
-    "skills":[
-        {
-            "type": "skill",
-            "id": "NewsSkill",
-            "name": "NewsSkill",
-            "assembly": "NewsSkill.NewsSkill, NewsSkill, Version=1.0.0.0, Culture=neutral",
-            "dispatchIntent": "l_News",
-            "supportedProviders": [],
-            "luisServiceIds": [
-                "news",
-                "general"
-            ],
-            "parameters": [],
-            "configuration": {
-                "BingNewsKey": ""
-            }
-        },
-          {
-            "type": "skill",
-            "id": "RestaurantBooking",
-            "name": "RestaurantBooking",
-            "assembly": "RestaurantBooking.RestaurantBooking, RestaurantBooking, Version=1.0.0.0, Culture=neutral",
-            "dispatchIntent": "l_Restaurant",
-            "supportedProviders": [],
-            "luisServiceIds": [
-                "restaurant",
-                "general"
-            ],
-            "parameters": [],
-            "configuration": {}
-        }
-    ]
-```
+To deploy the experimental skills using the default configuration, follow the steps in this common [deployment documentation page](/docs/virtual-assistant/common/deploymentsteps.md) from the folder where your have cloned the GitHub repo.
 
 
