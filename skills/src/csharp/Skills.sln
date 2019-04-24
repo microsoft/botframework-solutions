@@ -7,17 +7,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills", "Skills", "{34280F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{15B08548-1311-4749-8816-186C3268386E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{B001AB8C-3458-44CD-962B-E1F4D5CABF46}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Experimental", "Experimental", "{3665D242-1A88-4860-B148-BAB695B7B5E4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsSkill", "experimental\newsskill\NewsSkill.csproj", "{ED046DC9-DDA3-4F38-9430-E89FEBD8ACE5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantBooking", "experimental\restaurantbooking\RestaurantBooking.csproj", "{341E0642-7E94-474C-96A5-6ACE02F254A4}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Skills", "..\..\..\lib\csharp\microsoft.bot.builder.skills\Microsoft.Bot.Builder.Skills\Microsoft.Bot.Builder.Skills.csproj", "{95D8C049-3D9B-4A75-96DA-DB68D1BE5DB8}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Solutions", "..\..\..\lib\csharp\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj", "{F7B1079A-AC52-4737-BE77-C47EFD1AE965}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutomotiveSkill", "automotiveskill\automotiveskill\AutomotiveSkill.csproj", "{F5F254ED-D82B-47AF-A894-B45507787C71}"
 EndProject
@@ -63,22 +57,6 @@ Global
 		{341E0642-7E94-474C-96A5-6ACE02F254A4}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{341E0642-7E94-474C-96A5-6ACE02F254A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{341E0642-7E94-474C-96A5-6ACE02F254A4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{95D8C049-3D9B-4A75-96DA-DB68D1BE5DB8}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
-		{95D8C049-3D9B-4A75-96DA-DB68D1BE5DB8}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
-		{95D8C049-3D9B-4A75-96DA-DB68D1BE5DB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{95D8C049-3D9B-4A75-96DA-DB68D1BE5DB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{95D8C049-3D9B-4A75-96DA-DB68D1BE5DB8}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
-		{95D8C049-3D9B-4A75-96DA-DB68D1BE5DB8}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
-		{95D8C049-3D9B-4A75-96DA-DB68D1BE5DB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{95D8C049-3D9B-4A75-96DA-DB68D1BE5DB8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F7B1079A-AC52-4737-BE77-C47EFD1AE965}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
-		{F7B1079A-AC52-4737-BE77-C47EFD1AE965}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
-		{F7B1079A-AC52-4737-BE77-C47EFD1AE965}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F7B1079A-AC52-4737-BE77-C47EFD1AE965}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F7B1079A-AC52-4737-BE77-C47EFD1AE965}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
-		{F7B1079A-AC52-4737-BE77-C47EFD1AE965}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
-		{F7B1079A-AC52-4737-BE77-C47EFD1AE965}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F7B1079A-AC52-4737-BE77-C47EFD1AE965}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F5F254ED-D82B-47AF-A894-B45507787C71}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
 		{F5F254ED-D82B-47AF-A894-B45507787C71}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
 		{F5F254ED-D82B-47AF-A894-B45507787C71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -166,8 +144,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{ED046DC9-DDA3-4F38-9430-E89FEBD8ACE5} = {3665D242-1A88-4860-B148-BAB695B7B5E4}
 		{341E0642-7E94-474C-96A5-6ACE02F254A4} = {3665D242-1A88-4860-B148-BAB695B7B5E4}
-		{95D8C049-3D9B-4A75-96DA-DB68D1BE5DB8} = {B001AB8C-3458-44CD-962B-E1F4D5CABF46}
-		{F7B1079A-AC52-4737-BE77-C47EFD1AE965} = {B001AB8C-3458-44CD-962B-E1F4D5CABF46}
 		{F5F254ED-D82B-47AF-A894-B45507787C71} = {34280F2E-60EB-4566-9ECD-56F114372037}
 		{43F6EEC7-E7BA-40A3-A895-DD9C9EC93FF0} = {15B08548-1311-4749-8816-186C3268386E}
 		{699B06B9-5F06-49F1-B63B-4E7F4BE49B9C} = {34280F2E-60EB-4566-9ECD-56F114372037}
