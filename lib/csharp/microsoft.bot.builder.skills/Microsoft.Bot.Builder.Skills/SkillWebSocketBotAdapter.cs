@@ -3,11 +3,10 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Protocol;
 using Microsoft.Bot.Protocol.WebSockets;
 using Microsoft.Bot.Schema;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Microsoft.Bot.Builder.Skills
 {
@@ -19,13 +18,13 @@ namespace Microsoft.Bot.Builder.Skills
     /// </summary>
     public class SkillWebSocketBotAdapter : BotAdapter, IActivityHandler, IRemoteUserTokenProvider
     {
-        private readonly ILogger _logger;
+        private readonly IBotTelemetryClient _botTelemetryClient;
 
         public SkillWebSocketBotAdapter(
             IMiddleware middleware = null,
-            ILogger logger = null)
+            IBotTelemetryClient botTelemetryClient = null)
         {
-            _logger = logger ?? NullLogger.Instance;
+            _botTelemetryClient = botTelemetryClient ?? NullBotTelemetryClient.Instance;
 
             if (middleware != null)
             {
@@ -46,7 +45,7 @@ namespace Microsoft.Bot.Builder.Skills
         {
             BotAssert.ActivityNotNull(activity);
 
-            _logger.LogInformation($"Received an incoming activity.  ActivityId: {activity.Id}");
+            _botTelemetryClient.TrackTraceEx($"Received an incoming activity. ActivityId: {activity.Id}", Severity.Information, activity, null);
 
             using (var context = new TurnContext(this, activity))
             {
@@ -106,7 +105,6 @@ namespace Microsoft.Bot.Builder.Skills
                 }
 
                 var response = default(ResourceResponse);
-                _logger.LogInformation($"Sending activity.  ReplyToId: {activity.ReplyToId}");
 
                 if (activity.Type == ActivityTypesEx.Delay)
                 {
@@ -124,6 +122,8 @@ namespace Microsoft.Bot.Builder.Skills
                     var requestPath = $"/activities/{activity.Id}";
                     var request = Request.CreatePost(requestPath);
                     request.SetBody(activity);
+
+                    _botTelemetryClient.TrackTraceEx($"Sending activity. ReplyToId: {activity.ReplyToId}", Severity.Information, activity, null);
                     response = await SendRequestAsync<ResourceResponse>(request).ConfigureAwait(false);
                 }
 
@@ -152,6 +152,8 @@ namespace Microsoft.Bot.Builder.Skills
             var requestPath = $"/activities/{activity.Id}";
             var request = Request.CreatePut(requestPath);
             request.SetBody(activity);
+
+            _botTelemetryClient.TrackTraceEx($"Updating activity. activity id: {activity.Id}", Severity.Information, activity, null);
             return await SendRequestAsync<ResourceResponse>(request, cancellationToken).ConfigureAwait(false);
         }
 
@@ -159,6 +161,8 @@ namespace Microsoft.Bot.Builder.Skills
         {
             var requestPath = $"/activities/{reference.ActivityId}";
             var request = Request.CreateDelete(requestPath);
+
+            _botTelemetryClient.TrackTraceEx($"Updating activity. activity id: {reference.ActivityId}", Severity.Information, null, null);
             await SendRequestAsync(request, cancellationToken);
         }
 
@@ -186,7 +190,7 @@ namespace Microsoft.Bot.Builder.Skills
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex);
+                _botTelemetryClient.TrackExceptionEx(ex, null);
 
                 throw ex;
             }
@@ -202,7 +206,7 @@ namespace Microsoft.Bot.Builder.Skills
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex);
+                _botTelemetryClient.TrackExceptionEx(ex, null);
 
                 throw ex;
             }

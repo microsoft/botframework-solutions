@@ -8,9 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Schema;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills
@@ -24,15 +23,18 @@ namespace Microsoft.Bot.Builder.Skills
     public class SkillHttpAdapter : IBotFrameworkHttpAdapter
     {
         private readonly IAuthenticationProvider _authenticationProvider;
-        private readonly ILogger _logger;
+        private readonly IBotTelemetryClient _botTelemetryClient;
         private readonly IActivityHandler _skillHttpBotAdapter;
         private readonly JsonSerializer botMessageSerializer = JsonSerializer.Create(Serialization.Settings);
 
-        public SkillHttpAdapter(IServiceProvider serviceProvider)
+        public SkillHttpAdapter(
+            SkillHttpBotAdapter skillHttpBotAdapter,
+            IAuthenticationProvider authenticationProvider = null,
+            IBotTelemetryClient botTelemetryClient = null)
         {
-            _skillHttpBotAdapter = serviceProvider.GetService<SkillHttpBotAdapter>() ?? throw new ArgumentNullException(nameof(SkillHttpBotAdapter));
-            _authenticationProvider = serviceProvider.GetService<IAuthenticationProvider>();
-            _logger = serviceProvider.GetService<ILogger>();
+            _skillHttpBotAdapter = skillHttpBotAdapter ?? throw new ArgumentNullException(nameof(SkillHttpBotAdapter));
+            _authenticationProvider = authenticationProvider;
+            _botTelemetryClient = botTelemetryClient ?? NullBotTelemetryClient.Instance;
         }
 
         public async Task ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default(CancellationToken))
@@ -67,6 +69,8 @@ namespace Microsoft.Bot.Builder.Skills
             var activity = ReadRequest(httpRequest);
 
             var cancellationTokenSource = new CancellationTokenSource();
+
+            _botTelemetryClient.TrackTraceEx($"SkillHttpAdapter: Processing incoming activity. Activity id: {activity.Id}", Severity.Information, activity, null);
 
             // process the inbound activity with the bot
             var invokeResponse = await _skillHttpBotAdapter.ProcessActivityAsync(activity, bot.OnTurnAsync, cancellationTokenSource.Token).ConfigureAwait(false);

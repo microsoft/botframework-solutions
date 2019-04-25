@@ -22,8 +22,10 @@
 
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id="SA0001" Action="None" /> <!-- XML documentation comments --> 
+    <Rule Id="SA1027" Action="None" /> <!-- Space over tab indentation -->
     <Rule Id="SA1101" Action="None" /> <!-- local calls prefixed with this -->       
-    <Rule Id="SA1129" Action="None" /> <!-- don't use value type constructor-->
+    <Rule Id="SA1129" Action="None" /> <!-- don't use value type constructor--> 
+    <Rule Id="SA1137" Action="None" /> <!-- Space over tab indentation -->
     <Rule Id="SA1200" Action="None" />
     <Rule Id="SA1214" Action="None"/>  <!-- encapsalate field in property-->
     <Rule Id="SA1305" Action="Warning" />

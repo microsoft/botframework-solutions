@@ -42,10 +42,9 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                 return new BotStateSet(UserState, conversationState);
             });
 
-            Services.AddSingleton(new BotSettingsBase()
-            { });
-
+            Services.AddSingleton(new BotSettingsBase());
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
+			Services.AddSingleton<ISkillTransport, SkillWebSocketTransport>();
         }
 
         public TestFlow GetTestFlow(SkillManifest skillManifest, string actionId, Dictionary<string, object> slots)

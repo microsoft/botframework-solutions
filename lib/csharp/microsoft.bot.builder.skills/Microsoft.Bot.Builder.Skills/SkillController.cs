@@ -6,11 +6,9 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills
@@ -28,30 +26,32 @@ namespace Microsoft.Bot.Builder.Skills
         private readonly BotSettingsBase _botSettings;
         private readonly JsonSerializer _jsonSerializer = JsonSerializer.Create(Serialization.Settings);
 
-        private string manifestTemplateFilename = "manifestTemplate.json";
-        private HttpClient httpClient = new HttpClient();
-
-        public SkillController(IServiceProvider serviceProvider, BotSettingsBase botSettings)
+		public SkillController(
+            IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
+            SkillHttpAdapter skillHttpAdapter,
+            SkillWebSocketAdapter skillWebSocketAdapter,
+            IBot bot,
+            BotSettingsBase botSettings)
         {
-            _botFrameworkHttpAdapter = serviceProvider.GetService<IBotFrameworkHttpAdapter>() ?? throw new ArgumentNullException(nameof(IBotFrameworkHttpAdapter));
-            _skillHttpAdapter = serviceProvider.GetService<SkillHttpAdapter>();
-            _skillWebSocketAdapter = serviceProvider.GetService<SkillWebSocketAdapter>();
+            _botFrameworkHttpAdapter = botFrameworkHttpAdapter ?? throw new ArgumentNullException(nameof(IBotFrameworkHttpAdapter));
+            _skillHttpAdapter = skillHttpAdapter;
+            _skillWebSocketAdapter = skillWebSocketAdapter;
 
-            _bot = serviceProvider.GetService<IBot>() ?? throw new ArgumentNullException(nameof(IBot));
-            _botSettings = botSettings;
+            _bot = bot ?? throw new ArgumentNullException(nameof(IBot));
+            _botSettings = botSettings ?? throw new ArgumentNullException(nameof(botSettings));
         }
 
-        // Each skill provides a template manifest file which we use to fill in the dynamic elements.
-        // There are protected to enable unit tests to mock.
-        protected HttpClient HttpClient { get => httpClient; set => httpClient = value; }
+		// Each skill provides a template manifest file which we use to fill in the dynamic elements.
+		// There are protected to enable unit tests to mock.
+		protected HttpClient HttpClient { get; set; } = new HttpClient();
 
-        protected string ManifestTemplateFilename { get => manifestTemplateFilename; set => manifestTemplateFilename = value; }
+		protected string ManifestTemplateFilename { get; set; } = "manifestTemplate.json";
 
-        /// <summary>
-        /// This API is the endpoint for when a bot receives a message from a channel or a parent bot.
-        /// </summary>
-        /// <returns>Task.</returns>
-        [Route("api/messages")]
+		/// <summary>
+		/// This API is the endpoint for when a bot receives a message from a channel or a parent bot.
+		/// </summary>
+		/// <returns>Task.</returns>
+		[Route("api/messages")]
         [HttpPost]
         public async Task BotMessage()
         {

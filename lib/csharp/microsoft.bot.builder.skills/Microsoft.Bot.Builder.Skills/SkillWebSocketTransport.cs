@@ -8,6 +8,7 @@ using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Protocol;
+using Microsoft.Bot.Protocol.Transport;
 using Microsoft.Bot.Protocol.WebSockets;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
@@ -16,31 +17,35 @@ namespace Microsoft.Bot.Builder.Skills
 {
     public class SkillWebSocketTransport : ISkillTransport
     {
-        private WebSocketClient _webSocketClient;
+        private IStreamingTransportClient _streamingTransportClient;
         private readonly SkillManifest _skillManifest;
-        private readonly MicrosoftAppCredentialsEx _microsoftAppCredentialsEx;
+        private readonly IServiceClientCredentials _serviceClientCredentials;
         private bool endOfConversation = false;
 
-        public SkillWebSocketTransport(SkillManifest skillManifest, MicrosoftAppCredentialsEx microsoftAppCredentialsEx)
+        public SkillWebSocketTransport(
+			SkillManifest skillManifest,
+			IServiceClientCredentials serviceCLientCredentials,
+			IStreamingTransportClient streamingTransportClient = null)
         {
             _skillManifest = skillManifest ?? throw new ArgumentNullException(nameof(skillManifest));
-            _microsoftAppCredentialsEx = microsoftAppCredentialsEx ?? throw new ArgumentNullException(nameof(microsoftAppCredentialsEx));
-        }
+            _serviceClientCredentials = serviceCLientCredentials ?? throw new ArgumentNullException(nameof(serviceCLientCredentials));
+			_streamingTransportClient = streamingTransportClient;
+		}
 
         public async Task<bool> ForwardToSkillAsync(ITurnContext turnContext, Activity activity, Action<Activity> tokenRequestHandler = null)
         {
-            if (_webSocketClient == null)
+            if (_streamingTransportClient == null)
             {
                 // acquire AAD token
                 MicrosoftAppCredentials.TrustServiceUrl(_skillManifest.Endpoint.AbsoluteUri);
-                var token = await _microsoftAppCredentialsEx.GetTokenAsync();
+                var token = await _serviceClientCredentials.GetTokenAsync();
 
                 // put AAD token in the header
                 var headers = new Dictionary<string, string>();
                 headers.Add("Authorization", $"Bearer {token}");
 
-                // establish websocket connection
-                _webSocketClient = new WebSocketClient(
+				// establish websocket connection
+				_streamingTransportClient = new WebSocketClient(
                     EnsureWebSocketUrl(_skillManifest.Endpoint.ToString()),
                     new SkillCallingRequestHandler(
                         turnContext,
@@ -48,13 +53,13 @@ namespace Microsoft.Bot.Builder.Skills
                         GetHandoffActivityCallback()),
                     headers);
 
-                await _webSocketClient.ConnectAsync();
+                await _streamingTransportClient.ConnectAsync();
             }
 
             // Serialize the activity and POST to the Skill endpoint
             var body = new StringContent(JsonConvert.SerializeObject(activity, SerializationSettings.BotSchemaSerializationSettings), Encoding.UTF8, SerializationSettings.ApplicationJson);
             var request = Request.CreatePost(string.Empty, body);
-            await _webSocketClient.SendAsync(request);
+            await _streamingTransportClient.SendAsync(request);
 
             return endOfConversation;
         }
@@ -71,9 +76,9 @@ namespace Microsoft.Bot.Builder.Skills
 
         public void Disconnect()
         {
-            if (_webSocketClient != null && _webSocketClient.IsConnected)
+            if (_streamingTransportClient != null)
             {
-                _webSocketClient.Disconnect();
+				_streamingTransportClient.Disconnect();
             }
         }
 
@@ -81,10 +86,7 @@ namespace Microsoft.Bot.Builder.Skills
         {
             return (activity) =>
             {
-                if (tokenRequestHandler != null)
-                {
-                    tokenRequestHandler(activity);
-                }
+                tokenRequestHandler?.Invoke(activity);
             };
         }
 

@@ -9,7 +9,6 @@ using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Skills
@@ -20,7 +19,7 @@ namespace Microsoft.Bot.Builder.Skills
     public class SkillDialog : ComponentDialog
     {
         private readonly MultiProviderAuthDialog _authDialog;
-        private MicrosoftAppCredentialsEx _microsoftAppCredentialsEx;
+        private IServiceClientCredentials _serviceClientCredentials;
         private IBotTelemetryClient _telemetryClient;
         private UserState _userState;
 
@@ -30,26 +29,32 @@ namespace Microsoft.Bot.Builder.Skills
         private Queue<Activity> _queuedResponses = new Queue<Activity>();
         private object _lockObject = new object();
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SkillDialog"/> class.
-        /// SkillDialog constructor that accepts the manifest description of a Skill along with TelemetryClient for end to end telemetry.
-        /// </summary>
-        /// <param name="skillManifest">Skill manifest.</param>
-        /// <param name="microsoftAppCredentialsEx">Microsoft App Credentials.</param>
-        /// <param name="telemetryClient">Telemetry Client.</param>
-        /// <param name="userState">User State.</param>
-        /// <param name="authDialog">Auth Dialog.</param>
-        public SkillDialog(SkillManifest skillManifest, MicrosoftAppCredentialsEx microsoftAppCredentialsEx, IBotTelemetryClient telemetryClient, UserState userState, MultiProviderAuthDialog authDialog = null)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SkillDialog"/> class.
+		/// SkillDialog constructor that accepts the manifest description of a Skill along with TelemetryClient for end to end telemetry.
+		/// </summary>
+		/// <param name="skillManifest">Skill manifest.</param>
+		/// <param name="serviceClientCredentials">Service client credentials.</param>
+		/// <param name="telemetryClient">Telemetry Client.</param>
+		/// <param name="userState">User State.</param>
+		/// <param name="authDialog">Auth Dialog.</param>
+		/// <param name="skillTransport">Transport used for skill invocation.</param>
+		public SkillDialog(
+			SkillManifest skillManifest,
+			IServiceClientCredentials serviceClientCredentials,
+			IBotTelemetryClient telemetryClient,
+			UserState userState,
+			MultiProviderAuthDialog authDialog = null,
+			ISkillTransport skillTransport = null)
             : base(skillManifest.Id)
         {
             _skillManifest = skillManifest ?? throw new ArgumentNullException(nameof(SkillManifest));
-            _microsoftAppCredentialsEx = microsoftAppCredentialsEx ?? throw new ArgumentNullException(nameof(skillManifest));
-            _telemetryClient = telemetryClient ?? throw new ArgumentNullException();
+			_serviceClientCredentials = serviceClientCredentials ?? throw new ArgumentNullException(nameof(serviceClientCredentials));
+            _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
             _userState = userState;
-            _skillTransport = new SkillWebSocketTransport(_skillManifest, _microsoftAppCredentialsEx);
+			_skillTransport = skillTransport ?? new SkillWebSocketTransport(_skillManifest, _serviceClientCredentials);
 
-            // _skillTransport = new SkillHttpTransport(_skillManifest, _microsoftAppCredentialsEx);
-            if (authDialog != null)
+			if (authDialog != null)
             {
                 _authDialog = authDialog;
                 AddDialog(authDialog);
