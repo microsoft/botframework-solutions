@@ -69,6 +69,7 @@ class Copier {
   loadTemplatesFiles() {
     templateFiles.set(`_package.json`, `package.json`);
     templateFiles.set(`_.gitignore`, `.gitignore`);
+    templateFiles.set(`_.npmrc`, `.npmrc`);
     templateFiles.set(path.join(`src`, `bots`, `_dialogBot.ts`), path.join(`src`, `bots`, `dialogBot.ts`))
   }
 
