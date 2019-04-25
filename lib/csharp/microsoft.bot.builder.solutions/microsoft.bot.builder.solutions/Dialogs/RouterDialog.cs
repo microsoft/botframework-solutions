@@ -61,13 +61,6 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
                                     case DialogTurnStatus.Empty:
                                         {
                                             await RouteAsync(innerDc).ConfigureAwait(false);
-
-                                            // Waterfalls with no turns should Complete.
-                                            if (innerDc.ActiveDialog == null)
-                                            {
-                                                await CompleteAsync(innerDc).ConfigureAwait(false);
-                                            }
-
                                             break;
                                         }
 
