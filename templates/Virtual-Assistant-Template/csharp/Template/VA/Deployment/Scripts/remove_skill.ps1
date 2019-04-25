@@ -67,48 +67,17 @@ if (-not $manifest) {
 	Break
 }
 
-Write-Host "> Getting intents for dispatch ..." 
-$dictionary = @{ }
-foreach ($action in $manifest.actions) {
-   if ($action.definition.triggers.utteranceSources) {
-       foreach ($source in $action.definition.triggers.utteranceSources) {
-           foreach ($luisStr in $source.source) {
-               $luis = $luisStr -Split '#'                
-               if ($dictionary.ContainsKey($luis[0])) {
-                   $intents = $dictionary[$luis[0]]
-                   $intents += $luis[1]
-                   $dictionary[$luis[0]] = $intents
-               }
-               else {
-                   $dictionary.Add($luis[0], @($luis[1]))
-               }
-           }
-       }
-   }
-}
-
 Write-Host "> Removing skill from dispatch ..." 
-try {
-	$intentName = $manifest.Id
-	$dispatch = Get-Content $dispatchPath | ConvertFrom-Json
+$dispatch = Get-Content $dispatchPath | ConvertFrom-Json
+if ($dispatch.services) {
+	$toRemove = $dispatch.services | Where-Object { $manifest.actions.id -contains $_.name }
+	$dispatch.services = $dispatch.services | Where-Object -FilterScript { $manifest.actions.id -notcontains $_.name }
+	$dispatch.serviceIds = $dispatch.serviceIds | Where-Object -FilterScript { $toRemove.id -notcontains $_ }
 
-	if ($dispatch.services) {
-		foreach ($luisApp in $dictionary.Keys) {
-			$intents = $dictionary[$luisApp]
-			$toRemove = $dispatch.services | Where-Object { $_.name -eq $luisApp }
-			$dispatch.services = $dispatch.services | Where-Object -FilterScript { $_.name -ne $luisApp }
-			$dispatch.serviceIds = $dispatch.serviceIds | Where-Object -FilterScript { $toRemove.id -notcontains $_ }
-		}
-
-		$dispatch | ConvertTo-Json -depth 100 | Out-File $dispatchPath
-	}
-	else {
-		Write-Host "! No services found in file: $($dispatchPath)" -ForegroundColor DarkRed
-		Break
-	}
+	$dispatch | ConvertTo-Json -depth 100 | Out-File $dispatchPath
 }
-catch {
-	Break
+else {
+	Write-Host "! No services found in file: $($dispatchPath)" -ForegroundColor DarkRed
 }
 
 Write-Host "> Running dispatch refresh ..."
@@ -144,3 +113,5 @@ if (Test-Path $skillsFile) {
 else {
 	Write-Host "! Could not find file: $($skillFile)" -ForegroundColor Cyan
 }
+
+Write-Host "> Done."
