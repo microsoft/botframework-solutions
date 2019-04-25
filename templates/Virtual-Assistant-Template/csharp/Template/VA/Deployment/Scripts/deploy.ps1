@@ -154,3 +154,5 @@ $settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $outFolder appsetti
 
 # Deploy cognitive models
 Invoke-Expression "$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1') -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -outFolder $($outFolder)"
+
+Write-Host "> Done."
