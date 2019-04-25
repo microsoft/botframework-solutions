@@ -68,7 +68,7 @@ namespace PointOfInterestSkill.Models
                 ? foursquarePoi.Id
                 : Id;
             PointOfInterestImageUrl = !string.IsNullOrEmpty(foursquarePoi.BestPhoto?.AbsoluteUrl)
-               ? foursquarePoi.BestPhoto?.AbsoluteUrl
+               ? $"{foursquarePoi.BestPhoto?.Prefix}440x240{foursquarePoi.BestPhoto?.Suffix}"
                : PointOfInterestImageUrl;
             Name = !string.IsNullOrEmpty(foursquarePoi.Name)
                 ? foursquarePoi.Name
