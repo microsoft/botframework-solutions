@@ -1,8 +1,8 @@
 {
     "name": "botbuilder-solutions",
-    "version": "1.0.0",
-    "description": "",
-    "author": "Microsoft Bot Framework Team",
+    "version": "4.3.4",
+    "description": "Shared library for Conversational AI Virtual Assistants and Skills.",
+    "author": "Microsoft",
     "license": "MIT",
     "main": "lib/index.js",
     "scripts": {

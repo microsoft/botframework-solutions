@@ -1,8 +1,8 @@
 {
     "name": "botbuilder-skills",
-    "version": "1.0.0",
-    "description": "",
-    "author": "Microsoft Bot Framework Team",
+    "version": "4.3.4",
+    "description": "Shared library for building Conversational AI Skills.",
+    "author": "Microsoft",
     "license": "MIT",
     "main": "lib/index.js",
     "scripts": {
@@ -20,7 +20,7 @@
         "botbuilder-azure": "^4.3.4",
         "botbuilder-core": "^4.3.4",
         "botbuilder-dialogs": "^4.3.4",
-		"botbuilder-solutions": "^1.0.0",
+		"botbuilder-solutions": "^4.3.4",
         "botframework-config": "^4.3.4",
         "botframework-connector": "^4.3.4",
         "botframework-schema": "^4.3.4",

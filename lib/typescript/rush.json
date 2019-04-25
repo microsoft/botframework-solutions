@@ -7,11 +7,13 @@
   "projects": [
     {
       "packageName": "botbuilder-solutions",
-      "projectFolder": "botbuilder-solutions"
+      "projectFolder": "botbuilder-solutions",
+      "shouldPublish": true
     },
     {
       "packageName": "botbuilder-skills",
-      "projectFolder": "botbuilder-skills"
+      "projectFolder": "botbuilder-skills",
+      "shouldPublish": true
     }
   ]
 }

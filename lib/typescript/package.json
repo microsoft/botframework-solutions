@@ -2,7 +2,6 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "build": "rush update && rush rebuild",
-    "start": "rush start"
+    "build": "rush update && rush build"
   }
 }
