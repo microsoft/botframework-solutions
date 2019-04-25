@@ -1,0 +1,51 @@
+{
+    "name": "botbuilder-skills",
+    "version": "1.0.0",
+    "description": "",
+    "author": "Microsoft Bot Framework Team",
+    "license": "MIT",
+    "main": "lib/index.js",
+    "scripts": {
+        "clean": "rimraf ./lib",
+        "copy-templates": "copyfiles --up 1 \"./src/**/*.json\" \"./lib\"",
+        "prebuild": "npm run lint",
+        "build": "tsc --p tsconfig.json && npm run copy-templates",
+        "lint": "tslint -t vso ./src/**/*.ts",
+        "test": "mocha ./test/"
+    },
+    "dependencies": {
+        "@azure/ms-rest-js": "1.2.6",
+        "botbuilder": "^4.3.4",
+        "botbuilder-ai": "^4.3.4",
+        "botbuilder-azure": "^4.3.4",
+        "botbuilder-core": "^4.3.4",
+        "botbuilder-dialogs": "^4.3.4",
+		"botbuilder-solutions": "^1.0.0",
+        "botframework-config": "^4.3.4",
+        "botframework-connector": "^4.3.4",
+        "botframework-schema": "^4.3.4",
+        "i18n": "^0.8.3",
+        "p-queue": "^4.0.0",
+        "uuid": "^3.3.2"
+    },
+    "devDependencies": {
+        "@types/documentdb": "1.10.5",
+        "@types/dotenv": "^6.0.0",
+        "@types/i18n": "^0.8.3",
+        "@types/node": "^10.10.1",
+        "@types/restify": "^7.2.4",
+        "@types/uuid": "^3.4.4",
+        "copyfiles": "^2.1.0",
+        "mocha": "^6.1.4",
+        "nodemon": "^1.18.4",
+        "replace": "^1.0.0",
+        "rimraf": "^2.6.2",
+        "tslint": "^5.12.1",
+        "tslint-microsoft-contrib": "6.0.0",
+        "typescript": "^3.2.2"
+    },
+    "env": {
+        "mocha": true,
+        "node": true
+    }
+}

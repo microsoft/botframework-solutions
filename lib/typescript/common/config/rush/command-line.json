@@ -1,0 +1,19 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/command-line.schema.json",
+    "commands": [
+        {
+            "commandKind": "bulk",
+            "name": "clean",
+            "summary": "clean ./lib folders",
+            "safeForSimultaneousRushProcesses": true,
+            "enableParallelism": true
+        },
+        {
+            "commandKind": "bulk",
+            "name": "lint",
+            "summary": "Run tslint",
+            "safeForSimultaneousRushProcesses": true,
+            "enableParallelism": true
+        }
+    ]
+}
