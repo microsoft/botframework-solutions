@@ -148,7 +148,7 @@ namespace Microsoft.Bot.Builder.Skills
         /// <summary>
         /// Retrieve the LUIS model definition for each LUIS model registered in this skill so we have the utterance training data.
         /// </summary>
-        /// <param name="luisServices"></param>
+        /// <param name="luisServices">List of LuisServices.</param>
         /// <returns>Collection of LUIS model definitions grouped by model name.</returns>
         private async Task<Dictionary<string, dynamic>> PreFetchLuisModelContents(List<LuisService> luisServices)
         {

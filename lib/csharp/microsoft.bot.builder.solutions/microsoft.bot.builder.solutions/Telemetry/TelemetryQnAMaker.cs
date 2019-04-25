@@ -13,8 +13,7 @@ namespace Microsoft.Bot.Builder.Solutions.Telemetry
     /// TelemetryQnaRecognizer invokes the Qna Maker and logs some results into Application Insights.
     /// Logs the score, and (optionally) question
     /// Along with Conversation and ActivityID.
-    /// The Custom Event name this logs is "QnaMessage"
-    /// See <seealso cref="QnaMaker"/> for additional information.
+    /// The Custom Event name this logs is "QnaMessage".
     /// </summary>
     public class TelemetryQnAMaker : QnAMaker, ITelemetryQnAMaker
     {

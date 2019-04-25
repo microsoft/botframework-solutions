@@ -35,7 +35,6 @@ namespace Microsoft.Bot.Builder.Skills
         /// SkillDialog constructor that accepts the manifest description of a Skill along with TelemetryClient for end to end telemetry.
         /// </summary>
         /// <param name="skillManifest">Skill manifest.</param>
-        /// <param name="responseManager">Response Manager.</param>
         /// <param name="microsoftAppCredentialsEx">Microsoft App Credentials.</param>
         /// <param name="telemetryClient">Telemetry Client.</param>
         /// <param name="userState">User State.</param>
