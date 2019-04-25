@@ -16,7 +16,7 @@ export abstract class RouterDialog extends InterruptableDialog {
         super(dialogId, telemetryClient);
     }
 
-    protected onBeginDialog(innerDc: DialogContext, options: object): Promise<DialogTurnResult> {
+    protected async onBeginDialog(innerDc: DialogContext, options: object): Promise<DialogTurnResult> {
         return this.onContinueDialog(innerDc);
     }
 
@@ -49,11 +49,6 @@ export abstract class RouterDialog extends InterruptableDialog {
                         switch (result.status) {
                             case DialogTurnStatus.empty: {
                                 await this.route(innerDc);
-
-                                // Waterfalls with no turns should Complete.
-                                if (!innerDc.activeDialog) {
-                                    await this.complete(innerDc, result);
-                                }
                                 break;
                             }
                             case DialogTurnStatus.complete: {

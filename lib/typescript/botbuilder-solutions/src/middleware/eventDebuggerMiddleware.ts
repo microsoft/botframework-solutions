@@ -12,7 +12,7 @@ export class EventDebuggerMiddleware implements Middleware {
 
         if (activity.type === ActivityTypes.Message) {
             const text: string = activity.text;
-            const value: string = activity.value;
+            const value: string = JSON.stringify(activity.value);
 
             if (text && text.startsWith('/event:')) {
                 const json: string = text.substr('/event:'.length);
@@ -24,7 +24,7 @@ export class EventDebuggerMiddleware implements Middleware {
             }
 
             if (value && value.includes('event')) {
-                const body: { event: { name: string; text: string; value: string }} = JSON.parse(text);
+                const body: { event: { name: string; text: string; value: string }} = JSON.parse(value);
 
                 turnContext.activity.type = ActivityTypes.Event;
 
