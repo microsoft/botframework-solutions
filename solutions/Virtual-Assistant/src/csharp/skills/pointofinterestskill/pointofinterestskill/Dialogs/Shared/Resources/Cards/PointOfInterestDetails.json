@@ -102,8 +102,6 @@
         {
           "type": "Image",
           "size": "auto",
-          "height": "240px",
-          "width": "380px",
           "horizontalAlignment": "center",
           "url": "{PointOfInterestImageUrl}"
         }
