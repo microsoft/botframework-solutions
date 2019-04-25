@@ -28,7 +28,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <GenerateDocumentationFile>true</GenerateDocumentationFile>        
-    <NoWarn>$(NoWarn),1573,1591,1712</NoWarn>
+    <NoWarn>$(NoWarn),1573,1591,1712,8002</NoWarn>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Documentation|AnyCPU'">
