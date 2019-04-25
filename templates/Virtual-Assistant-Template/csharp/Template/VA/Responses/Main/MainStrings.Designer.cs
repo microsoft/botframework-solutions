@@ -151,7 +151,7 @@ namespace $safeprojectname$.Responses.Main {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to What is the Enterprise Bot Template?.
+        ///   Looks up a localized string similar to What is a Virtual Assistant?.
         /// </summary>
         public static string HELP_BTN_VALUE_2 {
             get {

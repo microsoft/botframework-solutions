@@ -148,7 +148,7 @@
     <value>Talk to a human</value>
   </data>
   <data name="HELP_BTN_VALUE_2" xml:space="preserve">
-    <value>What is the Enterprise Bot Template?</value>
+    <value>What is a Virtual Assistant?</value>
   </data>
   <data name="HELP_BTN_VALUE_3" xml:space="preserve">
     <value>https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0</value>
