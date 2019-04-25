@@ -234,6 +234,10 @@
       {
         "text": "Which one?",
         "speak": "Which one?"
+      },
+      {
+        "text": "One of these?",
+        "speak": "One of these?"
       }
     ],
     "inputHint": "expectingInput"
@@ -277,8 +281,8 @@
   "PromptForCurrentLocation": {
     "replies": [
       {
-        "text": "What address are you at?",
-        "speak": "What address are you at?"
+        "text": "What's your address?",
+        "speak": "What's your address?"
       },
       {
         "text": "Where are you? Try providing a city or address.",
