@@ -105,7 +105,7 @@ namespace $safeprojectname$.Dialogs
             {
                 // We have identiifed a skill so initialize the skill connection with the target skill 
                 // the dispatch intent is the Action ID of the Skill enabling us to resolve the specific action and identify slots
-                await dc.BeginDialogAsync(identifiedSkill.Id, intent);
+                await dc.BeginDialogAsync(identifiedSkill.Id, intent.ToString());
 
                 // Pass the activity we have
                 var result = await dc.ContinueDialogAsync();
