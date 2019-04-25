@@ -165,7 +165,7 @@ namespace SkillSample.Dialogs
                 var localeConfig = _services.CognitiveModelSets[locale];
 
                 // check general luis intent
-                localeConfig.LuisServices.TryGetValue("general", out var luisService);
+                localeConfig.LuisServices.TryGetValue("General", out var luisService);
 
                 if (luisService == null)
                 {

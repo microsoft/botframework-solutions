@@ -37,7 +37,7 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Utterances\GeneralUtterances.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GeneralUtterances.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Utterances\SampleDialogUtterances.resx">

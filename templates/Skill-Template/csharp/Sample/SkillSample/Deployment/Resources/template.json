@@ -141,8 +141,8 @@
       "location": "[parameters('location')]",
       "properties": {
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
-        "webSocketsEnabled" :  true,
         "siteConfig": {
+          "webSocketsEnabled": true,
           "appSettings": [
             {
               "name": "MicrosoftAppId",

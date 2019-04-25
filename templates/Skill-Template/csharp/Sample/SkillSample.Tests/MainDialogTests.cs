@@ -39,7 +39,7 @@ namespace SkillSample.Tests
         public async Task Test_Unhandled_Message()
         {
             await GetTestFlow()
-                .Send(string.Empty)
+                .Send(GeneralUtterances.None)
                 .AssertReply(DidntUnderstandMessage())
                 .StartTestAsync();
         }
