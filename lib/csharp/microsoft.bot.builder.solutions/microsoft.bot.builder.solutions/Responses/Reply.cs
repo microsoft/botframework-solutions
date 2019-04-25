@@ -16,8 +16,11 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
         public string Speak { get; set; }
 
         /// <summary>
-        /// Gets or sets the  <see cref="Activity.Text"/> property of an <see cref="Activity"/>.
+        /// Gets or sets the Reply Text.
         /// </summary>
+        /// <value>
+        /// The  <see cref="Activity.Text"/> property of an <see cref="Activity"/>.
+        /// </value>
         [JsonProperty("text")]
         public string Text { get; set; }
     }
