@@ -1,6 +1,8 @@
-﻿
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>..\..\BotBuilder-DotNet.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
 
   <PropertyGroup>
     <Version Condition=" '$(PackageVersion)' == '' ">4.0.0-local</Version>
