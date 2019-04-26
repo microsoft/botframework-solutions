@@ -1,4 +1,6 @@
-﻿Param(
+﻿#Requires -Version 6
+
+Param(
     [string] $manifestUrl,
 	[string] $luisFolder,
     [string] $dispatchFolder,

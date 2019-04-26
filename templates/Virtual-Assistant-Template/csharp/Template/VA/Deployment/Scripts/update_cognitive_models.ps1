@@ -1,3 +1,5 @@
+#Requires -Version 6
+
 Param(
     [Parameter(Mandatory=$true)][string] $config_files,
     [switch] $RemoteToLocal
