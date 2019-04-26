@@ -37,7 +37,7 @@ namespace SkillSample.Tests
                         {
                             LuisServices = new Dictionary<string, IRecognizer>
                             {
-                                { "general", GeneralTestUtil.CreateRecognizer() },
+                                { "General", GeneralTestUtil.CreateRecognizer() },
                                 { "skill", SkillTestUtil.CreateRecognizer() }
                             }
                         }
