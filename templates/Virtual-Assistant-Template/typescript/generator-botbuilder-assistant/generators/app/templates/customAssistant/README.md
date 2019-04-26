@@ -1,11 +1,10 @@
 # Getting Started With the Virtual Assistant (TypeScript)
 
 ## Table of Contents
-- [Getting Started With the Virtual Assistant (TypeScript)](#getting-started-with-the-virtual-assistant-typescript)
-    - [Prerequisites](#prerequisites)
-    - [Deployment](#deployment)
-    - [Starting your assistant](#starting-your-assistant)
-    - [Testing](#testing)
+- [Prerequisites](#prerequisites)
+- [Deployment](#deployment)
+- [Starting your assistant](#starting-your-assistant)
+- [Testing](#testing)
 
 ## Prerequisites
 - Azure Bot Service CLI tools (latest versions)
