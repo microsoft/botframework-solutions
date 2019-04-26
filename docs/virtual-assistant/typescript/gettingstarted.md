@@ -1,10 +1,10 @@
-# Getting Started With the Virtual Assistant (Typescript)
+# Getting Started With the Virtual Assistant (TypeScript)
 
 > [!NOTE]
 > This topics applies to v4 version of the SDK.
 
 ## Table of Contents
-- [Getting Started With the Virtual Assistant (Typescript)](#getting-started-with-the-virtual-assistant-typescript)
+- [Getting Started With the Virtual Assistant (TypeScript)](#getting-started-with-the-virtual-assistant-typescript)
   - [Table of Contents](#table-of-contents)
   - [Prerequisites](#prerequisites)
   - [Create your project](#create-your-project)
@@ -12,6 +12,7 @@
     - [Generate the sample using CLI parameters](#generate-the-sample-using-cli-parameters)
       - [Example](#example)
   - [Deployment](#deployment)
+  - [Starting your assistant](#starting-your-assistant)
   - [Testing](#testing)
  
 ## Prerequisites
@@ -39,8 +40,8 @@
 
 >//Temporary ahead of package publishing>
 
-- Clone the https://github.com/Microsoft/AI repo
-- Go to templates\Virtual-Assistant-Template\typescript\generator-botbuilder-assistant folder in a command line
+- Clone the [Microsoft AI](https://github.com/Microsoft/AI) repository
+- Go to `templates\Virtual-Assistant-Template\typescript\generator-botbuilder-assistant` folder in a command line
 - Run npm link to symlink the package folder
 >//
 
@@ -50,14 +51,14 @@ Now you can execute the Virtual Assistant generator with this command.
 yo botbuilder-assistant
 ```
 
-**At this point you have two different options to proceed:
+**At this point you have two different options to proceed:**
 
 ### Generate the assistant using prompts
 
 - The generator will start prompting for some information that is needed for generating the sample:
     - `What's the name of your assistant? (customAssistant)`
         > The name of your assistant (used also as your project's name and for the root folder's name).
-    - `What will your assistant do? ()`
+    - `What's the description of your assistant? ()`
         > The description of your assistant.
     - `Which languages will your assistant use? (by default takes all the languages)`
         - [x] Chinese (`zh`)
@@ -103,8 +104,6 @@ After this, you can check the summary in your screen:
 
 >**NOTE:** Remind to have an **unique** assistant's name for deployment steps. 
 
->**NOTE:** After generating your sample, you can check its README for more information on how to deploy and test it. You can find it in the root folder of your newly created sample or [here](https://github.com/Microsoft/AI/blob/master/docs/virtual-assistant/src/typescript/gettingstarted.md).
-
 You now have your own Assistant! Follow the Deployment steps below before you try and run the project as deployment creates key dependencies required for operation.
 
 ## Deployment
@@ -122,13 +121,21 @@ The Virtual Assistant require the following dependencies for end to end operatio
 
 To deploy your services using the default configuration, follow the steps in this common [deployment documentation page](/docs/virtual-assistant/common/deploymentsteps.md)
 
+## Starting your assistant
+
+- Open up the generated assistant in your desired IDE (e.g Visual Studio Code).
+- Run `npm install`.
+- Run `npm run build`.
+- Run `npm run start`.
+
 ## Testing
+
 Once deployment is complete, you can start debugging through the following steps:
-- Run `npm start` within the folder of your newly created assistant
 - Open the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator). 
-- Within the Emulator, choose Open Bot from the File menu:
-  - Provide the endpoint of your running Bot, e.g: `http://localhost:3978/api/messages`
-  - Provide the AppId and Secret values which you can find in your `appsettings.json` file under the `microsoftAppId` and `microsoftAppPassword` configuration settings.
+- Within the Emulator, click **File > New Bot Configuration**.
+- Provide the endpoint of your running Bot, e.g: http://localhost:3978/api/messages
+- Provide the AppId and Secret values which you can find in your `appsettings.json` file under the `microsoftAppId` and `microsoftAppPassword` configuration settings.
+- Click on **Save and Connect**.
 
 You should see an Introduction Adaptive card as shown below
 
