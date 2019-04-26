@@ -65,7 +65,7 @@ Speech & Text responses are stored in [`Responses.json`](https://github.com/Micr
 
 ```
 
-Vary your responses. By provides additional utterances to the `replies` array, your Skill will sound more natural and provide a dynamic conversation.
+Vary your responses. By providing additional utterances to the `replies` array, your Skill will sound more natural and provide a dynamic conversation.
 
 Write how people speak. A skill should only provide relevant context when read aloud. Use visual aids to offer more data to a user.
 
