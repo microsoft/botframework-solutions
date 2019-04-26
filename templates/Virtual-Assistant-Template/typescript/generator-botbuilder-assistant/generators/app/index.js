@@ -149,7 +149,7 @@ module.exports = class extends Generator {
       {
         type: `input`,
         name: `assistantDesc`,
-        message: `What will your assistant do?`,
+        message: `What's the description of your assistant?`,
         default: this.options.assistantDesc ? this.options.assistantDesc : ``
       },
       // Language of the assistant
