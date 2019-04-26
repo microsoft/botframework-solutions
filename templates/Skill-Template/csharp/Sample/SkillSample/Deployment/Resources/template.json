@@ -69,7 +69,8 @@
     }
   },
   "variables": {
-    "botEndpoint": "[concat('https://', toLower(parameters('botWebAppName')), '.azurewebsites.net/api/messages')]"
+    "botEndpoint": "[concat('https://', toLower(parameters('botWebAppName')), '.azurewebsites.net/api/messages')]",
+    "cleanStorageAccountName": "[toLower(take(replace(replace(parameters('storageAccountName'), '-', ''), '_', ''), 24))]"
   },
   "resources": [
     {
@@ -107,7 +108,7 @@
       "type": "Microsoft.Storage/storageAccounts",
       "kind": "StorageV2",
       "apiVersion": "2018-07-01",
-      "name": "[parameters('storageAccountName')]",
+      "name": "[variables('cleanStorageAccountName')]",
       "location": "[parameters('location')]",
       "sku": {
         "name": "Standard_LRS"
@@ -200,7 +201,7 @@
     "storage": {
       "type": "object",
       "value": {
-        "connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2018-07-01').keys[0].value, ';EndpointSuffix=core.windows.net')]",
+        "connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('cleanStorageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('cleanStorageAccountName')), '2018-07-01').keys[0].value, ';EndpointSuffix=core.windows.net')]",
         "container": "transcripts"
       }
     },
