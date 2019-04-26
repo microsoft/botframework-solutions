@@ -4,9 +4,8 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Schema;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Microsoft.Bot.Builder.Skills
 {
@@ -20,12 +19,12 @@ namespace Microsoft.Bot.Builder.Skills
     /// </summary>
     public class SkillHttpBotAdapter : BotAdapter, IActivityHandler, IRemoteUserTokenProvider
     {
-        private readonly ILogger _logger;
+        private readonly IBotTelemetryClient _botTelemetryClient;
         private readonly Queue<Activity> queuedActivities = new Queue<Activity>();
 
-        public SkillHttpBotAdapter(ILogger logger = null)
+        public SkillHttpBotAdapter(IBotTelemetryClient botTelemetryClient = null)
         {
-            _logger = logger ?? NullLogger.Instance;
+            _botTelemetryClient = botTelemetryClient ?? NullBotTelemetryClient.Instance;
         }
 
         public override async Task<ResourceResponse[]> SendActivitiesAsync(ITurnContext context, Activity[] activities, CancellationToken cancellationToken)
@@ -103,7 +102,7 @@ namespace Microsoft.Bot.Builder.Skills
             // Ensure the Activity has been retrieved from the HTTP POST
             BotAssert.ActivityNotNull(activity);
 
-            _logger.LogInformation($"Received an incoming activity.  ActivityId: {activity.Id}");
+            _botTelemetryClient.TrackTraceEx($"SkillHttpBotAdapter: Received an incoming activity. Activity id: {activity.Id}", Severity.Information, activity, null);
 
             // Process the Activity through the Middleware and the Bot, this will generate Activities which we need to send back.
             using (var context = new TurnContext(this, activity))
@@ -111,7 +110,7 @@ namespace Microsoft.Bot.Builder.Skills
                 await RunPipelineAsync(context, callback, default(CancellationToken));
             }
 
-            _logger.LogInformation($"Batching activities in the response.  ReplyToId: {activity.ReplyToId}");
+            _botTelemetryClient.TrackTraceEx($"SkillHttpBotAdapter: Batching activities in the response. ReplyToId: {activity.ReplyToId}", Severity.Information, activity, null);
 
             // Any Activity responses are now available (via SendActivitiesAsync) so we need to pass back for the response
             InvokeResponse response = new InvokeResponse();

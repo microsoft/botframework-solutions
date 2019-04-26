@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -21,7 +22,7 @@ namespace Microsoft.Bot.Builder.Skills
             _httpClient = httpClient;
         }
 
-        public async Task<SkillManifest> GenerateManifest(string manifestFile, string appId, Dictionary<string, Solutions.BotSettingsBase.CognitiveModelConfiguration> cognitiveModels, string uriBase, bool inlineTriggerUtterances = false)
+        public async Task<SkillManifest> GenerateManifest(string manifestFile, string appId, Dictionary<string, BotSettingsBase.CognitiveModelConfiguration> cognitiveModels, string uriBase, bool inlineTriggerUtterances = false)
         {
             SkillManifest skillManifest = null;
 
@@ -148,7 +149,7 @@ namespace Microsoft.Bot.Builder.Skills
         /// <summary>
         /// Retrieve the LUIS model definition for each LUIS model registered in this skill so we have the utterance training data.
         /// </summary>
-        /// <param name="luisServices"></param>
+        /// <param name="luisServices">List of LuisServices.</param>
         /// <returns>Collection of LUIS model definitions grouped by model name.</returns>
         private async Task<Dictionary<string, dynamic>> PreFetchLuisModelContents(List<LuisService> luisServices)
         {

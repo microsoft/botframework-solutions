@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Skills.Tests.Mocks;
 using Microsoft.Bot.Builder.Skills.Tests.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RichardSzalay.MockHttp;
 
 namespace Microsoft.Bot.Builder.Skills.Tests
 {
@@ -16,8 +15,9 @@ namespace Microsoft.Bot.Builder.Skills.Tests
     public class SkillDialogInvocationTests : SkillDialogTestBase
     {
         private SkillManifest _skillManifest;
-        private MockHttpMessageHandler _mockHttp = new MockHttpMessageHandler();
-        private MockTelemetryClient _mockTelemetryClient = new MockTelemetryClient();
+        private IBotTelemetryClient _mockTelemetryClient = new MockTelemetryClient();
+		private MockSkillTransport _mockSkillTransport = new MockSkillTransport();
+		private IServiceClientCredentials _mockServiceClientCredentials = new MockServiceClientCredentials();
 
         [TestInitialize]
         public void AddSkillManifest()
@@ -29,23 +29,23 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                 "https://testskill.tempuri.org/api/skill",
                 "testSkill/testAction");
 
-            // Add the SkillDialog to the available dialogs passing the initialized FakeSkill
-            Dialogs.Add(new SkillDialogTest(_skillManifest, new DummyMicrosoftAppCredentialsEx(Guid.NewGuid().ToString(), "PASSWORD", "SCOPE"), _mockTelemetryClient, _mockHttp, UserState));
+			// Add the SkillDialog to the available dialogs passing the initialized FakeSkill
+			Dialogs.Add(new SkillDialogTest(
+				_skillManifest,
+				_mockServiceClientCredentials,
+				_mockTelemetryClient,
+				UserState,
+				_mockSkillTransport));
         }
 
         /// <summary>
-        /// Create a SkillDialog and send a mesage triggering a HTTP call to the remote skill which the mock intercepts.
-        /// This ensures the SkillDialog is handling the SkillManifest correctly and sending the HttpRequest to the skill.
+        /// Create a SkillDialog and send a mesage triggering a call to the remote skill through the injected transport.
+        /// This ensures the SkillDialog is handling the SkillManifest and calling the skill correctly.
         /// </summary>
         /// <returns>Task.</returns>
         [TestMethod]
         public async Task InvokeSkillDialog()
         {
-            // When invoking a Skill the first Activity that is sent is skillBegin so we validate this is sent
-            // HTTP mock returns "no activities" as per the real scenario and enables the SkillDialog to continue
-            _mockHttp.When("https://testskill.tempuri.org/api/skill")
-               .Respond("application/json", "[]");
-
             await this.GetTestFlow(_skillManifest, "testSkill/testAction", null)
                   .Send("hello")
                   .StartTestAsync();
@@ -53,11 +53,11 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             try
             {
                 // Check if a request was sent to the mock, if not the test has failed (skill wasn't invoked).
-                _mockHttp.VerifyNoOutstandingRequest();
+                Assert.IsTrue(_mockSkillTransport.CheckIfSkillInvoked());
             }
-            catch (InvalidOperationException)
+            catch
             {
-                Assert.Fail("The SkillDialog didn't post an Activity to the HTTP endpoint as expected");
+                Assert.Fail("The SkillDialog didn't invoke the skill as expected");
             }
         }
     }

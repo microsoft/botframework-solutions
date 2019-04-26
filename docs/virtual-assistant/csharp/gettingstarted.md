@@ -22,7 +22,7 @@
    * [Download PowerShell Core on macOS and Linux](https://aka.ms/getps6-linux)
 1. Install  Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of the latest capabilities: 
    ```
-   npm install -g botdispatch, ludown, luis-apis, qnamaker, luisgen
+   npm install -g botdispatch ludown luis-apis qnamaker luisgen
    ```
 1. Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
 1. Retrieve your LUIS Authoring Key
@@ -55,7 +55,6 @@ The Virtual Assistant require the following dependencies for end to end operatio
 - Azure CosmosDb (State)
 - Azure Cognitive Services - Language Understanding
 - Azure Cognitive Services - QnAMaker (including Azure Search, Azure Web App)
-- Azure Cognitive Services - Content Moderator (optional manual step)
 
 > Review the pricing and terms for the services and adjust to suit your scenario.
 

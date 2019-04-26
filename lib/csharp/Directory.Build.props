@@ -2,7 +2,7 @@
   <PropertyGroup>
     <PackageOutputPath>$(MSBuildThisFileDirectory)outputpackages\</PackageOutputPath>
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <CodeAnalysisRuleSet>$(SolutionDir)BotBuilder-DotNet.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -19,22 +19,12 @@
     <Company>Microsoft</Company>
 
     <!-- Rules found at: https://aka.ms/Microsoft-NuGet-Compliance -->
-    
+
     <!-- Per rules,this must be *EXACTLY* "Microsoft. Otherwise Nuget.org will reject the packages." -->
     <Authors>Microsoft</Authors>
-    <Product>Microsoft Bot Builder Solutions and Skills</Product>
+    <Product>Microsoft Bot Builder SDK</Product>
     <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>        
-    <NoWarn>$(NoWarn),1573,1591,1712</NoWarn>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Documentation|AnyCPU'">
-	  <GenerateDocumentationFile>true</GenerateDocumentationFile>    
-    <NoWarn>$(NoWarn),1573,1591,1712</NoWarn>
-	</PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>full</DebugType>
@@ -56,16 +46,6 @@
       Suppress a warning about upcoming deprecation of PackageLicenseUrl. When embedding licenses are supported,
       replace PackageLicenseUrl with PackageLicenseExpression.
     -->
-    <NoWarn>$(NoWarn);NU5125,NU1701</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition="$(Configuration) == 'Debug'">
-    <!-- For debug builds, we don't generate documentation. Supress the StyleCop rule that warns about this. -->
-    <NoWarn>$(NoWarn);SA0001</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition="$(Configuration) == 'Debug - NuGet Packages'">
-    <!-- For debug Nuget builds, we don't generate documentation. Supress the StyleCop rule that warns about this. -->
-    <NoWarn>$(NoWarn);SA0001</NoWarn>
-
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <NoWarn>$(NoWarn);NU5125;NU1701;8002</NoWarn>
   </PropertyGroup>
 </Project>

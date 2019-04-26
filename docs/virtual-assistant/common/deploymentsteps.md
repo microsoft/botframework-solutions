@@ -1,4 +1,8 @@
-## Deployment Steps
+# Virtual Assistant and Skill Template Deployment
+
+## Deployment Steps 
+
+> Applies to Virtual Assistant Template and Skill Template (C# and Typescript variants)
 
 1. In **PowerShell Core** (pwsh.exe), change to the project directory.
 1. Run the following command:
@@ -21,3 +25,9 @@
 > There is a known issue with some users whereby you might experience the following error when running deployment `Could not provision Microsoft App Registration automatically. Please provide the -appId and -appPassword arguments for an existing app and try again`. In this situation, please create your own [Azure Active Directory App](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview) and manually create a new application retrieving the ApplicationID and Password/Secret. Run the above deployment script again but provide two new arguments `appId` and `appPassword` passing the values you've just retrieved.
 
 > NOTE: Take special care when providing the appSecret step above as special characters (e.g. @) can cause parse issues. Ensure you wrap these parameters in single quotes.
+
+## Customising deployment using the parameters file
+
+## Creating your own ARM template
+
+We have provided a comprehensive ARM template to deploy all required capabilities which can be customised through the parameters file detailed in the previous section. If however you want to make more substantial changes - such as re-using existing deployed services please refer to the [Azure Resource Manager template documentation](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authoring-templates) for guidance and you can refer to our template for reference.
