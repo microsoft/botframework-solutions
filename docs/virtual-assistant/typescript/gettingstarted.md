@@ -8,6 +8,10 @@
   - [Table of Contents](#table-of-contents)
   - [Prerequisites](#prerequisites)
   - [Create your project](#create-your-project)
+    - [Generate the assistant using prompts](#generate-the-assistant-using-prompts)
+    - [Generate the sample using CLI parameters](#generate-the-sample-using-cli-parameters)
+      - [Example](#example)
+  - [Deployment](#deployment)
   - [Testing](#testing)
  
 ## Prerequisites
@@ -33,13 +37,77 @@
 
 ## Create your project
 
+>//Temporary ahead of package publishing>
+
+- Clone the https://github.com/Microsoft/AI repo
+- Go to templates\Virtual-Assistant-Template\typescript\generator-botbuilder-assistant folder in a command line
+- Run npm link to symlink the package folder
+>//
+
 Now you can execute the Virtual Assistant generator with this command.
 
 ```bash
-yo botbuilder-enterprise
+yo botbuilder-assistant
 ```
 
+**At this point you have two different options to proceed:
+
+### Generate the assistant using prompts
+
+- The generator will start prompting for some information that is needed for generating the sample:
+    - `What's the name of your assistant? (customAssistant)`
+        > The name of your assistant (used also as your project's name and for the root folder's name).
+    - `What will your assistant do? ()`
+        > The description of your assistant.
+    - `Which languages will your assistant use? (by default takes all the languages)`
+        - [x] Chinese (`zh`)
+        - [x] Deutsch (`de`)
+        - [x] English (`en`)
+        - [x] French (`fr`)
+        - [x] Italian (`it`)
+        - [x] Spanish (`es`)
+    - `Do you want to change the new assistant's location?`
+        > A confirmation to change the destination for the generation.
+        - `Where do you want to generate the assistant? (by default takes the path where you are running the generator)`
+            > The destination path for the generation.
+    - `Looking good. Shall I go ahead and create your new assistant?`
+        > Final confirmation for creating the desired assistant.
+
+### Generate the sample using CLI parameters
+
+| Option                            | Description                                                                                                  |
+|-----------------------------------|--------------------------------------------------------------------------------------------------------------|
+| -n, --assistantName <name>              | name of new assistant (by default takes `customAssistant`)                                                          |
+| -d, --assistantDesc <description>       | description of the new assistant (by default takes ``) |
+| -l, --assistantLang <array of languages>| languages for the new assistant. Possible values are `de`, `en`, `es`, `fr`, `it`, `zh` (by default takes all the languages)| 
+| -p, --assistantGenerationPath <path>    | destination path for the new assistant (by default takes the path where you are runnning the generator)            |
+| --noPrompt                        | indicates to avoid the prompts                                                                               |
+
+**NOTE:** If you don't use the _--noPrompt_ option, the process will keep prompting, but using the input values by default.
+
+#### Example
+
+```bash
+> yo botbuilder-assistant -n "Virtual Assistant" -d "A description for my new assistant" -l "en,es" -p "\aPath" --noPrompt
+```
+
+After this, you can check the summary in your screen:
+```bash
+- Name: <aName>
+- Description: <aDescription>
+- Selected languages: <languages>
+- Path: <aPath>
+```
+
+>**WARNING:** The process will fail if it finds another folder with the same name of the new assistant.
+
+>**NOTE:** Remind to have an **unique** assistant's name for deployment steps. 
+
+>**NOTE:** After generating your sample, you can check its README for more information on how to deploy and test it. You can find it in the root folder of your newly created sample or [here](https://github.com/Microsoft/AI/blob/master/docs/virtual-assistant/src/typescript/gettingstarted.md).
+
 You now have your own Assistant! Follow the Deployment steps below before you try and run the project as deployment creates key dependencies required for operation.
+
+## Deployment
 
 The Virtual Assistant require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
 
@@ -49,7 +117,6 @@ The Virtual Assistant require the following dependencies for end to end operatio
 - Azure CosmosDb (State)
 - Azure Cognitive Services - Language Understanding
 - Azure Cognitive Services - QnAMaker (including Azure Search, Azure Web App)
-- Azure Cognitive Services - Content Moderator (optional manual step)
 
 > Review the pricing and terms for the services and adjust to suit your scenario.
 
@@ -57,7 +124,7 @@ To deploy your services using the default configuration, follow the steps in thi
 
 ## Testing
 Once deployment is complete, you can start debugging through the following steps:
-- Start a Debugging session within Visual Studio for the Virtual Assistant project
+- Run `npm start` within the folder of your newly created assistant
 - Open the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator). 
 - Within the Emulator, choose Open Bot from the File menu:
   - Provide the endpoint of your running Bot, e.g: `http://localhost:3978/api/messages`

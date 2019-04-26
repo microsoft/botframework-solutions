@@ -2,6 +2,9 @@
 
 # Skills Overview
 
+
+Skills are re-usable conversational skill building-blocks covering conversational use-cases enabling you to add extensive functionality to a Bot within minutes. Skills include LUIS models, Dialogs and Integration code and delivered in source code form enabling you to customise and extend as required. At this time we provide Calendar, Email, ToDo, Point of Interest skills and a number of other experimental skills.
+
 A Skill is like a standard conversational bot but with the ability to be plugged in to a broader solution. This can be a complex Virtual Assistant or perhaps an Enterprise Bot seeking to stitch together multiple bots within an organization.
 
 Apart from some minor differences that enable this special invocation pattern, a Skill looks and behaves like a regular bot. The same protocol is maintained between two bots to ensure a consistent approach. Skills for common scenarios like productivity and navigation to be used as-is or customized however a customer prefers.
@@ -11,6 +14,7 @@ Apart from some minor differences that enable this special invocation pattern, a
   - [Table of Contents](#table-of-contents)
   - [Skills Documentation](#skills-documentation)
   - [Available Skills](#available-skills)
+  - [Need Help?](#need-help)
 
 ## Skills Documentation
 The documentation outline for the preview Conversational AI Skills capability is shown below. C# and Typescript programming languages are supported.
@@ -44,3 +48,7 @@ The following Skills are available out of the box, each of the documentation lin
 - [Point of Interest](./pointofinterest.md)
 - [Automotive](./automotive.md)
 - [Experimental Skills](./experimental-skills.md)
+
+## Need Help?
+
+If you have any questions please start with [Stack Overflow](https://stackoverflow.com/questions/tagged/botframework) where we're happy to help. Please use this GitHub Repos issue tracking capability to raise [issues](https://github.com/Microsoft/AI/issues/new?assignees=&labels=Type%3A+Bug&template=bug_report.md&title=) or [feature requests](https://github.com/Microsoft/AI/issues/new?assignees=&labels=Type%3A+Suggestion&template=feature_request.md&title=).
