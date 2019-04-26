@@ -1,5 +1,5 @@
 # Table of Contents
 
-## [Virtual Assistant](.\virtual-assistant)
+## [Virtual Assistant](virtual-assistant)
 
-## [Skills](.\skills)
+## [Skills](skills)
