@@ -9,7 +9,7 @@
     - [Support multiple languages](virtual-assistant\tutorials)
   - [Known Issues](virtual-assistant\known-issues.md)
 ## [Skills](skills)
-  - [Overview](skills\overview.md) - 
+  - [Overview](skills\overview.md)
   - [Get Started](skills\get-started.md)
   - [Tutorials](skills\tutorials)
     - [Create a Skill](skills\tutorials)
