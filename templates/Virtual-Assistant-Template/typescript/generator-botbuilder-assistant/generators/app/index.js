@@ -19,31 +19,38 @@ let assistantGenerationPath = process.cwd();
 let isAlreadyCreated = false;
 let copier;
 
-const languagesChoice = [{
-    name: 'Chinese',
-    value: 'zh',
+const languagesChoice = [
+  {
+    name: "Chinese",
+    value: "zh",
     checked: true
-    },{
-    name: 'Deutsch',
-    value: 'de',
+  },
+  {
+    name: "Deutsch",
+    value: "de",
     checked: true
-  },{
-    name: 'English',
-    value: 'en',
+  },
+  {
+    name: "English",
+    value: "en",
     checked: true
-  },{
-    name: 'French',
-    value: 'fr',
+  },
+  {
+    name: "French",
+    value: "fr",
     checked: true
-  },{
-    name: 'Italian',
-    value: 'it',
+  },
+  {
+    name: "Italian",
+    value: "it",
     checked: true
-  },{
-    name: 'Spanish',
-    value: 'es',
+  },
+  {
+    name: "Spanish",
+    value: "es",
     checked: true
-  }];
+  }
+];
 
 const bigBot =
   `               ╭─────────────────────────────────╮\n` +
@@ -117,14 +124,19 @@ module.exports = class extends Generator {
     this.log(bigBot);
     // Validate language option
     if (this.options.assistantLang) {
-        this.options.assistantLang = this.options.assistantLang.replace(/\s/g, "").split(','); 
-        if(!this.options.assistantLang.every(language => {
+      this.options.assistantLang = this.options.assistantLang
+        .replace(/\s/g, "")
+        .split(",");
+      if (
+        !this.options.assistantLang.every(language => {
           return languages.includes(language);
-        })){
-          this.log.error(
-            "ERROR: One of the languages is not recognized, please check your language value\n\t");
-          process.exit(1);      
-        }
+        })
+      ) {
+        this.log.error(
+          "ERROR: One of the languages is not recognized, please check your language value\n\t"
+        );
+        process.exit(1);
+      }
     } else {
       this.log.error(
         "ERROR: Language must be selected from the list:\n\t" +
@@ -154,9 +166,9 @@ module.exports = class extends Generator {
       },
       // Language of the assistant
       {
-        type: 'checkbox',
-        name: 'assistantLang',
-        message: 'Which languages will your assistant use?',
+        type: "checkbox",
+        name: "assistantLang",
+        message: "Which languages will your assistant use?",
         choices: languagesChoice
       },
       // Path of the assistant
