@@ -6,8 +6,9 @@
 import * as program from 'commander';
 import { existsSync } from 'fs';
 import { extname, isAbsolute, join, resolve } from 'path';
-import { ConsoleLogger, ILogger} from './logger/logger';
-import { ISkillManifest } from './models/skillManifest';
+import { listSkill } from './functionality';
+import { ConsoleLogger, ILogger} from './logger';
+import { IListConfiguration } from './models';
 
 function showErrorHelp(): void {
     program.outputHelp((str: string) => {
@@ -28,7 +29,7 @@ program.Command.prototype.unknownOption = (flag: string): void => {
 program
     .name('botskills list')
     .description('Connect the skill to your assistant bot')
-    .option('-a, --assistantSkills <path>', 'Path to assistant Skills configuration file')
+    .option('-f, --skillsFile <path>', 'Path to assistant Skills configuration file')
     .option('--verbose', '[OPTIONAL] Output detailed information about the processing of the tool')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
@@ -41,28 +42,27 @@ if (process.argv.length < 3) {
 
 logger.isVerbose = args.verbose;
 
-// assistantSkills validation
-if (!args.assistantSkills) {
-    logger.error(`The 'assistantSkills' argument should be provided.`);
+// skillsFile validation
+if (!args.skillsFile) {
+    logger.error(`The 'skillsFile' argument should be provided.`);
     process.exit(1);
-} else if (extname(args.assistantSkills) !== '.json') {
-    logger.error(`The 'assistantSkills' argument should be a JSON file.`);
+} else if (extname(args.skillsFile) !== '.json') {
+    logger.error(`The 'skillsFile' argument should be a JSON file.`);
     process.exit(1);
 }
-const assistantSkillsPath: string = isAbsolute(args.assistantSkills) ? args.assistantSkills : join(resolve('./'), args.assistantSkills);
-if (!existsSync(assistantSkillsPath)) {
-    logger.error(`The 'assistantSkills' argument leads to a non-existing file.
+
+const skillsFilePath: string = isAbsolute(args.skillsFile) ? args.skillsFile : join(resolve('./'), args.skillsFile);
+if (!existsSync(skillsFilePath)) {
+    logger.error(`The 'skillsFile' argument leads to a non-existing file.
 Please make sure to provide a valid path to your Assistant Skills configuration file.`);
     process.exit(1);
 }
 
-// Take VA Skills configurations
-//tslint:disable-next-line: no-var-requires non-literal-require
-const assistantSkills: ISkillManifest[] = require(assistantSkillsPath);
-let message: string = `The skills already connected to the assistant are the following:`;
-assistantSkills.forEach((skillManifest: ISkillManifest) => {
-    message += `\n\t- ${skillManifest.name}`;
-});
-logger.message(message);
+const configuration: IListConfiguration = {
+    skillsFile: skillsFilePath,
+    logger: logger
+};
+
+listSkill(configuration);
 
 process.exit(0);

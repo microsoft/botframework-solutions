@@ -5,3 +5,4 @@
 
 export { connectSkill } from './connectSkill';
 export { disconnectSkill } from './disconnectSkill';
+export { listSkill } from './listSkill';

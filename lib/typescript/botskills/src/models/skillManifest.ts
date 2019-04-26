@@ -3,9 +3,6 @@
  * Licensed under the MIT License.
  */
 
-import { IAction } from './action';
-import { IAuthenticationConnection } from './authenticationConnection';
-
 export interface ISkillManifest {
     id: string;
     name: string;
@@ -15,4 +12,46 @@ export interface ISkillManifest {
     iconUrl: string;
     authenticationConnections: IAuthenticationConnection[];
     actions: IAction[];
+}
+
+export interface IUtteranceSource {
+    locale: string;
+    source: string[];
+}
+
+export interface ISlot {
+    name: string;
+    types: string[];
+}
+
+export interface IUtterance {
+    locale: string;
+    text: string[];
+}
+
+export interface ITriggers {
+    utterances: IUtterance[];
+    utteranceSources: IUtteranceSource[];
+    events: IEvent[];
+}
+
+export interface IEvent {
+    name: string;
+}
+
+export interface IAuthenticationConnection {
+    id: string;
+    serviceProviderId: string;
+    scopes: string;
+}
+
+export interface IActionDefinition {
+    description: string;
+    slots: ISlot[];
+    triggers: ITriggers;
+}
+
+export interface IAction {
+    id: string;
+    definition: IActionDefinition;
 }
