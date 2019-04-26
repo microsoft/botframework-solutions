@@ -8,7 +8,7 @@ import { isAbsolute, join, resolve } from 'path';
 import { get } from 'request-promise-native';
 import { ConsoleLogger, ILogger} from '../logger';
 import { IAction, IConnectConfiguration, ISkillFIle, ISkillManifest, IUtteranceSource } from '../models';
-import { execute } from '../utils';
+import { authenticate, execute } from '../utils';
 
 async function runCommand(command: string, description: string): Promise<string> {
     logger.command(description, command);
@@ -175,6 +175,13 @@ export async function connectSkill(configuration: IConnectConfiguration): Promis
     // Writing (and overriding) the assistant skills file
     writeFileSync(configuration.skillsFile, JSON.stringify(assistantSkillsFile, undefined, 4));
     logger.success(`Successfully appended '${skillManifest.name}' manifest to your assistant's skills configuration file!`);
+
+    // Configuring bot auth settings
+    logger.message('Configuring bot auth settings');
+    await authenticate(configuration, skillManifest, logger);
+
+    // Updating Dispatch
+    logger.message('Updating Dispatch');
     await updateDispatch(configuration, skillManifest);
 }
 

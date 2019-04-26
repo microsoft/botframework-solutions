@@ -50,3 +50,29 @@ export async function execute(command: string, args: string[]): Promise<string> 
         });
     });
 }
+
+export async function tryExecute(command: string, args: string[]): Promise<string> {
+    // tslint:disable-next-line: typedef
+    return new Promise((pResolve, pReject) => {
+        try {
+            child_process.exec(
+                `${command} ${args.join(' ')}`,
+                (err: child_process.ExecException | null, stdout: string, stderr: string) => {
+                    if (stderr) {
+                        pReject(stderr);
+                    }
+                    pResolve(stdout);
+            });
+        } catch (err) {
+
+            return err;
+        }
+    });
+}
+
+export function extractArgs(command: string): string[] {
+    const parts: string[] = command.split(' ');
+
+    return parts.slice(1)
+        .filter((arg: string) => arg);
+}
