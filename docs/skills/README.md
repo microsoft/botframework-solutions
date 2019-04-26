@@ -2,19 +2,31 @@
 
 # Skills Overview
 
-
 Skills are re-usable conversational skill building-blocks covering conversational use-cases enabling you to add extensive functionality to a Bot within minutes. Skills include LUIS models, Dialogs and Integration code and delivered in source code form enabling you to customise and extend as required. At this time we provide Calendar, Email, ToDo, Point of Interest skills and a number of other experimental skills.
 
 A Skill is like a standard conversational bot but with the ability to be plugged in to a broader solution. This can be a complex Virtual Assistant or perhaps an Enterprise Bot seeking to stitch together multiple bots within an organization.
 
 Apart from some minor differences that enable this special invocation pattern, a Skill looks and behaves like a regular bot. The same protocol is maintained between two bots to ensure a consistent approach. Skills for common scenarios like productivity and navigation to be used as-is or customized however a customer prefers.
 
+>The Skill implementations currently provided are in C# only but the remote invocation nature of the Skills does enable you to invoke C# based Skills from a typescript Bot project.
+
 ## Table of Contents
 - [Skills Overview](#skills-overview)
   - [Table of Contents](#table-of-contents)
-  - [Skills Documentation](#skills-documentation)
   - [Available Skills](#available-skills)
+  - [Skills Documentation](#skills-documentation)
   - [Need Help?](#need-help)
+
+## Available Skills
+
+The following Skills are available out of the box, each of the documentation links below has the deployment steps required to deploy and configure Skills for your use.
+
+- [Productivity - Calendar](./productivity-calendar.md)
+- [Productivity - Email](./productivity-email.md)
+- [Productivity - To Do](./productivity-todo.md)
+- [Point of Interest](./pointofinterest.md)
+- [Automotive](./automotive.md)
+- [Experimental Skills](./experimental-skills.md)
 
 ## Skills Documentation
 The documentation outline for the preview Conversational AI Skills capability is shown below. C# and Typescript programming languages are supported.
@@ -38,16 +50,7 @@ The documentation outline for the preview Conversational AI Skills capability is
 
 :runner: is work in progress
 
-## Available Skills
 
-The following Skills are available out of the box, each of the documentation links below has the deployment steps required to deploy and configure Skills for your use.
-
-- [Productivity - Calendar](./productivity-calendar.md)
-- [Productivity - Email](./productivity-email.md)
-- [Productivity - To Do](./productivity-todo.md)
-- [Point of Interest](./pointofinterest.md)
-- [Automotive](./automotive.md)
-- [Experimental Skills](./experimental-skills.md)
 
 ## Need Help?
 
