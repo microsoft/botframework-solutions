@@ -6,7 +6,6 @@
 const path = require(`path`);
 const templateFiles = new Map();
 const allLanguages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
-let selectedLanguages = [];
 let ignoredLanguages = [];
 
 class Copier {
@@ -42,25 +41,27 @@ class Copier {
 
   selectLanguages(languages) {
     // Take all the languages that will be ignored
-    ignoredLanguages = allLanguages.filter(language => {
-      return !languages.includes(language)
-    }).map(language => {
-      return this.pathToLUFolder(language);
-    });
+    ignoredLanguages = allLanguages
+      .filter(language => {
+        return !languages.includes(language);
+      })
+      .map(language => {
+        return this.pathToLUFolder(language);
+      });
 
     // Add the paths of the deployment languages
     languages.forEach(language => {
       templateFiles.set(
-        path.join(`deployment`,`resources`,`LU`, language),
-        path.join(`deployment`,`resources`,`LU`, language)
+        path.join(`deployment`, `resources`, `LU`, language),
+        path.join(`deployment`, `resources`, `LU`, language)
       );
       templateFiles.set(
-        path.join(`deployment`,`resources`,`QnA`, language),
-        path.join(`deployment`,`resources`,`QnA`, language)
+        path.join(`deployment`, `resources`, `QnA`, language),
+        path.join(`deployment`, `resources`, `QnA`, language)
       );
       templateFiles.set(
-        path.join(`deployment`,`resources`,`QnA`, language),
-        path.join(`deployment`,`resources`,`QnA`, language)
+        path.join(`deployment`, `resources`, `QnA`, language),
+        path.join(`deployment`, `resources`, `QnA`, language)
       );
     });
   }
@@ -70,11 +71,14 @@ class Copier {
     templateFiles.set(`_package.json`, `package.json`);
     templateFiles.set(`_.gitignore`, `.gitignore`);
     templateFiles.set(`_.npmrc`, `.npmrc`);
-    templateFiles.set(path.join(`src`, `bots`, `_dialogBot.ts`), path.join(`src`, `bots`, `dialogBot.ts`))
+    templateFiles.set(
+      path.join(`src`, `bots`, `_dialogBot.ts`),
+      path.join(`src`, `bots`, `dialogBot.ts`)
+    );
   }
 
-  pathToLUFolder(language){
-    // return path.join(`**`,`LU`, language, `*`);
+  pathToLUFolder(language) {
+    // Return path.join(`**`,`LU`, language, `*`);
     return path.join(`**`, language, `*.*`);
   }
 }

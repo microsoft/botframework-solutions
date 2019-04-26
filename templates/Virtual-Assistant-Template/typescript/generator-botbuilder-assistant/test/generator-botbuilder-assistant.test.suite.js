@@ -9,6 +9,7 @@ const helpers = require(`yeoman-test`);
 const rimraf = require(`rimraf`);
 const _kebabCase = require(`lodash/kebabCase`);
 const semver = require('semver');
+const languages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
 
 describe(`The generator-botbuilder-assistant tests`, function() {
     var assistantName;
@@ -38,8 +39,6 @@ describe(`The generator-botbuilder-assistant tests`, function() {
         path.join(`src`, `services`),
         `test`,
         path.join(`test`, `flow`),
-        path.join(`test`, `mockResources`),
-        path.join(`test`, `mockResources`, `LocaleConfigurations`)
     ];
 
     describe(`should create`, function() {
@@ -135,6 +134,7 @@ describe(`The generator-botbuilder-assistant tests`, function() {
                     .withPrompts({
                         assistantName: assistantName,
                         assistantDesc: assistantDesc,
+                        assistantLang: languages,
                         pathConfirmation: pathConfirmation,
                         assistantGenerationPath: assistantGenerationPath,
                         finalConfirmation: finalConfirmation
