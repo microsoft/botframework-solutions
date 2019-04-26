@@ -2,9 +2,9 @@
 
 ## Table of Contents
 - [Getting Started With the Virtual Assistant (TypeScript)](#getting-started-with-the-virtual-assistant-typescript)
-    - [Table of Contents](#table-of-contents)
     - [Prerequisites](#prerequisites)
     - [Deployment](#deployment)
+    - [Starting your assistant](#starting-your-assistant)
     - [Testing](#testing)
 
 ## Prerequisites
@@ -34,6 +34,12 @@ The following steps will help you to deploy these services using the provided de
 pwsh.exe -ExecutionPolicy Bypass -File deployment\scripts\deploy.ps1 -name "<NAME_OF_YOUR_ASSISTANT>" -location "<YOUR_LOCATION>" -appId "<YOUR_APP_ID>" -appPassword "<YOUR_APP_PASSWORD>" -luisAuthoringKey "<YOUR_LUIS_AUTHORING_KEY>"
 ```
 3. Check the deployment finished successfully.
+
+## Starting your assistant
+1. Open up the generated assistant in your desired IDE (e.g `Visual Studio Code`).
+2. Run `npm install`.
+3. Run `npm run build`.
+4. Run `npm run start`.
 
 ## Testing
 1. Open the **Bot Framework Emulator**.
