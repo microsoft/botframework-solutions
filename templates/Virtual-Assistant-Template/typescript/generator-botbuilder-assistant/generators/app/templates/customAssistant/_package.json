@@ -2,7 +2,7 @@
     "name": "<%= assistantName %>",
     "version": "1.0.0",
     "description": "<%= assistantDescription %>",
-    "author": "Microsoft Bot Framework Team",
+    "author": "",
     "license": "MIT",
     "main": "lib/index.js",
     "scripts": {

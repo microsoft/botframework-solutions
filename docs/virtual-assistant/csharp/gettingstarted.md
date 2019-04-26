@@ -55,7 +55,6 @@ The Virtual Assistant require the following dependencies for end to end operatio
 - Azure CosmosDb (State)
 - Azure Cognitive Services - Language Understanding
 - Azure Cognitive Services - QnAMaker (including Azure Search, Azure Web App)
-- Azure Cognitive Services - Content Moderator (optional manual step)
 
 > Review the pricing and terms for the services and adjust to suit your scenario.
 
