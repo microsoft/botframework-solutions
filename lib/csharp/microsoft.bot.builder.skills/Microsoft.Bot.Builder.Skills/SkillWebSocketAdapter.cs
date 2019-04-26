@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Protocol.WebSockets;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace Microsoft.Bot.Builder.Skills
 {
@@ -20,15 +18,18 @@ namespace Microsoft.Bot.Builder.Skills
     /// </summary>
     public class SkillWebSocketAdapter : IBotFrameworkHttpAdapter
     {
-        private readonly ILogger _logger;
+        private readonly IBotTelemetryClient _botTelemetryClient;
         private readonly SkillWebSocketBotAdapter _skillWebSocketBotAdapter;
         private readonly IAuthenticationProvider _authenticationProvider;
 
-        public SkillWebSocketAdapter(IServiceProvider serviceProvider)
+        public SkillWebSocketAdapter(
+            SkillWebSocketBotAdapter skillWebSocketBotAdapter,
+            IAuthenticationProvider authenticationProvider = null,
+            IBotTelemetryClient botTelemetryClient = null)
         {
-            _skillWebSocketBotAdapter = serviceProvider.GetService<SkillWebSocketBotAdapter>() ?? throw new ArgumentNullException(nameof(SkillWebSocketBotAdapter));
-            _authenticationProvider = serviceProvider.GetService<IAuthenticationProvider>();
-            _logger = serviceProvider.GetService<ILogger>();
+            _skillWebSocketBotAdapter = skillWebSocketBotAdapter ?? throw new ArgumentNullException(nameof(SkillWebSocketBotAdapter));
+            _authenticationProvider = authenticationProvider;
+            _botTelemetryClient = botTelemetryClient ?? NullBotTelemetryClient.Instance;
         }
 
         public async Task ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default(CancellationToken))
@@ -77,6 +78,8 @@ namespace Microsoft.Bot.Builder.Skills
             _skillWebSocketBotAdapter.Server = server;
             handler.Bot = bot;
             handler.SkillWebSocketBotAdapter = _skillWebSocketBotAdapter;
+
+            _botTelemetryClient.TrackTrace("Starting listening on websocket", Severity.Information, null);
             var startListening = server.StartAsync();
             Task.WaitAll(startListening);
         }

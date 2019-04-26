@@ -2,7 +2,7 @@
 
 namespace Microsoft.Bot.Builder.Skills.Auth
 {
-    public class MicrosoftAppCredentialsEx : MicrosoftAppCredentials
+    public class MicrosoftAppCredentialsEx : MicrosoftAppCredentials, IServiceClientCredentials
     {
         private readonly string _oauthScope;
 

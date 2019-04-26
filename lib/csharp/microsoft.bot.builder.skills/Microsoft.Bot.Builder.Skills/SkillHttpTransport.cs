@@ -19,12 +19,12 @@ namespace Microsoft.Bot.Builder.Skills
     {
         private HttpClient _httpClient = new HttpClient();
         private readonly SkillManifest _skillManifest;
-        private readonly MicrosoftAppCredentialsEx _microsoftAppCredentialsEx;
+        private readonly IServiceClientCredentials _serviceClientCredentials;
 
-        public SkillHttpTransport(SkillManifest skillManifest, MicrosoftAppCredentialsEx microsoftAppCredentialsEx)
+        public SkillHttpTransport(SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials)
         {
             _skillManifest = skillManifest ?? throw new ArgumentNullException(nameof(skillManifest));
-            _microsoftAppCredentialsEx = microsoftAppCredentialsEx ?? throw new ArgumentNullException(nameof(microsoftAppCredentialsEx));
+            _serviceClientCredentials = serviceClientCredentials ?? throw new ArgumentNullException(nameof(serviceClientCredentials));
         }
 
         // Protected to enable mocking
@@ -57,7 +57,7 @@ namespace Microsoft.Bot.Builder.Skills
             httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
 
             MicrosoftAppCredentials.TrustServiceUrl(_skillManifest.Endpoint.AbsoluteUri);
-            await _microsoftAppCredentialsEx.ProcessHttpRequestAsync(httpRequest, default(CancellationToken));
+            await _serviceClientCredentials.ProcessHttpRequestAsync(httpRequest, default(CancellationToken));
 
             var response = await _httpClient.SendAsync(httpRequest);
 

@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Http;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
+using Microsoft.Bot.Builder.Skills.Tests.Mocks;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Rest.Serialization;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
@@ -21,19 +19,9 @@ namespace Microsoft.Bot.Builder.Skills.Tests
     [TestClass]
     public class ManifestTests
     {
-        private readonly JsonSerializer _jsonSerializer = JsonSerializer.Create(new JsonSerializerSettings
-        {
-            NullValueHandling = NullValueHandling.Ignore,
-            Formatting = Formatting.Indented,
-            DateFormatHandling = DateFormatHandling.IsoDateFormat,
-            DateTimeZoneHandling = DateTimeZoneHandling.Utc,
-            ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
-            ContractResolver = new ReadOnlyJsonContractResolver(),
-            Converters = new List<JsonConverter> { new Iso8601TimeSpanConverter() },
-        });
-
         private BotSettingsBase _botSettings;
         private MockHttpMessageHandler _mockHttp;
+        private IServiceCollection _services;
 
         [TestInitialize]
         public void TestInitialize()
@@ -59,19 +47,16 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 
             cogModelConfig.LanguageModels.Add(luisModel);
             _botSettings.CognitiveModels.Add("en", cogModelConfig);
-        }
 
-        public MockSkillController CreateMockSkillController(string manifestFileOverride = null)
-        {
-            var mockServiceProvider = new MockServiceProvider();
-            var controller = new MockSkillController(mockServiceProvider, _botSettings, _mockHttp.ToHttpClient(), manifestFileOverride);
+            _services = new ServiceCollection();
 
-            controller.ControllerContext = new ControllerContext();
-            controller.ControllerContext.HttpContext = new DefaultHttpContext();
-            controller.ControllerContext.HttpContext.Request.Scheme = "https";
-            controller.ControllerContext.HttpContext.Request.Host = new HostString("virtualassistant.azurewebsites.net");
-
-            return controller;
+            _services.AddSingleton<SkillHttpAdapter, MockSkillHttpAdapter>();
+			_services.AddSingleton<SkillHttpBotAdapter>();
+            _services.AddSingleton<SkillWebSocketAdapter, MockSkillWebSocketAdapter>();
+			_services.AddSingleton<SkillWebSocketBotAdapter>();
+            _services.AddSingleton<IBotFrameworkHttpAdapter, MockBotFrameworkHttpAdapter>();
+            _services.AddSingleton<IBot, MockBot>();
+            _services.AddSingleton(_botSettings);
         }
 
         [TestMethod]
@@ -79,7 +64,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         {
             using (StreamReader sr = new StreamReader("manifestTemplate.json"))
             {
-                string manifestBody = await sr.ReadToEndAsync();
+                var manifestBody = await sr.ReadToEndAsync();
                 JsonConvert.DeserializeObject<SkillManifest>(manifestBody);
             }
         }
@@ -90,7 +75,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         {
             using (StreamReader sr = new StreamReader(@".\TestData\malformedManifestTemplate.json"))
             {
-                string manifestBody = await sr.ReadToEndAsync();
+                var manifestBody = await sr.ReadToEndAsync();
                 JsonConvert.DeserializeObject<SkillManifest>(manifestBody);
             }
         }
@@ -198,7 +183,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                     }
                 }
             }
-            catch (Exception)
+            catch
             {
                 // Skill manifest generation returns a reason which we capture as the reason for the test failure
                 var skillManifestError = JsonConvert.DeserializeObject<string>(jsonResponse);
@@ -290,92 +275,21 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             }
         }
 
-        public class MockSkillController : SkillController
-        {
-            public MockSkillController(IServiceProvider serviceProvider, BotSettingsBase botSettings, HttpClient httpClient, string manifestFileOverride = null)
-                : base(serviceProvider, botSettings)
-            {
-                // Provide Mocked HttpClient
-                HttpClient = httpClient;
+        private MockSkillController CreateMockSkillController(string manifestFileOverride = null)
+		{
+			var sp = _services.BuildServiceProvider();
+			var botFrameworkHttpAdapter = sp.GetService<IBotFrameworkHttpAdapter>();
+			var skillHttpAdapter = sp.GetService<SkillHttpAdapter>();
+			var skillWebSocketAdapter = sp.GetService<SkillWebSocketAdapter>();
+			var bot = sp.GetService<IBot>();
+			var controller = new MockSkillController(botFrameworkHttpAdapter, skillHttpAdapter, skillWebSocketAdapter, bot, _botSettings, _mockHttp.ToHttpClient(), manifestFileOverride);
 
-                if (manifestFileOverride != null)
-                {
-                    ManifestTemplateFilename = manifestFileOverride;
-                }
-            }
-        }
+			controller.ControllerContext = new ControllerContext();
+			controller.ControllerContext.HttpContext = new DefaultHttpContext();
+			controller.ControllerContext.HttpContext.Request.Scheme = "https";
+			controller.ControllerContext.HttpContext.Request.Host = new HostString("virtualassistant.azurewebsites.net");
 
-        public class MockServiceProvider : IServiceProvider
-        {
-            public object GetService(Type serviceType)
-            {
-                if (serviceType == typeof(IBotFrameworkHttpAdapter))
-                {
-                    return new MockBotFrameworkHttpAdapter();
-                }
-                else if (serviceType == typeof(SkillHttpAdapter))
-                {
-                    return new SkillHttpAdapter(this);
-                }
-                else if (serviceType == typeof(SkillHttpBotAdapter))
-                {
-                    return new SkillHttpBotAdapter();
-                }
-                else if (serviceType == typeof(SkillWebSocketAdapter))
-                {
-                    return new SkillWebSocketAdapter(this);
-                }
-                else if (serviceType == typeof(SkillWebSocketBotAdapter))
-                {
-                    return new SkillWebSocketBotAdapter();
-                }
-                else if (serviceType == typeof(ICredentialProvider))
-                {
-                    return new MockCredentialProvider();
-                }
-                else if (serviceType == typeof(IBot))
-                {
-                    return new MockBot();
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-        public class MockBot : IBot
-        {
-            public Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public class MockBotFrameworkHttpAdapter : IBotFrameworkHttpAdapter
-        {
-            public Task ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public class MockCredentialProvider : ICredentialProvider
-        {
-            public Task<string> GetAppPasswordAsync(string appId)
-            {
-                throw new NotImplementedException();
-            }
-
-            public Task<bool> IsAuthenticationDisabledAsync()
-            {
-                throw new NotImplementedException();
-            }
-
-            public Task<bool> IsValidAppIdAsync(string appId)
-            {
-                throw new NotImplementedException();
-            }
-        }
-    }
+			return controller;
+		}
+	}
 }
