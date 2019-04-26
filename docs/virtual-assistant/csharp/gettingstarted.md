@@ -37,9 +37,9 @@
 3. Name your project and click **Create**.
 4. Click **Tools > NuGet Package Manager > Package Manager Settings**
 5. In the Navigation Pane, select **Package Sources**
-6. Click '+' to add a new source.
-7. Set **Name** to **Microsoft AI MyGet Feed**
-8. Set **Source** to **https://botbuilder.myget.org/F/aitemplates/api/v3/index.json**
+6. Click '+' to add the following sources: 
+   - **https://botbuilder.myget.org/F/experimental/api/v3/index.json**
+   - **https://botbuilder.myget.org/F/aitemplates/api/v3/index.json**
 9. Click **OK**.
 10. Build your project to restore your NuGet packages.
 
