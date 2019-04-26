@@ -18,14 +18,8 @@ const TEST_MODE = require('../testBase').testMode;
 const setupEnvironment = function (testMode) {
     switch (testMode) {
         case 'record':
-            config({ path: path.join(__dirname, '..', '..', '.env.development') });
-            languageModelsRaw = require('../../../assistant/src/languageModels.json'); 
-            skillsRaw = require('../../../assistant/src/skills.json');
             break;
         case 'lockdown':
-            config({ path: path.join(__dirname, '..', '.env.test') });
-            languageModelsRaw = require('../mockResources/languageModels.json');
-            skillsRaw = require('../mockResources/skills.json');
             break;
     }
 }
