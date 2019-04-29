@@ -91,37 +91,40 @@ namespace Microsoft.Bot.Builder.Skills
             var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
             var skillContext = await accessor.GetAsync(innerDc.Context, () => new SkillContext());
 
+            /*  In instances where the caller is able to identify/specify the action we process the Action specific slots
+                In other scenarios (aggregated skill dispatch) we evaluate all possible slots against context and pass across
+                enabling the Skill to perform it's own action identification. */
+
             var actionName = options as string;
-            if (actionName == null)
+            if (actionName != null)
             {
-                throw new ArgumentException("SkillDialog requires an Action in order to be able to identify which Action within a skill to invoke.");
-            }
-            else
-            {
-                // Find the Action within the selected Skill for slot filling evaluation
+                // Find the specified within the selected Skill for slot filling evaluation
                 var action = _skillManifest.Actions.SingleOrDefault(a => a.Id == actionName);
                 if (action != null)
                 {
                     // If the action doesn't define any Slots or SkillContext is empty then we skip slot evaluation
                     if (action.Definition.Slots != null && skillContext.Count > 0)
                     {
-                        foreach (Slot slot in action.Definition.Slots)
-                        {
-                            // For each slot we check to see if there is an exact match, if so we pass this slot across to the skill
-                            if (skillContext.TryGetValue(slot.Name, out object slotValue))
-                            {
-                                slots.Add(slot.Name, slotValue);
-
-                                // Send trace to emulator
-                                innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Matched the {slot.Name} slot within SkillContext and passing to the {actionName} action.")).GetAwaiter().GetResult();
-                            }
-                        }
+                        // Match Slots to Skill Context
+                        slots = await MatchSkillContextToSlots(innerDc, action.Definition.Slots, skillContext);
                     }
                 }
                 else
                 {
-                    // Loosening checks for current Dispatch evaluation, TODO - Review
-                    // throw new ArgumentException($"Passed Action ({actionName}) could not be found within the {_skillManifest.Id} skill manifest action definition.");
+                    throw new ArgumentException($"Passed Action ({actionName}) could not be found within the {_skillManifest.Id} skill manifest action definition.");
+                }
+            }
+            else
+            {
+                // The caller hasn't got the capability of identifying the action as well as the Skill so we enumerate
+                // actions and slot data to pass what we have
+
+                // Retrieve a distinct list of all slots, some actions may use the same slot so we use distinct to ensure we only get 1 instance.
+                var skillSlots = _skillManifest.Actions.SelectMany(s => s.Definition.Slots).Distinct(new SlotEqualityComparer());
+                if (skillSlots != null)
+                {
+                    // Match Slots to Skill Context
+                    slots = await MatchSkillContextToSlots(innerDc, skillSlots.ToList(), skillContext);
                 }
             }
 
@@ -182,6 +185,34 @@ namespace Microsoft.Bot.Builder.Skills
             _skillTransport.Disconnect();
 
             return dialogResult;
+        }
+
+        /// <summary>
+        /// Map Skill slots to what we have in SkillContext.
+        /// </summary>
+        /// <param name="innerDc">Dialog Contect.</param>
+        /// <param name="actionSlots">The Slots within an Action.</param>
+        /// <param name="skillContext">Calling Bot's SkillContext.</param>
+        /// <returns>A filtered SkillContext for the Skill.</returns>
+        private async Task<SkillContext> MatchSkillContextToSlots(DialogContext innerDc, List<Slot> actionSlots, SkillContext skillContext)
+        {
+            SkillContext slots = new SkillContext();
+            if (actionSlots != null)
+            {
+                foreach (Slot slot in actionSlots)
+                {
+                    // For each slot we check to see if there is an exact match, if so we pass this slot across to the skill
+                    if (skillContext.TryGetValue(slot.Name, out object slotValue))
+                    {
+                        slots.Add(slot.Name, slotValue);
+
+                        // Send trace to emulator
+                        await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Matched the {slot.Name} slot within SkillContext and passing to the Skill."));
+                    }
+                }
+            }
+
+            return slots;
         }
 
         /// <summary>
