@@ -9,7 +9,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
@@ -58,7 +57,7 @@ namespace ToDoSkill.Dialogs
                 throw new Exception("You must configure an authentication connection in your bot file before using this component.");
             }
 
-            AddDialog(new MultiProviderAuthDialog(ResponseManager, settings.OAuthConnections));
+            AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.ConfirmPrompt, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }

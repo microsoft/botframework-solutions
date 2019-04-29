@@ -53,7 +53,7 @@ namespace EmailSkill.Dialogs
                 throw new Exception("You must configure an authentication connection in your bot file before using this component.");
             }
 
-            AddDialog(new MultiProviderAuthDialog(ResponseManager, settings.OAuthConnections));
+            AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }
