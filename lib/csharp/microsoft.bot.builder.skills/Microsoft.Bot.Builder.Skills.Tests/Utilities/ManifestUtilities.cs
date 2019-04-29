@@ -32,5 +32,16 @@ namespace Microsoft.Bot.Builder.Skills.Tests.Utilities
 
             return skillManifest;
         }
+
+        public static Models.Manifest.Action CreateAction(string id, List<Models.Manifest.Slot> slots = null)
+        {
+            var action = new Models.Manifest.Action();
+
+            action.Id = id;
+            action.Definition = new ActionDefinition();
+            action.Definition.Slots = slots;
+
+            return action;
+        }
     }
 }
