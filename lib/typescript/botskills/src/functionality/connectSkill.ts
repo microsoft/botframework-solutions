@@ -131,7 +131,7 @@ async function updateDispatch(configuration: IConnectConfiguration, manifest: IS
 
     let luisgenCommand: string = `luisgen `;
     luisgenCommand += `${join(configuration.dispatchFolder, dispatchJsonFile)} `;
-    luisgenCommand += `-cs "DispatchLuis" `;
+    luisgenCommand += `-${configuration.lgLanguage} "DispatchLuis" `;
     luisgenCommand += `-o ${configuration.lgOutFolder}`;
 
     await runCommand(luisgenCommand, `Executing luisgen for the ${configuration.dispatchName} file`);
@@ -165,6 +165,11 @@ export async function connectSkill(configuration: IConnectConfiguration): Promis
         logger.warning(`The skill '${skillManifest.name}' is already registered.`);
         process.exit(1);
     }
+
+    // Updating Dispatch
+    logger.message('Updating Dispatch');
+    await updateDispatch(configuration, skillManifest);
+
     // Adding the skill manifest to the assistant skills array
     logger.warning(`Appending '${skillManifest.name}' manifest to your assistant's skills configuration file.`);
     assistantSkills.push(skillManifest);
@@ -179,10 +184,6 @@ export async function connectSkill(configuration: IConnectConfiguration): Promis
     // Configuring bot auth settings
     logger.message('Configuring bot auth settings');
     await authenticate(configuration, skillManifest, logger);
-
-    // Updating Dispatch
-    logger.message('Updating Dispatch');
-    await updateDispatch(configuration, skillManifest);
 }
 
 let logger: ILogger = new ConsoleLogger();

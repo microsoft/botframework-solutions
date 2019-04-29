@@ -19,5 +19,6 @@ export interface IConnectConfiguration {
     resourceGroup: string;
     appSettingsFile: string;
     cognitiveModelsFile: string;
+    lgLanguage: string;
     logger?: ILogger;
 }

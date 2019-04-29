@@ -29,7 +29,7 @@ program.Command.prototype.unknownOption = (flag: string): void => {
 // tslint:disable: max-line-length
 program
     .name('botskills connect')
-    .description('Connect a skill to your assistant bot')
+    .description('Connect a skill to your assistant bot. Only one of both path or URL to Skill is needed.')
     .option('-b, --botName <name>', 'Name of your assistant bot')
     .option('-l, --localManifest <path>', 'Path to local Skill Manifest file')
     .option('-r, --remoteManifest <url>', 'URL to remote Skill Manifest')
@@ -43,6 +43,8 @@ program
     .option('--resourceGroup [path]', '[OPTIONAL] Name of your assistant\'s resource group in Azure (defaults to your assistant\'s bot name)')
     .option('--appSettingsFile [path]', '[OPTIONAL] Path to your app settings file (defaults to \'appsettings.json\' inside your assistant\'s folder)')
     .option('--cognitiveModelsFile [path]', '[OPTIONAL] Path to your Cognitive Models file (defaults to \'cognitivemodels.json\' inside your assistant\'s folder)')
+    .option('--cs', 'Determine your assistant project structure to be a CSharp-like structure')
+    .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
     .option('--verbose', '[OPTIONAL] Output detailed information about the processing of the tool')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
@@ -54,6 +56,21 @@ if (process.argv.length < 3) {
 }
 
 logger.isVerbose = args.verbose;
+let projectLanguage: string = '';
+
+// cs and ts validation
+if (args.cs && args.ts) {
+    logger.error(`Only one of the arguments 'cs' and 'ts' should be provided`);
+    process.exit(1);
+} else if (args.cs) {
+    projectLanguage = 'cs';
+} else if (args.ts || existsSync(join(resolve('./'), 'package.json'))) {
+    projectLanguage = 'ts';
+    args.ts = true;
+} else if (!args.cs && !args.ts) {
+    logger.error(`One of the arguments 'cs' or 'ts' should be provided`);
+    process.exit(1);
+}
 
 // Validation of arguments
 // botName validation
@@ -78,7 +95,8 @@ if (!args.localManifest && !args.remoteManifest) {
 const configuration: Partial<IConnectConfiguration> = {
     botName: args.botName,
     localManifest: args.localManifest,
-    remoteManifest: args.remoteManifest
+    remoteManifest: args.remoteManifest,
+    lgLanguage: projectLanguage
 };
 
 // outFolder validation -- the const is needed for reassuring 'configuration.outFolder' is not undefined
@@ -87,7 +105,7 @@ configuration.outFolder = outFolder;
 
 // skillsFile validation
 if (!args.skillsFile) {
-    configuration.skillsFile = join(configuration.outFolder, 'skills.json');
+    configuration.skillsFile = join(configuration.outFolder, (args.ts ? join('src', 'skills.json') : 'skills.json'));
 } else if (extname(args.skillsFile) !== '.json') {
     logger.error(`The 'skillsFile' argument should be a JSON file.`);
     process.exit(1);
@@ -105,10 +123,10 @@ if (!args.skillsFile) {
 configuration.resourceGroup = args.resourceGroup || configuration.botName;
 
 // appSettingsFile validation
-configuration.appSettingsFile = args.appSettingsFile || join(configuration.outFolder, 'appsettings.json');
+configuration.appSettingsFile = args.appSettingsFile || join(configuration.outFolder, (args.ts ? join('src', 'appsettings.json') : 'appsettings.json'));
 
 // cognitiveModelsFile validation
-const cognitiveModelsFilePath: string = args.cognitiveModelsFile || join(configuration.outFolder, 'cognitivemodels.json');
+const cognitiveModelsFilePath: string = args.cognitiveModelsFile || join(configuration.outFolder, (args.ts ? join('src', 'cognitivemodels.json') : 'cognitivemodels.json'));
 configuration.cognitiveModelsFile = cognitiveModelsFilePath;
 
 // language validation
@@ -123,7 +141,7 @@ configuration.luisFolder = args.luisFolder || join(configuration.outFolder, 'Dep
 configuration.dispatchFolder = args.dispatchFolder || join(configuration.outFolder, 'Deployment', 'Resources', 'Dispatch', languageCode);
 
 // lgOutFolder validation
-configuration.lgOutFolder = args.lgOutFolder || join(configuration.outFolder, 'Services');
+configuration.lgOutFolder = args.lgOutFolder || join(configuration.outFolder, (args.ts ? join('src', 'Services') : 'Services'));
 
 // dispatchName validation
 if (!args.dispatchName) {
