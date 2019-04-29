@@ -58,6 +58,20 @@
                 "Calendar#CreateCalendarEntry",
                 "Calendar#FindMeetingRoom"
               ]
+            },
+            {
+              "locale": "de",
+              "source": [
+                "Calendar#CreateCalendarEntry",
+                "Calendar#FindMeetingRoom"
+              ]
+            },
+            {
+              "locale": "fr",
+              "source": [
+                "Calendar#CreateCalendarEntry",
+                "Calendar#FindMeetingRoom"
+              ]
             }
           ]
         }
@@ -85,6 +99,20 @@
                 "Calendar#AcceptEventEntry",
                 "Calendar#DeleteCalendarEntry"
               ]
+            },
+            {
+              "locale": "de",
+              "source": [
+                "Calendar#AcceptEventEntry",
+                "Calendar#DeleteCalendarEntry"
+              ]
+            },
+            {
+              "locale": "fr",
+              "source": [
+                "Calendar#AcceptEventEntry",
+                "Calendar#DeleteCalendarEntry"
+              ]
             }
           ]
         }
@@ -99,6 +127,18 @@
           "utteranceSources": [
             {
               "locale": "en",
+              "source": [
+                "Calendar#ConnectToMeeting"
+              ]
+            },
+            {
+              "locale": "de",
+              "source": [
+                "Calendar#ConnectToMeeting"
+              ]
+            },
+            {
+              "locale": "fr",
               "source": [
                 "Calendar#ConnectToMeeting"
               ]
@@ -133,6 +173,18 @@
               "source": [
                 "Calendar#TimeRemaining"
               ]
+            },
+            {
+              "locale": "de",
+              "source": [
+                "Calendar#TimeRemaining"
+              ]
+            },
+            {
+              "locale": "fr",
+              "source": [
+                "Calendar#TimeRemaining"
+              ]
             }
           ]
         }
@@ -164,6 +216,28 @@
           "utteranceSources": [
             {
               "locale": "en",
+              "source": [
+                "Calendar#FindCalendarDetail",
+                "Calendar#FindCalendarEntry",
+                "Calendar#FindCalendarWhen",
+                "Calendar#FindCalendarWhere",
+                "Calendar#FindCalendarWho",
+                "Calendar#FindDuration"
+              ]
+            },
+            {
+              "locale": "de",
+              "source": [
+                "Calendar#FindCalendarDetail",
+                "Calendar#FindCalendarEntry",
+                "Calendar#FindCalendarWhen",
+                "Calendar#FindCalendarWhere",
+                "Calendar#FindCalendarWho",
+                "Calendar#FindDuration"
+              ]
+            },
+            {
+              "locale": "fr",
               "source": [
                 "Calendar#FindCalendarDetail",
                 "Calendar#FindCalendarEntry",
@@ -211,6 +285,18 @@
           "utteranceSources": [
             {
               "locale": "en",
+              "source": [
+                "Calendar#ChangeCalendarEntry"
+              ]
+            },
+            {
+              "locale": "de",
+              "source": [
+                "Calendar#ChangeCalendarEntry"
+              ]
+            },
+            {
+              "locale": "fr",
               "source": [
                 "Calendar#ChangeCalendarEntry"
               ]
