@@ -3,7 +3,6 @@
 
 using System.Linq;
 using Microsoft.ApplicationInsights;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -14,13 +13,11 @@ using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using ToDoSkill.Adapters;
 using ToDoSkill.Bots;
 using ToDoSkill.Dialogs;
@@ -73,12 +70,10 @@ namespace ToDoSkill
             services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
-            services.AddSingleton<ProactiveState>();
             services.AddSingleton(sp =>
             {
                 var userState = sp.GetService<UserState>();
                 var conversationState = sp.GetService<ConversationState>();
-                var proactiveState = sp.GetService<ProactiveState>();
                 return new BotStateSet(userState, conversationState);
             });
 
@@ -103,18 +98,6 @@ namespace ToDoSkill
                 new MarkToDoResponses(),
                 new ToDoSharedResponses(),
                 new ShowToDoResponses()));
-
-            // Configure Skill authentication
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                options.Authority = "https://login.microsoftonline.com/microsoft.com";
-                options.Audience = settings.MicrosoftAppId;
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidIssuer = "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47/v2.0",
-                };
-            });
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
@@ -143,7 +126,6 @@ namespace ToDoSkill
             app.UseBotApplicationInsights()
                 .UseDefaultFiles()
                 .UseStaticFiles()
-                .UseAuthentication()
                 .UseWebSockets()
                 .UseMvc();
         }
