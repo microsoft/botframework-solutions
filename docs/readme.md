@@ -9,7 +9,7 @@
     - [Support Multiple Languages](virtual-assistant\support-multi-language.md)
     - [Add a Skill](virtual-assistant\tutorials\add-a-skill.md)
     - [Remove a Skill](virtual-assistant\tutorials\add-a-skill.md)
-  - [Known Issues](virtual-assistant\known-issues.md) (known issues and work arounds)
+  - [Known Issues]
   - [Reference](virtual-assistant\reference)
 ## [Skills](skills)
   - [Overview](skills\overview.md)
