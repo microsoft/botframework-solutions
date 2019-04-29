@@ -16,7 +16,6 @@ using CalendarSkill.Responses.TimeRemaining;
 using CalendarSkill.Responses.UpdateEvent;
 using CalendarSkill.Services;
 using Microsoft.ApplicationInsights;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -33,7 +32,6 @@ using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 
 namespace CalendarSkill
 {
@@ -84,7 +82,7 @@ namespace CalendarSkill
                 var userState = sp.GetService<UserState>();
                 var conversationState = sp.GetService<ConversationState>();
                 var proactiveState = sp.GetService<ProactiveState>();
-                return new BotStateSet(userState, conversationState);
+                return new BotStateSet(userState, conversationState, proactiveState);
             });
 
             // Configure telemetry
@@ -112,18 +110,6 @@ namespace CalendarSkill
                 new TimeRemainingResponses(),
                 new UpdateEventResponses()));
 
-            // Configure Skill authentication
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                options.Authority = "https://login.microsoftonline.com/microsoft.com";
-                options.Audience = settings.MicrosoftAppId;
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidIssuer = "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47/v2.0",
-                };
-            });
-
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<SkillWebSocketBotAdapter, CalendarSkillWebSocketBotAdapter>();
@@ -147,7 +133,6 @@ namespace CalendarSkill
             app.UseBotApplicationInsights()
                 .UseDefaultFiles()
                 .UseStaticFiles()
-                .UseAuthentication()
                 .UseWebSockets()
                 .UseMvc();
         }
