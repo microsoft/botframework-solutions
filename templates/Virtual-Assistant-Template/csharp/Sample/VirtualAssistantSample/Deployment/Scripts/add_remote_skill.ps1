@@ -159,6 +159,62 @@ catch {
 	Break
 }
 
+
+
+Write-Host "> Adding skill to dispatch ..." 
+try {
+	$intentName = $manifest.Id
+	foreach ($luisApp in $dictionary.Keys) {
+		$intents = $dictionary[$luisApp]
+		$luFile = Get-ChildItem -Path $(Join-Path $luisFolder "$($luisApp).lu") ` 2>> $logFile
+
+		if (-not $luFile) {
+			$luFile = Get-ChildItem -Path $(Join-Path $luisFolder $langCode "$($luisApp).lu") ` 2>> $logFile
+
+			if ($luFile) {
+				$luisFolder = $(Join-Path $luisFolder $langCode)
+			}
+			else {
+				Write-Host "! Could not find $($manifest.Name) LU file. Please provide the -luisFolder parameter." -ForegroundColor DarkRed
+				Write-Host "! Checked the following locations:"  -ForegroundColor DarkRed
+				Write-Host "	$(Join-Path $luisFolder "$($luisApp).lu")"  -ForegroundColor DarkRed
+				Write-Host "	$(Join-Path $luisFolder $langCode "$($luisApp).lu")"  -ForegroundColor DarkRed
+				Throw
+			}
+		}
+
+		# Parse LU file
+		ludown parse toluis `
+			--in $luFile `
+			--luis_culture $language `
+			--out_folder $luisFolder `
+			--out "$($luisApp).luis"
+
+		$luisFile = Get-ChildItem `
+			-Path $luisFolder `
+			-Filter "$($luisApp).luis" `
+			-Recurse `
+			-Force 2>> $logFile
+
+		if ($luisFile) {
+			(dispatch add `
+			--type file `
+			--filePath $luisFile `
+			--intentName $intentName `
+			--includedIntents $intents
+			--dataFolder $dispatchFolder `
+			--dispatch $(Join-Path $dispatchFolder "$($dispatchName).dispatch")) 2>> $logFile | Out-Null
+		}
+		else {
+			Write-Host "! Could not find LUIS file: $(Join-Path $luisFolder "$($luisApp).luis")" -ForegroundColor DarkRed
+			Break
+		}
+	}
+}
+catch {
+	Break
+}
+
 Write-Host "> Running dispatch refresh ..."
 (dispatch refresh `
 	--dispatch $(Join-Path $dispatchFolder "$($dispatchName).dispatch") `
