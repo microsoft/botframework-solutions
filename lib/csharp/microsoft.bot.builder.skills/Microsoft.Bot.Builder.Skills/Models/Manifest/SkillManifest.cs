@@ -32,6 +32,6 @@ namespace Microsoft.Bot.Builder.Skills.Models.Manifest
         public AuthenticationConnection[] AuthenticationConnections { get; set; }
 
         [JsonProperty(PropertyName = "actions")]
-        public List<Action> Actions { get; set; }
+        public List<Action> Actions { get; set; } = new List<Action>();
     }
 }

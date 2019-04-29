@@ -12,7 +12,7 @@ namespace Microsoft.Bot.Builder.Skills.Models.Manifest
         public string Description { get; set; }
 
         [JsonProperty(PropertyName = "slots")]
-        public List<Slot> Slots { get; set; }
+        public List<Slot> Slots { get; set; } = new List<Slot>();
 
         [JsonProperty(PropertyName = "triggers")]
         public Triggers Triggers { get; set; }
