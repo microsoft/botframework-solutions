@@ -83,7 +83,7 @@ namespace Microsoft.Bot.Builder.Skills
         /// <param name="options">options.</param>
         /// <param name="cancellationToken">cancellation token.</param>
         /// <returns>dialog turn result.</returns>
-        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             SkillContext slots = new SkillContext();
 
@@ -95,7 +95,7 @@ namespace Microsoft.Bot.Builder.Skills
                 In other scenarios (aggregated skill dispatch) we evaluate all possible slots against context and pass across
                 enabling the Skill to perform it's own action identification. */
 
-            var actionName = options as string;
+            var actionName = options != null ? options as string : null;
             if (actionName != null)
             {
                 // Find the specified within the selected Skill for slot filling evaluation
