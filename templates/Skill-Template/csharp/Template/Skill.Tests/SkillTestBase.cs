@@ -37,7 +37,7 @@ namespace $safeprojectname$
                         {
                             LuisServices = new Dictionary<string, IRecognizer>
                             {
-                                { "general", GeneralTestUtil.CreateRecognizer() },
+                                { "General", GeneralTestUtil.CreateRecognizer() },
                                 { "$ext_safeprojectname$", SkillTestUtil.CreateRecognizer() }
                             }
                         }

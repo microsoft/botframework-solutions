@@ -1,4 +1,6 @@
-﻿Param(
+﻿#Requires -Version 6
+
+Param(
     [Parameter(Mandatory = $true)][string] $config_file,
     [Parameter(Mandatory = $true)][string] $skill_manifest,
     [Parameter(Mandatory = $true)][string] $skill_luis,

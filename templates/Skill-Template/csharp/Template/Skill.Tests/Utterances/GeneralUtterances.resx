@@ -135,6 +135,9 @@
   <data name="Help" xml:space="preserve">
     <value>help</value>
   </data>
+  <data name="None" xml:space="preserve">
+    <value>unknown</value>
+  </data>
   <data name="Reject" xml:space="preserve">
     <value>no</value>
   </data>

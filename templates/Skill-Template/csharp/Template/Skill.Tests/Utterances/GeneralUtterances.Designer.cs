@@ -233,5 +233,16 @@ namespace $safeprojectname$.Utterances
                 return ResourceManager.GetString("Stop", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to unknown.
+        /// </summary>
+        internal static string None
+        {
+            get
+            {
+                return ResourceManager.GetString("None", resourceCulture);
+            }
+        }
     }
 }

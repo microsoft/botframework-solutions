@@ -1,4 +1,6 @@
-﻿Param(
+﻿#Requires -Version 6
+
+Param(
 	[string] $botName,
     [string] $manifestUrl,
 	[string] $luisFolder,
@@ -175,7 +177,7 @@ if (Test-Path $skillsFile) {
         if ($skillConfig.skills) {
             if ($skillConfig.skills.Id -eq $manifest.Id) {
                 Write-Host "! $($manifest.Id) is already registered." -ForegroundColor DarkRed
-                Break
+				$alreadyRegistered = $true;
             }
             else {
                 Write-Host "> Registering $($manifest.Id) ..."
@@ -190,107 +192,110 @@ if (Test-Path $skillsFile) {
     }
 }
 
-if (-not $skillConfig) {
-    $skillConfig = @{ skills = @($manifest) }
-}
+if (-not $alreadyRegistered) {
 
-$skillConfig | ConvertTo-Json -depth 100 | Out-File $skillsFile
+	if (-not $skillConfig) {
+		$skillConfig = @{ skills = @($manifest) }
+	}
 
-# configuring bot auth settings
-Write-Host "> Checking for authentication settings ..."
-if ($manifest.authenticationConnections) {
-	if ($manifest.authenticationConnections | Where-Object { $_.serviceProviderId -eq "Azure Active Directory v2" })
-	{
-		Write-Host "> Configuring Azure AD connection ..."
-		$aadConfig = $manifest.authenticationConnections | Where-Object { $_.serviceProviderId -eq "Azure Active Directory v2" } | Select-Object -First 1
-		$connectionName = $aadConfig.Id
-		$newScopes = $aadConfig.scopes -Split ", "
-		$scopes = $newScopes
+	$skillConfig | ConvertTo-Json -depth 100 | Out-File $skillsFile
 
-		# check for existing aad connection
-		$connections = az bot authsetting list `
-			-n $botName `
-			-g $resourceGroup `
-			| ConvertFrom-Json
+	# configuring bot auth settings
+	Write-Host "> Checking for authentication settings ..."
+	if ($manifest.authenticationConnections) {
+		if ($manifest.authenticationConnections | Where-Object { $_.serviceProviderId -eq "Azure Active Directory v2" })
+		{
+			Write-Host "> Configuring Azure AD connection ..."
+			$aadConfig = $manifest.authenticationConnections | Where-Object { $_.serviceProviderId -eq "Azure Active Directory v2" } | Select-Object -First 1
+			$connectionName = $aadConfig.Id
+			$newScopes = $aadConfig.scopes -Split ", "
+			$scopes = $newScopes
 
-		if ($connections -and ($connections | Where-Object {$_.properties.serviceProviderDisplayName -eq "Azure Active Directory v2" })) {
-			$aadConnection = $connections | Where-Object {$_.properties.serviceProviderDisplayName -eq "Azure Active Directory v2" } | Select-Object -First 1
-			$settingName = $($aadConnection.name -Split "/")[1]
-
-			# Get current aad auth setting
-			$botAuthSetting = (az bot authsetting show `
-				-n $botName	`
+			# check for existing aad connection
+			$connections = az bot authsetting list `
+				-n $botName `
 				-g $resourceGroup `
-				-c $settingName	| ConvertFrom-Json) 2>> $logFile
+				| ConvertFrom-Json
 
-			$existingScopes = $botAuthSetting.properties.scopes -Split " "
-			$scopes += $existingScopes
-			$connectionName = $settingName
+			if ($connections -and ($connections | Where-Object {$_.properties.serviceProviderDisplayName -eq "Azure Active Directory v2" })) {
+				$aadConnection = $connections | Where-Object {$_.properties.serviceProviderDisplayName -eq "Azure Active Directory v2" } | Select-Object -First 1
+				$settingName = $($aadConnection.name -Split "/")[1]
 
-			# delete current aad auth connection
-			(az bot authsetting delete -n $botName -g $resourceGroup -c $settingName) 2>> $logFile | Out-Null
-		}
+				# Get current aad auth setting
+				$botAuthSetting = (az bot authsetting show `
+					-n $botName	`
+					-g $resourceGroup `
+					-c $settingName	| ConvertFrom-Json) 2>> $logFile
 
-		# update appsettings.json
-		Write-Host "> Updating appsettings.json ..."
-		$appSettings = Get-Content $appSettingsFile | ConvertFrom-Json
+				$existingScopes = $botAuthSetting.properties.scopes -Split " "
+				$scopes += $existingScopes
+				$connectionName = $settingName
 
-		# check for and remove existing aad connections
-		if ($appSettings.oauthConnections) {
-			$appSettings.oauthConnections = @($appSettings.oauthConnections | Where-Object -FilterScript { $_.provider -ne "Azure Active Directory v2" })
-		}
+				# delete current aad auth connection
+				(az bot authsetting delete -n $botName -g $resourceGroup -c $settingName) 2>> $logFile | Out-Null
+			}
 
-		# set or add new oauth setting
-		$oauthSetting = @{ "name" = $connectionName; "provider" = "Azure Active Directory v2" }
-		if (-not $appSettings.oauthConnections) {
-			$appSettings | Add-Member -Type NoteProperty -Force -Name 'oauthConnections' -Value @($oauthSetting)
+			# update appsettings.json
+			Write-Host "> Updating appsettings.json ..."
+			$appSettings = Get-Content $appSettingsFile | ConvertFrom-Json
+
+			# check for and remove existing aad connections
+			if ($appSettings.oauthConnections) {
+				$appSettings.oauthConnections = @($appSettings.oauthConnections | Where-Object -FilterScript { $_.provider -ne "Azure Active Directory v2" })
+			}
+
+			# set or add new oauth setting
+			$oauthSetting = @{ "name" = $connectionName; "provider" = "Azure Active Directory v2" }
+			if (-not $appSettings.oauthConnections) {
+				$appSettings | Add-Member -Type NoteProperty -Force -Name 'oauthConnections' -Value @($oauthSetting)
+			}
+			else {
+				$appSettings.oauthConnections += @($oauthSetting)
+			}
+
+			# update appsettings.json
+			ConvertTo-Json $appSettings -depth 100 | Out-File $appSettingsFile
+
+			# Remove duplicate scopes
+			$scopes = $scopes | Select -unique
+			$scopeManifest = $(CreateScopeManifest($scopes)).Replace("`"", "'")
+
+			# Update MSA scopes
+			Write-Host "> Configuring MSA app scopes ..."
+			$errorResult = az ad app update `
+				--id "$($appSettings.microsoftAppId)" `
+				--required-resource-accesses "`"[$($scopeManifest)]`"" 2>&1
+
+			#  Catch error: Updates to converged applications are not allowed in this version.
+			if ($errorResult) {
+				Write-Host "! Could not configure scopes automatically." -ForegroundColor Cyan
+				$manualScopesRequired = $true
+			}
+
+			Write-Host "> Updating bot oauth settings ..."
+			(az bot authsetting create `
+				--name $botName `
+				--resource-group $resourceGroup `
+				--setting-name $connectionName `
+				--client-id "`"$($appSettings.microsoftAppId)`"" `
+				--client-secret "`"$($appSettings.microsoftAppPassword)`"" `
+				--service Aadv2 `
+				--parameters clientId="`"$($appSettings.microsoftAppId)`"" clientSecret="`"$($appSettings.microsoftAppPassword)`"" tenantId=common `
+				--provider-scope-string "$($scopes)") 2>> $logFile | Out-Null	
 		}
 		else {
-			$appSettings.oauthConnections += @($oauthSetting)
+			Write-Host "! Could not configure authentication connection automatically." -ForegroundColor Cyan
+			$manualAuthRequired = $true
 		}
-
-		# update appsettings.json
-		ConvertTo-Json $appSettings -depth 100 | Out-File $appSettingsFile
-
-		# Remove duplicate scopes
-		$scopes = $scopes | Select -unique
-		$scopeManifest = $(CreateScopeManifest($scopes)).Replace("`"", "'")
-
-		# Update MSA scopes
-		Write-Host "> Configuring MSA app scopes ..."
-		$errorResult = az ad app update `
-			--id "$($appSettings.microsoftAppId)" `
-			--required-resource-accesses "`"[$($scopeManifest)]`"" 2>&1
-
-		#  Catch error: Updates to converged applications are not allowed in this version.
-		if ($errorResult) {
-			Write-Host "! Could not configure scopes automatically." -ForegroundColor Cyan
-			$manualScopesRequired = $true
-		}
-
-		Write-Host "> Updating bot oauth settings ..."
-		(az bot authsetting create `
-			--name $botName `
-			--resource-group $resourceGroup `
-			--setting-name $connectionName `
-			--client-id "`"$($appSettings.microsoftAppId)`"" `
-			--client-secret "`"$($appSettings.microsoftAppPassword)`"" `
-			--service Aadv2 `
-			--parameters clientId="`"$($appSettings.microsoftAppId)`"" clientSecret="`"$($appSettings.microsoftAppPassword)`"" tenantId=common `
-			--provider-scope-string "$($scopes)") 2>> $logFile | Out-Null	
 	}
-	else {
-		Write-Host "! Could not configure authentication connection automatically." -ForegroundColor Cyan
-		$manualAuthRequired = $true
+
+	if ($manualScopesRequired) {
+		Write-Host "+ Could not configure scopes automatically. You must configure the following scopes in the Azure Portal to use this skill: $($newScopes -Join ', ')" -ForegroundColor Magenta
+	}
+
+	if ($manualAuthRequired) {
+		Write-Host "+ Could not configure authentication connection automatically. You must configure one of the following connection types manually in the Azure Portal: $($manifest.authenticationConnections.serviceProviderId -Join ', ')" -ForegroundColor Magenta
 	}
 }
 
 Write-Host "> Done."
-
-if ($manualScopesRequired) {
-	Write-Host "+ Could not configure scopes automatically. You must configure the following scopes in the Azure Portal to use this skill: $($newScopes -Join ', ')" -ForegroundColor Magenta
-}
-
-if ($manualAuthRequired) {
-	Write-Host "+ Could not configure authentication connection automatically. You must configure one of the following connection types manually in the Azure Portal: $($manifest.authenticationConnections.serviceProviderId -Join ', ')" -ForegroundColor Magenta
-}
