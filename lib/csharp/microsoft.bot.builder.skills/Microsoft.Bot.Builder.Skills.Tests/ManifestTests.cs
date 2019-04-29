@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -47,6 +48,8 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 
             cogModelConfig.LanguageModels.Add(luisModel);
             _botSettings.CognitiveModels.Add("en", cogModelConfig);
+            _botSettings.CognitiveModels.Add("de", cogModelConfig);
+            _botSettings.CognitiveModels.Add("fr", cogModelConfig);
 
             _services = new ServiceCollection();
 
@@ -180,6 +183,15 @@ namespace Microsoft.Bot.Builder.Skills.Tests
                         Assert.IsTrue(
                             skillManifest.Actions[i].Definition.Triggers.Utterances[0].Text.Length > 0,
                             $"The {skillManifest.Actions[i].Id} action has no LUIS utterances added as part of manifest generation.");
+
+                        // Validate DE, FR has been added too.
+                        Assert.IsTrue(
+                            skillManifest.Actions[i].Definition.Triggers.Utterances.Exists(u => u.Locale.ToLower() == "de"),
+                            $"The {skillManifest.Actions[i].Id} action has no LUIS utterances added as part of manifest generation for the DE locale.");
+
+                        Assert.IsTrue(
+                            skillManifest.Actions[i].Definition.Triggers.Utterances.Exists(u => u.Locale.ToLower() == "fr"),
+                            $"The {skillManifest.Actions[i].Id} action has no LUIS utterances added as part of manifest generation for the FR locale.");
                     }
                 }
             }

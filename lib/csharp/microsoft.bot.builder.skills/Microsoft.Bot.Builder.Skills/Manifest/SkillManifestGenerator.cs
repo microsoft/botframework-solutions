@@ -73,11 +73,15 @@ namespace Microsoft.Bot.Builder.Skills
                 // If the developer has requested inline, we need to go through all utteranceSource references and retrieve the utterances and insert inline
                 if (inlineTriggerUtterances)
                 {
-                    // Retrieve all of the LUIS model definitions deployed and configured for the skill
-                    // These are used to match the model name and intent so we can retrieve the utterances
+                    Dictionary<string, dynamic> localeLuisModels = new Dictionary<string, dynamic>();
 
-                    // TODO - Multi-locale support
-                    var modelCache = await PreFetchLuisModelContents(cognitiveModels["en"].LanguageModels);
+                    // Retrieve all of the LUIS model definitions deployed and configured for the skill which could have multiple locales
+                    // These are used to match the model name and intent so we can retrieve the utterances
+                    foreach (var localeSet in cognitiveModels)
+                    {
+                        // Download/cache all the LUIS models configured for this locale (key is the locale name)
+                        await PreFetchLuisModelContents(localeLuisModels, localeSet.Key, localeSet.Value.LanguageModels);
+                    }
 
                     foreach (var action in skillManifest.Actions)
                     {
@@ -105,12 +109,11 @@ namespace Microsoft.Bot.Builder.Skills
                                     var modelName = source.Substring(0, intentIndex);
                                     string intentToMatch = source.Substring(intentIndex + 1);
 
-                                    // Find the LUIS model from our cache by matching on the luis model ID
-                                    var model = modelCache.SingleOrDefault(m => string.Equals(m.Key, modelName, StringComparison.CurrentCultureIgnoreCase)).Value;
-
+                                    // Find the LUIS model from our cache by matching on the locale/modelname
+                                    var model = localeLuisModels.SingleOrDefault(m => string.Equals(m.Key, $"{utteranceSource.Locale}_{modelName}", StringComparison.CurrentCultureIgnoreCase)).Value;
                                     if (model == null)
                                     {
-                                        throw new Exception($"Utterance source for action: '{action.Id}' references the '{modelName}' model which cannot be found in the currently deployed configuration.");
+                                        throw new Exception($"Utterance source (locale: {utteranceSource.Locale}) for action: '{action.Id}' references the '{modelName}' model which cannot be found in the currently deployed configuration.");
                                     }
 
                                     // Validate that the intent in the manifest exists in this LUIS model
@@ -151,10 +154,8 @@ namespace Microsoft.Bot.Builder.Skills
         /// </summary>
         /// <param name="luisServices">List of LuisServices.</param>
         /// <returns>Collection of LUIS model definitions grouped by model name.</returns>
-        private async Task<Dictionary<string, dynamic>> PreFetchLuisModelContents(List<LuisService> luisServices)
+        private async Task PreFetchLuisModelContents(Dictionary<string, dynamic> localeModelUtteranceCache, string locale, List<LuisService> luisServices)
         {
-            Dictionary<string, dynamic> utteranceCache = new Dictionary<string, dynamic>();
-
             // For each luisSource we identify the Intent and match with available luisServices to identify the LuisAppId which we update
             foreach (LuisService luisService in luisServices)
             {
@@ -167,11 +168,9 @@ namespace Microsoft.Bot.Builder.Skills
                     string json = await httpResponse.Content.ReadAsStringAsync();
                     var luisApp = JsonConvert.DeserializeObject<dynamic>(json);
 
-                    utteranceCache.Add(luisService.Id, luisApp);
+                    localeModelUtteranceCache.Add($"{locale}_{luisService.Id}", luisApp);
                 }
             }
-
-            return utteranceCache;
         }
     }
 }
