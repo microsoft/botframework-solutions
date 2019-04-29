@@ -5,7 +5,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests.Mocks
 {
     public class MockBot : IBot
     {
-        public Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
+        public Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
             return Task.CompletedTask;
         }

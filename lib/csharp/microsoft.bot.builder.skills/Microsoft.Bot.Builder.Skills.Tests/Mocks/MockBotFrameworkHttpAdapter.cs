@@ -7,7 +7,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests.Mocks
 {
     public class MockBotFrameworkHttpAdapter : IBotFrameworkHttpAdapter
     {
-        public Task ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default)
+        public Task ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default(CancellationToken))
         {
             return Task.CompletedTask;
         }
