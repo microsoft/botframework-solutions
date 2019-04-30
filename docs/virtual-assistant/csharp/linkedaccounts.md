@@ -42,7 +42,7 @@ The ``appsettings.json`` file in the LinkedAccounts sample project has the follo
    * `Directory (tenant) ID` maps to `TenantId`
    * `Application (client) ID` maps to `ClientId`
 
-```
+```json
 "AzureAd": {
     "Instance": "https://login.microsoftonline.com/",
     "Domain": "microsoft.onmicrosoft.com",

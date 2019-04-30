@@ -11,7 +11,7 @@ See the [Skills Overview](/docs/skills/csharp/README.md) section for details on 
 
 1. In **PowerShell Core** (pwsh.exe), change to the project directory for your Virtual Assistant
 2. Run the following command passing the name of your Bot and a pointer to the manifest endpoint of your Skill.
-    ```
+    ```shell
     .\Deployment\scripts\add_remote_skill.ps1 -botName "YOUR_BOT_NAME" -manifestUrl https://YOUR_SKILL.azurewebsites.net/api/skill/manifest
     ```
 

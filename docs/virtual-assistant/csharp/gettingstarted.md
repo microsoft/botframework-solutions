@@ -15,17 +15,17 @@
 > It's important to ensure all of the following pre-requisites are installed on your machine prior to attempting deployment otherwise you may run into deployment issues.
 
 1. Install the [Virtual Assistant Template](https://botbuilder.myget.org/gallery/aitemplates)
-1. Ensure you have updated [.NET Core](https://www.microsoft.com/net/download) to the latest version.  
-1. Ensure the [Node Package manager](https://nodejs.org/en/) is installed.
-1. PowerShell Core version 6 (Required for cross platform deployment support)
+2. Ensure you have updated [.NET Core](https://www.microsoft.com/net/download) to the latest version.  
+3. Ensure the [Node Package manager](https://nodejs.org/en/) is installed.
+4. PowerShell Core version 6 (Required for cross platform deployment support)
    * [Download PowerShell Core on Windows](https://aka.ms/getps6-windows)
    * [Download PowerShell Core on macOS and Linux](https://aka.ms/getps6-linux)
-1. Install  Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of the latest capabilities: 
+5. Install  Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of the latest capabilities: 
    ```
    npm install -g botdispatch ludown luis-apis qnamaker luisgen
    ```
-1. Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
-1. Retrieve your LUIS Authoring Key
+6. Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
+7. Retrieve your LUIS Authoring Key
    - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work within a europe deployment. 
    - Once signed in click on your name in the top right hand corner.
    - Choose Settings and make a note of the Authoring Key for the next step.

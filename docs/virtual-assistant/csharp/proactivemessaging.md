@@ -64,7 +64,7 @@ Once retrieved, you can then start processing your proactive scenarios. Virtual 
 
 With `BackgroundTaskQueue`, you can use the `QueueBackgroundWorkItem` method to put the processing of an operation into a queue and the hosted service that handles the background tasks will retrieve this and run in a different thread.
 
-```
+```csharp
 _backgroundTaskQueue.QueueBackgroundWorkItem(async (token) =>
 {
     var handler = new CheckUpcomingEventHandler
@@ -80,7 +80,7 @@ In the `UpcomingEventCallback`, use the `ContinueConversationAsync` method on `t
 With `ScheduledTask`, you can use the `AddScheduledTask` method to create a new schedule for a certain task. You can use an expression to represent a schedule. Please refer to [NCrontab](https://github.com/atifaziz/NCrontab) for how to define an expression.
 
 To run a task at 12PM on every Monday, you can use the following:
-```
+```csharp
 _scheduledTask.AddScheduleTask(new ScheduledTaskModel {
     ScheduleExpression = "0 12 * * Mon",
     Task = async (ct) => { await _logger.Write("Happy Monday!"); }
@@ -93,7 +93,7 @@ There's two approaches to trigger a proactive message scenario, just the same as
 
 This file contains the mapping between an event and the skills that could consume it. We support multiple skills for one event enabling multiplexing. Its format is as follows:
 
-```
+```json
 {
   "skillEvents": [
     {
@@ -107,7 +107,7 @@ This file contains the mapping between an event and the skills that could consum
 
 The Virtual Assistant knows how to interpret this file, and route the events to different skills. It's then up to the skills to implement handling for those events. For example, CalendarSkill handles the DeviceStart event inside `MainDialog.cs`, in the `OnEventAsync` function. 
 
-```
+```csharp
 case Events.DeviceStart:
 {
     var skillOptions = new CalendarSkillDialogOptions

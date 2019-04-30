@@ -6,7 +6,7 @@
 
 1. In **PowerShell Core** (pwsh.exe), change to the project directory.
 1. Run the following command:
-    ```
+    ```shell
     .\Deployment\Scripts\deploy.ps1
     ```
 2. Provide values for the following parameters to the script, note that PowerShell uses a single `-` to denote parameters: e.g. `\Deployment\Scripts\deploy.ps1 -name 'YOUR_UNIQUE_BOT_NAME' -location 'westus' -appPassword 'YOUR_AD_APP' -luisAuthoringKey 'YOUR_AUTHORING_KEY'`

@@ -31,7 +31,7 @@ public List<SkillManifest> Skills { get; set; }
 ## Skill Dialog Registration
 
 In your `Startup.cs` file register a `SkillDialog` for each registered skill as shown below, this uses the collection of Skills that you created in the previous step.
-```
+```csharp
  // Register skill dialogs
 services.AddTransient(sp =>
 {
@@ -48,8 +48,9 @@ services.AddTransient(sp =>
     return skillDialogs;
 });
 ```
+
 For scenarios where Skills require authentication connections you need to create an associated `MultiProviderAuthDialog`
-```
+```csharp
  // This method creates a MultiProviderAuthDialog based on a skill manifest.
 private MultiProviderAuthDialog BuildAuthDialog(SkillManifest skill, BotSettings settings)
 {
@@ -73,7 +74,7 @@ private MultiProviderAuthDialog BuildAuthDialog(SkillManifest skill, BotSettings
 ## Routing utterances to Skills
 
 Within your Main/Router dialog you firstly need to ensure the SkillDialogs registered previously are added to the dialog stack:
-```
+```csharp
 foreach (var skillDialog in skillDialogs)
 {
     AddDialog(skillDialog);
@@ -81,7 +82,7 @@ foreach (var skillDialog in skillDialogs)
 ```
 
 Add the following code after your Dispatcher has executed passing the registered Skills and the Intent returned from the Dispatcher. If the IsSkill method returns true then you start the appropriate SkillDialog instance passing the Skill Manifest Id and the matching intent.
-```
+```csharp
 // Identify if the dispatch intent matches any Action within a Skill if so, we pass to the appropriate SkillDialog to hand-off
 var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, intent.ToString());
 

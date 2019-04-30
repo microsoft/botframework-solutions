@@ -62,7 +62,7 @@ LUIS models for the Skill are provided in .LU file format as part of the Skill. 
 
 The Point of Interest Skill surfaces a users request to navigate to a new destination through an event returned to the client. The event is called `ActiveRoute.Directions" has contains a series of Points for the Route along with a summary of the route information. A simplified example is shown below
 
-```
+```json
 {
   "name": "ActiveRoute.Directions",
   "type": "event",

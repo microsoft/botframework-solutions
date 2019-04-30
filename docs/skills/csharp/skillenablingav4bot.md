@@ -1,4 +1,4 @@
-Skill Enabling a V4 Bot (not based on Skill Template)
+#Skill Enabling a V4 Bot (not based on Skill Template)
 
 ## Table of Contents
 - [Table of Contents](#table-of-contents)
@@ -21,7 +21,7 @@ If however you want to manually enable you Bot to be called as a Skill follow th
 ## Adapter
 
 Create a Custom Adapter that derives from the SkillAdapter and ensure the SkillMiddleware is added
-```
+```csharp
   public class CustomSkillAdapter : SkillAdapter
     {
         public CustomSkillAdapter(
@@ -41,7 +41,7 @@ Create a Custom Adapter that derives from the SkillAdapter and ensure the SkillM
 
 ## Startup
 
-```
+```csharp
 services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
 services.AddTransient<SkillAdapter, CustomSkillAdapter>();
 ```
@@ -49,7 +49,7 @@ services.AddTransient<SkillAdapter, CustomSkillAdapter>();
 ## Add Skill Controller
 
 Update your Bot Controller class to derive from `SkillController`
-```
+```csharp
 [ApiController]
 public class BotController : SkillController
 {
@@ -62,7 +62,7 @@ public class BotController : SkillController
 ## Manifest Template
 
 Create a `manifestTemplate.json` file in the root of your Bot. Ensure at a minimum the root level `id`, `name`, `description` and action details are completed.
-```
+```csharp
 {
   "id": "",
   "name": "",

@@ -21,7 +21,8 @@ The documentation outline for the Virtual Assistant solution accelerator is show
 |Project Structure|Walkthrough of your Assistant project||:runner:|:runner:|
 |Under the covers|Detailed documentation covering what the template provides and how it works|:runner:|||
 |Customizing your assistant|Personalize your assistant||:runner:|:runner:|
-|Migration from Enterprise Template|Guidance on how to move from an Enterprise Template based Bot to the new Template||:runner:||Migration from the old Virtual Assistant solution|Guidance on how to move from the original Virtual Assistant solution to the new Template||:runner:|
+|Migration from Enterprise Template|Guidance on how to move from an Enterprise Template based Bot to the new Template||[View](./csharp/etovamigration.md)
+|Migration from the old Virtual Assistant solution|Guidance on how to move from the original Virtual Assistant solution to the new Template||:runner:|
 |Authentication|Authentication approach|[View](./common/authentication.md)|||
 |Responses|Types of responses|[View](./common/responses.md)|||
 |Testing|Testing steps||[View](./csharp/testing.md)||

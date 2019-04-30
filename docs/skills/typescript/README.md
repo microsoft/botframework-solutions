@@ -40,7 +40,7 @@ LuisServiceIds| The LUIS model names used by this skill. All Skills will make us
 Parameters| Parameters are an optional mechanism to pass user-data across a part of the Skill invocation. For example, a Skill may request access to the users current location or timezone to better personalise the experience. This Parameters are sourced automatically from the Virtual Assistant state for a given User/Conversation and provided to the Skill.|
 Configuration| Skills are invoked in-process to the Virtual Assistant so don't have access to their respective appsettings.json file, in cases where a Skill needs configuration data it can be provided through this mechanism. LUIS Configuration settings and secrets for a web-service used by a Skill are examples of configuration.|
 
- ```
+ ```json
   "skills": [
     {
       "type": "skill",
