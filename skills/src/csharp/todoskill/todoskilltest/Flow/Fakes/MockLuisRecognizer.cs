@@ -52,7 +52,7 @@ namespace ToDoSkillTest.Flow.Fakes
 
             var t = typeof(T);
             var text = turnContext.Activity.Text;
-            if (t.Name.Equals(typeof(ToDoLU).Name))
+            if (t.Name.Equals(typeof(ToDoLuis).Name))
             {
                 var mockToDo = utterancesManager.GetValueOrDefault(text, utterancesManager.GetBaseNoneIntent());
 

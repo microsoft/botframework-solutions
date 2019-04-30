@@ -83,24 +83,42 @@
       <DependentUpon>OnboardingStrings.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-
+  
   <ItemGroup>
-    <Content Update="Content\Intro.de.json">
+    <Content Update="Content\NewUserGreeting.de.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\Intro.es.json">
+    <Content Update="Content\NewUserGreeting.es.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\Intro.fr.json">
+    <Content Update="Content\NewUserGreeting.fr.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\Intro.it.json">
+    <Content Update="Content\NewUserGreeting.it.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\Intro.json">
+    <Content Update="Content\NewUserGreeting.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\Intro.zh.json">
+    <Content Update="Content\NewUserGreeting.zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Content\ReturningUserGreeting.de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Content\ReturningUserGreeting.es.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Content\ReturningUserGreeting.fr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Content\ReturningUserGreeting.it.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Content\ReturningUserGreeting.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Content\ReturningUserGreeting.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

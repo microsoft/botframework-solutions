@@ -69,14 +69,14 @@ namespace $safeprojectname$.Dialogs
                 }
                 else
                 {
-                    var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
+                    var luisResult = await luisService.RecognizeAsync<GeneralLuis>(dc.Context, cancellationToken);
                     var intent = luisResult.TopIntent().intent;
 
                     if (luisResult.TopIntent().score > 0.5)
                     {
                         switch (intent)
                         {
-                            case General.Intent.Logout:
+                            case GeneralLuis.Intent.Logout:
                                 {
                                     return await LogoutAsync(dc);
                                 }
@@ -126,14 +126,14 @@ namespace $safeprojectname$.Dialogs
                 }
                 else
                 {
-                    var result = await luisService.RecognizeAsync<General>(dc.Context, CancellationToken.None);
+                    var result = await luisService.RecognizeAsync<GeneralLuis>(dc.Context, CancellationToken.None);
 
                     var generalIntent = result?.TopIntent().intent;
 
                     // switch on general intents
                     switch (generalIntent)
                     {
-                        case General.Intent.Cancel:
+                        case GeneralLuis.Intent.Cancel:
                             {
                                 // send cancelled response
                                 await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Cancelled);
@@ -143,27 +143,27 @@ namespace $safeprojectname$.Dialogs
                                 break;
                             }
 
-                        case General.Intent.Escalate:
+                        case GeneralLuis.Intent.Escalate:
                             {
                                 // start escalate dialog
                                 await dc.BeginDialogAsync(nameof(EscalateDialog));
                                 break;
                             }
 
-                        case General.Intent.Logout:
+                        case GeneralLuis.Intent.Logout:
                             {
                                 await LogoutAsync(dc);
                                 break;
                             }
 
-                        case General.Intent.Help:
+                        case GeneralLuis.Intent.Help:
                             {
                                 // send help response
                                 await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Help);
                                 break;
                             }
 
-                        case General.Intent.None:
+                        case GeneralLuis.Intent.None:
                         default:
                             {
                                 // No intent was identified, send confused message

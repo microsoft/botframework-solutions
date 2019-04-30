@@ -46,14 +46,14 @@ namespace $safeprojectname$.Dialogs
             }
             else
             {
-                General luisResult;
+                GeneralLuis luisResult;
                 if (dc.Context.TurnState.ContainsKey(LuisResultKey))
                 {
-                    luisResult = dc.Context.TurnState.Get<General>(LuisResultKey);
+                    luisResult = dc.Context.TurnState.Get<GeneralLuis>(LuisResultKey);
                 }
                 else
                 {
-                    luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
+                    luisResult = await luisService.RecognizeAsync<GeneralLuis>(dc.Context, cancellationToken);
 
                     // Add the luis result (intent and entities) for further processing in the derived dialog
                     dc.Context.TurnState.Add(LuisResultKey, luisResult);
@@ -66,12 +66,12 @@ namespace $safeprojectname$.Dialogs
                 {
                     switch (intent)
                     {
-                        case General.Intent.Cancel:
+                        case GeneralLuis.Intent.Cancel:
                             {
                                 return await OnCancel(dc);
                             }
 
-                        case General.Intent.Help:
+                        case GeneralLuis.Intent.Help:
                             {
                                 return await OnHelp(dc);
                             }
