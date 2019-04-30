@@ -1,0 +1,26 @@
+{
+  "cognitiveModels": {
+    "en": {
+      "languageModels": [
+        {
+          "authoringkey": "943d5d283a1443d6a5be6a38a9acff2e",
+          "subscriptionkey": "943d5d283a1443d6a5be6a38a9acff2e",
+          "version": "0.1",
+          "name": "RLIExperimentalWeatheren_General",
+          "region": "westus",
+          "appid": "8fa48431-4842-431b-8579-bd278b031a45",
+          "id": "General"
+        },
+        {
+          "authoringkey": "943d5d283a1443d6a5be6a38a9acff2e",
+          "subscriptionkey": "943d5d283a1443d6a5be6a38a9acff2e",
+          "version": "0.1",
+          "name": "RLIExperimentalWeatheren_WeatherSkill",
+          "region": "westus",
+          "appid": "909132f3-8129-457c-bd08-184fd407293a",
+          "id": "WeatherSkill"
+        }
+      ]
+    }
+  }
+}
