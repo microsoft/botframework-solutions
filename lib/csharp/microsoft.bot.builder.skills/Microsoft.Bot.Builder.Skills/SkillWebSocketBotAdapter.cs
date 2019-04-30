@@ -131,7 +131,7 @@ namespace Microsoft.Bot.Builder.Skills
 					stopWatch.Start();
                     response = await SendRequestAsync<ResourceResponse>(request).ConfigureAwait(false);
 					stopWatch.Stop();
-					_botTelemetryClient.TrackEventEx("SendActivityLatency", activity, null, null, new Dictionary<string, double>()
+					_botTelemetryClient.TrackEventEx("SkillWebSocketSendActivityLatency", activity, null, null, new Dictionary<string, double>
 					{
 						{ "Latency", stopWatch.ElapsedMilliseconds },
 					});
@@ -169,7 +169,7 @@ namespace Microsoft.Bot.Builder.Skills
 			stopWatch.Start();
 			var response = await SendRequestAsync<ResourceResponse>(request, cancellationToken).ConfigureAwait(false);
 			stopWatch.Stop();
-			_botTelemetryClient.TrackEventEx("UpdateActivityLatency", activity, null, null, new Dictionary<string, double>()
+			_botTelemetryClient.TrackEventEx("SkillWebSocketUpdateActivityLatency", activity, null, null, new Dictionary<string, double>
 			{
 				{ "Latency", stopWatch.ElapsedMilliseconds },
 			});
@@ -188,7 +188,7 @@ namespace Microsoft.Bot.Builder.Skills
 			stopWatch.Start();
 			await SendRequestAsync<ResourceResponse>(request, cancellationToken).ConfigureAwait(false);
 			stopWatch.Stop();
-			_botTelemetryClient.TrackEventEx("DeleteActivityLatency", null, null, null, new Dictionary<string, double>()
+			_botTelemetryClient.TrackEventEx("SkillWebSocketDeleteActivityLatency", null, null, null, new Dictionary<string, double>
 			{
 				{ "Latency", stopWatch.ElapsedMilliseconds },
 			});

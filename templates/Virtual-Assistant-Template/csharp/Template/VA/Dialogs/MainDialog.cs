@@ -99,7 +99,7 @@ namespace $safeprojectname$.Dialogs
             var intent = dispatchResult.TopIntent().intent;
 
             // Identify if the dispatch intent matches any Action within a Skill if so, we pass to the appropriate SkillDialog to hand-off
-            var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, intent.ToString());
+            var identifiedSkill = SkillRouter.IsSkill(_settings.Skills);
 
             if(identifiedSkill != null)
             {
