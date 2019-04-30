@@ -5,6 +5,7 @@
 
 export {
     IAppSettingOauthConnection,
+    IAppShowReplyUrl,
     IAzureAuthSetting,
     IOauthConnection,
     IResourceAccess,

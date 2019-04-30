@@ -50,3 +50,7 @@ export interface IOauthConnection {
     name: string;
     provider: string;
 }
+
+export interface IAppShowReplyUrl {
+    replyUrls: string[];
+}

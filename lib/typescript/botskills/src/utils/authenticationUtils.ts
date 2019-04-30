@@ -12,7 +12,8 @@ import {
     IConnectConfiguration,
     IOauthConnection,
     IScopeManifest,
-    ISkillManifest } from '../models';
+    ISkillManifest, 
+    IAppShowReplyUrl} from '../models';
 import { extractArgs, tryExecute } from './';
 
 const scopeMap: Map<string, string> = new Map([
@@ -158,11 +159,23 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
             scopes = [...new Set(scopes)];
             const scopeManifest: IScopeManifest[] = createScopeManifest(scopes);
 
+            // get the information of the app
+            let azureAppShowCmd: string = `az ad app show`;
+            azureAppShowCmd += `--id ${appSettings.microsoftAppId}`;
+            const azureAppShowResult: string = await tryExecute('az', extractArgs(azureAppShowCmd));
+            const azureAppReplyUrls: IAppShowReplyUrl = JSON.parse(azureAppShowResult);
+
+            // get the Reply Urls from the app
+            const replyUrlsSet: Set<string> = new Set(azureAppReplyUrls.replyUrls);
+            // append the necessary Url if it's not already present
+            replyUrlsSet.add('https://token.botframework.com/.auth/web/redirect');
+            const replyUrls: string[] = [...replyUrlsSet];
+
             // Update MSA scopes
             logger.message('Configuring MSA app scopes ...');
             let azureAppUpdateCmd: string = `az ad app update `;
             azureAppUpdateCmd += `--id ${appSettings.microsoftAppId} `;
-            azureAppUpdateCmd += `--reply-urls "https://token.botframework.com/.auth/web/redirect" `;
+            azureAppUpdateCmd += `--reply-urls ${replyUrls.join(' ')} `;
             const scopeManifestText: string = JSON.stringify(scopeManifest)
                 .replace(/\"/g, '\'');
             azureAppUpdateCmd += `--required-resource-accesses "${scopeManifestText}"`;
