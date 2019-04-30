@@ -93,12 +93,14 @@ function createScopeManifest(scopes: string[]): IScopeManifest[] {
 			 */
     return [{
         resourceAppId: '00000003-0000-0000-c000-000000000000',
-        resourceAccess: scopes.map((scope: string) => {
-        return {
-            id: getScopeId(scope),
-            type: 'Scope'
-        };
-    })}];
+        resourceAccess: scopes.filter((scope: string) => scopeMap.has(scope))
+            .map((scope: string) => {
+                return {
+                    id: getScopeId(scope),
+                    type: 'Scope'
+                };
+            })
+        }];
 }
 
 interface IScopeManifest {
@@ -179,7 +181,7 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
 
                 const botAuthSettingResult: string = await tryExecute('az', extractArgs(showAuthSettingsCmd));
                 const botAuthSetting: IAzureAuthSetting = JSON.parse(botAuthSettingResult);
-                const existingScopes: string[] = botAuthSetting.properties.scopes.split(',');
+                const existingScopes: string[] = botAuthSetting.properties.scopes.split(' ');
                 scopes = scopes.concat(existingScopes);
                 connectionName = settingName;
 
@@ -247,6 +249,7 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
             logger.message('Configuring MSA app scopes ...');
             let azureAppUpdateCmd: string = `az ad app update `;
             azureAppUpdateCmd += `--id ${appSettings.microsoftAppId} `;
+            azureAppUpdateCmd += `--reply-urls "https://token.botframework.com/.auth/web/redirect" `;
             const scopeManifestText: string = JSON.stringify(scopeManifest)
                 .replace(/\"/g, '\'');
             azureAppUpdateCmd += `--required-resource-accesses "${scopeManifestText}"`;
@@ -286,7 +289,7 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
             authSettingCmd += `--service Aadv2 `;
             authSettingCmd += `--parameters clientId="${appSettings.microsoftAppId}" `;
             authSettingCmd += `clientSecret="${appSettings.microsoftAppPassword}" tenantId=common `;
-            authSettingCmd += `--provider-scope-string "${scopes.join(', ')}"`;
+            authSettingCmd += `--provider-scope-string "${scopes.join(' ')}"`;
 
             await tryExecute('az', extractArgs(authSettingCmd));
 
