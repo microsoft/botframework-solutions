@@ -81,7 +81,7 @@ yo botbuilder-assistant
 | -n, --assistantName <name>              | name of new assistant (by default takes `customAssistant`)                                                          |
 | -d, --assistantDesc <description>       | description of the new assistant (by default takes ``) |
 | -l, --assistantLang <array of languages>| languages for the new assistant. Possible values are `de`, `en`, `es`, `fr`, `it`, `zh` (by default takes all the languages)| 
-| -p, --assistantGenerationPath <path>    | destination path for the new assistant (by default takes the path where you are runnning the generator)            |
+| -p, --assistantGenerationPath <path>    | destination path for the new assistant (by default takes the path where you are running the generator)            |
 | --noPrompt                        | indicates to avoid the prompts                                                                               |
 
 **NOTE:** If you don't use the _--noPrompt_ option, the process will keep prompting, but using the input values by default.
