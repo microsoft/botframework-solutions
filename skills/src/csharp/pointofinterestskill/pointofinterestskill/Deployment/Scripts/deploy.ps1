@@ -143,9 +143,12 @@ $outputs = (az group deployment show `
 Write-Host "> Updating appsettings.json ..."
 if (Test-Path $(Join-Path $outFolder appsettings.json)) {
     $settings = Get-Content $(Join-Path $outFolder appsettings.json) | ConvertFrom-Json
+	if ($outputs.azureMaps) { $settings.properties | Add-Member -Type NoteProperty -Force -Name 'azureMapsKey' -Value $outputs.azureMaps.value }
+
 }
 else {
     $settings = New-Object PSObject
+	if ($outputs.azureMaps) { $settings | Add-Member -Type NoteProperty -Force -Name 'properties' -Value @{ "azureMapsKey" = $outputs.azureMaps.value } }
 }
 
 $settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppId' -Value $appId

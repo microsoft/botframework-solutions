@@ -66,6 +66,10 @@
     "luisServiceLocation": {
       "type": "string",
       "defaultValue": "[resourceGroup().location]"
+    },
+    "azureMapsServiceName": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('name'), '-maps')]"
     }
   },
   "variables": {
@@ -188,6 +192,16 @@
       "sku": {
         "name": "[parameters('luisServiceSku')]"
       }
+    },
+    {
+      "type": "Microsoft.Maps/accounts",
+      "apiVersion": "2018-05-01",
+      "name": "[parameters('azureMapsServiceName')]",
+      "location": "global",
+      "sku": {
+        "name": "s1",
+        "tier": "Standard"
+      }
     }
   ],
   "outputs": {
@@ -219,6 +233,10 @@
       "value": {
         "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisServiceName')),'2017-04-18').key1]"
       }
+    },
+    "azureMaps": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Maps/accounts', parameters('azureMapsServiceName')),'2018-05-01').primaryKey]"
     }
   }
 }

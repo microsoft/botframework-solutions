@@ -29,9 +29,9 @@ using static Microsoft.Recognizers.Text.Culture;
 
 namespace CalendarSkill.Dialogs
 {
-    public class CalendarSkillDialog : ComponentDialog
+    public class CalendarSkillDialogBase : ComponentDialog
     {
-        public CalendarSkillDialog(
+        public CalendarSkillDialogBase(
             string dialogId,
             BotSettings settings,
             BotServices services,
@@ -123,9 +123,8 @@ namespace CalendarSkill.Dialogs
             {
                 // When the user authenticates interactively we pass on the tokens/Response event which surfaces as a JObject
                 // When the token is cached we get a TokenResponse object.
-                var providerTokenResponse = sc.Result as ProviderTokenResponse;
 
-                if (providerTokenResponse != null)
+                if (sc.Result is ProviderTokenResponse providerTokenResponse)
                 {
                     var state = await Accessor.GetAsync(sc.Context);
                     state.APIToken = providerTokenResponse.TokenResponse.Token;
@@ -361,7 +360,7 @@ namespace CalendarSkill.Dialogs
                     return me.Photo;
                 }
 
-                var displayName = me == null ? AdaptiveCardHelper.DefaultMe : me.DisplayName != null ? me.DisplayName : (me.UserPrincipalName != null ? me.UserPrincipalName : AdaptiveCardHelper.DefaultMe);
+                var displayName = me == null ? AdaptiveCardHelper.DefaultMe : me.DisplayName ?? me.UserPrincipalName ?? AdaptiveCardHelper.DefaultMe;
                 return string.Format(AdaptiveCardHelper.DefaultAvatarIconPathFormat, displayName);
             }
             catch (Exception)
@@ -419,7 +418,7 @@ namespace CalendarSkill.Dialogs
             var state = await Accessor.GetAsync(context);
             var token = state.APIToken;
             var service = ServiceManager.InitUserService(token, state.EventSource);
-            var displayName = attendee.DisplayName != null ? attendee.DisplayName : attendee.Address;
+            var displayName = attendee.DisplayName ?? attendee.Address;
 
             try
             {

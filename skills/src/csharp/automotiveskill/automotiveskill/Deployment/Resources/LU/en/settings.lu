@@ -9336,17 +9336,20 @@
 - i am {VALUE=frigid} over here
 - i am {VALUE=frosty} in the {SETTING=left rear side}
 - i am {VALUE=frozen} in here
-- i am fucking {VALUE=burning up}
-- i am fucking {VALUE=cool}
+- i am  {VALUE=burning up}
+- i am {VALUE=cool}
 - i am {VALUE=hot} in this {SETTING=back}
 - i am kind of darn {VALUE=chilly}
 - i am kind of darn {VALUE=hot} in this {SETTING=front left side}
-- i am kind of fucking {VALUE=frosty} in my {SETTING=front}
+- i am kind of {VALUE=frosty} in my {SETTING=front}
 - i am kind of {VALUE=nippy} in here
-- i am mother fucking {VALUE=balmy} in here
-- i am mother fucking {VALUE=chilly}
-- i am mother fucking {VALUE=warm}
+- i am {VALUE=balmy} in here
+- i am {VALUE=chilly}
+- i am {VALUE=warm}
 - i am {VALUE=nippy} in here
+- i'm feeling cold
+- I'm cold
+- I am feeling cold
 - i am {VALUE=nippy} on the {SETTING=left front side}
 - i am {VALUE=shivering}
 - i am {VALUE=shivering} in here
@@ -9396,11 +9399,11 @@
 - i feel {VALUE=frigid} in here
 - i feel {VALUE=frozen} in here
 - i feel {VALUE=frozen} in this {SETTING=right back}
-- i feel fucking {VALUE=burning up} in here
-- i feel fucking {VALUE=chilly} in here
-- i feel fucking {VALUE=frosty}
-- i feel fucking {VALUE=nippy} in my {SETTING=passenger's}
-- i feel fucking {VALUE=toasty} in here
+- i feel {VALUE=burning up} in here
+- i feel {VALUE=chilly} in here
+- i feel {VALUE=frosty}
+- i feel {VALUE=nippy} in my {SETTING=passenger's}
+- i feel {VALUE=toasty} in here
 - i feel {VALUE=hot}
 - i feel {VALUE=hot} in here
 - i feel {VALUE=hot} in this {SETTING=front right side}
@@ -9480,13 +9483,13 @@
 - i feel too darn {VALUE=freezing} in here
 - i feel too darn {VALUE=warm} in the {SETTING=right side}
 - i feel too friggin {VALUE=freezing} in the {SETTING=back left side}
-- i feel too fucking {VALUE=frigid}
+- i feel too {VALUE=frigid}
 - i feel {VALUE=warm}
 - i feel {VALUE=warm} in here
 - i feel way too {VALUE=balmy}
 - i feel way too darn {VALUE=nippy} in my {SETTING=left}
 - i feel way too friggin {VALUE=toasty} in {SETTING=passenger's side}
-- i feel way too fucking {VALUE=freezing} in here
+- i feel way too {VALUE=freezing} in here
 - i feels as {VALUE=balmy} as a willy
 - i feels as {VALUE=freezing} as a willy
 - i feels as {VALUE=frosty} as a willy
@@ -9584,13 +9587,13 @@
 - i think this {SETTING=right front side} might be way kind of {VALUE=balmy}
 - i'm a bit darn {VALUE=cold} in here
 - i'm a bit friggin {VALUE=balmy} in here
-- i'm a bit fucking {VALUE=freezing} in here
+- i'm a bit {VALUE=freezing} in here
 - i'm a bit {VALUE=toasty} in here
 - i'm a bit too {VALUE=frosty} in {SETTING=left back}
 - i'm a bit too {VALUE=warm} in this {SETTING=right front side}
 - i'm a bit {VALUE=warm} in this {SETTING=left front side}
 - i'm a little darn {VALUE=nippy} in this {SETTING=right}
-- i'm a little fucking {VALUE=chilly} in this {SETTING=rear}
+- i'm a little {VALUE=chilly} in this {SETTING=rear}
 - i'm as {VALUE=chilly} as a freezer in this {SETTING=right front side}
 - i'm as {VALUE=chilly} as a furnace in here
 - i'm as {VALUE=freezing} as ice in this {SETTING=left back}
@@ -9612,17 +9615,17 @@
 - i'm {VALUE=frigid}
 - i'm {VALUE=frigid} in here
 - i'm {VALUE=frozen} in here
-- i'm fucking {VALUE=burning up}
-- i'm fucking {VALUE=chilly} in here
-- i'm fucking {VALUE=warm} in here
+- i'm {VALUE=burning up}
+- i'm {VALUE=chilly} in here
+- i'm {VALUE=warm} in here
 - i'm {VALUE=hot} in here
 - i'm {VALUE=hot} in this {SETTING=front right side}
 - i'm {VALUE=hot} in this {SETTING=right back side}
 - i'm kind of darn {VALUE=cold} in the {SETTING=co-driver side}
 - i'm kind of darn {VALUE=toasty} in here
 - i'm kind of {VALUE=frigid} in here
-- i'm mother fucking {VALUE=chilly}
-- i'm mother fucking {VALUE=frozen} in here
+- i'm {VALUE=chilly}
+- i'm {VALUE=frozen} in here
 - i'm {VALUE=nippy}
 - i'm {VALUE=nippy} over here
 - i'm {VALUE=shivering}
@@ -9631,10 +9634,10 @@
 - i'm {VALUE=shivering} over here
 - i'm somewhat darn {VALUE=frosty} in here
 - i'm somewhat friggin {VALUE=hot}
-- i'm somewhat fucking {VALUE=toasty} in my {SETTING=front}
+- i'm somewhat {VALUE=toasty} in my {SETTING=front}
 - i'm {VALUE=toasty} in here
 - i'm too {VALUE=chilly} in the {SETTING=left rear side}
-- i'm too fucking {VALUE=cool} in the {SETTING=back left side}
+- i'm too {VALUE=cool} in the {SETTING=back left side}
 - i'm {VALUE=warm} in my {SETTING=drivers}
 - i'm way too {VALUE=balmy}
 - i'm way too {VALUE=hot} in this {SETTING=rear left side}
@@ -9702,8 +9705,8 @@
 - it feels {VALUE=frozen} in my {SETTING=front left}
 - it feels {VALUE=frozen} in my {SETTING=left rear}
 - it feels {VALUE=frozen} over here
-- it feels fucking {VALUE=balmy}
-- it feels fucking {VALUE=nippy} in here
+- it feels {VALUE=balmy}
+- it feels {VALUE=nippy} in here
 - it feels {VALUE=hot}
 - it feels kind of damn {VALUE=frigid} in this {SETTING=rear left side}
 - it feels kind of darn {VALUE=hot} in my {SETTING=back}
@@ -9711,13 +9714,13 @@
 - it feels like a {VALUE=frigid} {SETTING=driver}
 - it feels like a {VALUE=toasty} {SETTING=front left side}
 - it feels like a {VALUE=toasty} {SETTING=passenger side}
-- it feels mother fucking {VALUE=toasty} in here
+- it feels {VALUE=toasty} in here
 - it feels {VALUE=shivering}
 - it feels {VALUE=shivering} on the {SETTING=rear}
 - it feels somewhat {VALUE=chilly} in the {SETTING=right back side}
 - it feels somewhat damn {VALUE=hot} in {SETTING=left back}
 - it feels somewhat {VALUE=freezing} in this {SETTING=front right side}
-- it feels somewhat fucking {VALUE=cool}
+- it feels somewhat {VALUE=cool}
 - it feels {VALUE=toasty}
 - it feels {VALUE=toasty} in my {SETTING=right front}
 - it feels too {VALUE=balmy} in my {SETTING=rear left side}
@@ -9727,7 +9730,7 @@
 - it feels way too {VALUE=freezing}
 - it feels way too {VALUE=frigid} on the {SETTING=rear}
 - it feels way too {VALUE=frozen} in my {SETTING=left back}
-- it feels way too fucking {VALUE=cold}
+- it feels way too {VALUE=cold}
 - it gets a {VALUE=frosty} {SETTING=rear}
 - it is a {VALUE=balmy} {SETTING=passenger's}
 - it is a bit {VALUE=balmy} in {SETTING=front right}
@@ -9777,7 +9780,7 @@
 - it is {VALUE=frozen} in here
 - it is {VALUE=frozen} in my {SETTING=right rear side}
 - it is {VALUE=frozen} in the {SETTING=passengers}
-- it is fucking {VALUE=cool}
+- it is {VALUE=cool}
 - it is getting a {VALUE=cold} {SETTING=front right side}
 - it is getting a {VALUE=frozen} {SETTING=right front side}
 - it is gotten a {VALUE=cool} {SETTING=back right side}
@@ -9789,11 +9792,11 @@
 - it is kind of {VALUE=cold} on the {SETTING=back left side}
 - it is kind of {VALUE=freezing} in my {SETTING=front left side}
 - it is kind of {VALUE=freezing} in the {SETTING=rear}
-- it is kind of fucking {VALUE=burning up} in this {SETTING=rear}
+- it is kind of {VALUE=burning up} in this {SETTING=rear}
 - it is kind of {VALUE=humid} in here
 - it is kind of {VALUE=shivering} in here
-- it is mother fucking {VALUE=hot} in here
-- it is mother fucking {VALUE=shivering}
+- it is {VALUE=hot} in here
+- it is {VALUE=shivering}
 - it is {VALUE=shivering}
 - it is {VALUE=shivering} in {SETTING=co-driver side}
 - it is {VALUE=shivering} over here
@@ -9815,7 +9818,7 @@
 - it is {VALUE=warm} in this {SETTING=right rear}
 - it is way too darn {VALUE=hot} in {SETTING=front left side}
 - it is way too {VALUE=frozen} on the {SETTING=right front}
-- it is way too fucking {VALUE=burning up}
+- it is way too {VALUE=burning up}
 - it is way too {VALUE=humid} in here
 - it is way too {VALUE=shivering} in {SETTING=back right side}
 - it is way too {VALUE=shivering} in {SETTING=passengers}
@@ -9852,7 +9855,7 @@
 - it's a bit {VALUE=freezing} than it could be
 - it's a bit {VALUE=frigid}
 - it's a bit {VALUE=frigid} on my {SETTING=head}
-- it's a bit fucking {VALUE=burning up} in the {SETTING=right back side}
+- it's a bit {VALUE=burning up} in the {SETTING=right back side}
 - it's a bit {VALUE=hot} in my {SETTING=rear}
 - it's a bit {VALUE=hot} on {SETTING=feet}
 - it's a bit {VALUE=shivering} than it could be
@@ -9860,8 +9863,8 @@
 - it's a bit too {VALUE=cooler} than it could be
 - it's a bit too {VALUE=freezing} on my {SETTING=feet}
 - it's a bit too {VALUE=frigid} than it could be
-- it's a bit too fucking {VALUE=shivering} in here
-- it's a bit too fucking {VALUE=shivering} in this {SETTING=rear right}
+- it's a bit too {VALUE=shivering} in here
+- it's a bit too {VALUE=shivering} in this {SETTING=rear right}
 - it's a bit too {VALUE=hot} in the {SETTING=left rear side}
 - it's a bit too {VALUE=shivering} on {SETTING=head}
 - it's a bit too {VALUE=warmer} than it could be
@@ -9872,7 +9875,7 @@
 - it's a little {VALUE=cooler} than it could be
 - it's a little {VALUE=freezing} than it could be
 - it's a little {VALUE=frozen} on the {SETTING=feet}
-- it's a little fucking {VALUE=burning up} in this {SETTING=front right}
+- it's a little {VALUE=burning up} in this {SETTING=front right}
 - it's a little {VALUE=hot} than it could be
 - it's a little {VALUE=hotter} than it could be
 - it's a little {VALUE=shivering} in here
@@ -9927,10 +9930,10 @@
 - it's {VALUE=frozen} in this {SETTING=drivers}
 - it's {VALUE=frozen} in this {SETTING=front right}
 - it's {VALUE=frozen} in this {SETTING=passenger}
-- it's fucking {VALUE=cool}
-- it's fucking {VALUE=frigid}
-- it's fucking {VALUE=frozen} in here
-- it's fucking {VALUE=toasty} in here
+- it's {VALUE=cool}
+- it's {VALUE=frigid}
+- it's {VALUE=frozen} in here
+- it's {VALUE=toasty} in here
 - it's {VALUE=hot} in here
 - it's {VALUE=hot} in this {SETTING=right back side}
 - it's {VALUE=hot} than it could be
@@ -9951,8 +9954,8 @@
 - it's kind of {VALUE=hot} on my {SETTING=hand}
 - it's kind of {VALUE=hotter} than it could be
 - it's kind of {VALUE=shivering} than it could be
-- it's mother fucking {VALUE=burning up}
-- it's mother fucking {VALUE=shivering}
+- it's {VALUE=burning up}
+- it's {VALUE=shivering}
 - it's {VALUE=nippy}
 - it's {VALUE=nippy} in the {SETTING=passengers side}
 - it's {VALUE=nippy} in this {SETTING=back}
@@ -9983,9 +9986,9 @@
 - it's too {VALUE=frosty} in my {SETTING=rear right side}
 - it's too {VALUE=frozen} on the {SETTING=head}
 - it's too {VALUE=frozen} than it could be
-- it's too fucking {VALUE=balmy} in this {SETTING=co-drivers}
-- it's too fucking {VALUE=frosty}
-- it's too fucking {VALUE=hot} in here
+- it's too {VALUE=balmy} in this {SETTING=co-drivers}
+- it's too {VALUE=frosty}
+- it's too {VALUE=hot} in here
 - it's too {VALUE=hot} on the {SETTING=passenger's side}
 - it's too {VALUE=hot} than it could be
 - it's too {VALUE=shivering} in here
@@ -10011,7 +10014,7 @@
 - it's way too friggin {VALUE=balmy} in here
 - it's way too {VALUE=frozen} on {SETTING=feet}
 - it's way too {VALUE=frozen} on {SETTING=hand}
-- it's way too fucking {VALUE=hot}
+- it's way too {VALUE=hot}
 - it's way too {VALUE=hotter} than it could be
 - it's way too {VALUE=shivering} than it could be
 - kind of {VALUE=hot}

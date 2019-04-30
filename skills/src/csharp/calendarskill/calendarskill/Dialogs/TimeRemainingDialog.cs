@@ -19,7 +19,7 @@ using Microsoft.Bot.Builder.Solutions.Util;
 
 namespace CalendarSkill.Dialogs
 {
-    public class TimeRemainingDialog : CalendarSkillDialog
+    public class TimeRemainingDialog : CalendarSkillDialogBase
     {
         public TimeRemainingDialog(
             BotSettings settings,

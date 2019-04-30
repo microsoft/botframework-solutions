@@ -66,6 +66,10 @@
     "luisServiceLocation": {
       "type": "string",
       "defaultValue": "[resourceGroup().location]"
+    },
+    "bingServiceName": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('name'), '-bing')]"
     }
   },
   "variables": {
@@ -188,6 +192,16 @@
       "sku": {
         "name": "[parameters('luisServiceSku')]"
       }
+    },
+    {
+      "type": "Microsoft.CognitiveServices/accounts",
+      "kind": "Bing.Search.v7",
+      "apiVersion": "2016-02-01-preview",
+      "name": "[parameters('bingServiceName')]",
+      "location": "global",
+      "sku": {
+        "name": "S1"
+      }
     }
   ],
   "outputs": {
@@ -219,6 +233,10 @@
       "value": {
         "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisServiceName')),'2017-04-18').key1]"
       }
+    },
+    "bingSearch": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('bingServiceName')),'2017-04-18').key1]"
     }
   }
 }

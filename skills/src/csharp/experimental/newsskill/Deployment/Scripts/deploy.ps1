@@ -153,6 +153,7 @@ $settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppPassword' -V
 if ($outputs.appInsights) { $settings | Add-Member -Type NoteProperty -Force -Name 'appInsights' -Value $outputs.appInsights.value }
 if ($outputs.storage) { $settings | Add-Member -Type NoteProperty -Force -Name 'blobStorage' -Value $outputs.storage.value }
 if ($outputs.cosmosDb) { $settings | Add-Member -Type NoteProperty -Force -Name 'cosmosDb' -Value $outputs.cosmosDb.value }
+if ($outputs.bingSearch) { $settings | Add-Member -Type NoteProperty -Force -Name 'properties' -Value @{ bingSearchKey = $outputs.bingSearch.value }}
 
 $settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $outFolder appsettings.json)
 

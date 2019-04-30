@@ -86,8 +86,6 @@ foreach ($language in $languages -split ",")
 				version = $luisApp.activeVersion
 				region = $luisAuthoringRegion
 			}
-
-			RunLuisGen $lu "$($lu.BaseName)" $(Join-Path $outFolder Services)
 		}
 		else {
 			Write-Host "! Deployment failed for LUIS app: $($lu.BaseName)" -ForegroundColor Cyan
