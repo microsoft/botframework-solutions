@@ -7,6 +7,7 @@
 - [Testing](#testing)
 
 ## Prerequisites
+
 - Azure Bot Service CLI tools (latest versions)
 ```bash
 npm install -g botdispatch ludown luis-apis qnamaker luisgen
@@ -15,6 +16,7 @@ npm install -g botdispatch ludown luis-apis qnamaker luisgen
 - [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator)
 
 ## Deployment
+
 The Virtual Assistant require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
 
 - Azure Web App
@@ -35,12 +37,13 @@ pwsh.exe -ExecutionPolicy Bypass -File deployment\scripts\deploy.ps1 -name "<NAM
 3. Check the deployment finished successfully.
 
 ## Starting your assistant
+
+At this moment, the `generator-botbuilder-assistant` has installed the dependencies and builded the solution, so you just have to follow these steps: 
 1. Open up the generated assistant in your desired IDE (e.g `Visual Studio Code`).
-2. Run `npm install`.
-3. Run `npm run build`.
-4. Run `npm run start`.
+2. Run `npm run start`.
 
 ## Testing
+
 1. Open the **Bot Framework Emulator**.
 2. Within the Emulator, click **File > New Bot Configuration** .
 3. Provide the endpoint of your running Bot, e.g: `http://localhost:3978/api/messages`
