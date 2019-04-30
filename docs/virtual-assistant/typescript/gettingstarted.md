@@ -124,8 +124,6 @@ To deploy your services using the default configuration, follow the steps in thi
 ## Starting your assistant
 
 - Open up the generated assistant in your desired IDE (e.g Visual Studio Code).
-- Run `npm install`.
-- Run `npm run build`.
 - Run `npm run start`.
 
 ## Testing
