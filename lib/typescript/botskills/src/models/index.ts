@@ -3,6 +3,12 @@
  * Licensed under the MIT License.
  */
 
+export {
+    IAppSettingOauthConnection,
+    IAzureAuthSetting,
+    IOauthConnection,
+    IResourceAccess,
+    IScopeManifest } from './authentication';
 export { IConnectConfiguration } from './connectConfiguration';
 export { IDisconnectConfiguration } from './disconnectConfiguration';
 export { IListConfiguration } from './listConfiguration';

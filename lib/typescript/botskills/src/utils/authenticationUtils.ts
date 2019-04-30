@@ -4,8 +4,15 @@
  */
 
 import { writeFileSync } from 'fs';
-import { ConsoleLogger, ILogger } from '../logger';
-import { IAuthenticationConnection, IConnectConfiguration, ISkillManifest } from '../models';
+import { ILogger } from '../logger';
+import {
+    IAppSettingOauthConnection,
+    IAuthenticationConnection,
+    IAzureAuthSetting,
+    IConnectConfiguration,
+    IOauthConnection,
+    IScopeManifest,
+    ISkillManifest } from '../models';
 import { extractArgs, tryExecute } from './';
 
 const scopeMap: Map<string, string> = new Map([
@@ -66,31 +73,6 @@ function getScopeId(scope: string): string {
 }
 
 function createScopeManifest(scopes: string[]): IScopeManifest[] {
-    /* should generate the following manifest
-			 * [
-			 *     {
-			 *         "resourceAppId": "00000003-0000-0000-c000-000000000000",
-			 *         "resourceAccess": [
-			 *             {
-			 *                 "id": "e1fe6dd8-ba31-4d61-89e7-88639da4683d",
-			 *                 "type": "Scope"
-			 *             },
-			 *             {
-			 *                 "id": "b340eb25-3456-403f-be2f-af7a0d370277",
-			 *                 "type": "Scope"
-			 *             },
-			 *             {
-			 *                 "id": "1ec239c2-d7c9-4623-a91a-a9775856bb36",
-			 *                 "type": "Scope"
-			 *             },
-			 *             {
-			 *                 "id": "ba47897c-39ec-4d83-8086-ee8256fa737d",
-			 *                 "type": "Scope"
-			 *             }
-			 *         ]
-			 *     }
-			 * ]
-			 */
     return [{
         resourceAppId: '00000003-0000-0000-c000-000000000000',
         resourceAccess: scopes.filter((scope: string) => scopeMap.has(scope))
@@ -100,51 +82,7 @@ function createScopeManifest(scopes: string[]): IScopeManifest[] {
                     type: 'Scope'
                 };
             })
-        }];
-}
-
-interface IScopeManifest {
-    resourceAppId: string;
-    resourceAccess: IResourceAccess[];
-}
-interface IResourceAccess {
-    id: string;
-    // tslint:disable-next-line:no-reserved-keywords
-    type: string;
-}
-interface IAzureAuthSetting {
-    etag: string;
-    id: string;
-    kind: string;
-    location: string;
-    name: string;
-    properties: {
-        clientId: string;
-        clientSecret: string;
-        parameters: {
-            key: string;
-            value: string;
-        }[];
-        provisioningState: string;
-        scopes: string;
-        serviceProviderDisplayName: string;
-        serviceProviderId: string;
-        settingId: string;
-    };
-    resourceGroup: string;
-    sku: string;
-    tags: string;
-    // tslint:disable-next-line:no-reserved-keywords
-    type: string;
-}
-interface IAppSettingOauthConnection {
-    oauthConnections: IOauthConnection[];
-    microsoftAppId: string;
-    microsoftAppPassword: string;
-}
-interface IOauthConnection {
-    name: string;
-    provider: string;
+    }];
 }
 
 // tslint:disable-next-line:max-func-body-length export-name
@@ -159,7 +97,7 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
 
             let connectionName: string = aadConfig.id;
             const newScopes: string[] = aadConfig.scopes.split(', ');
-            let scopes: string[] = newScopes.slice(0); // creates a new array with the same values
+            let scopes: string[] = newScopes.slice(0);
 
             // check for existing aad connection
             let listAuthSettingsCmd: string = `az bot authsetting list `;
@@ -220,31 +158,6 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
             scopes = [...new Set(scopes)];
             const scopeManifest: IScopeManifest[] = createScopeManifest(scopes);
 
-            /* should generate the following manifest
-			 * [
-			 *     {
-			 *         "resourceAppId": "00000003-0000-0000-c000-000000000000",
-			 *         "resourceAccess": [
-			 *             {
-			 *                 "id": "e1fe6dd8-ba31-4d61-89e7-88639da4683d",
-			 *                 "type": "Scope"
-			 *             },
-			 *             {
-			 *                 "id": "b340eb25-3456-403f-be2f-af7a0d370277",
-			 *                 "type": "Scope"
-			 *             },
-			 *             {
-			 *                 "id": "1ec239c2-d7c9-4623-a91a-a9775856bb36",
-			 *                 "type": "Scope"
-			 *             },
-			 *             {
-			 *                 "id": "ba47897c-39ec-4d83-8086-ee8256fa737d",
-			 *                 "type": "Scope"
-			 *             }
-			 *         ]
-			 *     }
-			 * ]
-			 */
             // Update MSA scopes
             logger.message('Configuring MSA app scopes ...');
             let azureAppUpdateCmd: string = `az ad app update `;
@@ -255,14 +168,6 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
             azureAppUpdateCmd += `--required-resource-accesses "${scopeManifestText}"`;
 
             const errorResult: string = await tryExecute('az', extractArgs(azureAppUpdateCmd));
-            /* for example az ad app update
-             * --id 349c6ad0-4270-4d7d-b641-e971f64cfcd7
-             * --required-resource-accesses "[{'resourceAppId':'00000003-0000-0000-c000-000000000000',
-             *  'resourceAccess':[{'id':'e1fe6dd8-ba31-4d61-89e7-88639da4683d','type':'Scope'},
-             *  {'id':'b340eb25-3456-403f-be2f-af7a0d370277','type':'Scope'},
-             *  {'id':'1ec239c2-d7c9-4623-a91a-a9775856bb36','type':'Scope'},
-             *  {'id':'ba47897c-39ec-4d83-8086-ee8256fa737d','type':'Scope'}]}]"
-             */
             //  Catch error: Updates to converged applications are not allowed in this version.
             if (errorResult) {
                 logger.warning('Could not configure scopes automatically.');
@@ -270,16 +175,6 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
             }
 
             logger.message('Updating bot oauth settings ...');
-            /* az bot authsetting create
-             * --name vasample
-             * --resource-group vasample
-             * --setting-name Outlook
-             * --client-id "349c6ad0-4270-4d7d-b641-e971f64cfcd7"
-             * --client-secret "z?{K9_.1%X1(n};bCX["
-             * --service Aadv2
-             * --parameters clientId="349c6ad0-4270-4d7d-b641-e971f64cfcd7" clientSecret="z?{K9_.1%X1(n};bCX[" tenantId=common
-             * --provider-scope-string "User.Read, User.ReadBasic.All, Calendars.ReadWrite, People.Read"
-             */
             let authSettingCmd: string = `az bot authsetting create `;
             authSettingCmd += `--name ${configuration.botName} `;
             authSettingCmd += `--resource-group ${configuration.resourceGroup} `;
@@ -292,43 +187,6 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
             authSettingCmd += `--provider-scope-string "${scopes.join(' ')}"`;
 
             await tryExecute('az', extractArgs(authSettingCmd));
-
-            /* {
-			 *   "etag": "W/\"ccdffe1611577e39d8feaad8df4b8d684/25/2019 12:44:15 PM\"",
-			 *   "id": "/subscriptions/28b01fda-097c-4246-a0c8-1e1cfc302723/
-             *      resourceGroups/vasample/providers/Microsoft.BotService/botServices/vasample/connections/Outlook",
-			 *   "kind": null,
-			 *   "location": "global",
-			 *   "name": "vasample/Outlook",
-			 *   "properties": {
-			 *     "clientId": "349c6ad0-4270-4d7d-b641-e971f64cfcd7",
-			 *     "clientSecret": "z?{K9_.1%X1(n};bCX[",
-			 *     "parameters": [
-			 *       {
-			 *         "key": "clientId",
-			 *         "value": "349c6ad0-4270-4d7d-b641-e971f64cfcd7"
-			 *       },
-			 *       {
-			 *         "key": "clientSecret",
-			 *         "value": "z?{K9_.1%X1(n};bCX["
-			 *       },
-			 *       {
-			 *         "key": "tenantId",
-			 *         "value": "common"
-			 *       }
-			 *     ],
-			 *     "provisioningState": "Succeeded",
-			 *     "scopes": "User.Read, User.ReadBasic.All, Calendars.ReadWrite, People.Read",
-			 *     "serviceProviderDisplayName": null,
-			 *     "serviceProviderId": "30dd229c-58e3-4a48-bdfd-91ec48eb906c",
-			 *     "settingId": "be361d58-0586-d620-a179-8bc6ace69787_24e99b70-0840-c957-537a"
-			 *   },
-			 *   "resourceGroup": "vasample",
-			 *   "sku": null,
-			 *   "tags": null,
-			 *   "type": "Microsoft.BotService/botServices/connections"
-			 * }
-			 */
         } else {
             logger.error('Could not configure authentication connection automatically.');
             // $manualAuthRequired = $true
