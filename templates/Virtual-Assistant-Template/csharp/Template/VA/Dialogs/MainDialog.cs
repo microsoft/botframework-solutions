@@ -131,15 +131,19 @@ namespace $safeprojectname$.Dialogs
             {
                 var answers = await qnaService.GetAnswersAsync(dc.Context);
 
-                if (answers != null && answers.Count() > 0)
-                {
-                    await dc.Context.SendActivityAsync(answers[0].Answer);
+                    if (answers != null && answers.Count() > 0)
+                    {
+                        await dc.Context.SendActivityAsync(answers[0].Answer);
+                    }
+                    else
+                    {
+                        await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
+                    }
                 }
             }
-        }
-        else if (intent == DispatchLuis.Intent.q_chitchat)
-        {
-            cognitiveModels.QnAServices.TryGetValue("chitchat", out var qnaService);
+            else if (intent == DispatchLuis.Intent.q_chitchat)
+            {
+                cognitiveModels.QnAServices.TryGetValue("chitchat", out var qnaService);
 
             if (qnaService == null)
             {
@@ -149,18 +153,22 @@ namespace $safeprojectname$.Dialogs
             {
                 var answers = await qnaService.GetAnswersAsync(dc.Context);
 
-                if (answers != null && answers.Count() > 0)
-                {
-                    await dc.Context.SendActivityAsync(answers[0].Answer);
+                    if (answers != null && answers.Count() > 0)
+                    {
+                        await dc.Context.SendActivityAsync(answers[0].Answer);
+                    }
+                    else
+                    {
+                        await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
+                    }
                 }
             }
+            else
+            {
+                // If dispatch intent does not map to configured models, send "confused" response.
+                await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
+            }
         }
-        else
-        {
-            // If dispatch intent does not map to configured models, send "confused" response.
-            await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
-        }
-    }
 
     protected override async Task OnEventAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
     {

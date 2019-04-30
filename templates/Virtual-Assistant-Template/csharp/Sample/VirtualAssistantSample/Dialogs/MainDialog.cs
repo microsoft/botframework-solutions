@@ -136,6 +136,10 @@ namespace VirtualAssistantSample.Dialogs
                     {
                         await dc.Context.SendActivityAsync(answers[0].Answer);
                     }
+                    else
+                    {
+                        await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
+                    }
                 }
             }
             else if (intent == DispatchLuis.Intent.q_chitchat)
@@ -153,6 +157,10 @@ namespace VirtualAssistantSample.Dialogs
                     if (answers != null && answers.Count() > 0)
                     {
                         await dc.Context.SendActivityAsync(answers[0].Answer);
+                    }
+                    else
+                    {
+                        await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
                     }
                 }
             }
