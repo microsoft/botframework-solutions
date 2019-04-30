@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -8,11 +9,21 @@ using Microsoft.Bot.Protocol;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Diagnostics = System.Diagnostics;
 
 namespace Microsoft.Bot.Builder.Skills
 {
     internal class SkillWebSocketRequestHandler : RequestHandler
     {
+		private readonly Diagnostics.Stopwatch _stopWatch;
+		private readonly IBotTelemetryClient _botTelemetryClient;
+
+		internal SkillWebSocketRequestHandler(IBotTelemetryClient botTelemetryClient)
+		{
+			_botTelemetryClient = botTelemetryClient ?? NullBotTelemetryClient.Instance;
+			_stopWatch = new Diagnostics.Stopwatch();
+		}
+
         public IBot Bot { get; set; }
 
         public IActivityHandler SkillWebSocketBotAdapter { get; set; }
@@ -49,7 +60,15 @@ namespace Microsoft.Bot.Builder.Skills
             {
                 var activity = JsonConvert.DeserializeObject<Activity>(body, Serialization.Settings);
                 var cancellationTokenSource = new CancellationTokenSource();
+
+				_stopWatch.Start();
                 var invokeResponse = await this.SkillWebSocketBotAdapter.ProcessActivityAsync(activity, new BotCallbackHandler(this.Bot.OnTurnAsync), cancellationTokenSource.Token).ConfigureAwait(false);
+				_stopWatch.Stop();
+
+				_botTelemetryClient.TrackEvent("SkillWebSocketProcessRequestLatency", null, new Dictionary<string, double>
+				{
+					{ "Latency", _stopWatch.ElapsedMilliseconds },
+				});
 
                 // trigger cancel token after activity is handled. this will stop the typing indicator
                 cancellationTokenSource.Cancel();
@@ -69,10 +88,7 @@ namespace Microsoft.Bot.Builder.Skills
             }
             catch (Exception ex)
             {
-                if (logger != null)
-                {
-                    logger.LogError(ex.Message, ex);
-                }
+				_botTelemetryClient.TrackException(ex);
 
                 response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }

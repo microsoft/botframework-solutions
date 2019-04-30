@@ -86,74 +86,75 @@ if (-not $manifest) {
 }
 
 Write-Host "> Getting intents for dispatch ..." 
+$dictionary = @{ }
+foreach ($action in $manifest.actions) {
+   if ($action.definition.triggers.utteranceSources) {
+       foreach ($source in $action.definition.triggers.utteranceSources) {
+           foreach ($luisStr in $source.source) {
+               $luis = $luisStr -Split '#'                
+               if ($dictionary.ContainsKey($luis[0])) {
+                   $intents = $dictionary[$luis[0]]
+                   $intents += $luis[1]
+                   $dictionary[$luis[0]] = $intents
+               }
+               else {
+                   $dictionary.Add($luis[0], @($luis[1]))
+               }
+           }
+       }
+   }
+}
+
+Write-Host "> Adding $($manifest.Id) to dispatch ..." 
 try {
-	foreach ($action in $manifest.actions) {
-		if ($action.definition.triggers.utteranceSources) {
-			 $sources = @{}
-			 foreach ($source in ($action.definition.triggers.utteranceSources | Where-Object {$_.locale -eq $langCode})) {
-				foreach ($luisStr in $source.source) { 
-					$luis = $luisStr -Split '#'                
-					if ($sources.ContainsKey($luis[0])) {
-						$intents = $sources[$luis[0]]
-						$intents += $luis[1]
-						$sources[$luis[0]] = $intents
-					}
-					else {
-						$sources.Add($luis[0], @($luis[1]))
-					}
-				}
-			 }
-			 
-			 Write-Host "> Adding $($action.id) action to dispatch ..." 
-			 foreach ($luisApp in $sources.Keys) {
-				 $intents = $sources[$luisApp]
-				 $luFile = Get-ChildItem -Path $(Join-Path $luisFolder "$($luisApp).lu") ` 2>> $logFile
-	 
-				 if (-not $luFile) {
-					 $luFile = Get-ChildItem -Path $(Join-Path $luisFolder $langCode "$($luisApp).lu") ` 2>> $logFile
-	 
-					 if ($luFile) {
-						 $luisFolder = $(Join-Path $luisFolder $langCode)
-					 }
-					 else {
-						 Write-Host "! Could not find $($manifest.Name) LU file. Please provide the -luisFolder parameter." -ForegroundColor DarkRed
-						 Write-Host "! Checked the following locations:"  -ForegroundColor DarkRed
-						 Write-Host "	$(Join-Path $luisFolder "$($luisApp).lu")"  -ForegroundColor DarkRed
-						 Write-Host "	$(Join-Path $luisFolder $langCode "$($luisApp).lu")"  -ForegroundColor DarkRed
-						 Throw
-					 }
-				 }
-	 
-				 # Parse LU file
-				 ludown parse toluis `
-					 --in $luFile `
-					 --luis_culture $language `
-					 --out_folder $luisFolder `
-					 --out "$($luisApp).luis"
-	 
-				 $luisFile = Get-ChildItem `
-					 -Path $luisFolder `
-					 -Filter "$($luisApp).luis" `
-					 -Recurse `
-					 -Force 2>> $logFile
-	 
-				 if ($luisFile) {
-					 (dispatch add `
-					 --type file `
-					 --filePath $luisFile `
-					 --name $action.id `
-					 --intentName $action.id `
-					 --includedIntents $intents `
-					 --dataFolder $dispatchFolder `
-					 --dispatch $(Join-Path $dispatchFolder "$($dispatchName).dispatch")) 2>> $logFile | Out-Null
-				 }
-				 else {
-					 Write-Host "! Could not find LUIS file: $(Join-Path $luisFolder "$($luisApp).luis")" -ForegroundColor DarkRed
-					 Break
-				 }
-			 }
+	foreach ($luisApp in $dictionary.Keys) {
+		$intentName = $manifest.Id
+		$intents = $dictionary[$luisApp] -Join ","
+		$luFile = Get-ChildItem -Path $(Join-Path $luisFolder "$($luisApp).lu") ` 2>> $logFile
+
+		if (-not $luFile) {
+			$luFile = Get-ChildItem -Path $(Join-Path $luisFolder $langCode "$($luisApp).lu") ` 2>> $logFile
+
+			if ($luFile) {
+				$luisFolder = $(Join-Path $luisFolder $langCode)
+			}
+			else {
+				Write-Host "! Could not find $($manifest.Name) LU file. Please provide the -luisFolder parameter." -ForegroundColor DarkRed
+				Write-Host "! Checked the following locations:"  -ForegroundColor DarkRed
+				Write-Host "	$(Join-Path $luisFolder "$($luisApp).lu")"  -ForegroundColor DarkRed
+				Write-Host "	$(Join-Path $luisFolder $langCode "$($luisApp).lu")"  -ForegroundColor DarkRed
+				Throw
+			}
 		}
-	 }
+
+		# Parse LU file
+		ludown parse toluis `
+			--in $luFile `
+			--luis_culture $language `
+			--out_folder $luisFolder `
+			--out "$($luisApp).luis"
+
+		$luisFile = Get-ChildItem `
+			-Path $luisFolder `
+			-Filter "$($luisApp).luis" `
+			-Recurse `
+			-Force 2>> $logFile
+
+		if ($luisFile) {
+			(dispatch add `
+				--name $intentName `
+				--type file `
+				--filePath $luisFile `
+				--intentName $intentName `
+				--includedIntents $intents `
+				--dataFolder $dispatchFolder `
+				--dispatch $(Join-Path $dispatchFolder "$($dispatchName).dispatch")) 2>> $logFile | Out-Null
+		}
+		else {
+			Write-Host "! Could not find LUIS file: $(Join-Path $luisFolder "$($luisApp).luis")" -ForegroundColor DarkRed
+			Break
+		}
+	}
 }
 catch {
 	Break
@@ -171,25 +172,25 @@ if (Test-Path $dispatchJsonPath) {
 
 Write-Host "> Initializing skill.config ..."
 if (Test-Path $skillsFile) {
-    $skillConfig = Get-Content $skillsFile | ConvertFrom-Json
+   $skillConfig = Get-Content $skillsFile | ConvertFrom-Json
 
-    if ($skillConfig) {
-        if ($skillConfig.skills) {
-            if ($skillConfig.skills.Id -eq $manifest.Id) {
-                Write-Host "! $($manifest.Id) is already registered." -ForegroundColor DarkRed
+   if ($skillConfig) {
+       if ($skillConfig.skills) {
+           if ($skillConfig.skills.Id -eq $manifest.Id) {
+               Write-Host "! $($manifest.Id) is already registered." -ForegroundColor DarkRed
 				$alreadyRegistered = $true;
-            }
-            else {
-                Write-Host "> Registering $($manifest.Id) ..."
-                $skillConfig.skills += $manifest
-            }
-        }
-        else {
-            Write-Host "> Registering $($manifest.Id) ..."
-            $skills = @($manifest)
-            $skillConfig | Add-Member -Type NoteProperty -Force -Name "skills" -Value $skills
-        }
-    }
+           }
+           else {
+               Write-Host "> Registering $($manifest.Id) ..."
+               $skillConfig.skills += $manifest
+           }
+       }
+       else {
+           Write-Host "> Registering $($manifest.Id) ..."
+           $skills = @($manifest)
+           $skillConfig | Add-Member -Type NoteProperty -Force -Name "skills" -Value $skills
+       }
+   }
 }
 
 if (-not $alreadyRegistered) {
