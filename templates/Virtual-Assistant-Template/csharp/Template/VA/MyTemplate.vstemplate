@@ -31,12 +31,18 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="DialogBot.cs">DialogBot.cs</ProjectItem>
       </Folder>
       <Folder Name="Content" TargetFolderName="Content">
-        <ProjectItem ReplaceParameters="true" TargetFileName="Intro.json">Intro.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Intro.de.json">Intro.de.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Intro.es.json">Intro.es.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Intro.fr.json">Intro.fr.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Intro.it.json">Intro.it.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Intro.zh.json">Intro.zh.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.json">NewUserGreeting.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.de.json">NewUserGreeting.de.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.es.json">NewUserGreeting.es.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.fr.json">NewUserGreeting.fr.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.it.json">NewUserGreeting.it.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.zh.json">NewUserGreeting.zh.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.json">ReturningUserGreeting.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.de.json">ReturningUserGreeting.de.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.es.json">ReturningUserGreeting.es.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.fr.json">ReturningUserGreeting.fr.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.it.json">ReturningUserGreeting.it.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.zh.json">ReturningUserGreeting.zh.json</ProjectItem>
       </Folder>
       <Folder Name="Controllers" TargetFolderName="Controllers">
         <ProjectItem ReplaceParameters="true" TargetFileName="BotController.cs">BotController.cs</ProjectItem>
@@ -182,6 +188,7 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="BotServices.cs">BotServices.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="BotSettings.cs">BotSettings.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="DispatchLuis.cs">DispatchLuis.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="GeneralLuis.cs">GeneralLuis.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="GraphClient.cs">GraphClient.cs</ProjectItem>
       </Folder>
       <ProjectItem ReplaceParameters="true" TargetFileName=".filenesting.json">.filenesting.json</ProjectItem>
