@@ -7,13 +7,13 @@ import { writeFileSync } from 'fs';
 import { ILogger } from '../logger';
 import {
     IAppSettingOauthConnection,
+    IAppShowReplyUrl,
     IAuthenticationConnection,
     IAzureAuthSetting,
     IConnectConfiguration,
     IOauthConnection,
     IScopeManifest,
-    ISkillManifest, 
-    IAppShowReplyUrl} from '../models';
+    ISkillManifest } from '../models';
 import { extractArgs, tryExecute } from './';
 
 const scopeMap: Map<string, string> = new Map([
