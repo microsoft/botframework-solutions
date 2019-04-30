@@ -72,8 +72,8 @@ if (-not $manifest) {
 Write-Host "> Removing skill from dispatch ..." 
 $dispatch = Get-Content $dispatchPath | ConvertFrom-Json
 if ($dispatch.services) {
-	$toRemove = $dispatch.services | Where-Object { $manifest.actions.id -contains $_.name }
-	$dispatch.services = $dispatch.services | Where-Object -FilterScript { $manifest.actions.id -notcontains $_.name }
+	$toRemove = $dispatch.services | Where-Object { $manifest.id -eq $_.name }
+	$dispatch.services = $dispatch.services | Where-Object -FilterScript { $manifest.id -ne $_.name }
 	$dispatch.serviceIds = $dispatch.serviceIds | Where-Object -FilterScript { $toRemove.id -notcontains $_ }
 
 	$dispatch | ConvertTo-Json -depth 100 | Out-File $dispatchPath
