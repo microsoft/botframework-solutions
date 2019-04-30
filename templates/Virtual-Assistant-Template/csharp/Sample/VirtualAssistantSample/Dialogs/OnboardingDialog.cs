@@ -11,7 +11,7 @@ using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Dialogs
 {
-    public class OnboardingDialog : DialogBase
+    public class OnboardingDialog : ComponentDialog
     {
         private static OnboardingResponses _responder = new OnboardingResponses();
         private IStatePropertyAccessor<OnboardingState> _accessor;
@@ -21,7 +21,7 @@ namespace VirtualAssistantSample.Dialogs
             BotServices botServices,
             ConversationState conversationState,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(OnboardingDialog), botServices, telemetryClient)
+            : base(nameof(OnboardingDialog))
         {
             _accessor = conversationState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             InitialDialogId = nameof(OnboardingDialog);

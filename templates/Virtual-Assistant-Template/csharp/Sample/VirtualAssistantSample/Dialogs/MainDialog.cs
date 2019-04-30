@@ -14,7 +14,9 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Schema;
+using Newtonsoft.Json.Linq;
 using VirtualAssistantSample.Models;
+using VirtualAssistantSample.Responses.Cancel;
 using VirtualAssistantSample.Responses.Main;
 using VirtualAssistantSample.Services;
 
@@ -24,26 +26,25 @@ namespace VirtualAssistantSample.Dialogs
     {
         private BotSettings _settings;
         private BotServices _services;
-        private IStatePropertyAccessor<OnboardingState> _onboardingAccessor;
         private MainResponses _responder = new MainResponses();
 
         public MainDialog(
             BotSettings settings,
             BotServices services,
-            ConversationState conversationState,
             OnboardingDialog onboardingDialog,
             EscalateDialog escalateDialog,
+            CancelDialog cancelDialog,
             List<SkillDialog> skillDialogs,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
             _settings = settings;
             _services = services;
-            _onboardingAccessor = conversationState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             TelemetryClient = telemetryClient;
 
             AddDialog(onboardingDialog);
             AddDialog(escalateDialog);
+            AddDialog(cancelDialog);
 
             foreach (var skillDialog in skillDialogs)
             {
@@ -54,50 +55,7 @@ namespace VirtualAssistantSample.Dialogs
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var view = new MainResponses();
-            var onboardingState = await _onboardingAccessor.GetAsync(dc.Context, () => new OnboardingState());
-            if (string.IsNullOrEmpty(onboardingState.Name))
-            {
-                await view.ReplyWith(dc.Context, MainResponses.ResponseIds.NewUserGreeting);
-            }
-            else
-            {
-                await view.ReplyWith(dc.Context, MainResponses.ResponseIds.ReturningUserGreeting);
-            }
-        }
-
-        protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)
-        {
-            if (dc.Context.Activity.Type == ActivityTypes.Message && !string.IsNullOrWhiteSpace(dc.Context.Activity.Text))
-            {
-                // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var cognitiveModels = _services.CognitiveModelSets[locale];
-
-                // check luis intent
-                cognitiveModels.LuisServices.TryGetValue("general", out var luisService);
-                if (luisService == null)
-                {
-                    throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
-                }
-                else
-                {
-                    var luisResult = await luisService.RecognizeAsync<GeneralLuis>(dc.Context, cancellationToken);
-                    var intent = luisResult.TopIntent().intent;
-
-                    if (luisResult.TopIntent().score > 0.5)
-                    {
-                        switch (intent)
-                        {
-                            case GeneralLuis.Intent.Logout:
-                                {
-                                    return await LogoutAsync(dc);
-                                }
-                        }
-                    }
-                }
-            }
-
-            return InterruptionAction.NoAction;
+            await view.ReplyWith(dc.Context, MainResponses.ResponseIds.NewUserGreeting);
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -117,7 +75,7 @@ namespace VirtualAssistantSample.Dialogs
             {
                 // We have identiifed a skill so initialize the skill connection with the target skill 
                 // the dispatch intent is the Action ID of the Skill enabling us to resolve the specific action and identify slots
-                await dc.BeginDialogAsync(identifiedSkill.Id);
+                await dc.BeginDialogAsync(identifiedSkill.Id, intent.ToString());
 
                 // Pass the activity we have
                 var result = await dc.ContinueDialogAsync();
@@ -145,33 +103,10 @@ namespace VirtualAssistantSample.Dialogs
                     // switch on general intents
                     switch (generalIntent)
                     {
-                        case GeneralLuis.Intent.Cancel:
-                            {
-                                // send cancelled response
-                                await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Cancelled);
-
-                                // Cancel any active dialogs on the stack
-                                await dc.CancelAllDialogsAsync();
-                                break;
-                            }
-
                         case GeneralLuis.Intent.Escalate:
                             {
                                 // start escalate dialog
                                 await dc.BeginDialogAsync(nameof(EscalateDialog));
-                                break;
-                            }
-
-                        case GeneralLuis.Intent.Logout:
-                            {
-                                await LogoutAsync(dc);
-                                break;
-                            }
-
-                        case GeneralLuis.Intent.Help:
-                            {
-                                // send help response
-                                await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Help);
                                 break;
                             }
 
@@ -231,10 +166,12 @@ namespace VirtualAssistantSample.Dialogs
         protected override async Task OnEventAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Check if there was an action submitted from intro card
-            if (dc.Context.Activity.Value != null)
+            var value = dc.Context.Activity.Value;
+
+            if (value.GetType() == typeof(JObject))
             {
-                dynamic value = dc.Context.Activity.Value;
-                if (value.action == "startOnboarding")
+                var submit = JObject.Parse(value.ToString());
+                if (value != null && (string)submit["action"] == "startOnboarding")
                 {
                     await dc.BeginDialogAsync(nameof(OnboardingDialog));
                     return;
@@ -278,7 +215,76 @@ namespace VirtualAssistantSample.Dialogs
             await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Completed);
         }
 
-        private async Task<InterruptionAction> LogoutAsync(DialogContext dc)
+        protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)
+        {
+            if (dc.Context.Activity.Type == ActivityTypes.Message && !string.IsNullOrWhiteSpace(dc.Context.Activity.Text))
+            {
+                // get current activity locale
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var cognitiveModels = _services.CognitiveModelSets[locale];
+
+                // check luis intent
+                cognitiveModels.LuisServices.TryGetValue("general", out var luisService);
+                if (luisService == null)
+                {
+                    throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
+                }
+                else
+                {
+                    var luisResult = await luisService.RecognizeAsync<GeneralLuis>(dc.Context, cancellationToken);
+                    var intent = luisResult.TopIntent().intent;
+
+                    if (luisResult.TopIntent().score > 0.5)
+                    {
+                        switch (intent)
+                        {
+                            case GeneralLuis.Intent.Cancel:
+                                {
+                                    return await OnCancel(dc);
+                                }
+                            case GeneralLuis.Intent.Help:
+                                {
+                                    return await OnHelp(dc);
+                                }
+                            case GeneralLuis.Intent.Logout:
+                                {
+                                    return await OnLogout(dc);
+                                }
+                        }
+                    }
+                }
+            }
+
+            return InterruptionAction.NoAction;
+        }
+
+        private async Task<InterruptionAction> OnCancel(DialogContext dc)
+        {
+            if (dc.ActiveDialog != null && dc.ActiveDialog.Id != nameof(CancelDialog))
+            {
+                // Don't start restart cancel dialog
+                await dc.BeginDialogAsync(nameof(CancelDialog));
+
+                // Signal that the dialog is waiting on user response
+                return InterruptionAction.StartedDialog;
+            }
+
+            var view = new CancelResponses();
+            await view.ReplyWith(dc.Context, CancelResponses.ResponseIds.NothingToCancelMessage);
+
+            return InterruptionAction.StartedDialog;
+        }
+
+        private async Task<InterruptionAction> OnHelp(DialogContext dc)
+        {
+            var view = new MainResponses();
+            await view.ReplyWith(dc.Context, MainResponses.ResponseIds.Help);
+
+            // Signal the conversation was interrupted and should immediately continue
+            return InterruptionAction.MessageSentToUser;
+        }
+
+        private async Task<InterruptionAction> OnLogout(DialogContext dc)
         {
             IUserTokenProvider tokenProvider;
             var supported = dc.Context.Adapter is IUserTokenProvider;

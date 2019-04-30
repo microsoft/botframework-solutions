@@ -16,6 +16,15 @@ namespace VirtualAssistantSample.Tests
         public async Task Test_Help_Interruption()
         {
             await GetTestFlow()
+               .Send(GeneralUtterances.Help)
+               .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
+               .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_Help_Interruption_In_Dialog()
+        {
+            await GetTestFlow()
                .Send(new Activity()
                {
                    ChannelId = Channels.Emulator,
@@ -26,6 +35,18 @@ namespace VirtualAssistantSample.Tests
                .Send(GeneralUtterances.Help)
                .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
                .AssertReply(OnboardingStrings.NAME_PROMPT)
+               .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_Cancel_Interruption()
+        {
+            await GetTestFlow()
+               .Send(GeneralUtterances.Cancel)
+               .AssertReply(activity =>
+               {
+                   Assert.IsTrue(activity.AsMessageActivity().Text.Contains(CancelStrings.NOTHING_TO_CANCEL));
+               })
                .StartTestAsync();
         }
 
