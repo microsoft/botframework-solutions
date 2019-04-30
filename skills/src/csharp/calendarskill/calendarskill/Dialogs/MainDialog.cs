@@ -92,8 +92,7 @@ namespace CalendarSkill.Dialogs
             else
             {
                 var turnResult = EndOfTurn;
-                var result = await luisService.RecognizeAsync<Luis.CalendarLuis>(dc.Context, CancellationToken.None);
-                var intent = result?.TopIntent().intent;
+                var intent = state.LuisResult?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
                 // switch on general intents

@@ -82,8 +82,7 @@ namespace EmailSkill.Dialogs
             else
             {
                 var turnResult = EndOfTurn;
-                var result = await luisService.RecognizeAsync<EmailLuis>(dc.Context, CancellationToken.None);
-                var intent = result?.TopIntent().intent;
+                var intent = state.LuisResult?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
                 var skillOptions = new EmailSkillDialogOptions
