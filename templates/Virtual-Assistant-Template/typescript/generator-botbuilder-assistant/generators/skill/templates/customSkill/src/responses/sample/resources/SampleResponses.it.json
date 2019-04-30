@@ -1,0 +1,24 @@
+{
+    "NamePrompt": {
+      "replies": [
+        {
+          "text": "Come ti chiami?",
+          "speak": "Come ti chiami?"
+        }
+      ],
+      "inputHint": "expectingInput"
+    },
+    "HaveNameMessage": {
+      "replies": [
+        {
+          "text": "Ciao, {Name}!",
+          "speak": "Ciao, {Name}!"
+        },
+        {
+          "text": "Piacere di conoscerti, {Name}!",
+          "speak": "Piacere di conoscerti, {Name}!"
+        }
+      ],
+      "inputHint": "acceptingInput"
+    }
+}

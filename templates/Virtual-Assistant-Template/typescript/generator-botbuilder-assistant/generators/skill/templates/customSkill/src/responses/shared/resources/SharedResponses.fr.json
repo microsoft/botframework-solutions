@@ -1,0 +1,148 @@
+{
+    "DidntUnderstandMessage": {
+      "replies": [
+        {
+          "speak": "Désolé, je ne comprenais pas ce que vous vouliez dire.",
+          "text": "Désolé, je ne comprenais pas ce que vous vouliez dire."
+        },
+        {
+          "speak": "Je n'ai pas compris, peut-être essayer de nouveau d'une manière différente.",
+          "text": "Je n'ai pas compris, peut-être essayer de nouveau d'une manière différente."
+        },
+        {
+          "speak": "Pouvez-vous essayer de demander d'une manière différente?",
+          "text": "Pouvez-vous essayer de demander d'une manière différente?"
+        },
+        {
+          "speak": "Je n'ai pas eu ce que vous voulez dire, pouvez-vous essayer d'une manière différente?",
+          "text": "Je n'ai pas eu ce que vous voulez dire, pouvez-vous essayer d'une manière différente?"
+        },
+        {
+          "speak": "Pourriez-vous élaborer?",
+          "text": "Pourriez-vous élaborer?"
+        },
+        {
+          "speak": "S'il vous plaît dire que de nouveau d'une manière différente.",
+          "text": "S'il vous plaît dire que de nouveau d'une manière différente."
+        },
+        {
+          "speak": "Je n'ai pas vraiment eu ça.",
+          "text": "Je n'ai pas vraiment eu ça."
+        },
+        {
+          "speak": "Pouvez-vous dire cela d'une manière différente?",
+          "text": "Pouvez-vous dire cela d'une manière différente?"
+        },
+        {
+          "speak": "Pouvez-vous réessayer de me le demander? Je n'ai pas eu ce que tu voulais dire.",
+          "text": "Pouvez-vous réessayer de me le demander? Je n'ai pas eu ce que tu voulais dire."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "CancellingMessage": {
+      "replies": [
+        {
+          "speak": "Bien sûr, on peut le faire plus tard.",
+          "text": "Bien sûr, on peut le faire plus tard."
+        },
+        {
+          "speak": "Bien sûr, on peut commencer ça plus tard.",
+          "text": "Bien sûr, on peut commencer ça plus tard."
+        },
+        {
+          "speak": "Pas de problème, vous pouvez réessayer à un autre moment.",
+          "text": "Pas de problème, vous pouvez réessayer à un autre moment."
+        },
+        {
+          "speak": "Bon, faites-moi savoir quand vous avez besoin de mon aide.",
+          "text": "Bon, faites-moi savoir quand vous avez besoin de mon aide."
+        },
+        {
+          "speak": "Bien sûr, je suis là si tu as besoin de moi.",
+          "text": "Bien sûr, je suis là si tu as besoin de moi."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "NoAuth": {
+      "replies": [
+        {
+          "speak": "Veuillez vous connecter avant de prendre d'autres mesures.",
+          "text": "Veuillez vous connecter avant de prendre d'autres mesures."
+        },
+        {
+          "speak": "S'il vous plaît connectez-vous afin que je puisse prendre d'autres mesures.",
+          "text": "S'il vous plaît connectez-vous afin que je puisse prendre d'autres mesures."
+        },
+        {
+          "speak": "S'il vous plaît connectez-vous afin que je puisse procéder à votre demande.",
+          "text": "S'il vous plaît connectez-vous afin que je puisse procéder à votre demande."
+        },
+        {
+          "speak": "Pouvez-vous vous connecter pour que je puisse vous aider plus loin?",
+          "text": "Pouvez-vous vous connecter pour que je puisse vous aider plus loin?"
+        },
+        {
+          "speak": "Vous devez vous connecter afin que je puisse prendre d'autres mesures.",
+          "text": "Vous devez vous connecter afin que je puisse prendre d'autres mesures."
+        }
+      ],
+      "inputHint": "expectingInput"
+    },
+    "AuthFailed": {
+      "replies": [
+        {
+          "speak": "L'authentification a échoué. Veuillez réessayer.",
+          "text": "L'authentification a échoué. Veuillez réessayer"
+        },
+        {
+          "speak": "Vous avez échoué à vous connecter. Veuillez réessayer plus tard.",
+          "text": "Vous avez échoué à vous connecter. Veuillez réessayer plus tard."
+        },
+        {
+          "speak": "Votre connexion a échoué. Essayons encore.",
+          "text": "Votre connexion a échoué. Essayons encore."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "ActionEnded": {
+      "replies": [
+        {
+          "speak": "Faites-moi savoir si vous avez besoin de mon aide avec autre chose.",
+          "text": "Faites-moi savoir si vous avez besoin de mon aide avec autre chose."
+        },
+        {
+          "speak": "Je suis là si tu as besoin de moi.",
+          "text": "Je suis là si tu as besoin de moi."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "ErrorMessage": {
+      "replies": [
+        {
+          "speak": "Désolé, on dirait que quelque chose a mal tourné!",
+          "text": "Désolé, on dirait que quelque chose a mal tourné!"
+        },
+        {
+          "speak": "Une erreur s'est produite, réessayez plus tard.",
+          "text": "Une erreur s'est produite, réessayez plus tard."
+        },
+        {
+          "speak": "Quelque chose a mal tourné, Désolé!",
+          "text": "Quelque chose a mal tourné, Désolé!"
+        },
+        {
+          "speak": "On dirait que quelque chose a mal tourné. Tu peux réessayer plus tard?",
+          "text": "On dirait que quelque chose a mal tourné. Tu peux réessayer plus tard?"
+        },
+        {
+          "speak": "Désolé de ne pas pouvoir vous aider maintenant. Veuillez réessayer plus tard.",
+          "text": "Désolé de ne pas pouvoir vous aider maintenant. Veuillez réessayer plus tard."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    }
+}
