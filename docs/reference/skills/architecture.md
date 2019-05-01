@@ -14,8 +14,8 @@ The [Dispatch](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tu
 Each Skill uses a `SkillDialog` class to manage it's invocation.
 The Virtual Assistant identifies a Skill to use and creates a new `SkillDialog` instance with configuration properties as a parameter. 
 Through reflection, the dialog instantiates the Skill and invokes the `OnTurn` handler to begin the Skill. 
-Skills require a new state container, configured in your Virtual Assistant�s configured state store, to ensure state is maintained at the highest level. 
-This dialog is active on the Virtual Assistant�s `DialogStack`, ensuring that subsequent utterances are routed to your Skill. 
+Skills require a new state container, configured in your Virtual Assistant's configured state store, to ensure state is maintained at the highest level. 
+This dialog is active on the Virtual Assistant's `DialogStack`, ensuring that subsequent utterances are routed to your Skill. 
 When an `EndOfConversation` event is sent from the Skill, it tears down the `SkillDialog` and returns control back to the user.
 
 ## Interrupting Active Skills
