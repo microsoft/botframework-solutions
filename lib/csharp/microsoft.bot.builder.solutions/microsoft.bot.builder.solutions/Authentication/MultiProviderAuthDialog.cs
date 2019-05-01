@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Schema;
 using Microsoft.Rest.Serialization;
 
@@ -202,8 +201,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
 
         private async Task<DialogTurnResult> HandleTokenResponseAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var tokenResponse = stepContext.Result as TokenResponse;
-            if (tokenResponse != null && !string.IsNullOrWhiteSpace(tokenResponse.Token))
+            if (stepContext.Result is TokenResponse tokenResponse && !string.IsNullOrWhiteSpace(tokenResponse.Token))
             {
                 var result = await CreateProviderTokenResponseAsync(stepContext.Context, tokenResponse).ConfigureAwait(false);
 
@@ -211,7 +209,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             }
             else
             {
-                TelemetryClient.TrackEventEx("TokenRetrievalFailure", stepContext.Context.Activity);
+                TelemetryClient.TrackEvent("TokenRetrievalFailure");
                 return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
         }
