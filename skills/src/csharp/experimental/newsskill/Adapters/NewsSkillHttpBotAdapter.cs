@@ -4,7 +4,6 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Middleware;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Schema;
 using NewsSkill.Responses.Main;
 using NewsSkill.Services;
@@ -25,7 +24,7 @@ namespace NewsSkill.Adapters
                 CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
                 await context.SendActivityAsync(MainStrings.ERROR);
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"News Skill Error: {exception.Message} | {exception.StackTrace}"));
-                telemetryClient.TrackExceptionEx(exception, context.Activity);
+                telemetryClient.TrackException(exception);
             };
 
             Use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));

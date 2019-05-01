@@ -31,7 +31,7 @@ namespace AutomotiveSkill.Dialogs
             BotServices services,
             ResponseManager responseManager,
             ConversationState conversationState,
-			VehicleSettingsDialog vehicleSettingsDialog,
+            VehicleSettingsDialog vehicleSettingsDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -43,11 +43,11 @@ namespace AutomotiveSkill.Dialogs
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<AutomotiveSkillState>(nameof(AutomotiveSkillState));
 
-			// Register dialogs
-			AddDialog(vehicleSettingsDialog ?? throw new ArgumentNullException(nameof(vehicleSettingsDialog)));
-		}
+            // Register dialogs
+            AddDialog(vehicleSettingsDialog ?? throw new ArgumentNullException(nameof(vehicleSettingsDialog)));
+        }
 
-		protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // send a greeting if we're in local mode
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(AutomotiveSkillMainResponses.WelcomeMessage));

@@ -100,9 +100,9 @@ namespace AutomotiveSkill
                 new AutomotiveSkillSharedResponses(),
                 new VehicleSettingsResponses()));
 
-			// register dialogs
-			services.AddTransient<MainDialog>();
-			services.AddTransient<VehicleSettingsDialog>();
+            // register dialogs
+            services.AddTransient<MainDialog>();
+            services.AddTransient<VehicleSettingsDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();

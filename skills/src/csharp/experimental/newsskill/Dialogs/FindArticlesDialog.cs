@@ -17,7 +17,7 @@ namespace NewsSkill.Dialogs
         public FindArticlesDialog(
             BotSettings settings,
             BotServices services,
-			ConversationState conversationState,
+            ConversationState conversationState,
             IBotTelemetryClient telemetryClient)
             : base(nameof(FindArticlesDialog), services, conversationState, telemetryClient)
         {
