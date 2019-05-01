@@ -24,7 +24,7 @@ using static Microsoft.Recognizers.Text.Culture;
 
 namespace CalendarSkill.Dialogs
 {
-    public class ConnectToMeetingDialog : CalendarSkillDialog
+    public class ConnectToMeetingDialog : CalendarSkillDialogBase
     {
         public ConnectToMeetingDialog(
             BotSettings settings,

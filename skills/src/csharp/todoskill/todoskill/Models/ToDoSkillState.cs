@@ -119,7 +119,7 @@ namespace ToDoSkill.Models
         /// <value>
         /// LuisResult.
         /// </value>
-        public ToDoLU LuisResult { get; set; }
+        public ToDoLuis LuisResult { get; set; }
 
         /// <summary>
         /// Gets or sets GeneralLuisResult.

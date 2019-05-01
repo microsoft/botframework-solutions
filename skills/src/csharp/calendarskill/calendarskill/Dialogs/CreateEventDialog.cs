@@ -23,7 +23,7 @@ using static CalendarSkill.Models.CreateEventStateModel;
 
 namespace CalendarSkill.Dialogs
 {
-    public class CreateEventDialog : CalendarSkillDialog
+    public class CreateEventDialog : CalendarSkillDialogBase
     {
         public CreateEventDialog(
             BotSettings settings,

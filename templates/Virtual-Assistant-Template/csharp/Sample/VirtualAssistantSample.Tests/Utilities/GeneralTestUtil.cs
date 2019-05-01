@@ -10,41 +10,41 @@ namespace VirtualAssistantSample.Tests.Utilities
     {
         private static Dictionary<string, IRecognizerConvert> _utterances = new Dictionary<string, IRecognizerConvert>
         {
-            { GeneralUtterances.Cancel, CreateIntent(GeneralUtterances.Cancel, General.Intent.Cancel) },
-            { GeneralUtterances.Escalate, CreateIntent(GeneralUtterances.Escalate, General.Intent.Escalate) },
-            { GeneralUtterances.FinishTask, CreateIntent(GeneralUtterances.FinishTask, General.Intent.FinishTask) },
-            { GeneralUtterances.GoBack, CreateIntent(GeneralUtterances.GoBack, General.Intent.GoBack) },
-            { GeneralUtterances.Help, CreateIntent(GeneralUtterances.Help, General.Intent.Help) },
-            { GeneralUtterances.Repeat, CreateIntent(GeneralUtterances.Repeat, General.Intent.Repeat) },
-            { GeneralUtterances.SelectAny, CreateIntent(GeneralUtterances.SelectAny, General.Intent.SelectAny) },
-            { GeneralUtterances.SelectItem, CreateIntent(GeneralUtterances.SelectItem, General.Intent.SelectItem) },
-            { GeneralUtterances.SelectNone, CreateIntent(GeneralUtterances.SelectNone, General.Intent.SelectNone) },
-            { GeneralUtterances.ShowNext, CreateIntent(GeneralUtterances.ShowNext, General.Intent.ShowNext) },
-            { GeneralUtterances.ShowPrevious, CreateIntent(GeneralUtterances.ShowPrevious, General.Intent.ShowPrevious) },
-            { GeneralUtterances.StartOver, CreateIntent(GeneralUtterances.StartOver, General.Intent.StartOver) },
-            { GeneralUtterances.Stop, CreateIntent(GeneralUtterances.Stop, General.Intent.Stop) },
+            { GeneralUtterances.Cancel, CreateIntent(GeneralUtterances.Cancel, GeneralLuis.Intent.Cancel) },
+            { GeneralUtterances.Escalate, CreateIntent(GeneralUtterances.Escalate, GeneralLuis.Intent.Escalate) },
+            { GeneralUtterances.FinishTask, CreateIntent(GeneralUtterances.FinishTask, GeneralLuis.Intent.FinishTask) },
+            { GeneralUtterances.GoBack, CreateIntent(GeneralUtterances.GoBack, GeneralLuis.Intent.GoBack) },
+            { GeneralUtterances.Help, CreateIntent(GeneralUtterances.Help, GeneralLuis.Intent.Help) },
+            { GeneralUtterances.Repeat, CreateIntent(GeneralUtterances.Repeat, GeneralLuis.Intent.Repeat) },
+            { GeneralUtterances.SelectAny, CreateIntent(GeneralUtterances.SelectAny, GeneralLuis.Intent.SelectAny) },
+            { GeneralUtterances.SelectItem, CreateIntent(GeneralUtterances.SelectItem, GeneralLuis.Intent.SelectItem) },
+            { GeneralUtterances.SelectNone, CreateIntent(GeneralUtterances.SelectNone, GeneralLuis.Intent.SelectNone) },
+            { GeneralUtterances.ShowNext, CreateIntent(GeneralUtterances.ShowNext, GeneralLuis.Intent.ShowNext) },
+            { GeneralUtterances.ShowPrevious, CreateIntent(GeneralUtterances.ShowPrevious, GeneralLuis.Intent.ShowPrevious) },
+            { GeneralUtterances.StartOver, CreateIntent(GeneralUtterances.StartOver, GeneralLuis.Intent.StartOver) },
+            { GeneralUtterances.Stop, CreateIntent(GeneralUtterances.Stop, GeneralLuis.Intent.Stop) },
         };
 
         public static IRecognizer CreateRecognizer()
         {
-            var recognizer = new MockLuisRecognizer(defaultIntent: CreateIntent(string.Empty, General.Intent.None));
+            var recognizer = new MockLuisRecognizer(defaultIntent: CreateIntent(string.Empty, GeneralLuis.Intent.None));
             recognizer.RegisterUtterances(_utterances);
             return recognizer;
         }
 
-        public static General CreateIntent(string userInput, General.Intent intent)
+        public static GeneralLuis CreateIntent(string userInput, GeneralLuis.Intent intent)
         {
-            var result = new General
+            var result = new GeneralLuis
             {
                 Text = userInput,
-                Intents = new Dictionary<General.Intent, IntentScore>()
+                Intents = new Dictionary<GeneralLuis.Intent, IntentScore>()
             };
 
             result.Intents.Add(intent, new IntentScore() { Score = 0.9 });
 
-            result.Entities = new General._Entities
+            result.Entities = new GeneralLuis._Entities
             {
-                _instance = new General._Entities._Instance()
+                _instance = new GeneralLuis._Entities._Instance()
             };
 
             return result;

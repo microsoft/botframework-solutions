@@ -59,9 +59,9 @@ namespace ToDoSkillTest.Flow.Utterances
 
         public static string AddTaskWithContentAndShopVerb { get; } = "add purchase shoes to my shopping list";
 
-        private ToDoLU GetBaseAddTaskIntent(
+        private ToDoLuis GetBaseAddTaskIntent(
             string userInput,
-            ToDoLU.Intent intents = ToDoLU.Intent.AddToDo,
+            ToDoLuis.Intent intents = ToDoLuis.Intent.AddToDo,
             string[] listType = null,
             string[] taskContentML = null,
             string[] shopContent = null,

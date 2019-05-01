@@ -23,7 +23,7 @@ using static Microsoft.Recognizers.Text.Culture;
 
 namespace CalendarSkill.Dialogs
 {
-    public class SummaryDialog : CalendarSkillDialog
+    public class SummaryDialog : CalendarSkillDialogBase
     {
         public SummaryDialog(
             BotSettings settings,

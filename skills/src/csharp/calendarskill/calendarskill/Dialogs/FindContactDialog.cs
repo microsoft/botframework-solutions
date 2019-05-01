@@ -22,7 +22,7 @@ using static CalendarSkill.Models.CalendarSkillState;
 
 namespace CalendarSkill.Dialogs
 {
-    public class FindContactDialog : CalendarSkillDialog
+    public class FindContactDialog : CalendarSkillDialogBase
     {
         public FindContactDialog(
             BotSettings settings,

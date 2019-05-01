@@ -19,7 +19,7 @@ using Microsoft.Bot.Builder.Solutions.Util;
 
 namespace CalendarSkill.Dialogs
 {
-    public class ChangeEventStatusDialog : CalendarSkillDialog
+    public class ChangeEventStatusDialog : CalendarSkillDialogBase
     {
         public ChangeEventStatusDialog(
             BotSettings settings,

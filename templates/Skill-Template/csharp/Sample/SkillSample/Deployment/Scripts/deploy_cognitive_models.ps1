@@ -81,10 +81,10 @@ foreach ($language in $languages -split ",")
 				id = $lu.BaseName
 				name = $luisApp.name
 				appid = $luisApp.id
-				authoringkey = $luisauthoringkey
-				subscriptionkey = $luisauthoringkey
+				authoringkey = $luisAuthoringKey
+				subscriptionkey = $luisAuthoringKey
 				version = $luisApp.activeVersion
-				region = $location
+				region = $luisAuthoringRegion
 			}
 
 			RunLuisGen $lu "$($lu.BaseName)" $(Join-Path $outFolder Services)

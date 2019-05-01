@@ -126,4 +126,7 @@
   <data name="CANCEL_PROMPT" xml:space="preserve">
     <value>Are you sure you want to cancel?</value>
   </data>
+  <data name="NOTHING_TO_CANCEL" xml:space="preserve">
+    <value>Looks like there's nothing to cancel! Try saying "help" to get started.</value>
+  </data>
 </root>

@@ -34,6 +34,13 @@ namespace VirtualAssistantSample.Responses.Cancel
                         ssml: CancelStrings.CANCEL_PROMPT,
                         inputHint: InputHints.ExpectingInput)
                 },
+                { ResponseIds.NothingToCancelMessage,
+                    (context, data) =>
+                    MessageFactory.Text(
+                        text: CancelStrings.NOTHING_TO_CANCEL,
+                        ssml: CancelStrings.NOTHING_TO_CANCEL,
+                        inputHint: InputHints.ExpectingInput)
+                },
             }
         };
 
@@ -47,6 +54,7 @@ namespace VirtualAssistantSample.Responses.Cancel
             public const string CancelPrompt = "cancelPrompt";
             public const string CancelConfirmedMessage = "cancelConfirmed";
             public const string CancelDeniedMessage = "cancelDenied";
+            public const string NothingToCancelMessage = "nothingToCancel";
         }
     }
 }

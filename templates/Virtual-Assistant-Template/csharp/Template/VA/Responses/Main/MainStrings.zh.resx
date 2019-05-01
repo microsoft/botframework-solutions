@@ -160,6 +160,9 @@
     <value>智能助手的帮助</value>
   </data>
   <data name="INTRO_PATH" xml:space="preserve">
-    <value>./Content/Intro.zh.json</value>
+    <value>./Content/NewUserGreeting.zh.json</value>
+  </data>
+  <data name="INTRO_RETURNING" xml:space="preserve">
+    <value>./Content/ReturningUserGreeting.zh.json</value>
   </data>
 </root>
