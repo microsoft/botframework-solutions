@@ -282,4 +282,13 @@
   <data name="UpcommingMeeting" xml:space="preserve">
     <value>Upcomming meeting</value>
   </data>
+  <data name="ShortDisplayDurationHour" xml:space="preserve">
+    <value>{0}h</value>
+  </data>
+  <data name="ShortDisplayDurationMinute" xml:space="preserve">
+    <value>{0}m</value>
+  </data>
+  <data name="ShowMeetingsIndicator" xml:space="preserve">
+    <value>**{0}-{1}** of {2}</value>
+  </data>
 </root>

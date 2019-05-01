@@ -193,15 +193,6 @@
     ],
     "inputHint": "acceptingInput"
   },
-  "NoRecipients": {
-    "replies": [
-      {
-        "text": "Sure, who's the email going to?",
-        "speak": "Sure, Who's the email going to?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
   "NoEmailContent": {
     "replies": [
       {
@@ -223,8 +214,44 @@
   "ConfirmSend": {
     "replies": [
       {
-        "text": "I'm ready to send the email. Can you confirm this email?",
-        "speak": "I'm ready to send the email. The Email detail is: {EmailDetails}. Can you confirm this email?"
+        "text": "I'm ready to send the email.",
+        "speak": "I'm ready to send the email. The Email detail is: {EmailDetails}."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmSendMessage": {
+    "replies": [
+      {
+        "text": " Can you confirm this email?",
+        "speak": " Can you confirm this email?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmSendRecipientsMessage": {
+    "replies": [
+      {
+        "text": " Do you want to go through the rest of the recipients?",
+        "speak": " Do you want to go through the rest of the recipients?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmSendRecipients": {
+    "replies": [
+      {
+        "text": "Recipients are {RecipientsList}.",
+        "speak": "Recipients are {RecipientsList}."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmSendRecipientsFailed": {
+    "replies": [
+      {
+        "text": "Please confirm if you want do go through the rest of the recipients.",
+        "speak": "Please confirm if you want do go through the rest of the recipients."
       }
     ],
     "inputHint": "expectingInput"
@@ -339,6 +366,15 @@
       {
         "text": "I don't understand what you input.",
         "speak": "I don't understand what you input."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoRecipients": {
+    "replies": [
+      {
+        "text": "Sure, who's the email going to?",
+        "speak": "Sure, Who's the email going to?"
       }
     ],
     "inputHint": "expectingInput"

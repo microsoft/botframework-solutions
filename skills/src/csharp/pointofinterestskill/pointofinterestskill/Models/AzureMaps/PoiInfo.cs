@@ -10,8 +10,8 @@ namespace PointOfInterestSkill.Models
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
 
-        [JsonProperty(PropertyName = "categories")]
-        public string[] Categories { get; set; }
+        [JsonProperty(PropertyName = "classifications")]
+        public Classification[] Classifications { get; set; }
 
         [JsonProperty(PropertyName = "phone")]
         public string Phone { get; set; }

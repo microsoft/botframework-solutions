@@ -165,9 +165,6 @@
   <data name="LoginDescription" xml:space="preserve">
     <value>Please login with your {0} account</value>
   </data>
-  <data name="More" xml:space="preserve">
-    <value>more</value>
-  </data>
   <data name="NotAvailable" xml:space="preserve">
     <value>Not available</value>
   </data>
@@ -230,5 +227,8 @@
   </data>
   <data name="Yesterday" xml:space="preserve">
     <value>Yesterday</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>more</value>
   </data>
 </root>
