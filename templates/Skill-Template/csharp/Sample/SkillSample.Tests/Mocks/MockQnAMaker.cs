@@ -1,9 +1,8 @@
-﻿using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.AI.QnA;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.QnA;
 
 namespace SkillSample.Tests.Mocks
 {
@@ -19,7 +18,9 @@ namespace SkillSample.Tests.Mocks
 
         private QueryResult[] DefaultAnswer { get; set; }
 
-        public bool LogPersonalInformation => throw new NotImplementedException();
+        public bool LogPersonalInformation { get; set; } = false;
+
+        public IBotTelemetryClient TelemetryClient { get; set; } = new NullBotTelemetryClient();
 
         public void RegisterAnswers(Dictionary<string, QueryResult[]> utterances)
         {
@@ -32,6 +33,14 @@ namespace SkillSample.Tests.Mocks
         public Task<QueryResult[]> GetAnswersAsync(ITurnContext context, QnAMakerOptions options = null)
         {
             var text = context.Activity.Text;
+
+            var mockResult = TestAnswers.GetValueOrDefault(text, DefaultAnswer);
+            return Task.FromResult(mockResult);
+        }
+
+        public Task<QueryResult[]> GetAnswersAsync(ITurnContext turnContext, QnAMakerOptions options, Dictionary<string, string> telemetryProperties, Dictionary<string, double> telemetryMetrics = null)
+        {
+            var text = turnContext.Activity.Text;
 
             var mockResult = TestAnswers.GetValueOrDefault(text, DefaultAnswer);
             return Task.FromResult(mockResult);

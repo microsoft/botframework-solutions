@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
-using $safeprojectname$.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
+using Microsoft.Bot.Builder.AI.QnA;
+using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Testing;
+using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using $safeprojectname$.Utilities;
 using $ext_safeprojectname$.Services;
 using $ext_safeprojectname$.Bots;
 using $ext_safeprojectname$.Dialogs;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
-using Microsoft.Bot.Builder.Solutions.Testing;
-using Microsoft.Bot.Builder.Skills;
 
 namespace $safeprojectname$
 {
@@ -32,7 +33,7 @@ namespace $safeprojectname$
                     { "en", new CognitiveModelSet
                         {
                             DispatchService = DispatchTestUtil.CreateRecognizer(),
-                            LuisServices = new Dictionary<string, IRecognizer>
+                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
                             {
                                 { "general", GeneralTestUtil.CreateRecognizer() }
                             },

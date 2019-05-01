@@ -25,7 +25,7 @@ namespace SkillSample.Tests.Utilities
             { GeneralUtterances.Stop, CreateIntent(GeneralUtterances.Stop, GeneralLuis.Intent.Stop) },
         };
 
-        public static IRecognizer CreateRecognizer()
+        public static MockLuisRecognizer CreateRecognizer()
         {
             var recognizer = new MockLuisRecognizer(defaultIntent: CreateIntent(string.Empty, GeneralLuis.Intent.None));
             recognizer.RegisterUtterances(_utterances);
