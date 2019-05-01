@@ -1,67 +1,97 @@
 #Requires -Version 6
 
 Param(
-    [Parameter(Mandatory=$true)][string] $config_files,
-    [switch] $RemoteToLocal
+    [string] $configFile = $(Join-Path (Get-Location) 'cognitivemodels.json'),
+    [switch] $RemoteToLocal,
+    [string] $dispatchFolder = $(Join-Path $PSScriptRoot '..' 'Resources' 'Dispatch'),
+	[string] $luisFolder = $(Join-Path $PSScriptRoot '..' 'Resources' 'LU'),
+    [string] $qnaFolder = $(Join-Path $PSScriptRoot '..' 'Resources' 'QnA'),
+    [string] $lgOutFolder = $(Join-Path (Get-Location) 'Services'),
+    [string] $logFile = $(Join-Path $PSScriptRoot .. "update_cognitive_models_log.txt")
 )
 
 . $PSScriptRoot\luis_functions.ps1
 . $PSScriptRoot\qna_functions.ps1
 
-foreach ($filePath in $config_files -split ",")
-{
-    $file = Get-Item -Path $filePath
-    $fileName = $file | ForEach-Object { $_.BaseName } 
-    $config = Get-Content -Raw -Path $file | ConvertFrom-Json
-    $langCode = $fileName.Substring($fileName.Length -2, 2)
+# Reset log file
+if (Test-Path $logFile) {
+	Clear-Content $logFile -Force | Out-Null
+}
+else {
+	New-Item -Path $logFile | Out-Null
+}
+
+Write-Host "> Getting config file ..."
+$languageMap = @{}
+$config = Get-Content -Raw -Path $configFile | ConvertFrom-Json
+$config.cognitiveModels.PSObject.Properties | Foreach-Object { $languageMap[$_.Name] = $_.Value }
+
+foreach ($langCode in $languageMap.Keys) {
+    $models = $languageMap[$langCode]
 
     if($RemoteToLocal)
     {
-        # Update LUIS apps
-        foreach ($app in $config.cognitiveModels | Where-Object { $_.type -eq "luis" })
+        # Update local LU files based on hosted models
+        foreach ($luisApp in $models.languageModels)
         {
+            Write-Host "> Updating local $($luisApp.id).lu file ..."
             luis export version `
-                --appId $app.appid `
-                --versionId $app.version `
-                --authoringKey $app.authoringKey | ludown refresh `
+                --appId $luisApp.appid `
+                --versionId $luisApp.version `
+                --authoringKey $luisApp.authoringKey | ludown refresh `
                 --stdin `
-                -n "$($app.id).lu" `
-                -o $(Join-Path $PSScriptRoot '..' 'Resources' 'LU' $langCode)
+                -n "$($luisApp.id).lu" `
+                -o $(Join-Path $luisFolder $langCode)
         }
 
-        # Update QnA Maker KBs
-        foreach ($kb in $config.cognitiveModels | Where-Object { $_.type -eq "qna" })
-        {          
+        # Update local LU files based on hosted QnA KBs
+        foreach ($kb in $models.knowledgebases)
+        {
+            Write-Host "> Updating local $($kb.id).lu file ..."
             qnamaker export kb `
                 --environment Prod `
                 --kbId $kb.kbId `
                 --subscriptionKey $kb.subscriptionKey | ludown refresh `
                 --stdin `
                 -n "$($kb.id).lu" `
-                -o $(Join-Path $PSScriptRoot '..' 'Resources' 'QnA' $langCode)
+                -o $(Join-Path $qnaFolder $langCode)
         }
     }
     else
     {
-        # Update LUIS apps
-        foreach ($app in $config.cognitiveModels | Where-Object { $_.type -eq "luis" })
-        {
-            $lu = Get-Item -Path $(Join-Path $PSScriptRoot '..' 'Resources' 'LU' $langCode "$($app.id).lu")
-            UpdateLUIS -lu_file $lu -appId $app.appid -version $app.version -authoringKey $app.authoringKey -subscriptionKey $app.subscriptionKey
-        }
+        # Update each luis model based on local LU files
+		foreach ($luisApp in $models.languageModels) {
+            Write-Host "> Updating hosted $($luisApp.id) app..."
+			$lu = Get-Item -Path $(Join-Path $luisFolder $langCode "$($luisApp.id).lu")
+			UpdateLUIS `
+				-lu_file $lu `
+				-appId $luisApp.appid `
+				-version $luisApp.version `
+				-authoringKey $luisApp.authoringKey `
+				-subscriptionKey $app.subscriptionKey
+		}
 
-        # Update QnA Maker KBs
-        foreach ($kb in $config.cognitiveModels | Where-Object { $_.type -eq "qna" })
-        {
-            $lu = Get-Item -Path $(Join-Path $PSScriptRoot '..' 'Resources' 'QnA' $langCode "$($kb.id).lu")
-            UpdateKB -lu_file $lu -kbId $kb.kbId -qnaSubscriptionKey $kb.subscriptionKey
+        # Update each knowledgebase based on local LU files
+		foreach ($kb in $models.knowledgebases) {
+            Write-Host "> Updating hosted $($kb.id) kb..."
+			$lu = Get-Item -Path $(Join-Path $qnaFolder $langCode "$($kb.id).lu")
+			UpdateKB `
+				-lu_file $lu `
+				-kbId $kb.kbId `
+				-qnaSubscriptionKey $kb.subscriptionKey
         }
-    }
-
-    foreach ($dispatch in $config.cognitiveModels | Where-Object {$_.type -eq "dispatch"})
-    {
-        $dataFolder = $(Join-Path $PSScriptRoot Resources Dispatch $langCode)
-        Write-Host "dispatch refresh --dispatch $(Join-Path $dataFolder $dispatch.name) --dataFolder $dataFolder"
-        dispatch refresh --dispatch $(Join-Path $dataFolder $dispatch.name) --dataFolder $dataFolder
-    }
+	}
 }
+
+# Update dispatch model
+Write-Host "> Updating dispatch model ..."
+$dispatch = $models.dispatchModel
+dispatch refresh `
+    --dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
+    --dataFolder $dispatchFolder 2>> $logFile | Out-Null
+
+# Update dispatch.cs file
+Write-Host "> Running LuisGen ..."
+luisgen $(Join-Path $dispatchFolder $langCode "$($dispatch.name).json") -cs "DispatchLuis" -o $lgOutFolder 2>> $logFile | Out-Null
+
+Write-Host "> Done."
