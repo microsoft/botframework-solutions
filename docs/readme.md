@@ -20,7 +20,7 @@
 
 High level overview into the Virtual Assistant, Skills and Analytics.
 
-|Documentation|Description|Link|
+|Name|Description|Link|
 |-------------|-----------|----|
 |Virtual Assistant|An introduction to the Virtual Assistant template and key concepts.|[Link](/docs/overview/virtualassistant.md)
 |Skills|Developers can compose conversational experiences by stitching together re-usable conversational capabilities, known as Skills.|[Link](/docs/overview/skills.md)
@@ -30,13 +30,12 @@ High level overview into the Virtual Assistant, Skills and Analytics.
 
 Create, Deploy and Customize your own Virtual Assistant and Skills in minutes.
 
-|Documentation|Description|Link|
+|Name|Description|Link|
 |-------------|-----------|----|
-|Virtual Assistant Quick Start  |Creating your assistant using the Virtual Assistant template|[C#](/docs/tutorials/csharp/virtualassistant.md), [TS](/docs/tutorials/typescript/virtualassistant.md)
-|Create and Deploy a new Skill  |Creating a new Skill using the template|[C#](/docs/tutorials/csharp/skill.md), [TS](/docs/tutorials/typescript/skill.md)
-|Customize your skill           |Building your first skill| [C#](/docs/tutorials/csharp/customizeskill.md), [TS](/docs/tutorials/typescript/customizeassistant.md)
-|Customize your Assistant       |Personalize your assistant, change the name, branding, QnA| [C#](/docs/tutorials/csharp/customizeassistant.md), [TS](/docs/tutorials/typescript/customizeassistant.md)
-|Adding Authentication to your assistant |How to add Authentication support to your Assistant| [C#](/docs/tutorials/csharp/addauthentication.md), [TS](/docs/tutorials/typescript/addauthentication.md)
+|1. Create your Assistant in 10 minutes  |Creating your assistant using the Virtual Assistant template|[C#](/docs/tutorials/csharp/virtualassistant.md), [TS](/docs/tutorials/typescript/virtualassistant.md)
+|2. Customize your Assistant       |Personalize your assistant, change the name, branding, QnA| [C#](/docs/tutorials/csharp/customizeassistant.md), [TS](/docs/tutorials/typescript/customizeassistant.md)
+|3. Create and deploy a new Skill  |Creating a new Skill using the template|[C#](/docs/tutorials/csharp/skill.md), [TS](/docs/tutorials/typescript/skill.md)
+|4. Customize your skill           |Building your first skill| [C#](/docs/tutorials/csharp/customizeskill.md), [TS](/docs/tutorials/typescript/customizeassistant.md)
 
 # Advanced
 
@@ -44,20 +43,21 @@ Detailed technical documentation explaining how to achieve more complex goals.
 
 ## Virtual Assistant
 
-|Documentation|Description|Link|
+|Name|Description|Link|
 |-------------|-----------|----|
 |Under the covers|Detailed documentation covering what the template provides and how it works| [View](/docs/advanced/assistant/underthecovers.md)
-|Adding Skills|Adding the out of the box Skills to your Virtual Assistant|[View](/docs/skills/common/addingskill.md)
+|Enhancing your Assistant with additional Skills|Adding the out of the box Skills to your Virtual Assistant|[View](/docs/skills/common/addingskill.md)
 |Migration from Enterprise Template|Guidance on how to move from an Enterprise Template based Bot to the new Template|[C#](/docs/advanced/assistant/csharp/ettovamigration.md)
 |Migration from the old Virtual Assistant solution|Guidance on how to move from the original Virtual Assistant solution to the new Template|[C#](/docs/advanced/assistant/csharp/oldvatovamigration.md)
 |Proactive Messaging|Adding proactive experiences to your assistant|[View](/docs/advanced/assistant/csharp/proactivemessaging.md)
 |Linked Accounts|Enable users to link 3rd party accounts (e.g. o365) to their assistant|[View](/docs/advanced/assistant/linkedaccounts.md)
 |Stitching together Bots into one conversational experience|Create one central Bot which hands-off to child bots, a common enterprise scenario.|[View](/docs/advanced/assistant/parentchildbotpattern.md)
 |Customising Deployment|How to customise the provided ARM template for different deployment scenarios.|[View](/docs/advanced/assistant/customisingdeployment.md)
+|Adding Authentication to your assistant |How to add Authentication support to your Assistant| [C#](/docs/advanced/assistant/csharp/addauthentication.md), [TS](/docs/advanced/assistant/typescript/addauthentication.md)
 
 ## Skills
 
-|Documentation|Description|Link|
+|Name|Description|Link|
 |-------------|-----------|----|
 |Adding a new Skill to solution| Adding a Skill|[View](/docs/advanced/skills/addingskills.md)|
 |Skill: Productivity - Calendar|Add calendar capabilities to your assistant. Powered by Microsoft Graph and Google.|[View](/docs/advanced/skills/productivity-calendar.md)
@@ -76,18 +76,18 @@ Reference documentation providing more insight into key concepts across the Virt
 
 ## Virtual Assistant
 
-|Documentation|Description|Link|
+|Name|Description|Link|
 |-------------|-----------|----|
 |Virtual Assistant Architecture|Detailed exploration of the overall Virtual Assistant Architecture|[View](/docs/reference/assistant/architecture.md)
 |Project Structure|Walkthrough of your Virtual Assistant project|[View](/docs/reference/assistant/projectstructure.md)
 |Responses|Your Virtual Assistant can respond in a variety of ways depending on the scenario and the users active device or conversation canvas|[View](/docs/reference/assistant/responses.md)
 |Handling events|Events enable custom apps or device experiences to pass device or contextual user information to an assistant behind the scenes.|[View](/docs/reference/assistant/events.md)|
 |Speech Enablement|Ensure your Virtual Assistant and Experiences work well in Speech scenarios|[View](/docs/reference/assistant/speechenablement.md)
-|Deployment script customisation|Customising the provided ARM template using the parameters file|[View](/docs/reference/assistant/deploymentcustomisation.md)
+|Deployment script approach|Walkthrough of the deployment script approach used in the Virtual Assistant|[View](/docs/reference/assistant/deploymentscriptapproach.md)
 
 ## Skills
 
-|Documentation|Description|Link|
+|Name|Description|Link|
 |-------------|-----------|----|
 |Skills Architecture|Under the covers of the Skill Implementation, SkillDialog, Adapter and Middleware|[View](/docs/reference/skills/architecture.md)
 |Parent Bot to Skill Authentication|Principles, Flow|[View](/docs/reference/skills/skillauthentication.md)        
@@ -98,7 +98,7 @@ Reference documentation providing more insight into key concepts across the Virt
 
 ## Analytics
 
-|Documentation|Description|Link|
+|Name|Description|Link|
 |-------------|-----------|----|
 |Application Insights|Detailed information on how Application Insights is used to collect information and powers our Analytics capabilities.|[View](/docs/reference/analytics/applicationinsights.md)||
 |PowerBI Template|Detailed information on how the provided PowerBI template provides insights into your assistant usage.|[View](/docs/reference/analytics/powerbi.md)
