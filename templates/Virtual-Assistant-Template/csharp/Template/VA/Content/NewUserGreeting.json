@@ -49,16 +49,11 @@
       "type": "Action.OpenUrl",
       "title": "Documentation",
       "url": "https://aka.ms/virtualassistantdocs"
-    },
-    {
-      "type": "Action.OpenUrl",
-      "title": "Linked Accounts",
-      "url": "https://aka.ms/linkedaccountsdocs"
-    },
+    },   
     {
       "type": "Action.OpenUrl",
       "title": "Skills",
-      "url": "https://aka.ms/ConversationalAISkills"
+      "url": "https://aka.ms/botframeworkskills"
     }
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
