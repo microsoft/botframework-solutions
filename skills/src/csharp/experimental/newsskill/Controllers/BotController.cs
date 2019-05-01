@@ -10,11 +10,11 @@ namespace NewsSkill.Controllers
     public class BotController : SkillController
     {
         public BotController(
-            IBot bot,
-            BotSettingsBase botSettings,
-            IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
-            SkillWebSocketAdapter skillWebSocketAdapter,
-            SkillHttpAdapter skillHttpAdapter)
+			IBot bot,
+			BotSettingsBase botSettings,
+			IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
+			SkillWebSocketAdapter skillWebSocketAdapter,
+			SkillHttpAdapter skillHttpAdapter)
             : base(bot, botSettings, botFrameworkHttpAdapter, skillWebSocketAdapter, skillHttpAdapter)
         {
         }

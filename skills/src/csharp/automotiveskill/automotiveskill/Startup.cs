@@ -21,7 +21,8 @@ namespace AutomotiveSkill
     using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
     using Microsoft.Bot.Builder.Integration.AspNet.Core;
     using Microsoft.Bot.Builder.Skills;
-    using Microsoft.Bot.Builder.Solutions;
+	using Microsoft.Bot.Builder.Skills.Auth;
+	using Microsoft.Bot.Builder.Solutions;
     using Microsoft.Bot.Builder.Solutions.Responses;
     using Microsoft.Bot.Builder.Solutions.TaskExtensions;
     using Microsoft.Bot.Connector.Authentication;
@@ -89,6 +90,8 @@ namespace AutomotiveSkill
             // Configure proactive
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddHostedService<QueuedHostedService>();
+
+			services.AddSingleton<IAuthenticationProvider, MsJWTAuthenticationProvider>();
 
             // Configure responses
             services.AddSingleton(sp => new ResponseManager(
