@@ -4,7 +4,6 @@ using EmailSkill.Models;
 using EmailSkill.ServiceClients;
 using EmailSkill.ServiceClients.GoogleAPI;
 using EmailSkillTest.API.Fakes.Google;
-using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EmailSkillTest.API.Service

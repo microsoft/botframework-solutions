@@ -49,7 +49,7 @@ namespace AutomotiveSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-			ConversationState conversationState,
+            ConversationState conversationState,
             IBotTelemetryClient telemetryClient,
             IHttpContextAccessor httpContext)
             : base(nameof(VehicleSettingsDialog), settings, services, responseManager, conversationState, telemetryClient)

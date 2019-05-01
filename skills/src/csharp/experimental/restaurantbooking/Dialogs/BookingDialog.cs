@@ -31,8 +31,8 @@ namespace RestaurantBooking.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-			ConversationState conversationState,
-			UserState userState,
+            ConversationState conversationState,
+            UserState userState,
             IBotTelemetryClient telemetryClient,
             IHttpContextAccessor httpContext)
            : base(nameof(BookingDialog), settings, services, responseManager, conversationState, userState, telemetryClient)

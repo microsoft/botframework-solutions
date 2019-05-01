@@ -19,7 +19,6 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
 using Microsoft.Graph;
@@ -34,7 +33,7 @@ namespace EmailSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-			ConversationState conversationState,
+            ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
             : base(dialogId)
@@ -44,10 +43,10 @@ namespace EmailSkill.Dialogs
             ResponseManager = responseManager;
             EmailStateAccessor = conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
             DialogStateAccessor = conversationState.CreateProperty<DialogState>(nameof(DialogState));
-			ServiceManager = serviceManager;
+            ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
 
-			if (!Settings.OAuthConnections.Any())
+            if (!Settings.OAuthConnections.Any())
             {
                 throw new Exception("You must configure an authentication connection in your bot file before using this component.");
             }
@@ -222,9 +221,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var providerTokenResponse = sc.Result as ProviderTokenResponse;
-
-                if (providerTokenResponse != null)
+                if (sc.Result is ProviderTokenResponse providerTokenResponse)
                 {
                     var state = await EmailStateAccessor.GetAsync(sc.Context);
                     state.Token = providerTokenResponse.TokenResponse.Token;
@@ -1016,12 +1013,12 @@ namespace EmailSkill.Dialogs
             var overviewCard = "EmailOverviewCard";
             if ((state.SenderName != null) || (state.GeneralSenderName != null))
             {
-                overviewData.Description = string.Format(EmailCommonStrings.SearchBySender, state.SenderName != null ? state.SenderName : state.GeneralSenderName);
+                overviewData.Description = string.Format(EmailCommonStrings.SearchBySender, state.SenderName ?? state.GeneralSenderName);
                 overviewCard = "EmailOverviewByCondition";
             }
             else if ((state.SearchTexts != null) || (state.GeneralSearchTexts != null))
             {
-                overviewData.Description = string.Format(EmailCommonStrings.SearchBySubject, state.SearchTexts != null ? state.SearchTexts : state.GeneralSearchTexts);
+                overviewData.Description = string.Format(EmailCommonStrings.SearchBySubject, state.SearchTexts ?? state.GeneralSearchTexts);
                 overviewCard = "EmailOverviewByCondition";
             }
 
@@ -1112,7 +1109,7 @@ namespace EmailSkill.Dialogs
             var state = await EmailStateAccessor.GetAsync(context);
             var token = state.Token;
             var service = ServiceManager.InitUserService(token, state.GetUserTimeZone(), state.MailSourceType);
-            var displayName = email.Name != null ? email.Name : email.Address;
+            var displayName = email.Name ?? email.Address;
 
             try
             {
@@ -1457,7 +1454,7 @@ namespace EmailSkill.Dialogs
             await sc.Context.SendActivityAsync(trace);
 
             // log exception
-            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
+            TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
             await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailErrorMessage));
@@ -1474,7 +1471,7 @@ namespace EmailSkill.Dialogs
             await sc.Context.SendActivityAsync(trace);
 
             // log exception
-            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
+            TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)

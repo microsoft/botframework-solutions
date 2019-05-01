@@ -9,6 +9,7 @@ using CalendarSkill.Services;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +26,7 @@ namespace CalendarSkillTest.Flow
             var botServices = Services.BuildServiceProvider().GetService<BotServices>();
             botServices.CognitiveModelSets.Add("en", new CognitiveModelSet()
             {
-                LuisServices = new Dictionary<string, IRecognizer>()
+                LuisServices = new Dictionary<string, ITelemetryRecognizer>()
                 {
                     { "general", new MockLuisRecognizer() },
                     { "calendar", new MockLuisRecognizer(new CreateMeetingTestUtterances()) }

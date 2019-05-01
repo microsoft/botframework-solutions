@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using EmailSkill.Responses.FindContact;
 using EmailSkill.Responses.SendEmail;
 using EmailSkill.Responses.Shared;
-using EmailSkillTest.Flow.Fakes;
 using EmailSkillTest.Flow.Strings;
 using EmailSkillTest.Flow.Utterances;
 using Microsoft.Bot.Schema;

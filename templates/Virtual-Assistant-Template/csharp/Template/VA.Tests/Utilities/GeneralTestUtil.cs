@@ -8,7 +8,7 @@ namespace $safeprojectname$.Utilities
 {
     public class GeneralTestUtil
     {
-        private static Dictionary<string, IRecognizerConvert> _utterances = new Dictionary<string, IRecognizerConvert>
+        private static readonly Dictionary<string, IRecognizerConvert> _utterances = new Dictionary<string, IRecognizerConvert>
         {
             { GeneralUtterances.Cancel, CreateIntent(GeneralUtterances.Cancel, GeneralLuis.Intent.Cancel) },
             { GeneralUtterances.Escalate, CreateIntent(GeneralUtterances.Escalate, GeneralLuis.Intent.Escalate) },
@@ -25,7 +25,7 @@ namespace $safeprojectname$.Utilities
             { GeneralUtterances.Stop, CreateIntent(GeneralUtterances.Stop, GeneralLuis.Intent.Stop) },
         };
 
-        public static IRecognizer CreateRecognizer()
+        public static MockLuisRecognizer CreateRecognizer()
         {
             var recognizer = new MockLuisRecognizer(defaultIntent: CreateIntent(string.Empty, GeneralLuis.Intent.None));
             recognizer.RegisterUtterances(_utterances);

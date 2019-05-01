@@ -35,7 +35,7 @@ namespace RestaurantBooking.Dialogs
             ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
-			BookingDialog bookingDialog,
+            BookingDialog bookingDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -48,11 +48,11 @@ namespace RestaurantBooking.Dialogs
             // Initialize state accessor
             _conversationStateAccessor = _conversationState.CreateProperty<RestaurantBookingState>(nameof(BookingDialog));
 
-			// RegisterDialogs
-			AddDialog(bookingDialog ?? throw new ArgumentNullException(nameof(bookingDialog)));
-		}
+            // RegisterDialogs
+            AddDialog(bookingDialog ?? throw new ArgumentNullException(nameof(bookingDialog)));
+        }
 
-		protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // send a greeting if we're in local mode
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingMainResponses.WelcomeMessage));
@@ -207,25 +207,25 @@ namespace RestaurantBooking.Dialogs
             }
 
             return result;
-		}
+        }
 
-		private async Task PopulateStateFromSkillContext(ITurnContext context)
-		{
-			// If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
-			// and make available in local state as appropriate.
-			var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
-			var skillContext = await accessor.GetAsync(context, () => new SkillContext());
-			if (skillContext != null)
-			{
-				if (skillContext.ContainsKey("Name"))
-				{
-					var state = await _conversationStateAccessor.GetAsync(context, () => new RestaurantBookingState());
-					state.Name = skillContext["Name"] as string;
-				}
-			}
-		}
+        private async Task PopulateStateFromSkillContext(ITurnContext context)
+        {
+            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
+            // and make available in local state as appropriate.
+            var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
+            var skillContext = await accessor.GetAsync(context, () => new SkillContext());
+            if (skillContext != null)
+            {
+                if (skillContext.ContainsKey("Name"))
+                {
+                    var state = await _conversationStateAccessor.GetAsync(context, () => new RestaurantBookingState());
+                    state.Name = skillContext["Name"] as string;
+                }
+            }
+        }
 
-		private async Task<InterruptionAction> OnCancel(DialogContext dc)
+        private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
             var state = await _conversationStateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
             state.Clear();

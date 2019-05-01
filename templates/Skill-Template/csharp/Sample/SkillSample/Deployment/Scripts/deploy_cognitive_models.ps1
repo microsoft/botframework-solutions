@@ -55,12 +55,15 @@ if (-not $luisAuthoringKey) {
 	}
 }
 
+# Get languages
+$languageArr = $languages -split ","
+
 # Initialize settings obj
-$settings = @{ cognitiveModels = New-Object PSObject }
+$settings = @{ defaultLocale = $languageArr[0]; cognitiveModels = New-Object PSObject }
 
 # Deploy localized resources
-Write-Host "Deploying cognitive models ..."
-foreach ($language in $languages -split ",")
+Write-Host "> Deploying cognitive models ..."
+foreach ($language in $languageArr)
 {
     $langCode = ($language -split "-")[0]
 
@@ -73,7 +76,7 @@ foreach ($language in $languages -split ",")
     foreach ($lu in $luisFiles)
     {
         # Deploy LUIS model
-        $luisApp = DeployLUIS -name $name -lu_file $lu -region $location -luisAuthoringKey $luisAuthoringKey -language $language -log $logFile
+        $luisApp = DeployLUIS -name $name -lu_file $lu -region $luisAuthoringRegion -luisAuthoringKey $luisAuthoringKey -language $language -log $logFile
         
 		if ($luisApp) {
 			# Add to config 

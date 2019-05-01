@@ -6,17 +6,16 @@ using Microsoft.Bot.Builder.Solutions;
 
 namespace SkillSample.Controllers
 {
-	[ApiController]
-	public class BotController : SkillController
-	{
-		public BotController(
-			IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
-			SkillHttpAdapter skillHttpAdapter,
-			SkillWebSocketAdapter skillWebSocketAdapter,
-			IBot bot,
-			BotSettingsBase botSettings)
-			: base(botFrameworkHttpAdapter, skillHttpAdapter, skillWebSocketAdapter, bot, botSettings)
-		{
-		}
-	}
+    [ApiController]
+    public class BotController : SkillController
+    {
+        public BotController(
+            IBot bot,
+            BotSettingsBase botSettings,
+            IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
+            SkillWebSocketAdapter skillWebSocketAdapter)
+            : base(bot, botSettings, botFrameworkHttpAdapter, skillWebSocketAdapter)
+        {
+        }
+    }
 }
