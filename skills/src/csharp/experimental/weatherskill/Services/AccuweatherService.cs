@@ -26,9 +26,9 @@ namespace WeatherSkill.Services
             httpClient = new HttpClient();
         }
 
-        protected void GetApiKey(BotSettings settings)
+        private void GetApiKey(BotSettings settings)
         {
-            settings.Properties.TryGetValue("ApiKey", out var key);
+            settings.Properties.TryGetValue("apiKey", out var key);
 
             ApiKey = key;
             if (string.IsNullOrWhiteSpace(ApiKey))

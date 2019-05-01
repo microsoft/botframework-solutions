@@ -3,22 +3,22 @@
     "en": {
       "languageModels": [
         {
-          "version": "0.1",
-          "appid": "10ffa61e-3ca5-4b49-8179-153066e61f5c",
+          "version": "",
+          "appid": "",
           "id": "General",
-          "authoringkey": "943d5d283a1443d6a5be6a38a9acff2e",
-          "region": "westus",
-          "subscriptionkey": "943d5d283a1443d6a5be6a38a9acff2e",
-          "name": "weatherskillrlien_General"
+          "authoringkey": "",
+          "region": "",
+          "subscriptionkey": "",
+          "name": ""
         },
         {
-          "version": "0.1",
-          "appid": "28477837-ba97-4af6-86d7-a10948a7e009",
+          "version": "",
+          "appid": "",
           "id": "WeatherSkill",
-          "authoringkey": "943d5d283a1443d6a5be6a38a9acff2e",
-          "region": "westus",
-          "subscriptionkey": "943d5d283a1443d6a5be6a38a9acff2e",
-          "name": "weatherskillrlien_WeatherSkill"
+          "authoringkey": "",
+          "region": "",
+          "subscriptionkey": "",
+          "name": ""
         }
       ]
     }
