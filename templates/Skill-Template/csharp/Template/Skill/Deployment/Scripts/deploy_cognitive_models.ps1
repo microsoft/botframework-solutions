@@ -76,7 +76,7 @@ foreach ($language in $languageArr)
     foreach ($lu in $luisFiles)
     {
         # Deploy LUIS model
-        $luisApp = DeployLUIS -name $name -lu_file $lu -region $location -luisAuthoringKey $luisAuthoringKey -language $language -log $logFile
+        $luisApp = DeployLUIS -name $name -lu_file $lu -region $luisAuthoringRegion -luisAuthoringKey $luisAuthoringKey -language $language -log $logFile
         
 		if ($luisApp) {
 			# Add to config 
@@ -84,10 +84,10 @@ foreach ($language in $languageArr)
 				id = $lu.BaseName
 				name = $luisApp.name
 				appid = $luisApp.id
-				authoringkey = $luisauthoringkey
-				subscriptionkey = $luisauthoringkey
+				authoringkey = $luisAuthoringKey
+				subscriptionkey = $luisAuthoringKey
 				version = $luisApp.activeVersion
-				region = $location
+				region = $luisAuthoringRegion
 			}
 
 			RunLuisGen $lu "$($lu.BaseName)" $(Join-Path $outFolder Services)
