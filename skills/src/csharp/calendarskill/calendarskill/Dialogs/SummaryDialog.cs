@@ -23,16 +23,18 @@ using static Microsoft.Recognizers.Text.Culture;
 
 namespace CalendarSkill.Dialogs
 {
-    public class SummaryDialog : CalendarSkillDialog
+    public class SummaryDialog : CalendarSkillDialogBase
     {
         public SummaryDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<CalendarSkillState> accessor,
+            ConversationState conversationState,
+            UpdateEventDialog updateEventDialog,
+            ChangeEventStatusDialog changeEventStatusDialog,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(SummaryDialog), settings, services, responseManager, accessor, serviceManager, telemetryClient)
+            : base(nameof(SummaryDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -69,8 +71,8 @@ namespace CalendarSkill.Dialogs
             AddDialog(new WaterfallDialog(Actions.ShowNextEvent, showNext) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.ShowEventsSummary, showSummary) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.Read, readEvent) { TelemetryClient = telemetryClient });
-            AddDialog(new UpdateEventDialog(settings, services, responseManager, accessor, serviceManager, telemetryClient));
-            AddDialog(new ChangeEventStatusDialog(settings, services, responseManager, accessor, serviceManager, telemetryClient));
+            AddDialog(updateEventDialog ?? throw new ArgumentNullException(nameof(updateEventDialog)));
+            AddDialog(changeEventStatusDialog ?? throw new ArgumentNullException(nameof(changeEventStatusDialog)));
 
             // Set starting dialog for component
             InitialDialogId = Actions.GetEventsInit;

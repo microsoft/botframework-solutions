@@ -23,16 +23,17 @@ using static CalendarSkill.Models.CreateEventStateModel;
 
 namespace CalendarSkill.Dialogs
 {
-    public class CreateEventDialog : CalendarSkillDialog
+    public class CreateEventDialog : CalendarSkillDialogBase
     {
         public CreateEventDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<CalendarSkillState> accessor,
+            ConversationState conversationState,
+            FindContactDialog findContactDialog,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(CreateEventDialog), settings, services, responseManager, accessor, serviceManager, telemetryClient)
+            : base(nameof(CreateEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -85,7 +86,7 @@ namespace CalendarSkill.Dialogs
             AddDialog(new TimePrompt(Actions.TimePromptForCreate));
             AddDialog(new DurationPrompt(Actions.DurationPromptForCreate));
             AddDialog(new GetRecreateInfoPrompt(Actions.GetRecreateInfoPrompt));
-            AddDialog(new FindContactDialog(settings, services, responseManager, accessor, serviceManager, telemetryClient));
+            AddDialog(findContactDialog ?? throw new ArgumentNullException(nameof(findContactDialog)));
 
             // Set starting dialog for component
             InitialDialogId = Actions.CreateEvent;

@@ -12,10 +12,10 @@ namespace PointOfInterestSkill.Services
 
         public IGeoSpatialService InitMapsService(BotSettings settings, string locale = "en")
         {
-            settings.Properties.TryGetValue("FoursquareClientId", out var clientId);
-            settings.Properties.TryGetValue("FoursquareClientSecret", out var clientSecret);
-            settings.Properties.TryGetValue("Radius", out var radius);
-            settings.Properties.TryGetValue("LimitSize", out var limitSize);
+            settings.Properties.TryGetValue("foursquareClientId", out var clientId);
+            settings.Properties.TryGetValue("foursquareClientSecret", out var clientSecret);
+            settings.Properties.TryGetValue("radius", out var radius);
+            settings.Properties.TryGetValue("limitSize", out var limitSize);
 
             var clientIdStr = clientId;
             var clientSecretStr = clientSecret;
@@ -43,8 +43,8 @@ namespace PointOfInterestSkill.Services
         /// <returns>IGeoSpatialService.</returns>
         public IGeoSpatialService InitRoutingMapsService(BotSettings settings, string locale = "en")
         {
-            settings.Properties.TryGetValue("Radius", out var radius);
-            settings.Properties.TryGetValue("LimitSize", out var limitSize);
+            settings.Properties.TryGetValue("radius", out var radius);
+            settings.Properties.TryGetValue("limitSize", out var limitSize);
             radiusInt = (radius != null) ? Convert.ToInt32(radius) : radiusInt;
             limitSizeInt = (limitSize != null) ? Convert.ToInt32(limitSize) : limitSizeInt;
 
@@ -62,7 +62,7 @@ namespace PointOfInterestSkill.Services
         /// <returns>IGeoSpatialService.</returns>
         public IGeoSpatialService InitAddressMapsService(BotSettings settings, string locale = "en-us")
         {
-            settings.Properties.TryGetValue("Radius", out var radius);
+            settings.Properties.TryGetValue("radius", out var radius);
             radiusInt = (radius != null) ? Convert.ToInt32(radius) : radiusInt;
 
             var key = GetAzureMapsKey(settings);
@@ -77,7 +77,7 @@ namespace PointOfInterestSkill.Services
         /// <returns>Azure Maps key string.</returns>
         protected string GetAzureMapsKey(BotSettings settings)
         {
-            settings.Properties.TryGetValue("AzureMapsKey", out var key);
+            settings.Properties.TryGetValue("azureMapsKey", out var key);
 
             var keyStr = key;
             if (string.IsNullOrWhiteSpace(keyStr))

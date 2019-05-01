@@ -17,7 +17,14 @@ namespace Microsoft.Bot.Builder.Skills
         /// <returns>Whether the intent matches a Skill.</returns>
         public static SkillManifest IsSkill(List<SkillManifest> skillConfiguration, string dispatchIntent)
         {
-            return skillConfiguration.SingleOrDefault(s => s.Actions.Any(a => a.Id == dispatchIntent.ToString()));
+            var manifest = skillConfiguration.SingleOrDefault(s => s.Actions.Any(a => a.Id == dispatchIntent.ToString()));
+
+            if (manifest == null)
+            {
+                manifest = skillConfiguration.SingleOrDefault(s => s.Id == dispatchIntent.ToString());
+            }
+
+            return manifest;
         }
     }
 }

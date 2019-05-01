@@ -24,16 +24,16 @@ using static Microsoft.Recognizers.Text.Culture;
 
 namespace CalendarSkill.Dialogs
 {
-    public class ConnectToMeetingDialog : CalendarSkillDialog
+    public class ConnectToMeetingDialog : CalendarSkillDialogBase
     {
         public ConnectToMeetingDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<CalendarSkillState> accessor,
+            ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(ConnectToMeetingDialog), settings, services, responseManager, accessor, serviceManager, telemetryClient)
+            : base(nameof(ConnectToMeetingDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 

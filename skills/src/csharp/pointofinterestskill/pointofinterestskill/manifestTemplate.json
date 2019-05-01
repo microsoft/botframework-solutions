@@ -11,7 +11,7 @@
         "description": "Find a route from X to Y",
         "slots": [
           {
-            "name": "location",
+            "name": "Location",
             "types": [ "string" ]
           }
         ],
@@ -33,7 +33,7 @@
         "description": "Cancel an active route.",
         "slots": [
           {
-            "name": "location",
+            "name": "Location",
             "types": [ "string" ]
           }
         ],
@@ -55,7 +55,7 @@
         "description": "Find a point of interest.",
         "slots": [
           {
-            "name": "location",
+            "name": "Location",
             "types": [ "string" ]
           }
         ],
@@ -77,7 +77,7 @@
         "description": "Find parking",
         "slots": [
           {
-            "name": "location",
+            "name": "Location",
             "types": [ "string" ]
           }
         ],

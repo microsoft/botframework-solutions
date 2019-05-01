@@ -83,7 +83,6 @@ namespace $safeprojectname$
             });
 
             // Register dialogs
-            services.AddTransient<AuthenticationDialog>();
             services.AddTransient<CancelDialog>();
             services.AddTransient<EscalateDialog>();
             services.AddTransient<MainDialog>();

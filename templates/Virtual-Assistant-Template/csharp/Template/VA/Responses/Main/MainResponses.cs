@@ -45,7 +45,8 @@ namespace $safeprojectname$.Responses.Main
                         inputHint: InputHints.AcceptingInput)
                 },
                 { ResponseIds.Help, (context, data) => BuildHelpCard(context, data) },
-                { ResponseIds.Intro, (context, data) => BuildIntroCard(context, data) },
+                { ResponseIds.NewUserGreeting, (context, data) => BuildNewUserGreetingCard(context, data) },
+                { ResponseIds.ReturningUserGreeting, (context, data) => BuildReturningUserGreetingCard(context, data) },
             }
         };
 
@@ -54,9 +55,30 @@ namespace $safeprojectname$.Responses.Main
             Register(new DictionaryRenderer(_responseTemplates));
         }
 
-        public static IMessageActivity BuildIntroCard(ITurnContext turnContext, dynamic data)
+        public static IMessageActivity BuildNewUserGreetingCard(ITurnContext turnContext, dynamic data)
         {
             var introCard = File.ReadAllText(MainStrings.INTRO_PATH);
+            var card = AdaptiveCard.FromJson(introCard).Card;
+            var attachment = new Attachment(AdaptiveCard.ContentType, content: card);
+
+            var response = MessageFactory.Attachment(attachment, ssml: card.Speak, inputHint: InputHints.AcceptingInput);
+
+            response.SuggestedActions = new SuggestedActions
+            {
+                Actions = new List<CardAction>()
+                {
+                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.HELP_BTN_TEXT_1, value: MainStrings.HELP_BTN_VALUE_1),
+                    new CardAction(type: ActionTypes.ImBack, title: MainStrings.HELP_BTN_TEXT_2, value: MainStrings.HELP_BTN_VALUE_2),
+                    new CardAction(type: ActionTypes.OpenUrl, title: MainStrings.HELP_BTN_TEXT_3, value: MainStrings.HELP_BTN_VALUE_3),
+                },
+            };
+
+            return response;
+        }
+
+        public static IMessageActivity BuildReturningUserGreetingCard(ITurnContext turnContext, dynamic data)
+        {
+            var introCard = File.ReadAllText(MainStrings.INTRO_RETURNING);
             var card = AdaptiveCard.FromJson(introCard).Card;
             var attachment = new Attachment(AdaptiveCard.ContentType, content: card);
 
@@ -106,7 +128,8 @@ namespace $safeprojectname$.Responses.Main
             public const string Confused = "confused";
             public const string Greeting = "greeting";
             public const string Help = "help";
-            public const string Intro = "intro";
+            public const string NewUserGreeting = "newUser";
+            public const string ReturningUserGreeting = "returningUser";
         }
     }
 }

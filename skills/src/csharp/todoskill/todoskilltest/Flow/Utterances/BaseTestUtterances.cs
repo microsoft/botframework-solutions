@@ -4,7 +4,7 @@ using Microsoft.Bot.Builder;
 
 namespace ToDoSkillTest.Flow.Utterances
 {
-    public class BaseTestUtterances : Dictionary<string, ToDoLU>
+    public class BaseTestUtterances : Dictionary<string, ToDoLuis>
     {
         public BaseTestUtterances()
         {
@@ -12,19 +12,19 @@ namespace ToDoSkillTest.Flow.Utterances
 
         public static double TopIntentScore { get; } = 0.9;
 
-        public ToDoLU GetBaseNoneIntent()
+        public ToDoLuis GetBaseNoneIntent()
         {
             return GetToDoIntent();
         }
 
-        public ToDoLU GetNoneIntent(string[] listType = null)
+        public ToDoLuis GetNoneIntent(string[] listType = null)
         {
             return GetToDoIntent(listType: listType);
         }
 
-        protected ToDoLU GetToDoIntent(
+        protected ToDoLuis GetToDoIntent(
             string userInput = null,
-            ToDoLU.Intent intents = ToDoLU.Intent.None,
+            ToDoLuis.Intent intents = ToDoLuis.Intent.None,
             double[] ordinal = null,
             double[] number = null,
             string[] containsAll = null,
@@ -35,12 +35,12 @@ namespace ToDoSkillTest.Flow.Utterances
             string[][] foodOfGrocery = null,
             string[][] shopVerb = null)
         {
-            var intent = new ToDoLU();
+            var intent = new ToDoLuis();
             intent.Text = userInput;
-            intent.Intents = new Dictionary<ToDoLU.Intent, IntentScore>();
+            intent.Intents = new Dictionary<ToDoLuis.Intent, IntentScore>();
             intent.Intents.Add(intents, new IntentScore() { Score = TopIntentScore });
-            intent.Entities = new ToDoLU._Entities();
-            intent.Entities._instance = new ToDoLU._Entities._Instance();
+            intent.Entities = new ToDoLuis._Entities();
+            intent.Entities._instance = new ToDoLuis._Entities._Instance();
             intent.Entities.ordinal = ordinal;
             intent.Entities.number = number;
             intent.Entities.ContainsAll = containsAll;

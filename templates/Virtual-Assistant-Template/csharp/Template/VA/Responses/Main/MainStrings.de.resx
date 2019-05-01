@@ -160,6 +160,9 @@
     <value>Hilfe für Enterprise Bot</value>
   </data>
   <data name="INTRO_PATH" xml:space="preserve">
-    <value>./Content/Intro.de.json</value>
+    <value>./Content/NewUserGreeting.de.json</value>
+  </data>
+  <data name="INTRO_RETURNING" xml:space="preserve">
+    <value>./Content/ReturningUserGreeting.de.json</value>
   </data>
 </root>

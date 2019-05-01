@@ -17,33 +17,31 @@ namespace NewsSkill.Dialogs
 {
     public class MainDialog : RouterDialog
     {
-        private BotSettings _settings;
         private BotServices _services;
-        private UserState _userState;
         private IBotTelemetryClient _telemetryClient;
         private ConversationState _conversationState;
         private MainResponses _responder = new MainResponses();
         private IStatePropertyAccessor<NewsSkillState> _stateAccessor;
-        private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
 
-        public MainDialog(BotSettings settings, BotServices services, ConversationState conversationState, UserState userState, IBotTelemetryClient telemetryClient)
+        public MainDialog(
+			BotServices services,
+			ConversationState conversationState,
+			FindArticlesDialog findArticlesDialog,
+			IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
-            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
-            _userState = userState ?? throw new ArgumentNullException(nameof(userState));
 
             _telemetryClient = telemetryClient;
 
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<NewsSkillState>(nameof(NewsSkillState));
-            _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
 
-            RegisterDialogs();
-        }
+			AddDialog(findArticlesDialog ?? throw new ArgumentNullException(nameof(findArticlesDialog)));
+		}
 
-        protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+		protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // send a greeting if we're in local mode
             await _responder.ReplyWith(dc.Context, MainResponses.Intro);
@@ -165,11 +163,6 @@ namespace NewsSkill.Dialogs
         {
             await _responder.ReplyWith(dc.Context, MainResponses.Help);
             return InterruptionAction.MessageSentToUser;
-        }
-
-        private void RegisterDialogs()
-        {
-            AddDialog(new FindArticlesDialog(_settings, _services, _stateAccessor, _telemetryClient));
         }
     }
 }

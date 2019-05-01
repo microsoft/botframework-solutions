@@ -4,7 +4,6 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Protocol;
 using Microsoft.Bot.Protocol.WebSockets;
 using Microsoft.Bot.Schema;
@@ -47,7 +46,7 @@ namespace Microsoft.Bot.Builder.Skills
         {
             BotAssert.ActivityNotNull(activity);
 
-            _botTelemetryClient.TrackTraceEx($"Received an incoming activity. ActivityId: {activity.Id}", Severity.Information, activity, null);
+            _botTelemetryClient.TrackTrace($"Received an incoming activity. ActivityId: {activity.Id}", Severity.Information, null);
 
             using (var context = new TurnContext(this, activity))
             {
@@ -125,16 +124,16 @@ namespace Microsoft.Bot.Builder.Skills
                     var request = Request.CreatePost(requestPath);
                     request.SetBody(activity);
 
-					_botTelemetryClient.TrackTraceEx($"Sending activity. ReplyToId: {activity.ReplyToId}", Severity.Information, activity, null);
+                    _botTelemetryClient.TrackTrace($"Sending activity. ReplyToId: {activity.ReplyToId}", Severity.Information, null);
 
-					var stopWatch = new Diagnostics.Stopwatch();
-					stopWatch.Start();
+                    var stopWatch = new Diagnostics.Stopwatch();
+                    stopWatch.Start();
                     response = await SendRequestAsync<ResourceResponse>(request).ConfigureAwait(false);
-					stopWatch.Stop();
-					_botTelemetryClient.TrackEventEx("SendActivityLatency", activity, null, null, new Dictionary<string, double>()
-					{
-						{ "Latency", stopWatch.ElapsedMilliseconds },
-					});
+                    stopWatch.Stop();
+                    _botTelemetryClient.TrackEvent("SkillWebSocketSendActivityLatency", null, new Dictionary<string, double>
+                    {
+                        { "Latency", stopWatch.ElapsedMilliseconds },
+                    });
                 }
 
                 // If No response is set, then defult to a "simple" response. This can't really be done
@@ -163,35 +162,35 @@ namespace Microsoft.Bot.Builder.Skills
             var request = Request.CreatePut(requestPath);
             request.SetBody(activity);
 
-            _botTelemetryClient.TrackTraceEx($"Updating activity. activity id: {activity.Id}", Severity.Information, activity, null);
+            _botTelemetryClient.TrackTrace($"Updating activity. activity id: {activity.Id}", Severity.Information, null);
 
-			var stopWatch = new Diagnostics.Stopwatch();
-			stopWatch.Start();
-			var response = await SendRequestAsync<ResourceResponse>(request, cancellationToken).ConfigureAwait(false);
-			stopWatch.Stop();
-			_botTelemetryClient.TrackEventEx("UpdateActivityLatency", activity, null, null, new Dictionary<string, double>()
-			{
-				{ "Latency", stopWatch.ElapsedMilliseconds },
-			});
+            var stopWatch = new Diagnostics.Stopwatch();
+            stopWatch.Start();
+            var response = await SendRequestAsync<ResourceResponse>(request, cancellationToken).ConfigureAwait(false);
+            stopWatch.Stop();
+            _botTelemetryClient.TrackEvent("SkillWebSocketUpdateActivityLatency", null, new Dictionary<string, double>
+            {
+                { "Latency", stopWatch.ElapsedMilliseconds },
+            });
 
-			return response;
-		}
+            return response;
+        }
 
         public override async Task DeleteActivityAsync(ITurnContext turnContext, ConversationReference reference, CancellationToken cancellationToken)
         {
             var requestPath = $"/activities/{reference.ActivityId}";
             var request = Request.CreateDelete(requestPath);
 
-            _botTelemetryClient.TrackTraceEx($"Updating activity. activity id: {reference.ActivityId}", Severity.Information, null, null);
+            _botTelemetryClient.TrackTrace($"Updating activity. activity id: {reference.ActivityId}", Severity.Information, null);
 
-			var stopWatch = new Diagnostics.Stopwatch();
-			stopWatch.Start();
-			await SendRequestAsync<ResourceResponse>(request, cancellationToken).ConfigureAwait(false);
-			stopWatch.Stop();
-			_botTelemetryClient.TrackEventEx("DeleteActivityLatency", null, null, null, new Dictionary<string, double>()
-			{
-				{ "Latency", stopWatch.ElapsedMilliseconds },
-			});
+            var stopWatch = new Diagnostics.Stopwatch();
+            stopWatch.Start();
+            await SendRequestAsync<ResourceResponse>(request, cancellationToken).ConfigureAwait(false);
+            stopWatch.Stop();
+            _botTelemetryClient.TrackEvent("SkillWebSocketDeleteActivityLatency", null, new Dictionary<string, double>
+            {
+                { "Latency", stopWatch.ElapsedMilliseconds },
+            });
         }
 
         public async Task SendRemoteTokenRequestEventAsync(ITurnContext turnContext, CancellationToken cancellationToken)
@@ -203,7 +202,7 @@ namespace Microsoft.Bot.Builder.Skills
 
             // Send the tokens/request Event
             await SendActivitiesAsync(turnContext, new Activity[] { response }, cancellationToken).ConfigureAwait(false);
-		}
+        }
 
         private async Task<T> SendRequestAsync<T>(Request request, CancellationToken cancellation = default(CancellationToken))
         {
@@ -218,7 +217,7 @@ namespace Microsoft.Bot.Builder.Skills
             }
             catch (Exception ex)
             {
-                _botTelemetryClient.TrackExceptionEx(ex, null);
+                _botTelemetryClient.TrackException(ex);
 
                 throw ex;
             }
@@ -234,7 +233,7 @@ namespace Microsoft.Bot.Builder.Skills
             }
             catch (Exception ex)
             {
-                _botTelemetryClient.TrackExceptionEx(ex, null);
+                _botTelemetryClient.TrackException(ex);
 
                 throw ex;
             }

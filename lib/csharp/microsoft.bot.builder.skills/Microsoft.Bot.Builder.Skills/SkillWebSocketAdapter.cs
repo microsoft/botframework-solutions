@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,6 +23,7 @@ namespace Microsoft.Bot.Builder.Skills
         private readonly IBotTelemetryClient _botTelemetryClient;
         private readonly SkillWebSocketBotAdapter _skillWebSocketBotAdapter;
         private readonly IAuthenticationProvider _authenticationProvider;
+		private readonly Stopwatch _stopWatch;
 
         public SkillWebSocketAdapter(
             SkillWebSocketBotAdapter skillWebSocketBotAdapter,
@@ -30,6 +33,7 @@ namespace Microsoft.Bot.Builder.Skills
             _skillWebSocketBotAdapter = skillWebSocketBotAdapter ?? throw new ArgumentNullException(nameof(SkillWebSocketBotAdapter));
             _authenticationProvider = authenticationProvider;
             _botTelemetryClient = botTelemetryClient ?? NullBotTelemetryClient.Instance;
+			_stopWatch = new Stopwatch();
         }
 
         public async Task ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default(CancellationToken))
@@ -73,15 +77,30 @@ namespace Microsoft.Bot.Builder.Skills
         private async Task CreateWebSocketConnectionAsync(HttpContext httpContext, IBot bot)
         {
             var socket = await httpContext.WebSockets.AcceptWebSocketAsync().ConfigureAwait(false);
-            var handler = new SkillWebSocketRequestHandler();
+            var handler = new SkillWebSocketRequestHandler(_botTelemetryClient);
             var server = new WebSocketServer(socket, handler);
+			server.Disconnected += Server_Disconnected;
             _skillWebSocketBotAdapter.Server = server;
             handler.Bot = bot;
             handler.SkillWebSocketBotAdapter = _skillWebSocketBotAdapter;
 
             _botTelemetryClient.TrackTrace("Starting listening on websocket", Severity.Information, null);
+			_stopWatch.Start();
             var startListening = server.StartAsync();
             Task.WaitAll(startListening);
         }
-    }
+
+		private void Server_Disconnected(object sender, Bot.Protocol.Transport.DisconnectedEventArgs e)
+		{
+			if (_stopWatch.IsRunning)
+			{
+				_stopWatch.Stop();
+
+				_botTelemetryClient.TrackEvent("SkillWebSocketOpenCloseLatency", null, new Dictionary<string, double>
+				{
+					{ "Latency", _stopWatch.ElapsedMilliseconds },
+				});
+			}
+		}
+	}
 }

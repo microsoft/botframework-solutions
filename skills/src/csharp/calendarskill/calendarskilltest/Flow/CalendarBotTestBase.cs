@@ -82,7 +82,16 @@ namespace CalendarSkillTest.Flow
             Services.AddSingleton(ServiceManager);
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<MainDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+			Services.AddTransient<ChangeEventStatusDialog>();
+			Services.AddTransient<ConnectToMeetingDialog>();
+			Services.AddTransient<CreateEventDialog>();
+			Services.AddTransient<FindContactDialog>();
+			Services.AddTransient<SummaryDialog>();
+			Services.AddTransient<TimeRemainingDialog>();
+			Services.AddTransient<UpcomingEventDialog>();
+			Services.AddTransient<UpdateEventDialog>();
+			Services.AddTransient<FindContactDialog>();
+			Services.AddTransient<IBot, DialogBot<MainDialog>>();
 
             var state = Services.BuildServiceProvider().GetService<ConversationState>();
             CalendarStateAccessor = state.CreateProperty<CalendarSkillState>(nameof(CalendarSkillState));

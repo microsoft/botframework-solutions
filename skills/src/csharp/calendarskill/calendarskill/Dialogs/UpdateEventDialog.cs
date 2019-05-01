@@ -19,16 +19,16 @@ using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 
 namespace CalendarSkill.Dialogs
 {
-    public class UpdateEventDialog : CalendarSkillDialog
+    public class UpdateEventDialog : CalendarSkillDialogBase
     {
         public UpdateEventDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<CalendarSkillState> accessor,
+			ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(UpdateEventDialog), settings, services, responseManager, accessor, serviceManager, telemetryClient)
+            : base(nameof(UpdateEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
             var updateEvent = new WaterfallStep[]

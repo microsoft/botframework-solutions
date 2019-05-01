@@ -1,0 +1,385 @@
+﻿## NAVIGATION_CANCEL_ROUTE
+- actually cancel going to {KEYWORD}
+- actually do not go to {ADDRESS}
+- actually forget going to {ADDRESS}
+- actually never mind going to {ADDRESS}
+- cancel {KEYWORD} navi
+- cancel going to {KEYWORD} in {ADDRESS}
+- cancel navigating to a {KEYWORD}
+- cancel taking me to {ADDRESS} in {ADDRESS}
+- clear {KEYWORD} navi
+- clear going to {KEYWORD} in {ADDRESS}
+- clear going to {ADDRESS}
+- clear navigating to a {KEYWORD}
+- clear navigating to an {KEYWORD}
+- clear taking me to {ADDRESS} in {ADDRESS}
+- delete going to {KEYWORD} in {ADDRESS}
+- delete going to {ADDRESS}
+- delete navigating to a {KEYWORD}
+- delete navigating to an {KEYWORD}
+- delete {KEYWORD} navi
+- delete taking me to {ADDRESS} in {ADDRESS}
+- do not navigate to a {KEYWORD}
+- do not navigate to an {KEYWORD}
+- do not take me to {ADDRESS}
+- don't navigate to a {KEYWORD}
+- don't navigate to an {KEYWORD}
+- don't take me to {ADDRESS}
+- end {KEYWORD} navi
+- end going to {KEYWORD} in {ADDRESS}
+- end navigating to a {KEYWORD}
+- end taking me to {ADDRESS} in {ADDRESS}
+- forget {KEYWORD} navi
+- forget going to {KEYWORD} in {ADDRESS}
+- forget going to {ADDRESS}
+- forget navigating to a {KEYWORD}
+- forget navigating to an {KEYWORD}
+- forget taking me to {ADDRESS} in {ADDRESS}
+- get rid of {KEYWORD} navi
+- get rid of going to {ADDRESS}
+- get rid of going to {KEYWORD} in {ADDRESS}
+- get rid of navigating to a {KEYWORD}
+- get rid of navigating to an {KEYWORD}
+- get rid of taking me to {ADDRESS} in {ADDRESS}
+- never mind {KEYWORD} navi
+- never mind going to {KEYWORD} in {ADDRESS}
+- never mind navigating to a {KEYWORD}
+- never mind taking me to {ADDRESS} in {ADDRESS}
+- on second thought cancel going to {KEYWORD}
+- on second thought do not go to {ADDRESS}
+- on second thought don't go to {ADDRESS}
+- on second thought end going to {KEYWORD}
+- on second thought forget going to {ADDRESS}
+- on second thought never mind going to {ADDRESS}
+- remove {KEYWORD} navi
+- remove going to {ADDRESS}
+- remove going to {KEYWORD} in {ADDRESS}
+- remove navigating to a {KEYWORD}
+- remove taking me to {ADDRESS} in {ADDRESS}
+- stop {KEYWORD} navi
+- stop going to {ADDRESS}
+- stop going to {KEYWORD} in {ADDRESS}
+- stop navigating to a {KEYWORD}
+- stop taking me to {ADDRESS} in {ADDRESS}
+- abort destination
+- abort navigation
+- abort route
+- actually cancel navi
+- actually clear navi
+- actually cut navi
+- actually delete navi
+- actually end navi
+- actually erase navi
+- actually forget navi
+- actually forget navigating
+- actually get rid of navi
+- actually never mind navigating
+- actually remove navi
+- actually stop navi
+- actually wipe off navi
+- actually wipe out navi
+- can you cancel navigating
+- can you cancel route service
+- can you clear going
+- can you clear navigation
+- can you cut going
+- can you cut navigation
+- can you delete going
+- can you delete navigation
+- can you end navigating
+- can you end route service
+- can you erase going
+- can you erase navigation
+- can you forget navigation
+- can you get rid of navigation
+- can you please cancel navigating
+- can you please cancel route service
+- can you please clear navigation
+- can you please cut going
+- can you please cut navigation
+- can you please delete going
+- can you please delete navigation
+- can you please end navigating
+- can you please end route service
+- can you please erase going
+- can you please erase navigation
+- can you please forget navigation
+- can you please get rid of navigation
+- can you please remove going
+- can you please remove navigation
+- can you please stop navigation
+- can you please wipe off navigation
+- can you please wipe out going
+- can you please wipe out navigation
+- can you remove navigation
+- can you stop navigation
+- can you wipe off going
+- can you wipe off navigation
+- can you wipe out navigation
+- cancel going
+- cancel navigation
+- cancel wherever going
+- clear destination
+- clear going
+- clear navigating
+- clear route
+- clear route service
+- could you cancel navigating
+- could you cancel route service
+- could you clear going
+- could you clear navigation
+- could you cut going
+- could you cut navigation
+- could you delete going
+- could you delete navigation
+- could you end navigating
+- could you end route service
+- could you erase navigation
+- could you forget navigation
+- could you get rid of navigation
+- could you please cancel navigating
+- could you please cancel route service
+- could you please clear going
+- could you please clear navigation
+- could you please cut going
+- could you please cut navigation
+- could you please delete going
+- could you please delete navigation
+- could you please end navigating
+- could you please end route service
+- could you please erase going
+- could you please erase navigation
+- could you please forget navigation
+- could you please get rid of navigation
+- could you please remove going
+- could you please remove navigation
+- could you please stop navigation
+- could you please wipe off going
+- could you please wipe off navigation
+- could you please wipe out navigation
+- could you remove going
+- could you remove navigation
+- could you stop navigation
+- could you wipe off going
+- could you wipe off navigation
+- could you wipe out going
+- could you wipe out navigation
+- cut destination
+- cut navigating
+- cut route
+- cut route service
+- delete destination
+- delete going
+- delete navigating
+- delete route
+- delete route service
+- dismiss destination
+- dismiss navigation
+- dismiss route
+- do not go
+- do not navigate
+- don't go
+- don't navigate
+- drop destination
+- drop navigation
+- drop route
+- end going
+- end navigation
+- end wherever going
+- erase destination
+- erase navigating
+- erase route
+- erase route service
+- forget destination
+- forget going
+- forget navi
+- forget navigating
+- forget navigation
+- forget route service
+- get rid of going
+- get rid of navigating
+- get rid of route service
+- go ahead and cancel navigating
+- go ahead and cancel route service
+- go ahead and clear going
+- go ahead and clear navigation
+- go ahead and cut going
+- go ahead and cut navigation
+- go ahead and delete going
+- go ahead and delete navigation
+- go ahead and end navigating
+- go ahead and end route service
+- go ahead and erase going
+- go ahead and erase navigation
+- go ahead and get rid of navigation
+- go ahead and remove going
+- go ahead and remove navigation
+- go ahead and stop navigation
+- go ahead and wipe off going
+- go ahead and wipe off navigation
+- go ahead and wipe out going
+- go ahead and wipe out navigation
+- is it possible to cancel navigating
+- is it possible to cancel route service
+- is it possible to clear going
+- is it possible to clear navigation
+- is it possible to cut going
+- is it possible to delete going
+- is it possible to delete navigation
+- is it possible to end navigating
+- is it possible to end route service
+- is it possible to erase going
+- is it possible to erase navigation
+- is it possible to forget navigation
+- is it possible to get rid of navigation
+- is it possible to remove going
+- is it possible to remove navigation
+- is it possible to wipe off navigation
+- is it possible to wipe out going
+- navigation clear
+- navigation delete
+- navigation forget
+- navigation get rid of
+- navigation remove
+- navigation stop
+- never mind going
+- never mind navi
+- never mind navigation
+- never mind route service
+- on second thought cancel navi
+- on second thought clear navi
+- on second thought cut navi
+- on second thought delete navi
+- on second thought end navi
+- on second thought erase navi
+- on second thought forget navi
+- on second thought forget navigating
+- on second thought get rid of navi
+- on second thought never mind navigating
+- on second thought remove navi
+- on second thought stop navi
+- on second thought wipe off navi
+- on second thought wipe out navi
+- please cancel navigating
+- please cancel route service
+- please clear going
+- please clear navigation
+- please cut going
+- please cut navigation
+- please delete navigation
+- please end navigating
+- please end route service
+- please erase going
+- please erase navigation
+- please forget navigation
+- please get rid of navigation
+- please remove going
+- please remove navigation
+- please stop navigation
+- please wipe off going
+- please wipe off navigation
+- please wipe out going
+- please wipe out navigation
+- quit destination
+- quit navigation
+- quit route
+- remove destination
+- remove going
+- remove navigating
+- remove route
+- remove route service
+- reset destination
+- reset route
+- restart destination
+- restart route
+- scratch destination
+- scratch route
+- stop going
+- stop navigating
+- stop route service
+- will you cancel navigating
+- will you cancel route service
+- will you clear going
+- will you clear navigation
+- will you cut going
+- will you cut navigation
+- will you delete going
+- will you delete navigation
+- will you end navigating
+- will you end route service
+- will you erase navigation
+- will you forget navigation
+- will you get rid of navigation
+- will you please cancel navigating
+- will you please cancel route service
+- will you please clear going
+- will you please clear navigation
+- will you please cut navigation
+- will you please delete going
+- will you please delete navigation
+- will you please end navigating
+- will you please end route service
+- will you please erase navigation
+- will you please get rid of navigation
+- will you please remove going
+- will you please remove navigation
+- will you please stop navigation
+- will you please wipe off going
+- will you please wipe off navigation
+- will you please wipe out going
+- will you please wipe out navigation
+- will you remove going
+- will you remove navigation
+- will you stop navigation
+- will you wipe off going
+- will you wipe off navigation
+- will you wipe out going
+- will you wipe out navigation
+- wipe off destination
+- wipe off navigating
+- wipe off route
+- wipe off route service
+- wipe out destination
+- wipe out navigating
+- wipe out route
+- wipe out route service
+- would you cancel navigating
+- would you cancel route service
+- would you clear going
+- would you clear navigation
+- would you cut going
+- would you cut navigation
+- would you delete going
+- would you delete navigation
+- would you end navigating
+- would you end route service
+- would you erase going
+- would you forget navigation
+- would you get rid of navigation
+- would you please cancel navigating
+- would you please cancel route service
+- would you please clear going
+- would you please clear navigation
+- would you please cut going
+- would you please cut navigation
+- would you please delete going
+- would you please delete navigation
+- would you please end navigating
+- would you please end route service
+- would you please erase going
+- would you please erase navigation
+- would you please forget navigation
+- would you please remove going
+- would you please remove navigation
+- would you please stop navigation
+- would you please wipe off going
+- would you please wipe off navigation
+- would you please wipe out going
+- would you please wipe out navigation
+- would you remove going
+- would you remove navigation
+- would you stop navigation
+- would you wipe off going
+- would you wipe off navigation
+- would you wipe out going
+- would you wipe out navigation

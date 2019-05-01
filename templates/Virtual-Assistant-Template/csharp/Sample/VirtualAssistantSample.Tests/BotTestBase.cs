@@ -57,7 +57,6 @@ namespace VirtualAssistantSample.Tests
                 return new BotStateSet(userState, conversationState);
             });
 
-            Services.AddTransient<AuthenticationDialog>();
             Services.AddTransient<CancelDialog>();
             Services.AddTransient<EscalateDialog>();
             Services.AddTransient<MainDialog>();

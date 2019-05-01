@@ -27,18 +27,17 @@ namespace Microsoft.Bot.Builder.Skills
         private readonly JsonSerializer _jsonSerializer = JsonSerializer.Create(Serialization.Settings);
 
 		public SkillController(
-            IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
-            SkillHttpAdapter skillHttpAdapter,
-            SkillWebSocketAdapter skillWebSocketAdapter,
             IBot bot,
-            BotSettingsBase botSettings)
-        {
-            _botFrameworkHttpAdapter = botFrameworkHttpAdapter ?? throw new ArgumentNullException(nameof(IBotFrameworkHttpAdapter));
-            _skillHttpAdapter = skillHttpAdapter;
-            _skillWebSocketAdapter = skillWebSocketAdapter;
-
-            _bot = bot ?? throw new ArgumentNullException(nameof(IBot));
-            _botSettings = botSettings ?? throw new ArgumentNullException(nameof(botSettings));
+            BotSettingsBase botSettings,
+			IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
+			SkillWebSocketAdapter skillWebSocketAdapter,
+			SkillHttpAdapter skillHttpAdapter = null)
+		{
+			_bot = bot ?? throw new ArgumentNullException(nameof(IBot));
+			_botSettings = botSettings ?? throw new ArgumentNullException(nameof(botSettings));
+			_botFrameworkHttpAdapter = botFrameworkHttpAdapter ?? throw new ArgumentNullException(nameof(IBotFrameworkHttpAdapter));
+			_skillWebSocketAdapter = skillWebSocketAdapter;
+			_skillHttpAdapter = skillHttpAdapter;
         }
 
 		// Each skill provides a template manifest file which we use to fill in the dynamic elements.

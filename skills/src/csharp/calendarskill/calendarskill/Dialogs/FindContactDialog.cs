@@ -22,16 +22,16 @@ using static CalendarSkill.Models.CalendarSkillState;
 
 namespace CalendarSkill.Dialogs
 {
-    public class FindContactDialog : CalendarSkillDialog
+    public class FindContactDialog : CalendarSkillDialogBase
     {
         public FindContactDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<CalendarSkillState> accessor,
+			ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-           : base(nameof(FindContactDialog), settings, services, responseManager, accessor, serviceManager, telemetryClient)
+           : base(nameof(FindContactDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 

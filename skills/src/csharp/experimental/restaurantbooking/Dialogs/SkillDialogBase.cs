@@ -26,17 +26,17 @@ namespace RestaurantBooking.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<RestaurantBookingState> conversationStateAccessor,
-            IStatePropertyAccessor<SkillUserState> userStateAccessor,
+			ConversationState conversationState,
+			UserState userState,
             IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             Settings = settings;
             Services = services;
             ResponseManager = responseManager;
-            ConversationStateAccessor = conversationStateAccessor;
-            UserStateAccessor = userStateAccessor;
-            TelemetryClient = telemetryClient;
+			ConversationStateAccessor = conversationState.CreateProperty<RestaurantBookingState>(nameof(BookingDialog));
+			UserStateAccessor = userState.CreateProperty<SkillUserState>(nameof(SkillUserState));
+			TelemetryClient = telemetryClient;
         }
 
         protected BotSettings Settings { get; set; }
@@ -221,11 +221,6 @@ namespace RestaurantBooking.Dialogs
             {
                 // put log here
             }
-        }
-
-        private class DialogIds
-        {
-            public const string SkillModeAuth = "SkillAuth";
         }
     }
 }

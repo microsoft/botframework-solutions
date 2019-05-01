@@ -29,7 +29,7 @@ namespace VirtualAssistantSample.Tests
 
                     // Assert the intro card has been localized
                     var card = activity.AsMessageActivity().Attachments[0].Content as AdaptiveCard;
-                    Assert.IsTrue(card.Body.Any(i => i.Type == "TextBlock" && ((AdaptiveTextBlock)i).Text == "¡Bienvenido a Bot Framework!"));
+                    Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "Hola, soy tu Virtual Assistant")));
                 })
                 .StartTestAsync();
         }
@@ -52,7 +52,7 @@ namespace VirtualAssistantSample.Tests
 
                     // Assert the intro card has been localized
                     var card = activity.AsMessageActivity().Attachments[0].Content as AdaptiveCard;
-                    Assert.IsTrue(card.Body.Any(i => i.Type == "TextBlock" && ((AdaptiveTextBlock)i).Text == "Willkommen bei Bot Framework!"));
+                    Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "Hi, ich bin **dein** Virtueller Assistent")));
                 })
                 .StartTestAsync();
         }
@@ -75,7 +75,7 @@ namespace VirtualAssistantSample.Tests
 
                     // Assert the intro card has been localized
                     var card = activity.AsMessageActivity().Attachments[0].Content as AdaptiveCard;
-                    Assert.IsTrue(card.Body.Any(i => i.Type == "TextBlock" && ((AdaptiveTextBlock)i).Text == "Bienvenue à Bot Framework!"));
+                    Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "Salut, je suis votre Virtual Assistant")));
                 })
                 .StartTestAsync();
         }
@@ -98,7 +98,7 @@ namespace VirtualAssistantSample.Tests
 
                     // Assert the intro card has been localized
                     var card = activity.AsMessageActivity().Attachments[0].Content as AdaptiveCard;
-                    Assert.IsTrue(card.Body.Any(i => i.Type == "TextBlock" && ((AdaptiveTextBlock)i).Text == "Benvenuti a Bot Framework!"));
+                    Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "Ciao, sono il **tuo** Virtual Assistant")));
                 })
                 .StartTestAsync();
         }
@@ -121,10 +121,9 @@ namespace VirtualAssistantSample.Tests
 
                     // Assert the intro card has been localized
                     var card = activity.AsMessageActivity().Attachments[0].Content as AdaptiveCard;
-                    Assert.IsTrue(card.Body.Any(i => i.Type == "TextBlock" && ((AdaptiveTextBlock)i).Text == "欢迎来到博特框架!"));
+                    Assert.IsTrue(card.Body.Any(i => i.Type == "Container" && ((AdaptiveContainer)i).Items.Any(t => t.Type == "TextBlock" && ((AdaptiveTextBlock)t).Text == "嗨, 我是你的虚拟助理")));
                 })
                 .StartTestAsync();
         }
-
     }
 }

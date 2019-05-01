@@ -19,16 +19,16 @@ using Microsoft.Bot.Builder.Solutions.Util;
 
 namespace CalendarSkill.Dialogs
 {
-    public class TimeRemainingDialog : CalendarSkillDialog
+    public class TimeRemainingDialog : CalendarSkillDialogBase
     {
         public TimeRemainingDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<CalendarSkillState> accessor,
+            ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(TimeRemainingDialog), settings, services, responseManager, accessor, serviceManager, telemetryClient)
+            : base(nameof(TimeRemainingDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 

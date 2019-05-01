@@ -21,15 +21,14 @@
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.4.0-preview41" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.0-preview41" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.4.0-preview44" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.0-preview44" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.3.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Graph" Version="1.12.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
   </ItemGroup>
 
@@ -50,18 +49,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>OnboardingStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Responses\Authentication\AuthenticationStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>AuthenticationStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   
   <ItemGroup>
-    <Compile Update="Responses\Authentication\AuthenticationStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>AuthenticationStrings.resx</DependentUpon>
-    </Compile>
     <Compile Update="Responses\Cancel\CancelStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -83,24 +73,42 @@
       <DependentUpon>OnboardingStrings.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-
+  
   <ItemGroup>
-    <Content Update="Content\Intro.de.json">
+    <Content Update="Content\NewUserGreeting.de.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\Intro.es.json">
+    <Content Update="Content\NewUserGreeting.es.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\Intro.fr.json">
+    <Content Update="Content\NewUserGreeting.fr.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\Intro.it.json">
+    <Content Update="Content\NewUserGreeting.it.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\Intro.json">
+    <Content Update="Content\NewUserGreeting.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\Intro.zh.json">
+    <Content Update="Content\NewUserGreeting.zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Content\ReturningUserGreeting.de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Content\ReturningUserGreeting.es.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Content\ReturningUserGreeting.fr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Content\ReturningUserGreeting.it.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Content\ReturningUserGreeting.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Content\ReturningUserGreeting.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
