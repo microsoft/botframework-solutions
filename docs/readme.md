@@ -7,7 +7,7 @@
   - [Table of Contents](#table-of-contents)
 - [Overview](#overview)
 - [Tutorials](#tutorials)
-- [Advanced](#advanced)
+- [Advanced Scenarios](#advanced-scenarios)
   - [Virtual Assistant](#virtual-assistant)
   - [Skills](#skills)
 - [Reference documentation](#reference-documentation)
@@ -37,9 +37,9 @@ Create, Deploy and Customize your own Virtual Assistant and Skills in minutes.
 |3. Create and deploy a new Skill  |Creating a new Skill using the template|[C#](/docs/tutorials/csharp/skill.md), [TS](/docs/tutorials/typescript/skill.md)
 |4. Customize your skill           |Building your first skill| [C#](/docs/tutorials/csharp/customizeskill.md), [TS](/docs/tutorials/typescript/customizeassistant.md)
 
-# Advanced
+# Advanced Scenarios
 
-Detailed technical documentation explaining how to achieve more complex goals.
+How-to guides on achieving more complex scenarios.
 
 ## Virtual Assistant
 
@@ -52,7 +52,7 @@ Detailed technical documentation explaining how to achieve more complex goals.
 |Proactive Messaging|Adding proactive experiences to your assistant|[View](/docs/advanced/assistant/csharp/proactivemessaging.md)
 |Linked Accounts|Enable users to link 3rd party accounts (e.g. o365) to their assistant|[View](/docs/advanced/assistant/linkedaccounts.md)
 |Stitching together Bots into one conversational experience|Create one central Bot which hands-off to child bots, a common enterprise scenario.|[View](/docs/advanced/assistant/parentchildbotpattern.md)
-|Customising Deployment|How to customise the provided ARM template for different deployment scenarios.|[View](/docs/advanced/assistant/customisingdeployment.md)
+|Configuring Deployment|How to customise the provided ARM template for different deployment scenarios.|[View](/docs/advanced/assistant/customisingdeployment.md)
 |Adding Authentication to your assistant |How to add Authentication support to your Assistant| [C#](/docs/advanced/assistant/csharp/addauthentication.md), [TS](/docs/advanced/assistant/typescript/addauthentication.md)
 
 ## Skills
