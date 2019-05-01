@@ -22,6 +22,7 @@ namespace CalendarSkill.Dialogs
     public class UpcomingEventDialog : CalendarSkillDialogBase
     {
         private IBackgroundTaskQueue _backgroundTaskQueue;
+		private ProactiveState _proactiveState;
         private IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
         private ResponseManager _responseManager;
 
@@ -29,16 +30,17 @@ namespace CalendarSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<CalendarSkillState> accessor,
-            IStatePropertyAccessor<ProactiveModel> proactiveStateAccessor,
+			ConversationState conversationState,
+			ProactiveState proactiveState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             IBackgroundTaskQueue backgroundTaskQueue)
-            : base(nameof(UpcomingEventDialog), settings, services, responseManager, accessor, serviceManager, telemetryClient)
+            : base(nameof(UpcomingEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
             _backgroundTaskQueue = backgroundTaskQueue;
-            _proactiveStateAccessor = proactiveStateAccessor;
-            _responseManager = responseManager;
+			_proactiveState = proactiveState;
+			_proactiveStateAccessor = _proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
+			_responseManager = responseManager;
 
             var upcomingMeeting = new WaterfallStep[]
             {

@@ -79,7 +79,11 @@ namespace PointOfInterestSkillTests.Flow
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<MainDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+			Services.AddTransient<CancelRouteDialog>();
+			Services.AddTransient<FindParkingDialog>();
+			Services.AddTransient<FindPointOfInterestDialog>();
+			Services.AddTransient<RouteDialog>();
+			Services.AddTransient<IBot, DialogBot<MainDialog>>();
 
             var mockHttpContext = new DefaultHttpContext();
             mockHttpContext.Request.Scheme = "http";

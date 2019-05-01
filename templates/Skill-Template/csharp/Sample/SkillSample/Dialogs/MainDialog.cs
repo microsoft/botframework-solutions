@@ -17,6 +17,8 @@ using SkillSample.Responses.Main;
 using SkillSample.Services;
 using SkillSample.Responses.Shared;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Models;
+using Microsoft.Bot.Builder.Solutions;
 
 namespace SkillSample.Dialogs
 {
@@ -123,7 +125,7 @@ namespace SkillSample.Dialogs
         {
             switch (dc.Context.Activity.Name)
             {
-                case Events.SkillBeginEvent:
+                case SkillEvents.SkillBeginEventName:
                     {
                         var state = await _stateAccessor.GetAsync(dc.Context, () => new SkillState());
 
@@ -135,7 +137,7 @@ namespace SkillSample.Dialogs
                         break;
                     }
 
-                case Events.TokenResponseEvent:
+                case TokenEvents.TokenResponseEventName:
                     {
                         // Auth dialog completion
                         var result = await dc.ContinueDialogAsync();
@@ -261,12 +263,6 @@ namespace SkillSample.Dialogs
                 //    state.Location = skillContext["Location"];
                 //}
             }
-        }
-
-        private class Events
-        {
-            public const string TokenResponseEvent = "tokens/response";
-            public const string SkillBeginEvent = "skillBegin";
         }
     }
 }

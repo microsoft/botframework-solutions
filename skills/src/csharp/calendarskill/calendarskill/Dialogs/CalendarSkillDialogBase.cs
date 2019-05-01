@@ -31,20 +31,23 @@ namespace CalendarSkill.Dialogs
 {
     public class CalendarSkillDialogBase : ComponentDialog
     {
+		private ConversationState _conversationState;
+
         public CalendarSkillDialogBase(
             string dialogId,
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<CalendarSkillState> accessor,
-            IServiceManager serviceManager,
+			ConversationState conversationState,
+			IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             Settings = settings;
             Services = services;
             ResponseManager = responseManager;
-            Accessor = accessor;
+			_conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
+            Accessor = _conversationState.CreateProperty<CalendarSkillState>(nameof(CalendarSkillState));
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
 

@@ -28,8 +28,6 @@ namespace CalendarSkill.Models
             NotFound,
         }
 
-        public bool SkillMode { get; set; }
-
         public UpdateReason Reason { get; set; }
     }
 }

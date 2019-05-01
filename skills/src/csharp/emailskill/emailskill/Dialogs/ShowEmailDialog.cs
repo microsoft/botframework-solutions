@@ -28,11 +28,13 @@ namespace EmailSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
-            IStatePropertyAccessor<DialogState> dialogStateAccessor,
+			ConversationState conversationState,
+			DeleteEmailDialog deleteEmailDialog,
+			ReplyEmailDialog replyEmailDialog,
+			ForwardEmailDialog forwardEmailDialog,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(ShowEmailDialog), settings, services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
+            : base(nameof(ShowEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -102,9 +104,9 @@ namespace EmailSkill.Dialogs
             AddDialog(new WaterfallDialog(Actions.Display, displayEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.DisplayFiltered, displayFilteredEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.ReDisplay, redisplayEmail) { TelemetryClient = telemetryClient });
-            AddDialog(new DeleteEmailDialog(settings, services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
-            AddDialog(new ReplyEmailDialog(settings, services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
-            AddDialog(new ForwardEmailDialog(settings, services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
+            AddDialog(deleteEmailDialog ?? throw new ArgumentNullException(nameof(deleteEmailDialog)));
+            AddDialog(replyEmailDialog ?? throw new ArgumentNullException(nameof(replyEmailDialog)));
+            AddDialog(forwardEmailDialog ?? throw new ArgumentNullException(nameof(forwardEmailDialog)));
             InitialDialogId = Actions.Show;
         }
 

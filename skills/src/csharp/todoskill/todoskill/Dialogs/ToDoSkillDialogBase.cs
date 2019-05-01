@@ -31,25 +31,25 @@ namespace ToDoSkill.Dialogs
 {
     public class ToDoSkillDialogBase : ComponentDialog
     {
-        // Constants
-        public const string SkillModeAuth = "SkillAuth";
-
         public ToDoSkillDialogBase(
             string dialogId,
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
-            IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
+			ConversationState conversationState,
+			UserState userState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             Services = services;
             ResponseManager = responseManager;
-            ToDoStateAccessor = toDoStateAccessor;
-            UserStateAccessor = userStateAccessor;
-            ServiceManager = serviceManager;
+
+			// Initialize state accessor
+			ToDoStateAccessor = conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
+			UserStateAccessor = userState.CreateProperty<ToDoSkillUserState>(nameof(ToDoSkillUserState));
+
+			ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
 
             if (!settings.OAuthConnections.Any())

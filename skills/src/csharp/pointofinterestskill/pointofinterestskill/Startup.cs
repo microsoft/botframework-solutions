@@ -3,7 +3,6 @@
 
 using System.Linq;
 using Microsoft.ApplicationInsights;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -104,8 +103,15 @@ namespace PointOfInterestSkill
                 new RouteResponses(),
                 new POISharedResponses()));
 
-            // Configure adapters
-            services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
+			// register dialogs
+			services.AddTransient<MainDialog>();
+			services.AddTransient<CancelRouteDialog>();
+			services.AddTransient<FindParkingDialog>();
+			services.AddTransient<FindPointOfInterestDialog>();
+			services.AddTransient<RouteDialog>();
+
+			// Configure adapters
+			services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<SkillWebSocketBotAdapter, POISkillWebSocketBotAdapter>();
             services.AddTransient<SkillWebSocketAdapter>();
             services.AddTransient<SkillHttpBotAdapter, POISkillHttpBotAdapter>();

@@ -99,7 +99,11 @@ namespace ToDoSkillTest.Flow
             Services.AddSingleton<IServiceManager>(ServiceManager);
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<MainDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+			Services.AddTransient<AddToDoItemDialog>();
+			Services.AddTransient<DeleteToDoItemDialog>();
+			Services.AddTransient<MarkToDoItemDialog>();
+			Services.AddTransient<ShowToDoItemDialog>();
+			Services.AddTransient<IBot, DialogBot<MainDialog>>();
         }
 
         public Activity GetAuthResponse()
