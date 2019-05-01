@@ -10,7 +10,7 @@ import { ActivityExtensions, isProviderTokenResponse, MultiProviderAuthDialog, T
 import { MicrosoftAppCredentialsEx } from './auth';
 import { ISkillManifest } from './models';
 import { SkillContext } from './skillContext';
-import { SkillHttpTransport } from './skillHttpTransport';
+import { SkillHttpTransport } from './http/skillHttpTransport';
 import { ISkillTransport, TokenRequestHandler } from './skillTransport';
 
 export class SkillDialog extends ComponentDialog {

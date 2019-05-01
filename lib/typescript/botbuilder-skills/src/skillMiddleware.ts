@@ -3,7 +3,8 @@
  * Licensed under the MIT License.
  */
 
-import { Middleware, StatePropertyAccessor, TurnContext } from 'botbuilder';
+import { ConversationState, Middleware, StatePropertyAccessor, TurnContext } from 'botbuilder';
+import { DialogState } from 'botbuilder-dialogs';
 import { Activity, ActivityTypes } from 'botframework-schema';
 import { SkillEvents } from './models';
 import { SkillContext } from './skillContext';
@@ -13,23 +14,43 @@ import { SkillContext } from './skillContext';
  * for example the skillBegin event used to signal the start of a skill conversation.
  */
 export class SkillMiddleware implements Middleware {
-    private readonly accessor: StatePropertyAccessor<SkillContext>;
+    private readonly conversationState: ConversationState;
+    private readonly skillContextAccessor: StatePropertyAccessor<SkillContext>;
+    private readonly dialogStateAccessor: StatePropertyAccessor<DialogState>;
 
-    constructor(accessor: StatePropertyAccessor<SkillContext>) {
-        this.accessor = accessor;
+    constructor(
+        conversationState: ConversationState,
+        skillContextAccessor: StatePropertyAccessor<SkillContext>,
+        dialogStateAccessor: StatePropertyAccessor<DialogState>
+    ) {
+        this.conversationState = conversationState;
+        this.skillContextAccessor = skillContextAccessor;
+        this.dialogStateAccessor = dialogStateAccessor;
     }
 
     public async onTurn(turnContext: TurnContext, next: () => Promise<void>): Promise<void> {
         // The skillBegin event signals the start of a skill conversation to a Bot.
         const activity: Activity = turnContext.activity;
 
-        if (activity !== undefined && activity.type === ActivityTypes.Event && activity.name === SkillEvents.skillBeginEventName) {
-            const slotData: { [key: string]: Object } = activity.value;
-            if (slotData.size > 0) {
-                // If we have slotData then we create the SkillContext object within UserState for the skill to access
-                const skillContext: SkillContext = new SkillContext(slotData);
-                await this.accessor.set(turnContext, skillContext);
+        if (activity !== undefined && activity.type === ActivityTypes.Event) {
+            if (activity.name === SkillEvents.skillBeginEventName && activity.value !== undefined) {
+                // PENDING: Check conversion
+                const skillContext: SkillContext = <SkillContext>activity.value;
+                if (skillContext !== undefined) {
+                    await this.skillContextAccessor.set(turnContext, skillContext);
+                }
+            } else if (activity.name === SkillEvents.cancelAllSkillDialogsEventName) {
+                // when skill receives a CancelAllSkillDialogsEvent, clear the dialog stack and short-circuit
+                const currentConversation: DialogState|undefined = await this.dialogStateAccessor.get(turnContext);
+                if (currentConversation) {
+                    currentConversation.dialogStack = [];
+                    await this.dialogStateAccessor.set(turnContext, currentConversation);
+                    await this.conversationState.saveChanges(turnContext, true);
+
+                    return;
+                }
             }
+
         }
 
         await next();

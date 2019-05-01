@@ -6,6 +6,6 @@
 import { ISkillManifest } from './skillManifest';
 
 export interface ISkillDialogOptions {
-   skillManifest: ISkillManifest | undefined;
-   parameters: Map<string, Object>;
+    skillManifest?: ISkillManifest;
+    parameters: Map<string, Object>;
 }

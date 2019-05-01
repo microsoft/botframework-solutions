@@ -17,17 +17,11 @@ export class SkillContext {
         return Object.keys(this.contextStorage).length;
     }
 
-    public getObj(key: string): Object {
+    public getObj(key: string): Object|undefined {
         return this.contextStorage[key];
     }
 
     public setObj(key: string, value: Object): void {
         this.contextStorage[key] = value;
-    }
-
-    public tryGet(key: string): { result: boolean; value?: Object } {
-        const value: Object|undefined = this.contextStorage[key];
-
-        return { result: !!value, value: value };
     }
 }

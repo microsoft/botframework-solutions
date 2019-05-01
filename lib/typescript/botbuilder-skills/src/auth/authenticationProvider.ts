@@ -3,6 +3,6 @@
  * Licensed under the MIT License.
  */
 
-export interface ISkillWhitelist {
-    skillWhiteList: string[];
+export interface IAuthenticationProvider {
+    authenticate(authHeader: string): Promise<boolean>;
 }

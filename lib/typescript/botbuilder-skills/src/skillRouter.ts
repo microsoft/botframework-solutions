@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { ISkillManifest } from './models';
+import { ISkillManifest, IAction } from './models';
 
 /**
  * Skill Router class that helps Bots identify if a registered Skill matches the identified dispatch intent.
@@ -15,7 +15,17 @@ export namespace SkillRouter {
      * @param dispatchIntent The Dispatch intent to try and match to a skill.
      * @returns Whether the intent matches a Skill.
      */
-    export function isSkill(skillConfiguration: ISkillManifest[], dispatchIntent: string): ISkillManifest | undefined {
-        return skillConfiguration.find((skill: ISkillManifest) => skill.id === dispatchIntent);
+    export function isSkill(skillConfiguration: ISkillManifest[], dispatchIntent: string): ISkillManifest|undefined {
+        const manifest: ISkillManifest|undefined = skillConfiguration.find((skillManifest: ISkillManifest) => {
+            return skillManifest.actions.some((action: IAction) => {
+                return action.id === dispatchIntent;
+            });
+        });
+
+        if (manifest === undefined) {
+            return skillConfiguration.find((s: ISkillManifest) => s.id === dispatchIntent);
+        }
+
+        return manifest;
     }
 }

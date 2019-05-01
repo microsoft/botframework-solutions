@@ -7,9 +7,9 @@ import { DefaultHttpClient, HttpClient, HttpOperationResponse, RequestPrepareOpt
 import { TurnContext } from 'botbuilder';
 import { ActivityExtensions, TokenEvents } from 'botbuilder-solutions';
 import { Activity, ActivityTypes } from 'botframework-schema';
-import { MicrosoftAppCredentialsEx } from './auth';
-import { ISkillManifest, SkillEvents } from './models';
-import { ISkillTransport, TokenRequestHandler } from './skillTransport';
+import { MicrosoftAppCredentialsEx } from '../auth';
+import { ISkillManifest, SkillEvents } from '../models';
+import { ISkillTransport, TokenRequestHandler } from '../skillTransport';
 
 export class SkillHttpTransport implements ISkillTransport {
     private readonly httpClient: HttpClient;
