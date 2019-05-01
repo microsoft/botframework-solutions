@@ -183,9 +183,9 @@ namespace WeatherSkill.Dialogs
                 {
                     var entities = state.LuisResult.Entities;
 
-                    if (entities.geography != null)
+                    if (entities.geographyV2_city != null)
                     {
-                        state.Geography = entities.geography[0];
+                        state.Geography = entities.geographyV2_city[0];
                     }
                 }
             }

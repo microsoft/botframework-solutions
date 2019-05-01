@@ -13,9 +13,12 @@ namespace WeatherSkill.Models
 
         public string Geography { get; set; }
 
+        public Location GeographyLocation { get; set; }
+
         public void Clear()
         {
             Geography = string.Empty;
+            GeographyLocation = null;
         }
     }
 }

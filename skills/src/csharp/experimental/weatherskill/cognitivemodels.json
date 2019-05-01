@@ -3,22 +3,22 @@
     "en": {
       "languageModels": [
         {
-          "authoringkey": "943d5d283a1443d6a5be6a38a9acff2e",
-          "subscriptionkey": "943d5d283a1443d6a5be6a38a9acff2e",
           "version": "0.1",
-          "name": "RLIExperimentalWeatheren_General",
+          "appid": "10ffa61e-3ca5-4b49-8179-153066e61f5c",
+          "id": "General",
+          "authoringkey": "943d5d283a1443d6a5be6a38a9acff2e",
           "region": "westus",
-          "appid": "8fa48431-4842-431b-8579-bd278b031a45",
-          "id": "General"
+          "subscriptionkey": "943d5d283a1443d6a5be6a38a9acff2e",
+          "name": "weatherskillrlien_General"
         },
         {
-          "authoringkey": "943d5d283a1443d6a5be6a38a9acff2e",
-          "subscriptionkey": "943d5d283a1443d6a5be6a38a9acff2e",
           "version": "0.1",
-          "name": "RLIExperimentalWeatheren_WeatherSkill",
+          "appid": "28477837-ba97-4af6-86d7-a10948a7e009",
+          "id": "WeatherSkill",
+          "authoringkey": "943d5d283a1443d6a5be6a38a9acff2e",
           "region": "westus",
-          "appid": "909132f3-8129-457c-bd08-184fd407293a",
-          "id": "WeatherSkill"
+          "subscriptionkey": "943d5d283a1443d6a5be6a38a9acff2e",
+          "name": "weatherskillrlien_WeatherSkill"
         }
       ]
     }

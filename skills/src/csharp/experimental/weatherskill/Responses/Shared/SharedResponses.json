@@ -1,4 +1,26 @@
 {
+  "LocationPrompt": {
+    "replies": [
+      {
+        "text": "Where are you now?",
+        "speak": "Where are you now?"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "DidNotUnderstandLocationPrompt": {
+    "replies": [
+      {
+        "text": "Sorry I didn't get that. Where are you now?",
+        "speak": "Sorry I didn't get that. Where are you now?"
+      },
+      {
+        "text": "Let's try that again. Where are you now?",
+        "speak": "Let's try that again. Where are you now?"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "DidntUnderstandMessage": {
     "replies": [
       {

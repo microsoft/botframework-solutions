@@ -49,6 +49,8 @@ namespace WeatherSkill.Dialogs
 
             // Register dialogs
             AddDialog(sampleDialog);
+            AddDialog(new ForecastDialog(_settings, _services, _responseManager, conversationState, TelemetryClient));
+
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -83,7 +85,7 @@ namespace WeatherSkill.Dialogs
                 {
                     case WeatherSkillLuis.Intent.GetForecast:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(SampleDialog));
+                            turnResult = await dc.BeginDialogAsync(nameof(ForecastDialog));
                             break;
                         }
 
