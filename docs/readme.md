@@ -36,6 +36,7 @@ Create, Deploy and Customize your own Virtual Assistant and Skills in minutes.
 |Create and Deploy a new Skill  |Creating a new Skill using the template|[C#](/docs/tutorials/csharp/skill.md), [TS](/docs/tutorials/typescript/skill.md)
 |Customize your skill           |Building your first skill| [C#](/docs/tutorials/csharp/customizeskill.md), [TS](/docs/tutorials/typescript/customizeassistant.md)
 |Customize your Assistant       |Personalize your assistant, change the name, branding, QnA| [C#](/docs/tutorials/csharp/customizeassistant.md), [TS](/docs/tutorials/typescript/customizeassistant.md)
+|Adding Authentication to your assistant |How to add Authentication support to your Assistant| [C#](/docs/tutorials/csharp/addauthentication.md), [TS](/docs/tutorials/typescript/addauthentication.md)
 
 # Advanced
 
