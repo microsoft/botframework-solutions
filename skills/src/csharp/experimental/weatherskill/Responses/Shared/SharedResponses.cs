@@ -13,6 +13,7 @@ namespace WeatherSkill.Responses.Shared
     {
         // Generated accessors
         public const string LocationPrompt = "LocationPrompt";
+        public const string SixHourForecast = "SixHourForecast";
         public const string DidNotUnderstandLocationPrompt = "DidNotUnderstandLocationPrompt";
         public const string DidntUnderstandMessage = "DidntUnderstandMessage";
         public const string CancellingMessage = "CancellingMessage";

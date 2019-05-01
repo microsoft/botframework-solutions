@@ -2,8 +2,8 @@
   "WelcomeMessage": {
     "replies": [
       {
-        "text": "[Enter your intro message here]",
-        "speak": "[Enter your intro message here]"
+        "text": "I'm the weather skill and I can look up the weather.",
+        "speak": "I'm the weather skill and I can look up the weather."
       }
     ],
     "suggestedActions": [],

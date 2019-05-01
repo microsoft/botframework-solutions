@@ -8,6 +8,15 @@
     ],
     "inputHint": "acceptingInput"
   },
+  "SixHourForecast": {
+    "replies": [
+      {
+        "text": "Here's the weather for the next six hours.",
+        "speak": "Here's the weather for the next six hours."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "DidNotUnderstandLocationPrompt": {
     "replies": [
       {
