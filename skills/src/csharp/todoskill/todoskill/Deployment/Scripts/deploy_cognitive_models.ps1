@@ -73,7 +73,7 @@ foreach ($language in $languages -split ",")
     foreach ($lu in $luisFiles)
     {
         # Deploy LUIS model
-        $luisApp = DeployLUIS -name $name -lu_file $lu -region $location -luisAuthoringKey $luisAuthoringKey -language $language -log $logFile
+        $luisApp = DeployLUIS -name $name -lu_file $lu -region $luisAuthoringKey -luisAuthoringKey $luisAuthoringKey -language $language -log $logFile
         
 		if ($luisApp) {
 			# Add to config 
