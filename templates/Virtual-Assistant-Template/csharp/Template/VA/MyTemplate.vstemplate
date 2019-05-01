@@ -122,9 +122,7 @@
         </Folder>
       </Folder>
       <Folder Name="Dialogs" TargetFolderName="Dialogs">
-        <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationDialog.cs">AuthenticationDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="CancelDialog.cs">CancelDialog.cs</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="DialogBase.cs">DialogBase.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="EscalateDialog.cs">EscalateDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="MainDialog.cs">MainDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingDialog.cs">OnboardingDialog.cs</ProjectItem>
@@ -133,16 +131,6 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingState.cs">OnboardingState.cs</ProjectItem>
       </Folder>
       <Folder Name="Responses" TargetFolderName="Responses">
-        <Folder Name="Authentication" TargetFolderName="Authentication">
-          <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationResponses.cs">AuthenticationResponses.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationStrings.resx">AuthenticationStrings.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationStrings.Designer.cs">AuthenticationStrings.Designer.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationStrings.de.resx">AuthenticationStrings.de.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationStrings.es.resx">AuthenticationStrings.es.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationStrings.fr.resx">AuthenticationStrings.fr.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationStrings.it.resx">AuthenticationStrings.it.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationStrings.zh.resx">AuthenticationStrings.zh.resx</ProjectItem>
-        </Folder>
         <Folder Name="Cancel" TargetFolderName="Cancel">
           <ProjectItem ReplaceParameters="true" TargetFileName="CancelResponses.cs">CancelResponses.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.resx">CancelStrings.resx</ProjectItem>
@@ -189,7 +177,6 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="BotSettings.cs">BotSettings.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="DispatchLuis.cs">DispatchLuis.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="GeneralLuis.cs">GeneralLuis.cs</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="GraphClient.cs">GraphClient.cs</ProjectItem>
       </Folder>
       <ProjectItem ReplaceParameters="true" TargetFileName=".filenesting.json">.filenesting.json</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.json">appsettings.json</ProjectItem>

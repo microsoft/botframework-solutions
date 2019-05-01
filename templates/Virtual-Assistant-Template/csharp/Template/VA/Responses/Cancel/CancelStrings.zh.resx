@@ -126,4 +126,7 @@
   <data name="CANCEL_PROMPT" xml:space="preserve">
     <value>确实要取消吗？</value>
   </data>
+  <data name="NOTHING_TO_CANCEL" xml:space="preserve">
+    <value>看来没什么可以取消的!</value>
+  </data>
 </root>
