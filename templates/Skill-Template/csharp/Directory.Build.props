@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <CodeAnalysisRuleSet>$(SolutionDir)..\..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>$(SolutionDir)..\..\..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
