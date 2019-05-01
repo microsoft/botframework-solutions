@@ -4,7 +4,6 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Skills
@@ -102,7 +101,7 @@ namespace Microsoft.Bot.Builder.Skills
             // Ensure the Activity has been retrieved from the HTTP POST
             BotAssert.ActivityNotNull(activity);
 
-            _botTelemetryClient.TrackTraceEx($"SkillHttpBotAdapter: Received an incoming activity. Activity id: {activity.Id}", Severity.Information, activity, null);
+            _botTelemetryClient.TrackTrace($"SkillHttpBotAdapter: Received an incoming activity. Activity id: {activity.Id}", Severity.Information, null);
 
             // Process the Activity through the Middleware and the Bot, this will generate Activities which we need to send back.
             using (var context = new TurnContext(this, activity))
@@ -110,12 +109,14 @@ namespace Microsoft.Bot.Builder.Skills
                 await RunPipelineAsync(context, callback, default(CancellationToken));
             }
 
-            _botTelemetryClient.TrackTraceEx($"SkillHttpBotAdapter: Batching activities in the response. ReplyToId: {activity.ReplyToId}", Severity.Information, activity, null);
+            _botTelemetryClient.TrackTrace($"SkillHttpBotAdapter: Batching activities in the response. ReplyToId: {activity.ReplyToId}", Severity.Information, null);
 
             // Any Activity responses are now available (via SendActivitiesAsync) so we need to pass back for the response
-            InvokeResponse response = new InvokeResponse();
-            response.Status = (int)HttpStatusCode.OK;
-            response.Body = GetReplies();
+            var response = new InvokeResponse
+            {
+                Status = (int)HttpStatusCode.OK,
+                Body = GetReplies(),
+            };
 
             return response;
         }

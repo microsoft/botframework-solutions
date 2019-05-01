@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
+using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.AI.QnA;
 
 namespace Microsoft.Bot.Builder.Solutions
 {
@@ -7,7 +8,7 @@ namespace Microsoft.Bot.Builder.Solutions
     {
         public IRecognizer DispatchService { get; set; }
 
-        public Dictionary<string, IRecognizer> LuisServices { get; set; } = new Dictionary<string, IRecognizer>();
+        public Dictionary<string, ITelemetryRecognizer> LuisServices { get; set; } = new Dictionary<string, ITelemetryRecognizer>();
 
         public Dictionary<string, ITelemetryQnAMaker> QnAServices { get; set; } = new Dictionary<string, ITelemetryQnAMaker>();
     }
