@@ -102,10 +102,10 @@ Skills can be interrupted through a top-level interruption (e.g. "cancel"). The 
 ## Generating new LUIS models
 Each Skill uses a different LUIS language model that needs to be represented in code. Currently, the language models available in the Virtual Assistant are:
 
-* [`Email.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/emailskill/Dialogs/Shared/Resources/Email.cs)
-* [`Calendar.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/calendarskill/Dialogs/Shared/Resources/Calendar.cs)
-* [`PointOfInterest.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/pointofinterestskill/Dialogs/Shared/Resources/PointOfInterest.cs)
-* [`ToDo.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/todoskill/Dialogs/Shared/Resources/ToDo.cs)
+* [`Email.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/emailskill/emailskill/Dialogs/Shared/Resources/EmailLU.cs)
+* [`Calendar.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/calendarskill/calendarskill/Dialogs/Shared/Resources/CalendarLU.cs)
+* [`PointOfInterest.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/pointofinterestskill/pointofinterestskill/Dialogs/Shared/Resources/PointOfInterestLU.cs)
+* [`ToDo.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/todoskill/todoskill/Dialogs/Shared/Resources/ToDoLU.cs)
 * [`Dispatch.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/assistant/Dialogs/Shared/Resources/Dispatch.cs)
 * [`General.cs`](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/microsoft.bot.solutions/Resources/General.cs)
 
@@ -116,4 +116,4 @@ After generating the new  *.cs class, make the following changes:
 * `public _Entities Entities { get; set; }` to `public virtual _Entities Entities { get; set; }`
 * `public (Intent intent, double score) TopIntent()` to `public virtual (Intent intent, double score) TopIntent()`
 
-This change is to make sure we have the ability to override the `Entities` property and `TopIntent` function in the Mock luis models for test purposes. Example of a Mock luis model: [MockEmailIntent.cs](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/tests/emailskilltest/Flow/Fakes/MockEmailIntent.cs)
+This change is to make sure we have the ability to override the `Entities` property and `TopIntent` function in the Mock luis models for test purposes. Example of a Mock luis model: [MockEmailIntent.cs](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/src/csharp/skills/pointofinterestskill/pointofinterestskilltests/Flow/Fakes/MockGeneralIntent.cs)
