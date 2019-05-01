@@ -106,7 +106,7 @@ namespace EmailSkill
                 new EmailSharedResponses(),
                 new ShowEmailResponses()));
 
-			// register dialogs
+            // register dialogs
             services.AddTransient<MainDialog>();
             services.AddTransient<DeleteEmailDialog>();
             services.AddTransient<FindContactDialog>();

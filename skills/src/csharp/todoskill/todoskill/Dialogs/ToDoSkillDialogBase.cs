@@ -44,7 +44,7 @@ namespace ToDoSkill.Dialogs
             Services = services;
             ResponseManager = responseManager;
 
-			// Initialize state accessor
+            // Initialize state accessor
             ToDoStateAccessor = conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
             UserStateAccessor = userState.CreateProperty<ToDoSkillUserState>(nameof(ToDoSkillUserState));
 

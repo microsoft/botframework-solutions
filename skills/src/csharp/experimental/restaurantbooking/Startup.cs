@@ -99,7 +99,7 @@ namespace RestaurantBooking
                 new RestaurantBookingMainResponses(),
                 new RestaurantBookingSharedResponses()));
 
-			// register dialogs
+            // register dialogs
             services.AddTransient<MainDialog>();
             services.AddTransient<BookingDialog>();
             services.AddTransient<CancelDialog>();

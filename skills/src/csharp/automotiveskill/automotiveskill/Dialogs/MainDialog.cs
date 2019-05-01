@@ -43,9 +43,9 @@ namespace AutomotiveSkill.Dialogs
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<AutomotiveSkillState>(nameof(AutomotiveSkillState));
 
-			// Register dialogs
+            // Register dialogs
             AddDialog(vehicleSettingsDialog ?? throw new ArgumentNullException(nameof(vehicleSettingsDialog)));
-		}
+        }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {

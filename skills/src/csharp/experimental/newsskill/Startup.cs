@@ -89,7 +89,7 @@ namespace NewsSkill
             // Configure HttpContext required for path resolution
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-			// register dialogs
+            // register dialogs
             services.AddTransient<MainDialog>();
             services.AddTransient<FindArticlesDialog>();
 
