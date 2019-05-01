@@ -33,10 +33,10 @@ namespace ToDoSkill.Dialogs
             BotServices services,
             ResponseManager responseManager,
             ConversationState conversationState,
-			AddToDoItemDialog addToDoItemDialog,
-			MarkToDoItemDialog markToDoItemDialog,
-			DeleteToDoItemDialog deleteToDoItemDialog,
-			ShowToDoItemDialog showToDoItemDialog,
+            AddToDoItemDialog addToDoItemDialog,
+            MarkToDoItemDialog markToDoItemDialog,
+            DeleteToDoItemDialog deleteToDoItemDialog,
+            ShowToDoItemDialog showToDoItemDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -44,16 +44,16 @@ namespace ToDoSkill.Dialogs
             _services = services;
             _responseManager = responseManager;
             TelemetryClient = telemetryClient;
-			_toDoStateAccessor = conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
+            _toDoStateAccessor = conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
 
 			// RegisterDialogs
-			AddDialog(addToDoItemDialog ?? throw new ArgumentNullException(nameof(addToDoItemDialog)));
-			AddDialog(markToDoItemDialog ?? throw new ArgumentNullException(nameof(markToDoItemDialog)));
-			AddDialog(deleteToDoItemDialog ?? throw new ArgumentNullException(nameof(deleteToDoItemDialog)));
-			AddDialog(showToDoItemDialog ?? throw new ArgumentNullException(nameof(showToDoItemDialog)));
+            AddDialog(addToDoItemDialog ?? throw new ArgumentNullException(nameof(addToDoItemDialog)));
+            AddDialog(markToDoItemDialog ?? throw new ArgumentNullException(nameof(markToDoItemDialog)));
+            AddDialog(deleteToDoItemDialog ?? throw new ArgumentNullException(nameof(deleteToDoItemDialog)));
+            AddDialog(showToDoItemDialog ?? throw new ArgumentNullException(nameof(showToDoItemDialog)));
 		}
 
-		protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.ToDoWelcomeMessage));
         }

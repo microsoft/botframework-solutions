@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using EmailSkill;
 using EmailSkill.Models;
 using Microsoft.Bot.Builder;
 using Moq;

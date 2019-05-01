@@ -4,7 +4,6 @@
 namespace AutomotiveSkill.Models
 {
     using System.Collections.Generic;
-    using global::AutomotiveSkill.Models;
     using Luis;
 
     public class AutomotiveSkillState

@@ -100,9 +100,9 @@ namespace RestaurantBooking
                 new RestaurantBookingSharedResponses()));
 
 			// register dialogs
-			services.AddTransient<MainDialog>();
-			services.AddTransient<BookingDialog>();
-			services.AddTransient<CancelDialog>();
+            services.AddTransient<MainDialog>();
+            services.AddTransient<BookingDialog>();
+            services.AddTransient<CancelDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();

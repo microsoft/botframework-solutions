@@ -13,7 +13,6 @@ using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
@@ -36,8 +35,8 @@ namespace ToDoSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-			ConversationState conversationState,
-			UserState userState,
+            ConversationState conversationState,
+            UserState userState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
             : base(dialogId)
@@ -46,10 +45,10 @@ namespace ToDoSkill.Dialogs
             ResponseManager = responseManager;
 
 			// Initialize state accessor
-			ToDoStateAccessor = conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
-			UserStateAccessor = userState.CreateProperty<ToDoSkillUserState>(nameof(ToDoSkillUserState));
+            ToDoStateAccessor = conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
+            UserStateAccessor = userState.CreateProperty<ToDoSkillUserState>(nameof(ToDoSkillUserState));
 
-			ServiceManager = serviceManager;
+            ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
 
             if (!settings.OAuthConnections.Any())
@@ -115,9 +114,7 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                var providerTokenResponse = sc.Result as ProviderTokenResponse;
-
-                if (providerTokenResponse != null)
+                if (sc.Result is ProviderTokenResponse providerTokenResponse)
                 {
                     var state = await ToDoStateAccessor.GetAsync(sc.Context);
                     state.MsGraphToken = providerTokenResponse.TokenResponse.Token;
@@ -604,7 +601,7 @@ namespace ToDoSkill.Dialogs
             await sc.Context.SendActivityAsync(trace);
 
             // log exception
-            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
+            TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
             await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ToDoErrorMessage));
@@ -622,7 +619,7 @@ namespace ToDoSkill.Dialogs
             await sc.Context.SendActivityAsync(trace);
 
             // log exception
-            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
+            TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
             if (ex.ExceptionType == SkillExceptionType.APIAccessDenied)

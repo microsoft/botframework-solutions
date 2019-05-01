@@ -10,12 +10,12 @@ namespace EmailSkill.Controllers
     public class BotController : SkillController
     {
         public BotController(
-            IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
-            SkillHttpAdapter skillHttpAdapter,
-            SkillWebSocketAdapter skillWebSocketAdapter,
             IBot bot,
-            BotSettingsBase botSettings)
-            : base(botFrameworkHttpAdapter, skillHttpAdapter, skillWebSocketAdapter, bot, botSettings)
+            BotSettingsBase botSettings,
+            IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
+            SkillWebSocketAdapter skillWebSocketAdapter,
+            SkillHttpAdapter skillHttpAdapter)
+            : base(bot, botSettings, botFrameworkHttpAdapter, skillWebSocketAdapter, skillHttpAdapter)
         {
         }
     }

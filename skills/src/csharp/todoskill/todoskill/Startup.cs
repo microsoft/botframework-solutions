@@ -100,14 +100,14 @@ namespace ToDoSkill
                 new ShowToDoResponses()));
 
 			// register dialogs
-			services.AddTransient<MainDialog>();
-			services.AddTransient<AddToDoItemDialog>();
-			services.AddTransient<DeleteToDoItemDialog>();
-			services.AddTransient<MarkToDoItemDialog>();
-			services.AddTransient<ShowToDoItemDialog>();
+            services.AddTransient<MainDialog>();
+            services.AddTransient<AddToDoItemDialog>();
+            services.AddTransient<DeleteToDoItemDialog>();
+            services.AddTransient<MarkToDoItemDialog>();
+            services.AddTransient<ShowToDoItemDialog>();
 
 			// Configure adapters
-			services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
+            services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<SkillWebSocketBotAdapter, ToDoSkillWebSocketBotAdapter>();
             services.AddTransient<SkillWebSocketAdapter>();
             services.AddTransient<SkillHttpBotAdapter, ToDoSkillHttpBotAdapter>();

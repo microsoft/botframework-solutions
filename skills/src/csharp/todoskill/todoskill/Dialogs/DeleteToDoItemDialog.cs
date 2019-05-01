@@ -24,8 +24,8 @@ namespace ToDoSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-			ConversationState conversationState,
-			UserState userState,
+            ConversationState conversationState,
+            UserState userState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
             : base(nameof(DeleteToDoItemDialog), settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient)
