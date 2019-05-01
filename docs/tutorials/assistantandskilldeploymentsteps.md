@@ -28,6 +28,8 @@
 
 ## Customising deployment using the parameters file
 
+See the [Customising deployment](/docs/advanced/assistant/customisingdeployment.md) section for more information.
+
 ## Creating your own ARM template
 
 We have provided a comprehensive ARM template to deploy all required capabilities which can be customised through the parameters file detailed in the previous section. If however you want to make more substantial changes - such as re-using existing deployed services please refer to the [Azure Resource Manager template documentation](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authoring-templates) for guidance and you can refer to our template for reference.

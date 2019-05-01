@@ -1,9 +1,12 @@
-# Virtual Assistant Detailed Overview
+# Virtual Assistant Solution
 
-## Table of Contents
-- [Example Scenarios](#example-scenarios)
-- [Architecture](#architecture)
-- [Our Principles](#our-principles)
+![Virtual Assistant Diagram](/docs/media/virtualassistant-diagram.jpg)
+
+Customers and partners have a significant need to deliver a conversational assistant tailored to their brand, personalized to their users, and made available across a broad range of canvases and devices. Continuing Microsoft's open-sourced approach towards the [Bot Framework](http://aka.ms/botframework) SDK, the open-source Virtual Assistant solution provides you with a set of core foundational capabilities and full control over the end user experience. 
+
+Owning and enriching customer relationships and insights is vital to the goals of the Virtual Assistant. You can modify the name, voice, and personality to suit a customer’s needs. The solution simplifies the creation of a Virtual Assistant, enabling you to get started in minutes and extend with end-to-end development tooling.
+
+Common scenarios are provided as reusable conversational Skills, increasing developer productivity and enabling a vibrant ecosystem of reusable scenarios. Individual Skills can be added to an existing conversational application like: finding a point of interest, checking off an item on a to-do list, or replying to an email. Skills are fully customizable and consist of language models for multiple languages, dialogs, and code.
 
 ## Example Scenarios
 
@@ -17,12 +20,6 @@ The Virtual Assistant extends across a broad number of industry scenarios, some 
 
 - Enterprise
   - Voice and Text enabled branded Employee Assistant experiences integrated into enterprise devices and existing conversation canvases (e.g. Teams, WebChat, Slack) enabling employees to manage their calendars, find available meeting rooms, find people with specific skills or perform HR related operations.
-
-## Architecture
-
-An Architecture diagram of the Virtual Assistant is shown below along with a detailed explanation.
-
-![Virtual Assistant Architecture](../../media/virtualassistant-architecture.jpg)
 
 ## Our Principles
 

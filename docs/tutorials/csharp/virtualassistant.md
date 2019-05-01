@@ -58,7 +58,7 @@ The Virtual Assistant require the following dependencies for end to end operatio
 
 > Review the pricing and terms for the services and adjust to suit your scenario.
 
-To deploy your services using the default configuration, follow the steps in this common [deployment documentation page](/docs/virtual-assistant/common/deploymentsteps.md)
+To deploy your services using the default configuration, follow the steps in this common [deployment documentation page](/docs/tutorials/assistantandskilldeploymentsteps.md)
 
 ## Testing
 Once deployment is complete, you can start debugging through the following steps:

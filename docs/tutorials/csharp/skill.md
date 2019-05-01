@@ -1,10 +1,10 @@
-# Creating a new Skill (Typescript)
+# Creating a new Skill (C#)
 
 > [!NOTE]
 > This topics applies to v4 version of the SDK.
 
 ## Table of Contents
-- [Creating a new Skill (Typescript)](#creating-a-new-skill-typescript)
+- [Creating a new Skill (C#)](#creating-a-new-skill-c)
   - [Table of Contents](#table-of-contents)
   - [Pre-requisites](#pre-requisites)
   - [Create your project](#create-your-project)
@@ -18,11 +18,9 @@
 ## Pre-requisites
 > It's important to ensure all of the following pre-requisites are installed on your machine prior to attempting deployment otherwise you may run into deployment issues.
 
+1. Install the [Skill Template](TBC)
+1. Ensure you have updated [.NET Core](https://www.microsoft.com/net/download) to the latest version.  
 1. Ensure the [Node Package manager](https://nodejs.org/en/) is installed.
-1. Install [Yeoman](http://yeoman.io) using npm:
-    ```bash
-    npm install -g yo
-    ```
 1. PowerShell Core version 6 (Required for cross platform deployment support)
    * [Download PowerShell Core on Windows](https://aka.ms/getps6-windows)
    * [Download PowerShell Core on macOS and Linux](https://aka.ms/getps6-linux)
@@ -38,21 +36,16 @@
 
 ## Create your project
 
-1. Open a terminal in the desired folder for generating the skill.
-2. Run the following command for generating our new project.
-```bash
-> yo botbuilder-skill
-```
-3. The generator will start prompting for some information that is needed for generating the skill.
-4. Check the summary in your screen.
-
-```bash
-- Name: <aName>
-- Description: <aDescription>
-- Path: <aPath>
-```
-
-**WARNING:** The process will fail if it finds another folder with the same name of the new skill.
+1. In Visual Studio, click **File > New Project**.
+2. Under Bot, select **Skill Template**.
+3. Name your project and click **Create**.
+4. Click **Tools > NuGet Package Manager > Package Manager Settings**
+5. In the Navigation Pane, select **Package Sources**
+6. Click '+' to add a new source.
+7. Set **Name** to **Microsoft AI MyGet Feed**
+8. Set **Source** to **https://botbuilder.myget.org/F/aitemplates/api/v3/index.json**
+9. Click **OK**.
+10. Build your project to restore your NuGet packages.
 
 You now have your new Skill! Follow the Deployment steps below before you try and run the project as deployment creates key dependencies required for operation.
 
@@ -68,7 +61,7 @@ The Virtual Assistant require the following dependencies for end to end operatio
 
 > Review the pricing and terms for the services and adjust to suit your scenario.
 
-To deploy your services using the default configuration, follow the steps in this common [deployment documentation page](/docs/virtual-assistant/common/deploymentsteps.md)
+To deploy your services using the default configuration, follow the steps in this common [deployment documentation page](/docs/tutorials/assistantandskilldeploymentsteps.md)
 
 > Note that if you choose to deploy your Skill manually or re-use an existing App-Service please ensure that Web Sockets are enabled on the App Service configuration pane. The deployment scripts supplied as part of the Skill template will do this automatically.
 
