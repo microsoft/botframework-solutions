@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
 
 namespace VirtualAssistantSample.Services
 {
@@ -24,14 +23,14 @@ namespace VirtualAssistantSample.Services
                 var config = pair.Value;
 
                 var dispatchApp = new LuisApplication(config.DispatchModel.AppId, config.DispatchModel.SubscriptionKey, config.DispatchModel.GetEndpoint());
-                set.DispatchService = new TelemetryLuisRecognizer(dispatchApp);
+                set.DispatchService = new LuisRecognizer(dispatchApp);
 
                 if (config.LanguageModels != null)
                 {
                     foreach (var model in config.LanguageModels)
                     {
                         var luisApp = new LuisApplication(model.AppId, model.SubscriptionKey, model.GetEndpoint());
-                        set.LuisServices.Add(model.Id, new TelemetryLuisRecognizer(luisApp));
+                        set.LuisServices.Add(model.Id, new LuisRecognizer(luisApp));
                     }
                 }
 
@@ -43,7 +42,7 @@ namespace VirtualAssistantSample.Services
                         EndpointKey = kb.EndpointKey,
                         Host = kb.Hostname,
                     };
-                    var qnaMaker = new TelemetryQnAMaker(qnaEndpoint);
+                    var qnaMaker = new QnAMaker(qnaEndpoint);
                     set.QnAServices.Add(kb.Id, qnaMaker);
                 }
 
