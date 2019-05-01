@@ -85,33 +85,33 @@ namespace ToDoSkill.Dialogs
                 // switch on general intents
                 switch (intent)
                 {
-                    case ToDoLU.Intent.AddToDo:
+                    case ToDoLuis.Intent.AddToDo:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(AddToDoItemDialog));
                             break;
                         }
 
-                    case ToDoLU.Intent.MarkToDo:
+                    case ToDoLuis.Intent.MarkToDo:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(MarkToDoItemDialog));
                             break;
                         }
 
-                    case ToDoLU.Intent.DeleteToDo:
+                    case ToDoLuis.Intent.DeleteToDo:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(DeleteToDoItemDialog));
                             break;
                         }
 
-                    case ToDoLU.Intent.ShowNextPage:
-                    case ToDoLU.Intent.ShowPreviousPage:
-                    case ToDoLU.Intent.ShowToDo:
+                    case ToDoLuis.Intent.ShowNextPage:
+                    case ToDoLuis.Intent.ShowPreviousPage:
+                    case ToDoLuis.Intent.ShowToDo:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(ShowToDoItemDialog));
                             break;
                         }
 
-                    case ToDoLU.Intent.None:
+                    case ToDoLuis.Intent.None:
                         {
                             if (generalTopIntent == General.Intent.ShowNext
                                 || generalTopIntent == General.Intent.ShowPrevious)
@@ -202,7 +202,7 @@ namespace ToDoSkill.Dialogs
                 var cognitiveModels = _services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities
-                var toDoLuisResult = await cognitiveModels.LuisServices["todo"].RecognizeAsync<ToDoLU>(dc.Context, cancellationToken);
+                var toDoLuisResult = await cognitiveModels.LuisServices["todo"].RecognizeAsync<ToDoLuis>(dc.Context, cancellationToken);
                 var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
                 state.LuisResult = toDoLuisResult;
 

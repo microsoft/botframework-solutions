@@ -140,7 +140,7 @@ namespace ToDoSkill.Dialogs
                 var topIntent = state.LuisResult?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
-                if (topIntent == ToDoLU.Intent.ShowToDo)
+                if (topIntent == ToDoLuis.Intent.ShowToDo)
                 {
                     state.ShowTaskPageIndex = 0;
                     state.Tasks = new List<TaskItem>();
@@ -149,7 +149,7 @@ namespace ToDoSkill.Dialogs
                     state.GoBackToStart = false;
                     await DigestToDoLuisResult(sc);
                 }
-                else if (topIntent == ToDoLU.Intent.ShowNextPage || generalTopIntent == General.Intent.ShowNext)
+                else if (topIntent == ToDoLuis.Intent.ShowNextPage || generalTopIntent == General.Intent.ShowNext)
                 {
                     state.IsLastPage = false;
                     if ((state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
@@ -161,7 +161,7 @@ namespace ToDoSkill.Dialogs
                         state.IsLastPage = true;
                     }
                 }
-                else if (topIntent == ToDoLU.Intent.ShowPreviousPage || generalTopIntent == General.Intent.ShowPrevious)
+                else if (topIntent == ToDoLuis.Intent.ShowPreviousPage || generalTopIntent == General.Intent.ShowPrevious)
                 {
                     state.IsFirstPage = false;
                     if (state.ShowTaskPageIndex > 0)
@@ -173,7 +173,7 @@ namespace ToDoSkill.Dialogs
                         state.IsFirstPage = true;
                     }
                 }
-                else if (topIntent == ToDoLU.Intent.AddToDo)
+                else if (topIntent == ToDoLuis.Intent.AddToDo)
                 {
                     state.TaskContentPattern = null;
                     state.TaskContentML = null;
@@ -184,7 +184,7 @@ namespace ToDoSkill.Dialogs
                     state.ListType = null;
                     await DigestToDoLuisResult(sc);
                 }
-                else if (topIntent == ToDoLU.Intent.MarkToDo || topIntent == ToDoLU.Intent.DeleteToDo)
+                else if (topIntent == ToDoLuis.Intent.MarkToDo || topIntent == ToDoLuis.Intent.DeleteToDo)
                 {
                     state.TaskIndexes = new List<int>();
                     state.MarkOrDeleteAllTasksFlag = false;

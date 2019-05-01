@@ -126,4 +126,7 @@
   <data name="CANCEL_PROMPT" xml:space="preserve">
     <value>Sind Sie sicher, dass Sie absagen wollen?</value>
   </data>
+  <data name="NOTHING_TO_CANCEL" xml:space="preserve">
+    <value>Es sieht so aus, als gäbe es nichts zu stornieren!</value>
+  </data>
 </root>

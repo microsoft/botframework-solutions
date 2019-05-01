@@ -19,7 +19,7 @@ using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 
 namespace CalendarSkill.Dialogs
 {
-    public class UpdateEventDialog : CalendarSkillDialog
+    public class UpdateEventDialog : CalendarSkillDialogBase
     {
         public UpdateEventDialog(
             BotSettings settings,

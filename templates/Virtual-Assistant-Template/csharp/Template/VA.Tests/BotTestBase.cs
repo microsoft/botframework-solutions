@@ -57,7 +57,6 @@ namespace $safeprojectname$
                 return new BotStateSet(userState, conversationState);
             });
 
-            Services.AddTransient<AuthenticationDialog>();
             Services.AddTransient<CancelDialog>();
             Services.AddTransient<EscalateDialog>();
             Services.AddTransient<MainDialog>();

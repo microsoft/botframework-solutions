@@ -10,12 +10,12 @@ using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Dialogs
 {
-    public class EscalateDialog : DialogBase
+    public class EscalateDialog : ComponentDialog
     {
         private EscalateResponses _responder = new EscalateResponses();
 
         public EscalateDialog(BotServices botServices, IBotTelemetryClient telemetryClient)
-            : base(nameof(EscalateDialog), botServices, telemetryClient)
+            : base(nameof(EscalateDialog))
         {
             InitialDialogId = nameof(EscalateDialog);
 

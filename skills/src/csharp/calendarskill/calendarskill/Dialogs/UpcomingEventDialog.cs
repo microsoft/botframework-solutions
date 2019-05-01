@@ -19,7 +19,7 @@ using static CalendarSkill.Proactive.CheckUpcomingEventHandler;
 
 namespace CalendarSkill.Dialogs
 {
-    public class UpcomingEventDialog : CalendarSkillDialog
+    public class UpcomingEventDialog : CalendarSkillDialogBase
     {
         private IBackgroundTaskQueue _backgroundTaskQueue;
 		private ProactiveState _proactiveState;
