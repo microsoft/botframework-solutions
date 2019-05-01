@@ -104,7 +104,13 @@ namespace EmailSkillTest.Flow
             Services.AddSingleton<IServiceManager>(ServiceManager);
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<MainDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+			Services.AddTransient<DeleteEmailDialog>();
+			Services.AddTransient<FindContactDialog>();
+			Services.AddTransient<ForwardEmailDialog>();
+			Services.AddTransient<ReplyEmailDialog>();
+			Services.AddTransient<SendEmailDialog>();
+			Services.AddTransient<ShowEmailDialog>();
+			Services.AddTransient<IBot, DialogBot<MainDialog>>();
 
             ConfigData.GetInstance().MaxDisplaySize = 3;
             ConfigData.GetInstance().MaxReadSize = 3;

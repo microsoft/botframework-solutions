@@ -82,7 +82,8 @@ namespace AutomotiveSkillTest.Flow
             // Services.AddSingleton<IServiceManager>(ServiceManager);
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<MainDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+			Services.AddTransient<VehicleSettingsDialog>();
+			Services.AddTransient<IBot, DialogBot<MainDialog>>();
 
 
             // Mock HttpContext for image path resolution
