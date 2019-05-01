@@ -10,9 +10,10 @@ using VirtualAssistantSample.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.AI.QnA;
+using Microsoft.Bot.Builder.AI.Luis;
 
 namespace VirtualAssistantSample.Tests
 {
@@ -32,7 +33,7 @@ namespace VirtualAssistantSample.Tests
                     { "en", new CognitiveModelSet
                         {
                             DispatchService = DispatchTestUtil.CreateRecognizer(),
-                            LuisServices = new Dictionary<string, IRecognizer>
+                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
                             {
                                 { "general", GeneralTestUtil.CreateRecognizer() }
                             },
