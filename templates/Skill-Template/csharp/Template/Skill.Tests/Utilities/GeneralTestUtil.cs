@@ -1,8 +1,8 @@
-﻿using $safeprojectname$.Mocks;
-using $safeprojectname$.Utterances;
+﻿using System.Collections.Generic;
 using Luis;
 using Microsoft.Bot.Builder;
-using System.Collections.Generic;
+using $safeprojectname$.Mocks;
+using $safeprojectname$.Utterances;
 
 namespace $safeprojectname$.Utilities
 {
@@ -25,7 +25,7 @@ namespace $safeprojectname$.Utilities
             { GeneralUtterances.Stop, CreateIntent(GeneralUtterances.Stop, GeneralLuis.Intent.Stop) },
         };
 
-        public static IRecognizer CreateRecognizer()
+        public static MockLuisRecognizer CreateRecognizer()
         {
             var recognizer = new MockLuisRecognizer(defaultIntent: CreateIntent(string.Empty, GeneralLuis.Intent.None));
             recognizer.RegisterUtterances(_utterances);
