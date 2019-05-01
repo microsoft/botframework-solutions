@@ -23,11 +23,12 @@ namespace PointOfInterestSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<PointOfInterestSkillState> accessor,
+			ConversationState conversationState,
+			RouteDialog routeDialog,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             IHttpContextAccessor httpContext)
-            : base(nameof(FindParkingDialog), settings, services, responseManager, accessor, serviceManager, telemetryClient, httpContext)
+            : base(nameof(FindParkingDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, httpContext)
         {
             TelemetryClient = telemetryClient;
 
@@ -48,7 +49,7 @@ namespace PointOfInterestSkill.Dialogs
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.CheckForCurrentLocation, checkCurrentLocation) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.FindParking, findParking) { TelemetryClient = telemetryClient });
-            AddDialog(new RouteDialog(settings, services, responseManager, Accessor, ServiceManager, TelemetryClient, httpContext));
+            AddDialog(routeDialog ?? throw new ArgumentNullException(nameof(routeDialog)));
 
             // Set starting dialog for component
             InitialDialogId = Actions.CheckForCurrentLocation;

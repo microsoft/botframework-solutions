@@ -34,8 +34,7 @@ namespace EmailSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
-            IStatePropertyAccessor<DialogState> dialogStateAccessor,
+			ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
             : base(dialogId)
@@ -43,12 +42,12 @@ namespace EmailSkill.Dialogs
             Settings = settings;
             Services = services;
             ResponseManager = responseManager;
-            EmailStateAccessor = emailStateAccessor;
-            DialogStateAccessor = dialogStateAccessor;
-            ServiceManager = serviceManager;
+            EmailStateAccessor = conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
+            DialogStateAccessor = conversationState.CreateProperty<DialogState>(nameof(DialogState));
+			ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
 
-            if (!Settings.OAuthConnections.Any())
+			if (!Settings.OAuthConnections.Any())
             {
                 throw new Exception("You must configure an authentication connection in your bot file before using this component.");
             }

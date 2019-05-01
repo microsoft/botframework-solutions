@@ -24,11 +24,11 @@ namespace PointOfInterestSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<PointOfInterestSkillState> accessor,
+			ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             IHttpContextAccessor httpContext)
-            : base(nameof(RouteDialog), settings, services, responseManager, accessor, serviceManager, telemetryClient, httpContext)
+            : base(nameof(RouteDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, httpContext)
         {
             TelemetryClient = telemetryClient;
 

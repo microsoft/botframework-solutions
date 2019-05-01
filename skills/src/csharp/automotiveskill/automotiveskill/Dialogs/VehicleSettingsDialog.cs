@@ -49,10 +49,10 @@ namespace AutomotiveSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<AutomotiveSkillState> accessor,
+			ConversationState conversationState,
             IBotTelemetryClient telemetryClient,
             IHttpContextAccessor httpContext)
-            : base(nameof(VehicleSettingsDialog), settings, services, responseManager, accessor, telemetryClient)
+            : base(nameof(VehicleSettingsDialog), settings, services, responseManager, conversationState, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -123,11 +123,11 @@ namespace AutomotiveSkill.Dialogs
 
             switch (topIntent.Value)
             {
-                case Luis.VehicleSettingsLuis.Intent.VEHICLE_SETTINGS_CHANGE:
-                case Luis.VehicleSettingsLuis.Intent.VEHICLE_SETTINGS_DECLARATIVE:
+                case VehicleSettingsLuis.Intent.VEHICLE_SETTINGS_CHANGE:
+                case VehicleSettingsLuis.Intent.VEHICLE_SETTINGS_DECLARATIVE:
 
                     // Perform post-processing on the entities, if it's declarative we indicate for special processing (opposite of the condition they've expressed)
-                    settingFilter.PostProcessSettingName(state, topIntent.Value == Luis.VehicleSettingsLuis.Intent.VEHICLE_SETTINGS_DECLARATIVE ? true : false);
+                    settingFilter.PostProcessSettingName(state, topIntent.Value == VehicleSettingsLuis.Intent.VEHICLE_SETTINGS_DECLARATIVE ? true : false);
 
                     // Perform content logic and remove entities that don't make sense
                     settingFilter.ApplyContentLogic(state);
@@ -187,7 +187,7 @@ namespace AutomotiveSkill.Dialogs
                         return await sc.NextAsync();
                     }
 
-                case Luis.VehicleSettingsLuis.Intent.VEHICLE_SETTINGS_CHECK:
+                case VehicleSettingsLuis.Intent.VEHICLE_SETTINGS_CHECK:
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply("The skill doesn't support checking vehicle settings quite yet!"));
                     return await sc.EndDialogAsync(true, cancellationToken);
 

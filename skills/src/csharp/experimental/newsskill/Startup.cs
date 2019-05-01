@@ -90,6 +90,10 @@ namespace NewsSkill
             // Configure HttpContext required for path resolution
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+			// register dialogs
+			services.AddTransient<MainDialog>();
+			services.AddTransient<FindArticlesDialog>();
+
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<SkillWebSocketBotAdapter, NewsSkillWebSocketBotAdapter>();

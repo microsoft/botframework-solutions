@@ -170,10 +170,5 @@ namespace SkillSample.Dialogs
             var state = await StateAccessor.GetAsync(sc.Context);
             state.Clear();
         }
-
-        private class DialogIds
-        {
-            public const string SkillModeAuth = "SkillAuth";
-        }
     }
 }

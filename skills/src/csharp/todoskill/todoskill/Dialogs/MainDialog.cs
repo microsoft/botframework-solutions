@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Skills.Models;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
@@ -24,39 +26,34 @@ namespace ToDoSkill.Dialogs
         private BotSettings _settings;
         private BotServices _services;
         private ResponseManager _responseManager;
-        private UserState _userState;
-        private ConversationState _conversationState;
-        private IServiceManager _serviceManager;
         private IStatePropertyAccessor<ToDoSkillState> _toDoStateAccessor;
-        private IStatePropertyAccessor<ToDoSkillUserState> _userStateAccessor;
 
         public MainDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
             ConversationState conversationState,
-            UserState userState,
-            IBotTelemetryClient telemetryClient,
-            IServiceManager serviceManager)
+			AddToDoItemDialog addToDoItemDialog,
+			MarkToDoItemDialog markToDoItemDialog,
+			DeleteToDoItemDialog deleteToDoItemDialog,
+			ShowToDoItemDialog showToDoItemDialog,
+            IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
             _settings = settings;
             _services = services;
             _responseManager = responseManager;
-            _conversationState = conversationState;
-            _userState = userState;
-            _serviceManager = serviceManager;
             TelemetryClient = telemetryClient;
+			_toDoStateAccessor = conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
 
-            // Initialize state accessor
-            _toDoStateAccessor = _conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
-            _userStateAccessor = _userState.CreateProperty<ToDoSkillUserState>(nameof(ToDoSkillUserState));
+			// RegisterDialogs
+			AddDialog(addToDoItemDialog ?? throw new ArgumentNullException(nameof(addToDoItemDialog)));
+			AddDialog(markToDoItemDialog ?? throw new ArgumentNullException(nameof(markToDoItemDialog)));
+			AddDialog(deleteToDoItemDialog ?? throw new ArgumentNullException(nameof(deleteToDoItemDialog)));
+			AddDialog(showToDoItemDialog ?? throw new ArgumentNullException(nameof(showToDoItemDialog)));
+		}
 
-            // RegisterDialogs
-            RegisterDialogs();
-        }
-
-        protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+		protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.ToDoWelcomeMessage));
         }
@@ -163,7 +160,7 @@ namespace ToDoSkill.Dialogs
         {
             switch (dc.Context.Activity.Name)
             {
-                case Events.SkillBeginEvent:
+                case SkillEvents.SkillBeginEventName:
                     {
                         var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
 
@@ -175,7 +172,7 @@ namespace ToDoSkill.Dialogs
                         break;
                     }
 
-                case Events.TokenResponseEvent:
+                case TokenEvents.TokenResponseEventName:
                     {
                         // Auth dialog completion
                         var result = await dc.ContinueDialogAsync();
@@ -289,14 +286,6 @@ namespace ToDoSkill.Dialogs
             return InterruptionAction.StartedDialog;
         }
 
-        private void RegisterDialogs()
-        {
-            AddDialog(new AddToDoItemDialog(_settings, _services, _responseManager, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new MarkToDoItemDialog(_settings, _services, _responseManager, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new DeleteToDoItemDialog(_settings, _services, _responseManager, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new ShowToDoItemDialog(_settings, _services, _responseManager, _toDoStateAccessor, _userStateAccessor, _serviceManager, TelemetryClient));
-        }
-
         private void InitializeConfig(ToDoSkillState state)
         {
             // Initialize PageSize and TaskServiceType when the first input comes.
@@ -322,12 +311,6 @@ namespace ToDoSkill.Dialogs
                     }
                 }
             }
-        }
-
-        private class Events
-        {
-            public const string TokenResponseEvent = "tokens/response";
-            public const string SkillBeginEvent = "skillBegin";
         }
     }
 }

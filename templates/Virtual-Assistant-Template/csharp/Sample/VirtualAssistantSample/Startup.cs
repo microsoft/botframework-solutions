@@ -83,7 +83,6 @@ namespace VirtualAssistantSample
             });
 
             // Register dialogs
-            services.AddTransient<AuthenticationDialog>();
             services.AddTransient<CancelDialog>();
             services.AddTransient<EscalateDialog>();
             services.AddTransient<MainDialog>();
@@ -99,7 +98,8 @@ namespace VirtualAssistantSample
                 {
                     var authDialog = BuildAuthDialog(skill, settings);
                     var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MSAappId);
-                    skillDialogs.Add(new SkillDialog(skill, credentials, telemetryClient, userState, authDialog));
+					var skillHttpTransport = new SkillHttpTransport(skill, credentials);
+					skillDialogs.Add(new SkillDialog(skill, credentials, telemetryClient, userState, authDialog, skillHttpTransport));
                 }
 
                 return skillDialogs;

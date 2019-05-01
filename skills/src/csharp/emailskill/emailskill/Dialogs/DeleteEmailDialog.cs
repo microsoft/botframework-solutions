@@ -25,15 +25,14 @@ namespace EmailSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
-            IStatePropertyAccessor<DialogState> dialogStateAccessor,
+			ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(DeleteEmailDialog), settings, services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
+            : base(nameof(DeleteEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
-            var deleteEmail = new WaterfallStep[]
+			var deleteEmail = new WaterfallStep[]
             {
                 IfClearContextStep,
                 GetAuthToken,

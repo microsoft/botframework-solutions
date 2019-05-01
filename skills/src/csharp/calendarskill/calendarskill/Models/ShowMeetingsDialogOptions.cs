@@ -11,7 +11,6 @@
         {
             var calendarOptions = options as CalendarSkillDialogOptions;
             Reason = reason;
-            SkillMode = calendarOptions == null ? false : calendarOptions.SkillMode;
         }
 
         public enum ShowMeetingReason

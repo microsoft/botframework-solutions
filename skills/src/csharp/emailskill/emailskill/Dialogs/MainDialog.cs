@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 using EmailSkill.Models;
 using EmailSkill.Responses.Main;
 using EmailSkill.Responses.Shared;
-using EmailSkill.ServiceClients;
 using EmailSkill.Services;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Skills.Models;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
@@ -26,36 +27,36 @@ namespace EmailSkill.Dialogs
         private BotSettings _settings;
         private BotServices _services;
         private ResponseManager _responseManager;
-        private UserState _userState;
         private ConversationState _conversationState;
-        private IServiceManager _serviceManager;
         private IStatePropertyAccessor<EmailSkillState> _stateAccessor;
-        private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
 
         public MainDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
             ConversationState conversationState,
-            UserState userState,
-            IBotTelemetryClient telemetryClient,
-            IServiceManager serviceManager)
+			ForwardEmailDialog forwardEmailDialog,
+			SendEmailDialog sendEmailDialog,
+			ShowEmailDialog showEmailDialog,
+			ReplyEmailDialog replyEmailDialog,
+			DeleteEmailDialog deleteEmailDialog,
+            IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
             _settings = settings;
             _services = services;
             _responseManager = responseManager;
             _conversationState = conversationState;
-            _userState = userState;
             TelemetryClient = telemetryClient;
-            _serviceManager = serviceManager;
-
-            // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
-            _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
 
-            RegisterDialogs();
-            GetReadingDisplayConfig();
+			AddDialog(forwardEmailDialog ?? throw new ArgumentNullException(nameof(forwardEmailDialog)));
+			AddDialog(sendEmailDialog ?? throw new ArgumentNullException(nameof(sendEmailDialog)));
+			AddDialog(showEmailDialog ?? throw new ArgumentNullException(nameof(showEmailDialog)));
+			AddDialog(replyEmailDialog ?? throw new ArgumentNullException(nameof(replyEmailDialog)));
+			AddDialog(deleteEmailDialog ?? throw new ArgumentNullException(nameof(deleteEmailDialog)));
+
+			GetReadingDisplayConfig();
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -177,7 +178,7 @@ namespace EmailSkill.Dialogs
         {
             switch (dc.Context.Activity.Name)
             {
-                case Events.SkillBeginEvent:
+                case SkillEvents.SkillBeginEventName:
                     {
                         var state = await _stateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
 
@@ -193,7 +194,7 @@ namespace EmailSkill.Dialogs
                         break;
                     }
 
-                case Events.TokenResponseEvent:
+                case TokenEvents.TokenResponseEventName:
                     {
                         // Auth dialog completion
                         var result = await dc.ContinueDialogAsync();
@@ -307,15 +308,6 @@ namespace EmailSkill.Dialogs
             return InterruptionAction.StartedDialog;
         }
 
-        private void RegisterDialogs()
-        {
-            AddDialog(new ForwardEmailDialog(_settings, _services, _responseManager, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new SendEmailDialog(_settings, _services, _responseManager, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new ShowEmailDialog(_settings, _services, _responseManager, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new ReplyEmailDialog(_settings, _services, _responseManager, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new DeleteEmailDialog(_settings, _services, _responseManager, _stateAccessor, _dialogStateAccessor, _serviceManager, TelemetryClient));
-        }
-
         private void GetReadingDisplayConfig()
         {
             _settings.Properties.TryGetValue("displaySize", out var maxDisplaySize);
@@ -330,12 +322,6 @@ namespace EmailSkill.Dialogs
             {
                 ConfigData.GetInstance().MaxReadSize = int.Parse(maxReadSize as string);
             }
-        }
-
-        private class Events
-        {
-            public const string TokenResponseEvent = "tokens/response";
-            public const string SkillBeginEvent = "skillBegin";
         }
     }
 }

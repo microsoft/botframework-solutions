@@ -22,13 +22,13 @@ namespace AutomotiveSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<AutomotiveSkillState> accessor,
+			ConversationState conversationState,
             IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             Services = services;
             ResponseManager = responseManager;
-            Accessor = accessor;
+            Accessor = conversationState.CreateProperty<AutomotiveSkillState>(nameof(AutomotiveSkillState));
             TelemetryClient = telemetryClient;
         }
 

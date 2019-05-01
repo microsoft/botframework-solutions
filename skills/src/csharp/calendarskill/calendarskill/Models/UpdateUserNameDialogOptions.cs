@@ -38,8 +38,6 @@ namespace CalendarSkill.Models
             Initialize,
         }
 
-        public bool SkillMode { get; set; }
-
         public UpdateReason Reason { get; set; }
     }
 }

@@ -23,11 +23,11 @@ namespace ToDoSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<ToDoSkillState> toDoStateAccessor,
-            IStatePropertyAccessor<ToDoSkillUserState> userStateAccessor,
+			ConversationState conversationState,
+			UserState userState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(MarkToDoItemDialog), settings, services, responseManager, toDoStateAccessor, userStateAccessor, serviceManager, telemetryClient)
+            : base(nameof(MarkToDoItemDialog), settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
