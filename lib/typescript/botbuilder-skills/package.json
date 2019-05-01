@@ -25,6 +25,8 @@
         "botframework-connector": "^4.3.4",
         "botframework-schema": "^4.3.4",
         "i18n": "^0.8.3",
+        "microsoft-bot-protocol": "^0.0.2",
+        "microsoft-bot-protocol-websocket": "^0.0.2",
         "p-queue": "^4.0.0",
         "uuid": "^3.3.2"
     },
