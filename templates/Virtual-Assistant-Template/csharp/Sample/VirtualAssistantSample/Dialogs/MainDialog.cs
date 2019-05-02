@@ -27,6 +27,7 @@ namespace VirtualAssistantSample.Dialogs
         private BotSettings _settings;
         private BotServices _services;
         private MainResponses _responder = new MainResponses();
+        private IStatePropertyAccessor<OnboardingState> _onboardingState;
 
         public MainDialog(
             BotSettings settings,
@@ -35,12 +36,14 @@ namespace VirtualAssistantSample.Dialogs
             EscalateDialog escalateDialog,
             CancelDialog cancelDialog,
             List<SkillDialog> skillDialogs,
-            IBotTelemetryClient telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            UserState userState)
             : base(nameof(MainDialog), telemetryClient)
         {
             _settings = settings;
             _services = services;
             TelemetryClient = telemetryClient;
+            _onboardingState = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
 
             AddDialog(onboardingDialog);
             AddDialog(escalateDialog);
@@ -55,7 +58,16 @@ namespace VirtualAssistantSample.Dialogs
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var view = new MainResponses();
-            await view.ReplyWith(dc.Context, MainResponses.ResponseIds.NewUserGreeting);
+            var onboardingState = await _onboardingState.GetAsync(dc.Context, () => new OnboardingState());
+
+            if (string.IsNullOrEmpty(onboardingState.Name))
+            {
+                await view.ReplyWith(dc.Context, MainResponses.ResponseIds.NewUserGreeting);
+            }
+            else
+            {
+                await view.ReplyWith(dc.Context, MainResponses.ResponseIds.ReturningUserGreeting);
+            }
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
