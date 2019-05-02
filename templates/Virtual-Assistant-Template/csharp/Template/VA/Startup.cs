@@ -98,8 +98,7 @@ namespace $safeprojectname$
                 {
                     var authDialog = BuildAuthDialog(skill, settings);
                     var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MSAappId);
-					var skillHttpTransport = new SkillHttpTransport(skill, credentials);
-					skillDialogs.Add(new SkillDialog(skill, credentials, telemetryClient, userState, authDialog, skillHttpTransport));
+					skillDialogs.Add(new SkillDialog(skill, credentials, telemetryClient, userState, authDialog));
                 }
 
                 return skillDialogs;
