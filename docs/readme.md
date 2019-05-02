@@ -32,8 +32,8 @@ Create, deploy, and customize your own Virtual Assistant and Skills using these 
 
 |Name|Languages|Description|
 |------------|:---:|-----------|
-|1. Create your Assistant in 10 minutes|[![Create your Assistant in 10 minutes with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/virtualassistant.md) [![Create your Assistant in 10 minutes with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/virtualassistant.md)|Creating your assistant using the Virtual Assistant template|
-|2. Customize your Assistant|[![Customize your Assistant with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeassistant.md) [![Customize your Assistant with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/customizeassistant.md)|Personalize your assistant, change the name, branding, QnA| 
+|1. Create your Virtual Assistant in 10 minutes|[![Create your Virtual Assistant in 10 minutes with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/virtualassistant.md) [![Create your Assistant in 10 minutes with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/virtualassistant.md)|Creating your assistant using the Virtual Assistant template|
+|2. Customize your Virtual Assistant|[![Customize your Virtual Assistant with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeassistant.md) [![Customize your Assistant with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/customizeassistant.md)|Personalize your assistant, change the name, branding, QnA| 
 |3. Create and deploy a new Skill|[![Create and deploy a new Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/skill.md) [![Create and deploy a new Skill with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/skill.md)|Creating a new Skill using the template|
 |4. Customize your Skill|[![Customize your Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeskill.md) [![Customize your Skill with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/customizeassistant.md)|Building your first skill| 
 
