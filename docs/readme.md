@@ -28,7 +28,7 @@ High level overview into the Virtual Assistant, Skills and Analytics.
 
 # Tutorials
 
-Create, Deploy and Customize your own Virtual Assistant and Skills in minutes.
+Create, deploy, and customize your own Virtual Assistant and Skills using these walkthroughs.
 
 |Name|Languages|Description|
 |------------|:---:|-----------|
@@ -44,7 +44,7 @@ How-to guides on achieving more complex scenarios.
 
 ## Virtual Assistant
 
-|Name|Languages &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |Description|
+|Name|&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br/> Languages <br/> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|Description|
 |------------|:---:|-----------|
 |[Under the covers](/docs/advanced/assistant/underthecovers.md)||Detailed documentation covering what the template provides and how it works| 
 |[Enhancing your Assistant with additional Skills](/docs/skills/common/addingskill.md)||Adding the out-of-the-box Skills to your Virtual Assistant|
@@ -59,7 +59,7 @@ How-to guides on achieving more complex scenarios.
 
 ## Skills
 
-|Name|Languages|Description|
+|Name|&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br/> Languages <br/> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|Description|
 |------------|:---:|-----------|
 |[Adding a new Skill to solution](/docs/advanced/skills/addingskills.md)|| Adding a Skill|
 |[Calendar Skill](/docs/advanced/skills/productivity-calendar.md)||Add calendar capabilities to your assistant. Powered by Microsoft Graph and Google.|
