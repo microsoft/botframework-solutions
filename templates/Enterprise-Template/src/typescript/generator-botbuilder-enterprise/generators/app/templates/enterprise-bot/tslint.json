@@ -17,8 +17,7 @@
       ],
       "linebreak-style": [false],
       "member-ordering": [false],
-      "no-relative-imports": [false],
-      "completed-docs": [false]
+      "no-relative-imports": [false]
     },
     "rulesDirectory": [
       "node_modules/tslint-microsoft-contrib"
