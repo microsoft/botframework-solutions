@@ -14,10 +14,12 @@
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id="SA0001" Action="None" /> 
     <Rule Id="SA1011" Action="None" />
+    <Rule Id="SA1027" Action="None" /> <!-- Space over tab indentation -->
     <Rule Id="SA1200" Action="None" />
     <Rule Id="SA1101" Action="None" />
     <Rule Id="SA1117" Action="None" />
     <Rule Id="SA1129" Action="None" />
+    <Rule Id="SA1137" Action="None" /> <!-- Space over tab indentation -->
     <Rule Id="SA1305" Action="Warning" />
     <Rule Id="SA1309" Action="None" />
     <Rule Id="SA1412" Action="Warning" />
