@@ -6,7 +6,6 @@ using CalendarSkill.Models;
 using CalendarSkill.Proactive;
 using CalendarSkill.Responses.UpcomingEvent;
 using CalendarSkill.Services;
-using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Extensions;

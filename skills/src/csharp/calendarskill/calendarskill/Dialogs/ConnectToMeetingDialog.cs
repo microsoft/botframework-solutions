@@ -27,13 +27,13 @@ namespace CalendarSkill.Dialogs
     public class ConnectToMeetingDialog : CalendarSkillDialogBase
     {
         public ConnectToMeetingDialog(
-            BotSettings settings,
-            BotServices services,
-            ResponseManager responseManager,
-            ConversationState conversationState,
-            IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient)
-            : base(nameof(ConnectToMeetingDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
+         BotSettings settings,
+         BotServices services,
+         ResponseManager responseManager,
+         ConversationState conversationState,
+         IServiceManager serviceManager,
+         IBotTelemetryClient telemetryClient)
+         : base(nameof(ConnectToMeetingDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -154,7 +154,7 @@ namespace CalendarSkill.Dialogs
                 {
                     { "EventName1", firstEvent.Title },
                     { "EventTime1", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(firstEvent.StartTime, state.GetUserTimeZone()), firstEvent.IsAllDay == true) },
-                    { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(firstEvent.Attendees) }
+                    { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(firstEvent.Attendees, 1) }
                 };
 
                 var reply = await GetGeneralMeetingListResponseAsync(sc, CalendarCommonStrings.MeetingsToJoin, GetCurrentPageMeetings(state.SummaryEvents, state), JoinEventResponses.SelectMeeting, responseParams);
@@ -242,7 +242,7 @@ namespace CalendarSkill.Dialogs
                 if (state.SummaryEvents.Count > 1)
                 {
                     var filteredMeetingList = new List<EventModel>();
-                    ShowMeetingReason showMeetingReason = ShowMeetingReason.FirstShowOverview;
+                    var showMeetingReason = ShowMeetingReason.FirstShowOverview;
                     string filterKeyWord = null;
 
                     // filter meetings with number
