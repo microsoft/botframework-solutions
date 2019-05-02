@@ -1,20 +1,20 @@
+ï»¿using System;
+using System.Threading.Tasks;
 using AutomotiveSkill.Models;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
-using System;
-using System.Threading.Tasks;
 
 namespace AutomotiveSkillTest.Flow
 {
     [TestClass]
-    public class VehicleSettingsTests: AutomotiveSkillTestBase
+    public class VehicleSettingsTests : AutomotiveSkillTestBase
     {
         [TestMethod]
         public async Task Test_SettingTemperature()
         {
             await this.GetTestFlow()
-                .Send("set temperature to 21 degrees")                
+                .Send("set temperature to 21 degrees")
                 .AssertReply(this.CheckForSettingEvent(new SettingChange()
                 {
                     SettingName = "Temperature",
@@ -22,10 +22,10 @@ namespace AutomotiveSkillTest.Flow
                     Amount = new SettingAmount()
                     {
                         Amount = 21,
-                        Unit = "°",
+                        Unit = "Â°",
                     },
                 }))
-                .AssertReply(this.CheckReply("Setting Temperature to 21°."))
+                .AssertReply(this.CheckReply("Setting Temperature to 21Â°."))
                 .StartTestAsync();
         }
 
@@ -72,7 +72,7 @@ namespace AutomotiveSkillTest.Flow
             await this.GetTestFlow()
                 .Send("change the temperature")
                  .AssertReply(this.CheckReply("Here are the possible values for Temperature. Which one? (1) Decrease(2) Increase"))
-                .Send("Increase")                
+                .Send("Increase")
                 .AssertReply(this.CheckForSettingEvent(new SettingChange()
                 {
                     SettingName = "Temperature",
@@ -108,7 +108,7 @@ namespace AutomotiveSkillTest.Flow
                 .AssertReply(this.CheckReply("So, you want to change Lane Change Detection to Off. Is that correct? (1) Yes or (2) No"))
                 .Send("no")
                 .AssertReply(this.CheckReply("Ok, not making any changes."))
-                .AssertReply(this.CheckForEndOfConversation())              
+                .AssertReply(this.CheckForEndOfConversation())
                 .StartTestAsync();
         }
 
@@ -122,10 +122,10 @@ namespace AutomotiveSkillTest.Flow
                     SettingName = "Rear Combined Set Temperature",
                     Value = "Increase",
                 }))
-                .AssertReply(this.CheckReply("Increasing Rear Combined Set Temperature."))               
+                .AssertReply(this.CheckReply("Increasing Rear Combined Set Temperature."))
                 .StartTestAsync();
         }
-        
+
         [TestMethod]
         public async Task Test_DefogWindscreen()
         {
@@ -205,7 +205,7 @@ namespace AutomotiveSkillTest.Flow
                 .Send("adjust equalizer")
                 .AssertReply(this.CheckReply("Here are the matching settings. Which one? (1) Equalizer (Bass)(2) Equalizer (Midrange)(3) Equalizer (Treble)(4) Equalizer (Surround)"))
                 .Send("Equalizer (Bass)")
-                .AssertReply(this.CheckReply("Here are the possible values for Equalizer (Bass). Which one? (1) Decrease(2) Increase"))                
+                .AssertReply(this.CheckReply("Here are the possible values for Equalizer (Bass). Which one? (1) Decrease(2) Increase"))
                  .Send("Decrease")
                 .AssertReply(this.CheckForSettingEvent(new SettingChange()
                 {
@@ -317,7 +317,7 @@ namespace AutomotiveSkillTest.Flow
             return activity =>
             {
                 var eventReceived = activity.AsEventActivity();
-                Assert.IsNotNull(eventReceived,"Activity received is not an Event as expected");
+                Assert.IsNotNull(eventReceived, "Activity received is not an Event as expected");
                 Assert.AreEqual<string>("AutomotiveSkill.SettingChange", eventReceived.Name);
                 Assert.IsInstanceOfType(eventReceived.Value, typeof(SettingChange));
                 Assert.AreEqual<SettingChange>(expectedChange, (SettingChange)eventReceived.Value);
@@ -331,7 +331,7 @@ namespace AutomotiveSkillTest.Flow
                 var eventReceived = activity.AsEndOfConversationActivity();
                 Assert.IsNotNull(eventReceived, "End of Conversation Activity not received.");
             };
-        }      
+        }
 
         private Action<IActivity> CheckReply(string expectedResponse)
         {

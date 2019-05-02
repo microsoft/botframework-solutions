@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
+using System.Threading;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
@@ -16,8 +18,6 @@ using PointOfInterestSkill.Responses.Route;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
 using PointOfInterestSkillTests.API.Fakes;
-using System.Collections.Generic;
-using System.Threading;
 
 namespace PointOfInterestSkillTests.Flow
 {
@@ -67,13 +67,10 @@ namespace PointOfInterestSkillTests.Flow
             });
 
             ResponseManager = new ResponseManager(
-                locales: new string[] { "en", "de", "es", "fr", "it", "zh" },
-                responseTemplates: new IResponseIdCollection[]
-                {
+                new string[] { "en", "de", "es", "fr", "it", "zh" },
                     new POISharedResponses(),
                     new RouteResponses(),
-                    new CancelRouteResponses()
-                });
+                    new CancelRouteResponses());
             Services.AddSingleton(ResponseManager);
 
             Services.AddSingleton<IServiceManager, MockServiceManager>();

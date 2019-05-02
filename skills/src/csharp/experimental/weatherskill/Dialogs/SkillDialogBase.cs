@@ -2,18 +2,18 @@
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
-using Microsoft.Bot.Builder.Solutions.Authentication;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Util;
-using WeatherSkill.Models;
-using WeatherSkill.Services;
-using Luis;
-using WeatherSkill.Responses.Shared;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions.Authentication;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Telemetry;
+using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Schema;
+using WeatherSkill.Models;
+using WeatherSkill.Responses.Shared;
+using WeatherSkill.Services;
 
 namespace WeatherSkill.Dialogs
 {
@@ -88,9 +88,7 @@ namespace WeatherSkill.Dialogs
             {
                 // When the user authenticates interactively we pass on the tokens/Response event which surfaces as a JObject
                 // When the token is cached we get a TokenResponse object.
-                var providerTokenResponse = sc.Result as ProviderTokenResponse;
-
-                if (providerTokenResponse != null)
+                if (sc.Result is ProviderTokenResponse providerTokenResponse)
                 {
                     var state = await StateAccessor.GetAsync(sc.Context);
                     state.Token = providerTokenResponse.TokenResponse.Token;
@@ -194,7 +192,6 @@ namespace WeatherSkill.Dialogs
                 // put log here
             }
         }
-
 
         private class DialogIds
         {

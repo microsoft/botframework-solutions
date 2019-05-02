@@ -17,7 +17,6 @@ namespace PointOfInterestSkillTests.API
             mockClient = new HttpClient(new MockHttpClientHandlerGen().GetMockHttpClientHandler());
         }
 
-
         [TestMethod]
         public async Task GetNearbyPointsOfInterestTest()
         {
@@ -49,7 +48,8 @@ namespace PointOfInterestSkillTests.API
 
             var pointOfInterestList = await service.GetNearbyPointOfInterestListAsync(MockData.Latitude, MockData.Longitude);
 
-            var pointOfInterest = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[0]); Assert.AreEqual(pointOfInterest.Id, "412d2800f964a520df0c1fe3");
+            var pointOfInterest = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[0]);
+            Assert.AreEqual(pointOfInterest.Id, "412d2800f964a520df0c1fe3");
 
             Assert.AreEqual(pointOfInterest.Name, "Central Park");
             Assert.AreEqual(pointOfInterest.City, "New York");

@@ -1,13 +1,13 @@
-﻿using Luis;
-using Microsoft.Bot.Builder;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Luis;
+using Microsoft.Bot.Builder;
 
 namespace PointOfInterestSkillTests.Flow.Fakes
 {
     public class MockPointOfInterestIntent : PointOfInterestLuis
     {
-        public string userInput;
+        private string userInput;
         private Intent intent;
         private double score;
 

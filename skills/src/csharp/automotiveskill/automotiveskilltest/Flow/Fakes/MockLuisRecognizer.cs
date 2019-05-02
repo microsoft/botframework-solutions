@@ -14,6 +14,7 @@ namespace AutomotiveSkillTest.Flow.Fakes
         public MockLuisRecognizer()
         {
         }
+
         public bool LogPersonalInformation { get; set; } = false;
 
         public IBotTelemetryClient TelemetryClient { get; set; } = new NullBotTelemetryClient();
@@ -60,7 +61,7 @@ namespace AutomotiveSkillTest.Flow.Fakes
             }
 
             return Task.FromResult(mockResult);
-        }    
+        }
 
         public Task<T> RecognizeAsync<T>(DialogContext dialogContext, CancellationToken cancellationToken = default(CancellationToken))
             where T : IRecognizerConvert, new()
@@ -73,7 +74,8 @@ namespace AutomotiveSkillTest.Flow.Fakes
             throw new NotImplementedException();
         }
 
-        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, Dictionary<string, string> telemetryProperties, Dictionary<string, double> telemetryMetrics, CancellationToken cancellationToken = default(CancellationToken)) where T : IRecognizerConvert, new()
+        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, Dictionary<string, string> telemetryProperties, Dictionary<string, double> telemetryMetrics, CancellationToken cancellationToken = default(CancellationToken))
+            where T : IRecognizerConvert, new()
         {
             throw new NotImplementedException();
         }

@@ -1,10 +1,10 @@
-﻿using PointOfInterestSkill.Services;
-using System;
+﻿using System;
 using System.Net.Http;
+using PointOfInterestSkill.Services;
 
 namespace PointOfInterestSkillTests.API.Fakes
 {
-    class MockServiceManager : IServiceManager
+    public class MockServiceManager : IServiceManager
     {
         private HttpClient mockClient;
 

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <UserSecretsId>2bdd896c-393e-47c4-b6b9-a47238550b83</UserSecretsId>
-    <CodeAnalysisRuleSet>..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>NU1701</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -104,10 +104,8 @@
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.4.0-RC4" />
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.4.0-RC4" />
     <PackageReference Include="Microsoft.Graph" Version="1.10.0" />
-    <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Recognizers.Text.DataTypes.TimexExpression" Version="1.1.4" />
     <PackageReference Include="Microsoft.Recognizers.Text.DateTime" Version="1.1.4" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
