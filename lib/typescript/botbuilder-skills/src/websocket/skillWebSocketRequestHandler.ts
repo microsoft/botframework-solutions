@@ -3,19 +3,20 @@
  * Licensed under the MIT License.
  */
 
-import { InvokeResponse } from 'botbuilder';
+import { BotTelemetryClient, InvokeResponse } from 'botbuilder';
 import { Activity } from 'botframework-schema';
 import { ContentStream, ReceiveRequest, RequestHandler, Response } from 'microsoft-bot-protocol';
 import { BotCallbackHandler, IActivityHandler } from '../activityHandler';
+import { TelemetryExtensions } from 'botbuilder-solutions';
 
 export class SkillWebSocketRequestHandler extends RequestHandler {
-    public bot: BotCallbackHandler;
-    public activityHandler: IActivityHandler;
+    private readonly telemetryClient: BotTelemetryClient;
+    public bot!: BotCallbackHandler;
+    public activityHandler!: IActivityHandler;
 
-    constructor(activityHandler: IActivityHandler, bot: BotCallbackHandler) {
+    constructor(telemetryClient: BotTelemetryClient) {
         super();
-        this.activityHandler = activityHandler;
-        this.bot = bot;
+        this.telemetryClient = telemetryClient;
     }
 
     // tslint:disable-next-line:no-any
@@ -42,7 +43,13 @@ export class SkillWebSocketRequestHandler extends RequestHandler {
 
         try {
             const activity: Activity = JSON.parse(body);
+            const begin: [number, number] = process.hrtime();
             const invokeResponse: InvokeResponse = await this.activityHandler.processActivity(activity, this.bot);
+            const end: [number, number] = process.hrtime(begin);
+
+            const latency: { latency: number } = { latency: toMilliseconds(end) };
+
+            TelemetryExtensions.trackEventEx(this.telemetryClient, 'SkillWebSocketProcessRequestLatency', activity, undefined, undefined, latency);
 
             if (!invokeResponse) {
                 response.statusCode = 200;
@@ -53,9 +60,15 @@ export class SkillWebSocketRequestHandler extends RequestHandler {
                 }
             }
         } catch (error) {
+            TelemetryExtensions.trackExceptionEx(this.telemetryClient, error, {});
             response.statusCode = 500;
         }
 
         return response;
     }
+}
+
+function toMilliseconds(hrtime: [number, number]): number {
+    const nanoseconds = (hrtime[0] * 1e9) + hrtime[1];
+    return nanoseconds / 1e6;
 }
