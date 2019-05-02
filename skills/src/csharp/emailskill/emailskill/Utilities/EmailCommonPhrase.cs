@@ -1,5 +1,5 @@
-﻿using EmailSkill.Responses.Shared;
-using System.Linq;
+﻿using System.Linq;
+using EmailSkill.Responses.Shared;
 
 namespace EmailSkill.Utilities
 {
