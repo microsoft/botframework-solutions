@@ -4,8 +4,8 @@
  */
 
 import { ReceiveRequest } from 'microsoft-bot-protocol';
-import { IRouteAction } from './routerAction';
 import { IRouteContext } from './routeContext';
+import { IRouteAction } from './routerAction';
 import { IRouteTemplate } from './routeTemplate';
 
 export class Router {
@@ -27,12 +27,12 @@ export class Router {
         }
 
         const parts: string[] = path.split('/');
-        let initial: TrieNode|undefined = this.root.tryGetNext(request.Verb);
+        const initial: TrieNode|undefined = this.root.tryGetNext(request.Verb);
         if (initial) {
             let current: TrieNode = initial;
             const routeData: Map<string, Object> = new Map();
             parts.forEach((part: string) => {
-                let next: TrieNode|undefined = current.tryGetNext(part);
+                const next: TrieNode|undefined = current.tryGetNext(part);
                 if (next) {
                     // found an exact match, keep going
                     current = next;
@@ -66,7 +66,7 @@ export class Router {
             if (path.startsWith('/')) {
                 path = path.substr(1);
             }
-    
+
             const parts: string[] = path.split('/');
 
             const methodName: TrieNode = this.root.add(route.method);
@@ -117,6 +117,7 @@ class TrieNode {
     }
 
     public getVariables(): TrieNode[] {
-        return Array.from(this.next.values()).filter(x => x.isVariable);
+        return Array.from(this.next.values())
+            .filter((x: TrieNode) => x.isVariable);
     }
 }

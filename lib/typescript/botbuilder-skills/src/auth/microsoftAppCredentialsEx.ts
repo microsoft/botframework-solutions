@@ -11,7 +11,7 @@ export class MicrosoftAppCredentialsEx extends MicrosoftAppCredentials {
         if (oauthScope) {
             this.oAuthScope = oauthScope;
         }
-        
+
         this.oAuthEndpoint = 'https://login.microsoftonline.com/microsoft.com';
     }
 }

@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { ISkillManifest, IAction } from './models';
+import { IAction, ISkillManifest } from './models';
 
 /**
  * Skill Router class that helps Bots identify if a registered Skill matches the identified dispatch intent.

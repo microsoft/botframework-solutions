@@ -1,9 +1,10 @@
-import { BotFrameworkAdapter, BotFrameworkAdapterSettings, BotTelemetryClient, InvokeResponse, Severity, TurnContext, WebRequest, WebResponse } from 'botbuilder';
-import { Activity, ActivityTypes, ConversationReference, ResourceResponse } from 'botframework-schema';
-import { SkillHttpBotAdapter } from './skillHttpBotAdapter';
+import { BotFrameworkAdapter, BotFrameworkAdapterSettings, BotTelemetryClient, InvokeResponse,
+    Severity, TurnContext, WebRequest, WebResponse } from 'botbuilder';
+import { TelemetryExtensions } from 'botbuilder-solutions';
+import { Activity } from 'botframework-schema';
 import { IActivityHandler } from '../activityHandler';
 import { IAuthenticationProvider } from '../auth';
-import { TelemetryExtensions } from 'botbuilder-solutions';
+import { SkillHttpBotAdapter } from './skillHttpBotAdapter';
 
 /**
  * This adapter is responsible for accepting a bot-to-bot call over http transport.
@@ -30,6 +31,7 @@ export class SkillHttpAdapter extends BotFrameworkAdapter {
         this.telemetryClient = telemetryClient;
     }
 
+    // tslint:disable-next-line:no-any
     public async processActivity(req: WebRequest, res: WebResponse, logic: (context: TurnContext) => Promise<any>): Promise<void> {
         if (this.authenticationProvider) {
             // grab the auth header from the inbound http request
@@ -40,6 +42,7 @@ export class SkillHttpAdapter extends BotFrameworkAdapter {
             if (!authenticated) {
                 res.status(401);
                 res.end();
+
                 return;
             }
         }

@@ -4,10 +4,10 @@
  */
 
 import { TurnContext } from 'botbuilder';
-import { Activity, ActivityTypes, ResourceResponse } from 'botframework-schema';
-import { ReceiveRequest, Response, RequestHandler } from 'microsoft-bot-protocol';
-import { IRouteTemplate, Router, IRouteContext } from './protocol';
 import { TokenEvents } from 'botbuilder-solutions';
+import { Activity, ActivityTypes, ResourceResponse } from 'botframework-schema';
+import { ContentStream, ReceiveRequest, RequestHandler, Response } from 'microsoft-bot-protocol';
+import { IRouteContext, IRouteTemplate, Router } from './protocol';
 
 export declare type ActivityAction = (activity: Activity) => Promise<void>;
 
@@ -31,10 +31,10 @@ export class SkillCallingRequestHandler extends RequestHandler {
             method: 'POST',
             path: '/activities/{activityId}',
             action: {
-                action: async (request: ReceiveRequest, routeData: Object) => {            
+                action: async (request: ReceiveRequest, routeData: Object): Promise<Object|undefined> => {
                     // MISSING Check response converter
-                    const bodyParts: string[] = await Promise.all(request.Streams.map(s => s.readAsJson()));
-                    const body = bodyParts.join();
+                    const bodyParts: string[] = await Promise.all(request.Streams.map((s: ContentStream) => s.readAsJson()));
+                    const body: string = bodyParts.join();
                     const activity: Activity = JSON.parse(body);
                     if (!activity) {
                         throw new Error('Error deserializing activity response!');
@@ -43,16 +43,12 @@ export class SkillCallingRequestHandler extends RequestHandler {
                     if (activity.type === ActivityTypes.Event && activity.name === TokenEvents.tokenRequestEventName) {
                         if (this.tokenRequestHandler) {
                             this.tokenRequestHandler(activity);
-
-                            return <ResourceResponse>{};
                         } else {
                             throw new Error('Skill is requesting for token but there\'s no handler on the calling side!');
                         }
                     } else if (activity.type === ActivityTypes.EndOfConversation) {
                         if (this.handoffActivityHandler) {
                             this.handoffActivityHandler(activity);
-                            
-                            return <ResourceResponse>{};
                         } else {
                             throw new Error('Skill is sending handoff activity but there\'s no handler on the calling side!');
                         }
@@ -62,47 +58,50 @@ export class SkillCallingRequestHandler extends RequestHandler {
                 }
             }
         };
-        
+
         const putRoute: IRouteTemplate = {
             method: 'PUT',
             path: '/activities/{activityId}',
             action: {
-                action: async (request: ReceiveRequest, routeData: Object) => {            
+                action: async (request: ReceiveRequest, routeData: Object): Promise<Object|undefined> => {
                     // MISSING Check response converter
-                    const bodyParts: string[] = await Promise.all(request.Streams.map(s => s.readAsJson()));
-                    const body = bodyParts.join();
+                    const bodyParts: string[] = await Promise.all(request.Streams.map((s: ContentStream) => s.readAsJson()));
+                    const body: string = bodyParts.join();
                     const activity: Activity = JSON.parse(body);
                     await this.turnContext.updateActivity(activity);
-                    
+
                     return undefined;
                 }
             }
         };
-        
+
         const deleteRoute: IRouteTemplate = {
             method: 'DELETE',
             path: '/activities/{activityId}',
             action: {
-                action: async (request: ReceiveRequest, routeData: Object) => {            
+                action: async (request: ReceiveRequest, routeData: Object): Promise<Object|undefined> => {
                     // MISSING Check response converter
-                    const activityIdProp: [string, string] = Object.entries(routeData).find((e) => e[0] === 'activityId') || ['activityId', ''];
-                    const activityId = activityIdProp[1];
+                    const activityIdProp: [string, string]|undefined = Object.entries(routeData)
+                        .find((e: [string, string]) => e[0] === 'activityId');
+                    const activityId: string = activityIdProp ? activityIdProp[1] : '';
                     await this.turnContext.deleteActivity(activityId);
-                    
+
                     return undefined;
                 }
             }
         };
+
         const routes: IRouteTemplate[] = [ postRoute, putRoute, deleteRoute ];
         this.router = new Router(routes);
     }
 
+    // tslint:disable-next-line:no-any
     public async processRequestAsync(request: ReceiveRequest, logger?: any): Promise<Response> {
         const routeContext: IRouteContext|undefined = this.router.route(request);
         if (routeContext) {
             try {
                 const responseBody: Object|undefined = await routeContext.action.action(request, routeContext.routerData);
-                // MISSING Response.OK(new StringContent(JsonConvert.SerializeObject(responseBody, SerializationSettings.DefaultSerializationSettings), Encoding.UTF8, SerializationSettings.ApplicationJson));
+                // MISSING Response.OK(new StringContent(JsonConvert.SerializeObject(responseBody...
                 const response: Response = Response.create(200);
                 response.setBody(responseBody);
 

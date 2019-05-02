@@ -6,8 +6,8 @@
 import { DefaultHttpClient, HttpClient, HttpOperationResponse, RequestPrepareOptions, WebResource } from '@azure/ms-rest-js';
 import { TurnContext } from 'botbuilder';
 import { ActivityExtensions, TokenEvents } from 'botbuilder-solutions';
-import { Activity, ActivityTypes } from 'botframework-schema';
 import { MicrosoftAppCredentials } from 'botframework-connector';
+import { Activity, ActivityTypes } from 'botframework-schema';
 import { ISkillManifest, SkillEvents } from '../models';
 import { ISkillTransport, TokenRequestHandler } from '../skillTransport';
 

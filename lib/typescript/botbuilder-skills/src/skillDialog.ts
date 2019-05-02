@@ -8,13 +8,14 @@ import { ComponentDialog, Dialog, DialogContext, DialogInstance, DialogReason, D
     DialogTurnStatus } from 'botbuilder-dialogs';
 import { ActivityExtensions, isProviderTokenResponse, MultiProviderAuthDialog, TokenEvents } from 'botbuilder-solutions';
 import { MicrosoftAppCredentials } from 'botframework-connector';
-import { ISkillManifest, IAction, ISlot } from './models';
+import { IAction, ISkillManifest, ISlot } from './models';
 import { SkillContext } from './skillContext';
 import { ISkillTransport, TokenRequestHandler } from './skillTransport';
 import { SkillWebSocketTransport } from './websocket';
 
 /**
- * The SkillDialog class provides the ability for a Bot to send/receive messages to a remote Skill (itself a Bot). The dialog name is that of the underlying Skill it's wrapping.
+ * The SkillDialog class provides the ability for a Bot to send/receive messages to a remote Skill (itself a Bot).
+ * The dialog name is that of the underlying Skill it's wrapping.
  */
 export class SkillDialog extends ComponentDialog {
     private readonly authDialog?: MultiProviderAuthDialog;
@@ -91,18 +92,29 @@ export class SkillDialog extends ComponentDialog {
                     slots = await this.matchSkillContextToSlots(innerDC, action.definition.slots, skillContext);
                 }
             } else {
-                const message: string = `Passed Action (${actionName}) could not be found within the ${this.skillManifest.id} skill manifest action definition.`;
+                const message: string = `Passed Action (${
+                    actionName
+                }) could not be found within the ${
+                    this.skillManifest.id
+                } skill manifest action definition.`;
+
                 throw new Error(message);
             }
         } else {
             // The caller hasn't got the capability of identifying the action as well as the Skill so we enumerate
             // actions and slot data to pass what we have
 
-            // Retrieve a distinct list of all slots, some actions may use the same slot so we use distinct to ensure we only get 1 instance.
-            const skillSlots: ISlot[] = this.skillManifest.actions.reduce((acc: ISlot[], curr: IAction) => {
-                const currDistinct: ISlot[] = curr.definition.slots.filter((slot: ISlot) => !acc.find((item: ISlot) => item.name === slot.name));
-                return acc.concat(currDistinct);
-            }, []);
+            // Retrieve a distinct list of all slots,
+            // some actions may use the same slot so we use distinct to ensure we only get 1 instance.
+            const skillSlots: ISlot[] = this.skillManifest.actions.reduce(
+                (acc: ISlot[], curr: IAction) => {
+                    const currDistinct: ISlot[] = curr.definition.slots.filter(
+                        (slot: ISlot) => !acc.find((item: ISlot) => item.name === slot.name)
+                    );
+
+                    return acc.concat(currDistinct);
+                },
+                []);
 
             if (skillSlots) {
                 // Match Slots to Skill Context
@@ -156,7 +168,7 @@ export class SkillDialog extends ComponentDialog {
         const dialogResult: DialogTurnResult = await this.forwardToSkill(innerDC, activity);
         // if there's any response we need to send to the skill queued
         // forward to skill and start a new turn
-        while(this.queuedResponses.length > 0) {
+        while (this.queuedResponses.length > 0) {
             const response: Activity|undefined = this.queuedResponses.pop();
             if (response) {
                 await this.forwardToSkill(innerDC, response);
@@ -168,7 +180,6 @@ export class SkillDialog extends ComponentDialog {
         return dialogResult;
     }
 
-    
     public async matchSkillContextToSlots(innerDc: DialogContext, actionSlots: ISlot[], skillContext: SkillContext): Promise<SkillContext> {
         const slots: SkillContext = new SkillContext();
 
@@ -207,7 +218,9 @@ export class SkillDialog extends ComponentDialog {
                 this.getTokenRequestCallback(innerDc));
 
             if (endOfConversation) {
-                const traceMessage: string = `<--Ending the skill conversation with the ${this.skillManifest.name} Skill and handing off to Parent Bot.`;
+                const traceMessage: string = `<--Ending the skill conversation with the ${
+                    this.skillManifest.name
+                } Skill and handing off to Parent Bot.`;
                 await innerDc.context.sendActivity({
                     type: ActivityTypes.Trace,
                     text: traceMessage
@@ -232,7 +245,7 @@ export class SkillDialog extends ComponentDialog {
                 type: ActivityTypes.Trace,
                 text: '<--Received a Token Request from a skill'
             });
-            
+
             if (this.authDialog) {
                 const authResult: DialogTurnResult = await dialogContext.beginDialog(this.authDialog.id);
                 if (isProviderTokenResponse(authResult.result)) {

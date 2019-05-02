@@ -1,8 +1,8 @@
-import { v4 as uuid } from 'uuid';
 import { BotAdapter, BotTelemetryClient, InvokeResponse, Severity, TurnContext } from 'botbuilder';
-import { IRemoteUserTokenProvider, TelemetryExtensions, ActivityExtensions } from 'botbuilder-solutions';
+import { ActivityExtensions, IRemoteUserTokenProvider, TelemetryExtensions } from 'botbuilder-solutions';
 import { Activity, ActivityTypes, ConversationReference, ResourceResponse } from 'botframework-schema';
-import { IActivityHandler, BotCallbackHandler } from '../activityHandler';
+import { v4 as uuid } from 'uuid';
+import { BotCallbackHandler, IActivityHandler } from '../activityHandler';
 
 export class SkillHttpBotAdapter extends BotAdapter implements IActivityHandler, IRemoteUserTokenProvider {
     private readonly telemetryClient: BotTelemetryClient;
@@ -49,15 +49,15 @@ export class SkillHttpBotAdapter extends BotAdapter implements IActivityHandler,
     }
 
     public deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
-        throw new Error("Http Request/Response model doesn't support DeleteActivityAsync call!");
+        throw new Error('Http Request/Response model doesn\'t support DeleteActivityAsync call!');
     }
 
     public updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
-        throw new Error("Http Request/Response model doesn't support UpdateActivityAsync call!");
+        throw new Error('Http Request/Response model doesn\'t support UpdateActivityAsync call!');
     }
 
-    public continueConversation(reference: Partial<ConversationReference>, logic: (revocableContext: TurnContext) => Promise<void>): Promise<void> {
-        throw new Error("Http Request/Response model doesn't support ContinueConversationAsync call!");
+    public continueConversation(reference: Partial<ConversationReference>, logic: BotCallbackHandler): Promise<void> {
+        throw new Error('Http Request/Response model doesn\'t support ContinueConversationAsync call!');
     }
 
     public async processActivity(activity: Activity, callback: BotCallbackHandler): Promise<InvokeResponse> {
@@ -78,7 +78,7 @@ export class SkillHttpBotAdapter extends BotAdapter implements IActivityHandler,
             body: this.queuedActivities
         };
     }
-    
+
     public async sendRemoteTokenRequestEvent(turnContext: TurnContext): Promise<void> {
         // We trigger a Token Request from the Parent Bot by sending a "TokenRequest" event back and then waiting for a "TokenResponse"
         const response: Activity = ActivityExtensions.createReply(turnContext.activity);

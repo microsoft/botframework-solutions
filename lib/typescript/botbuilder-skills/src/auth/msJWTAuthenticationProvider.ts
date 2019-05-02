@@ -3,11 +3,21 @@
  * Licensed under the MIT License.
  */
 
-import { verify } from 'jsonwebtoken';
+// Extends verify definitions to be compatible with callback handler to resolve signingKey
+declare module 'jsonwebtoken' {
+    export type signingKeyResolver = (headers: jwks.Headers, cb: (err: Error, signingKey: string) => void) => void;
+
+    export function verify(
+        token: string,
+        secretOrPublicKey: signingKeyResolver,
+        callback?: VerifyCallback
+    ): void;
+}
+
+import { HttpOperationResponse, ServiceClient } from '@azure/ms-rest-js';
+import { signingKeyResolver, verify } from 'jsonwebtoken';
 import * as jwks from 'jwks-rsa';
-import { JwksClient, Headers, Jwk } from 'jwks-rsa';
-import { ServiceClient } from '@azure/ms-rest-js';
-import { IAuthenticationProvider } from "./authenticationProvider";
+import { IAuthenticationProvider } from './authenticationProvider';
 
 export class MsJWTAuthenticationProvider implements IAuthenticationProvider {
     private readonly openIdMetadataUrl: string = 'https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration';
@@ -22,33 +32,34 @@ export class MsJWTAuthenticationProvider implements IAuthenticationProvider {
 
     public async authenticate(authHeader: string): Promise<boolean> {
         try {
-            const token = authHeader.includes(' ') ? authHeader.split(' ')[1] : authHeader;
+            const token: string = authHeader.includes(' ') ? authHeader.split(' ')[1] : authHeader;
 
-            const jwksInfo = await this.httpClient.sendRequest({
+            const jwksInfo: HttpOperationResponse = await this.httpClient.sendRequest({
                 method: 'GET',
                 url: this.openIdMetadataUrl
             });
 
             const jwksUri: string = <string>jwksInfo.parsedBody.jwks_uri;
-            const jwksClient: JwksClient = jwks({ jwksUri: jwksUri });
+            const jwksClient: jwks.JwksClient = jwks({ jwksUri: jwksUri });
 
-            const getKey = (headers: Headers, cb: (err: Error, signingKey: string) => void) => {
-                jwksClient.getSigningKey(headers['kid'], (err: Error, key: Jwk) => {
+            const getKey: signingKeyResolver = (headers: jwks.Headers, cb: (err: Error, signingKey: string) => void): void => {
+                jwksClient.getSigningKey(headers.kid, (err: Error, key: jwks.Jwk) => {
                     cb(err, key.publicKey || key.rsaPublicKey || '');
                 });
             };
 
+            // tslint:disable-next-line:typedef
             const decoder: Promise<{[key: string]: Object}> = new Promise((resolve, reject) => {
-                verify(token, <any>getKey, (err: Error, decoded: Object) => {
-                    if (err) reject(err);
-                    const result: {[key: string]: Object} = <{[key: string]: Object}>decoded;
+                verify(token, getKey, (err: Error, decodedObj: Object) => {
+                    if (err) { reject(err); }
+                    const result: {[key: string]: Object} = <{[key: string]: Object}>decodedObj;
                     resolve(result);
                 });
             });
 
             const decoded: { [key: string]: Object } = await decoder;
 
-            return decoded['appid'] === this.appId;
+            return decoded.appid === this.appId;
         } catch (error) {
             return false;
         }
