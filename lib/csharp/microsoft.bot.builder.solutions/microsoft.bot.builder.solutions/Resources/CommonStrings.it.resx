@@ -222,4 +222,13 @@
   <data name="LoginDescription" xml:space="preserve">
     <value>Effettua il login con il tuo account {0}</value>
   </data>
+  <data name="FourthItem" xml:space="preserve">
+    <value>il quarto è {0};</value>
+  </data>
+  <data name="LastItem" xml:space="preserve">
+    <value>l'ultimo è {0};</value>
+  </data>
+  <data name="LatestItem" xml:space="preserve">
+    <value>Il recente è {0};</value>
+  </data>
 </root>

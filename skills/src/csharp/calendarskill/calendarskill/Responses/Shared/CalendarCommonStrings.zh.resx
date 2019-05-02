@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AllDay" xml:space="preserve">
+    <value>全天</value>
+  </data>
+  <data name="AllDayLower" xml:space="preserve">
+    <value>全天</value>
+  </data>
+  <data name="AttendeesSummary" xml:space="preserve">
+    <value>{0}和其他{1}人</value>
+  </data>
+  <data name="AtTime" xml:space="preserve">
+    <value>在{0}</value>
+  </data>
+  <data name="DailyToken" xml:space="preserve">
+    <value>每天</value>
+  </data>
+  <data name="MonthlyToken" xml:space="preserve">
+    <value>每月</value>
+  </data>
+  <data name="TodayLower" xml:space="preserve">
+    <value>今天</value>
+  </data>
+  <data name="WeeklyToken" xml:space="preserve">
+    <value>每周</value>
+  </data>
+  <data name="WithTheSubject" xml:space="preserve">
+    <value>以{0}为标题</value>
+  </data>
+  <data name="CancelAdjust" xml:space="preserve">
+    <value>^(不|不要|不调整|取消)$</value>
+  </data>
+  <data name="NoAttendees" xml:space="preserve">
+    <value>无与会人</value>
+  </data>
+  <data name="AdjustContent" xml:space="preserve">
+    <value>(调整|修改|更新|换一个|换|改)?.*(内容|细节)</value>
+  </data>
+  <data name="AdjustDuration" xml:space="preserve">
+    <value>(调整|修改|更新|换一个|换|改)?.*(长度|时长|长短)</value>
+  </data>
+  <data name="AdjustLocation" xml:space="preserve">
+    <value>(调整|修改|更新|换一个|换|改)?.*(位置|地点|房间|会议室|地方)</value>
+  </data>
+  <data name="AdjustParticipants" xml:space="preserve">
+    <value>(调整|修改|更新|换一个|换|改)?.*(参与者|参加者|与会者|参会者|参加人|参会人|列席者|列席人|人)</value>
+  </data>
+  <data name="AdjustSubject" xml:space="preserve">
+    <value>(调整|修改|更新|换一个|换|改)?.*(标题|题目|主题|核心)</value>
+  </data>
+  <data name="AdjustTime" xml:space="preserve">
+    <value>(调整|修改|更新|换一个|换|改)?.*时间</value>
+  </data>
+  <data name="Empty" xml:space="preserve">
+    <value>空</value>
+  </data>
+  <data name="ContactSeparator" xml:space="preserve">
+    <value>,|和|;|，|；</value>
+  </data>
+  <data name="DefaultTitle" xml:space="preserve">
+    <value>会议</value>
+  </data>
+  <data name="Myself" xml:space="preserve">
+    <value>^(我|自己)$</value>
+  </data>
+  <data name="SkipPhrases" xml:space="preserve">
+    <value>(跳过|不要|空着|没有)</value>
+  </data>
+  <data name="OrdinalSuffixNd" xml:space="preserve">
+    <value>{0}号</value>
+  </data>
+  <data name="OrdinalSuffixRd" xml:space="preserve">
+    <value>{0}号</value>
+  </data>
+  <data name="OrdinalSuffixSt" xml:space="preserve">
+    <value>{0}号</value>
+  </data>
+  <data name="OrdinalSuffixTh" xml:space="preserve">
+    <value>{0}号</value>
+  </data>
+  <data name="Ago" xml:space="preserve">
+    <value>之前</value>
+  </data>
+  <data name="Before" xml:space="preserve">
+    <value>前</value>
+  </data>
+  <data name="HalfAnHour" xml:space="preserve">
+    <value>半小时</value>
+  </data>
+  <data name="Later" xml:space="preserve">
+    <value>后</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>下一个</value>
+  </data>
+  <data name="Now" xml:space="preserve">
+    <value>现在</value>
+  </data>
+  <data name="TomorrowLower" xml:space="preserve">
+    <value>明天</value>
+  </data>
+  <data name="YesterdayLower" xml:space="preserve">
+    <value>昨天</value>
+  </data>
+  <data name="MyselfConst" xml:space="preserve">
+    <value>我</value>
+  </data>
+  <data name="AskForAttendee" xml:space="preserve">
+    <value>(有)?谁.*(参加|参与|与会|在)</value>
+  </data>
+  <data name="AskForContent" xml:space="preserve">
+    <value>(什么|啥).*(内容|细节)</value>
+  </data>
+  <data name="AskForDetail" xml:space="preserve">
+    <value>(有关|是|有|关于).*(什么|啥)</value>
+  </data>
+  <data name="AskForDuration" xml:space="preserve">
+    <value>多久</value>
+  </data>
+  <data name="AskForEndTime" xml:space="preserve">
+    <value>(几点|什么时候|啥时候).*(结束|终止)</value>
+  </data>
+  <data name="AskForLocation" xml:space="preserve">
+    <value>在哪</value>
+  </data>
+  <data name="AskForStartTime" xml:space="preserve">
+    <value>(几点|什么时候|啥时候).*(开始|开放)</value>
+  </data>
+  <data name="AskForTime" xml:space="preserve">
+    <value>几点|什么时候|啥时候</value>
+  </data>
+  <data name="AskForTitle" xml:space="preserve">
+    <value>(什么|啥).*(标题|主题|抬头)</value>
+  </data>
+  <data name="OverviewEventSource" xml:space="preserve">
+    <value>由**{0}**提供</value>
+  </data>
+  <data name="OverviewOverlapMeeting" xml:space="preserve">
+    <value>个会议有冲突</value>
+  </data>
+  <data name="OverviewTitle" xml:space="preserve">
+    <value>您的日程</value>
+  </data>
+  <data name="OverviewTotalMeetingOne" xml:space="preserve">
+    <value>个会议在 {0}</value>
+  </data>
+  <data name="OverviewTotalMeetingPlural" xml:space="preserve">
+    <value>个会议在 {0}</value>
+  </data>
+  <data name="MeetingsAbout" xml:space="preserve">
+    <value>关于{0}的会议</value>
+  </data>
+  <data name="MeetingsAt" xml:space="preserve">
+    <value>发生在{0}的会议</value>
+  </data>
+  <data name="MeetingsToChoose" xml:space="preserve">
+    <value>候选会议</value>
+  </data>
+  <data name="MeetingsToJoin" xml:space="preserve">
+    <value>将要参加的会议</value>
+  </data>
+  <data name="MeetingsWith" xml:space="preserve">
+    <value>与{0}的会议</value>
+  </data>
+  <data name="UpcommingMeeting" xml:space="preserve">
+    <value>即将发生的会议</value>
+  </data>
+  <data name="ShortDisplayDurationHour" xml:space="preserve">
+    <value>{0}小时</value>
+  </data>
+  <data name="ShortDisplayDurationMinute" xml:space="preserve">
+    <value>{0}分</value>
+  </data>
+  <data name="ShowMeetingsIndicator" xml:space="preserve">
+    <value>**{0}-{1}**，共{2}</value>
+  </data>
+</root>

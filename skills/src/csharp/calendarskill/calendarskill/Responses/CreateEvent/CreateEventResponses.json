@@ -1,0 +1,306 @@
+{
+  "NoTitle": {
+    "replies": [
+      {
+        "text": "Alright, I will send an invite to {UserName}, what is the subject of the meeting?",
+        "speak": "Alright, I will send an invite to {UserName}, what is the subject of the meeting?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoTitleShort": {
+    "replies": [
+      {
+        "text": "What is the subject of the meeting?",
+        "speak": "What is the subject of the meeting?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoContent": {
+    "replies": [
+      {
+        "text": "What do you want to add as content?",
+        "speak": "What do you want to add as content?"
+      },
+      {
+        "text": "What do you want to add as content?",
+        "speak": "What do you want to add as content?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoLocation": {
+    "replies": [
+      {
+        "text": "Where will be the event take place?",
+        "speak": "Where will be the event take place?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmCreateAttendees": {
+    "replies": [
+      {
+        "text": ", with {Attendees}",
+        "speak": ", with {Attendees}"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ConfirmCreateSubject": {
+    "replies": [
+      {
+        "text": " The subject of the event is {Subject}.",
+        "speak": " The subject of the event is {Subject}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ConfirmCreateLocation": {
+    "replies": [
+      {
+        "text": " The event will take place at {Location}.",
+        "speak": " The event will take place at {Location}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ConfirmCreateContent": {
+    "replies": [
+      {
+        "text": " The message is {Content}.",
+        "speak": " The message is {Content}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ConfirmCreate": {
+    "replies": [
+      {
+        "text": "I'm ready to create the event. The event is {Date}, from {Time} till {EndTime}{AttendeesConfirm}.{SubjectConfirm}{LocationConfirm}{ContentConfirm}",
+        "speak": "I'm ready to create the event. The event is {Date}, from {Time} till {EndTime}{AttendeesConfirm}.{SubjectConfirm}{LocationConfirm}{ContentConfirm} Can you confirm this event?"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+
+  "ConfirmCreatePrompt": {
+    "replies": [
+      {
+        "text": "Can you confirm this event?",
+        "speak": "Can you confirm this event?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+
+  "ShowRestParticipantsPrompt": {
+    "replies": [
+      {
+        "text": "Do you want to go through the rest of the participants?",
+        "speak": "Do you want to go through the rest of the participants?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+
+  "ConfirmCreateFailed": {
+    "replies": [
+      {
+        "text": "I'm ready to create the event. Please confirm the following:",
+        "speak": "I'm ready to create the event. Please confirm the following:"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "EventCreated": {
+    "replies": [
+      {
+        "text": "OK, I have added the event to your calendar. named {Subject}",
+        "speak": "OK, I have added the event to your calendar. named {Subject}"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "EventCreationFailed": {
+    "replies": [
+
+      {
+        "text": "Event creation failed",
+        "speak": "Event creation failed"
+      },
+      {
+        "text": "Something went wrong, try again please.",
+        "speak": "Something went wrong, try again please."
+      },
+      {
+        "text": "It seems the event could not be created, please try again later.",
+        "speak": "It seems the event could not be created, please try again later."
+      },
+      {
+        "text": "Creation of the event failed, please try again.",
+        "speak": "Creation of the event failed, please try again."
+      },
+      {
+        "text": "An error occured with creating the event.",
+        "speak": "An error occured with creating the event."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "NoAttendees": {
+    "replies": [
+      {
+        "text": "Sure, who will join?",
+        "speak": "Sure, who will join?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "PromptTooManyPeople": {
+    "replies": [
+      {
+        "text": "There are too many people called {UserName}, Please re-enter the name.",
+        "speak": "There are too many people called {UserName}, Please re-enter the name."
+      },
+      {
+        "text": "I found too many contacts with this name. Can you be a bit more specific?",
+        "speak": "I found too many contacts with this name. Can you be a bit more specific?"
+      },
+      {
+        "text": "Can you try again by stating their firstname and surname?",
+        "speak": "Can you try again by stating their firstname and surname?"
+      },
+      {
+        "text": "I have found too many contacts, can you try again by being more specific with the name? It helps if you include a surname.",
+        "speak": "I have found too many contacts, can you try again by being more specific with the name? It helps if you include a surname."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "PromptPersonNotFound": {
+    "replies": [
+      {
+        "text": "I cannot find {UserName}. Please try again. It helps if you include a surname.",
+        "speak": "I cannot find {UserName}. Please try again. It helps if you include a surname."
+      },
+      {
+        "text": "Something is wrong because I cannot find the {UserName} you are looking for. Please try again. It helps if you include a surname.",
+        "speak": "Something is wrong because I cannot find the {UserName} you are looking for. Please try again. It helps if you include a surname."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoStartDate": {
+    "replies": [
+      {
+        "text": "For what date?",
+        "speak": "For what date?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoStartDateRetry": {
+    "replies": [
+      {
+        "text": "I did not understand the date you preference, can you try again?",
+        "speak": "I did not understand the date you preference, can you try again?"
+      },
+      {
+        "text": "I don't understand the date you provided, can you try in a different way again? You can say tomorrow, Monday, or a specific date such as January 1st.",
+        "speak": "I don't understand the date you provided, can you try in a different way again? You can say tomorrow, Monday, or a specific date such as January 1st."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoStartTime": {
+    "replies": [
+      {
+        "text": "What time does it start? You can help me by naming out AM or PM for the event.",
+        "speak": "What time does it start? You can help me by naming out AM or PM for the event."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoStartTimeRetry": {
+    "replies": [
+      {
+        "text": "I don't understand the time you provided, can you try again?",
+        "speak": "I don't understand the date you provided, can you try again?"
+      },
+      {
+        "text": "I believe I misinterpretated your prefferred starting time. Want to try again?",
+        "speak": "I believe I misinterpretated your prefferred starting time. Want to try again?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoStartTimeNoSkip": {
+    "replies": [
+      {
+        "text": "You can not skip the Start Time. Please try again.",
+        "speak": "You can not skip the Start Time. Please try again."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoDuration": {
+    "replies": [
+      {
+        "text": "For how long?",
+        "speak": "For how long?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoDurationRetry": {
+    "replies": [
+      {
+        "text": "I don't understand the duration you provided, can you try again?",
+        "speak": "I don't understand the duration you provided, can you try again?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GetRecreateInfo": {
+    "replies": [
+      {
+        "text": "What would you like to adjust?",
+        "speak": "What would you like to adjust?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "GetRecreateInfoRetry": {
+    "replies": [
+      {
+        "text": "I don't understand your input. You can try Time, Duration, Location, Participants, Subject, or Content. Or say cancel",
+        "speak": "I don't understand your input. You can try Time, Duration, Location, Participants, Subject, or Content. Or say cancel"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmRecipient": {
+    "replies": [
+      {
+        "text": "Who do you want to invite?",
+        "speak": "Who do you want to invite?"
+      },
+      {
+        "text": "What contact do you want to select?",
+        "speak": "What contact do you want to select?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "InvaildDuration": {
+    "replies": [
+      {
+        "text": "The end time of the event cannot be earlier than or equal to the start time. Please try again.",
+        "speak": "The end time of the event cannot be earlier than or equal to the start time. Please try again."
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}

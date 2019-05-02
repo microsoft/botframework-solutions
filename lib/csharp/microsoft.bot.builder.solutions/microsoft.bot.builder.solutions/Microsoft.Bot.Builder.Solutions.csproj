@@ -1,14 +1,37 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <Version Condition=" '$(PackageVersion)' == '' ">4.0.0-local</Version>
+    <Version Condition=" '$(PackageVersion)' != '' ">$(PackageVersion)</Version>
+    <PackageVersion Condition=" '$(PackageVersion)' == '' ">4.0.0-local</PackageVersion>
+    <PackageVersion Condition=" '$(PackageVersion)' != '' ">$(PackageVersion)</PackageVersion>
+    <Configurations>Debug;Release;Documentation;Debug - NuGet Packages;</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Microsoft.Bot.Builder.Solutions</AssemblyName>
-    <CodeAnalysisRuleSet>..\Microsoft.Bot.Builder.Solutions.ruleset</CodeAnalysisRuleSet>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>Microsoft</Company>
     <Authors>Microsoft</Authors>
     <Description>Shared library for Conversational AI Virtual Assistants and Skills.</Description>
   </PropertyGroup>
+  
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>true</DelaySign>
+    <AssemblyOriginatorKeyFile>..\..\build\35MSSharedLib1024.snk</AssemblyOriginatorKeyFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Authentication\AuthenticationResponses.de.json" />
+    <None Remove="Authentication\AuthenticationResponses.es.json" />
+    <None Remove="Authentication\AuthenticationResponses.fr.json" />
+    <None Remove="Authentication\AuthenticationResponses.it.json" />
+    <None Remove="Authentication\AuthenticationResponses.json" />
+    <None Remove="Authentication\AuthenticationResponses.zh.json" />
+  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Authentication\AuthenticationResponses.de.json" />
@@ -17,26 +40,19 @@
     <EmbeddedResource Include="Authentication\AuthenticationResponses.it.json" />
     <EmbeddedResource Include="Authentication\AuthenticationResponses.json" />
     <EmbeddedResource Include="Authentication\AuthenticationResponses.zh.json" />
-    <EmbeddedResource Include="Skills\SkillResponses.de.json" />
-    <EmbeddedResource Include="Skills\SkillResponses.es.json" />
-    <EmbeddedResource Include="Skills\SkillResponses.fr.json" />
-    <EmbeddedResource Include="Skills\SkillResponses.it.json" />
-    <EmbeddedResource Include="Skills\SkillResponses.json" />
-    <EmbeddedResource Include="Skills\SkillResponses.zh.json" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AdaptiveCards" Version="1.0.3" />
-    <PackageReference Include="Autofac" Version="4.8.1" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.8.1" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="1.0.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.4.0-RC4" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.4.0-RC4" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.4.0-RC4" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.4.0-RC4" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.4.0-RC4" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.4.0-RC4" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.4.0-RC4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.0.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.2.0" />
@@ -44,38 +60,15 @@
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
+    <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Authentication\AuthenticationResponses.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>AuthenticationResponses.tt</DependentUpon>
-    </Compile>
     <Compile Update="Resources\CommonStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>CommonStrings.resx</DependentUpon>
     </Compile>
-    <Compile Update="Skills\SkillResponses.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>SkillResponses.tt</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Authentication\AuthenticationResponses.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AuthenticationResponses.cs</LastGenOutput>
-    </None>
-    <None Update="Responses\ResponseIdCollection.t4">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Skills\SkillResponses.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SkillResponses.cs</LastGenOutput>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -83,10 +76,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
   
 </Project>

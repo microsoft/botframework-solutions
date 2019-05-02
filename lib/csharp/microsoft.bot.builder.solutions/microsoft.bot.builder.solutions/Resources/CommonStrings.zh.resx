@@ -222,4 +222,13 @@
   <data name="LoginDescription" xml:space="preserve">
     <value>请登陆您的{0}账户</value>
   </data>
+  <data name="FourthItem" xml:space="preserve">
+    <value>第四是{0};</value>
+  </data>
+  <data name="LastItem" xml:space="preserve">
+    <value>最后是{0};</value>
+  </data>
+  <data name="LatestItem" xml:space="preserve">
+    <value>最新的是{0};</value>
+  </data>
 </root>

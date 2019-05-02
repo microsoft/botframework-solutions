@@ -7,7 +7,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using AdaptiveCards;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
 
@@ -35,8 +34,8 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
                 {
                     try
                     {
-                        resourceAssembly = resourceAssembly.GetSatelliteAssembly(new CultureInfo(locale));
-                        LoadResponses(resourceName, resourceAssembly, locale);
+                        var localizedResourceAssembly = resourceAssembly.GetSatelliteAssembly(new CultureInfo(locale));
+                        LoadResponses(resourceName, localizedResourceAssembly, locale);
                     }
                     catch
                     {
@@ -68,7 +67,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
         /// <summary>
         /// Get a response with an Adaptive Card attachment.
         /// </summary>
-        /// <param name="card">The card to add to the response.</param
+        /// <param name="card">The card to add to the response.</param>
         /// <returns>An Activity.</returns>
         public Activity GetCardResponse(Card card)
         {
@@ -83,7 +82,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
         /// <summary>
         /// Get a response with a list of Adaptive Card attachments.
         /// </summary>
-        /// <param name="cards">The list of Adaptive Cards to add to the response.</param
+        /// <param name="cards">The list of Adaptive Cards to add to the response.</param>
         /// <param name="attachmentLayout">Optional AttachmentLayout for resulting activity.</param>
         /// <returns>An Activity.</returns>
         public Activity GetCardResponse(
@@ -107,7 +106,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
         /// Get a response from template with Text, Speak, InputHint, SuggestedActions, and an Adaptive Card attachment.
         /// </summary>
         /// <param name="templateId">The name of the response template.</param>
-        /// <param name="card">The card object to add to the response.</param
+        /// <param name="card">The card object to add to the response.</param>
         /// <param name="tokens">Optional StringDictionary of tokens to replace in the response.</param>
         /// <returns>An Activity.</returns>
         public Activity GetCardResponse(
@@ -128,7 +127,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
         /// Get a response from template with Text, Speak, InputHint, SuggestedActions, and a list of Adaptive Card attachments.
         /// </summary>
         /// <param name="templateId">The name of the response template.</param>
-        /// <param name="cards">The collection of Adaptive Cards to add to the response.</param
+        /// <param name="cards">The collection of Adaptive Cards to add to the response.</param>
         /// <param name="tokens">Optional StringDictionary of tokens to replace in the response.</param>
         /// <param name="attachmentLayout">Optional AttachmentLayout for the resulting activity.</param>
         /// <returns>An Activity.</returns>
@@ -156,7 +155,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
         /// Get a response from template with Text, Speak, InputHint, SuggestedActions, and a Card attachments with list items inside.
         /// </summary>
         /// <param name="templateId">The name of the response template.</param>
-        /// <param name="card">The main card container contains list.</param
+        /// <param name="card">The main card container contains list.</param>
         /// <param name="tokens">Optional StringDictionary of tokens to replace in the response.</param>
         /// <param name="containerName">Target container.</param>
         /// <param name="containerItems">Card list which will be injected to target container.</param>
@@ -211,7 +210,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
             // if no matching json file found for locale, try parent language
             if (key == null)
             {
-                locale = locale.Split("-")[0].ToLower();
+                locale = locale.Split('-')[0].ToLower();
                 key = GetJsonResponseKeyForLocale(templateId, locale);
 
                 // fall back to default
@@ -288,7 +287,10 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
 
                         foreach (var item in responses)
                         {
-                            localeResponses.TryAdd(item.Key, item.Value);
+                            if (!localeResponses.ContainsKey(item.Key))
+                            {
+                                localeResponses.Add(item.Key, item.Value);
+                            }
                         }
 
                         JsonResponses[localeKey] = localeResponses;
@@ -338,14 +340,14 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
                 Type = ActivityTypes.Message,
                 Text = reply.Text,
                 Speak = reply.Speak,
-                InputHint = template.InputHint
+                InputHint = template.InputHint,
             };
 
             if (template.SuggestedActions != null && template.SuggestedActions.Count() > 0)
             {
                 activity.SuggestedActions = new SuggestedActions
                 {
-                    Actions = new List<CardAction>()
+                    Actions = new List<CardAction>(),
                 };
 
                 foreach (var action in template.SuggestedActions)
@@ -419,7 +421,10 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
                 {
                     if (!tokens.ContainsKey(property.Name))
                     {
-                        tokens.Add(property.Name, property.GetValue(data)?.ToString());
+                        var escapedTokenStr = property.GetValue(data)?.ToString()?.Replace("\\", "\\\\");
+                        escapedTokenStr = escapedTokenStr?.Replace("\"", "\\\"");
+                        escapedTokenStr = escapedTokenStr?.Replace("\'", "\\\'");
+                        tokens.Add(property.Name, escapedTokenStr);
                     }
                 }
 

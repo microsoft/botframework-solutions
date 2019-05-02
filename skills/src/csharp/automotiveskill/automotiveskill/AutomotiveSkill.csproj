@@ -1,0 +1,137 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <UserSecretsId>6a3184c3-074e-45b9-ad93-eceb8268ec01</UserSecretsId>
+    <NoWarn>NU1701</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Content\AutomotiveCard.json" />
+    <Content Remove="Content\ListSelection.json" />
+    <Content Remove="Content\SettingChoice.json" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.4.0-RC4" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.4.0-RC4" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.4.0-RC4" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.4.0-RC4" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.4.0-RC4" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.4.0-RC4" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.4.0-RC4" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.4.0-RC4" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.4.0-preview49" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.0-preview49" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.4.0-RC4" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.4.0-RC4" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.4.0-RC4" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.4.0-RC4" />
+    <PackageReference Include="Microsoft.Graph" Version="1.12.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="SharpYaml" Version="1.6.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Responses\Main\AutomotiveSkillMainResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AutomotiveSkillMainResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\Shared\AutomotiveSkillSharedResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AutomotiveSkillSharedResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\VehicleSettings\VehicleSettingsResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>VehicleSettingsResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\VehicleSettings\VehicleSettingsStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>VehicleSettingsStrings.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Responses\VehicleSettings\VehicleSettingsStrings.resx">
+      <LastGenOutput>VehicleSettingsStrings.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="LocaleConfigurations\*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Content\AutomotiveCard.json" />
+    <EmbeddedResource Include="Data\available_settings.yaml" />
+    <EmbeddedResource Include="Data\setting_alternative_names.yaml" />
+    <EmbeddedResource Include="Data\normalization\amount_percentage.tsv" />
+    <EmbeddedResource Include="Data\normalization\amount_type.tsv" />
+    <EmbeddedResource Include="Data\normalization\amount_unit.tsv" />
+    <EmbeddedResource Include="Responses\Main\AutomotiveSkillMainResponses.json" />
+    <EmbeddedResource Include="Responses\Main\AutomotiveSkillMainResponses.zh.json" />
+    <EmbeddedResource Include="Responses\Main\AutomotiveSkillMainResponses.de.json" />
+    <EmbeddedResource Include="Responses\Main\AutomotiveSkillMainResponses.es.json" />
+    <EmbeddedResource Include="Responses\Main\AutomotiveSkillMainResponses.fr.json" />
+    <EmbeddedResource Include="Responses\Main\AutomotiveSkillMainResponses.it.json" />
+    <EmbeddedResource Include="Responses\Shared\AutomotiveSkillSharedResponses.json" />
+    <EmbeddedResource Include="Responses\Shared\AutomotiveSkillSharedResponses.zh.json" />
+    <EmbeddedResource Include="Responses\Shared\AutomotiveSkillSharedResponses.de.json" />
+    <EmbeddedResource Include="Responses\Shared\AutomotiveSkillSharedResponses.es.json" />
+    <EmbeddedResource Include="Responses\Shared\AutomotiveSkillSharedResponses.fr.json" />
+    <EmbeddedResource Include="Responses\Shared\AutomotiveSkillSharedResponses.it.json" />
+    <EmbeddedResource Include="Content\ListSelection.json" />
+    <EmbeddedResource Include="Content\SettingChoice.json" />
+    <EmbeddedResource Include="Responses\VehicleSettings\VehicleSettingsResponses.json" />
+    <EmbeddedResource Include="Responses\VehicleSettings\VehicleSettingsResponses.zh.json" />
+    <EmbeddedResource Include="Responses\VehicleSettings\VehicleSettingsResponses.de.json" />
+    <EmbeddedResource Include="Responses\VehicleSettings\VehicleSettingsResponses.es.json" />
+    <EmbeddedResource Include="Responses\VehicleSettings\VehicleSettingsResponses.fr.json" />
+    <EmbeddedResource Include="Responses\VehicleSettings\VehicleSettingsResponses.it.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\images\settingcog.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Responses\Main\AutomotiveSkillMainResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AutomotiveSkillMainResponses.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\AutomotiveSkillSharedResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AutomotiveSkillSharedResponses.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\ResponseIdCollection.t4">
+      <Generator></Generator>
+    </None>
+    <None Update="Responses\VehicleSettings\VehicleSettingsResponses.tt">
+      <LastGenOutput>VehicleSettingsResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+</Project>

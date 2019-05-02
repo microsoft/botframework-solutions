@@ -1,0 +1,61 @@
+{
+  "name": "generator-botbuilder-assistant",
+  "version": "1.0.0",
+  "description": "Project template for Virtual Assistant using the Bot Builder SDK V4.",
+  "homepage": "https://github.com/Microsoft/AI/tree/master/templates/Virtual-Assistant-Template/src/typescript",
+  "author": {
+    "name": "Microsoft"
+  },
+  "files": [
+    "generators",
+    "app",
+    ".gitignore",
+    ".npmignore"
+  ],
+  "main": "generators/app/index.js",
+  "keywords": [
+    "botbuilder",
+    "VA",
+    "bots",
+    "bot framework",
+    "Microsoft AI",
+    "yeoman-generator",
+    "Virtual Assistant"
+  ],
+  "devDependencies": {
+    "eslint": "^5.12.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-config-xo": "^0.26.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "mocha": "^6.1.4",
+    "prettier": "^1.15.3",
+    "yeoman-assert": "^3.1.1",
+    "yeoman-test": "^1.9.1"
+  },
+  "engines": {
+    "npm": ">= 4.0.0"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "lodash": "^4.17.11",
+    "npmignore": "^0.2.0",
+    "yeoman-generator": "^3.2.0"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "scripts": {
+    "test": "cd test/ && mocha --opts mocha.opts",
+    "pretest": "npm run lint",
+    "lint": "eslint .",
+    "lint-fix": "eslint --fix ."
+  },
+  "license": "MIT"
+}

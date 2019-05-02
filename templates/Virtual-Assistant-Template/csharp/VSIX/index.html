@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Getting Started</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            color: #1E1E1E;
+            font-size: 13px;
+            font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+            line-height: 1.45;
+            word-wrap: break-word;
+        }
+
+        /* General & 'Reset' Stuff */
+
+
+        .container {
+            width: 980px;
+            margin: 0 auto;
+        }
+
+        section {
+            display: block;
+            margin: 0;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            margin: 0;
+        }
+
+        /* Header, <header>
+           header   - container
+           h1       - project name
+           h2       - project description
+        */
+
+        #header {
+            color: #FFF;
+            background: #68217a;
+            position:relative;
+        }
+        #hangcloud {
+            width: 190px;
+            height: 160px;
+            background: url("../images/bannerart03.png");
+            position: absolute;
+            top: 0;
+            right: -30px;
+        }
+        h1, h2 {
+            font-family: "Segoe UI Light", "Segoe UI", Helvetica, Arial, sans-serif;
+            line-height: 1;
+            margin: 0 18px;
+            padding: 0;
+        }
+        #header h1 {
+            font-size: 3.4em;
+            padding-top: 18px;
+            font-weight: normal;
+            margin-left: 15px;
+        }
+
+        #header h2 {
+            font-size: 1.5em;
+            margin-top: 10px;
+            padding-bottom: 18px;
+            font-weight: normal;
+        }
+
+        #main_content {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: bolder;
+        }
+
+        #main_content h1 {
+            font-size: 1.8em;
+            margin-top: 34px;
+        }
+
+            #main_content h1:first-child {
+                margin-top: 30px;
+            }
+
+        #main_content h2 {
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+        p, ul {
+            margin: 11px 18px;
+        }
+
+        #main_content a {
+            color: #06C;
+            text-decoration: none;
+        }
+        ul {
+                margin-top: 13px;
+            margin-left: 18px;
+            padding-left: 0;
+        }
+            ul li {
+                margin-left: 18px;
+                padding-left: 0;
+            }
+        #lpanel {
+            width: 620px;
+            float: left;
+        }
+        #rpanel ul {
+            list-style-type: none;
+            width: 300px;
+        }
+            #rpanel ul li {
+                line-height: 1.8em;
+            }
+        #rpanel {
+            background: #e7e7e7;
+            width: 360px;
+                float: right;
+        }
+
+        #rpanel div {
+            width: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="header">
+            <h1>Getting Started</h1>
+            <h2>Visual Studio Extensions</h2>
+        </div>
+
+        <div id="main_content">
+            <div id="lpanel">
+                <h1>Creating a Visual Studio Extension</h1>
+
+                <p>This project enables developers to create an extension for Visual Studio. The solution contains a VSIX project that packages the extension into a VSIX file. This file is used to install an extension for Visual Studio.</p>
+                <h2>Add new features</h2>
+
+                <ol>
+                    <li>Right-click the project node in Solution Explorer and select Add&gt;New Item.</li>
+                    <li>In the Add New Item dialog box, expand the Extensibility node under Visual C# or Visual Basic.</li>
+                    <li>Choose from the available item templates: Visual Studio Package, Editor Items (Classifier, Margin, Text Adornment, Viewport Adornment), Command, Tool Window, Toolbox Control, and then click Add.</li>
+                </ol>
+
+                <p>The files for the template that you selected are added to the project. You can start adding functionality to your item template, press F5 to run the project, or add additional item templates.</p>
+
+                <h2>Run and debug</h2>
+                <p>To run the project, press F5. Visual Studio will:</p>
+
+                <ul>
+                    <li>Build the extension from the VSIX project.</li>
+                    <li>Create a VSIX package from the VSIX project.</li>
+                    <li>When debugging, start an experimental instance of Visual Studio with the VSIX package installed.</li>
+                </ul>
+
+                <p>In the experimental instance of Visual Studio you can test out the functionality of your extension without affecting your Visual Studio installation.</p>
+
+            </div>
+            <div id="rpanel">
+                <div>
+                    <h1>Visual Studio Extensibility Resources</h1>
+
+                    <ol>
+                        <li><a target="_blank" href="https://aka.ms/o5gv1m">Visual Studio documentation</a><br />Detailed documentation and API reference material for building extensions.</li>
+                        <li><a target="_blank" href="https://aka.ms/pauhge">Extension samples on GitHub</a><br />Use a sample project to kickstart your development.</li>
+                        <li><a target="_blank" href="https://aka.ms/l24u91">Extensibility chat room on Gitter</a><br />Meet other extension developers and exchange tips and tricks for extension development.</li>
+                        <li><a target="_blank" href="https://aka.ms/spn6s4">Channel 9 videos on extensibility</a><br />Watch videos from the product team on Visual Studio extensibility.</li>
+                        <li><a target="_blank" href="https://aka.ms/ui0qn6">Extensibility Tools</a><br />Install an optional helper tool that adds extra IDE support for extension authors.</li>
+                    </ol>
+                    <h1>Give us feedback</h1>
+                    <ul>
+                        <li><a target="_blank" href="https://aka.ms/uonulm">Submit a new feature idea or suggestion</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

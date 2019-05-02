@@ -1,0 +1,119 @@
+{
+  "PromptOneNameOneAddress": {
+    "replies": [
+      {
+        "text": "Okay, I will add {UserName}: {EmailAddress}. Is this the {UserName} you were looking for?",
+        "speak": "Okay, I will add {UserName}: {EmailAddress}. Is this the {UserName} you were looking for?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmMultipleContactNameSinglePage": {
+    "replies": [
+      {
+        "text": "I found multiple contacts for {UserName}. Which one would you like to select?",
+        "speak": "I found multiple contacts for {UserName}. Which one would you like to select?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmMultipleContactNameMultiPage": {
+    "replies": [
+      {
+        "text": "I found multiple contacts for {UserName}. Which one would you like to select? You can also ask me to show you the previous or more options.",
+        "speak": "I found multiple contacts for {UserName}. Which one would you like to select? You can also ask me to show you the previous or more options."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmMultiplContactEmailSinglePage": {
+    "replies": [
+      {
+        "text": "I found multiple contact details for {UserName}. Which one would you like to select?",
+        "speak": "I found multiple contact details for {UserName}. Which one would you like to select?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmMultiplContactEmailMultiPage": {
+    "replies": [
+      {
+        "text": "I found multiple contact details for {UserName}. Which one would you like to select? You can also ask me to show you the previous or more options.",
+        "speak": "I found multiple contacts for {UserName}. Which one would you like to select? You can also ask me to show you the previous or more options."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "UserNotFound": {
+    "replies": [
+      {
+        "text": "I could not find the \"{UserName}\" you are looking for. Can you call out the name of the contact again? Please try to be as specific as possible.",
+        "speak": "I could not find the \"{UserName}\" you are looking for. Can you call out the name of the contact again? Please try to be as specific as possible."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "UserNotFoundAgain": {
+    "replies": [
+      {
+        "text": "Unfortunately, I could not find the \"{UserName}\" you want to select. For next time, it could help if you add the contact to your contact book in {Source}.",
+        "speak": "Unfortunately, I could not find the \"{UserName}\" you want to select. For next time, it could help if you add the contact to your contact book in {Source}."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "BeforeSendingMessage": {
+    "replies": [
+      {
+        "text": "Okay, I understand you want to send the event to {NameList}.",
+        "speak": "Okay, I understand you want to send the event to {NameList}."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AlreadyFirstPage": {
+    "replies": [
+      {
+        "text": "This is already the first page.",
+        "speak": " "
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AlreadyLastPage": {
+    "replies": [
+      {
+        "text": "This is already the last page.",
+        "speak": " "
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoAttendees": {
+    "replies": [
+      {
+        "text": "Sure, who will join?",
+        "speak": "Sure, who will join?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AddMoreUserPrompt": {
+    "replies": [
+      {
+        "text": "I have included {Users}, do you want to add another participant?",
+        "speak": "I have included {Users}, do you want to add another participant?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AddMoreAttendees": {
+    "replies": [
+      {
+        "text": "Who do you want to add?",
+        "speak": "Who do you want to add?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}

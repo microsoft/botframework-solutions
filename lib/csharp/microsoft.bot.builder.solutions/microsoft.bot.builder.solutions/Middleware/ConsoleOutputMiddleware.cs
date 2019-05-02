@@ -15,7 +15,7 @@ namespace Microsoft.Bot.Builder.Solutions.Testing
         public async Task OnTurnAsync(ITurnContext context, NextDelegate next, CancellationToken cancellationToken = default(CancellationToken))
         {
             this.LogActivity(string.Empty, context.Activity);
-            context.OnSendActivities(this.OnSendActivities);
+            context.OnSendActivities(this.OnSendActivitiesAsync);
 
             await next(cancellationToken).ConfigureAwait(false);
         }
@@ -25,14 +25,14 @@ namespace Microsoft.Bot.Builder.Solutions.Testing
             return string.IsNullOrWhiteSpace(messageActivity.Text) ? messageActivity.Speak : messageActivity.Text;
         }
 
-        private async Task<ResourceResponse[]> OnSendActivities(ITurnContext context, List<Activity> activities, Func<Task<ResourceResponse[]>> next)
+        private async Task<ResourceResponse[]> OnSendActivitiesAsync(ITurnContext context, List<Activity> activities, Func<Task<ResourceResponse[]>> next)
         {
             foreach (var response in activities)
             {
                 this.LogActivity(string.Empty, response);
             }
 
-            return await next();
+            return await next().ConfigureAwait(false);
         }
 
         private void LogActivity(string prefix, Activity contextActivity)
