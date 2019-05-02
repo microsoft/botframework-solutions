@@ -110,7 +110,6 @@
           <ProjectItem ReplaceParameters="true" TargetFileName="template.json">template.json</ProjectItem>
         </Folder>
         <Folder Name="Scripts" TargetFolderName="Scripts">
-          <ProjectItem ReplaceParameters="false" TargetFileName="add_local_skill.ps1">add_local_skill.ps1</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="add_remote_skill.ps1">add_remote_skill.ps1</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="deploy.ps1">deploy.ps1</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="deploy_cognitive_models.ps1">deploy_cognitive_models.ps1</ProjectItem>

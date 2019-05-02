@@ -22,24 +22,27 @@ using $safeprojectname$.Services;
 namespace $safeprojectname$.Dialogs
 {
     public class MainDialog : RouterDialog
-    {
-        private BotSettings _settings;
-        private BotServices _services;
-        private MainResponses _responder = new MainResponses();
+{
+    private BotSettings _settings;
+    private BotServices _services;
+    private MainResponses _responder = new MainResponses();
+    private IStatePropertyAccessor<OnboardingState> _onboardingState;
 
-        public MainDialog(
-            BotSettings settings,
-            BotServices services,
-            OnboardingDialog onboardingDialog,
-            EscalateDialog escalateDialog,
-            CancelDialog cancelDialog,
-            List<SkillDialog> skillDialogs,
-            IBotTelemetryClient telemetryClient)
-            : base(nameof(MainDialog), telemetryClient)
-        {
-            _settings = settings;
-            _services = services;
-            TelemetryClient = telemetryClient;
+    public MainDialog(
+        BotSettings settings,
+        BotServices services,
+        OnboardingDialog onboardingDialog,
+        EscalateDialog escalateDialog,
+        CancelDialog cancelDialog,
+        List<SkillDialog> skillDialogs,
+        IBotTelemetryClient telemetryClient,
+        UserState userState)
+        : base(nameof(MainDialog), telemetryClient)
+    {
+        _settings = settings;
+        _services = services;
+        TelemetryClient = telemetryClient;
+        _onboardingState = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
 
             AddDialog(onboardingDialog);
             AddDialog(escalateDialog);
@@ -51,11 +54,20 @@ namespace $safeprojectname$.Dialogs
             }
         }
 
-        protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+    protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+    {
+        var view = new MainResponses();
+        var onboardingState = await _onboardingState.GetAsync(dc.Context, () => new OnboardingState());
+
+        if (string.IsNullOrEmpty(onboardingState.Name))
         {
-            var view = new MainResponses();
             await view.ReplyWith(dc.Context, MainResponses.ResponseIds.NewUserGreeting);
         }
+        else
+        {
+            await view.ReplyWith(dc.Context, MainResponses.ResponseIds.ReturningUserGreeting);
+        }
+    }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
