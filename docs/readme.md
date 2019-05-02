@@ -20,22 +20,26 @@
 
 High level overview into the Virtual Assistant, Skills and Analytics.
 
-|Name|Description|Link|
-|-------------|-----------|----|
-|Virtual Assistant|An introduction to the Virtual Assistant template and key concepts.|[Link](/docs/overview/virtualassistant.md)
-|Skills|Developers can compose conversational experiences by stitching together re-usable conversational capabilities, known as Skills.|[Link](/docs/overview/skills.md)
-|Analytics|Gain key insights into your bot’s health and behavior|[Link](/docs/overview/analytics.md)
+|Name|Description|
+|-------------|-----------|
+|[Virtual Assistant](/docs/overview/virtualassistant.md)|An introduction to the Virtual Assistant template and key concepts.|
+|[Skills](/docs/overview/skills.md)|Developers can compose conversational experiences by stitching together re-usable conversational capabilities, known as Skills.|
+|[Analytics](/docs/overview/analytics.md)|Gain key insights into your bot’s health and behavior|
 
 # Tutorials
 
 Create, Deploy and Customize your own Virtual Assistant and Skills in minutes.
 
-|Name|Description|Link|
-|-------------|-----------|----|
-|1. Create your Assistant in 10 minutes  |Creating your assistant using the Virtual Assistant template|[C#](/docs/tutorials/csharp/virtualassistant.md), [TS](/docs/tutorials/typescript/virtualassistant.md)
-|2. Customize your Assistant       |Personalize your assistant, change the name, branding, QnA| [C#](/docs/tutorials/csharp/customizeassistant.md), [TS](/docs/tutorials/typescript/customizeassistant.md)
-|3. Create and deploy a new Skill  |Creating a new Skill using the template|[C#](/docs/tutorials/csharp/skill.md), [TS](/docs/tutorials/typescript/skill.md)
-|4. Customize your skill           |Building your first skill| [C#](/docs/tutorials/csharp/customizeskill.md), [TS](/docs/tutorials/typescript/customizeassistant.md)
+|Name|Description|
+|-------------|-----------|
+|1. Create your Assistant in 10 minutes <br/> [C#](/docs/tutorials/csharp/virtualassistant.md)/[TypeScript](/docs/tutorials/typescript/virtualassistant.md) |Creating your assistant using the Virtual Assistant template|
+|2. Customize your Assistant <br/> [C#](/docs/tutorials/csharp/customizeassistant.md)/[TypeScript](/docs/tutorials/typescript/customizeassistant.md)|Personalize your assistant, change the name, branding, QnA| 
+|3. Create and deploy a new Skill <br/> [C#](/docs/tutorials/csharp/skill.md)/[TypeScript](/docs/tutorials/typescript/skill.md)|Creating a new Skill using the template|
+|4. Customize your skill <br/> <img src="./docs/media/csharp_icon.svg" width="48"> [C#](/docs/tutorials/csharp/customizeskill.md)/ <img src="./docs/media/typescript_icon.png" width="48"> [TypeScript](/docs/tutorials/typescript/customizeassistant.md) |Building your first skill| 
+
+<img src="./docs/media/typescript_icon.png" width="48">
+
+
 
 # Advanced Scenarios
 
