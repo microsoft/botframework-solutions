@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Schema;
 using SkillSample.Models;
-using SkillSample.Services;
-using Luis;
 using SkillSample.Responses.Shared;
-using Microsoft.Bot.Builder.Skills;
+using SkillSample.Services;
 
 namespace SkillSample.Dialogs
 {

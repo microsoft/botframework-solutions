@@ -9,6 +9,7 @@ Param(
     [string] $luisAuthoringKey,
 	[string] $luisAuthoringRegion,
     [string] $parametersFile,
+	[string] $languages = "en-us",
 	[string] $outFolder = $(Get-Location),
 	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_log.txt")
 )
@@ -146,12 +147,16 @@ if (Test-Path $(Join-Path $outFolder appsettings.json)) {
 else {
     $settings = New-Object PSObject
 }
+
 $settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppId' -Value $appId
 $settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppPassword' -Value $appPassword
-$settings | Add-Member -Type NoteProperty -Force -Name 'appInsights' -Value $outputs.appInsights.value
-$settings | Add-Member -Type NoteProperty -Force -Name 'blobStorage' -Value $outputs.storage.value
-$settings | Add-Member -Type NoteProperty -Force -Name 'cosmosDb' -Value $outputs.cosmosDb.value
+if ($outputs.appInsights) { $settings | Add-Member -Type NoteProperty -Force -Name 'appInsights' -Value $outputs.appInsights.value }
+if ($outputs.storage) { $settings | Add-Member -Type NoteProperty -Force -Name 'blobStorage' -Value $outputs.storage.value }
+if ($outputs.cosmosDb) { $settings | Add-Member -Type NoteProperty -Force -Name 'cosmosDb' -Value $outputs.cosmosDb.value }
+
 $settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $outFolder appsettings.json)
 
 # Deploy cognitive models
-Invoke-Expression "$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1') -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -outFolder $($outFolder)"
+Invoke-Expression "$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1') -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -outFolder $($outFolder) -languages `"$($languages)`""
+
+Write-Host "> Done."

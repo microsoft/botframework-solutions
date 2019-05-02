@@ -1,32 +1,32 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Linq;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Bot.Builder.ApplicationInsights;
-using Microsoft.ApplicationInsights;
-using Microsoft.Bot.Builder.BotFramework;
-using SkillSample.Bots;
-using Microsoft.AspNetCore.Mvc;
-using SkillSample.Dialogs;
-using SkillSample.Services;
-using Microsoft.Bot.Builder.Solutions.TaskExtensions;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using System.Linq;
-using SkillSample.Responses.Main;
-using SkillSample.Responses.Shared;
-using SkillSample.Responses.Sample;
-using Microsoft.Bot.Builder.Skills;
 using SkillSample.Adapters;
-using Microsoft.Bot.Builder.Solutions;
+using SkillSample.Bots;
+using SkillSample.Dialogs;
+using SkillSample.Responses.Main;
+using SkillSample.Responses.Sample;
+using SkillSample.Responses.Shared;
+using SkillSample.Services;
 
 namespace SkillSample
 {
