@@ -1,13 +1,16 @@
-﻿using AdaptiveCards;
-using Microsoft.Bot.Schema;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using $ext_safeprojectname$.Responses.Main;
-using $ext_safeprojectname$.Responses.Shared;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using AdaptiveCards;
+using Microsoft.Bot.Schema;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using $ext_safeprojectname$.Responses.Main;
+using $ext_safeprojectname$.Responses.Shared;
 
 namespace $safeprojectname$
 {
@@ -108,6 +111,5 @@ namespace $safeprojectname$
                 })
                 .StartTestAsync();
         }
-
     }
 }
