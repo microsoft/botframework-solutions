@@ -6,5 +6,5 @@
 import { ReceiveRequest } from 'microsoft-bot-protocol';
 
 export interface IRouteAction {
-    action(receiveRequest: ReceiveRequest, data: Object): Promise<Object>;
+    action(receiveRequest: ReceiveRequest, data: Object): Promise<Object|undefined>;
 }

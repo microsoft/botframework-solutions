@@ -6,9 +6,12 @@
 import { MicrosoftAppCredentials } from 'botframework-connector';
 
 export class MicrosoftAppCredentialsEx extends MicrosoftAppCredentials {
-    constructor(appId: string, password: string, oauthScope: string) {
+    constructor(appId: string, password: string, oauthScope?: string) {
         super(appId, password);
-        this.oAuthScope = oauthScope;
+        if (oauthScope) {
+            this.oAuthScope = oauthScope;
+        }
+        
         this.oAuthEndpoint = 'https://login.microsoftonline.com/microsoft.com';
     }
 }
