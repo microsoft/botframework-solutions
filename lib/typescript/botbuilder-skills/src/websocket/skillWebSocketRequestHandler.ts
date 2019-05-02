@@ -3,16 +3,16 @@
  * Licensed under the MIT License.
  */
 
-import { BotHandler, InvokeResponse } from 'botbuilder';
+import { InvokeResponse } from 'botbuilder';
 import { Activity } from 'botframework-schema';
 import { ReceiveRequest, Response, RequestHandler } from 'microsoft-bot-protocol';
-import { IActivityHandler } from '../activityHandler';
+import { IActivityHandler, BotCallbackHandler } from '../activityHandler';
 
 export class SkillWebSocketRequestHandler extends RequestHandler {
-    public bot: BotHandler;
+    public bot: BotCallbackHandler;
     public activityHandler: IActivityHandler;
 
-    constructor(activityHandler: IActivityHandler, bot: BotHandler) {
+    constructor(activityHandler: IActivityHandler, bot: BotCallbackHandler) {
         super();
         this.activityHandler = activityHandler;
         this.bot = bot;

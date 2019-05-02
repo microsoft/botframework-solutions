@@ -7,35 +7,33 @@ import { DefaultHttpClient, HttpClient, HttpOperationResponse, RequestPrepareOpt
 import { TurnContext } from 'botbuilder';
 import { ActivityExtensions, TokenEvents } from 'botbuilder-solutions';
 import { Activity, ActivityTypes } from 'botframework-schema';
-import { MicrosoftAppCredentialsEx } from '../auth';
+import { MicrosoftAppCredentials } from 'botframework-connector';
 import { ISkillManifest, SkillEvents } from '../models';
 import { ISkillTransport, TokenRequestHandler } from '../skillTransport';
 
 export class SkillHttpTransport implements ISkillTransport {
     private readonly httpClient: HttpClient;
     private readonly skillManifest: ISkillManifest;
-    private readonly appCredentials: MicrosoftAppCredentialsEx;
+    private readonly appCredentials: MicrosoftAppCredentials;
 
     /**
      * Http SkillTransport implementation
      */
-    constructor(skillManifest: ISkillManifest, appCredentials: MicrosoftAppCredentialsEx, httpClient?: HttpClient) {
-        if (!skillManifest) {
-            throw new Error('skillManifest has no value');
-        }
+    constructor(skillManifest: ISkillManifest, appCredentials: MicrosoftAppCredentials, httpClient?: HttpClient) {
+        if (!skillManifest) { throw new Error('skillManifest has no value'); }
         this.skillManifest = skillManifest;
 
-        if (!appCredentials) {
-            throw new Error('appCredentials has no value');
-        }
+        if (!appCredentials) { throw new Error('appCredentials has no value'); }
         this.appCredentials = appCredentials;
 
         this.httpClient = httpClient || new DefaultHttpClient();
     }
 
-    public async forwardToSkill(turnContext: TurnContext,
-                                activity: Partial<Activity>,
-                                tokenRequestHandler?: TokenRequestHandler): Promise<boolean> {
+    public async forwardToSkill(
+        turnContext: TurnContext,
+        activity: Partial<Activity>,
+        tokenRequestHandler?: TokenRequestHandler
+    ): Promise<boolean> {
         // Serialize the activity and POST to the Skill endpoint
         const requestOptions: RequestPrepareOptions = {
             method: 'POST',
@@ -44,7 +42,7 @@ export class SkillHttpTransport implements ISkillTransport {
         };
         const request: WebResource = new WebResource().prepare(requestOptions);
 
-        MicrosoftAppCredentialsEx.trustServiceUrl(this.skillManifest.endpoint);
+        MicrosoftAppCredentials.trustServiceUrl(this.skillManifest.endpoint);
         await this.appCredentials.signRequest(request);
 
         const response: HttpOperationResponse = await this.httpClient.sendRequest(request);
@@ -68,9 +66,7 @@ export class SkillHttpTransport implements ISkillTransport {
 
         // Retrieve Activity responses
         const skillResponses: Activity[] = responseBody.map(fixActivityTimestamp);
-
         const filteredResponses: Activity[] = [];
-
         let endOfConversation: boolean = false;
 
         skillResponses.forEach(async (skillResponse: Activity) => {
@@ -80,10 +76,7 @@ export class SkillHttpTransport implements ISkillTransport {
                 endOfConversation = true;
             } else if (skillResponse.name === TokenEvents.tokenRequestEventName) {
                 if (tokenRequestHandler) {
-                    const tokenResponseActivity: Activity|undefined = await tokenRequestHandler(skillResponse);
-                    if (tokenResponseActivity) {
-                        return this.forwardToSkill(turnContext, tokenResponseActivity);
-                    }
+                    await tokenRequestHandler(skillResponse);
                 }
             } else {
                 // Trace messages are not filtered out and are sent along with messages/events.

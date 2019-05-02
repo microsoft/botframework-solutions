@@ -3,9 +3,11 @@
  * Licensed under the MIT License.
  */
 
-import { InvokeResponse, BotHandler } from 'botbuilder';
+import { InvokeResponse, TurnContext } from 'botbuilder';
 import { Activity } from 'botframework-schema';
 
+export type BotCallbackHandler = (turnContext: TurnContext) => Promise<void>;
+
 export interface IActivityHandler {
-    processActivity(activity: Activity, callback: BotHandler): Promise<InvokeResponse>;
+    processActivity(activity: Activity, callback: BotCallbackHandler): Promise<InvokeResponse>;
 }

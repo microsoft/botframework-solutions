@@ -1,4 +1,4 @@
-import { BotAdapter, BotHandler, InvokeResponse, TurnContext } from 'botbuilder';
+import { BotAdapter, BotHandler, InvokeResponse, ResourceResponse, TurnContext } from 'botbuilder';
 import { IRemoteUserTokenProvider } from 'botbuilder-solutions';
 import { Activity, ConversationReference } from 'botframework-schema';
 import { IActivityHandler } from '../activityHandler';
@@ -8,7 +8,7 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
         super();
     }
 
-    public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<import("botframework-schema").ResourceResponse[]> {
+    public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         throw new Error("Method not implemented.");
     }
 
