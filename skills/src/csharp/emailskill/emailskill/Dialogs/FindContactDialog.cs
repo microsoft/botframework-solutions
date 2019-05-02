@@ -777,174 +777,6 @@ namespace EmailSkill.Dialogs
             }
         }
 
-        private async Task<PromptOptions> GenerateOptionsForEmail(WaterfallStepContext sc, PersonModel confirmedPerson, ITurnContext context, bool isSinglePage = true)
-        {
-            var state = await Accessor.GetAsync(sc.Context);
-            var pageIndex = state.FindContactInfor.ShowContactsIndex;
-            var pageSize = 3;
-            var skip = pageSize * pageIndex;
-            var emailList = confirmedPerson.Emails.ToList();
-
-            // Go back to the last page when reaching the end.
-            if (skip >= emailList.Count && pageIndex > 0)
-            {
-                state.FindContactInfor.ShowContactsIndex--;
-                pageIndex = state.FindContactInfor.ShowContactsIndex;
-                skip = pageSize * pageIndex;
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.AlreadyLastPage));
-            }
-
-            var options = new PromptOptions
-            {
-                Choices = new List<Choice>(),
-                Prompt = ResponseManager.GetResponse(FindContactResponses.ConfirmMultiplContactEmailSinglePage, new StringDictionary() { { "UserName", confirmedPerson.DisplayName } })
-            };
-
-            if (!isSinglePage)
-            {
-                options.Prompt = ResponseManager.GetResponse(FindContactResponses.ConfirmMultiplContactEmailMultiPage, new StringDictionary() { { "UserName", confirmedPerson.DisplayName } });
-            }
-
-            for (var i = 0; i < emailList.Count; i++)
-            {
-                var user = confirmedPerson;
-                var mailAddress = emailList[i] ?? user.UserPrincipalName;
-
-                var choice = new Choice()
-                {
-                    Value = $"{user.DisplayName}: {mailAddress}",
-                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
-                };
-                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
-                if (!string.IsNullOrEmpty(userName))
-                {
-                    choice.Synonyms.Add(userName);
-                    choice.Synonyms.Add(userName.ToLower());
-                }
-
-                if (skip <= 0)
-                {
-                    if (options.Choices.Count >= pageSize)
-                    {
-                        options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
-                        options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
-                        options.RetryPrompt = ResponseManager.GetResponse(FindContactResponses.DidntUnderstandMessage);
-                        return options;
-                    }
-
-                    options.Choices.Add(choice);
-                }
-                else
-                {
-                    skip--;
-                }
-            }
-
-            options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
-            options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
-            options.RetryPrompt = ResponseManager.GetResponse(FindContactResponses.DidntUnderstandMessage);
-            return options;
-        }
-
-        private string GetSelectPromptEmailString(PromptOptions selectOption, bool containNumbers)
-        {
-            var result = string.Empty;
-            for (var i = 0; i < selectOption.Choices.Count; i++)
-            {
-                var choice = selectOption.Choices[i];
-                result += "  ";
-                if (containNumbers)
-                {
-                    result += i + 1 + ": ";
-                }
-
-                result += choice.Value.Split(":").LastOrDefault() + "\r\n";
-            }
-
-            return result;
-        }
-
-        private async Task<PromptOptions> GenerateOptionsForName(WaterfallStepContext sc, List<PersonModel> unionList, ITurnContext context, bool isSinglePage = true)
-        {
-            var state = await Accessor.GetAsync(sc.Context);
-            var pageIndex = state.FindContactInfor.ShowContactsIndex;
-            var pageSize = 3;
-            var skip = pageSize * pageIndex;
-            var currentRecipientName = state.FindContactInfor.CurrentContactName;
-
-            // Go back to the last page when reaching the end.
-            if (skip >= unionList.Count && pageIndex > 0)
-            {
-                state.FindContactInfor.ShowContactsIndex--;
-                pageIndex = state.FindContactInfor.ShowContactsIndex;
-                skip = pageSize * pageIndex;
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.AlreadyLastPage));
-            }
-
-            var options = new PromptOptions
-            {
-                Choices = new List<Choice>(),
-                Prompt = ResponseManager.GetResponse(FindContactResponses.ConfirmMultipleContactNameSinglePage, new StringDictionary() { { "UserName", currentRecipientName } })
-            };
-
-            if (!isSinglePage)
-            {
-                options.Prompt = ResponseManager.GetResponse(FindContactResponses.ConfirmMultipleContactNameMultiPage, new StringDictionary() { { "UserName", currentRecipientName } });
-            }
-
-            for (var i = 0; i < unionList.Count; i++)
-            {
-                var user = unionList[i];
-
-                var choice = new Choice()
-                {
-                    Value = $"**{user.DisplayName}**",
-                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower() },
-                };
-                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
-                if (!string.IsNullOrEmpty(userName))
-                {
-                    choice.Synonyms.Add(userName);
-                    choice.Synonyms.Add(userName.ToLower());
-                }
-
-                if (skip <= 0)
-                {
-                    if (options.Choices.Count >= pageSize)
-                    {
-                        options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
-                        options.Prompt.Text = GetSelectPromptString(options, true);
-                        options.RetryPrompt = ResponseManager.GetResponse(FindContactResponses.DidntUnderstandMessage);
-                        return options;
-                    }
-
-                    options.Choices.Add(choice);
-                }
-                else
-                {
-                    skip--;
-                }
-            }
-
-            options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
-            options.Prompt.Text = GetSelectPromptString(options, true);
-            options.RetryPrompt = ResponseManager.GetResponse(FindContactResponses.DidntUnderstandMessage);
-            return options;
-        }
-
-        private async Task<string> GetNameListStringAsync(WaterfallStepContext sc)
-        {
-            var state = await Accessor.GetAsync(sc.Context);
-            var unionList = state.FindContactInfor.ContactsNameList.ToList();
-            if (unionList.Count == 1)
-            {
-                return unionList.First();
-            }
-
-            var nameString = string.Join(", ", unionList.ToArray().SkipLast(1)) + string.Format(CommonStrings.SeparatorFormat, CommonStrings.And) + unionList.Last();
-            return nameString;
-        }
-
         protected (List<PersonModel> formattedPersonList, List<PersonModel> formattedUserList) FormatRecipientList(List<PersonModel> personList, List<PersonModel> userList)
         {
             // Remove dup items
@@ -1115,6 +947,174 @@ namespace EmailSkill.Dialogs
             }
 
             return false;
+        }
+
+        private async Task<PromptOptions> GenerateOptionsForEmail(WaterfallStepContext sc, PersonModel confirmedPerson, ITurnContext context, bool isSinglePage = true)
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var pageIndex = state.FindContactInfor.ShowContactsIndex;
+            var pageSize = 3;
+            var skip = pageSize * pageIndex;
+            var emailList = confirmedPerson.Emails.ToList();
+
+            // Go back to the last page when reaching the end.
+            if (skip >= emailList.Count && pageIndex > 0)
+            {
+                state.FindContactInfor.ShowContactsIndex--;
+                pageIndex = state.FindContactInfor.ShowContactsIndex;
+                skip = pageSize * pageIndex;
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.AlreadyLastPage));
+            }
+
+            var options = new PromptOptions
+            {
+                Choices = new List<Choice>(),
+                Prompt = ResponseManager.GetResponse(FindContactResponses.ConfirmMultiplContactEmailSinglePage, new StringDictionary() { { "UserName", confirmedPerson.DisplayName } })
+            };
+
+            if (!isSinglePage)
+            {
+                options.Prompt = ResponseManager.GetResponse(FindContactResponses.ConfirmMultiplContactEmailMultiPage, new StringDictionary() { { "UserName", confirmedPerson.DisplayName } });
+            }
+
+            for (var i = 0; i < emailList.Count; i++)
+            {
+                var user = confirmedPerson;
+                var mailAddress = emailList[i] ?? user.UserPrincipalName;
+
+                var choice = new Choice()
+                {
+                    Value = $"{user.DisplayName}: {mailAddress}",
+                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower(), mailAddress },
+                };
+                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
+                if (!string.IsNullOrEmpty(userName))
+                {
+                    choice.Synonyms.Add(userName);
+                    choice.Synonyms.Add(userName.ToLower());
+                }
+
+                if (skip <= 0)
+                {
+                    if (options.Choices.Count >= pageSize)
+                    {
+                        options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
+                        options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
+                        options.RetryPrompt = ResponseManager.GetResponse(FindContactResponses.DidntUnderstandMessage);
+                        return options;
+                    }
+
+                    options.Choices.Add(choice);
+                }
+                else
+                {
+                    skip--;
+                }
+            }
+
+            options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
+            options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
+            options.RetryPrompt = ResponseManager.GetResponse(FindContactResponses.DidntUnderstandMessage);
+            return options;
+        }
+
+        private string GetSelectPromptEmailString(PromptOptions selectOption, bool containNumbers)
+        {
+            var result = string.Empty;
+            for (var i = 0; i < selectOption.Choices.Count; i++)
+            {
+                var choice = selectOption.Choices[i];
+                result += "  ";
+                if (containNumbers)
+                {
+                    result += i + 1 + ": ";
+                }
+
+                result += choice.Value.Split(":").LastOrDefault() + "\r\n";
+            }
+
+            return result;
+        }
+
+        private async Task<PromptOptions> GenerateOptionsForName(WaterfallStepContext sc, List<PersonModel> unionList, ITurnContext context, bool isSinglePage = true)
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var pageIndex = state.FindContactInfor.ShowContactsIndex;
+            var pageSize = 3;
+            var skip = pageSize * pageIndex;
+            var currentRecipientName = state.FindContactInfor.CurrentContactName;
+
+            // Go back to the last page when reaching the end.
+            if (skip >= unionList.Count && pageIndex > 0)
+            {
+                state.FindContactInfor.ShowContactsIndex--;
+                pageIndex = state.FindContactInfor.ShowContactsIndex;
+                skip = pageSize * pageIndex;
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.AlreadyLastPage));
+            }
+
+            var options = new PromptOptions
+            {
+                Choices = new List<Choice>(),
+                Prompt = ResponseManager.GetResponse(FindContactResponses.ConfirmMultipleContactNameSinglePage, new StringDictionary() { { "UserName", currentRecipientName } })
+            };
+
+            if (!isSinglePage)
+            {
+                options.Prompt = ResponseManager.GetResponse(FindContactResponses.ConfirmMultipleContactNameMultiPage, new StringDictionary() { { "UserName", currentRecipientName } });
+            }
+
+            for (var i = 0; i < unionList.Count; i++)
+            {
+                var user = unionList[i];
+
+                var choice = new Choice()
+                {
+                    Value = $"**{user.DisplayName}**",
+                    Synonyms = new List<string> { (options.Choices.Count + 1).ToString(), user.DisplayName, user.DisplayName.ToLower() },
+                };
+                var userName = user.UserPrincipalName?.Split("@").FirstOrDefault() ?? user.UserPrincipalName;
+                if (!string.IsNullOrEmpty(userName))
+                {
+                    choice.Synonyms.Add(userName);
+                    choice.Synonyms.Add(userName.ToLower());
+                }
+
+                if (skip <= 0)
+                {
+                    if (options.Choices.Count >= pageSize)
+                    {
+                        options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
+                        options.Prompt.Text = GetSelectPromptString(options, true);
+                        options.RetryPrompt = ResponseManager.GetResponse(FindContactResponses.DidntUnderstandMessage);
+                        return options;
+                    }
+
+                    options.Choices.Add(choice);
+                }
+                else
+                {
+                    skip--;
+                }
+            }
+
+            options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
+            options.Prompt.Text = GetSelectPromptString(options, true);
+            options.RetryPrompt = ResponseManager.GetResponse(FindContactResponses.DidntUnderstandMessage);
+            return options;
+        }
+
+        private async Task<string> GetNameListStringAsync(WaterfallStepContext sc)
+        {
+            var state = await Accessor.GetAsync(sc.Context);
+            var unionList = state.FindContactInfor.ContactsNameList.ToList();
+            if (unionList.Count == 1)
+            {
+                return unionList.First();
+            }
+
+            var nameString = string.Join(", ", unionList.ToArray().SkipLast(1)) + string.Format(CommonStrings.SeparatorFormat, CommonStrings.And) + unionList.Last();
+            return nameString;
         }
     }
 }
