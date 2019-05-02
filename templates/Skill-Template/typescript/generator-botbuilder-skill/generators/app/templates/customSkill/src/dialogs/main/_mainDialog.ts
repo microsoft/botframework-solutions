@@ -8,7 +8,7 @@ import {
     LocaleConfiguration,
     ResponseManager,
     RouterDialog,
-    SkillConfigurationBase } from 'botbuilder-solutions';
+    SkillConfigurationBase } from 'bot-solution';
 import {
     Activity,
     ActivityTypes,

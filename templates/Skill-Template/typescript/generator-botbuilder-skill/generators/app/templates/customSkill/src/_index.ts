@@ -15,7 +15,7 @@ import {
     SkillConfiguration,
     SkillDefinition,
     TelemetryExtensions
-} from 'botbuilder-solutions';
+} from 'bot-solution';
 import {
     AutoSaveStateMiddleware,
     BotFrameworkAdapter,

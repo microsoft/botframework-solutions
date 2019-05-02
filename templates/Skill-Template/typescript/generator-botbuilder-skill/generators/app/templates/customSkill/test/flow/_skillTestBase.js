@@ -9,7 +9,7 @@ const i18next = require('i18next');
 const i18nextNodeFsBackend = require('i18next-node-fs-backend');
 const path = require('path');
 const <%=skillTemplateName%> = require('../../lib/<%=skillTemplateNameFile%>').<%=skillTemplateName%>;
-const { Locales, SkillConfiguration, SkillDefinition } = require('botbuilder-solutions');
+const { Locales, SkillConfiguration, SkillDefinition } = require('bot-solution');
 const TEST_MODE = require('../testBase').testMode;
 let languageModelsRaw;
 let skillsRaw;

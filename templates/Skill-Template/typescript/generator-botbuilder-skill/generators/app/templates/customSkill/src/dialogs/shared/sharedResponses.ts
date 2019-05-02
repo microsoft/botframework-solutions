@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { IResponseIdCollection } from 'botbuilder-solutions';
+import { IResponseIdCollection } from 'bot-solution';
 import { join } from 'path';
 /**
  * Contains bot responses.

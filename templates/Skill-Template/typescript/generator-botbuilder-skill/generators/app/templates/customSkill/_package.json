@@ -18,7 +18,7 @@
     },
     "dependencies": {
         "applicationinsights": "^1.0.4",
-        "botbuilder-solutions": "^1.0.0",
+        "bot-solution": "^1.0.0",
         "botbuilder": "^4.2.1",
         "botbuilder-ai": "^4.2.1",
         "botbuilder-azure": "4.2.1",

@@ -3,7 +3,7 @@
 
 import {
         ResponseManager,
-        SkillConfigurationBase } from 'botbuilder-solutions';
+        SkillConfigurationBase } from 'bot-solution';
 import {
         BotTelemetryClient,
         StatePropertyAccessor } from 'botbuilder';

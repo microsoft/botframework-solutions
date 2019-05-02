@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-import { ResponseManager, SkillConfigurationBase } from 'botbuilder-solutions';
+import { ResponseManager, SkillConfigurationBase } from 'bot-solution';
 import { BotTelemetryClient, ConversationState, UserState } from 'botbuilder';
 import { TurnContext } from 'botbuilder-core';
 import { DialogSet } from 'botbuilder-dialogs';
