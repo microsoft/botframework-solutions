@@ -27,12 +27,6 @@ namespace VirtualAssistantSample.Tests
                 .AssertReply(OnboardingStrings.NAME_PROMPT)
                 .Send(testName)
                 .AssertReply(string.Format(OnboardingStrings.HAVE_NAME, testName))
-                .AssertReply(OnboardingStrings.EMAIL_PROMPT)
-                .Send(testEmail)
-                .AssertReply(string.Format(OnboardingStrings.HAVE_EMAIL, testEmail))
-                .AssertReply(OnboardingStrings.LOCATION_PROMPT)
-                .Send(testLocation)
-                .AssertReply(string.Format(OnboardingStrings.HAVE_LOCATION, testName, testLocation))
                 .StartTestAsync();
         }
     }

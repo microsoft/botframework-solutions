@@ -15,6 +15,7 @@ using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json.Linq;
+using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Responses.Cancel;
 using VirtualAssistantSample.Responses.Main;
 using VirtualAssistantSample.Services;
