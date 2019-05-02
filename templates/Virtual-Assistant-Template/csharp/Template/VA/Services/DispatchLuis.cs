@@ -10,14 +10,15 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public class DispatchLuis: IRecognizerConvert
+    public class DispatchLuis : IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
-        public enum Intent {
-            l_general, 
-            q_chitchat, 
-            q_faq, 
+        public enum Intent
+        {
+            l_general,
+            q_chitchat,
+            q_faq,
             None
         };
         public Dictionary<Intent, IntentScore> Intents;
@@ -35,7 +36,7 @@ namespace Luis
         public _Entities Entities;
 
         [JsonExtensionData(ReadData = true, WriteData = true)]
-        public IDictionary<string, object> Properties {get; set; }
+        public IDictionary<string, object> Properties { get; set; }
 
         public void Convert(dynamic result)
         {

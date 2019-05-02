@@ -15,6 +15,7 @@ using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json.Linq;
+using $safeprojectname$.Models;
 using $safeprojectname$.Responses.Cancel;
 using $safeprojectname$.Responses.Main;
 using $safeprojectname$.Services;
@@ -22,27 +23,27 @@ using $safeprojectname$.Services;
 namespace $safeprojectname$.Dialogs
 {
     public class MainDialog : RouterDialog
-{
-    private BotSettings _settings;
-    private BotServices _services;
-    private MainResponses _responder = new MainResponses();
-    private IStatePropertyAccessor<OnboardingState> _onboardingState;
-
-    public MainDialog(
-        BotSettings settings,
-        BotServices services,
-        OnboardingDialog onboardingDialog,
-        EscalateDialog escalateDialog,
-        CancelDialog cancelDialog,
-        List<SkillDialog> skillDialogs,
-        IBotTelemetryClient telemetryClient,
-        UserState userState)
-        : base(nameof(MainDialog), telemetryClient)
     {
-        _settings = settings;
-        _services = services;
-        TelemetryClient = telemetryClient;
-        _onboardingState = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
+        private BotSettings _settings;
+        private BotServices _services;
+        private MainResponses _responder = new MainResponses();
+        private IStatePropertyAccessor<OnboardingState> _onboardingState;
+
+        public MainDialog(
+            BotSettings settings,
+            BotServices services,
+            OnboardingDialog onboardingDialog,
+            EscalateDialog escalateDialog,
+            CancelDialog cancelDialog,
+            List<SkillDialog> skillDialogs,
+            IBotTelemetryClient telemetryClient,
+            UserState userState)
+            : base(nameof(MainDialog), telemetryClient)
+        {
+            _settings = settings;
+            _services = services;
+            TelemetryClient = telemetryClient;
+            _onboardingState = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
 
             AddDialog(onboardingDialog);
             AddDialog(escalateDialog);
@@ -54,20 +55,20 @@ namespace $safeprojectname$.Dialogs
             }
         }
 
-    protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
-    {
-        var view = new MainResponses();
-        var onboardingState = await _onboardingState.GetAsync(dc.Context, () => new OnboardingState());
+        protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var view = new MainResponses();
+            var onboardingState = await _onboardingState.GetAsync(dc.Context, () => new OnboardingState());
 
-        if (string.IsNullOrEmpty(onboardingState.Name))
-        {
-            await view.ReplyWith(dc.Context, MainResponses.ResponseIds.NewUserGreeting);
+            if (string.IsNullOrEmpty(onboardingState.Name))
+            {
+                await view.ReplyWith(dc.Context, MainResponses.ResponseIds.NewUserGreeting);
+            }
+            else
+            {
+                await view.ReplyWith(dc.Context, MainResponses.ResponseIds.ReturningUserGreeting);
+            }
         }
-        else
-        {
-            await view.ReplyWith(dc.Context, MainResponses.ResponseIds.ReturningUserGreeting);
-        }
-    }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -84,7 +85,7 @@ namespace $safeprojectname$.Dialogs
 
             if (identifiedSkill != null)
             {
-                // We have identiifed a skill so initialize the skill connection with the target skill 
+                // We have identiifed a skill so initialize the skill connection with the target skill
                 await dc.BeginDialogAsync(identifiedSkill.Id);
 
                 // Pass the activity we have
@@ -207,6 +208,7 @@ namespace $safeprojectname$.Dialogs
                             forward = true;
                             break;
                         }
+
                     default:
                         {
                             await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event {ev.Name} was received but not processed."));
@@ -260,10 +262,12 @@ namespace $safeprojectname$.Dialogs
                                 {
                                     return await OnCancel(dc);
                                 }
+
                             case GeneralLuis.Intent.Help:
                                 {
                                     return await OnHelp(dc);
                                 }
+
                             case GeneralLuis.Intent.Logout:
                                 {
                                     return await OnLogout(dc);
