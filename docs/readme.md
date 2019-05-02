@@ -31,14 +31,11 @@ High level overview into the Virtual Assistant, Skills and Analytics.
 Create, Deploy and Customize your own Virtual Assistant and Skills in minutes.
 
 |Name|Description|
-|-------------|-----------|
-|1. Create your Assistant in 10 minutes <br/> [C#](/docs/tutorials/csharp/virtualassistant.md)/[TypeScript](/docs/tutorials/typescript/virtualassistant.md) |Creating your assistant using the Virtual Assistant template|
-|2. Customize your Assistant <br/> [C#](/docs/tutorials/csharp/customizeassistant.md)/[TypeScript](/docs/tutorials/typescript/customizeassistant.md)|Personalize your assistant, change the name, branding, QnA| 
-|3. Create and deploy a new Skill <br/> [C#](/docs/tutorials/csharp/skill.md)/[TypeScript](/docs/tutorials/typescript/skill.md)|Creating a new Skill using the template|
-|4. Customize your skill <br/> <img src="./docs/media/csharp_icon.svg" width="48"> [C#](/docs/tutorials/csharp/customizeskill.md)/ <img src="./docs/media/typescript_icon.png" width="48"> [TypeScript](/docs/tutorials/typescript/customizeassistant.md) |Building your first skill| 
-
-<img src="./docs/media/typescript_icon.png" width="48">
-
+|------------|-----------|
+|1. Create your Assistant in 10 minutes <br/> <center>[![Create your Assistant in 10 minutes with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/virtualassistant.md) [![Create your Assistant in 10 minutes with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/virtualassistant.md)</center>|Creating your assistant using the Virtual Assistant template|
+|2. Customize your Assistant <br/> <center>[![Customize your Assistant with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeassistant.md) [![Customize your Assistant with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/customizeassistant.md)</center>|Personalize your assistant, change the name, branding, QnA| 
+|3. Create and deploy a new Skill <br/> <center>[![Create and deploy a new Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/skill.md) [![Create and deploy a new Skill with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/skill.md)</center>|Creating a new Skill using the template|
+|4. Customize your Skill <br/> <center>[![Customize your Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeskill.md) [![Customize your Skill with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/customizeassistant.md)</center> |Building your first skill| 
 
 
 # Advanced Scenarios
