@@ -7,8 +7,9 @@ import * as program from 'commander';
 import { existsSync } from 'fs';
 import { extname, isAbsolute, join, resolve } from 'path';
 import { connectSkill } from './functionality';
-import { ConsoleLogger, ILogger } from './logger/logger';
-import { IConnectConfiguration } from './models';
+import { ConsoleLogger, ILogger } from './logger';
+import { ICognitiveModelFile, IConnectConfiguration } from './models';
+import { validatePairOfArgs } from './utils';
 
 function showErrorHelp(): void {
     program.outputHelp((str: string) => {
@@ -59,18 +60,15 @@ logger.isVerbose = args.verbose;
 let projectLanguage: string = '';
 
 // cs and ts validation
-if (args.cs && args.ts) {
-    logger.error(`Only one of the arguments 'cs' and 'ts' should be provided`);
-    process.exit(1);
-} else if (args.cs) {
-    projectLanguage = 'cs';
-} else if (args.ts || existsSync(join(resolve('./'), 'package.json'))) {
-    projectLanguage = 'ts';
-    args.ts = true;
-} else if (!args.cs && !args.ts) {
-    logger.error(`One of the arguments 'cs' or 'ts' should be provided`);
+const csAndTsValidationResult: string = validatePairOfArgs(args.cs, args.ts);
+if (csAndTsValidationResult) {
+    logger.error(
+        csAndTsValidationResult.replace('{0}', 'cs')
+        .replace('{1}', 'ts')
+    );
     process.exit(1);
 }
+projectLanguage = args.cs ? 'cs' : 'ts';
 
 // Validation of arguments
 // botName validation
@@ -80,13 +78,15 @@ if (!args.botName) {
 }
 
 // localManifest && remoteManifest validation
-if (!args.localManifest && !args.remoteManifest) {
-    logger.error(`One of the arguments 'localManifest' or 'remoteManifest' should be provided.`);
+const manifestValidationResult: string = validatePairOfArgs(args.localManifest, args.remoteManifest);
+if (manifestValidationResult) {
+    logger.error(
+        manifestValidationResult.replace('{0}', 'localManifest')
+        .replace('{1}', 'remoteManifest')
+    );
     process.exit(1);
-} else if (args.localManifest && args.remoteManifest) {
-    logger.error(`Only one of the arguments 'localManifest' or 'remoteManifest' should be provided.`);
-    process.exit(1);
-} else if (args.localManifest && extname(args.localManifest) !== '.json') {
+}
+if (args.localManifest && extname(args.localManifest) !== '.json') {
     logger.error(`The 'localManifest' argument should be a path to a JSON file.`);
     process.exit(1);
 }
@@ -156,13 +156,3 @@ configuration.logger = logger;
 // End of arguments validation
 
 connectSkill(<IConnectConfiguration> configuration);
-
-interface ICognitiveModelFile {
-    cognitiveModels: {
-        [key: string]: {
-            dispatchModel: {
-                name: string;
-            };
-        };
-    };
-}

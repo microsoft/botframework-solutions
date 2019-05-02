@@ -10,8 +10,10 @@ export {
     IOauthConnection,
     IResourceAccess,
     IScopeManifest } from './authentication';
+export { ICognitiveModelFile } from './cognitiveFile';
 export { IConnectConfiguration } from './connectConfiguration';
 export { IDisconnectConfiguration } from './disconnectConfiguration';
+export { IDispatchFile, IDispatchService } from './dispatchFile';
 export { IListConfiguration } from './listConfiguration';
 export { ISkillFIle } from './skillFile';
 export {

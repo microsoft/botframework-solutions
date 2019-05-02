@@ -16,12 +16,16 @@ export async function listSkill(configuration: IListConfiguration): Promise<void
     const assistantSkillsFile: ISkillFIle = require(configuration.skillsFile);
     const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills;
 
-    let message: string = `The skills already connected to the assistant are the following:`;
-    assistantSkills.forEach((skillManifest: ISkillManifest) => {
-        message += `\n\t- ${skillManifest.name}`;
-    });
+    if (assistantSkills.length < 1) {
+        logger.message('There are no Skills connected to the assistant.');
+    } else {
+        let message: string = `The skills already connected to the assistant are the following:`;
+        assistantSkills.forEach((skillManifest: ISkillManifest) => {
+            message += `\n\t- ${skillManifest.name}`;
+        });
 
-    logger.message(message);
+        logger.message(message);
+    }
 }
 
 let logger: ILogger = new ConsoleLogger();

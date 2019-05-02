@@ -5,3 +5,4 @@
 
 export { execute, extractArgs, spawn, tryExecute } from './childProcessUtils';
 export { authenticate } from './authenticationUtils';
+export { validatePairOfArgs } from './validationUtils';

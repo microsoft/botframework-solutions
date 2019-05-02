@@ -6,7 +6,14 @@
 import { ILogger } from '../logger';
 
 export interface IDisconnectConfiguration {
-    skillName: string;
+    skillId: string;
     skillsFile: string;
+    outFolder: string;
+    cognitiveModelsFile: string;
+    language: string;
+    luisFolder: string;
+    dispatchFolder: string;
+    lgOutFolder: string;
+    dispatchName: string;
     logger?: ILogger;
 }

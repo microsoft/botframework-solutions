@@ -109,7 +109,7 @@ async function updateDispatch(configuration: IConnectConfiguration, manifest: IS
 
         let dispatchAddCommand: string = `dispatch add `;
         dispatchAddCommand += `--type file `;
-        dispatchAddCommand += `--name ${configuration.dispatchName} `;
+        dispatchAddCommand += `--name ${manifest.id} `;
         dispatchAddCommand += `--filePath ${join(configuration.luisFolder, luisFile)} `;
         dispatchAddCommand += `--intentName ${intentName} `;
         dispatchAddCommand += `--dataFolder ${configuration.dispatchFolder} `;

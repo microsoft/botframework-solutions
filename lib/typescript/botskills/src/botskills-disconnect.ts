@@ -8,7 +8,8 @@ import { existsSync } from 'fs';
 import { extname, isAbsolute, join, resolve } from 'path';
 import { disconnectSkill } from './functionality';
 import { ConsoleLogger, ILogger} from './logger';
-import { IDisconnectConfiguration } from './models';
+import { ICognitiveModelFile, IDisconnectConfiguration } from './models';
+import { validatePairOfArgs } from './utils';
 
 function showErrorHelp(): void {
     program.outputHelp((str: string) => {
@@ -26,16 +27,24 @@ program.Command.prototype.unknownOption = (flag: string): void => {
     showErrorHelp();
 };
 
+// tslint:disable: max-line-length
 program
     .name('botskills disconnect')
-    .description('Disconnect a specific skill from your assitant bot')
-    .option('-n, --skillName <name>', 'Name or id of the skill to remove from your assistant')
-    .option('-f, --skillsFile <path>', 'Path to the assistant Skills configuration file')
+    .description('Disconnect a specific skill from your assitant bot.  Only one of both id or name of the Skill is needed.')
+    .option('-i, --skillId <id>', 'Id of the skill to remove from your assistant')
+    .option('--dispatchName [name]', '[OPTIONAL] Name of your assistant\'s \'.dispatch\' file (defaults to the name displayed in your Cognitive Models file)')
+    .option('--language [language]', '[OPTIONAL] Locale used for LUIS culture (defaults to \'en-us\')')
+    .option('--luisFolder [path]', '[OPTIONAL] Path to the folder containing your Skills\' .lu files (defaults to \'./deployment/resources/skills/en\' inside your assistant folder)')
+    .option('--dispatchFolder [path]', '[OPTIONAL] Path to the folder containing your assistant\'s \'.dispatch\' file (defaults to \'./deployment/resources/dispatch/en\' inside your assistant folder)')
+    .option('--outFolder [path]', '[OPTIONAL] Path for any output file that may be generated (defaults to your assistant\'s root folder)')
+    .option('--lgOutFolder [path]', '[OPTIONAL] Path for the LuisGen output (defaults to a \'service\' folder inside your assistant\'s folder)')
+    .option('--skillsFile [path]', '[OPTIONAL] Path to your assistant Skills configuration file (defaults to the \'skills.json\' inside your assistant\'s folder)')
+    .option('--cognitiveModelsFile [path]', '[OPTIONAL] Path to your Cognitive Models file (defaults to \'cognitivemodels.json\' inside your assistant\'s folder)')
     .option('--cs', 'Determine your assistant project structure to be a CSharp-like structure')
     .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
     .option('--verbose', '[OPTIONAL] Output detailed information about the processing of the tool')
     .action((cmd: program.Command, actions: program.Command) => undefined);
-
+// tslint:enable: max-line-length
 const args: program.Command = program.parse(process.argv);
 
 if (process.argv.length < 3) {
@@ -44,43 +53,73 @@ if (process.argv.length < 3) {
 
 logger.isVerbose = args.verbose;
 
-// cs and ts validation
-if (args.cs && args.ts) {
-    logger.error(`Only one of the arguments 'cs' and 'ts' should be provided`);
-    process.exit(1);
-} else if (!args.cs && existsSync(join(resolve('./'), 'package.json'))) {
-    args.ts = true;
-} else if (!args.cs && !args.ts) {
-    logger.error(`One of the arguments 'cs' or 'ts' should be provided`);
-    process.exit(1);
-}
-
 // Validation of arguments
-// skillsFile validation
-if (!args.skillsFile) {
-    args.skillsFile = args.ts ? join('src', 'skills.json') : 'skills.json';
-} else if (extname(args.skillsFile) !== '.json') {
-    logger.error(`The 'skillsFile' argument should be a JSON file.`);
-    process.exit(1);
-}
-const skillsFilePath: string = isAbsolute(args.skillsFile) ? args.skillsFile : join(resolve('./'), args.skillsFile);
-logger.message(join(resolve('./'), args.skillsFile));
-if (!existsSync(skillsFilePath)) {
+// cs and ts validation
+const csAndTsValidationResult: string = validatePairOfArgs(args.cs, args.ts);
+if (csAndTsValidationResult) {
     logger.error(
-    `The 'skillsFile' argument leads to a non-existing file.
-Please make sure to provide a valid path to your Assistant Skills configuration file.`);
+        csAndTsValidationResult.replace('{0}', 'cs')
+        .replace('{1}', 'ts')
+    );
     process.exit(1);
 }
 
-// skillName validation
-if (!args.skillName) {
-    logger.error(`The 'skillName' argument should be provided.`);
+// skillId validation
+if (!args.skillId) {
+    logger.error(`The 'skillId' argument should be provided.`);
     process.exit(1);
 }
-const configuration: IDisconnectConfiguration = {
-    skillName: args.skillName,
-    skillsFile: skillsFilePath,
+
+const configuration: Partial<IDisconnectConfiguration> = {
+    skillId: args.skillId,
     logger: logger
 };
 
-disconnectSkill(configuration);
+// outFolder validation -- the const is needed for reassuring 'configuration.outFolder' is not undefined
+const outFolder: string = args.outFolder || resolve('./');
+configuration.outFolder = outFolder;
+
+// skillsFile validation
+if (!args.skillsFile) {
+    configuration.skillsFile = join(configuration.outFolder, (args.ts ? join('src', 'skills.json') : 'skills.json'));
+} else if (extname(args.skillsFile) !== '.json') {
+    logger.error(`The 'skillsFile' argument should be a JSON file.`);
+    process.exit(1);
+} else {
+    const skillsFilePath: string = isAbsolute(args.skillsFile) ? args.skillsFile : join(resolve('./'), args.skillsFile);
+    if (!existsSync(skillsFilePath)) {
+        logger.error(`The 'skillsFile' argument leads to a non-existing file.
+            Please make sure to provide a valid path to your Assistant Skills configuration file.`);
+        process.exit(1);
+    }
+    configuration.skillsFile = skillsFilePath;
+}
+
+// cognitiveModelsFile validation
+const cognitiveModelsFilePath: string = args.cognitiveModelsFile || join(
+    configuration.outFolder, (args.ts ? join('src', 'cognitivemodels.json') : 'cognitivemodels.json'));
+configuration.cognitiveModelsFile = cognitiveModelsFilePath;
+
+// language validation
+const language: string = args.language || 'en-us';
+configuration.language = language;
+const languageCode: string = (language.split('-'))[0];
+
+// luisFolder validation
+configuration.luisFolder = args.luisFolder || join(configuration.outFolder, 'Deployment', 'Resources', 'Skills', languageCode);
+
+// dispatchFolder validation
+configuration.dispatchFolder = args.dispatchFolder || join(configuration.outFolder, 'Deployment', 'Resources', 'Dispatch', languageCode);
+
+// lgOutFolder validation
+configuration.lgOutFolder = args.lgOutFolder || join(configuration.outFolder, (args.ts ? join('src', 'Services') : 'Services'));
+
+// dispatchName validation
+if (!args.dispatchName) {
+    // try get the dispatch name from the cognitiveModels file
+    // tslint:disable-next-line
+    const cognitiveModelsFile: ICognitiveModelFile = require(cognitiveModelsFilePath);
+    configuration.dispatchName = cognitiveModelsFile.cognitiveModels[languageCode].dispatchModel.name;
+}
+
+disconnectSkill(<IDisconnectConfiguration> configuration);

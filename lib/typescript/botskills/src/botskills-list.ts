@@ -9,6 +9,7 @@ import { extname, isAbsolute, join, resolve } from 'path';
 import { listSkill } from './functionality';
 import { ConsoleLogger, ILogger} from './logger';
 import { IListConfiguration } from './models';
+import { validatePairOfArgs } from './utils';
 
 function showErrorHelp(): void {
     program.outputHelp((str: string) => {
@@ -40,13 +41,12 @@ const args: program.Command = program.parse(process.argv);
 logger.isVerbose = args.verbose;
 
 // cs and ts validation
-if (args.cs && args.ts) {
-    logger.error(`Only one of the arguments 'cs' and 'ts' should be provided`);
-    process.exit(1);
-} else if (!args.cs && existsSync(join(resolve('./'), 'package.json'))) {
-    args.ts = true;
-} else if (!args.cs && !args.ts) {
-    logger.error(`One of the arguments 'cs' or 'ts' should be provided`);
+const csAndTsValidationResult: string = validatePairOfArgs(args.cs, args.ts);
+if (csAndTsValidationResult) {
+    logger.error(
+        csAndTsValidationResult.replace('{0}', 'cs')
+        .replace('{1}', 'ts')
+    );
     process.exit(1);
 }
 
