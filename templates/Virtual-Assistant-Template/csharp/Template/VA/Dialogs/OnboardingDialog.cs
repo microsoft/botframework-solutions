@@ -19,19 +19,17 @@ namespace $safeprojectname$.Dialogs
 
         public OnboardingDialog(
             BotServices botServices,
-            ConversationState conversationState,
+            UserState userState,
             IBotTelemetryClient telemetryClient)
             : base(nameof(OnboardingDialog))
         {
-            _accessor = conversationState.CreateProperty<OnboardingState>(nameof(OnboardingState));
+            _accessor = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             InitialDialogId = nameof(OnboardingDialog);
 
             var onboarding = new WaterfallStep[]
             {
-                AskForName,
-                AskForEmail,
-                AskForLocation,
-                FinishOnboardingDialog,
+                    AskForName,
+                    FinishOnboardingDialog,
             };
 
             // To capture built-in waterfall dialog telemetry, set the telemetry client 
@@ -39,8 +37,6 @@ namespace $safeprojectname$.Dialogs
             TelemetryClient = telemetryClient;
             AddDialog(new WaterfallDialog(InitialDialogId, onboarding) { TelemetryClient = telemetryClient });
             AddDialog(new TextPrompt(DialogIds.NamePrompt));
-            AddDialog(new TextPrompt(DialogIds.EmailPrompt));
-            AddDialog(new TextPrompt(DialogIds.LocationPrompt));
         }
 
         public async Task<DialogTurnResult> AskForName(WaterfallStepContext sc, CancellationToken cancellationToken)
@@ -60,46 +56,18 @@ namespace $safeprojectname$.Dialogs
             }
         }
 
-        public async Task<DialogTurnResult> AskForEmail(WaterfallStepContext sc, CancellationToken cancellationToken)
+        public async Task<DialogTurnResult> FinishOnboardingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
             var name = _state.Name = (string)sc.Result;
 
             await _responder.ReplyWith(sc.Context, OnboardingResponses.ResponseIds.HaveNameMessage, new { name });
-
-            return await sc.PromptAsync(DialogIds.EmailPrompt, new PromptOptions()
-            {
-                Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, OnboardingResponses.ResponseIds.EmailPrompt),
-            });
-        }
-
-        public async Task<DialogTurnResult> AskForLocation(WaterfallStepContext sc, CancellationToken cancellationToken)
-        {
-            _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
-            var email = _state.Email = (string)sc.Result;
-
-            await _responder.ReplyWith(sc.Context, OnboardingResponses.ResponseIds.HaveEmailMessage, new { email });
-
-            return await sc.PromptAsync(DialogIds.LocationPrompt, new PromptOptions()
-            {
-                Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, OnboardingResponses.ResponseIds.LocationPrompt),
-            });
-        }
-
-        public async Task<DialogTurnResult> FinishOnboardingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
-        {
-            _state = await _accessor.GetAsync(sc.Context);
-            _state.Location = (string)sc.Result;
-
-            await _responder.ReplyWith(sc.Context, OnboardingResponses.ResponseIds.HaveLocationMessage, new { _state.Name, _state.Location });
             return await sc.EndDialogAsync();
         }
 
         private class DialogIds
         {
             public const string NamePrompt = "namePrompt";
-            public const string EmailPrompt = "emailPrompt";
-            public const string LocationPrompt = "locationPrompt";
         }
     }
 }
