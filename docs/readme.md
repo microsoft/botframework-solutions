@@ -14,7 +14,7 @@
   - [Virtual Assistant](#virtual-assistant-1)
   - [Skills](#skills-1)
   - [Analytics](#analytics)
-  - [Need Help?](#need-help)
+- [Need Help?](#need-help)
 
 # Overview
 
@@ -54,6 +54,7 @@ How-to guides on achieving more complex scenarios.
 |Stitching together Bots into one conversational experience|Create one central Bot which hands-off to child bots, a common enterprise scenario.|[View](/docs/advanced/assistant/parentchildbotpattern.md)
 |Configuring Deployment|How to customise the provided ARM template for different deployment scenarios.|[View](/docs/advanced/assistant/customisingdeployment.md)
 |Adding Authentication to your assistant |How to add Authentication support to your Assistant| [C#](/docs/advanced/assistant/csharp/addauthentication.md), [TS](/docs/advanced/assistant/typescript/addauthentication.md)
+|Adding KeyVault |How to add KeyVault support| [C#](/docs/advanced/assistant/csharp/keyvault.md), [TS](/docs/advanced/assistant/typescript/keyvault.md)
 
 ## Skills
 
