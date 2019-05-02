@@ -1,22 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
-using $safeprojectname$.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using $ext_safeprojectname$.Services;
-using $ext_safeprojectname$.Bots;
-using $ext_safeprojectname$.Dialogs;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Connector.Authentication;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Extensions.DependencyInjection;
+using $ext_safeprojectname$.Bots;
+using $ext_safeprojectname$.Dialogs;
 using $ext_safeprojectname$.Responses.Main;
 using $ext_safeprojectname$.Responses.Shared;
 using $ext_safeprojectname$.Responses.Sample;
-using Microsoft.Bot.Builder.Solutions.Middleware;
-using $safeprojectname$.Mocks;
+using $ext_safeprojectname$.Services;
+using $safeprojectname$.Utilities;
 
 namespace $safeprojectname$
 {
@@ -35,7 +34,7 @@ namespace $safeprojectname$
                 {
                     { "en", new CognitiveModelSet
                         {
-                            LuisServices = new Dictionary<string, IRecognizer>
+                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
                             {
                                 { "General", GeneralTestUtil.CreateRecognizer() },
                                 { "$ext_safeprojectname$", SkillTestUtil.CreateRecognizer() }

@@ -18,6 +18,7 @@ using AutomotiveSkill.Bots;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using AutomotiveSkillTest.Flow.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Bot.Builder.AI.Luis;
 
 namespace AutomotiveSkillTest.Flow
 {
@@ -47,7 +48,7 @@ namespace AutomotiveSkillTest.Flow
                     {
                         "en", new CognitiveModelSet()
                         {
-                            LuisServices = new Dictionary<string, IRecognizer>
+                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
                             {
                                 { "general", new MockLuisRecognizer() },
                                 { "settings", new MockLuisRecognizer() },

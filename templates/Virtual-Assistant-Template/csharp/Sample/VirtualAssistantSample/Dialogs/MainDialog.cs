@@ -15,7 +15,6 @@ using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json.Linq;
-using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Responses.Cancel;
 using VirtualAssistantSample.Responses.Main;
 using VirtualAssistantSample.Services;
@@ -141,7 +140,7 @@ namespace VirtualAssistantSample.Dialogs
                 }
                 else
                 {
-                    var answers = await qnaService.GetAnswersAsync(dc.Context);
+                    var answers = await qnaService.GetAnswersAsync(dc.Context, null, null);
 
                     if (answers != null && answers.Count() > 0)
                     {
@@ -163,7 +162,7 @@ namespace VirtualAssistantSample.Dialogs
                 }
                 else
                 {
-                    var answers = await qnaService.GetAnswersAsync(dc.Context);
+                    var answers = await qnaService.GetAnswersAsync(dc.Context, null, null);
 
                     if (answers != null && answers.Count() > 0)
                     {

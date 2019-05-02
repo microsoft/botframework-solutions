@@ -35,11 +35,11 @@ namespace EmailSkill.Dialogs
             BotServices services,
             ResponseManager responseManager,
             ConversationState conversationState,
-			ForwardEmailDialog forwardEmailDialog,
-			SendEmailDialog sendEmailDialog,
-			ShowEmailDialog showEmailDialog,
-			ReplyEmailDialog replyEmailDialog,
-			DeleteEmailDialog deleteEmailDialog,
+            ForwardEmailDialog forwardEmailDialog,
+            SendEmailDialog sendEmailDialog,
+            ShowEmailDialog showEmailDialog,
+            ReplyEmailDialog replyEmailDialog,
+            DeleteEmailDialog deleteEmailDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -50,13 +50,13 @@ namespace EmailSkill.Dialogs
             TelemetryClient = telemetryClient;
             _stateAccessor = _conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
 
-			AddDialog(forwardEmailDialog ?? throw new ArgumentNullException(nameof(forwardEmailDialog)));
-			AddDialog(sendEmailDialog ?? throw new ArgumentNullException(nameof(sendEmailDialog)));
-			AddDialog(showEmailDialog ?? throw new ArgumentNullException(nameof(showEmailDialog)));
-			AddDialog(replyEmailDialog ?? throw new ArgumentNullException(nameof(replyEmailDialog)));
-			AddDialog(deleteEmailDialog ?? throw new ArgumentNullException(nameof(deleteEmailDialog)));
+            AddDialog(forwardEmailDialog ?? throw new ArgumentNullException(nameof(forwardEmailDialog)));
+            AddDialog(sendEmailDialog ?? throw new ArgumentNullException(nameof(sendEmailDialog)));
+            AddDialog(showEmailDialog ?? throw new ArgumentNullException(nameof(showEmailDialog)));
+            AddDialog(replyEmailDialog ?? throw new ArgumentNullException(nameof(replyEmailDialog)));
+            AddDialog(deleteEmailDialog ?? throw new ArgumentNullException(nameof(deleteEmailDialog)));
 
-			GetReadingDisplayConfig();
+            GetReadingDisplayConfig();
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))

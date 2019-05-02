@@ -1,12 +1,11 @@
 ﻿using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
-using $safeprojectname$.Models;
-using $safeprojectname$.Responses.Sample;
-using $safeprojectname$.Services;
 using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
+using $safeprojectname$.Responses.Sample;
+using $safeprojectname$.Services;
 
 namespace $safeprojectname$.Dialogs
 {
