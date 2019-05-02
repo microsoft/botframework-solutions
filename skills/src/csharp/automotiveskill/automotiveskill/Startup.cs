@@ -21,7 +21,8 @@ namespace AutomotiveSkill
     using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
     using Microsoft.Bot.Builder.Integration.AspNet.Core;
     using Microsoft.Bot.Builder.Skills;
-    using Microsoft.Bot.Builder.Solutions;
+	using Microsoft.Bot.Builder.Skills.Auth;
+	using Microsoft.Bot.Builder.Solutions;
     using Microsoft.Bot.Builder.Solutions.Responses;
     using Microsoft.Bot.Builder.Solutions.TaskExtensions;
     using Microsoft.Bot.Connector.Authentication;
@@ -90,6 +91,8 @@ namespace AutomotiveSkill
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddHostedService<QueuedHostedService>();
 
+			services.AddSingleton<IAuthenticationProvider, MsJWTAuthenticationProvider>();
+
             // Configure responses
             services.AddSingleton(sp => new ResponseManager(
                 settings.CognitiveModels.Select(l => l.Key).ToArray(),
@@ -97,9 +100,9 @@ namespace AutomotiveSkill
                 new AutomotiveSkillSharedResponses(),
                 new VehicleSettingsResponses()));
 
-			// register dialogs
-			services.AddTransient<MainDialog>();
-			services.AddTransient<VehicleSettingsDialog>();
+            // register dialogs
+            services.AddTransient<MainDialog>();
+            services.AddTransient<VehicleSettingsDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();

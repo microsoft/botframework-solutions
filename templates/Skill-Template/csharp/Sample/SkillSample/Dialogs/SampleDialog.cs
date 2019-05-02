@@ -1,7 +1,6 @@
 ﻿using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
-using SkillSample.Models;
 using SkillSample.Responses.Sample;
 using SkillSample.Services;
 using System.Collections.Specialized;

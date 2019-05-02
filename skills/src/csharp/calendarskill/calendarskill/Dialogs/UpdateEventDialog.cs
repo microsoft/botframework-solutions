@@ -25,7 +25,7 @@ namespace CalendarSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-			ConversationState conversationState,
+            ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
             : base(nameof(UpdateEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)

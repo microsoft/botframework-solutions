@@ -19,12 +19,12 @@ namespace NewsSkill.Dialogs
         public NewsDialogBase(
             string dialogId,
             BotServices services,
-			ConversationState conversationState,
+            ConversationState conversationState,
             IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             Services = services;
-			Accessor = conversationState.CreateProperty<NewsSkillState>(nameof(NewsSkillState));
+            Accessor = conversationState.CreateProperty<NewsSkillState>(nameof(NewsSkillState));
             TelemetryClient = telemetryClient;
         }
 

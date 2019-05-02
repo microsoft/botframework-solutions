@@ -28,10 +28,10 @@ namespace EmailSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-			ConversationState conversationState,
-			DeleteEmailDialog deleteEmailDialog,
-			ReplyEmailDialog replyEmailDialog,
-			ForwardEmailDialog forwardEmailDialog,
+            ConversationState conversationState,
+            DeleteEmailDialog deleteEmailDialog,
+            ReplyEmailDialog replyEmailDialog,
+            ForwardEmailDialog forwardEmailDialog,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
             : base(nameof(ShowEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)

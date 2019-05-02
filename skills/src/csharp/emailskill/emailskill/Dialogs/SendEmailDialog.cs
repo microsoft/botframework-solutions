@@ -25,8 +25,8 @@ namespace EmailSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-			ConversationState conversationState,
-			FindContactDialog findContactDialog,
+            ConversationState conversationState,
+            FindContactDialog findContactDialog,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
             : base(nameof(SendEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)

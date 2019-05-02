@@ -106,14 +106,14 @@ namespace EmailSkill
                 new EmailSharedResponses(),
                 new ShowEmailResponses()));
 
-			// register dialogs
-			services.AddTransient<MainDialog>();
-			services.AddTransient<DeleteEmailDialog>();
-			services.AddTransient<FindContactDialog>();
-			services.AddTransient<ForwardEmailDialog>();
-			services.AddTransient<ReplyEmailDialog>();
-			services.AddTransient<SendEmailDialog>();
-			services.AddTransient<ShowEmailDialog>();
+            // register dialogs
+            services.AddTransient<MainDialog>();
+            services.AddTransient<DeleteEmailDialog>();
+            services.AddTransient<FindContactDialog>();
+            services.AddTransient<ForwardEmailDialog>();
+            services.AddTransient<ReplyEmailDialog>();
+            services.AddTransient<SendEmailDialog>();
+            services.AddTransient<ShowEmailDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();

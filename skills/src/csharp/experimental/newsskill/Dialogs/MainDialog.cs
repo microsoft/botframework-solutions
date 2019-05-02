@@ -24,10 +24,10 @@ namespace NewsSkill.Dialogs
         private IStatePropertyAccessor<NewsSkillState> _stateAccessor;
 
         public MainDialog(
-			BotServices services,
-			ConversationState conversationState,
-			FindArticlesDialog findArticlesDialog,
-			IBotTelemetryClient telemetryClient)
+            BotServices services,
+            ConversationState conversationState,
+            FindArticlesDialog findArticlesDialog,
+            IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
@@ -38,10 +38,10 @@ namespace NewsSkill.Dialogs
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<NewsSkillState>(nameof(NewsSkillState));
 
-			AddDialog(findArticlesDialog ?? throw new ArgumentNullException(nameof(findArticlesDialog)));
-		}
+            AddDialog(findArticlesDialog ?? throw new ArgumentNullException(nameof(findArticlesDialog)));
+        }
 
-		protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // send a greeting if we're in local mode
             await _responder.ReplyWith(dc.Context, MainResponses.Intro);
