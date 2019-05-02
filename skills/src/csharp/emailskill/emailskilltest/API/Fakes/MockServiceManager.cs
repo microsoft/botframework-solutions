@@ -1,7 +1,7 @@
 ﻿using System;
 using EmailSkill.Models;
-using EmailSkill.ServiceClients;
-using EmailSkill.ServiceClients.MSGraphAPI;
+using EmailSkill.Services;
+using EmailSkill.Services.MSGraphAPI;
 using EmailSkillTest.API.Fakes.MSGraph;
 using Microsoft.Graph;
 

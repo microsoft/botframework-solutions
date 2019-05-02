@@ -13,7 +13,6 @@ using EmailSkill.Responses.ReplyEmail;
 using EmailSkill.Responses.SendEmail;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Responses.ShowEmail;
-using EmailSkill.ServiceClients;
 using EmailSkill.Services;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Builder;

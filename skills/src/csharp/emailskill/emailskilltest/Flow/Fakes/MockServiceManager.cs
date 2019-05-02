@@ -1,6 +1,6 @@
 ﻿using System;
 using EmailSkill.Models;
-using EmailSkill.ServiceClients;
+using EmailSkill.Services;
 
 namespace EmailSkillTest.Flow.Fakes
 {

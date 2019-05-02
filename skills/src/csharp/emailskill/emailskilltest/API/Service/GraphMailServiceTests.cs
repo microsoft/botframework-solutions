@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EmailSkill.ServiceClients.MSGraphAPI;
+using EmailSkill.Services.MSGraphAPI;
 using EmailSkillTest.API.Fakes.MSGraph;
 using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
