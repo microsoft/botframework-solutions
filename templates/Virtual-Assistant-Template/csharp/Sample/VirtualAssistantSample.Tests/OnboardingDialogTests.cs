@@ -1,8 +1,8 @@
-﻿using Microsoft.Bot.Connector;
+﻿using System.Threading.Tasks;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
-using System.Threading.Tasks;
 using VirtualAssistantSample.Responses.Onboarding;
 
 namespace VirtualAssistantSample.Tests
@@ -14,8 +14,6 @@ namespace VirtualAssistantSample.Tests
         public async Task Test_Onboarding_Flow()
         {
             var testName = "Jane Doe";
-            var testEmail = "jane@email.com";
-            var testLocation = "Seattle, WA";
 
             await GetTestFlow()
                 .Send(new Activity()
@@ -27,12 +25,6 @@ namespace VirtualAssistantSample.Tests
                 .AssertReply(OnboardingStrings.NAME_PROMPT)
                 .Send(testName)
                 .AssertReply(string.Format(OnboardingStrings.HAVE_NAME, testName))
-                .AssertReply(OnboardingStrings.EMAIL_PROMPT)
-                .Send(testEmail)
-                .AssertReply(string.Format(OnboardingStrings.HAVE_EMAIL, testEmail))
-                .AssertReply(OnboardingStrings.LOCATION_PROMPT)
-                .Send(testLocation)
-                .AssertReply(string.Format(OnboardingStrings.HAVE_LOCATION, testName, testLocation))
                 .StartTestAsync();
         }
     }

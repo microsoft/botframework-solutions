@@ -1,8 +1,8 @@
-﻿using $safeprojectname$.Mocks;
-using $safeprojectname$.Utterances;
+﻿using System.Collections.Generic;
 using Luis;
 using Microsoft.Bot.Builder;
-using System.Collections.Generic;
+using $safeprojectname$.Mocks;
+using $safeprojectname$.Utterances;
 
 namespace $safeprojectname$.Utilities
 {

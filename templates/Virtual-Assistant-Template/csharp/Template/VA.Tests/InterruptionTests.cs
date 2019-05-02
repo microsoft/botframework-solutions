@@ -1,11 +1,11 @@
-﻿using $safeprojectname$.Utterances;
+﻿using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
-using System.Threading.Tasks;
-using $ext_safeprojectname$.Responses.Onboarding;
 using $ext_safeprojectname$.Responses.Cancel;
+using $ext_safeprojectname$.Responses.Onboarding;
+using $safeprojectname$.Utterances;
 
 namespace $safeprojectname$
 {

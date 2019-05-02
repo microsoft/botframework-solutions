@@ -1,9 +1,9 @@
-﻿using $safeprojectname$.Utterances;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using $ext_safeprojectname$.Responses.Main;
+using $safeprojectname$.Utterances;
 
 namespace $safeprojectname$
 {

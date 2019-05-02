@@ -1,9 +1,9 @@
-﻿using VirtualAssistantSample.Tests.Mocks;
-using VirtualAssistantSample.Tests.Utterances;
+﻿using System.Collections.Generic;
+using System.IO;
 using Microsoft.Bot.Builder.AI.QnA;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.IO;
+using VirtualAssistantSample.Tests.Mocks;
+using VirtualAssistantSample.Tests.Utterances;
 
 namespace VirtualAssistantSample.Tests.Utilities
 {
