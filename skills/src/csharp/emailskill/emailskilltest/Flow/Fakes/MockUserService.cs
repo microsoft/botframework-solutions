@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using EmailSkill.Models;
-using EmailSkill.ServiceClients;
+using EmailSkill.Services;
 
 namespace EmailSkillTest.Flow.Fakes
 {

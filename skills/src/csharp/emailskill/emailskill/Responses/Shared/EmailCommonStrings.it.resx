@@ -172,7 +172,7 @@
     <value>A: {0}</value>
   </data>
   <data name="YourEmail" xml:space="preserve">
-    <value>La tua email</value>
+    <value>La tua casella di posta</value>
   </data>
   <data name="RelevantFormat" xml:space="preserve">
     <value>rilevanti {0}</value>
@@ -229,7 +229,7 @@
     <value>Re</value>
   </data>
   <data name="ContactSeparator" xml:space="preserve">
-    <value>; | E</value>
+    <value>, | ; | E</value>
   </data>
   <data name="Forward" xml:space="preserve">
     <value>Fw:</value>
@@ -248,5 +248,8 @@
   </data>
   <data name="GeneralDateFormat" xml:space="preserve">
     <value>MMM dd, yyyy</value>
+  </data>
+  <data name="PageIndexerFormat" xml:space="preserve">
+    <value>**{0}-{1}** di {2}</value>
   </data>
 </root>

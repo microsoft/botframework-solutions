@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Mail;
 using System.Text;
-using EmailSkill.ServiceClients.GoogleAPI;
+using EmailSkill.Services.GoogleAPI;
 using MimeKit;
 using GmailMessage = Google.Apis.Gmail.v1.Data.Message;
 

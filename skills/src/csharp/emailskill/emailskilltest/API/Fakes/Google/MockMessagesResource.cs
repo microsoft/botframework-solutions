@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using EmailSkill.ServiceClients.GoogleAPI;
+using EmailSkill.Services.GoogleAPI;
 using Google.Apis.Gmail.v1.Data;
 using Google.Apis.Requests;
 using Google.Apis.Services;

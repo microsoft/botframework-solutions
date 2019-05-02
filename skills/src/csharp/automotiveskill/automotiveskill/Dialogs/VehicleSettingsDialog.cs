@@ -29,6 +29,7 @@ namespace AutomotiveSkill.Dialogs
         private const string FallbackSettingImageFileName = "Black_Car.png";
         private const string AvailableSettingsFileName = "available_settings.yaml";
         private const string AlternativeSettingsFileName = "setting_alternative_names.yaml";
+        private const string AdaptiveCardBackgroundSVG = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKwAAACeCAYAAACvg+F+AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxOTowMzoxMyAxOTo0Mjo0OBCBEeIAAAG8SURBVHhe7dJBDQAgEMCwA/+egQcmlrSfGdg6z0DE/oUEw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phCZm52U4FOCAVGHQAAAAASUVORK5CYII=";
 
         private static readonly Regex WordCharacter = new Regex("^\\w", RegexOptions.Compiled);
         private static readonly IReadOnlyDictionary<string, string> SettingValueToSpeakableIngForm = new Dictionary<string, string>
@@ -96,8 +97,8 @@ namespace AutomotiveSkill.Dialogs
             AddDialog(new WaterfallDialog(Actions.ProcessVehicleSettingChange, processVehicleSettingChangeWaterfall) { TelemetryClient = telemetryClient });
 
             // Prompts
-            AddDialog(new ChoicePrompt(Actions.SettingNameSelectionPrompt, SettingNameSelectionValidator, Culture.English) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
-            AddDialog(new ChoicePrompt(Actions.SettingValueSelectionPrompt, SettingValueSelectionValidator, Culture.English) { Style = ListStyle.Inline, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
+            AddDialog(new ChoicePrompt(Actions.SettingNameSelectionPrompt, SettingNameSelectionValidator, Culture.English) { Style = ListStyle.Auto, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
+            AddDialog(new ChoicePrompt(Actions.SettingValueSelectionPrompt, SettingValueSelectionValidator, Culture.English) { Style = ListStyle.Auto, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
 
             AddDialog(new ConfirmPrompt(Actions.SettingConfirmationPrompt));
 
@@ -164,20 +165,17 @@ namespace AutomotiveSkill.Dialogs
                             options.Choices.Add(choice);
                         }
 
-                        options.Prompt = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsSettingNameSelection);
-
-                        var card = new ThumbnailCard
+                        var cardModel = new AutomotiveCardModel()
                         {
-                            Images = new List<CardImage> { new CardImage(GetSettingCardImageUri(FallbackSettingImageFileName)) },
-                            Text = options.Prompt.Text,
-                            Buttons = options.Choices.Select(choice =>
-                                new CardAction(ActionTypes.ImBack, choice.Value, value: choice.Value)).ToList(),
+                            ImageUrl = GetSettingCardImageUri(FallbackSettingImageFileName)
                         };
 
-                        options.Prompt.Attachments.Add(card.ToAttachment());
+                        var card = new Card("AutomotiveCard", cardModel);
+
+                        options.Prompt = ResponseManager.GetCardResponse(VehicleSettingsResponses.VehicleSettingsSettingNameSelection, card, tokens: null);
 
                         // Default Text property is clumsy for speech
-                        options.Prompt.Speak = $"{options.Prompt.Text} {GetSpeakableOptions(options.Choices)}";
+                        options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options);
 
                         return await sc.PromptAsync(Actions.SettingNameSelectionPrompt, options);
                     }
@@ -288,20 +286,17 @@ namespace AutomotiveSkill.Dialogs
                         }
 
                         var promptReplacements = new StringDictionary { { "settingName", settingName } };
-                        options.Prompt = ResponseManager.GetResponse(VehicleSettingsResponses.VehicleSettingsSettingValueSelection, promptReplacements);
-
-                        var card = new ThumbnailCard
+                        var cardModel = new AutomotiveCardModel()
                         {
-                            Text = options.Prompt.Text,
-                            Images = new List<CardImage> { new CardImage(GetSettingCardImageUri(imageName)) },
-                            Buttons = options.Choices.Select(choice =>
-                                new CardAction(ActionTypes.ImBack, choice.Value, value: choice.Value)).ToList(),
+                            ImageUrl = GetSettingCardImageUri(imageName)
                         };
 
-                        options.Prompt.Attachments.Add(card.ToAttachment());
+                        var card = new Card("AutomotiveCard", cardModel);
+
+                        options.Prompt = ResponseManager.GetCardResponse(VehicleSettingsResponses.VehicleSettingsSettingValueSelection, card, promptReplacements);
 
                         // Default Text property is clumsy for speech
-                        options.Prompt.Speak = $"{options.Prompt.Text} {GetSpeakableOptions(options.Choices)}";
+                        options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options.Prompt);
 
                         return await sc.PromptAsync(Actions.SettingValueSelectionPrompt, options);
                     }
@@ -546,7 +541,7 @@ namespace AutomotiveSkill.Dialogs
                 // In skill-mode we don't have HttpContext and require skills to provide their own storage for assets
                 Settings.Properties.TryGetValue("ImageAssetLocation", out var imageUri);
 
-                var imageUriStr = (string)imageUri;
+                var imageUriStr = imageUri;
                 if (string.IsNullOrWhiteSpace(imageUriStr))
                 {
                     throw new Exception("ImageAssetLocation Uri not configured on the skill.");

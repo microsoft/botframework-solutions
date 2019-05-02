@@ -282,4 +282,13 @@
   <data name="UpcommingMeeting" xml:space="preserve">
     <value>即将发生的会议</value>
   </data>
+  <data name="ShortDisplayDurationHour" xml:space="preserve">
+    <value>{0}小时</value>
+  </data>
+  <data name="ShortDisplayDurationMinute" xml:space="preserve">
+    <value>{0}分</value>
+  </data>
+  <data name="ShowMeetingsIndicator" xml:space="preserve">
+    <value>**{0}-{1}**，共{2}</value>
+  </data>
 </root>

@@ -11,6 +11,7 @@
     <Content Remove="Content\CalendarCardNoJoinButton.json" />
     <Content Remove="Content\CalendarDate.json" />
     <Content Remove="Content\CalendarDetail.json" />
+    <Content Remove="Content\CalendarDetailContainerNoParticipants.json" />
     <Content Remove="Content\CalendarDetailContainerParticipantsLess.json" />
     <Content Remove="Content\CalendarDetailContainerParticipantsMore.json" />
     <Content Remove="Content\CalendarDetailNoJoinButton.json" />
@@ -115,6 +116,7 @@
     <EmbeddedResource Include="Content\CalendarCardNoJoinButton.json" />
     <EmbeddedResource Include="Content\CalendarDate.json" />
     <EmbeddedResource Include="Content\CalendarDetail.json" />
+    <EmbeddedResource Include="Content\CalendarDetailContainerNoParticipants.json" />
     <EmbeddedResource Include="Content\CalendarDetailContainerParticipantsLess.json" />
     <EmbeddedResource Include="Content\CalendarDetailContainerParticipantsMore.json" />
     <EmbeddedResource Include="Content\CalendarDetailNoJoinButton.json" />
