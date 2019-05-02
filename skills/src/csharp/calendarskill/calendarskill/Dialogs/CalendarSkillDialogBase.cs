@@ -330,39 +330,6 @@ namespace CalendarSkill.Dialogs
             return ResponseManager.GetCardResponse(templateId, overviewCard, tokens, "EventItemContainer", eventItemList);
         }
 
-        private async Task<List<Card>> GetMeetingCardListAsync(DialogContext dc, List<EventModel> events)
-        {
-            var state = await Accessor.GetAsync(dc.Context);
-
-            var eventItemList = new List<Card>();
-
-            DateTime? currentAddedDateUser = null;
-            foreach (var item in events)
-            {
-                var itemDateUser = TimeConverter.ConvertUtcToUserTime(item.StartTime, state.GetUserTimeZone());
-                if (currentAddedDateUser == null || !currentAddedDateUser.Value.Date.Equals(itemDateUser.Date))
-                {
-                    currentAddedDateUser = itemDateUser;
-                    eventItemList.Add(new Card()
-                    {
-                        Name = "CalendarDate",
-                        Data = new CalendarDateCardData()
-                        {
-                            Date = currentAddedDateUser.Value.ToString("dddd, MMMM d").ToUpper()
-                        }
-                    });
-                }
-
-                eventItemList.Add(new Card()
-                {
-                    Name = "CalendarItem",
-                    Data = item.ToAdaptiveCardData(state.GetUserTimeZone())
-                });
-            }
-
-            return eventItemList;
-        }
-
         protected async Task<Activity> GetDetailMeetingResponseAsync(DialogContext dc, EventModel eventItem, string templateId, StringDictionary tokens = null)
         {
             var state = await Accessor.GetAsync(dc.Context);
@@ -403,16 +370,6 @@ namespace CalendarSkill.Dialogs
             participantContainerList.Add(participantContainerCard);
 
             return ResponseManager.GetCardResponse(templateId, detailCard, tokens, "CalendarDetailContainer", participantContainerList);
-        }
-
-        private async Task<string> GetPhotoByIndexAsync(ITurnContext context, List<EventModel.Attendee> attendees, int index)
-        {
-            if (attendees.Count <= index)
-            {
-                return AdaptiveCardHelper.BlankIcon;
-            }
-
-            return await GetUserPhotoUrlAsync(context, attendees[index]);
         }
 
         protected async Task<string> GetMyPhotoUrlAsync(ITurnContext context)
@@ -1373,6 +1330,49 @@ namespace CalendarSkill.Dialogs
             }
 
             return attendees;
+        }
+
+        private async Task<string> GetPhotoByIndexAsync(ITurnContext context, List<EventModel.Attendee> attendees, int index)
+        {
+            if (attendees.Count <= index)
+            {
+                return AdaptiveCardHelper.BlankIcon;
+            }
+
+            return await GetUserPhotoUrlAsync(context, attendees[index]);
+        }
+
+        private async Task<List<Card>> GetMeetingCardListAsync(DialogContext dc, List<EventModel> events)
+        {
+            var state = await Accessor.GetAsync(dc.Context);
+
+            var eventItemList = new List<Card>();
+
+            DateTime? currentAddedDateUser = null;
+            foreach (var item in events)
+            {
+                var itemDateUser = TimeConverter.ConvertUtcToUserTime(item.StartTime, state.GetUserTimeZone());
+                if (currentAddedDateUser == null || !currentAddedDateUser.Value.Date.Equals(itemDateUser.Date))
+                {
+                    currentAddedDateUser = itemDateUser;
+                    eventItemList.Add(new Card()
+                    {
+                        Name = "CalendarDate",
+                        Data = new CalendarDateCardData()
+                        {
+                            Date = currentAddedDateUser.Value.ToString("dddd, MMMM d").ToUpper()
+                        }
+                    });
+                }
+
+                eventItemList.Add(new Card()
+                {
+                    Name = "CalendarItem",
+                    Data = item.ToAdaptiveCardData(state.GetUserTimeZone())
+                });
+            }
+
+            return eventItemList;
         }
 
         private int GetDurationFromEntity(CalendarLuis._Entities entity, string local)
