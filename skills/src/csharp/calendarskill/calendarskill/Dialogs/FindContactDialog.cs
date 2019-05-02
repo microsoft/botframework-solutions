@@ -147,7 +147,6 @@ namespace CalendarSkill.Dialogs
                 else
                 {
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.AddMoreAttendees) }, cancellationToken);
-
                 }
             }
             catch (Exception ex)
