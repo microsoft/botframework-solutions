@@ -58,12 +58,19 @@ In this situation for Microsoft Graph based skills follow the instructions below
 
 For Skills that require other Authentication connection configuration please follow the skill specific configuration information.
 
+## Removing a Skill from your Virtual Assistant
+
+To disconnect a skill from your Virtual Assistant use the following command, passingthe id of the Skill as per the manifest (e.g. calendarSkill).
+
+```bash
+botskills disconnect --skillId SKILL_ID
+```
 
 ## Updating an existing Skill to reflect changes to Actions or LUIS model
 
-TBC
+> A botskills refresh command will be added shortly. In the meantime, run the above disconnect command and then connect the skill again.
 
-## Removing a Skill from your Virtual Assistant
 
-TBC
+
+
 
