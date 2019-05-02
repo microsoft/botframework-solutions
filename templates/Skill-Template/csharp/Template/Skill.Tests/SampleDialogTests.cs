@@ -1,10 +1,13 @@
-﻿using Microsoft.Bot.Schema;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using $ext_safeprojectname$.Responses.Sample;
-using $safeprojectname$.Utterances;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using Microsoft.Bot.Schema;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using $ext_safeprojectname$.Responses.Sample;
+using $safeprojectname$.Utterances;
 
 namespace $safeprojectname$
 {
@@ -39,6 +42,5 @@ namespace $safeprojectname$
                 CollectionAssert.Contains(ParseReplies(SampleResponses.HaveNameMessage, new StringDictionary() { { "Name", SampleDialogUtterances.MessagePromptResponse } }), messageActivity.Text);
             };
         }
-
     }
 }
