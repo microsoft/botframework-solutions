@@ -1,10 +1,6 @@
 ![Bot Framework Solutions](/docs/media/bot_framework_solutions_header.png)
  
-# Documentation Overview
-
-## Table of Contents
-- [Documentation Overview](#documentation-overview)
-  - [Table of Contents](#table-of-contents)
+# Table of Contents
 - [Overview](#overview)
 - [Tutorials](#tutorials)
 - [Advanced Scenarios](#advanced-scenarios)
@@ -18,7 +14,7 @@
 
 # Overview
 
-High level overview into the Virtual Assistant, Skills and Analytics.
+> High level overview into the Virtual Assistant, Skills and Analytics.
 
 |Name|Description|
 |-------------|-----------|
@@ -28,63 +24,63 @@ High level overview into the Virtual Assistant, Skills and Analytics.
 
 # Tutorials
 
-Create, deploy, and customize your own Virtual Assistant and Skills using these walkthroughs.
+> Create, deploy, and customize your own Virtual Assistant and Skills using these walkthroughs.
 
-|Name|Languages|Description|
-|------------|:---:|-----------|
-|1. Create your Virtual Assistant in 10 minutes|[![Create your Virtual Assistant in 10 minutes with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/virtualassistant.md) [![Create your Assistant in 10 minutes with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/virtualassistant.md)|Creating your assistant using the Virtual Assistant template|
-|2. Customize your Virtual Assistant|[![Customize your Virtual Assistant with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeassistant.md) [![Customize your Assistant with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/customizeassistant.md)|Personalize your assistant, change the name, branding, QnA| 
-|3. Create and deploy a new Skill|[![Create and deploy a new Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/skill.md) [![Create and deploy a new Skill with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/skill.md)|Creating a new Skill using the template|
-|4. Customize your Skill|[![Customize your Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeskill.md) [![Customize your Skill with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/customizeassistant.md)|Building your first skill| 
+|Name|Description|
+|------------|-----------|
+|1. Create your Virtual Assistant in 10 minutes <br/><br/> <p align="center">[![Create your Virtual Assistant in 10 minutes with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/virtualassistant.md)[![Create your Assistant in 10 minutes with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/virtualassistant.md)</p>|Deploying your own assistant using the Virtual Assistant template|
+|2. Customize your Virtual Assistant <br/><br/><p align="center">[![Customize your Virtual Assistant with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeassistant.md) [![Customize your Assistant with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/customizeassistant.md)</p>|Personalize your assistant, change the name, branding, QnA| 
+|3. Create and deploy a new Skill <br/><br/><p align="center">[![Create and deploy a new Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/skill.md) [![Create and deploy a new Skill with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/skill.md)</p>|Creating a new Skill using the template|
+|4. Customize your Skill <br/><br/><p align="center">[![Customize your Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeskill.md) [![Customize your Skill with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/customizeassistant.md)</p>|Building your first skill| 
 
 
 # Advanced Scenarios
 
-How-to guides on achieving more complex scenarios.
+> How-to guides on achieving more complex scenarios.
 
 ## Virtual Assistant
 
-|Name|&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br/> Languages <br/> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|Description|
-|------------|:---:|-----------|
-|[Under the covers](/docs/advanced/assistant/underthecovers.md)||Detailed documentation covering what the template provides and how it works| 
-|[Enhancing your Assistant with additional Skills](/docs/skills/common/addingskill.md)||Adding the out-of-the-box Skills to your Virtual Assistant|
-|Migrating from the Enterprise Template|[![Migrating from the Enterprise Template with C#](./media/csharp_icon.png)](/docs/advanced/assistant/csharp/ettovamigration.md)|Guidance on how to move from an Enterprise Template based Bot to the new Template|
-|Migrating from the beta Virtual Assistant solution|[![Migrating from the beta Virtual Assistant solution with C#](./media/csharp_icon.png)](/docs/advanced/assistant/csharp/oldvatovamigration.md)|Guidance on how to move from the original Virtual Assistant solution to the new Template|
-|[Messaging your users proactively](/docs/advanced/assistant/csharp/proactivemessaging.md)||Adding proactive experiences to your assistant|
-|[Linked Accounts](/docs/advanced/assistant/linkedaccounts.md)||Enable users to link third party accounts (e.g. Office 365) to your Assistant|
+|Name|Description|
+|------------|-----------|
+|[Under the covers](/docs/advanced/assistant/underthecovers.md)|Detailed documentation covering what the template provides and how it works| 
+|[Enhancing your Assistant with additional Skills](/docs/skills/common/addingskill.md)|Adding the out-of-the-box Skills to your Virtual Assistant|
+|Authenticating users to your Assistant <br/><br/><p align="center">[![Authenticating users to your Assistant with C#](./media/csharp_icon.png)](/docs/advanced/assistant/csharp/addauthentication.md) [![Authenticating users to your Assistant with TypeScript](./media/typescript_icon.png)](/docs/advanced/assistant/typescript/addauthentication.md)</p>|How to add user authentication to your Assistant|
+|[Linked Accounts](/docs/advanced/assistant/linkedaccounts.md)|Enable users to link third party accounts (e.g. Office 365) to your Assistant|
+|Migrating from the Enterprise Template <br/><br/><p align="center">[![Migrating from the Enterprise Template with C#](./media/csharp_icon.png)](/docs/advanced/assistant/csharp/ettovamigration.md)</p>|Guidance on how to move from an Enterprise Template based Bot to the new Template|
+|Migrating from the beta Virtual Assistant solution <br/><br/><p align="center">[![Migrating from the beta Virtual Assistant solution with C#](./media/csharp_icon.png)](/docs/advanced/assistant/csharp/oldvatovamigration.md)</p>|Guidance on how to move from the original Virtual Assistant solution to the new Template|
+|[Messaging your users proactively](/docs/advanced/assistant/csharp/proactivemessaging.md)|Adding proactive experiences to your assistant|
 |[Enable cross bot communication into one conversational experience](/docs/advanced/assistant/parentchildbotpattern.md)||Create one central Assistant which hands-off to child bots (a common enterprise scenario)|
-|[Configuring Deployment](/docs/advanced/assistant/customisingdeployment.md)||How to customise the provided ARM template for different deployment scenarios.|
-|Authenticating users to your Assistant|[![Authenticating users to your Assistant with C#](./media/csharp_icon.png)](/docs/advanced/assistant/csharp/addauthentication.md) [![Authenticating users to your Assistant with TypeScript](./media/typescript_icon.png)](/docs/advanced/assistant/typescript/addauthentication.md)|How to add Authentication support to your Assistant|
-|Secure your keys using Azure Key Vault|[![Secure your keys using Azure Key Vault with C#](./media/csharp_icon.png)](/docs/advanced/assistant/csharp/keyvault.md) [![Secure your keys using Azure Key Vault with TypeScript](./media/typescript_icon.png)](/docs/advanced/assistant/typescript/keyvault.md) |How to safeguard your keys using Azure Key Vault|
+|[Customize your Azure resource deployment](/docs/advanced/assistant/customisingdeployment.md)|How to customise the provided ARM template for different deployment scenarios.|
+|Secure your keys using Azure Key Vault <br/><br/><p align="center">[![Secure your keys using Azure Key Vault with C#](./media/csharp_icon.png)](/docs/advanced/assistant/csharp/keyvault.md) [![Secure your keys using Azure Key Vault with TypeScript](./media/typescript_icon.png)](/docs/advanced/assistant/typescript/keyvault.md)</p>|How to safeguard your keys using Azure Key Vault|
 
 ## Skills
 
-|Name|&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br/> Languages <br/> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|Description|
-|------------|:---:|-----------|
-|[Adding a new Skill to solution](/docs/advanced/skills/addingskills.md)|| Adding a Skill|
-|[Calendar Skill](/docs/advanced/skills/productivity-calendar.md)||Add calendar capabilities to your assistant. Powered by Microsoft Graph and Google.|
-|[Email Skill](/docs/advanced/skills/productivity-email.md)||Add email capabilities to your assistant. Powered by Microsoft Graph and Google.|
-|[To-Do Skill](/docs/advanced/skills/productivity-todo.md)||Add task management capabilities to your assistant. Powered by Microsoft Graph.|
-|[Point of Interest Skill](/docs/advanced/skills/productivity-pointofinterest.md)||Find points of interest and directions. Powered by Azure Maps and FourSquare.|
-|[Automotive Skill](/docs/advanced/skills/automotive.md)||Industry-vertical Skill for showcasing enabling car feature control.|
-|[Experimental Skills](/docs/advanced/skills/experimental.md)||News, Restaurant Booking and Weather.|
-|Adding Skill support to a v4 SDK Bot|[![Adding Skill support to a v4 SDK Bot with C#](./media/csharp_icon.png)](/docs/advanced/skills/csharp/addskillsupportforv4bot.md) [![Adding Skill support to a v4 SDK Bot with TypeScript](./media/typescript_icon.png)](/docs/advanced/skills/typescript/addskillsupportforv4bot.md)|How to add Skills to an existing/non VA template solution.|
-|Enable Skills on an existing v4 SDK Bot|[![Enable Skills on an existing v4 SDK Bot with C#](./media/csharp_icon.png)](/docs/advanced/skills/csharp/skillenablingav4bot.md) [![Enable Skills on an existing v4 SDK Bot with TypeScript](./media/typescript_icon.png)](/docs/advanced/skills/typescript/skillenablingav4bot.md)|Steps required to take an existing v4 Bot and make it available as a skill|
-|[Best practices for Skill development](/docs/advanced/skills/bestpractices.md)||Design Best practices for Skills|
+|Name|Description|
+|------------|-----------|
+|[Adding a new Skill to solution](/docs/advanced/skills/addingskills.md)| Adding a Skill|
+|[Calendar Skill](/docs/advanced/skills/productivity-calendar.md)|Add calendar capabilities to your assistant. Powered by Microsoft Graph and Google.|
+|[Email Skill](/docs/advanced/skills/productivity-email.md)|Add email capabilities to your assistant. Powered by Microsoft Graph and Google.|
+|[To-Do Skill](/docs/advanced/skills/productivity-todo.md)|Add task management capabilities to your assistant. Powered by Microsoft Graph.|
+|[Point of Interest Skill](/docs/advanced/skills/productivity-pointofinterest.md)|Find points of interest and directions. Powered by Azure Maps and FourSquare.|
+|[Automotive Skill](/docs/advanced/skills/automotive.md)|Industry-vertical Skill for showcasing enabling car feature control.|
+|[Experimental Skills](/docs/advanced/skills/experimental.md)|News, Restaurant Booking and Weather.|
+|Add Skills to an existing v4 SDK bot<br/><br/><p align="center">[![Adding Skill support to a v4 SDK Bot with C#](./media/csharp_icon.png)](/docs/advanced/skills/csharp/addskillsupportforv4bot.md) [![Adding Skill support to a v4 SDK Bot with TypeScript](./media/typescript_icon.png)](/docs/advanced/skills/typescript/addskillsupportforv4bot.md)</p>|How to add Skills to an existing bot (not Virtual Assistant template).|
+|Convert an existing v4 SDK Bot to a Skill <br/><br/><p align="center">[![Enable Skills on an existing v4 SDK Bot with C#](./media/csharp_icon.png)](/docs/advanced/skills/csharp/skillenablingav4bot.md) [![Enable Skills on an existing v4 SDK Bot with TypeScript](./media/typescript_icon.png)](/docs/advanced/skills/typescript/skillenablingav4bot.md)</p>|Steps required to take an existing and make it available as a skill.|
+|[Best practices for Skill development](/docs/advanced/skills/bestpractices.md)|Design Best practices for Skills|
 
-# Reference documentation 
+# Reference 
 
-Reference documentation providing more insight into key concepts across the Virtual Assistant, Skills and Analytics
+> Reference documentation providing more insight into key concepts across the Virtual Assistant, Skills and Analytics
 
 ## Virtual Assistant
 
 |Name|Description|
 |-------------|-----------|
-|[Virtual Assistant Architecture](/docs/reference/assistant/architecture.md)|Detailed exploration of the overall Virtual Assistant Architecture|
-|[Project Structure](/docs/reference/assistant/projectstructure.md)|Walkthrough of your Virtual Assistant project|
-|[Write bot responses](/docs/reference/assistant/responses.md)|Your Virtual Assistant can respond in a variety of ways depending on the scenario and the users active device or conversation canvas|
-|[Handle backend client events](/docs/reference/assistant/events.md)|Events enable custom apps or device experiences to pass device or contextual user information to an assistant behind the scenes.|
-|[Enable speech scenarios](/docs/reference/assistant/speechenablement.md)|Ensure your Virtual Assistant and Experiences work well in Speech scenarios|
+|[Underlying architecture](/docs/reference/assistant/architecture.md)|Detailed exploration of the overall Virtual Assistant Architecture|
+|[Template structure](/docs/reference/assistant/projectstructure.md)|Walkthrough of your Virtual Assistant project|
+|[Generating bot responses](/docs/reference/assistant/responses.md)|Your Virtual Assistant can respond in a variety of ways depending on the scenario and the users active device or conversation canvas|
+|[Managing backend client events](/docs/reference/assistant/events.md)|Events enable custom apps or device experiences to pass device or contextual user information to an assistant behind the scenes.|
+|[Enabling speech scenarios](/docs/reference/assistant/speechenablement.md)|Ensure your Virtual Assistant and Experiences work well in Speech scenarios|
 |[Deployment script](/docs/reference/assistant/deploymentscriptapproach.md)|Walkthrough of the deployment script approach used in the Virtual Assistant|
 
 ## Skills
