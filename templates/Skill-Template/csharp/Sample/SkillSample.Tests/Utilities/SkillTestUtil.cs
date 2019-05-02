@@ -1,8 +1,8 @@
-﻿using Luis;
+﻿using System.Collections.Generic;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Solutions.Testing.Mocks;
 using SkillSample.Tests.Utterances;
-using System.Collections.Generic;
 
 namespace SkillSample.Tests.Utilities
 {

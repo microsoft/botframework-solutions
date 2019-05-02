@@ -1,15 +1,14 @@
-﻿using Luis;
-using Microsoft.Bot.Builder;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Luis;
+using Microsoft.Bot.Builder;
 
 namespace AutomotiveSkillTest.Flow.Fakes
 {
     public class MockVehicleSettingsValueIntent : VehicleSettingsValueSelectionLuis
     {
-        public string userInput;
         private Intent intent;
-        private double score;     
+        private double score;
 
         public MockVehicleSettingsValueIntent(string userInput)
         {
@@ -41,6 +40,6 @@ namespace AutomotiveSkillTest.Flow.Fakes
             }
 
             (intent, score) = this.TopIntent();
-        }            
+        }
     }
 }

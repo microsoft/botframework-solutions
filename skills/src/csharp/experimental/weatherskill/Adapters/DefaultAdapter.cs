@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Globalization;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
@@ -11,7 +12,6 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using WeatherSkill.Responses.Shared;
 using WeatherSkill.Services;
-using System.Globalization;
 
 namespace WeatherSkill.Bots
 {

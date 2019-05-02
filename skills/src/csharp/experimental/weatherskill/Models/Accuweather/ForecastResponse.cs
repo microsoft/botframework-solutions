@@ -8,6 +8,7 @@ namespace WeatherSkill.Models
     public class ForecastResponse
     {
         public Headline Headline { get; set; }
+
         public DailyForecast[] DailyForecasts { get; set; }
     }
 }

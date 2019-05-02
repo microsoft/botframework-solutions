@@ -15,8 +15,8 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
 using WeatherSkill.Models;
 using WeatherSkill.Responses.Main;
-using WeatherSkill.Services;
 using WeatherSkill.Responses.Shared;
+using WeatherSkill.Services;
 
 namespace WeatherSkill.Dialogs
 {
@@ -50,7 +50,6 @@ namespace WeatherSkill.Dialogs
             // Register dialogs
             AddDialog(sampleDialog);
             AddDialog(new ForecastDialog(_settings, _services, _responseManager, conversationState, TelemetryClient));
-
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -65,7 +64,7 @@ namespace WeatherSkill.Dialogs
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.CognitiveModelSets[locale];
 
-            // Populate state from SkillContext slots as required 
+            // Populate state from SkillContext slots as required
             await PopulateStateFromSkillContext(dc.Context);
 
             // Get skill LUIS model from configuration
@@ -256,12 +255,12 @@ namespace WeatherSkill.Dialogs
             if (skillContext != null)
             {
                 // Example of populating local state with data passed through Skill Context
-                //if (skillContext.ContainsKey("Location"))
-                //{
+                // if (skillContext.ContainsKey("Location"))
+                // {
                 //    // Add to your local state
                 //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
                 //    state.Location = skillContext["Location"];
-                //}
+                // }
             }
         }
 

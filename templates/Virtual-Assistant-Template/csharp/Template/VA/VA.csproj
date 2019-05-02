@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <NoWarn>NU1701</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -50,7 +51,7 @@
       <LastGenOutput>OnboardingStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  
+
   <ItemGroup>
     <Compile Update="Responses\Cancel\CancelStrings.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -73,9 +74,12 @@
       <DependentUpon>OnboardingStrings.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-  
+
   <ItemGroup>
-    <Content Update="Content\NewUserGreeting.de.json">
+    <Content Update="Content\NewUserGreeting.zh.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Content\NewUserGreeting.it.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Content\NewUserGreeting.es.json">
@@ -84,31 +88,28 @@
     <Content Update="Content\NewUserGreeting.fr.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\NewUserGreeting.it.json">
+    <Content Update="Content\NewUserGreeting.de.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Content\NewUserGreeting.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\NewUserGreeting.zh.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Content\ReturningUserGreeting.de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Content\ReturningUserGreeting.es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Content\ReturningUserGreeting.fr.json">
+    <Content Update="Content\ReturningUserGreeting.zh.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Content\ReturningUserGreeting.it.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\ReturningUserGreeting.json">
+    <Content Update="Content\ReturningUserGreeting.fr.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Content\ReturningUserGreeting.zh.json">
+    <Content Update="Content\ReturningUserGreeting.es.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Content\ReturningUserGreeting.de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Content\ReturningUserGreeting.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

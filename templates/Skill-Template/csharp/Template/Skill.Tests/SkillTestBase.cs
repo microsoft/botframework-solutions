@@ -24,7 +24,7 @@ namespace $safeprojectname$
         public IServiceCollection Services { get; set; }
 
         [TestInitialize]
-        public virtual void Initialize()
+        public virtual void SkillInitialize()
         {
             Services = new ServiceCollection();
             Services.AddSingleton(new BotSettings());

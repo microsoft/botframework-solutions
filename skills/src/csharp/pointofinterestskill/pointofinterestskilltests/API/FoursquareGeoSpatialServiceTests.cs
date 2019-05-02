@@ -17,7 +17,6 @@ namespace PointOfInterestSkillTests.API
             mockClient = new HttpClient(new MockHttpClientHandlerGen().GetMockHttpClientHandler());
         }
 
-
         [TestMethod]
         public async Task GetNearbyPointsOfInterestTest()
         {
@@ -29,7 +28,8 @@ namespace PointOfInterestSkillTests.API
 
             Assert.AreEqual(pointOfInterestList[0].Id, "412d2800f964a520df0c1fe3");
             Assert.AreEqual(pointOfInterestList[0].Name, "Central Park");
-            Assert.AreEqual(pointOfInterestList[0].Address, "59th St to 110th St (5th Ave to Central Park West), New York, NY 10028");
+            Assert.AreEqual(pointOfInterestList[0].City, "New York");
+            Assert.AreEqual(pointOfInterestList[0].Street, "59th St to 110th St");
             Assert.AreEqual(pointOfInterestList[0].Geolocation.Latitude, 40.784084320068359);
             Assert.AreEqual(pointOfInterestList[0].Geolocation.Longitude, -73.964851379394531);
             Assert.AreEqual(pointOfInterestList[0].Category, "Park");
@@ -47,11 +47,13 @@ namespace PointOfInterestSkillTests.API
             await service.InitClientAsync(MockData.ClientId, MockData.ClientSecret, MockData.Radius, MockData.Limit, MockData.Locale, mockClient);
 
             var pointOfInterestList = await service.GetNearbyPointOfInterestListAsync(MockData.Latitude, MockData.Longitude);
-            
-            var pointOfInterest = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[0]); Assert.AreEqual(pointOfInterest.Id, "412d2800f964a520df0c1fe3");
+
+            var pointOfInterest = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[0]);
+            Assert.AreEqual(pointOfInterest.Id, "412d2800f964a520df0c1fe3");
 
             Assert.AreEqual(pointOfInterest.Name, "Central Park");
-            Assert.AreEqual(pointOfInterest.Address, "59th St to 110th St (5th Ave to Central Park West), New York, NY 10028");
+            Assert.AreEqual(pointOfInterest.City, "New York");
+            Assert.AreEqual(pointOfInterest.Street, "59th St to 110th St");
             Assert.AreEqual(pointOfInterest.Geolocation.Latitude, 40.784084320068359);
             Assert.AreEqual(pointOfInterest.Geolocation.Longitude, -73.964851379394531);
             Assert.AreEqual(pointOfInterest.Category, "Park");
@@ -71,7 +73,8 @@ namespace PointOfInterestSkillTests.API
             var pointOfInterestList = await service.GetPointOfInterestListByQueryAsync(MockData.Latitude, MockData.Longitude, MockData.Query);
             Assert.AreEqual(pointOfInterestList[0].Id, "412d2800f964a520df0c1fe3");
             Assert.AreEqual(pointOfInterestList[0].Name, "Central Park");
-            Assert.AreEqual(pointOfInterestList[0].Address, "59th St to 110th St (5th Ave to Central Park West), New York, NY 10028");
+            Assert.AreEqual(pointOfInterestList[0].City, "New York");
+            Assert.AreEqual(pointOfInterestList[0].Street, "59th St to 110th St");
             Assert.AreEqual(pointOfInterestList[0].Geolocation.Latitude, 40.784084320068359);
             Assert.AreEqual(pointOfInterestList[0].Geolocation.Longitude, -73.964851379394531);
             Assert.AreEqual(pointOfInterestList[0].Category, "Park");

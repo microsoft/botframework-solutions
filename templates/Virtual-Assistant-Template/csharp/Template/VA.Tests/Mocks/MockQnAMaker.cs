@@ -1,8 +1,8 @@
-﻿using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.AI.QnA;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.QnA;
 
 namespace $safeprojectname$.Mocks
 {
@@ -14,13 +14,13 @@ namespace $safeprojectname$.Mocks
             DefaultAnswer = defaultAnswer;
         }
 
-        private Dictionary<string, QueryResult[]> TestAnswers { get; set; }
-
-        private QueryResult[] DefaultAnswer { get; set; }
-
         public bool LogPersonalInformation { get; set; } = false;
 
         public IBotTelemetryClient TelemetryClient { get; set; } = new NullBotTelemetryClient();
+
+        private Dictionary<string, QueryResult[]> TestAnswers { get; set; }
+
+        private QueryResult[] DefaultAnswer { get; set; }
 
         public void RegisterAnswers(Dictionary<string, QueryResult[]> utterances)
         {

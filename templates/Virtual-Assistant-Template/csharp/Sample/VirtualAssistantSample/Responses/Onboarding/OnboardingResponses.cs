@@ -13,42 +13,48 @@ namespace VirtualAssistantSample.Responses.Onboarding
         {
             ["default"] = new TemplateIdMap
             {
-                { ResponseIds.EmailPrompt,
+                {
+                    ResponseIds.EmailPrompt,
                     (context, data) =>
                     MessageFactory.Text(
                         text: OnboardingStrings.EMAIL_PROMPT,
                         ssml: OnboardingStrings.EMAIL_PROMPT,
                         inputHint: InputHints.ExpectingInput)
                 },
-                { ResponseIds.HaveEmailMessage,
+                {
+                    ResponseIds.HaveEmailMessage,
                     (context, data) =>
                     MessageFactory.Text(
                         text: string.Format(OnboardingStrings.HAVE_EMAIL, data.email),
                         ssml: string.Format(OnboardingStrings.HAVE_EMAIL, data.email),
                         inputHint: InputHints.IgnoringInput)
                 },
-                { ResponseIds.HaveLocationMessage,
+                {
+                    ResponseIds.HaveLocationMessage,
                     (context, data) =>
                     MessageFactory.Text(
                         text: string.Format(OnboardingStrings.HAVE_LOCATION, data.Name, data.Location),
                         ssml: string.Format(OnboardingStrings.HAVE_LOCATION, data.Name, data.Location),
                         inputHint: InputHints.IgnoringInput)
                 },
-                { ResponseIds.HaveNameMessage,
+                {
+                    ResponseIds.HaveNameMessage,
                     (context, data) =>
                     MessageFactory.Text(
                         text: string.Format(OnboardingStrings.HAVE_NAME, data.name),
                         ssml: string.Format(OnboardingStrings.HAVE_NAME, data.name),
                         inputHint: InputHints.IgnoringInput)
                 },
-                { ResponseIds.NamePrompt,
+                {
+                    ResponseIds.NamePrompt,
                     (context, data) =>
                     MessageFactory.Text(
                         text: OnboardingStrings.NAME_PROMPT,
                         ssml: OnboardingStrings.NAME_PROMPT,
                         inputHint: InputHints.ExpectingInput)
                 },
-                { ResponseIds.LocationPrompt,
+                {
+                    ResponseIds.LocationPrompt,
                     (context, data) =>
                     MessageFactory.Text(
                         text: OnboardingStrings.LOCATION_PROMPT,

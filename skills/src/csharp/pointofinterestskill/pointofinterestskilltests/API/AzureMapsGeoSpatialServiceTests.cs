@@ -17,7 +17,6 @@ namespace PointOfInterestSkillTests.API
             mockClient = new HttpClient(new MockHttpClientHandlerGen().GetMockHttpClientHandler());
         }
 
-
         [TestMethod]
         public async Task GetNearbyPointsOfInterestTest()
         {
@@ -42,7 +41,6 @@ namespace PointOfInterestSkillTests.API
             await service.InitKeyAsync(MockData.Key, MockData.Radius, MockData.Limit, MockData.Locale, mockClient);
 
             var pointOfInterestList = await service.GetNearbyPointOfInterestListAsync(MockData.Latitude, MockData.Longitude);
-
 
             var pointOfInterest = await service.GetPointOfInterestDetailsAsync(pointOfInterestList[0]);
             Assert.AreEqual(pointOfInterest.PointOfInterestImageUrl, string.Format("https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={2}&center={1},{0}&width=440&height=240&subscription-key={3}", pointOfInterestList[0].Geolocation.Latitude, pointOfInterestList[0].Geolocation.Longitude, 14, MockData.Key));
@@ -99,7 +97,5 @@ namespace PointOfInterestSkillTests.API
             Assert.AreEqual(pointOfInterestList[1].Name, "1108 Elliott Ave W");
             Assert.AreEqual(pointOfInterestList[2].Name, "660 Elliott Avenue West");
         }
-
-
     }
 }

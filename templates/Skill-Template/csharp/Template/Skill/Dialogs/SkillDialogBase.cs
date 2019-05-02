@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Schema;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Schema;
 using $safeprojectname$.Models;
-using $safeprojectname$.Services;
 using $safeprojectname$.Responses.Shared;
+using $safeprojectname$.Services;
 
 namespace $safeprojectname$.Dialogs
 {

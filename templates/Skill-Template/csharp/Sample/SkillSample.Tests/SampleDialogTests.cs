@@ -1,10 +1,10 @@
-﻿using Microsoft.Bot.Schema;
+﻿using System;
+using System.Collections.Specialized;
+using System.Threading.Tasks;
+using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SkillSample.Responses.Sample;
 using SkillSample.Tests.Utterances;
-using System;
-using System.Collections.Specialized;
-using System.Threading.Tasks;
 
 namespace SkillSample.Tests
 {
@@ -39,6 +39,5 @@ namespace SkillSample.Tests
                 CollectionAssert.Contains(ParseReplies(SampleResponses.HaveNameMessage, new StringDictionary() { { "Name", SampleDialogUtterances.MessagePromptResponse } }), messageActivity.Text);
             };
         }
-
     }
 }

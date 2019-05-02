@@ -85,7 +85,7 @@ namespace VirtualAssistantSample.Dialogs
 
             if (identifiedSkill != null)
             {
-                // We have identiifed a skill so initialize the skill connection with the target skill 
+                // We have identiifed a skill so initialize the skill connection with the target skill
                 await dc.BeginDialogAsync(identifiedSkill.Id);
 
                 // Pass the activity we have
@@ -208,6 +208,7 @@ namespace VirtualAssistantSample.Dialogs
                             forward = true;
                             break;
                         }
+
                     default:
                         {
                             await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event {ev.Name} was received but not processed."));
@@ -261,10 +262,12 @@ namespace VirtualAssistantSample.Dialogs
                                 {
                                     return await OnCancel(dc);
                                 }
+
                             case GeneralLuis.Intent.Help:
                                 {
                                     return await OnHelp(dc);
                                 }
+
                             case GeneralLuis.Intent.Logout:
                                 {
                                     return await OnLogout(dc);

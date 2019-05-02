@@ -1,5 +1,7 @@
-﻿using Microsoft.Bot.Builder;
+﻿using System.Globalization;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -7,8 +9,6 @@ using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Schema;
 using WeatherSkill.Responses.Shared;
 using WeatherSkill.Services;
-using System.Globalization;
-using Microsoft.Bot.Builder.Dialogs;
 
 namespace WeatherSkill.Adapters
 {

@@ -1,9 +1,9 @@
-﻿using $safeprojectname$.Mocks;
-using $safeprojectname$.Utterances;
+﻿using System.Collections.Generic;
+using System.IO;
 using Microsoft.Bot.Builder.AI.QnA;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.IO;
+using $safeprojectname$.Mocks;
+using $safeprojectname$.Utterances;
 
 namespace $safeprojectname$.Utilities
 {

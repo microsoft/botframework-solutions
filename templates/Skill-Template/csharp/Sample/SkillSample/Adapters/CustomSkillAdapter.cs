@@ -1,4 +1,5 @@
-﻿using Microsoft.Bot.Builder;
+﻿using System.Globalization;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
@@ -7,7 +8,6 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
 using SkillSample.Responses.Shared;
 using SkillSample.Services;
-using System.Globalization;
 
 namespace SkillSample.Adapters
 {

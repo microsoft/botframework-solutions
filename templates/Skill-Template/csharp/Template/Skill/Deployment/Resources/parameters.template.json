@@ -7,9 +7,6 @@
     },
     "luisServiceLocation": {
       "value": "westus"
-    },
-    "qnaMakerSearchSku": {
-      "value": "standard"
     }
   }
 }

@@ -1,13 +1,13 @@
-﻿using AdaptiveCards;
-using Microsoft.Bot.Schema;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SkillSample.Responses.Main;
-using SkillSample.Responses.Shared;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using AdaptiveCards;
+using Microsoft.Bot.Schema;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SkillSample.Responses.Main;
+using SkillSample.Responses.Shared;
 
 namespace SkillSample.Tests
 {
@@ -108,6 +108,5 @@ namespace SkillSample.Tests
                 })
                 .StartTestAsync();
         }
-
     }
 }

@@ -1,8 +1,8 @@
-﻿using VirtualAssistantSample.Tests.Mocks;
-using VirtualAssistantSample.Tests.Utterances;
+﻿using System.Collections.Generic;
 using Luis;
 using Microsoft.Bot.Builder;
-using System.Collections.Generic;
+using VirtualAssistantSample.Tests.Mocks;
+using VirtualAssistantSample.Tests.Utterances;
 
 namespace VirtualAssistantSample.Tests.Utilities
 {

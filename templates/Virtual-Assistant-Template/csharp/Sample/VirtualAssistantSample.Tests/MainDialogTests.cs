@@ -1,9 +1,9 @@
-﻿using VirtualAssistantSample.Tests.Utterances;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using VirtualAssistantSample.Responses.Main;
+using VirtualAssistantSample.Tests.Utterances;
 
 namespace VirtualAssistantSample.Tests
 {

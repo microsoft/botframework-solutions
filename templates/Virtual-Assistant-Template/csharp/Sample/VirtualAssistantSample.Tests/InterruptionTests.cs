@@ -1,11 +1,11 @@
-﻿using VirtualAssistantSample.Tests.Utterances;
+﻿using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
-using System.Threading.Tasks;
-using VirtualAssistantSample.Responses.Onboarding;
 using VirtualAssistantSample.Responses.Cancel;
+using VirtualAssistantSample.Responses.Onboarding;
+using VirtualAssistantSample.Tests.Utterances;
 
 namespace VirtualAssistantSample.Tests
 {

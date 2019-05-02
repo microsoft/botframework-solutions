@@ -18,7 +18,8 @@ namespace VirtualAssistantSample.Bots
             BotSettings settings,
             ICredentialProvider credentialProvider,
             IBotTelemetryClient telemetryClient,
-            BotStateSet botStateSet) : base(credentialProvider)
+            BotStateSet botStateSet)
+            : base(credentialProvider)
         {
             OnTurnError = async (turnContext, exception) =>
             {
