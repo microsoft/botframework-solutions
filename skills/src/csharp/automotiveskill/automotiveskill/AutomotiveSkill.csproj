@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Content\AutomotiveCard.json" />
     <Content Remove="Content\ListSelection.json" />
     <Content Remove="Content\SettingChoice.json" />
   </ItemGroup>
@@ -75,6 +76,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Content\AutomotiveCard.json" />
     <EmbeddedResource Include="Data\available_settings.yaml" />
     <EmbeddedResource Include="Data\setting_alternative_names.yaml" />
     <EmbeddedResource Include="Data\normalization\amount_percentage.tsv" />

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EmailSkill.ServiceClients;
+using EmailSkill.Services;
 using EmailSkillTest.Flow.Strings;
 using Microsoft.Graph;
 

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 
-namespace EmailSkill.ServiceClients.MSGraphAPI
+namespace EmailSkill.Services.MSGraphAPI
 {
     /// <summary>
     /// Mail service used to call real apis.

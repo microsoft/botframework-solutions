@@ -8,7 +8,6 @@ using EmailSkill.Extensions;
 using EmailSkill.Models;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Responses.ShowEmail;
-using EmailSkill.ServiceClients;
 using EmailSkill.Services;
 using EmailSkill.Utilities;
 using Luis;
@@ -487,7 +486,7 @@ namespace EmailSkill.Dialogs
 
                         if (state.MessageList.Count > 1)
                         {
-                            int importCount = 0;
+                            var importCount = 0;
 
                             foreach (var msg in state.MessageList)
                             {

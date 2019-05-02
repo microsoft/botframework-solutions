@@ -2,8 +2,8 @@
   "PromptOneNameOneAddress": {
     "replies": [
       {
-        "text": "Okay, I will send this to {UserName}: {EmailAddress}. If this is not the {UserName} you were looking for, let me know.",
-        "speak": "Okay, I will send this to {UserName}: {EmailAddress}. If this is not the {UserName} you were looking for, let me know."
+        "text": "Okay, I will add {UserName}: {EmailAddress}. Is this the {UserName} you were looking for?",
+        "speak": "Okay, I will add {UserName}: {EmailAddress}. Is this the {UserName} you were looking for?"
       }
     ],
     "inputHint": "expectingInput"
@@ -94,6 +94,24 @@
       {
         "text": "Sure, who will join?",
         "speak": "Sure, who will join?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AddMoreUserPrompt": {
+    "replies": [
+      {
+        "text": "I have included {Users}, do you want to add another participant?",
+        "speak": "I have included {Users}, do you want to add another participant?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "AddMoreAttendees": {
+    "replies": [
+      {
+        "text": "Who do you want to add?",
+        "speak": "Who do you want to add?"
       }
     ],
     "inputHint": "expectingInput"

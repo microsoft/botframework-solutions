@@ -29,8 +29,8 @@
   "ShowOneMeetingSummaryMessage": {
     "replies": [
       {
-        "text": "You have 1 event planned for {DateTime}, it is with {Participants1} {EventTime1} titled {EventName1}. Want to hear the content of this event?",
-        "speak": "You have 1 event planned for {DateTime}, it is with {Participants1} {EventTime1} titled {EventName1}. Want to hear the content of this event?"
+        "text": "You have 1 event planned for {DateTime}, it is with {Participants1} {EventTime1} titled {EventName1}. Want to know the content of this event?",
+        "speak": "You have 1 event planned for {DateTime}, it is with {Participants1} {EventTime1} titled {EventName1}. Want to know the content of this event?"
       }
     ],
     "inputHint": "acceptingInput"
@@ -47,8 +47,8 @@
   "ShowOneMeetingSummaryAgainMessage": {
     "replies": [
       {
-        "text": "You have 1 event planned for {DateTime}. Want to hear the content of this event?",
-        "speak": "You have 1 event planned for {DateTime}. Want to hear the content of this event?"
+        "text": "You have 1 event planned for {DateTime}. Want to know the content of this event?",
+        "speak": "You have 1 event planned for {DateTime}. Want to know the content of this event?"
       }
     ],
     "inputHint": "acceptingInput"
@@ -214,8 +214,8 @@
   "AskForChangeStatus": {
     "replies": [
       {
-        "text": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to accept or decline this event for you.",
-        "speak": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to accept or decline this event for you."
+        "text": "Want to go back to the calendar overview again for {DateTime}? You can also ask me to accept or decline this event for you.",
+        "speak": "Want to go back to the calendar overview again for {DateTime}? You can also ask me to accept or decline this event for you."
       }
     ],
     "inputHint": "acceptingInput"
@@ -223,8 +223,8 @@
   "AskForAction": {
     "replies": [
       {
-        "text": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to decline this event for you.",
-        "speak": "Would you like to see your calendar overview again for {DateTime}? You can also ask me to decline this event for you."
+        "text": "Want to go back to the calendar overview again for {DateTime}? You can also ask me to decline this event for you.",
+        "speak": "Want to go back to the calendar overview again for {DateTime}? You can also ask me to decline this event for you."
       }
     ],
     "inputHint": "acceptingInput"

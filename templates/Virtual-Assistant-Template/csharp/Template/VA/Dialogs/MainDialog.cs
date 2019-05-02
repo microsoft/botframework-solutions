@@ -18,6 +18,7 @@ using Newtonsoft.Json.Linq;
 using $safeprojectname$.Models;
 using $safeprojectname$.Responses.Cancel;
 using $safeprojectname$.Responses.Main;
+using $safeprojectname$.Models;
 using $safeprojectname$.Services;
 
 namespace $safeprojectname$.Dialogs

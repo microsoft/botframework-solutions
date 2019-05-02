@@ -4,7 +4,7 @@
 using System;
 using EmailSkill.Models;
 
-namespace EmailSkill.ServiceClients
+namespace EmailSkill.Services
 {
     public interface IServiceManager
     {

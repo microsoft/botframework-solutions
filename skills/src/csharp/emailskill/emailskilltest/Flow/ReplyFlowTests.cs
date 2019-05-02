@@ -1,13 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using EmailSkill.Responses.Shared;
+using EmailSkill.Services;
 using EmailSkill.Utilities;
 using EmailSkillTest.Flow.Fakes;
 using EmailSkillTest.Flow.Strings;
 using EmailSkillTest.Flow.Utterances;
+using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EmailSkillTest.Flow
@@ -18,55 +23,55 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_NotSendingEmail()
         {
-            await this.GetTestFlow()
+            await GetTestFlow()
                 .Send(ReplyEmailUtterances.ReplyEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReply(this.ShowEmailList())
-                .AssertReplyOneOf(this.NoFocusMessage())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReply(ShowEmailList())
+                .AssertReplyOneOf(NoFocusMessage())
                 .Send(BaseTestUtterances.FirstOne)
-                .AssertReplyOneOf(this.CollectEmailContentMessage())
+                .AssertReplyOneOf(CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
-                .AssertReply(this.AssertComfirmBeforeSendingPrompt())
+                .AssertReply(AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.No)
-                .AssertReplyOneOf(this.NotSendingMessage())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReplyOneOf(NotSendingMessage())
+                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_SendingEmail()
         {
-            await this.GetTestFlow()
+            await GetTestFlow()
                 .Send(ReplyEmailUtterances.ReplyEmails)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReply(this.ShowEmailList())
-                .AssertReplyOneOf(this.NoFocusMessage())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReply(ShowEmailList())
+                .AssertReplyOneOf(NoFocusMessage())
                 .Send(BaseTestUtterances.FirstOne)
-                .AssertReplyOneOf(this.CollectEmailContentMessage())
+                .AssertReplyOneOf(CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
-                .AssertReply(this.AssertComfirmBeforeSendingPrompt())
+                .AssertReply(AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
-                .AssertReply(this.AfterSendingMessage(string.Format(EmailCommonStrings.ReplyReplyFormat, ContextStrings.TestSubject + "0")))
-                .AssertReply(this.ActionEndMessage())
+                .AssertReply(AfterSendingMessage(string.Format(EmailCommonStrings.ReplyReplyFormat, ContextStrings.TestSubject + "0")))
+                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_ReplyEmailWithContent()
         {
-            await this.GetTestFlow()
+            await GetTestFlow()
                 .Send(ReplyEmailUtterances.ReplyEmailsWithContent)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReply(this.ShowEmailList())
-                .AssertReplyOneOf(this.NoFocusMessage())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReply(ShowEmailList())
+                .AssertReplyOneOf(NoFocusMessage())
                 .Send(BaseTestUtterances.FirstOne)
-                .AssertReply(this.AssertComfirmBeforeSendingPrompt())
+                .AssertReply(AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
-                .AssertReply(this.AfterSendingMessage(string.Format(EmailCommonStrings.ReplyReplyFormat, ContextStrings.TestSubject + "0")))
-                .AssertReply(this.ActionEndMessage())
+                .AssertReply(AfterSendingMessage(string.Format(EmailCommonStrings.ReplyReplyFormat, ContextStrings.TestSubject + "0")))
+                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -109,7 +114,8 @@ namespace EmailSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(this.ParseReplies(EmailSharedResponses.ConfirmSend, new StringDictionary()), messageActivity.Text);
+                var confirmSend = this.ParseReplies(EmailSharedResponses.ConfirmSend, new StringDictionary());
+                Assert.IsTrue(messageActivity.Text.StartsWith(confirmSend[0]));
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }
@@ -121,7 +127,7 @@ namespace EmailSkillTest.Flow
                 var messageActivity = activity.AsMessageActivity();
 
                 // Get showed mails:
-                var showedItems = ((MockServiceManager)this.ServiceManager).MailService.MyMessages;
+                var showedItems = ServiceManager.MailService.MyMessages;
                 var replies = this.ParseReplies(EmailSharedResponses.ShowEmailPrompt, new StringDictionary()
                 {
                     { "TotalCount", showedItems.Count.ToString() },
