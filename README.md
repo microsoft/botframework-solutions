@@ -11,28 +11,17 @@ This repository is the home for a set of templates and solutions to help build c
 ## Packages
 
 ### .NET
-| Name | Released Package |
-|---|---|
-| Microsoft.Bot.Builder.Solutions | [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Builder.Solutions?dWidth=70&includePreReleases=true)](https://www.nuget.org/packages/Microsoft.Bot.Builder.Solutions/) |
-| Microsoft.Bot.Builder.Skills | [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Builder.Skills?dWidth=70&includePreReleases=true)](https://www.nuget.org/packages/Microsoft.Bot.Builder.Skills/) |
+| Name | Released Package |Prerelease |
+|---|---|---|
+| Microsoft.Bot.Builder.Solutions | [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Builder.Solutions?dWidth=70)](https://www.nuget.org/packages/Microsoft.Bot.Builder.Solutions/) | [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Builder.Solutions?dWidth=70&includePreReleases=true)](https://www.nuget.org/packages/Microsoft.Bot.Builder.Solutions/) |
+| Microsoft.Bot.Builder.Skills | [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Builder.Skills?dWidth=70)](https://www.nuget.org/packages/Microsoft.Bot.Builder.Skills/) |  [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Builder.Skills?dWidth=70&includePreReleases=true)](https://www.nuget.org/packages/Microsoft.Bot.Builder.Skills/) |
 
 ## Need Help?
 
 If you have any questions please start with [Stack Overflow](https://stackoverflow.com/questions/tagged/botframework) where we're happy to help. Please use this GitHub Repos issue tracking capability to raise [issues](https://github.com/Microsoft/AI/issues/new?assignees=&labels=Type%3A+Bug&template=bug_report.md&title=) or [feature requests](https://github.com/Microsoft/AI/issues/new?assignees=&labels=Type%3A+Suggestion&template=feature_request.md&title=).
 
-## Contributing
-
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
-
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+## Reporting Security Issues
+Security issues and bugs should be reported privately, via email, to the Microsoft Security Response Center (MSRC) at [secure@microsoft.com](mailto:secure@microsoft.com). You should receive a response within 24 hours. If for some reason you do not, please follow up via email to ensure we received your original message. Further information, including the [MSRC PGP](https://technet.microsoft.com/en-us/security/dn606155) key, can be found in the [Security TechCenter](https://technet.microsoft.com/en-us/security/default).
 
 ## License
 Copyright (c) Microsoft Corporation. All rights reserved.
