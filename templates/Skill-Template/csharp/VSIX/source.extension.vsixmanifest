@@ -3,7 +3,7 @@
     <Metadata>
         <Identity Id="SkillTemplate.67ddefd0-b403-4d2c-a73c-9c3eab1c3b28" Version="1.0" Language="en-US" Publisher="Microsoft" />
         <DisplayName>Skill Template</DisplayName>
-        <Description xml:space="preserve">Project template for an advanced conversational skill using the Bot Builder SDK V4.</Description>
+        <Description xml:space="preserve">Project template for an Bot Framework Skill using the Bot Builder SDK V4.</Description>
     </Metadata>
     <Installation>
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0, 17.0)" />
