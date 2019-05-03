@@ -1,10 +1,9 @@
-# Virtual Assistant (C#)
+# Quickstart: Creating your first Virtual Assistant (C#)
 
 **APPLIES TO:** ✅ SDK v4
 
 ## Table of Contents
 - [Intro](#intro)
-- [Download and install](#download-and-install)
 - [Create your assistant](#create-your-assistant)
 - [Deploy your assistant](#deploy-your-assistant)
 - [Run your assistant](#run-your-assistant)
@@ -41,7 +40,7 @@ Install Bot Framework development prerequisites and create your first Virtual As
 
 ### Scenario
 
-A Virtual Assistant app that greets a new user.
+A Virtual Assistant app (in C#) that greets a new user.
 
 ## Create your assistant
 
@@ -56,7 +55,7 @@ A Virtual Assistant app that greets a new user.
 9. Replace **OK**.
 10. Build your project to restore the NuGet packages.
 
-Before trying to run your assistant locally, continue with the deployment steps (it creates vital dependencies requires to run correctly).
+You now have your own Virtual Assistant! Before trying to run your assistant locally, continue with the deployment steps (it creates vital dependencies requires to run correctly).
 
 ## Deploy your assistant
 
@@ -74,15 +73,18 @@ The Virtual Assistant requires the following Azure dependencies to run correctly
 Deploy your services following the steps in [Virtual Assistant and Skill Template deployment](/docs/tutorials/assistantandskilldeploymentsteps.md).
 
 ## Run your assistant
-You can run your assistant  deployment is complete, you can start debugging through the following steps:
-1. Start a debugging session within Visual Studio for the Virtual Assistant project
-2. Run the **Bot Framework Emulator** . 
+When deployment is complete, you can run your Virtual Assistant debugging through the following steps:
+1. Start a debugging session within Visual Studio for your assistant project.
+2. Run the **Bot Framework Emulator**. 
 3. Select **Open Bot**.
+![Open Bot highlighted in the Bot Framework Emulator](../../media/quickstart-virtualassistant-openbot.png)
 4. Populate the fields in the **Open Bot** modal with your bot's configuration settings:
   - Provide the endpoint of your running bot, e.g: `http://localhost:3978/api/messages`
   - Provide the AppId and Secret values. Find these in your `appsettings.json` file, under the `microsoftAppId` and `microsoftAppPassword` configuration settings.
-
+  ![Open Bot modal highlighted in the Bot Framework Emulator](../../media/quickstart-virtualassistant-openbotmodal.png)
 
 Congratulations, you've built and run your first Virtual Assistant!
+
+![A new user is greeted by their Virtual Assistant in the Bot Framework Emulator](../../media/quickstart-virtualassistant-greetingemulator.png)
 
 Now that you've got the basics, continue [customizing your Virtual Assistant](/docs/tutorials/csharp/customizeassistant.md).
