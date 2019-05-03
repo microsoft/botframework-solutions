@@ -16,7 +16,7 @@ Learn how to navigate your assistant's project and make common customizations.
 
 ### Prerequisites
 
-[Create a Virtual Assistant](./virtualassistant.md) 
+[Create a Virtual Assistant](./virtualassistant.md) to setup your environment.
 
 ### Time to Complete
 
