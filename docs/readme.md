@@ -45,8 +45,9 @@ How-to guides on achieving more complex scenarios.
 
 |Name|Description|Link|
 |-------------|-----------|----|
+|Template Outline|An outline of what the Virtual Assistant template provides| [View](/docs/advanced/assistant/templateoutline.md)
 |Under the covers|Detailed documentation covering what the template provides and how it works| [View](/docs/advanced/assistant/underthecovers.md)
-|Enhancing your Assistant with additional Skills|Adding the out of the box Skills to your Virtual Assistant|[View](/docs/skills/common/addingskill.md)
+|Enhancing your Assistant with additional Skills|Adding the out of the box Skills to your Virtual Assistant|[View](/docs/advanced/skills/addingskills.md)
 |Migration from Enterprise Template|Guidance on how to move from an Enterprise Template based Bot to the new Template|[C#](/docs/advanced/assistant/csharp/ettovamigration.md)
 |Migration from the old Virtual Assistant solution|Guidance on how to move from the original Virtual Assistant solution to the new Template|[C#](/docs/advanced/assistant/csharp/oldvatovamigration.md)
 |Proactive Messaging|Adding proactive experiences to your assistant|[View](/docs/advanced/assistant/csharp/proactivemessaging.md)
@@ -79,7 +80,6 @@ Reference documentation providing more insight into key concepts across the Virt
 
 |Name|Description|Link|
 |-------------|-----------|----|
-|Virtual Assistant Architecture|Detailed exploration of the overall Virtual Assistant Architecture|[View](/docs/reference/assistant/architecture.md)
 |Project Structure|Walkthrough of your Virtual Assistant project|[View](/docs/reference/assistant/projectstructure.md)
 |Responses|Your Virtual Assistant can respond in a variety of ways depending on the scenario and the users active device or conversation canvas|[View](/docs/reference/assistant/responses.md)
 |Handling events|Events enable custom apps or device experiences to pass device or contextual user information to an assistant behind the scenes.|[View](/docs/reference/assistant/events.md)|
