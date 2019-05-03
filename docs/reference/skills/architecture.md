@@ -28,7 +28,7 @@ When the user of a Virtual Assistant asks a question, the Dispatcher will proces
 
 On start-up of a Virtual Assistant, each registered Skill results in a SkilllDialog instance being created which is associated with a `SkillManifest` instance containing details about the Skill including it's endpoint, actions and slots.
 
-All communication between a Virtual Assistant and a Skill is performed through a custom `SkillDialog`, which is started when the dispatcher identifies a Skill that maps to a users utterances. Skills are invoked through a lightweight `SkillWebSocket` or `SkillHttpBot` adapter, maintaining the standard Bot communication protocol and ensuring Skills can be developed using the standard Bot Framework toolkit.
+All communication between a Virtual Assistant and a Skill is performed through a custom `SkillDialog`, which is started when the dispatcher identifies a Skill that maps to a users utterances. Skills are invoked through a lightweight `SkillWebSocket` or `SkillHttp` adapter, maintaining the standard Bot communication protocol and ensuring Skills can be developed using the standard Bot Framework toolkit.
 
 The `SkillManifest` provides the endpoint for the SkillDialog to communicate with along with action and slot information. Slots are optional and a way to pass parameters to a Skill. 
 
