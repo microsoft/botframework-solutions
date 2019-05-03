@@ -88,7 +88,7 @@ try {
             botSettings.microsoftAppPassword || '',
             skill.msAppId);
 
-        return new SkillDialog(skill, credentials, skillContextAccessor, adapter.telemetryClient, authDialog);
+        return new SkillDialog(skill, credentials, adapter.telemetryClient, skillContextAccessor, authDialog);
     });
     const mainDialog: MainDialog = new MainDialog(
         botSettings,
