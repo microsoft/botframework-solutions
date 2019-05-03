@@ -4,6 +4,7 @@
 
 ## In this tutorial
 - [Intro](#intro)
+- [Download and install](#download-and-install)
 - [Create your assistant](#create-your-assistant)
 - [Deploy your assistant](#deploy-your-assistant)
 - [Run your assistant](#run-your-assistant)
@@ -16,21 +17,9 @@ Install Bot Framework development prerequisites and create your first Virtual As
 
 ### Prerequisites
 
-> It's important to ensure all of the following prerequisites are installed on your machine prior to attempting deployment otherwise you may run into deployment issues.
+[Download and install](#download-and-install) the Bot Framework development prerequisites.
 
-1. Download and install the [Virtual Assistant Template](https://botbuilder.myget.org/gallery/aitemplates).
-2. Download and install [.NET Core SDK](https://www.microsoft.com/net/download).  
-3. Download and install [Node Package manager](https://nodejs.org/en/).
-4. Download and install PowerShell Core version 6 (required for cross platform deployment support):
-   * [Download PowerShell Core on Windows](https://aka.ms/getps6-windows)
-   * [Download PowerShell Core on macOS and Linux](https://aka.ms/getps6-linux)
-5. Download and install the Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of the latest capabilities: 
-   ```
-   npm install -g botdispatch ludown luis-apis qnamaker luisgen
-   ```
-6. Download and install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest).
-7. Download and install the [Bot Framework Emulator](https://aka.ms/botframework-emulator).
-8. Retrieve your LUIS Authoring Key
+- Retrieve your LUIS Authoring Key
    - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work within a europe deployment. 
    - Once signed in replace your name in the top right hand corner.
    - Choose Settings and make a note of the Authoring Key for the next step.
@@ -43,18 +32,29 @@ Install Bot Framework development prerequisites and create your first Virtual As
 
 A Virtual Assistant app (in C#) that greets a new user.
 
+## Download and install
+
+> It's important to ensure all of the following prerequisites are installed on your machine prior to attempting deployment otherwise you may run into deployment issues.
+
+1. Download and install the [Virtual Assistant Template](https://botbuilder.myget.org/F/aitemplates/vsix/VirtualAssistantTemplate.d2246051-7779-4196-af1f-ae7e2562ec8e-4.4.0.vsix).
+2. Download and install [.NET Core SDK](https://www.microsoft.com/net/download).  
+3. Download and install [Node Package manager](https://nodejs.org/en/).
+4. Download and install PowerShell Core version 6 (required for cross platform deployment support):
+   * [Download PowerShell Core on Windows](https://aka.ms/getps6-windows)
+   * [Download PowerShell Core on macOS and Linux](https://aka.ms/getps6-linux)
+5. Download and install the Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of the latest capabilities: 
+   ```
+   npm install -g botdispatch ludown luis-apis qnamaker luisgen
+   ```
+6. Download and install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest).
+7. Download and install the [Bot Framework Emulator](https://aka.ms/botframework-emulator).
+
 ## Create your assistant
 
 1. In Visual Studio, replace **File > New Project**.
 2. Under Bot, select **Virtual Assistant Template**.
 3. Name your project and replace **Create**.
-4. Replace **Tools > NuGet Package Manager > Package Manager Settings**
-5. In the Navigation Pane, select **Package Sources**
-6. Replace '+' to add the following sources: 
-   - **https://botbuilder.myget.org/F/experimental/api/v3/index.json**
-   - **https://botbuilder.myget.org/F/aitemplates/api/v3/index.json**
-9. Replace **OK**.
-10. Build your project to restore the NuGet packages.
+4. Build your project to restore the NuGet packages.
 
 You now have your own Virtual Assistant! Before trying to run your assistant locally, continue with the deployment steps (it creates vital dependencies requires to run correctly).
 

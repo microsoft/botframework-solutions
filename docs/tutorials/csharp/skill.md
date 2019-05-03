@@ -18,7 +18,7 @@
 ## Pre-requisites
 > It's important to ensure all of the following pre-requisites are installed on your machine prior to attempting deployment otherwise you may run into deployment issues.
 
-1. Install the [Skill Template](TBC)
+1. Install the [Skill Template](https://botbuilder.myget.org/F/aitemplates/vsix/SkillTemplate.df25018c-2295-4191-ba62-115ac8ef7e68-4.4.0.vsix)
 1. Ensure you have updated [.NET Core](https://www.microsoft.com/net/download) to the latest version.  
 1. Ensure the [Node Package manager](https://nodejs.org/en/) is installed.
 1. PowerShell Core version 6 (Required for cross platform deployment support)

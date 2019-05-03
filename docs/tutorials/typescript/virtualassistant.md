@@ -1,9 +1,10 @@
-# Quickstart: Creating your first Virtual Assistant (C#)
+# Quickstart: Creating your first Virtual Assistant (TypeScript)
 
 **APPLIES TO:** ✅ SDK v4
 
 ## In this tutorial
 - [Intro](#intro)
+- [Download and install](#download-and-install)
 - [Create your assistant](#create-your-assistant)
 - [Deploy your assistant](#deploy-your-assistant)
 - [Run your assistant](#run-your-assistant)
@@ -16,22 +17,9 @@ Install Bot Framework development prerequisites and create your first Virtual As
 
 ### Prerequisites
 
-> It's important to ensure all of the following prerequisites are installed on your machine prior to attempting deployment otherwise you may run into deployment issues.
+[Download and install](#download-and-install) the Bot Framework development prerequisites.
 
-1. Download and install the [Node Package Manager (NPM)](https://nodejs.org/en/).
-2. Download and install PowerShell Core version 6 (required for cross platform deployment support)
-   * [Download PowerShell Core on Windows](https://aka.ms/getps6-windows)
-   * [Download PowerShell Core on macOS and Linux](https://aka.ms/getps6-linux)
-3. Download and install Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of the latest capabilities: 
-   ```
-   npm install -g botdispatch, ludown, luis-apis, qnamaker, luisgen
-   ```
-4. Install [Yeoman](http://yeoman.io)
-   ```
-   npm install -g yo
-   ```
-5. Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
-6. Retrieve your LUIS Authoring Key
+* Retrieve your LUIS Authoring Key
    - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work within a europe deployment. 
    - Once signed in click on your name in the top right hand corner.
    - Choose Settings and make a note of the Authoring Key for the next step.
@@ -43,6 +31,24 @@ Install Bot Framework development prerequisites and create your first Virtual As
 ### Scenario
 
 A Virtual Assistant app (in TypeScript) that greets a new user.
+
+## Download and install
+
+> It's important to ensure all of the following prerequisites are installed on your machine prior to attempting deployment otherwise you may run into deployment issues.
+
+1. Download and install the [Node Package Manager (NPM)](https://nodejs.org/en/).
+2. Download and install PowerShell Core version 6 (required for cross platform deployment support).
+   * [Download PowerShell Core on Windows](https://aka.ms/getps6-windows)
+   * [Download PowerShell Core on macOS and Linux](https://aka.ms/getps6-linux)
+3. Download and install Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of the latest capabilities: 
+   ```
+   npm install -g botdispatch, ludown, luis-apis, qnamaker, luisgen
+   ```
+4. Install [Yeoman](http://yeoman.io)
+   ```
+   npm install -g yo
+   ```
+5. Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest).
 
 ## Create your assistant
 
