@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="SkillTemplate.67ddefd0-b403-4d2c-a73c-9c3eab1c3b28" Version="4.4.0" Language="en-US" Publisher="Microsoft" />
+        <Identity Id="SkillTemplate.df25018c-2295-4191-ba62-115ac8ef7e68" Version="4.4.0" Language="en-US" Publisher="Microsoft" />
         <DisplayName>Skill Template</DisplayName>
         <Description xml:space="preserve">Project template for an Bot Framework Skill using the Bot Builder SDK V4.</Description>
         <Icon>__TemplateIcon.ico</Icon>
