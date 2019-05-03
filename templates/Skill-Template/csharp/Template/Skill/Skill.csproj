@@ -82,50 +82,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Deployment\Resources\LU\de\general.lu">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>general.cs</LastGenOutput>
-    </None>
-    <None Update="Deployment\Resources\LU\en\general.lu">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>general.cs</LastGenOutput>
-    </None>
-    <None Update="Deployment\Resources\LU\en\skill.lu">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>skill.cs</LastGenOutput>
-    </None>
-    <None Update="Deployment\Resources\LU\es\general.lu">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>general.cs</LastGenOutput>
-    </None>
-    <None Update="Deployment\Resources\LU\es\skill.lu">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>skill.cs</LastGenOutput>
-    </None>
-    <None Update="Deployment\Resources\LU\fr\general.lu">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>general.cs</LastGenOutput>
-    </None>
-    <None Update="Deployment\Resources\LU\fr\skill.lu">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>skill.cs</LastGenOutput>
-    </None>
-    <None Update="Deployment\Scripts\deploy.ps1">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>deploy.cs</LastGenOutput>
-    </None>
-    <None Update="Deployment\Scripts\deploy_cognitive_models.ps1">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>deploy_cognitive_models.cs</LastGenOutput>
-    </None>
-    <None Update="MyTemplate.vstemplate">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MyTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="readme.md">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>readme.cs</LastGenOutput>
-    </None>
     <None Update="Responses\Main\MainResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MainResponses.cs</LastGenOutput>
@@ -134,17 +90,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SampleResponses.cs</LastGenOutput>
     </None>
-    <None Update="Responses\Shared\ResponseIdCollection.t4">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ResponseIdCollection.cs</LastGenOutput>
-    </None>
     <None Update="Responses\Shared\SharedResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SharedResponses.cs</LastGenOutput>
-    </None>
-    <None Update="__TemplateIcon.ico">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>__TemplateIcon.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
