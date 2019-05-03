@@ -45,8 +45,9 @@ How-to guides on achieving more complex scenarios.
 
 |Name|Description|Link|
 |-------------|-----------|----|
+|Template Outline|An outline of what the Virtual Assistant template provides| [View](/docs/advanced/assistant/templateoutline.md)
 |Under the covers|Detailed documentation covering what the template provides and how it works| [View](/docs/advanced/assistant/underthecovers.md)
-|Enhancing your Assistant with additional Skills|Adding the out of the box Skills to your Virtual Assistant|[View](/docs/skills/common/addingskill.md)
+|Enhancing your Assistant with additional Skills|Adding the out of the box Skills to your Virtual Assistant|[View](/docs/advanced/skills/addingskills.md)
 |Migration from Enterprise Template|Guidance on how to move from an Enterprise Template based Bot to the new Template|[C#](/docs/advanced/assistant/csharp/ettovamigration.md)
 |Migration from the old Virtual Assistant solution|Guidance on how to move from the original Virtual Assistant solution to the new Template|[C#](/docs/advanced/assistant/csharp/oldvatovamigration.md)
 |Proactive Messaging|Adding proactive experiences to your assistant|[View](/docs/advanced/assistant/csharp/proactivemessaging.md)
@@ -54,7 +55,7 @@ How-to guides on achieving more complex scenarios.
 |Stitching together Bots into one conversational experience|Create one central Bot which hands-off to child bots, a common enterprise scenario.|[View](/docs/advanced/assistant/parentchildbotpattern.md)
 |Configuring Deployment|How to customise the provided ARM template for different deployment scenarios.|[View](/docs/advanced/assistant/customisingdeployment.md)
 |Adding Authentication to your assistant |How to add Authentication support to your Assistant| [C#](/docs/advanced/assistant/csharp/addauthentication.md), [TS](/docs/advanced/assistant/typescript/addauthentication.md)
-|Adding KeyVault |How to add KeyVault support| [C#](/docs/advanced/assistant/csharp/keyvault.md), [TS](/docs/advanced/assistant/typescript/keyvault.md)
+|Adding KeyVault |How to add KeyVault support| :construction_worker_woman:
 
 ## Skills
 
@@ -79,10 +80,10 @@ Reference documentation providing more insight into key concepts across the Virt
 
 |Name|Description|Link|
 |-------------|-----------|----|
-|Virtual Assistant Architecture|Detailed exploration of the overall Virtual Assistant Architecture|[View](/docs/reference/assistant/architecture.md)
 |Project Structure|Walkthrough of your Virtual Assistant project|[View](/docs/reference/assistant/projectstructure.md)
 |Responses|Your Virtual Assistant can respond in a variety of ways depending on the scenario and the users active device or conversation canvas|[View](/docs/reference/assistant/responses.md)
 |Handling events|Events enable custom apps or device experiences to pass device or contextual user information to an assistant behind the scenes.|[View](/docs/reference/assistant/events.md)|
+|Dispatcher|Detailed exploration of the important role the Dispatcher plays in the Virtual Assistant template|[View](/docs/reference/assistant/dispatcher.md)|
 |Speech Enablement|Ensure your Virtual Assistant and Experiences work well in Speech scenarios|[View](/docs/reference/assistant/speechenablement.md)
 |Deployment script approach|Walkthrough of the deployment script approach used in the Virtual Assistant|[View](/docs/reference/assistant/deploymentscriptapproach.md)
 
