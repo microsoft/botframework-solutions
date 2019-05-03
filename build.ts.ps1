@@ -1,9 +1,15 @@
 ﻿Param(
-	[string] $version
+	[string] $pkgversion,
+	[string] $cliversion
 )
 
-if (-not $version) {
-    Write-Host "Version required!.  Please use the param -version" -ForegroundColor DarkRed
+if (-not $pkgversion) {
+    Write-Host "Version for botbuilder-* required!.  Please use the param -pkgversion" -ForegroundColor DarkRed
+	Break
+}
+
+if (-not $cliversion) {
+    Write-Host "Version for botskills CLI required!.  Please use the param -cliversion" -ForegroundColor DarkRed
 	Break
 }
 
@@ -13,21 +19,21 @@ rush update
 
 pushd .\botskills
 
-npm version $($version) --allow-same-version
+npm version $($cliversion) --allow-same-version
 npm run build
 
 popd
 
 pushd .\botbuilder-solutions
 
-npm version $($version) --allow-same-version
+npm version $($pkgversion) --allow-same-version
 npm run build
 
 popd
 
 pushd .\botbuilder-skills
 
-npm version $($version) --allow-same-version
+npm version $($pkgversion) --allow-same-version
 npm run build
 
 popd
@@ -36,7 +42,7 @@ popd
 
 pushd .\templates\Virtual-Assistant-Template\typescript\generator-botbuilder-assistant
 
-npm version $($version) --allow-same-version
+npm version $($pkgversion) --allow-same-version
 npm install
 
 popd
