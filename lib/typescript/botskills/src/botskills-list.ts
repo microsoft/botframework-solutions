@@ -20,6 +20,16 @@ function showErrorHelp(): void {
     process.exit(1);
 }
 
+function checkSkillsFile(skillsFile: string): boolean {
+    const skillsFilePath: string = isAbsolute(skillsFile) ? skillsFile : join(resolve('./'), skillsFile);
+    if (!existsSync(skillsFilePath)) {
+
+        return false;
+    }
+
+    return true;
+}
+
 const logger: ILogger = new ConsoleLogger();
 
 program.Command.prototype.unknownOption = (flag: string): void => {
@@ -31,8 +41,6 @@ program
     .name('botskills list')
     .description('List all the Skills connected to your assistant')
     .option('-f, --skillsFile <path>', 'Path to assistant Skills configuration file')
-    .option('--cs', 'Determine your assistant project structure to be a CSharp-like structure')
-    .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
     .option('--verbose', '[OPTIONAL] Output detailed information about the processing of the tool')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
@@ -40,33 +48,30 @@ const args: program.Command = program.parse(process.argv);
 
 logger.isVerbose = args.verbose;
 
-// cs and ts validation
-const csAndTsValidationResult: string = validatePairOfArgs(args.cs, args.ts);
-if (csAndTsValidationResult) {
-    logger.error(
-        csAndTsValidationResult.replace('{0}', 'cs')
-        .replace('{1}', 'ts')
-    );
-    process.exit(1);
-}
-
 // skillsFile validation
 if (!args.skillsFile) {
-    args.skillsFile = args.ts ? join('src', 'skills.json') : 'skills.json';
+    args.skillsFile = join('src', 'skills.json');
+    if (!checkSkillsFile(args.skillsFile)) {
+        args.skillsFile = 'skills.json';
+        if (!checkSkillsFile(args.skillsFile)) {
+            logger.error(`The 'skillsFile' argument is absent or leads to a non-existing file.
+Please make sure to provide a valid path to your Assistant Skills configuration file.`);
+            process.exit(1);
+        }
+    }
 } else if (extname(args.skillsFile) !== '.json') {
     logger.error(`The 'skillsFile' argument should be a JSON file.`);
     process.exit(1);
-}
-
-const skillsFilePath: string = isAbsolute(args.skillsFile) ? args.skillsFile : join(resolve('./'), args.skillsFile);
-if (!existsSync(skillsFilePath)) {
-    logger.error(`The 'skillsFile' argument is absent or leads to a non-existing file.
+} else {
+    if (!checkSkillsFile(args.skillsFile)) {
+        logger.error(`The 'skillsFile' argument is absent or leads to a non-existing file.
 Please make sure to provide a valid path to your Assistant Skills configuration file.`);
-    process.exit(1);
+        process.exit(1);
+    }
 }
 
 const configuration: IListConfiguration = {
-    skillsFile: skillsFilePath,
+    skillsFile: isAbsolute(args.skillsFile) ? args.skillsFile : join(resolve('./'), args.skillsFile),
     logger: logger
 };
 
