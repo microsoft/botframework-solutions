@@ -10,7 +10,7 @@ Param(
 	[string] $luisAuthoringRegion,
     [string] $parametersFile,
 	[string] $languages = "en-us",
-	[string] $outFolder = $(Join-Path $(Get-Location) src)
+	[string] $outFolder = $(Get-Location),
 	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_log.txt")
 )
 
