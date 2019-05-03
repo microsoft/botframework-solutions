@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using EmailSkill.Extensions;
 using EmailSkill.Responses.Shared;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Graph;
 
@@ -42,7 +40,7 @@ namespace EmailSkill.Utilities
                     ? CommonStrings.NotAvailable
                     : message.ReceivedDateTime.Value.UtcDateTime.ToRelativeString(timeZone);
                 var sender = (message.Sender?.EmailAddress?.Name != null) ? message.Sender.EmailAddress.Name : EmailCommonStrings.UnknownSender;
-                var subject = (message.Subject != null) ? message.Subject : EmailCommonStrings.EmptySubject;
+                var subject = message.Subject ?? EmailCommonStrings.EmptySubject;
                 speakString = string.Format(EmailCommonStrings.FromDetailsFormatAll, sender, time, subject);
             }
 
@@ -80,46 +78,6 @@ namespace EmailSkill.Utilities
             speakString = string.Format(EmailCommonStrings.ToDetailsFormat, subject, toRecipient, content);
 
             return speakString;
-        }
-
-        public static string ToSpeechSelectionDetailString(PromptOptions selectOption, int maxSize)
-        {
-            var result = string.Empty;
-            result += selectOption.Prompt.Text + "\r\n";
-
-            var selectionDetails = new List<string>();
-
-            var readSize = Math.Min(selectOption.Choices.Count, maxSize);
-            if (readSize == 1)
-            {
-                selectionDetails.Add(selectOption.Choices[0].Value);
-            }
-            else
-            {
-                for (var i = 0; i < readSize; i++)
-                {
-                    var readFormat = string.Empty;
-
-                    if (i == 0)
-                    {
-                        readFormat = CommonStrings.FirstItem;
-                    }
-                    else if (i == 1)
-                    {
-                        readFormat = CommonStrings.SecondItem;
-                    }
-                    else if (i == 2)
-                    {
-                        readFormat = CommonStrings.ThirdItem;
-                    }
-
-                    var selectionDetail = string.Format(readFormat, selectOption.Choices[i].Value);
-                    selectionDetails.Add(selectionDetail);
-                }
-            }
-
-            result += selectionDetails.ToSpeechString(CommonStrings.And);
-            return result;
         }
     }
 }

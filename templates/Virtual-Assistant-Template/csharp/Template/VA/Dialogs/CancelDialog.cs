@@ -27,19 +27,6 @@ namespace $safeprojectname$.Dialogs
             AddDialog(new ConfirmPrompt(DialogIds.CancelPrompt));
         }
 
-        private async Task<DialogTurnResult> AskToCancel(WaterfallStepContext sc, CancellationToken cancellationToken)
-        {
-            return await sc.PromptAsync(DialogIds.CancelPrompt, new PromptOptions()
-            {
-                Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, CancelResponses.ResponseIds.CancelPrompt),
-            });
-        }
-
-        private async Task<DialogTurnResult> FinishCancelDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
-        {
-            return await sc.EndDialogAsync((bool)sc.Result);
-        }
-
         protected override async Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
         {
             var doCancel = (bool)result;
@@ -60,6 +47,19 @@ namespace $safeprojectname$.Dialogs
                 // End this component. Will trigger reprompt/resume on outer stack
                 return await outerDc.EndDialogAsync();
             }
+        }
+
+        private async Task<DialogTurnResult> AskToCancel(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
+            return await sc.PromptAsync(DialogIds.CancelPrompt, new PromptOptions()
+            {
+                Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, CancelResponses.ResponseIds.CancelPrompt),
+            });
+        }
+
+        private async Task<DialogTurnResult> FinishCancelDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
+            return await sc.EndDialogAsync((bool)sc.Result);
         }
 
         private class DialogIds

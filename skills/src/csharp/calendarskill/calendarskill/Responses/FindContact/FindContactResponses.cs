@@ -23,5 +23,7 @@ namespace CalendarSkill.Responses.FindContact
         public const string AlreadyFirstPage = "AlreadyFirstPage";
         public const string AlreadyLastPage = "AlreadyLastPage";
         public const string NoAttendees = "NoAttendees";
+        public const string AddMoreUserPrompt = "AddMoreUserPrompt";
+        public const string AddMoreAttendees = "AddMoreAttendees";
     }
 }

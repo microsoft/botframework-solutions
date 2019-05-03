@@ -32,7 +32,7 @@ namespace VirtualAssistantSample.Dialogs
                 FinishOnboardingDialog,
             };
 
-            // To capture built-in waterfall dialog telemetry, set the telemetry client 
+            // To capture built-in waterfall dialog telemetry, set the telemetry client
             // to the new waterfall dialog and add it to the component dialog
             TelemetryClient = telemetryClient;
             AddDialog(new WaterfallDialog(InitialDialogId, onboarding) { TelemetryClient = telemetryClient });
@@ -55,11 +55,12 @@ namespace VirtualAssistantSample.Dialogs
                 });
             }
         }
-        
+
         public async Task<DialogTurnResult> FinishOnboardingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             _state = await _accessor.GetAsync(sc.Context, () => new OnboardingState());
             var name = _state.Name = (string)sc.Result;
+            await _accessor.SetAsync(sc.Context, _state, cancellationToken);
 
             await _responder.ReplyWith(sc.Context, OnboardingResponses.ResponseIds.HaveNameMessage, new { name });
             return await sc.EndDialogAsync();

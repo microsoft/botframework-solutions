@@ -13,28 +13,32 @@ namespace VirtualAssistantSample.Responses.Cancel
         {
             ["default"] = new TemplateIdMap
             {
-                { ResponseIds.CancelConfirmedMessage,
+                {
+                    ResponseIds.CancelConfirmedMessage,
                     (context, data) =>
                     MessageFactory.Text(
                         text: CancelStrings.CANCEL_CONFIRMED,
                         ssml: CancelStrings.CANCEL_CONFIRMED,
                         inputHint: InputHints.AcceptingInput)
                 },
-                { ResponseIds.CancelDeniedMessage,
+                {
+                    ResponseIds.CancelDeniedMessage,
                     (context, data) =>
                     MessageFactory.Text(
                         text: CancelStrings.CANCEL_DENIED,
                         ssml: CancelStrings.CANCEL_DENIED,
                         inputHint: InputHints.AcceptingInput)
                 },
-                { ResponseIds.CancelPrompt,
+                {
+                    ResponseIds.CancelPrompt,
                     (context, data) =>
                     MessageFactory.Text(
                         text: CancelStrings.CANCEL_PROMPT,
                         ssml: CancelStrings.CANCEL_PROMPT,
                         inputHint: InputHints.ExpectingInput)
                 },
-                { ResponseIds.NothingToCancelMessage,
+                {
+                    ResponseIds.NothingToCancelMessage,
                     (context, data) =>
                     MessageFactory.Text(
                         text: CancelStrings.NOTHING_TO_CANCEL,

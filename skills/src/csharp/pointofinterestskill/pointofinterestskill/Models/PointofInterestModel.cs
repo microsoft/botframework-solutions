@@ -37,16 +37,13 @@ namespace PointOfInterestSkill.Models
             Name = !string.IsNullOrEmpty(azureMapsPoi.Poi?.Name)
                 ? azureMapsPoi.Poi?.Name
                 : Name;
-            City = !string.IsNullOrEmpty(azureMapsPoi.Address?.MunicipalitySubdivision)
-                ? azureMapsPoi.Address.MunicipalitySubdivision
-                : City;
-            Street = !string.IsNullOrEmpty(azureMapsPoi.Address?.ToBingAddress()?.AddressLine)
-                ? azureMapsPoi.Address?.ToBingAddress()?.AddressLine
-                : Street;
+            Address = !string.IsNullOrEmpty(azureMapsPoi.Address?.FreeformAddress)
+                ? azureMapsPoi.Address?.FreeformAddress
+                : Address;
             Geolocation = azureMapsPoi.Position
                 ?? Geolocation;
-            Category = (azureMapsPoi.Poi?.Categories != null)
-            ? CultureInfo.CurrentCulture.TextInfo.ToTitleCase(azureMapsPoi.Poi.Categories.First().ToLower())
+            Category = (azureMapsPoi.Poi?.Classifications != null)
+            ? CultureInfo.CurrentCulture.TextInfo.ToTitleCase(azureMapsPoi.Poi.Classifications.FirstOrDefault().Names.FirstOrDefault().NameProperty)
             : Category;
 
             if (Provider == null)
@@ -69,17 +66,14 @@ namespace PointOfInterestSkill.Models
                 ? foursquarePoi.Id
                 : Id;
             PointOfInterestImageUrl = !string.IsNullOrEmpty(foursquarePoi.BestPhoto?.AbsoluteUrl)
-               ? foursquarePoi.BestPhoto?.AbsoluteUrl
+               ? $"{foursquarePoi.BestPhoto?.Prefix}440x240{foursquarePoi.BestPhoto?.Suffix}"
                : PointOfInterestImageUrl;
             Name = !string.IsNullOrEmpty(foursquarePoi.Name)
                 ? foursquarePoi.Name
                 : Name;
-            City = !string.IsNullOrEmpty(foursquarePoi.Location?.City)
-                ? foursquarePoi.Location?.City
-                : City;
-            Street = !string.IsNullOrEmpty(foursquarePoi.Location?.Address)
-                ? foursquarePoi.Location?.Address
-                : City;
+            Address = foursquarePoi.Location?.FormattedAddress != null
+                ? string.Join(", ", foursquarePoi.Location.FormattedAddress.Take(foursquarePoi.Location.FormattedAddress.Length - 1))
+                : Address;
             Geolocation = (foursquarePoi.Location != null)
                 ? new LatLng() { Latitude = foursquarePoi.Location.Lat, Longitude = foursquarePoi.Location.Lng }
                 : Geolocation;
@@ -136,22 +130,13 @@ namespace PointOfInterestSkill.Models
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the address of the point of interest.
+        /// Gets or sets the formatted address of the point of interest.
         /// Availability: Azure Maps, Foursquare.
         /// </summary>
         /// <value>
-        /// The city of this point of interest.
+        /// The formatted address of this point of interest.
         /// </value>
-        public string City { get; set; }
-
-        /// <summary>
-        /// Gets or sets the address line of the point of interest.
-        /// Availability: Azure Maps, Foursquare.
-        /// </summary>
-        /// <value>
-        /// The street address of this point of interest.
-        /// </value>
-        public string Street { get; set; }
+        public string Address { get; set; }
 
         /// <summary>
         /// Gets or sets the geolocation of the point of interest.
@@ -248,6 +233,14 @@ namespace PointOfInterestSkill.Models
         /// The index of this point of interest.
         /// </value>
         public int Index { get; set; }
+
+        /// <summary>
+        /// Gets or sets the formatted speak response of the point of interest.
+        /// </summary>
+        /// <value>
+        /// The formatted speak string.
+        /// </value>
+        public string Speak { get; set; }
 
         /// <summary>
         /// Gets the formatted string for available details.

@@ -8,7 +8,6 @@ using CalendarSkill.Models;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Responses.TimeRemaining;
 using CalendarSkill.Services;
-using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;

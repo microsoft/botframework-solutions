@@ -34,8 +34,8 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
                 {
                     try
                     {
-                        resourceAssembly = resourceAssembly.GetSatelliteAssembly(new CultureInfo(locale));
-                        LoadResponses(resourceName, resourceAssembly, locale);
+                        var localizedResourceAssembly = resourceAssembly.GetSatelliteAssembly(new CultureInfo(locale));
+                        LoadResponses(resourceName, localizedResourceAssembly, locale);
                     }
                     catch
                     {
@@ -421,7 +421,10 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
                 {
                     if (!tokens.ContainsKey(property.Name))
                     {
-                        tokens.Add(property.Name, property.GetValue(data)?.ToString());
+                        var escapedTokenStr = property.GetValue(data)?.ToString()?.Replace("\\", "\\\\");
+                        escapedTokenStr = escapedTokenStr?.Replace("\"", "\\\"");
+                        escapedTokenStr = escapedTokenStr?.Replace("\'", "\\\'");
+                        tokens.Add(property.Name, escapedTokenStr);
                     }
                 }
 

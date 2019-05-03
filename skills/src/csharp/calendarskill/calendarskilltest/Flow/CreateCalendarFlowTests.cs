@@ -8,7 +8,6 @@ using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Schema;
@@ -42,116 +41,137 @@ namespace CalendarSkillTest.Flow
 
             var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
 
-            await this.GetTestFlow()
+            await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.AskForParticpantsPrompt())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
-                .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
+                .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReplyOneOf(this.AskForSubjectWithContactNamePrompt())
+                .AssertReplyOneOf(AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
                 .Send(Strings.Strings.DefaultEventName)
-                .AssertReplyOneOf(this.AskForContentPrompt())
+                .AssertReplyOneOf(AskForContentPrompt())
                 .Send(Strings.Strings.DefaultContent)
-                .AssertReplyOneOf(this.AskForDatePrompt())
+                .AssertReplyOneOf(AskForDatePrompt())
                 .Send(Strings.Strings.DefaultStartDate)
-                .AssertReplyOneOf(this.AskForStartTimePrompt())
+                .AssertReplyOneOf(AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
-                .AssertReplyOneOf(this.AskForDurationPrompt())
+                .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
-                .AssertReplyOneOf(this.AskForLocationPrompt())
+                .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowCalendarList())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReply(ShowCalendarList())
+                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_CalendarCreate_ConfirmNo_ChangeTime()
         {
-            await this.GetTestFlow()
+            await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.ConfirmOneContactPrompt())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(ConfirmOneContactPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReplyOneOf(this.AskForStartTimePrompt())
-                .Send(Strings.Strings.DefaultStartTime)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
-                .AssertReplyOneOf(this.AskForRecreateInfoPrompt())
+                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
+                .AssertReplyOneOf(AskForStartTimePrompt())
+                .Send(Strings.Strings.DefaultStartTime)
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForRecreateInfoPrompt())
                 .Send(Strings.Strings.RecreateWithTime)
 
                 // test limitation for now. need to do further investigate.
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.AskForDatePrompt())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForDatePrompt())
                 .Send(Strings.Strings.DefaultStartDate)
-                .AssertReplyOneOf(this.AskForStartTimePrompt())
+                .AssertReplyOneOf(AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowCalendarList())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReply(ShowCalendarList())
+                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_CalendarCreate_ConfirmNo_ChangeDuration()
         {
-            await this.GetTestFlow()
+            await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.ConfirmOneContactPrompt())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(ConfirmOneContactPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReplyOneOf(this.AskForStartTimePrompt())
-                .Send(Strings.Strings.DefaultStartTime)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
-                .AssertReplyOneOf(this.AskForRecreateInfoPrompt())
+                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
+                .AssertReplyOneOf(AskForStartTimePrompt())
+                .Send(Strings.Strings.DefaultStartTime)
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForRecreateInfoPrompt())
                 .Send(Strings.Strings.RecreateWithDuration)
 
                 // test limitation for now. need to do further investigate.
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.AskForDurationPrompt())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReply(ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowCalendarList())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReplyOneOf(ConfirmPrompt())
+                .AssertReply(ShowCalendarList())
+                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_CalendarCreate_ConfirmNo_ChangeLocation()
         {
-            await this.GetTestFlow()
+            await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.ConfirmOneContactPrompt())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(ConfirmOneContactPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReplyOneOf(this.AskForStartTimePrompt())
-                .Send(Strings.Strings.DefaultStartTime)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
-                .AssertReplyOneOf(this.AskForRecreateInfoPrompt())
+                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
+                .AssertReplyOneOf(AskForStartTimePrompt())
+                .Send(Strings.Strings.DefaultStartTime)
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForRecreateInfoPrompt())
                 .Send(Strings.Strings.RecreateWithLocation)
 
                 // test limitation for now. need to do further investigate.
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.AskForLocationPrompt())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowCalendarList())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReply(ShowCalendarList())
+                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -163,114 +183,137 @@ namespace CalendarSkillTest.Flow
 
             var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
 
-            await this.GetTestFlow()
+            await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.ConfirmOneContactPrompt())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(ConfirmOneContactPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReplyOneOf(this.AskForStartTimePrompt())
-                .Send(Strings.Strings.DefaultStartTime)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
-                .AssertReplyOneOf(this.AskForRecreateInfoPrompt())
+                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
+                .AssertReplyOneOf(AskForStartTimePrompt())
+                .Send(Strings.Strings.DefaultStartTime)
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForRecreateInfoPrompt())
                 .Send(Strings.Strings.RecreateWithParticipants)
 
                 // test limitation for now. need to do further investigate.
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.AskForParticpantsPrompt())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
-                .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
+                .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowCalendarList())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReply(ShowCalendarList())
+                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_CalendarCreate_ConfirmNo_ChangeSubject()
         {
-            await this.GetTestFlow()
+            await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.ConfirmOneContactPrompt())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(ConfirmOneContactPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReplyOneOf(this.AskForStartTimePrompt())
-                .Send(Strings.Strings.DefaultStartTime)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
-                .AssertReplyOneOf(this.AskForRecreateInfoPrompt())
+                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
+                .AssertReplyOneOf(AskForStartTimePrompt())
+                .Send(Strings.Strings.DefaultStartTime)
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForRecreateInfoPrompt())
                 .Send(Strings.Strings.RecreateWithSubject)
 
                 // test limitation for now. need to do further investigate.
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.AskForSubjectShortPrompt())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForSubjectShortPrompt())
                 .Send(Strings.Strings.DefaultEventName)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowCalendarList())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReply(ShowCalendarList())
+                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_CalendarCreate_ConfirmNo_ChangeContent()
         {
-            await this.GetTestFlow()
+            await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.ConfirmOneContactPrompt())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(ConfirmOneContactPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReplyOneOf(this.AskForStartTimePrompt())
-                .Send(Strings.Strings.DefaultStartTime)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReplyOneOf(AddMoreUserPrompt())
                 .Send(Strings.Strings.ConfirmNo)
-                .AssertReplyOneOf(this.AskForRecreateInfoPrompt())
+                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
+                .AssertReplyOneOf(AskForStartTimePrompt())
+                .Send(Strings.Strings.DefaultStartTime)
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForRecreateInfoPrompt())
                 .Send(Strings.Strings.RecreateWithContent)
 
                 // test limitation for now. need to do further investigate.
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.AskForContentPrompt())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForContentPrompt())
                 .Send(Strings.Strings.DefaultContent)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowCalendarList())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReply(ShowCalendarList())
+                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_CalendarCreateWithEmailAddress()
         {
-            await this.GetTestFlow()
+            await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.AskForParticpantsPrompt())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserEmail)
-                .AssertReplyOneOf(this.AskForSubjectWithEmailAddressPrompt())
+                .AssertReplyOneOf(AddMoreUserPrompt(Strings.Strings.DefaultUserEmail))
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForSubjectWithEmailAddressPrompt())
                 .Send(Strings.Strings.DefaultEventName)
-                .AssertReplyOneOf(this.AskForContentPrompt())
+                .AssertReplyOneOf(AskForContentPrompt())
                 .Send(Strings.Strings.DefaultContent)
-                .AssertReplyOneOf(this.AskForDatePrompt())
+                .AssertReplyOneOf(AskForDatePrompt())
                 .Send(Strings.Strings.DefaultStartDate)
-                .AssertReplyOneOf(this.AskForStartTimePrompt())
+                .AssertReplyOneOf(AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
-                .AssertReplyOneOf(this.AskForDurationPrompt())
+                .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
-                .AssertReplyOneOf(this.AskForLocationPrompt())
+                .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowCalendarList())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReply(ShowCalendarList())
+                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -286,187 +329,257 @@ namespace CalendarSkillTest.Flow
             var recipientDupDict = new StringDictionary() { { "UserName", testDupRecipient }, { "EmailAddress", testDupEmailAddress } };
 
             var peopleCount = 3;
-            this.ServiceManager = MockServiceManager.SetPeopleToMultiple(peopleCount);
+            ServiceManager = MockServiceManager.SetPeopleToMultiple(peopleCount);
 
-            await this.GetTestFlow()
+            await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.AskForParticpantsPrompt())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
-                .AssertReply(this.ShowContactsList(recipientDict))
+                .AssertReply(ShowContactsList(recipientDict))
                 .Send(CreateMeetingTestUtterances.ChooseFirstUser)
-                .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDupDict))
+                .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDupDict))
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReplyOneOf(this.AskForSubjectWithContactNamePrompt(string.Format(Strings.Strings.UserName, 0)))
+                .AssertReplyOneOf(AddMoreUserPrompt(testDupRecipient, testDupEmailAddress))
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt(string.Format(Strings.Strings.UserName, 0), testDupEmailAddress))
                 .Send(Strings.Strings.DefaultEventName)
-                .AssertReplyOneOf(this.AskForContentPrompt())
+                .AssertReplyOneOf(AskForContentPrompt())
                 .Send(Strings.Strings.DefaultContent)
-                .AssertReplyOneOf(this.AskForDatePrompt())
+                .AssertReplyOneOf(AskForDatePrompt())
                 .Send(Strings.Strings.DefaultStartDate)
-                .AssertReplyOneOf(this.AskForStartTimePrompt())
+                .AssertReplyOneOf(AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
-                .AssertReplyOneOf(this.AskForDurationPrompt())
+                .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
-                .AssertReplyOneOf(this.AskForLocationPrompt())
+                .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowCalendarList())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReply(ShowCalendarList())
+                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_CalendarCreateWithTitleEntity()
         {
-            await this.GetTestFlow()
+            var testRecipient = Strings.Strings.DefaultUserName;
+            var testEmailAddress = Strings.Strings.DefaultUserEmail;
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+
+            await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithTitleEntity)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.AskForStartTimePrompt())
-                .Send(Strings.Strings.DefaultStartTime)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForParticpantsPrompt())
+                .Send(Strings.Strings.DefaultUserName)
+                .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowCalendarList())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReplyOneOf(AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForStartTimePrompt())
+                .Send(Strings.Strings.DefaultStartTime)
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowCalendarList())
+                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_CalendarCreateWithOneContactEntity()
         {
-            await this.GetTestFlow()
+            await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.ConfirmOneContactPrompt())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(ConfirmOneContactPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReplyOneOf(this.AskForStartTimePrompt())
+                .AssertReplyOneOf(AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
+                .AssertReplyOneOf(AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowCalendarList())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReply(ShowCalendarList())
+                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_CalendarCreateWithDateTimeEntity()
         {
-            await this.GetTestFlow()
+            var testRecipient = Strings.Strings.DefaultUserName;
+            var testEmailAddress = Strings.Strings.DefaultUserEmail;
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+
+            await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithDateTimeEntity)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReply(this.CheckCreatedMeetingInFuture())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForParticpantsPrompt())
+                .Send(Strings.Strings.DefaultUserName)
+                .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowCalendarList())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReplyOneOf(AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
+                .AssertReply(CheckCreatedMeetingInFuture())
+                .AssertReplyOneOf(ConfirmPrompt())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowCalendarList())
+                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_CalendarCreateWithLocationEntity()
         {
-            await this.GetTestFlow()
+            var testRecipient = Strings.Strings.DefaultUserName;
+            var testEmailAddress = Strings.Strings.DefaultUserEmail;
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+
+            await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithLocationEntity)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.AskForStartTimePrompt())
-                .Send(Strings.Strings.DefaultStartTime)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForParticpantsPrompt())
+                .Send(Strings.Strings.DefaultUserName)
+                .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowCalendarList())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReplyOneOf(AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
+                .AssertReplyOneOf(AskForStartTimePrompt())
+                .Send(Strings.Strings.DefaultStartTime)
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowCalendarList())
+                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_CalendarCreateWithDurationEntity()
         {
-            await this.GetTestFlow()
+            var testRecipient = Strings.Strings.DefaultUserName;
+            var testEmailAddress = Strings.Strings.DefaultUserEmail;
+            var recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
+
+            await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithDurationEntity)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.AskForStartTimePrompt())
-                .Send(Strings.Strings.DefaultStartTime)
-                .AssertReply(this.ShowCalendarList())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForParticpantsPrompt())
+                .Send(Strings.Strings.DefaultUserName)
+                .AssertReplyOneOf(ConfirmOneNameOneAddress(recipientDict))
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowCalendarList())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReplyOneOf(AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
+                .AssertReplyOneOf(AskForStartTimePrompt())
+                .Send(Strings.Strings.DefaultStartTime)
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowCalendarList())
+                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_CalendarCreateWeekday()
         {
-            await this.GetTestFlow()
+            await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.AskForParticpantsPrompt())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserEmail)
-                .AssertReplyOneOf(this.AskForSubjectWithEmailAddressPrompt())
+                .AssertReplyOneOf(AddMoreUserPrompt(Strings.Strings.DefaultUserEmail))
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForSubjectWithEmailAddressPrompt())
                 .Send(Strings.Strings.DefaultEventName)
-                .AssertReplyOneOf(this.AskForContentPrompt())
+                .AssertReplyOneOf(AskForContentPrompt())
                 .Send(Strings.Strings.DefaultContent)
-                .AssertReplyOneOf(this.AskForDatePrompt())
+                .AssertReplyOneOf(AskForDatePrompt())
                 .Send(Strings.Strings.WeekdayDate)
-                .AssertReplyOneOf(this.AskForStartTimePrompt())
+                .AssertReplyOneOf(AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
-                .AssertReplyOneOf(this.AskForDurationPrompt())
+                .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
-                .AssertReplyOneOf(this.AskForLocationPrompt())
+                .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
-                .AssertReply(this.CheckCreatedMeetingInFuture())
+                .AssertReply(CheckCreatedMeetingInFuture())
+                .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(this.ShowCalendarList())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReply(ShowCalendarList())
+                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_CalendarAccessDeniedException()
         {
-            await this.GetTestFlow()
+            await GetTestFlow()
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.AskForParticpantsPrompt())
+                .AssertReply(ShowAuth())
+                .Send(GetAuthResponse())
+                .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.ThrowErrorAccessDenied)
-                .AssertReplyOneOf(this.BotErrorResponse())
-                .AssertReply(this.ActionEndMessage())
+                .AssertReplyOneOf(BotErrorResponse())
+                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
         private string[] ConfirmOneNameOneAddress(StringDictionary recipientDict)
         {
-            return this.ParseReplies(FindContactResponses.PromptOneNameOneAddress, recipientDict);
+            return ParseReplies(FindContactResponses.PromptOneNameOneAddress, recipientDict);
+        }
+
+        private string[] AddMoreUserPrompt(string userName = null, string userEmail = null)
+        {
+            var responseParams = new StringDictionary()
+            {
+                { "Users", $"{userName ?? Strings.Strings.DefaultUserName}: {userEmail ?? Strings.Strings.DefaultUserEmail}" }
+            };
+            return ParseReplies(FindContactResponses.AddMoreUserPrompt, responseParams);
         }
 
         private string[] AskForParticpantsPrompt()
         {
-            return this.ParseReplies(CreateEventResponses.NoAttendees, new StringDictionary());
+            return ParseReplies(CreateEventResponses.NoAttendees, new StringDictionary());
         }
 
         private string[] AskForSubjectWithEmailAddressPrompt()
         {
             var responseParams = new StringDictionary()
             {
-                { "UserName", Strings.Strings.DefaultUserEmail },
+                { "UserName", $"{Strings.Strings.DefaultUserEmail}: {Strings.Strings.DefaultUserEmail}" },
             };
 
-            return this.ParseReplies(CreateEventResponses.NoTitle, responseParams);
+            return ParseReplies(CreateEventResponses.NoTitle, responseParams);
         }
 
-        private string[] AskForSubjectWithContactNamePrompt(string userName = null)
+        private string[] AskForSubjectWithContactNamePrompt(string userName = null, string userEmail = null)
         {
             var responseParams = new StringDictionary()
             {
-                { "UserName", userName ?? Strings.Strings.DefaultUserName },
+                { "UserName", $"{userName ?? Strings.Strings.DefaultUserName}: {userEmail ?? Strings.Strings.DefaultUserEmail}" },
             };
 
-            return this.ParseReplies(CreateEventResponses.NoTitle, responseParams);
+            return ParseReplies(CreateEventResponses.NoTitle, responseParams);
         }
 
         private string[] ConfirmOneContactPrompt(string userName = null, string emailAddress = null)
@@ -477,42 +590,42 @@ namespace CalendarSkillTest.Flow
                 { "EmailAddress", emailAddress ?? Strings.Strings.DefaultUserEmail }
             };
 
-            return this.ParseReplies(FindContactResponses.PromptOneNameOneAddress, responseParams);
+            return ParseReplies(FindContactResponses.PromptOneNameOneAddress, responseParams);
         }
 
         private string[] AskForSubjectShortPrompt(string userName = null)
         {
-            return this.ParseReplies(CreateEventResponses.NoTitleShort, new StringDictionary());
+            return ParseReplies(CreateEventResponses.NoTitleShort, new StringDictionary());
         }
 
         private string[] AskForContentPrompt()
         {
-            return this.ParseReplies(CreateEventResponses.NoContent, new StringDictionary());
+            return ParseReplies(CreateEventResponses.NoContent, new StringDictionary());
         }
 
         private string[] AskForDatePrompt()
         {
-            return this.ParseReplies(CreateEventResponses.NoStartDate, new StringDictionary());
+            return ParseReplies(CreateEventResponses.NoStartDate, new StringDictionary());
         }
 
         private string[] AskForStartTimePrompt()
         {
-            return this.ParseReplies(CreateEventResponses.NoStartTime, new StringDictionary());
+            return ParseReplies(CreateEventResponses.NoStartTime, new StringDictionary());
         }
 
         private string[] AskForDurationPrompt()
         {
-            return this.ParseReplies(CreateEventResponses.NoDuration, new StringDictionary());
+            return ParseReplies(CreateEventResponses.NoDuration, new StringDictionary());
         }
 
         private string[] AskForLocationPrompt()
         {
-            return this.ParseReplies(CreateEventResponses.NoLocation, new StringDictionary());
+            return ParseReplies(CreateEventResponses.NoLocation, new StringDictionary());
         }
 
         private string[] AskForRecreateInfoPrompt()
         {
-            return this.ParseReplies(CreateEventResponses.GetRecreateInfo, new StringDictionary());
+            return ParseReplies(CreateEventResponses.GetRecreateInfo, new StringDictionary());
         }
 
         private Action<IActivity> ShowAuth()
@@ -528,9 +641,13 @@ namespace CalendarSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-
-                // Assert.AreEqual(messageActivity.Attachments.Count, 1);
+                Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
+        }
+
+        private string[] ConfirmPrompt()
+        {
+            return ParseReplies(CreateEventResponses.ConfirmCreatePrompt, new StringDictionary());
         }
 
         private Action<IActivity> CheckCreatedMeetingInFuture()
@@ -538,17 +655,7 @@ namespace CalendarSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-
-                // Assert.AreEqual(messageActivity.Attachments.Count, 1);
-
-                // var meetingCardJsonString = ((Newtonsoft.Json.Linq.JObject)messageActivity.Attachments[0].Content).ToString();
-                // var meetingCard = JsonConvert.DeserializeObject<MeetingAdaptiveCard>(meetingCardJsonString);
-                // var meetingDate = meetingCard.Bodies[0].Items[2].Text;
-                // var cultureInfo = (CultureInfo)CultureInfo.CurrentUICulture.Clone();
-                // cultureInfo.DateTimeFormat.DateSeparator = "-";
-                // var date = DateTime.ParseExact(meetingDate, "d", cultureInfo);
-                // var utcToday = DateTime.UtcNow.Date;
-                // Assert.IsTrue(date >= utcToday);
+                Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }
 
@@ -557,7 +664,7 @@ namespace CalendarSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var recipientConfirmedMessage = this.ParseReplies(FindContactResponses.ConfirmMultipleContactNameSinglePage, recipientDict);
+                var recipientConfirmedMessage = ParseReplies(FindContactResponses.ConfirmMultipleContactNameSinglePage, recipientDict);
 
                 var messageLines = messageActivity.Text.Split("\r\n");
                 Assert.IsTrue(messageActivity.Text.StartsWith(recipientConfirmedMessage[0]));
@@ -575,7 +682,7 @@ namespace CalendarSkillTest.Flow
 
         private string[] BotErrorResponse()
         {
-            return this.ParseReplies(CalendarSharedResponses.CalendarErrorMessageBotProblem, new StringDictionary());
+            return ParseReplies(CalendarSharedResponses.CalendarErrorMessageBotProblem, new StringDictionary());
         }
     }
 }

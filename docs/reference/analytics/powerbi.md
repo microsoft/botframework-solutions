@@ -7,6 +7,7 @@ The  [Conversational Analytics Power BI sample](https://aka.ms/botPowerBiTemplat
 |[Overall Usage](#overall-usage)| Provides general insights like unique users, total number of messages, and number of conversations per day|
 |[All Dialogs Overview](#all-dialogs-overview)| All dialogs' popularity and status based off of SDK telemetry.|
 |[Dialog Overview](#dialog-overview)| A specific dialog's popularity, status,  and average bot/user turn count.|
+|[LUIS Intents](#luis-intents)| A count of LUIS intents per day.|
 |[All Conversations Metrics](#all-conversations-metrics)| Highlights the average number of conversations per unique user and the average duration by day.|
 |[Conversations Drill Down](#conversations-drill-down)| Per conversation, this highlights the dialogs triggered and common utterances.|
 |[Transcript](#transcript)| Highlights a count of interactions, session duration, and the transcript between bot and users per unique conversation.|
@@ -92,6 +93,8 @@ in
 ![Example Report](../media/powerbi-conversationanalytics-alldialogsoverview.png)
 ### Dialog Overview
 ![Example Report](../media/powerbi-conversationanalytics-dialogoverview.png)
+### LUIS Intents
+![Example Report](../media/powerbi-conversationanalytics-luisintents.png)
 ### All Conversations Metrics
 ![Example Report](../media/powerbi-conversationanalytics-allconversationsmetrics.png)
 ### Conversations Drill Down

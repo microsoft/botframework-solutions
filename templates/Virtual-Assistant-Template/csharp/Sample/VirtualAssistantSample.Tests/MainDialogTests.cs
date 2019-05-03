@@ -1,9 +1,12 @@
-﻿using VirtualAssistantSample.Tests.Utterances;
-using Microsoft.Bot.Schema;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Bot.Schema;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VirtualAssistantSample.Responses.Main;
+using VirtualAssistantSample.Tests.Utterances;
 
 namespace VirtualAssistantSample.Tests
 {

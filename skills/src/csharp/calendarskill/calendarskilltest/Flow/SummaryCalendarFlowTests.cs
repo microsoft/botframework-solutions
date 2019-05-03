@@ -8,7 +8,6 @@ using CalendarSkill.Responses.UpdateEvent;
 using CalendarSkill.Services;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Resources;
@@ -43,7 +42,7 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventPrompt())
-                .AssertReply(this.ShowCalendarList(1))
+                .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -65,14 +64,14 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarSummaryGetMultipleMeetings()
         {
-            var eventCount = 3;
+            int eventCount = 3;
             this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseFindMeeting)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundMultipleEventPrompt(eventCount))
-                .AssertReply(this.ShowCalendarList(eventCount))
+                .AssertReply(this.ShowCalendarList())
                 .AssertReplyOneOf(this.ReadOutMorePrompt())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
@@ -118,9 +117,9 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarSummaryByTimeRange()
         {
-            var now = DateTime.Now;
-            var nextWeekDay = now.AddDays(7);
-            var startTime = new DateTime(nextWeekDay.Year, nextWeekDay.Month, nextWeekDay.Day, 18, 0, 0);
+            DateTime now = DateTime.Now;
+            DateTime nextWeekDay = now.AddDays(7);
+            DateTime startTime = new DateTime(nextWeekDay.Year, nextWeekDay.Month, nextWeekDay.Day, 18, 0, 0);
             startTime = TimeZoneInfo.ConvertTimeToUtc(startTime);
             this.ServiceManager = MockServiceManager.SetMeetingsToSpecial(new List<EventModel>()
             {
@@ -134,7 +133,7 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventPrompt("next week"))
-                .AssertReply(this.ShowCalendarList(1))
+                .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -148,7 +147,7 @@ namespace CalendarSkillTest.Flow
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.FoundOneEventPrompt("tomorrow"))
-                .AssertReply(this.ShowCalendarList(1))
+                .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmNo)
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
@@ -266,13 +265,12 @@ namespace CalendarSkillTest.Flow
             return this.ParseReplies(SummaryResponses.ShowMultipleMeetingSummaryMessage, responseParams);
         }
 
-        private Action<IActivity> ShowCalendarList(int count)
+        private Action<IActivity> ShowCalendarList()
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-
-                // Assert.AreEqual(messageActivity.Attachments.Count, count);
+                Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }
 

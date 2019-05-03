@@ -15,6 +15,8 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions.Extensions;
+using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Graph;
@@ -25,13 +27,13 @@ namespace CalendarSkill.Dialogs
     public class FindContactDialog : CalendarSkillDialogBase
     {
         public FindContactDialog(
-            BotSettings settings,
-            BotServices services,
-            ResponseManager responseManager,
-            ConversationState conversationState,
-            IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient)
-           : base(nameof(FindContactDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
+           BotSettings settings,
+           BotServices services,
+           ResponseManager responseManager,
+           ConversationState conversationState,
+           IServiceManager serviceManager,
+           IBotTelemetryClient telemetryClient)
+          : base(nameof(FindContactDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -100,12 +102,19 @@ namespace CalendarSkill.Dialogs
                 AfterSelectEmail
             };
 
+            var addMoreUserPrompt = new WaterfallStep[]
+            {
+                AddMoreUserPrompt,
+                AfterAddMoreUserPrompt
+            };
+
             AddDialog(new WaterfallDialog(Actions.ConfirmNameList, confirmNameList) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.LoopNameList, loopNameList) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.ConfirmAttendee, confirmAttendee) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateName, updateName) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.SelectPerson, selectPerson) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.SelectEmail, selectEmail) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.AddMoreUserPrompt, addMoreUserPrompt) { TelemetryClient = telemetryClient });
             InitialDialogId = Actions.ConfirmNameList;
         }
 
@@ -114,15 +123,31 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
+                var options = sc.Options as FindContactDialogOptions;
 
                 // got attendee name list already.
                 if (state.AttendeesNameList.Any())
                 {
+                    if (options != null && options.FindContactReason == FindContactDialogOptions.FindContactReasonType.FirstFindContact)
+                    {
+                        if (state.AttendeesNameList.Count > 1)
+                        {
+                            options.PromptMoreContact = false;
+                        }
+                    }
+
                     return await sc.NextAsync();
                 }
 
                 // ask for attendee
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.NoAttendees) }, cancellationToken);
+                if (options.FindContactReason == FindContactDialogOptions.FindContactReasonType.FirstFindContact)
+                {
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.NoAttendees) }, cancellationToken);
+                }
+                else
+                {
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(FindContactResponses.AddMoreAttendees) }, cancellationToken);
+                }
             }
             catch (Exception ex)
             {
@@ -200,11 +225,24 @@ namespace CalendarSkill.Dialogs
                 if (state.ConfirmAttendeesNameIndex < state.AttendeesNameList.Count)
                 {
                     state.CurrentAttendeeName = state.AttendeesNameList[state.ConfirmAttendeesNameIndex];
-                    return await sc.BeginDialogAsync(Actions.ConfirmAttendee, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.Initialize), cancellationToken);
+                    var options = sc.Options as FindContactDialogOptions;
+                    options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.Initialize;
+                    return await sc.BeginDialogAsync(Actions.ConfirmAttendee, sc.Options, cancellationToken);
                 }
                 else
                 {
-                    return await sc.EndDialogAsync();
+                    state.AttendeesNameList = new List<string>();
+                    state.CurrentAttendeeName = string.Empty;
+                    state.ConfirmAttendeesNameIndex = 0;
+                    var options = sc.Options as FindContactDialogOptions;
+                    if (options.PromptMoreContact && state.Attendees.Count < 20)
+                    {
+                        return await sc.ReplaceDialogAsync(Actions.AddMoreUserPrompt, options);
+                    }
+                    else
+                    {
+                        return await sc.EndDialogAsync();
+                    }
                 }
             }
             catch (Exception ex)
@@ -240,7 +278,7 @@ namespace CalendarSkill.Dialogs
 
                 // when called bt LoopNameList, the options reason is initialize.
                 // when replaced by itself, the reason will be Confirm No.
-                var options = (UpdateUserNameDialogOptions)sc.Options;
+                var options = (FindContactDialogOptions)sc.Options;
 
                 // set the ConfirmPerson to null as defaut.
                 state.ConfirmedPerson = null;
@@ -308,7 +346,9 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    return await sc.ReplaceDialogAsync(Actions.ConfirmAttendee, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.ConfirmNo));
+                    var options = sc.Options as FindContactDialogOptions;
+                    options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.ConfirmNo;
+                    return await sc.ReplaceDialogAsync(Actions.ConfirmAttendee, options);
                 }
             }
             catch (Exception ex)
@@ -326,10 +366,10 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context);
                 state.UnconfirmedPerson.Clear();
                 state.ConfirmedPerson = null;
-                var options = (UpdateUserNameDialogOptions)sc.Options;
+                var options = (FindContactDialogOptions)sc.Options;
 
                 // if it is confirm no, thenask user to give a new attendee
-                if (options.Reason == UpdateUserNameDialogOptions.UpdateReason.ConfirmNo)
+                if (options.UpdateUserNameReason == FindContactDialogOptions.UpdateUserNameReasonType.ConfirmNo)
                 {
                     return await sc.PromptAsync(
                         Actions.Prompt,
@@ -342,7 +382,7 @@ namespace CalendarSkill.Dialogs
                 var currentRecipientName = state.CurrentAttendeeName;
 
                 // if not initialize ask user for attendee
-                if (options.Reason != UpdateUserNameDialogOptions.UpdateReason.Initialize)
+                if (options.UpdateUserNameReason != FindContactDialogOptions.UpdateUserNameReasonType.Initialize)
                 {
                     if (state.FirstRetryInFindContact)
                     {
@@ -390,9 +430,9 @@ namespace CalendarSkill.Dialogs
             {
                 var userInput = sc.Result as string;
                 var state = await Accessor.GetAsync(sc.Context);
-                var options = (UpdateUserNameDialogOptions)sc.Options;
+                var options = (FindContactDialogOptions)sc.Options;
 
-                if (string.IsNullOrEmpty(userInput) && options.Reason != UpdateUserNameDialogOptions.UpdateReason.Initialize)
+                if (string.IsNullOrEmpty(userInput) && options.UpdateUserNameReason != FindContactDialogOptions.UpdateUserNameReasonType.Initialize)
                 {
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.UserNotFoundAgain, new StringDictionary() { { "source", state.EventSource == EventSource.Microsoft ? "Outlook Calendar" : "Google Calendar" } }));
                     return await sc.EndDialogAsync();
@@ -492,7 +532,8 @@ namespace CalendarSkill.Dialogs
 
                 if (unionList.Count == 0)
                 {
-                    return await sc.ReplaceDialogAsync(Actions.UpdateName, new UpdateUserNameDialogOptions(UpdateUserNameDialogOptions.UpdateReason.NotFound));
+                    options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.NotFound;
+                    return await sc.ReplaceDialogAsync(Actions.UpdateName, options);
                 }
                 else
                 if (unionList.Count == 1)
@@ -683,6 +724,49 @@ namespace CalendarSkill.Dialogs
             }
         }
 
+        public async Task<DialogTurnResult> AddMoreUserPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context);
+                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
+                {
+                    Prompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.Attendees.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}") } }),
+                    RetryPrompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.Attendees.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}") } })
+                }, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> AfterAddMoreUserPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var result = (bool)sc.Result;
+                if (result)
+                {
+                    var options = sc.Options as FindContactDialogOptions;
+                    options.FindContactReason = FindContactDialogOptions.FindContactReasonType.FindContactAgain;
+                    return await sc.ReplaceDialogAsync(Actions.ConfirmNameList, options);
+                }
+                else
+                {
+                    return await sc.EndDialogAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
         private async Task<PromptOptions> GenerateOptionsForEmail(WaterfallStepContext sc, CustomizedPerson confirmedPerson, ITurnContext context, bool isSinglePage = true)
         {
             var state = await Accessor.GetAsync(context);
@@ -732,7 +816,7 @@ namespace CalendarSkill.Dialogs
                 {
                     if (options.Choices.Count >= pageSize)
                     {
-                        options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, CalendarConfigData.GetInstance().MaxDisplaySize);
+                        options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
                         options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
                         options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
                         return options;
@@ -746,7 +830,7 @@ namespace CalendarSkill.Dialogs
                 }
             }
 
-            options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, CalendarConfigData.GetInstance().MaxDisplaySize);
+            options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
             options.Prompt.Text += "\r\n" + GetSelectPromptEmailString(options, true);
             options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
             return options;
@@ -818,7 +902,7 @@ namespace CalendarSkill.Dialogs
                 {
                     if (options.Choices.Count >= pageSize)
                     {
-                        options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, CalendarConfigData.GetInstance().MaxDisplaySize);
+                        options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
                         options.Prompt.Text = GetSelectPromptString(options, true);
                         options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
                         return options;
@@ -832,7 +916,7 @@ namespace CalendarSkill.Dialogs
                 }
             }
 
-            options.Prompt.Speak = SpeakHelper.ToSpeechSelectionDetailString(options, CalendarConfigData.GetInstance().MaxDisplaySize);
+            options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options, ReadPreference.Chronological, ConfigData.GetInstance().MaxReadSize);
             options.Prompt.Text = GetSelectPromptString(options, true);
             options.RetryPrompt = ResponseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage);
             return options;

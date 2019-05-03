@@ -1,11 +1,11 @@
-﻿using Luis;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.Dialogs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Luis;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.Dialogs;
 
 namespace PointOfInterestSkillTests.Flow.Fakes
 {
@@ -79,7 +79,8 @@ namespace PointOfInterestSkillTests.Flow.Fakes
             throw new NotImplementedException();
         }
 
-        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, Dictionary<string, string> telemetryProperties, Dictionary<string, double> telemetryMetrics, CancellationToken cancellationToken = default(CancellationToken)) where T : IRecognizerConvert, new()
+        public Task<T> RecognizeAsync<T>(ITurnContext turnContext, Dictionary<string, string> telemetryProperties, Dictionary<string, double> telemetryMetrics, CancellationToken cancellationToken = default(CancellationToken))
+            where T : IRecognizerConvert, new()
         {
             throw new NotImplementedException();
         }

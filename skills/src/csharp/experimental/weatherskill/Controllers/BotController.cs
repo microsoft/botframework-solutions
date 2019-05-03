@@ -1,15 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
-using System;
 
 namespace WeatherSkill.Controllers
 {
     [ApiController]
     public class BotController : SkillController
     {
-        public BotController(IServiceProvider serviceProvider, BotSettingsBase botSettings)
-            : base(serviceProvider, botSettings)
+        public BotController(
+            IBot bot,
+            BotSettingsBase botSettings,
+            IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
+            SkillWebSocketAdapter skillWebSocketAdapter,
+            SkillHttpAdapter skillHttpAdapter)
+            : base(bot, botSettings, botFrameworkHttpAdapter, skillWebSocketAdapter, skillHttpAdapter)
         {
         }
     }

@@ -1,9 +1,12 @@
-﻿using $safeprojectname$.Mocks;
-using $safeprojectname$.Utterances;
-using Microsoft.Bot.Builder.AI.QnA;
-using Newtonsoft.Json;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 using System.Collections.Generic;
 using System.IO;
+using Microsoft.Bot.Builder.AI.QnA;
+using Newtonsoft.Json;
+using $safeprojectname$.Mocks;
+using $safeprojectname$.Utterances;
 
 namespace $safeprojectname$.Utilities
 {

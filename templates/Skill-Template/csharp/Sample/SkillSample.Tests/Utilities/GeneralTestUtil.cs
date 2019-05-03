@@ -1,8 +1,11 @@
-﻿using SkillSample.Tests.Mocks;
-using SkillSample.Tests.Utterances;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using Luis;
 using Microsoft.Bot.Builder;
-using System.Collections.Generic;
+using SkillSample.Tests.Mocks;
+using SkillSample.Tests.Utterances;
 
 namespace SkillSample.Tests.Utilities
 {

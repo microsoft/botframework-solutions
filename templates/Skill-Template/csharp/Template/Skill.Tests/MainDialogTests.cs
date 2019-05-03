@@ -1,12 +1,15 @@
-﻿using $safeprojectname$.Utterances;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using $ext_safeprojectname$.Responses.Main;
-using System;
-using System.Collections.Specialized;
 using $ext_safeprojectname$.Responses.Shared;
+using $safeprojectname$.Utterances;
 
 namespace $safeprojectname$
 {
@@ -43,6 +46,7 @@ namespace $safeprojectname$
                 .AssertReply(DidntUnderstandMessage())
                 .StartTestAsync();
         }
+
         private Action<IActivity> WelcomeMessage()
         {
             return activity =>

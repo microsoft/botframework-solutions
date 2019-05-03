@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <UserSecretsId>6a3184c3-074e-45b9-ad93-eceb8268ec01</UserSecretsId>
-    <CodeAnalysisRuleSet>..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>NU1701</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,24 +35,20 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.4.0-RC4" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.4.0-RC4" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.4.0-RC4" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.4.0-RC4" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.4.0-RC4" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.4.0-RC4" />
-    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.4.0-preview49" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.0-preview49" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.4.0-RC4" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.4.0-RC4" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.4.0-RC4" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.4.0-preview1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.0-preview1" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.4.0" />
     <PackageReference Include="Microsoft.Recognizers.Text" Version="1.1.5" />
     <PackageReference Include="Microsoft.Recognizers.Text.DataTypes.TimexExpression" Version="1.1.5" />
     <PackageReference Include="Microsoft.Recognizers.Text.DateTime" Version="1.1.5" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.1-rc.114">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
