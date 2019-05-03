@@ -7,6 +7,7 @@
 - [Create your assistant](#create-your-assistant)
 - [Deploy your assistant](#deploy-your-assistant)
 - [Run your assistant](#run-your-assistant)
+- [Next steps](#next-steps)
 
 ## Intro
 ### Purpose
@@ -75,16 +76,23 @@ Deploy your services following the steps in [Virtual Assistant and Skill Templat
 ## Run your assistant
 When deployment is complete, you can run your Virtual Assistant debugging through the following steps:
 1. Start a debugging session within Visual Studio for your assistant project.
-2. Run the **Bot Framework Emulator**. 
-3. Select **Open Bot**.
-![Open Bot highlighted in the Bot Framework Emulator](../../media/quickstart-virtualassistant-openbot.png)
-4. Populate the fields in the **Open a Bot** modal with your bot's configuration settings:
-  - Provide the endpoint of your running bot, e.g: `http://localhost:3978/api/messages`
-  - Provide the AppId and Secret values. Find these in your `appsettings.json` file, under the `microsoftAppId` and `microsoftAppPassword` configuration settings.
-  ![Open Bot modal highlighted in the Bot Framework Emulator](../../media/quickstart-virtualassistant-openbotmodal.png)
+2. Run `npm run start`.
+3. Run the **Bot Framework Emulator**. 
+4. Select **Open Bot**.
+  <p align="center">
+  <img src="../../media/quickstart-virtualassistant-openbot.png" width="600">
+  </p>
 
-Congratulations, you've built and run your first Virtual Assistant!
+5. Populate the fields in the **Open a Bot** modal with your bot's configuration settings. Provide the endpoint of your running bot, e.g: `http://localhost:3978/api/messages`. Provide the AppId and Secret values. Find these in your `appsettings.json` file, under the `microsoftAppId` and `microsoftAppPassword` configuration settings.
+  <p align="center">
+  <img src="../../media/quickstart-virtualassistant-openbotmodal.png" width="600">
+  </p>
 
-![A new user is greeted by their Virtual Assistant in the Bot Framework Emulator](../../media/quickstart-virtualassistant-greetingemulator.png)
+6. Congratulations, you've built and run your first Virtual Assistant!
+<p align="center">
+<img src="../../media/quickstart-virtualassistant-greetingemulator.png" width="600">
+</p>
 
-Now that you've got the basics, continue [customizing your Virtual Assistant](/docs/tutorials/csharp/customizeassistant.md).
+## Next Steps
+
+Now that you've got the basics, continue [customizing your Virtual Assistant](/docs/tutorials/typescript/customizeassistant.md).
