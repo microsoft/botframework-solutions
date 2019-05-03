@@ -11,10 +11,10 @@ This repository is the home for a set of templates and solutions to help build c
 ## Packages
 
 ### .NET
-| Name | Released Package |
-|---|---|
-| Microsoft.Bot.Builder.Solutions | [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Builder.Solutions?dWidth=70&includePreReleases=true)](https://www.nuget.org/packages/Microsoft.Bot.Builder.Solutions/) |
-| Microsoft.Bot.Builder.Skills | [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Builder.Skills?dWidth=70&includePreReleases=true)](https://www.nuget.org/packages/Microsoft.Bot.Builder.Skills/) |
+| Name | Released Package |Prerelease |
+|---|---|---|
+| Microsoft.Bot.Builder.Solutions | [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Builder.Solutions?dWidth=70)](https://www.nuget.org/packages/Microsoft.Bot.Builder.Solutions/) | [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Builder.Solutions?dWidth=70&includePreReleases=true)](https://www.nuget.org/packages/Microsoft.Bot.Builder.Solutions/) |
+| Microsoft.Bot.Builder.Skills | [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Builder.Skills?dWidth=70)](https://www.nuget.org/packages/Microsoft.Bot.Builder.Skills/) |  [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Builder.Skills?dWidth=70&includePreReleases=true)](https://www.nuget.org/packages/Microsoft.Bot.Builder.Skills/) |
 
 ## Need Help?
 
