@@ -1,12 +1,12 @@
 import { TurnContext } from 'botbuilder';
+import { ActivityExtensions } from 'botbuilder-solutions';
 import { MicrosoftAppCredentials } from 'botframework-connector';
 import { Activity, ActivityTypes } from 'botframework-schema';
-import { IStreamingTransportClient, Request, RequestHandler, CancellationToken } from 'microsoft-bot-protocol';
+import { CancellationToken, IStreamingTransportClient, Request, RequestHandler } from 'microsoft-bot-protocol';
 import { Client } from 'microsoft-bot-protocol-websocket';
 import { ISkillManifest, SkillEvents } from '../models';
-import { ISkillTransport, TokenRequestHandler } from '../skillTransport';
-import { ActivityExtensions } from 'botbuilder-solutions';
 import { SkillCallingRequestHandler } from '../skillCallingRequestHandler';
+import { ISkillTransport, TokenRequestHandler } from '../skillTransport';
 
 export class SkillWebSocketTransport implements ISkillTransport {
     private readonly cToken: CancellationToken;
@@ -52,7 +52,7 @@ export class SkillWebSocketTransport implements ISkillTransport {
             );
             this.streamingTransportClient = new Client({url: url, requestHandler: requestHandler});
 
-            await this.streamingTransportClient.connectAsync()
+            await this.streamingTransportClient.connectAsync();
         }
 
         // Serialize the activity and POST to the Skill endpoint
@@ -88,6 +88,7 @@ function ensureWebSocketUrl(url: string): string {
         throw new Error('url is empty!');
     }
 
+    // tslint:disable-next-line:no-http-string
     const httpPrefix: string = 'http://';
     const httpsPrefix: string = 'https://';
     const wsPrefix: string = 'ws://';

@@ -1,5 +1,6 @@
-import { BotAdapter, BotTelemetryClient, InvokeResponse, Middleware, NullTelemetryClient, ResourceResponse, Severity, TurnContext } from 'botbuilder';
-import { IRemoteUserTokenProvider, TelemetryExtensions, ActivityExtensions, TokenEvents } from 'botbuilder-solutions';
+import { BotAdapter, BotTelemetryClient, InvokeResponse, Middleware, NullTelemetryClient,
+    ResourceResponse, Severity, TurnContext } from 'botbuilder';
+import { ActivityExtensions, IRemoteUserTokenProvider, TelemetryExtensions, TokenEvents } from 'botbuilder-solutions';
 import { Activity, ActivityTypes, ConversationReference } from 'botframework-schema';
 import { CancellationToken, ContentStream, ReceiveResponse, Request } from 'microsoft-bot-protocol';
 import { Server } from 'microsoft-bot-protocol-websocket';
@@ -83,11 +84,12 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
                 const begin: [number, number] = process.hrtime();
                 response = await this.sendRequest<ResourceResponse>(request);
                 const end: [number, number] = process.hrtime(begin);
-    
+
                 const latency: { latency: number } = { latency: toMilliseconds(end) };
-    
-                TelemetryExtensions.trackEventEx(this.telemetryClient, 'SkillWebSocketSendActivityLatency', activity, undefined, undefined, latency);
-    
+
+                const event: string = 'SkillWebSocketSendActivityLatency';
+                TelemetryExtensions.trackEventEx(this.telemetryClient, event, activity, undefined, undefined, latency);
+
                 // If No response is set, then default to a "simple" response. This can't really be done
                 // above, as there are cases where the ReplyTo/SendTo methods will also return null
                 // (See below) so the check has to happen here.
@@ -117,7 +119,8 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
 
         const latency: { latency: number } = { latency: toMilliseconds(end) };
 
-        TelemetryExtensions.trackEventEx(this.telemetryClient, 'SkillWebSocketUpdateActivityLatency', activity, undefined, undefined, latency);
+        const event: string = 'SkillWebSocketUpdateActivityLatency';
+        TelemetryExtensions.trackEventEx(this.telemetryClient, event, activity, undefined, undefined, latency);
     }
 
     public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
@@ -151,7 +154,7 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
         // Send the tokens/request Event
         await this.sendActivities(turnContext, [response]);
     }
-    
+
     private async sendRequest<T>(request: Request, cToken?: CancellationToken): Promise<T|undefined> {
         try {
             const serverResponse: ReceiveResponse = await this.server.sendAsync(request, cToken || new CancellationToken());
@@ -180,6 +183,7 @@ function sleep(delay: number): Promise<void> {
 }
 
 function toMilliseconds(hrtime: [number, number]): number {
-    const nanoseconds = (hrtime[0] * 1e9) + hrtime[1];
+    const nanoseconds: number = (hrtime[0] * 1e9) + hrtime[1];
+
     return nanoseconds / 1e6;
 }

@@ -4,10 +4,10 @@
  */
 
 import { BotTelemetryClient, InvokeResponse } from 'botbuilder';
+import { TelemetryExtensions } from 'botbuilder-solutions';
 import { Activity } from 'botframework-schema';
 import { ContentStream, ReceiveRequest, RequestHandler, Response } from 'microsoft-bot-protocol';
 import { BotCallbackHandler, IActivityHandler } from '../activityHandler';
-import { TelemetryExtensions } from 'botbuilder-solutions';
 
 export class SkillWebSocketRequestHandler extends RequestHandler {
     private readonly telemetryClient: BotTelemetryClient;
@@ -49,7 +49,8 @@ export class SkillWebSocketRequestHandler extends RequestHandler {
 
             const latency: { latency: number } = { latency: toMilliseconds(end) };
 
-            TelemetryExtensions.trackEventEx(this.telemetryClient, 'SkillWebSocketProcessRequestLatency', activity, undefined, undefined, latency);
+            const event: string = 'SkillWebSocketProcessRequestLatency';
+            TelemetryExtensions.trackEventEx(this.telemetryClient, event, activity, undefined, undefined, latency);
 
             if (!invokeResponse) {
                 response.statusCode = 200;
@@ -69,6 +70,7 @@ export class SkillWebSocketRequestHandler extends RequestHandler {
 }
 
 function toMilliseconds(hrtime: [number, number]): number {
-    const nanoseconds = (hrtime[0] * 1e9) + hrtime[1];
+    const nanoseconds: number = (hrtime[0] * 1e9) + hrtime[1];
+
     return nanoseconds / 1e6;
 }
