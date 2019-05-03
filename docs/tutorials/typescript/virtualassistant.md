@@ -2,7 +2,7 @@
 
 **APPLIES TO:** ✅ SDK v4
 
-## Table of Contents
+## In this tutorial
 - [Intro](#intro)
 - [Create your assistant](#create-your-assistant)
 - [Deploy your assistant](#deploy-your-assistant)
@@ -135,7 +135,7 @@ When deployment is complete, you can run your Virtual Assistant through the foll
 2. Run the **Bot Framework Emulator**. 
 3. Select **Open Bot**.
 ![Open Bot highlighted in the Bot Framework Emulator](../../media/quickstart-virtualassistant-openbot.png)
-4. Populate the fields in the **Open Bot** modal with your bot's configuration settings:
+4. Populate the fields in the **Open a Bot** modal with your bot's configuration settings:
   - Provide the endpoint of your running bot, e.g: `http://localhost:3978/api/messages`
   - Provide the AppId and Secret values. Find these in your `appsettings.json` file, under the `microsoftAppId` and `microsoftAppPassword` configuration settings.
   ![Open Bot modal highlighted in the Bot Framework Emulator](../../media/quickstart-virtualassistant-openbotmodal.png)
