@@ -42,7 +42,7 @@
 
 |Name|Description|
 |------------|-----------|
-|[|Template overview](/docs/advanced/assistant/templateoutline.md)|An outline of what the Virtual Assistant template provides| 
+|[Template overview](/docs/advanced/assistant/templateoutline.md)|An outline of what the Virtual Assistant template provides| 
 |[Under the covers](/docs/advanced/assistant/underthecovers.md)|Detailed documentation covering what the template provides and how it works| 
 |[Enhance your Assistant with additional Skills](/docs/skills/common/addingskills.md)|Adding the out-of-the-box Skills to your Virtual Assistant|
 |Authenticating users to your Assistant <br/><br/><p align="center">[![Authenticating users to your Assistant with C#](./media/csharp_icon.png)](/docs/advanced/assistant/csharp/addauthentication.md) [![Authenticating users to your Assistant with TypeScript](./media/typescript_icon.png)](/docs/advanced/assistant/typescript/addauthentication.md)</p>|How to add user authentication to your Assistant|
