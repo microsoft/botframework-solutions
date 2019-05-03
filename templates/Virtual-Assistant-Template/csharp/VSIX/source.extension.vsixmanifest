@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="VSIX.d2246051-7779-4196-af1f-ae7e2562ec8e" Version="1.0" Language="en-US" Publisher="Lauren Mills" />
+        <Identity Id="VirtualAssistantTemplate.d2246051-7779-4196-af1f-ae7e2562ec8e" Version="1.0" Language="en-US" Publisher="Microsoft" />
         <DisplayName>Virtual Assistant Template</DisplayName>
-        <Description>Empty VSIX Project.</Description>
+        <Description xml:space="preserve">Project template for advanced bot scenarios using the Bot Builder SDK V4.</Description>
     </Metadata>
     <Installation>
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0, 17.0)" />
