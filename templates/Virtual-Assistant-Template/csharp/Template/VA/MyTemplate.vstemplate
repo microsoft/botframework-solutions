@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
-    <Name>VirtualAssistantTemplate</Name>
-    <Description>Virtual Assistant Project Template.</Description>
+    <Name>Virtual Assistant Template</Name>
+    <Description>Project template for assistant scenarios using the Bot Builder SDK V4 (including Unit Test project).</Description>
     <SortOrder>1000</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>MyAssistant</DefaultName>
