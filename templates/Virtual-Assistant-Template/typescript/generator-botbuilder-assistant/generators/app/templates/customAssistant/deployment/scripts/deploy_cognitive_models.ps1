@@ -75,7 +75,7 @@ foreach ($language in $languageArr)
     $config = @{
         dispatchModel = New-Object PSObject
         languageModels = @()
-        knowledgebases = @()
+        knowledgeBases = @()
     }
 
     # Initialize Dispatch
@@ -175,9 +175,9 @@ foreach ($language in $languageArr)
 		$config.dispatchModel = @{
 			type = "dispatch"
 			name = $dispatchApp.name
-			appid = $dispatchApp.appId
-			authoringkey = $luisauthoringkey
-			subscriptionkey = $luisauthoringkey
+			appId = $dispatchApp.appId
+			authoringKey = $luisauthoringkey
+			subscriptionKey = $luisauthoringkey
 			region = $luisAuthoringRegion
 		}
 	}
