@@ -1,17 +1,20 @@
-﻿using AdaptiveCards;
-using Microsoft.Bot.Schema;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using AdaptiveCards;
+using Microsoft.Bot.Schema;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace $safeprojectname$
 {
     [TestClass]
     public class LocalizationTests : BotTestBase
     {
-       [TestMethod]
+        [TestMethod]
         public async Task Test_Localization_Spanish()
         {
             CultureInfo.CurrentUICulture = new CultureInfo("es-mx");

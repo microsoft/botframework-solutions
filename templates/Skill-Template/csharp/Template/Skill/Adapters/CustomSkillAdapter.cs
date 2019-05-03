@@ -1,13 +1,16 @@
-﻿using Microsoft.Bot.Builder;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Globalization;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
 using $safeprojectname$.Responses.Shared;
 using $safeprojectname$.Services;
-using System.Globalization;
-using Microsoft.Bot.Builder.Dialogs;
 
 namespace $safeprojectname$.Adapters
 {

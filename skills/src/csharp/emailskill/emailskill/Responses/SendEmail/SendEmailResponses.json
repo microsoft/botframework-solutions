@@ -1,18 +1,9 @@
 {
-  "RecipientConfirmed": {
-    "replies": [
-      {
-        "text": "Alright, I will send this to {UserName}.",
-        "speak": "Alright, I will send this to {UserName}."
-      }
-    ],
-    "inputHint": "acceptingInput"
-  },
   "NoSubject": {
     "replies": [
       {
-        "text": "What is the subject of the email? Or you can input skip to bypass it.",
-        "speak": "What is the subject of the email? Or you can say skip to bypass it."
+        "text": "What is the subject of the email?",
+        "speak": "What is the subject of the email?"
       }
     ],
     "inputHint": "expectingInput"

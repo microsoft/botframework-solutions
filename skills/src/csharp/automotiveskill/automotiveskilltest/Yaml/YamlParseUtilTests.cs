@@ -1,9 +1,9 @@
-﻿using AutomotiveSkill.Models;
-using AutomotiveSkill.Utilities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using AutomotiveSkill.Models;
+using AutomotiveSkill.Utilities;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutomotiveSkillTest.Yaml
 {
@@ -62,7 +62,7 @@ namespace AutomotiveSkillTest.Yaml
                     },
                     new AvailableSettingAmount
                     {
-                        Unit = "",
+                        Unit = string.Empty,
                         Min = -5,
                     },
                 },

@@ -6,12 +6,16 @@ using EmailSkill.Responses.DeleteEmail;
 using EmailSkill.Responses.FindContact;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Responses.ShowEmail;
+using EmailSkill.Services;
 using EmailSkill.Utilities;
 using EmailSkillTest.Flow.Fakes;
 using EmailSkillTest.Flow.Strings;
 using EmailSkillTest.Flow.Utterances;
+using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -114,6 +118,10 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_ShowEmailThenForwardWithSelection()
         {
+            string testRecipient = ContextStrings.TestRecipient;
+            string testEmailAddress = ContextStrings.TestEmailAdress;
+            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipient + ": " + testEmailAddress } };
+
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmails)
                 .AssertReply(this.ShowAuth())
@@ -127,6 +135,8 @@ namespace EmailSkillTest.Flow
                 .Send(ContextStrings.TestRecipient)
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress())
                 .Send(GeneralTestUtterances.Yes)
+                .AssertReplyOneOf(this.AddMoreContacts(recipientList))
+                .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
@@ -142,6 +152,10 @@ namespace EmailSkillTest.Flow
         [TestMethod]
         public async Task Test_ShowEmailThenForwardCurrentSelection()
         {
+            string testRecipient = ContextStrings.TestRecipient;
+            string testEmailAddress = ContextStrings.TestEmailAdress;
+            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipient + ": " + testEmailAddress } };
+
             await this.GetTestFlow()
                 .Send(ShowEmailUtterances.ShowEmails)
                 .AssertReply(this.ShowAuth())
@@ -158,6 +172,8 @@ namespace EmailSkillTest.Flow
                 .Send(ContextStrings.TestRecipient)
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress())
                 .Send(GeneralTestUtterances.Yes)
+                .AssertReplyOneOf(this.AddMoreContacts(recipientList))
+                .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
@@ -432,6 +448,11 @@ namespace EmailSkillTest.Flow
             return this.ParseReplies(DeleteEmailResponses.DeleteConfirm, new StringDictionary());
         }
 
+        private string[] AddMoreContacts(StringDictionary recipientDict)
+        {
+            return this.ParseReplies(FindContactResponses.AddMoreContactsPrompt, recipientDict);
+        }
+
         private Action<IActivity> AssertSelectOneOfTheMessage(int selection)
         {
             return activity =>
@@ -489,7 +510,7 @@ namespace EmailSkillTest.Flow
                 }
                 else
                 {
-                    for (var i = ConfigData.GetInstance().MaxDisplaySize * page; i < totalEmails.Count; i++)
+                    for (int i = ConfigData.GetInstance().MaxDisplaySize * page; i < totalEmails.Count; i++)
                     {
                         showEmails.Add(totalEmails[i]);
                     }
@@ -549,8 +570,8 @@ namespace EmailSkillTest.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-
-                CollectionAssert.Contains(this.ParseReplies(EmailSharedResponses.ConfirmSend, new StringDictionary()), messageActivity.Text);
+                var confirmSend = this.ParseReplies(EmailSharedResponses.ConfirmSend, new StringDictionary());
+                Assert.IsTrue(messageActivity.Text.StartsWith(confirmSend[0]));
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }

@@ -20,5 +20,7 @@ namespace EmailSkill.Models
         public string MessagesDescription { get; } = EmailCommonStrings.Messages;
 
         public string ImportantMessagesDescription { get; } = EmailCommonStrings.ImportantMessages;
+
+        public string EmailIndexer { get; set; }
     }
 }

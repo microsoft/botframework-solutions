@@ -1,32 +1,32 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Linq;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Bot.Builder.ApplicationInsights;
-using Microsoft.ApplicationInsights;
-using Microsoft.Bot.Builder.BotFramework;
-using WeatherSkill.Bots;
-using Microsoft.AspNetCore.Mvc;
-using WeatherSkill.Dialogs;
-using WeatherSkill.Services;
-using Microsoft.Bot.Builder.Solutions.TaskExtensions;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using System.Linq;
-using WeatherSkill.Responses.Main;
-using WeatherSkill.Responses.Shared;
-using WeatherSkill.Responses.Sample;
-using Microsoft.Bot.Builder.Skills;
 using WeatherSkill.Adapters;
-using Microsoft.Bot.Builder.Solutions;
+using WeatherSkill.Bots;
+using WeatherSkill.Dialogs;
+using WeatherSkill.Responses.Main;
+using WeatherSkill.Responses.Sample;
+using WeatherSkill.Responses.Shared;
+using WeatherSkill.Services;
 
 namespace WeatherSkill
 {

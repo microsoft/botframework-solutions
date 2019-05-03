@@ -8,10 +8,13 @@ namespace WeatherSkill.Models
     public class Temperature
     {
         public float Value { get; set; }
+
         public string Unit { get; set; }
+
         public int UnitType { get; set; }
 
         public Minimum Minimum { get; set; }
+
         public Maximum Maximum { get; set; }
     }
 }

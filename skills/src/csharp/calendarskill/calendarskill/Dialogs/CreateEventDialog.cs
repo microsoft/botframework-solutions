@@ -26,14 +26,14 @@ namespace CalendarSkill.Dialogs
     public class CreateEventDialog : CalendarSkillDialogBase
     {
         public CreateEventDialog(
-            BotSettings settings,
-            BotServices services,
-            ResponseManager responseManager,
-            ConversationState conversationState,
-            FindContactDialog findContactDialog,
-            IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient)
-            : base(nameof(CreateEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
+               BotSettings settings,
+               BotServices services,
+               ResponseManager responseManager,
+               ConversationState conversationState,
+               FindContactDialog findContactDialog,
+               IServiceManager serviceManager,
+               IBotTelemetryClient telemetryClient)
+               : base(nameof(CreateEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -49,6 +49,7 @@ namespace CalendarSkill.Dialogs
                 CollectDuration,
                 CollectLocation,
                 ConfirmBeforeCreate,
+                ConfirmBeforeCreatePrompt,
                 CreateEvent,
             };
 
@@ -76,12 +77,19 @@ namespace CalendarSkill.Dialogs
                 AfterGetRecreateInfo,
             };
 
+            var showRestParticipants = new WaterfallStep[]
+            {
+                ShowRestParticipantsPrompt,
+                ShowRestParticipants,
+            };
+
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.CreateEvent, createEvent) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateStartDateForCreate, updateStartDate) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateStartTimeForCreate, updateStartTime) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateDurationForCreate, updateDuration) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.GetRecreateInfo, getRecreateInfo) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(Actions.ShowRestParticipants, showRestParticipants) { TelemetryClient = telemetryClient });
             AddDialog(new DatePrompt(Actions.DatePromptForCreate));
             AddDialog(new TimePrompt(Actions.TimePromptForCreate));
             AddDialog(new DurationPrompt(Actions.DurationPromptForCreate));
@@ -104,7 +112,7 @@ namespace CalendarSkill.Dialogs
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CreateEventResponses.NoTitleShort) }, cancellationToken);
                 }
                 else
-                if (string.IsNullOrEmpty(state.Title) && !state.CreateHasDetail)
+                if (string.IsNullOrEmpty(state.Title))
                 {
                     if (state.Attendees.Count == 0 || state.Attendees == null)
                     {
@@ -113,7 +121,7 @@ namespace CalendarSkill.Dialogs
                         return await sc.EndDialogAsync();
                     }
 
-                    var userNameString = state.Attendees.ToSpeechString(CommonStrings.And, li => li.DisplayName ?? li.Address);
+                    var userNameString = state.Attendees.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}");
                     var data = new StringDictionary() { { "UserName", userNameString } };
                     var prompt = ResponseManager.GetResponse(CreateEventResponses.NoTitle, data);
 
@@ -188,9 +196,9 @@ namespace CalendarSkill.Dialogs
 
                 ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
 
-                if (state.Attendees.Count == 0 && (!state.CreateHasDetail || state.RecreateState == RecreateEventState.Participants || state.AttendeesNameList.Count > 0))
+                if (state.Attendees.Count == 0 || state.RecreateState == RecreateEventState.Participants)
                 {
-                    return await sc.BeginDialogAsync(nameof(FindContactDialog), options: sc.Options, cancellationToken: cancellationToken);
+                    return await sc.BeginDialogAsync(nameof(FindContactDialog), options: new FindContactDialogOptions(sc.Options), cancellationToken: cancellationToken);
                 }
                 else
                 {
@@ -347,14 +355,14 @@ namespace CalendarSkill.Dialogs
                     ContentPreview = state.Content
                 };
 
-                var attendeeConfirmString = string.Empty;
+                var attendeeConfirmTextString = string.Empty;
                 if (state.Attendees.Count > 0)
                 {
                     var attendeeConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateAttendees, new StringDictionary()
                     {
-                        { "Attendees", state.Attendees.ToSpeechString(CommonStrings.And, li => li.DisplayName ?? li.Address) }
+                        { "Attendees", DisplayHelper.ToDisplayParticipantsStringSummary(state.Attendees, 5) }
                     });
-                    attendeeConfirmString = attendeeConfirmResponse.Text;
+                    attendeeConfirmTextString = attendeeConfirmResponse.Text;
                 }
 
                 var subjectConfirmString = string.Empty;
@@ -391,7 +399,7 @@ namespace CalendarSkill.Dialogs
                 var endDateTimeInUserTimeZone = TimeConverter.ConvertUtcToUserTime(state.EndDateTime.Value, state.GetUserTimeZone());
                 var tokens = new StringDictionary
                 {
-                    { "AttendeesConfirm", attendeeConfirmString },
+                    { "AttendeesConfirm", attendeeConfirmTextString },
                     { "Date", startDateTimeInUserTimeZone.ToSpeechDateString(false) },
                     { "Time", startDateTimeInUserTimeZone.ToSpeechTimeString(false) },
                     { "EndTime", endDateTimeInUserTimeZone.ToSpeechTimeString(false) },
@@ -402,12 +410,38 @@ namespace CalendarSkill.Dialogs
 
                 var prompt = await GetDetailMeetingResponseAsync(sc, newEvent, CreateEventResponses.ConfirmCreate, tokens);
 
-                var retryPrompt = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateFailed, tokens);
-                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt, RetryPrompt = retryPrompt }, cancellationToken);
+                await sc.Context.SendActivityAsync(prompt);
+
+                if (state.Attendees.Count > 5)
+                {
+                    return await sc.BeginDialogAsync(Actions.ShowRestParticipants);
+                }
+                else
+                {
+                    return await sc.NextAsync();
+                }
             }
             catch (Exception ex)
             {
                 await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> ConfirmBeforeCreatePrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
+                {
+                    Prompt = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreatePrompt),
+                    RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateFailed)
+                }, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
@@ -821,6 +855,45 @@ namespace CalendarSkill.Dialogs
             catch (Exception ex)
             {
                 await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> ShowRestParticipantsPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
+                {
+                    Prompt = ResponseManager.GetResponse(CreateEventResponses.ShowRestParticipantsPrompt),
+                    RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.ShowRestParticipantsPrompt)
+                }, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> ShowRestParticipants(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var confirmResult = (bool)sc.Result;
+                if (confirmResult)
+                {
+                    await sc.Context.SendActivityAsync(state.Attendees.GetRange(5, state.Attendees.Count - 5).ToSpeechString(CommonStrings.And, li => li.DisplayName ?? li.Address));
+                }
+
+                return await sc.EndDialogAsync(true, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }

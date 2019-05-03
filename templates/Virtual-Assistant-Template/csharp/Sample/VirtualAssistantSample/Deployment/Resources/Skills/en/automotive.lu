@@ -944,12 +944,15 @@
 - i think {SETTING=rear mirror} have {VALUE=frost} over
 - i think {SETTING=rearview mirror} have {VALUE=frost} over
 - i think this {SETTING=back left side} might be way a bit too {VALUE=freezing}
-- i'm mother fucking {VALUE=cold} in here
+- i'm {VALUE=cold} in here
 - i'm {VALUE=shivering} in here
+- i'm feeling cold
+- I'm cold
+- I am feeling cold
 - i'm way too damn {VALUE=warm} in the {SETTING=front right side}
 - is kind of {VALUE=chilly} in the {SETTING=rear left}
 - is somewhat {VALUE=balmy} in the {SETTING=back right}
-- it feels a bit fucking {VALUE=freezing} in this {SETTING=rear left}
+- it feels a bit {VALUE=freezing} in this {SETTING=rear left}
 - it feels a bit too {VALUE=cool} on the {SETTING=co-driver's}
 - it feels as {VALUE=frigid} as a barbeque in this {SETTING=back}
 - it feels {VALUE=chilly} in this {SETTING=co-drivers}
@@ -962,7 +965,6 @@
 - it is as {VALUE=burning up} as a furnace in here
 - it is {VALUE=freezing} in here
 - it is kind of {VALUE=humid} in here
-- it is mother fucking {VALUE=nippy}
 - it is somewhat {VALUE=nippy} in the {SETTING=right front}
 - it seems {VALUE=balmy} than my ideal temperature
 - it's a little {VALUE=shivering} on the {SETTING=feet}

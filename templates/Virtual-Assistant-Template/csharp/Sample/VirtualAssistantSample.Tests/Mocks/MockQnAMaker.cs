@@ -1,8 +1,11 @@
-﻿using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.AI.QnA;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.QnA;
 
 namespace VirtualAssistantSample.Tests.Mocks
 {
@@ -14,13 +17,13 @@ namespace VirtualAssistantSample.Tests.Mocks
             DefaultAnswer = defaultAnswer;
         }
 
-        private Dictionary<string, QueryResult[]> TestAnswers { get; set; }
-
-        private QueryResult[] DefaultAnswer { get; set; }
-
         public bool LogPersonalInformation { get; set; } = false;
 
         public IBotTelemetryClient TelemetryClient { get; set; } = new NullBotTelemetryClient();
+
+        private Dictionary<string, QueryResult[]> TestAnswers { get; set; }
+
+        private QueryResult[] DefaultAnswer { get; set; }
 
         public void RegisterAnswers(Dictionary<string, QueryResult[]> utterances)
         {

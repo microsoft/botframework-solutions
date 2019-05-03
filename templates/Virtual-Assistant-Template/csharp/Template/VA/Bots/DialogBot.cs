@@ -11,7 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace $safeprojectname$.Bots
 {
-    public class DialogBot<T> : ActivityHandler where T : Dialog
+    public class DialogBot<T> : ActivityHandler
+        where T : Dialog
     {
         private readonly IBotTelemetryClient _telemetryClient;
         private DialogSet _dialogs;

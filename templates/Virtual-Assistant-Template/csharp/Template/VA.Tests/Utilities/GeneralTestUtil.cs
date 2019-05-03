@@ -1,8 +1,11 @@
-﻿using $safeprojectname$.Mocks;
-using $safeprojectname$.Utterances;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using Luis;
 using Microsoft.Bot.Builder;
-using System.Collections.Generic;
+using $safeprojectname$.Mocks;
+using $safeprojectname$.Utterances;
 
 namespace $safeprojectname$.Utilities
 {

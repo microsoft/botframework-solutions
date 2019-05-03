@@ -8,7 +8,6 @@ using EmailSkill.Extensions;
 using EmailSkill.Models;
 using EmailSkill.Responses.DeleteEmail;
 using EmailSkill.Responses.Shared;
-using EmailSkill.ServiceClients;
 using EmailSkill.Services;
 using EmailSkill.Utilities;
 using Microsoft.Bot.Builder;

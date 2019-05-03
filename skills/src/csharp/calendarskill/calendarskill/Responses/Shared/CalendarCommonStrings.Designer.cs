@@ -493,6 +493,33 @@ namespace CalendarSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}h.
+        /// </summary>
+        public static string ShortDisplayDurationHour {
+            get {
+                return ResourceManager.GetString("ShortDisplayDurationHour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}m.
+        /// </summary>
+        public static string ShortDisplayDurationMinute {
+            get {
+                return ResourceManager.GetString("ShortDisplayDurationMinute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to **{0}-{1}** of {2}.
+        /// </summary>
+        public static string ShowMeetingsIndicator {
+            get {
+                return ResourceManager.GetString("ShowMeetingsIndicator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ^(skip|no).
         /// </summary>
         public static string SkipPhrases {

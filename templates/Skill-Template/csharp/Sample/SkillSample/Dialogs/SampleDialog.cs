@@ -1,11 +1,14 @@
-﻿using Microsoft.Bot.Builder;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Specialized;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using SkillSample.Responses.Sample;
 using SkillSample.Services;
-using System.Collections.Specialized;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SkillSample.Dialogs
 {
@@ -41,7 +44,6 @@ namespace SkillSample.Dialogs
             // var state = await ConversationStateAccessor.GetAsync(stepContext.Context);
             // var intent = state.LuisResult.TopIntent().intent;
             // var entities = state.LuisResult.Entities;
-
             var prompt = ResponseManager.GetResponse(SampleResponses.NamePrompt);
             return await stepContext.PromptAsync(DialogIds.NamePrompt, new PromptOptions { Prompt = prompt });
         }

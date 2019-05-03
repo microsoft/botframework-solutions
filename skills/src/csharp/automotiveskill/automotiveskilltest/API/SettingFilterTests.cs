@@ -1,10 +1,10 @@
-﻿using AutomotiveSkill.Dialogs;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AutomotiveSkill.Dialogs;
 using AutomotiveSkill.Models;
 using AutomotiveSkill.Utilities;
 using AutomotiveSkillTest.Flow;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AutomotiveSkillTest.API
 {

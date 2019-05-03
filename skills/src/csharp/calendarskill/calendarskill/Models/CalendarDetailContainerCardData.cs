@@ -15,5 +15,17 @@ namespace CalendarSkill.Models
         public string ParticipantPhoto5 { get; set; }
 
         public int OmittedParticipantCount { get; set; }
+
+        public string Title { get; set; }
+
+        public string Date { get; set; }
+
+        public string Time { get; set; }
+
+        public string Location { get; set; }
+
+        public string LocationIcon { get; set; }
+
+        public string Duration { get; set; }
     }
 }

@@ -12,7 +12,6 @@ namespace EmailSkill.Responses.SendEmail
     public class SendEmailResponses : IResponseIdCollection
     {
         // Generated accessors
-        public const string RecipientConfirmed = "RecipientConfirmed";
         public const string NoSubject = "NoSubject";
         public const string NoMessageBody = "NoMessageBody";
         public const string RetryNoSubject = "RetryNoSubject";

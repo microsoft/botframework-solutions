@@ -1,9 +1,12 @@
-﻿using VirtualAssistantSample.Tests.Mocks;
-using VirtualAssistantSample.Tests.Utterances;
-using Microsoft.Bot.Builder.AI.QnA;
-using Newtonsoft.Json;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 using System.Collections.Generic;
 using System.IO;
+using Microsoft.Bot.Builder.AI.QnA;
+using Newtonsoft.Json;
+using VirtualAssistantSample.Tests.Mocks;
+using VirtualAssistantSample.Tests.Utterances;
 
 namespace VirtualAssistantSample.Tests.Utilities
 {

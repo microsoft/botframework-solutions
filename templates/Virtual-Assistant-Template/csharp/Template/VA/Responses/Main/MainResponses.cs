@@ -16,28 +16,32 @@ namespace $safeprojectname$.Responses.Main
         {
             ["default"] = new TemplateIdMap
             {
-                { ResponseIds.Cancelled,
+                {
+                    ResponseIds.Cancelled,
                     (context, data) =>
                     MessageFactory.Text(
                         text: MainStrings.CANCELLED,
                         ssml: MainStrings.CANCELLED,
                         inputHint: InputHints.AcceptingInput)
                 },
-                { ResponseIds.Completed,
+                {
+                    ResponseIds.Completed,
                     (context, data) =>
                     MessageFactory.Text(
                         text: MainStrings.COMPLETED,
                         ssml: MainStrings.COMPLETED,
                         inputHint: InputHints.AcceptingInput)
                 },
-                { ResponseIds.Confused,
+                {
+                    ResponseIds.Confused,
                     (context, data) =>
                     MessageFactory.Text(
                         text: MainStrings.CONFUSED,
                         ssml: MainStrings.CONFUSED,
                         inputHint: InputHints.AcceptingInput)
                 },
-                { ResponseIds.Greeting,
+                {
+                    ResponseIds.Greeting,
                     (context, data) =>
                     MessageFactory.Text(
                         text: MainStrings.GREETING,

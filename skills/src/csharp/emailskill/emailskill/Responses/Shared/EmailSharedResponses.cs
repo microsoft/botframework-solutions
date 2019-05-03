@@ -22,10 +22,13 @@ namespace EmailSkill.Responses.Shared
         public const string EmailErrorMessageBotProblem = "EmailErrorMessageBotProblem";
         public const string EmailErrorMessageAccountProblem = "EmailErrorMessageAccountProblem";
         public const string SentSuccessfully = "SentSuccessfully";
-        public const string NoRecipients = "NoRecipients";
         public const string NoEmailContent = "NoEmailContent";
         public const string RecipientConfirmed = "RecipientConfirmed";
         public const string ConfirmSend = "ConfirmSend";
+        public const string ConfirmSendMessage = "ConfirmSendMessage";
+        public const string ConfirmSendRecipientsMessage = "ConfirmSendRecipientsMessage";
+        public const string ConfirmSendRecipients = "ConfirmSendRecipients";
+        public const string ConfirmSendRecipientsFailed = "ConfirmSendRecipientsFailed";
         public const string ConfirmSendFailed = "ConfirmSendFailed";
         public const string EmailNotFound = "EmailNotFound";
         public const string NoFocusMessage = "NoFocusMessage";
@@ -36,5 +39,6 @@ namespace EmailSkill.Responses.Shared
         public const string FirstPageAlready = "FirstPageAlready";
         public const string LastPageAlready = "LastPageAlready";
         public const string NoChoiceOptionsRetry = "NoChoiceOptionsRetry";
+        public const string NoRecipients = "NoRecipients";
     }
 }

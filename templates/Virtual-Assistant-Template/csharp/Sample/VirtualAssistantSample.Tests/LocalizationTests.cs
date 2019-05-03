@@ -1,10 +1,13 @@
-﻿using AdaptiveCards;
-using Microsoft.Bot.Schema;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using AdaptiveCards;
+using Microsoft.Bot.Schema;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace VirtualAssistantSample.Tests
 {
