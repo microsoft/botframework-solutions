@@ -4,6 +4,7 @@
         <Identity Id="VirtualAssistantTemplate.d2246051-7779-4196-af1f-ae7e2562ec8e" Version="1.0" Language="en-US" Publisher="Microsoft" />
         <DisplayName>Virtual Assistant Template</DisplayName>
         <Description xml:space="preserve">Project template for advanced bot scenarios using the Bot Builder SDK V4.</Description>
+        <Icon>__TemplateIcon.ico</Icon>
     </Metadata>
     <Installation>
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0, 17.0)" />
