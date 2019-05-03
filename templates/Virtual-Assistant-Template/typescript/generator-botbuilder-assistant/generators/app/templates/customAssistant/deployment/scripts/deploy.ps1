@@ -10,7 +10,7 @@ Param(
 	[string] $luisAuthoringRegion,
     [string] $parametersFile,
 	[string] $languages = "en-us",
-	[string] $outFolder = $(Get-Location),
+	[string] $outFolder = $(Join-Path $(Get-Location) src)
 	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_log.txt")
 )
 
@@ -99,7 +99,7 @@ if ($parametersFile) {
     (az group deployment create `
         --name $timestamp `
         --resource-group $resourceGroup `
-        --template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
+        --template-file "$(Join-Path $PSScriptRoot '..' 'resources' 'template.json')" `
         --parameters "@$($parametersFile)" `
         --parameters microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"") 2>> $logFile | Out-Null
 }
@@ -107,7 +107,7 @@ else {
     (az group deployment create `
         --name $timestamp `
         --resource-group $resourceGroup `
-        --template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
+        --template-file "$(Join-Path $PSScriptRoot '..' 'resources' 'template.json')" `
         --parameters microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"") 2>> $logFile | Out-Null
 }
 
