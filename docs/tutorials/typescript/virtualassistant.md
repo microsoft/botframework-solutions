@@ -1,42 +1,56 @@
-# Getting Started With the Virtual Assistant (TypeScript)
+# Quickstart: Creating your first Virtual Assistant (TypeScript)
 
-> [!NOTE]
-> This topics applies to v4 version of the SDK.
+**APPLIES TO:** ✅ SDK v4
 
-## Table of Contents
-- [Getting Started With the Virtual Assistant (TypeScript)](#getting-started-with-the-virtual-assistant-typescript)
-  - [Table of Contents](#table-of-contents)
-  - [Prerequisites](#prerequisites)
-  - [Create your project](#create-your-project)
-    - [Generate the assistant using prompts](#generate-the-assistant-using-prompts)
-    - [Generate the sample using CLI parameters](#generate-the-sample-using-cli-parameters)
-      - [Example](#example)
-  - [Deployment](#deployment)
-  - [Starting your assistant](#starting-your-assistant)
-  - [Testing](#testing)
- 
-## Prerequisites
-> It's important to ensure all of the following pre-requisites are installed on your machine prior to attempting deployment otherwise you may run into deployment issues.
+## In this tutorial
+- [Intro](#intro)
+- [Download and install](#download-and-install)
+- [Create your assistant](#create-your-assistant)
+- [Deploy your assistant](#deploy-your-assistant)
+- [Run your assistant](#run-your-assistant)
+- [Next steps](#next-steps)
 
-1. Ensure the [Node Package manager](https://nodejs.org/en/) is installed.
-1. PowerShell Core version 6 (Required for cross platform deployment support)
-   * [Download PowerShell Core on Windows](https://aka.ms/getps6-windows)
-   * [Download PowerShell Core on macOS and Linux](https://aka.ms/getps6-linux)
-1. Install  Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of the latest capabilities: 
-   ```
-   npm install -g botdispatch, ludown, luis-apis, qnamaker, luisgen
-   ```
-1. Install [Yeoman](http://yeoman.io)
-   ```
-   npm install -g yo
-   ```
-1. Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
-1. Retrieve your LUIS Authoring Key
+## Intro
+### Purpose
+
+Install Bot Framework development prerequisites and create your first Virtual Assistant.
+
+### Prerequisites
+
+[Download and install](#download-and-install) the Bot Framework development prerequisites.
+
+* Retrieve your LUIS Authoring Key
    - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work within a europe deployment. 
    - Once signed in click on your name in the top right hand corner.
    - Choose Settings and make a note of the Authoring Key for the next step.
 
-## Create your project
+### Time to Complete
+
+10 minutes
+
+### Scenario
+
+A Virtual Assistant app (in TypeScript) that greets a new user.
+
+## Download and install
+
+> It's important to ensure all of the following prerequisites are installed on your machine prior to attempting deployment otherwise you may run into deployment issues.
+
+1. Download and install the [Node Package Manager (NPM)](https://nodejs.org/en/).
+2. Download and install PowerShell Core version 6 (required for cross platform deployment support).
+   * [Download PowerShell Core on Windows](https://aka.ms/getps6-windows)
+   * [Download PowerShell Core on macOS and Linux](https://aka.ms/getps6-linux)
+3. Download and install Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of the latest capabilities: 
+   ```
+   npm install -g botdispatch, ludown, luis-apis, qnamaker, luisgen
+   ```
+4. Install [Yeoman](http://yeoman.io)
+   ```
+   npm install -g yo
+   ```
+5. Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest).
+
+## Create your assistant
 
 >//Temporary ahead of package publishing>
 
@@ -104,11 +118,11 @@ After this, you can check the summary in your screen:
 
 >**NOTE:** Remind to have an **unique** assistant's name for deployment steps. 
 
-You now have your own Assistant! Follow the Deployment steps below before you try and run the project as deployment creates key dependencies required for operation.
+You now have your own Virtual Assistant! Before trying to run your assistant locally, continue with the deployment steps (it creates vital dependencies requires to run correctly).
 
-## Deployment
+## Deploy your assistant
 
-The Virtual Assistant require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
+The Virtual Assistant requires the following Azure dependencies to run correctly. These are created through an [ARM (Azure Resource Manager)](https://azure.microsoft.com/en-us/features/resource-manager/) script (you can modify this to meet your requirements).
 
 - Azure Web App
 - Azure Storage Account (Transcripts)
@@ -119,22 +133,28 @@ The Virtual Assistant require the following dependencies for end to end operatio
 
 > Review the pricing and terms for the services and adjust to suit your scenario.
 
-To deploy your services using the default configuration, follow the steps in this common [deployment documentation page](/docs/tutorials/assistantandskilldeploymentsteps.md)
+Deploy your services following the steps in [Virtual Assistant and Skill Template deployment](/docs/tutorials/assistantandskilldeploymentsteps.md).
 
-## Starting your assistant
+## Run your assistant
+When deployment is complete, you can run your Virtual Assistant through the following steps:
+1. Open the generated assistant in your desired IDE (e.g Visual Studio Code).
+2. Run `npm run start`.
+3. Run the **Bot Framework Emulator**. 
+4. Select **Open Bot**.
+  <p align="center">
+  <img src="../../media/quickstart-virtualassistant-openbot.png" width="600">
+  </p>
 
-- Open up the generated assistant in your desired IDE (e.g Visual Studio Code).
-- Run `npm run start`.
+5. Populate the fields in the **Open a Bot** modal with your bot's configuration settings. Provide the endpoint of your running bot, e.g: `http://localhost:3978/api/messages`. Provide the AppId and Secret values. Find these in your `appsettings.json` file, under the `microsoftAppId` and `microsoftAppPassword` configuration settings.
+  <p align="center">
+  <img src="../../media/quickstart-virtualassistant-openbotmodal.png" width="600">
+  </p>
 
-## Testing
+6. Congratulations, you've built and run your first Virtual Assistant!
+<p align="center">
+<img src="../../media/quickstart-virtualassistant-greetingemulator.png" width="600">
+</p>
 
-Once deployment is complete, you can start debugging through the following steps:
-- Open the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator). 
-- Within the Emulator, click **File > New Bot Configuration**.
-- Provide the endpoint of your running Bot, e.g: http://localhost:3978/api/messages
-- Provide the AppId and Secret values which you can find in your `appsettings.json` file under the `microsoftAppId` and `microsoftAppPassword` configuration settings.
-- Click on **Save and Connect**.
+## Next Steps
 
-You should see an Introduction Adaptive card as shown below
-
-![Introduction Card](https://user-images.githubusercontent.com/43043272/55245287-0e01fe00-5200-11e9-8709-4d24c0f45502.png)
+Now that you've got the basics, continue [customizing your Virtual Assistant](/docs/tutorials/typescript/customizeassistant.md).
