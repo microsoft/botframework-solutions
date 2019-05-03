@@ -28,7 +28,7 @@
 
 |Name|Description|
 |------------|-----------|
-|1. Create your Virtual Assistant in 10 minutes <br/><br/> <p align="center">[![Create your Virtual Assistant in 10 minutes with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/virtualassistant.md)[![Create your Assistant in 10 minutes with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/virtualassistant.md)</p>|Deploying your own assistant using the Virtual Assistant template|
+|1. Quickstart: Create a Virtual Assistant<br/><br/> <p align="center">[![Quickstart: Create a Virtual Assistant with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/virtualassistant.md)[![Quickstart: Create a Virtual Assistant with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/virtualassistant.md)</p>|Deploying your own assistant using the Virtual Assistant template|
 |2. Customize your Virtual Assistant <br/><br/><p align="center">[![Customize your Virtual Assistant with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeassistant.md) [![Customize your Assistant with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/customizeassistant.md)</p>|Personalize your assistant, change the name, branding, QnA| 
 |3. Create and deploy a new Skill <br/><br/><p align="center">[![Create and deploy a new Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/skill.md) [![Create and deploy a new Skill with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/skill.md)</p>|Creating a new Skill using the template|
 |4. Customize your Skill <br/><br/><p align="center">[![Customize your Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeskill.md) [![Customize your Skill with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/customizeassistant.md)</p>|Building your first skill| 
@@ -43,13 +43,13 @@
 |Name|Description|
 |------------|-----------|
 |[Under the covers](/docs/advanced/assistant/underthecovers.md)|Detailed documentation covering what the template provides and how it works| 
-|[Enhancing your Assistant with additional Skills](/docs/skills/common/addingskill.md)|Adding the out-of-the-box Skills to your Virtual Assistant|
+|[Enhance your Assistant with additional Skills](/docs/skills/common/addingskill.md)|Adding the out-of-the-box Skills to your Virtual Assistant|
 |Authenticating users to your Assistant <br/><br/><p align="center">[![Authenticating users to your Assistant with C#](./media/csharp_icon.png)](/docs/advanced/assistant/csharp/addauthentication.md) [![Authenticating users to your Assistant with TypeScript](./media/typescript_icon.png)](/docs/advanced/assistant/typescript/addauthentication.md)</p>|How to add user authentication to your Assistant|
 |[Linked Accounts](/docs/advanced/assistant/linkedaccounts.md)|Enable users to link third party accounts (e.g. Office 365) to your Assistant|
 |Migrating from the Enterprise Template <br/><br/><p align="center">[![Migrating from the Enterprise Template with C#](./media/csharp_icon.png)](/docs/advanced/assistant/csharp/ettovamigration.md)</p>|Guidance on how to move from an Enterprise Template based Bot to the new Template|
-|Migrating from the beta Virtual Assistant solution <br/><br/><p align="center">[![Migrating from the beta Virtual Assistant solution with C#](./media/csharp_icon.png)](/docs/advanced/assistant/csharp/oldvatovamigration.md)</p>|Guidance on how to move from the original Virtual Assistant solution to the new Template|
+|Migrating from the old Virtual Assistant solution <br/><br/><p align="center">[![Migrating from the beta Virtual Assistant solution with C#](./media/csharp_icon.png)](/docs/advanced/assistant/csharp/oldvatovamigration.md)</p>|Guidance on how to move from the original Virtual Assistant solution to the new Template|
 |[Messaging your users proactively](/docs/advanced/assistant/csharp/proactivemessaging.md)|Adding proactive experiences to your assistant|
-|[Enable cross bot communication into one conversational experience](/docs/advanced/assistant/parentchildbotpattern.md)||Create one central Assistant which hands-off to child bots (a common enterprise scenario)|
+|[Enable cross bot communication into one conversational experience](/docs/advanced/assistant/parentchildbotpattern.md)|Create one central Assistant which hands-off to child bots (a common enterprise scenario)|
 |[Customize your Azure resource deployment](/docs/advanced/assistant/customisingdeployment.md)|How to customise the provided ARM template for different deployment scenarios.|
 |Secure your keys using Azure Key Vault <br/><br/><p align="center">[![Secure your keys using Azure Key Vault with C#](./media/csharp_icon.png)](/docs/advanced/assistant/csharp/keyvault.md) [![Secure your keys using Azure Key Vault with TypeScript](./media/typescript_icon.png)](/docs/advanced/assistant/typescript/keyvault.md)</p>|How to safeguard your keys using Azure Key Vault|
 
