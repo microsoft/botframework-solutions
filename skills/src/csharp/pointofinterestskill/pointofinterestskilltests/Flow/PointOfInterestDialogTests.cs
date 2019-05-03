@@ -24,10 +24,8 @@ namespace PointOfInterestSkillTests.Flow
                 .Send(PointOfInterestDialogUtterances.LocationEvent)
                 .Send(PointOfInterestDialogUtterances.WhatsNearby)
                 .AssertReply(MultipleLocationsFound())
-                .AssertReply(PointOfInterestSelection())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .AssertReply(PromptToStartRoute())
                 .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
@@ -46,10 +44,8 @@ namespace PointOfInterestSkillTests.Flow
                 .Send(PointOfInterestDialogUtterances.LocationEvent)
                 .Send(PointOfInterestDialogUtterances.WhatsNearby)
                 .AssertReply(MultipleLocationsFound())
-                .AssertReply(PointOfInterestSelection())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .AssertReply(PromptToStartRoute())
                 .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
@@ -68,10 +64,8 @@ namespace PointOfInterestSkillTests.Flow
                 .Send(PointOfInterestDialogUtterances.LocationEvent)
                 .Send(PointOfInterestDialogUtterances.WhatsNearby)
                 .AssertReply(MultipleLocationsFound())
-                .AssertReply(PointOfInterestSelection())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .AssertReply(PromptToStartRoute())
                 .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
@@ -90,10 +84,8 @@ namespace PointOfInterestSkillTests.Flow
                 .Send(PointOfInterestDialogUtterances.LocationEvent)
                 .Send(PointOfInterestDialogUtterances.WhatsNearby)
                 .AssertReply(MultipleLocationsFound())
-                .AssertReply(PointOfInterestSelection())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .AssertReply(PromptToStartRoute())
                 .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
@@ -112,10 +104,8 @@ namespace PointOfInterestSkillTests.Flow
                 .Send(PointOfInterestDialogUtterances.LocationEvent)
                 .Send(PointOfInterestDialogUtterances.WhatsNearby)
                 .AssertReply(MultipleLocationsFound())
-                .AssertReply(PointOfInterestSelection())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .AssertReply(PromptToStartRoute())
                 .Send(GeneralUtterances.No)
                 .AssertReply(AskAboutRouteLater())
                 .AssertReply(CompleteDialog())
@@ -136,10 +126,8 @@ namespace PointOfInterestSkillTests.Flow
                 .Send(PointOfInterestDialogUtterances.LocationEvent)
                 .Send(PointOfInterestDialogUtterances.WhatsNearby)
                 .AssertReply(MultipleLocationsFound())
-                .AssertReply(PointOfInterestSelection())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .AssertReply(PromptToStartRoute())
                 .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
@@ -159,10 +147,8 @@ namespace PointOfInterestSkillTests.Flow
                 .Send(PointOfInterestDialogUtterances.LocationEvent)
                 .Send(PointOfInterestDialogUtterances.FindParkingNearby)
                 .AssertReply(MultipleLocationsFound())
-                .AssertReply(PointOfInterestSelection())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .AssertReply(PromptToStartRoute())
                 .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
@@ -181,10 +167,8 @@ namespace PointOfInterestSkillTests.Flow
                 .Send(PointOfInterestDialogUtterances.LocationEvent)
                 .Send(PointOfInterestDialogUtterances.FindParkingNearAddress)
                 .AssertReply(MultipleLocationsFound())
-                .AssertReply(PointOfInterestSelection())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .AssertReply(PromptToStartRoute())
                 .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
@@ -195,12 +179,13 @@ namespace PointOfInterestSkillTests.Flow
         /// <summary>
         /// Asserts bot response of MultipleLocationsFound.
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        /// <returns>Returns an Action with IActivity object.</returns>
         private Action<IActivity> MultipleLocationsFound()
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
+
                 CollectionAssert.Contains(ParseReplies(POISharedResponses.MultipleLocationsFound, new StringDictionary()), messageActivity.Text);
             };
         }
@@ -208,14 +193,14 @@ namespace PointOfInterestSkillTests.Flow
         /// <summary>
         /// Asserts bot response of PointOfInterestSelection.
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        /// <returns>Returns an Action with IActivity object.</returns>
         private Action<IActivity> PointOfInterestSelection()
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                var index = messageActivity.Text.IndexOf("\n");
+                int index = messageActivity.Text.IndexOf("\n");
                 if (index > 0)
                 {
                     messageActivity.Text = messageActivity.Text.Substring(0, index);
@@ -228,7 +213,7 @@ namespace PointOfInterestSkillTests.Flow
         /// <summary>
         /// Asserts bot response of SingleLocationFound.
         /// </summary>
-        /// <returns>Returns an Action.</returns>
+        /// <returns>Returns an Action with IActivity object.</returns>
         private Action<IActivity> SingleLocationFound()
         {
             return activity =>
@@ -242,21 +227,22 @@ namespace PointOfInterestSkillTests.Flow
         /// <summary>
         /// Asserts bot response of SingleRouteFound.
         /// </summary>
-        /// <returns>Returns an Action.</returns>
+        /// <returns>Returns an Action with IActivity object.</returns>
         private Action<IActivity> SingleRouteFound()
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
+                var textRemovedPrompt = messageActivity.Text.Replace(" (1) Yes or (2) No", string.Empty);
 
-                CollectionAssert.Contains(ParseReplies(POISharedResponses.SingleRouteFound, new StringDictionary()), messageActivity.Text);
+                CollectionAssert.Contains(ParseReplies(POISharedResponses.SingleRouteFound, new StringDictionary()), textRemovedPrompt);
             };
         }
 
         /// <summary>
         /// Asserts bot response of MultipleRoutesFound.
         /// </summary>
-        /// <returns>Returns an Action.</returns>
+        /// <returns>Returns an Action with IActivity object.</returns>
         private Action<IActivity> MultipleRoutesFound()
         {
             return activity =>
@@ -270,7 +256,7 @@ namespace PointOfInterestSkillTests.Flow
         /// <summary>
         /// Asserts bot response of PromptToStartRoute.
         /// </summary>
-        /// <returns>Returns an Action.</returns>
+        /// <returns>Returns an Action with IActivity object.</returns>
         private Action<IActivity> PromptToStartRoute()
         {
             return activity =>
@@ -284,7 +270,7 @@ namespace PointOfInterestSkillTests.Flow
         /// <summary>
         /// Asserts bot response of AskAboutRouteLater.
         /// </summary>
-        /// <returns>Returns an Action.</returns>
+        /// <returns>Returns an Action with IActivity object.</returns>
         private Action<IActivity> AskAboutRouteLater()
         {
             return activity =>
@@ -298,7 +284,7 @@ namespace PointOfInterestSkillTests.Flow
         /// <summary>
         /// Asserts bot response of SendingRouteDetails.
         /// </summary>
-        /// <returns>Returns an Action.</returns>
+        /// <returns>Returns an Action with IActivity object.</returns>
         private Action<IActivity> SendingRouteDetails()
         {
             return activity =>
@@ -312,7 +298,7 @@ namespace PointOfInterestSkillTests.Flow
         /// <summary>
         /// Asserts bot response of CannotCancelActiveRoute.
         /// </summary>
-        /// <returns>Returns an Action.</returns>
+        /// <returns>Returns an Action with IActivity object.</returns>
         private Action<IActivity> CannotCancelActiveRoute()
         {
             return activity =>
@@ -326,7 +312,7 @@ namespace PointOfInterestSkillTests.Flow
         /// <summary>
         /// Asserts bot response of CancelActiveRoute.
         /// </summary>
-        /// <returns>Returns an Action.</returns>
+        /// <returns>Returns an Action with IActivity object.</returns>
         private Action<IActivity> CancelActiveRoute()
         {
             return activity =>
@@ -340,7 +326,7 @@ namespace PointOfInterestSkillTests.Flow
         /// <summary>
         /// Asserts bot response of CompleteDialog.
         /// </summary>
-        /// <returns>Returns an Action.</returns>
+        /// <returns>Returns an Action with IActivity object.</returns>
         private Action<IActivity> CompleteDialog()
         {
             return activity =>
@@ -353,7 +339,7 @@ namespace PointOfInterestSkillTests.Flow
         /// <summary>
         /// Asserts bot response of Event Activity.
         /// </summary>
-        /// <returns>Returns an Action.</returns>
+        /// <returns>Returns an Action with IActivity object.</returns>
         private Action<IActivity> CheckForEvent()
         {
             return activity =>

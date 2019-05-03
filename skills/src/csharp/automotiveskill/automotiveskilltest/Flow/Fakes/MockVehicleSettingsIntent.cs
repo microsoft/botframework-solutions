@@ -7,7 +7,6 @@ namespace AutomotiveSkillTest.Flow.Fakes
 {
     public class MockVehicleSettingsIntent : VehicleSettingsLuis
     {
-        private string userInput;
         private Intent intent;
         private double score;
 
@@ -18,13 +17,15 @@ namespace AutomotiveSkillTest.Flow.Fakes
                 throw new ArgumentNullException(nameof(userInput));
             }
 
-            Entities = new VehicleSettingsLuis._Entities();
+            Entities = new _Entities();
             Intents = new Dictionary<Intent, IntentScore>();
 
-            this.userInput = userInput;
+            this.UserInput = userInput;
 
             (intent, score) = ProcessUserInput();
         }
+
+        public string UserInput { get; set; }
 
         private (Intent intent, double score) ProcessUserInput()
         {
@@ -34,7 +35,7 @@ namespace AutomotiveSkillTest.Flow.Fakes
                 Properties = new Dictionary<string, object>()
             };
 
-            switch (userInput.ToLower())
+            switch (UserInput.ToLower())
             {
                 case "set temperature to 21 degrees":
                     Entities.SETTING = new string[] { "temperature" };
@@ -82,12 +83,12 @@ namespace AutomotiveSkillTest.Flow.Fakes
                     break;
                 case "i'm feeling cold":
                     Entities.VALUE = new string[] { "cold" };
-                    Intents.Add(VehicleSettingsLuis.Intent.VEHICLE_SETTINGS_DECLARATIVE, intentScore);
+                    Intents.Add(Intent.VEHICLE_SETTINGS_DECLARATIVE, intentScore);
                     break;
                 case "it's feeling cold in the back":
                     Entities.SETTING = new string[] { "back" };
                     Entities.VALUE = new string[] { "cold" };
-                    Intents.Add(VehicleSettingsLuis.Intent.VEHICLE_SETTINGS_DECLARATIVE, intentScore);
+                    Intents.Add(Intent.VEHICLE_SETTINGS_DECLARATIVE, intentScore);
                     break;
                 case "adjust equalizer":
                     Entities.SETTING = new string[] { "equalizer" };
@@ -96,13 +97,13 @@ namespace AutomotiveSkillTest.Flow.Fakes
                     Entities.SETTING = new string[] { "pedestrian detection" };
                     break;
                 default:
-                    return (VehicleSettingsLuis.Intent.None, 0.0);
+                    return (Intent.None, 0.0);
             }
 
             // Default is setting change apart from declarative used ocassionally above
             if (Intents.Count == 0)
             {
-                Intents.Add(VehicleSettingsLuis.Intent.VEHICLE_SETTINGS_CHANGE, intentScore);
+                Intents.Add(Intent.VEHICLE_SETTINGS_CHANGE, intentScore);
             }
 
             return TopIntent();

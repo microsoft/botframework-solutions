@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" Type="ProjectGroup" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
   <TemplateData>
     <Name>Virtual Assistant Template</Name>
-    <Description>Project template for assistant scenarios using the Bot Builder SDK V4 (including Unit Test project).</Description>
+    <Description>Project template for an advanced conversational assistant using the Bot Builder SDK V4.</Description>
     <Icon>__TemplateIcon.ico</Icon>
     <ProjectType>CSharp</ProjectType>
     <DefaultName>MyAssistant</DefaultName>
