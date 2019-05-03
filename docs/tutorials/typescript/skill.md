@@ -14,6 +14,11 @@
   - [Deployment](#deployment)
   - [Starting your skill](#starting-your-skill)
   - [Testing](#testing)
+  - [Update Manifest](#update-manifest)
+  - [Publish Skill](#publish-skill)
+  - [Testing Manifest Endpoint](#testing-manifest-endpoint)
+  - [Adding your new Skill to a Bot](#adding-your-new-skill-to-a-bot)
+  - [Testing](#testing-1)
  
 ## Prerequisites
 > It's important to ensure all of the following pre-requisites are installed on your machine prior to attempting deployment otherwise you may run into deployment issues.
@@ -37,13 +42,6 @@
    - Choose Settings and make a note of the Authoring Key for the next step.
 
 ## Create your project
-
->//Temporary ahead of package publishing>
-
-- Clone the [Microsoft AI](https://github.com/Microsoft/AI) repository
-- Go to `templates\Skill-Template\typescript\generator-botbuilder-skill` folder in a command line
-- Run npm link to symlink the package folder
->//
 
 Now you can execute the Skill template generator with this command.
 
@@ -89,7 +87,7 @@ yo botbuilder-assistant:skill
 #### Example
 
 ```bash
-> yo botbuilder-assistant:skill -n "My skill" -d "A description for my new skill" -l "en,es" -p "\aPath" --noPrompt
+> yo botbuilder-assistant:skill -n "My skill" -d "A description for my new skill" -l "en" -p "\aPath" --noPrompt
 ```
 
 After this, you can check the summary in your screen:
@@ -133,3 +131,29 @@ Once deployment is complete, you can start debugging through the following steps
 - Provide the endpoint of your running Bot, e.g: http://localhost:3978/api/messages
 - Provide the AppId and Secret values which you can find in your `appsettings.json` file under the `microsoftAppId` and `microsoftAppPassword` configuration settings.
 - Click on **Save and Connect**.
+
+## Update Manifest
+
+Your newly created Skill has a basic Skill manifest file provided in the root directory (`manifestTemplate.json`), this has been pre-populated with the Skill ID and name and a sample action which you can modify at this stage if required.
+
+## Publish Skill
+
+- You can now publish your Skill to Azure using the usual deployment tools and enable easier invocation of the Skill from your assistant project.
+
+## Testing Manifest Endpoint
+
+- To validate your Skill is deployed and working open up a browser window and navigate to your deployed Skill manifest (`/api/skill/manifest endpoint`). e.g.  `http://localhost:3978/api/skill/manifest`
+
+## Adding your new Skill to a Bot
+
+To add your new Skill to your assistant/Bot, run the following command from a command prompt within the directory of your assistant/Bot.
+
+```bash
+botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder "<YOUR-SKILL_PATH>\Deployment\Resources\LU\en\" --ts 
+```
+
+See the [Adding Skills](/docs/advanced/skills/addingskills.md) for more detail on how to add skills.
+
+## Testing
+
+- Test your skill works in your Bot through the emulator by typing "sample dialog"
