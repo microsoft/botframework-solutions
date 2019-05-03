@@ -1,7 +1,7 @@
 import { BotAdapter, BotTelemetryClient, InvokeResponse, Middleware, NullTelemetryClient, ResourceResponse, Severity, TurnContext } from 'botbuilder';
-import { IRemoteUserTokenProvider, TelemetryExtensions } from 'botbuilder-solutions';
+import { IRemoteUserTokenProvider, TelemetryExtensions, ActivityExtensions, TokenEvents } from 'botbuilder-solutions';
 import { Activity, ActivityTypes, ConversationReference } from 'botframework-schema';
-import { Request } from 'microsoft-bot-protocol';
+import { CancellationToken, ContentStream, ReceiveResponse, Request } from 'microsoft-bot-protocol';
 import { Server } from 'microsoft-bot-protocol-websocket';
 import { v4 as uuid } from 'uuid';
 import { BotCallbackHandler, IActivityHandler } from '../activityHandler';
@@ -62,7 +62,7 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
                 activity.id = uuid();
             }
 
-            let response: ResourceResponse = { id: '' };
+            let response: ResourceResponse|undefined = { id: '' };
 
             if (activity.type === 'delay') {
                 // The Activity Schema doesn't have a delay type build in, so it's simulated
@@ -133,19 +133,43 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
 
         const latency: { latency: number } = { latency: toMilliseconds(end) };
 
-        TelemetryExtensions.trackEventEx(this.telemetryClient, 'SkillWebSocketDeleteActivityLatency', undefined, undefined, undefined, latency);
+        TelemetryExtensions.trackEventEx(this.telemetryClient, 'SkillWebSocketDeleteActivityLatency', {}, undefined, undefined, latency);
     }
 
     public async continueConversation(reference: Partial<ConversationReference>, logic: BotCallbackHandler): Promise<void> {
-        throw new Error('Method not implemented.');
+        const activity: Partial<Activity> = ActivityExtensions.getContinuationActivity(reference);
+        const context: TurnContext = new TurnContext(this, activity);
+        await this.runMiddleware(context, logic);
     }
 
     public async sendRemoteTokenRequestEvent(turnContext: TurnContext): Promise<void> {
-        throw new Error('Method not implemented.');
+        // We trigger a Token Request from the Parent Bot by sending a "TokenRequest" event back and then waiting for a "TokenResponse"
+        const response: Activity = ActivityExtensions.createReply(turnContext.activity);
+        response.type = ActivityTypes.Event;
+        response.name = TokenEvents.tokenRequestEventName;
+
+        // Send the tokens/request Event
+        await this.sendActivities(turnContext, [response]);
     }
     
-    private sendRequest<T>(request: Request): Promise<T> {
-        throw new Error("Method not implemented.");
+    private async sendRequest<T>(request: Request, cToken?: CancellationToken): Promise<T|undefined> {
+        try {
+            const serverResponse: ReceiveResponse = await this.server.sendAsync(request, cToken || new CancellationToken());
+
+            if (serverResponse.StatusCode === 200) {
+                // MISSING: await request.ReadBodyAsJson();
+                const bodyParts: string[] = await Promise.all(serverResponse.Streams.map((s: ContentStream) => s.readAsString()));
+                const body: string = bodyParts.join();
+
+                return JSON.parse(body);
+            }
+        } catch (error) {
+            TelemetryExtensions.trackExceptionEx(this.telemetryClient, error, {});
+
+            throw error;
+        }
+
+        return undefined;
     }
 }
 

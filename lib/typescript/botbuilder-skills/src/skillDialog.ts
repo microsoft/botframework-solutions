@@ -82,7 +82,7 @@ export class SkillDialog extends ComponentDialog {
         // enabling the Skill to perform it's own action identification.
 
         const actionName: string = <string>(options || '');
-        if (actionName !== undefined) {
+        if (actionName) {
             // Find the specified within the selected Skill for slot filling evaluation
             const action: IAction|undefined = this.skillManifest.actions.find((item: IAction) => item.id === actionName);
             if (action !== undefined) {
