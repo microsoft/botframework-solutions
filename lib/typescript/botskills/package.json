@@ -43,10 +43,10 @@
   },
   "devDependencies": {
     "@types/get-stdin": "^5.0.1",
-    "@types/node": "^10.9.4",
+    "@types/node": "^10.10.1",
     "@types/request-promise-native": "^1.0.15",
     "@types/semver": "^5.5.0",
-    "mocha": "^5.2.0",
+    "mocha": "^6.1.4",
     "tslint": "^5.12.1",
     "tslint-microsoft-contrib": "6.0.0",
     "typescript": "^3.2.2"
