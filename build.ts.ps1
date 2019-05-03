@@ -42,7 +42,7 @@ popd
 
 pushd .\templates\Virtual-Assistant-Template\typescript\generator-botbuilder-assistant
 
-npm version $($pkgversion) --allow-same-version
+npm version $($cliversion) --allow-same-version
 npm install
 
 popd
