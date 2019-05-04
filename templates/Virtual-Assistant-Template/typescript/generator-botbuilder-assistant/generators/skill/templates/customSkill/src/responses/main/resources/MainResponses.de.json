@@ -1,0 +1,83 @@
+{
+    "WelcomeMessage": {
+      "replies": [
+        {
+          "speak": "[Geben Sie Ihre Intro-Nachricht ein.]",
+          "text": "[Geben Sie Ihre Intro-Nachricht ein.]"
+        }
+      ],
+      "suggestedActions": [],
+      "inputHint": "acceptingInput"
+    },
+    "HelpMessage": {
+      "replies": [
+        {
+          "speak": "[Geben Sie Ihre Hilfe-Nachricht ein.]",
+          "text": "[Geben Sie Ihre Hilfe-Nachricht ein.]"
+        }
+      ],
+      "suggestedActions": [],
+      "inputHint": "acceptingInput"
+    },
+    "GreetingMessage": {
+      "replies": [
+        {
+          "speak": "Es gibt!",
+          "text": "Es gibt!"
+        },
+        {
+          "speak": "Hallo!",
+          "text": "Hallo!"
+        },
+        {
+          "speak": "Hallo!",
+          "text": "Hallo!"
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "GoodbyeMessage": {
+      "replies": [
+        {
+          "speak": "Goodbye!",
+          "text": "Goodbye!"
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "LogOut": {
+      "replies": [
+        {
+          "speak": "Ihr Anmeldeausweiser war erfolgreich.",
+          "text": "Ihr Anmeldeausweiser war erfolgreich."
+        },
+        {
+          "speak": "Sie haben erfolgreich unterschrieben.",
+          "text": "Sie haben erfolgreich unterschrieben."
+        },
+        {
+          "speak": "Sie haben sich angemeldet.",
+          "text": "Sie haben sich angemeldet."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "FeatureNotAvailable": {
+      "replies": [
+        {
+          "speak": "Diese Funktion ist noch nicht in der skill erhältlich. Bitte versuchen Sie, etwas anderes zu fragen.",
+          "text": "Diese Funktion ist noch nicht in der skill erhältlich. Bitte versuchen Sie, etwas anderes zu fragen."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "CancelMessage": {
+      "replies": [
+        {
+          "speak": "Okkiert, fangen wir an.",
+          "text": "Okkiert, fangen wir an."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    }
+}
