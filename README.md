@@ -1,10 +1,6 @@
 ![Bot Framework Solutions](/docs/media/bot_framework_solutions_header.png)
 
-This repository is the home for a set of templates, solutions and skills to help build advanced conversational experiences.
-
-Creation of a high quality conversational experience requires a foundational set of capabilities. To help you succeed with building more complex, assistant-like  conversational experiences, we have created an Virtual Assistant Template. This template brings together all of the best practices and supporting components we've identified through building of conversational experiences. 
-
-This repo is a part of [Bot Framework](https://botframework.com, which includes [Azure Bot Service](https://aka.ms/azurebotservice), [LUIS](https://luis.ai), [QnAMaker](https://qnamaker.ai), Emulator and Bot Builder SDK.
+This repository is the home for a set of templates and solutions to help build conversational experiences using [Azure Bot Service](https://aka.ms/azurebotservice) and [Bot Framework](https://botframework.com).
 
 | Name | Description |  
 |:------------:|------------| 
@@ -15,10 +11,18 @@ This repo is a part of [Bot Framework](https://botframework.com, which includes 
 ## Packages
 
 ### .NET
-| Name | Released Package |Prerelease |
+| Name | Released Package |Daily Build |
 |---|---|---|
-| Microsoft.Bot.Builder.Solutions | [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Builder.Solutions?dWidth=70)](https://www.nuget.org/packages/Microsoft.Bot.Builder.Solutions/) | [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Builder.Solutions?dWidth=70&includePreReleases=true)](https://www.nuget.org/packages/Microsoft.Bot.Builder.Solutions/) |
-| Microsoft.Bot.Builder.Skills | [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Builder.Skills?dWidth=70)](https://www.nuget.org/packages/Microsoft.Bot.Builder.Skills/) |  [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Builder.Skills?dWidth=70&includePreReleases=true)](https://www.nuget.org/packages/Microsoft.Bot.Builder.Skills/) |
+| Microsoft.Bot.Builder.Solutions                | [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Builder.Solutions?dWidth=70)](https://www.nuget.org/packages/Microsoft.Bot.Builder.Solutions/)                                 | [![BotBuilder Badge](https://buildstats.info/myget/botbuilder/aitemplates/Microsoft.Bot.Builder.Solutions?includePreReleases=true&dWidth=50)](https://botbuilder.myget.org/feed/aitemplates/package/nuget/Microsoft.Bot.Builder.Solutions) |
+| Microsoft.Bot.Builder.Skills                | [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Builder.Skills?dWidth=70)](https://www.nuget.org/packages/Microsoft.Bot.Builder.Skills/)                                 | [![BotBuilder Badge](https://buildstats.info/myget/botbuilder/aitemplates/Microsoft.Bot.Builder.Skills?includePreReleases=true&dWidth=50)](https://botbuilder.myget.org/feed/aitemplates/package/nuget/Microsoft.Bot.Builder.Skills) |
+
+### JS
+
+| Name | Released Package |Daily Build |
+|---|---|---|
+| botbuilder-solutions | [![npm version](https://badge.fury.io/js/botbuilder-solutions.svg)](https://badge.fury.io/js/botbuilder-solutions) | [Link](https://botbuilder.myget.org/feed/aitemplates/package/npm/botbuilder-solutions)
+| botbuilder-skills | [![npm version](https://badge.fury.io/js/botbuilder-skills.svg)](https://badge.fury.io/js/botbuilder-skills) | [Link](https://botbuilder.myget.org/feed/aitemplates/package/npm/botbuilder-skills)
+| generator-botbuilder-assistant | [![npm version](https://badge.fury.io/js/generator-botbuilder-assistant.svg)](https://badge.fury.io/js/generator-botbuilder-assistant) | [Link](https://botbuilder.myget.org/feed/aitemplates/package/npm/generator-botbuilder-assistant)
 
 ## Need Help?
 
