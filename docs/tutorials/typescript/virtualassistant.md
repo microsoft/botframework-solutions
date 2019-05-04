@@ -3,7 +3,7 @@
 **APPLIES TO:** ✅ SDK v4
 
 ## In this tutorial
-- [Quickstart: Creating your first Virtual Assistant (TypeScript)](#quickstart-creating-your-first-virtual-assistant-typescript)
+- [Quickstart: Create your first Virtual Assistant (TypeScript)](#quickstart-create-your-first-virtual-assistant-typescript)
   - [In this tutorial](#in-this-tutorial)
   - [Intro](#intro)
     - [Purpose](#purpose)
@@ -51,7 +51,7 @@ A Virtual Assistant app (in TypeScript) that greets a new user.
    * [Download PowerShell Core on macOS and Linux](https://aka.ms/getps6-linux)
 3. Download and install Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of the latest capabilities: 
    ```
-   npm install -g botdispatch, ludown, luis-apis, qnamaker, luisgen
+   npm install -g botdispatch ludown luis-apis qnamaker luisgen
    ```
 4. Install [Yeoman](http://yeoman.io)
    ```
