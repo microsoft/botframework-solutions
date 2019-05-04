@@ -3,7 +3,7 @@
 **APPLIES TO:** ✅ SDK v4
 
 ## In this tutorial
-- [Quickstart: Creating your first Virtual Assistant (C#)](#quickstart-creating-your-first-virtual-assistant-c)
+- [Quickstart: Create your first Virtual Assistant (C#)](#quickstart-create-your-first-virtual-assistant-c)
   - [In this tutorial](#in-this-tutorial)
   - [Intro](#intro)
     - [Purpose](#purpose)
@@ -50,7 +50,7 @@ A Virtual Assistant app (in C#) that greets a new user.
    * [Download PowerShell Core on macOS and Linux](https://aka.ms/getps6-linux)
 5. Download and install the Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of the latest capabilities: 
    ```
-   npm install -g botdispatch ludown luis-apis qnamaker luisgen
+   npm install -g botdispatch ludown luis-apis qnamaker luisgen botskills
    ```
 6. Download and install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest).
 7. Download and install the [Bot Framework Emulator](https://aka.ms/botframework-emulator).

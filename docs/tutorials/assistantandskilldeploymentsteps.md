@@ -22,7 +22,14 @@
     parametersFile | A .json file that can overwrite the default values of the Azure Resource Manager template. | No
     outFolder | Output directory for created appsettings.json and cognitivemodels.json files. Default value is current directory. | No
 
-> There is a known issue with some users whereby you might experience the following error when running deployment `Could not provision Microsoft App Registration automatically. Please provide the -appId and -appPassword arguments for an existing app and try again`. In this situation, please create your own [Azure Active Directory App](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview) and manually create a new application retrieving the ApplicationID and Password/Secret. Run the above deployment script again but provide two new arguments `appId` and `appPassword` passing the values you've just retrieved.
+> There is a known issue with some users whereby you might experience the following error when running deployment `Could not provision Microsoft App Registration automatically. Please provide the -appId and -appPassword arguments for an existing app and try again`. In this situation, please create your own Azure Active Directory App through [this](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredAppsPreview) part of the Azure portal.
+- Click `New Registration`
+- Provide a name
+- Select `Accounts in any organizational directory`
+
+Then once created retrieve the `Application (ClientId)` and create a new client secret on the `Certificates & secrets` pane
+
+Run the above deployment script again but provide two new arguments `appId` and `appPassword` passing the values you've just retrieved.
 
 > NOTE: Take special care when providing the appSecret step above as special characters (e.g. @) can cause parse issues. Ensure you wrap these parameters in single quotes.
 

@@ -1,12 +1,13 @@
 ![Bot Framework Solutions](/docs/media/bot_framework_solutions_header.png)
  
 # Table of Contents
+- [Table of Contents](#table-of-contents)
 - [Overview](#overview)
 - [Tutorials](#tutorials)
-- [How-To](#advanced-scenarios)
+- [How-To](#how-to)
   - [Virtual Assistant](#virtual-assistant)
   - [Skills](#skills)
-- [Reference](#reference-documentation)
+- [Reference](#reference)
   - [Virtual Assistant](#virtual-assistant-1)
   - [Skills](#skills-1)
   - [Analytics](#analytics)
@@ -31,7 +32,7 @@
 |1. Quickstart: Create your first Virtual Assistant<br/><br/> <p align="center">[![Quickstart: Create a Virtual Assistant with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/virtualassistant.md)[![Quickstart: Create a Virtual Assistant with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/virtualassistant.md)</p>|Deploying your own assistant using the Virtual Assistant template|
 |2. Customize your Virtual Assistant <br/><br/><p align="center">[![Customize your Virtual Assistant with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeassistant.md) [![Customize your Assistant with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/customizeassistant.md)</p>|Personalize your assistant, change the name, branding, QnA| 
 |3. Create a new Skill <br/><br/><p align="center">[![Create and deploy a new Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/skill.md) [![Create and deploy a new Skill with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/skill.md)</p>|Creating a new Skill using the template|
-|4. Customize your Skill <br/><br/><p align="center">[![Customize your Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeskill.md) [![Customize your Skill with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/customizeassistant.md)</p>|Building your first skill| 
+|4. Customize your Skill <br/><br/><p align="center">[![Customize your Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeskill.md)</p>|Building your first skill| 
 
 # How-To
 
@@ -41,7 +42,6 @@
 
 | Name | Description |
 | ---- | ----------- |
-| How To: Authenticate users in your Assistant <br/><br/><p align="center">[![Authenticating users to your Assistant with C#](./media/csharp_icon.png)](/docs/howto/assistant/csharp/addauthentication.md) [![Authenticating users to your Assistant with TypeScript](./media/typescript_icon.png)](/docs/howto/assistant/typescript/addauthentication.md)</p>|How to add user authentication to your Assistant |
 | [How To: Enable Linked Accounts](/docs/howto/assistant/linkedaccounts.md) | Enable users to link third party accounts (e.g. Office 365) to your Assistant |
 | How To: Migrate from the Enterprise Template <br/><br/><p align="center">[![Migrating from the Enterprise Template with C#](./media/csharp_icon.png)](/docs/howto/assistant/csharp/ettovamigration.md)</p> | Guidance on how to move from an Enterprise Template based Bot to the new Template|
 | How to: Migrate from the old Virtual Assistant solution <br/><br/><p align="center">[![Migrating from the beta Virtual Assistant solution with C#](./media/csharp_icon.png)](/docs/howto/assistant/csharp/oldvatovamigration.md)</p>|Guidance on how to move from the original Virtual Assistant solution to the new Template |
@@ -49,7 +49,6 @@
 | [How To: Enable cross bot communication into one conversational experience](/docs/howto/assistant/parentchildbotpattern.md) | Create one central Assistant which hands-off to child bots (a common enterprise scenario) |
 | [How To: Customize Azure Resource Deployment](/docs/howto/assistant/customizedeployment.md) | How to customise the provided ARM template for different deployment scenarios. |
 | How To: Secure your keys using Azure Key Vault :construction_worker_woman: | How to safeguard your keys using Azure Key Vault|
-
 
 ## Skills
 
@@ -68,7 +67,7 @@
 
 | Name | Description |
 | ---- | ----------- |
-|[Template Outline](/docs/reference/assistant/templateoutline.md)|An outline of what the Virtual Assistant template provides| 
+|[Template Outline](/docs/reference/assistant/templateoutline.md)|An outline of what the Virtual Assistant template provides|
 |[Under the covers](/docs/reference/assistant/underthecovers.md)|Detailed documentation covering what the template provides and how it works| 
 |[Underlying architecture](/docs/reference/assistant/architecture.md)|Detailed exploration of the overall Virtual Assistant Architecture|
 |[Template structure](/docs/reference/assistant/projectstructure.md)|Walkthrough of your Virtual Assistant project|
