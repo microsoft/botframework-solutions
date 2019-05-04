@@ -83,7 +83,11 @@ Your newly created Skill has a basic Skill manifest file provided in the root di
 
 ## Adding your new Skill to a Bot
 
-To add your new Skill to your assistant/Bot, run the following command from a command prompt within the directory of your assistant/Bot.
+To add your new Skill to your assistant/Bot, run the following command from a command prompt within the directory of your assistant/Bot. At this time we have a powershell script and a preview botskills CLI.
+
+``
+.\Deployment\scripts\add_remote_skill.ps1 -botName "YOUR_BOT_NAME" -manifestUrl https://YOUR_SKILL.azurewebsites.net/api/skill/manifest
+``
 
 ```bash
 botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder "<YOUR-SKILL_PATH>\Deployment\Resources\LU\en\" --cs 
