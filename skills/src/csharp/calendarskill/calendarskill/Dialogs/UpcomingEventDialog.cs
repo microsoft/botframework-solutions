@@ -6,7 +6,6 @@ using CalendarSkill.Models;
 using CalendarSkill.Proactive;
 using CalendarSkill.Responses.UpcomingEvent;
 using CalendarSkill.Services;
-using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Extensions;
@@ -19,9 +18,10 @@ using static CalendarSkill.Proactive.CheckUpcomingEventHandler;
 
 namespace CalendarSkill.Dialogs
 {
-    public class UpcomingEventDialog : CalendarSkillDialog
+    public class UpcomingEventDialog : CalendarSkillDialogBase
     {
         private IBackgroundTaskQueue _backgroundTaskQueue;
+        private ProactiveState _proactiveState;
         private IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
         private ResponseManager _responseManager;
 
@@ -29,15 +29,16 @@ namespace CalendarSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<CalendarSkillState> accessor,
-            IStatePropertyAccessor<ProactiveModel> proactiveStateAccessor,
+            ConversationState conversationState,
+            ProactiveState proactiveState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             IBackgroundTaskQueue backgroundTaskQueue)
-            : base(nameof(UpcomingEventDialog), settings, services, responseManager, accessor, serviceManager, telemetryClient)
+            : base(nameof(UpcomingEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
             _backgroundTaskQueue = backgroundTaskQueue;
-            _proactiveStateAccessor = proactiveStateAccessor;
+            _proactiveState = proactiveState;
+            _proactiveStateAccessor = _proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
             _responseManager = responseManager;
 
             var upcomingMeeting = new WaterfallStep[]

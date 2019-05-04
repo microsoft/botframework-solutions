@@ -110,6 +110,18 @@ namespace CalendarSkill
                 new TimeRemainingResponses(),
                 new UpdateEventResponses()));
 
+            // register dialogs
+            services.AddTransient<MainDialog>();
+            services.AddTransient<ChangeEventStatusDialog>();
+            services.AddTransient<ConnectToMeetingDialog>();
+            services.AddTransient<CreateEventDialog>();
+            services.AddTransient<FindContactDialog>();
+            services.AddTransient<SummaryDialog>();
+            services.AddTransient<TimeRemainingDialog>();
+            services.AddTransient<UpcomingEventDialog>();
+            services.AddTransient<UpdateEventDialog>();
+            services.AddTransient<FindContactDialog>();
+
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<SkillWebSocketBotAdapter, CalendarSkillWebSocketBotAdapter>();
@@ -118,7 +130,6 @@ namespace CalendarSkill
             services.AddTransient<SkillHttpAdapter>();
 
             // Configure bot
-            services.AddTransient<MainDialog>();
             services.AddTransient<IBot, DialogBot<MainDialog>>();
         }
 

@@ -7,10 +7,11 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Models;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
@@ -23,39 +24,32 @@ namespace RestaurantBooking.Dialogs
 {
     public class MainDialog : RouterDialog
     {
-        private BotSettings _settings;
         private BotServices _services;
         private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
         private IStatePropertyAccessor<RestaurantBookingState> _conversationStateAccessor;
-        private IStatePropertyAccessor<SkillUserState> _userStateAccessor;
-        private IHttpContextAccessor _httpContext;
 
         public MainDialog(
-            BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
-            IBotTelemetryClient telemetryClient,
-            IHttpContextAccessor httpContext)
+            BookingDialog bookingDialog,
+            IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
-            _settings = settings;
             _services = services;
             _responseManager = responseManager;
             _conversationState = conversationState;
             _userState = userState;
             TelemetryClient = telemetryClient;
-            _httpContext = httpContext;
 
             // Initialize state accessor
             _conversationStateAccessor = _conversationState.CreateProperty<RestaurantBookingState>(nameof(BookingDialog));
-            _userStateAccessor = _userState.CreateProperty<SkillUserState>(nameof(SkillUserState));
 
             // RegisterDialogs
-            RegisterDialogs();
+            AddDialog(bookingDialog ?? throw new ArgumentNullException(nameof(bookingDialog)));
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -119,22 +113,6 @@ namespace RestaurantBooking.Dialogs
             }
         }
 
-        private async Task PopulateStateFromSkillContext(ITurnContext context)
-        {
-            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
-            // and make available in local state as appropriate.
-            var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
-            var skillContext = await accessor.GetAsync(context, () => new SkillContext());
-            if (skillContext != null)
-            {
-                if (skillContext.ContainsKey("Name"))
-                {
-                    var state = await _conversationStateAccessor.GetAsync(context, () => new RestaurantBookingState());
-                    state.Name = skillContext["Name"] as string;
-                }
-            }
-        }
-
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var response = dc.Context.Activity.CreateReply();
@@ -148,7 +126,7 @@ namespace RestaurantBooking.Dialogs
         {
             switch (dc.Context.Activity.Name)
             {
-                case Events.SkillBeginEvent:
+                case SkillEvents.SkillBeginEventName:
                     {
                         var state = await _conversationStateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
 
@@ -160,7 +138,7 @@ namespace RestaurantBooking.Dialogs
                         break;
                     }
 
-                case Events.TokenResponseEvent:
+                case TokenEvents.TokenResponseEventName:
                     {
                         // Auth dialog completion
                         var result = await dc.ContinueDialogAsync();
@@ -231,6 +209,22 @@ namespace RestaurantBooking.Dialogs
             return result;
         }
 
+        private async Task PopulateStateFromSkillContext(ITurnContext context)
+        {
+            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
+            // and make available in local state as appropriate.
+            var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
+            var skillContext = await accessor.GetAsync(context, () => new SkillContext());
+            if (skillContext != null)
+            {
+                if (skillContext.ContainsKey("Name"))
+                {
+                    var state = await _conversationStateAccessor.GetAsync(context, () => new RestaurantBookingState());
+                    state.Name = skillContext["Name"] as string;
+                }
+            }
+        }
+
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
             var state = await _conversationStateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
@@ -273,17 +267,6 @@ namespace RestaurantBooking.Dialogs
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingMainResponses.LogOut));
 
             return InterruptionAction.StartedDialog;
-        }
-
-        private void RegisterDialogs()
-        {
-            AddDialog(new BookingDialog(_settings, _services, _responseManager, _conversationStateAccessor, _userStateAccessor, TelemetryClient, _httpContext));
-        }
-
-        private class Events
-        {
-            public const string TokenResponseEvent = "tokens/response";
-            public const string SkillBeginEvent = "skillBegin";
         }
     }
 }

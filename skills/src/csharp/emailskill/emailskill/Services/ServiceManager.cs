@@ -3,11 +3,11 @@
 
 using System;
 using EmailSkill.Models;
-using EmailSkill.ServiceClients.GoogleAPI;
-using EmailSkill.ServiceClients.MSGraphAPI;
 using EmailSkill.Services;
+using EmailSkill.Services.GoogleAPI;
+using EmailSkill.Services.MSGraphAPI;
 
-namespace EmailSkill.ServiceClients
+namespace EmailSkill.Services
 {
     public class ServiceManager : IServiceManager
     {

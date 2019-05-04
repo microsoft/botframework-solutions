@@ -33,8 +33,6 @@ namespace CalendarSkill.Models
             NoEvent,
         }
 
-        public bool SkillMode { get; set; }
-
         public UpdateReason Reason { get; set; }
     }
 }

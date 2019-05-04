@@ -15,7 +15,7 @@ using Google.Apis.Requests;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
 
-namespace EmailSkill.ServiceClients.GoogleAPI
+namespace EmailSkill.Services.GoogleAPI
 {
     /// <summary>
     /// The Google People API service.

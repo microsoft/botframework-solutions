@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <UserSecretsId>3383fcc5-4017-4e0a-9103-68603b68fe1d</UserSecretsId>
-    <CodeAnalysisRuleSet>..\..\VirtualAssistant.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>NU1701</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,24 +28,22 @@
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="1.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.4.0-preview41" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.0-preview41" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Connector" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.4.0-preview1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.0-preview1" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.4.0" />
     <PackageReference Include="Microsoft.Graph" Version="1.10.0" />
-    <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
     <PackageReference Include="MimeKit" Version="2.0.6" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>

@@ -3,24 +3,25 @@
     "en": {
       "languageModels": [
         {
+          "id": "general",
+          "name": "",
           "appid": "",
           "version": "0.1",
           "region": "",
-          "name": "",
           "authoringkey": "",
-          "id": "general",
           "subscriptionkey": ""
         },
         {
+          "id": "skill",
+          "name": "",
           "appid": "",
           "version": "0.1",
           "region": "",
-          "name": "",
           "authoringkey": "",
-          "id": "skill",
           "subscriptionkey": ""
         }
       ]
     }
-  }
+  },
+  "defaultLocale": "en-us"
 }

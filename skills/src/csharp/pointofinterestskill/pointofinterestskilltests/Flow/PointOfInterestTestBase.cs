@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
+using System.Threading;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
+using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -15,8 +18,6 @@ using PointOfInterestSkill.Responses.Route;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
 using PointOfInterestSkillTests.API.Fakes;
-using System.Collections.Generic;
-using System.Threading;
 
 namespace PointOfInterestSkillTests.Flow
 {
@@ -43,7 +44,7 @@ namespace PointOfInterestSkillTests.Flow
                     {
                         "en", new CognitiveModelSet()
                         {
-                            LuisServices = new Dictionary<string, IRecognizer>
+                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
                             {
                                 { "general", new Fakes.MockLuisRecognizer() },
                                 { "pointofinterest", new Fakes.MockLuisRecognizer() }
@@ -66,20 +67,21 @@ namespace PointOfInterestSkillTests.Flow
             });
 
             ResponseManager = new ResponseManager(
-                locales: new string[] { "en", "de", "es", "fr", "it", "zh" },
-                responseTemplates: new IResponseIdCollection[]
-                {
+                new string[] { "en", "de", "es", "fr", "it", "zh" },
                     new POISharedResponses(),
                     new RouteResponses(),
-                    new CancelRouteResponses()
-                });
+                    new CancelRouteResponses());
             Services.AddSingleton(ResponseManager);
 
             Services.AddSingleton<IServiceManager, MockServiceManager>();
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<MainDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+			Services.AddTransient<CancelRouteDialog>();
+			Services.AddTransient<FindParkingDialog>();
+			Services.AddTransient<FindPointOfInterestDialog>();
+			Services.AddTransient<RouteDialog>();
+			Services.AddTransient<IBot, DialogBot<MainDialog>>();
 
             var mockHttpContext = new DefaultHttpContext();
             mockHttpContext.Request.Scheme = "http";

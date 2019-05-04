@@ -8,7 +8,6 @@ using EmailSkill.Extensions;
 using EmailSkill.Models;
 using EmailSkill.Responses.DeleteEmail;
 using EmailSkill.Responses.Shared;
-using EmailSkill.ServiceClients;
 using EmailSkill.Services;
 using EmailSkill.Utilities;
 using Microsoft.Bot.Builder;
@@ -25,11 +24,10 @@ namespace EmailSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
-            IStatePropertyAccessor<DialogState> dialogStateAccessor,
+            ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(DeleteEmailDialog), settings, services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
+            : base(nameof(DeleteEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 

@@ -11,12 +11,12 @@ using EmailSkill.Responses.ReplyEmail;
 using EmailSkill.Responses.SendEmail;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Responses.ShowEmail;
-using EmailSkill.ServiceClients;
 using EmailSkill.Services;
 using EmailSkillTest.Flow.Fakes;
 using EmailSkillTest.Flow.Utterances;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
+using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Proactive;
@@ -59,7 +59,7 @@ namespace EmailSkillTest.Flow
                     {
                         "en", new CognitiveModelSet()
                         {
-                            LuisServices = new Dictionary<string, IRecognizer>
+                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
                             {
                                 { "general", new MockGeneralLuisRecognizer() },
                                 {
@@ -104,6 +104,12 @@ namespace EmailSkillTest.Flow
             Services.AddSingleton<IServiceManager>(ServiceManager);
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<MainDialog>();
+            Services.AddTransient<DeleteEmailDialog>();
+            Services.AddTransient<FindContactDialog>();
+            Services.AddTransient<ForwardEmailDialog>();
+            Services.AddTransient<ReplyEmailDialog>();
+            Services.AddTransient<SendEmailDialog>();
+            Services.AddTransient<ShowEmailDialog>();
             Services.AddTransient<IBot, DialogBot<MainDialog>>();
 
             ConfigData.GetInstance().MaxDisplaySize = 3;

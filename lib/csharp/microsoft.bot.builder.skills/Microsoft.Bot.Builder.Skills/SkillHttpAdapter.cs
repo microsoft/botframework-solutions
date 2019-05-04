@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
 
@@ -70,7 +69,7 @@ namespace Microsoft.Bot.Builder.Skills
 
             var cancellationTokenSource = new CancellationTokenSource();
 
-            _botTelemetryClient.TrackTraceEx($"SkillHttpAdapter: Processing incoming activity. Activity id: {activity.Id}", Severity.Information, activity, null);
+            _botTelemetryClient.TrackTrace($"SkillHttpAdapter: Processing incoming activity. Activity id: {activity.Id}", Severity.Information, null);
 
             // process the inbound activity with the bot
             var invokeResponse = await _skillHttpBotAdapter.ProcessActivityAsync(activity, bot.OnTurnAsync, cancellationTokenSource.Token).ConfigureAwait(false);

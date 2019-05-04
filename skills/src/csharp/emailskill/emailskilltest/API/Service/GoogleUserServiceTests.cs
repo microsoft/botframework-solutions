@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using EmailSkill.Models;
-using EmailSkill.ServiceClients;
-using EmailSkill.ServiceClients.GoogleAPI;
+using EmailSkill.Services;
+using EmailSkill.Services.GoogleAPI;
 using EmailSkillTest.API.Fakes.Google;
-using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EmailSkillTest.API.Service

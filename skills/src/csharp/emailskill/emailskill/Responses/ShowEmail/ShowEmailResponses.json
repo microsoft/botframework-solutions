@@ -11,8 +11,8 @@
   "ReadOutMorePrompt": {
     "replies": [
       {
-        "text": "Would you like to see your email overview again? You can also ask me to forward, reply, delete this email for you, or show the next/previous page.",
-        "speak": "Would you like to hear your email overview again? You can also ask me to forward, reply, delete this email for you, or show the next/previous page."
+        "text": "Would you like to go back to your email overview again? Or you can ask me to complete an action on this email.",
+        "speak": "Would you like to go back to your email overview again? Or you can ask me to complete an action on this email."
       }
     ],
     "inputHint": "expectingInput"
@@ -20,8 +20,8 @@
   "ReadOutOnlyOnePrompt": {
     "replies": [
       {
-        "speak": "Do you want to hear the content of this email?",
-        "text": "Do you want to see the content of this email?"
+        "speak": "Do you want to know the content of this email?",
+        "text": "Do you want to know the content of this email?"
       }
     ],
     "inputHint": "expectingInput"
@@ -29,8 +29,8 @@
   "ReadOutPrompt": {
     "replies": [
       {
-        "speak": "Do you want to hear the content of the first email? I can read out any email for you, just let me know by naming out the subject or from whom.",
-        "text": "Do you want to see the content of the first email? I can show any email for you, just let me know by naming out the subject or from whom."
+        "speak": "Do you want more detail on the first email? You can also ask about other emails too either by subject or sender.",
+        "text": "Do you want more detail on the first email? You can also ask about other emails too either by subject or sender."
       }
     ],
     "inputHint": "expectingInput"

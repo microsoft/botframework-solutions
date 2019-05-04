@@ -6,7 +6,7 @@ using CalendarSkill.Responses.Summary;
 using CalendarSkill.Services;
 using CalendarSkillTest.Flow.Fakes;
 using CalendarSkillTest.Flow.Utterances;
-using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +23,7 @@ namespace CalendarSkillTest.Flow
             var botServices = Services.BuildServiceProvider().GetService<BotServices>();
             botServices.CognitiveModelSets.Add("en", new CognitiveModelSet()
             {
-                LuisServices = new Dictionary<string, IRecognizer>()
+                LuisServices = new Dictionary<string, ITelemetryRecognizer>()
                 {
                     { "general", new MockLuisRecognizer() },
                     { "calendar", new MockLuisRecognizer(new FindMeetingTestUtterances()) }
@@ -105,14 +105,14 @@ namespace CalendarSkillTest.Flow
         [TestMethod]
         public async Task Test_CalendarMultipleMeetings()
         {
-            var eventCount = 3;
+            int eventCount = 3;
             this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
                 .Send(FindMeetingTestUtterances.BaseNextMeeting)
                 .AssertReply(this.ShowAuth())
                 .Send(this.GetAuthResponse())
                 .AssertReplyOneOf(this.NextMeetingPrompt())
-                .AssertReply(this.ShowCalendarList(eventCount))
+                .AssertReply(this.ShowCalendarList())
                 .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
@@ -172,13 +172,12 @@ namespace CalendarSkillTest.Flow
             };
         }
 
-        private Action<IActivity> ShowCalendarList(int eventCount = 1)
+        private Action<IActivity> ShowCalendarList()
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-
-                // Assert.AreEqual(messageActivity.Attachments.Count, eventCount);
+                Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }
 

@@ -5,7 +5,6 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Schema;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
@@ -27,7 +26,7 @@ namespace PointOfInterestSkill.Adapters
                 CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
                 await context.SendActivityAsync(responseManager.GetResponse(POISharedResponses.PointOfInterestErrorMessage));
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"PointOfInterest Skill Error: {exception.Message} | {exception.StackTrace}"));
-                telemetryClient.TrackExceptionEx(exception, context.Activity);
+                telemetryClient.TrackException(exception);
             };
 
             Use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));

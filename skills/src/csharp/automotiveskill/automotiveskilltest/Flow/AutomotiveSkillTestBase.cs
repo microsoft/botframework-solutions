@@ -1,22 +1,23 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
+using AutomotiveSkill.Bots;
+using AutomotiveSkill.Dialogs;
+using AutomotiveSkill.Models;
+using AutomotiveSkill.Responses.Main;
+using AutomotiveSkill.Responses.Shared;
+using AutomotiveSkill.Responses.VehicleSettings;
+using AutomotiveSkill.Services;
+using AutomotiveSkillTest.Flow.Fakes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
+using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Proactive;
+using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Testing;
-using AutomotiveSkill.Responses.VehicleSettings;
-using AutomotiveSkill.Responses.Shared;
-using AutomotiveSkill.Responses.Main;
-using AutomotiveSkill.Models;
 using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
-using Microsoft.Bot.Builder.Solutions;
-using AutomotiveSkill.Services;
-using AutomotiveSkill.Dialogs;
-using AutomotiveSkill.Bots;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using AutomotiveSkillTest.Flow.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutomotiveSkillTest.Flow
@@ -47,7 +48,7 @@ namespace AutomotiveSkillTest.Flow
                     {
                         "en", new CognitiveModelSet()
                         {
-                            LuisServices = new Dictionary<string, IRecognizer>
+                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
                             {
                                 { "general", new MockLuisRecognizer() },
                                 { "settings", new MockLuisRecognizer() },
@@ -79,11 +80,10 @@ namespace AutomotiveSkillTest.Flow
             Services.AddSingleton(ResponseManager);
 
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
-            // Services.AddSingleton<IServiceManager>(ServiceManager);
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<MainDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
-
+			Services.AddTransient<VehicleSettingsDialog>();
+			Services.AddTransient<IBot, DialogBot<MainDialog>>();
 
             // Mock HttpContext for image path resolution
             var mockHttpContext = new DefaultHttpContext();

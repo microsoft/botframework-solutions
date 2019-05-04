@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
-    <Name>VirtualAssistantTemplate</Name>
-    <Description>Virtual Assistant Project Template.</Description>
+    <Name>Virtual Assistant Template</Name>
+    <Description>Project template for assistant scenarios using the Bot Builder SDK V4 (including Unit Test project).</Description>
     <SortOrder>1000</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>MyAssistant</DefaultName>
@@ -31,12 +31,18 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="DialogBot.cs">DialogBot.cs</ProjectItem>
       </Folder>
       <Folder Name="Content" TargetFolderName="Content">
-        <ProjectItem ReplaceParameters="true" TargetFileName="Intro.json">Intro.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Intro.de.json">Intro.de.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Intro.es.json">Intro.es.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Intro.fr.json">Intro.fr.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Intro.it.json">Intro.it.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="Intro.zh.json">Intro.zh.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.json">NewUserGreeting.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.de.json">NewUserGreeting.de.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.es.json">NewUserGreeting.es.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.fr.json">NewUserGreeting.fr.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.it.json">NewUserGreeting.it.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.zh.json">NewUserGreeting.zh.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.json">ReturningUserGreeting.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.de.json">ReturningUserGreeting.de.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.es.json">ReturningUserGreeting.es.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.fr.json">ReturningUserGreeting.fr.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.it.json">ReturningUserGreeting.it.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.zh.json">ReturningUserGreeting.zh.json</ProjectItem>
       </Folder>
       <Folder Name="Controllers" TargetFolderName="Controllers">
         <ProjectItem ReplaceParameters="true" TargetFileName="BotController.cs">BotController.cs</ProjectItem>
@@ -104,7 +110,6 @@
           <ProjectItem ReplaceParameters="true" TargetFileName="template.json">template.json</ProjectItem>
         </Folder>
         <Folder Name="Scripts" TargetFolderName="Scripts">
-          <ProjectItem ReplaceParameters="false" TargetFileName="add_local_skill.ps1">add_local_skill.ps1</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="add_remote_skill.ps1">add_remote_skill.ps1</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="deploy.ps1">deploy.ps1</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="deploy_cognitive_models.ps1">deploy_cognitive_models.ps1</ProjectItem>
@@ -116,9 +121,7 @@
         </Folder>
       </Folder>
       <Folder Name="Dialogs" TargetFolderName="Dialogs">
-        <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationDialog.cs">AuthenticationDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="CancelDialog.cs">CancelDialog.cs</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="DialogBase.cs">DialogBase.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="EscalateDialog.cs">EscalateDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="MainDialog.cs">MainDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingDialog.cs">OnboardingDialog.cs</ProjectItem>
@@ -127,16 +130,6 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingState.cs">OnboardingState.cs</ProjectItem>
       </Folder>
       <Folder Name="Responses" TargetFolderName="Responses">
-        <Folder Name="Authentication" TargetFolderName="Authentication">
-          <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationResponses.cs">AuthenticationResponses.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationStrings.resx">AuthenticationStrings.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationStrings.Designer.cs">AuthenticationStrings.Designer.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationStrings.de.resx">AuthenticationStrings.de.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationStrings.es.resx">AuthenticationStrings.es.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationStrings.fr.resx">AuthenticationStrings.fr.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationStrings.it.resx">AuthenticationStrings.it.resx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="AuthenticationStrings.zh.resx">AuthenticationStrings.zh.resx</ProjectItem>
-        </Folder>
         <Folder Name="Cancel" TargetFolderName="Cancel">
           <ProjectItem ReplaceParameters="true" TargetFileName="CancelResponses.cs">CancelResponses.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.resx">CancelStrings.resx</ProjectItem>
@@ -182,7 +175,7 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="BotServices.cs">BotServices.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="BotSettings.cs">BotSettings.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="DispatchLuis.cs">DispatchLuis.cs</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="GraphClient.cs">GraphClient.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="GeneralLuis.cs">GeneralLuis.cs</ProjectItem>
       </Folder>
       <ProjectItem ReplaceParameters="true" TargetFileName=".filenesting.json">.filenesting.json</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.json">appsettings.json</ProjectItem>

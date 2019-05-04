@@ -23,11 +23,12 @@ namespace PointOfInterestSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<PointOfInterestSkillState> accessor,
+            ConversationState conversationState,
+            RouteDialog routeDialog,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             IHttpContextAccessor httpContext)
-            : base(nameof(FindParkingDialog), settings, services, responseManager, accessor, serviceManager, telemetryClient, httpContext)
+            : base(nameof(FindParkingDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, httpContext)
         {
             TelemetryClient = telemetryClient;
 
@@ -48,7 +49,7 @@ namespace PointOfInterestSkill.Dialogs
             // Define the conversation flow using a waterfall model.
             AddDialog(new WaterfallDialog(Actions.CheckForCurrentLocation, checkCurrentLocation) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.FindParking, findParking) { TelemetryClient = telemetryClient });
-            AddDialog(new RouteDialog(settings, services, responseManager, Accessor, ServiceManager, TelemetryClient, httpContext));
+            AddDialog(routeDialog ?? throw new ArgumentNullException(nameof(routeDialog)));
 
             // Set starting dialog for component
             InitialDialogId = Actions.CheckForCurrentLocation;
@@ -102,6 +103,7 @@ namespace PointOfInterestSkill.Dialogs
                 var addressMapsService = ServiceManager.InitAddressMapsService(Settings, sc.Context.Activity.Locale);
 
                 var pointOfInterestList = new List<PointOfInterestModel>();
+                var cards = new List<Card>();
 
                 if (!string.IsNullOrEmpty(state.Address))
                 {
@@ -112,29 +114,35 @@ namespace PointOfInterestSkill.Dialogs
                     {
                         var pointOfInterest = pointOfInterestAddressList[0];
                         pointOfInterestList = await mapsService.GetPointOfInterestListByParkingCategoryAsync(pointOfInterest.Geolocation.Latitude, pointOfInterest.Geolocation.Longitude);
-                        await GetPointOfInterestLocationCards(sc, pointOfInterestList);
+                        cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList);
                     }
                     else
                     {
                         // Find parking lot near address
                         pointOfInterestList = await mapsService.GetPointOfInterestListByParkingCategoryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
-                        await GetPointOfInterestLocationCards(sc, pointOfInterestList);
+                        cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList);
                     }
                 }
                 else
                 {
                     // No entities identified, find nearby parking lots
                     pointOfInterestList = await mapsService.GetPointOfInterestListByParkingCategoryAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude);
-                    await GetPointOfInterestLocationCards(sc, pointOfInterestList);
+                    cards = await GetPointOfInterestLocationCards(sc, pointOfInterestList);
                 }
 
-                if (pointOfInterestList?.ToList().Count == 1)
+                if (cards.Count == 0)
                 {
-                    return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetResponse(POISharedResponses.PromptToGetRoute) });
+                    var replyMessage = ResponseManager.GetResponse(POISharedResponses.NoLocationsFound);
+                    await sc.Context.SendActivityAsync(replyMessage);
+                    return await sc.EndDialogAsync();
+                }
+                else if (cards.Count == 1)
+                {
+                    return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetCardResponse(POISharedResponses.PromptToGetRoute, cards) });
                 }
                 else
                 {
-                    var options = GetPointOfInterestChoicePromptOptions(pointOfInterestList);
+                    var options = GetPointOfInterestPrompt(POISharedResponses.MultipleLocationsFound, pointOfInterestList, cards);
 
                     return await sc.PromptAsync(Actions.SelectPointOfInterestPrompt, options);
                 }

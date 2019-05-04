@@ -14,6 +14,11 @@
       "packageName": "botbuilder-skills",
       "projectFolder": "botbuilder-skills",
       "shouldPublish": true
+    },
+    {
+      "packageName": "botskills",
+      "projectFolder": "botskills",
+      "shouldPublish": true
     }
   ]
 }

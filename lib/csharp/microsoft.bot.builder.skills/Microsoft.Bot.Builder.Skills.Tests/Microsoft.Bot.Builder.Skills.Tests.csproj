@@ -68,6 +68,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Microsoft.Bot.Protocol">
+      <HintPath>..\Microsoft.Bot.Builder.Skills\Dependencies\Microsoft.Bot.Protocol.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 

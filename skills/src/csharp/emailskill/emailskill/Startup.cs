@@ -13,7 +13,6 @@ using EmailSkill.Responses.ReplyEmail;
 using EmailSkill.Responses.SendEmail;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Responses.ShowEmail;
-using EmailSkill.ServiceClients;
 using EmailSkill.Services;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Builder;
@@ -105,6 +104,15 @@ namespace EmailSkill
                 new SendEmailResponses(),
                 new EmailSharedResponses(),
                 new ShowEmailResponses()));
+
+            // register dialogs
+            services.AddTransient<MainDialog>();
+            services.AddTransient<DeleteEmailDialog>();
+            services.AddTransient<FindContactDialog>();
+            services.AddTransient<ForwardEmailDialog>();
+            services.AddTransient<ReplyEmailDialog>();
+            services.AddTransient<SendEmailDialog>();
+            services.AddTransient<ShowEmailDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();

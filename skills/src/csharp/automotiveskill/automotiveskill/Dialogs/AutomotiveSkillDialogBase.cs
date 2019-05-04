@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutomotiveSkill.Models;
@@ -10,7 +11,6 @@ using AutomotiveSkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Schema;
 
 namespace AutomotiveSkill.Dialogs
@@ -22,13 +22,13 @@ namespace AutomotiveSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<AutomotiveSkillState> accessor,
+            ConversationState conversationState,
             IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             Services = services;
             ResponseManager = responseManager;
-            Accessor = accessor;
+            Accessor = conversationState.CreateProperty<AutomotiveSkillState>(nameof(AutomotiveSkillState));
             TelemetryClient = telemetryClient;
         }
 
@@ -67,7 +67,7 @@ namespace AutomotiveSkill.Dialogs
             await sc.Context.SendActivityAsync(trace);
 
             // log exception
-            TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
+            TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
             await sc.Context.SendActivityAsync(ResponseManager.GetResponse(AutomotiveSkillSharedResponses.ErrorMessage));

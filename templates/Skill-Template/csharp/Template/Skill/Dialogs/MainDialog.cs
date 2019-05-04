@@ -10,13 +10,15 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Models;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
 using $safeprojectname$.Models;
 using $safeprojectname$.Responses.Main;
-using $safeprojectname$.Services;
 using $safeprojectname$.Responses.Shared;
+using $safeprojectname$.Services;
 
 namespace $safeprojectname$.Dialogs
 {
@@ -63,7 +65,7 @@ namespace $safeprojectname$.Dialogs
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.CognitiveModelSets[locale];
 
-            // Populate state from SkillContext slots as required 
+            // Populate state from SkillContext slots as required
             await PopulateStateFromSkillContext(dc.Context);
 
             // Get skill LUIS model from configuration
@@ -123,7 +125,7 @@ namespace $safeprojectname$.Dialogs
         {
             switch (dc.Context.Activity.Name)
             {
-                case Events.SkillBeginEvent:
+                case SkillEvents.SkillBeginEventName:
                     {
                         var state = await _stateAccessor.GetAsync(dc.Context, () => new SkillState());
 
@@ -135,7 +137,7 @@ namespace $safeprojectname$.Dialogs
                         break;
                     }
 
-                case Events.TokenResponseEvent:
+                case TokenEvents.TokenResponseEventName:
                     {
                         // Auth dialog completion
                         var result = await dc.ContinueDialogAsync();
@@ -175,7 +177,7 @@ namespace $safeprojectname$.Dialogs
                 {
                     var luisResult = await luisService.RecognizeAsync<GeneralLuis>(dc.Context, cancellationToken);
                     var topIntent = luisResult.TopIntent();
-               
+
                     if (topIntent.score > 0.5)
                     {
                         switch (topIntent.intent)
@@ -254,19 +256,13 @@ namespace $safeprojectname$.Dialogs
             if (skillContext != null)
             {
                 // Example of populating local state with data passed through Skill Context
-                //if (skillContext.ContainsKey("Location"))
-                //{
+                // if (skillContext.ContainsKey("Location"))
+                // {
                 //    // Add to your local state
                 //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
                 //    state.Location = skillContext["Location"];
-                //}
+                // }
             }
-        }
-
-        private class Events
-        {
-            public const string TokenResponseEvent = "tokens/response";
-            public const string SkillBeginEvent = "skillBegin";
         }
     }
 }

@@ -294,7 +294,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 			var skillHttpAdapter = sp.GetService<SkillHttpAdapter>();
 			var skillWebSocketAdapter = sp.GetService<SkillWebSocketAdapter>();
 			var bot = sp.GetService<IBot>();
-			var controller = new MockSkillController(botFrameworkHttpAdapter, skillHttpAdapter, skillWebSocketAdapter, bot, _botSettings, _mockHttp.ToHttpClient(), manifestFileOverride);
+			var controller = new MockSkillController(bot, _botSettings, botFrameworkHttpAdapter, skillWebSocketAdapter, _mockHttp.ToHttpClient(), manifestFileOverride);
 
 			controller.ControllerContext = new ControllerContext();
 			controller.ControllerContext.HttpContext = new DefaultHttpContext();

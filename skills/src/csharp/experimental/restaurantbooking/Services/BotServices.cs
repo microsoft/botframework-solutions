@@ -2,7 +2,6 @@
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
 
 namespace RestaurantBooking.Services
 {
@@ -19,7 +18,7 @@ namespace RestaurantBooking.Services
                 if (config.DispatchModel != null)
                 {
                     var dispatchApp = new LuisApplication(config.DispatchModel.AppId, config.DispatchModel.SubscriptionKey, config.DispatchModel.GetEndpoint());
-                    set.DispatchService = new TelemetryLuisRecognizer(dispatchApp);
+                    set.DispatchService = new LuisRecognizer(dispatchApp);
                 }
 
                 if (config.LanguageModels != null)
@@ -27,7 +26,7 @@ namespace RestaurantBooking.Services
                     foreach (var model in config.LanguageModels)
                     {
                         var luisApp = new LuisApplication(model.AppId, model.SubscriptionKey, model.GetEndpoint());
-                        set.LuisServices.Add(model.Id, new TelemetryLuisRecognizer(luisApp));
+                        set.LuisServices.Add(model.Id, new LuisRecognizer(luisApp));
                     }
                 }
 
@@ -41,7 +40,7 @@ namespace RestaurantBooking.Services
                             EndpointKey = kb.EndpointKey,
                             Host = kb.Hostname,
                         };
-                        var qnaMaker = new TelemetryQnAMaker(qnaEndpoint);
+                        var qnaMaker = new QnAMaker(qnaEndpoint);
                         set.QnAServices.Add(kb.Id, qnaMaker);
                     }
                 }

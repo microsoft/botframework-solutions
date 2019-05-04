@@ -1,18 +1,22 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using System.Threading;
-using VirtualAssistantSample.Tests.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
+using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.AI.QnA;
+using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Testing;
+using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VirtualAssistantSample.Services;
 using VirtualAssistantSample.Bots;
 using VirtualAssistantSample.Dialogs;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
-using Microsoft.Bot.Builder.Solutions.Testing;
-using Microsoft.Bot.Builder.Skills;
+using VirtualAssistantSample.Services;
+using VirtualAssistantSample.Tests.Utilities;
 
 namespace VirtualAssistantSample.Tests
 {
@@ -29,10 +33,11 @@ namespace VirtualAssistantSample.Tests
             {
                 CognitiveModelSets = new Dictionary<string, CognitiveModelSet>
                 {
-                    { "en", new CognitiveModelSet
+                    {
+                        "en", new CognitiveModelSet
                         {
                             DispatchService = DispatchTestUtil.CreateRecognizer(),
-                            LuisServices = new Dictionary<string, IRecognizer>
+                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
                             {
                                 { "general", GeneralTestUtil.CreateRecognizer() }
                             },
@@ -57,7 +62,6 @@ namespace VirtualAssistantSample.Tests
                 return new BotStateSet(userState, conversationState);
             });
 
-            Services.AddTransient<AuthenticationDialog>();
             Services.AddTransient<CancelDialog>();
             Services.AddTransient<EscalateDialog>();
             Services.AddTransient<MainDialog>();

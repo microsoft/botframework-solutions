@@ -31,11 +31,11 @@ namespace RestaurantBooking.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<RestaurantBookingState> conversationStateAccessor,
-            IStatePropertyAccessor<SkillUserState> userStateAccessor,
+            ConversationState conversationState,
+            UserState userState,
             IBotTelemetryClient telemetryClient,
             IHttpContextAccessor httpContext)
-           : base(nameof(BookingDialog), settings, services, responseManager, conversationStateAccessor, userStateAccessor, telemetryClient)
+           : base(nameof(BookingDialog), settings, services, responseManager, conversationState, userState, telemetryClient)
         {
             _httpContext = httpContext;
 

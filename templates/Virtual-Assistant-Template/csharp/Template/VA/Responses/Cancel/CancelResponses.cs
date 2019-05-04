@@ -13,25 +13,36 @@ namespace $safeprojectname$.Responses.Cancel
         {
             ["default"] = new TemplateIdMap
             {
-                { ResponseIds.CancelConfirmedMessage,
+                {
+                    ResponseIds.CancelConfirmedMessage,
                     (context, data) =>
                     MessageFactory.Text(
                         text: CancelStrings.CANCEL_CONFIRMED,
                         ssml: CancelStrings.CANCEL_CONFIRMED,
                         inputHint: InputHints.AcceptingInput)
                 },
-                { ResponseIds.CancelDeniedMessage,
+                {
+                    ResponseIds.CancelDeniedMessage,
                     (context, data) =>
                     MessageFactory.Text(
                         text: CancelStrings.CANCEL_DENIED,
                         ssml: CancelStrings.CANCEL_DENIED,
                         inputHint: InputHints.AcceptingInput)
                 },
-                { ResponseIds.CancelPrompt,
+                {
+                    ResponseIds.CancelPrompt,
                     (context, data) =>
                     MessageFactory.Text(
                         text: CancelStrings.CANCEL_PROMPT,
                         ssml: CancelStrings.CANCEL_PROMPT,
+                        inputHint: InputHints.ExpectingInput)
+                },
+                {
+                    ResponseIds.NothingToCancelMessage,
+                    (context, data) =>
+                    MessageFactory.Text(
+                        text: CancelStrings.NOTHING_TO_CANCEL,
+                        ssml: CancelStrings.NOTHING_TO_CANCEL,
                         inputHint: InputHints.ExpectingInput)
                 },
             }
@@ -47,6 +58,7 @@ namespace $safeprojectname$.Responses.Cancel
             public const string CancelPrompt = "cancelPrompt";
             public const string CancelConfirmedMessage = "cancelConfirmed";
             public const string CancelDeniedMessage = "cancelDenied";
+            public const string NothingToCancelMessage = "nothingToCancel";
         }
     }
 }

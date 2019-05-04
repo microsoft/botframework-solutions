@@ -1,32 +1,32 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Linq;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Bot.Builder.ApplicationInsights;
-using Microsoft.ApplicationInsights;
-using Microsoft.Bot.Builder.BotFramework;
-using $safeprojectname$.Bots;
-using Microsoft.AspNetCore.Mvc;
-using $safeprojectname$.Dialogs;
-using $safeprojectname$.Services;
-using Microsoft.Bot.Builder.Solutions.TaskExtensions;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using System.Linq;
-using $safeprojectname$.Responses.Main;
-using $safeprojectname$.Responses.Shared;
-using $safeprojectname$.Responses.Sample;
-using Microsoft.Bot.Builder.Skills;
 using $safeprojectname$.Adapters;
-using Microsoft.Bot.Builder.Solutions;
+using $safeprojectname$.Bots;
+using $safeprojectname$.Dialogs;
+using $safeprojectname$.Responses.Main;
+using $safeprojectname$.Responses.Sample;
+using $safeprojectname$.Responses.Shared;
+using $safeprojectname$.Services;
 
 namespace $safeprojectname$
 {

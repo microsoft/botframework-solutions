@@ -287,6 +287,15 @@ module.exports = class extends Generator {
     );
   }
 
+  install() {
+    if (this.props.finalConfirmation !== true || isAlreadyCreated) {
+      return;
+    }
+
+    process.chdir(assistantGenerationPath);
+    this.installDependencies({ npm: true, bower: false });
+  }
+
   end() {
     if (this.props.finalConfirmation === true) {
       if (isAlreadyCreated) {

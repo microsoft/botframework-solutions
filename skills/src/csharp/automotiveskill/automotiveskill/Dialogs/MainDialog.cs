@@ -11,9 +11,9 @@ using AutomotiveSkill.Responses.Main;
 using AutomotiveSkill.Responses.Shared;
 using AutomotiveSkill.Services;
 using Luis;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
@@ -22,37 +22,29 @@ namespace AutomotiveSkill.Dialogs
 {
     public class MainDialog : RouterDialog
     {
-        private BotSettings _settings;
         private BotServices _services;
         private ResponseManager _responseManager;
-        private UserState _userState;
         private ConversationState _conversationState;
         private IStatePropertyAccessor<AutomotiveSkillState> _stateAccessor;
-        private IHttpContextAccessor _httpContext;
 
         public MainDialog(
-            BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
             ConversationState conversationState,
-            UserState userState,
-            IHttpContextAccessor httpContext,
+            VehicleSettingsDialog vehicleSettingsDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
-            _settings = settings;
             _services = services;
             _responseManager = responseManager;
             _conversationState = conversationState;
-            _userState = userState;
             TelemetryClient = telemetryClient;
-            _httpContext = httpContext;
 
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<AutomotiveSkillState>(nameof(AutomotiveSkillState));
 
             // Register dialogs
-            RegisterDialogs();
+            AddDialog(vehicleSettingsDialog ?? throw new ArgumentNullException(nameof(vehicleSettingsDialog)));
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -133,7 +125,7 @@ namespace AutomotiveSkill.Dialogs
         {
             switch (dc.Context.Activity.Name)
             {
-                case Events.SkillBeginEvent:
+                case SkillEvents.SkillBeginEventName:
                     {
                         var state = await _stateAccessor.GetAsync(dc.Context, () => new AutomotiveSkillState());
 
@@ -204,16 +196,6 @@ namespace AutomotiveSkill.Dialogs
         {
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(AutomotiveSkillMainResponses.HelpMessage));
             return InterruptionAction.MessageSentToUser;
-        }
-
-        private void RegisterDialogs()
-        {
-            AddDialog(new VehicleSettingsDialog(_settings, _services, _responseManager, _stateAccessor, TelemetryClient, _httpContext));
-        }
-
-        private class Events
-        {
-            public const string SkillBeginEvent = "skillBegin";
         }
     }
 }

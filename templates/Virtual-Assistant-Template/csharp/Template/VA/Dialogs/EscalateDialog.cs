@@ -3,19 +3,19 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
 using $safeprojectname$.Responses.Escalate;
 using $safeprojectname$.Services;
 
 namespace $safeprojectname$.Dialogs
 {
-    public class EscalateDialog : DialogBase
+    public class EscalateDialog : ComponentDialog
     {
         private EscalateResponses _responder = new EscalateResponses();
 
         public EscalateDialog(BotServices botServices, IBotTelemetryClient telemetryClient)
-            : base(nameof(EscalateDialog), botServices, telemetryClient)
+            : base(nameof(EscalateDialog))
         {
             InitialDialogId = nameof(EscalateDialog);
 

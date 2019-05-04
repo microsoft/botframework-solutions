@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Models;
 using EmailSkill.Responses.Shared;
-using EmailSkill.ServiceClients;
 using EmailSkill.Services;
 using EmailSkill.Utilities;
 using Microsoft.Bot.Builder;
@@ -19,14 +18,14 @@ namespace EmailSkill.Dialogs
     public class ForwardEmailDialog : EmailSkillDialogBase
     {
         public ForwardEmailDialog(
-            BotSettings settings,
-            BotServices services,
-            ResponseManager responseManager,
-            IStatePropertyAccessor<EmailSkillState> emailStateAccessor,
-            IStatePropertyAccessor<DialogState> dialogStateAccessor,
-            IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient)
-            : base(nameof(ForwardEmailDialog), settings, services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient)
+           BotSettings settings,
+           BotServices services,
+           ResponseManager responseManager,
+           ConversationState conversationState,
+           FindContactDialog findContactDialog,
+           IServiceManager serviceManager,
+           IBotTelemetryClient telemetryClient)
+           : base(nameof(ForwardEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -42,6 +41,7 @@ namespace EmailSkill.Dialogs
                 CollectAdditionalText,
                 AfterCollectAdditionalText,
                 ConfirmBeforeSending,
+                ConfirmAllRecipient,
                 ForwardEmail,
             };
 
@@ -69,7 +69,7 @@ namespace EmailSkill.Dialogs
             AddDialog(new WaterfallDialog(Actions.Show, showEmail) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage) { TelemetryClient = telemetryClient });
-            AddDialog(new FindContactDialog(settings, services, responseManager, emailStateAccessor, dialogStateAccessor, serviceManager, telemetryClient));
+            AddDialog(new FindContactDialog(settings, services, responseManager, conversationState, serviceManager, telemetryClient));
             InitialDialogId = Actions.Forward;
         }
 
@@ -85,7 +85,7 @@ namespace EmailSkill.Dialogs
                     var token = state.Token;
                     var message = state.Message;
                     var id = message.FirstOrDefault()?.Id;
-                    var recipients = state.Recipients;
+                    var recipients = state.FindContactInfor.Contacts;
 
                     var service = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
 
@@ -98,14 +98,14 @@ namespace EmailSkill.Dialogs
                         Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : state.Subject,
                         EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : state.Content,
                     };
-                    emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.Recipients);
+                    emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.FindContactInfor.Contacts);
 
                     var stringToken = new StringDictionary
                     {
                         { "Subject", state.Subject },
                     };
 
-                    var recipientCard = state.Recipients.Count() > 5 ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
+                    var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
                     var reply = ResponseManager.GetCardResponse(
                         EmailSharedResponses.SentSuccessfully,
                         new Card("EmailWithOutButtonCard", emailCard),

@@ -8,7 +8,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
-using PointOfInterestSkill.Models;
 using PointOfInterestSkill.Responses.CancelRoute;
 using PointOfInterestSkill.Services;
 using PointOfInterestSkill.Utilities;
@@ -21,11 +20,11 @@ namespace PointOfInterestSkill.Dialogs
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<PointOfInterestSkillState> accessor,
+			ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             IHttpContextAccessor httpContext)
-            : base(nameof(CancelRouteDialog), settings, services, responseManager, accessor, serviceManager, telemetryClient, httpContext)
+            : base(nameof(CancelRouteDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, httpContext)
         {
             TelemetryClient = telemetryClient;
 

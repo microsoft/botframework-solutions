@@ -8,7 +8,6 @@ using CalendarSkill.Prompts.Options;
 using CalendarSkill.Responses.ChangeEventStatus;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
-using CalendarSkill.Utilities;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -19,16 +18,16 @@ using Microsoft.Bot.Builder.Solutions.Util;
 
 namespace CalendarSkill.Dialogs
 {
-    public class ChangeEventStatusDialog : CalendarSkillDialog
+    public class ChangeEventStatusDialog : CalendarSkillDialogBase
     {
         public ChangeEventStatusDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
-            IStatePropertyAccessor<CalendarSkillState> accessor,
+            ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(ChangeEventStatusDialog), settings, services, responseManager, accessor, serviceManager, telemetryClient)
+            : base(nameof(ChangeEventStatusDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 

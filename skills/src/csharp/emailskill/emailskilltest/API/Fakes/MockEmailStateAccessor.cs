@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using EmailSkill;
 using EmailSkill.Models;
 using Microsoft.Bot.Builder;
 using Moq;
@@ -25,8 +24,10 @@ namespace EmailSkillTest.API.Fakes
         {
             this.MockEmailSkillState = new EmailSkillState
             {
-                Recipients = new List<Microsoft.Graph.Recipient>()
+                FindContactInfor = new EmailSkillState.FindContactInformation()
             };
+
+            this.MockEmailSkillState.FindContactInfor.Contacts = new List<Microsoft.Graph.Recipient>();
         }
 
         public void SetMockBehavior()

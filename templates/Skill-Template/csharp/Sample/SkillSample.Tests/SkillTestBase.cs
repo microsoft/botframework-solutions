@@ -1,22 +1,24 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using System.Threading;
-using SkillSample.Tests.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
+using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Builder.Solutions.Testing;
+using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SkillSample.Services;
 using SkillSample.Bots;
 using SkillSample.Dialogs;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Testing;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using SkillSample.Responses.Main;
-using SkillSample.Responses.Shared;
 using SkillSample.Responses.Sample;
-using Microsoft.Bot.Builder.Solutions.Middleware;
-using SkillSample.Tests.Mocks;
+using SkillSample.Responses.Shared;
+using SkillSample.Services;
+using SkillSample.Tests.Utilities;
 
 namespace SkillSample.Tests
 {
@@ -25,7 +27,7 @@ namespace SkillSample.Tests
         public IServiceCollection Services { get; set; }
 
         [TestInitialize]
-        public virtual void Initialize()
+        public virtual void InitializeSkill()
         {
             Services = new ServiceCollection();
             Services.AddSingleton(new BotSettings());
@@ -33,9 +35,10 @@ namespace SkillSample.Tests
             {
                 CognitiveModelSets = new Dictionary<string, CognitiveModelSet>
                 {
-                    { "en", new CognitiveModelSet
+                    {
+                        "en", new CognitiveModelSet
                         {
-                            LuisServices = new Dictionary<string, IRecognizer>
+                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
                             {
                                 { "General", GeneralTestUtil.CreateRecognizer() },
                                 { "skill", SkillTestUtil.CreateRecognizer() }

@@ -172,7 +172,7 @@
     <value>收件人:{0}</value>
   </data>
   <data name="YourEmail" xml:space="preserve">
-    <value>您的电子邮件地址</value>
+    <value>您的邮件</value>
   </data>
   <data name="RelevantFormat" xml:space="preserve">
     <value>相关{0}</value>
@@ -229,7 +229,7 @@
     <value>Re:</value>
   </data>
   <data name="ContactSeparator" xml:space="preserve">
-    <value>；|;|和</value>
+    <value>，| , | ；| ; |和</value>
   </data>
   <data name="Forward" xml:space="preserve">
     <value>Fw：</value>
@@ -248,5 +248,8 @@
   </data>
   <data name="GeneralDateFormat" xml:space="preserve">
     <value>MMM dd, yyyy</value>
+  </data>
+  <data name="PageIndexerFormat" xml:space="preserve">
+    <value>**{0}-{1}** 于 {2}</value>
   </data>
 </root>

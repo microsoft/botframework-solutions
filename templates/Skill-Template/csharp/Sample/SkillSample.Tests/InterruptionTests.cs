@@ -1,11 +1,14 @@
-﻿using SkillSample.Tests.Utterances;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
+using System.Collections.Specialized;
+using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
-using System;
-using SkillSample.Responses.Sample;
-using System.Collections.Specialized;
 using SkillSample.Responses.Main;
+using SkillSample.Responses.Sample;
+using SkillSample.Tests.Utterances;
 
 namespace SkillSample.Tests
 {

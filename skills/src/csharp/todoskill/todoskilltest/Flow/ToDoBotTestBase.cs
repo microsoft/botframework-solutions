@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
+using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Proactive;
@@ -57,7 +58,7 @@ namespace ToDoSkillTest.Flow
                     {
                         "en", new CognitiveModelSet()
                         {
-                            LuisServices = new Dictionary<string, IRecognizer>
+                            LuisServices = new Dictionary<string, ITelemetryRecognizer>
                             {
                                 { MockData.LuisGeneral, new MockLuisRecognizer(new GeneralTestUtterances()) },
                                 {
@@ -99,7 +100,11 @@ namespace ToDoSkillTest.Flow
             Services.AddSingleton<IServiceManager>(ServiceManager);
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<MainDialog>();
-            Services.AddTransient<IBot, DialogBot<MainDialog>>();
+			Services.AddTransient<AddToDoItemDialog>();
+			Services.AddTransient<DeleteToDoItemDialog>();
+			Services.AddTransient<MarkToDoItemDialog>();
+			Services.AddTransient<ShowToDoItemDialog>();
+			Services.AddTransient<IBot, DialogBot<MainDialog>>();
         }
 
         public Activity GetAuthResponse()

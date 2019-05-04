@@ -10,7 +10,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public class ToDoLU: IRecognizerConvert
+    public class ToDoLuis: IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
@@ -67,7 +67,7 @@ namespace Luis
 
         public void Convert(dynamic result)
         {
-            var app = JsonConvert.DeserializeObject<ToDoLU>(JsonConvert.SerializeObject(result));
+            var app = JsonConvert.DeserializeObject<ToDoLuis>(JsonConvert.SerializeObject(result));
             Text = app.Text;
             AlteredText = app.AlteredText;
             Intents = app.Intents;

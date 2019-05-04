@@ -23,16 +23,18 @@ using static Microsoft.Recognizers.Text.Culture;
 
 namespace CalendarSkill.Dialogs
 {
-    public class SummaryDialog : CalendarSkillDialog
+    public class SummaryDialog : CalendarSkillDialogBase
     {
         public SummaryDialog(
-            BotSettings settings,
-            BotServices services,
-            ResponseManager responseManager,
-            IStatePropertyAccessor<CalendarSkillState> accessor,
-            IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient)
-            : base(nameof(SummaryDialog), settings, services, responseManager, accessor, serviceManager, telemetryClient)
+           BotSettings settings,
+           BotServices services,
+           ResponseManager responseManager,
+           ConversationState conversationState,
+           UpdateEventDialog updateEventDialog,
+           ChangeEventStatusDialog changeEventStatusDialog,
+           IServiceManager serviceManager,
+           IBotTelemetryClient telemetryClient)
+           : base(nameof(SummaryDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -69,8 +71,8 @@ namespace CalendarSkill.Dialogs
             AddDialog(new WaterfallDialog(Actions.ShowNextEvent, showNext) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.ShowEventsSummary, showSummary) { TelemetryClient = telemetryClient });
             AddDialog(new WaterfallDialog(Actions.Read, readEvent) { TelemetryClient = telemetryClient });
-            AddDialog(new UpdateEventDialog(settings, services, responseManager, accessor, serviceManager, telemetryClient));
-            AddDialog(new ChangeEventStatusDialog(settings, services, responseManager, accessor, serviceManager, telemetryClient));
+            AddDialog(updateEventDialog ?? throw new ArgumentNullException(nameof(updateEventDialog)));
+            AddDialog(changeEventStatusDialog ?? throw new ArgumentNullException(nameof(changeEventStatusDialog)));
 
             // Set starting dialog for component
             InitialDialogId = Actions.GetEventsInit;
@@ -164,7 +166,7 @@ namespace CalendarSkill.Dialogs
                                 { "EventName1", searchedEvents[0].Title },
                                 { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower },
                                 { "EventTime1", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(searchedEvents[0].StartTime, state.GetUserTimeZone()), searchedEvents[0].IsAllDay == true) },
-                                { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(searchedEvents[0].Attendees) }
+                                { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(searchedEvents[0].Attendees, 1) }
                             };
 
                             if (searchedEvents.Count == 1)
@@ -175,7 +177,7 @@ namespace CalendarSkill.Dialogs
                             {
                                 responseParams.Add("EventName2", searchedEvents[searchedEvents.Count - 1].Title);
                                 responseParams.Add("EventTime2", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(searchedEvents[searchedEvents.Count - 1].StartTime, state.GetUserTimeZone()), searchedEvents[searchedEvents.Count - 1].IsAllDay == true));
-                                responseParams.Add("Participants2", DisplayHelper.ToDisplayParticipantsStringSummary(searchedEvents[searchedEvents.Count - 1].Attendees));
+                                responseParams.Add("Participants2", DisplayHelper.ToDisplayParticipantsStringSummary(searchedEvents[searchedEvents.Count - 1].Attendees, 1));
 
                                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowMultipleMeetingSummaryMessage, responseParams));
                             }
@@ -183,9 +185,9 @@ namespace CalendarSkill.Dialogs
                     }
 
                     // add conflict flag
-                    for (int i = 0; i < searchedEvents.Count - 1; i++)
+                    for (var i = 0; i < searchedEvents.Count - 1; i++)
                     {
-                        for (int j = i + 1; j < searchedEvents.Count; j++)
+                        for (var j = i + 1; j < searchedEvents.Count; j++)
                         {
                             if (searchedEvents[i].StartTime <= searchedEvents[j].StartTime &&
                                 searchedEvents[i].EndTime > searchedEvents[j].StartTime)
@@ -201,7 +203,7 @@ namespace CalendarSkill.Dialogs
                     }
 
                     // count the conflict meetings
-                    int totalConflictCount = 0;
+                    var totalConflictCount = 0;
                     foreach (var eventItem in searchedEvents)
                     {
                         if (eventItem.IsConflict)
@@ -214,7 +216,9 @@ namespace CalendarSkill.Dialogs
 
                     await sc.Context.SendActivityAsync(await GetOverviewMeetingListResponseAsync(
                         sc,
-                        GetCurrentPageMeetings(searchedEvents, state),
+                        GetCurrentPageMeetings(searchedEvents, state, out var firstIndex, out var lastIndex),
+                        firstIndex,
+                        lastIndex,
                         searchedEvents.Count,
                         totalConflictCount,
                         null,
@@ -264,11 +268,13 @@ namespace CalendarSkill.Dialogs
                             { "EventName1", currentPageMeetings[0].Title },
                             { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower },
                             { "EventTime1", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(currentPageMeetings[0].StartTime, state.GetUserTimeZone()), currentPageMeetings[0].IsAllDay == true) },
-                            { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(currentPageMeetings[0].Attendees) }
+                            { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(currentPageMeetings[0].Attendees, 1) }
                         };
                         var reply = await GetOverviewMeetingListResponseAsync(
                             sc,
-                            GetCurrentPageMeetings(state.SummaryEvents, state),
+                            GetCurrentPageMeetings(state.SummaryEvents, state, out var firstIndex, out var lastIndex),
+                            firstIndex,
+                            lastIndex,
                             state.SummaryEvents.Count,
                             state.TotalConflictCount,
                             SummaryResponses.ShowMeetingSummaryNotFirstPageMessage,
@@ -512,7 +518,7 @@ namespace CalendarSkill.Dialogs
                     {
                         { "Date", eventItem.StartTime.ToString(CommonStrings.DisplayDateFormat_CurrentYear) },
                         { "Time", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, state.GetUserTimeZone()), eventItem.IsAllDay == true) },
-                        { "Participants", DisplayHelper.ToDisplayParticipantsStringSummary(eventItem.Attendees) },
+                        { "Participants", DisplayHelper.ToDisplayParticipantsStringSummary(eventItem.Attendees, 1) },
                         { "Subject", eventItem.Title }
                     };
 
@@ -672,7 +678,7 @@ namespace CalendarSkill.Dialogs
                                 { "EventName", nextEventList[0].Title },
                                 { "EventStartTime", TimeConverter.ConvertUtcToUserTime(nextEventList[0].StartTime, state.GetUserTimeZone()).ToString("h:mm tt") },
                                 { "EventEndTime", TimeConverter.ConvertUtcToUserTime(nextEventList[0].EndTime, state.GetUserTimeZone()).ToString("h:mm tt") },
-                                { "EventDuration", nextEventList[0].ToDurationString() },
+                                { "EventDuration", nextEventList[0].ToSpeechDurationString() },
                                 { "EventLocation", nextEventList[0].Location },
                             };
 
@@ -788,7 +794,14 @@ namespace CalendarSkill.Dialogs
 
         private List<EventModel> GetCurrentPageMeetings(List<EventModel> allMeetings, CalendarSkillState state)
         {
-            return allMeetings.GetRange(state.ShowEventIndex * state.PageSize, Math.Min(state.PageSize, allMeetings.Count - (state.ShowEventIndex * state.PageSize)));
+            return GetCurrentPageMeetings(allMeetings, state, out var firstIndex, out var lastIndex);
+        }
+
+        private List<EventModel> GetCurrentPageMeetings(List<EventModel> allMeetings, CalendarSkillState state, out int firstIndex, out int lastIndex)
+        {
+            firstIndex = state.ShowEventIndex * state.PageSize;
+            lastIndex = Math.Min(state.PageSize, allMeetings.Count - (state.ShowEventIndex * state.PageSize));
+            return allMeetings.GetRange(firstIndex, lastIndex);
         }
 
         private bool SearchesTodayMeeting(CalendarSkillState state)

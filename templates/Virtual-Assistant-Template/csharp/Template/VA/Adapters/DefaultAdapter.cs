@@ -5,7 +5,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions.Middleware;
-using Microsoft.Bot.Builder.Solutions.Telemetry;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using $safeprojectname$.Responses.Main;
@@ -19,7 +18,8 @@ namespace $safeprojectname$.Bots
             BotSettings settings,
             ICredentialProvider credentialProvider,
             IBotTelemetryClient telemetryClient,
-            BotStateSet botStateSet) : base(credentialProvider)
+            BotStateSet botStateSet)
+            : base(credentialProvider)
         {
             OnTurnError = async (turnContext, exception) =>
             {

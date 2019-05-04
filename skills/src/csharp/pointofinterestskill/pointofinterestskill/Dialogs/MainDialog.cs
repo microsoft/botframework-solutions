@@ -2,13 +2,11 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
@@ -25,46 +23,44 @@ namespace PointOfInterestSkill.Dialogs
 {
     public class MainDialog : RouterDialog
     {
-        private BotSettings _settings;
         private BotServices _services;
         private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
-        private IServiceManager _serviceManager;
         private IStatePropertyAccessor<PointOfInterestSkillState> _stateAccessor;
-        private IHttpContextAccessor _httpContext;
 
         public MainDialog(
-            BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
-            IBotTelemetryClient telemetryClient,
-            IHttpContextAccessor httpContext,
-            IServiceManager serviceManager)
+			RouteDialog routeDialog,
+			CancelRouteDialog cancelRouteDialog,
+			FindPointOfInterestDialog findPointOfInterestDialog,
+			FindParkingDialog findParkingDialog,
+            IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
-            _settings = settings;
             _services = services;
             _responseManager = responseManager;
             _userState = userState;
             _conversationState = conversationState;
-            _serviceManager = serviceManager;
             TelemetryClient = telemetryClient;
-            _httpContext = httpContext;
 
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<PointOfInterestSkillState>(nameof(PointOfInterestSkillState));
 
-            // Register dialogs
-            RegisterDialogs();
-        }
+			// Register dialogs
+			AddDialog(routeDialog ?? throw new ArgumentNullException(nameof(routeDialog)));
+			AddDialog(cancelRouteDialog ?? throw new ArgumentNullException(nameof(cancelRouteDialog)));
+			AddDialog(findPointOfInterestDialog ?? throw new ArgumentNullException(nameof(findPointOfInterestDialog)));
+			AddDialog(findParkingDialog ?? throw new ArgumentNullException(nameof(findParkingDialog)));
+		}
 
-        protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+		protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // send a greeting if we're in local mode
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.PointOfInterestWelcomeMessage));      
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.PointOfInterestWelcomeMessage));
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -135,36 +131,6 @@ namespace PointOfInterestSkill.Dialogs
                 if (turnResult != EndOfTurn)
                 {
                     await CompleteAsync(dc);
-                }
-            }
-        }
-
-        private async Task PopulateStateFromSkillContext(ITurnContext context)
-        {
-            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
-            // and make available in local state as appropriate.
-            var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
-            var skillContext = await accessor.GetAsync(context, () => new SkillContext());
-            if (skillContext != null)
-            {
-                if (skillContext.ContainsKey("Location"))
-                {
-                    var location = skillContext["Location"];
-                    var coords = ((string)location).Split(',');
-                    if (coords.Length == 2)
-                    {
-                        if (double.TryParse(coords[0], out var lat) && double.TryParse(coords[1], out var lng))
-                        {
-                            var coordinates = new LatLng
-                            {
-                                Latitude = lat,
-                                Longitude = lng,
-                            };
-
-                            var state = await _stateAccessor.GetAsync(context, () => new PointOfInterestSkillState());
-                            state.CurrentCoordinates = coordinates;
-                        }
-                    }
                 }
             }
         }
@@ -310,9 +276,39 @@ namespace PointOfInterestSkill.Dialogs
             }
 
             return result;
-        }
+		}
 
-        private async Task<InterruptionAction> OnCancel(DialogContext dc)
+		private async Task PopulateStateFromSkillContext(ITurnContext context)
+		{
+			// If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
+			// and make available in local state as appropriate.
+			var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
+			var skillContext = await accessor.GetAsync(context, () => new SkillContext());
+			if (skillContext != null)
+			{
+				if (skillContext.ContainsKey("Location"))
+				{
+					var location = skillContext["Location"];
+					var coords = ((string)location).Split(',');
+					if (coords.Length == 2)
+					{
+						if (double.TryParse(coords[0], out var lat) && double.TryParse(coords[1], out var lng))
+						{
+							var coordinates = new LatLng
+							{
+								Latitude = lat,
+								Longitude = lng,
+							};
+
+							var state = await _stateAccessor.GetAsync(context, () => new PointOfInterestSkillState());
+							state.CurrentCoordinates = coordinates;
+						}
+					}
+				}
+			}
+		}
+
+		private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.CancelMessage));
             await CompleteAsync(dc);
@@ -351,14 +347,6 @@ namespace PointOfInterestSkill.Dialogs
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.LogOut));
 
             return InterruptionAction.StartedDialog;
-        }
-
-        private void RegisterDialogs()
-        {
-            AddDialog(new RouteDialog(_settings, _services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient, _httpContext));
-            AddDialog(new CancelRouteDialog(_settings, _services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient, _httpContext));
-            AddDialog(new FindPointOfInterestDialog(_settings, _services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient, _httpContext));
-            AddDialog(new FindParkingDialog(_settings, _services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient, _httpContext));
         }
 
         public class Events

@@ -14,10 +14,11 @@ using CalendarSkill.Utilities;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Skills.Models;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Schema;
 
 namespace CalendarSkill.Dialogs
@@ -27,42 +28,42 @@ namespace CalendarSkill.Dialogs
         private BotSettings _settings;
         private BotServices _services;
         private ResponseManager _responseManager;
-        private UserState _userState;
         private ConversationState _conversationState;
-        private ProactiveState _proactiveState;
-        private IBackgroundTaskQueue _backgroundTaskQueue;
-        private IServiceManager _serviceManager;
         private IStatePropertyAccessor<CalendarSkillState> _stateAccessor;
-        private IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
 
         public MainDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
             ConversationState conversationState,
-            UserState userState,
             ProactiveState proactiveState,
-            IBotTelemetryClient telemetryClient,
-            IBackgroundTaskQueue backgroundTaskQueue,
-            IServiceManager serviceManager)
+            CreateEventDialog createEventDialog,
+            ChangeEventStatusDialog changeEventStatusDialog,
+            TimeRemainingDialog timeRemainingDialog,
+            SummaryDialog summaryDialog,
+            UpdateEventDialog updateEventDialog,
+            ConnectToMeetingDialog connectToMeetingDialog,
+            UpcomingEventDialog upcomingEventDialog,
+            IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
             _settings = settings;
             _services = services;
             _responseManager = responseManager;
-            _userState = userState;
             _conversationState = conversationState;
-            _proactiveState = proactiveState;
             TelemetryClient = telemetryClient;
-            _backgroundTaskQueue = backgroundTaskQueue;
-            _serviceManager = serviceManager;
 
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<CalendarSkillState>(nameof(CalendarSkillState));
-            _proactiveStateAccessor = _proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
 
             // Register dialogs
-            RegisterDialogs();
+            AddDialog(createEventDialog ?? throw new ArgumentNullException(nameof(createEventDialog)));
+            AddDialog(changeEventStatusDialog ?? throw new ArgumentNullException(nameof(changeEventStatusDialog)));
+            AddDialog(timeRemainingDialog ?? throw new ArgumentNullException(nameof(timeRemainingDialog)));
+            AddDialog(summaryDialog ?? throw new ArgumentNullException(nameof(summaryDialog)));
+            AddDialog(updateEventDialog ?? throw new ArgumentNullException(nameof(updateEventDialog)));
+            AddDialog(connectToMeetingDialog ?? throw new ArgumentNullException(nameof(connectToMeetingDialog)));
+            AddDialog(upcomingEventDialog ?? throw new ArgumentNullException(nameof(upcomingEventDialog)));
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -98,57 +99,57 @@ namespace CalendarSkill.Dialogs
                 // switch on general intents
                 switch (intent)
                 {
-                    case Luis.CalendarLuis.Intent.FindMeetingRoom:
-                    case Luis.CalendarLuis.Intent.CreateCalendarEntry:
+                    case CalendarLuis.Intent.FindMeetingRoom:
+                    case CalendarLuis.Intent.CreateCalendarEntry:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(CreateEventDialog));
                             break;
                         }
 
-                    case Luis.CalendarLuis.Intent.AcceptEventEntry:
-                    case Luis.CalendarLuis.Intent.DeleteCalendarEntry:
+                    case CalendarLuis.Intent.AcceptEventEntry:
+                    case CalendarLuis.Intent.DeleteCalendarEntry:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog));
                             break;
                         }
 
-                    case Luis.CalendarLuis.Intent.ChangeCalendarEntry:
+                    case CalendarLuis.Intent.ChangeCalendarEntry:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(UpdateEventDialog));
                             break;
                         }
 
-                    case Luis.CalendarLuis.Intent.ConnectToMeeting:
+                    case CalendarLuis.Intent.ConnectToMeeting:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(ConnectToMeetingDialog));
                             break;
                         }
 
-                    case Luis.CalendarLuis.Intent.FindCalendarEntry:
-                    case Luis.CalendarLuis.Intent.FindCalendarDetail:
-                    case Luis.CalendarLuis.Intent.FindCalendarWhen:
-                    case Luis.CalendarLuis.Intent.FindCalendarWhere:
-                    case Luis.CalendarLuis.Intent.FindCalendarWho:
-                    case Luis.CalendarLuis.Intent.FindDuration:
+                    case CalendarLuis.Intent.FindCalendarEntry:
+                    case CalendarLuis.Intent.FindCalendarDetail:
+                    case CalendarLuis.Intent.FindCalendarWhen:
+                    case CalendarLuis.Intent.FindCalendarWhere:
+                    case CalendarLuis.Intent.FindCalendarWho:
+                    case CalendarLuis.Intent.FindDuration:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
                             break;
                         }
 
-                    case Luis.CalendarLuis.Intent.TimeRemaining:
+                    case CalendarLuis.Intent.TimeRemaining:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(TimeRemainingDialog));
                             break;
                         }
 
-                    case Luis.CalendarLuis.Intent.ShowNextCalendar:
-                    case Luis.CalendarLuis.Intent.ShowPreviousCalendar:
+                    case CalendarLuis.Intent.ShowNextCalendar:
+                    case CalendarLuis.Intent.ShowPreviousCalendar:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
                             break;
                         }
 
-                    case Luis.CalendarLuis.Intent.None:
+                    case CalendarLuis.Intent.None:
                         {
                             if (generalTopIntent == General.Intent.ShowNext || generalTopIntent == General.Intent.ShowPrevious)
                             {
@@ -194,7 +195,7 @@ namespace CalendarSkill.Dialogs
         {
             switch (dc.Context.Activity.Name)
             {
-                case Events.SkillBeginEvent:
+                case SkillEvents.SkillBeginEventName:
                     {
                         var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
 
@@ -210,7 +211,7 @@ namespace CalendarSkill.Dialogs
                         break;
                     }
 
-                case Events.TokenResponseEvent:
+                case TokenEvents.TokenResponseEventName:
                     {
                         // Auth dialog completion
                         var result = await dc.ContinueDialogAsync();
@@ -246,7 +247,7 @@ namespace CalendarSkill.Dialogs
                 var localeConfig = _services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities
-                var calendarLuisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<Luis.CalendarLuis>(dc.Context, cancellationToken);
+                var calendarLuisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<CalendarLuis>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
                 state.LuisResult = calendarLuisResult;
 
@@ -333,17 +334,6 @@ namespace CalendarSkill.Dialogs
             return InterruptionAction.StartedDialog;
         }
 
-        private void RegisterDialogs()
-        {
-            AddDialog(new CreateEventDialog(_settings, _services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new ChangeEventStatusDialog(_settings, _services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new TimeRemainingDialog(_settings, _services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new SummaryDialog(_settings, _services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new UpdateEventDialog(_settings, _services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new ConnectToMeetingDialog(_settings, _services, _responseManager, _stateAccessor, _serviceManager, TelemetryClient));
-            AddDialog(new UpcomingEventDialog(_settings, _services, _responseManager, _stateAccessor, _proactiveStateAccessor, _serviceManager, TelemetryClient, _backgroundTaskQueue));
-        }
-
         private void InitializeConfig(CalendarSkillState state)
         {
             // Initialize PageSize when the first input comes.
@@ -361,8 +351,6 @@ namespace CalendarSkill.Dialogs
 
         private class Events
         {
-            public const string TokenResponseEvent = "tokens/response";
-            public const string SkillBeginEvent = "skillBegin";
             public const string DeviceStart = "DeviceStart";
         }
     }

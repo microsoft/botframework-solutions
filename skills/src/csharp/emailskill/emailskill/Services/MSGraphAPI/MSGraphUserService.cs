@@ -9,7 +9,7 @@ using EmailSkill.Extensions;
 using EmailSkill.Models;
 using Microsoft.Graph;
 
-namespace EmailSkill.ServiceClients.MSGraphAPI
+namespace EmailSkill.Services.MSGraphAPI
 {
     /// <summary>
     /// UserService.
