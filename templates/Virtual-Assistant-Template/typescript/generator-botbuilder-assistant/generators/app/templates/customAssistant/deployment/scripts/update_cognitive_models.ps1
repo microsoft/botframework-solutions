@@ -1,12 +1,12 @@
 #Requires -Version 6
 
 Param(
-    [string] $configFile = $(Join-Path (Get-Location) 'cognitivemodels.json'),
+    [string] $configFile = $(Join-Path (Get-Location) 'src' 'cognitivemodels.json'),
     [switch] $RemoteToLocal,
-    [string] $dispatchFolder = $(Join-Path $PSScriptRoot '..' 'Resources' 'Dispatch'),
-	[string] $luisFolder = $(Join-Path $PSScriptRoot '..' 'Resources' 'LU'),
-    [string] $qnaFolder = $(Join-Path $PSScriptRoot '..' 'Resources' 'QnA'),
-    [string] $lgOutFolder = $(Join-Path (Get-Location) 'Services'),
+    [string] $dispatchFolder = $(Join-Path $PSScriptRoot '..' 'resources' 'Dispatch'),
+	[string] $luisFolder = $(Join-Path $PSScriptRoot '..' 'resources' 'LU'),
+    [string] $qnaFolder = $(Join-Path $PSScriptRoot '..' 'resources' 'QnA'),
+    [string] $lgOutFolder = $(Join-Path (Get-Location) 'src' 'services'),
     [string] $logFile = $(Join-Path $PSScriptRoot .. "update_cognitive_models_log.txt")
 )
 
@@ -36,7 +36,7 @@ foreach ($langCode in $languageMap.Keys) {
         {
             Write-Host "> Updating local $($luisApp.id).lu file ..."
             luis export version `
-                --appId $luisApp.appid `
+                --appId $luisApp.appId `
                 --versionId $luisApp.version `
                 --authoringKey $luisApp.authoringKey | ludown refresh `
                 --stdin `
@@ -45,7 +45,7 @@ foreach ($langCode in $languageMap.Keys) {
         }
 
         # Update local LU files based on hosted QnA KBs
-        foreach ($kb in $models.knowledgebases)
+        foreach ($kb in $models.knowledgeBases)
         {
             Write-Host "> Updating local $($kb.id).lu file ..."
             qnamaker export kb `
@@ -65,14 +65,14 @@ foreach ($langCode in $languageMap.Keys) {
 			$lu = Get-Item -Path $(Join-Path $luisFolder $langCode "$($luisApp.id).lu")
 			UpdateLUIS `
 				-lu_file $lu `
-				-appId $luisApp.appid `
+				-appId $luisApp.appId `
 				-version $luisApp.version `
 				-authoringKey $luisApp.authoringKey `
-				-subscriptionKey $app.subscriptionKey
+				-subscriptionKey $luisApp.subscriptionKey
 		}
 
         # Update each knowledgebase based on local LU files
-		foreach ($kb in $models.knowledgebases) {
+		foreach ($kb in $models.knowledgeBases) {
             Write-Host "> Updating hosted $($kb.id) kb..."
 			$lu = Get-Item -Path $(Join-Path $qnaFolder $langCode "$($kb.id).lu")
 			UpdateKB `
@@ -92,6 +92,6 @@ dispatch refresh `
 
 # Update dispatch.cs file
 Write-Host "> Running LuisGen ..."
-luisgen $(Join-Path $dispatchFolder $langCode "$($dispatch.name).json") -cs "DispatchLuis" -o $lgOutFolder 2>> $logFile | Out-Null
+luisgen $(Join-Path $dispatchFolder $langCode "$($dispatch.name).json") -ts "DispatchLuis" -o $lgOutFolder 2>> $logFile | Out-Null
 
 Write-Host "> Done."

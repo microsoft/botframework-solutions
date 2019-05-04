@@ -10,8 +10,8 @@ Param(
 	[string] $luisAuthoringRegion,
     [string] $parametersFile,
 	[string] $languages = "en-us",
-	[string] $outFolder = $(Get-Location),
-	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_log.txt")
+	[string] $outFolder = $(Join-Path $(Get-Location) "src"),
+	[string] $logFile = $(Join-Path $PSScriptRoot ".." "deploy_log.txt")
 )
 
 # Reset log file
