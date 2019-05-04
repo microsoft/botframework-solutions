@@ -7,6 +7,7 @@ const path = require(`path`);
 const templateFiles = new Map();
 const allLanguages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
 let ignoredLanguages = [];
+let selectedLanguages = [];
 
 class Copier {
   // Constructor
@@ -29,7 +30,7 @@ class Copier {
 
   // Copy the templates files passing the attributes of the new skill
   copyTemplateFiles(srcFolder, dstFolder, newSkill) {
-    this.loadTemplatesFiles();
+    this.loadTemplatesFiles(newSkill);
     templateFiles.forEach((dstFile, srcFile) => {
       this.generator.fs.copyTpl(
         this.generator.templatePath(srcFolder, srcFile),
@@ -40,26 +41,27 @@ class Copier {
   }
 
   selectLanguages(languages) {
+    selectedLanguages = languages;
     // Take all the languages that will be ignored
     ignoredLanguages = allLanguages
       .filter(language => {
-        return !languages.includes(language);
+        return !selectedLanguages.includes(language);
       })
       .map(language => {
         return this.pathToLUFolder(language);
       });
 
     // Add the paths of the deployment languages
-    languages.forEach(language => {
+    selectedLanguages.forEach(language => {
       templateFiles.set(
-        path.join(`deployment`, `resources`, `LU`, language),
-        path.join(`deployment`, `resources`, `LU`, language)
+        path.join(`deployment`, `resources`, `LU`, language, `general.lu`),
+        path.join(`deployment`, `resources`, `LU`, language, `general.lu`)
       );
     });
   }
 
   // Here you have to add the paths of your templates files
-  loadTemplatesFiles() {
+  loadTemplatesFiles(newSkill) {
     templateFiles.set(`_package.json`, `package.json`);
     templateFiles.set(`_.gitignore`, `.gitignore`);
     templateFiles.set(`_.npmrc`, `.npmrc`);
@@ -79,6 +81,12 @@ class Copier {
       path.join(`src`, `adapters`, `_customSkillAdapter.ts`),
       path.join(`src`, `adapters`, `customSkillAdapter.ts`)
     );
+    selectedLanguages.forEach(language => {
+      templateFiles.set(
+        path.join(`deployment`, `resources`, `LU`, language, `_skill.lu`),
+        path.join(`deployment`, `resources`, `LU`, language, `${newSkill.skillName}.lu`)
+      );
+    });
   }
 
   pathToLUFolder(language) {
