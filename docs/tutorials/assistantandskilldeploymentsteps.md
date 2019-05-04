@@ -4,16 +4,16 @@
 
 > Applies to Virtual Assistant Template and Skill Template (C# and Typescript variants)
 
-1. In **PowerShell Core** (pwsh.exe), change to the project directory.
-1. Run the following command:
+1. In **PowerShell Core** (pwsh.exe), change to the **project directory** of your assistant/skill.
+2. Run the following command:
     ```shell
     .\Deployment\Scripts\deploy.ps1
     ```
-2. Provide values for the following parameters to the script, note that PowerShell uses a single `-` to denote parameters: e.g. `\Deployment\Scripts\deploy.ps1 -name 'YOUR_UNIQUE_BOT_NAME' -location 'westus' -appPassword 'YOUR_AD_APP' -luisAuthoringKey 'YOUR_AUTHORING_KEY'`
+3. Provide values for the following parameters to the script, note that PowerShell uses a single `-` to denote parameters: e.g. `\Deployment\Scripts\deploy.ps1 -name 'YOUR_UNIQUE_BOT_NAME' -location 'westus' -appPassword 'YOUR_AD_APP' -luisAuthoringKey 'YOUR_AUTHORING_KEY'`
 
     Parameter | Description | Required
     --------- | ----------- | --------
-    name | Name for your bot. By default this name will be used as the base name for all your Azure Resources. | **Yes**
+    name | **Unique** name for your bot. By default this name will be used as the base name for all your Azure Resources and must be unique across Azure so ensure you prefix with something unique and **not** *MyAssistant* | **Yes**
     location | The region for your Azure Resources. By default, this will be the location for all your Azure Resources | **Yes**
     appPassword | The password for the [Azure Active Directory App](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview) that will be used by your bot. It must be at least 16 characters long, contain at least 1 special character, and contain at least 1 numeric character. If using an existing app, this must be the existing password. | **Yes**
     luisAuthoringKey | The authoring key for your LUIS account. It can be found at https://www.luis.ai/user/settings or https://www.luis.ai/user/settings | **Yes**
