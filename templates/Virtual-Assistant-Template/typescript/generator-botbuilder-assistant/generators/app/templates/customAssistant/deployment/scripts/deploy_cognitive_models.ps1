@@ -12,7 +12,7 @@ Param(
 
 . $PSScriptRoot\luis_functions.ps1
 . $PSScriptRoot\qna_functions.ps1
-
+$qnamaker = "qnamaker";
 # Reset log file
 if (Test-Path $logFile) {
 	Clear-Content $logFile -Force | Out-Null
@@ -75,7 +75,7 @@ foreach ($language in $languageArr)
     $config = @{
         dispatchModel = New-Object PSObject
         languageModels = @()
-        knowledgebases = @()
+        knowledgeBases = @()
     }
 
     # Initialize Dispatch
@@ -110,9 +110,9 @@ foreach ($language in $languageArr)
 			$config.languageModels += @{
 				id = $lu.BaseName
 				name = $luisApp.name
-				appid = $luisApp.id
-				authoringkey = $luisauthoringkey
-				subscriptionkey = $luisauthoringkey
+				appId = $luisApp.id
+				authoringKey = $luisauthoringkey
+				subscriptionKey = $luisauthoringkey
 				version = $luisApp.activeVersion
 				region = $luisAuthoringRegion
 			}
@@ -142,13 +142,13 @@ foreach ($language in $languageArr)
 				--dispatch "$(Join-Path $dataFolder "$($dispatchName).dispatch")") 2>> $logFile | Out-Null
         
 			# Add to config
-			$config.knowledgebases += @{
+			$config.knowledgeBases += @{
 				id = $lu.BaseName
 				name = $qnaKb.name
 				kbId = $qnaKb.kbId
 				subscriptionKey = $qnaKb.subscriptionKey
 				endpointKey = $qnaKb.endpointKey
-				hostname = $qnaKb.hostname
+				hostname = "$($qnaKb.hostname)/$($qnamaker)"
 			}
 		}
 		else {
@@ -175,9 +175,9 @@ foreach ($language in $languageArr)
 		$config.dispatchModel = @{
 			type = "dispatch"
 			name = $dispatchApp.name
-			appid = $dispatchApp.appId
-			authoringkey = $luisauthoringkey
-			subscriptionkey = $luisauthoringkey
+			appId = $dispatchApp.appId
+			authoringKey = $luisauthoringkey
+			subscriptionKey = $luisauthoringkey
 			region = $luisAuthoringRegion
 		}
 	}

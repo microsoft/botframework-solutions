@@ -38,7 +38,9 @@ yo botbuilder-assistant
 
 | Generator                                           | Description                                     |
 |-----------------------------------------------------|-------------------------------------------------|
-| [botbuilder-assistant](generators/app/README.md)        | Generator that creates a basic assistant            |
+| [botbuilder-assistant](generators/app/README.md)    | Generator that creates a basic assistant        |
+| [botbuilder-assistant:skill](generators/skill/README.md)    | Generator that creates a basic skill        |
+
 
 ## License
 

@@ -1,22 +1,42 @@
-# Creating a new Skill (C#)
+# Create a new Bot Framework Skill (C#)
 
-> [!NOTE]
-> This topics applies to v4 version of the SDK.
+**APPLIES TO:** ✅ SDK v4
 
-## Table of Contents
-- [Creating a new Skill (C#)](#creating-a-new-skill-c)
-  - [Table of Contents](#table-of-contents)
-  - [Pre-requisites](#pre-requisites)
-  - [Create your project](#create-your-project)
-  - [Deployment](#deployment)
-  - [Testing](#testing)
-  - [Update Manifest](#update-manifest)
-  - [Publish Skill](#publish-skill)
-  - [Testing Manifest Endpoint](#testing-manifest-endpoint)
-  - [Adding your new Skill to a Bot](#adding-your-new-skill-to-a-bot)
-  - [Testing](#testing-1)
-  
-## Pre-requisites
+## In this tutorial
+- [Intro](#intro)
+- [Download and install](#download-and-install)
+- [Create your Skill](#create-your-skill)
+- [Deploy your Skill](#deploy-your-skill)
+- [Test your Skill](#test-your-skill)
+- [Update your Skill manifest](#update-your-skill-manifest)
+- [Publish your Skill](#publish-your-skill)
+- [Validate the Skill manifest endpoint](#validate-the-skill-manifest-endpoint)
+- [Adding your Skill to an assistant](#adding-your-skill-to-an-assistant)
+- [Testing your Skill](#testing-your-skill)
+
+## Intro
+### Purpose
+
+Install Bot Framework development prerequisites and create a Skill using the Bot Framework Skill Template.
+
+### Prerequisites
+
+If you haven't [created a Virtual Assistant](./virtualassistant.md), [download and install](#download-and-install) the Bot Framework development prerequisites.
+
+- Retrieve your LUIS Authoring Key
+   - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work within a europe deployment. 
+   - Once signed in replace your name in the top right hand corner.
+   - Choose Settings and make a note of the Authoring Key for the next step.
+
+### Time to Complete
+
+20 minutes
+
+### Scenario
+
+A Bot Framework Skill app (in C#) that greets a new user.
+
+## Download and install
 > It's important to ensure all of the following pre-requisites are installed on your machine prior to attempting deployment otherwise you may run into deployment issues.
 
 1. Install the [Skill Template](https://marketplace.visualstudio.com/items?itemName=BotBuilder.BotSkillTemplate)
@@ -30,12 +50,8 @@
    npm install -g botdispatch, ludown, luis-apis, qnamaker, luisgen, botskills
    ```
 6. Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
-7. Retrieve your LUIS Authoring Key
-   - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work within a europe deployment. 
-   - Once signed in click on your name in the top right hand corner.
-   - Choose Settings and make a note of the Authoring Key for the next step.
 
-## Create your project
+## Create your Skill
 
 1. In Visual Studio, click **File > New Project**.
 2. Under Bot, select **Skill Template**.
@@ -44,7 +60,7 @@
 
 You now have your new Skill! Follow the Deployment steps below before you try and run the project as deployment creates key dependencies required for operation.
 
-## Deployment
+## Deploy your Skill
 
 The Virtual Assistant require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
 
@@ -60,7 +76,7 @@ To deploy your services using the default configuration, follow the steps in thi
 
 > Note that if you choose to deploy your Skill manually or re-use an existing App-Service please ensure that Web Sockets are enabled on the App Service configuration pane. The deployment scripts supplied as part of the Skill template will do this automatically.
 
-## Testing
+## Test your Skill
 
 Once deployment is complete, you can start debugging through the following steps:
 - Open the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator). 
@@ -69,19 +85,19 @@ Once deployment is complete, you can start debugging through the following steps
 - Provide the AppId and Secret values which you can find in your `appsettings.json` file under the `microsoftAppId` and `microsoftAppPassword` configuration settings.
 - Click on **Save and Connect**.
 
-## Update Manifest
+## Update your Skill manifest
 
 Your newly created Skill has a basic Skill manifest file provided in the root directory (`manifestTemplate.json`), this has been pre-populated with the Skill ID and name and a sample action which you can modify at this stage if required.
 
-## Publish Skill
+## Publish your Skill
 
-- You can now publish your Skill to Azure using the usual deployment tools and enable easier invocation of the Skill from your assistant project.
+You can now publish your Skill to Azure using the usual deployment tools and enable easier invocation of the Skill from your assistant project.
 
-## Testing Manifest Endpoint
+## Validate the Skill manifest endpoint
 
 - To validate your Skill is deployed and working open up a browser window and navigate to your deployed Skill manifest (`/api/skill/manifest endpoint`). e.g.  `http://localhost:3978/api/skill/manifest`
 
-## Adding your new Skill to a Bot
+## Adding your Skill to an assistant
 
 To add your new Skill to your assistant/Bot, run the following command from a command prompt within the directory of your assistant/Bot.
 
@@ -91,6 +107,6 @@ botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_M
 
 See the [Adding Skills](/docs/advanced/skills/addingskills.md) for more detail on how to add skills.
 
-## Testing
+## Testing your Skill
 
-- Test your skill works in your Bot through the emulator by typing "sample dialog"
+Test your skill works in your Bot through the emulator by typing "sample dialog"

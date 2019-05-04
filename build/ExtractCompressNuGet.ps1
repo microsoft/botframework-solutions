@@ -10,6 +10,10 @@ param
 )
 pushd $path
 
+# Download temporary version of Archive module that fixes issue on macOS/Linux with path separator
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PowerShell/Microsoft.PowerShell.Archive/master/Microsoft.PowerShell.Archive/Microsoft.PowerShell.Archive.psm1" -OutFile .\archive.psm1
+Import-Module .\archive.psm1
+
 [int]$itemsProcessed = 0
 if ($extract) {
     # Extract .nupkg packages in the path.

@@ -1,4 +1,4 @@
-# Quickstart: Creating your first Virtual Assistant (C#)
+# Quickstart: Create your first Virtual Assistant (C#)
 
 **APPLIES TO:** ✅ SDK v4
 
@@ -36,7 +36,7 @@ A Virtual Assistant app (in C#) that greets a new user.
 
 > It's important to ensure all of the following prerequisites are installed on your machine prior to attempting deployment otherwise you may run into deployment issues.
 
-1. Download and install the [Virtual Assistant Template](https://botbuilder.myget.org/F/aitemplates/vsix/VirtualAssistantTemplate.d2246051-7779-4196-af1f-ae7e2562ec8e-4.4.0.vsix).
+1. Download and install the [Virtual Assistant Template](https://marketplace.visualstudio.com/items?itemName=BotBuilder.VirtualAssistantTemplate).
 2. Download and install [.NET Core SDK](https://www.microsoft.com/net/download).  
 3. Download and install [Node Package manager](https://nodejs.org/en/).
 4. Download and install PowerShell Core version 6 (required for cross platform deployment support):
@@ -94,4 +94,4 @@ When deployment is complete, you can run your Virtual Assistant debugging throug
 
 ## Next Steps
 
-Now that you've got the basics, continue [customizing your Virtual Assistant](/docs/tutorials/typescript/customizeassistant.md).
+Now that you've got the basics, continue [customizing your Virtual Assistant](/docs/tutorials/csharp/customizeassistant.md).
