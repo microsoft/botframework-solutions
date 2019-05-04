@@ -7,7 +7,6 @@ import {
     Activity,
     ActivityTypes,
     BotTelemetryClient,
-    ConversationState,
     RecognizerResult,
     StatePropertyAccessor } from 'botbuilder';
 import {
@@ -26,6 +25,7 @@ import {
     ResponseManager } from 'botbuilder-solutions';
 import { TokenResponse } from 'botframework-schema';
 import i18next from 'i18next';
+import { SkillState } from '../models/skillState';
 import { SharedResponses } from '../responses/shared/sharedResponses';
 import { BotServices} from '../services/botServices';
 import { IBotSettings } from '../services/botSettings';
@@ -38,7 +38,7 @@ export class SkillDialogBase extends ComponentDialog {
     private readonly solutionName: string = '<%=skillName%>';
     protected settings: Partial<IBotSettings>;
     protected services: BotServices;
-    protected stateAccessor: StatePropertyAccessor<'ISkillState'>;
+    protected stateAccessor: StatePropertyAccessor<SkillState>;
     protected responseManager: ResponseManager;
 
     constructor(
@@ -46,12 +46,12 @@ export class SkillDialogBase extends ComponentDialog {
         settings: Partial<IBotSettings>,
         services: BotServices,
         responseManager: ResponseManager,
-        conversationState: ConversationState,
+        stateAccessor: StatePropertyAccessor<SkillState>,
         telemetryClient: BotTelemetryClient) {
         super(dialogId);
         this.services = services;
         this.responseManager = responseManager;
-        this.stateAccessor = conversationState.createProperty('ISkillState');
+        this.stateAccessor = stateAccessor;
         this.telemetryClient = telemetryClient;
         this.settings = settings;
 
@@ -132,29 +132,28 @@ export class SkillDialogBase extends ComponentDialog {
         }
     }
 
-       // Helpers
-       protected async getLuisResult(dc: DialogContext): Promise<void> {
+    // Helpers
+    protected async getLuisResult(dc: DialogContext): Promise<void> {
         if (dc.context.activity.type === ActivityTypes.Message) {
-            // tslint:disable-next-line: no-any
-            const state: any  = await this.stateAccessor.get(dc.context);
+            const state: SkillState = await this.stateAccessor.get(dc.context, new SkillState());
 
             // Get luis service for current locale
             const locale: string =  i18next.language;
-            const localeConfig: ICognitiveModelSet | undefined = this.services.cognitiveModelSets.get(locale);
+            const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.cognitiveModelSets.get(locale);
             if (localeConfig === undefined) {
                 throw new Error('There is no cognitiveModels for the locale');
             }
-            const luisService: ITelemetryLuisRecognizer | undefined = localeConfig.luisServices.get(this.solutionName);
+            if (localeConfig.luisServices !== undefined) {
+                const luisService: ITelemetryLuisRecognizer | undefined = localeConfig.luisServices.get(this.solutionName);
 
-            if (luisService === undefined) {
-                throw new Error('The specified LUIS Model could not be found in your Bot Services configuration.');
-            } else {
-                // Get intent and entities for activity
-                const result: RecognizerResult =  await luisService.recognize(dc);
-                // tslint:disable-next-line: no-unsafe-any
-                state.luisResult = result;
+                if (luisService === undefined) {
+                    throw new Error('The specified LUIS Model could not be found in your Bot Services configuration.');
+                } else {
+                    // Get intent and entities for activity
+                    const result: RecognizerResult =  await luisService.recognize(dc);
+                    state.luisResult = result;
+                }
             }
-
         }
     }
 

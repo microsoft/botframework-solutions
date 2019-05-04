@@ -6,20 +6,20 @@
         {
           "id": "general",
           "name": "",
-          "appid": "",
+          "appId": "",
           "version": "0.1",
           "region": "",
-          "authoringkey": "",
-          "subscriptionkey": ""
+          "authoringKey": "",
+          "subscriptionKey": ""
         },
         {
           "id": "skill",
           "name": "",
-          "appid": "",
+          "appId": "",
           "version": "0.1",
           "region": "",
-          "authoringkey": "",
-          "subscriptionkey": ""
+          "authoringKey": "",
+          "subscriptionKey": ""
         }
       ]
     }

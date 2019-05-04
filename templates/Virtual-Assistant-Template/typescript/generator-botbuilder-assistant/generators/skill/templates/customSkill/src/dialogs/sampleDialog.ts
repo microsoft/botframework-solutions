@@ -6,13 +6,14 @@
 import {
     Activity,
     BotTelemetryClient,
-    ConversationState } from 'botbuilder';
+    StatePropertyAccessor} from 'botbuilder';
 import {
     DialogTurnResult,
     TextPrompt,
     WaterfallDialog,
     WaterfallStepContext } from 'botbuilder-dialogs';
 import { ResponseManager } from 'botbuilder-solutions';
+import { SkillState } from '../models/skillState';
 import { SampleResponses } from '../responses/sample/sampleResponses';
 import { BotServices } from '../services/botServices';
 import { IBotSettings } from '../services/botSettings';
@@ -30,10 +31,10 @@ export class SampleDialog extends SkillDialogBase {
         settings: Partial<IBotSettings>,
         services: BotServices,
         responseManager: ResponseManager,
-        conversationState: ConversationState,
+        stateAccessor: StatePropertyAccessor<SkillState>,
         telemetryClient: BotTelemetryClient
     ) {
-        super(SampleDialog.name, settings, services, responseManager, conversationState, telemetryClient);
+        super(SampleDialog.name, settings, services, responseManager, stateAccessor, telemetryClient);
 
         const sample: ((sc: WaterfallStepContext) => Promise<DialogTurnResult>)[] = [
             // NOTE: Uncomment these lines to include authentication steps to this dialog

@@ -3,23 +3,17 @@
  * Licensed under the MIT License.
  */
 
-import {
-    LuisApplication,
-    QnAMakerEndpoint } from 'botbuilder-ai';
+import { LuisApplication } from 'botbuilder-ai';
 import {
     ICognitiveModelConfiguration,
     ICognitiveModelSet,
-    TelemetryLuisRecognizer,
-    TelemetryQnAMaker } from 'botbuilder-solutions';
-import {
-    DispatchService,
-    LuisService,
-    QnaMakerService } from 'botframework-config';
+    TelemetryLuisRecognizer } from 'botbuilder-solutions';
+import { LuisService } from 'botframework-config';
 import { IBotSettings } from './botSettings';
 
 export class BotServices {
 
-    public cognitiveModelSets: Map<string, ICognitiveModelSet> = new Map();
+    public cognitiveModelSets: Map<string, Partial<ICognitiveModelSet>> = new Map();
 
     constructor(settings: Partial<IBotSettings>) {
         try {
@@ -28,18 +22,8 @@ export class BotServices {
                 settings.cognitiveModels.forEach((value: ICognitiveModelConfiguration, key: string) => {
                     const language: string = key;
                     const config: ICognitiveModelConfiguration = value;
-
-                    const dispatchModel: DispatchService = new DispatchService(config.dispatchModel);
-                    const dispatchApp: LuisApplication = {
-                        applicationId: dispatchModel.appId,
-                        endpointKey: dispatchModel.subscriptionKey,
-                        endpoint: dispatchModel.getEndpoint()
-                    };
-
-                    const cognitiveModelSet: ICognitiveModelSet = {
-                        dispatchService: new TelemetryLuisRecognizer(dispatchApp),
-                        luisServices: new Map(),
-                        qnaServices: new Map()
+                    const cognitiveModelSet: Partial<ICognitiveModelSet> = {
+                        luisServices: new Map()
                     };
 
                     config.languageModels.forEach((model: LuisService) => {
@@ -49,17 +33,9 @@ export class BotServices {
                             endpointKey: luisService.subscriptionKey,
                             endpoint: luisService.getEndpoint()
                         };
-                        cognitiveModelSet.luisServices.set(luisService.id, new TelemetryLuisRecognizer(luisApp));
-                    });
-
-                    config.knowledgeBases.forEach((kb: QnaMakerService) => {
-                    const qnaEndpoint: QnAMakerEndpoint = {
-                        knowledgeBaseId: kb.kbId,
-                        endpointKey: kb.endpointKey,
-                        host: kb.hostname
-                    };
-                    const qnaMaker: TelemetryQnAMaker = new TelemetryQnAMaker(qnaEndpoint);
-                    cognitiveModelSet.qnaServices.set(kb.id, qnaMaker);
+                        if (cognitiveModelSet.luisServices !== undefined) {
+                            cognitiveModelSet.luisServices.set(luisService.id, new TelemetryLuisRecognizer(luisApp));
+                        }
                     });
 
                     this.cognitiveModelSets.set(language, cognitiveModelSet);

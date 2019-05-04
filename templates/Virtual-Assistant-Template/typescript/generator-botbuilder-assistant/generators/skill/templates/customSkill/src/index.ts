@@ -3,13 +3,25 @@
  * Licensed under the MIT License.
  */
 
+import { TelemetryClient } from 'applicationinsights';
 import {
+    BotFrameworkAdapter,
     BotFrameworkAdapterSettings,
-    TurnContext } from 'botbuilder';
-import { Dialog } from 'botbuilder-dialogs';
+    ConversationState,
+    StatePropertyAccessor,
+    TurnContext,
+    UserState } from 'botbuilder';
+import {
+    CosmosDbStorage,
+    CosmosDbStorageSettings } from 'botbuilder-azure';
+import {
+    Dialog,
+    DialogState } from 'botbuilder-dialogs';
 import {
     IAuthenticationConnection,
-    ISkillManifest } from 'botbuilder-skills';
+    ISkillManifest,
+    SkillContext,
+    SkillHttpAdapter} from 'botbuilder-skills';
 import {
     ICognitiveModelConfiguration,
     IOAuthConnection,
@@ -27,6 +39,7 @@ import { DialogBot } from './bots/dialogBot';
 import * as cognitiveModelsRaw from './cognitivemodels.json';
 import { MainDialog } from './dialogs/mainDialog';
 import { SampleDialog } from './dialogs/sampleDialog';
+import { SkillState } from './models/skillState';
 import { MainResponses } from './responses/main/mainResponses';
 import { SampleResponses } from './responses/sample/sampleResponses';
 import { SharedResponses } from './responses/shared/sharedResponses';
@@ -37,10 +50,7 @@ import { IBotSettings } from './services/botSettings';
 i18next.use(i18nextNodeFsBackend)
 .init({
     fallbackLng: 'en',
-    preload: [ 'de', 'en', 'es', 'fr', 'it', 'zh' ],
-    backend: {
-        loadPath: path.join(__dirname, 'locales', '{{lng}}.json')
-    }
+    preload: [ 'de', 'en', 'es', 'fr', 'it', 'zh' ]
 })
 .then(async () => {
     await Locales.addResourcesFromPath(i18next, 'common');
@@ -62,37 +72,75 @@ const botSettings: Partial<IBotSettings> = {
     microsoftAppId: appsettings.microsoftAppId,
     microsoftAppPassword: appsettings.microsoftAppPassword
 };
+if (botSettings.appInsights === undefined) {
+    throw new Error('There is no appInsights value in appsettings file');
+}
+
+let cosmosDbStorageSettings: CosmosDbStorageSettings;
+if (botSettings.cosmosDb === undefined) {
+    throw new Error();
+}
+cosmosDbStorageSettings = {
+    authKey: botSettings.cosmosDb.authkey,
+    collectionId: botSettings.cosmosDb.collectionId,
+    databaseId: botSettings.cosmosDb.databaseId,
+    serviceEndpoint: botSettings.cosmosDb.cosmosDBEndpoint
+};
+
+const storage: CosmosDbStorage = new CosmosDbStorage(cosmosDbStorageSettings);
+const userState: UserState = new UserState(storage);
+const conversationState: ConversationState = new ConversationState(storage);
+const telemetryClient: TelemetryClient = new TelemetryClient(botSettings.appInsights.instrumentationKey);
+const stateAccessor: StatePropertyAccessor<SkillState> = userState.createProperty(SkillState.name);
+const skillContextAccessor: StatePropertyAccessor<SkillContext> = userState.createProperty(SkillContext.name);
+const dialogStateAccessor: StatePropertyAccessor<DialogState> = userState.createProperty('DialogState');
 const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appId: botSettings.microsoftAppId,
     appPassword: botSettings.microsoftAppPassword
 };
-const adapter: DefaultAdapter = new DefaultAdapter(botSettings, adapterSettings);
-const skillAdapter: CustomSkillAdapter = new CustomSkillAdapter(botSettings, adapter.userState, adapter.conversationState);
+// const adapter: DefaultAdapter = new DefaultAdapter(
+//     botSettings,
+//     adapterSettings,
+//     userState,
+//     conversationState,
+//     telemetryClient);
+
+const botAdapter: CustomSkillAdapter = new CustomSkillAdapter(
+    botSettings,
+    userState,
+    conversationState,
+    telemetryClient,
+    skillContextAccessor,
+    dialogStateAccessor);
+const adapter: SkillHttpAdapter = new SkillHttpAdapter(
+    botAdapter
+);
+
 let bot: DialogBot<Dialog>;
 try {
 
     const responseManager: ResponseManager = new ResponseManager(
         ['en', 'de', 'es', 'fr', 'it', 'zh'],
-        [new SampleResponses(), new MainResponses(), new SharedResponses()]);
+        [SampleResponses, MainResponses, SharedResponses]);
     const botServices: BotServices = new BotServices(botSettings);
     const sampleDialog: SampleDialog = new SampleDialog(
         botSettings,
         botServices,
         responseManager,
-        adapter.conversationState,
-        adapter.telemetryClient
+        stateAccessor,
+        telemetryClient
     );
     const mainDialog: MainDialog = new MainDialog(
         botSettings,
         botServices,
         responseManager,
-        adapter.userState,
-        adapter.conversationState,
+        stateAccessor,
+        skillContextAccessor,
         sampleDialog,
-        adapter.telemetryClient
+        telemetryClient
     );
 
-    bot = new DialogBot(adapter.conversationState, adapter.telemetryClient, mainDialog);
+    bot = new DialogBot(conversationState, telemetryClient, mainDialog);
 } catch (err) {
     throw err;
 }

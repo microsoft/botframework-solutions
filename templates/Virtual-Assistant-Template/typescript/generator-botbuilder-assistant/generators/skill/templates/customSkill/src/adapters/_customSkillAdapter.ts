@@ -6,46 +6,39 @@
 import { TelemetryClient } from 'applicationinsights';
 import {
     AutoSaveStateMiddleware,
+    BotFrameworkAdapter,
+    BotFrameworkAdapterSettings,
     ConversationState,
     ShowTypingMiddleware,
+    StatePropertyAccessor,
     UserState } from 'botbuilder';
+import { DialogState } from 'botbuilder-dialogs';
 import {
-    CosmosDbStorageSettings } from 'botbuilder-azure';
-import { SkillAdapter } from 'botbuilder-skills';
+    SkillContext,
+    SkillHttpAdapter,
+    SkillHttpBotAdapter,
+    SkillMiddleware } from 'botbuilder-skills';
 import {
     EventDebuggerMiddleware,
     SetLocaleMiddleware,
     TelemetryLoggerMiddleware} from 'botbuilder-solutions';
 import { IBotSettings } from '../services/botSettings';
 
-export class CustomSkillAdapter extends SkillAdapter {
-    private readonly solutionName: string = '<%=skillName%>';
-    public readonly cosmosDbStorageSettings: CosmosDbStorageSettings;
-    public readonly telemetryClient: TelemetryClient;
+export class CustomSkillAdapter extends SkillHttpBotAdapter {
 
     constructor(
         settings: Partial<IBotSettings>,
         userState: UserState,
-        conversationState: ConversationState
+        conversationState: ConversationState,
+        telemetryClient: TelemetryClient,
+        skillContextAccessor: StatePropertyAccessor<SkillContext>,
+        dialogStateAccesor: StatePropertyAccessor<DialogState>
     ) {
-        super();
+        super(
+            telemetryClient
+        );
 
-        if (settings.cosmosDb === undefined) {
-            throw new Error('There is no cosmosDb value in appsettings file');
-        }
-
-        this.cosmosDbStorageSettings = {
-            authKey: settings.cosmosDb.authkey,
-            collectionId: settings.cosmosDb.collectionId,
-            databaseId: settings.cosmosDb.databaseId,
-            serviceEndpoint: settings.cosmosDb.cosmosDBEndpoint
-        };
-
-        if (settings.appInsights === undefined) {
-            throw new Error('There is no appInsights value in appsettings file');
-        }
-        this.telemetryClient = new TelemetryClient(settings.appInsights.instrumentationKey);
-        this.use(new TelemetryLoggerMiddleware(this.telemetryClient, true));
+        this.use(new TelemetryLoggerMiddleware(telemetryClient, true));
         // Currently not working https://github.com/Microsoft/botbuilder-js/issues/853#issuecomment-481416004
         // this.use(new TranscriptLoggerMiddleware(this.transcriptStore));
         // Typing Middleware (automatically shows typing when the bot is responding/working)
@@ -58,7 +51,6 @@ export class CustomSkillAdapter extends SkillAdapter {
         this.use(new EventDebuggerMiddleware());
         // Use the AutoSaveStateMiddleware middleware to automatically read and write conversation and user state.
         this.use(new AutoSaveStateMiddleware(conversationState, userState));
-        // PENDING
-        // this.use(new SkillMiddleware(userState, conversationState, conversationState.createProperty(this.solutionName)))
+        this.use(new SkillMiddleware(conversationState, skillContextAccessor, dialogStateAccesor));
     }
 }
