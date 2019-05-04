@@ -1,4 +1,4 @@
-#Skill Enabling a V4 Bot (not based on Skill Template)
+# Skill Enabling a V4 Bot (not based on Skill Template)
 
 ## Table of Contents
 - [Table of Contents](#table-of-contents)
@@ -11,12 +11,12 @@
 
 ## Overview
 
-Creating a Skill through the [Skill template](/docs/virtual-assistant/README.md) is the easiest way to get started with creating a new Skill. If you have an existing v4 based Bot, the recommended approach would be to take the resulting project from this template and bring across your custom dialogs to get started quickly.
+Creating a Skill through the [Skill template](/docs/tutorials/csharp/skill.md#create-your-skill) is the easiest way to get started with creating a new Skill. If you have an existing v4 based Bot, the recommended approach would be to take the resulting project from this template and bring across your custom dialogs to get started quickly.
 
-If however you want to manually enable you Bot to be called as a Skill follow the steps below. This documentation assumes you are using the MVC approach for v4 Bots as detailed in [this sample](https://github.com/Microsoft/BotBuilder-Samples/tree/master/samples/csharp_dotnetcore/30.asp-mvc-bot).
+If however you want to manually enable your Bot to be called as a Skill follow the steps below. This documentation assumes you are using the MVC approach for v4 Bots as detailed in [this sample](https://github.com/Microsoft/BotBuilder-Samples/tree/master/samples/csharp_dotnetcore/05.multi-turn-prompt).
 
 ## Libraries
-- Add `Microsoft.Bot.Builder.Solutions` and `Microsoft.Bot.Builder.Skills` Nuget libraries to your solution
+- Add `Microsoft.Bot.Builder.Solutions` and `Microsoft.Bot.Builder.Skills` NuGet libraries to your solution
 
 ## Adapter
 
