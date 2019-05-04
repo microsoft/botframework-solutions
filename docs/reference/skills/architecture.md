@@ -12,7 +12,7 @@ A key design goal for Skills was to maintain the consistent Activity protocol an
 
 ## Invocation Flow
 
-![Skill Invocation Flow](/docs/media/virtualassistant-skillflow.png)
+![Skill Invocation Flow](/docs/media/virtualassistant-SkillFlow.png)
 
 ### Dispatcher
 
