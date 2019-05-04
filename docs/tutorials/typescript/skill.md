@@ -29,7 +29,7 @@
    * [Download PowerShell Core on macOS and Linux](https://aka.ms/getps6-linux)
 3. Install  Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions as the Skill template makes use of the latest capabilities: 
    ```
-   npm install -g botdispatch, ludown, luis-apis, qnamaker, luisgen
+   npm install -g botdispatch ludown luis-apis luisgen
    ```
 4. Install [Yeoman](http://yeoman.io)
    ```

@@ -3,16 +3,22 @@
 **APPLIES TO:** ✅ SDK v4
 
 ## In this tutorial
-- [Intro](#intro)
-- [Download and install](#download-and-install)
-- [Create your Skill](#create-your-skill)
-- [Deploy your Skill](#deploy-your-skill)
-- [Test your Skill](#test-your-skill)
-- [Update your Skill manifest](#update-your-skill-manifest)
-- [Publish your Skill](#publish-your-skill)
-- [Validate the Skill manifest endpoint](#validate-the-skill-manifest-endpoint)
-- [Adding your Skill to an assistant](#adding-your-skill-to-an-assistant)
-- [Testing your Skill](#testing-your-skill)
+- [Create a new Bot Framework Skill (C#)](#create-a-new-bot-framework-skill-c)
+  - [In this tutorial](#in-this-tutorial)
+  - [Intro](#intro)
+    - [Purpose](#purpose)
+    - [Prerequisites](#prerequisites)
+    - [Time to Complete](#time-to-complete)
+    - [Scenario](#scenario)
+  - [Download and install](#download-and-install)
+  - [Create your Skill](#create-your-skill)
+  - [Deploy your Skill](#deploy-your-skill)
+  - [Test your Skill](#test-your-skill)
+  - [Update your Skill manifest](#update-your-skill-manifest)
+  - [Publish your Skill](#publish-your-skill)
+  - [Validate the Skill manifest endpoint](#validate-the-skill-manifest-endpoint)
+  - [Adding your Skill to an assistant](#adding-your-skill-to-an-assistant)
+  - [Testing your Skill](#testing-your-skill)
 
 ## Intro
 ### Purpose
@@ -47,7 +53,7 @@ A Bot Framework Skill app (in C#) that greets a new user.
    * [Download PowerShell Core on macOS and Linux](https://aka.ms/getps6-linux)
 5. Install  Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions as we make use of the latest capabilities: 
    ```
-   npm install -g botdispatch, ludown, luis-apis, qnamaker, luisgen, botskills
+   npm install -g botdispatch ludown luis-apis luisgen botskills
    ```
 6. Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
 

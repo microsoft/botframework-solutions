@@ -109,7 +109,7 @@ The Email Skill require the following dependencies for end to end operation whic
 
 > Review the pricing and terms for the services and adjust to suit your scenario.
 
-To deploy your services using the default configuration, follow the steps in this common [deployment documentation page](/docs/virtual-assistant/common/deploymentsteps.md) from the folder where your have cloned the GitHub repo.
+To deploy your services using the default configuration, follow the steps in this common [deployment documentation page](/docs/tutorials/assistantandskilldeploymentsteps.md) from the folder where your have cloned the GitHub repo.
 
 ### Authentication Connection Settings
 
