@@ -2,7 +2,7 @@
 
 This repository is the home for a set of templates and solutions to help build conversational experiences using [Azure Bot Service](https://aka.ms/azurebotservice) and [Bot Framework](https://botframework.com).
 
-> Things look a little different around here? Find out more [here](https://github.com/Microsoft/AI/issues/959).
+> Things look a little different around here? Find out more in our [Wiki page](https://github.com/Microsoft/AI/wiki/What's-new-at-Build-2019) and [here](https://github.com/Microsoft/AI/issues/959).
 
 | Name | Description |  
 |:------------:|------------| 
