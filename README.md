@@ -2,6 +2,8 @@
 
 This repository is the home for a set of templates and solutions to help build conversational experiences using [Azure Bot Service](https://aka.ms/azurebotservice) and [Bot Framework](https://botframework.com).
 
+> Things look a little different around here? Find out more in our [Wiki page](https://github.com/Microsoft/AI/wiki/What's-new-at-Build-2019) and [here](https://github.com/Microsoft/AI/issues/959).
+
 | Name | Description |  
 |:------------:|------------| 
 |[<img src="./docs/media/vatemplateintrocard.png" width="1250"> **Virtual Assistant**](/docs/readme.md) | Customers and partners have a significant need to deliver a conversational assistant tailored to their brand, personalized to their users, and made available across a broad range of canvases and devices. <br/><br/> Continuing Microsoft's open-sourced approach towards the Bot Framework SDK, the open-source Virtual Assistant solution provides you with a set of core foundational capabilities and full control over the end user experience. <br/><br/> This template incorporates the previous Enterprise Template and brings together all of the best practices and supporting components identified through building conversational experiences and greatly simplifies the creation of a new bot project including: basic conversational intents, Dispatch integration, QnA Maker, Application Insights and an automated deployment.|
