@@ -1,4 +1,4 @@
-# Quickstart: Creating your first Virtual Assistant (TypeScript)
+# Quickstart: Create your first Virtual Assistant (TypeScript)
 
 **APPLIES TO:** ✅ SDK v4
 
