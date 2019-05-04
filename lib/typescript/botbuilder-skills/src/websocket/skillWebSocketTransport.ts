@@ -57,7 +57,7 @@ export class SkillWebSocketTransport implements ISkillTransport {
 
         // Serialize the activity and POST to the Skill endpoint
         const request: Request = Request.create('POST', '');
-        request.setBody(activity);
+        request.setBody(JSON.stringify(activity));
 
         await this.streamingTransportClient.sendAsync(request, this.cToken);
 

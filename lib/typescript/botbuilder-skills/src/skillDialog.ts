@@ -8,6 +8,7 @@ import { ComponentDialog, Dialog, DialogContext, DialogInstance, DialogReason, D
     DialogTurnStatus } from 'botbuilder-dialogs';
 import { ActivityExtensions, isProviderTokenResponse, MultiProviderAuthDialog, TokenEvents } from 'botbuilder-solutions';
 import { MicrosoftAppCredentials } from 'botframework-connector';
+import { SkillHttpTransport } from './http';
 import { IAction, ISkillManifest, ISlot } from './models';
 import { SkillContext } from './skillContext';
 import { ISkillTransport, TokenRequestHandler } from './skillTransport';
@@ -44,7 +45,8 @@ export class SkillDialog extends ComponentDialog {
 
         this.queuedResponses = [];
         this.skillContextAccessor = skillContextAccessor;
-        this.skillTransport = skillTransport || new SkillWebSocketTransport(this.skillManifest, this.appCredentials);
+        this.skillTransport = skillTransport || new SkillHttpTransport(skillManifest, appCredentials);
+        //new SkillWebSocketTransport(this.skillManifest, this.appCredentials);
 
         if (authDialog !== undefined) {
             this.authDialog = authDialog;

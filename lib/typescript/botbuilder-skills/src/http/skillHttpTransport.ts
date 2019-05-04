@@ -62,7 +62,7 @@ export class SkillHttpTransport implements ISkillTransport {
             throw new Error(result);
         }
 
-        const responseBody: Activity[] = response.parsedBody;
+        const responseBody: Activity[] = JSON.parse(response.bodyAsText || '[]');
 
         // Retrieve Activity responses
         const skillResponses: Activity[] = responseBody.map(fixActivityTimestamp);
