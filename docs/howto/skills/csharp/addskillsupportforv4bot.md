@@ -17,11 +17,11 @@ Creating a Bot Framework Bot through the [Virtual Assistant template](/docs/virt
 
 ## Libraries
 
-- Add `Microsoft.Bot.Builder.Solutions` and `Microsoft.Bot.Builder.Skills` Nuget libraries to your solution
+- Add `Microsoft.Bot.Builder.Solutions` and `Microsoft.Bot.Builder.Skills` NuGet libraries to your solution
 
 ## Skill Configuration
 
-The 'Skills' nuget provides a `SkillManifest` type that describes a Skill. You Bot should maintain a collection of registered Skills typically serialised into a JSON configuration file. The Virtual Assistant template uses a `skills.json` file for this purpose.
+The 'Skills' nuget provides a `SkillManifest` type that describes a Skill. Your bot should maintain a collection of registered Skills typically serialised into a JSON configuration file. The Virtual Assistant template uses a `skills.json` file for this purpose.
 
 As part of your Configuration processing you should construct a collection of registered Skills by deserializing this file, for example:
 ```
