@@ -1,7 +1,0 @@
-[
-  {
-    "event": "DeviceStart",
-    "skillIds": [ "l_Calendar" ],
-    "parameters": {}
-  }
-]

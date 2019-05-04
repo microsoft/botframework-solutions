@@ -23,7 +23,7 @@ namespace Microsoft.Bot.Builder.Solutions.TaskExtensions
 
         public async Task<Func<CancellationToken, Task>> DequeueAsync(CancellationToken token)
         {
-            await _signal.WaitAsync(token);
+            await _signal.WaitAsync(token).ConfigureAwait(false);
 
             _workItems.TryDequeue(out var workItem);
 

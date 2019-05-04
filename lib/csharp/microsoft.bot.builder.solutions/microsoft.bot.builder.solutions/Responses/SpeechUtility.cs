@@ -20,7 +20,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
         Enumeration,
 
         /// <summary>Latest item, second item, third item, etc.</summary>
-        Chronological
+        Chronological,
     }
 
     public class SpeechUtility

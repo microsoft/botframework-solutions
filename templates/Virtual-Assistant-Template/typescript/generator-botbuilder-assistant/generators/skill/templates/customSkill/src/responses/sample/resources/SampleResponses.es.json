@@ -1,0 +1,24 @@
+{
+    "NamePrompt": {
+      "replies": [
+        {
+          "text": "¿Cómo te llamas?",
+          "speak": "¿Cómo te llamas?"
+        }
+      ],
+      "inputHint": "expectingInput"
+    },
+    "HaveNameMessage": {
+      "replies": [
+        {
+          "text": "¡Hola, {Name}!",
+          "speak": "¡Hola, {Name}!"
+        },
+        {
+          "text": "Encantado de conocerte, {Name}!",
+          "speak": "Encantado de conocerte, {Name}!"
+        }
+      ],
+      "inputHint": "acceptingInput"
+    }
+}

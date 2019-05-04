@@ -1,0 +1,26 @@
+{
+  "id": "automotiveSkill",
+  "name": "Automotive Skill",
+  "description": "The Automotive skill provides automotive related capabilities such as control of vehicle settings.",
+  "iconUrl": "automotiveSkill.png",
+  "authenticationConnections": [],
+  "actions": [
+    {
+      "id": "automotiveSkill_vehicleSettings",
+      "definition": {
+        "description": "Vehicle Settings",
+        "slots": [ ],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "settings_dispatch#VEHICLE_SETTINGS_CHANGE"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
