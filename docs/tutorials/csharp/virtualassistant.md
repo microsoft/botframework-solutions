@@ -3,12 +3,18 @@
 **APPLIES TO:** ✅ SDK v4
 
 ## In this tutorial
-- [Intro](#intro)
-- [Download and install](#download-and-install)
-- [Create your assistant](#create-your-assistant)
-- [Deploy your assistant](#deploy-your-assistant)
-- [Run your assistant](#run-your-assistant)
-- [Next steps](#next-steps)
+- [Quickstart: Creating your first Virtual Assistant (C#)](#quickstart-creating-your-first-virtual-assistant-c)
+  - [In this tutorial](#in-this-tutorial)
+  - [Intro](#intro)
+    - [Purpose](#purpose)
+    - [Prerequisites](#prerequisites)
+    - [Time to Complete](#time-to-complete)
+    - [Scenario](#scenario)
+  - [Download and install](#download-and-install)
+  - [Create your assistant](#create-your-assistant)
+  - [Deploy your assistant](#deploy-your-assistant)
+  - [Run your assistant](#run-your-assistant)
+  - [Next Steps](#next-steps)
 
 ## Intro
 ### Purpose
@@ -36,7 +42,7 @@ A Virtual Assistant app (in C#) that greets a new user.
 
 > It's important to ensure all of the following prerequisites are installed on your machine prior to attempting deployment otherwise you may run into deployment issues.
 
-1. Download and install the [Virtual Assistant Template](https://botbuilder.myget.org/F/aitemplates/vsix/VirtualAssistantTemplate.d2246051-7779-4196-af1f-ae7e2562ec8e-4.4.0.vsix).
+1. Download and install the [Virtual Assistant Template](https://marketplace.visualstudio.com/items?itemName=BotBuilder.VirtualAssistantTemplate).
 2. Download and install [.NET Core SDK](https://www.microsoft.com/net/download).  
 3. Download and install [Node Package manager](https://nodejs.org/en/).
 4. Download and install PowerShell Core version 6 (required for cross platform deployment support):

@@ -3,12 +3,21 @@
 **APPLIES TO:** ✅ SDK v4
 
 ## In this tutorial
-- [Intro](#intro)
-- [Download and install](#download-and-install)
-- [Create your assistant](#create-your-assistant)
-- [Deploy your assistant](#deploy-your-assistant)
-- [Run your assistant](#run-your-assistant)
-- [Next steps](#next-steps)
+- [Quickstart: Creating your first Virtual Assistant (TypeScript)](#quickstart-creating-your-first-virtual-assistant-typescript)
+  - [In this tutorial](#in-this-tutorial)
+  - [Intro](#intro)
+    - [Purpose](#purpose)
+    - [Prerequisites](#prerequisites)
+    - [Time to Complete](#time-to-complete)
+    - [Scenario](#scenario)
+  - [Download and install](#download-and-install)
+  - [Create your assistant](#create-your-assistant)
+    - [Generate the assistant using prompts](#generate-the-assistant-using-prompts)
+    - [Generate the sample using CLI parameters](#generate-the-sample-using-cli-parameters)
+      - [Example](#example)
+  - [Deploy your assistant](#deploy-your-assistant)
+  - [Run your assistant](#run-your-assistant)
+  - [Next Steps](#next-steps)
 
 ## Intro
 ### Purpose
@@ -52,12 +61,11 @@ A Virtual Assistant app (in TypeScript) that greets a new user.
 
 ## Create your assistant
 
->//Temporary ahead of package publishing>
+Install the botbuilder-assistant generator
 
-- Clone the [Microsoft AI](https://github.com/Microsoft/AI) repository
-- Go to `templates\Virtual-Assistant-Template\typescript\generator-botbuilder-assistant` folder in a command line
-- Run npm link to symlink the package folder
->//
+```bash
+    npm install -g generator-botbuilder-assistant
+```
 
 Now you can execute the Virtual Assistant generator with this command.
 

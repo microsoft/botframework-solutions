@@ -43,6 +43,12 @@
 
 ## Create your project
 
+Install the botbuilder-assistant generator (if you haven't already)
+
+```bash
+    npm install -g generator-botbuilder-assistant
+```
+
 Now you can execute the Skill template generator with this command.
 
 ```bash
