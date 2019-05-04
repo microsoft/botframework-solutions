@@ -1,11 +1,11 @@
-﻿using Microsoft.Bot.Schema;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
 using AdaptiveCards;
-using System.Collections.Generic;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.Solutions.Resources;
+using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Schema;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Bot.Builder.Solutions.Tests
 {
@@ -32,7 +32,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests
         {
             _promptOptions.Choices = new List<Choice>()
             {
-                new Choice(listItemSpeakProperty)
+                new Choice(listItemSpeakProperty),
             };
 
             var response = SpeechUtility.ListToSpeechReadyString(_promptOptions);
@@ -46,7 +46,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests
             _promptOptions.Choices = new List<Choice>()
             {
                 new Choice(listItemSpeakProperty),
-                new Choice(listItemSpeakProperty)
+                new Choice(listItemSpeakProperty),
             };
 
             var response = SpeechUtility.ListToSpeechReadyString(_promptOptions, ReadPreference.Chronological);
@@ -61,7 +61,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests
         {
             _activity.Attachments = new List<Attachment>
             {
-                new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName })
+                new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName }),
             };
 
             var response = SpeechUtility.ListToSpeechReadyString(_activity);
@@ -75,7 +75,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests
             _activity.Attachments = new List<Attachment>
             {
                 new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName }),
-                new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName })
+                new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName }),
             };
 
             var response = SpeechUtility.ListToSpeechReadyString(_activity);
@@ -92,7 +92,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests
             {
                 new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName }),
                 new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName }),
-                new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName })
+                new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName }),
             };
 
             var response = SpeechUtility.ListToSpeechReadyString(_activity);
@@ -111,7 +111,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests
                 new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName }),
                 new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName }),
                 new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName }),
-                new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName })
+                new Attachment(contentType: AdaptiveCard.ContentType, content: new AdaptiveCard() { Speak = listItemSpeakProperty, Type = AdaptiveCard.TypeName }),
             };
 
             var response = SpeechUtility.ListToSpeechReadyString(_activity);

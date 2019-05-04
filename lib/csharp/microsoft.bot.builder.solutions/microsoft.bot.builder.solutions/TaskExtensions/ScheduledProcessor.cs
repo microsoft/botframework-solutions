@@ -36,11 +36,11 @@ namespace Microsoft.Bot.Builder.Solutions.TaskExtensions
                             _backgroundTaskQueue.QueueBackgroundWorkItem(schedule.Task);
                         }
 
-                        await Task.Delay(DelayBetweenTasks, stoppingToken); // 100 milliseconds delay to next task in line
+                        await Task.Delay(DelayBetweenTasks, stoppingToken).ConfigureAwait(false); // 100 milliseconds delay to next task in line
                     }
                 }
 
-                await Task.Delay(DelayBetweenRuns, stoppingToken); // 5 seconds delay to next ScheduledProcessor run
+                await Task.Delay(DelayBetweenRuns, stoppingToken).ConfigureAwait(false); // 5 seconds delay to next ScheduledProcessor run
             }
             while (!stoppingToken.IsCancellationRequested);
         }

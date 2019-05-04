@@ -1,0 +1,26 @@
+{
+  "cognitiveModels": {
+    "en": {
+      "languageModels": [
+        {
+          "version": "",
+          "appid": "",
+          "id": "General",
+          "authoringkey": "",
+          "region": "",
+          "subscriptionkey": "",
+          "name": ""
+        },
+        {
+          "version": "",
+          "appid": "",
+          "id": "WeatherSkill",
+          "authoringkey": "",
+          "region": "",
+          "subscriptionkey": "",
+          "name": ""
+        }
+      ]
+    }
+  }
+}

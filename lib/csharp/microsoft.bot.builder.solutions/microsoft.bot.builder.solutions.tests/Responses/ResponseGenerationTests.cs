@@ -1,6 +1,6 @@
-using Microsoft.Bot.Schema;
-using Microsoft.Bot.Builder.Solutions.Responses;
+﻿using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Tests.Responses;
+using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Bot.Builder.Solutions.Tests

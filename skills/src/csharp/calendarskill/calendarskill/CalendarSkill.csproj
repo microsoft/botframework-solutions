@@ -1,0 +1,321 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <UserSecretsId>2bdd896c-393e-47c4-b6b9-a47238550b83</UserSecretsId>
+    <NoWarn>NU1701</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Content\CalendarCard.json" />
+    <Content Remove="Content\CalendarCardNoJoinButton.json" />
+    <Content Remove="Content\CalendarDate.json" />
+    <Content Remove="Content\CalendarDetail.json" />
+    <Content Remove="Content\CalendarDetailContainerNoParticipants.json" />
+    <Content Remove="Content\CalendarDetailContainerParticipantsLess.json" />
+    <Content Remove="Content\CalendarDetailContainerParticipantsMore.json" />
+    <Content Remove="Content\CalendarDetailNoJoinButton.json" />
+    <Content Remove="Content\CalendarGeneralMeetingList.json" />
+    <Content Remove="Content\CalendarItem.json" />
+    <Content Remove="Content\CalendarOverview.json" />
+    <Content Remove="Responses\ChangeEventStatus\ChangeEventStatusResponses.de.json" />
+    <Content Remove="Responses\ChangeEventStatus\ChangeEventStatusResponses.es.json" />
+    <Content Remove="Responses\ChangeEventStatus\ChangeEventStatusResponses.fr.json" />
+    <Content Remove="Responses\ChangeEventStatus\ChangeEventStatusResponses.it.json" />
+    <Content Remove="Responses\ChangeEventStatus\ChangeEventStatusResponses.json" />
+    <Content Remove="Responses\ChangeEventStatus\ChangeEventStatusResponses.zh.json" />
+    <Content Remove="Responses\CreateEvent\CreateEventResponses.de.json" />
+    <Content Remove="Responses\CreateEvent\CreateEventResponses.es.json" />
+    <Content Remove="Responses\CreateEvent\CreateEventResponses.fr.json" />
+    <Content Remove="Responses\CreateEvent\CreateEventResponses.it.json" />
+    <Content Remove="Responses\CreateEvent\CreateEventResponses.json" />
+    <Content Remove="Responses\CreateEvent\CreateEventResponses.zh.json" />
+    <Content Remove="Responses\FindContact\FindContactResponses.de.json" />
+    <Content Remove="Responses\FindContact\FindContactResponses.es.json" />
+    <Content Remove="Responses\FindContact\FindContactResponses.fr.json" />
+    <Content Remove="Responses\FindContact\FindContactResponses.it.json" />
+    <Content Remove="Responses\FindContact\FindContactResponses.json" />
+    <Content Remove="Responses\FindContact\FindContactResponses.zh.json" />
+    <Content Remove="Responses\JoinEvent\JoinEventResponses.de.json" />
+    <Content Remove="Responses\JoinEvent\JoinEventResponses.es.json" />
+    <Content Remove="Responses\JoinEvent\JoinEventResponses.fr.json" />
+    <Content Remove="Responses\JoinEvent\JoinEventResponses.it.json" />
+    <Content Remove="Responses\JoinEvent\JoinEventResponses.json" />
+    <Content Remove="Responses\JoinEvent\JoinEventResponses.zh.json" />
+    <Content Remove="Responses\Main\CalendarMainResponses.de.json" />
+    <Content Remove="Responses\Main\CalendarMainResponses.es.json" />
+    <Content Remove="Responses\Main\CalendarMainResponses.fr.json" />
+    <Content Remove="Responses\Main\CalendarMainResponses.it.json" />
+    <Content Remove="Responses\Main\CalendarMainResponses.json" />
+    <Content Remove="Responses\Main\CalendarMainResponses.zh.json" />
+    <Content Remove="Responses\Shared\CalendarSharedResponses.de.json" />
+    <Content Remove="Responses\Shared\CalendarSharedResponses.es.json" />
+    <Content Remove="Responses\Shared\CalendarSharedResponses.fr.json" />
+    <Content Remove="Responses\Shared\CalendarSharedResponses.it.json" />
+    <Content Remove="Responses\Shared\CalendarSharedResponses.json" />
+    <Content Remove="Responses\Shared\CalendarSharedResponses.zh.json" />
+    <Content Remove="Responses\Summary\SummaryResponses.de.json" />
+    <Content Remove="Responses\Summary\SummaryResponses.es.json" />
+    <Content Remove="Responses\Summary\SummaryResponses.fr.json" />
+    <Content Remove="Responses\Summary\SummaryResponses.it.json" />
+    <Content Remove="Responses\Summary\SummaryResponses.json" />
+    <Content Remove="Responses\Summary\SummaryResponses.zh.json" />
+    <Content Remove="Responses\TimeRemaining\TimeRemainingResponses.de.json" />
+    <Content Remove="Responses\TimeRemaining\TimeRemainingResponses.es.json" />
+    <Content Remove="Responses\TimeRemaining\TimeRemainingResponses.fr.json" />
+    <Content Remove="Responses\TimeRemaining\TimeRemainingResponses.it.json" />
+    <Content Remove="Responses\TimeRemaining\TimeRemainingResponses.json" />
+    <Content Remove="Responses\TimeRemaining\TimeRemainingResponses.zh.json" />
+    <Content Remove="Responses\UpcomingEvent\UpcomingEventResponses.de.json" />
+    <Content Remove="Responses\UpcomingEvent\UpcomingEventResponses.es.json" />
+    <Content Remove="Responses\UpcomingEvent\UpcomingEventResponses.fr.json" />
+    <Content Remove="Responses\UpcomingEvent\UpcomingEventResponses.it.json" />
+    <Content Remove="Responses\UpcomingEvent\UpcomingEventResponses.json" />
+    <Content Remove="Responses\UpcomingEvent\UpcomingEventResponses.zh.json" />
+    <Content Remove="Responses\UpdateEvent\UpdateEventResponses.de.json" />
+    <Content Remove="Responses\UpdateEvent\UpdateEventResponses.es.json" />
+    <Content Remove="Responses\UpdateEvent\UpdateEventResponses.fr.json" />
+    <Content Remove="Responses\UpdateEvent\UpdateEventResponses.it.json" />
+    <Content Remove="Responses\UpdateEvent\UpdateEventResponses.json" />
+    <Content Remove="Responses\UpdateEvent\UpdateEventResponses.zh.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Apis.Calendar.v3" Version="1.35.2.1354" />
+    <PackageReference Include="Google.Apis.People.v1" Version="1.25.0.830" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.8.10" />
+    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.8.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" Version="2.8.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="1.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Graph" Version="1.10.0" />
+    <PackageReference Include="Microsoft.Recognizers.Text.DataTypes.TimexExpression" Version="1.1.4" />
+    <PackageReference Include="Microsoft.Recognizers.Text.DateTime" Version="1.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Content\CalendarCard.json" />
+    <EmbeddedResource Include="Content\CalendarCardNoJoinButton.json" />
+    <EmbeddedResource Include="Content\CalendarDate.json" />
+    <EmbeddedResource Include="Content\CalendarDetail.json" />
+    <EmbeddedResource Include="Content\CalendarDetailContainerNoParticipants.json" />
+    <EmbeddedResource Include="Content\CalendarDetailContainerParticipantsLess.json" />
+    <EmbeddedResource Include="Content\CalendarDetailContainerParticipantsMore.json" />
+    <EmbeddedResource Include="Content\CalendarDetailNoJoinButton.json" />
+    <EmbeddedResource Include="Content\CalendarGeneralMeetingList.json" />
+    <EmbeddedResource Include="Content\CalendarItem.json" />
+    <EmbeddedResource Include="Content\CalendarOverview.json" />
+    <EmbeddedResource Include="Responses\ChangeEventStatus\ChangeEventStatusResponses.de.json" />
+    <EmbeddedResource Include="Responses\ChangeEventStatus\ChangeEventStatusResponses.es.json" />
+    <EmbeddedResource Include="Responses\ChangeEventStatus\ChangeEventStatusResponses.fr.json" />
+    <EmbeddedResource Include="Responses\ChangeEventStatus\ChangeEventStatusResponses.it.json" />
+    <EmbeddedResource Include="Responses\ChangeEventStatus\ChangeEventStatusResponses.json" />
+    <EmbeddedResource Include="Responses\ChangeEventStatus\ChangeEventStatusResponses.zh.json" />
+    <EmbeddedResource Include="Responses\CreateEvent\CreateEventResponses.de.json" />
+    <EmbeddedResource Include="Responses\CreateEvent\CreateEventResponses.es.json" />
+    <EmbeddedResource Include="Responses\CreateEvent\CreateEventResponses.fr.json" />
+    <EmbeddedResource Include="Responses\CreateEvent\CreateEventResponses.it.json" />
+    <EmbeddedResource Include="Responses\CreateEvent\CreateEventResponses.json" />
+    <EmbeddedResource Include="Responses\CreateEvent\CreateEventResponses.zh.json" />
+    <EmbeddedResource Include="Responses\FindContact\FindContactResponses.de.json" />
+    <EmbeddedResource Include="Responses\FindContact\FindContactResponses.es.json" />
+    <EmbeddedResource Include="Responses\FindContact\FindContactResponses.fr.json" />
+    <EmbeddedResource Include="Responses\FindContact\FindContactResponses.it.json" />
+    <EmbeddedResource Include="Responses\FindContact\FindContactResponses.json" />
+    <EmbeddedResource Include="Responses\FindContact\FindContactResponses.zh.json" />
+    <EmbeddedResource Include="Responses\JoinEvent\JoinEventResponses.de.json" />
+    <EmbeddedResource Include="Responses\JoinEvent\JoinEventResponses.es.json" />
+    <EmbeddedResource Include="Responses\JoinEvent\JoinEventResponses.fr.json" />
+    <EmbeddedResource Include="Responses\JoinEvent\JoinEventResponses.it.json" />
+    <EmbeddedResource Include="Responses\JoinEvent\JoinEventResponses.json" />
+    <EmbeddedResource Include="Responses\JoinEvent\JoinEventResponses.zh.json" />
+    <EmbeddedResource Include="Responses\Main\CalendarMainResponses.de.json" />
+    <EmbeddedResource Include="Responses\Main\CalendarMainResponses.es.json" />
+    <EmbeddedResource Include="Responses\Main\CalendarMainResponses.fr.json" />
+    <EmbeddedResource Include="Responses\Main\CalendarMainResponses.it.json" />
+    <EmbeddedResource Include="Responses\Main\CalendarMainResponses.json" />
+    <EmbeddedResource Include="Responses\Main\CalendarMainResponses.zh.json" />
+    <EmbeddedResource Include="Responses\Shared\CalendarSharedResponses.de.json" />
+    <EmbeddedResource Include="Responses\Shared\CalendarSharedResponses.es.json" />
+    <EmbeddedResource Include="Responses\Shared\CalendarSharedResponses.fr.json" />
+    <EmbeddedResource Include="Responses\Shared\CalendarSharedResponses.it.json" />
+    <EmbeddedResource Include="Responses\Shared\CalendarSharedResponses.json" />
+    <EmbeddedResource Include="Responses\Shared\CalendarSharedResponses.zh.json" />
+    <EmbeddedResource Include="Responses\Summary\SummaryResponses.de.json" />
+    <EmbeddedResource Include="Responses\Summary\SummaryResponses.es.json" />
+    <EmbeddedResource Include="Responses\Summary\SummaryResponses.fr.json" />
+    <EmbeddedResource Include="Responses\Summary\SummaryResponses.it.json" />
+    <EmbeddedResource Include="Responses\Summary\SummaryResponses.json" />
+    <EmbeddedResource Include="Responses\Summary\SummaryResponses.zh.json" />
+    <EmbeddedResource Include="Responses\TimeRemaining\TimeRemainingResponses.de.json" />
+    <EmbeddedResource Include="Responses\TimeRemaining\TimeRemainingResponses.es.json" />
+    <EmbeddedResource Include="Responses\TimeRemaining\TimeRemainingResponses.fr.json" />
+    <EmbeddedResource Include="Responses\TimeRemaining\TimeRemainingResponses.it.json" />
+    <EmbeddedResource Include="Responses\TimeRemaining\TimeRemainingResponses.json" />
+    <EmbeddedResource Include="Responses\TimeRemaining\TimeRemainingResponses.zh.json" />
+    <EmbeddedResource Include="Responses\UpcomingEvent\UpcomingEventResponses.de.json" />
+    <EmbeddedResource Include="Responses\UpcomingEvent\UpcomingEventResponses.es.json" />
+    <EmbeddedResource Include="Responses\UpcomingEvent\UpcomingEventResponses.fr.json" />
+    <EmbeddedResource Include="Responses\UpcomingEvent\UpcomingEventResponses.it.json" />
+    <EmbeddedResource Include="Responses\UpcomingEvent\UpcomingEventResponses.json" />
+    <EmbeddedResource Include="Responses\UpcomingEvent\UpcomingEventResponses.zh.json" />
+    <EmbeddedResource Include="Responses\UpdateEvent\UpdateEventResponses.de.json" />
+    <EmbeddedResource Include="Responses\UpdateEvent\UpdateEventResponses.es.json" />
+    <EmbeddedResource Include="Responses\UpdateEvent\UpdateEventResponses.fr.json" />
+    <EmbeddedResource Include="Responses\UpdateEvent\UpdateEventResponses.it.json" />
+    <EmbeddedResource Include="Responses\UpdateEvent\UpdateEventResponses.json" />
+    <EmbeddedResource Include="Responses\UpdateEvent\UpdateEventResponses.zh.json" />
+    <EmbeddedResource Include="Utilities\WindowsIanaMapping" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ChangeEventStatusResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\ChangeEventStatus\ChangeEventStatusResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ChangeEventStatusResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\CreateEvent\CreateEventResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CreateEventResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\FindContact\FindContactResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FindContactResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\JoinEvent\JoinEventResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>JoinEventResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\Main\CalendarMainResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CalendarMainResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\Shared\CalendarCommonStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CalendarCommonStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\Shared\CalendarSharedResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CalendarSharedResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\Summary\SummaryResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SummaryResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\TimeRemaining\TimeRemainingResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TimeRemainingResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\UpcomingEvent\UpcomingEventResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UpcomingEventResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\UpdateEvent\UpdateEventResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UpdateEventResponses.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Dialogs\DeleteEvent\Resources\ChangeEventStatusResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ChangeEventStatusResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\ChangeEventStatus\ChangeEventStatusResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ChangeEventStatusResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\CreateEvent\CreateEventResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CreateEventResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\FindContact\FindContactResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FindContactResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\JoinEvent\JoinEventResponses.tt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>JoinEventResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\Main\CalendarMainResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CalendarMainResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\Shared\CalendarSharedResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CalendarSharedResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\Shared\ResponseIdCollection.t4">
+      <Generator></Generator>
+    </None>
+    <None Update="Responses\Summary\SummaryResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SummaryResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\TimeRemaining\TimeRemainingResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TimeRemainingResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\UpcomingEvent\UpcomingEventResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpcomingEventResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\UpdateEvent\UpdateEventResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpdateEventResponses.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Responses\Shared\CalendarCommonStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CalendarCommonStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>  
+
+  <ItemGroup>
+    <None Update="*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="LocaleConfigurations\*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+</Project>

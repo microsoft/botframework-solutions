@@ -79,7 +79,7 @@ namespace Microsoft.Bot.Builder.Solutions.Middleware
                 context.TurnState.Add(TextModeratorResultKey, screenResult);
             }
 
-            await next(cancellationToken);
+            await next(cancellationToken).ConfigureAwait(false);
         }
     }
 }

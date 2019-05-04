@@ -1,0 +1,177 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <UserSecretsId>d8c5f2ea-e759-4038-8a4b-17e0f81e8a46</UserSecretsId>
+    <NoWarn>NU1701</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="CognitiveModels\**" />
+    <Compile Remove="DeploymentScripts\**" />
+    <Content Remove="CognitiveModels\**" />
+    <Content Remove="DeploymentScripts\**" />
+    <EmbeddedResource Remove="CognitiveModels\**" />
+    <EmbeddedResource Remove="DeploymentScripts\**" />
+    <None Remove="CognitiveModels\**" />
+    <None Remove="DeploymentScripts\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Content\ShowTodoCard.json" />
+    <Content Remove="Content\ShowTodoItem.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="1.2.0" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Graph" Version="1.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Content\ShowTodoCard.json" />
+    <EmbeddedResource Include="Content\ShowTodoItem.json" />
+    <EmbeddedResource Include="Responses\AddToDo\AddToDoResponses.de.json" />
+    <EmbeddedResource Include="Responses\AddToDo\AddToDoResponses.es.json" />
+    <EmbeddedResource Include="Responses\AddToDo\AddToDoResponses.fr.json" />
+    <EmbeddedResource Include="Responses\AddToDo\AddToDoResponses.it.json" />
+    <EmbeddedResource Include="Responses\AddToDo\AddToDoResponses.json" />
+    <EmbeddedResource Include="Responses\AddToDo\AddToDoResponses.zh.json" />
+    <EmbeddedResource Include="Responses\DeleteToDo\DeleteToDoResponses.de.json" />
+    <EmbeddedResource Include="Responses\DeleteToDo\DeleteToDoResponses.es.json" />
+    <EmbeddedResource Include="Responses\DeleteToDo\DeleteToDoResponses.fr.json" />
+    <EmbeddedResource Include="Responses\DeleteToDo\DeleteToDoResponses.it.json" />
+    <EmbeddedResource Include="Responses\DeleteToDo\DeleteToDoResponses.json" />
+    <EmbeddedResource Include="Responses\DeleteToDo\DeleteToDoResponses.zh.json" />
+    <EmbeddedResource Include="Responses\Main\ToDoMainResponses.de.json" />
+    <EmbeddedResource Include="Responses\Main\ToDoMainResponses.es.json" />
+    <EmbeddedResource Include="Responses\Main\ToDoMainResponses.fr.json" />
+    <EmbeddedResource Include="Responses\Main\ToDoMainResponses.it.json" />
+    <EmbeddedResource Include="Responses\Main\ToDoMainResponses.json" />
+    <EmbeddedResource Include="Responses\Main\ToDoMainResponses.zh.json" />
+    <EmbeddedResource Include="Responses\MarkToDo\MarkToDoResponses.de.json" />
+    <EmbeddedResource Include="Responses\MarkToDo\MarkToDoResponses.es.json" />
+    <EmbeddedResource Include="Responses\MarkToDo\MarkToDoResponses.fr.json" />
+    <EmbeddedResource Include="Responses\MarkToDo\MarkToDoResponses.it.json" />
+    <EmbeddedResource Include="Responses\MarkToDo\MarkToDoResponses.json" />
+    <EmbeddedResource Include="Responses\MarkToDo\MarkToDoResponses.zh.json" />
+    <EmbeddedResource Include="Responses\Shared\ToDoSharedResponses.de.json" />
+    <EmbeddedResource Include="Responses\Shared\ToDoSharedResponses.es.json" />
+    <EmbeddedResource Include="Responses\Shared\ToDoSharedResponses.fr.json" />
+    <EmbeddedResource Include="Responses\Shared\ToDoSharedResponses.it.json" />
+    <EmbeddedResource Include="Responses\Shared\ToDoSharedResponses.json" />
+    <EmbeddedResource Include="Responses\Shared\ToDoSharedResponses.zh.json" />
+    <EmbeddedResource Include="Responses\ShowToDo\ShowToDoResponses.de.json" />
+    <EmbeddedResource Include="Responses\ShowToDo\ShowToDoResponses.es.json" />
+    <EmbeddedResource Include="Responses\ShowToDo\ShowToDoResponses.fr.json" />
+    <EmbeddedResource Include="Responses\ShowToDo\ShowToDoResponses.it.json" />
+    <EmbeddedResource Include="Responses\ShowToDo\ShowToDoResponses.json" />
+    <EmbeddedResource Include="Responses\ShowToDo\ShowToDoResponses.zh.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Responses\AddToDo\AddToDoResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AddToDoResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\DeleteToDo\DeleteToDoResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DeleteToDoResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\Main\ToDoMainResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ToDoMainResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\MarkToDo\MarkToDoResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MarkToDoResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\Shared\ToDoSharedResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ToDoSharedResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\Shared\ToDoStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ToDoStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\ShowToDo\ShowToDoResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ShowToDoResponses.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Responses\Shared\ToDoStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ToDoStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="LocaleConfigurations\*.bot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Responses\AddToDo\AddToDoResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AddToDoResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\DeleteToDo\DeleteToDoResponses.tt">
+      <LastGenOutput>DeleteToDoResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Responses\Main\ToDoMainResponses.tt">
+      <LastGenOutput>ToDoMainResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Responses\MarkToDo\MarkToDoResponses.tt">
+      <LastGenOutput>MarkToDoResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Responses\Shared\ResponseIdCollection.t4">
+      <Generator></Generator>
+    </None>
+    <None Update="Responses\Shared\ToDoSharedResponses.tt">
+      <LastGenOutput>ToDoSharedResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Responses\ShowToDo\ShowToDoResponses.tt">
+      <LastGenOutput>ShowToDoResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+</Project>

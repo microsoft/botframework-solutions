@@ -1,0 +1,80 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Utterances\**" />
+    <EmbeddedResource Remove="Utterances\**" />
+    <None Remove="Utterances\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="InvokeSkillTests.cs" />
+    <Compile Remove="SkillTestBase.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="calendarSkill.json" />
+    <None Remove="luisCalendarModelResponse.json" />
+    <None Remove="malformedManifestTemplate.json" />
+    <None Remove="manifestInvalidIntent.json" />
+    <None Remove="manifestInvalidLUISModel.json" />
+    <None Remove="skillBeginEvent.json" />
+    <None Remove="skillBeginEventWithOneParam.json" />
+    <None Remove="skillBeginEventWithTwoParams.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="TestData\luisCalendarModelResponse.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\malformedManifestTemplate.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\manifestInvalidIntent.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\manifestInvalidLUISModel.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="manifestTemplate.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\skillBeginEvent.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\skillBeginEventWithOneParam.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\skillBeginEventWithTwoParams.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0-preview3.19153.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.3.2" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.3.2" />
+    <PackageReference Include="RichardSzalay.MockHttp" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Bot.Builder.Skills\Microsoft.Bot.Builder.Skills.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Bot.Protocol">
+      <HintPath>..\Microsoft.Bot.Builder.Skills\Dependencies\Microsoft.Bot.Protocol.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+</Project>
