@@ -59,7 +59,7 @@ A Virtual Assistant app (in C#) that greets a new user.
 
 1. In Visual Studio, replace **File > New Project**.
 2. Under Bot, select **Virtual Assistant Template**.
-3. Name your project and replace **Create**.
+3. Name your project and select **Create**.
 4. Build your project to restore the NuGet packages.
 
 You now have your own Virtual Assistant! Before trying to run your assistant locally, continue with the deployment steps (it creates vital dependencies requires to run correctly).
