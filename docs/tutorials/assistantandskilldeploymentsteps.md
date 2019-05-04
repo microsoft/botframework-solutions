@@ -31,8 +31,6 @@ Then once created retrieve the `Application (ClientId)` and create a new client 
 
 Run the above deployment script again but provide two new arguments `appId` and `appPassword` passing the values you've just retrieved.
 
-You also need to set
-
 > NOTE: Take special care when providing the appSecret step above as special characters (e.g. @) can cause parse issues. Ensure you wrap these parameters in single quotes.
 
 ## Customising deployment using the parameters file
