@@ -7,8 +7,16 @@
  */
 
 export * from './auth';
-export * from './skillAdapter';
+export * from './http';
+export * from './models';
+export * from './protocol';
+export * from './responses/skillResponses';
+export * from './websocket';
+export * from './activityHandler';
+export * from './skillCallingRequestHandler';
 export * from './skillContext';
 export * from './skillDialog';
+export * from './skillException';
+export * from './skillMiddleware';
 export * from './skillRouter';
-export * from './models';
+export * from './skillTransport';

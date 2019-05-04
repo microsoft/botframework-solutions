@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-export * from './jwtClaimAuthProvider';
+export * from './authenticationProvider';
 export * from './microsoftAppCredentialsEx';
-export * from './skillAuthProvider';
-export * from './skillWhitelist';
+export * from './msJWTAuthenticationProvider';
+export * from './serviceClientCredentials';
