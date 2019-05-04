@@ -99,7 +99,7 @@ You can now publish your Skill to Azure using the usual deployment tools and ena
 
 ## Adding your Skill to an assistant
 
-To add your new Skill to your assistant/Bot, run the following command from a command prompt within the directory of your assistant/Bot. At this time we have a powershell script and a preview botskills CLI.
+To add your new Skill to your assistant/Bot, run the following command from a command prompt **within the directory of your assistant/Bot**. At this time we have a powershell script and a preview botskills CLI.
 
 ``
 .\Deployment\scripts\add_remote_skill.ps1 -botName "YOUR_BOT_NAME" -manifestUrl https://YOUR_SKILL.azurewebsites.net/api/skill/manifest
