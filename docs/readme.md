@@ -19,9 +19,9 @@
 
 |Name|Description|
 |:-------------:|-----------|
-|[<img src="./media/vatemplateintrocard.png" width="200"><br/>**Virtual Assistant**](/docs/overview/virtualassistant.md)|An introduction to the Virtual Assistant template and key concepts.|
-|[<img src="./media/calendarskillcardexample.png" width="200"><br/>**Skills**](/docs/overview/skills.md)|Developers can compose conversational experiences by stitching together re-usable conversational capabilities, known as Skills.|
-|[<img src="./media/powerbi-conversationanalytics-luisintents.png" width="200"><br/>**Analytics**](/docs/overview/analytics.md)|Gain key insights into your bot’s health and behavior|
+|[<img src="./media/vatemplateintrocard.png" width="400"><br/>**Virtual Assistant**](/docs/overview/virtualassistant.md)|An introduction to the Virtual Assistant template and key concepts.|
+|[<img src="./media/calendarskillcardexample.png" width="400"><br/>**Skills**](/docs/overview/skills.md)|Developers can compose conversational experiences by stitching together re-usable conversational capabilities, known as Skills.|
+|[<img src="./media/powerbi-conversationanalytics-luisintents.png" width="400"><br/>**Analytics**](/docs/overview/analytics.md)|Gain key insights into your bot’s health and behavior|
 
 # Tutorials
 
