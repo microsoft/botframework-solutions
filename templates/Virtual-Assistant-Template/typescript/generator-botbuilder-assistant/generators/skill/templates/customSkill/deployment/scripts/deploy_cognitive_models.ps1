@@ -80,9 +80,9 @@ foreach ($language in $languages -split ",")
 			$config.languageModels += @{
 				id = $lu.BaseName
 				name = $luisApp.name
-				appid = $luisApp.id
-				authoringkey = $luisauthoringkey
-				subscriptionkey = $luisauthoringkey
+				appId = $luisApp.id
+				authoringKey = $luisauthoringkey
+				subscriptionKey = $luisauthoringkey
 				version = $luisApp.activeVersion
 				region = $location
 			}
@@ -97,6 +97,7 @@ foreach ($language in $languages -split ",")
     # Add config to cognitivemodels dictionary
     $settings.cognitiveModels | Add-Member -Type NoteProperty -Force -Name $langCode -Value $config
 }
+$settings | Add-Member -Type NoteProperty -Force -Name "defaultLocale" -Value "en"
 
 # Write out config to file
 $settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $outFolder "cognitivemodels.json" )
