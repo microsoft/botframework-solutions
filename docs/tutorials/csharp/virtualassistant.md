@@ -1,4 +1,4 @@
-# Quickstart: Creating your first Virtual Assistant (C#)
+# Quickstart: Create your first Virtual Assistant (C#)
 
 **APPLIES TO:** ✅ SDK v4
 
@@ -100,4 +100,4 @@ When deployment is complete, you can run your Virtual Assistant debugging throug
 
 ## Next Steps
 
-Now that you've got the basics, continue [customizing your Virtual Assistant](/docs/tutorials/typescript/customizeassistant.md).
+Now that you've got the basics, continue [customizing your Virtual Assistant](/docs/tutorials/csharp/customizeassistant.md).

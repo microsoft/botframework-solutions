@@ -1,8 +1,0 @@
-# node.js dependencies folder
-node_modules/
-
-# Bot Files
-*.bot
-
-#generator tests
-test/

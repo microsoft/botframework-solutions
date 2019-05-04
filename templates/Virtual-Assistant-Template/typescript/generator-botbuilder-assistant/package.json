@@ -9,6 +9,7 @@
   "files": [
     "generators",
     "app",
+    "skill",
     ".gitignore",
     ".npmignore"
   ],
@@ -17,6 +18,7 @@
     "botbuilder",
     "VA",
     "bots",
+    "skills",
     "bot framework",
     "Microsoft AI",
     "yeoman-generator",
