@@ -1,0 +1,148 @@
+{
+    "DidntUnderstandMessage": {
+      "replies": [
+        {
+          "speak": "Lo siento, no entendí lo que quería decir.",
+          "text": "Lo siento, no entendí lo que quería decir."
+        },
+        {
+          "speak": "No entendía, tal vez intentarlo de nuevo de una manera diferente.",
+          "text": "No entendía, tal vez intentarlo de nuevo de una manera diferente."
+        },
+        {
+          "speak": "¿Puedes intentar preguntar de otra manera?",
+          "text": "¿Puedes intentar preguntar de otra manera?"
+        },
+        {
+          "speak": "No entiendo lo que quieres decir, ¿puedes intentarlo de una manera diferente?",
+          "text": "No entiendo lo que quieres decir, ¿puedes intentarlo de una manera diferente?"
+        },
+        {
+          "speak": "¿Podrías elaborar?",
+          "text": "¿Podrías elaborar?"
+        },
+        {
+          "speak": "Por favor, vuelva a decirlo de otra manera.",
+          "text": "Por favor, vuelva a decirlo de otra manera."
+        },
+        {
+          "speak": "No lo entiendo.",
+          "text": "No lo entiendo."
+        },
+        {
+          "speak": "¿Puedes decir eso de otra manera?",
+          "text": "¿Puedes decir eso de otra manera?"
+        },
+        {
+          "speak": "¿Puedes intentar preguntarme otra vez? No entiendo lo que quieres decir.",
+          "text": "¿Puedes intentar preguntarme otra vez? No entiendo lo que quieres decir."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "CancellingMessage": {
+      "replies": [
+        {
+          "speak": "Claro, podemos hacer esto más tarde.",
+          "text": "Claro, podemos hacer esto más tarde."
+        },
+        {
+          "speak": "Claro, podemos empezar esto más tarde.",
+          "text": "Claro, podemos empezar esto más tarde."
+        },
+        {
+          "speak": "No hay problema, puedes intentarlo de nuevo en otro momento.",
+          "text": "No hay problema, puedes intentarlo de nuevo en otro momento."
+        },
+        {
+          "speak": "Bien, Avísame cuando necesites mi ayuda.",
+          "text": "Bien, Avísame cuando necesites mi ayuda."
+        },
+        {
+          "speak": "Claro, estoy aquí si me necesitas.",
+          "text": "Claro, estoy aquí si me necesitas."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "NoAuth": {
+      "replies": [
+        {
+          "speak": "Por favor, inicie sesión antes de tomar otras medidas.",
+          "text": "Por favor, inicie sesión antes de tomar otras medidas."
+        },
+        {
+          "speak": "Por favor, inicie sesión para que pueda tomar más medidas.",
+          "text": "Por favor, inicie sesión para que pueda tomar más medidas."
+        },
+        {
+          "speak": "Por favor, inicie sesión para que pueda proceder con su solicitud.",
+          "text": "Por favor, inicie sesión para que pueda proceder con su solicitud."
+        },
+        {
+          "speak": "¿Puedes iniciar sesión para poder ayudarte más?",
+          "text": "¿Puedes iniciar sesión para poder ayudarte más?"
+        },
+        {
+          "speak": "Tienes que iniciar sesión para que pueda tomar más medidas.",
+          "text": "Tienes que iniciar sesión para que pueda tomar más medidas."
+        }
+      ],
+      "inputHint": "expectingInput"
+    },
+    "AuthFailed": {
+      "replies": [
+        {
+          "speak": "Error de autenticación. Por favor inténtalo de nuevo.",
+          "text": "Error de autenticación. Por favor, inténtelo de nuevo"
+        },
+        {
+          "speak": "No ha podido iniciar sesión. Por favor inténtelo de nuevo más tarde.",
+          "text": "No ha podido iniciar sesión. Por favor inténtelo de nuevo más tarde."
+        },
+        {
+          "speak": "Falló el registro. Probemos esto de nuevo.",
+          "text": "Falló el registro. Probemos esto de nuevo."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "ActionEnded": {
+      "replies": [
+        {
+          "speak": "Hazme saber si necesitas mi ayuda con otra cosa.",
+          "text": "Hazme saber si necesitas mi ayuda con otra cosa."
+        },
+        {
+          "speak": "Estoy aquí si me necesitas.",
+          "text": "Estoy aquí si me necesitas."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "ErrorMessage": {
+      "replies": [
+        {
+          "speak": "¡Lo siento, parece que algo salió mal!",
+          "text": "¡Lo siento, parece que algo salió mal!"
+        },
+        {
+          "speak": "Se ha producido un error, inténtelo de nuevo más tarde.",
+          "text": "Se ha producido un error, inténtelo de nuevo más tarde."
+        },
+        {
+          "speak": "Algo salió mal, lo siento!",
+          "text": "Algo salió mal, lo siento!"
+        },
+        {
+          "speak": "Parece que algo salió mal. ¿Puedes intentarlo de nuevo más tarde?",
+          "text": "Parece que algo salió mal. ¿Puedes intentarlo de nuevo más tarde?"
+        },
+        {
+          "speak": "Lamento no poder ayudar ahora mismo. Por favor inténtelo de nuevo más tarde.",
+          "text": "Lamento no poder ayudar ahora mismo. Por favor inténtelo de nuevo más tarde."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    }
+}

@@ -30,7 +30,7 @@ namespace Microsoft.Bot.Builder.Solutions.Proactive
 
             if (activity.From.Properties["role"].ToString().Equals("user", StringComparison.InvariantCultureIgnoreCase))
             {
-                var proactiveState = await _proactiveStateAccessor.GetAsync(turnContext, () => new ProactiveModel());
+                var proactiveState = await _proactiveStateAccessor.GetAsync(turnContext, () => new ProactiveModel()).ConfigureAwait(false);
                 ProactiveModel.ProactiveData data;
                 var hashedUserId = MD5Util.ComputeHash(turnContext.Activity.From.Id);
                 var conversationReference = turnContext.Activity.GetConversationReference();
@@ -46,8 +46,8 @@ namespace Microsoft.Bot.Builder.Solutions.Proactive
                 }
 
                 proactiveState[hashedUserId] = data;
-                await _proactiveStateAccessor.SetAsync(turnContext, proactiveState);
-                await _proactiveState.SaveChangesAsync(turnContext);
+                await _proactiveStateAccessor.SetAsync(turnContext, proactiveState).ConfigureAwait(false);
+                await _proactiveState.SaveChangesAsync(turnContext).ConfigureAwait(false);
             }
 
             await next(cancellationToken).ConfigureAwait(false);

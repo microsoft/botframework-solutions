@@ -1,0 +1,45 @@
+{
+  "cognitiveModels": {
+    "en": {
+      "languageModels": [
+        {
+          "id": "general",
+          "name": "",
+          "appId": "",
+          "authoringKey": "",
+          "subscriptionKey": "",
+          "version": "",
+          "region": ""
+        },
+        {
+          "id": "settings",
+          "name": "",
+          "appId": "",
+          "authoringKey": "",
+          "subscriptionKey": "",
+          "version": "",
+          "region": ""
+        },
+        {
+          "id": "settings_name",
+          "name": "",
+          "appId": "",
+          "authoringKey": "",
+          "subscriptionKey": "",
+          "version": "",
+          "region": ""
+        },
+        {
+          "id": "settings_value",
+          "name": "",
+          "appId": "",
+          "authoringKey": "",
+          "subscriptionKey": "",
+          "version": "",
+          "region": ""
+        }
+      ]
+    }
+  },
+  "defaultLocale": "en-us"
+}

@@ -1,0 +1,97 @@
+{
+  "id": "pointOfInterestSkill",
+  "name": "Point Of Interest Skill",
+  "description": "The Point of Interest skill provides PoI search capabilities leveraging Azure Maps and Foursquare.",
+  "iconUrl": "poiSkill.png",
+  "authenticationConnections": [ ],
+  "actions": [
+    {
+      "id": "poiskill_routeFromXToY",
+      "definition": {
+        "description": "Find a route from X to Y",
+        "slots": [
+          {
+            "name": "Location",
+            "types": [ "string" ]
+          }
+        ],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "pointofinterest#NAVIGATION_ROUTE_FROM_X_TO_Y"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "poiskill_cancelRoute",
+      "definition": {
+        "description": "Cancel an active route.",
+        "slots": [
+          {
+            "name": "Location",
+            "types": [ "string" ]
+          }
+        ],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "pointofinterest#NAVIGATION_CANCEL_ROUTE"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "poiskill_findPoI",
+      "definition": {
+        "description": "Find a point of interest.",
+        "slots": [
+          {
+            "name": "Location",
+            "types": [ "string" ]
+          }
+        ],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "pointofinterest#NAVIGATION_FIND_POINTOFINTEREST"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "poiskill_findParking",
+      "definition": {
+        "description": "Find parking",
+        "slots": [
+          {
+            "name": "Location",
+            "types": [ "string" ]
+          }
+        ],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "pointofinterest#NAVIGATION_FIND_PARKING"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

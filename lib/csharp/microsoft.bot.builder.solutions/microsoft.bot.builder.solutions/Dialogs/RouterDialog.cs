@@ -21,7 +21,7 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var status = await OnInterruptDialogAsync(innerDc, cancellationToken);
+            var status = await OnInterruptDialogAsync(innerDc, cancellationToken).ConfigureAwait(false);
 
             if (status == InterruptionAction.MessageSentToUser)
             {
@@ -40,34 +40,44 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
 
                 if (activity.IsStartActivity())
                 {
-                    await OnStartAsync(innerDc);
+                    await OnStartAsync(innerDc).ConfigureAwait(false);
                 }
 
                 switch (activity.Type)
                 {
                     case ActivityTypes.Message:
                         {
-                            var result = await innerDc.ContinueDialogAsync();
-
-                            switch (result.Status)
+                            // Note: This check is a workaround for adaptive card buttons that should map to an event (i.e. startOnboarding button in intro card)
+                            if (activity.Value != null)
                             {
-                                case DialogTurnStatus.Empty:
-                                    {
-                                        await RouteAsync(innerDc);
-                                        break;
-                                    }
+                                await OnEventAsync(innerDc).ConfigureAwait(false);
+                            }
+                            else if (!string.IsNullOrEmpty(activity.Text))
+                            {
+                                var result = await innerDc.ContinueDialogAsync().ConfigureAwait(false);
 
-                                case DialogTurnStatus.Complete:
-                                case DialogTurnStatus.Cancelled:
-                                    {
-                                        await CompleteAsync(innerDc, result);
-                                        break;
-                                    }
+                                switch (result.Status)
+                                {
+                                    case DialogTurnStatus.Empty:
+                                        {
+                                            await RouteAsync(innerDc).ConfigureAwait(false);
+                                            break;
+                                        }
 
-                                default:
-                                    {
-                                        break;
-                                    }
+                                    case DialogTurnStatus.Complete:
+                                        {
+                                            await CompleteAsync(innerDc).ConfigureAwait(false);
+
+                                            // End active dialog
+                                            await innerDc.EndDialogAsync().ConfigureAwait(false);
+                                            break;
+                                        }
+
+                                    default:
+                                        {
+                                            break;
+                                        }
+                                }
                             }
 
                             break;
@@ -75,13 +85,13 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
 
                     case ActivityTypes.Event:
                         {
-                            await OnEventAsync(innerDc);
+                            await OnEventAsync(innerDc).ConfigureAwait(false);
                             break;
                         }
 
                     default:
                         {
-                            await OnSystemMessageAsync(innerDc);
+                            await OnSystemMessageAsync(innerDc).ConfigureAwait(false);
                             break;
                         }
                 }

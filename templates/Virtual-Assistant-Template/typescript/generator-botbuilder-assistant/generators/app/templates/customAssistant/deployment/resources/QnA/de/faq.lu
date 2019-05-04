@@ -1,0 +1,387 @@
+> # QnA pairs
+
+> Source: Editorial
+## ? Was ist ein virtueller Assistent
+
+```markdown
+Wir haben ein erhebliches Bedürfnis unserer Kunden und Partner gesehen, einen auf ihre Marke zugeschnittenen, auf ihre Kunden zugeschnittenen und über eine breite Palette von Konversationsgeräten und-geräten zugeschnittenen Assistenten zu liefern. Die Open-Source-Lösung Virtual Assistant von Microsoft setzt den Open-Sourcer-Ansatz für Bot Framework SDK fort und bietet die volle Kontrolle über die Erfahrung des Endverbrauchers, die auf einer Reihe von grundlegenden Fähigkeiten basiert. Darüber hinaus kann die Erfahrung mit Intelligenz über den Endverbraucher und alle deviko/Ökosystem-Informationen für eine wirklich integrierte und intelligente Erfahrung durchdrungen werden.
+Weitere Informationen [hier] (https:/github.com/Microsoft/AI/blob/solutions/Virtual-Assistant/docs/README.md).
+```
+
+> Source: Editorial
+## ? Was ist eine Fähigkeit
+
+```markdown
+Es gibt eine breite Palette gemeinsamer Fähigkeiten, die heute von jedem Entwickler gezwungen werden, sich selbst aufzubauen. Unsere Virtual-Assistant-Lösung beinhaltet eine neue Skill-Fähigkeit, die es ermöglicht, neue Fähigkeiten nur durch Konfiguration in einen virtuellen Assistenten einzubinden und einen Authentifizierungsmechanismus für Skills bereitzustellen, um Token für nachgelagerte Aktivitäten anzufordern.
+Erfahren Sie mehr [hier] (https:/github.com/Microsoft/AI/blob/solutions/Virtual-Assistenten-skills.md).
+```
+
+> Source: Editorial
+## ? Was kann die Kalenderqualifikationen tun?
+
+```markdown
+## Übersicht
+Die Kalenderkompetenz bietet einem virtuellen Assistenten die kalendarbezogenen Fähigkeiten. Die gängigsten Szenarien wurden in dieser ersten Version mit zusätzlichen Szenarien in der Entwicklung umgesetzt.
+## Supported Scenarios
+Folgende Szenarien werden derzeit von der Fähigkeit unterstützt:
+-Zusammenfassung der Besprechung-z.B. ** Was ist in meinem Kalender **
+-Next Meeting-z.B. ** Was ist mein nächstes Treffen **
+-Erstellen Sie ein Meeting-z.B. ein Meeting buchen
+-Update a meeting-z.B. Update meeting
+-Treffen löschen-z.B. Treffen löschen
+```
+
+> Source: Editorial
+## ? Was kann die E-Mail-Fähigung tun?
+
+```markdown
+# Übersicht
+Die E-Mail-Fähigung stellt E-Mail-bezogene Fähigkeiten an einen virtuellen Assistenten zur Verfügung. Die gängigsten Szenarien wurden in dieser ersten Version mit zusätzlichen Szenarien in der Entwicklung umgesetzt.
+## Supported Scenarios
+Folgende Szenarien werden derzeit von der Fähigkeit unterstützt:
+-Senden Sie eine E-Mail
+-Senden Sie eine E-Mail an John Smith
+-Senden Sie eine E-Mail
+-E-Mail finden
+-E-Mail von John Smith finden
+-Welche E-Mail habe ich
+```
+
+> Source: Editorial
+## ? Was können die Point-of-Interest Skill tun?
+
+```markdown
+## Übersicht
+Die "Point of Interest Skill" bietet einem virtuellen Assistenten poI-bezogene Fähigkeiten. Die gängigsten Szenarien wurden in dieser ersten Version mit zusätzlichen Szenarien in der Entwicklung umgesetzt.
+## Supported Scenarios
+Folgende Szenarien werden derzeit von der Fähigkeit unterstützt:
+-NAVIGATION _ ROUTE _ FROM _ X _ TO _ Y
+-Wie kommt man am schnellsten zur 221B Baker Street?
+-Wie komme ich zum Lebensmittelgeschäft?
+-Ich brauche eine Anfahrt zu einem Café
+-NAVIGATION _ FIND _ POINTOFINTEREST
+-Was ist in der Nähe?
+-Gibt es Apotheken in der Stadt?
+-Können Sie ein preiswertes Restaurant in Seattle empfehlen?
+-NAVIGATION _ CANCEL _ ROUTE
+-Ich will nicht mehr in den Laden
+-Möchten Sie meine Route abbrechen?
+-Am zweiten Gedanken vergessen, zum Flughafen zu gehen
+```
+
+> Source: Editorial
+## ? Was kann die ToDo Skill tun?
+
+```markdown
+## Übersicht
+Die Task Skill bietet einem virtuellen Assistenten aufgabenbezogene Fähigkeiten. Die gängigsten Szenarien wurden in dieser ersten Version mit zusätzlichen Szenarien in der Entwicklung umgesetzt.
+## Supported Scenarios
+Folgende Szenarien werden derzeit von der Fähigkeit unterstützt:
+-Eine Aufgabe hinzufügen
+-Erinnern Sie mich, Milch zu holen
+-Aufgaben hinzufügen
+-Aufgaben finden
+Welche Aufgaben habe ich
+```
+
+> Source: Editorial
+## ? Was ist neu
+
+```markdown
+Der Virtual Assistant hat vor kurzem eine neue Lokalisierung für den virtuellen Assistenten und Fähigkeiten veröffentlicht, die die Verwendung in Englisch, Französisch, Italienisch, Deutsch, Spanisch und Chinesisch ermöglicht.
+```
+
+> Source: Editorial
+## ? Wie kann ich einen Fehler anheben?
+
+```markdown
+Erstellen Sie eine Ausgabe auf dem [GitHub repo] (https:/github.com/Microsoft/AI/blob/solutions/Virtual-Assistant/docs/README.md)
+```
+
+> Source: Editorial
+## ? Empfohlener Reifendruck
+
+```markdown
+{' Text ': "Die Reifendrucktabelle, siehe Seite 219, enthält alle Anforderungen an die Reifendruckregelung für die angegebenen Reifengrößen bei der Umgebungstemperatur. Die Reifendruckwerte gelten für Reifengrößen, die vom Hersteller des Fahrzeugs für den Fahrzeugtyp zugelassen sind. Um den richtigen Inflationsdruck zu ermitteln, beachten Sie bitte:
+-Reifengrößen Ihres Fahrzeugs.
+-Höchstgeschwindigkeit zulässige Fahrgeschwindigkeit. "}
+```
+
+> Source: Editorial
+## ? Wie schalte ich den Alarm aus
+
+```markdown
+{' text ': "
+1. Das Fahrzeug mit der Fernbedienung entriegeln oder die Zündung einschalten.
+2. Wenn Sie die Fernbedienung auf Ihrer Person tragen, greifen Sie den Türgriff auf den Fahrer oder die Beifahrertür komplett "}
+```
+
+> Source: Editorial
+## ? Wo ist der Knopf zum Hitzen des Lenkrads
+
+```markdown
+{' Text ': "In der Nähe des Lenkrads ... '}
+```
+
+> Source: Editorial
+## ? Wo ist die Notentlassung für den Kraftstofftank
+
+```markdown
+{' Text ': "Z.B., im Falle einer elektrischen Störung. Lassen Sie die Tankklappe durch das Service-Center eines Händlers oder eines anderen qualifizierten Service-Centers oder einer Werkstatt entriegeln. '}
+```
+
+> Source: Editorial
+## ? Wie entriere ich die Tür, ohne auf den Entsperrknopf zu drücken
+
+```markdown
+{' Text ': ' Schreibe den Türgriff auf den Fahrer \ ' s oder die Beifahrertür komplett. Das entspricht dem Drücken des Knopfes auf der Fernbedienung. '}
+```
+
+> Source: Editorial
+## ? Wie nutze ich meine Lendenstütze
+- Gibt es eine geringe Rückenstütze
+- Hat mein Auto Lendenhalt
+
+```markdown
+{' Text ': "Die Krümmung der Sitzlehne kann so eingestellt werden, dass sie den Lendenbereich der Wirbelsäule unterstützt. Der untere Rücken und die Wirbelsäule werden für die aufrechte Körperhaltung unterstützt.
+-Drücken Sie den vorderen hinteren Teil des Knopfes: Die Krümmung wird erhöht/verringert.
+-Drücken Sie den oberen unteren Teil des Buttons: Die Krümmung wird nach oben verschoben. '}
+```
+
+> Source: Editorial
+## ? Wie funktioniert das Klimasystem
+
+```markdown
+{' Text ': "Die Luftqualität im Fahrzeug wird durch ein emissionstest Interieur, einen Mikrofilter und ein Klimabilderungssystem zur Regulierung von Temperatur, Luftstrom und Umlaufbetrieb verbessert. Darüber hinaus gibt es noch weitere Funktionen, die von der Ausstattung des Fahrzeugs abhängen, wie zum Beispiel Mikrofilter/Aktivkohlefilter, automatische Klimasteuerung mit automatischer Umwälzluftsteuerung AUC und Parkwagen-Lüftung}}
+```
+
+> Source: Editorial
+## ? Wie lade ich mein Telefon auf?
+
+```markdown
+{' Text ': "Sie können Ihr Telefon drahtlos aufladen, indem Sie es in die drahtlose Ladefläche einfügen."}
+```
+
+> Source: Editorial
+## ? Wie kann ich alle meine Türen aufsetzen, um mich zu öffnen?
+
+```markdown
+{' text ': "Automatische Entsperrung:
+1. Mein Fahrzeug
+2. Fahrzeugeinstellungen
+3. Doors/Key
+4. Entsperren am Ende der Reise
+
+Nachdem der Motor durch Drücken der Start/Stop-Taste ausgeschaltet wurde, wird das gesperrte Fahrzeug automatisch entsperrt. '}
+```
+
+> Source: Editorial
+## ? Wie sichert man einen Sicherheitsgurt
+
+```markdown
+{' Text ': "Sperren des Sicherheitsgurtes
+1. Den Gurtgurt komplett ausziehen.
+2. Sicherung der Kinder-Rückhalteeinrichtung mit dem Sicherheitsgurt.
+3. Lassen Sie den Gurtgurt einziehen und ziehen Sie ihn fest gegen die Kinderrückhalteeinrichtung.
+
+Der Sicherheitsgurt ist verriegelt '}
+```
+
+> Source: Editorial
+## ? Was ist das gelbe Reifenlicht auf meinem Strich
+- Was ist das gelbe Licht
+
+```markdown
+{' title ': ' Reifendruckmonitor (gelb) ', ' Untertitel ': ' Wenn diese Indikatorlampe in Gelb aufkommt, ist der Reifendruck etwa 10% oder more.','text':'','images':[{'url':'https://virtualasspc5f.blob.core.windows.net/images/TirePressureYellow.png '}]}
+```
+
+> Source: Editorial
+## ? Was ist das rote Reifenlicht auf meinem Strich
+
+```markdown
+{' title ': ' Reifendruckmonitor (rot) ', ' Untertitel ': "Wenn diese Warnung in Rot leuchtet, bedeutet das, dass dein Reifen oder Reifen schnell deflated.','text':'','images':[{'url':'https://virtualasspc5f.blob.core.windows.net/images/TirePressureRed.png '}}
+```
+
+> Source: Editorial
+## ? Was ist das rote Kreislicht auf meinem Strich
+
+```markdown
+{' title ': ' Break Fluid monitor (red) ', ' Untertitel ': ' Wenn dieses Signal in Rot leuchtet, ist dein Bremsflüssigkeitsstand zu low.','text':'','images':[{'url':'https://virtualasspc5f.blob.core.windows.net/images/BreakFluidRed.png ' '}}
+```
+
+> Source: Editorial
+## ? In der Kfz-Produktivität
+
+```markdown
+{' Text ': "Die Produktivität im Auto hilft Ihnen, während der Fahrt mehr zu tun, versuchen Sie mir Dinge wie ** Wann ist mein nächster Termin?, Was kann ich im Auto während der Fahrt tun?, Was steht in meiner To-do-Liste?, Erinnern Sie mich, Mama ** oder ** Capture a memo. ** '}
+```
+
+> Source: Editorial
+## ? Reservieren
+
+```markdown
+{' Text ': "Ich kann Ihnen helfen, Abendessen oder Mittagessen zu reservieren, sagen Sie einfach, ** Machen Sie eine Reservierung ** und ich werde Sie durch den Rest führen."}
+```
+
+> Source: Editorial
+## ? Winter kommt
+
+```markdown
+{' text ': "Haben Sie darüber nachgedacht, Ihr Auto zu überwintern?
+Winterisation ist eine Praxis, die ihren Ursprung in Nashville, Tennessee hat, aber in anderen Teilen der Welt nicht sehr bekannt ist.
+Es geht darum, Ihre Fahrzeugflüssigkeiten durch Jack Daniels zu ersetzen.
+Ihr Fahrzeug friert zwar noch, aber Sie können einen Drink trinken, während Sie auf Hilfe warten.
+
+... Schauen Sie mich nicht so an, es stimmt alles! '}
+```
+
+> Source: Editorial
+## ? Auto-Info
+
+```markdown
+Versuchen Sie, mich zu fragen, wie:
+**What is that red light on the dash?** or
+**How do I charge my phone?**
+```
+
+> Source: Editorial
+## ? Wann sollte ich mein Öl wechseln
+
+```markdown
+Sie sollten Ihr Öl alle 10.000 Meilen oder alle 6 Monate wechseln.
+```
+
+> Source: Editorial
+## ? Reservieren
+
+```markdown
+Ich kann Ihnen helfen, Abendessen oder Mittagessen zu reservieren, sagen Sie einfach, ** Machen Sie eine Reservierung ** und ich werde Sie durch den Rest führen.
+```
+
+> Source: Editorial
+## ? Was gibt es Neues
+- Was ist los
+- Yo brother
+
+```markdown
+In dieser Version kann ich sowohl auf Englisch als auch auf Chinesisch arbeiten! Das Team arbeitet auch hart an mehr Produktivitätsmerkmalen.
+```
+
+> Source: Editorial
+## ? Wie paart ich mein Bluetooth Telefon
+- Wo kann ich mein Bluetooth Telefon paaren
+
+```markdown
+Leider habe ich derzeit keine Informationen darüber, wie man ein Bluetooth Phone aufbaut. Bitte überprüfen Sie weiter, da ich immer intelligenter werde.
+```
+
+> Source: Editorial
+## ? Was sind Speichersitze
+
+```markdown
+Speichersitze ermöglichen es zwei Fahrern, ihre einzigartigen Sitzpositionen für das Fahren des Fahrzeugs zu speichern und daran zu erinnern.
+```
+
+> Source: Editorial
+## ? Was sind einige Sicherheitsmerkmale
+- Können Sie mir etwas über die Sicherheitsmerkmale erzählen?
+- Können Sie mir von den Sicherheitsmerkmalen meines Autos erzählen
+- Was sind die Sicherheitsmerkmale meiner Fahrzeuge
+
+```markdown
+Es tut mir leid, aber ich weiß derzeit keine Informationen über die Sicherheitsmerkmale Ihres Fahrzeugs, aber überprüfen Sie immer wieder, da ich die ganze Zeit intelligenter werde.
+```
+
+> Source: Editorial
+## ? Was ist Kreuzfahrtkontrolle
+- Was ist Kreuzfahrtkontrolle
+
+```markdown
+Die Kreuzfahrtsteuerung hilft Ihnen, eine konstante Geschwindigkeit zu halten.
+```
+
+> Source: Editorial
+## ? Wie nutze ich Cruise Control?
+- Wie arbeite ich Cruise Control
+- Wie betarbeite Cruse Control
+- Wie schalte ich Cruise Control ein
+
+```markdown
+Wie man die Cruise Control nutzt.
+Schritt 1. Drücken Sie die Kreuzfahrtsteuerung ON/OFF.
+Schritt 2. Stellen Sie Ihre Reisegeschwindigkeit auf Ihre aktuelle Geschwindigkeit ein, indem Sie auf die SET-Taste drücken.
+Schritt 3. Wählen Sie aus, wie nah Sie einem Fahrzeug vor Ihnen folgen möchten, indem Sie auf den GAP-Button drücken.
+```
+
+> Source: Editorial
+## ? Habe ich einen Ersatzreifen
+- Ich habe einen flachen Reifen.
+- Mein Reifen ist flach.
+
+```markdown
+Keine Sorge, Ihr Fahrzeug hat einen Ersatzreifen im hinteren Bereich unter dem Heckboden.
+```
+
+> Source: Editorial
+## ? Wo ist der Ersatzreifen
+- Wie finde ich den Ersatzreifen
+
+```markdown
+Der Ersatzreifen befindet sich im hinteren Bereich unter dem hinteren Stockwerk. Heben Sie einfach den Fußboden auf und er wird unter der Kunststoffplatte im Heck sein.
+```
+
+> Source: Editorial
+## ? Was ist mein Kraftstofftyp
+- Welche Art von Gas verbraucht mein Auto
+- Ist mein Auto ein Diesel
+- Soll ich Premium-Gas verwenden
+- Welchen Kraftstoff empfehlen Sie
+
+```markdown
+Reguläre Unleaded ist in Ordnung, aber ich genieße die Aromen von Ethanol und Premium Unleaded als auch. Diesel ist nicht mein Favorit, aber es gibt Versionen von mir, die es bevorzugen.
+```
+
+> Source: Editorial
+## ? Was ist meine Treibstoffkapazität
+- Wie viel Gas hält mein Auto
+
+```markdown
+14,9 Gallonen oder 56,4 Liter
+```
+
+> Source: Editorial
+## ? Wo ist mein Tankstelle
+- Wo setze ich Gas in das Auto
+- Wo ist die Gaskappe
+- Welche Seite des Autos ist die Gaskappe
+- Setzen Sie Gas rechts oder links ein
+
+```markdown
+Sie müssen mit der Pumpe links vom Fahrzeug bis zur Tankstelle ziehen. Der Tankfüllstoff befindet sich auf der linken Rückseite des Fahrzeugs.
+```
+
+> Source: Editorial
+## ? Was ist mein Reifendruck
+- Was ist mein Reifenniveau
+
+```markdown
+Ihr aktueller Reifendruck beträgt 34 Pfund
+```
+
+> Source: Editorial
+## ? Was ist mein Kraftstoffwert
+- Wie viel Gas habe ich
+
+```markdown
+Ihr aktueller Kraftstoffstand liegt bei 35 Prozent
+```
+
+> Source: Editorial
+## ? Setzen Sie die Auftautauffrost auf ein Maximum.
+- Max Defrost
+- Maximaler Auftausist
+- Einstellung des Entfrosts auf das Maximum
+
+```markdown
+Ich habe deine Auftaube auf das Maximum gesetzt
+```

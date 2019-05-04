@@ -1,0 +1,83 @@
+{
+    "WelcomeMessage": {
+      "replies": [
+        {
+          "speak": "[Inserisci qui il tuo messaggio introduttivo]",
+          "text": "[Inserisci qui il tuo messaggio introduttivo]"
+        }
+      ],
+      "suggestedActions": [],
+      "inputHint": "acceptingInput"
+    },
+    "HelpMessage": {
+      "replies": [
+        {
+          "speak": "[Inserisci qui il tuo messaggio di aiuto]",
+          "text": "[Inserisci qui il tuo messaggio di aiuto]"
+        }
+      ],
+      "suggestedActions": [],
+      "inputHint": "acceptingInput"
+    },
+    "GreetingMessage": {
+      "replies": [
+        {
+          "speak": "C'è!",
+          "text": "C'è!"
+        },
+        {
+          "speak": "Ehilà!",
+          "text": "Ehilà!"
+        },
+        {
+          "speak": "Ciao!",
+          "text": "Ciao!"
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "GoodbyeMessage": {
+      "replies": [
+        {
+          "speak": "Addio!",
+          "text": "Addio!"
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "LogOut": {
+      "replies": [
+        {
+          "speak": "Il tuo cartello è riuscito.",
+          "text": "Il tuo cartello è riuscito."
+        },
+        {
+          "speak": "Hai firmato con successo.",
+          "text": "Hai firmato con successo."
+        },
+        {
+          "speak": "Sei stato disconnesso.",
+          "text": "Sei stato disconnesso."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "FeatureNotAvailable": {
+      "replies": [
+        {
+          "speak": "Questa funzionalità non è ancora disponibile in questa abilità. Per favore prova a chiedere qualcos'altro.",
+          "text": "Questa funzionalità non è ancora disponibile in questa abilità. Per favore prova a chiedere qualcos'altro."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "CancelMessage": {
+      "replies": [
+        {
+          "speak": "Ok, ricominciamo da qui.",
+          "text": "Ok, ricominciamo da qui."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    }
+}

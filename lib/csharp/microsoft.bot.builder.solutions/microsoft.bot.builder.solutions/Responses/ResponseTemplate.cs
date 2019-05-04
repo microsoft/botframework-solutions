@@ -21,9 +21,9 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
         /// <summary>
         /// Initializes a new instance of the <see cref="ResponseTemplate"/> class.
         /// </summary>
-        /// <param name="text"></param>
-        /// <param name="speak"></param>
-        /// <param name="inputHint"></param>
+        /// <param name="text">Response Text.</param>
+        /// <param name="speak">Response Speak Variant.</param>
+        /// <param name="inputHint">Input Hint.</param>
         public ResponseTemplate(string text, string speak, string inputHint = InputHints.AcceptingInput)
         {
             this.Replies = new Reply[1];

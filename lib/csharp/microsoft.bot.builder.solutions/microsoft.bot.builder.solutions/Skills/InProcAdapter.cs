@@ -26,13 +26,13 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
 
         public IBackgroundTaskQueue BackgroundTaskQueue { get; set; }
 
-        public async Task ProcessActivity(Activity activity, BotCallbackHandler callback = null, MessageReceivedHandler messageReceivedHandler = null)
+        public async Task ProcessActivityAsync(Activity activity, BotCallbackHandler callback = null, MessageReceivedHandler messageReceivedHandler = null)
         {
             _messageReceivedHandler = messageReceivedHandler;
 
             using (var context = new TurnContext(this, activity))
             {
-                await RunPipelineAsync(context, callback, default(CancellationToken));
+                await RunPipelineAsync(context, callback, default(CancellationToken)).ConfigureAwait(false);
             }
         }
 
@@ -62,7 +62,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
 
             using (var context = new TurnContext(this, reference.GetContinuationActivity()))
             {
-                await RunPipelineAsync(context, callback, cancellationToken);
+                await RunPipelineAsync(context, callback, cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -122,7 +122,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
                     // to keep the behavior as close as possible to facillitate
                     // more realistic tests.
                     var delayMs = (int)activity.Value;
-                    await Task.Delay(delayMs);
+                    await Task.Delay(delayMs).ConfigureAwait(false);
                 }
                 else
                 {
@@ -146,7 +146,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
             {
                 BackgroundTaskQueue.QueueBackgroundWorkItem(async (ct) =>
                 {
-                    await _messageReceivedHandler(proactiveActivities);
+                    await _messageReceivedHandler(proactiveActivities).ConfigureAwait(false);
                 });
             }
 
