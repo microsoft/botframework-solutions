@@ -5,6 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Content\MovieCard.json" />
+    <Content Remove="Content\MovieListCard.json" />
+    <Content Remove="Content\PersonCard.json" />
     <Content Remove="Responses\Main\MainResponses.de.json" />
     <Content Remove="Responses\Main\MainResponses.es.json" />
     <Content Remove="Responses\Main\MainResponses.fr.json" />
@@ -26,6 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Content\MovieCard.json" />
+    <EmbeddedResource Include="Content\MovieListCard.json" />
+    <EmbeddedResource Include="Content\PersonCard.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.de.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.es.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.fr.json" />
@@ -55,6 +61,7 @@
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="2.0.0" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.EntitySearch" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.WebSearch" Version="2.0.0" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.3.1" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.3.1" />

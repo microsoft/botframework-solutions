@@ -72,12 +72,12 @@ namespace BingSearchSkill.Dialogs
                 state.SearchEntityType = SearchType.Unknown;
             }
 
-            var client = new BingSearchClient("0cc713be514e4ba48eae87465c4a29e4");
+            var client = new BingSearchClient("b04e2fec4dfe4649b941776b39c4b7c1");
             var entitiesResult = await client.GetSearchResult(state.SearchEntityName);
 
             var tokens = new StringDictionary
             {
-                { "Name", entitiesResult.Value[0].Description },
+                { "Name", entitiesResult.ToString() },
             };
 
             var response = ResponseManager.GetResponse(SampleResponses.EntityKnowledge, tokens);
