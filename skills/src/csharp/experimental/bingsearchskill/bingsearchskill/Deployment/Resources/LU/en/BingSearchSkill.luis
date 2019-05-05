@@ -1,0 +1,71 @@
+{
+  "intents": [
+    {
+      "name": "Sample"
+    },
+    {
+      "name": "None"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "sample dialog",
+      "intent": "Sample",
+      "entities": []
+    },
+    {
+      "text": "demo dialog",
+      "intent": "Sample",
+      "entities": []
+    },
+    {
+      "text": "Test dialog",
+      "intent": "Sample",
+      "entities": []
+    },
+    {
+      "text": "Run dialog",
+      "intent": "Sample",
+      "entities": []
+    },
+    {
+      "text": "run sample dialog",
+      "intent": "Sample",
+      "entities": []
+    },
+    {
+      "text": "hi",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "hello",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "logout",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "goodbye",
+      "intent": "None",
+      "entities": []
+    }
+  ],
+  "patterns": [],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [],
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "BingSearchSkill",
+  "desc": "",
+  "culture": "en-us"
+}

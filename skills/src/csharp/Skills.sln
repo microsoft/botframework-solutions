@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28606.126
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.539
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills", "Skills", "{34280F2E-60EB-4566-9ECD-56F114372037}"
 EndProject
@@ -34,6 +34,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoSkillTest", "todoskill\todoskilltest\ToDoSkillTest.csproj", "{9A2677E6-21E5-47EE-A42F-9D25079496D8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherSkill", "experimental\weatherskill\WeatherSkill.csproj", "{4A057581-2435-4E19-BA1B-30CE1E8AD504}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BingSearchSkill", "experimental\bingsearchskill\bingsearchskill\BingSearchSkill.csproj", "{8CB101FA-B496-4507-80A2-151FAB7E8ED1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BingSearchSkill.Tests", "experimental\bingsearchskill\bingsearchskill.tests\BingSearchSkill.Tests.csproj", "{BA771354-6A7A-4971-A504-46A085A942F4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Experimental", "Experimental", "{F037FCBE-36CC-435A-A907-0BE232A22BA7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -147,6 +153,22 @@ Global
 		{4A057581-2435-4E19-BA1B-30CE1E8AD504}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{4A057581-2435-4E19-BA1B-30CE1E8AD504}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A057581-2435-4E19-BA1B-30CE1E8AD504}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA771354-6A7A-4971-A504-46A085A942F4}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA771354-6A7A-4971-A504-46A085A942F4}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{BA771354-6A7A-4971-A504-46A085A942F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA771354-6A7A-4971-A504-46A085A942F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA771354-6A7A-4971-A504-46A085A942F4}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA771354-6A7A-4971-A504-46A085A942F4}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{BA771354-6A7A-4971-A504-46A085A942F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA771354-6A7A-4971-A504-46A085A942F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -165,6 +187,9 @@ Global
 		{3E44915A-1A7A-4229-9B7F-291FFC0EC075} = {34280F2E-60EB-4566-9ECD-56F114372037}
 		{9A2677E6-21E5-47EE-A42F-9D25079496D8} = {15B08548-1311-4749-8816-186C3268386E}
 		{4A057581-2435-4E19-BA1B-30CE1E8AD504} = {3665D242-1A88-4860-B148-BAB695B7B5E4}
+		{8CB101FA-B496-4507-80A2-151FAB7E8ED1} = {3665D242-1A88-4860-B148-BAB695B7B5E4}
+		{BA771354-6A7A-4971-A504-46A085A942F4} = {F037FCBE-36CC-435A-A907-0BE232A22BA7}
+		{F037FCBE-36CC-435A-A907-0BE232A22BA7} = {15B08548-1311-4749-8816-186C3268386E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7B849B7E-CCF5-4031-91F7-CA835433B457}

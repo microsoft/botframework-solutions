@@ -1,0 +1,26 @@
+{
+  "id": "BingSearchSkill",
+  "name": "BingSearchSkill",
+  "description": "",
+  "iconUrl": "BingSearchSkill.png",
+  "authenticationConnections": [],
+  "actions": [
+    {
+      "id": "BingSearchSkill_Sample",
+      "definition": {
+        "description": "Sample Skill action with no slots",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "BingSearchSkill#Sample"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
