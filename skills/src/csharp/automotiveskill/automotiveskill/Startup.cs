@@ -91,8 +91,6 @@ namespace AutomotiveSkill
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddHostedService<QueuedHostedService>();
 
-			services.AddSingleton<IAuthenticationProvider, MsJWTAuthenticationProvider>();
-
             // Configure responses
             services.AddSingleton(sp => new ResponseManager(
                 settings.CognitiveModels.Select(l => l.Key).ToArray(),
