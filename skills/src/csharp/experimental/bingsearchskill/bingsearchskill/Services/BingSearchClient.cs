@@ -35,11 +35,51 @@ namespace BingSearchSkill.Services
             return searchResponse;
         }
 
-        public async Task<List<SearchResultModel>> GetSearchResult(string query)
+        public async Task<List<SearchResultModel>> GetSearchResult(string query, SearchResultModel.EntityType queryType = SearchResultModel.EntityType.Unknown)
         {
             var entitySearchResult = await GetEntitySearchResult(query);
             var webSearchResult = await GetWebSearchResult(query);
-            return null;
+            var results = new List<SearchResultModel>();
+            foreach (var entity in entitySearchResult.Value)
+            {
+                results.Add(new SearchResultModel(entity));
+            }
+
+            foreach (var webResult in webSearchResult.WebPages.Value)
+            {
+                results.Add(new SearchResultModel(webResult.Url));
+            }
+
+            var personResults = new List<SearchResultModel>();
+            var movieResults = new List<SearchResultModel>();
+            foreach (var result in results)
+            {
+                if (result.Type == SearchResultModel.EntityType.Person)
+                {
+                    personResults.Add(result);
+                }
+                else if (result.Type == SearchResultModel.EntityType.Movie)
+                {
+                    movieResults.Add(result);
+                }
+            }
+
+            switch (queryType)
+            {
+                case SearchResultModel.EntityType.Person:
+                    return personResults;
+                case SearchResultModel.EntityType.Movie:
+                    return movieResults;
+                default:
+                    if (personResults.Any())
+                    {
+                        return personResults;
+                    }
+                    else
+                    {
+                        return movieResults;
+                    }
+            }
         }
     }
 }
