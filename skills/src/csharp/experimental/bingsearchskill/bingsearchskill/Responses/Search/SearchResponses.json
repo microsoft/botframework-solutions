@@ -11,8 +11,8 @@
   "EntityKnowledge": {
     "replies": [
       {
-        "text": "OK, {Name}!",
-        "speak": "OK, {Name}!"
+        "text": "OK, here is information of {Name}.",
+        "speak": "OK, here is information of {Name}."
       }
     ],
     "inputHint": "acceptingInput"

@@ -14,12 +14,12 @@
     <Content Remove="Responses\Main\MainResponses.it.json" />
     <Content Remove="Responses\Main\MainResponses.json" />
     <Content Remove="Responses\Main\MainResponses.zh.json" />
-    <Content Remove="Responses\Sample\SampleResponses.de.json" />
-    <Content Remove="Responses\Sample\SampleResponses.es.json" />
-    <Content Remove="Responses\Sample\SampleResponses.fr.json" />
-    <Content Remove="Responses\Sample\SampleResponses.it.json" />
-    <Content Remove="Responses\Sample\SampleResponses.json" />
-    <Content Remove="Responses\Sample\SampleResponses.zh.json" />
+    <Content Remove="Responses\Search\SampleResponses.de.json" />
+    <Content Remove="Responses\Search\SampleResponses.es.json" />
+    <Content Remove="Responses\Search\SampleResponses.fr.json" />
+    <Content Remove="Responses\Search\SampleResponses.it.json" />
+    <Content Remove="Responses\Search\SampleResponses.zh.json" />
+    <Content Remove="Responses\Search\SearchResponses.json" />
     <Content Remove="Responses\Shared\SharedResponses.de.json" />
     <Content Remove="Responses\Shared\SharedResponses.es.json" />
     <Content Remove="Responses\Shared\SharedResponses.fr.json" />
@@ -38,18 +38,20 @@
     <EmbeddedResource Include="Responses\Main\MainResponses.it.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.zh.json" />
-    <EmbeddedResource Include="Responses\Sample\SampleResponses.de.json" />
-    <EmbeddedResource Include="Responses\Sample\SampleResponses.es.json" />
-    <EmbeddedResource Include="Responses\Sample\SampleResponses.fr.json" />
-    <EmbeddedResource Include="Responses\Sample\SampleResponses.it.json" />
-    <EmbeddedResource Include="Responses\Sample\SampleResponses.json" />
-    <EmbeddedResource Include="Responses\Sample\SampleResponses.zh.json" />
+    <EmbeddedResource Include="Responses\Search\SearchResponses.de.json" />
+    <EmbeddedResource Include="Responses\Search\SearchResponses.es.json" />
+    <EmbeddedResource Include="Responses\Search\SearchResponses.fr.json" />
+    <EmbeddedResource Include="Responses\Search\SearchResponses.it.json" />
+    <EmbeddedResource Include="Responses\Search\SearchResponses.json" />
+    <EmbeddedResource Include="Responses\Search\SearchResponses.zh.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.de.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.es.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.fr.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.it.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.zh.json" />
+    <EmbeddedResource Include="Content\MovieCard.json" />
+    <EmbeddedResource Include="Content\PersonCard.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -94,9 +96,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MainResponses.cs</LastGenOutput>
     </None>
-    <None Update="Responses\Sample\SampleResponses.tt">
+    <None Update="Responses\Search\SearchResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SampleResponses.cs</LastGenOutput>
+      <LastGenOutput>SearchResponses.cs</LastGenOutput>
     </None>
     <None Update="Responses\Shared\SharedResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -114,16 +116,28 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>MainResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Responses\Sample\SampleResponses.cs">
+    <Compile Update="Responses\Search\SearchResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>SampleResponses.tt</DependentUpon>
+      <DependentUpon>SearchResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\CommonStrings.Designer.cs">
+      <DependentUpon>CommonStrings.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Update="Responses\Shared\SharedResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>SharedResponses.tt</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Responses\CommonStrings.resx">
+      <LastGenOutput>CommonStrings.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
