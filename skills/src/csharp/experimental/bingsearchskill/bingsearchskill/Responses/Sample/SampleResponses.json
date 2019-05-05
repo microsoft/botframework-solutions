@@ -1,22 +1,18 @@
 {
-  "NamePrompt": {
+  "AskEntityPrompt": {
     "replies": [
       {
-        "text": "What is your name?",
-        "speak": "What is your name?"
+        "text": "What do you want to search? You can say things like 'who is bill gates' or 'how is jurassic park'.",
+        "speak": "What do you want to search? You can say things like 'who is bill gates' or 'how is jurassic park'."
       }
     ],
     "inputHint": "expectingInput"
   },
-  "HaveNameMessage": {
+  "EntityKnowledge": {
     "replies": [
       {
-        "text": "Hi, {Name}!",
-        "speak": "Hi, {Name}!"
-      },
-      {
-        "text": "Nice to meet you, {Name}!",
-        "speak": "Nice to meet you, {Name}!"
+        "text": "OK, {Name}!",
+        "speak": "OK, {Name}!"
       }
     ],
     "inputHint": "acceptingInput"
