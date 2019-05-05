@@ -70,15 +70,17 @@ if (-not $luisAuthoringKey) {
 
 if (-not $appId) {
 	# Create app registration
-	$appId = (az ad app create `
+	$app = (az ad app create `
 		--display-name $name `
 		--password $appPassword `
 		--available-to-other-tenants `
-		--reply-urls https://token.botframework.com/.auth/web/redirect) 2>> $logFile `
-	| ConvertFrom-Json `
-	| Select-Object -ExpandProperty appId
+		--reply-urls https://token.botframework.com/.auth/web/redirect) 2>> $logFile
 
-	if(-not $appId) {
+	if ($app) {
+		$appId = $app | ConvertFrom-Json | Select-Object -ExpandProperty appId
+	}
+
+	if ((-not $app) -or (-not $appId)) {
 		Write-Host "! Could not provision Microsoft App Registration automatically. Review the log for more information." -ForegroundColor DarkRed
 		Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
 		Write-Host "+ Provision an app manually in the Azure Portal, then try again providing the -appId and -appPassword arguments." -ForegroundColor Magenta
