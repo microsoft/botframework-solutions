@@ -83,16 +83,9 @@ namespace BingSearchSkill.Dialogs
                 {
                     case BingSearchSkillLuis.Intent.GetCelebrityInfo:
                     case BingSearchSkillLuis.Intent.SearchMovieInfo:
-                        {
-                            turnResult = await dc.BeginDialogAsync(nameof(SearchDialog));
-                            break;
-                        }
-
                     case BingSearchSkillLuis.Intent.None:
                         {
-                            // No intent was identified, send confused message
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(SharedResponses.DidntUnderstandMessage));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
+                            turnResult = await dc.BeginDialogAsync(nameof(SearchDialog));
                             break;
                         }
 
