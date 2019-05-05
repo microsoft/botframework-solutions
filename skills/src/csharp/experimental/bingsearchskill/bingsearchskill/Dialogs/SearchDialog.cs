@@ -7,6 +7,8 @@ using BingSearchSkill.Services;
 using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
+using BingSearchSkill.Models.Cards;
+using Microsoft.Bot.Schema;
 
 namespace BingSearchSkill.Dialogs
 {
@@ -77,12 +79,47 @@ namespace BingSearchSkill.Dialogs
 
             var tokens = new StringDictionary
             {
-                { "Name", entitiesResult.Value[0].Description },
+                { "Name", entitiesResult.Value[0].Name },
             };
 
-            var response = ResponseManager.GetResponse(SampleResponses.EntityKnowledge, tokens);
-            await stepContext.Context.SendActivityAsync(response);
+            Activity prompt = null;
+            if (state.SearchEntityType == SearchType.Movie)
+            {
+                var movieData = new MovieCardData()
+                {
+                    Title = entitiesResult.Value[0].Name,
+                    Description = entitiesResult.Value[0].Description,
+                    IconPath = entitiesResult.Value[0].Image.ThumbnailUrl,
+                    Score = "8.8/9.0",
+                    Type = "test type",
+                    Link_Showtimes = entitiesResult.Value[0].WebSearchUrl,
+                    Link_Trailers = entitiesResult.Value[0].WebSearchUrl,
+                    Link_Trivia = entitiesResult.Value[0].WebSearchUrl,
+                    Link_View = entitiesResult.Value[0].WebSearchUrl,
+                };
 
+                prompt = ResponseManager.GetCardResponse(
+                            SampleResponses.EntityKnowledge,
+                            new Card("MovieCard", movieData),
+                            tokens);
+            }
+            else
+            {
+                var celebrityData = new PersonCardData()
+                {
+                    Name = entitiesResult.Value[0].Name,
+                    Description = entitiesResult.Value[0].Description,
+                    IconPath = entitiesResult.Value[0].Image.ThumbnailUrl,
+                    Link_View = entitiesResult.Value[0].WebSearchUrl,
+                };
+
+                prompt = ResponseManager.GetCardResponse(
+                            SampleResponses.EntityKnowledge,
+                            new Card("PersonCard", celebrityData),
+                            tokens);
+            }
+
+            await stepContext.Context.SendActivityAsync(prompt);
             return await stepContext.NextAsync();
         }
 
@@ -92,11 +129,6 @@ namespace BingSearchSkill.Dialogs
             state.Clear();
 
             return await stepContext.EndDialogAsync();
-        }
-
-        private class DialogIds
-        {
-            public const string NamePrompt = "namePrompt";
         }
 
         private async void GetEntityFromLuis(WaterfallStepContext stepContext)
@@ -123,14 +155,11 @@ namespace BingSearchSkill.Dialogs
                 state.SearchEntityName = state.LuisResult.Entities.CelebrityNamePatten[0];
                 state.SearchEntityType = SearchType.Celebrity;
             }
-            //else
-            //{
-            //    stepContext.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-            //    var userInput = content != null ? content.ToString() : stepContext.Context.Activity.Text;
+        }
 
-            //    state.SearchEntityName = userInput;
-            //    state.SearchEntityType = SearchType.Unknown;
-            //}
+        private class DialogIds
+        {
+            public const string NamePrompt = "namePrompt";
         }
     }
 }

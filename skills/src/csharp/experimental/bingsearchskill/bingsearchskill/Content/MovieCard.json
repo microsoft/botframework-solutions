@@ -9,7 +9,7 @@
           "items": [
             {
               "type": "Image",
-              "url": "https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_UX182_CR0,0,182,268_AL_.jpg",
+              "url": "{IconPath}",
               "size": "Medium"
             }
           ]
@@ -21,15 +21,15 @@
               "type": "TextBlock",
               "size": "Large",
               "weight": "Bolder",
-              "text": "Avengers: Endgame"
+              "text": "{Title}"
             },
             {
               "type": "TextBlock",
-              "text": "Action, Adventure, Fantasy"
+              "text": "{Type}"
             },
             {
               "type": "TextBlock",
-              "text": "9.1/10"
+              "text": "{Score}"
             }
           ]
         }
@@ -40,7 +40,7 @@
       "items": [
         {
           "type": "TextBlock",
-          "text": "After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to undo Thanos' actions and restore order to the universe.",
+          "text": "{Description}",
           "wrap": true
         }
       ]
@@ -49,23 +49,23 @@
   "actions": [
     {
       "type": "Action.OpenUrl",
-      "title": "View",
-      "url": "https://www.imdb.com/title/tt4154796/"
+      "title": "{Title_View}",
+      "url": "{Link_View}"
     },
     {
       "type": "Action.OpenUrl",
-      "title": "Showtimes",
-      "url": "https://www.imdb.com/showtimes/title/tt4154796?date=2019-04-29&pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=11468689-c6cf-4171-acbb-3b9e94cd223b&pf_rd_r=73CWJHCH4NX7T5BQVSNC&pf_rd_s=center-2&pf_rd_t=15021&pf_rd_i=tt4154796&ref_=tt_wbr_sh"
+      "title": "{Title_Showtimes}",
+      "url": "{Link_Showtimes}"
     },
     {
       "type": "Action.OpenUrl",
-      "title": "Trailers",
-      "url": "https://www.imdb.com/video/imdb/vi2163260441?playlistId=tt4154796&ref_=tt_ov_vi"
+      "title": "{Title_Trailers}",
+      "url": "{Link_Trailers}"
     },
     {
       "type": "Action.OpenUrl",
-      "title": "Trivia",
-      "url": "https://www.imdb.com/title/tt4154796/trivia?ref_=tt_ql_2"
+      "title": "{Title_Trivia}",
+      "url": "{Link_Trivia}"
     }
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",

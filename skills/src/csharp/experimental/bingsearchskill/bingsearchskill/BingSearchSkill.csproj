@@ -44,6 +44,8 @@
     <EmbeddedResource Include="Responses\Shared\SharedResponses.it.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.zh.json" />
+    <EmbeddedResource Include="Content\MovieCard.json" />
+    <EmbeddedResource Include="Content\PersonCard.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -112,11 +114,23 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>SampleResponses.tt</DependentUpon>
     </Compile>
+    <Compile Update="Responses\CommonStrings.Designer.cs">
+      <DependentUpon>CommonStrings.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="Responses\Shared\SharedResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>SharedResponses.tt</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Responses\CommonStrings.resx">
+      <LastGenOutput>CommonStrings.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
