@@ -14,9 +14,9 @@ Apart from some minor differences that enable this special invocation pattern, a
 
 The following Skills are available out of the box, each of the documentation links below has the deployment steps required to deploy and configure Skills for your use.
 
-- [Productivity - Calendar](./productivity-calendar.md)
-- [Productivity - Email](./productivity-email.md)
-- [Productivity - To Do](./productivity-todo.md)
-- [Point of Interest](./pointofinterest.md)
-- [Automotive](./automotive.md)
-- [Experimental Skills](./experimental-skills.md)
+- [Productivity - Calendar](../reference/skills/productivity-calendar.md)
+- [Productivity - Email](../reference/skills/productivity-email.md)
+- [Productivity - To Do](../reference/skills/productivity-todo.md)
+- [Point of Interest](../reference/skills/pointofinterest.md)
+- [Automotive](../reference/skills/automotive.md)
+- [Experimental Skills](../reference/skills/experimental.md)
