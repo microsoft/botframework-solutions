@@ -70,19 +70,21 @@ if (-not $luisAuthoringKey) {
 
 if (-not $appId) {
 	# Create app registration
-	$appId = (az ad app create `
+	$app = (az ad app create `
 		--display-name $name `
 		--password $appPassword `
 		--available-to-other-tenants `
-		--reply-urls 'https://token.botframework.com/.auth/web/redirect')
+		--reply-urls 'https://token.botframework.com/.auth/web/redirect') 2>> $logFile `
 
 	# Retrieve AppId
-	$appId = ($appId | ConvertFrom-Json) | Select-Object -ExpandProperty appId
+	if ($app) {
+		$appId = $app | ConvertFrom-Json | Select-Object -ExpandProperty appId
+	}
 
-	if(-not $appId) {
+	if ((-not $app) -or (-not $appId)) {
 		Write-Host "! Could not provision Microsoft App Registration automatically. Review the log for more information." -ForegroundColor DarkRed
 		Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
-		Write-Host "+ Provision an app manually in the Azure Portal, then try again providing the -appId and -appPassword arguments. See https://aka.ms/vamanualappcreation for more information." -ForegroundColor Magenta
+		Write-Host "+ Provision an app manually in the Azure Portal, then try again providing the -appId and -appPassword arguments." -ForegroundColor Magenta
 		Break
 	}
 }
@@ -151,24 +153,24 @@ if ($outputs -ne $null)
 else
 {
 	# Check for failed deployments
-$operations = az group deployment operation list -g $resourceGroup -n $timestamp | ConvertFrom-Json
-$failedOperations = $operations | Where { $_.properties.statusmessage.error -ne $null }
-if ($failedOperations) {
-	foreach ($operation in $failedOperations) {
-		switch ($operation.properties.statusmessage.error.code) {
-			"MissingRegistrationForLocation" {
-				Write-Host "! Deployment failed for resource of type $($operation.properties.targetResource.resourceType). This resource is not avaliable in the location provided." -ForegroundColor DarkRed
-				Write-Host "+ Update the .\Deployment\Resources\parameters.template.json file with a valid region for this resource and provide the file path in the -parametersFile parameter." -ForegroundColor Magenta
-			}
-			default {
-				Write-Host "! Deployment failed for resource of type $($operation.properties.targetResource.resourceType)."
-				Write-Host "! Code: $($operation.properties.statusMessage.error.code)."
-				Write-Host "! Message: $($operation.properties.statusMessage.error.message)."
+	$operations = az group deployment operation list -g $resourceGroup -n $timestamp | ConvertFrom-Json
+	$failedOperations = $operations | Where { $_.properties.statusmessage.error -ne $null }
+	if ($failedOperations) {
+		foreach ($operation in $failedOperations) {
+			switch ($operation.properties.statusmessage.error.code) {
+				"MissingRegistrationForLocation" {
+					Write-Host "! Deployment failed for resource of type $($operation.properties.targetResource.resourceType). This resource is not avaliable in the location provided." -ForegroundColor DarkRed
+					Write-Host "+ Update the .\Deployment\Resources\parameters.template.json file with a valid region for this resource and provide the file path in the -parametersFile parameter." -ForegroundColor Magenta
+				}
+				default {
+					Write-Host "! Deployment failed for resource of type $($operation.properties.targetResource.resourceType)."
+					Write-Host "! Code: $($operation.properties.statusMessage.error.code)."
+					Write-Host "! Message: $($operation.properties.statusMessage.error.message)."
+				}
 			}
 		}
-	}
 
-	Write-Host "+ To delete this resource group, run 'az group delete -g $($resourceGroup) --no-wait'" -ForegroundColor Magenta
-	Break
+		Write-Host "+ To delete this resource group, run 'az group delete -g $($resourceGroup) --no-wait'" -ForegroundColor Magenta
+		Break
 	}
 }
