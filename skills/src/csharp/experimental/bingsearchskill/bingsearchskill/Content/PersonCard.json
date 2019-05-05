@@ -1,0 +1,51 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "items": [
+            {
+              "type": "Image",
+              "style": "person",
+              "url": "https://tse1.mm.bing.net/th?id=AMMS_35501eff53fab6272aee2dc117de79f0&w=183&h=183&c=12&rs=1&o=5&pid=3.1&rm=2",
+              "size": "Medium"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "items": [
+            {
+              "type": "TextBlock",
+              "size": "Large",
+              "weight": "Bolder",
+              "text": "Satya Nadella"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Satya Narayana Nadella is an American business executive from India. He currently serves as the Chief Executive Officer of Microsoft, succeeding Steve Ballmer in 2014. Before becoming chief executive, he was Executive Vice President of Microsoft's Cloud and Enterprise Group, responsible for building and running the company's computing platforms.",
+          "wrap": true
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "View",
+      "url": "https://www.bing.com/search?q=satya+nadella&qs=AS&pq=satya&sc=6-5&cvid=EEE84BB0F83E4A79B1743965337434C4&FORM=QBLH&sp=1"
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
+}
