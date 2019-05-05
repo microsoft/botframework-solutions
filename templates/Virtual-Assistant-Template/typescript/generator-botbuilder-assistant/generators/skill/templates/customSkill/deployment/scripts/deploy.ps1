@@ -9,8 +9,9 @@ Param(
     [string] $luisAuthoringKey,
 	[string] $luisAuthoringRegion,
     [string] $parametersFile,
-	[string] $outFolder = $(Join-Path $(Get-Location) src),
-	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_log.txt")
+	[string] $languages = "en-us",
+	[string] $outFolder = $(Join-Path $(Get-Location) "src"),
+	[string] $logFile = $(Join-Path $PSScriptRoot ".." "deploy_log.txt")
 )
 
 # Reset log file
@@ -73,14 +74,15 @@ if (-not $appId) {
 		--display-name $name `
 		--password $appPassword `
 		--available-to-other-tenants `
-		--reply-urls https://token.botframework.com/.auth/web/redirect) 2>> $logFile `
-	| ConvertFrom-Json `
-	| Select-Object -ExpandProperty appId
+		--reply-urls 'https://token.botframework.com/.auth/web/redirect')
+
+	# Retrieve AppId
+	$appId = ($appId | ConvertFrom-Json) | Select-Object -ExpandProperty appId
 
 	if(-not $appId) {
 		Write-Host "! Could not provision Microsoft App Registration automatically. Review the log for more information." -ForegroundColor DarkRed
 		Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
-		Write-Host "+ Provision an app manually in the Azure Portal, then try again providing the -appId and -appPassword arguments." -ForegroundColor Magenta
+		Write-Host "+ Provision an app manually in the Azure Portal, then try again providing the -appId and -appPassword arguments. See https://aka.ms/vamanualappcreation for more information." -ForegroundColor Magenta
 		Break
 	}
 }
@@ -110,7 +112,45 @@ else {
         --parameters microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"") 2>> $logFile | Out-Null
 }
 
-# Check for failed deployments
+# Get deployment outputs
+$outputs = (az group deployment show `
+	--name $timestamp `
+	--resource-group $resourceGroup `
+	--query properties.outputs)
+
+# Log and convert to JSON
+$outputs >> $logFile
+$outputs = $outputs | ConvertFrom-Json
+
+# If it succeeded then we perform the remainder of the steps
+if ($outputs -ne $null)
+{	
+	# Update appsettings.json
+	Write-Host "> Updating appsettings.json ..."
+	if (Test-Path $(Join-Path $outFolder appsettings.json)) {
+		$settings = Get-Content $(Join-Path $outFolder appsettings.json) | ConvertFrom-Json
+	}
+	else {
+		$settings = New-Object PSObject
+	}
+
+	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppId' -Value $appId
+	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppPassword' -Value $appPassword
+	if ($outputs.appInsights) { $settings | Add-Member -Type NoteProperty -Force -Name 'appInsights' -Value $outputs.appInsights.value }
+	if ($outputs.storage) { $settings | Add-Member -Type NoteProperty -Force -Name 'blobStorage' -Value $outputs.storage.value }
+	if ($outputs.cosmosDb) { $settings | Add-Member -Type NoteProperty -Force -Name 'cosmosDb' -Value $outputs.cosmosDb.value }
+	if ($outputs.contentModerator) { $settings | Add-Member -Type NoteProperty -Force -Name 'contentModerator' -Value $outputs.contentModerator.value }
+
+	$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $outFolder appsettings.json)
+
+	# Deploy cognitive models
+	Invoke-Expression "$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1') -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -outFolder $($outFolder) -languages `"$($languages)`""
+
+	Write-Host "> Done."
+}
+else
+{
+	# Check for failed deployments
 $operations = az group deployment operation list -g $resourceGroup -n $timestamp | ConvertFrom-Json
 $failedOperations = $operations | Where { $_.properties.statusmessage.error -ne $null }
 if ($failedOperations) {
@@ -130,28 +170,5 @@ if ($failedOperations) {
 
 	Write-Host "+ To delete this resource group, run 'az group delete -g $($resourceGroup) --no-wait'" -ForegroundColor Magenta
 	Break
+	}
 }
-
-# Get deployment outputs
-$outputs = (az group deployment show `
-    --name $timestamp `
-    --resource-group $resourceGroup `
-    --query properties.outputs) 2>> $logFile | ConvertFrom-Json
-
-# Update appsettings.json
-Write-Host "> Updating appsettings.json ..."
-if (Test-Path $(Join-Path $outFolder appsettings.json)) {
-    $settings = Get-Content $(Join-Path $outFolder appsettings.json) | ConvertFrom-Json
-}
-else {
-    $settings = New-Object PSObject
-}
-$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppId' -Value $appId
-$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppPassword' -Value $appPassword
-$settings | Add-Member -Type NoteProperty -Force -Name 'appInsights' -Value $outputs.appInsights.value
-$settings | Add-Member -Type NoteProperty -Force -Name 'blobStorage' -Value $outputs.storage.value
-$settings | Add-Member -Type NoteProperty -Force -Name 'cosmosDb' -Value $outputs.cosmosDb.value
-$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $outFolder appsettings.json)
-
-# Deploy cognitive models
-Invoke-Expression "$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1') -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -outFolder $($outFolder)"
