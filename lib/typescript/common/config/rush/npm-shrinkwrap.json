@@ -117,7 +117,7 @@
     },
     "@rush-temp/botbuilder-skills": {
       "version": "file:projects/botbuilder-skills.tgz",
-      "integrity": "sha512-dt0r5Y6Crh2+faSkhXH23iX79RlLkb8tUnFItFCpBccdG7ZkIWeWKvniF7kN5NE2a6uLDkgEOKhafgvJc4CM9A==",
+      "integrity": "sha512-SWrdauAM3w+LOS5dHQB81NX8j9lunesYIlt9XfeImcKSjbLJMW0EfWyNDw/c5HXifvcs3xI9ygcUsNpFuXN6tQ==",
       "requires": {
         "@azure/ms-rest-js": "1.2.6",
         "@types/documentdb": "1.10.5",
@@ -138,8 +138,8 @@
         "i18n": "^0.8.3",
         "jsonwebtoken": "^8.5.1",
         "jwks-rsa": "^1.4.0",
-        "microsoft-bot-protocol": "^0.0.2",
-        "microsoft-bot-protocol-websocket": "^0.0.2",
+        "microsoft-bot-protocol": "^0.0.1",
+        "microsoft-bot-protocol-websocket": "^0.0.1",
         "mocha": "^6.1.4",
         "nodemon": "^1.18.4",
         "p-queue": "^4.0.0",
@@ -2766,20 +2766,20 @@
       }
     },
     "microsoft-bot-protocol": {
-      "version": "0.0.2",
-      "resolved": "https://www.myget.org/F/project-kobuk/npm/microsoft-bot-protocol/-/microsoft-bot-protocol-0.0.2.tgz",
-      "integrity": "sha1-UJH2ARVt64Hg6sS74DEX2mvE8oA=",
+      "version": "0.0.1",
+      "resolved": "https://www.myget.org/F/project-kobuk/npm/microsoft-bot-protocol/-/microsoft-bot-protocol-0.0.1.tgz",
+      "integrity": "sha1-ur2NXDtoMBxCKIoTf4BYyrVF+Wk=",
       "requires": {
         "promise.prototype.finally": "^3.1.0",
         "uuid": "^3.3.2"
       }
     },
     "microsoft-bot-protocol-websocket": {
-      "version": "0.0.2",
-      "resolved": "https://www.myget.org/F/project-kobuk/npm/microsoft-bot-protocol-websocket/-/microsoft-bot-protocol-websocket-0.0.2.tgz",
-      "integrity": "sha1-3DEP6wg+A1goWW49vgpa7qJoPPE=",
+      "version": "0.0.1",
+      "resolved": "https://www.myget.org/F/project-kobuk/npm/microsoft-bot-protocol-websocket/-/microsoft-bot-protocol-websocket-0.0.1.tgz",
+      "integrity": "sha1-RLaXZwmbvZQmaRHGo2CKTzmxmmA=",
       "requires": {
-        "microsoft-bot-protocol": "^0.0.2",
+        "microsoft-bot-protocol": "^0.0.1",
         "uuid": "^3.3.2",
         "watershed": "^0.4.0",
         "ws": "^6.2.1"
