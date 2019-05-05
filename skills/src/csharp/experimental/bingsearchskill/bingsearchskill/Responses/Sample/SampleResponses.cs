@@ -12,7 +12,7 @@ namespace BingSearchSkill.Responses.Sample
     public class SampleResponses : IResponseIdCollection
     {
         // Generated accessors
-        public const string NamePrompt = "NamePrompt";
-        public const string HaveNameMessage = "HaveNameMessage";
+        public const string AskEntityPrompt = "AskEntityPrompt";
+        public const string EntityKnowledge = "EntityKnowledge";
     }
 }

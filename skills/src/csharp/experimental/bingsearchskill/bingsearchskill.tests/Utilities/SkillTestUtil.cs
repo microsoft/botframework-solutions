@@ -11,7 +11,7 @@ namespace BingSearchSkill.Tests.Utilities
         private static Dictionary<string, IRecognizerConvert> _utterances = new Dictionary<string, IRecognizerConvert>
         {
             { SampleDialogUtterances.Trigger, CreateIntent(SampleDialogUtterances.Trigger, BingSearchSkillLuis.Intent.SearchMovieInfo) },
-            { SampleDialogUtterances.Trigger, CreateIntent(SampleDialogUtterances.Trigger, BingSearchSkillLuis.Intent.GetCelebrityInfo) },
+            //{ SampleDialogUtterances.Trigger, CreateIntent(SampleDialogUtterances.Trigger, BingSearchSkillLuis.Intent.GetCelebrityInfo) },
         };
 
         public static MockLuisRecognizer CreateRecognizer()
