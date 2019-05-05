@@ -117,139 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ImportantMessages" xml:space="preserve">
-    <value>Hohe priorität</value>
+  <data name="Trailers" xml:space="preserve">
+    <value>Anhänger</value>
   </data>
-  <data name="EmailInfoFormat" xml:space="preserve">
-    <value>Auf {0} schrieb {1}:</value>
+  <data name="Showtimes" xml:space="preserve">
+    <value>Showtimes</value>
   </data>
-  <data name="UnknownRecipient" xml:space="preserve">
-    <value>Unbekannter Empfänger</value>
+  <data name="Trivia" xml:space="preserve">
+    <value>die Bagatellen</value>
   </data>
-  <data name="Unread" xml:space="preserve">
-    <value>Ungelesene</value>
-  </data>
-  <data name="DisplayDetailDateFormat" xml:space="preserve">
-    <value>ddd MM/dd hh:mm tt</value>
-  </data>
-  <data name="Content" xml:space="preserve">
-    <value>Inhalt</value>
-  </data>
-  <data name="Participants" xml:space="preserve">
-    <value>Teilnehmer</value>
-  </data>
-  <data name="CCFormat" xml:space="preserve">
-    <value>Cc: {0}</value>
-  </data>
-  <data name="EmptyContent" xml:space="preserve">
-    <value>Leere Inhalte</value>
-  </data>
-  <data name="DateFormat" xml:space="preserve">
-    <value>Datum: {0}</value>
-  </data>
-  <data name="SearchBySubject" xml:space="preserve">
-    <value>Meldungen über {0}</value>
-  </data>
-  <data name="Subject" xml:space="preserve">
-    <value>Betreff</value>
-  </data>
-  <data name="FromFormat" xml:space="preserve">
-    <value>Von: {0}</value>
-  </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Abbrechen</value>
-  </data>
-  <data name="EmptySubject" xml:space="preserve">
-    <value>Leere Themen</value>
-  </data>
-  <data name="Messages" xml:space="preserve">
-    <value>Nachrichten</value>
-  </data>
-  <data name="ReplyReplyFormat" xml:space="preserve">
-    <value>RE: {0}</value>
-  </data>
-  <data name="ToFormat" xml:space="preserve">
-    <value>Zu: {0}</value>
-  </data>
-  <data name="YourEmail" xml:space="preserve">
-    <value>Ihr Posteingang</value>
-  </data>
-  <data name="RelevantFormat" xml:space="preserve">
-    <value>Relevant {0}</value>
-  </data>
-  <data name="Skip" xml:space="preserve">
-    <value>Skip | Pass | Nein</value>
-  </data>
-  <data name="UnknownSender" xml:space="preserve">
-    <value>Unbekannter Absender</value>
-  </data>
-  <data name="ForwardReplyFormat" xml:space="preserve">
-    <value>Fw: {0}</value>
-  </data>
-  <data name="FromDetailsFormatAll" xml:space="preserve">
-    <value>Von {0} erhalten {1} titelte {2}</value>
-  </data>
-  <data name="FromDetailsFormat" xml:space="preserve">
-    <value>Von {0} erhalten {1}</value>
-  </data>
-  <data name="ToDetailsFormat" xml:space="preserve">
-    <value>{0} bis {1} und Inhalt ist {2}</value>
-  </data>
-  <data name="SubjectFormat" xml:space="preserve">
-    <value>Thema: {0}</value>
-  </data>
-  <data name="Source" xml:space="preserve">
-    <value>Powered by **{0}**</value>
-  </data>
-  <data name="ContentFormat" xml:space="preserve">
-    <value>Inhalt: {0}</value>
-  </data>
-  <data name="PreviousDateFormat" xml:space="preserve">
-    <value>ddd MM/dd</value>
-  </data>
-  <data name="TodayDateFormat" xml:space="preserve">
-    <value>hh:mm tt</value>
-  </data>
-  <data name="Relevant" xml:space="preserve">
-    <value>Relevanten</value>
-  </data>
-  <data name="All" xml:space="preserve">
-    <value>Alle</value>
-  </data>
-  <data name="Important" xml:space="preserve">
-    <value>Wichtig</value>
-  </data>
-  <data name="Split" xml:space="preserve">
-    <value>|</value>
-  </data>
-  <data name="High" xml:space="preserve">
-    <value>Hoch</value>
-  </data>
-  <data name="Reply" xml:space="preserve">
-    <value>Re:</value>
-  </data>
-  <data name="ContactSeparator" xml:space="preserve">
-    <value>, | ; | Und</value>
-  </data>
-  <data name="Forward" xml:space="preserve">
-    <value>Fw:</value>
-  </data>
-  <data name="MessageConfirm" xml:space="preserve">
-    <value>Message-Bestätigung</value>
-  </data>
-  <data name="ForwardMessage" xml:space="preserve">
-    <value>----------weiterleitete Nachricht----------</value>
-  </data>
-  <data name="FromDetailsWithContentFormat" xml:space="preserve">
-    <value>Aus {0} erhalten {1} titelte {2}, Inhalt ist {3}.</value>
-  </data>
-  <data name="SearchBySender" xml:space="preserve">
-    <value>Nachrichten aus {0}</value>
-  </data>
-  <data name="GeneralDateFormat" xml:space="preserve">
-    <value>MMM dd, yyyy</value>
-  </data>
-  <data name="PageIndexerFormat" xml:space="preserve">
-    <value>**{0}-{1}** von {2}</value>
+  <data name="View" xml:space="preserve">
+    <value>ansehen</value>
   </data>
 </root>

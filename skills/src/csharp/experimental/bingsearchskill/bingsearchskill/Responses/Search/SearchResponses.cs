@@ -4,12 +4,12 @@
 
 using Microsoft.Bot.Builder.Solutions.Responses;
 
-namespace BingSearchSkill.Responses.Sample
+namespace BingSearchSkill.Responses.Search
 {
     /// <summary>
     /// Contains bot responses.
     /// </summary>
-    public class SampleResponses : IResponseIdCollection
+    public class SearchResponses : IResponseIdCollection
     {
         // Generated accessors
         public const string AskEntityPrompt = "AskEntityPrompt";

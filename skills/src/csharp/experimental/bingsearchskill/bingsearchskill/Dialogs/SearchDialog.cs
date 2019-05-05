@@ -2,18 +2,20 @@
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using BingSearchSkill.Models;
-using BingSearchSkill.Responses.Sample;
+using BingSearchSkill.Responses.Search;
 using BingSearchSkill.Services;
 using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
 using BingSearchSkill.Models.Cards;
 using Microsoft.Bot.Schema;
+using System;
 
 namespace BingSearchSkill.Dialogs
 {
     public class SearchDialog : SkillDialogBase
     {
+        private const string ApiKeyIndex = "BingSearchKey";
         private BotServices _services;
         private IStatePropertyAccessor<SkillState> _stateAccessor;
 
@@ -31,9 +33,6 @@ namespace BingSearchSkill.Dialogs
 
             var sample = new WaterfallStep[]
             {
-                // NOTE: Uncomment these lines to include authentication steps to this dialog
-                // GetAuthToken,
-                // AfterGetAuthToken,
                 PromptForQuestion,
                 ShowResult,
                 End,
@@ -52,7 +51,7 @@ namespace BingSearchSkill.Dialogs
             var state = await _stateAccessor.GetAsync(stepContext.Context);
             if (string.IsNullOrWhiteSpace(state.SearchEntityName))
             {
-                var prompt = ResponseManager.GetResponse(SampleResponses.AskEntityPrompt);
+                var prompt = ResponseManager.GetResponse(SearchResponses.AskEntityPrompt);
                 return await stepContext.PromptAsync(DialogIds.NamePrompt, new PromptOptions { Prompt = prompt });
             }
 
@@ -74,7 +73,8 @@ namespace BingSearchSkill.Dialogs
                 state.SearchEntityType = SearchType.Unknown;
             }
 
-            var client = new BingSearchClient("0cc713be514e4ba48eae87465c4a29e4");
+            var key = Settings.Properties[ApiKeyIndex] ?? throw new Exception("The BingSearchKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
+            var client = new BingSearchClient(key);
             var entitiesResult = await client.GetSearchResult(state.SearchEntityName);
 
             var tokens = new StringDictionary
@@ -99,7 +99,7 @@ namespace BingSearchSkill.Dialogs
                 };
 
                 prompt = ResponseManager.GetCardResponse(
-                            SampleResponses.EntityKnowledge,
+                            SearchResponses.EntityKnowledge,
                             new Card("MovieCard", movieData),
                             tokens);
             }
@@ -114,7 +114,7 @@ namespace BingSearchSkill.Dialogs
                 };
 
                 prompt = ResponseManager.GetCardResponse(
-                            SampleResponses.EntityKnowledge,
+                            SearchResponses.EntityKnowledge,
                             new Card("PersonCard", celebrityData),
                             tokens);
             }

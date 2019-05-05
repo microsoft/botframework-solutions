@@ -117,139 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ImportantMessages" xml:space="preserve">
-    <value>重要邮件</value>
+  <data name="Trailers" xml:space="preserve">
+    <value>预告片</value>
   </data>
-  <data name="EmailInfoFormat" xml:space="preserve">
-    <value>在{0}上, {1}写道:</value>
+  <data name="Showtimes" xml:space="preserve">
+    <value>上映时间</value>
   </data>
-  <data name="UnknownRecipient" xml:space="preserve">
-    <value>未知收件人</value>
+  <data name="Trivia" xml:space="preserve">
+    <value>细节</value>
   </data>
-  <data name="Unread" xml:space="preserve">
-    <value>未读</value>
-  </data>
-  <data name="DisplayDetailDateFormat" xml:space="preserve">
-    <value>ddd MM/dd hh:mm tt</value>
-  </data>
-  <data name="Content" xml:space="preserve">
-    <value>内容</value>
-  </data>
-  <data name="Participants" xml:space="preserve">
-    <value>参与者</value>
-  </data>
-  <data name="CCFormat" xml:space="preserve">
-    <value>Cc:{0}</value>
-  </data>
-  <data name="EmptyContent" xml:space="preserve">
-    <value>空内容</value>
-  </data>
-  <data name="DateFormat" xml:space="preserve">
-    <value>日期: {0}</value>
-  </data>
-  <data name="SearchBySubject" xml:space="preserve">
-    <value>关于{0}的消息</value>
-  </data>
-  <data name="Subject" xml:space="preserve">
-    <value>主题</value>
-  </data>
-  <data name="FromFormat" xml:space="preserve">
-    <value>发件人:{0}</value>
-  </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>取消</value>
-  </data>
-  <data name="EmptySubject" xml:space="preserve">
-    <value>空主题</value>
-  </data>
-  <data name="Messages" xml:space="preserve">
-    <value>邮件</value>
-  </data>
-  <data name="ReplyReplyFormat" xml:space="preserve">
-    <value>Re: {0}</value>
-  </data>
-  <data name="ToFormat" xml:space="preserve">
-    <value>收件人:{0}</value>
-  </data>
-  <data name="YourEmail" xml:space="preserve">
-    <value>您的邮件</value>
-  </data>
-  <data name="RelevantFormat" xml:space="preserve">
-    <value>相关{0}</value>
-  </data>
-  <data name="Skip" xml:space="preserve">
-    <value>跳过|空</value>
-  </data>
-  <data name="UnknownSender" xml:space="preserve">
-    <value>未知发件人</value>
-  </data>
-  <data name="ForwardReplyFormat" xml:space="preserve">
-    <value>FW:{0}</value>
-  </data>
-  <data name="FromDetailsFormatAll" xml:space="preserve">
-    <value>来自{0}于{1}标题是{2}</value>
-  </data>
-  <data name="FromDetailsFormat" xml:space="preserve">
-    <value>来自{1}于{0}</value>
-  </data>
-  <data name="ToDetailsFormat" xml:space="preserve">
-    <value>{0}发送至{1}, 内容是{2}</value>
-  </data>
-  <data name="SubjectFormat" xml:space="preserve">
-    <value>主题:{0}</value>
-  </data>
-  <data name="Source" xml:space="preserve">
-    <value>由**{0}**提供支持</value>
-  </data>
-  <data name="ContentFormat" xml:space="preserve">
-    <value>内容:{0}</value>
-  </data>
-  <data name="PreviousDateFormat" xml:space="preserve">
-    <value>ddd MM/dd</value>
-  </data>
-  <data name="TodayDateFormat" xml:space="preserve">
-    <value>hh:mm tt</value>
-  </data>
-  <data name="Relevant" xml:space="preserve">
-    <value>相关</value>
-  </data>
-  <data name="All" xml:space="preserve">
-    <value>全部</value>
-  </data>
-  <data name="Important" xml:space="preserve">
-    <value>重要</value>
-  </data>
-  <data name="Split" xml:space="preserve">
-    <value>|</value>
-  </data>
-  <data name="High" xml:space="preserve">
-    <value>高</value>
-  </data>
-  <data name="Reply" xml:space="preserve">
-    <value>Re:</value>
-  </data>
-  <data name="ContactSeparator" xml:space="preserve">
-    <value>，| , | ；| ; |和</value>
-  </data>
-  <data name="Forward" xml:space="preserve">
-    <value>Fw：</value>
-  </data>
-  <data name="MessageConfirm" xml:space="preserve">
-    <value>消息确认</value>
-  </data>
-  <data name="ForwardMessage" xml:space="preserve">
-    <value>----------转发的邮件----------</value>
-  </data>
-  <data name="FromDetailsWithContentFormat" xml:space="preserve">
-    <value>来自{0}于{1}标题是{2}，内容为{3}。</value>
-  </data>
-  <data name="SearchBySender" xml:space="preserve">
-    <value>来自{0}的消息</value>
-  </data>
-  <data name="GeneralDateFormat" xml:space="preserve">
-    <value>MMM dd, yyyy</value>
-  </data>
-  <data name="PageIndexerFormat" xml:space="preserve">
-    <value>**{0}-{1}** 于 {2}</value>
+  <data name="View" xml:space="preserve">
+    <value>更多</value>
   </data>
 </root>

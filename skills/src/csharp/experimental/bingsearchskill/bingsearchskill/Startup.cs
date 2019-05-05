@@ -23,7 +23,7 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using System.Linq;
 using BingSearchSkill.Responses.Main;
 using BingSearchSkill.Responses.Shared;
-using BingSearchSkill.Responses.Sample;
+using BingSearchSkill.Responses.Search;
 using Microsoft.Bot.Builder.Skills;
 using BingSearchSkill.Adapters;
 using Microsoft.Bot.Builder.Solutions;
@@ -91,7 +91,7 @@ namespace BingSearchSkill
                 settings.CognitiveModels.Select(l => l.Key).ToArray(),
                 new MainResponses(),
                 new SharedResponses(),
-                new SampleResponses()));
+                new SearchResponses()));
 
             // Register dialogs
             services.AddTransient<SearchDialog>();
