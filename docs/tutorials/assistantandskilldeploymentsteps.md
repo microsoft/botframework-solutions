@@ -1,6 +1,6 @@
 # Virtual Assistant and Skill Template Deployment
 
-## Deployment an Assistant/Skill 
+## Deploy an Assistant/Skill 
 
 > Applies to Virtual Assistant Template and Skill Template (C# and TypeScript)
 
