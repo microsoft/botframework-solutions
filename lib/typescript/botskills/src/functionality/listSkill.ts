@@ -16,8 +16,12 @@ export async function listSkill(configuration: IListConfiguration): Promise<bool
         //tslint:disable-next-line:non-literal-require
         const assistantSkillsFile: ISkillFIle = require(configuration.skillsFile);
         if (!assistantSkillsFile) {
+            logger.warning(`Impossible to get skills from "${configuration.skillsFile}" file.  Format not compatible.`);
+
             return false;
         } else if (!assistantSkillsFile.skills) {
+            logger.message('There are no Skills connected to the assistant.');
+
             return false;
         }
         const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills;
