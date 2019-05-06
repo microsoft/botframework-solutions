@@ -216,7 +216,14 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
 
             logger.message('Authentication process finished successfully.');
         } else {
-            logger.error('Could not configure authentication connection automatically.');
+            if (manifest.authenticationConnections.length > 0) {
+                logger.warning(`Could not configure authentication connection automatically.`);
+                logger.warning(`You must configure one of the following connection types manually in the Azure Portal:
+${manifest.authenticationConnections.map((authConn: IAuthenticationConnection) => authConn.serviceProviderId)
+    .join(', ')}`);
+            } else {
+                logger.warning('There\'s no authentication connection in your Skill\'s manifest.');
+            }
             // $manualAuthRequired = $true
         }
     }
