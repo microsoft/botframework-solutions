@@ -9,7 +9,7 @@
     ```shell
     .\Deployment\Scripts\deploy.ps1
     ```
-3. Provide values for the parameter prompts in the script  
+
     ### What do these parameters mean?
 
     Parameter | Description | Required
@@ -37,7 +37,7 @@ Run the above deployment script again but provide two new arguments `appId` and 
 
 ## Customizing deployment using the parameters file
 
-See the [Customizing deployment](/docs/advanced/assistant/customisingdeployment.md) section for more information.
+See the [Customizing deployment](/docs/howto/assistant/customizedeployment.md) section for more information.
 
 ## Creating your own ARM template
 
