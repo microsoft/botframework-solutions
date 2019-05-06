@@ -98,14 +98,14 @@ const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appId: botSettings.microsoftAppId,
     appPassword: botSettings.microsoftAppPassword
 };
-// const adapter: DefaultAdapter = new DefaultAdapter(
-//     botSettings,
-//     adapterSettings,
-//     userState,
-//     conversationState,
-//     telemetryClient);
+const botAdapter: DefaultAdapter = new DefaultAdapter(
+    botSettings,
+    adapterSettings,
+    userState,
+    conversationState,
+    telemetryClient);
 
-const botAdapter: CustomSkillAdapter = new CustomSkillAdapter(
+const customSkillAdapter: CustomSkillAdapter = new CustomSkillAdapter(
     botSettings,
     userState,
     conversationState,
@@ -113,7 +113,7 @@ const botAdapter: CustomSkillAdapter = new CustomSkillAdapter(
     skillContextAccessor,
     dialogStateAccessor);
 const adapter: SkillHttpAdapter = new SkillHttpAdapter(
-    botAdapter
+    customSkillAdapter
 );
 
 let bot: DialogBot<Dialog>;
@@ -147,7 +147,7 @@ try {
 
 // Create server
 const server: restify.Server = restify.createServer();
-server.listen(3979, (): void => {
+server.listen(3980, (): void => {
     // tslint:disable-next-line:no-console
     console.log(`${server.name} listening to ${server.url}`);
     // tslint:disable-next-line:no-console
@@ -158,6 +158,15 @@ server.listen(3979, (): void => {
 
 // Listen for incoming requests
 server.post('/api/messages', (req: restify.Request, res: restify.Response) => {
+    // Route received a request to adapter for processing
+    botAdapter.processActivity(req, res, async (turnContext: TurnContext) => {
+        // route to bot activity handler.
+        await bot.run(turnContext);
+    });
+});
+
+// Listen for incoming assistant requests
+server.post('/api/skill/messages', (req: restify.Request, res: restify.Response) => {
     // Route received a request to adapter for processing
     adapter.processActivity(req, res, async (turnContext: TurnContext) => {
         // route to bot activity handler.
