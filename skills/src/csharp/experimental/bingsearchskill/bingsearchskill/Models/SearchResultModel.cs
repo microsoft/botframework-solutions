@@ -36,6 +36,7 @@ namespace BingSearchSkill.Models
             Description = thing.Description;
             ImageUrl = thing.Image.ThumbnailUrl;
             Url = thing.Url ?? thing.WebSearchUrl;
+            Name = thing.Name;
         }
 
         public enum EntityType
@@ -52,5 +53,7 @@ namespace BingSearchSkill.Models
         public string ImageUrl { get; set; }
 
         public string Url { get; set; }
+
+        public string Name { get; set; }
     }
 }

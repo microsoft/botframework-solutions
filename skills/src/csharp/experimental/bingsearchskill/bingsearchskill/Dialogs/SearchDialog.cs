@@ -79,7 +79,7 @@ namespace BingSearchSkill.Dialogs
 
             var tokens = new StringDictionary
             {
-                { "Name", entitiesResult.Value[0].Name },
+                { "Name", entitiesResult[0].Name },
             };
 
             Activity prompt = null;
@@ -87,15 +87,15 @@ namespace BingSearchSkill.Dialogs
             {
                 var movieData = new MovieCardData()
                 {
-                    Title = entitiesResult.Value[0].Name,
-                    Description = entitiesResult.Value[0].Description,
-                    IconPath = entitiesResult.Value[0].Image.ThumbnailUrl,
+                    Title = entitiesResult[0].Name,
+                    Description = entitiesResult[0].Description,
+                    IconPath = entitiesResult[0].ImageUrl,
                     Score = "8.8/9.0",
                     Type = "test type",
-                    Link_Showtimes = entitiesResult.Value[0].WebSearchUrl,
-                    Link_Trailers = entitiesResult.Value[0].WebSearchUrl,
-                    Link_Trivia = entitiesResult.Value[0].WebSearchUrl,
-                    Link_View = entitiesResult.Value[0].WebSearchUrl,
+                    Link_Showtimes = entitiesResult[0].Url,
+                    Link_Trailers = entitiesResult[0].Url,
+                    Link_Trivia = entitiesResult[0].Url,
+                    Link_View = entitiesResult[0].Url,
                 };
 
                 prompt = ResponseManager.GetCardResponse(
@@ -107,10 +107,10 @@ namespace BingSearchSkill.Dialogs
             {
                 var celebrityData = new PersonCardData()
                 {
-                    Name = entitiesResult.Value[0].Name,
-                    Description = entitiesResult.Value[0].Description,
-                    IconPath = entitiesResult.Value[0].Image.ThumbnailUrl,
-                    Link_View = entitiesResult.Value[0].WebSearchUrl,
+                    Name = entitiesResult[0].Name,
+                    Description = entitiesResult[0].Description,
+                    IconPath = entitiesResult[0].ImageUrl,
+                    Link_View = entitiesResult[0].Url,
                 };
 
                 prompt = ResponseManager.GetCardResponse(

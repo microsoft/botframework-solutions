@@ -29,9 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Content\MovieCard.json" />
-    <EmbeddedResource Include="Content\MovieListCard.json" />
-    <EmbeddedResource Include="Content\PersonCard.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.de.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.es.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.fr.json" />
