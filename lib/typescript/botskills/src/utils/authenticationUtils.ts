@@ -160,8 +160,8 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
             const scopeManifest: IScopeManifest[] = createScopeManifest(scopes);
 
             // get the information of the app
-            let azureAppShowCmd: string = `az ad app show`;
-            azureAppShowCmd += `--id ${appSettings.microsoftAppId}`;
+            let azureAppShowCmd: string = `az ad app show `;
+            azureAppShowCmd += `--id ${appSettings.microsoftAppId} `;
             const azureAppShowResult: string = await tryExecute('az', extractArgs(azureAppShowCmd));
             const azureAppReplyUrls: IAppShowReplyUrl = JSON.parse(azureAppShowResult);
 

@@ -158,7 +158,7 @@ export async function connectSkill(configuration: IConnectConfiguration): Promis
     // Take VA Skills configurations
     //tslint:disable-next-line: no-var-requires non-literal-require
     const assistantSkillsFile: ISkillFIle = require(configuration.skillsFile);
-    const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills;
+    const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills || [];
 
     // Check if the skill is already connected to the assistant
     if (assistantSkills.find((assistantSkill: ISkillManifest) => assistantSkill.id === skillManifest.id)) {

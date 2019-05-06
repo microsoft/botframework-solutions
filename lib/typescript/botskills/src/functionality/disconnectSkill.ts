@@ -59,7 +59,7 @@ async function updateDispatch(configuration: IDisconnectConfiguration): Promise<
 
     const luisgenCmd: string[] = ['luisgen'];
     luisgenCmd.push(join(configuration.dispatchFolder, dispatchJsonFile));
-    luisgenCmd.push(...[`-${configuration.language}`, '"DispatchLuis"']);
+    luisgenCmd.push(...[`-${configuration.lgLanguage}`, '"DispatchLuis"']);
     luisgenCmd.push(...['-o', configuration.lgOutFolder]);
     await runCommand(luisgenCmd, `Executing luisgen for the ${configuration.dispatchName} file`);
 }
@@ -72,7 +72,7 @@ export async function disconnectSkill(configuration: IDisconnectConfiguration): 
     // Take VA Skills configurations
     //tslint:disable-next-line: no-var-requires non-literal-require
     const assistantSkillsFile: ISkillFIle = require(configuration.skillsFile);
-    const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills;
+    const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills || [];
 
     // Check if the skill is present in the assistant
     const skillToRemove: ISkillManifest | undefined = assistantSkills.find((assistantSkill: ISkillManifest) =>
