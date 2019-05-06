@@ -105,6 +105,8 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
             listAuthSettingsCmd += `-n ${configuration.botName} `;
             listAuthSettingsCmd += `-g ${configuration.resourceGroup}`;
 
+            logger.command('Checking for existing aad connections', listAuthSettingsCmd);
+
             const connectionsResult: string = await tryExecute('az', extractArgs(listAuthSettingsCmd));
             const connections: IAzureAuthSetting[] = JSON.parse(connectionsResult);
             const aadConnection: IAzureAuthSetting | undefined = connections.find(
@@ -118,6 +120,8 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
                 showAuthSettingsCmd += `-g ${configuration.resourceGroup} `;
                 showAuthSettingsCmd += `-c ${settingName}`;
 
+                logger.command('Getting current aad auth settings', showAuthSettingsCmd);
+
                 const botAuthSettingResult: string = await tryExecute('az', extractArgs(showAuthSettingsCmd));
                 const botAuthSetting: IAzureAuthSetting = JSON.parse(botAuthSettingResult);
                 const existingScopes: string[] = botAuthSetting.properties.scopes.split(' ');
@@ -129,6 +133,8 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
                 deleteAuthSettingCmd += `-n ${configuration.botName} `;
                 deleteAuthSettingCmd += `-g ${configuration.resourceGroup} `;
                 deleteAuthSettingCmd += `-c ${settingName}`;
+
+                logger.command('Deleting current bot authentication setting', deleteAuthSettingCmd);
 
                 const deleteResult: string = await tryExecute('az', extractArgs(deleteAuthSettingCmd));
             }
@@ -162,6 +168,9 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
             // get the information of the app
             let azureAppShowCmd: string = `az ad app show `;
             azureAppShowCmd += `--id ${appSettings.microsoftAppId} `;
+
+            logger.command('Getting the app information', azureAppShowCmd);
+
             const azureAppShowResult: string = await tryExecute('az', extractArgs(azureAppShowCmd));
             const azureAppReplyUrls: IAppShowReplyUrl = JSON.parse(azureAppShowResult);
 
@@ -179,6 +188,8 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
             const scopeManifestText: string = JSON.stringify(scopeManifest)
                 .replace(/\"/g, '\'');
             azureAppUpdateCmd += `--required-resource-accesses "${scopeManifestText}"`;
+
+            logger.command('Updating the app information', azureAppUpdateCmd);
 
             const errorResult: string = await tryExecute('az', extractArgs(azureAppUpdateCmd));
             //  Catch error: Updates to converged applications are not allowed in this version.
@@ -199,9 +210,20 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
             authSettingCmd += `clientSecret="${appSettings.microsoftAppPassword}" tenantId=common `;
             authSettingCmd += `--provider-scope-string "${scopes.join(' ')}"`;
 
+            logger.command('Creating the updated bot authentication setting', authSettingCmd);
+
             await tryExecute('az', extractArgs(authSettingCmd));
+
+            logger.message('Authentication process finished successfully.');
         } else {
-            logger.error('Could not configure authentication connection automatically.');
+            if (manifest.authenticationConnections.length > 0) {
+                logger.warning(`Could not configure authentication connection automatically.`);
+                logger.warning(`You must configure one of the following connection types manually in the Azure Portal:
+${manifest.authenticationConnections.map((authConn: IAuthenticationConnection) => authConn.serviceProviderId)
+    .join(', ')}`);
+            } else {
+                logger.warning('There\'s no authentication connection in your Skill\'s manifest.');
+            }
             // $manualAuthRequired = $true
         }
     }
