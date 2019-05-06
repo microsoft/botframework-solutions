@@ -33,7 +33,7 @@ export async function listSkill(configuration: IListConfiguration): Promise<bool
         } else {
             let message: string = `The skills already connected to the assistant are the following:`;
             assistantSkills.forEach((skillManifest: ISkillManifest) => {
-                message += `\n\t- ${skillManifest.name}`;
+                message += `\n\t- ${skillManifest.id}`;
             });
 
             logger.message(message);
