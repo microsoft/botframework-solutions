@@ -189,7 +189,7 @@ export class MainDialog extends RouterDialog {
             } else {
                 const answers: QnAMakerResult[] = await qnaService.getAnswers(dc.context);
                 if (answers !== undefined && answers.length > 0) {
-                    await dc.context.sendActivity(answers[0].answer);
+                    await dc.context.sendActivity(answers[0].answer, answers[0].answer);
                 }
             }
         } else if (intent === 'q_chitchat') {
@@ -200,7 +200,7 @@ export class MainDialog extends RouterDialog {
             } else {
                 const answers: QnAMakerResult[] = await qnaService.getAnswers(dc.context);
                 if (answers !== undefined && answers.length > 0) {
-                    await dc.context.sendActivity(answers[0].answer);
+                    await dc.context.sendActivity(answers[0].answer, answers[0].answer);
                 }
             }
         } else {
