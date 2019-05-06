@@ -63,6 +63,7 @@ if (csAndTsValidationResult) {
     );
     process.exit(1);
 }
+const projectLanguage: string = args.cs ? 'cs' : 'ts';
 
 // skillId validation
 if (!args.skillId) {
@@ -72,6 +73,7 @@ if (!args.skillId) {
 
 const configuration: Partial<IDisconnectConfiguration> = {
     skillId: args.skillId,
+    lgLanguage: projectLanguage,
     logger: logger
 };
 
