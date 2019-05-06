@@ -145,7 +145,7 @@ namespace $safeprojectname$.Dialogs
 
                     if (answers != null && answers.Count() > 0)
                     {
-                        await dc.Context.SendActivityAsync(answers[0].Answer);
+                        await dc.Context.SendActivityAsync(answers[0].Answer, speak: answers[0].Answer);
                     }
                     else
                     {
@@ -167,7 +167,7 @@ namespace $safeprojectname$.Dialogs
 
                     if (answers != null && answers.Count() > 0)
                     {
-                        await dc.Context.SendActivityAsync(answers[0].Answer);
+                        await dc.Context.SendActivityAsync(answers[0].Answer, speak: answers[0].Answer);
                     }
                     else
                     {
