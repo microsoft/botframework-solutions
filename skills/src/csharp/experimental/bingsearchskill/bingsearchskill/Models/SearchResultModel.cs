@@ -34,7 +34,7 @@ namespace BingSearchSkill.Models
             }
 
             Description = thing.Description;
-            ImageUrl = thing.Image.HostPageUrl;
+            ImageUrl = thing.Image.ThumbnailUrl;
             Url = thing.Url ?? thing.WebSearchUrl;
         }
 
