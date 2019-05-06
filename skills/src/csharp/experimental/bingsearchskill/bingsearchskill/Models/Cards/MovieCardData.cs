@@ -21,10 +21,6 @@ namespace BingSearchSkill.Models.Cards
 
         public string Link_View { get; set; }
 
-        public string Title_Showtimes { get; } = CommonStrings.Showtimes;
-
-        public string Link_Showtimes { get; set; }
-
         public string Title_Trailers { get; } = CommonStrings.Trailers;
 
         public string Link_Trailers { get; set; }

@@ -54,11 +54,6 @@
     },
     {
       "type": "Action.OpenUrl",
-      "title": "{Title_Showtimes}",
-      "url": "{Link_Showtimes}"
-    },
-    {
-      "type": "Action.OpenUrl",
       "title": "{Title_Trailers}",
       "url": "{Link_Trailers}"
     },

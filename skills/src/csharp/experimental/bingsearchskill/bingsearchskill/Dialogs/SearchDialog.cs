@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using BingSearchSkill.Models.Cards;
 using Microsoft.Bot.Schema;
 using System;
+using BingSearchSkill.Utilities;
 
 namespace BingSearchSkill.Dialogs
 {
@@ -85,16 +86,17 @@ namespace BingSearchSkill.Dialogs
             Activity prompt = null;
             if (state.SearchEntityType == SearchType.Movie)
             {
+                var movieInfo = MovieHelper.GetMovieInfoFromUrl(entitiesResult[0].Url);
+                tokens["Name"] = movieInfo.name;
                 var movieData = new MovieCardData()
                 {
-                    Title = entitiesResult[0].Name,
-                    Description = entitiesResult[0].Description,
-                    IconPath = entitiesResult[0].ImageUrl,
-                    Score = "8.8/9.0",
-                    Type = "test type",
-                    Link_Showtimes = entitiesResult[0].Url,
-                    Link_Trailers = entitiesResult[0].Url,
-                    Link_Trivia = entitiesResult[0].Url,
+                    Title = movieInfo.name,
+                    Description = movieInfo.description,
+                    IconPath = movieInfo.image,
+                    Score = $"{movieInfo.aggregateRating.ratingValue}/10",
+                    Type = string.Join(", ", movieInfo.genre),
+                    Link_Trailers = $"https://www.imdb.com/{movieInfo.trailer.embedUrl}",
+                    Link_Trivia = $"https://www.imdb.com/{movieInfo.url}trivia",
                     Link_View = entitiesResult[0].Url,
                 };
 
