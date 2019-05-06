@@ -1,5 +1,6 @@
 ﻿using BingSearchSkill.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +20,8 @@ namespace BingSearchSkill.Utilities
             var reg = new Regex("<script type=\"application/ld\\+json\">(?<json>(.)*?(?=</script>))</script>", RegexOptions.Singleline);
             var match = reg.Match(pageString);
             var movieInfoJsonString = match.Groups["json"].Value;
-            var movieInfo = JsonConvert.DeserializeObject<MovieModel>(movieInfoJsonString);
-            return movieInfo;
+            var movieInfo = JToken.Parse(movieInfoJsonString);
+            return new MovieModel(movieInfo);
         }
     }
 }

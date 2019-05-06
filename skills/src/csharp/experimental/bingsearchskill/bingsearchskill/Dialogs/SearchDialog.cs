@@ -87,16 +87,16 @@ namespace BingSearchSkill.Dialogs
             if (state.SearchEntityType == SearchType.Movie)
             {
                 var movieInfo = MovieHelper.GetMovieInfoFromUrl(entitiesResult[0].Url);
-                tokens["Name"] = movieInfo.name;
+                tokens["Name"] = movieInfo.Name;
                 var movieData = new MovieCardData()
                 {
-                    Title = movieInfo.name,
-                    Description = movieInfo.description,
-                    IconPath = movieInfo.image,
-                    Score = $"{movieInfo.aggregateRating.ratingValue}/10",
-                    Type = string.Join(", ", movieInfo.genre),
-                    Link_Trailers = $"https://www.imdb.com/{movieInfo.trailer.embedUrl}",
-                    Link_Trivia = $"https://www.imdb.com/{movieInfo.url}trivia",
+                    Title = movieInfo.Name,
+                    Description = movieInfo.Description,
+                    IconPath = movieInfo.Image,
+                    Score = $"{movieInfo.Rating}/10",
+                    Type = string.Join(", ", movieInfo.Genre),
+                    Link_Trailers = $"https://www.imdb.com/{movieInfo.TrailerUrl}",
+                    Link_Trivia = $"https://www.imdb.com/{movieInfo.Url}trivia",
                     Link_View = entitiesResult[0].Url,
                 };
 
