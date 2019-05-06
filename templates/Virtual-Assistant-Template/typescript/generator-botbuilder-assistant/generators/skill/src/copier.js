@@ -84,7 +84,13 @@ class Copier {
     selectedLanguages.forEach(language => {
       templateFiles.set(
         path.join(`deployment`, `resources`, `LU`, language, `_skill.lu`),
-        path.join(`deployment`, `resources`, `LU`, language, `${newSkill.skillName}.lu`)
+        path.join(
+          `deployment`,
+          `resources`,
+          `LU`,
+          language,
+          `${newSkill.skillName}.lu`
+        )
       );
     });
   }
