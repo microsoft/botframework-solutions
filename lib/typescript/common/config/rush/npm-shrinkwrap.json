@@ -4,6 +4,32 @@
   "lockfileVersion": 1,
   "requires": true,
   "dependencies": {
+    "@azure/cognitiveservices-luis-runtime": {
+      "version": "2.0.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@azure/cognitiveservices-luis-runtime/-/@azure/cognitiveservices-luis-runtime-2.0.0.tgz",
+      "integrity": "sha1-l2hvKJfuLjwvjWuhrta5h1ehC5g=",
+      "requires": {
+        "@azure/ms-rest-js": "^1.6.0",
+        "tslib": "^1.9.3"
+      },
+      "dependencies": {
+        "@azure/ms-rest-js": {
+          "version": "1.8.2",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@azure/ms-rest-js/-/@azure/ms-rest-js-1.8.2.tgz",
+          "integrity": "sha1-2q+fOfvcZizuONNZBTMo3VxgIks=",
+          "requires": {
+            "@types/tunnel": "0.0.0",
+            "axios": "^0.18.0",
+            "form-data": "^2.3.2",
+            "tough-cookie": "^2.4.3",
+            "tslib": "^1.9.2",
+            "tunnel": "0.0.6",
+            "uuid": "^3.2.1",
+            "xml2js": "^0.4.19"
+          }
+        }
+      }
+    },
     "@azure/ms-rest-js": {
       "version": "1.2.6",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@azure/ms-rest-js/-/@azure/ms-rest-js-1.2.6.tgz",
@@ -117,7 +143,7 @@
     },
     "@rush-temp/botbuilder-skills": {
       "version": "file:projects/botbuilder-skills.tgz",
-      "integrity": "sha512-Tj5kFjzu/uJc5aDCfuUD9N+HyNd/Jb3kQGDrEx7JuSTTrOLlDbeuv4C+qQv3jXcVZAvIKqs/7H5n0vxYMI/EKw==",
+      "integrity": "sha512-Nozj7Thi8iHKpglY8RdoG4DAoozlbAyR2fZZ8X3/g50Gt7Ewmve3yHS3TsqxIiE5WOBFijLqjEY1dyYjac/bnA==",
       "requires": {
         "@azure/ms-rest-js": "1.2.6",
         "@types/documentdb": "1.10.5",
@@ -126,14 +152,14 @@
         "@types/node": "^10.10.1",
         "@types/restify": "^7.2.4",
         "@types/uuid": "^3.4.4",
-        "botbuilder": "4.3.4",
-        "botbuilder-ai": "4.3.4",
-        "botbuilder-azure": "4.3.4",
-        "botbuilder-core": "4.3.4",
-        "botbuilder-dialogs": "4.3.4",
-        "botframework-config": "4.3.4",
-        "botframework-connector": "4.3.4",
-        "botframework-schema": "4.3.4",
+        "botbuilder": "^4.4.0",
+        "botbuilder-ai": "^4.4.0",
+        "botbuilder-azure": "^4.4.0",
+        "botbuilder-core": "^4.4.0",
+        "botbuilder-dialogs": "^4.4.0",
+        "botframework-config": "^4.4.0",
+        "botframework-connector": "^4.4.0",
+        "botframework-schema": "^4.4.0",
         "copyfiles": "^2.1.0",
         "i18n": "^0.8.3",
         "jsonwebtoken": "^8.5.1",
@@ -152,7 +178,7 @@
     },
     "@rush-temp/botbuilder-solutions": {
       "version": "file:projects/botbuilder-solutions.tgz",
-      "integrity": "sha512-9+x1BlC7hj5qZRnEfRvtODxxxVT84CJjV/gQSI1x2BUpLf4k6QHVAs5aP+CphWOetDrWl94kW4/hWBMfZXMBQw==",
+      "integrity": "sha512-VuIvkbPcKJpBIA63bZG/jiROBNf7oGcNa5NfUHGLE5Cl3ofB5m++gB4jZxUzjfO2abxgnil7OYJ/+gwyxqU7SA==",
       "requires": {
         "@microsoft/recognizers-text": "^1.1.4",
         "@microsoft/recognizers-text-choice": "^1.1.4",
@@ -163,14 +189,14 @@
         "@types/restify": "^7.2.4",
         "adaptivecards": "^1.1.3",
         "azure-cognitiveservices-contentmoderator": "^4.0.0",
-        "botbuilder": "4.3.4",
-        "botbuilder-ai": "4.3.4",
-        "botbuilder-azure": "4.3.4",
-        "botbuilder-core": "4.3.4",
-        "botbuilder-dialogs": "4.3.4",
-        "botframework-config": "4.3.4",
-        "botframework-connector": "4.3.4",
-        "botframework-schema": "4.3.4",
+        "botbuilder": "^4.4.0",
+        "botbuilder-ai": "^4.4.0",
+        "botbuilder-azure": "^4.4.0",
+        "botbuilder-core": "^4.4.0",
+        "botbuilder-dialogs": "^4.4.0",
+        "botframework-config": "^4.4.0",
+        "botframework-connector": "^4.4.0",
+        "botframework-schema": "^4.4.0",
         "copyfiles": "^2.1.0",
         "dateformat": "^3.0.3",
         "i18next": "^15.0.6",
@@ -371,6 +397,14 @@
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/tough-cookie/-/@types/tough-cookie-2.3.5.tgz",
       "integrity": "sha1-naRO11VxmZtlw3tgybK4jbVMWF0="
     },
+    "@types/tunnel": {
+      "version": "0.0.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/tunnel/-/@types/tunnel-0.0.0.tgz",
+      "integrity": "sha1-wqQpQ+5jyQZSpVV7jE5Wzad/lE4=",
+      "requires": {
+        "@types/node": "*"
+      }
+    },
     "@types/uuid": {
       "version": "3.4.4",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/uuid/-/@types/uuid-3.4.4.tgz",
@@ -517,14 +551,6 @@
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/async/-/async-1.5.2.tgz",
       "integrity": "sha1-7GphrlZIDAw8skHJVhjiCJL5Zyo="
     },
-    "async-file": {
-      "version": "2.0.2",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/async-file/-/async-file-2.0.2.tgz",
-      "integrity": "sha1-Aq0HhWrDcX6DayCuxaTP4AxG3yM=",
-      "requires": {
-        "rimraf": "^2.5.2"
-      }
-    },
     "async-limiter": {
       "version": "1.0.0",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/async-limiter/-/async-limiter-1.0.0.tgz",
@@ -560,14 +586,6 @@
       "integrity": "sha1-oj+BC5dUdYKehpV2og6B98hhEfE=",
       "requires": {
         "ms-rest": "^2.3.3"
-      }
-    },
-    "azure-cognitiveservices-luis-runtime": {
-      "version": "1.2.2",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/azure-cognitiveservices-luis-runtime/-/azure-cognitiveservices-luis-runtime-1.2.2.tgz",
-      "integrity": "sha1-kNV52bWRxKVzni8ev6IUuYM5uKU=",
-      "requires": {
-        "ms-rest": "^2.5.0"
       }
     },
     "azure-storage": {
@@ -637,70 +655,88 @@
       "integrity": "sha1-X/hhbW3SylOIvIWy1iZuK52lAtw="
     },
     "botbuilder": {
-      "version": "4.3.4",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botbuilder/-/botbuilder-4.3.4.tgz",
-      "integrity": "sha1-Yl1i0xn3TreKVpAGke6ae/+pB3E=",
+      "version": "4.4.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botbuilder/-/botbuilder-4.4.0.tgz",
+      "integrity": "sha1-h3xiqxDyOp1JJAQfjr86dyY/TTI=",
       "requires": {
         "@types/filenamify": "^2.0.1",
         "@types/node": "^10.12.18",
-        "async-file": "^2.0.2",
-        "botbuilder-core": "^4.3.4",
-        "botframework-connector": "^4.3.4",
-        "filenamify": "^2.0.0"
+        "botbuilder-core": "^4.4.0",
+        "botframework-connector": "^4.4.0",
+        "filenamify": "^2.0.0",
+        "fs-extra": "^7.0.1"
       }
     },
     "botbuilder-ai": {
-      "version": "4.3.4",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botbuilder-ai/-/botbuilder-ai-4.3.4.tgz",
-      "integrity": "sha1-Uv+ShqxLxJ0zNjTOfmsv8XLsEyA=",
+      "version": "4.4.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botbuilder-ai/-/botbuilder-ai-4.4.0.tgz",
+      "integrity": "sha1-PTLP8buGtIjYZTGTAD9nDKVsgkI=",
       "requires": {
+        "@azure/cognitiveservices-luis-runtime": "2.0.0",
+        "@azure/ms-rest-js": "~1.8.2",
         "@microsoft/recognizers-text-date-time": "1.1.2",
         "@types/html-entities": "^1.2.16",
         "@types/node": "^10.12.18",
         "@types/request-promise-native": "^1.0.10",
-        "azure-cognitiveservices-luis-runtime": "1.2.2",
-        "botbuilder-core": "^4.3.4",
+        "botbuilder-core": "^4.4.0",
         "html-entities": "^1.2.1",
         "moment": "^2.20.1",
-        "ms-rest": "2.5.0",
         "request": "^2.87.0",
         "request-promise-native": "1.0.5",
         "url-parse": "^1.4.4"
+      },
+      "dependencies": {
+        "@azure/ms-rest-js": {
+          "version": "1.8.2",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@azure/ms-rest-js/-/@azure/ms-rest-js-1.8.2.tgz",
+          "integrity": "sha1-2q+fOfvcZizuONNZBTMo3VxgIks=",
+          "requires": {
+            "@types/tunnel": "0.0.0",
+            "axios": "^0.18.0",
+            "form-data": "^2.3.2",
+            "tough-cookie": "^2.4.3",
+            "tslib": "^1.9.2",
+            "tunnel": "0.0.6",
+            "uuid": "^3.2.1",
+            "xml2js": "^0.4.19"
+          }
+        }
       }
     },
     "botbuilder-azure": {
-      "version": "4.3.4",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botbuilder-azure/-/botbuilder-azure-4.3.4.tgz",
-      "integrity": "sha1-jVE5ATLgk1/nuM9NC3mcQAcnIeI=",
+      "version": "4.4.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botbuilder-azure/-/botbuilder-azure-4.4.0.tgz",
+      "integrity": "sha1-znzJz6T/RB5dasJeoIw9/rlWrFU=",
       "requires": {
+        "@types/documentdb": "^1.10.5",
         "@types/node": "^10.12.18",
         "azure-storage": "2.10.2",
-        "botbuilder": "^4.3.4",
+        "botbuilder": "^4.4.0",
         "documentdb": "1.14.5",
         "flat": "^4.0.0",
         "semaphore": "^1.1.0"
       }
     },
     "botbuilder-core": {
-      "version": "4.3.4",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botbuilder-core/-/botbuilder-core-4.3.4.tgz",
-      "integrity": "sha1-RXuADt7Mxbl2g3JtgII0V+tTohc=",
+      "version": "4.4.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botbuilder-core/-/botbuilder-core-4.4.0.tgz",
+      "integrity": "sha1-4smEQxvncp/wxZWD/H1FpYZIMNE=",
       "requires": {
         "assert": "^1.4.1",
-        "botframework-schema": "^4.3.4"
+        "botframework-schema": "^4.4.0"
       }
     },
     "botbuilder-dialogs": {
-      "version": "4.3.4",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botbuilder-dialogs/-/botbuilder-dialogs-4.3.4.tgz",
-      "integrity": "sha1-J+oqCwm0SUbqySO0NHXFD5aYga8=",
+      "version": "4.4.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botbuilder-dialogs/-/botbuilder-dialogs-4.4.0.tgz",
+      "integrity": "sha1-M+qPlV+PwywBskuuNjQahuhG/Wo=",
       "requires": {
         "@microsoft/recognizers-text-choice": "1.1.2",
         "@microsoft/recognizers-text-date-time": "1.1.2",
         "@microsoft/recognizers-text-number": "1.1.2",
         "@microsoft/recognizers-text-suite": "1.1.2",
         "@types/node": "^10.12.18",
-        "botbuilder-core": "^4.3.4"
+        "botbuilder-core": "^4.4.0"
       },
       "dependencies": {
         "@microsoft/recognizers-text-choice": {
@@ -727,9 +763,9 @@
       }
     },
     "botframework-config": {
-      "version": "4.3.4",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botframework-config/-/botframework-config-4.3.4.tgz",
-      "integrity": "sha1-WYz7H0WINg9vt1DBIKtnKlmj8wM=",
+      "version": "4.4.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botframework-config/-/botframework-config-4.4.0.tgz",
+      "integrity": "sha1-nkLbhpuLXz4KM71R/1ydxInJ6K4=",
       "requires": {
         "fs-extra": "^7.0.0",
         "process": "^0.11.10",
@@ -739,15 +775,15 @@
       }
     },
     "botframework-connector": {
-      "version": "4.3.4",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botframework-connector/-/botframework-connector-4.3.4.tgz",
-      "integrity": "sha1-lwlnyrcaAZErRLVsMfgp9r95V68=",
+      "version": "4.4.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botframework-connector/-/botframework-connector-4.4.0.tgz",
+      "integrity": "sha1-a20bUdRO+drnsiyE8e74qczenfU=",
       "requires": {
         "@azure/ms-rest-js": "1.2.6",
         "@types/jsonwebtoken": "7.2.8",
         "@types/node": "^10.12.18",
         "base64url": "^3.0.0",
-        "botframework-schema": "^4.3.4",
+        "botframework-schema": "^4.4.0",
         "form-data": "^2.3.3",
         "jsonwebtoken": "8.0.1",
         "nock": "^10.0.3",
@@ -775,9 +811,9 @@
       }
     },
     "botframework-schema": {
-      "version": "4.3.4",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botframework-schema/-/botframework-schema-4.3.4.tgz",
-      "integrity": "sha1-FHfxrkX5NwMcMF0Eq+FSzvqbO18="
+      "version": "4.4.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/botframework-schema/-/botframework-schema-4.4.0.tgz",
+      "integrity": "sha1-g7wFIh5Qu58dYJzlKoJCvsvs+zA="
     },
     "brace-expansion": {
       "version": "1.1.11",
@@ -1020,6 +1056,11 @@
           "version": "1.0.5",
           "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/semaphore/-/semaphore-1.0.5.tgz",
           "integrity": "sha1-tJJXbmavGT25XWXiXsU/Xxl5jWA="
+        },
+        "tunnel": {
+          "version": "0.0.5",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/tunnel/-/tunnel-0.0.5.tgz",
+          "integrity": "sha1-0VMiVHSe02Yg/NEBCGVJWh+p0K4="
         }
       }
     },
@@ -1451,9 +1492,9 @@
       }
     },
     "inherits": {
-      "version": "2.0.3",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/inherits/-/inherits-2.0.3.tgz",
-      "integrity": "sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4="
+      "version": "2.0.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/inherits/-/inherits-2.0.1.tgz",
+      "integrity": "sha1-sX0I0ya0Qj5Wjv9xn5GwscvfafE="
     },
     "int64-buffer": {
       "version": "0.1.10",
@@ -2173,6 +2214,13 @@
         "through": "^2.3.8",
         "tunnel": "0.0.5",
         "uuid": "^3.2.1"
+      },
+      "dependencies": {
+        "tunnel": {
+          "version": "0.0.5",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/tunnel/-/tunnel-0.0.5.tgz",
+          "integrity": "sha1-0VMiVHSe02Yg/NEBCGVJWh+p0K4="
+        }
       }
     },
     "ms-rest-azure": {
@@ -2939,6 +2987,11 @@
         "xtend": "~4.0.1"
       },
       "dependencies": {
+        "inherits": {
+          "version": "2.0.3",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/inherits/-/inherits-2.0.3.tgz",
+          "integrity": "sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4="
+        },
         "process-nextick-args": {
           "version": "2.0.0",
           "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/process-nextick-args/-/process-nextick-args-2.0.0.tgz",
@@ -3037,9 +3090,9 @@
       }
     },
     "tunnel": {
-      "version": "0.0.5",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/tunnel/-/tunnel-0.0.5.tgz",
-      "integrity": "sha1-0VMiVHSe02Yg/NEBCGVJWh+p0K4="
+      "version": "0.0.6",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/tunnel/-/tunnel-0.0.6.tgz",
+      "integrity": "sha1-cvExSzSlsZLbASMk3yzFh8pH+Sw="
     },
     "tunnel-agent": {
       "version": "0.6.0",
@@ -3118,13 +3171,6 @@
       "integrity": "sha1-evsa/lCAUkZInj23/g7TeTNqwPk=",
       "requires": {
         "inherits": "2.0.1"
-      },
-      "dependencies": {
-        "inherits": {
-          "version": "2.0.1",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/inherits/-/inherits-2.0.1.tgz",
-          "integrity": "sha1-sX0I0ya0Qj5Wjv9xn5GwscvfafE="
-        }
       }
     },
     "util-deprecate": {
