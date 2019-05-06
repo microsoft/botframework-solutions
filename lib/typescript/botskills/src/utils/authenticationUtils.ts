@@ -213,6 +213,8 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
             logger.command('Creating the updated bot authentication setting', authSettingCmd);
 
             await tryExecute('az', extractArgs(authSettingCmd));
+
+            logger.message('Authentication process finished successfully.');
         } else {
             logger.error('Could not configure authentication connection automatically.');
             // $manualAuthRequired = $true
