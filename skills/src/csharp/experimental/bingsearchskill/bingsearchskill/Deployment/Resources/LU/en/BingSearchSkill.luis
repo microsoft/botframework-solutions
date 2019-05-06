@@ -1,71 +1,104 @@
 {
+  "luis_schema_version": "3.2.0",
+  "versionId": "0.1",
+  "name": "qiowuBingSearchSkillen_BingSearchSkill",
+  "desc": "",
+  "culture": "en-us",
+  "tokenizerVersion": "1.0.0",
   "intents": [
     {
-      "name": "Sample"
+      "name": "GetCelebrityInfo"
     },
     {
       "name": "None"
+    },
+    {
+      "name": "SearchMovieInfo"
     }
   ],
-  "entities": [],
+  "entities": [
+    {
+      "name": "CelebrityName",
+      "roles": []
+    },
+    {
+      "name": "MovieTitle",
+      "roles": []
+    }
+  ],
   "composites": [],
   "closedLists": [],
-  "regex_entities": [],
-  "model_features": [],
-  "regex_features": [],
-  "utterances": [
+  "patternAnyEntities": [
     {
-      "text": "sample dialog",
-      "intent": "Sample",
-      "entities": []
+      "name": "CelebrityNamePatten",
+      "roles": [],
+      "explicitList": []
     },
     {
-      "text": "demo dialog",
-      "intent": "Sample",
-      "entities": []
-    },
-    {
-      "text": "Test dialog",
-      "intent": "Sample",
-      "entities": []
-    },
-    {
-      "text": "Run dialog",
-      "intent": "Sample",
-      "entities": []
-    },
-    {
-      "text": "run sample dialog",
-      "intent": "Sample",
-      "entities": []
-    },
-    {
-      "text": "hi",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "hello",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "logout",
-      "intent": "None",
-      "entities": []
-    },
-    {
-      "text": "goodbye",
-      "intent": "None",
-      "entities": []
+      "name": "MovieTitlePatten",
+      "roles": [],
+      "explicitList": []
     }
   ],
-  "patterns": [],
-  "patternAnyEntities": [],
+  "regex_entities": [],
   "prebuiltEntities": [],
-  "luis_schema_version": "3.0.0",
-  "versionId": "0.1",
-  "name": "BingSearchSkill",
-  "desc": "",
-  "culture": "en-us"
+  "model_features": [],
+  "regex_features": [],
+  "patterns": [
+    {
+      "pattern": "how is {MovieTitlePatten}",
+      "intent": "SearchMovieInfo"
+    },
+    {
+      "pattern": "who is {CelebrityNamePatten}",
+      "intent": "GetCelebrityInfo"
+    }
+  ],
+  "utterances": [
+    {
+      "text": "how about harry potter",
+      "intent": "SearchMovieInfo",
+      "entities": [
+        {
+          "entity": "MovieTitle",
+          "startPos": 10,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "what is jurassic park",
+      "intent": "SearchMovieInfo",
+      "entities": [
+        {
+          "entity": "MovieTitle",
+          "startPos": 8,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "who is bill gates",
+      "intent": "GetCelebrityInfo",
+      "entities": [
+        {
+          "entity": "CelebrityName",
+          "startPos": 7,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "who is tom hanks",
+      "intent": "GetCelebrityInfo",
+      "entities": [
+        {
+          "entity": "CelebrityName",
+          "startPos": 7,
+          "endPos": 15
+        }
+      ]
+    }
+  ],
+  "settings": []
 }
