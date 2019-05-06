@@ -7,7 +7,7 @@
     {
       "id": "Outlook",
       "serviceProviderId": "Azure Active Directory v2",
-      "scopes": "Notes.ReadWrite, User.ReadBasic.All"
+      "scopes": "User.ReadBasic.All, Mail.ReadWrite, Mail.Send, Notes.ReadWrite, Tasks.ReadWrite"
     }
   ],
   "actions": [
