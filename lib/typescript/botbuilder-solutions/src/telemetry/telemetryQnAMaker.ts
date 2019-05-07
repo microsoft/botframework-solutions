@@ -10,7 +10,6 @@ import { TelemetryExtensions } from './telemetryExtensions';
 import { TelemetryLoggerMiddleware } from './telemetryLoggerMiddleware';
 
 export interface ITelemetryQnAMaker {
-    logPersonalInformation: boolean;
     getAnswers(context: TurnContext): Promise<QnAMakerResult[]>;
 }
 
@@ -28,12 +27,10 @@ export namespace QnATelemetryConstants {
 
 export class TelemetryQnAMaker extends QnAMaker implements ITelemetryQnAMaker {
     public readonly qnaMsgEvent: string = 'QnaMessage';
-    public readonly logPersonalInformation: boolean;
     private innerEndpoint: QnAMakerEndpoint;
 
-    constructor(endpoint: QnAMakerEndpoint, options?: QnAMakerOptions, logPersonalInformation: boolean = false) {
+    constructor(endpoint: QnAMakerEndpoint, options?: QnAMakerOptions) {
         super(endpoint, options);
-        this.logPersonalInformation = logPersonalInformation;
         this.innerEndpoint = endpoint;
     }
 
