@@ -1,16 +1,14 @@
 # Migrating from an Enterprise Template based Bot to the Virtual Assistant Template
 
-## Table of Contents
-- [Migrating from an Enterprise Template based Bot to the Virtual Assistant Template](#migrating-from-an-enterprise-template-based-bot-to-the-virtual-assistant-template)
-  - [Table of Contents](#table-of-contents)
-  - [Overview](#overview)
-  - [Key Changes](#key-changes)
-    - [ASP.NET MVC Pattern](#aspnet-mvc-pattern)
-    - [Bot File deprecated](#bot-file-deprecated)
-    - [Folder Structure](#folder-structure)
+- [What happened to the Enterprise Template?](#what-happened-to-the-enterprise-template)
+- [Overview](#overview)
+- [Key changes](#key-changes)
+    - [ASP.NET MVC pattern](#aspnet-mvc-pattern)
+    - [Bot file deprecation](#bot-file-deprecation)
+    - [Folder structure](#folder-structure)
     - [Solutions Nuget package](#solutions-nuget-package)
     - [ARM Deployment](#arm-deployment)
-  - [Steps](#steps)
+- [How to migrate](#how-to-migrate)
     - [Create a new project](#create-a-new-project)
     - [Deployment](#deployment)
     - [Migrate dialogs](#migrate-dialogs)
@@ -18,6 +16,22 @@
     - [Adaptive Cards](#adaptive-cards)
     - [State](#state)
     - [LUISGen files](#luisgen-files)
+
+## What happened to the Enterprise Template?
+
+The Enterprise Template, released last year, brought together the required capabilities to provide a solid foundation of the best practices and services needed to create a high-quality conversational experience. The Virtual Assistant solution was built on this template, offering more assistance-focused experiences with skills to supplement it's knowledge base.
+
+Thanks to strong feedback from our customers, we are bringing the two approaches together. These complex, assistant-like conversational experiences are proving critical to digital transformation and customer/employee engagement.
+
+The Enterprise Template is now the [Virtual Assistant Template](https://aka.ms/convaivatemplate) and introduces the following capabilities:
+
+- C# template simplified and aligned to ASP.NET MVC pattern with dependenct injection
+- Typescript generator
+- `Microsoft.Bot.Builder.Solutions` NuGet package to enable easy updating of the template core after a project is created
+- Works out-of-box with Skills, enabling you to use re-usable conversational capabilities or hand off specific tasks to child Bots within your organization
+- Adaptive Cards that greet new and returning users
+- Updated Conversational Telemetry and Power BI Analytics
+- ARM based automated Azure deployment, including all dependent services
 
 ## Overview
 
@@ -31,15 +45,15 @@ The core of both templates is to accelerate creation of your own experience thro
 
 The Virtual Assistant template has adopted the ASP.NET Core MVC approach which has enabled us to further simplify the template code and be more familiar to .NET developers. This has resulted in significant changes to how the Bot is configured and initialised through deeper use of [Dependency Injection (DI)](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.2) which improve extensibility and the ability to automate testing.
 
-### Bot File deprecated
+### Bot file deprecation
 
-Prior to the Bot Framework SDK 4.3 release, the Bot Framework offered the .bot file as a mechanism to manage resources. However, going forward we recommend that you use `appsettings.json` (C#) or `.env` (Typescript) file for managing these resources. 
+Prior to the Bot Framework SDK 4.3 release, the Bot Framework offered the .bot file as a mechanism to manage resources. Going forward we recommend that you use `appsettings.json` (C#) or `.env` (Typescript) file for managing these resources. 
 
 In-line with this change to .bot files we have migrated the template configuration across to appSettings.json for general dependencies and cognitiveModels.json to represent the Dispatch, LUIS and QnA models registered for your assistant.
 
 This also enables you to leverage standard approaches such as KeyVault.
 
-### Folder Structure
+### Folder structure
 
 We have flattened the directory structure, primarily around the Dialogs folders which had a hierarchy enabling Dialogs to have their own resources, responses and state. Through our work building Skills and working with customers/partners it became clear this structure didn't scale and became complex.
 
@@ -62,17 +76,17 @@ The core folder structure is shown below and key concepts such as Dialogs, Model
     - startup.cs
 ```
 
-### Solutions Nuget package
+### Solutions NuGet package
 
-The previous Enterprise Template had a Solutions library which contained extensions to the Bot Framework to simplify creation of advanced experiences. This is now published as an additional Nuget library enabling us to easily make updates which you can pull into your project and avoiding have to perform differential comparison with our sample Enterprise Template project.
+The previous Enterprise Template had a `Microsoft.Bot.Solutions` library which contained extensions to the Bot Framework to simplify creation of advanced experiences. This is now published as the [`Microsoft.Bot.Builder.Solutions`](https://www.nuget.org/packages/Microsoft.Bot.Builder.Solutions/) is now published as an additional NuGet library enabling us to easily make updates which you can pull into your project and avoiding have to perform differential comparison with our sample Enterprise Template project.
 
 ### ARM Deployment
 
-Previously we made use of the `msbot` command line tool to automate deployment of dependent resources in Azure. This enabled us to address limitations around automated Azure deployment for some resources and ensure developers had an easy way to get started.
+Previously we used the `msbot` command line tool to automate deployment of dependent resources in Azure. This enabled us to address limitations around automated Azure deployment for some resources and ensure developers had an easy way to get started.
 
 With these limitations addressed we have now moved to a ARM template based approach providing you the same automated approach but also providing a more familiar way to customise deployment to suit your requirements.
 
-## Steps
+## How to migrate to the Virtual Assistant template
 
 ### Create a new project
 
@@ -86,9 +100,10 @@ Alternatively if you wish to re-use existing deployed resources, you can alterna
 
 ### Migrate dialogs
 
-- Copy your custom Dialog code files into the `Dialogs` folder of your new project
+1. Copy your custom Dialog code files into the `Dialogs` folder of your new project
   
-- Within your `Startup.cs` file add a Transient Service for each of your Dialogs
+1. Within your `Startup.cs` file add a Transient Service for each of your Dialogs
+
      ```csharp
     // Register dialogs
     services.AddTransient<AuthenticationDialog>();
@@ -100,7 +115,7 @@ Alternatively if you wish to re-use existing deployed resources, you can alterna
     services.AddTransient<YOURDIALOG>();
      ``` 
 
-- Add each of these Dialogs into your MainDialog constructor (DI) and call AddDialog for each one to register).
+1. Add each of these Dialogs into your MainDialog constructor (DI) and call AddDialog for each one to register).
 
     ```csharp
     public MainDialog(
