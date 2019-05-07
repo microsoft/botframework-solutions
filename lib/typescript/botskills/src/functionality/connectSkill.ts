@@ -10,11 +10,10 @@ import { ConsoleLogger, ILogger} from '../logger';
 import { IAction, IConnectConfiguration, ISkillFIle, ISkillManifest, IUtteranceSource } from '../models';
 import { authenticate, execute } from '../utils';
 
-async function runCommand(command: string, description: string): Promise<string> {
-    logger.command(description, command);
-    const parts: string[] = command.split(' ');
-    const cmd: string = parts[0];
-    const commandArgs: string[] = parts.slice(1)
+async function runCommand(command: string[], description: string): Promise<string> {
+    logger.command(description, command.join(' '));
+    const cmd: string = command[0];
+    const commandArgs: string[] = command.slice(1)
         .filter((arg: string) => arg);
 
     try {
@@ -101,19 +100,19 @@ async function updateDispatch(configuration: IConnectConfiguration, manifest: IS
 
         // Parse LU file
         logger.message(`Parsing ${luisApp} LU file...`);
-        let ludownParseCommand: string = `ludown parse toluis `;
-        ludownParseCommand += `--in ${join(configuration.luisFolder, luFile)} `;
-        ludownParseCommand += `--luis_culture ${configuration.language} `;
-        ludownParseCommand += `--out_folder ${configuration.luisFolder} `; //luisFolder should point to 'en' folder inside LUIS folder
-        ludownParseCommand += `--out "${luisApp}.luis"`;
+        const ludownParseCommand: string[] = ['ludown', 'parse', 'toluis'];
+        ludownParseCommand.push(...['--in', join(configuration.luisFolder, luFile)]);
+        ludownParseCommand.push(...['--luis_culture', configuration.language]);
+        ludownParseCommand.push(...['--out_folder', configuration.luisFolder]); //luisFolder should point to 'en' folder inside LUIS folder
+        ludownParseCommand.push(...['--out', `"${luisApp}.luis"`]);
 
-        let dispatchAddCommand: string = `dispatch add `;
-        dispatchAddCommand += `--type file `;
-        dispatchAddCommand += `--name ${manifest.id} `;
-        dispatchAddCommand += `--filePath ${join(configuration.luisFolder, luisFile)} `;
-        dispatchAddCommand += `--intentName ${intentName} `;
-        dispatchAddCommand += `--dataFolder ${configuration.dispatchFolder} `;
-        dispatchAddCommand += `--dispatch ${join(configuration.dispatchFolder, dispatchFile)}`;
+        const dispatchAddCommand: string[] = ['dispatch', 'add'];
+        dispatchAddCommand.push(...['--type', 'file']);
+        dispatchAddCommand.push(...['--name', manifest.id]);
+        dispatchAddCommand.push(...['--filePath', join(configuration.luisFolder, luisFile)]);
+        dispatchAddCommand.push(...['--intentName', intentName]);
+        dispatchAddCommand.push(...['--dataFolder', configuration.dispatchFolder]);
+        dispatchAddCommand.push(...['--dispatch', join(configuration.dispatchFolder, dispatchFile)]);
 
         logger.message(await runCommand(ludownParseCommand, `Parsing ${luisApp} LU file`));
         logger.message(await runCommand(dispatchAddCommand, `Executing dispatch add for the ${luisApp} LU file`));
@@ -121,18 +120,18 @@ async function updateDispatch(configuration: IConnectConfiguration, manifest: IS
 
     logger.message('Running dispatch refresh...');
 
-    let dispatchRefreshCommand: string = `dispatch refresh `;
-    dispatchRefreshCommand += `--dispatch ${join(configuration.dispatchFolder, dispatchFile)} `;
-    dispatchRefreshCommand += `--dataFolder ${configuration.dispatchFolder}`;
+    const dispatchRefreshCommand: string[] = ['dispatch', 'refresh'];
+    dispatchRefreshCommand.push(...['--dispatch', join(configuration.dispatchFolder, dispatchFile)]);
+    dispatchRefreshCommand.push(...['--dataFolder', configuration.dispatchFolder]);
 
     await runCommand(dispatchRefreshCommand, `Executing dispatch refresh for the ${configuration.dispatchName} file`);
 
     logger.message('Running LuisGen...');
 
-    let luisgenCommand: string = `luisgen `;
-    luisgenCommand += `${join(configuration.dispatchFolder, dispatchJsonFile)} `;
-    luisgenCommand += `-${configuration.lgLanguage} "DispatchLuis" `;
-    luisgenCommand += `-o ${configuration.lgOutFolder}`;
+    const luisgenCommand: string[] = ['luisgen'];
+    luisgenCommand.push(join(configuration.dispatchFolder, dispatchJsonFile));
+    luisgenCommand.push(...[`-${configuration.lgLanguage}`, `"DispatchLuis"`]);
+    luisgenCommand.push(...['-o', configuration.lgOutFolder]);
 
     await runCommand(luisgenCommand, `Executing luisgen for the ${configuration.dispatchName} file`);
 }
