@@ -14,7 +14,7 @@ function DeployKB ($name, $lu_file, $qnaSubscriptionKey, $log)
 	# Create QnA Maker kb
     Write-Host "> Deploying $($id) QnA kb ..."
 
-	# These values pretty much gaurantee success. We can decrease them if the QnA backend gets faster
+	# These values pretty much guarantee success. We can decrease them if the QnA backend gets faster
     $initialDelaySeconds = 30;
     $retryAttemptsRemaining = 3;
     $retryDelaySeconds = 15;
