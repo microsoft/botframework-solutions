@@ -145,6 +145,9 @@ if ($outputs)
 
 	$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $outFolder appsettings.json)
 
+	# Delay to let QnA Maker finish setting up
+	Start-Sleep -s 30
+
 	# Deploy cognitive models
 	Invoke-Expression "$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1') -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -outFolder $($outFolder) -languages `"$($languages)`""
 
