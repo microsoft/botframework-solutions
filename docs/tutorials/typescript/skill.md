@@ -1,7 +1,6 @@
 # Create a new Bot Framework Skill (TypeScript)
 
-> [!NOTE]
-> This topics applies to v4 version of the SDK.
+**APPLIES TO:** ✅ SDK v4
 
 ## In this tutorial
 - [Create a new Bot Framework Skill (TypeScript)](#create-a-new-bot-framework-skill-typescript)
