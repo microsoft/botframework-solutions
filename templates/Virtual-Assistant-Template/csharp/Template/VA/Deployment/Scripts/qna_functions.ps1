@@ -11,15 +11,42 @@ function DeployKB ($name, $lu_file, $qnaSubscriptionKey, $log)
         --out_folder $outFolder `
         --out $outFile
         
-    # Create QnA Maker kb
+	# Create QnA Maker kb
     Write-Host "> Deploying $($id) QnA kb ..."
-    $qnaKb = (qnamaker create kb `
-        --name $id `
-        --subscriptionKey $qnaSubscriptionKey `
-        --in $(Join-Path $outFolder $outFile) `
-        --force `
-        --wait `
-        --msbot) 2>> $log | ConvertFrom-Json
+
+	# These values pretty much gaurantee success. We can decrease them if the QnA backend gets faster
+    $initialDelaySeconds = 30;
+    $retryAttemptsRemaining = 3;
+    $retryDelaySeconds = 15;
+    $retryDelayIncrease = 30;
+
+    while ($retryAttemptsRemaining -ge 0) {
+		$qnaKb = (qnamaker create kb `
+			--name $id `
+			--subscriptionKey $qnaSubscriptionKey `
+			--in $(Join-Path $outFolder $outFile) `
+			--force `
+			--wait `
+			--msbot) 2>> $log
+
+		if (-not $qnaKb) {
+			$retryAttemptsRemaining = $retryAttemptsRemaining - 1
+			Write-Host $retryAttemptsRemaining
+			Start-Sleep -s $retryDelaySeconds
+			$retryDelaySeconds += $retryDelayIncrease
+
+			if ($retryAttemptsRemaining -lt 0) {
+				Write-Host "! Unable to create QnA KB." -ForegroundColor Cyan
+			}
+			else {
+				Write-Host "> Retrying ..."
+				Continue
+			}
+		}
+		else {
+			Break
+		}
+    }
 
 	if (-not $qnaKb) {
 		Write-Host "! Could not deploy knowledgebase. Review the log for more information." -ForegroundColor DarkRed
@@ -27,6 +54,8 @@ function DeployKB ($name, $lu_file, $qnaSubscriptionKey, $log)
 		Return $null
 	}
 	else {
+		$qnaKb = $qnaKb | ConvertFrom-Json
+
 	    # Publish QnA Maker knowledgebase
 		$(qnamaker publish kb --kbId $qnaKb.kbId --subscriptionKey $qnaSubscriptionKey) 2>> $log | Out-Null
 
