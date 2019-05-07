@@ -11,7 +11,6 @@ import { TelemetryExtensions } from './telemetryExtensions';
 import { TelemetryConstants, TelemetryLoggerMiddleware } from './telemetryLoggerMiddleware';
 
 export interface ITelemetryLuisRecognizer {
-    logPersonalInformation: boolean;
     recognize(context: TurnContext | DialogContext, logOriginalMessage?: boolean): Promise<RecognizerResult>;
 }
 
@@ -30,13 +29,11 @@ export namespace LuisTelemetryConstants {
 
 export class TelemetryLuisRecognizer extends LuisRecognizer implements ITelemetryLuisRecognizer {
     private readonly luisApplication: LuisApplication;
-    public readonly logPersonalInformation: boolean;
 
     constructor(luisApplication: LuisApplication, predictionOptions?: LuisPredictionOptions,
-                includeApiResults: boolean = false, logPersonalInformation: boolean = false) {
+                includeApiResults: boolean = false) {
         super(luisApplication, predictionOptions, includeApiResults);
         this.luisApplication = luisApplication;
-        this.logPersonalInformation = logPersonalInformation;
     }
 
     public recognize(context: TurnContext | DialogContext): Promise<RecognizerResult> {
