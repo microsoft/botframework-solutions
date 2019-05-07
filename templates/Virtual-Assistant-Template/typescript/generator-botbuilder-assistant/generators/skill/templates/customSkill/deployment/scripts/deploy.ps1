@@ -70,14 +70,16 @@ if (-not $luisAuthoringKey) {
 
 if (-not $appId) {
 	# Create app registration
-	$appId = (az ad app create `
+	$app = (az ad app create `
 		--display-name $name `
 		--password $appPassword `
 		--available-to-other-tenants `
 		--reply-urls 'https://token.botframework.com/.auth/web/redirect')
 
 	# Retrieve AppId
-	$appId = ($appId | ConvertFrom-Json) | Select-Object -ExpandProperty appId
+	if ($app) {
+		$appId = ($app | ConvertFrom-Json) | Select-Object -ExpandProperty appId
+	}
 
 	if(-not $appId) {
 		Write-Host "! Could not provision Microsoft App Registration automatically. Review the log for more information." -ForegroundColor DarkRed
@@ -100,7 +102,7 @@ if ($parametersFile) {
     (az group deployment create `
         --name $timestamp `
         --resource-group $resourceGroup `
-        --template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
+        --template-file "$(Join-Path $PSScriptRoot '..' 'resources' 'template.json')" `
         --parameters "@$($parametersFile)" `
         --parameters microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"") 2>> $logFile | Out-Null
 }
@@ -108,7 +110,7 @@ else {
     (az group deployment create `
         --name $timestamp `
         --resource-group $resourceGroup `
-        --template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
+        --template-file "$(Join-Path $PSScriptRoot '..' 'resources' 'template.json')" `
         --parameters microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"") 2>> $logFile | Out-Null
 }
 
@@ -118,13 +120,13 @@ $outputs = (az group deployment show `
 	--resource-group $resourceGroup `
 	--query properties.outputs)
 
-# Log and convert to JSON
-$outputs >> $logFile
-$outputs = $outputs | ConvertFrom-Json
-
 # If it succeeded then we perform the remainder of the steps
-if ($outputs -ne $null)
-{	
+if ($outputs)
+{
+	# Log and convert to JSON
+	$outputs >> $logFile
+	$outputs = $outputs | ConvertFrom-Json
+
 	# Update appsettings.json
 	Write-Host "> Updating appsettings.json ..."
 	if (Test-Path $(Join-Path $outFolder appsettings.json)) {
@@ -143,6 +145,9 @@ if ($outputs -ne $null)
 
 	$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $outFolder appsettings.json)
 
+	# Delay to let QnA Maker finish setting up
+	Start-Sleep -s 30
+
 	# Deploy cognitive models
 	Invoke-Expression "$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1') -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -outFolder $($outFolder) -languages `"$($languages)`""
 
@@ -151,24 +156,24 @@ if ($outputs -ne $null)
 else
 {
 	# Check for failed deployments
-$operations = az group deployment operation list -g $resourceGroup -n $timestamp | ConvertFrom-Json
-$failedOperations = $operations | Where { $_.properties.statusmessage.error -ne $null }
-if ($failedOperations) {
-	foreach ($operation in $failedOperations) {
-		switch ($operation.properties.statusmessage.error.code) {
-			"MissingRegistrationForLocation" {
-				Write-Host "! Deployment failed for resource of type $($operation.properties.targetResource.resourceType). This resource is not avaliable in the location provided." -ForegroundColor DarkRed
-				Write-Host "+ Update the .\Deployment\Resources\parameters.template.json file with a valid region for this resource and provide the file path in the -parametersFile parameter." -ForegroundColor Magenta
-			}
-			default {
-				Write-Host "! Deployment failed for resource of type $($operation.properties.targetResource.resourceType)."
-				Write-Host "! Code: $($operation.properties.statusMessage.error.code)."
-				Write-Host "! Message: $($operation.properties.statusMessage.error.message)."
+	$operations = az group deployment operation list -g $resourceGroup -n $timestamp | ConvertFrom-Json
+	$failedOperations = $operations | Where { $_.properties.statusmessage.error -ne $null }
+	if ($failedOperations) {
+		foreach ($operation in $failedOperations) {
+			switch ($operation.properties.statusmessage.error.code) {
+				"MissingRegistrationForLocation" {
+					Write-Host "! Deployment failed for resource of type $($operation.properties.targetResource.resourceType). This resource is not avaliable in the location provided." -ForegroundColor DarkRed
+					Write-Host "+ Update the .\Deployment\Resources\parameters.template.json file with a valid region for this resource and provide the file path in the -parametersFile parameter." -ForegroundColor Magenta
+				}
+				default {
+					Write-Host "! Deployment failed for resource of type $($operation.properties.targetResource.resourceType)."
+					Write-Host "! Code: $($operation.properties.statusMessage.error.code)."
+					Write-Host "! Message: $($operation.properties.statusMessage.error.message)."
+				}
 			}
 		}
-	}
 
-	Write-Host "+ To delete this resource group, run 'az group delete -g $($resourceGroup) --no-wait'" -ForegroundColor Magenta
-	Break
+		Write-Host "+ To delete this resource group, run 'az group delete -g $($resourceGroup) --no-wait'" -ForegroundColor Magenta
+		Break
 	}
 }
