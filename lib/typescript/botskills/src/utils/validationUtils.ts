@@ -3,8 +3,6 @@
  * Licensed under the MIT License.
  */
 
-import { ILogger } from '../logger';
-
 /**
  * @param arg1 First argument of the pair of arguments.
  * @param arg2 Second argument of the pair of arguments.
