@@ -17,7 +17,7 @@ Thanks to strong feedback from our customers, we are bringing the two approaches
 
 The Enterprise Template is now the [Virtual Assistant Template](https://aka.ms/convaivatemplate) and introduces the following capabilities:
 
-- C# template simplified and aligned to ASP.NET MVC pattern with dependenct injection
+- C# template simplified and aligned to ASP.NET MVC pattern with dependency injection
 - Typescript generator
 - `Microsoft.Bot.Builder.Solutions` NuGet package to enable easy updating of the template core after a project is created
 - Works out-of-box with Skills, enabling you to use re-usable conversational capabilities or hand off specific tasks to child Bots within your organization
@@ -31,11 +31,11 @@ If you have an existing bot based off of the Enterprise Template, we recommend c
 
 ### ASP.NET MVC Pattern
 
-The Virtual Assistant template has adopted the ASP.NET Core MVC approach which has enabled us to further simplify the template code and be more familiar to .NET developers. This has resulted in significant changes to how the Bot is configured and initialised through deeper use of [Dependency Injection (DI)](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.2) which improve extensibility and the ability to automate testing.
+The Virtual Assistant template has adopted the ASP.NET Core MVC approach which has enabled us to further simplify the template code and be more familiar to .NET developers. This has resulted in significant changes to how the Bot is configured and initialized through deeper use of [Dependency Injection (DI)](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.2) which improve extensibility and the ability to automate testing.
 
 ### Bot file deprecation
 
-Prior to the Bot Framework SDK 4.3 release, the Bot Framework offered the .bot file as a mechanism to manage resources. Going forward we recommend that you use `appsettings.json` (C#) or `.env` (Typescript) file for managing these resources. 
+Prior to the Bot Framework SDK 4.3 release, the Bot Framework offered the .bot file as a mechanism to manage resources. Going forward we recommend that you use `appsettings.json` (C#) or `.env` (Typescript) file for managing these resources.
 
 In-line with this change to .bot files we have migrated the template configuration across to appSettings.json for general dependencies and cognitiveModels.json to represent the Dispatch, LUIS and QnA models registered for your assistant.
 
@@ -72,7 +72,7 @@ The previous Enterprise Template had a `Microsoft.Bot.Solutions` library which c
 
 Previously we used the `msbot` command line tool to automate deployment of dependent resources in Azure. This enabled us to address limitations around automated Azure deployment for some resources and ensure developers had an easy way to get started.
 
-With these limitations addressed we have now moved to a ARM template based approach providing you the same automated approach but also providing a more familiar way to customise deployment to suit your requirements.
+With these limitations addressed we have now moved to a ARM template based approach providing you the same automated approach but also providing a more familiar way to customize deployment to suit your requirements.
 
 ## How to migrate to the Virtual Assistant template
 
@@ -101,7 +101,7 @@ Alternatively if you wish to re-use existing deployed resources, you can alterna
     services.AddTransient<OnboardingDialog>();
 
     services.AddTransient<YOURDIALOG>();
-     ``` 
+     ```
 
 1. Add each of these Dialogs into your MainDialog constructor (DI) and call AddDialog for each one to register).
 
@@ -123,7 +123,7 @@ Alternatively if you wish to re-use existing deployed resources, you can alterna
 
             AddDialog(onboardingDialog);
             AddDialog(escalateDialog);
-            
+
             // Your new Dialog
             AddDialog(yourDialog);
         }
@@ -137,7 +137,7 @@ Copy Responses for each dialog into a sub-directory of the Responses folder. Foc
 
 Copy any Adaptive Cards used by your dialogs into the `Content` directory with the sample greeting cards.
 
-### State 
+### State
 
 Copy any state classes you may have created into the `Models` directory.
 
