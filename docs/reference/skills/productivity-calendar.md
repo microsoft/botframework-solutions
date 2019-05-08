@@ -1,13 +1,16 @@
 # Calendar Skill (Productivity)
-The Calendar Skill provides Calendar related capabilities to a Virtual Assistant. 
+
+The Calendar Skill provides Calendar related capabilities to a Virtual Assistant.
 The most common scenarios have been implemented in this beta release, with additional scenarios in development.
 
 ## Table of Contents
+
 - [Supported Scenarios](#supported-scenarios)
 - [Language Model](#language-model)
 - [Configuration](#configuration)
 
 ## Supported Scenarios
+
 The following scenarios are currently supported by the Skill:
 
 - Accept a Meeting
@@ -55,19 +58,20 @@ The following scenarios are currently supported by the Skill:
   - *How many days are there until Thanksgiving?*
 
 ## Language Model
+
 LUIS models for the Skill are provided in .LU file format as part of the Skill. Further languages are being prioritized.
 
 |Supported Languages|
 |-|
-|English| 
-|French| 
-|Italian| 
-|German| 
-|Spanish| 
+|English|
+|French|
+|Italian|
+|German|
+|Spanish|
 |Chinese (simplified)|
 
-
 ### Intents
+
 |Name|Description|
 |-|-|
 |AcceptEventEntry| Matches queries to accept an event|
@@ -90,6 +94,7 @@ LUIS models for the Skill are provided in .LU file format as part of the Skill. 
 |TimeRemaining| Matches queries to get the time until a meeting begins|
 
 ### Entities
+
 |Name|Description|
 |-|-|
 |AskParameter| Simple entity|

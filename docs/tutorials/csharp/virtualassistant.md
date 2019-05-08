@@ -3,6 +3,7 @@
 **APPLIES TO:** ✅ SDK v4
 
 ## In this tutorial
+
 - [Quickstart: Create your first Virtual Assistant (C#)](#quickstart-create-your-first-virtual-assistant-c)
   - [In this tutorial](#in-this-tutorial)
   - [Intro](#intro)
@@ -13,6 +14,7 @@
   - [Next Steps](#next-steps)
 
 ## Intro
+
 ### Purpose
 
 Install Bot Framework development prerequisites and create your first Virtual Assistant.
@@ -22,9 +24,9 @@ Install Bot Framework development prerequisites and create your first Virtual As
 [Download and install](#download-and-install) the Bot Framework development prerequisites.
 
 - Retrieve your LUIS Authoring Key
-   - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work within a europe deployment. 
-   - Once signed in replace your name in the top right hand corner.
-   - Choose Settings and make a note of the Authoring Key for the next step.
+  - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work within a Europe deployment.
+  - Once signed in replace your name in the top right hand corner.
+  - Choose Settings and make a note of the Authoring Key for the next step.
 
 ### Time to Complete
 
@@ -44,10 +46,12 @@ A Virtual Assistant app (in C#) that greets a new user.
 4. Download and install PowerShell Core version 6 (required for cross platform deployment support):
    * [Download PowerShell Core on Windows](https://aka.ms/getps6-windows)
    * [Download PowerShell Core on macOS and Linux](https://aka.ms/getps6-linux)
-5. Download and install the Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of the latest capabilities: 
+5. Download and install the Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of the latest capabilities:
+
    ```
    npm install -g botdispatch ludown@1.2.0 luis-apis qnamaker luisgen@2.0.2 botskills
    ```
+
 6. Download and install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest).
 7. Download and install the [Bot Framework Emulator](https://aka.ms/botframework-emulator).
 
@@ -75,6 +79,7 @@ The Virtual Assistant requires the following Azure dependencies to run correctly
 
 1. Run **PowerShell Core** (pwsh.exe) and **change directory to the project directory** of your assistant/skill.
 2. Run the following command:
+
     ```shell
     .\Deployment\Scripts\deploy.ps1
     ```
@@ -88,23 +93,28 @@ The Virtual Assistant requires the following Azure dependencies to run correctly
     `appPassword` | The password for the [Azure Active Directory App](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview) that will be used by your bot. It must be at least 16 characters long, contain at least 1 special character, and contain at least 1 numeric character. If using an existing app, this must be the existing password. | **Yes**
     `luisAuthoringKey` | The authoring key for your LUIS account. It can be found at https://www.luis.ai/user/settings or https://eu.luis.ai/user/settings | **Yes**
 
-You can find more detailed deployment steps including customisation in the [Virtual Assistant and Skill Template deployment](/docs/tutorials/assistantandskilldeploymentsteps.md) page.
+You can find more detailed deployment steps including customization in the [Virtual Assistant and Skill Template deployment](/docs/tutorials/assistantandskilldeploymentsteps.md) page.
 
 ## Run your assistant
+
 When deployment is complete, you can run your Virtual Assistant debugging through the following steps:
+
 1. Press **F5** within Visual Studio to run your assistant.
-2. Run the **Bot Framework Emulator**. 
+2. Run the **Bot Framework Emulator**.
 3. Select **Open Bot**.
+
   <p align="center">
   <img src="../../media/quickstart-virtualassistant-openbot.png" width="600">
   </p>
 
 4. Populate the fields in the **Open a Bot** modal with your bot's configuration settings. Provide the endpoint of your running bot, e.g: `http://localhost:3978/api/messages`. Provide the AppId and Secret values. Find these in your `appsettings.json` file, under the `microsoftAppId` and `microsoftAppPassword` configuration settings.
+
   <p align="center">
   <img src="../../media/quickstart-virtualassistant-openbotmodal.png" width="600">
   </p>
 
 5. Congratulations, you've built and run your first Virtual Assistant!
+
 <p align="center">
 <img src="../../media/quickstart-virtualassistant-greetingemulator.png" width="600">
 </p>

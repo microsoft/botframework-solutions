@@ -3,6 +3,7 @@
 **APPLIES TO:** ✅ SDK v4
 
 ## In this tutorial
+
 - [Intro](#intro)
 - [Edit your greeting](#edit-your-greeting)
 - [Edit your responses](#edit-your-responses)
@@ -10,6 +11,7 @@
 - [Next steps](#next-steps)
 
 ## Intro
+
 ### Purpose
 
 Learn how to navigate your assistant's project and make common customizations.
@@ -28,7 +30,7 @@ A personalized Virtual Assistant with a new greeting and responses.
 
 ## Edit your greeting
 
-The assistant's greeting uses an [Adaptive Card](https://adaptivecards.io/), an open framework that lets you describe your content as you see fit and deliver it beautifully wherever your customers are. 
+The assistant's greeting uses an [Adaptive Card](https://adaptivecards.io/), an open framework that lets you describe your content as you see fit and deliver it beautifully wherever your customers are.
 
 1. Copy and paste the following JSON payload:
 
@@ -122,22 +124,28 @@ This approach supports multi-lingual responses using the standard resource file 
 
 ## Edit your cognitive models
 
-You may wish to add an additonal [QnA Maker](https://www.qnamaker.ai/) knowledge base to your assistant, this can be performed through the following steps.
+You may wish to add an additional [QnA Maker](https://www.qnamaker.ai/) knowledge base to your assistant, this can be performed through the following steps.
 
 1. Create a new QnA Maker knowledge base from a JSON file using the following command executed in your assistant directory
+
     ```shell
     qnamaker create kb --in <KB.json> --msbot | msbot connect qna --stdin --bot "YOUR_BOT.bot" --secret YOURSECRET
     ```
+
 2. Run the following command to update your Dispatch model to reflect your changes
+
     ```shell
     dispatch refresh --bot "YOUR_BOT.bot" --secret YOUR_SECRET
     ```
+
 3. Update the strongly typed Dispatch class to reflect the new QnA source
+
     ```shell
     msbot get dispatch --bot "YOUR_BOT.bot" | luis export version --stdin > dispatch.json
     luisgen dispatch.json -cs Dispatch -o Dialogs\Shared
     ```
-4.  Update the `Dialogs\Main\MainDialog.cs` file to include the corresponding Dispatch intent for your new QnA source following the example provided.
+
+4. Update the `Dialogs\Main\MainDialog.cs` file to include the corresponding Dispatch intent for your new QnA source following the example provided.
 
 You can now leverage multiple QnA sources as a part of your assistant's knowledge.
 

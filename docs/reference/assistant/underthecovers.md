@@ -2,9 +2,10 @@
 
 An Architecture diagram of your Virtual Assistant created through the template is shown below along with a detailed explanation.
 
-![Virtual Assistant Architecture](/docs/media/virtualassistant-architecture.jpg)
+![Virtual Assistant Architecture](../../media/virtualassistant-architecture.jpg)
 
 ## Client Integration
+
 End-Users can make use of the Virtual Assistant through the support [Azure Bot Service Channels](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0) including WebChat or through the Direct Line API that provides the ability to integrate your assistant directly into a device, mobile app or any other client experience.
 
 Device integration requires creation of a lightweight host app which runs on the device. We have successfully built native applications across multiple embedded platforms including HTML5 applications.
@@ -27,6 +28,7 @@ The Assistant makes use of a number of Middleware Components to process incoming
     - Content Moderator Middleware is an optional component that uses the Content Moderator Cognitive Service to detect inappropriate / PII content]]
 
 ## Advanced Conversational Analytics
+
 The Assistant is configured to collect telemetry into Application Insights. This can be imported into a PowerBI dashboard to view [advanced conversational analytics](https://aka.ms/botPowerBiTemplate).
 
 ## Dispatcher
@@ -37,7 +39,7 @@ This training process creates a Dispatcher LUIS model which is then used by the 
 
 ## Dialogs
 
-Dialogs represent conversational topics that the Assistant can handle, the template provides a `MainDialog`, `CancelDialog` and example `EscalateDialog`, `OnboardingDialog` dialogs. 
+Dialogs represent conversational topics that the Assistant can handle, the template provides a `MainDialog`, `CancelDialog` and example `EscalateDialog`, `OnboardingDialog` dialogs.
 
 ## Integration
 
@@ -52,11 +54,13 @@ Authentication connections are created on the Azure Bot Service and the Assistan
 Skills can request Authentication tokens for a given user when they are activated, this request is passed as an event to the Assistant which then uses the specific Authentication connection to surface an authentication request to the user if a token isn't found in the secure store. More detail on this is available [here](/docs/reference/skills/skilltokenflow.md)
 
 ## Linked Accounts
+
 Linked Accounts is a supporting web application that demonstrates how a user can link their Assistant to their digital properties (e.g. Office 365, Google, etc.) on a companion device (mobile phone or website). This would be done as part of the on-boarding process and avoids authentication prompts during voice scenarios.
 
 This integrates with the Authentication capability detailed above and provides a mechanism for a user to unlink all accounts which can be used as part of a device *forget me* feature.
 
 ## Edge Enablement
+
 Many assistant scenarios require cloud-connectivity to access down-stream APIs or data sources (e.g. Office 365, Navigation data, Music Services, etc.). There are however a class of assistant scenarios especially those running on devices that may have periods of poor connectivity where pushing Speech, Language Processing and Dialog management onto the Edge (device) is needed.
 
 We have a number of options to address this depending on platform and are working with initial customers to deliver this capability.

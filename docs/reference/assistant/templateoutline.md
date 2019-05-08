@@ -1,7 +1,7 @@
 # Virtual Assistant - Template Outline
 
 > [!NOTE]
-> This topic applies to v4 version of the SDK. 
+> This topic applies to v4 version of the SDK.
 
 The Virtual Assistant Template brings together a number of best practices we've identified through the building of conversational experiences and automates integration of components that we've found to be highly beneficial to Bot Framework developers. This section covers some background to key decisions to help explain why the template works the way it does.
 
@@ -57,7 +57,6 @@ This Dispatch tool also enables evaluation which will highlight confusion and ov
 The Dispatcher is used at the core of each project created using the template. The Dispatch model is used within the `MainDialog` class to identify whether the target is a LUIS model or QnA. In the case of LUIS, the secondary LUIS model is invoked returning the intent and entities as usual. Dispatcher is also used for interruption detection.
 
 ![Dispatch Example](/docs/media/dispatchexample.png)
-
 
 ## QnA Maker
 
