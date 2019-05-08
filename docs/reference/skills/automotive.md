@@ -6,7 +6,7 @@ Vehicle Control is a complicated domain, whilst there are only a limited set of 
 
 The Skill leverages a set of LUIS models to help understand the intent and entities but then leverages capabilities from our Maluuba team to match potential settings and actions to the available settings to then suggest a course of action.
 
-Unlike the Productivity and PoI skills that are integrated into existing services, the automotive skill will require integration with the telematics solution in use by a given OEM so will require customisation to reflect actual car features for a given OEM along with integration.
+Unlike the Productivity and PoI skills that are integrated into existing services, the automotive skill will require integration with the telematics solution in use by a given OEM so will require customization to reflect actual car features for a given OEM along with integration.
 
 To enable testing and simulation any action identified is surfaced to the calling application as an event, this can easily be seen within the Bot Framework Emulator and will be wired up into the Web Test harness available as part of the Virtual Assistant solution.
 
@@ -67,7 +67,7 @@ In addition there are two supporting LUIS models `settings_name` and `settings_v
 
 The Automotive Skill surfaces setting changes for testing purposes through an event returned to the client. This enables easy testing and simulation, all events are prefixed with `AutomotiveSkill.`. The below event is generated as a response to `I'm feeling cold`
 
-```
+```json
 {
   "name": "AutomotiveSkill.Temperature",
   "type": "event",
@@ -96,7 +96,7 @@ The Automotive Skill surfaces setting changes for testing purposes through an ev
 
 ### Example Skill Registration Entry
 
-```
+```json
 {
     "type": "skill",
     "id": "automotiveSkill",
@@ -176,7 +176,7 @@ The MSBot tool will outline the deployment plan including location and SKU. Ensu
 msbot list --bot YOURBOTFILE.bot --secret YOUR_BOT_SECRET
 ```
 
-```
+```json
   {
     "botFilePath": ".\\YOURBOTFILE.bot",
     "botFileSecret": "YOUR_BOT_SECRET",
@@ -188,7 +188,7 @@ msbot list --bot YOURBOTFILE.bot --secret YOUR_BOT_SECRET
 
 - Finally, add the .bot file paths for each of your language configurations (English only at this time).
 
-```
+```json
 "defaultLocale": "en-us",
   "languageModels": {
     "en": {
@@ -207,7 +207,7 @@ Follow the instructions below to add the Automotive Skill to an existing Virtual
 1. Update the Virtual Assistant deployment scripts.
     - Add the additional automotive skill LUIS models to the bot.recipe file located within your assistant project: `assistant\DeploymentScripts\en\bot.recipe`
 
-        ```
+        ```json
         {
             "type": "luis",
             "id": "settings",
