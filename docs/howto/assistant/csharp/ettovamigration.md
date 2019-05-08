@@ -1,20 +1,13 @@
-# Migrating an Enterprise Template based bot to the Virtual Assistant Template
+# Migrate an Enterprise Template based bot to the Virtual Assistant Template
 
-- [What happened to the Enterprise Template?](#what-happened-to-the-enterprise-template)
-- [Key changes](#key-changes)
-    - [ASP.NET MVC pattern](#aspnet-mvc-pattern)
-    - [Bot file deprecation](#bot-file-deprecation)
-    - [Folder structure](#folder-structure)
-    - [Solutions Nuget package](#solutions-nuget-package)
-    - [ARM Deployment](#arm-deployment)
-- [How to migrate](#how-to-migrate)
-    - [Create a new project](#create-a-new-project)
-    - [Deployment](#deployment)
-    - [Migrate dialogs](#migrate-dialogs)
-    - [Responses](#responses)
-    - [Adaptive Cards](#adaptive-cards)
-    - [State](#state)
-    - [LUISGen files](#luisgen-files)
+**APPLIES TO:** ✅ SDK v4
+
+## In this how-to
+
+- [What happened to the Enterprise Template?](#what-happened)
+- [Key changes to the template](#key-changes)
+- [How to migrate to the Virtual Assistant Template](#how-to-migrate)
+- [Extend your assistant with Skills](#extend-your-assistant)
 
 ## What happened to the Enterprise Template?
 
@@ -28,13 +21,13 @@ The Enterprise Template is now the [Virtual Assistant Template](https://aka.ms/c
 - Typescript generator
 - `Microsoft.Bot.Builder.Solutions` NuGet package to enable easy updating of the template core after a project is created
 - Works out-of-box with Skills, enabling you to use re-usable conversational capabilities or hand off specific tasks to child Bots within your organization
-- Adaptive Cards that greet new and returning users
+- [Adaptive Cards](https://adaptivecards.io/) that greet new and returning users
 - Native conversational telemetry and Power BI analytics via the Bot Builder SDK
 - ARM based automated Azure deployment, including all dependent services
 
 If you have an existing bot based off of the Enterprise Template, we recommend creating a new project from the Virtual Assistant Template and bring your dialogs across to get started quickly.
 
-## Key Changes
+## Key changes to the template
 
 ### ASP.NET MVC Pattern
 
@@ -85,11 +78,11 @@ With these limitations addressed we have now moved to a ARM template based appro
 
 ### Create a new project
 
-Create a new project using the Virtual Assistant template following the instructions [here](gettingstarted.md#create-a-new-project).
+[Create a new project](../../../tutorials/csharp/virtualassistant.md) using the Virtual Assistant Template.
 
 ### Deployment
 
-It's recommended to deploy your new Virtual Assistant template using the [updated deployment approach](../common/deploymentsteps.md) which now support the ability for multi-locale conversational experiences and the new configuration files which replace the .bot file. This enables you to get started right away with no manual changes.
+It's recommended to deploy your new Virtual Assistant template using the [updated deployment approach](../../../tutorials/assistantandskilldeploymentsteps.md) which now support the ability for multi-locale conversational experiences and the new configuration files which replace the .bot file. This enables you to get started right away with no manual changes.
 
 Alternatively if you wish to re-use existing deployed resources, you can alternatively take your existing .bot file, [decrypt the secrets](https://docs.microsoft.com/en-us/azure/bot-service/bot-file-basics?view=azure-bot-service-4.0&tabs=csharp) and manually move across existing Azure resource information into your new `appSettings.json` and `cognitiveModels.json` files.
 
@@ -152,5 +145,6 @@ Copy any state classes you may have created into the `Models` directory.
 
 Copy any LuisGen-generated classes into the `Services` directory.
 
+## Extend your assistant with Skills
 
-
+If your assistant was based on the [Virtual Assistant (Beta Release 0.3) solution](https://github.com/microsoft/AI/releases/tag/0.3), continue with [adding back the Skills](./oldvatovamigration.md). 

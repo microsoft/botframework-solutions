@@ -1,4 +1,4 @@
-# Virtual Assistant and Skill Template Deployment
+# Deploy your Virtual Assistant and Skill Template Deployment
 
 ## Deploy an Assistant/Skill 
 
