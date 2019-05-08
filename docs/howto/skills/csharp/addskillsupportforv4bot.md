@@ -1,36 +1,44 @@
-# Adding Skills Support to a V4 Bot (not based on Virtual Assistant Template)
+# Enable Bot Framework Skills on an existing v4 bot (C#)
 
-## Table of Contents
-- [Adding Skills Support to a V4 Bot (not based on Virtual Assistant Template)](#adding-skills-support-to-a-v4-bot-not-based-on-virtual-assistant-template)
-  - [Table of Contents](#table-of-contents)
-  - [Overview](#overview)
-  - [Libraries](#libraries)
-  - [Skill Configuration](#skill-configuration)
-  - [Skill Dialog Registration](#skill-dialog-registration)
-  - [Routing utterances to Skills](#routing-utterances-to-skills)
+**APPLIES TO:** ✅ SDK v4
 
-## Overview
+## In this how-to
 
-Creating a Bot Framework Bot through the [Virtual Assistant template](/docs/virtual-assistant/README.md) is the easiest way to get started with using Skills. If you have an existing v4 based Bot, the recommended approach would be to take the resulting project from this template and bring across your custom dialogs to get started quickly.
+- [Intro](#intro)
+- [Update your bot to use Bot Framework Solutions libraries](#update-your-bot-to-use-bot-framework-solutions-libraries)
+- [Skill configuration](#skill-configuration)
+- [Skill Dialog registration](#skill-dialog-registration)
+- [Route utterances to Skills](#route-utterances-to-skills)
+
+## Intro
+
+### Prerequisites
+
+You have an existing bot using the v4 SDK, following the MVC approach from this [Bot Builder sample](https://github.com/Microsoft/BotBuilder-Samples/tree/master/samples/csharp_dotnetcore/05.multi-turn-prompt).
+
+### Overview
+
+Creating a Bot Framework Bot through the [Virtual Assistant template](../../../tutorials/csharp/virtualassistant.md) is the easiest way to get started with using Skills. If you have an existing v4 based Bot, the recommended approach would be to take the resulting project from this template and bring across your custom dialogs to get started quickly.
 
  If, however you have an existing V4 Bot that you wish to add Skill capability then please follow the steps below.
 
-## Libraries
+## Update your bot to use Bot Framework Solutions libraries
 
-- Add `Microsoft.Bot.Builder.Solutions` and `Microsoft.Bot.Builder.Skills` NuGet libraries to your solution
+Add [`Microsoft.Bot.Builder.Solutions`](https://www.nuget.org/packages/Microsoft.Bot.Builder.Solutions/) and [`Microsoft.Bot.Builder.Skills`](https://www.nuget.org/packages/Microsoft.Bot.Builder.Skills/) NuGet packages to your solution.
 
-## Skill Configuration
+## Skill configuration
 
-The 'Skills' nuget provides a `SkillManifest` type that describes a Skill. Your bot should maintain a collection of registered Skills typically serialised into a JSON configuration file. The Virtual Assistant template uses a `skills.json` file for this purpose.
+The `Microsoft.Bot.Builder.Skills` package provides a `SkillManifest` type that describes a Skill. Your bot should maintain a collection of registered Skills typically serialised into a JSON configuration file. The Virtual Assistant template uses a `skills.json` file for this purpose.
 
 As part of your Configuration processing you should construct a collection of registered Skills by deserializing this file, for example:
 ```
 public List<SkillManifest> Skills { get; set; }
 ```
 
-## Skill Dialog Registration
+## Skill Dialog registration
 
 In your `Startup.cs` file register a `SkillDialog` for each registered skill as shown below, this uses the collection of Skills that you created in the previous step.
+
 ```csharp
  // Register skill dialogs
 services.AddTransient(sp =>
@@ -50,6 +58,7 @@ services.AddTransient(sp =>
 ```
 
 For scenarios where Skills require authentication connections you need to create an associated `MultiProviderAuthDialog`
+
 ```csharp
  // This method creates a MultiProviderAuthDialog based on a skill manifest.
 private MultiProviderAuthDialog BuildAuthDialog(SkillManifest skill, BotSettings settings)
@@ -71,7 +80,7 @@ private MultiProviderAuthDialog BuildAuthDialog(SkillManifest skill, BotSettings
 }
 ```
 
-## Routing utterances to Skills
+## Route utterances to Skills
 
 Within your Main/Router dialog you firstly need to ensure the SkillDialogs registered previously are added to the dialog stack:
 ```csharp
