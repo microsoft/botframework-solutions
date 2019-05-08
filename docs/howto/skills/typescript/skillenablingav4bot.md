@@ -25,6 +25,7 @@ If however you want to manually enable your Bot to be called as a Skill follow t
 ### 2. Create a custom Skill adapter
 
 Create a Custom Adapter that derives from the `SkillHttpBotAdapter` and ensure the `SkillMiddleware` is added
+
 ```typescript
 export class CustomSkillAdapter extends SkillHttpBotAdapter {
     constructor(
@@ -76,6 +77,7 @@ server.post('/api/skill/messages', (req: restify.Request, res: restify.Response)
 ## Add a Skill manifest
 
 Create a `manifestTemplate.json` file in the root of your Bot. Ensure at a minimum the root level `id`, `name`, `description` and action details are completed. This file should be shared to the bot that will use this bot as a skill.
+
 ```json
 {
   "id": "",
