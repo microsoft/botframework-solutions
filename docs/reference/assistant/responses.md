@@ -1,16 +1,17 @@
 # Virtual Assistant Responses
-Your Virtual Assistant can respond in a variety of ways depending on the scenario and the users active device or conversation canvas. Through use of the Bot Framework Activity schema, both `Text` and `Speak` variations of a response are returned enabling the device to make the most appropriate choice.
 
-The same Activity schema supports the attachment of User Experience elements through use of [Adaptive Cards](https://www.adaptivecards.io) which can be rendered across a broad range of devices and platforms enabling visual support of responses where appropriate. Where Azure Bot Service Channels (e.g. WebChat, Teams) are being used, the Azure Bot Service automatically transforms messages to and from the target canvas meaning Developers don't have to worry about differences across channel capabilities.
-
-In [device integration](./deviceintegration.md) scenarios you receive messages adhering to the Activity schema which may include Attachments thus enabling integration into the native experience. 
-
-
-## Table of Contents
+## In this reference:
+- [Intro](#intro)
 - [Activity schema](#activity-schema)
 - [Messages and Events](#messages-and-events)
 - [Adaptive Cards](#adaptive-cards)
 - [Input Hints](#input-hints)
+
+## Intro
+
+Your Virtual Assistant can respond in a variety of ways depending on the scenario and the users active device or conversation canvas. Through use of the Bot Framework Activity schema, both `Text` and `Speak` variations of a response are returned enabling the device to make the most appropriate choice.
+
+The same Activity schema supports the attachment of User Experience elements through use of [Adaptive Cards](https://www.adaptivecards.io) which can be rendered across a broad range of devices and platforms enabling visual support of responses where appropriate. Where Azure Bot Service Channels (e.g. WebChat, Teams) are being used, the Azure Bot Service automatically transforms messages to and from the target canvas meaning Developers don't have to worry about differences across channel capabilities.
 
 ## Activity schema
 
@@ -23,8 +24,6 @@ Messages are a specific Type of Activity set through the `ActivityType` property
 ## Adaptive Cards
 
 [Adaptive Cards](https://adaptivecards.io) provide the ability for your Virtual Assistant to return User Experience elements (e.g. Cards, Images, Buttons) alongside text base responses. If the device or conversation canvas has a screen these Adaptive Cards can be rendered across a broad range of devices and platforms providing supporting User Experience where appropriate.
-
-Sample Adaptive Cards are available on the Adaptive Cards website with the [Calendar](https://adaptivecards.io/samples/WeatherLarge.html) example demonstrating the possibilities.
 
 ## Input Hints
 

@@ -1,6 +1,17 @@
-## Architecture
+# Virtual Assistant architecture
 
-An Architecture diagram of your Virtual Assistant created through the template is shown below along with a detailed explanation.
+## In this reference:
+- [Intro](#intro)
+- [Client Integration](#client-integration)
+- [Assistant Middleware](#assistant-middleware)
+- [Advanced Conversational Analytics](#advanced-conversational-analytics)
+- [Dialogs](#dialogs)
+- [Authentication](#authentication)
+- [Linked Accounts](#linked-accounts)
+- [Edge Enablement](#edge-enablement)
+
+## Intro
+An architecture diagram of your Virtual Assistant created through the template is shown below along with a detailed explanation.
 
 ![Virtual Assistant Architecture](/docs/media/virtualassistant-architecture.jpg)
 
@@ -29,19 +40,9 @@ The Assistant makes use of a number of Middleware Components to process incoming
 ## Advanced Conversational Analytics
 The Assistant is configured to collect telemetry into Application Insights. This can be imported into a PowerBI dashboard to view [advanced conversational analytics](https://aka.ms/botPowerBiTemplate).
 
-## Dispatcher
-
-The Dispatcher is trained across a variety of Natural Language data sources to provide a unified NLU powered dispatch capability. LUIS models from the Assistant, each configured Skill and questions from QnAMaker are all ingested as part of the dispatcher training process. This training process can also provide evaluation reports to identify confusion and overlap.
-
-This training process creates a Dispatcher LUIS model which is then used by the Assistant to identify the component that should handle a given utterance. When a dialog is active the Dispatcher model is only used to identify top level intents such as Cancel for interruption scenarios.
-
 ## Dialogs
 
 Dialogs represent conversational topics that the Assistant can handle, the template provides a `MainDialog`, `CancelDialog` and example `EscalateDialog`, `OnboardingDialog` dialogs. 
-
-## Integration
-
-The Assistant and Skills can then make use of any APIs or Data Sources in the same way any web-page or service. This enables your Assistant to make use of existing capabilities and data sources as part of conversation flow.
 
 ## Authentication
 

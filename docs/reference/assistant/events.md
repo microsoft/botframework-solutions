@@ -1,15 +1,16 @@
-# Handling Events With Your Virtual Assistant
+# Handle client events with a Virtual Assistant
+
+## In this reference:
+- [Intro](#intro)
+- [Inbound Events](#inbound-events)
+- [Outbound Events](#outbound-events)
+- [Event Debug Middleware](#event-debug-middleware)
+- [Event Prompt](#event-prompt)
+
+## Intro
 
 When a user communicates with their Virtual Assistant, they typically send message Activities.
 In more advanced scenarios, messaging clients may need to send event Activities to provide additional metadata about the user (location, timezone, etc.).
-
-## Table of Contents
-- [Handling Events With Your Virtual Assistant](#handling-events-with-your-virtual-assistant)
-  - [Table of Contents](#table-of-contents)
-  - [Inbound Events](#inbound-events)
-  - [Outbound Events](#outbound-events)
-  - [Event Debug Middleware](#event-debug-middleware)
-  - [Event Prompt](#event-prompt)
 
 ## Inbound Events
 When a user sends an event, this is processed by their Virtual Assistant to immediately react (like providing a summary of the day ahead when starting their car) or store information in the user state store for use later. or store the information in a user state store for use by the assistant or a skill in the future.
