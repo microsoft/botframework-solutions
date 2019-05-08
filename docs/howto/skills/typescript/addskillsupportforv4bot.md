@@ -36,7 +36,7 @@ import { skills as skillsRaw } from './skills.json';
 const skills: ISkillManifest[] = skillsRaw;
 ```
 
-> NOTE: The 'botbuilder-skills' package also provides a `IBotSettings` interface that can be used to storage the keys/secrets of the services that will be used to connect services to the bot.
+> NOTE: The `botbuilder-skills` package also provides a `IBotSettings` interface that can be used to storage the keys/secrets of the services that will be used to connect services to the bot.
 
 ## Skill Dialog Registration
 In your `index.ts` file register a `SkillDialog` for each registered skill as shown below, this uses the collection of Skills that you created in the previous step.
