@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 "use strict";
-const path = require(`path`);
+const join = require(`path`).join;
 const assert = require(`yeoman-assert`);
 const helpers = require(`yeoman-test`);
 const rimraf = require(`rimraf`);
@@ -22,23 +22,24 @@ describe(`The generator-botbuilder-assistant tests`, function() {
 
     const templatesFiles = [
         `package.json`,
-        `.gitignore`
+        `.gitignore`,
+        `.npmrc`
     ];
     const commonDirectories = [
         `deployment`,
-        path.join(`deployment`, `resources`),
-        path.join("deployment", "scripts"),
+        join(`deployment`, `resources`),
+        join("deployment", "scripts"),
         `src`,
-        path.join(`src`, `adapters`),
-        path.join(`src`, `bots`),
-        path.join(`src`, `content`),
-        path.join(`src`, `dialogs`),
-        path.join(`src`, `locales`),
-        path.join(`src`, `models`),
-        path.join(`src`, `responses`),
-        path.join(`src`, `services`),
+        join(`src`, `adapters`),
+        join(`src`, `bots`),
+        join(`src`, `content`),
+        join(`src`, `dialogs`),
+        join(`src`, `locales`),
+        join(`src`, `models`),
+        join(`src`, `responses`),
+        join(`src`, `services`),
         `test`,
-        path.join(`test`, `flow`),
+        join(`test`, `flow`),
     ];
 
     describe(`should create`, function() {
@@ -48,13 +49,13 @@ describe(`The generator-botbuilder-assistant tests`, function() {
             /([^a-z0-9-]+)/gi,
             ``
         ); 
-        assistantGenerationPath = path.join(__dirname, "tmp");
+        assistantGenerationPath = join(__dirname, "tmp");
         pathConfirmation = true;
         finalConfirmation = true;
 
         before(async function(){
             await helpers
-            .run(path.join(__dirname, `..`, `generators`, `app`))
+            .run(join(__dirname, `..`, `generators`, `app`))
             .inDir(assistantGenerationPath)
             .withArguments([
               `-n`,
@@ -66,17 +67,17 @@ describe(`The generator-botbuilder-assistant tests`, function() {
               `--noPrompt`
             ]);
 
-            packageJSON = require(path.join(assistantGenerationPath, assistantName, `package.json`));
+            packageJSON = require(join(assistantGenerationPath, assistantName, `package.json`));
         });
 
         after(function() {
-            rimraf.sync(path.join(__dirname, `tmp`, `*`));
+            rimraf.sync(join(__dirname, `tmp`, `*`));
         });
 
         describe(`the base`, function() {
             it(assistantName.concat(` folder`), function(done) {
                 assert.file(
-                    path.join(assistantGenerationPath, assistantName)
+                    join(assistantGenerationPath, assistantName)
                 );
                 done();
             });
@@ -86,7 +87,7 @@ describe(`The generator-botbuilder-assistant tests`, function() {
             commonDirectories.forEach(directoryName => 
                 it(directoryName.concat(" folder"), function(done) {
                     assert.file(
-                        path.join(assistantGenerationPath, assistantName, directoryName)
+                        join(assistantGenerationPath, assistantName, directoryName)
                     )
                     done();
                 })
@@ -97,7 +98,7 @@ describe(`The generator-botbuilder-assistant tests`, function() {
             templatesFiles.forEach(templateFile => 
                 it(templateFile.concat(" file"), function(done) {
                     assert.file(
-                        path.join(assistantGenerationPath, assistantName, templateFile)
+                        join(assistantGenerationPath, assistantName, templateFile)
                     )
                     done();
                 })
@@ -124,7 +125,7 @@ describe(`The generator-botbuilder-assistant tests`, function() {
             } else {
                 finalConfirmation = true;
                 await helpers
-                    .run(path.join(
+                    .run(join(
                         __dirname,
                         `..`,
                         `generators`,
@@ -143,7 +144,7 @@ describe(`The generator-botbuilder-assistant tests`, function() {
         });
 
         after(function() {
-            rimraf.sync(path.join(__dirname, `tmp`, `*`));
+            rimraf.sync(join(__dirname, `tmp`, `*`));
         });
 
         describe(`the base`, function() {
