@@ -1,25 +1,26 @@
-# Adding Skills Support to a V4 Bot (not based on Virtual Assistant Template)
+# Enable Bot Framework Skills on an existing v4 bot (TypeScript)
 
-## Table of Contents
-- [Adding Skills Support to a V4 Bot (not based on Virtual Assistant Template)](#adding-skills-support-to-a-v4-bot-not-based-on-virtual-assistant-template)
-  - [Table of Contents](#table-of-contents)
-  - [Overview](#overview)
-  - [Libraries](#libraries)
-  - [Skill Configuration](#skill-configuration)
-  - [Skill Dialog Registration](#skill-dialog-registration)
-  - [Routing utterances to Skills](#routing-utterances-to-skills)
+**APPLIES TO:** ✅ SDK v4
 
-## Overview
+## In this how-to
+- [Intro](#intro)
+- [Update your bot to use Bot Framework Solutions libraries](#update-your-bot-to-use-bot-framework-solutions-libraries)
+- [Skill configuration](#skill-configuration)
+- [Skill Dialog registration](#skill-dialog-registration)
+- [Routing utterances to Skills](#routing-utterances-to-skills)
+
+## Intro
+### Overview
 
 Creating a Bot Framework Bot through the [Virtual Assistant template](/docs/overview/virtualassistant.md) is the easiest way to get started with using Skills. If you have an existing v4 based Bot, the recommended approach would be to take the resulting project from this template and bring across your custom dialogs to get started quickly.
 
 If, however you have an existing V4 Bot that you wish to add Skill capability then please follow the steps below.
 
-## Libraries
+## Update your bot to use Bot Framework Solutions libraries
 
-- Add `botbuilder-solutions` and `botbuilder-skills` npm packages to your solution.
+- Add [`botbuilder-solutions`](https://www.npmjs.com/package/botbuilder-solutions) and [`botbuilder-skills`](https://www.npmjs.com/package/botbuilder-skills) npm packages to your solution.
 
-## Skill Configuration
+## Skill configuration
 
 The 'botbuilder-skills' package provides a `ISkillManifest` interface that describes a Skill. Your bot should maintain a collection of registered Skills typically serialized into a `JSON` configuration file. The Virtual Assistant template uses a `skills.json` file for this purpose that can be found in the `src` directory.
 
@@ -38,7 +39,7 @@ const skills: ISkillManifest[] = skillsRaw;
 
 > NOTE: The `botbuilder-skills` package also provides a `IBotSettings` interface that can be used to storage the keys/secrets of the services that will be used to connect services to the bot.
 
-## Skill Dialog Registration
+## Skill Dialog registration
 In your `index.ts` file register a `SkillDialog` for each registered skill as shown below, this uses the collection of Skills that you created in the previous step.
 ```typescript
  // Register skill dialogs
