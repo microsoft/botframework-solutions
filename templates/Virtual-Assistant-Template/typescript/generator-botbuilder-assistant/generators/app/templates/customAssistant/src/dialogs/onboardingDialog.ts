@@ -7,6 +7,7 @@ import {
     StatePropertyAccessor,
     TurnContext } from 'botbuilder';
 import {
+    ComponentDialog,
     DialogTurnResult,
     TextPrompt,
     WaterfallDialog,
@@ -14,7 +15,6 @@ import {
 import { IOnboardingState } from '../models/onboardingState';
 import { OnboardingResponses } from '../responses/onboardingResponses';
 import { BotServices } from '../services/botServices';
-import { DialogBase } from './dialogBase';
 
 enum DialogIds {
     namePrompt = 'namePrompt',
@@ -22,7 +22,7 @@ enum DialogIds {
     locationPrompt =  'locationPrompt'
 }
 
-export class OnboardingDialog extends DialogBase {
+export class OnboardingDialog extends ComponentDialog {
 
     // Fields
     private static readonly responder: OnboardingResponses = new OnboardingResponses();
@@ -31,20 +31,19 @@ export class OnboardingDialog extends DialogBase {
 
     // Constructor
     constructor(botServices: BotServices, accessor: StatePropertyAccessor<IOnboardingState>, telemetryClient: BotTelemetryClient) {
-        super(OnboardingDialog.name, botServices, telemetryClient);
+        super(OnboardingDialog.name);
         this.accessor = accessor;
         this.initialDialogId = OnboardingDialog.name;
         const onboarding: ((sc: WaterfallStepContext<IOnboardingState>) => Promise<DialogTurnResult>)[] = [
             this.askForName.bind(this),
-            this.askForEmail.bind(this),
-            this.askForLocation.bind(this),
             this.finishOnboardingDialog.bind(this)
         ];
 
+        // To capture built-in waterfall dialog telemetry, set the telemetry client
+        // to the new waterfall dialog and add it to the component dialog
+        this.telemetryClient = telemetryClient;
         this.addDialog(new WaterfallDialog(this.initialDialogId, onboarding));
         this.addDialog(new TextPrompt(DialogIds.namePrompt));
-        this.addDialog(new TextPrompt(DialogIds.emailPrompt));
-        this.addDialog(new TextPrompt(DialogIds.locationPrompt));
     }
 
     public async askForName(sc: WaterfallStepContext<IOnboardingState>): Promise<DialogTurnResult> {
@@ -62,43 +61,10 @@ export class OnboardingDialog extends DialogBase {
         });
     }
 
-    public async askForEmail(sc: WaterfallStepContext<IOnboardingState>): Promise<DialogTurnResult> {
-        this.state = await this.getStateFromAccessor(sc.context);
-        this.state.name = <string>sc.result;
-
-        await OnboardingDialog.responder.replyWith(
-            sc.context,
-            OnboardingResponses.responseIds.haveNameMessage,
-            { name: this.state.name });
-
-        return sc.prompt(DialogIds.emailPrompt, {
-            prompt: await OnboardingDialog.responder.renderTemplate(
-                sc.context,
-                OnboardingResponses.responseIds.emailPrompt,
-                <string> sc.context.activity.locale)
-        });
-    }
-
-    public async askForLocation(sc: WaterfallStepContext<IOnboardingState>): Promise<DialogTurnResult> {
-        this.state = await this.getStateFromAccessor(sc.context);
-        this.state.email = <string>sc.result;
-
-        await OnboardingDialog.responder.replyWith(
-            sc.context,
-            OnboardingResponses.responseIds.haveEmailMessage,
-            { email: this.state.email });
-
-        return sc.prompt(DialogIds.locationPrompt, {
-            prompt: await OnboardingDialog.responder.renderTemplate(
-                sc.context,
-                OnboardingResponses.responseIds.locationPrompt,
-                <string> sc.context.activity.locale)
-        });
-    }
-
     public async finishOnboardingDialog(sc: WaterfallStepContext<IOnboardingState>): Promise<DialogTurnResult> {
         this.state = await this.getStateFromAccessor(sc.context);
-        this.state.location = <string> sc.result;
+        this.state.name = <string> sc.result;
+        await this.accessor.set(sc.context, this.state);
 
         await OnboardingDialog.responder.replyWith(
             sc.context,

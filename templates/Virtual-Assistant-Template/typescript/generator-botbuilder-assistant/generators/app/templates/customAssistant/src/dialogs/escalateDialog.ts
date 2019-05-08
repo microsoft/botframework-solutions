@@ -5,20 +5,20 @@
 
 import { BotTelemetryClient } from 'botbuilder';
 import {
+    ComponentDialog,
     DialogTurnResult,
     WaterfallDialog,
     WaterfallStepContext } from 'botbuilder-dialogs';
 import { EscalateResponses } from '../responses/escalateResponses';
 import { BotServices } from '../services/botServices';
-import { DialogBase } from './dialogBase';
 
-export class EscalateDialog extends DialogBase {
+export class EscalateDialog extends ComponentDialog {
     // Fields
-    private static readonly responder: EscalateResponses = new EscalateResponses();
+    private readonly responder: EscalateResponses = new EscalateResponses();
 
     // Constructor
     constructor(botServices: BotServices, telemetryClient: BotTelemetryClient) {
-        super(EscalateDialog.name, botServices, telemetryClient);
+        super(EscalateDialog.name);
         this.initialDialogId = EscalateDialog.name;
         const escalate: ((sc: WaterfallStepContext) => Promise<DialogTurnResult>)[] = [
             this.sendPhone.bind(this)
@@ -30,7 +30,7 @@ export class EscalateDialog extends DialogBase {
     }
 
     private async sendPhone(sc: WaterfallStepContext): Promise<DialogTurnResult> {
-        await EscalateDialog.responder.replyWith(sc.context, EscalateResponses.responseIds.sendPhoneMessage);
+        await this.responder.replyWith(sc.context, EscalateResponses.responseIds.sendPhoneMessage);
 
         return sc.endDialog();
     }

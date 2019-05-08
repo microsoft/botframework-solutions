@@ -29,9 +29,11 @@ import {
     ActivityTypes } from 'botframework-schema';
 import i18next from 'i18next';
 import { IOnboardingState } from '../models/onboardingState';
+import { CancelResponses } from '../responses/cancelResponses';
 import { MainResponses } from '../responses/mainResponses';
 import { BotServices } from '../services/botServices';
 import { IBotSettings } from '../services/botSettings';
+import { CancelDialog } from './cancelDialog';
 import { EscalateDialog } from './escalateDialog';
 import { OnboardingDialog } from './onboardingDialog';
 
@@ -51,6 +53,7 @@ export class MainDialog extends RouterDialog {
         services: BotServices,
         onboardingDialog: OnboardingDialog,
         escalateDialog: EscalateDialog,
+        cancelDialog: CancelDialog,
         skillDialogs: SkillDialog[],
         onboardingAccessor: StatePropertyAccessor<IOnboardingState>,
         telemetryClient: BotTelemetryClient
@@ -63,6 +66,8 @@ export class MainDialog extends RouterDialog {
 
         this.addDialog(onboardingDialog);
         this.addDialog(escalateDialog);
+        this.addDialog(cancelDialog);
+
         skillDialogs.forEach((skillDialog: SkillDialog) => {
             this.addDialog(skillDialog);
         });
@@ -70,43 +75,11 @@ export class MainDialog extends RouterDialog {
 
     protected async onStart(dc: DialogContext): Promise<void> {
         const onboardingState: IOnboardingState|undefined = await this.onboardingAccessor.get(dc.context);
-        if (onboardingState && onboardingState.name) {
+        if (onboardingState !== undefined && onboardingState.name.trim().length > 0) {
             await this.responder.replyWith(dc.context, MainResponses.responseIds.returningUserGreeting);
         } else {
             await this.responder.replyWith(dc.context, MainResponses.responseIds.newUserGreeting);
         }
-    }
-
-    protected async onInterruptDialog(dc: DialogContext): Promise<InterruptionAction> {
-        if (dc.context.activity.type === ActivityTypes.Message) {
-            const locale: string = i18next.language;
-            const cognitiveModels: ICognitiveModelSet | undefined = this.services.cognitiveModelSets.get(locale);
-
-            if (cognitiveModels === undefined) {
-                throw new Error('There is no cognitiveModels value');
-            }
-            // check luis intent
-            const luisService: LuisRecognizerTelemetryClient | undefined = cognitiveModels.luisServices.get(this.luisServiceGeneral);
-
-            if (luisService === undefined) {
-                throw new Error('The general LUIS Model could not be found in your Bot Services configuration.');
-            } else {
-                const luisResult: RecognizerResult = await luisService.recognize(dc.context);
-                const intent: string = LuisRecognizer.topIntent(luisResult, undefined, 0.1);
-
-                // Only triggers interruption if confidence level is high
-                if (luisResult.intents[intent] && luisResult.intents[intent].score > 0.5) {
-                    switch (intent) {
-                        case 'logout': {
-                            return this.logout(dc);
-                        }
-                        default:
-                    }
-                }
-            }
-        }
-
-        return InterruptionAction.NoAction;
     }
 
     protected async route(dc: DialogContext): Promise<void> {
@@ -127,8 +100,7 @@ export class MainDialog extends RouterDialog {
         // Identify if the dispatch intent matches any Action within a Skill if so, we pass to the appropriate SkillDialog to hand-off
         const identifiedSkill: ISkillManifest | undefined = SkillRouter.isSkill(this.settings.skills, intent);
         if (identifiedSkill !== undefined) {
-            // We have identiifed a skill so initialize the skill connection with the target skill
-            // the dispatch intent is the Action ID of the Skill enabling us to resolve the specific action and identify slots
+            // We have identified a skill so initialize the skill connection with the target skill
             await dc.beginDialog(identifiedSkill.id);
 
             // Pass the activity we have
@@ -149,26 +121,9 @@ export class MainDialog extends RouterDialog {
 
                     // switch on general intents
                     switch (generalIntent) {
-                        case 'Cancel': {
-                            // send cancelled response
-                            await this.responder.replyWith(dc.context, MainResponses.responseIds.cancelled);
-
-                            // cancel any active dialogs on the stack
-                            await dc.cancelAllDialogs();
-                            break;
-                        }
                         case 'Escalate': {
                             // start escalate dialog
                             await dc.beginDialog(EscalateDialog.name);
-                            break;
-                        }
-                        case 'Logout': {
-                            await this.logout(dc);
-                            break;
-                        }
-                        case 'Help': {
-                            // send help response
-                            await this.responder.replyWith(dc.context, MainResponses.responseIds.help);
                             break;
                         }
                         case 'None':
@@ -188,6 +143,8 @@ export class MainDialog extends RouterDialog {
                 const answers: QnAMakerResult[] = await qnaService.getAnswers(dc.context);
                 if (answers !== undefined && answers.length > 0) {
                     await dc.context.sendActivity(answers[0].answer, answers[0].answer);
+                } else {
+                    await this.responder.replyWith(dc.context, MainResponses.responseIds.confused);
                 }
             }
         } else if (intent === 'q_chitchat') {
@@ -199,6 +156,8 @@ export class MainDialog extends RouterDialog {
                 const answers: QnAMakerResult[] = await qnaService.getAnswers(dc.context);
                 if (answers !== undefined && answers.length > 0) {
                     await dc.context.sendActivity(answers[0].answer, answers[0].answer);
+                } else {
+                    await this.responder.replyWith(dc.context, MainResponses.responseIds.confused);
                 }
             }
         } else {
@@ -252,7 +211,67 @@ export class MainDialog extends RouterDialog {
         await this.responder.replyWith(dc.context, MainResponses.responseIds.completed);
     }
 
-    private async logout(dc: DialogContext): Promise<InterruptionAction> {
+    protected async onInterruptDialog(dc: DialogContext): Promise<InterruptionAction> {
+        if (dc.context.activity.type === ActivityTypes.Message && dc.context.activity.text.trim.length > 0) {
+            const locale: string = i18next.language;
+            const cognitiveModels: ICognitiveModelSet | undefined = this.services.cognitiveModelSets.get(locale);
+
+            if (cognitiveModels === undefined) {
+                throw new Error('There is no cognitiveModels value');
+            }
+            // check luis intent
+            const luisService: LuisRecognizerTelemetryClient | undefined = cognitiveModels.luisServices.get(this.luisServiceGeneral);
+
+            if (luisService === undefined) {
+                throw new Error('The general LUIS Model could not be found in your Bot Services configuration.');
+            } else {
+                const luisResult: RecognizerResult = await luisService.recognize(dc.context);
+                const intent: string = LuisRecognizer.topIntent(luisResult);
+
+                // Only triggers interruption if confidence level is high
+                if (luisResult.intents[intent] && luisResult.intents[intent].score > 0.5) {
+                    switch (intent) {
+                        case 'Cancel': {
+                            return this.onCancel(dc);
+                        }
+                        case 'Help': {
+                            return this.onHelp(dc);
+                        }
+                        case 'Logout': {
+                            return this.onLogout(dc);
+                        }
+                        default:
+                    }
+                }
+            }
+        }
+
+        return InterruptionAction.NoAction;
+    }
+
+    private async onCancel(dc: DialogContext): Promise<InterruptionAction> {
+        if (dc.activeDialog !== undefined && dc.activeDialog.id !== CancelDialog.name) {
+            // Don't start restart cancel dialog
+            await dc.beginDialog(CancelDialog.name);
+
+            // Signal that the dialog is waiting on user response
+            return InterruptionAction.StartedDialog;
+        }
+
+        const view: CancelResponses = new CancelResponses();
+        await view.replyWith(dc.context, CancelResponses.responseIds.nothingToCancelMessage);
+
+        return InterruptionAction.StartedDialog;
+    }
+
+    private async onHelp(dc: DialogContext): Promise<InterruptionAction> {
+        await this.responder.replyWith(dc.context, MainResponses.responseIds.help);
+
+        // Signal the conversation was interrupted and should immediately continue
+        return InterruptionAction.MessageSentToUser;
+    }
+
+    private async onLogout(dc: DialogContext): Promise<InterruptionAction> {
         let adapter: BotFrameworkAdapter;
         const supported: boolean = dc.context.adapter instanceof BotFrameworkAdapter;
         if (!supported) {
