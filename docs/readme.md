@@ -1,4 +1,4 @@
-![Bot Framework Solutions](/media/bot_framework_solutions_header.png)
+![Bot Framework Solutions](/docs/media/bot_framework_solutions_header.png)
 
 # Table of Contents
 
