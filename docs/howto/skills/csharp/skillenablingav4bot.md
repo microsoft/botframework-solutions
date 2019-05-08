@@ -23,6 +23,7 @@ If you want to manually update your existing bot into a Bot Framework Skill, you
 ## Update your bot to use Bot Framework Solutions libraries
 
 ### 1. Enable the Bot Framework Solutions packages
+
 Add [`Microsoft.Bot.Builder.Solutions`](https://www.nuget.org/packages/Microsoft.Bot.Builder.Solutions/) and [`Microsoft.Bot.Builder.Skills`](https://www.nuget.org/packages/Microsoft.Bot.Builder.Skills/) NuGet packages to your solution.
 
 ### 2. Create a custom Skill adapter
@@ -59,6 +60,7 @@ services.AddTransient<SkillAdapter, CustomSkillAdapter>();
 ### 4. Update your BotController class
 
 Update your `BotController.cs` class to derive from `SkillController`
+
 ```csharp
 [ApiController]
 public class BotController : SkillController
@@ -72,6 +74,7 @@ public class BotController : SkillController
 ## Add a Skill manifest
 
 Create a `manifestTemplate.json` file in the root of your Bot. Ensure at a minimum the root level `id`, `name`, `description` and action details are completed.
+
 ```csharp
 {
   "id": "",
