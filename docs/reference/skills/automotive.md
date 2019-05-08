@@ -1,4 +1,5 @@
 # Automotive Skill (Preview)
+
 The Automotive Skill is in preview and demonstrates the first capabilities to help enable Automotive scenarios. The skill focuses on Vehicle Settings, specifically Climate Control, Safety and Basic audio controls. Media, Tuner and Phone capabilities are expected in a future release.
 
 Vehicle Control is a complicated domain, whilst there are only a limited set of car controls for climate control there are a myriad of ways that a human can describe a given setting. For example, `I'm feeling chilly` , `My feet are cold` and `It's cold here in the back` all relate to a decrease in temperature but to different parts of the car and perhaps even different fan settings.
@@ -10,6 +11,7 @@ Unlike the Productivity and PoI skills that are integrated into existing service
 To enable testing and simulation any action identified is surfaced to the calling application as an event, this can easily be seen within the Bot Framework Emulator and will be wired up into the Web Test harness available as part of the Virtual Assistant solution.
 
 ## Table of Contents
+
 - [Supported Scenarios](#supported-scenarios)
 - [Language Model](#language-model)
 - [Event Responses](#event-responses)
@@ -51,6 +53,7 @@ An example transcript file demonstrating the Skill in action can be found [here]
 ![ Automotive Skill Transcript Example](../../media/skills-auto-transcript.png)
 
 ## Language Model
+
 LUIS models for the Skill are provided in .LU file format as part of the Skill. These are currently available in English with other languages to follow.
 
 The following Top Level intents are available with the main `settings` LUIS model
@@ -63,6 +66,7 @@ In addition there are two supporting LUIS models `settings_name` and `settings_v
 ## Event Responses
 
 The Automotive Skill surfaces setting changes for testing purposes through an event returned to the client. This enables easy testing and simulation, all events are prefixed with `AutomotiveSkill.`. The below event is generated as a response to `I'm feeling cold`
+
 ```
 {
   "name": "AutomotiveSkill.Temperature",
@@ -91,6 +95,7 @@ The Automotive Skill surfaces setting changes for testing purposes through an ev
 > No Parameters are required for this skill
 
 ### Example Skill Registration Entry
+
 ```
 {
     "type": "skill",
@@ -113,7 +118,7 @@ The Automotive Skill surfaces setting changes for testing purposes through an ev
 }
 ```
 
-### Customising Vehicle Settings
+### Customizing Vehicle Settings
 
 Available vehicle settings are defined in a supporting metadata file which you can find in this location:  `automotiveskill\Dialogs\VehicleSettings\Resources\available_settings.yaml`.
 
@@ -155,11 +160,12 @@ Run this PowerShell script to deploy your shared resources and LUIS models.
 ```
 
 You will be prompted to provide the following parameters:
-   - Name - A name for your bot and resource group. This must be **unique**.
-   - Location - The Azure region for your services (e.g. westus)
-   - LUIS Authoring Key - Refer to [this documentation page](../../virtual-assistant/csharp/gettingstarted.md) for retrieving this key.
 
-The msbot tool will outline the deployment plan including location and SKU. Ensure you review before proceeding.
+- Name - A name for your bot and resource group. This must be **unique**.
+- Location - The Azure region for your services (e.g. westus)
+- LUIS Authoring Key - Refer to [this documentation page](../../virtual-assistant/csharp/gettingstarted.md) for retrieving this key.
+
+The MSBot tool will outline the deployment plan including location and SKU. Ensure you review before proceeding.
 
 > After deployment is complete, it's **imperative** that you make a note of the .bot file secret provided as this will be required for later steps. The secret can be found near the top of the execution output and will be in purple text.
 
@@ -200,6 +206,7 @@ Follow the instructions below to add the Automotive Skill to an existing Virtual
 
 1. Update the Virtual Assistant deployment scripts.
     - Add the additional automotive skill LUIS models to the bot.recipe file located within your assistant project: `assistant\DeploymentScripts\en\bot.recipe`
+
         ```
         {
             "type": "luis",
@@ -219,25 +226,31 @@ Follow the instructions below to add the Automotive Skill to an existing Virtual
             "name": "settings_value",
             "luPath": "..\skills\automotiveskill\automotiveskill\CognitiveModels\LUIS\en\settings_value.lu"
         },
-
         ```
+
     - Add dispatch references to the core LUIS intents for the skill within the **assistant\CognitiveModels\en\dispatch.lu** file as shown below. Only the vehicle settings model is required for dispatch. This enables the Dispatcher to understand your new capabilities and route utterances to your skill
+
         ```
         # l_Automotive
         - [VEHICLE_SETTINGS_CHANGE](../../../../skills/automotiveskill/automotiveskill/CognitiveModels/LUIS/en/settings_dispatch.lu#VEHICLE_SETTINGS_CHANGE)
         ```
+
 2. Run the following script to deploy the new Automotive Skill LUIS models and to update the dispatcher.
+
     ```
     pwsh.exe -ExecutionPolicy Bypass -File DeploymentScripts\update_published_models.ps1 -locales "en-us"
     ```
+
 3. In Virtual Assistant, add the skill configuration entry (in an earlier section) to **appsettings.json**. This tells the Virtual Assistant that there is a new skill available for use.
 
 4. Run the LuisGen tool to update the strongly-typed Dispatch class (Dispatch.cs) to reflect the additional dispatch target.
+
     ```
     LUISGen DeploymentScripts\en\dispatch.luis -cs Dispatch -o Dialogs\Shared\Resources
     ```
+
 5. Update **MainDialog.cs** within your Assistant project with the dispatch intent for your skill (l_automotive). This can be found in the assistant/dialogs/main folder of your project.
-    ![](../../media/skills_maindialogupdate.jpg)
+    ![Add My Skill Image](../../media/skills_maindialogupdate.jpg)
 
 6. Add a project reference from your Virtual Assistant project to the Automotive Skill, this will ensure the DLL housing the skill can be found at runtime for skill activation.
 
