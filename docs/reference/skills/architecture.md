@@ -12,13 +12,13 @@ A key design goal for Skills was to maintain the consistent Activity protocol an
 
 ## Invocation Flow
 
-![Skill Invocation Flow](/media/virtualassistant-SkillFlow.png)
+![Skill Invocation Flow](/docs/media/virtualassistant-SkillFlow.png)
 
 ### Dispatcher
 
 The [Dispatcher](//reference/assistant/dispatcher.md) plays a central role to enabling a Bot to understand how to best process a given utterance. The Dispatch through use of the [Skill CLI](/docs/reference/assistant/skillcli.md) is updated with triggering utterances for a given Skill and a new Dispatch intent is created for a given Skill. An example of a Dispatch model with a point of interest skill having been added is shown below.
 
-![Dispatch with Skill Example](/media/skillarchitecturedispatchexample.png)
+![Dispatch with Skill Example](/docs/media/skillarchitecturedispatchexample.png)
 
 When the user of a Virtual Assistant asks a question, the Dispatcher will process the utterance and as appropriate identify a skill intent as being the most appropriate way to process the utterance.
 
