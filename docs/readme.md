@@ -44,11 +44,11 @@
 | ---- | ----------- |
 | [How To: Enable Linked Accounts](/docs/howto/assistant/linkedaccounts.md) | Enable users to link third party accounts (e.g. Office 365) to your Assistant |
 | How To: Migrate from the Enterprise Template <br/><br/><p align="center">[![Migrating from the Enterprise Template with C#](./media/csharp_icon.png)](/docs/howto/assistant/csharp/ettovamigration.md)</p> | Guidance on how to move from an Enterprise Template based Bot to the new Template|
-| How to: Migrate from the old Virtual Assistant solution <br/><br/><p align="center">[![Migrating from the beta Virtual Assistant solution with C#](./media/csharp_icon.png)](/docs/howto/assistant/csharp/oldvatovamigration.md)</p>|Guidance on how to move from the original Virtual Assistant solution to the new Template |
+| How to: Migrate the Virtual Assistant (Beta Release 0.3) solution to the Virtual Assistant Template <br/><br/> <p align="center">[![Migrating from the beta Virtual Assistant solution with C#](./media/csharp_icon.png)](/docs/howto/assistant/csharp/oldvatovamigration.md)</p> |Guidance on how to move from the original Virtual Assistant solution to the new Template |
 | [How To: Messaging your users proactively](/docs/howto/assistant/csharp/proactivemessaging.md) | Adding proactive experiences to your assistant |
 | [How To: Enable cross bot communication into one conversational experience](/docs/howto/assistant/parentchildbotpattern.md) | Create one central Assistant which hands-off to child bots (a common enterprise scenario) |
 | [How To: Customize Azure Resource Deployment](/docs/howto/assistant/customizedeployment.md) | How to customise the provided ARM template for different deployment scenarios. |
-| How To: Secure your keys using Azure Key Vault :construction_worker_woman: | How to safeguard your keys using Azure Key Vault|
+| How To: Secure your keys using Azure Key Vault <br/>:construction_worker_woman: | How to safeguard your keys using Azure Key Vault|
 
 ## Skills
 

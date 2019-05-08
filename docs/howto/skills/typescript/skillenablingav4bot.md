@@ -1,25 +1,28 @@
-# Skill Enabling a V4 Bot (not based on Skill Template)
+# Migrate an existing v4 bot to a Bot Framework Skill (TypeScript)
 
-## Table of Contents
-- [Table of Contents](#table-of-contents)
-- [Overview](#overview)
-- [Libraries](#libraries)
-- [Adapter](#adapter)
-- [Startup](#startup)
-- [Add Skill Endpoint](#add-skill-endpoint)
-- [Manifest Template](#manifest-template)
+**APPLIES TO:** ✅ SDK v4
 
-## Overview
+## In this how-to
+
+- [Intro](#intro)
+- [Update your bot to use Bot Framework Solutions libraries](#update-your-bot-to-use-bot-framework-solutions-libraries)
+- [Add a Skill manifest](#add-a-skill-manifest)
+
+## Intro
+
+### Overview
 
 Creating a Skill through the [Skill template](/docs/tutorials/typescript/skill.md#create-your-skill) is the easiest way to get started with creating a new Skill. If you have an existing v4 based Bot, the recommended approach would be to take the resulting project from this template and bring across your custom dialogs to get started quickly.
 
 If however you want to manually enable your Bot to be called as a Skill follow the steps below.
 
-## Libraries
+## Update your bot to use Bot Framework Solutions libraries
 
-- Add `botbuilder-solutions` and `botbuilder-skills` npm packages to your solution.
+### 1. Enable the Bot Framework Solutions packages
 
-## Adapter
+- Add [`botbuilder-solutions`](https://www.npmjs.com/package/botbuilder-solutions) and [`botbuilder-skills`](https://www.npmjs.com/package/botbuilder-skills) npm packages to your solution.
+
+### 2. Create a custom Skill adapter
 
 Create a Custom Adapter that derives from the `SkillHttpBotAdapter` and ensure the `SkillMiddleware` is added
 ```typescript
@@ -39,7 +42,7 @@ export class CustomSkillAdapter extends SkillHttpBotAdapter {
 }
 ```
 
-## Startup
+### 3. Add the Skill services to startup
 
 Add the new adapter to your `index.ts` file.
 
@@ -55,7 +58,7 @@ const skillAdapter: SkillHttpAdapter = new SkillHttpAdapter(
 );
 ```
 
-## Add Skill Endpoint
+### 4. Add the Skill endpoint
 
 Update your `index.ts` to handle messages to interact with the bot as a skill.
 
@@ -70,7 +73,7 @@ server.post('/api/skill/messages', (req: restify.Request, res: restify.Response)
 });
 ```
 
-## Manifest Template
+## Add a Skill manifest
 
 Create a `manifestTemplate.json` file in the root of your Bot. Ensure at a minimum the root level `id`, `name`, `description` and action details are completed. This file should be shared to the bot that will use this bot as a skill.
 ```json
