@@ -3,18 +3,12 @@
 **APPLIES TO:** ✅ SDK v4
 
 ## In this tutorial
-- [Quickstart: Create your first Virtual Assistant (C#)](#quickstart-create-your-first-virtual-assistant-c)
-  - [In this tutorial](#in-this-tutorial)
-  - [Intro](#intro)
-    - [Purpose](#purpose)
-    - [Prerequisites](#prerequisites)
-    - [Time to Complete](#time-to-complete)
-    - [Scenario](#scenario)
-  - [Download and install](#download-and-install)
-  - [Create your assistant](#create-your-assistant)
-  - [Deploy your assistant](#deploy-your-assistant)
-  - [Run your assistant](#run-your-assistant)
-  - [Next Steps](#next-steps)
+- [Intro](#intro)
+- [Download and install](#download-and-install)
+- [Create your assistant](#create-your-assistant)
+- [Deploy your assistant](#deploy-your-assistant)
+- [Run your assistant](#run-your-assistant)
+- [Next Steps](#next-steps)
 
 ## Intro
 ### Purpose

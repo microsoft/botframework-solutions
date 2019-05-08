@@ -3,22 +3,16 @@
 **APPLIES TO:** ✅ SDK v4
 
 ## In this tutorial
-- [Create a new Bot Framework Skill (C#)](#create-a-new-bot-framework-skill-c)
-  - [In this tutorial](#in-this-tutorial)
-  - [Intro](#intro)
-    - [Purpose](#purpose)
-    - [Prerequisites](#prerequisites)
-    - [Time to Complete](#time-to-complete)
-    - [Scenario](#scenario)
-  - [Download and install](#download-and-install)
-  - [Create your Skill](#create-your-skill)
-  - [Deploy your Skill](#deploy-your-skill)
-  - [Test your Skill](#test-your-skill)
-  - [Update your Skill manifest](#update-your-skill-manifest)
-  - [Publish your Skill](#publish-your-skill)
-  - [Validate the Skill manifest endpoint](#validate-the-skill-manifest-endpoint)
-  - [Adding your Skill to an assistant](#adding-your-skill-to-an-assistant)
-  - [Testing your Skill](#testing-your-skill)
+- [Intro](#intro)
+- [Download and install](#download-and-install)
+- [Create your Skill](#create-your-skill)
+- [Deploy your Skill](#deploy-your-skill)
+- [Test your Skill](#test-your-skill)
+- [Update your Skill manifest](#update-your-skill-manifest)
+- [Publish your Skill](#publish-your-skill)
+- [Validate the Skill manifest endpoint](#validate-the-skill-manifest-endpoint)
+- [Adding your Skill to an assistant](#adding-your-skill-to-an-assistant)
+- [Testing your Skill](#testing-your-skill)
 
 ## Intro
 ### Purpose
