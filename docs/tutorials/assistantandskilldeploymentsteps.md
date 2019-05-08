@@ -1,11 +1,12 @@
 # Deploy your Virtual Assistant and Skill Template Deployment
 
-## Deploy an Assistant/Skill 
+## Deploy an Assistant/Skill
 
 > Applies to Virtual Assistant Template and Skill Template (C# and TypeScript)
 
 1. Run **PowerShell Core** (pwsh.exe) and **change directory to the project directory** of your assistant/skill.
 2. Run the following command:
+
     ```shell
     .\Deployment\Scripts\deploy.ps1
     ```
@@ -24,7 +25,9 @@
     `outFolder` | Output directory for created appsettings.json and cognitivemodels.json files. Default value is current directory. | No
 
 ### My Microsoft App Registration could not be automatically provisioned
+
 There is a known issue with some users whereby you might experience the following error when running deployment `Could not provision Microsoft App Registration automatically. Please provide the -appId and -appPassword arguments for an existing app and try again`. In this situation, create your own Azure Active Directory App through [this](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredAppsPreview) part of the Azure portal.
+
 - Click `New Registration`
 - Provide a name
 - Select `Accounts in any organizational directory`
@@ -41,4 +44,4 @@ See the [Customizing deployment](/docs/howto/assistant/customizedeployment.md) s
 
 ## Creating your own ARM template
 
-We have provided a comprehensive ARM template to deploy all required capabilities which can be customised through the parameters file detailed in the previous section. If however you want to make more substantial changes - such as re-using existing deployed services please refer to the [Azure Resource Manager template documentation](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authoring-templates) for guidance and you can refer to our template for reference.
+We have provided a comprehensive ARM template to deploy all required capabilities which can be customized through the parameters file detailed in the previous section. If however you want to make more substantial changes - such as re-using existing deployed services please refer to the [Azure Resource Manager template documentation](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authoring-templates) for guidance and you can refer to our template for reference.

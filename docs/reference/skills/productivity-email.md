@@ -1,60 +1,64 @@
 # Email Skill (Productivity)
-The Email Skill provides Email related capabilities to a Virtual Assistant. 
+
+The Email Skill provides Email related capabilities to a Virtual Assistant.
 The most common scenarios have been implemented in this beta release, with additional scenarios in development.
 
 ## Table of Contents
+
 - [Supported Scenarios](#supported-scenarios)
 - [Language Model](#language-model)
 - [Configuration](#configuration)
 
 ## Supported Scenarios
+
 The following scenarios are currently supported by the Skill:
 
 - Send an Email
-    - *Send an email to John Smith*
-    - *Send an email*
+  - *Send an email to John Smith*
+  - *Send an email*
 - Find Email
-    - *Find email from John Smith*
-    - *What email do I have*
- - Add Flag
-   - *This email needs to be flagged*
-   - *Add a flag to the email Simone Jones just sent to me*
- - Check Messages
-   - *Do I have any new mail*
-   - *Check my email*
- - Delete 
-   - *Do I have any new mail*
-   - *Check my email*
- - Forward
-   - *Forward all files from Petrina to Jim*
-   - *Could you forward this message to Cosmo my email*
- - Query Last Text
-   - *Who emailed me last*
-   - *What was the last email I got from Dad*
- - Read Aloud
-   - *Read the last email from Philippe*
-   - *Read unread email* 
- - Reply to an Email
-   - *Reply with "I will call you back"*
-   - *Respond to my last email*
- - Select an Email
-   - *The third search result please*
-   - *Open this one*
-
+  - *Find email from John Smith*
+  - *What email do I have*
+- Add Flag
+  - *This email needs to be flagged*
+  - *Add a flag to the email Simone Jones just sent to me*
+- Check Messages
+  - *Do I have any new mail*
+  - *Check my email*
+- Delete
+  - *Do I have any new mail*
+  - *Check my email*
+- Forward
+  - *Forward all files from Petrina to Jim*
+  - *Could you forward this message to Cosmo my email*
+- Query Last Text
+  - *Who emailed me last*
+  - *What was the last email I got from Dad*
+- Read Aloud
+  - *Read the last email from Philippe*
+  - *Read unread email*
+- Reply to an Email
+  - *Reply with "I will call you back"*
+  - *Respond to my last email*
+- Select an Email
+  - *The third search result please*
+  - *Open this one*
 
 ## Language Model
+
 LUIS models for the Skill are provided in .LU file format as part of the Skill. Further languages are being prioritized.
 
 |Supported Languages|
 |-|
-|English| 
-|French| 
-|Italian| 
-|German| 
-|Spanish| 
+|English|
+|French|
+|Italian|
+|German|
+|Spanish|
 |Chinese (simplified)|
 
 ### Intents
+
 |Name|Description|
 |-|-|
 |AddFlag| Matches queries to flag an email as important |
@@ -69,9 +73,10 @@ LUIS models for the Skill are provided in .LU file format as part of the Skill. 
 |SendEmail| Matches queries to send an email |
 
 ### Entities
+
 |Name|Description|
 |-|-|
-|Attachment| Simple entity matching attenchments|
+|Attachment| Simple entity matching attachments|
 |Category| Simple entity matching categories|
 |ContactName| Simple entity matching contact names|
 |Date| Simple entity matching the date|
@@ -119,7 +124,6 @@ Your Authentication Connection and corresponding Application Registration should
 - `Mail.Read`
 - `Mail.Send`
 - `People.Read`
-
 
 ### Example Skill Manifest
 

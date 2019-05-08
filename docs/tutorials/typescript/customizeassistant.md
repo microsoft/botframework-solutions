@@ -3,6 +3,7 @@
 **APPLIES TO:** ✅ SDK v4
 
 ## In this tutorial
+
 - [Intro](#intro)
 - [Edit your greeting](#edit-your-greeting)
 - [Edit your responses](#edit-your-responses)
@@ -10,6 +11,7 @@
 - [Next steps](#next-steps)
 
 ## Intro
+
 ### Purpose
 
 Learn how to navigate your assistant's project and make common customization.
@@ -28,7 +30,7 @@ A personalized Virtual Assistant with a new greeting and responses.
 
 ## Edit your greeting
 
-The assistant's greeting uses an [Adaptive Card](https://adaptivecards.io/), an open framework that lets you describe your content as you see fit and deliver it beautifully wherever your customers are. 
+The assistant's greeting uses an [Adaptive Card](https://adaptivecards.io/), an open framework that lets you describe your content as you see fit and deliver it beautifully wherever your customers are.
 
 1. Copy the following JSON payload:
 
@@ -123,12 +125,15 @@ This approach supports multi-lingual responses using the i18next library to mana
 You may wish to add an additional [QnA Maker](https://www.qnamaker.ai/) knowledge base to your assistant, this can be performed through the following steps.
 
 1. Add a new QnA Maker knowledge base from a `.lu` file adding that file to the corresponding resource folder, for example, if you are using an english resource, you should add it in `./deployment/resources/QnA/en`.
-1. Run the following command to update your Dispatch model to reflect your changes
+2. Run the following command to update your Dispatch model to reflect your changes
+
     ```shell
     pwsh.exe ./deployment/scripts/update_cognitive_models.ps1
     ```
-1. After that you should see the new QnA model in the `./src/cognitivemodels.json` file.
-1.  Update the `./src/dialogs/mainDialog.ts` file to include the corresponding Dispatch intent for your new QnA source following the example provided.
+
+3. After that you should see the new QnA model in the `./src/cognitivemodels.json` file.
+
+4. Update the `./src/dialogs/mainDialog.ts` file to include the corresponding Dispatch intent for your new QnA source following the example provided.
 
 You can now leverage multiple QnA sources as a part of your assistant's knowledge.
 
