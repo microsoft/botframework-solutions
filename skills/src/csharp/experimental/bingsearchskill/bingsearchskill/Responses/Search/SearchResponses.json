@@ -16,5 +16,14 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "NoResultPrompt": {
+    "replies": [
+      {
+        "text": "Sorry, seems we didn't find anything.",
+        "speak": "Sorry, seems we didn't find anything."
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

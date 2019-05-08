@@ -9,7 +9,7 @@ namespace BingSearchSkill.Models
     {
         public SkillState()
         {
-            SearchEntityType = SearchType.Unknown;
+            SearchEntityType = SearchResultModel.EntityType.Unknown;
         }
 
         public string Token { get; internal set; }
@@ -18,12 +18,12 @@ namespace BingSearchSkill.Models
 
         public string SearchEntityName { get; set; }
 
-        public SearchType SearchEntityType { get; set; }
+        public SearchResultModel.EntityType SearchEntityType { get; set; }
 
         public void Clear()
         {
             SearchEntityName = string.Empty;
-            SearchEntityType = SearchType.Unknown;
+            SearchEntityType = SearchResultModel.EntityType.Unknown;
         }
     }
 }
