@@ -24,7 +24,7 @@ Install Bot Framework development prerequisites and create your first Virtual As
 [Download and install](#download-and-install) the Bot Framework development prerequisites.
 
 - Retrieve your LUIS Authoring Key
-  - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work within a Europe deployment. 
+  - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work within a Europe deployment.
   - Once signed in replace your name in the top right hand corner.
   - Choose Settings and make a note of the Authoring Key for the next step.
 
@@ -93,7 +93,7 @@ The Virtual Assistant requires the following Azure dependencies to run correctly
     `appPassword` | The password for the [Azure Active Directory App](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview) that will be used by your bot. It must be at least 16 characters long, contain at least 1 special character, and contain at least 1 numeric character. If using an existing app, this must be the existing password. | **Yes**
     `luisAuthoringKey` | The authoring key for your LUIS account. It can be found at https://www.luis.ai/user/settings or https://eu.luis.ai/user/settings | **Yes**
 
-You can find more detailed deployment steps including customisation in the [Virtual Assistant and Skill Template deployment](/docs/tutorials/assistantandskilldeploymentsteps.md) page.
+You can find more detailed deployment steps including customization in the [Virtual Assistant and Skill Template deployment](/docs/tutorials/assistantandskilldeploymentsteps.md) page.
 
 ## Run your assistant
 
@@ -108,7 +108,7 @@ When deployment is complete, you can run your Virtual Assistant debugging throug
   </p>
 
 4. Populate the fields in the **Open a Bot** modal with your bot's configuration settings. Provide the endpoint of your running bot, e.g: `http://localhost:3978/api/messages`. Provide the AppId and Secret values. Find these in your `appsettings.json` file, under the `microsoftAppId` and `microsoftAppPassword` configuration settings.
- 
+
   <p align="center">
   <img src="../../media/quickstart-virtualassistant-openbotmodal.png" width="600">
   </p>

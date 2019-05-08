@@ -4,8 +4,7 @@ Your Virtual Assistant can respond in a variety of ways depending on the scenari
 
 The same Activity schema supports the attachment of User Experience elements through use of [Adaptive Cards](https://www.adaptivecards.io) which can be rendered across a broad range of devices and platforms enabling visual support of responses where appropriate. Where Azure Bot Service Channels (e.g. WebChat, Teams) are being used, the Azure Bot Service automatically transforms messages to and from the target canvas meaning Developers don't have to worry about differences across channel capabilities.
 
-In [device integration](./deviceintegration.md) scenarios you receive messages adhering to the Activity schema which may include Attachments thus enabling integration into the native experience. 
-
+In [device integration](./deviceintegration.md) scenarios you receive messages adhering to the Activity schema which may include Attachments thus enabling integration into the native experience.
 
 ## Table of Contents
 
