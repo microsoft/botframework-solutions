@@ -24,9 +24,9 @@ Install Bot Framework development prerequisites and create your first Virtual As
 [Download and install](#download-and-install) the Bot Framework development prerequisites.
 
 * Retrieve your LUIS Authoring Key
-   - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work within a europe deployment. 
-   - Once signed in click on your name in the top right hand corner.
-   - Choose Settings and make a note of the Authoring Key for the next step.
+  - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work within a europe deployment. 
+  - Once signed in click on your name in the top right hand corner.
+  - Choose Settings and make a note of the Authoring Key for the next step.
 
 ### Time to Complete
 
@@ -42,8 +42,10 @@ A Virtual Assistant app (in TypeScript) that greets a new user.
 
 1. Download and install the [Node Package Manager (NPM)](https://nodejs.org/en/).
 2. Download and install PowerShell Core version 6 (required for cross platform deployment support).
-   * [Download PowerShell Core on Windows](https://aka.ms/getps6-windows)
-   * [Download PowerShell Core on macOS and Linux](https://aka.ms/getps6-linux)
+
+    * [Download PowerShell Core on Windows](https://aka.ms/getps6-windows)
+    * [Download PowerShell Core on macOS and Linux](https://aka.ms/getps6-linux)
+
 3. Download and install Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of the latest capabilities: 
 
    ```shell

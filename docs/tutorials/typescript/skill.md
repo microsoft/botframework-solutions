@@ -3,6 +3,7 @@
 **APPLIES TO:** ✅ SDK v4
 
 ## In this tutorial
+
 - [Create a new Bot Framework Skill (TypeScript)](#create-a-new-bot-framework-skill-typescript)
   - [In this tutorial](#in-this-tutorial)
   - [Intro](#intro)
@@ -16,8 +17,8 @@
   - [Adding your Skill to an assistant](#adding-your-skill-to-an-assistant)
   - [Testing your Skill](#testing-your-skill)
 
-
 ## Intro
+
 ### Purpose
 
 Install Bot Framework development prerequisites and create a Skill using the Bot Framework Skill Template.
@@ -27,9 +28,9 @@ Install Bot Framework development prerequisites and create a Skill using the Bot
 If you haven't [created a Virtual Assistant](./virtualassistant.md), [download and install](#download-and-install) the Bot Framework development prerequisites.
 
 - Retrieve your LUIS Authoring Key
-   - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work within a europe deployment. 
-   - Once signed in replace your name in the top right hand corner.
-   - Choose Settings and make a note of the Authoring Key for the next step.
+  - Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation page for the correct LUIS portal for the region you plan to deploy to. Note that www.luis.ai refers to the US region and an authoring key retrieved from this portal will not work within a europe deployment. 
+  - Once signed in replace your name in the top right hand corner.
+  - Choose Settings and make a note of the Authoring Key for the next step.
 
 ### Time to Complete
 
@@ -48,13 +49,17 @@ A Bot Framework Skill app (in TypeScript) that greets a new user.
    * [Download PowerShell Core on Windows](https://aka.ms/getps6-windows)
    * [Download PowerShell Core on macOS and Linux](https://aka.ms/getps6-linux)
 3. Install  Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions as we make use of the latest capabilities: 
+   
    ```
    npm install -g botdispatch ludown@1.2.0 luis-apis qnamaker luisgen@2.0.2 botskills
    ```
+
 4. Install [Yeoman](http://yeoman.io)
+
    ```
    npm install -g yo
    ```
+
 5. Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest).
 
 ## Create your Skill
@@ -72,26 +77,27 @@ yo botbuilder-assistant:skill
 ```
 
 **At this point you have two different options to proceed:**
+
 ### Generate the skill using prompts
 
 - The generator will start prompting for some information that is needed for generating the sample:
-    - `What's the name of your skill? (customSkill)`
-        > The name of your skill (used also as your project's name and for the root folder's name).
-    - `What's the description of your skill? ()`
-        > The description of your skill.
-    - `Which languages will your skill use? (by default takes all the languages)`
-        - [x] Chinese (`zh`)
-        - [x] Deutsch (`de`)
-        - [x] English (`en`)
-        - [x] French (`fr`)
-        - [x] Italian (`it`)
-        - [x] Spanish (`es`)
-    - `Do you want to change the new skill's location?`
-        > A confirmation to change the destination for the generation.
-        - `Where do you want to generate the skill? (by default takes the path where you are running the generator)`
-            > The destination path for the generation.
-    - `Looking good. Shall I go ahead and create your new skill?`
-        > Final confirmation for creating the desired skill.
+  - `What's the name of your skill? (customSkill)`
+    > The name of your skill (used also as your project's name and for the root folder's name).
+  - `What's the description of your skill? ()`
+    > The description of your skill.
+  - `Which languages will your skill use? (by default takes all the languages`
+    - [x] Chinese (`zh`)
+    - [x] Deutsch (`de`)
+    - [x] English (`en`)
+    - [x] French (`fr`)
+    - [x] Italian (`it`)
+    - [x] Spanish (`es`)
+  - `Do you want to change the new skill's location?`
+    > A confirmation to change the destination for the generation.
+  - `Where do you want to generate the skill? (by default takes the path where you are running the generator)`
+    > The destination path for the generation.
+  - `Looking good. Shall I go ahead and create your new skill?`
+    > Final confirmation for creating the desired skill.
 
 ### Generate the sample using CLI parameters
 
@@ -99,7 +105,7 @@ yo botbuilder-assistant:skill
 |-----------------------------------|--------------------------------------------------------------------------------------------------------------|
 | -n, --skillName <name>              | name of new skill (by default takes `customSkill`)                                                          |
 | -d, --skillDesc <description>       | description of the new skill (by default is empty) |
-| -l, --skillLang <array of languages>| languages for the new skill. Possible values are `de`, `en`, `es`, `fr`, `it`, `zh` (by default takes all the languages)| 
+| -l, --skillLang <array of languages>| languages for the new skill. Possible values are `de`, `en`, `es`, `fr`, `it`, `zh` (by default takes all the languages)|
 | -p, --skillGenerationPath <path>    | destination path for the new skill (by default takes the path where you are running the generator)            |
 | --noPrompt                        | indicates to avoid the prompts                                                                               |
 
@@ -112,6 +118,7 @@ yo botbuilder-assistant:skill
 ```
 
 After this, you can check the summary in your screen:
+
 ```bash
 - Name: <aName>
 - Description: <aDescription>
@@ -139,6 +146,7 @@ The Skill require the following dependencies for end to end operation which are 
 
 1. Run **PowerShell Core** (pwsh.exe) and **change directory to the project directory** of your assistant/skill.
 2. Run the following command:
+
     ```shell
     .\Deployment\Scripts\deploy.ps1
     ```
@@ -159,6 +167,7 @@ You can find more detailed deployment steps including customisation in the [Virt
 ## Test your Skill
 
 Once deployment is complete, you can start debugging through the following steps:
+
 - Open the generated skill in your desired IDE (e.g Visual Studio Code)
 - Run `npm run start` 
 - Open the [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator).
