@@ -1,0 +1,148 @@
+{
+    "DidntUnderstandMessage": {
+      "replies": [
+        {
+          "speak": "Es tut mir leid, ich habe nicht verstanden, was Sie gemeint haben.",
+          "text": "Es tut mir leid, ich habe nicht verstanden, was Sie gemeint haben."
+        },
+        {
+          "speak": "Ich habe es nicht verstanden, vielleicht mal noch einmal anders versuchen.",
+          "text": "Ich habe es nicht verstanden, vielleicht mal noch einmal anders versuchen."
+        },
+        {
+          "speak": "Können Sie versuchen, anders zu fragen?",
+          "text": "Können Sie versuchen, anders zu fragen?"
+        },
+        {
+          "speak": "Ich habe nicht bekommen, was du meinst, kannst du anders ausprobieren?",
+          "text": "Ich habe nicht bekommen, was du meinst, kannst du anders ausprobieren?"
+        },
+        {
+          "speak": "Könnten Sie das näher erläutern?",
+          "text": "Könnten Sie das näher erläutern?"
+        },
+        {
+          "speak": "Bitte sagen Sie das noch einmal anders.",
+          "text": "Bitte sagen Sie das noch einmal anders."
+        },
+        {
+          "speak": "Das habe ich nicht ganz hinbekommen.",
+          "text": "Das habe ich nicht ganz hinbekommen."
+        },
+        {
+          "speak": "Können Sie das anders sagen?",
+          "text": "Können Sie das anders sagen?"
+        },
+        {
+          "speak": "Können Sie versuchen, mich noch einmal zu fragen? Ich habe nicht bekommen, was du meinst.",
+          "text": "Können Sie versuchen, mich noch einmal zu fragen? Ich habe nicht bekommen, was du meinst."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "CancellingMessage": {
+      "replies": [
+        {
+          "speak": "Sicher, das können wir später.",
+          "text": "Sicher, das können wir später."
+        },
+        {
+          "speak": "Sicher, wir können das später beginnen.",
+          "text": "Sicher, wir können das später beginnen."
+        },
+        {
+          "speak": "Kein Problem, man kann es zu einem anderen Zeitpunkt noch einmal versuchen.",
+          "text": "Kein Problem, man kann es zu einem anderen Zeitpunkt noch einmal versuchen."
+        },
+        {
+          "speak": "Okay, lassen Sie mich wissen, wenn Sie meine Hilfe brauchen.",
+          "text": "Okay, lassen Sie mich wissen, wenn Sie meine Hilfe brauchen."
+        },
+        {
+          "speak": "Sicher, ich bin hier, wenn du mich brauchst.",
+          "text": "Sicher, ich bin hier, wenn du mich brauchst."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "NoAuth": {
+      "replies": [
+        {
+          "speak": "Bitte melden Sie sich an, bevor Sie weitere Maßnahmen ergreifen.",
+          "text": "Bitte melden Sie sich an, bevor Sie weitere Maßnahmen ergreifen."
+        },
+        {
+          "speak": "Bitte melden Sie sich an, damit ich weitere Maßnahmen ergreifen kann.",
+          "text": "Bitte melden Sie sich an, damit ich weitere Maßnahmen ergreifen kann."
+        },
+        {
+          "speak": "Bitte melden Sie sich an, damit ich mit Ihrer Anfrage fortfahren kann.",
+          "text": "Bitte melden Sie sich an, damit ich mit Ihrer Anfrage fortfahren kann."
+        },
+        {
+          "speak": "Können Sie sich einloggen, damit ich Ihnen weiterhelfen kann?",
+          "text": "Können Sie sich einloggen, damit ich Ihnen weiterhelfen kann?"
+        },
+        {
+          "speak": "Sie müssen sich einloggen, damit ich weitere Maßnahmen ergreifen kann.",
+          "text": "Sie müssen sich einloggen, damit ich weitere Maßnahmen ergreifen kann."
+        }
+      ],
+      "inputHint": "expectingInput"
+    },
+    "AuthFailed": {
+      "replies": [
+        {
+          "speak": "Die Authentifizierung scheiterte. Bitte versuchen Sie es noch einmal.",
+          "text": "Die Authentifizierung scheiterte. Bitte versuchen Sie es noch einmal"
+        },
+        {
+          "speak": "Sie haben es versäumt, sich einzuloggen. Bitte versuchen Sie es später noch einmal.",
+          "text": "Sie haben es versäumt, sich einzuloggen. Bitte versuchen Sie es später noch einmal."
+        },
+        {
+          "speak": "Ihr Login ist gescheitert. Versuchen wir es noch einmal.",
+          "text": "Ihr Login ist gescheitert. Versuchen wir es noch einmal."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "ActionEnded": {
+      "replies": [
+        {
+          "speak": "Lassen Sie es mich wissen, wenn Sie meine Hilfe bei etwas anderem brauchen.",
+          "text": "Lassen Sie es mich wissen, wenn Sie meine Hilfe bei etwas anderem brauchen."
+        },
+        {
+          "speak": "Ich bin hier, wenn du mich brauchst.",
+          "text": "Ich bin hier, wenn du mich brauchst."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    },
+    "ErrorMessage": {
+      "replies": [
+        {
+          "speak": "Sorry, es sieht so aus, als ob etwas schief gelaufen wäre!",
+          "text": "Sorry, es sieht so aus, als ob etwas schief gelaufen wäre!"
+        },
+        {
+          "speak": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es später noch einmal.",
+          "text": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es später noch einmal."
+        },
+        {
+          "speak": "Es ist etwas schief gelaufen, sorry!",
+          "text": "Es ist etwas schief gelaufen, sorry!"
+        },
+        {
+          "speak": "Es scheint, als ob etwas schief gelaufen wäre. Können Sie es später noch einmal versuchen?",
+          "text": "Es scheint, als ob etwas schief gelaufen wäre. Können Sie es später noch einmal versuchen?"
+        },
+        {
+          "speak": "Es tut mir leid, dass ich jetzt nicht helfen kann. Bitte versuchen Sie es später noch einmal.",
+          "text": "Es tut mir leid, dass ich jetzt nicht helfen kann. Bitte versuchen Sie es später noch einmal."
+        }
+      ],
+      "inputHint": "acceptingInput"
+    }
+}
