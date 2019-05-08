@@ -1,4 +1,7 @@
 ﻿# Telemetry Logging
+
+
+
 ## Telemetry Client
 
 ### Using Bot Configuration (Option 1 of 2)

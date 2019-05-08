@@ -26,7 +26,7 @@ You will need to replace `<app-insights-application-id>` with your Application I
 3. Select **API Access**.
 4. Copy the Application ID.
 
-![Appinsightsapplicationid](../media/appinsightsapplicationid.png)
+![Appinsightsapplicationid](../../media/appinsightsapplicationid.png)
 
 ```
 let AnalyticsQuery =
@@ -88,24 +88,24 @@ in
 ```
 
 ### Overall Usage
-![Example Report](../media/powerbi-conversationanalytics-overall.png)
+![Example Report](../../media/powerbi-conversationanalytics-overall.png)
 ### All Dialogs Overview
-![Example Report](../media/powerbi-conversationanalytics-alldialogsoverview.png)
+![Example Report](../../media/powerbi-conversationanalytics-alldialogsoverview.png)
 ### Dialog Overview
-![Example Report](../media/powerbi-conversationanalytics-dialogoverview.png)
+![Example Report](../../media/powerbi-conversationanalytics-dialogoverview.png)
 ### LUIS Intents
-![Example Report](../media/powerbi-conversationanalytics-luisintents.png)
+![Example Report](../../media/powerbi-conversationanalytics-luisintents.png)
 ### All Conversations Metrics
-![Example Report](../media/powerbi-conversationanalytics-allconversationsmetrics.png)
+![Example Report](../../media/powerbi-conversationanalytics-allconversationsmetrics.png)
 ### Conversations Drill Down
-![Example Report](../media/powerbi-conversationanalytics-conversationsdrilldown.png)
+![Example Report](../../media/powerbi-conversationanalytics-conversationsdrilldown.png)
 ### Transcript
-![Example Report](../media/powerbi-conversationanalytics-transcript.png)
+![Example Report](../../media/powerbi-conversationanalytics-transcript.png)
 ### Demographics
-![Example Report](../media/powerbi-conversationanalytics-demographics.png)
+![Example Report](../../media/powerbi-conversationanalytics-demographics.png)
 ### Word Cloud
-![Example Report](../media/powerbi-conversationanalytics-wordcloud.png)
+![Example Report](../../media/powerbi-conversationanalytics-wordcloud.png)
 ### Sentiment
-![Example Report](../media/powerbi-conversationanalytics-sentimentanalysis.png)
+![Example Report](../../media/powerbi-conversationanalytics-sentimentanalysis.png)
 ### QnA Maker Insights
-![Example Report](../media/powerbi-conversationanalytics-qnamakerinsights.png)
+![Example Report](../../media/powerbi-conversationanalytics-qnamakerinsights.png)
