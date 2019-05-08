@@ -78,14 +78,14 @@ namespace BingSearchSkill.Dialogs
             var client = new BingSearchClient(key);
             var entitiesResult = await client.GetSearchResult(state.SearchEntityName, state.SearchEntityType);
 
-            var tokens = new StringDictionary
-            {
-                { "Name", entitiesResult[0].Name },
-            };
-
             Activity prompt = null;
             if (entitiesResult != null && entitiesResult.Count > 0)
             {
+                var tokens = new StringDictionary
+                {
+                    { "Name", entitiesResult[0].Name },
+                };
+
                 if (state.SearchEntityType == SearchResultModel.EntityType.Movie)
                 {
                     var movieInfo = MovieHelper.GetMovieInfoFromUrl(entitiesResult[0].Url);
