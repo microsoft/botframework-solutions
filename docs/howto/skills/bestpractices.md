@@ -1,6 +1,6 @@
 # Skill Best Practices
 
-## Table of Contents
+## In this reference
 - [Language understanding](#language-understanding)
 - [Conversational design](#conversational-design)
 - [Developing a dialog](#devloping-a-dialog)
