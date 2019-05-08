@@ -71,12 +71,12 @@ namespace BingSearchSkill.Dialogs
                 var userInput = content != null ? content.ToString() : stepContext.Context.Activity.Text;
 
                 state.SearchEntityName = userInput;
-                state.SearchEntityType = SearchType.Unknown;
+                state.SearchEntityType = SearchResultModel.EntityType.Unknown;
             }
 
             var key = Settings.Properties[ApiKeyIndex] ?? throw new Exception("The BingSearchKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
             var client = new BingSearchClient(key);
-            var entitiesResult = await client.GetSearchResult(state.SearchEntityName);
+            var entitiesResult = await client.GetSearchResult(state.SearchEntityName, state.SearchEntityType);
 
             var tokens = new StringDictionary
             {
@@ -84,41 +84,48 @@ namespace BingSearchSkill.Dialogs
             };
 
             Activity prompt = null;
-            if (state.SearchEntityType == SearchType.Movie)
+            if (entitiesResult != null && entitiesResult.Count > 0)
             {
-                var movieInfo = MovieHelper.GetMovieInfoFromUrl(entitiesResult[0].Url);
-                tokens["Name"] = movieInfo.Name;
-                var movieData = new MovieCardData()
+                if (state.SearchEntityType == SearchResultModel.EntityType.Movie)
                 {
-                    Title = movieInfo.Name,
-                    Description = movieInfo.Description,
-                    IconPath = movieInfo.Image,
-                    Score = $"{movieInfo.Rating}/10",
-                    Type = string.Join(", ", movieInfo.Genre),
-                    Link_Trailers = $"https://www.imdb.com/{movieInfo.TrailerUrl}",
-                    Link_Trivia = $"https://www.imdb.com/{movieInfo.Url}trivia",
-                    Link_View = entitiesResult[0].Url,
-                };
+                    var movieInfo = MovieHelper.GetMovieInfoFromUrl(entitiesResult[0].Url);
+                    tokens["Name"] = movieInfo.Name;
+                    var movieData = new MovieCardData()
+                    {
+                        Title = movieInfo.Name,
+                        Description = movieInfo.Description,
+                        IconPath = movieInfo.Image,
+                        Score = $"{movieInfo.Rating}/10",
+                        Type = string.Join(", ", movieInfo.Genre),
+                        Link_Trailers = $"https://www.imdb.com/{movieInfo.TrailerUrl}",
+                        Link_Trivia = $"https://www.imdb.com/{movieInfo.Url}trivia",
+                        Link_View = entitiesResult[0].Url,
+                    };
 
-                prompt = ResponseManager.GetCardResponse(
-                            SearchResponses.EntityKnowledge,
-                            new Card("MovieCard", movieData),
-                            tokens);
+                    prompt = ResponseManager.GetCardResponse(
+                                SearchResponses.EntityKnowledge,
+                                new Card("MovieCard", movieData),
+                                tokens);
+                }
+                else
+                {
+                    var celebrityData = new PersonCardData()
+                    {
+                        Name = entitiesResult[0].Name,
+                        Description = entitiesResult[0].Description,
+                        IconPath = entitiesResult[0].ImageUrl,
+                        Link_View = entitiesResult[0].Url,
+                    };
+
+                    prompt = ResponseManager.GetCardResponse(
+                                SearchResponses.EntityKnowledge,
+                                new Card("PersonCard", celebrityData),
+                                tokens);
+                }
             }
             else
             {
-                var celebrityData = new PersonCardData()
-                {
-                    Name = entitiesResult[0].Name,
-                    Description = entitiesResult[0].Description,
-                    IconPath = entitiesResult[0].ImageUrl,
-                    Link_View = entitiesResult[0].Url,
-                };
-
-                prompt = ResponseManager.GetCardResponse(
-                            SearchResponses.EntityKnowledge,
-                            new Card("PersonCard", celebrityData),
-                            tokens);
+                prompt = ResponseManager.GetResponse(SearchResponses.NoResultPrompt);
             }
 
             await stepContext.Context.SendActivityAsync(prompt);
@@ -140,22 +147,22 @@ namespace BingSearchSkill.Dialogs
             if (state.LuisResult.Entities.MovieTitle != null)
             {
                 state.SearchEntityName = state.LuisResult.Entities.MovieTitle[0];
-                state.SearchEntityType = SearchType.Movie;
+                state.SearchEntityType = SearchResultModel.EntityType.Movie;
             }
             else if (state.LuisResult.Entities.MovieTitlePatten != null)
             {
                 state.SearchEntityName = state.LuisResult.Entities.MovieTitlePatten[0];
-                state.SearchEntityType = SearchType.Movie;
+                state.SearchEntityType = SearchResultModel.EntityType.Movie;
             }
             else if (state.LuisResult.Entities.CelebrityName != null)
             {
                 state.SearchEntityName = state.LuisResult.Entities.CelebrityName[0];
-                state.SearchEntityType = SearchType.Celebrity;
+                state.SearchEntityType = SearchResultModel.EntityType.Person;
             }
             else if (state.LuisResult.Entities.CelebrityNamePatten != null)
             {
                 state.SearchEntityName = state.LuisResult.Entities.CelebrityNamePatten[0];
-                state.SearchEntityType = SearchType.Celebrity;
+                state.SearchEntityType = SearchResultModel.EntityType.Person;
             }
         }
 
