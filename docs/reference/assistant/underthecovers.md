@@ -27,7 +27,7 @@ The host app is responsible for the following capabilities. These can of course 
     - Processing events received from the Assistant, often to perform on device operations (e.g. change navigation destination)
     - Accessing the on-device secret store to store and retrieve a token for communication with the assistant
     - Integration with the Unified Speech SDK where on-device speech capabilities are required
-    - Interface to the Direct-Link REST API or SDKs
+    - Interface to the Direct-Line REST API or SDKs
     - Authenticating the end user of the device and providing a unique userId to the Assistant. Microsoft has capabilities to help with this if needed.
 
 ## Assistant Middleware

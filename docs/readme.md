@@ -1,7 +1,6 @@
 ![Bot Framework Solutions](/docs/media/bot_framework_solutions_header.png)
  
 # Table of Contents
-- [Table of Contents](#table-of-contents)
 - [Overview](#overview)
 - [Tutorials](#tutorials)
 - [How-To](#how-to)
@@ -32,7 +31,6 @@
 |1. Quickstart: Create your first Virtual Assistant<br/><br/> <p align="center">[![Quickstart: Create a Virtual Assistant with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/virtualassistant.md)[![Quickstart: Create a Virtual Assistant with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/virtualassistant.md)</p>|Deploying your own assistant using the Virtual Assistant template|
 |2. Customize your Virtual Assistant <br/><br/><p align="center">[![Customize your Virtual Assistant with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeassistant.md) [![Customize your Assistant with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/customizeassistant.md)</p>|Personalize your assistant, change the name, branding, QnA| 
 |3. Create a new Skill <br/><br/><p align="center">[![Create and deploy a new Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/skill.md) [![Create and deploy a new Skill with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/skill.md)</p>|Creating a new Skill using the template|
-|4. Customize your Skill <br/><br/><p align="center">[![Customize your Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeskill.md)</p>|Building your first skill| 
 
 # How-To
 
@@ -67,8 +65,7 @@
 | Name | Description |
 | ---- | ----------- |
 |[Template Outline](/docs/reference/assistant/templateoutline.md)|An outline of what the Virtual Assistant template provides|
-|[Under the covers](/docs/reference/assistant/underthecovers.md)|Detailed documentation covering what the template provides and how it works| 
-|[Underlying architecture](/docs/reference/assistant/architecture.md)|Detailed exploration of the overall Virtual Assistant Architecture|
+|[Architecture](/docs/reference/assistant/underthecovers.md)|Detailed documentation covering what the template provides and how it works| 
 |[Generating bot responses](/docs/reference/assistant/responses.md)|Your Virtual Assistant can respond in a variety of ways depending on the scenario and the users active device or conversation canvas|
 |[Managing backend client events](/docs/reference/assistant/events.md)|Events enable custom apps or device experiences to pass device or contextual user information to an assistant behind the scenes.|
 |[Deployment scripts](/docs/reference/assistant/deploymentscripts) | Reference for deployment scripts provided in the Virtual Assistant Template |
