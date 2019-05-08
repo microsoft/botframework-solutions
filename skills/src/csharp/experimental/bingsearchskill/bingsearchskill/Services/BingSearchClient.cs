@@ -40,14 +40,20 @@ namespace BingSearchSkill.Services
             var entitySearchResult = await GetEntitySearchResult(query);
             var webSearchResult = await GetWebSearchResult(query);
             var results = new List<SearchResultModel>();
-            foreach (var entity in entitySearchResult.Value)
+            if (entitySearchResult != null)
             {
-                results.Add(new SearchResultModel(entity));
+                foreach (var entity in entitySearchResult.Value)
+                {
+                    results.Add(new SearchResultModel(entity));
+                }
             }
 
-            foreach (var webResult in webSearchResult.WebPages.Value)
+            if (webSearchResult != null && webSearchResult.WebPages != null)
             {
-                results.Add(new SearchResultModel(webResult.Url));
+                foreach (var webResult in webSearchResult.WebPages.Value)
+                {
+                    results.Add(new SearchResultModel(webResult.Url));
+                }
             }
 
             var personResults = new List<SearchResultModel>();
