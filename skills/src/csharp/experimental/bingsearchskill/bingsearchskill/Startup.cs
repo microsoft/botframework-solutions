@@ -25,8 +25,8 @@ using BingSearchSkill.Responses.Main;
 using BingSearchSkill.Responses.Shared;
 using BingSearchSkill.Responses.Search;
 using Microsoft.Bot.Builder.Skills;
-using BingSearchSkill.Adapters;
 using Microsoft.Bot.Builder.Solutions;
+using BingSearchSkill.Adapters;
 
 namespace BingSearchSkill
 {
