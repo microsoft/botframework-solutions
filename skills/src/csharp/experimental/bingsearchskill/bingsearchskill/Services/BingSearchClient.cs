@@ -8,6 +8,7 @@ using Microsoft.Azure.CognitiveServices.Search.EntitySearch;
 using Microsoft.Azure.CognitiveServices.Search.EntitySearch.Models;
 using Microsoft.Azure.CognitiveServices.Search.WebSearch;
 using Microsoft.Azure.CognitiveServices.Search.WebSearch.Models;
+using Microsoft.Rest;
 using Newtonsoft.Json;
 
 namespace BingSearchSkill.Services
@@ -25,14 +26,28 @@ namespace BingSearchSkill.Services
 
         private async Task<Entities> GetEntitySearchResult(string query)
         {
-            var searchResponse = await _entitySearchClient.Entities.SearchAsync(query);
-            return searchResponse.Entities;
+            try
+            {
+                var searchResponse = await _entitySearchClient.Entities.SearchAsync(query);
+                return searchResponse.Entities;
+            }
+            catch (SerializationException)
+            {
+                return null;
+            }
         }
 
         private async Task<Microsoft.Azure.CognitiveServices.Search.WebSearch.Models.SearchResponse> GetWebSearchResult(string query)
         {
-            var searchResponse = await _webSearchClient.Web.SearchAsync(query);
-            return searchResponse;
+            try
+            {
+                var searchResponse = await _webSearchClient.Web.SearchAsync(query);
+                return searchResponse;
+            }
+            catch (SerializationException)
+            {
+                return null;
+            }
         }
 
         public async Task<List<SearchResultModel>> GetSearchResult(string query, SearchResultModel.EntityType queryType = SearchResultModel.EntityType.Unknown)
