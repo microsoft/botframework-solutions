@@ -1,6 +1,6 @@
 {
   "name": "generator-botbuilder-assistant",
-  "version": "1.0.1",
+  "version": "4.4.5",
   "description": "Project template for Virtual Assistant using the Bot Builder SDK V4.",
   "homepage": "https://github.com/Microsoft/AI/tree/master/templates/Virtual-Assistant-Template/src/typescript",
   "author": {
@@ -57,7 +57,8 @@
     "test": "cd test/ && mocha --opts mocha.opts",
     "pretest": "npm run lint",
     "lint": "eslint .",
-    "lint-fix": "eslint --fix ."
+    "lint-fix": "eslint --fix .",
+    "copydeploymentscript": "xcopy \"..\\..\\..\\Common\\Deployment\\Scripts\\deploy.ps1\" \"generators\\app\\templates\\customAssistant\\deployment\\scripts\\\" /y && xcopy \"..\\..\\..\\Common\\Deployment\\Scripts\\deploy.ps1\" \"generators\\skill\\templates\\customSkill\\deployment\\scripts\\\" /y"
   },
   "license": "MIT"
 }

@@ -11,6 +11,7 @@ pushd .\templates\Virtual-Assistant-Template\typescript\generator-botbuilder-ass
 npm install
 npm version $($version) --allow-same-version
 npm run lint
+npm run copydeploymentscript
 
 popd
 
