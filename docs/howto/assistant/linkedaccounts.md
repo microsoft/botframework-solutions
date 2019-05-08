@@ -4,11 +4,11 @@
 
 Speech-led conversational scenarios require a different mindset and approach for certain scenarios,
 one such example is [Authentication](../common/authentication.md).
-If you take a Productivity scenario, whereby the user wants to access information in their calendar it's important 
+If you take a Productivity scenario, whereby the user wants to access information in their calendar it's important
 for the VA Bot to have access to a security token (Office 365 for example).
 
-The first time this scenario executes the Virtual Agent needs to prompt a user for authentication. When using WebChat, this is normally 
-done by returning an OAuthCard to the user along with a Button linking to an OAuth authentication page as shown below. 
+The first time this scenario executes the Virtual Agent needs to prompt a user for authentication. When using WebChat, this is normally
+done by returning an OAuthCard to the user along with a Button linking to an OAuth authentication page as shown below.
 If you'd like to learn more about this scenario in WebChat, we encourage you to read [Sign-In experiences](https://blog.botframework.com/2018/08/28/sign-in-experiences/) on the Bot Framework Blog.
 
 **OAuth Card Example**
@@ -74,12 +74,10 @@ Exchanging a Direct Line secret for a Token and providing a Trusted Origin enabl
 
 ## Testing Linked Accounts
 
-If you run the project within Visual Studio you will be navigated to the Linked Accounts web app. 
-You'll be prompted to login, use the same credentials that your Virtual Assistant will be using when performing operations on your behalf thus ensuring the underlying unique identifier matches.
+If you run the project within Visual Studio you will be navigated to the Linked Accounts web app. You'll be prompted to login, use the same credentials that your Virtual Assistant will be using when performing operations on your behalf thus ensuring the underlying unique identifier matches.
 
 > If different accounts are used then your assistant Bot will not have access to your linked tokens and may prompt for authentication.
-Once logged in you, click Linked Accounts in the top navigation page and you should see a list of the Authentication connections configured for the Bot 
-(whose MicrosoftAppId you specified in the earlier configuration step).
+Once logged in you, click Linked Accounts in the top navigation page and you should see a list of the Authentication connections configured for the Bot (whose MicrosoftAppId you specified in the earlier configuration step).
 
 You can now click Sign-In to be navigated to the respective OAuth sign-in page. Once complete the Linked Accounts web app should show a green linked status.
 
@@ -87,7 +85,7 @@ You can now click Sign-In to be navigated to the respective OAuth sign-in page. 
 
 Now that you've linked your account and stored tokens you can move back to your Virtual Assistant and check that it's able to use the tokens you've stored and not prompt for authentication.
 
-> Note that when communicating with the Virtual Assistant (Bot) the From.Id property on each Activity must be populated with the same User unique-identifier as this is the *key* used by the Authentication logic to retrieve tokens. 
+> Note that when communicating with the Virtual Assistant (Bot) the From.Id property on each Activity must be populated with the same User unique-identifier as this is the *key* used by the Authentication logic to retrieve tokens.
 > The Linked Accounts website sample uses the [objectidentifier](https://docs.microsoft.com/en-us/azure/architecture/multitenant-identity/claims) claim and this must be used by your Virtual Assistant client app or Test Harnesses.
 > Equally, the principal name (upn) could be used if preferred.
 
@@ -95,7 +93,7 @@ Asking a question that triggers a user flow which requires the specified token s
 
 The Bot Framework Emulator currently generates a unique UserId which can be changed to a new unique ID by clicking the down arrow next to the Restart Conversation button and choosing 'Restart with new UserId'. Unfortunately there is no current way to specify a UserId and therefore match the `AadObjectidentifierClaim` associated with your user account for use which blocks Emulator testing. At this time we have provided the ability in Linked Accounts to override the UserId enabling you to pass in the UserId currently in use by the Emulator. You can view the User identified being used by the emulator by sending a message and clicking on the entry in the log window and retrieving the from.id value.
 
-```
+```json
   "from": {
     "id": "USERID_IN_USE_HERE",
     "role": "user"
