@@ -6,15 +6,8 @@
 - [Create a new Bot Framework Skill (TypeScript)](#create-a-new-bot-framework-skill-typescript)
   - [In this tutorial](#in-this-tutorial)
   - [Intro](#intro)
-    - [Purpose](#purpose)
-    - [Prerequisites](#prerequisites)
-    - [Time to Complete](#time-to-complete)
-    - [Scenario](#scenario)
   - [Download and install](#download-and-install)
   - [Create your Skill](#create-your-skill)
-    - [Generate the skill using prompts](#generate-the-skill-using-prompts)
-    - [Generate the sample using CLI parameters](#generate-the-sample-using-cli-parameters)
-      - [Example](#example)
   - [Deploy your Skill](#deploy-your-skill)
   - [Test your Skill](#test-your-skill)
   - [Update your Skill manifest](#update-your-skill-manifest)
@@ -56,7 +49,7 @@ A Bot Framework Skill app (in TypeScript) that greets a new user.
    * [Download PowerShell Core on macOS and Linux](https://aka.ms/getps6-linux)
 3. Install  Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions as we make use of the latest capabilities: 
    ```
-   npm install -g botdispatch ludown luis-apis luisgen botskills
+   npm install -g botdispatch ludown@1.2.0 luis-apis qnamaker luisgen@2.0.2 botskills
    ```
 4. Install [Yeoman](http://yeoman.io)
    ```
@@ -144,7 +137,24 @@ The Skill require the following dependencies for end to end operation which are 
 
 > Review the pricing and terms for the services and adjust to suit your scenario.
 
-To deploy your services using the default configuration, follow the steps in this common [deployment documentation page](/docs/tutorials/assistantandskilldeploymentsteps.md)
+1. Run **PowerShell Core** (pwsh.exe) and **change directory to the project directory** of your assistant/skill.
+2. Run the following command:
+    ```shell
+    .\Deployment\Scripts\deploy.ps1
+    ```
+
+    ### What do these parameters mean?
+
+    Parameter | Description | Required
+    --------- | ----------- | --------
+    `name` | **Unique** name for your bot. By default this name will be used as the base name for all your Azure Resources and must be unique across Azure so ensure you prefix with something unique and **not** *MyAssistant* | **Yes**
+    `location` | The region for your Azure Resources. By default, this will be the location for all your Azure Resources | **Yes**
+    `appPassword` | The password for the [Azure Active Directory App](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview) that will be used by your bot. It must be at least 16 characters long, contain at least 1 special character, and contain at least 1 numeric character. If using an existing app, this must be the existing password. | **Yes**
+    `luisAuthoringKey` | The authoring key for your LUIS account. It can be found at https://www.luis.ai/user/settings or https://eu.luis.ai/user/settings | **Yes**
+
+You can find more detailed deployment steps including customisation in the [Virtual Assistant and Skill Template deployment](/docs/tutorials/assistantandskilldeploymentsteps.md) page.
+
+> Note that if you choose to deploy your Skill manually or re-use an existing App-Service please ensure that Web Sockets are enabled on the App Service configuration pane. The deployment scripts supplied as part of the Skill template will do this automatically.
 
 ## Test your Skill
 
