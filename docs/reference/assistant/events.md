@@ -1,6 +1,6 @@
 # Handle client events with a Virtual Assistant
 
-## In this reference:
+## In this reference
 - [Intro](#intro)
 - [Inbound Events](#inbound-events)
 - [Outbound Events](#outbound-events)

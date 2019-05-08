@@ -1,4 +1,4 @@
-## Skill Authentication
+# Skill Authentication
 
 A skill needs to be able to validate the request coming from another bot (Virtual Assistant). It needs to verify that the request comes from a properly registered bot service, and that the request was intended for the skill. To achieve this, we use AAD token mechanism
 

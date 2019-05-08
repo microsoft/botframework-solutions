@@ -1,6 +1,5 @@
 # Known Issues
 
-
 ### The Teams channel doesn't render an OAuth card
 There is a known issue in the Teams channel where the default OAuth Card is not supported. In order to work around this issue, the ActionType of the sign in button needs to be changed to "OpenUrl". This can be done using the following middleware class:
 

@@ -21,7 +21,7 @@
 |:------------:|------------| 
 | [Virtual Assistant](https://github.com/Microsoft/AI/blob/master/docs/overview/virtualassistant.md) | Customers and partners have a significant need to deliver a conversational assistant tailored to their brand, personalized to their users, and made available across a broad range of canvases and devices. This brings together all of the supporting components and greatly simplifies the creation of a new bot project including: basic conversational intents, Dispatch integration, QnA Maker, Application Insights and an automated deployment.|
 | [Skills](https://github.com/Microsoft/AI/blob/master/docs/overview/skills.md) | A library of re-usable conversational skill building-blocks enabling you to add functionality to a Bot. We currently provide: Calendar, Email, Task, Point of Interest, Automotive, Weather and News skills. Skills include LUIS models, Dialogs, and integration code delivered in source code form to customize and extend as required.|
-| [Analytics](https://github.com/Microsoft/AI/blob/master/docs/readme.md#analytics) | Gain key insights into your bot’s health and behavior with the Bot Framework Analytics solutions, which includes: sample Application Insights queries, and Power BI dashboards to understand the full breadth of your bot’s conversations with users.|
+| [Analytics](https://github.com/Microsoft/AI/blob/master/docs/overview/analytics.md) | Gain key insights into your bot’s health and behavior with the Bot Framework Analytics solutions, which includes: sample Application Insights queries, and Power BI dashboards to understand the full breadth of your bot’s conversations with users.|
 
 # Tutorials
 
@@ -56,7 +56,7 @@
 | [How-To: Add a new Skill to your Assistant](/docs/howto/skills/addingskills.md) | Adding a Skill |
 | How-To: Add Skills to an existing SDK v4 bot<br/><br/><p align="center">[![Adding Skill support to a v4 SDK Bot with C#](./media/csharp_icon.png)](/docs/howto/skills/csharp/addskillsupportforv4bot.md) [![Adding Skill support to a v4 SDK Bot with TypeScript](./media/typescript_icon.png)](/docs/howto/skills/typescript/addskillsupportforv4bot.md)</p>|How to add Skills to an existing bot (not Virtual Assistant template). | 
 |How-To: Convert an existing v4 SDK Bot to a Skill <br/><br/><p align="center">[![Enable Skills on an existing v4 SDK Bot with C#](./media/csharp_icon.png)](/docs/howto/skills/csharp/skillenablingav4bot.md) [![Enable Skills on an existing v4 SDK Bot with TypeScript](./media/typescript_icon.png)](/docs/howto/skills/typescript/skillenablingav4bot.md)</p> | Steps required to take an existing and make it available as a skill. |
-| [HowoTo: Develop a Skill](/docs/howto/skills/bestpractices.md) | Design Best practices for Skills |
+| [How-To: Develop a Skill](/docs/howto/skills/bestpractices.md) | Design Best practices for Skills |
 
 # Reference 
 

@@ -1,6 +1,6 @@
 # Virtual Assistant Responses
 
-## In this reference:
+## In this reference
 - [Intro](#intro)
 - [Activity schema](#activity-schema)
 - [Messages and Events](#messages-and-events)

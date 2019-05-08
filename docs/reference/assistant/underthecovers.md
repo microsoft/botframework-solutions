@@ -1,6 +1,6 @@
 # Virtual Assistant architecture
 
-## In this reference:
+## In this reference
 - [Intro](#intro)
 - [Client Integration](#client-integration)
 - [Assistant Middleware](#assistant-middleware)

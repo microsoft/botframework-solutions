@@ -1,9 +1,6 @@
 # Virtual Assistant Template Outline
 
-> [!NOTE]
-> This topic applies to v4 version of the SDK. 
-
-## In this reference:
+## In this reference
 - [Intro](#intro)
 - [Greeting Card](#greeting-card)
 - [Language Understanding](#language-understanding)
