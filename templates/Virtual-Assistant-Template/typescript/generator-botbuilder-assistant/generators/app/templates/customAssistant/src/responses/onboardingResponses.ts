@@ -8,8 +8,7 @@ import i18next from 'i18next';
 import {
     DictionaryRenderer,
     LanguageTemplateDictionary,
-    TemplateFunction,
-    TemplateIdMap } from '../services/dictionaryRenderer';
+    TemplateFunction } from '../services/dictionaryRenderer';
 import { TemplateManager } from '../services/templateManager';
 
 export class OnboardingResponses extends TemplateManager {

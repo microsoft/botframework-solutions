@@ -60,7 +60,7 @@ export class MainResponses extends TemplateManager {
     }
 
     // tslint:disable-next-line:no-any
-    public static buildNewUserGreetingCard(turnContext: TurnContext, data: any): Promise<any> {
+    public static async buildNewUserGreetingCard(turnContext: TurnContext, data: any): Promise<any> {
         const introFileName: string = i18next.t('main.introGreetingFile');
         const introPath: string = join(__dirname, '..', 'content', introFileName);
         // tslint:disable-next-line:no-any non-literal-require
@@ -93,7 +93,7 @@ export class MainResponses extends TemplateManager {
     }
 
     // tslint:disable-next-line:no-any
-    public static buildReturningUserGreetingCard(turnContext: TurnContext, data: any): Promise<any> {
+    public static async buildReturningUserGreetingCard(turnContext: TurnContext, data: any): Promise<any> {
         const introFileName: string = i18next.t('main.introReturningFile');
         const introPath: string = join(__dirname, '..', 'content', introFileName);
         // tslint:disable-next-line:no-any non-literal-require
@@ -126,7 +126,7 @@ export class MainResponses extends TemplateManager {
     }
 
     // tslint:disable-next-line:no-any
-    public static buildHelpCard(turnContext: TurnContext, data: any): Promise<any> {
+    public static async buildHelpCard(turnContext: TurnContext, data: any): Promise<any> {
         const title: string = i18next.t('main.helpTitle');
         const text: string = i18next.t('main.helpText');
         const attachment: Attachment = CardFactory.heroCard(title, text);

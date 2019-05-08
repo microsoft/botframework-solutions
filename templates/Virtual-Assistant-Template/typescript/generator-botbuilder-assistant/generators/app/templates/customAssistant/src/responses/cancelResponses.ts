@@ -7,8 +7,7 @@ import i18next from 'i18next';
 import {
     DictionaryRenderer,
     LanguageTemplateDictionary,
-    TemplateFunction,
-    TemplateIdMap } from '../services/dictionaryRenderer';
+    TemplateFunction } from '../services/dictionaryRenderer';
 import { TemplateManager } from '../services/templateManager';
 
 export class CancelResponses extends TemplateManager {
@@ -18,18 +17,21 @@ export class CancelResponses extends TemplateManager {
         cancelPrompt: string;
         cancelConfirmedMessage: string;
         cancelDeniedMessage: string;
+        nothingToCancelMessage: string;
     } = {
         cancelPrompt: 'cancelPrompt',
-        cancelConfirmedMessage: 'cancelConfirmedMessage',
-        cancelDeniedMessage: 'cancelDeniedMessage'
+        cancelConfirmedMessage: 'cancelConfirmed',
+        cancelDeniedMessage: 'cancelDenied',
+        nothingToCancelMessage: 'nothingToCancel'
     };
 
     // Declare the responses map prompts
     private static readonly responseTemplates: LanguageTemplateDictionary = new Map([
         ['default', new Map([
             [CancelResponses.responseIds.cancelConfirmedMessage, CancelResponses.fromResources('cancel.cancelConfirmed')],
-            [CancelResponses.responseIds.cancelConfirmedMessage, CancelResponses.fromResources('cancel.cancelDenied')],
-            [CancelResponses.responseIds.cancelPrompt, CancelResponses.fromResources('cancel.cancelPrompt')]
+            [CancelResponses.responseIds.cancelDeniedMessage, CancelResponses.fromResources('cancel.cancelDenied')],
+            [CancelResponses.responseIds.cancelPrompt, CancelResponses.fromResources('cancel.cancelPrompt')],
+            [CancelResponses.responseIds.nothingToCancelMessage, CancelResponses.fromResources('cancel.nothingToCancel')]
         ])]
     ]);
 
