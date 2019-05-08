@@ -4,6 +4,7 @@ The Point of Interest Skill provides point of interest and navigation related ca
 The most common scenarios have been implemented in this beta release, with additional scenarios in development.
 
 ## Table of Contents
+
 - [Supported Scenarios](#supported-scenarios)
 - [Language Model](#language-model)
 - [Event Responses](#event-responses)
