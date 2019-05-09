@@ -38,7 +38,7 @@
 |-----------------------------------|--------------------------------------------------------------------------------------------------------------|
 | -n, --skillName [name]              | name of new skill (by default takes `customSkill`)                                                          |
 | -d, --skillDesc [description]       | description of the new skill (by default takes ``) |
-| -l, --skillLang [array of languages]| languages for the new skill. Possible values are `de`, `en`, `es`, `fr`, `it`, `zh` (by default takes all the languages)| 
+| -l, --skillLang [languages]| languages for the new skill. Possible values are `de`, `en`, `es`, `fr`, `it`, `zh` (by default takes all the languages)| 
 | -p, --skillGenerationPath [path]    | destination path for the new skill (by default takes the path where you are runnning the generator)            |
 | --noPrompt                        | indicates to avoid the prompts                                                                               |
 
