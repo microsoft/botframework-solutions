@@ -4,6 +4,8 @@ This repository is the home for a set of templates and solutions to help build c
 
 > Things look a little different around here? Find out more in our [Wiki page](https://github.com/Microsoft/AI/wiki/What's-new-at-Build-2019) and [here](https://github.com/Microsoft/AI/issues/959).
 
+### [Click here to find out what's new for //build2019!](https://github.com/microsoft/botframework/blob/master/whats-new.md#whats-new)
+
 | Name | Description |  
 |:------------:|------------| 
 |[<img src="https://raw.githubusercontent.com/Microsoft/AI/4.4/docs/media/vatemplateintrocard.png" width="1250">](https://github.com/Microsoft/AI/blob/master/docs/readme.md#overview) | [**Virtual Assistant.**](https://github.com/Microsoft/AI/blob/master/docs/readme.md#overview) Customers and partners have a significant need to deliver a conversational assistant tailored to their brand, personalized to their users, and made available across a broad range of canvases and devices. <br/><br/>  This brings together all of the supporting components and greatly simplifies the creation of a new bot project including: basic conversational intents, Dispatch integration, QnA Maker, Application Insights and an automated deployment.|
