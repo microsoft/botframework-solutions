@@ -1,9 +1,9 @@
 # Adding Skills
 
-## Pre-requisites
+## Prerequisites
 
 - [Node.js](https://nodejs.org/) version 10.8 or higher
-- Dispatch CLI which is used as part of skill registration
+- Install the Dispatch CLI tool
 
     ```shell
     npm install -g botdispatch
@@ -78,7 +78,7 @@ In this situation for Microsoft Graph based skills follow the instructions below
 
 For Skills that require other Authentication connection configuration please follow the skill specific configuration information.
 
-## Removing a Skill from your Virtual Assistant
+## Remove a Skill from your Virtual Assistant
 
 To disconnect a skill from your Virtual Assistant use the following command, passing the id of the Skill as per the manifest (e.g. calendarSkill).
 

@@ -1,6 +1,12 @@
-# Virtual Assistant Proactive Messaging Scenarios
+# Send activities from your assistant to users proactively
 
-## Overview
+**APPLIES TO:** ✅ SDK v4
+
+## In this how-to
+- [Intro](#intro)
+- [Implement a sample proactive scenario](#implement-a-sample)
+
+## Intro
 
 Proactive scenarios are a key part of ensuring a Virtual Assistant can provide more intelligent and helpful capabilities to end users. This enables a Virtual Assistant to move away from exclusively reactive (user initiated) scenarios towards more intelligent interactions triggered by external events that are known to be of interest to the end user.
 
@@ -10,7 +16,7 @@ Example scenarios are as follows and will enable your assistant to stand out and
 - "Here's your daily briefing" (as you start your car)
 - "I know you have time in you calendar on the way home, how about picking up some items from your grocery list on your way?"
 
-## Implementation
+## Implement a sample proactive scenario
 
 At this time, the Virtual Assistant provides one proactive scenario which is already implemented which can be used as a reference. When an client device (e.g. car) sends a `DeviceStart` event to the bot, it will query for upcoming events for the next hour. Within CalendarSkill, the dialog that handles this scenario is located here: [
 `solutions\Virtual-Assistant\src\csharp\skills\calendarskill\calendarskill\Dialogs\UpcomingEvent\UpcomingEventDialog.cs`](../../../solutions/Virtual-Assistant/src/csharp/skills/calendarskill/calendarskill/Dialogs/UpcomingEvent/UpcomingEventDialog.cs)

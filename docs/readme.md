@@ -22,7 +22,7 @@
 |:------------:|------------|
 | [Virtual Assistant](https://github.com/Microsoft/AI/blob/master/docs/overview/virtualassistant.md) | Customers and partners have a significant need to deliver a conversational assistant tailored to their brand, personalized to their users, and made available across a broad range of canvases and devices. This brings together all of the supporting components and greatly simplifies the creation of a new bot project including: basic conversational intents, Dispatch integration, QnA Maker, Application Insights and an automated deployment.|
 | [Skills](https://github.com/Microsoft/AI/blob/master/docs/overview/skills.md) | A library of re-usable conversational skill building-blocks enabling you to add functionality to a Bot. We currently provide: Calendar, Email, Task, Point of Interest, Automotive, Weather and News skills. Skills include LUIS models, Dialogs, and integration code delivered in source code form to customize and extend as required.|
-| [Analytics](https://github.com/Microsoft/AI/blob/master/docs/readme.md#analytics) | Gain key insights into your bot’s health and behavior with the Bot Framework Analytics solutions, which includes: sample Application Insights queries, and Power BI dashboards to understand the full breadth of your bot’s conversations with users.|
+| [Analytics](https://github.com/Microsoft/AI/blob/master/docs/overview/analytics.md) | Gain key insights into your bot’s health and behavior with the Bot Framework Analytics solutions, which includes: sample Application Insights queries, and Power BI dashboards to understand the full breadth of your bot’s conversations with users.|
 
 # Tutorials
 
@@ -33,7 +33,6 @@
 |1. Quickstart: Create your first Virtual Assistant<br/><br/> <p align="center">[![Quickstart: Create a Virtual Assistant with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/virtualassistant.md)[![Quickstart: Create a Virtual Assistant with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/virtualassistant.md)</p>|Deploying your own assistant using the Virtual Assistant template|
 |2. Customize your Virtual Assistant <br/><br/><p align="center">[![Customize your Virtual Assistant with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeassistant.md) [![Customize your Assistant with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/customizeassistant.md)</p>|Personalize your assistant, change the name, branding, QnA|
 |3. Create a new Skill <br/><br/><p align="center">[![Create and deploy a new Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/skill.md) [![Create and deploy a new Skill with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/skill.md)</p>|Creating a new Skill using the template|
-|4. Customize your Skill <br/><br/><p align="center">[![Customize your Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeskill.md)</p>|Building your first skill|
 
 # How-To
 
@@ -43,22 +42,20 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [How To: Enable Linked Accounts](/docs/howto/assistant/linkedaccounts.md) | Enable users to link third party accounts (e.g. Office 365) to your Assistant |
-| How To: Migrate from the Enterprise Template <br/><br/><p align="center">[![Migrating from the Enterprise Template with C#](./media/csharp_icon.png)](/docs/howto/assistant/csharp/ettovamigration.md)</p> | Guidance on how to move from an Enterprise Template based Bot to the new Template|
-| How to: Migrate the Virtual Assistant (Beta Release 0.3) solution to the Virtual Assistant Template <br/><br/> <p align="center">[![Migrating from the beta Virtual Assistant solution with C#](./media/csharp_icon.png)](/docs/howto/assistant/csharp/oldvatovamigration.md)</p> |Guidance on how to move from the original Virtual Assistant solution to the new Template |
-| [How To: Messaging your users proactively](/docs/howto/assistant/csharp/proactivemessaging.md) | Adding proactive experiences to your assistant |
-| [How To: Enable cross bot communication into one conversational experience](/docs/howto/assistant/parentchildbotpattern.md) | Create one central Assistant which hands-off to child bots (a common enterprise scenario) |
-| [How To: Customize Azure Resource Deployment](/docs/howto/assistant/customizedeployment.md) | How to customize the provided ARM template for different deployment scenarios. |
-| How To: Secure your keys using Azure Key Vault <br> :construction_worker_woman: | How to safeguard your keys using Azure Key Vault|
+| [How-To: Enable Linked Accounts](/docs/howto/assistant/linkedaccounts.md) | Enable users to link third party accounts (e.g. Office 365) to your Assistant |
+| How-To: Migrate from the Enterprise Template <br/><br/><p align="center">[![Migrating from the Enterprise Template with C#](./media/csharp_icon.png)](/docs/howto/assistant/csharp/ettovamigration.md)</p> | Guidance on how to move from an Enterprise Template based Bot to the new Template|
+| How-to: Migrate the Virtual Assistant (Beta Release 0.3) solution to the Virtual Assistant Template <br/><br/> <p align="center">[![Migrating from the beta Virtual Assistant solution with C#](./media/csharp_icon.png)](/docs/howto/assistant/csharp/oldvatovamigration.md)</p> |Guidance on how to move from the original Virtual Assistant solution to the new Template |
+| [How-To: Send activities from your assistant to users proactively](/docs/howto/assistant/csharp/proactivemessaging.md) | Adding proactive experiences to your assistant |
+| [How-To: Customize Azure Resource Deployment](/docs/howto/assistant/customizedeployment.md) | How to customise the provided ARM template for different deployment scenarios. |
 
 ## Skills
 
 | Name | Description |
 | ---- | ----------- |
-| [How To: Add a new Skill to your Assistant](/docs/howto/skills/addingskills.md) | Adding a Skill |
-| How To: Add Skills to an existing SDK v4 bot<br/><br/><p align="center">[![Adding Skill support to a v4 SDK Bot with C#](./media/csharp_icon.png)](/docs/howto/skills/csharp/addskillsupportforv4bot.md) [![Adding Skill support to a v4 SDK Bot with TypeScript](./media/typescript_icon.png)](/docs/howto/skills/typescript/addskillsupportforv4bot.md)</p>|How to add Skills to an existing bot (not Virtual Assistant template). |
-|How To: Convert an existing v4 SDK Bot to a Skill <br/><br/><p align="center">[![Enable Skills on an existing v4 SDK Bot with C#](./media/csharp_icon.png)](/docs/howto/skills/csharp/skillenablingav4bot.md) [![Enable Skills on an existing v4 SDK Bot with TypeScript](./media/typescript_icon.png)](/docs/howto/skills/typescript/skillenablingav4bot.md)</p> | Steps required to take an existing and make it available as a skill. |
-| [How To: Develop a Skill](/docs/howto/skills/bestpractices.md) | Design Best practices for Skills |
+| [How-To: Add a new Skill to your Assistant](/docs/howto/skills/addingskills.md) | Adding a Skill |
+| How-To: Add Skills to an existing SDK v4 bot<br/><br/><p align="center">[![Adding Skill support to a v4 SDK Bot with C#](./media/csharp_icon.png)](/docs/howto/skills/csharp/addskillsupportforv4bot.md) [![Adding Skill support to a v4 SDK Bot with TypeScript](./media/typescript_icon.png)](/docs/howto/skills/typescript/addskillsupportforv4bot.md)</p>|How to add Skills to an existing bot (not Virtual Assistant template). | 
+|How-To: Convert an existing v4 SDK Bot to a Skill <br/><br/><p align="center">[![Enable Skills on an existing v4 SDK Bot with C#](./media/csharp_icon.png)](/docs/howto/skills/csharp/skillenablingav4bot.md) [![Enable Skills on an existing v4 SDK Bot with TypeScript](./media/typescript_icon.png)](/docs/howto/skills/typescript/skillenablingav4bot.md)</p> | Steps required to take an existing and make it available as a skill. |
+| [How-To: Develop a Skill](/docs/howto/skills/bestpractices.md) | Best practices for developing your Bot Framework Skill |
 
 # Reference
 
@@ -69,13 +66,10 @@
 | Name | Description |
 | ---- | ----------- |
 |[Template Outline](/docs/reference/assistant/templateoutline.md)|An outline of what the Virtual Assistant template provides|
-|[Under the covers](/docs/reference/assistant/underthecovers.md)|Detailed documentation covering what the template provides and how it works| 
-|[Underlying architecture](/docs/reference/assistant/architecture.md)|Detailed exploration of the overall Virtual Assistant Architecture|
-|[Template structure](/docs/reference/assistant/projectstructure.md)|Walkthrough of your Virtual Assistant project|
+|[Architecture](/docs/reference/assistant/underthecovers.md)|Detailed documentation covering what the template provides and how it works| 
 |[Generating bot responses](/docs/reference/assistant/responses.md)|Your Virtual Assistant can respond in a variety of ways depending on the scenario and the users active device or conversation canvas|
 |[Managing backend client events](/docs/reference/assistant/events.md)|Events enable custom apps or device experiences to pass device or contextual user information to an assistant behind the scenes.|
-|[Enabling speech scenarios](/docs/reference/assistant/speechenablement.md)|Ensure your Virtual Assistant and Experiences work well in Speech scenarios|
-|[Deployment Scripts](/docs/reference/assistant/deploymentscripts) | Reference for deployment scripts provided in the Virtual Assistant Template |
+|[Deployment scripts](/docs/reference/assistant/deploymentscripts) | Reference for deployment scripts provided in the Virtual Assistant Template |
 
 ## Skills
 
@@ -86,7 +80,6 @@
 |[Skill Token Flow](/docs/reference/skills/skilltokenflow.md)|How a Skill can request a User authentication token|
 |[Skill Manifest](/docs/reference/skills/skillmanifest.md)| Overview of the Skill Manifest file and it's role with Skill registration and invocation|
 |[Skill CLI Tools](/docs/reference/skills/skillcli.md)| Detailed information on the Skill command line tool and the steps it performs on your behalf.|
-|[Adaptive Card Styling](/docs/reference/skills/adaptivecardstyling.md)|Adjusting the look and feel of an Assistant's cards to reflect your brand|
 |[Calendar Skill](/docs/reference/skills/productivity-calendar.md)|Add calendar capabilities to your assistant. Powered by Microsoft Graph and Google.|
 |[Email Skill](/docs/reference/skills/productivity-email.md)|Add email capabilities to your assistant. Powered by Microsoft Graph and Google.|
 |[To Do Skill](/docs/reference/skills/productivity-todo.md)|Add task management capabilities to your assistant. Powered by Microsoft Graph.|

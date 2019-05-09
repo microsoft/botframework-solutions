@@ -1,6 +1,10 @@
 # Skill Manifest
 
-## Overview
+In this reference
+- [Intro](#intro)
+- [Manifest structure](#manifest-structure)
+
+## Intro
 
 The Skill manifest enables Skills to be self-describing in that they communicate the name and description of a Skill, it's authentication requirements if appropriate along with the discrete actions that it exposes. Each action provides utterances that the caller can use to identify when an utterance should be passed across to a skill along with slots (parameters) that it can accept for slot-filling if required.
 
@@ -8,7 +12,7 @@ This manifest provides all of the metadata required for a calling Bot to know wh
 
 Each skill exposes a manifest endpoint enabling easy retrieval of a manifest, this can be found on the following URI path of your skill: `/api/skill/manifest`
 
-## Manifest Structure
+## Manifest structure
 
 A manifest is made up of the following structure:
 
