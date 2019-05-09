@@ -68,10 +68,9 @@ export class OnboardingDialog extends ComponentDialog {
 
         await OnboardingDialog.responder.replyWith(
             sc.context,
-            OnboardingResponses.responseIds.haveLocationMessage,
+            OnboardingResponses.responseIds.haveNameMessage,
             {
-                name: this.state.name,
-                location: this.state.location
+                name: this.state.name
             });
 
         return sc.endDialog();

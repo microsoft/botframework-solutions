@@ -212,7 +212,7 @@ export class MainDialog extends RouterDialog {
     }
 
     protected async onInterruptDialog(dc: DialogContext): Promise<InterruptionAction> {
-        if (dc.context.activity.type === ActivityTypes.Message && dc.context.activity.text.trim.length > 0) {
+        if (dc.context.activity.type === ActivityTypes.Message) {
             const locale: string = i18next.language;
             const cognitiveModels: ICognitiveModelSet | undefined = this.services.cognitiveModelSets.get(locale);
 
