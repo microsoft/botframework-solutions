@@ -6,13 +6,12 @@
 import {
     BotTelemetryClient,
     RecognizerResult } from 'botbuilder';
-import { LuisRecognizer } from 'botbuilder-ai';
+import { LuisRecognizer, LuisRecognizerTelemetryClient } from 'botbuilder-ai';
 import { DialogContext } from 'botbuilder-dialogs';
 import {
     ICognitiveModelSet,
     InterruptableDialog,
-    InterruptionAction,
-    ITelemetryLuisRecognizer} from 'botbuilder-solutions';
+    InterruptionAction } from 'botbuilder-solutions';
 import i18next from 'i18next';
 import { CancelResponses } from '../responses/cancelResponses';
 import { MainResponses } from '../responses/mainResponses';
@@ -42,7 +41,7 @@ export class DialogBase extends InterruptableDialog {
             throw new Error('cognitiveModels has no value');
         }
         // check luis intent
-        const luisService: ITelemetryLuisRecognizer | undefined = cognitiveModels.luisServices.get(this.luisResultKey);
+        const luisService: LuisRecognizerTelemetryClient | undefined = cognitiveModels.luisServices.get(this.luisResultKey);
 
         if (luisService === undefined) {
             throw new Error('The specified LUIS Model could not be found in your Bot Services configuration.');

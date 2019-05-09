@@ -8,7 +8,7 @@ import {
     BotTelemetryClient,
     RecognizerResult,
     StatePropertyAccessor } from 'botbuilder';
-import { LuisRecognizer, QnAMakerResult } from 'botbuilder-ai';
+import { LuisRecognizer, LuisRecognizerTelemetryClient, QnAMakerResult, QnAMakerTelemetryClient } from 'botbuilder-ai';
 import {
     DialogContext,
     DialogTurnResult,
@@ -20,8 +20,6 @@ import {
 import {
     ICognitiveModelSet,
     InterruptionAction,
-    ITelemetryLuisRecognizer,
-    ITelemetryQnAMaker,
     RouterDialog,
     TokenEvents } from 'botbuilder-solutions';
 // tslint:disable-next-line:no-submodule-imports
@@ -88,7 +86,7 @@ export class MainDialog extends RouterDialog {
                 throw new Error('There is no cognitiveModels value');
             }
             // check luis intent
-            const luisService: ITelemetryLuisRecognizer | undefined = cognitiveModels.luisServices.get(this.luisServiceGeneral);
+            const luisService: LuisRecognizerTelemetryClient | undefined = cognitiveModels.luisServices.get(this.luisServiceGeneral);
 
             if (luisService === undefined) {
                 throw new Error('The general LUIS Model could not be found in your Bot Services configuration.');
@@ -120,7 +118,7 @@ export class MainDialog extends RouterDialog {
             throw new Error('There is no value in cognitiveModels');
         }
         // Check dispatch result
-        const dispatchResult: RecognizerResult = await cognitiveModels.dispatchService.recognize(dc);
+        const dispatchResult: RecognizerResult = await cognitiveModels.dispatchService.recognize(dc.context);
         const intent: string = LuisRecognizer.topIntent(dispatchResult);
 
         if (this.settings.skills === undefined) {
@@ -141,7 +139,7 @@ export class MainDialog extends RouterDialog {
             }
         } else if (intent === 'l_general') {
             // If dispatch result is general luis model
-            const luisService: ITelemetryLuisRecognizer | undefined = cognitiveModels.luisServices.get(this.luisServiceGeneral);
+            const luisService: LuisRecognizerTelemetryClient | undefined = cognitiveModels.luisServices.get(this.luisServiceGeneral);
             if (luisService === undefined) {
                 throw new Error('The specified LUIS Model could not be found in your Bot Services configuration.');
             } else {
@@ -182,7 +180,7 @@ export class MainDialog extends RouterDialog {
                 }
             }
         } else if (intent === 'q_faq') {
-            const qnaService: ITelemetryQnAMaker | undefined = cognitiveModels.qnaServices.get(this.luisServiceFaq);
+            const qnaService: QnAMakerTelemetryClient | undefined = cognitiveModels.qnaServices.get(this.luisServiceFaq);
 
             if (qnaService === undefined) {
                 throw new Error('The specified QnA Maker Service could not be found in your Bot Services configuration.');
@@ -193,7 +191,7 @@ export class MainDialog extends RouterDialog {
                 }
             }
         } else if (intent === 'q_chitchat') {
-            const qnaService: ITelemetryQnAMaker | undefined = cognitiveModels.qnaServices.get(this.luisServiceChitchat);
+            const qnaService: QnAMakerTelemetryClient | undefined = cognitiveModels.qnaServices.get(this.luisServiceChitchat);
 
             if (qnaService === undefined) {
                 throw new Error('The specified QnA Maker Service could not be found in your Bot Services configuration.');

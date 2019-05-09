@@ -3,10 +3,8 @@
  * Licensed under the MIT License.
  */
 
-import {
-    BotFrameworkAdapterSettings,
-    StatePropertyAccessor,
-    TurnContext } from 'botbuilder';
+import { BotFrameworkAdapterSettings, BotTelemetryClient, NullTelemetryClient, StatePropertyAccessor, TurnContext } from 'botbuilder';
+import { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware } from 'botbuilder-applicationinsights';
 import { Dialog } from 'botbuilder-dialogs';
 import {
     IAuthenticationConnection,
@@ -66,21 +64,36 @@ const botSettings: Partial<IBotSettings> = {
     microsoftAppPassword: appsettings.microsoftAppPassword,
     skills: skills
 };
+
+function getTelemetryClient(settings: Partial<IBotSettings>): BotTelemetryClient {
+    if (settings && settings.appInsights && settings.appInsights.instrumentationKey) {
+        const instrumentationKey: string = settings.appInsights.instrumentationKey;
+
+        return new ApplicationInsightsTelemetryClient(instrumentationKey);
+    }
+
+    return new NullTelemetryClient();
+}
+
+const telemetryClient: BotTelemetryClient = getTelemetryClient(botSettings);
+
 const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appId: botSettings.microsoftAppId,
     appPassword: botSettings.microsoftAppPassword
 };
-const adapter: DefaultAdapter = new DefaultAdapter(botSettings, adapterSettings);
+const adapter: DefaultAdapter = new DefaultAdapter(botSettings, adapterSettings, telemetryClient);
+
 let bot: DialogBot<Dialog>;
 try {
-    const botServices: BotServices = new BotServices(botSettings);
+    const botServices: BotServices = new BotServices(botSettings, telemetryClient);
+
     const onboardingStateAccessor: StatePropertyAccessor<IOnboardingState> =
         adapter.userState.createProperty<IOnboardingState>('OnboardingState');
     const skillContextAccessor: StatePropertyAccessor<SkillContext> =
         adapter.userState.createProperty<SkillContext>(SkillContext.name);
 
-    const onboardingDialog: OnboardingDialog = new OnboardingDialog(botServices, onboardingStateAccessor, adapter.telemetryClient);
-    const escalateDialog: EscalateDialog = new EscalateDialog(botServices, adapter.telemetryClient);
+    const onboardingDialog: OnboardingDialog = new OnboardingDialog(botServices, onboardingStateAccessor, telemetryClient);
+    const escalateDialog: EscalateDialog = new EscalateDialog(botServices, telemetryClient);
     const skillDialogs: SkillDialog[] = skills.map((skill: ISkillManifest) => {
         const authDialog: MultiProviderAuthDialog|undefined = buildAuthDialog(skill, botSettings);
         const credentials: MicrosoftAppCredentialsEx = new MicrosoftAppCredentialsEx(
@@ -88,7 +101,7 @@ try {
             botSettings.microsoftAppPassword || '',
             skill.msAppId);
 
-        return new SkillDialog(skill, credentials, adapter.telemetryClient, skillContextAccessor, authDialog);
+        return new SkillDialog(skill, credentials, telemetryClient, skillContextAccessor, authDialog);
     });
     const mainDialog: MainDialog = new MainDialog(
         botSettings,
@@ -97,16 +110,22 @@ try {
         escalateDialog,
         skillDialogs,
         onboardingStateAccessor,
-        adapter.telemetryClient
+        telemetryClient
     );
 
-    bot = new DialogBot(adapter.conversationState, adapter.telemetryClient, mainDialog);
+    bot = new DialogBot(adapter.conversationState, telemetryClient, mainDialog);
 } catch (err) {
     throw err;
 }
 
 // Create server
 const server: restify.Server = restify.createServer();
+
+// Enable the Application Insights middleware, which helps correlate all activity
+// based on the incoming request.
+server.use(restify.plugins.bodyParser());
+server.use(ApplicationInsightsWebserverMiddleware);
+
 server.listen(3979, (): void => {
     // tslint:disable-next-line:no-console
     console.log(`${server.name} listening to ${server.url}`);
