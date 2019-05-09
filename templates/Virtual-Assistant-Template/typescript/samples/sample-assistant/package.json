@@ -35,7 +35,6 @@
         "dotenv": "^6.0.0",
         "i18next": "^15.0.6",
         "i18next-node-fs-backend": "^2.1.1",
-        "mocha": "^6.1.4",
         "ms-rest-azure": "^2.5.0",
         "restify": "^7.2.1"
     },
@@ -46,6 +45,7 @@
         "@types/node": "^10.10.1",
         "@types/restify": "^7.2.4",
         "copyfiles": "^2.1.0",
+        "mocha": "^6.1.4",
         "nock": "^10.0.6",
         "nodemon": "^1.18.4",
         "replace": "^1.0.0",

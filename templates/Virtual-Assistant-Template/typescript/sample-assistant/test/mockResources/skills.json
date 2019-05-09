@@ -1,0 +1,28 @@
+{
+    "id": "custom-skill",
+    "msaAppId": "0f2fa036-1de3-4012-9b34-64ca1da5f754",
+    "name": "Custom Skill",
+    "endpoint": "https://bfnewsskill.azurewebsites.net/api/skill/messages",
+    "description": "The News experimental skill provides simple retrieval of News from Bing Search.",
+    "iconUrl": "https://bfnewsskill.azurewebsites.net/newsSkill.png",
+    "authenticationConnections": [],
+    "actions": [
+      {
+        "id": "custom-skill_Sample",
+        "definition": {
+          "description": "Test Custom Skill",
+          "slots": [],
+          "triggers": {
+            "utteranceSources": [
+              {
+                "locale": "en",
+                "source": [
+                  "custom-skill#Sample"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }

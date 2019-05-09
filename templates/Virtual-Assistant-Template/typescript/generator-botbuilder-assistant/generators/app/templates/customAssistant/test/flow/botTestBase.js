@@ -8,8 +8,8 @@ const config = require('dotenv').config;
 const i18next = require('i18next');
 const i18nextNodeFsBackend = require('i18next-node-fs-backend');
 const path = require('path');
-const BotServices = require('../../lib/botServices.js').BotServices;
-const { DialogBot } = require('../../lib/bot/dialogBot.js').DialogBot;
+const BotServices = require('../../lib/services/botServices.js').BotServices;
+const { DialogBot } = require('../../lib/bots/dialogBot.js').DialogBot;
 let languageModelsRaw;
 let skillsRaw;
 const { Locales, ProactiveState, SkillDefinition } = require('botbuilder-solutions');
@@ -18,8 +18,14 @@ const TEST_MODE = require('../testBase').testMode;
 const setupEnvironment = function (testMode) {
     switch (testMode) {
         case 'record':
+            config({ path: path.join(__dirname, '..', '..', 'appsettings.json') });
+            languageModelsRaw = require('../../../sample-assistant/src/cognitivemodels.json'); 
+            skillsRaw = require('../../../sample-assistant/src/skills.json');
             break;
         case 'lockdown':
+            config({ path: path.join(__dirname, '..', 'appsettings.json') });
+            languageModelsRaw = require('../mockResources/cognitivemodels.json');
+            skillsRaw = require('../mockResources/skills.json');
             break;
     }
 }
@@ -36,7 +42,6 @@ const configuration = async function() {
     });
 
     await Locales.addResourcesFromPath(i18next, 'common');
-
 
     setupEnvironment(TEST_MODE);
 }
@@ -60,7 +65,7 @@ const initialize = async function(testStorage) {
     
     const storage = testStorage || new MemoryStorage();
     
-    const botConfiguration = BotConfiguration.loadSync(process.env.BOT_FILE_NAME, process.env.BOT_FILE_SECRET);
+    const botConfiguration = BotConfiguration.loadSync(appsettings.json, cognitivemodels.json);
     // Initializes your bot language models and skills definitions
     const languageModels = new Map(Object.entries(languageModelsRaw));
     const skills = skillsRaw.map((skill) => {
@@ -72,7 +77,6 @@ const initialize = async function(testStorage) {
     const APPINSIGHTS_NAME = process.env.APPINSIGHTS_NAME || '';
     const conversationState = new ConversationState(storage);
     const userState = new UserState(storage);
-    const BOT_CONFIGURATION = (process.env.ENDPOINT || 'development');
     // Get bot endpoint configuration by service name
     const endpointService = searchService(botConfiguration, ServiceTypes.Endpoint, BOT_CONFIGURATION);
     // Get AppInsights configuration by service name
