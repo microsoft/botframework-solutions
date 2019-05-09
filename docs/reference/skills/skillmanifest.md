@@ -35,9 +35,9 @@ The manifest header provides high level information relating to your skill, the 
  id         | Identifier for your skill, no spaces or special characters | **Yes**
  name       | Display name for your skill | **Yes**
  description| Description of the capabilities your Skill provides | **Yes**
- iconUrl    | Icon uri representing your skill, potentially used to show the skills registered with a Bot. | No
- msaAppId   | Icon uri representing your skill, potentially used to show the skills registered with a Bot. | Automatic
- endpoint   | Icon uri representing your skill, potentially used to show the skills registered with a Bot. | Automatic
+ iconUrl    | Icon Uri representing your skill, potentially used to show the skills registered with a Bot. | No
+ msaAppId   | Icon Uri representing your skill, potentially used to show the skills registered with a Bot. | Automatic
+ endpoint   | Icon Uri representing your skill, potentially used to show the skills registered with a Bot. | Automatic
 
 ```json
   "id": "calendarSkill",
@@ -54,7 +54,7 @@ The `authenticationConnections` section communicates which authentication provid
  ---------  | ----------- | --------
  id                 | Identifier for the authentication connection, no spaces or special characters | **Yes**
  serverProviderId   | The Service Provider identifier to help the client understand which identity provider it should use | **Yes**
- scopes             | The authentication scopes required for this skill to operate. Space or comma seperated | **Yes**
+ scopes             | The authentication scopes required for this skill to operate. Space or comma separated | **Yes**
 
 ```json
  "authenticationConnections": [
@@ -69,6 +69,7 @@ The `authenticationConnections` section communicates which authentication provid
       "scopes": "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts"
     }]
 ```
+
 ### Actions
 
 The `actions` section describes the discrete actions (features) that a given Skill supports. Each action can optionally provide slots (parameters) that the caller may choose to pass or alternatively omit and pass the utterance for the Skill to perform it's own slot filling. Slot filling on the client side can enable a Skill to be invoked and not require any further input or turns from the end user.
@@ -139,6 +140,7 @@ Utterances can also be provided in-line with the skill manifest as shown below. 
 Both `utteranceSources` and `utterances` support multiple-locales enabling you to express the locales your Skill supports.
 
 Actions can also be invoked through an event mechanism. The event trigger specifies the name of an Activity which will trigger a given action to be performed. In this case retrieve a meeting summary for today.
+
 ```json
  "triggers": {
     "events": [
@@ -148,11 +150,9 @@ Actions can also be invoked through an event mechanism. The event trigger specif
 }
 ```
 
-
-
 ### Example Skill Manifest
 
-```
+```json
 {
   "id": "calendarSkill",
   "name": "Calendar Skill",

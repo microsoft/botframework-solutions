@@ -51,8 +51,7 @@ The Dispatch model is used at the core of each project created using the templat
 
 ![Dispatch Example](/docs/media/dispatchexample.png)
 
-
-### QnA Maker
+## QnA Maker
 
 [QnA Maker](https://www.qnamaker.ai/) provides the ability for non-developers to curate general knowledge in the format of question and answer pairs. This knowledge can be imported from FAQ data sources, product manuals and interactively within the QnaMaker portal.
 

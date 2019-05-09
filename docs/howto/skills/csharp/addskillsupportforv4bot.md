@@ -28,10 +28,11 @@ Add [`Microsoft.Bot.Builder.Solutions`](https://www.nuget.org/packages/Microsoft
 
 ## Skill configuration
 
-The `Microsoft.Bot.Builder.Skills` package provides a `SkillManifest` type that describes a Skill. Your bot should maintain a collection of registered Skills typically serialised into a JSON configuration file. The Virtual Assistant template uses a `skills.json` file for this purpose.
+The `Microsoft.Bot.Builder.Skills` package provides a `SkillManifest` type that describes a Skill. Your bot should maintain a collection of registered Skills typically serialized into a JSON configuration file. The Virtual Assistant template uses a `skills.json` file for this purpose.
 
 As part of your Configuration processing you should construct a collection of registered Skills by deserializing this file, for example:
-```
+
+```csharp
 public List<SkillManifest> Skills { get; set; }
 ```
 
@@ -83,6 +84,7 @@ private MultiProviderAuthDialog BuildAuthDialog(SkillManifest skill, BotSettings
 ## Route utterances to Skills
 
 Within your Main/Router dialog you firstly need to ensure the SkillDialogs registered previously are added to the dialog stack:
+
 ```csharp
 foreach (var skillDialog in skillDialogs)
 {
@@ -91,13 +93,14 @@ foreach (var skillDialog in skillDialogs)
 ```
 
 Add the following code after your Dispatcher has executed passing the registered Skills and the Intent returned from the Dispatcher. If the IsSkill method returns true then you start the appropriate SkillDialog instance passing the Skill Manifest Id and the matching intent.
+
 ```csharp
 // Identify if the dispatch intent matches any Action within a Skill if so, we pass to the appropriate SkillDialog to hand-off
 var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, intent.ToString());
 
 if (identifiedSkill != null)
 {
-    // We have identiifed a skill so initialize the skill connection with the target skill 
+    // We have identiifed a skill so initialize the skill connection with the target skill
     // the dispatch intent is the Action ID of the Skill enabling us to resolve the specific action and identify slots
     await dc.BeginDialogAsync(identifiedSkill.Id, intent);
 

@@ -30,6 +30,7 @@ Messages are a specific Type of Activity set through the `ActivityType` property
 Speech scenarios require indication from the Virtual Assistant whether further input is required so the client or device can automatically open the microphone. The `inputHint` field on the [Activity](https://github.com/Microsoft/BotBuilder/blob/hub/specs/botframework-activity/botframework-activity.md) provides the mechanism to enable this.
 
 There are three types of Input Hint to consider within your client application.
+
 - Accepting Input: The Virtual Assistant is ready for input but not awaiting a response. This will typically cause the client to close the microphone.
 - Expecting Input: The Virtual Assistant is actively awaiting a response and this should cause the client to open the microphone.
 - Ignoring Input: The Virtual Assistant is not ready to receive input which would cause the client to not offer the ability to accept input.

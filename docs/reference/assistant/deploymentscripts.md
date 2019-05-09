@@ -11,9 +11,11 @@ A number of PowerShell scripts are provided in the Virtual Assistant Template to
 ## Scripts
 
 ### deploy.ps1
+
 This script orchestrates the deployment of all Azure Resources and Cognitive Models to get the Virtual Assistant running.
 
-#### Parameters
+### Parameters
+
 | Parameter | Description | Required? |
 | --------- | ----------- | --------- |
 | `name` | The name for your Azure resources. | Yes |
@@ -28,11 +30,12 @@ This script orchestrates the deployment of all Azure Resources and Cognitive Mod
 | `outFolder | Location to save `appsettings.json` and `cognitivemodels.json` configuration files. Defaults to current directory. | No |
 | `logFile | Log file for any errors that occur during script execution. Defaults to `Deployment` folder | No |
 
+## deploy_cognitive_models.ps1
 
-### deploy_cognitive_models.ps1
 This script deploys all the language models found in `Deployment\Resources\LU` and the knowledgebases found in `Deployment\Resources\QnA`. Finally it creates a Dispatch model to dispatch between all cognitive models.
 
-#### Parameters
+### Parameters
+
 | Parameter | Description | Required? |
 | --------- | ----------- | --------- |
 | name | The base name for all Cognitive Models. Model language and name will be appended. (e.g MyAssistanten_General )| Yes |
@@ -43,7 +46,8 @@ This script deploys all the language models found in `Deployment\Resources\LU` a
 | `outFolder` | Location to save `cognitivemodels.json` configuration file. Defaults to current directory. | No |
 | `logFile` | Log file for any errors that occur during script execution. Defaults to `Deployment` folder | No |
 
-### update_cognitive_models.ps1
+## update_cognitive_models.ps1
+
 This script updates your hosted language models and knowledgebases based on local .lu files. Or, it can update your local .lu files based on your current models. Finally, it refreshes your dispatch model with the latest changes.
 
 | Parameter | Description | Required? |

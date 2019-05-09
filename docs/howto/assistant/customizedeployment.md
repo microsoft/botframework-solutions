@@ -1,4 +1,4 @@
-## How To: Customize Deployment
+# How To: Customize Deployment
 
 The Virtual Assistant Template relies on a number of Azure resources to run. The included deployment scripts and ARM template use the following default configurations for these services:
 
@@ -17,6 +17,7 @@ QnA Maker Azure Search Service | Standard | Search index for your QnA Maker know
 Content Moderator | S0 | Subscription keys for Content Moderator Cognitive Service.
 
 Any of the following parameters in the ARM template can be overridden with your preferred values using the `parameters.template.json` file provided in the `Deployment\Resources` folder:
+
 - name
 - location  
 - microsoftAppId
@@ -45,7 +46,7 @@ Any of the following parameters in the ARM template can be overridden with your 
 
 Simply update the parameters.template.json file with your preferred values, like so:
 
-```
+```json
 {
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",

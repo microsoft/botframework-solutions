@@ -1,6 +1,8 @@
 ![Bot Framework Solutions](/docs/media/bot_framework_solutions_header.png)
- 
+
 # Table of Contents
+
+- [Table of Contents](#table-of-contents)
 - [Overview](#overview)
 - [Tutorials](#tutorials)
 - [How-To](#how-to)
@@ -17,7 +19,7 @@
 > High-level overview into the Virtual Assistant, Skills and Analytics.
 
 | Name | Description |  
-|:------------:|------------| 
+|:------------:|------------|
 | [Virtual Assistant](https://github.com/Microsoft/AI/blob/master/docs/overview/virtualassistant.md) | Customers and partners have a significant need to deliver a conversational assistant tailored to their brand, personalized to their users, and made available across a broad range of canvases and devices. This brings together all of the supporting components and greatly simplifies the creation of a new bot project including: basic conversational intents, Dispatch integration, QnA Maker, Application Insights and an automated deployment.|
 | [Skills](https://github.com/Microsoft/AI/blob/master/docs/overview/skills.md) | A library of re-usable conversational skill building-blocks enabling you to add functionality to a Bot. We currently provide: Calendar, Email, Task, Point of Interest, Automotive, Weather and News skills. Skills include LUIS models, Dialogs, and integration code delivered in source code form to customize and extend as required.|
 | [Analytics](https://github.com/Microsoft/AI/blob/master/docs/overview/analytics.md) | Gain key insights into your bot’s health and behavior with the Bot Framework Analytics solutions, which includes: sample Application Insights queries, and Power BI dashboards to understand the full breadth of your bot’s conversations with users.|
@@ -29,7 +31,7 @@
 |Name|Description|
 |------------|-----------|
 |1. Quickstart: Create your first Virtual Assistant<br/><br/> <p align="center">[![Quickstart: Create a Virtual Assistant with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/virtualassistant.md)[![Quickstart: Create a Virtual Assistant with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/virtualassistant.md)</p>|Deploying your own assistant using the Virtual Assistant template|
-|2. Customize your Virtual Assistant <br/><br/><p align="center">[![Customize your Virtual Assistant with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeassistant.md) [![Customize your Assistant with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/customizeassistant.md)</p>|Personalize your assistant, change the name, branding, QnA| 
+|2. Customize your Virtual Assistant <br/><br/><p align="center">[![Customize your Virtual Assistant with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeassistant.md) [![Customize your Assistant with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/customizeassistant.md)</p>|Personalize your assistant, change the name, branding, QnA|
 |3. Create a new Skill <br/><br/><p align="center">[![Create and deploy a new Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/skill.md) [![Create and deploy a new Skill with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/skill.md)</p>|Creating a new Skill using the template|
 
 # How-To
@@ -55,7 +57,7 @@
 |How-To: Convert an existing v4 SDK Bot to a Skill <br/><br/><p align="center">[![Enable Skills on an existing v4 SDK Bot with C#](./media/csharp_icon.png)](/docs/howto/skills/csharp/skillenablingav4bot.md) [![Enable Skills on an existing v4 SDK Bot with TypeScript](./media/typescript_icon.png)](/docs/howto/skills/typescript/skillenablingav4bot.md)</p> | Steps required to take an existing and make it available as a skill. |
 | [How-To: Develop a Skill](/docs/howto/skills/bestpractices.md) | Best practices for developing your Bot Framework Skill |
 
-# Reference 
+# Reference
 
 > Reference documentation providing more insight into key concepts across the Virtual Assistant, Skills and Analytics
 
@@ -91,11 +93,12 @@
 | ---- | ----------- |
 |[Application Insights](/docs/reference/analytics/applicationinsights.md)|Detailed information on how Application Insights is used to collect information and powers our Analytics capabilities.|
 |[Power BI Template](/docs/reference/analytics/powerbi.md)|Detailed information on how the provided PowerBI template provides insights into your assistant usage.|
-|[Telemetry](/docs/reference/analytics/telemetrylogging.md)|How to configure telemetry collection for your assistant.|       
+|[Telemetry](/docs/reference/analytics/telemetrylogging.md)|How to configure telemetry collection for your assistant.|
 
 # Need Help?
+
 Check out our [Known Issues](/docs/reference/knownissues.md) for common issues and resolutions.
 
-If you have any questions please start with [Stack Overflow](https://stackoverflow.com/questions/tagged/botframework) where we're happy to help. 
+If you have any questions please start with [Stack Overflow](https://stackoverflow.com/questions/tagged/botframework) where we're happy to help.
 
 Use the GitHub Issues page to raise [issues](https://github.com/Microsoft/AI/issues/new?assignees=&labels=Type%3A+Bug&template=bug_report.md&title=) or [feature requests](https://github.com/Microsoft/AI/issues/new?assignees=&labels=Type%3A+Suggestion&template=feature_request.md&title=).

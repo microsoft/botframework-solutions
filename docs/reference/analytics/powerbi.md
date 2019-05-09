@@ -1,7 +1,9 @@
 ﻿# Power BI
+
 The  [Conversational Analytics Power BI sample](https://aka.ms/botPowerBiTemplate) provides a PowerBI template that can be used to understand how your bot is performing.
 
 ## Sample Overview
+
 |Dashboard Name|Description|
 |-|-|
 |[Overall Usage](#overall-usage)| Provides general insights like unique users, total number of messages, and number of conversations per day|
@@ -21,45 +23,46 @@ The  [Conversational Analytics Power BI sample](https://aka.ms/botPowerBiTemplat
 Below is a sample query to create a `conversationalai` table in Power BI. This extracts bot activity, QnA results, sentiment and demographic data.
 
 You will need to replace `<app-insights-application-id>` with your Application Insights Application ID, which can be obtained by:
+
 1. Log in to the [Azure Portal](https://portal.azure.com/).
 2. Navigate to your Application Insights resource.
 3. Select **API Access**.
 4. Copy the Application ID.
 
-![Appinsightsapplicationid](../../media/appinsightsapplicationid.png)
+![AppInsightsApplicationID](../../media/appinsightsapplicationid.png)
 
 ```
 let AnalyticsQuery =
 let Source = Json.Document(Web.Contents("https://api.loganalytics.io/v1/apps/" & <app-insights-application-id> & "/query",
 [Query=[#"query"="customEvents
-| project 
-timestamp, 
-Name = name, 
-ConversationID=session_Id, 
-Channel=customDimensions.channelId, 
+| project
+timestamp,
+Name = name,
+ConversationID=session_Id,
+Channel=customDimensions.channelId,
 Language = customDimensions.locale,
-Text = customDimensions.text, 
+Text = customDimensions.text,
 Question = customDimensions.question,
 FoundInKnowledgeSource = customDimensions.articleFound,
 UserAcceptedAnswer = customDimensions.userAcceptedAnswer,
 KnowledgeItemsDiscarded = customDimensions.knowledgeItemsDiscarded,
 FromName = customDimensions.fromName,
-Score = customDimensions.score, 
+Score = customDimensions.score,
 Sentiment = customDimensions.sentimentScore,
 client_Type,
-client_City, 
-client_StateOrProvince, 
+client_City,
+client_StateOrProvince,
 client_CountryOrRegion,
-QnAResponse=customDimensions.answer, 
-QnAFeedbackScore=customDimensions.feedbackScore, 
+QnAResponse=customDimensions.answer,
+QnAFeedbackScore=customDimensions.feedbackScore,
 QnAConfidenceScore=customDimensions.confidenceScore,
 QnAQuery=customDimensions.question
 | where timestamp > ago(90d)
 | order by timestamp desc  
 ",#"x-ms-app"="AAPBI"],Timeout=#duration(0,0,4,0)])),
 TypeMap = #table(
-{ "AnalyticsTypes", "Type" }, 
-{ 
+{ "AnalyticsTypes", "Type" },
+{
 { "Double",   Double.Type },
 { "Int64",    Int64.Type },
 { "Int32",    Int32.Type },
@@ -79,7 +82,7 @@ TypeMap = #table(
 DataTable = Source[tables]{0},
 Columns = Table.FromRecords(DataTable[columns]),
 ColumnsWithType = Table.Join(Columns, {"type"}, TypeMap , {"AnalyticsTypes"}),
-Rows = Table.FromRows(DataTable[rows], Columns[name]), 
+Rows = Table.FromRows(DataTable[rows], Columns[name]),
 Table = Table.TransformColumnTypes(Rows, Table.ToList(ColumnsWithType, (c) => { c{0 }, c{3}}))
 in
 Table
@@ -88,24 +91,45 @@ in
 ```
 
 ### Overall Usage
+
 ![Example Report](../../media/powerbi-conversationanalytics-overall.png)
+
 ### All Dialogs Overview
+
 ![Example Report](../../media/powerbi-conversationanalytics-alldialogsoverview.png)
+
 ### Dialog Overview
+
 ![Example Report](../../media/powerbi-conversationanalytics-dialogoverview.png)
+
 ### LUIS Intents
+
 ![Example Report](../../media/powerbi-conversationanalytics-luisintents.png)
+
 ### All Conversations Metrics
+
 ![Example Report](../../media/powerbi-conversationanalytics-allconversationsmetrics.png)
+
 ### Conversations Drill Down
+
 ![Example Report](../../media/powerbi-conversationanalytics-conversationsdrilldown.png)
+
 ### Transcript
+
 ![Example Report](../../media/powerbi-conversationanalytics-transcript.png)
+
 ### Demographics
+
 ![Example Report](../../media/powerbi-conversationanalytics-demographics.png)
+
 ### Word Cloud
+
 ![Example Report](../../media/powerbi-conversationanalytics-wordcloud.png)
+
 ### Sentiment
+
 ![Example Report](../../media/powerbi-conversationanalytics-sentimentanalysis.png)
+
 ### QnA Maker Insights
+
 ![Example Report](../../media/powerbi-conversationanalytics-qnamakerinsights.png)

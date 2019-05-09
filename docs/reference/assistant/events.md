@@ -13,6 +13,7 @@ When a user communicates with their Virtual Assistant, they typically send messa
 In more advanced scenarios, messaging clients may need to send event Activities to provide additional metadata about the user (location, timezone, etc.).
 
 ## Inbound Events
+
 When a user sends an event, this is processed by their Virtual Assistant to immediately react (like providing a summary of the day ahead when starting their car) or store information in the user state store for use later. or store the information in a user state store for use by the assistant or a skill in the future.
 
 The following events are supported out of the box and persist values into user state. These are used by the available Skills.
@@ -28,6 +29,7 @@ In addition to these, a `ResetUser` event is available which provides a way to r
 > An automatic event processing and storage mechanism is being evaluated for a future release.
 
 ## Outbound Events
+
 In order to interact with a messaging client, your Virtual Assistant and Skills need to send events back to the client application.
 For example, the Virtual Assistant could send an event to a vehicle to set a new destination on the navigation system, adjust the temperature, queue up new music, etc.car, etc. The client application receives the event through the same Activity.
 
@@ -38,14 +40,19 @@ This provides a workaround where messages are sent with a payload like `/event:{
 The EventName and EventValue is transposed onto the Activity and passed on to the Bot for processing.
 
 For example this message would result in an Activity being received by the Bot with a `ActivityType` of `Event`, ` Name` of `IPA.Location` and `Value` of a latitude, longitude pair
+
 ```json
 /event:{ "Name": "IPA.Location", "Value": "47.639620,-122.130610" }
 ```
+
 This example would result in an Activity being received by the Bot with a `ActivityType` of `Event`, `Name` of `IPA.Timezone` and `Value` of `Pacific Standard Time`.
+
 ```json
 /event:{ "Name": "IPA.Timezone", "Value": "Pacific Standard Time" }
 ```
+
 This event as detailed above clears down all state including linked accounts enabling you to test authentication and onboarding scenarios.
+
 ```json
 /event:{Name:"IPA.ResetUser"}
 ```

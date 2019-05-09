@@ -16,6 +16,7 @@ Create a Virtual Assistant or a Bot Framework Skill
 
 1. Run **PowerShell Core** (pwsh.exe) and **change directory to the project directory** of your assistant/skill.
 2. Run the following command:
+
     ```shell
     .\Deployment\Scripts\deploy.ps1
     ```
@@ -43,7 +44,9 @@ We have provided a comprehensive ARM template to deploy all required capabilitie
 
 ## Known Issues
 ### My Microsoft App Registration could not be automatically provisioned
+
 There is a known issue with some users whereby you might experience the following error when running deployment `Could not provision Microsoft App Registration automatically. Please provide the -appId and -appPassword arguments for an existing app and try again`. In this situation, create your own Azure Active Directory App through [this](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredAppsPreview) part of the Azure portal.
+
 - Click `New Registration`
 - Provide a name
 - Select `Accounts in any organizational directory`
