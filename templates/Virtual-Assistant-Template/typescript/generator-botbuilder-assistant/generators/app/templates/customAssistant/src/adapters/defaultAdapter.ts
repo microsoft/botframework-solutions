@@ -56,16 +56,27 @@ export class DefaultAdapter extends BotFrameworkAdapter {
         if (settings.cosmosDb === undefined) {
             throw new Error('There is no cosmosDb value in appsettings file');
         }
+        if (settings.blobStorage === undefined) {
+            throw new Error('There is no blobStorage value in appsettings file');
+        }
 
-        this.cosmosDbStorageSettings = {
+        if (settings.appInsights === undefined) {
+            throw new Error('There is no appInsights value in appsettings file');
+        }
+        this.telemetryClient = new TelemetryClient(settings.appInsights.instrumentationKey);
+        const transcriptStore: AzureBlobTranscriptStore = new AzureBlobTranscriptStore({
+            containerName: settings.blobStorage.container,
+            storageAccountOrConnectionString: settings.blobStorage.connectionString
+        });
+
+        const cosmosDbStorageSettings: CosmosDbStorageSettings = {
             authKey: settings.cosmosDb.authkey,
             collectionId: settings.cosmosDb.collectionId,
             databaseId: settings.cosmosDb.databaseId,
             serviceEndpoint: settings.cosmosDb.cosmosDBEndpoint
         };
 
-        const storage: CosmosDbStorage = new CosmosDbStorage(this.cosmosDbStorageSettings);
-
+        const storage: CosmosDbStorage = new CosmosDbStorage(cosmosDbStorageSettings);
         // create conversation and user state
         this.conversationState = new ConversationState(storage);
         this.userState = new UserState(storage);
@@ -84,6 +95,7 @@ export class DefaultAdapter extends BotFrameworkAdapter {
         this.use(new ShowTypingMiddleware());
         this.use(new SetLocaleMiddleware(settings.defaultLocale || 'en-us'));
         this.use(new EventDebuggerMiddleware());
+        // Use the AutoSaveStateMiddleware middleware to automatically read and write conversation and user state.
         this.use(new AutoSaveStateMiddleware(this.conversationState, this.userState));
     }
 }
