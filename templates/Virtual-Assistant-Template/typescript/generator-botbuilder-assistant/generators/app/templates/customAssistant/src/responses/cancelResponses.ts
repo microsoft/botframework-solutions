@@ -7,8 +7,8 @@ import i18next from 'i18next';
 import {
     DictionaryRenderer,
     LanguageTemplateDictionary,
-    TemplateFunction } from '../services/dictionaryRenderer';
-import { TemplateManager } from '../services/templateManager';
+    TemplateFunction } from '../templateManager/dictionaryRenderer';
+import { TemplateManager } from '../templateManager/templateManager';
 
 export class CancelResponses extends TemplateManager {
 

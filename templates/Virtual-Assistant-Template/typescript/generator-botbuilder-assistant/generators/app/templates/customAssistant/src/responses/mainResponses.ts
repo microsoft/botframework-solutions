@@ -16,8 +16,8 @@ import { join } from 'path';
 import {
     DictionaryRenderer,
     LanguageTemplateDictionary,
-    TemplateFunction } from '../services/dictionaryRenderer';
-import { TemplateManager } from '../services/templateManager';
+    TemplateFunction } from '../templateManager/dictionaryRenderer';
+import { TemplateManager } from '../templateManager/templateManager';
 
 export class MainResponses extends TemplateManager {
 
