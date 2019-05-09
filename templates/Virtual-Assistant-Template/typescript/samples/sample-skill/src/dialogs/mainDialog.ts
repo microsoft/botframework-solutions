@@ -11,7 +11,7 @@ import {
     RecognizerResult,
     StatePropertyAccessor,
     TurnContext } from 'botbuilder';
-import { LuisRecognizer } from 'botbuilder-ai';
+import { LuisRecognizer, LuisRecognizerTelemetryClient } from 'botbuilder-ai';
 import {
     Dialog,
     DialogContext,
@@ -22,7 +22,6 @@ import {
     ActivityExtensions,
     ICognitiveModelSet,
     InterruptionAction,
-    ITelemetryLuisRecognizer,
     ResponseManager,
     RouterDialog } from 'botbuilder-solutions';
 // tslint:disable-next-line:no-implicit-dependencies no-submodule-imports
@@ -93,7 +92,7 @@ export class MainDialog extends RouterDialog {
         // Get skill LUIS model from configuration
         if (localeConfig.luisServices !== undefined) {
 
-            const luisService: ITelemetryLuisRecognizer | undefined = localeConfig.luisServices.get(this.solutionName);
+            const luisService: LuisRecognizerTelemetryClient | undefined = localeConfig.luisServices.get(this.solutionName);
 
             if (luisService === undefined) {
                 throw new Error('The specified LUIS Model could not be found in your Bot Services configuration.');
@@ -180,7 +179,7 @@ export class MainDialog extends RouterDialog {
             }
             // check general luis intent
             if (localeConfig.luisServices !== undefined) {
-                const luisService: ITelemetryLuisRecognizer | undefined = localeConfig.luisServices.get(this.luisServiceGeneral);
+                const luisService: LuisRecognizerTelemetryClient | undefined = localeConfig.luisServices.get(this.luisServiceGeneral);
 
                 if (luisService === undefined) {
                     throw new Error('The specified LUIS Model could not be found in your Bot Services configuration.');

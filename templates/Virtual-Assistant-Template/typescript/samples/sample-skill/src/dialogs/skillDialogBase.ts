@@ -9,6 +9,7 @@ import {
     BotTelemetryClient,
     RecognizerResult,
     StatePropertyAccessor } from 'botbuilder';
+import { LuisRecognizerTelemetryClient } from 'botbuilder-ai';
 import {
     ComponentDialog,
     DialogContext,
@@ -20,7 +21,6 @@ import {
     CommonUtil,
     ICognitiveModelSet,
     IProviderTokenResponse,
-    ITelemetryLuisRecognizer,
     MultiProviderAuthDialog,
     ResponseManager } from 'botbuilder-solutions';
 import { TokenResponse } from 'botframework-schema';
@@ -144,13 +144,13 @@ export class SkillDialogBase extends ComponentDialog {
                 throw new Error('There is no cognitiveModels for the locale');
             }
             if (localeConfig.luisServices !== undefined) {
-                const luisService: ITelemetryLuisRecognizer | undefined = localeConfig.luisServices.get(this.solutionName);
+                const luisService: LuisRecognizerTelemetryClient | undefined = localeConfig.luisServices.get(this.solutionName);
 
                 if (luisService === undefined) {
                     throw new Error('The specified LUIS Model could not be found in your Bot Services configuration.');
                 } else {
                     // Get intent and entities for activity
-                    const result: RecognizerResult =  await luisService.recognize(dc);
+                    const result: RecognizerResult =  await luisService.recognize(dc.context);
                     state.luisResult = result;
                 }
             }
