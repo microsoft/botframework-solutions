@@ -1,6 +1,7 @@
 # Skill Best Practices
 
-## Table of Contents
+## In this reference
+
 - [Language understanding](#language-understanding)
 - [Conversational design](#conversational-design)
 - [Developing a dialog](#devloping-a-dialog)
@@ -8,11 +9,14 @@
 ## Language understanding
 
 ### Best practices
+
 A key aspect of your custom Skill's success will be it's ability to extract the right data out of a user's utterance.
 Follow the [Best practices for building a language understanding app](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-concept-best-practices) to help plan your own application.
 
 ### Use the General LUIS model for common utterances
+
 If there is an utterance that you expect would be applied to multiple Skills, take advantage of the General LUIS model provided to manage this entity at the top-level. The following intents are currently available:
+
 * Cancel
 * Escalate
 * Goodbye
@@ -31,13 +35,14 @@ Read [Design and control conversation flow](https://docs.microsoft.com/en-us/azu
 ## Developing a dialog
 
 ### Take advantage of multimodal clients
+
 Consider the multiple layers of communication a user may have with a Skill on the many popular communication services available on the [Azure Bot Service Channels](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0).
 
 #### Speech & Text
 
 Speech & Text responses are stored in [`Responses.json`](https://github.com/Microsoft/AI/blob/master/templates/Skill-Template/SkillTemplate/Skills/Skill%20Template/Dialogs/Sample/Resources/SampleResponses.json) files, they offer the ability to provide a variety of responses and set the input hint on each Activity.
 
-```
+```json
 {
   "NamePrompt": {
     "replies": [
@@ -75,7 +80,7 @@ Use [Adaptive Cards](https://adaptivecards.io/) to deliver rich cards as visual 
 
 You can use variables to map data to a card's content. For example, the JSON below describes an Adaptive Card showing points of interest.
 
-```
+```json
     {
       "type": "AdaptiveCard",
       "id": "PointOfInterestViewCard",
@@ -171,7 +176,8 @@ You can use variables to map data to a card's content. For example, the JSON bel
 ```
 
 In the Point of Interest Skill, a route state model is passed to a Microsoft.Bot.Solutions method to render the populated card.
-```c#
+
+```csharp
     // Populate card data model
     var routeDirectionsModel = new RouteDirectionsModelCardData()
     {
@@ -253,17 +259,16 @@ protected PromptOptions GetPointOfInterestChoicePromptOptions(List<PointOfIntere
 
 Learn more on how you can [gather user input using a dialog prompt](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-prompts?view=azure-bot-service-4.0&tabs=csharp).
 
-
 ### Enable long running tasks
 
-[Proactive scenarios](../../virtual-assistant/csharp/proactivemessaging.md) are a key part of ensuring a Skill Assistant can provide more intelligent and helpful capabilities to end users. 
+[Proactive scenarios](../../virtual-assistant/csharp/proactivemessaging.md) are a key part of ensuring a Skill Assistant can provide more intelligent and helpful capabilities to end users.
 This enables a Skill to have more intelligent interactions with a user, triggered by external events.
 
 ### Handle and log errors
 
 Use the `HandleDialogExceptions` method in [`SkillDialogBase.cs`](https://github.com/Microsoft/AI/blob/master/templates/Skill-Template/SkillTemplate/Skills/Skill%20Template/Dialogs/Shared/SkillDialogBase.cs) to send a trace back to the [Bot Framework Emulator](https://aka.ms/botframework-emulator), logging the exception, and sending a friendly error response to the user.
 
-```
+```csharp
 protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
 {
     // send trace back to emulator

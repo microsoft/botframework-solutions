@@ -75,7 +75,7 @@ export class SkillHttpBotAdapter extends BotAdapter implements IActivityHandler,
         // Any Activity responses are now available (via SendActivitiesAsync) so we need to pass back for the response
         return {
             status: 200,
-            body: this.queuedActivities
+            body: this.queuedActivities.splice(0, this.queuedActivities.length)
         };
     }
 

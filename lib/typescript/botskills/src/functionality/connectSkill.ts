@@ -10,11 +10,10 @@ import { ConsoleLogger, ILogger} from '../logger';
 import { IAction, IConnectConfiguration, ISkillFIle, ISkillManifest, IUtteranceSource } from '../models';
 import { authenticate, execute } from '../utils';
 
-async function runCommand(command: string, description: string): Promise<string> {
-    logger.command(description, command);
-    const parts: string[] = command.split(' ');
-    const cmd: string = parts[0];
-    const commandArgs: string[] = parts.slice(1)
+async function runCommand(command: string[], description: string): Promise<string> {
+    logger.command(description, command.join(' '));
+    const cmd: string = command[0];
+    const commandArgs: string[] = command.slice(1)
         .filter((arg: string) => arg);
 
     try {
@@ -64,77 +63,104 @@ function validateManifestSchema(skillManifest: ISkillManifest): void {
     }
 }
 
+// tslint:disable-next-line:max-func-body-length
 async function updateDispatch(configuration: IConnectConfiguration, manifest: ISkillManifest): Promise<void> {
-    // Initializing variables for the updateDispatch scope
-    const dispatchFile: string = `${configuration.dispatchName}.dispatch`;
-    const dispatchJsonFile: string = `${configuration.dispatchName}.json`;
-    const intentName: string = manifest.id;
-    let luisDictionary: Map<string, string>;
+    try {
+        // Initializing variables for the updateDispatch scope
+        const dispatchFile: string = `${configuration.dispatchName}.dispatch`;
+        const dispatchJsonFile: string = `${configuration.dispatchName}.json`;
+        const dispatchFilePath: string = join(configuration.dispatchFolder, dispatchFile);
+        const intentName: string = manifest.id;
+        let luisDictionary: Map<string, string>;
 
-    logger.message('Getting intents for dispatch...');
+        logger.message('Getting intents for dispatch...');
+        luisDictionary = manifest.actions.filter((action: IAction) => action.definition.triggers.utteranceSources)
+        .reduce((acc: IUtteranceSource[], val: IAction) => acc.concat(val.definition.triggers.utteranceSources), [])
+        .reduce((acc: string[], val: IUtteranceSource) => acc.concat(val.source), [])
+        .reduce(
+            (acc: Map<string, string>, val: string) => {
+            const luis: string[] = val.split('#');
+            if (acc.has(luis[0])) {
+                const previous: string | undefined = acc.get(luis[0]);
+                acc.set(luis[0], previous + luis[1]);
+            } else {
+                acc.set(luis[0], luis[1]);
+            }
 
-    luisDictionary = manifest.actions.filter((action: IAction) => action.definition.triggers.utteranceSources)
-    .reduce((acc: IUtteranceSource[], val: IAction) => acc.concat(val.definition.triggers.utteranceSources), [])
-    .reduce((acc: string[], val: IUtteranceSource) => acc.concat(val.source), [])
-    .reduce(
-        (acc: Map<string, string>, val: string) => {
-        const luis: string[] = val.split('#');
-        if (acc.has(luis[0])) {
-            const previous: string | undefined = acc.get(luis[0]);
-            acc.set(luis[0], previous + luis[1]);
-        } else {
-            acc.set(luis[0], luis[1]);
-        }
+            return acc;
+            },
+            new Map());
 
-        return acc;
-        },
-        new Map());
+        logger.message('Adding skill to Dispatch');
+        await Promise.all(
+        Array.from(luisDictionary.entries())
+        .map(async(item: [string, string]) => {
+            const luisApp: string = item[0];
+            const luFile: string = `${luisApp}.lu`;
+            const luisFile: string = `${luisApp}.luis`;
+            const luFilePath: string = join(configuration.luisFolder, luFile);
+            const luisFilePath: string = join(configuration.luisFolder, luisFile);
 
-    logger.message('Adding skill to Dispatch');
+            // Validate 'ludown' arguments
+            if (!existsSync(configuration.luisFolder)) {
+                throw(new Error(`Path to the LUIS folder (${configuration.luisFolder}) leads to a nonexistent folder.`));
+            } else if (!existsSync(luFilePath)) {
+                throw(new Error(`Path to the ${luisApp}.lu file leads to a nonexistent file.`));
+            }
 
-    await Promise.all(
-    Array.from(luisDictionary.entries())
-    .map(async(item: [string, string]) => {
-        const luisApp: string = item[0];
-        const luFile: string = `${luisApp}.lu`;
-        const luisFile: string = `${luisApp}.luis`;
+            // Validate 'dispatch add' arguments
+            if (!existsSync(configuration.dispatchFolder)) {
+                throw(new Error(`Path to the Dispatch folder (${configuration.dispatchFolder}) leads to a nonexistent folder.`));
+            } else if (!existsSync(dispatchFilePath)) {
+                throw(new Error(`Path to the ${dispatchFile} file leads to a nonexistent file.`));
+            }
 
-        // Parse LU file
-        logger.message(`Parsing ${luisApp} LU file...`);
-        let ludownParseCommand: string = `ludown parse toluis `;
-        ludownParseCommand += `--in ${join(configuration.luisFolder, luFile)} `;
-        ludownParseCommand += `--luis_culture ${configuration.language} `;
-        ludownParseCommand += `--out_folder ${configuration.luisFolder} `; //luisFolder should point to 'en' folder inside LUIS folder
-        ludownParseCommand += `--out "${luisApp}.luis"`;
+            // Parse LU file
+            logger.message(`Parsing ${luisApp} LU file...`);
+            const ludownParseCommand: string[] = ['ludown', 'parse', 'toluis'];
+            ludownParseCommand.push(...['--in', luFilePath]);
+            ludownParseCommand.push(...['--luis_culture', configuration.language]);
+            ludownParseCommand.push(...['--out_folder', configuration.luisFolder]);
+            ludownParseCommand.push(...['--out', `"${luisApp}.luis"`]);
 
-        let dispatchAddCommand: string = `dispatch add `;
-        dispatchAddCommand += `--type file `;
-        dispatchAddCommand += `--name ${manifest.id} `;
-        dispatchAddCommand += `--filePath ${join(configuration.luisFolder, luisFile)} `;
-        dispatchAddCommand += `--intentName ${intentName} `;
-        dispatchAddCommand += `--dataFolder ${configuration.dispatchFolder} `;
-        dispatchAddCommand += `--dispatch ${join(configuration.dispatchFolder, dispatchFile)}`;
+            await runCommand(ludownParseCommand, `Parsing ${luisApp} LU file`);
 
-        logger.message(await runCommand(ludownParseCommand, `Parsing ${luisApp} LU file`));
-        logger.message(await runCommand(dispatchAddCommand, `Executing dispatch add for the ${luisApp} LU file`));
-    }));
+            if (!existsSync(luisFilePath)) {
+                // tslint:disable-next-line: max-line-length
+                throw(new Error(`Path to the ${luisFile} leads to a nonexistent file. Make sure the ludown command is being executed successfully`));
+            }
+            // Update Dispatch file
+            const dispatchAddCommand: string[] = ['dispatch', 'add'];
+            dispatchAddCommand.push(...['--type', 'file']);
+            dispatchAddCommand.push(...['--name', manifest.id]);
+            dispatchAddCommand.push(...['--filePath', luisFilePath]);
+            dispatchAddCommand.push(...['--intentName', intentName]);
+            dispatchAddCommand.push(...['--dataFolder', configuration.dispatchFolder]);
+            dispatchAddCommand.push(...['--dispatch', dispatchFilePath]);
 
-    logger.message('Running dispatch refresh...');
+            await runCommand(dispatchAddCommand, `Executing dispatch add for the ${luisApp} LU file`);
+        }));
 
-    let dispatchRefreshCommand: string = `dispatch refresh `;
-    dispatchRefreshCommand += `--dispatch ${join(configuration.dispatchFolder, dispatchFile)} `;
-    dispatchRefreshCommand += `--dataFolder ${configuration.dispatchFolder}`;
+        logger.message('Running dispatch refresh...');
+        const dispatchRefreshCommand: string[] = ['dispatch', 'refresh'];
+        dispatchRefreshCommand.push(...['--dispatch', dispatchFilePath]);
+        dispatchRefreshCommand.push(...['--dataFolder', configuration.dispatchFolder]);
 
-    await runCommand(dispatchRefreshCommand, `Executing dispatch refresh for the ${configuration.dispatchName} file`);
+        await runCommand(dispatchRefreshCommand, `Executing dispatch refresh for the ${configuration.dispatchName} file`);
 
-    logger.message('Running LuisGen...');
+        logger.message('Running LuisGen...');
+        const luisgenCommand: string[] = ['luisgen'];
+        luisgenCommand.push(join(configuration.dispatchFolder, dispatchJsonFile));
+        luisgenCommand.push(...[`-${configuration.lgLanguage}`, `"DispatchLuis"`]);
+        luisgenCommand.push(...['-o', configuration.lgOutFolder]);
 
-    let luisgenCommand: string = `luisgen `;
-    luisgenCommand += `${join(configuration.dispatchFolder, dispatchJsonFile)} `;
-    luisgenCommand += `-${configuration.lgLanguage} "DispatchLuis" `;
-    luisgenCommand += `-o ${configuration.lgOutFolder}`;
+        await runCommand(luisgenCommand, `Executing luisgen for the ${configuration.dispatchName} file`);
 
-    await runCommand(luisgenCommand, `Executing luisgen for the ${configuration.dispatchName} file`);
+        logger.success('Successfully updated Dispatch model');
+    } catch (err) {
+        logger.error(`An error ocurred while updating the Dispatch model: ${err}`);
+        process.exit(1);
+    }
 }
 
 export async function connectSkill(configuration: IConnectConfiguration): Promise<void> {

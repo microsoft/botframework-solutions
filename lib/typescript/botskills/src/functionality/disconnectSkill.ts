@@ -50,18 +50,18 @@ async function updateDispatch(configuration: IDisconnectConfiguration): Promise<
 
     logger.message('Running Dispatch refresh');
 
-    const dispatchRefreshCmd: string[] = ['dispatch', 'refresh'];
-    dispatchRefreshCmd.push(...['--dispatch', join(configuration.dispatchFolder, dispatchFile)]);
-    dispatchRefreshCmd.push(...['--dataFolder', configuration.dispatchFolder]);
-    await runCommand(dispatchRefreshCmd, `Executing dispatch refresh for the ${configuration.dispatchName} file`);
+    const dispatchRefreshCommand: string[] = ['dispatch', 'refresh'];
+    dispatchRefreshCommand.push(...['--dispatch', join(configuration.dispatchFolder, dispatchFile)]);
+    dispatchRefreshCommand.push(...['--dataFolder', configuration.dispatchFolder]);
+    await runCommand(dispatchRefreshCommand, `Executing dispatch refresh for the ${configuration.dispatchName} file`);
 
     logger.message('Running LuisGen...');
 
-    const luisgenCmd: string[] = ['luisgen'];
-    luisgenCmd.push(join(configuration.dispatchFolder, dispatchJsonFile));
-    luisgenCmd.push(...[`-${configuration.lgLanguage}`, '"DispatchLuis"']);
-    luisgenCmd.push(...['-o', configuration.lgOutFolder]);
-    await runCommand(luisgenCmd, `Executing luisgen for the ${configuration.dispatchName} file`);
+    const luisgenCommand: string[] = ['luisgen'];
+    luisgenCommand.push(join(configuration.dispatchFolder, dispatchJsonFile));
+    luisgenCommand.push(...[`-${configuration.lgLanguage}`, '"DispatchLuis"']);
+    luisgenCommand.push(...['-o', configuration.lgOutFolder]);
+    await runCommand(luisgenCommand, `Executing luisgen for the ${configuration.dispatchName} file`);
 }
 
 export async function disconnectSkill(configuration: IDisconnectConfiguration): Promise<void> {

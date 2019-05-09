@@ -1,48 +1,51 @@
 # Point of Interest Skill
 
-The Point of Interest Skill provides point of interest and navigation related capabilities to a Virtual Assistant. 
+The Point of Interest Skill provides point of interest and navigation related capabilities to a Virtual Assistant.
 The most common scenarios have been implemented in this beta release, with additional scenarios in development.
 
 ## Table of Contents
+
 - [Supported Scenarios](#supported-scenarios)
 - [Language Model](#language-model)
 - [Event Responses](#event-responses)
 - [Configuration](#configuration)
 
 ## Supported Scenarios
+
 The following scenarios are currently supported by the Skill:
 
 - Get Directions to a Point of Interest
-    - _What's the fastest way to get to 221B Baker Street?_
-    - _How do I get to the grocery store?_
-    - _I need directions to a cafe_
+  - _What's the fastest way to get to 221B Baker Street?_
+  - _How do I get to the grocery store?_
+  - _I need directions to a café_
 - Find a Parking Space
-    - _Find parking near the doctor's office_
-    - _Where's the nearest parking garage?_
-    - _Parking lot by the airport_
+  - _Find parking near the doctor's office_
+  - _Where's the nearest parking garage?_
+  - _Parking lot by the airport_
 - Find a Point of Interest
-    - _What's nearby?_
-    - _Are there any pharmacies in town?_
-    - _Can you recommend an affordable restaurant in Seattle?_
+  - _What's nearby?_
+  - _Are there any pharmacies in town?_
+  - _Can you recommend an affordable restaurant in Seattle?_
 - Cancel an Active Route
-    - _I don't want to go to the shop anymore_
-    - _Would you cancel my route?_
-    - _On second thought, forget going to the airport_
-
+  - _I don't want to go to the shop anymore_
+  - _Would you cancel my route?_
+  - _On second thought, forget going to the airport_
 
 ## Language Model
+
 LUIS models for the Skill are provided in .LU file format as part of the Skill. Further languages are being prioritized.
 
 |Supported Languages|
 |-|
-|English| 
-|French| 
-|Italian| 
-|German| 
-|Spanish| 
+|English|
+|French|
+|Italian|
+|German|
+|Spanish|
 |Chinese (simplified)|
 
 ### Intents
+
 |Name|Description|
 |-|-|
 |NAVIGATION_ROUTE_FROM_X_TO_Y| Matches queries navigating to a point of interest |
@@ -51,6 +54,7 @@ LUIS models for the Skill are provided in .LU file format as part of the Skill. 
 |NAVIGATION_CANCEL_ROUTE| Matches queries to cancel a route |
 
 ### Entities
+
 |Name|Description|
 |-|-|
 |ADDRESS| Simple entity matching addresses |
@@ -77,7 +81,7 @@ The Point of Interest Skill surfaces a users request to navigate to a new destin
           "latitude": 47.64053,
           "longitude": -122.129387
         },
-    
+
         ...
 
       ],
@@ -97,7 +101,7 @@ The Point of Interest Skill surfaces a users request to navigate to a new destin
 
 ### Supported Sources
 
-> **Mandatory**: [Azure Maps](https://azure.microsoft.com/en-us/services/azure-maps/) is supported for finding Points of Interest and getting route directions to a selected location. 
+> **Mandatory**: [Azure Maps](https://azure.microsoft.com/en-us/services/azure-maps/) is supported for finding Points of Interest and getting route directions to a selected location.
 > As this is the only supported provider to get directions, this provider is required.
 
 > [Foursquare](https://developer.foursquare.com/docs/api) is supported for finding Points of Interest and related details (rating, business hours, price level, etc.).
@@ -107,7 +111,9 @@ The Point of Interest Skill surfaces a users request to navigate to a new destin
 > No Authentication is required for this skill
 
 ### Skill Parameters
-The following Parameters are accepted by the Skill and enable additional personalisation of responses to a given user:
+
+The following Parameters are accepted by the Skill and enable additional personalization of responses to a given user:
+
 - `IPA.Location` (*The skill will fail without this as it is missing a user's current coordinates*)
 - To ease testing scenarios you can send the following message to pass a location enabling you to test the POI skill and adjust the location
   - `/event:{ "Name": "IPA.Location", "Value": "34.05222222222222,-118.24277777777778" }`
@@ -115,6 +121,7 @@ The following Parameters are accepted by the Skill and enable additional persona
 Read [Handling Events With Your Virtual Assistant](../../virtual-assistant/csharp/events.md) to learn how to manage events within a Skill.
 
 ### Configuration File Information
+
 The following Configuration entries are required to be passed to the Skill and are provided through the Virtual Assistant appSettings.json file. These should be updated to reflect your LUIS deployment.
 
 - `LuisAppId`
@@ -128,7 +135,8 @@ The following Configuration entries are required to be passed to the Skill and a
 - `LimitSize`
 
 ### Example Skill Registration Entry
-```
+
+```json
 {
     "Name": "PointOfInterest",
     "DispatcherModelName": "l_PointOfInterest",
@@ -153,7 +161,8 @@ The following Configuration entries are required to be passed to the Skill and a
 ```
 
 ### Image Assets
-In order for Adaptive Cards to render images associated with the Point of Interest skill you will need to take the image assets located in the wwwroot\images folder of the PointOfInterestSkill project and place in a HTTP location (potentially your Bot deployment) and place the base URI path in the skill configuration ImageAssetLocation property. 
+
+In order for Adaptive Cards to render images associated with the Point of Interest skill you will need to take the image assets located in the wwwroot\images folder of the PointOfInterestSkill project and place in a HTTP location (potentially your Bot deployment) and place the base URI path in the skill configuration ImageAssetLocation property.
 If you skip this step, Adaptive Cards will not render with images correctly.
 
 ### Deploying the Skill in local-mode
@@ -167,11 +176,12 @@ Run this PowerShell script from the Point of Interest skill directory to deploy 
 ```
 
 You will be prompted to provide the following parameters:
-   - Name - A name for your bot and resource group. This must be **unique**.
-   - Location - The Azure region for your services (e.g. westus)
-   - LUIS Authoring Key - Refer to [this documentation page](../../virtual-assistant/csharp/gettingstarted.md) for retrieving this key.
 
-The msbot tool will outline the deployment plan including location and SKU. Ensure you review before proceeding.
+- Name - A name for your bot and resource group. This must be **unique**.
+- Location - The Azure region for your services (e.g. westus)
+- LUIS Authoring Key - Refer to [this documentation page](../../virtual-assistant/csharp/gettingstarted.md) for retrieving this key.
+
+The MSBot tool will outline the deployment plan including location and SKU. Ensure you review before proceeding.
 
 > After deployment is complete, it's **imperative** that you make a note of the .bot file secret provided as this will be required for later steps. The secret can be found near the top of the execution output and will be in purple text.
 
@@ -182,7 +192,7 @@ The msbot tool will outline the deployment plan including location and SKU. Ensu
 msbot list --bot YOURBOTFILE.bot --secret YOUR_BOT_SECRET
 ```
 
-```
+```json
   {
     "botFilePath": ".\\YOURBOTFILE.bot",
     "botFileSecret": "YOUR_BOT_SECRET",
@@ -194,7 +204,7 @@ msbot list --bot YOURBOTFILE.bot --secret YOUR_BOT_SECRET
 
 - Finally, add the .bot file paths for each of your language configurations
 
-```
+```json
 "defaultLocale": "en-us",
   "languageModels": {
     "en": {

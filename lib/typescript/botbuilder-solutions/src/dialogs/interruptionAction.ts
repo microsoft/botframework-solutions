@@ -10,12 +10,12 @@ export enum InterruptionAction {
     MessageSentToUser,
 
     /**
-     * Indicates that the active dialog was interrupted and needs to resume.
+     * Indicates that there is a new dialog waiting and the active dialog needs to be shelved.
      */
     StartedDialog,
 
     /**
-     * Indicates that the active dialog was interrupted and needs to resume.
+     * Indicates that no interruption action is required.
      */
     NoAction
 }

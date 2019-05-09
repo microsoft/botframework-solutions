@@ -77,10 +77,6 @@ class Copier {
       path.join(`src`, `dialogs`, `_skillDialogBase.ts`),
       path.join(`src`, `dialogs`, `skillDialogBase.ts`)
     );
-    templateFiles.set(
-      path.join(`src`, `adapters`, `_customSkillAdapter.ts`),
-      path.join(`src`, `adapters`, `customSkillAdapter.ts`)
-    );
     selectedLanguages.forEach(language => {
       templateFiles.set(
         path.join(`deployment`, `resources`, `LU`, language, `_skill.lu`),

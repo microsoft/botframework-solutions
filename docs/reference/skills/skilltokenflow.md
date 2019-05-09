@@ -1,10 +1,11 @@
 # Skill Token Flow
 
-To ensure a standardised user experience across all Skills, the parent Bot is responsible for managing token requests. This helps to ensure that tokens common across multiple skills can be shared and the user isn’t prompted to authenticate for every skill.
+To ensure a standardized user experience across all Skills, the parent Bot is responsible for managing token requests. This helps to ensure that tokens common across multiple skills can be shared and the user isn’t prompted to authenticate for every skill.
 
 The approach mirrors that of the eventing approach used by the Azure Bot Service today.
 
 When a token isn’t already cached (e.g. first time use) the following flow occurs:
+
 - When a Skill requests a Token it asks the calling Bot for a token using an event called `tokens/request`
 - The Skill then starts a EventPrompt waiting for a Event to be returned called `tokens/response`
 
