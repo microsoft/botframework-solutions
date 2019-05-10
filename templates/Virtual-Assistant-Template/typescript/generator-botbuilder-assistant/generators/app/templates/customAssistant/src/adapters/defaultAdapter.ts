@@ -29,7 +29,6 @@ import { IBotSettings } from '../services/botSettings.js';
 
 export class DefaultAdapter extends BotFrameworkAdapter {
     public readonly conversationState: ConversationState;
-    public readonly cosmosDbStorageSettings: CosmosDbStorageSettings;
     public readonly skills: ISkillManifest[] = [];
     public readonly userState: UserState;
 
@@ -63,11 +62,6 @@ export class DefaultAdapter extends BotFrameworkAdapter {
         if (settings.appInsights === undefined) {
             throw new Error('There is no appInsights value in appsettings file');
         }
-        this.telemetryClient = new TelemetryClient(settings.appInsights.instrumentationKey);
-        const transcriptStore: AzureBlobTranscriptStore = new AzureBlobTranscriptStore({
-            containerName: settings.blobStorage.container,
-            storageAccountOrConnectionString: settings.blobStorage.connectionString
-        });
 
         const cosmosDbStorageSettings: CosmosDbStorageSettings = {
             authKey: settings.cosmosDb.authkey,
