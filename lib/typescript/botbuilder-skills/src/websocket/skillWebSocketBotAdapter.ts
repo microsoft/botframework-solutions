@@ -1,6 +1,6 @@
 import { BotAdapter, BotTelemetryClient, InvokeResponse, Middleware, NullTelemetryClient,
     ResourceResponse, Severity, TurnContext } from 'botbuilder';
-import { ActivityExtensions, IRemoteUserTokenProvider, TelemetryExtensions, TokenEvents } from 'botbuilder-solutions';
+import { ActivityExtensions, IRemoteUserTokenProvider, TokenEvents } from 'botbuilder-solutions';
 import { Activity, ActivityTypes, ConversationReference } from 'botframework-schema';
 import { CancellationToken, ContentStream, ReceiveResponse, Request } from 'microsoft-bot-protocol';
 import { Server } from 'microsoft-bot-protocol-websocket';
@@ -33,7 +33,10 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
      */
     public async processActivity(activity: Activity, callback: BotCallbackHandler): Promise<InvokeResponse> {
         const message: string = `Received an incoming activity. ActivityId: ${activity.id}`;
-        TelemetryExtensions.trackTraceEx(this.telemetryClient, message, Severity.Information, activity);
+        this.telemetryClient.trackTrace({
+            message: message,
+            severityLevel: Severity.Information
+        });
 
         const context: TurnContext = new TurnContext(this, activity);
         await this.runMiddleware(context, callback);
@@ -79,7 +82,10 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
                 request.setBody(activity);
 
                 const message: string = `Sending activity. ReplyToId: ${activity.replyToId}`;
-                TelemetryExtensions.trackTraceEx(this.telemetryClient, message, Severity.Information, activity);
+                this.telemetryClient.trackTrace({
+                    message: message,
+                    severityLevel: Severity.Information
+                });
 
                 const begin: [number, number] = process.hrtime();
                 response = await this.sendRequest<ResourceResponse>(request);
@@ -88,7 +94,10 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
                 const latency: { latency: number } = { latency: toMilliseconds(end) };
 
                 const event: string = 'SkillWebSocketSendActivityLatency';
-                TelemetryExtensions.trackEventEx(this.telemetryClient, event, activity, undefined, undefined, latency);
+                this.telemetryClient.trackEvent({
+                    name: event,
+                    metrics: latency
+                });
 
                 // If No response is set, then default to a "simple" response. This can't really be done
                 // above, as there are cases where the ReplyTo/SendTo methods will also return null
@@ -111,7 +120,10 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
         request.setBody(activity);
 
         const message: string = `Updating activity. activity id: ${activity.replyToId}`;
-        TelemetryExtensions.trackTraceEx(this.telemetryClient, message, Severity.Information, activity);
+        this.telemetryClient.trackTrace({
+            message: message,
+            severityLevel: Severity.Information
+        });
 
         const begin: [number, number] = process.hrtime();
         await this.sendRequest<ResourceResponse>(request);
@@ -120,7 +132,10 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
         const latency: { latency: number } = { latency: toMilliseconds(end) };
 
         const event: string = 'SkillWebSocketUpdateActivityLatency';
-        TelemetryExtensions.trackEventEx(this.telemetryClient, event, activity, undefined, undefined, latency);
+        this.telemetryClient.trackEvent({
+            name: event,
+            metrics: latency
+        });
     }
 
     public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
@@ -128,7 +143,10 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
         const request: Request = Request.create('DELETE', requestPath);
 
         const message: string = `Deleting activity. activity id: ${reference.activityId}`;
-        TelemetryExtensions.trackTraceEx(this.telemetryClient, message, Severity.Information, {});
+        this.telemetryClient.trackTrace({
+            message: message,
+            severityLevel: Severity.Information
+        });
 
         const begin: [number, number] = process.hrtime();
         await this.sendRequest<ResourceResponse>(request);
@@ -136,7 +154,11 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
 
         const latency: { latency: number } = { latency: toMilliseconds(end) };
 
-        TelemetryExtensions.trackEventEx(this.telemetryClient, 'SkillWebSocketDeleteActivityLatency', {}, undefined, undefined, latency);
+        const event: string = 'SkillWebSocketDeleteActivityLatency';
+        this.telemetryClient.trackEvent({
+            name: event,
+            metrics: latency
+        });
     }
 
     public async continueConversation(reference: Partial<ConversationReference>, logic: BotCallbackHandler): Promise<void> {
@@ -167,7 +189,10 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
                 return JSON.parse(body);
             }
         } catch (error) {
-            TelemetryExtensions.trackExceptionEx(this.telemetryClient, error, {});
+            this.telemetryClient.trackException({
+                exception: error,
+                handledAt: SkillWebSocketBotAdapter.name
+            });
 
             throw error;
         }

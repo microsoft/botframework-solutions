@@ -4,7 +4,6 @@
  */
 
 import { BotTelemetryClient, InvokeResponse } from 'botbuilder';
-import { TelemetryExtensions } from 'botbuilder-solutions';
 import { Activity } from 'botframework-schema';
 import { ContentStream, ReceiveRequest, RequestHandler, Response } from 'microsoft-bot-protocol';
 import { BotCallbackHandler, IActivityHandler } from '../activityHandler';
@@ -50,7 +49,10 @@ export class SkillWebSocketRequestHandler extends RequestHandler {
             const latency: { latency: number } = { latency: toMilliseconds(end) };
 
             const event: string = 'SkillWebSocketProcessRequestLatency';
-            TelemetryExtensions.trackEventEx(this.telemetryClient, event, activity, undefined, undefined, latency);
+            this.telemetryClient.trackEvent({
+                name: event,
+                metrics: latency
+            });
 
             if (!invokeResponse) {
                 response.statusCode = 200;
@@ -61,7 +63,7 @@ export class SkillWebSocketRequestHandler extends RequestHandler {
                 }
             }
         } catch (error) {
-            TelemetryExtensions.trackExceptionEx(this.telemetryClient, error, {});
+            this.telemetryClient.trackException({ exception: error });
             response.statusCode = 500;
         }
 

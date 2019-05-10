@@ -15,7 +15,6 @@ export * from './resources';
 export * from './responses';
 export * from './skills';
 export * from './taskExtensions';
-export * from './telemetry';
 export * from './util';
 export * from './botSettings';
 export * from './cognitiveModelSet';
