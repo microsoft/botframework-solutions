@@ -94,7 +94,7 @@ $timestamp = Get-Date -f MMddyyyyHHmmss
 
 # Create resource group
 Write-Host "> Creating resource group ..."
-(az group create --name $name --location $location) 2>> $logFile | Out-Null
+(az group create --name $resourceGroup --location $location) 2>> $logFile | Out-Null
 
 # Deploy Azure services (deploys LUIS, QnA Maker, Content Moderator, CosmosDB)
 Write-Host "> Deploying Azure services (this could take a while)..." -ForegroundColor Yellow
@@ -104,14 +104,14 @@ if ($parametersFile) {
         --resource-group $resourceGroup `
         --template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
         --parameters "@$($parametersFile)" `
-        --parameters microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"") 2>> $logFile | Out-Null
+        --parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"") 2>> $logFile | Out-Null
 }
 else {
     (az group deployment create `
         --name $timestamp `
         --resource-group $resourceGroup `
         --template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
-        --parameters microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"") 2>> $logFile | Out-Null
+        --parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"") 2>> $logFile | Out-Null
 }
 
 # Get deployment outputs
