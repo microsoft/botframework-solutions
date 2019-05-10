@@ -2,6 +2,7 @@
     "name": "botbuilder-skills",
     "version": "4.4.5",
     "description": "Shared library for building Conversational AI Skills.",
+    "homepage": "https://github.com/Microsoft/AI/",
     "author": "Microsoft",
     "license": "MIT",
     "main": "lib/index.js",
