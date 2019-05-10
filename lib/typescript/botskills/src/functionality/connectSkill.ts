@@ -51,6 +51,9 @@ function validateManifestSchema(skillManifest: ISkillManifest): void {
     }
     if (!skillManifest.id) {
         logger.error(`Missing property 'id' of the manifest`);
+    } else if (skillManifest.id.match(/^\d|[^\w]/g) !== null) {
+        // tslint:disable-next-line:max-line-length
+        logger.error(`The 'id' of the manifest contains some characters not allowed. Make sure the 'id' contains only letters, numbers and underscores, but doesn't start with number.`);
     }
     if (!skillManifest.endpoint) {
         logger.error(`Missing property 'endpoint' of the manifest`);
