@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-const { TelemetryClient } = require('applicationinsights');
-const { AutoSaveStateMiddleware, ConversationState, MemoryStorage, TestAdapter, UserState } = require('botbuilder-core');
-const { BotConfiguration, ServiceTypes } = require('botframework-config');
-const config = require('dotenv').config;
+const { AutoSaveStateMiddleware, TestAdapter } = require('botbuilder-core');
 const i18next = require('i18next');
 const i18nextNodeFsBackend = require('i18next-node-fs-backend');
 const path = require('path');
-const BotServices = require('../../lib/botServices.js').BotServices;
-const { DialogBot } = require('../../lib/bot/dialogBot.js').DialogBot;
-let languageModelsRaw;
-let skillsRaw;
-const { Locales, ProactiveState, SkillDefinition } = require('botbuilder-solutions');
+const { DialogBot } = require('../../lib/bots/dialogBot.js');
+const { OnboardingDialog } = require('../../lib/dialogs/onboardingDialog.js')
+const { EscalateDialog } = require('../../lib/dialogs/escalateDialog.js')
+const { CancelDialog } = require('../../lib/dialogs/cancelDialog.js')
+const appsettings = require('../appsettings.json');
+const cognitiveModelsRaw = require ('../cognitivemodels.json');
+const skills = require ('../../../sample-assistant/src/skills.json');
+const { Locales } = require('botbuilder-solutions');
 const TEST_MODE = require('../testBase').testMode;
+const getTelemetryClient = require('../../lib/index.js').getTelemetryClient;
 
 const setupEnvironment = function (testMode) {
     switch (testMode) {
@@ -31,26 +32,22 @@ const configuration = async function() {
         fallbackLng: 'en',
         preload: [ 'de', 'en', 'es', 'fr', 'it', 'zh' ],
         backend: {
-            loadPath: path.join(__dirname, '..', '..', 'src', 'locales', '{{lng}}.json')
+            loadPath: path.join(__dirname, 'locales', '{{lng}}.json')
         }
+    })
+    .then(async () => {
+        await Locales.addResourcesFromPath(i18next, 'common');
     });
-
-    await Locales.addResourcesFromPath(i18next, 'common');
-
 
     setupEnvironment(TEST_MODE);
 }
 
-const searchService = function(botConfiguration, serviceType, nameOrId) {
-    const candidates = botConfiguration.services
-        .filter((s) => !serviceType || s.type === serviceType);
-    const service = candidates.find((s) => s.id === nameOrId || s.name === nameOrId)
-        || candidates.find((s) => true);
-    if (!service && nameOrId) {
-        throw new Error(`Service '${nameOrId}' [type: ${serviceType}] not found in .bot file.`);
-    }
-    return service;
-}
+const cognitiveModels = new Map(Object.entries(cognitiveModelsRaw));
+const cognitiveModelDictionary = cognitiveModelsRaw.cognitiveModels;
+const cognitiveModelMap = new Map(Object.entries(cognitiveModelDictionary));
+cognitiveModelMap.forEach((value, key) => {
+    cognitiveModels.set(key, value);
+});
 
 /**
  * Initializes the properties for the bot to be tested.
@@ -58,30 +55,30 @@ const searchService = function(botConfiguration, serviceType, nameOrId) {
 const initialize = async function(testStorage) {
     await configuration();
     
-    const storage = testStorage || new MemoryStorage();
-    
-    const botConfiguration = BotConfiguration.loadSync(process.env.BOT_FILE_NAME, process.env.BOT_FILE_SECRET);
-    // Initializes your bot language models and skills definitions
-    const languageModels = new Map(Object.entries(languageModelsRaw));
-    const skills = skillsRaw.map((skill) => {
-        const result = Object.assign(new SkillDefinition(), skill);
-        result.configuration = new Map(Object.entries(skill.configuration || {}));
-        return result;
-    });
-    const services = new BotServices(botConfiguration, languageModels, skills);
-    const APPINSIGHTS_NAME = process.env.APPINSIGHTS_NAME || '';
-    const conversationState = new ConversationState(storage);
-    const userState = new UserState(storage);
-    const BOT_CONFIGURATION = (process.env.ENDPOINT || 'development');
-    // Get bot endpoint configuration by service name
-    const endpointService = searchService(botConfiguration, ServiceTypes.Endpoint, BOT_CONFIGURATION);
-    // Get AppInsights configuration by service name
-    const appInsightsConfig = searchService(botConfiguration, ServiceTypes.AppInsights, APPINSIGHTS_NAME);
-    const telemetryClient = new TelemetryClient(appInsightsConfig.instrumentationKey);
-    const proactiveState = new ProactiveState(storage);
-    this.bot = new  DialogBot(services, conversationState, userState, proactiveState ,endpointService, telemetryClient);
-
-    // PENDING authentication and skill registration
+    const telemetryClient = getTelemetryClient(botSettings);
+    const botSettings = new BotSettings(appsettings.appInsights, appsettings.blobStorage, cognitiveModels, appsettings.cosmosDb, cognitiveModels.defaultLocale, appsettings.microsoftAppId, appsettings.microsoftAppPassword, skills)
+    const adapterSettings = {
+        appId: botSettings.microsoftAppId,
+        appPassword: botSettings.microsoftAppPassword
+    };
+    const adapter = new DefaultAdapter(botSettings, adapterSettings, telemetryClient);
+    const botServices = new BotServices(botSettings);
+    const onboardingStateAccessor = adapter.userState.createProperty('OnboardingState');
+    const onboardingDialog = new OnboardingDialog(botServices, onboardingStateAccessor, telemetryClient)  
+    const escalateDialog = new EscalateDialog(botServices, telemetryClient);
+    const cancelDialog = new CancelDialog();
+    const skillDialogs = [];
+    const mainDialog = new MainDialog(
+        botSettings,
+        botServices,
+        onboardingDialog,
+        escalateDialog,
+        cancelDialog,
+        skillDialogs,
+        onboardingStateAccessor,
+        telemetryClient
+    );
+    this.bot = new DialogBot(adapter.conversationState, telemetryClient, mainDialog);
 }
 
 /**
@@ -98,8 +95,6 @@ const getTestAdapter = function() {
     })
     .use(new AutoSaveStateMiddleware(bot.conversationState, bot.userState));
 }
-
-// PENDING initialize skills
 
 module.exports = {
     configuration: configuration,

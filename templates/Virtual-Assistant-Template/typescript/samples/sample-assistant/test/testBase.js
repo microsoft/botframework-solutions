@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
-const TEST_MODE = 'lockdown';
+const TEST_MODE = 'record';
 
 const nockBack = require('nock').back;
 nockBack.setMode(TEST_MODE);
