@@ -1,319 +1,334 @@
 > # Intent definitions
 
 ## AddToDo
-- ajouter quelques éléments à la  {ListType=Épicerie} Liste
-- Ajouter un  {ListType=Épicerie}  élément à  {TaskContentML=acheter du poisson} 
-- Ajouter un  {ListType=Épicerie}  élément à  {TaskContentML=acheter des fruits et légumes} 
-- Ajouter un  {ListType=Épicerie}  élément à  {TaskContentML=acheter des légumes} 
-- Ajouter un nouveau  {ListType=achats} Liste
-- Ajouter un  {ListType=achats}  élément à  {TaskContentML=acheter des robes de danse} 
-- Ajouter un  {ListType=achats}  élément à  {TaskContentML=acheter du jus d'orange} 
-- Ajouter une tâche pour  {TaskContentML=Anna West apporter mon maillot de bain pour mes vacances} 
-- Ajouter une tâche pour  {TaskContentML=Jimmy pour jouer à des jeux Xbox avec moi après le travail} 
-- Ajouter une tâche pour  {TaskContentML=Li Lei pour apporter mon manteau de la maison} 
-- Ajouter une tâche pour  {TaskContentML=Raghu pour apporter mes chocolats de l'Allemagne} 
-- Ajouter une tâche  {TaskContentML=pâtes dimanche 3 mars} 
-- Ajouter une tâche qui  {TaskContentML=acheter des fruits et légumes} 
-- Ajouter une tâche à  {TaskContentML=terminer le test de conduite cette semaine} 
-- Ajouter une tâche à  {TaskContentML=ramasser Mary après le travail} 
-- Ajouter une tâche à  {TaskContentML=boutique à GNC après le travail} 
-- Ajouter un  {ListType=à faire}  Que  {TaskContentML=acheter un joli chandail} 
-- Ajouter un  {ListType=à faire}  À  {TaskContentML=acheter des chaussures} 
-- Ajouter un  {ListType=Tous}  Article  {TaskContentML=passer l'aspirateur d'ici le 3 octobre} 
-- Ajouter un élément d'action pour  {TaskContentML=Khalifa qui emballer mon fournitures scolaires} dans ma liste
-- Ajouter un élément à  {TaskContentML=acheter des collations} 
-- Ajouter une tâche de  {TaskContentML=tâches à faire autour de la maison} 
-- Ajouter  {TaskContentML=les bronwnies}  à la  {ListType=Épicerie} Liste
-- Ajouter  {TaskContentML=acheter de la gomme} 
-- Ajouter  {TaskContentML=acheter du lait}  à mon  {ListType=achats} Liste
-- Ajouter  {TaskContentML=appeler ma mère}  à mon  {ListType=Tous} Liste
-- Ajouter  {TaskContentML=Date d'échéance août à beurre d'arachide gelée de lait de pain}  Sur  {ListType=Tous} Liste
-- Ajouter  {TaskContentML=aller en cours d'exécution}  à mon  {ListType=à dos} 
-- Ajouter  {TaskContentML=aller à des aliments entiers}  dans mon  {ListType=à faire} Liste
-- Ajouter  {ListType=Épicerie}  Ajouter  {TaskContentML=Épinards}  Mon  {ListType=Épicerie} Liste
-- Ajouter  {ListType=Épicerie}  Articles  {TaskContentML=fromage à la crème et raisins secs} à la liste
-- Ajouter  {ListType=Épicerie}  Articles  {TaskContentML=dîners et sac de rangement}  à la  {ListType=achats} Liste
-- Ajouter  {TaskContentML=avoir une coupe de cheveux} à mes tâches
-- Ajouter des articles comme je parle
-- Ajouter  {TaskContentML=Centrifugeuse}   {ListType=Épicerie} Liste
-- Ajouter  {TaskContentML=melon et sucres et cassonade}  À  {ListType=achats} Liste
-- Ajouter plus à  {ListType=Épicerie} Liste
-- Ajouter  {TaskContentML=Arachides}  Lla  {ListType=Épicerie} Liste
-- Ajouter  {TaskContentML=acheter un ticket de cinéma} à ma liste
-- Ajouter  {TaskContentML=achat de nourriture et de boissons}  à mon  {ListType=achats} Liste
-- Ajouter  {TaskContentML=Lecture}  à mon  {ListType=à faire} Liste
-- Ajouter  {TaskContentML=Chaussures}  à la  {ListType=achats} Listes
-- Ajouter des éléments à cette  {ListType=achats} Notes
-- Ajouter des éléments à la  {ListType=Épicerie} Liste
-- ajouter quelques  {TaskContentML=Jeans}  sur notre  {ListType=achats} Listes
-- ajouter quelque chose dans ce  {ListType=Épicerie} Liste
-- ajouter quelque chose à ma liste
-- Ajouter  {TaskContentML=amidon de tapioca}  sur mon  {ListType=achats} Liste
-- Ajouter  {TaskContentML=amidon de tapioca}  sur notre  {ListType=achats} Liste
-- Ajouter une tâche à  {TaskContentML=acheter un manteau} 
-- Ajouter une tâche à  {TaskContentML=mettre en place la table de salle à manger} 
-- Ajouter cette  {TaskContentML=Mes 2017 buts} dans ma liste
-- ajouter ceci sur notre  {ListType=achats} Liste
-- Ajouter ce genre de choses sur mon  {ListType=achats} Liste
-- Ajouter cette chose dans  {ListType=à faire} Liste
-- Ajouter à mon  {ListType=Épicerie} Liste
-- Ajouter à mon  {ListType=à faire}  Liste  {TaskContentML=ramasser des vêtements} 
-- Ajouter à mon  {ListType=à faire}  Liste  {TaskContentML=Imprimez des papiers pour 10 exemplaires cet après-midi} 
-- Ajouter à mon  {ListType=Tous}  Liste  {TaskContentML=Envoyer les formulaires d'assurance par samedi} 
-- Ajouter à la note  {ListType=achats} Liste
-- Ajouter à  {ListType=achats} Liste
-- Ajouter à la  {ListType=Épicerie}  Note  {TaskContentML=acheter du lait} 
-- Ajouter un  {TaskContentML=lecture d'été} dans ma liste
-- Ajouter une tâche de  {TaskContentML=invité à inviter à la fête} 
-- demander une tâche pour  {TaskContentML=Kim pour apporter mon manteau de la maison} 
-- puis-je ajouter  {TaskContentML=Chemises}  sur le  {ListType=Tous} Liste
-- puis-je mettre sur  {TaskContentML=popcorn au fromage au caramel}  sur mon  {ListType=Épicerie} Liste
-- pourrais-je ajouter  {TaskContentML=Médecine}  à la  {ListType=Tous} Liste
-- créer une tâche pour  {TaskContentML=Rencontrez mes amis} 
-- créer une tâche qui  {TaskContentML=aller au centre commercial} 
-- créer une tâche qui  {TaskContentML=rencontrer John après 5:00 p.m.} 
-- créer une tâche pour  {TaskContentML=Cyber shopping sur Nov. 11} 
-- créer pour le faire  {TaskContentML=lire un livre ce soir} 
-- créer à faire pour  {TaskContentML=aller courir dans le parc} 
-- Mettre  {TaskContentML=Fromage} sur la liste
-- Mettre  {TaskContentML=Lui}  sur mon  {ListType=achats} Liste
-- Mettre  {TaskContentML=Randonnées}  sur mon  {ListType=à faire} Liste
-- Mettre  {TaskContentML=crème glacée}  sur le  {ListType=Épicerie} Liste
-- Mettre  {TaskContentML=Lait}  sur mon  {ListType=Épicerie} Liste
-- Mettre  {TaskContentML=sur le popcorn au fromage caramel}  sur mon  {ListType=Épicerie} Liste
-- Rappelez-moi que  {TaskContentML=assister à la réunion demain} 
-- me rappeler de  {TaskContentML=acheter des crèmes de premiers soins et des baies} 
-- me rappeler de  {TaskContentML=acheter du lait} 
-- me rappeler de  {TaskContentML=rencontrer mon professeur} 
-- me rappeler de magasiner pour  {TaskContentML=un nouveau tapis} 
-- À  {ListType=Épicerie}  Ajouter une liste  {TaskContentML=Lait} 
-- à mon  {ListType=achats}  Ajouter une liste  {TaskContentML=Essuie-tout} 
-- à mes vacances  {ListType=à faire}  Ajouter une liste  {TaskContentML=Acheter crème solaire} 
-- ajouterais-tu  {TaskContentML=crème lourde}  à la  {ListType=Tous} Liste
-- Ajouter une tâche à  {TaskContentPattern} 
-- créer à faire pour  {TaskContentPattern} 
-- Rappelez-moi que  {TaskContentPattern} 
-- créer une tâche pour  {TaskContentPattern} 
-- Ajouter à faire  {TaskContentPattern} 
-- me rappeler d'acheter  {ShopContent} 
-- créer un à faire pour  {TaskContentPattern} 
-- Ajouter  {TaskContentPattern} à ma liste d'épicerie
-- Ajouter un pour faire cet achat  {ShopContent} 
-- Ajouter acheter  {ShopContent} à ma liste d'épicerie
-- me rappeler de magasiner  {ShopContent} 
-- me rappeler de  {TaskContentPattern} 
-- Ajouter acheter  {ShopContent} à ma liste de courses
-- Ajouter un pour faire ce magasin  {ShopContent} 
-- Ajouter  {TaskContentPattern} à mon dos
-- Ajouter une tâche qui magasinez  {ShopContent} 
-- Ajouter  {TaskContentPattern} à ma liste de tâches
-- Ajouter  {TaskContentPattern} à mes tâches
-- Ajouter à faire pour  {TaskContentPattern} 
-- Ajouter un à faire que d'acheter  {ShopContent} 
-- Ajouter un à faire pour  {TaskContentPattern} 
-- Ajouter une tâche qui achète  {ShopContent} 
-- Ajouter une tâche à magasiner  {ShopContent} 
-- Ajouter  {TaskContentPattern} à ma liste de faire
+- ajouter une tâche: {TaskContentML=aller chercher mary après le travail}.
+- ajoutez à la liste de {ListType=courses}.
+- ajoutez à la liste de {ListType=courses}: {TaskContentML=melon et sucre et sucre brun}.
+- ajoutez à la liste d'{ListType=épicerie} du {TaskContentML=lait}.
+- ajoutez à la note d'{ListType=épicerie}: {TaskContentML=acheter du lait}.
+- ajoutez à la note liste de {ListType=courses}.
+- ajoutez à ma liste de {ListType=courses} des {TaskContentML=serviettes en papier}.
+- ajoutez à ma liste de {ListType=courses}: {TaskContentML=achat de nourriture et de boissons}.
+- ajoutez à ma liste de {ListType=courses}: {TaskContentML=presse-agrumes}.
+- ajoutez à ma liste de {ListType=tâches}: {TaskContentML=acheter crème solaire} pour mes vacances.
+- ajoutez à ma liste d'{ListType=épicerie}.
+- ajoutez à ma liste des choses {ListType=à faire} : {TaskContentML=lecture}.
+- ajoutez à ma liste des choses {ListType=à faire}: {TaskContentML=aller à whole foods}.
+- ajoutez à ma liste des choses {ListType=à faire}: {TaskContentML=aller courir}.
+- ajoutez à ma liste des choses {ListType=à faire}: {TaskContentML=envoyer par mail les formulaires d'assurance samedi}.
+- ajoutez à ma liste des choses {ListType=à faire}: {TaskContentML=imprimer des papiers en dix exemplaires cet après-midi}.
+- ajoutez à ma liste des choses {ListType=à faire}: {TaskContentML=ramasser les vêtements}.
+- ajoutez à ma liste: {TaskContentML=acheter un billet de cinéma}.
+- ajoutez à mes tâches: {TaskContentML=se faire couper les cheveux}.
+- ajoutez {TaskContentML=acheter du lait} à ma liste de {ListType=courses}.
+- ajoutez {TaskContentML=appeler ma mère} à ma liste des choses {ListType=à faire}.
+- ajoutez ceci sur notre liste de {ListType=courses}.
+- ajoutez cette chose sur la liste des choses {ListType=à faire}.
+- ajoutez cette chose sur ma liste de {ListType=courses}.
+- ajoutez de la {TaskContentML=fécule de tapioca} sur ma liste de {ListType=courses}.
+- ajoutez de la {TaskContentML=fécule de tapioca} sur notre liste de {ListType=courses}.
+- ajoutez des articles d'{ListType=épicerie} à la liste: {TaskContentML=fromage frais et raisins secs}.
+- ajoutez des articles pendant que je parle.
+- ajoutez des {TaskContentML=bronwnies} à la liste d'{ListType=épicerie}.
+- ajoutez des {TaskContentML=cacahuètes} à la liste d'{ListType=épiceries}.
+- ajoutez des {TaskContentML=chaussures} aux listes de {ListType=courses}.
+- ajoutez des {TaskContentML=jeans} sur nos listes de {ListType=courses}.
+- ajoutez {ListType=épicerie} et {TaskContentML=épinards} à ma liste d'{ListType=épicerie}.
+- ajoutez {TaskContentML=lecture d'été} dans ma liste.
+- ajoutez {TaskContentML=mes objectifs de 2017} dans ma liste.
+- ajoutez plus d'articles à la liste d'{ListType=épicerie}.
+- ajoutez quelque chose à ma liste.
+- ajoutez quelque chose dans cette liste d'{ListType=épicerie}.
+- ajoutez quelques articles à ces notes de {ListType=courses}.
+- ajoutez quelques articles à la liste d'{ListType=épicerie}.
+- ajoutez sur ma liste de {ListType=tâches} à la {TaskContentML=date d'échéance d'août: beurre d'arachide, gelée, lait, pain.}
+- ajoutez un article d'{ListType=épicerie}: {TaskContentML=acheter des fruits et des légumes}.
+- ajoutez un article d'{ListType=épicerie}: {TaskContentML=acheter des légumes}.
+- ajoutez un article d'{ListType=épicerie}: {TaskContentML=acheter du poisson}.
+- ajoutez un article: {TaskContentML=acheter des collations}.
+- ajoutez un {ListType=article}: {TaskContentML=acheter des robes de soirée}.
+- ajoutez un {ListType=article}: {TaskContentML=acheter du jus d'orange}.
+- ajoutez une nouvelle liste d'{ListType=achats}.
+- ajoutez une tâche à faire pour {TaskContentML=khalifa dans ma liste: emballer mes fournitures scolaires}.
+- ajoutez une tâche {ListType=à faire}: {TaskContentML=acheter des chaussures}.
+- ajoutez une tâche {ListType=à faire}: {TaskContentML=acheter un joli chandail}.
+- ajoutez une tâche {ListType=à faire}: {TaskContentML=article d'aspirateur d'ici au 3 octobre}.
+- ajoutez une tâche pour {TaskContentML=anna west: apporter mon maillot de bain pour mes vacances}.
+- ajoutez une tâche pour {TaskContentML=jimmy: jouer à des jeux xbox avec moi après le travail.}
+- ajoutez une tâche pour {TaskContentML=li lei: apporter mon manteau de la maison}.
+- ajoutez une tâche pour {TaskContentML=raghu: apporter mes chocolats d'allemagne}.
+- ajoutez une tâche {TaskContentML=qui inviter à la fête}.
+- ajoutez une tâche: {TaskContentML=acheter des fruits et légumes}.
+- ajoutez une tâche: {TaskContentML=acheter un manteau}.
+- ajoutez une tâche: {TaskContentML=corvées à faire autour de la maison}.
+- ajoutez une tâche: {TaskContentML=faire les courses à gnc après le travail}.
+- ajoutez une tâche: {TaskContentML=mettre en place la table de salle à manger}.
+- ajoutez une tâche: {TaskContentML=pâtes dimanche 3 mars}.
+- ajoutez une tâche: {TaskContentML=terminer le test de conduite cette semaine}.
+- ajoutez: {TaskContentML=acheter de la gomme}.
+- créez une tâche : {TaskContentML=achat en ligne le 11 novembre}.
+- créez une tâche : {TaskContentML=rencontrer john après 17 heures}.
+- créez une tâche: {TaskContentML=aller au centre commercial}.
+- créez une tâche: {TaskContentML=aller courir dans le parc}.
+- créez une tâche: {TaskContentML=lire un livre ce soir}.
+- créez une tâche: {TaskContentML=rencontrer mes amis}.
+- demandez une tâche à {TaskContentML=kim: apporter mon manteau de la maison}.
+- mettez de la {TaskContentML=crème glacée} sur la liste d'{ListType=épicerie}.
+- mettez du {TaskContentML=lait} sur ma liste d'{ListType=épicerie}.
+- mettez du {TaskContentML=popcorn au fromage et caramel} sur ma liste de {ListType=courses}
+- mettez {TaskContentML=fromage} sur la liste.
+- mettez {TaskContentML=jambon} sur ma liste de {ListType=courses}.
+- mettez {TaskContentML=randonnées} sur ma liste des choses {ListType=à faire}.
+- pourrais-je ajouter des {TaskContentML=médicaments} à la liste des choses {ListType=à faire} ?
+- puis-je ajouter des {TaskContentML=chemises} sur la liste des choses {ListType=à faire} ?
+- puis-je mettre le {TaskContentML=popcorn au fromage et caramel} sur ma liste d'{ListType=épicerie} ?
+- rappelez-moi d'{TaskContentML=acheter des crèmes de premiers soins et des baies}.
+- rappelez-moi d'{TaskContentML=acheter du lait}.
+- rappelez-moi d'acheter {TaskContentML=un nouveau tapis}.
+- rappelez-moi d'{TaskContentML=assister à la réunion demain}.
+- rappelez-moi de {TaskContentML=rencontrer mon professeur}.
+- voulez-vous ajouter de la {TaskContentML=crème épaisse} à la liste des choses {ListType=à faire}?
+
+
+## Cancel
+- annulez l'ajout de l'article.
+- annulez {ContainsAll=tout} cela.
+- annulez {ContainsAll=tout}.
+- annulez.
+- annulez-le juste.
+- arrêtez-le.
+- attendez, stoppez-le.
+- cessez de l'ajouter.
+- désolé annulez ça.
+- désolé non merci.
+- désolé non.
+- je n'ai pas besoin merci.
+- je n'en ai pas besoin.
+- laissez tomber ça.
+- non merci.
+- non ne fait pas cela.
+- non oubliez-le
+- oubliez ça.
+- oubliez le.
+
+
+## Confirm
+- bien sûr oui.
+- bien sûr.
+- bien-sûr
+- bien-sûr, ajoutez le.
+- cela semble bien.
+- c'est bien.
+- c'est suffisant.
+- confirmez {ContainsAll=tout}.
+- confirmez-le.
+- d'accord.
+- je suis sûr que je veux ajouter cette tâche.
+- oui s'il vous plaît.
+- oui, allez-y.
+- oui, confirmer.
+- oui, faites juste cela.
+- oui, je veux le faire.
+- oui.
 
 
 ## DeleteToDo
-- pouvez-vous supprimer  {TaskContentML=todo1} 
-- pouvez-vous supprimer  {TaskContentML=Xxx} Article
-- pouvez-vous aider à supprimer  {ContainsAll=Tous} Tâches
-- Annuler  {TaskContentML=Pommes}  De  {ListType=achats} Liste
-- Supprimer  {ContainsAll=Tous}  de mon  {ListType=Épicerie} Liste
-- Supprimer  {TaskContentML=Oeufs} à partir de List
-- supprimer  {TaskContentML=mélange de crêpes}  sur le  {ListType=achats} Liste
-- Supprimer  {TaskContentML=Shampooing}  De  {ListType=achats} Liste
-- Supprimer  {TaskContentML=Chemises} à partir de List
-- supprimer la tâche  {TaskContentML=aller à la pêche} 
-- supprimer la tâche  {TaskContentML=aller au cinéma ce soir} 
-- supprimer l'élément  {TaskContentML=acheter des chaussettes}  de mon  {ListType=to-do} Liste
-- supprimer la deuxième tâche dans mon  {ListType=achats} Liste
-- supprimer la tâche  {TaskContentML=nettoyage de la maison ce week-end} 
-- supprimer la tâche qui  {TaskContentML=frapper la salle de gym tous les matins} 
-- supprimer le faire  {TaskContentML=rencontrer mes amis demain} 
-- supprimer le faire  {TaskContentML=pratique quotidienne piano} 
-- supprimer le faire  {TaskContentML=rencontrer John quand il vient ici le vendredi prochain} 
-- supprimer pour faire  {TaskContentML=acheter du lait} 
-- supprimer pour faire  {TaskContentML=aller faire du shopping} 
-- supprimer pour le faire  {TaskContentML=aller à la randonnée demain} 
-- Effacer  {TaskContentML=Bananes}  De  {ListType=achats} Liste
-- Effacer  {TaskContentML=Arachides}  sur le  {ListType=achats} Liste
-- pas besoin de  {TaskContentML=acheter du lait}  Dans  {ListType=Épicerie} Liste
-- omettre le  {TaskContentML=Lait}  dans le  {ListType=Épicerie} Liste
-- Retirer  {ContainsAll=Tous} 
-- Retirer  {ContainsAll=Tous} Tâches
-- Retirer  {TaskContentML=Aspirine}  De  {ListType=achats} Liste
-- Retirer  {TaskContentML=chaussures noires}  De  {ListType=achats} Liste
-- Retirer  {TaskContentML=Classe}  De  {ListType=Tous} Liste
-- Retirer  {TaskContentML=salade légumes}  De  {ListType=Épicerie} Liste
-- supprimer la tâche  {TaskContentML=acheter des aliments pour chiens} 
-- supprimer la tâche  {TaskContentML=aller faire du shopping} 
-- supprimer la tâche qui  {TaskContentML=faire de la randonnée ce week-end} 
-- supprimer la tâche qui  {TaskContentML=tonte de pelouse} 
-- supprimer l'élément  {TaskContentML=Paris} de ma liste
-- supprimer la tâche qui  {TaskContentML=aller à la bibliothèque après le travail} 
-- supprimer le faire  {TaskContentML=examen physique} 
-- supprimer le faire  {TaskContentML=Pick Tom up à 18h} 
-- supprimer pour faire  {TaskContentML=aller à la salle de gym} 
-- supprimer pour le faire  {TaskContentML=aller chez le dentiste demain matin} 
--  {ListType=achats}  supprimer la liste  {TaskContentML=Un} 
--  {ListType=achats}  supprimer la liste  {TaskContentML=nourriture pour chiens} 
--  {ListType=achats}  supprimer la liste  {TaskContentML=Oeufs} 
--  {ListType=achats}  supprimer la liste  {TaskContentML=Lait} 
-- Prendre  {TaskContentML=Café}  de mon  {ListType=Épicerie} Liste
-- Prendre  {TaskContentML=citrons et oignons}  de mon  {ListType=achats} Liste
-- Prendre  {TaskContentML=Lait}  OFF  {ListType=Épicerie} Liste
-- Prendre  {TaskContentML=chaussettes et chaussures}  de mon  {ListType=achats} Liste
--  {ListType=Tous}  supprimer la liste  {TaskContentML=vacances à Paris} 
-- supprimer pour faire  {TaskContentPattern} 
-- supprimer le faire  {TaskContentPattern} 
-- supprimer la tâche  {TaskContentPattern} 
+- annulez les {TaskContentML=pommes} de la liste de {ListType=courses}.
+- effacez les {TaskContentML=bananes} de la liste des {ListType=courses}.
+- effacez les {TaskContentML=cacahuètes} sur la liste de {ListType=courses}.
+- enlevez {TaskContentML=citrons et oignons} de ma liste de {ListType=courses}.
+- enlevez le {TaskContentML=lait} de la liste {ListType=épicerie}.
+- enlevez {TaskContentML=les chaussettes et les chaussures} de ma liste de {ListType=courses}.
+- je n'ai pas besoin d'{TaskContentML=acheter du lait} dans la liste d’{ListType=épicerie}.
+- omettez le {TaskContentML=lait} dans la liste d'{ListType=épicerie}.
+- pouvez-vous aider à supprimer {ContainsAll=toutes} les tâches ?
+- pouvez-vous supprimer la {TaskContentML=tâche 1} ?
+- pouvez-vous supprimer l'article {TaskContentML=xxx} ?
+- retirez le {TaskContentML=café} de ma liste d'{ListType=épicerie}.
+- supprimez {TaskContentML=a} de la liste de {ListType=courses}
+- supprimez de la liste de {ListType=courses} la {TaskContentML=nourriture pour chiens}.
+- supprimez de la liste de {ListType=courses} le {TaskContentML=lait}.
+- supprimez de la liste de {ListType=courses} les {TaskContentML=œufs}.
+- supprimez la {TaskContentML=classe} de la liste des choses {ListType=à faire}.
+- supprimez la deuxième tâche dans ma liste de {ListType=courses}.
+- supprimez la {TaskContentML=pâte à pancake} sur la liste de {ListType=courses}.
+- supprimez la {TaskContentML=salade de légumes} de la liste d'{ListType=épicerie}.
+- supprimez la tâche : {TaskContentML=nettoyage de la maison ce week-end}.
+- supprimez la tâche {TaskContentML=aller chercher tom à 18 heures}.
+- supprimez la {ListType=tâche} de ma liste: {TaskContentML=acheter des chaussettes}.
+- supprimez la tâche de {TaskContentML=tondre de pelouse}.
+- supprimez la tâche: {TaskContentML=acheter des aliments pour chien}.
+- supprimez la tâche: {TaskContentML=acheter du lait}.
+- supprimez la tâche: {TaskContentML=aller à la bibliothèque après le travail}.
+- supprimez la tâche: {TaskContentML=aller à la pêche}.
+- supprimez la tâche: {TaskContentML=aller à la salle de gym tous les matins}.
+- supprimez la tâche: {TaskContentML=aller à la salle de gym}.
+- supprimez la tâche: {TaskContentML=aller au cinéma ce soir}.
+- supprimez la tâche: {TaskContentML=aller chez le dentiste demain matin}.
+- supprimez la tâche: {TaskContentML=aller faire de la randonnée ce week-end}.
+- supprimez la tâche: {TaskContentML=aller faire du shopping}.
+- supprimez la tâche: {TaskContentML=entraînement de piano quotidien}.
+- supprimez la tâche: {TaskContentML=faire de la randonnée demain}.
+- supprimez la tâche: {TaskContentML=rencontrer john quand il vient ici vendredi prochain}.
+- supprimez la tâche: {TaskContentML=rencontrer mes amis demain}.
+- supprimez la tâche: {TaskContentML=visite médicale}.
+- supprimez l'article {TaskContentML=paris} de ma liste.
+- supprimez l'{TaskContentML=aspirine} de la liste de {ListType=courses}.
+- supprimez le {TaskContentML=shampooing} de la liste de {ListType=courses}.
+- supprimez les {TaskContentML=chaussures noires} de la liste des {ListType=courses}.
+- supprimez les {TaskContentML=chemises} de la liste.
+- supprimez les {TaskContentML=œufs} de la liste.
+- supprimez {ContainsAll=tout} de ma liste d'{ListType=épicerie}.
+- supprimez {ContainsAll=toutes} les tâches.
+- supprimez {TaskContentML=vacances paris} à ma liste de {ListType=tâches}.
+- supprimez-les {ContainsAll=tous}.
 
 
 ## MarkToDo
--  {ContainsAll=Tous} ont été faites
--  {ContainsAll=Tous}  ont été achetés dans le  {ListType=achats} Liste
-- déjà complété le  {ListType=achats} éléments de la liste
-- Check OFF  {TaskContentML=Pommes} à partir de List
-- Check OFF  {TaskContentML=Bananes}  de mon  {ListType=Épicerie} Liste
-- Check OFF  {TaskContentML=Ordures}  De  {ListType=Épicier} Liste
-- Check OFF  {TaskContentML=rencontrer John à 8 heures du matin}  De  {ListType=à faire} Liste
-- Check OFF  {TaskContentML=Shampooing}  De  {ListType=achats} liste comme fait
-- Cochez la case  {TaskContentML=Shampooing}  dans mon  {ListType=achats} Liste
-- Complet  {ContainsAll=Tous} 
-- Complet  {TaskContentML=ramasser des chaussures noires}  dans mon  {ListType=to-do} Liste
-- tâche complète  {TaskContentML=aller faire du shopping} 
-- fait avec la tâche  {TaskContentML=Abc}  dans notre  {ListType=achats} Liste
-- fait avec la tâche  {TaskContentML=Shopping-un} 
-- fait avec la tâche  {TaskContentML=amidon de tapioca}  dans notre  {ListType=achats} Liste
-- Finir  {TaskContentML=Randonnées}  sur mon  {ListType=à faire} Liste
-- Finir  {TaskContentML=Arachides}  sur le  {ListType=achats} Liste
-- Permettez-moi de cocher la  {ListType=Épicerie} Liste
-- Marque  {TaskContentML=acheter du poisson} comme complété
-- Marque  {TaskContentML=Poisson} comme complet
-- Marque  {TaskContentML=content}  Sur  {ListType=à dos} Liste
-- Marque  {TaskContentML=citrons et oignons}  Dans  {ListType=Épicerie} Liste
-- Marque  {TaskContentML=Viande} Complet
-- Marque  {TaskContentML=Viande} Terminé
-- Marque  {TaskContentML=Viande} Fait
-- Marque  {TaskContentML=Viande} Fini
-- Marque  {TaskContentML=mélange de crêpes}  sur mon  {ListType=Épicerie} Liste
-- Marque  {TaskContentML=Arachides}  sur mon  {ListType=Épicerie} liste comme fait
-- Marque  {TaskContentML=Arachides}  sur mon  {ListType=Épicerie}   {ListType=achats} Liste
-- Marque  {TaskContentML=Pick Mary up} comme terminé
-- Marque  {TaskContentML=ramasser du lait}  sur mon  {ListType=to-do} Liste
-- Marque  {TaskContentML=jouer au badminton avec Tom} comme terminé
-- Marque  {TaskContentML=Salade}  sur mon  {ListType=Épicerie}   {ListType=achats} Liste
-- Marque  {TaskContentML=Salade}  sur le  {ListType=Épicerie} Liste
-- marquer la tâche  {TaskContentML=Acheter une bouteille de vinaigre} comme terminé
-- marquer la tâche  {TaskContentML=aller en cours d'exécution} comme terminé
-- marquer la tâche  {TaskContentML=lire un livre} comme fait
-- marquer la première tâche comme terminée
-- marquer l'élément  {TaskContentML=Ordures}  De  {ListType=Épicier} Liste
-- marquer la tâche  {TaskContentML=acheter du lait} comme fait
-- marquer la tâche  {TaskContentML=obtenir de la nourriture} comme complet
-- marquer la tâche aller  {ListType=achats} comme terminé
-- marquer la tâche  {TaskContentML=réserver un restaurant pour le dîner de demain} comme terminé
-- marquer la tâche  {TaskContentML=visiter ma grand-mère} comme complété
-- Réglez le  {ListType=Épicerie} liste comme terminé
-- définir l'élément comme terminé
--  {ListType=achats} liste terminée
--  {ListType=achats} liste juste fait
-- Tâche  {TaskContentML=ABX-d} a été fait
-- tâche terminée  {TaskContentML=acheter de la gomme} 
-- la 3ème tâche terminée
-- tâche complète  {TaskContentPattern} 
-- marquer la tâche  {TaskContentPattern} comme complété
-- Marque  {TaskContentPattern} comme terminé
-- terminer la tâche  {TaskContentPattern} 
-- marquer la tâche  {TaskContentPattern} comme terminé
+- cochez la bouteille de {TaskContentML=shampooing} dans ma liste de {ListType=courses}.
+- cochez le {TaskContentML=shampooing} de la liste de {ListType=courses} comme terminé.
+- cochez les {TaskContentML=bananes} de ma liste d'{ListType=épicerie}.
+- cochez les {TaskContentML=ordures} de la liste d’{ListType=épicerie}.
+- cochez les {TaskContentML=pommes} de la liste.
+- cochez sur ma liste des choses {ListType=à faire}: {TaskContentML=rencontrer john à huit heures du matin}.
+- complétez la tâche: {TaskContentML=aller faire du shopping}.
+- complétez {TaskContentML=ramasser les chaussures noires} dans ma liste des choses {ListType=à faire}.
+- complétez {ContainsAll=tout}.
+- ils ont {ContainsAll=tous} été faits.
+- la tâche {TaskContentML=abx-d} a été faite.
+- la troisième tâche est terminée.
+- laissez-moi cocher la liste d'{ListType=épicerie}.
+- les articles d'{ListType=achat} dans la liste ont tous déjà été complétés.
+- liste de {ListType=courses} juste faite
+- liste de {ListType=courses} terminée
+- marquez {TaskContentML=acheter du poisson} comme complété.
+- marquez {TaskContentML=aller chercher mary} comme fait.
+- marquez {TaskContentML=citrons et oignons} dans la liste {ListType=épicerie}.
+- marquez des {TaskContentML=cacahuètes} sur ma liste de {ListType=courses} d'{ListType=épicerie}.
+- marquez {TaskContentML=heureux} sur la liste des choses {ListType=à faire}.
+- marquez {TaskContentML=jouer au badminton avec tom} comme fait.
+- marquez la première tâche comme terminée.
+- marquez la tâche {TaskContentML=acheter du lait} comme faite.
+- marquez la tâche {TaskContentML=acheter une bouteille de vinaigre} comme faite.
+- marquez la tâche {TaskContentML=aller chercher un peu de nourriture} comme complète.
+- marquez la tâche {TaskContentML=aller courir} comme terminée.
+- marquez la tâche aller faire du {ListType=shopping} comme terminée.
+- marquez la tâche {TaskContentML=lire un livre} comme faite.
+- marquez la tâche {TaskContentML=rendre visite à ma grand-mère} comme complétée.
+- marquez la tâche {TaskContentML=réserver un restaurant pour le dîner de demain} comme faite.
+- marquez le {TaskContentML=poisson} comme complété.
+- marquez les articles d'{TaskContentML=ordures} sur la liste d'{ListType=épicerie}.
+- marquez les {TaskContentML=cacahuètes} sur ma liste d'{ListType=épicerie} comme fait.
+- marquez {TaskContentML=pâte à pancake} sur ma {ListType=liste d'épicerie}.
+- marquez {TaskContentML=prendre du lait} sur ma liste des choses {ListType=à faire}.
+- marquez {TaskContentML=salade} sur la liste d'{ListType=épicerie}.
+- marquez {TaskContentML=salade} sur ma liste de {ListType=courses} d'{ListType=épicerie}.
+- mettre la liste d'{ListType=épicerie} comme terminée.
+- mettre l'article comme terminé.
+- tâche {TaskContentML=abc} faite dans notre liste de {ListType=courses}
+- tâche de {TaskContentML=shopping-a} faite
+- tâche {TaskContentML=fécule de tapioca} faite dans notre liste de {ListType=courses}
+- tâche terminée: {TaskContentML=acheter gomme}
+- terminer les {TaskContentML=cacahuètes} sur la liste des {ListType=courses}.
+- terminer les {TaskContentML=excursions} sur ma liste de {ListType=tâches}.
+- {ContainsAll=tous} ont été achetés dans la liste de {ListType=courses}.
 
 
 ## None
 
 
 ## ShowNextPage
-- y at-il d'autres tâches
-- pouvez-vous afficher la page suivante dans le  {ListType=achats} Liste
-- afficher la page suivante
-- afficher plus de tâches
-- montrer plus de travail
-- afficher la feuille suivante
-- afficher le site Web suivant
-- dire plus de tâches
+- affichez la feuille suivante.
+- affichez la page suivante.
+- affichez la prochaine.
+- affichez la suivante.
+- affichez le site web suivant
+- affichez plus de tâches.
+- affichez plus.
+- dites plus de tâches.
+- dites plus.
+- et après ?
+- montrez plus de travail.
+- montrez plus.
+- pouvez-vous afficher la page suivante dans la liste de {ListType=courses} ?
+- qu'y a-t-il de plus ?
+- qu'y a-t-il sur le suivant ?
+- révélez plus.
+- suivant
+- y a-t-il d'autres tâches ?
 
 
 ## ShowPreviousPage
-- afficher la page précédente
-- J'ai besoin de vérifier les tâches précédentes
+- affichez la page précédente.
+- affichez le précédent.
+- affichez précédemment
+- j'ai besoin de vérifier les tâches précédentes.
+- montrez la dernière fois.
+- montrez le précédent.
+- montrez plus tôt.
+- pouvez-vous me mettre précédent.
+- pouvez-vous me montrer le précédent ?
 
 
 ## ShowToDo
-- accéder à mon  {ListType=achats} Liste
-- accéder à mon  {ListType=à faire} Liste
-- accéder à la  {ListType=Épicerie} Liste
--  {ContainsAll=Tous}   {ListType=achats} Liste
-- élever  {ListType=Épicerie} Notes
-- élever  {ListType=achats} Note
-- Parcourir mon  {ListType=Épicerie} 
-- pouvez-vous montrer mon  {ListType=à faire} Liste
-- vérifier ma liste de tâches
-- vérifier mon  {ListType=à faire} Liste
-- Affichage  {ContainsAll=Tous} Notes du mois dernier
-- Affichage  {ListType=Épicerie} Liste
-- afficher les notes avec  {ListType=Épicerie} 
-- Affichage  {ListType=achats} Liste
-- afficher les tâches note
-- Affichage  {ListType=Tous} Liste
-- ai-je une liste appelée  {ListType=Épicerie} Liste
-- dois-je avoir des listes
-- trouver la liste sur  {ListType=achats} 
-- trouver mon  {ListType=Épicerie} Articles que j'ai sauvé le samedi
-- trouver mon  {ListType=achats} Liste
-- trouver la note étiquetée  {ListType=Épicerie} 
-- trouver des notes appelées  {ListType=Épicerie} 
-- trouver des notes pour  {ListType=Épicerie}   {ListType=achats} 
-- trouver des notes avec  {ListType=Épicerie} 
-- Trouver  {ListType=achats} 
-- trouver la liste des tâches sur  {ListType=achats} 
-- trouver la liste que je crée pour  {ListType=achats} 
-- trouver le  {ListType=pour faire la liste} Pour moi
-- obtenir des éléments de travail sur mon  {ListType=Tous} Liste
-- aider à accéder à ma liste personnelle
-- aider à montrer mon  {ListType=à faire} Liste
-- Je dois voir mes tâches
-- Je dois voir le  {ListType=Épicerie} liste i créé aujourd'hui
-- Je veux vérifier mon  {ListType=achats} Liste
-- Je veux voir  {ListType=Épicerie} Liste
-- y at-il quelque chose sur mon  {ListType=à faire} Liste
-- Liste  {ListType=Épicerie} Notes
-- Regardez mon  {ListType=Épicerie} Liste
-- Tirer  {ListType=Épicerie} Liste
-- Tirez vers le haut  {ListType=Épicier} Liste
-- Tirez vers le haut  {ListType=Épicerie} Liste
-- Tirez mon  {ListType=Épicerie} Liste
-- Tirez mes notes
-- Tirez vers le haut  {ListType=à faire} Liste
-- lire à haute voix mon  {ListType=Épicerie} Liste
-- lire mes tâches
-- Examen  {ListType=Épicerie} Liste
--  {ListType=achats} Liste
-- Montre-moi  {ContainsAll=Tous} Tâches
-- montrer mon  {ListType=à faire} Liste
-- montrer mon  {ListType=à dos} 
-- montrer mon  {ListType=Tous} 
-- Voir mon  {ListType=Épicerie} Liste
-- Vue  {ListType=achats} Liste
-- Qu'en est-il de  {ListType=Épicerie} Liste
-- Quelles sont mes notes pour le  {ListType=Épicerie} boutique
-- Quelles sont mes tâches pour  {ListType=Tous} 
-- qu'est-ce que je dois acheter sur le  {ListType=achats} Liste
-- qu'est-ce que je dois acheter dans le  {ListType=achats} Liste
-- ce qui est sur mon  {ListType=achats} Liste
-- où est le  {ListType=Épicerie}   {ListType=achats} Notes j'ai travaillé sur la nuit dernière
-- voulez-vous mettre en place mon nouveau  {ListType=Épicerie} Notes
+- accédez à la liste d'{ListType=épicerie}.
+- accédez à ma liste de {ListType=courses}.
+- accédez à ma liste des choses {ListType=à faire}.
+- affichez la liste d'{ListType=achats}.
+- affichez la liste de {ListType=courses}.
+- affichez la liste d'{ListType=épicerie}.
+- affichez la liste des choses {ListType=à faire}.
+- affichez les notes avec les {ListType=provisions}.
+- affichez les notes de tâches.
+- affichez ma liste d'{ListType=épicerie}.
+- affichez ma liste des choses {ListType=à faire}.
+- affichez mes notes.
+- affichez {ContainsAll=toutes} les notes du mois dernier.
+- aidez à accéder à ma liste personnelle.
+- aidez à trouver ma liste des choses {ListType=à faire}.
+- ai-je des listes ?
+- ai-je une liste appelée liste d'{ListType=épicerie} ?
+- ajoutez des éléments de travail sur ma liste des choses {ListType=à faire}.
+- ajoutez des notes d'{ListType=épicerie}.
+- ajoutez une note d'{ListType=achat}.
+- je dois voir la liste d'{ListType=épicerie} que j'ai créé aujourd'hui.
+- je dois voir mes tâches.
+- je veux vérifier ma liste de {ListType=courses}.
+- je veux voir la liste des {ListType=courses}.
+- lisez à haute voix ma liste d'{ListType=épicerie}.
+- lisez mes tâches.
+- liste de {ListType=courses}
+- liste des notes d'{ListType=épicerie}
+- me trouvez la {ListType=liste des choses à faire}.
+- montrez-moi mes {ListType=tâches}.
+- montrez-moi {ContainsAll=toutes} les tâches.
+- où sont les notes {ListType=d’achat} d'{ListType=épicerie} sur lesquelles j’ai travaillé la nuit dernière ?
+- parcourir mes {ListType=courses}.
+- pouvez-vous montrer ma liste des choses {ListType=à faire} ?
+- quelles sont mes notes pour l'{ListType=épicerie} ?
+- quelles sont mes tâches {ListType=à faire} ?
+- qu'en est-il de la liste d'{ListType=épicerie} ?
+- qu'est-ce que j’ai besoin d‘acheter sur la liste de {ListType=courses} ?
+- qu'est-ce que je dois acheter sur la liste de {ListType=courses} ?
+- qu'y a-t-il sur ma liste de {ListType=courses} ?
+- regardez ma liste d'{ListType=épicerie}.
+- revoyez la liste d'{ListType=épicerie}.
+- {ContainsAll=toutes} les listes de {ListType=courses}
+- trouvez des {ListType=courses}.
+- trouvez des notes appelées {ListType=épicerie}.
+- trouvez des notes avec les courses d'{ListType=épicerie}.
+- trouvez des notes pour les {ListType=courses} d'{ListType=épicerie}.
+- trouvez la liste des {ListType=courses}.
+- trouvez la liste des tâches sur les {ListType=courses}.
+- trouvez la liste que j'ai créé pour le {ListType=shopping}.
+- trouvez la note étiquetée {ListType=épicerie}.
+- trouvez ma liste de {ListType=courses}.
+- trouvez mes articles d'{ListType=épicerie} que j'ai sauvegardé samedi.
+- vérifiez ma liste de tâches.
+- vérifiez ma liste des choses {ListType=à faire}.
+- voir ma liste d'{ListType=épicerie}.
+- voulez-vous mettre en place mes nouvelles notes d'{ListType=épicerie} ?
+- y a-t-il quelque chose sur ma liste des choses {ListType=à faire} ?
 
 
 > # Entity definitions
@@ -327,8 +342,6 @@ $TaskContentML:simple
 
 > # PREBUILT Entity definitions
 
-$PREBUILT:number
-
 $PREBUILT:ordinal
 
 
@@ -337,10 +350,11 @@ $PREBUILT:ordinal
 
 > # List entities
 
-$FoodOfGrocery:air freshener=
+$FoodOfGrocery:assainisseur d’air=
 
-$FoodOfGrocery:apple=
-- Pommes
+$FoodOfGrocery:pomme=
+
+$FoodOfGrocery:pommes=
 
 $FoodOfGrocery:bacon=
 
@@ -348,224 +362,242 @@ $FoodOfGrocery:bagel=
 
 $FoodOfGrocery:bagels=
 
-$FoodOfGrocery:banana=
-- Bananes
+$FoodOfGrocery:banane=
 
-$FoodOfGrocery:beans=
+$FoodOfGrocery:bananes=
 
-$FoodOfGrocery:beverages=
+$FoodOfGrocery:haricots=
 
-$FoodOfGrocery:bread=
+$FoodOfGrocery:boissons=
 
-$FoodOfGrocery:buns=
+$FoodOfGrocery:pain=
 
-$FoodOfGrocery:burgers=
+$FoodOfGrocery:petits pains=
 
-$FoodOfGrocery:butter=
+$FoodOfGrocery:hamburgers=
 
-$FoodOfGrocery:carrot=
-- Carottes
+$FoodOfGrocery:beurre=
 
-$FoodOfGrocery:celery=
+$FoodOfGrocery:jus de carotte=
 
-$FoodOfGrocery:cereal=
+$FoodOfGrocery:carottes=
 
-$FoodOfGrocery:cheese=
+$FoodOfGrocery:céleri=
 
-$FoodOfGrocery:chicken=
+$FoodOfGrocery:céréale=
 
-$FoodOfGrocery:chili=
+$FoodOfGrocery:fromage=
 
-$FoodOfGrocery:chips=
+$FoodOfGrocery:poulet=
 
-$FoodOfGrocery:chocolate=
-- Chocolats
+$FoodOfGrocery:piment=
 
-$FoodOfGrocery:chocolate chip=
-- copeaux de Chocoloate
+$FoodOfGrocery:puces=
 
-$FoodOfGrocery:chops=
+$FoodOfGrocery:chocolat=
 
-$FoodOfGrocery:cloves=
+$FoodOfGrocery:chocolats=
 
-$FoodOfGrocery:coffee=
+$FoodOfGrocery:brisures de chocolat=
 
-$FoodOfGrocery:corn=
+$FoodOfGrocery:Chocoloate puces=
 
-$FoodOfGrocery:crispy=
+$FoodOfGrocery:côtelettes=
+
+$FoodOfGrocery:clous de girofle=
+
+$FoodOfGrocery:café=
+
+$FoodOfGrocery:maïs=
+
+$FoodOfGrocery:croustillant=
 
 $FoodOfGrocery:croissant=
-- croissants
 
-$FoodOfGrocery:cupcakes=
+$FoodOfGrocery:croissants=
 
-$FoodOfGrocery:dairy=
+$FoodOfGrocery:petits gâteaux=
 
-$FoodOfGrocery:dishwashing detergent=
+$FoodOfGrocery:produits laitiers=
+
+$FoodOfGrocery:détergent pour lave-vaisselle=
 
 $FoodOfGrocery:donuts=
 
-$FoodOfGrocery:drinks=
+$FoodOfGrocery:canard=
 
-$FoodOfGrocery:duck=
+$FoodOfGrocery:oeuf=
 
-$FoodOfGrocery:egg=
-- Oeufs
+$FoodOfGrocery:oeufs=
 
-$FoodOfGrocery:flour=
+$FoodOfGrocery:farine=
 
-$FoodOfGrocery:fries=
+$FoodOfGrocery:frites=
 
-$FoodOfGrocery:frozen food=
+$FoodOfGrocery:aliments surgelés=
 
-$FoodOfGrocery:fruit=
-- fruits
+$FoodOfGrocery:fruits=
 
-$FoodOfGrocery:garbage bag=
-- sacs poubelle
+$FoodOfGrocery:sac à ordures=
 
-$FoodOfGrocery:garlic=
+$FoodOfGrocery:sacs à ordures=
 
-$FoodOfGrocery:grilled=
+$FoodOfGrocery:ail=
 
-$FoodOfGrocery:ham=
+$FoodOfGrocery:grillé=
+
+$FoodOfGrocery:jambon=
 
 $FoodOfGrocery:hamburger=
 
-$FoodOfGrocery:ice cream=
+$FoodOfGrocery:crème glacée=
 
-$FoodOfGrocery:jam=
+$FoodOfGrocery:confiture=
 
-$FoodOfGrocery:lamb=
+$FoodOfGrocery:agneau=
 
-$FoodOfGrocery:laundry detergent=
+$FoodOfGrocery:détergent à lessive=
 
-$FoodOfGrocery:lemon=
-- Citrons
+$FoodOfGrocery:citron=
 
-$FoodOfGrocery:lettuce=
+$FoodOfGrocery:citrons=
 
-$FoodOfGrocery:lettuce and salad=
-- Salade
-- Salades
+$FoodOfGrocery:laitue=
 
-$FoodOfGrocery:lobster=
+$FoodOfGrocery:laitue et salade=
 
-$FoodOfGrocery:marinated=
+$FoodOfGrocery:salade=
 
-$FoodOfGrocery:meat=
+$FoodOfGrocery:salades=
 
-$FoodOfGrocery:meatballs=
+$FoodOfGrocery:homard=
 
-$FoodOfGrocery:meatloaf=
+$FoodOfGrocery:marinée=
 
-$FoodOfGrocery:milk=
+$FoodOfGrocery:viande=
 
-$FoodOfGrocery:onion=
-- Oignons
+$FoodOfGrocery:boulettes de viande=
 
-$FoodOfGrocery:oysters=
+$FoodOfGrocery:pain de viande=
 
-$FoodOfGrocery:pancake mix=
+$FoodOfGrocery:lait=
 
-$FoodOfGrocery:pancakes=
+$FoodOfGrocery:oignon=
 
-$FoodOfGrocery:pasta=
+$FoodOfGrocery:oignons=
 
-$FoodOfGrocery:pastry=
-- Pâtisseries
+$FoodOfGrocery:huîtres=
 
-$FoodOfGrocery:pear=
-- Poires
+$FoodOfGrocery:mélange à crêpes=
 
-$FoodOfGrocery:pepper=
+$FoodOfGrocery:crêpes=
 
-$FoodOfGrocery:pie=
-- Pieds
+$FoodOfGrocery:pâtes alimentaires=
 
-$FoodOfGrocery:pita=
+$FoodOfGrocery:pâte à tarte=
 
-$FoodOfGrocery:potato=
-- Patates
+$FoodOfGrocery:pâtisseries=
 
-$FoodOfGrocery:poultry=
+$FoodOfGrocery:PEAR=
 
-$FoodOfGrocery:ribs=
+$FoodOfGrocery:poires=
 
-$FoodOfGrocery:rice=
+$FoodOfGrocery:poivre=
 
-$FoodOfGrocery:roast=
+$FoodOfGrocery:tarte=
 
-$FoodOfGrocery:rolls=
+$FoodOfGrocery:tartes=
 
-$FoodOfGrocery:salads=
+$FoodOfGrocery:pain pita=
 
-$FoodOfGrocery:salmon=
+$FoodOfGrocery:pomme de terre=
 
-$FoodOfGrocery:salt=
+$FoodOfGrocery:pommes de terre=
 
-$FoodOfGrocery:sandwich=
+$FoodOfGrocery:volaille=
+
+$FoodOfGrocery:côtes levées=
+
+$FoodOfGrocery:riz=
+
+$FoodOfGrocery:rôti=
+
+$FoodOfGrocery:saumon=
+
+$FoodOfGrocery:sel=
+
+$FoodOfGrocery:"sandwich"=
 
 $FoodOfGrocery:sauce=
 
-$FoodOfGrocery:sausage=
-- Saucisses
+$FoodOfGrocery:saucisse=
+
+$FoodOfGrocery:saucisses=
 
 $FoodOfGrocery:scones=
 
-$FoodOfGrocery:shellfish=
+$FoodOfGrocery:mollusques et crustacés=
 
-$FoodOfGrocery:shrimp=
+$FoodOfGrocery:crevettes=
 
-$FoodOfGrocery:snacks=
+$FoodOfGrocery:collations=
 
-$FoodOfGrocery:sour cream=
+$FoodOfGrocery:crème sure=
 
 $FoodOfGrocery:steak=
 
-$FoodOfGrocery:strawberries=
+$FoodOfGrocery:fraises=
 
-$FoodOfGrocery:sugar=
+$FoodOfGrocery:sucre=
 
-$FoodOfGrocery:sushi=
+$FoodOfGrocery:Sushi=
 
-$FoodOfGrocery:sweets=
+$FoodOfGrocery:bonbons=
 
-$FoodOfGrocery:tenderloin=
+$FoodOfGrocery:filet mignon=
 
-$FoodOfGrocery:tomato=
-- Tomates
+$FoodOfGrocery:tomate=
 
-$FoodOfGrocery:toothpaste=
+$FoodOfGrocery:tomates=
+
+$FoodOfGrocery:pâte dentifrice=
 
 $FoodOfGrocery:tortilla=
 
-$FoodOfGrocery:tuna=
+$FoodOfGrocery:thon=
 
-$FoodOfGrocery:turkey=
+$FoodOfGrocery:Turquie=
 
-$FoodOfGrocery:veal=
+$FoodOfGrocery:veau=
 
-$FoodOfGrocery:vegetable=
-- Légumes
+$FoodOfGrocery:légume=
 
-$FoodOfGrocery:venison=
+$FoodOfGrocery:légumes=
 
-$FoodOfGrocery:waffles=
+$FoodOfGrocery:venaison=
 
-$FoodOfGrocery:yoghurt=
+$FoodOfGrocery:gaufres=
 
-$FoodOfGrocery:fish=
+$FoodOfGrocery:yaourt=
+
+$FoodOfGrocery:poisson=
 
 
 
-$ShopVerb:buy=
-- Acheté
-- Achète
-- Acheter
+$ShopVerb:acheter=
 
-$ShopVerb:purchase=
-- Achats
+$ShopVerb:acheté=
 
-$ShopVerb:shop=
-- Magasins
+$ShopVerb:achète des=
+
+$ShopVerb:achat=
+
+$ShopVerb:les achats de=
+
+$ShopVerb:boutique=
+
+$ShopVerb:boutiques=
+
+
+
+> # RegEx entities

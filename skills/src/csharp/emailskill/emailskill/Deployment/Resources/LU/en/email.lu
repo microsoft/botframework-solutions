@@ -111,6 +111,7 @@
 - cancel my email to {ContactName=jane}
 - cancel searching the messages
 - cancel the email
+- cancel the email sent to {ContactName=alex}
 - cancel the email to my {RelationshipName=sister}
 - cancel the mail
 - cancel the message
@@ -148,6 +149,7 @@
 - quit the sending
 - stop message
 - stop reading
+- ^cancel [sending] [(my|the)] (email|mail) to {ContactName}
 
 
 ## CheckMessages
@@ -163,7 +165,7 @@
 - check my inbox
 - check my mail box
 - check my message
-- check {EmailPlatform=outlook} please
+- check {Line=outlook} please
 - check up email
 - check up messages
 - could you please check my emails
@@ -175,25 +177,28 @@
 - do i have {Category=new} email {Time=now}
 - do i have {Category=new} message
 - do i receive {Category=new} email
-- do i receive {Category=new} mail in {EmailPlatform=outlook}?
+- do i receive {Category=new} mail in {Line=outlook}?
 - do i receive {Category=new} message
 - does anyone send email to me just then
 - does anyone send message to me {Time=just then}
-- does my {EmailPlatform=outlook} has {Category=new} email
+- does my {Line=outlook} has {Category=new} email
 - i want to check my emails
 - i want to check my inbox
 - i'd like to check my inbox
 - is there new email
 - please check my emails
 - please check my inbox
-- please check my {EmailPlatform=outlook}
+- please check my {Line=outlook}
 - show {OrderReference=latest} emails
 - show my emails
+- show my {Category=unread} mails
+- show the {Category=important} emails in my inbox
 - whether i get {Category=new} email
 - whether i get {Category=new} message
 - whether i have {Category=new} email
 - whether i have {Category=new} message
 - whether i receive new email
+- show [(my|the)] [(unread|important|{Category})] (email|mail|emails)^
 
 
 ## ConfirmMessages
@@ -203,6 +208,7 @@
 - alright, just send the message
 - correct, please send it.
 - i confirm that i want to send this email
+- just do it
 - no problem, go ahead send the mail
 - of course, just delete the mail
 - ok send the mail to {ContactName=may}
@@ -222,10 +228,12 @@
 ## Delete
 - can you help me delete it
 - clear my inbox
+- delete all emails from {SenderName=tom}
 - delete all emails received {Time=tonight}
 - delete the email from my {Line=hotmail} account
 - delete the {PositionReference=first} email for me
 - delete the {OrderReference=last} one
+- delete the {OrderReference=previous} 4 emails
 - delete the {Category=red} ones
 - delete the second mail
 - delete the {PositionReference=second} one
@@ -238,10 +246,12 @@
 - put the email in the recycle bin
 - put the email to trash bin
 - put the emails from this file folder to trash bin
+- remove emails that are duplicate
 - remove emails with {Category=red} flags
 - remove it from my inbox
 - remove the email from {SenderName=mary}
 - remove the emails received {Date=yesterday}
+- ^(delete|remove) [the] [{OrderReference}] (email|emails|mails) [from {SenderName}]
 
 
 ## Forward
@@ -268,7 +278,7 @@
 - forward to {ContactName=deborah} with a message saying that {Message=i don't want that}
 - forward to {ContactName=dorothy} by typing {Message=i agree with it}
 - forward to {RelationshipName=mom}
-- forward to my {RelationshipName=boss} and attach the {Attachment=schedual file}
+- forward to my {RelationshipName=boss} and attach the {Attachment=schedule file}
 - forward to partoneparttwo@gmail.com {Date=next monday}
 - forward to {ContactName=thomas} please
 - forward to {RelationshipName=wife} by saying {Message=i love you}
@@ -309,7 +319,7 @@
 - what is the {OrderReference=lastest} email i received from {FromRelationshipName=dad}
 - what was the {OrderReference=last} email
 - what was the {OrderReference=last} email i got from {FromRelationshipName=dad}
-- what was the {OrderReference=last} email i got from {SenderName=helen edwards}
+- what was the {OrderReference=last} email i got from {SenderName=steve edwards}
 - who email me {Time=just now}
 - who emailed me
 - who emailed me just now
@@ -346,7 +356,7 @@
 - read {OrderReference=last} incoming emails
 - read {OrderReference=last} mail
 - read {OrderReference=latest} email
-- read {SenderName=mary grace verduguez} email
+- read {SenderName=mary grace white} email
 - read me {SenderName=dylan}'s email sent on {Date=yesterday}
 - read me {SenderName=jessica}'s email on {EmailSubject=dress code for the party}
 - read me my {OrderReference=last} {Line=hotmail} email
@@ -364,12 +374,12 @@
 - read most {OrderReference=recent} email
 - read my email from {SenderName=baby}
 - read my email from {SenderName=hubby}
-- read my email from {SenderName=tyler moffett}
+- read my email from {SenderName=tyler swift}
 - read my email messages
 - read my email please
 - read my email to me
 - read my emails
-- read my emails from {SenderName=fatty}
+- read my emails from {SenderName=patty}
 - read my inbox
 - read my {OrderReference=last} email
 - read my {OrderReference=last} email out to me
@@ -377,7 +387,7 @@
 - read my {Category=new} email
 - read my {Category=new} emails
 - read my notification
-- read my {EmailPlatform=outlook} email
+- read my {Line=outlook} email
 - read my {OrderReference=recent} email
 - read my {OrderReference=recent} email message please
 - read my {OrderReference=recent} email messages
@@ -404,6 +414,10 @@
 - read {Date=today}'s mail
 - read {Category=unread} email
 - read {Category=unread} message
+- ^read [(me|out)] [the] (email|emails) from {SenderName} [(about|on) {EmailSubject}]^
+- ^read [me] [the] (email|mail|emails) (on|about|titled) {EmailSubject}
+- ^read [me] [the] (email|mail|emails) (on|about|titled) {EmailSubject} [sent] from {SenderName}^
+- ^read [me] the (email|mail) (titled|about|on) [the] {EmailSubject}^
 
 
 ## Reply
@@ -438,6 +452,9 @@
 - return {ContactName=siberian huskies} {Line=mobile}
 - send email back
 - send the response with {Message=i've already know}
+- ^reply [back] with [the] (title|subject) {EmailSubject}
+- ^reply [back] [the] message [that] {Message}^
+- ^reply [back] [with] [the] [message] [that] "{Message.Any}"
 
 
 ## SearchMessages
@@ -483,13 +500,17 @@
 - search the emails contains {SearchTexts=money}
 - show emails contain words "{SearchTexts=future plan}"
 - show emails with "{SearchTexts=credit card}"
+- show me emails from {SenderName=clara chan}
 - show me emails from {FromRelationshipName=girlfriend}
-- show me emails from {SenderName=kelly chan}
 - show me the email about {EmailSubject=spring festival}
 - show me the email from {SenderName=tom} and filtering with word {SearchTexts=lunch}
 - show me the email sent from {FromRelationshipName=mom}
-- tell me the email from {SenderName=lucas wong}
+- tell me the email from {SenderName=lily wong}
 - tell me the email with subject {EmailSubject=weekly report}
+- ^(tell|find|show) [me] [(an|the)] email (with the title|with title|titled) {EmailSubject}
+- ^(tell|find|show) [me] [(an|the)] email (with the title|with title|titled) "{EmailSubject.Any}"
+- ^(search|find|show) [me] [(an|the)] (email|emails|mail) [(containing|filtering)] [with] [the] [(texts|text|word)] "{SearchTexts.Any}"
+- ^(show|search|find) [me] [(an|the)] [{Category}] email[s] (on|about|titled) {EmailSubject} [sent] [(by|from) {SenderName}]^
 
 
 ## SendEmail
@@ -499,12 +520,12 @@
 - email my {RelationshipName=brother}
 - email my {Attachment=presentation}
 - email the {Attachment=file} to {ContactName=henry mathew}
-- email to {ContactName=alex cooper} about {EmailSubject=haha} saying {Message=hello}
+- email to {ContactName=amy cooper} about {Message=haha saying hello}
 - email to {ContactName=harry potter} and {ContactName=hermione granger}
-- email to {ContactName=kim white} about {EmailSubject=that flower} saying {Message=beautiful}
 - email to {ContactName=lawrence} about {EmailSubject=opening issue}
 - email to {ContactName=mike waters} : {Message=mike, that dinner last week was splendid.}
 - email to partoneparttwo@gmail.com
+- email to {ContactName=tom white} about {Message=that flower saying beautiful}
 - i need to send an email about the {EmailSubject=words to a song}
 - make a new email about {EmailSubject=weather forecast}
 - mark email for {Category=follow up} and send to {ContactName=arthur}
@@ -532,17 +553,17 @@
 - send an email marked with a {Category=bang} to {ContactName=amy}
 - send an email to {ContactName=a.j.ron} marked as {Category=important}
 - send an email to {ContactName=christopher carpenter} about the {EmailSubject=hiking trip}
-- send an email to {ContactName=harold} and {ContactName=paul kappus} about {EmailSubject=team lunch} saying {Message=same team lunch this tuesday}
+- send an email to {ContactName=harold} and {ContactName=bob kappus} about {Message=team lunch saying same team lunch this tuesday}
 - send an email to {ContactName=harry potter}
 - send an email to {ContactName=jacqueline} and {ContactName=tianyu} about the {EmailSubject=test result}
-- send an email to {ContactName=jesse klein} saying {Message=this is the message about weekend plans}
+- send an email to {ContactName=jimmy klein} saying {Message=this is the message about weekend plans}
 - send an email to {ContactName=larry} , {ContactName=joseph} and {ContactName=billy larkson}
 - send an email to {ContactName=lily roth} and abc123@microsoft.com
-- send an email to lily@gmail.com
 - send an email to {ContactName=lu} , {ContactName=yue} and {ContactName=qiong} about {EmailSubject=funding}
 - send an email to {RelationshipName=mom}
 - send an email to my {RelationshipName=brother}
 - send an email to {ContactName=nathan} with a {Category=red bang}
+- send an email to partone@gmail.com
 - send an email to partone_parttwo@microsoft.com
 - send an email to {ContactName=sean} about {EmailSubject=weekend plans}
 - send an email to {ContactName=zachary} about {EmailSubject=we can plan things let's go hiking}
@@ -584,7 +605,6 @@
 - start an email to {ContactName=jason} about {EmailSubject=speaking up}
 - start new email about {EmailSubject=taco blog} to {ContactName=nicole} and {ContactName=emily}
 - start new email to {RelationshipName=friends} about the {EmailSubject=club}
-- start new mail subject of {EmailSubject=nigerian prince}
 - start up a new email to {ContactName=michelle} about {EmailSubject=watching baseball}
 - the new email is {Category=high priority} that is being sent to {ContactName=jacob}
 - will you send a marked {Category=non urgent} email to {ContactName=james}
@@ -593,6 +613,9 @@
 - write an {Category=urgent} email to {ContactName=bobby}
 - write email
 - write email to {RelationshipName=mom} subject is {EmailSubject=babysit}
+- ^(write|send|start) [(a|an|the)] [new] email to {ContactName}^
+- ^[(send|write)] [(the|a)] [new] [(email|mail)] [to {ContactName}] [with message "{Message.Any}"]
+- ^(write|send|start) [(a|an|the)] [new] email to {ContactName} (about|on|with) [the subject] [that] {EmailSubject}^
 
 
 ## ShowNext
@@ -605,6 +628,7 @@
 - {OrderReference=next} email
 - {OrderReference=next} {Category=unread} email
 - {OrderReference=next} {Category=unread} one
+- show me {OrderReference=next} from {SenderName=mary}
 - show me the {OrderReference=next}
 - show me the {OrderReference=next} five mails
 - show {OrderReference=next} email
@@ -614,6 +638,7 @@
 - show the {OrderReference=next} messages
 - the {OrderReference=next} email
 - the {OrderReference=next} {Category=important} message
+- ^(show|give|tell) [me] [the] next (email|message|mail)^
 
 
 ## ShowPrevious
@@ -624,13 +649,15 @@
 - {OrderReference=previous} one please
 - show me {OrderReference=previous} email from {SenderName=jack}
 - show me the {OrderReference=last} three mails
+- show me the one {OrderReference=before}
 - show me the {OrderReference=previous} email
 - show {OrderReference=previous} in {Category=red} category
 - show {OrderReference=previous} one in inbox
-- show the {OrderReference=previous} email from my {SenderName=mentor}
+- show the {OrderReference=previous} email from my {FromRelationshipName=mentor}
 - show the {OrderReference=previous} one
 - the {OrderReference=previous} email
 - what is the {OrderReference=previous} email
+- ^(show|give|tell) [me] [the] previous (email|message|mail)^
 
 
 > # Entity definitions
@@ -642,8 +669,6 @@ $Category:simple
 $ContactName:simple
 
 $Date:simple
-
-$EmailPlatform:simple
 
 $EmailSubject:simple
 
@@ -670,8 +695,6 @@ $Time:simple
 
 $PREBUILT:email
 
-$PREBUILT:number
-
 $PREBUILT:ordinal
 
 
@@ -679,3 +702,5 @@ $PREBUILT:ordinal
 
 
 > # List entities
+
+> # RegEx entities

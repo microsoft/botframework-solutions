@@ -21,7 +21,9 @@ namespace Luis
             None, 
             ShowNextPage, 
             ShowPreviousPage, 
-            ShowToDo
+            ShowToDo,
+            Cancel,
+            Confirm
         };
         public Dictionary<Intent, IntentScore> Intents;
 
@@ -29,11 +31,10 @@ namespace Luis
         {
             // Simple entities
             public string[] ListType;
-            public string[] TaskContentML;
+            public string[] TaskContent;
             public string[] ContainsAll;
 
             // Built-in entities
-            public double[] number;
             public double[] ordinal;
 
             // Lists
@@ -48,9 +49,8 @@ namespace Luis
             public class _Instance
             {
                 public InstanceData[] ListType;
-                public InstanceData[] TaskContentML;
+                public InstanceData[] TaskContent;
                 public InstanceData[] ContainsAll;
-                public InstanceData[] number;
                 public InstanceData[] ordinal;
                 public InstanceData[] FoodOfGrocery;
                 public InstanceData[] ShopVerb;

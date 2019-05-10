@@ -45,7 +45,6 @@ namespace Luis
             public string[] RelationshipName;
             public string[] Time;
             public string[] Line;
-            public string[] EmailPlatform;
             public string[] PositionReference;
             public string[] Date;
             public string[] FromRelationshipName;
@@ -54,7 +53,6 @@ namespace Luis
 
             // Built-in entities
             public string[] email;
-            public double[] number;
             public double[] ordinal;
 
             // Instance
@@ -69,14 +67,12 @@ namespace Luis
                 public InstanceData[] RelationshipName;
                 public InstanceData[] Time;
                 public InstanceData[] Line;
-                public InstanceData[] EmailPlatform;
                 public InstanceData[] PositionReference;
                 public InstanceData[] Date;
                 public InstanceData[] FromRelationshipName;
                 public InstanceData[] EmailSubject;
                 public InstanceData[] SearchTexts;
                 public InstanceData[] email;
-                public InstanceData[] number;
                 public InstanceData[] ordinal;
             }
             [JsonProperty("$instance")]

@@ -44,6 +44,7 @@
 - 再多写一些内容。
 - 再添加几封邮件。
 - 加下主题。
+- 发给{ContactName=Alex}的邮件有点儿问题，我需要重新编辑
 - 在上封邮件中添加一些内容。
 - 在发给{ContactName=约翰}的邮件中加一句“{Message=我很好}”。
 - 在{OrderReference=最新}的一封邮件中，添加一些内容。
@@ -79,6 +80,7 @@
 - 等等，我需要再写点东西
 - 继续添加上“{Message=你好}”
 - 编辑邮件，以便我可以输入其他消息
+- 能重新编辑一下这封邮件吗
 - 要发给{ContactName=文森特}的邮件消息里，我需要加一些话
 - 请再加一点儿呗
 - 请帮我再加一些文本内容。
@@ -91,30 +93,47 @@
 - 随便添加一些东西进去。
 - 麻烦再帮我插入几行。
 - 麻烦帮我加下：{Message=请告诉我我可以带些什么，我很乐意做一盘菜或者甜点。}
+- ^(继续|再)(写上|添加)[消息][:]“{Message.Any}”
 
 
 ## CancelMessages
 - 不，把给{ContactName=晓明}发送的邮件取消。
 - 不了，我不想发送这个消息了
 - 不用回复了，放弃
-- 不要打给她
+- 不用转发了
+- 停下来，别发了
+- 停止朗读
+- 全部取消掉
+- 别了，不发送了
+- 别回给{ContactName=小马}这封主题为{EmailSubject=节日}的邮件了
 - 别把{FromRelationshipName=弟弟}发来的邮件转发给{RelationshipName=妈妈}了
 - 别读邮件了
+- 别转发了
 - 别转发给{ContactName=Jerry}这封邮件了
 - 取消刚刚说的转发操作
 - 取消发送这封邮件
 - 取消掉给{ContactName=凯西}发送的信息。
 - 嗯… 我不想发送这封邮件了。
 - 把给{EmailAddress=xyz@163.com}的邮件取消吧
-- 把这个文本取消
 - 把这条消息关掉
 - 把那条指令删除吧。
+- 撤销发送
 - 撤销给{EmailAddress=yashna_ten@hotmail.com}发送的邮件。
 - 撤销给{ContactName=娜塔莉}发送的{EmailSubject=嘉年华计划}
 - 撤销这封邮件
+- 没事，取消把
 - 没关系的，把这个消息取消吧。
 - 算了，别发给{ContactName=Tom}了
+- 算了，取消吧
+- 终止吧
+- 请别发这封邮件了
+- 这个不发了
+- 这封邮件不发了
+- 这封邮件别念了
 - 那封邮件别发了
+- 那就别发了。
+- ^(取消|拒绝)(转发|发送|朗读)[这封](邮件|消息)
+- ^取消发送[给{ContactName}的]邮件
 
 
 ## CheckMessages
@@ -165,6 +184,7 @@
 - 对，撤销发送
 - 对的，请把这条消息发出去喽。
 - 对的，转发给她
+- 很好。
 - 我确定一定以及肯定，我要发送这封邮件。
 - 我确定发送
 - 我确定要取消
@@ -172,11 +192,20 @@
 - 我确认要回复
 - 我确认转发给{ContactName=小郭}这封{SenderName=小王}的邮件
 - 是的，发到 {EmailAddress=xyz@outlook.com}
+- 是的，就这样吧。
+- 是的，很好
+- 是的，没问题了。
 - 是的，给我念一下这封邮件
 - 是的，请把{EmailSubject=节日计划}发送给{ContactName=王红}
+- 是的，请撤销
+- 是的，请继续发送这封邮件
 - 没错，发送给{ContactName=Tom}这份{EmailSubject=工作安排}邮件
+- 没错，取消吧
+- 没错，我确定。
+- 没错，我确定发送
 - 确认发送给{ContactName=小李}这个回复
 - 确认发送给{ContactName=马利}关于{SearchTexts=工作计划}的邮件
+- 确认取消
 - 确认转发给{ContactName=Tom}
 - 确认转发给{ContactName=陈明}
 
@@ -201,8 +230,12 @@
 - 把这封邮件扔进回收站吧
 - 把这封邮件拖进垃圾箱去
 - {Category=未读}邮件统统删掉
+- 清空{Category=垃圾}邮件
 - 清空我的收件箱
 - 清空收件箱里的邮件
+- 清空邮件箱
+- ^删除[来自][{SenderName}的](邮件|消息)
+- ^(清空|删除|删掉)[来自{SenderName}的][{Category}]邮件
 
 
 ## Forward
@@ -305,7 +338,7 @@
 - 给我听一下这个邮件的内容
 - 给我念一下{SenderName=斯考特}发来的邮件。
 - 给我读一下{OrderReference=最新}收到的邮件。
-- 给我读下{EmailPlatform=hotmail}邮箱里{OrderReference=最新}的邮件。
+- 给我读下{Line=hotmail}邮箱里{OrderReference=最新}的邮件。
 - 给我读读{SenderName=jessica}最新一封标题为{EmailSubject=abcd}的邮件
 - 能给我读一下我的邮件消息么？
 - 请帮我读一下我的邮件。
@@ -317,19 +350,20 @@
 - 读一下{SenderName=马特}发来的邮件
 - 读一遍{SenderName=克劳德}{OrderReference=最新}发给我的邮件。
 - 读一遍{Date=感恩节}那天发送的邮件
-- 读一遍{EmailPlatform=谷歌}邮箱里的邮件。
+- 读一遍{Line=谷歌}邮箱里的邮件。
 - 读下我{OrderReference=刚}收的邮件
 - 读下链接收件箱中的{PositionReference=第一封}邮件
-- 读取{EmailPlatform=hotmail}邮箱里的{PositionReference=第一封}电邮。
+- 读取{Line=hotmail}邮箱里的{PositionReference=第一封}电邮。
 - 读取一下我的邮件消息。
 - 读取我{OrderReference=最近}刚收到的邮件。
-- 读取我的 {EmailPlatform=outlook} 邮箱里的电子邮件
+- 读取我的 {Line=outlook} 邮箱里的电子邮件
 - 读取{PositionReference=第一封}电子邮件。
 - 读给我听{SenderName=dylan}{Date=昨天}发的邮件
 - 读读{FromRelationshipName=妈妈}发的邮件
-- 读读我{EmailPlatform=outlook}邮箱里的邮件
+- 读读我{Line=outlook}邮箱里的邮件
 - {Category=还没有看的}邮件，读给我听
 - 麻烦帮我读一下邮件好嘛？
+- ^(念|读|朗读)来自{SenderName}的(邮件|消息)
 
 
 ## Reply
@@ -370,6 +404,7 @@
 - 给这封邮件回复一下
 - 给那封邮件回复一条消息：{Message=我现在很忙。}
 - 输入“{Message=请再次给我发送图片}”回复这封邮件
+- ^回复“{Message.Any}”
 
 
 ## SearchMessages
@@ -404,6 +439,7 @@
 - 搜索来自{SenderName=笛莎}的邮件
 - 搜索来自{SenderName=迈克}的邮件
 - 显示{EmailAddress=abczyx@outlook.com}刚刚发来的邮件
+- 显示一下我{Date=昨天}收到的邮件
 - 显示来自{SenderName=汤姆}的邮件，并筛选“{SearchTexts=午餐}”这个词
 - 查一下来自{FromRelationshipName=妹妹}的邮件
 - 查下{SenderName=丽莎}发来的邮件
@@ -413,7 +449,7 @@
 - 查找来自{FromRelationshipName=妈妈}的邮件
 - 查找标题为{EmailSubject=瑜伽运动推荐课程}的所有邮件
 - 查找{SenderName=詹先生}的邮件
-- 查看{EmailPlatform=outlook}邮箱中{SenderName=小王}发来的信息
+- 查看{Line=outlook}邮箱中{SenderName=小王}发来的信息
 - 查看{SenderName=李明}发来的邮件
 - {SenderName=汤姆}给我发邮件了吗？
 - 看一下来自{SenderName=lucas wong}的邮件
@@ -426,6 +462,8 @@
 - 给我看看{SenderName=jay}发来的含有“{SearchTexts=元宵节灯谜活动}”字样的邮件
 - 给我看看关于{EmailSubject=春节特别活动}的邮件
 - 麻烦能帮我搜索一下邮件吗
+- (展示|显示|看)[一下]{SenderName}发(来|给我)的[{Category}]邮件
+- (展示|显示|看)[一下][我]({Time}|{Date})收到的[{Category}]邮件
 
 
 ## SendEmail
@@ -534,35 +572,63 @@
 - 给{ContactName=雅各布}发的邮件是要标注为”{Category=高优先级}“的。
 - 编写一封关于{EmailSubject=募捐者}的电子邮件。
 - 邮件发给{ContactName=胡安}这个{EmailSubject=工作安排}的邮件
+- ^写邮件[给{ContactName}][[,]主题(是|为)“{Message.Any}”]
+- ^(写|新建)[一封][寄给{ContactName}的][主题为“”]的邮件
 
 
 ## ShowNext
+- 之后还有什么{Category=未读}邮件？
+- 再后面还有{SenderName=Lisa}发来的邮件吗？
+- 再看{OrderReference=下一页}的邮件
 - 切换到{OrderReference=下一封}邮件
 - {OrderReference=后面的}邮件呢？
 - 展示{OrderReference=下面的}邮件
 - 打开{OrderReference=下边的一封}
+- {OrderReference=接着后面的}
 - 显示{OrderReference=下一封}。
 - 显示{OrderReference=下一封}{Category=未读}邮件。
 - 显示{OrderReference=下一条}消息
 - 显示{PositionReference=第二页}的{Category=未读}邮件
+- 看{OrderReference=下一页}。
+- 看后面{PositionReference=第五页}
+- 看看{OrderReference=后面}一封邮件
 - 给我看{OrderReference=之后的}邮件
+- 给我看看{OrderReference=下一个}
 - 继续，{OrderReference=下一封}。
+- 继续哈，{OrderReference=下一个}
+- 请显示{OrderReference=下一条}。
 - 请给我看{OrderReference=接下来的}邮件。
 - 请转到{OrderReference=下一封}邮件。
 - 跳到{OrderReference=下一封}邮件
 - 还有什么邮件？
+- 还有{Category=未读}邮件吗？
+- 看(看|一下)[{SenderName}发[来]的](后面|之后|下)[一封](邮件|消息)
 
 
 ## ShowPrevious
 - {OrderReference=之前的}邮件
+- 切回到{OrderReference=上一封}。
+- 切换到{OrderReference=前一封}
 - {OrderReference=前一封}是什么内容。
+- 把{OrderReference=上一封}给我调出来。
 - 把{OrderReference=上一封}邮件给我看一下。
 - 显示{OrderReference=之前的}一封。
+- 显示{OrderReference=前一封}。
 - 查看{OrderReference=上一封}邮件。
 - 查看{OrderReference=之前的}邮件
+- 查看{OrderReference=前一面}
 - 看一下{OrderReference=上一封}我{FromRelationshipName=导师}给我发过来的邮件。
+- 看{OrderReference=前一封}。
+- 看看{OrderReference=前面一封}邮件
 - 给我看一下{OrderReference=前一封}来自{SenderName=杰克}的邮件
 - 请给我看一下{OrderReference=前一页}{PositionReference=第三}封。
+- 跳到{OrderReference=上一封}吧
+- 跳转到之前{PositionReference=第四页}
+- 跳转到{OrderReference=前一封}。
+- 跳转到{PositionReference=前两页}邮件
+- 跳转回{OrderReference=上一页}
+- 退后一下，让我看看{OrderReference=之前的}邮件
+- 看(看|一下)[{SenderName}发[来]的](之前|上|{OrderReference})[一封](邮件|消息)
 
 
 > # Entity definitions
@@ -576,8 +642,6 @@ $ContactName:simple
 $Date:simple
 
 $EmailAddress:simple
-
-$EmailPlatform:simple
 
 $EmailSubject:simple
 
@@ -602,8 +666,6 @@ $Time:simple
 
 > # PREBUILT Entity definitions
 
-$PREBUILT:number
-
 $PREBUILT:ordinal
 
 
@@ -611,3 +673,5 @@ $PREBUILT:ordinal
 
 
 > # List entities
+
+> # RegEx entities
