@@ -2,16 +2,21 @@
 // Licensed under the MIT License
 
 const { TelemetryClient } = require('applicationinsights');
+const { BotFrameworkAdapterSettings } = require ('botbuilder');
+const { MicrosoftAppCredentialsEx, ISkillManifest } = require ('botbuilder-skills');
 const { AutoSaveStateMiddleware, ConversationState, MemoryStorage, TestAdapter, UserState } = require('botbuilder-core');
 const { BotConfiguration, ServiceTypes } = require('botframework-config');
 const config = require('dotenv').config;
 const i18next = require('i18next');
 const i18nextNodeFsBackend = require('i18next-node-fs-backend');
 const path = require('path');
-const BotServices = require('../../lib/services/botServices.js').BotServices;
-const { DialogBot } = require('../../lib/bots/dialogBot.js').DialogBot;
-let languageModelsRaw;
-let skillsRaw;
+const botServices = require('../../lib/services/botServices.js').BotServices;
+const botSettings= require('../../lib/services/botSettings.js');
+const { DialogBot } = require('../../lib/bots/dialogBot.js');
+const { OnboardingDialog } = require('../../lib/dialog/onbordingDialog.js')
+const appsettings = require('../appsettings.json');
+const cognitiveModelsRaw = require ('../cognitivemodels.json');
+const skillsRaw = require ('../../../sample-assistant/src/skills.json');
 const { Locales, ProactiveState, SkillDefinition } = require('botbuilder-solutions');
 const TEST_MODE = require('../testBase').testMode;
 
@@ -19,13 +24,11 @@ const setupEnvironment = function (testMode) {
     switch (testMode) {
         case 'record':
             config({ path: path.join(__dirname, '..', '..', 'appsettings.json') });
-            languageModelsRaw = require('../../../sample-assistant/src/cognitivemodels.json'); 
-            skillsRaw = require('../../../sample-assistant/src/skills.json');
+            //skillsRaw = require('../../../sample-assistant/src/skills.json'); 
             break;
         case 'lockdown':
             config({ path: path.join(__dirname, '..', 'appsettings.json') });
-            languageModelsRaw = require('../mockResources/cognitivemodels.json');
-            skillsRaw = require('../mockResources/skills.json');
+            //skillsRaw = require('../../../sample-assistant/src/skills.json'); 
             break;
     }
 }
@@ -37,14 +40,17 @@ const configuration = async function() {
         fallbackLng: 'en',
         preload: [ 'de', 'en', 'es', 'fr', 'it', 'zh' ],
         backend: {
-            loadPath: path.join(__dirname, '..', '..', 'src', 'locales', '{{lng}}.json')
+            loadPath: path.join(__dirname, 'locales', '{{lng}}.json')
         }
+    })
+    .then(async () => {
+        await Locales.addResourcesFromPath(i18next, 'common');
     });
-
-    await Locales.addResourcesFromPath(i18next, 'common');
 
     setupEnvironment(TEST_MODE);
 }
+const appId = botSettings.microsoftAppId
+const appPassword = botSettings.microsoftAppPassword
 
 const searchService = function(botConfiguration, serviceType, nameOrId) {
     const candidates = botConfiguration.services
@@ -57,35 +63,33 @@ const searchService = function(botConfiguration, serviceType, nameOrId) {
     return service;
 }
 
+const cognitiveModels = new Map(Object.entries(cognitiveModelsRaw));
+const cognitiveModelDictionary = cognitiveModelsRaw.cognitiveModels;
+const cognitiveModelMap = new Map(Object.entries(cognitiveModelDictionary));
+cognitiveModelMap.forEach((value = Object, key = string) => {
+    cognitiveModels.set(key, value);
+});
+
 /**
  * Initializes the properties for the bot to be tested.
  */
 const initialize = async function(testStorage) {
     await configuration();
     
-    const storage = testStorage || new MemoryStorage();
-    
-    const botConfiguration = BotConfiguration.loadSync(appsettings.json, cognitivemodels.json);
-    // Initializes your bot language models and skills definitions
-    const languageModels = new Map(Object.entries(languageModelsRaw));
-    const skills = skillsRaw.map((skill) => {
-        const result = Object.assign(new SkillDefinition(), skill);
-        result.configuration = new Map(Object.entries(skill.configuration || {}));
-        return result;
-    });
-    const services = new BotServices(botConfiguration, languageModels, skills);
-    const APPINSIGHTS_NAME = process.env.APPINSIGHTS_NAME || '';
-    const conversationState = new ConversationState(storage);
-    const userState = new UserState(storage);
-    // Get bot endpoint configuration by service name
-    const endpointService = searchService(botConfiguration, ServiceTypes.Endpoint, BOT_CONFIGURATION);
-    // Get AppInsights configuration by service name
-    const appInsightsConfig = searchService(botConfiguration, ServiceTypes.AppInsights, APPINSIGHTS_NAME);
-    const telemetryClient = new TelemetryClient(appInsightsConfig.instrumentationKey);
-    const proactiveState = new ProactiveState(storage);
-    this.bot = new  DialogBot(services, conversationState, userState, proactiveState ,endpointService, telemetryClient);
+    const botSettings = new BotSettings(appsettings.appInsights, appsettings.blobStorage, cognitiveModels, appsettings.cosmosDb, cognitiveModels.defaultLocale, appsettings.microsoftAppId, appsettings.microsoftAppPassword, skills)
+    const botServices = new BotServices(botSettings);
+    const onboardingDialog = new OnboardingDialog(botServices, onboardingStateAccessor, telemetryClient)
 
-    // PENDING authentication and skill registration
+    const mainDialog = new MainDialog(
+        botSettings,
+        botServices,
+        onboardingDialog,
+        escalateDialog,
+        skillDialogs,
+        onboardingStateAccessor,
+        adapter.telemetryClient
+    );
+    this.bot = new DialogBot(conversationState, telemetryClient, mainDialog);
 }
 
 /**
