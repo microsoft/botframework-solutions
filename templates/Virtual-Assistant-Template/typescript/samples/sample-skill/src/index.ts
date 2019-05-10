@@ -3,14 +3,15 @@
  * Licensed under the MIT License.
  */
 
-import { TelemetryClient } from 'applicationinsights';
 import {
-    BotFrameworkAdapter,
     BotFrameworkAdapterSettings,
+    BotTelemetryClient,
     ConversationState,
+    NullTelemetryClient,
     StatePropertyAccessor,
     TurnContext,
-    UserState } from 'botbuilder';
+    UserState} from 'botbuilder';
+import { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware } from 'botbuilder-applicationinsights';
 import {
     CosmosDbStorage,
     CosmosDbStorageSettings } from 'botbuilder-azure';
@@ -30,7 +31,6 @@ import {
     ResponseManager} from 'botbuilder-solutions';
 import i18next from 'i18next';
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
-import * as path from 'path';
 import * as restify from 'restify';
 import { CustomSkillAdapter } from './adapters/customSkillAdapter';
 import { DefaultAdapter } from './adapters/defaultAdapter';
@@ -76,10 +76,23 @@ if (botSettings.appInsights === undefined) {
     throw new Error('There is no appInsights value in appsettings file');
 }
 
+function getTelemetryClient(settings: Partial<IBotSettings>): BotTelemetryClient {
+    if (settings && settings.appInsights && settings.appInsights.instrumentationKey) {
+        const instrumentationKey: string = settings.appInsights.instrumentationKey;
+
+        return new ApplicationInsightsTelemetryClient(instrumentationKey);
+    }
+
+    return new NullTelemetryClient();
+}
+
+const telemetryClient: BotTelemetryClient = getTelemetryClient(botSettings);
+
 let cosmosDbStorageSettings: CosmosDbStorageSettings;
 if (botSettings.cosmosDb === undefined) {
     throw new Error();
 }
+
 cosmosDbStorageSettings = {
     authKey: botSettings.cosmosDb.authkey,
     collectionId: botSettings.cosmosDb.collectionId,
@@ -90,14 +103,16 @@ cosmosDbStorageSettings = {
 const storage: CosmosDbStorage = new CosmosDbStorage(cosmosDbStorageSettings);
 const userState: UserState = new UserState(storage);
 const conversationState: ConversationState = new ConversationState(storage);
-const telemetryClient: TelemetryClient = new TelemetryClient(botSettings.appInsights.instrumentationKey);
+
 const stateAccessor: StatePropertyAccessor<SkillState> = userState.createProperty(SkillState.name);
 const skillContextAccessor: StatePropertyAccessor<SkillContext> = userState.createProperty(SkillContext.name);
 const dialogStateAccessor: StatePropertyAccessor<DialogState> = userState.createProperty('DialogState');
+
 const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appId: botSettings.microsoftAppId,
     appPassword: botSettings.microsoftAppPassword
 };
+
 const botAdapter: DefaultAdapter = new DefaultAdapter(
     botSettings,
     adapterSettings,
@@ -112,9 +127,7 @@ const customSkillAdapter: CustomSkillAdapter = new CustomSkillAdapter(
     telemetryClient,
     skillContextAccessor,
     dialogStateAccessor);
-const adapter: SkillHttpAdapter = new SkillHttpAdapter(
-    customSkillAdapter
-);
+const adapter: SkillHttpAdapter = new SkillHttpAdapter(customSkillAdapter);
 
 let bot: DialogBot<Dialog>;
 try {
@@ -122,7 +135,7 @@ try {
     const responseManager: ResponseManager = new ResponseManager(
         ['en', 'de', 'es', 'fr', 'it', 'zh'],
         [SampleResponses, MainResponses, SharedResponses]);
-    const botServices: BotServices = new BotServices(botSettings);
+    const botServices: BotServices = new BotServices(botSettings, telemetryClient);
     const sampleDialog: SampleDialog = new SampleDialog(
         botSettings,
         botServices,
@@ -147,6 +160,12 @@ try {
 
 // Create server
 const server: restify.Server = restify.createServer();
+
+// Enable the Application Insights middleware, which helps correlate all activity
+// based on the incoming request.
+server.use(restify.plugins.bodyParser());
+server.use(ApplicationInsightsWebserverMiddleware);
+
 server.listen(3980, (): void => {
     // tslint:disable-next-line:no-console
     console.log(`${server.name} listening to ${server.url}`);

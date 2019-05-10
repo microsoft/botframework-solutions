@@ -3,25 +3,22 @@
  * Licensed under the MIT License.
  */
 
-import {
-    LuisApplication,
-    QnAMakerEndpoint } from 'botbuilder-ai';
-import {
-    ICognitiveModelConfiguration,
-    ICognitiveModelSet,
-    TelemetryLuisRecognizer,
-    TelemetryQnAMaker } from 'botbuilder-solutions';
-import {
-    DispatchService,
-    LuisService,
-    QnaMakerService } from 'botframework-config';
+import { BotTelemetryClient } from 'botbuilder';
+import { LuisApplication, LuisPredictionOptions, LuisRecognizer, QnAMaker, QnAMakerEndpoint } from 'botbuilder-ai';
+import { ICognitiveModelConfiguration, ICognitiveModelSet } from 'botbuilder-solutions';
+import { DispatchService, LuisService, QnaMakerService } from 'botframework-config';
 import { IBotSettings } from '../services/botSettings';
 
 export class BotServices {
 
     public cognitiveModelSets: Map<string, ICognitiveModelSet> = new Map();
 
-    constructor(settings: Partial<IBotSettings>) {
+    constructor(settings: Partial<IBotSettings>, telemetryClient: BotTelemetryClient) {
+        const luisPredictionOptions: LuisPredictionOptions = {
+            telemetryClient: telemetryClient,
+            logPersonalInformation: true
+        };
+
         if (settings.cognitiveModels !== undefined) {
             settings.cognitiveModels.forEach((value: ICognitiveModelConfiguration, key: string) => {
 
@@ -36,7 +33,7 @@ export class BotServices {
                 };
 
                 const cognitiveModelSet: ICognitiveModelSet = {
-                    dispatchService: new TelemetryLuisRecognizer(dispatchApp),
+                    dispatchService: new LuisRecognizer(dispatchApp, luisPredictionOptions),
                     luisServices: new Map(),
                     qnaServices: new Map()
                 };
@@ -49,7 +46,7 @@ export class BotServices {
                             endpointKey: luisService.subscriptionKey,
                             endpoint: luisService.getEndpoint()
                         };
-                        cognitiveModelSet.luisServices.set(luisService.id, new TelemetryLuisRecognizer(luisApp));
+                        cognitiveModelSet.luisServices.set(luisService.id, new LuisRecognizer(luisApp, luisPredictionOptions));
                     });
                 }
 
@@ -59,8 +56,7 @@ export class BotServices {
                         endpointKey: kb.endpointKey,
                         host: kb.hostname
                     };
-                    const qnaMaker: TelemetryQnAMaker = new TelemetryQnAMaker(qnaEndpoint);
-                    cognitiveModelSet.qnaServices.set(kb.id, qnaMaker);
+                    cognitiveModelSet.qnaServices.set(kb.id, new QnAMaker(qnaEndpoint, undefined, telemetryClient));
                 });
 
                 this.cognitiveModelSets.set(language, cognitiveModelSet);

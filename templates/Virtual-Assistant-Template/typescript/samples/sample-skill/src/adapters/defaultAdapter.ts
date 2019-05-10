@@ -3,45 +3,46 @@
  * Licensed under the MIT License.
  */
 
-import { TelemetryClient } from 'applicationinsights';
 import {
     AutoSaveStateMiddleware,
     BotFrameworkAdapter,
     BotFrameworkAdapterSettings,
+    BotTelemetryClient,
     ConversationState,
     ShowTypingMiddleware,
-    UserState } from 'botbuilder';
-import { ISkillManifest } from 'botbuilder-skills';
+    TelemetryLoggerMiddleware,
+    TranscriptLoggerMiddleware,
+    TranscriptStore,
+    UserState} from 'botbuilder';
+import { AzureBlobTranscriptStore } from 'botbuilder-azure';
 import {
     EventDebuggerMiddleware,
-    SetLocaleMiddleware,
-    TelemetryLoggerMiddleware} from 'botbuilder-solutions';
-import { IBotSettings } from '../services/botSettings.js';
+    SetLocaleMiddleware } from 'botbuilder-solutions';
+import { IBotSettings } from '../services/botSettings';
 
 export class DefaultAdapter extends BotFrameworkAdapter {
-    public readonly skills: ISkillManifest[] = [];
-
     constructor(
         settings: Partial<IBotSettings>,
         adapterSettings: Partial<BotFrameworkAdapterSettings>,
         userState: UserState,
         conversationState: ConversationState,
-        telemetryClient: TelemetryClient
-        ) {
+        telemetryClient: BotTelemetryClient
+    ) {
         super(adapterSettings);
 
-        this.use(new TelemetryLoggerMiddleware(telemetryClient, true));
-        // Currently not working https://github.com/Microsoft/botbuilder-js/issues/853#issuecomment-481416004
-        // this.use(new TranscriptLoggerMiddleware(this.transcriptStore));
-        // Typing Middleware (automatically shows typing when the bot is responding/working)
-        this.use(new ShowTypingMiddleware());
-        let defaultLocale: string = 'en-us';
-        if (settings.defaultLocale !== undefined) {
-            defaultLocale = settings.defaultLocale;
+        if (settings.blobStorage === undefined) {
+            throw new Error('There is no blobStorage value in appsettings file');
         }
-        this.use(new SetLocaleMiddleware(defaultLocale));
+
+        const transcriptStore: TranscriptStore = new AzureBlobTranscriptStore({
+            containerName: settings.blobStorage.container,
+            storageAccountOrConnectionString: settings.blobStorage.connectionString
+        });
+        this.use(new TelemetryLoggerMiddleware(telemetryClient, true));
+        this.use(new TranscriptLoggerMiddleware(transcriptStore));
+        this.use(new ShowTypingMiddleware());
+        this.use(new SetLocaleMiddleware(settings.defaultLocale || 'en-us'));
         this.use(new EventDebuggerMiddleware());
-        // Use the AutoSaveStateMiddleware middleware to automatically read and write conversation and user state.
         this.use(new AutoSaveStateMiddleware(conversationState, userState));
     }
 }

@@ -1,5 +1,5 @@
 import { BotAdapter, BotTelemetryClient, InvokeResponse, Severity, TurnContext } from 'botbuilder';
-import { ActivityExtensions, IRemoteUserTokenProvider, TelemetryExtensions } from 'botbuilder-solutions';
+import { ActivityExtensions, IRemoteUserTokenProvider } from 'botbuilder-solutions';
 import { Activity, ActivityTypes, ConversationReference, ResourceResponse } from 'botframework-schema';
 import { v4 as uuid } from 'uuid';
 import { BotCallbackHandler, IActivityHandler } from '../activityHandler';
@@ -62,7 +62,10 @@ export class SkillHttpBotAdapter extends BotAdapter implements IActivityHandler,
 
     public async processActivity(activity: Activity, callback: BotCallbackHandler): Promise<InvokeResponse> {
         const messageIn: string = `SkillHttpBotAdapter: Received an incoming activity. Activity id: ${activity.id}`;
-        TelemetryExtensions.trackTraceEx(this.telemetryClient, messageIn, Severity.Information, activity);
+        this.telemetryClient.trackTrace({
+            message: messageIn,
+            severityLevel: Severity.Information
+        });
 
         // Process the Activity through the Middleware and the Bot, this will generate Activities which we need to send back.
         const context: TurnContext = new TurnContext(this, activity);
@@ -70,7 +73,10 @@ export class SkillHttpBotAdapter extends BotAdapter implements IActivityHandler,
         await this.runMiddleware(context, callback);
 
         const messageOut: string = `SkillHttpBotAdapter: Batching activities in the response. ReplyToId: ${activity.id}`;
-        TelemetryExtensions.trackTraceEx(this.telemetryClient, messageOut, Severity.Information, activity);
+        this.telemetryClient.trackTrace({
+            message: messageOut,
+            severityLevel: Severity.Information
+        });
 
         // Any Activity responses are now available (via SendActivitiesAsync) so we need to pass back for the response
         return {

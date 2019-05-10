@@ -3,25 +3,23 @@
  * Licensed under the MIT License.
  */
 
-import { TelemetryClient } from 'applicationinsights';
 import {
     AutoSaveStateMiddleware,
-    BotFrameworkAdapter,
-    BotFrameworkAdapterSettings,
+    BotTelemetryClient,
     ConversationState,
     ShowTypingMiddleware,
     StatePropertyAccessor,
-    UserState } from 'botbuilder';
+    TelemetryLoggerMiddleware,
+    TranscriptLoggerMiddleware,
+    TranscriptStore,
+    UserState} from 'botbuilder';
+import { AzureBlobTranscriptStore } from 'botbuilder-azure';
 import { DialogState } from 'botbuilder-dialogs';
 import {
     SkillContext,
-    SkillHttpAdapter,
     SkillHttpBotAdapter,
     SkillMiddleware } from 'botbuilder-skills';
-import {
-    EventDebuggerMiddleware,
-    SetLocaleMiddleware,
-    TelemetryLoggerMiddleware} from 'botbuilder-solutions';
+import { EventDebuggerMiddleware, SetLocaleMiddleware } from 'botbuilder-solutions';
 import { IBotSettings } from '../services/botSettings';
 
 export class CustomSkillAdapter extends SkillHttpBotAdapter {
@@ -30,27 +28,27 @@ export class CustomSkillAdapter extends SkillHttpBotAdapter {
         settings: Partial<IBotSettings>,
         userState: UserState,
         conversationState: ConversationState,
-        telemetryClient: TelemetryClient,
+        telemetryClient: BotTelemetryClient,
         skillContextAccessor: StatePropertyAccessor<SkillContext>,
-        dialogStateAccesor: StatePropertyAccessor<DialogState>
+        dialogStateAccessor: StatePropertyAccessor<DialogState>
     ) {
-        super(
-            telemetryClient
-        );
+        super(telemetryClient);
+
+        if (settings.blobStorage === undefined) {
+            throw new Error('There is no blobStorage value in appsettings file');
+        }
+
+        const transcriptStore: TranscriptStore = new AzureBlobTranscriptStore({
+            containerName: settings.blobStorage.container,
+            storageAccountOrConnectionString: settings.blobStorage.connectionString
+        });
 
         this.use(new TelemetryLoggerMiddleware(telemetryClient, true));
-        // Currently not working https://github.com/Microsoft/botbuilder-js/issues/853#issuecomment-481416004
-        // this.use(new TranscriptLoggerMiddleware(this.transcriptStore));
-        // Typing Middleware (automatically shows typing when the bot is responding/working)
+        this.use(new TranscriptLoggerMiddleware(transcriptStore));
         this.use(new ShowTypingMiddleware());
-        let defaultLocale: string = 'en-us';
-        if (settings.defaultLocale !== undefined) {
-            defaultLocale = settings.defaultLocale;
-        }
-        this.use(new SetLocaleMiddleware(defaultLocale));
+        this.use(new SetLocaleMiddleware(settings.defaultLocale || 'en-us'));
         this.use(new EventDebuggerMiddleware());
-        // Use the AutoSaveStateMiddleware middleware to automatically read and write conversation and user state.
         this.use(new AutoSaveStateMiddleware(conversationState, userState));
-        this.use(new SkillMiddleware(conversationState, skillContextAccessor, dialogStateAccesor));
+        this.use(new SkillMiddleware(conversationState, skillContextAccessor, dialogStateAccessor));
     }
 }

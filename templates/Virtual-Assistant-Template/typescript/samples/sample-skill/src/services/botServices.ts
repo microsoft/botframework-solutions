@@ -3,11 +3,11 @@
  * Licensed under the MIT License.
  */
 
-import { LuisApplication } from 'botbuilder-ai';
+import { BotTelemetryClient } from 'botbuilder';
+import { LuisApplication, LuisPredictionOptions, LuisRecognizer } from 'botbuilder-ai';
 import {
     ICognitiveModelConfiguration,
-    ICognitiveModelSet,
-    TelemetryLuisRecognizer } from 'botbuilder-solutions';
+    ICognitiveModelSet } from 'botbuilder-solutions';
 import { LuisService } from 'botframework-config';
 import { IBotSettings } from './botSettings';
 
@@ -15,7 +15,12 @@ export class BotServices {
 
     public cognitiveModelSets: Map<string, Partial<ICognitiveModelSet>> = new Map();
 
-    constructor(settings: Partial<IBotSettings>) {
+    constructor(settings: Partial<IBotSettings>, telemetryClient: BotTelemetryClient) {
+        const luisPredictionOptions: LuisPredictionOptions = {
+            telemetryClient: telemetryClient,
+            logPersonalInformation: true
+        };
+
         try {
             if (settings.cognitiveModels !== undefined) {
 
@@ -34,7 +39,7 @@ export class BotServices {
                             endpoint: luisService.getEndpoint()
                         };
                         if (cognitiveModelSet.luisServices !== undefined) {
-                            cognitiveModelSet.luisServices.set(luisService.id, new TelemetryLuisRecognizer(luisApp));
+                            cognitiveModelSet.luisServices.set(luisService.id, new LuisRecognizer(luisApp, luisPredictionOptions));
                         }
                     });
 
