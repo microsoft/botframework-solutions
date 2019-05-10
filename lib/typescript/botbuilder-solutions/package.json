@@ -2,6 +2,7 @@
     "name": "botbuilder-solutions",
     "version": "4.4.5",
     "description": "Shared library for Conversational AI Virtual Assistants and Skills.",
+    "homepage": "https://github.com/Microsoft/AI/",
     "author": "Microsoft",
     "license": "MIT",
     "main": "lib/index.js",
