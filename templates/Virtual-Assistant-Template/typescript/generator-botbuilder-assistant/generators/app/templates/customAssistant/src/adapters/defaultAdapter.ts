@@ -29,7 +29,6 @@ import { IBotSettings } from '../services/botSettings.js';
 
 export class DefaultAdapter extends BotFrameworkAdapter {
     public readonly conversationState: ConversationState;
-    public readonly cosmosDbStorageSettings: CosmosDbStorageSettings;
     public readonly skills: ISkillManifest[] = [];
     public readonly userState: UserState;
 
@@ -56,16 +55,22 @@ export class DefaultAdapter extends BotFrameworkAdapter {
         if (settings.cosmosDb === undefined) {
             throw new Error('There is no cosmosDb value in appsettings file');
         }
+        if (settings.blobStorage === undefined) {
+            throw new Error('There is no blobStorage value in appsettings file');
+        }
 
-        this.cosmosDbStorageSettings = {
+        if (settings.appInsights === undefined) {
+            throw new Error('There is no appInsights value in appsettings file');
+        }
+
+        const cosmosDbStorageSettings: CosmosDbStorageSettings = {
             authKey: settings.cosmosDb.authkey,
             collectionId: settings.cosmosDb.collectionId,
             databaseId: settings.cosmosDb.databaseId,
             serviceEndpoint: settings.cosmosDb.cosmosDBEndpoint
         };
 
-        const storage: CosmosDbStorage = new CosmosDbStorage(this.cosmosDbStorageSettings);
-
+        const storage: CosmosDbStorage = new CosmosDbStorage(cosmosDbStorageSettings);
         // create conversation and user state
         this.conversationState = new ConversationState(storage);
         this.userState = new UserState(storage);

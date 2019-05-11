@@ -2,7 +2,7 @@
     "name": "sample-assistant",
     "version": "1.0.0",
     "description": "",
-    "author": "Microsoft Bot Framework Team",
+    "author": "",
     "license": "MIT",
     "main": "lib/index.js",
     "scripts": {
