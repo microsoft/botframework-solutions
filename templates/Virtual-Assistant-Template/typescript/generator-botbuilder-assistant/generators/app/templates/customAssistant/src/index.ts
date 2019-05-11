@@ -25,6 +25,7 @@ import { DefaultAdapter } from './adapters/defaultAdapter';
 import * as appsettings from './appsettings.json';
 import { DialogBot } from './bots/dialogBot';
 import * as cognitiveModelsRaw from './cognitivemodels.json';
+import { CancelDialog } from './dialogs/cancelDialog';
 import { EscalateDialog } from './dialogs/escalateDialog';
 import { MainDialog } from './dialogs/mainDialog';
 import { OnboardingDialog } from './dialogs/onboardingDialog';
@@ -94,6 +95,7 @@ try {
 
     const onboardingDialog: OnboardingDialog = new OnboardingDialog(botServices, onboardingStateAccessor, telemetryClient);
     const escalateDialog: EscalateDialog = new EscalateDialog(botServices, telemetryClient);
+    const cancelDialog: CancelDialog = new CancelDialog();
     const skillDialogs: SkillDialog[] = skills.map((skill: ISkillManifest) => {
         const authDialog: MultiProviderAuthDialog|undefined = buildAuthDialog(skill, botSettings);
         const credentials: MicrosoftAppCredentialsEx = new MicrosoftAppCredentialsEx(
@@ -108,6 +110,7 @@ try {
         botServices,
         onboardingDialog,
         escalateDialog,
+        cancelDialog,
         skillDialogs,
         onboardingStateAccessor,
         telemetryClient

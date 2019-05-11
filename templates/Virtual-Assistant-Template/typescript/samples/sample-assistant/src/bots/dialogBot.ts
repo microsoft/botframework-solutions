@@ -21,7 +21,7 @@ export class DialogBot<T extends Dialog> extends ActivityHandler {
     private readonly telemetryClient: BotTelemetryClient;
     private readonly solutionName: string = 'sample-assistant';
     private readonly rootDialogId: string;
-    private dialogs: DialogSet;
+    private readonly dialogs: DialogSet;
 
     constructor(
         conversationState: ConversationState,
