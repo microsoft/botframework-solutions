@@ -89,6 +89,7 @@ export class DefaultAdapter extends BotFrameworkAdapter {
         this.use(new ShowTypingMiddleware());
         this.use(new SetLocaleMiddleware(settings.defaultLocale || 'en-us'));
         this.use(new EventDebuggerMiddleware());
+        // Use the AutoSaveStateMiddleware middleware to automatically read and write conversation and user state.
         this.use(new AutoSaveStateMiddleware(this.conversationState, this.userState));
     }
 }
