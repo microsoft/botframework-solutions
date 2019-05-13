@@ -7,6 +7,7 @@
 - cancel it
 - cancel never mind
 - cancel that
+- cancel that one
 - canceled
 - cancelled
 - do nothing
@@ -16,7 +17,6 @@
 - go away
 - just cancel
 - just cancel it
-- nerver mind
 - never mind
 - never mind cancel
 - never mind cancel that
@@ -30,20 +30,26 @@
 - nothing never mind
 - nothing please
 - oh cancel
-- oh don't do that
 - please do nothing
 - quit
 - sorry, don't do it
 
 
 ## Confirm
+- alright
+- come om
+- come on
+- come on baby
 - confirm
 - do it
 - fine
+- go ahead
 - go for it
 - great
 - i'm sure
 - it's fine
+- just do it
+- nice
 - no doubt
 - of course
 - oh yeah
@@ -72,6 +78,7 @@
 - that is right
 - that right
 - that sounds good
+- that's all
 - that's fine
 - this is good
 - very good
@@ -85,6 +92,7 @@
 - yeah go for it
 - yeah good
 - yes
+- ^(yes|sure)[[,]i want (that|the ({DirectionalReference}|{ordinal}) ({number}|one))]
 
 
 ## Escalate
@@ -93,6 +101,7 @@
 - contact the customer service
 - customer service
 - human service
+- i need a person
 - i need manual customer service
 - i need real human help
 - i need support
@@ -101,6 +110,7 @@
 - is there any person i can talk to
 - is there any real human
 - is there any real person
+- shift
 - talk to a human
 
 
@@ -145,17 +155,21 @@
 - any help
 - can you help
 - can you help me
+- do me a favor
+- give me a favor
 - give me some help
 - help
 - how can i get it
 - how to do it
+- i don't understand
 - i need help
-- i need some assist
+- i need some assistance
 - i need some help
 - is there any help
 - open help
 - please help
 - some help
+- what should i do
 - who can help me
 
 ## Logout
@@ -227,10 +241,12 @@
 - read to me
 - read what is currently on the screen to me
 - speak of what is on this page
+- speak out
 - start reading this
+- state it
 - tell me about the information on the screen
 - tell me the current text on screen
-- vocalize what s on the page
+- vocalize what's on the page
 - what does the page say
 - would you please read that for me
 - would you read that out loud please
@@ -239,6 +255,8 @@
 
 ## Reject
 - i don't like it
+- i don't need
+- i don't want it
 - i reject
 - negative
 - never
@@ -306,8 +324,14 @@
 
 
 ## SelectItem
+- 1
+- 2
+- 3
+- 5
+- choose for no. four
 - choose last
 - choose last one
+- choose no. six
 - choose no.2
 - choose the {DirectionalReference=bottom left}
 - choose the first choice
@@ -316,6 +340,7 @@
 - choose the {DirectionalReference=upper right} one
 - choose {DirectionalReference=top right}
 - choose {DirectionalReference=top right} one
+- four
 - i like {DirectionalReference=left} one
 - i like second
 - i like second one
@@ -329,6 +354,7 @@
 - i want {DirectionalReference=bottom}
 - i want fourth
 - i want {DirectionalReference=left}
+- i want no. 5
 - i want {DirectionalReference=right} one
 - i want the first
 - i want the fourth choice
@@ -348,9 +374,16 @@
 - i want to choose the {DirectionalReference=lower} choice
 - i want to choose the {DirectionalReference=right}
 - i want to choose third
+- no. 1
+- no. 2
+- no. 3
+- no.4
+- number two
+- one
 - opt for first one
 - opt for last
 - opt for {DirectionalReference=left}
+- opt for number 7
 - opt for {DirectionalReference=right} one
 - opt for the last one
 - opt for the {DirectionalReference=left} one
@@ -358,6 +391,7 @@
 - opt for the {DirectionalReference=right}
 - opt for the second
 - opt for the second choice
+- select five
 - select fourth one
 - select {DirectionalReference=lower} one
 - select no.5
@@ -370,6 +404,8 @@
 - select the {DirectionalReference=upper right}
 - select third
 - select {DirectionalReference=upper}
+- three
+- two
 - what about the last
 - what about the third one
 
@@ -445,15 +481,19 @@
 - show me the previous one
 - show previous
 - show the previous one
+- the last five
+- the last two
 - what before that
 - what is the previous
 - what's before that
 
 
 ## StartOver
+- back to the beginning
 - clear and start again
 - could you start it over
 - please begin again
+- reopen a new page
 - restart
 - restart it
 - start again
@@ -475,6 +515,7 @@
 - exit stop
 - god shut up
 - hey stop
+- i don't want to see you anymore
 - i love you to stop talking
 - i mean stop listening
 - i said stop
@@ -492,11 +533,11 @@
 - ok stop stop
 - quiet
 - quiet now
-- shut the fuck up
 - shut up
 - shut up be quiet
 - shut up quiet
 - shut your mouth
+- silence
 - stop please
 - stop talking
 - turn off
@@ -519,3 +560,7 @@ $PREBUILT:ordinal
 
 
 > # List entities
+
+> # RegEx entities
+
+
