@@ -5,7 +5,7 @@ const testNock = require('../testBase');
 
 let testStorage = new MemoryStorage();
 
-describe("Onboarding Dialog", function () {
+xdescribe("Onboarding Dialog", function () {
     beforeEach(function () {
         botTestBase.initialize(testStorage);
     });

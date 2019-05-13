@@ -14,10 +14,10 @@ describe("Main Dialog", function () {
 		await botTestBase.initialize();
 	});
 	*/
-	describe("Intro Card", function () {
-		it("Send conversationUpdate and verify card is received", function (done) {
-			const testAdapter = botTestBase.getTestAdapterDefault();
-			const flow = testAdapter
+	describe("Intro Card", function() {
+		it("Send conversationUpdate and verify card is received", function(done) {
+			botTestBase.getTestAdapterDefault().then((testAdapter) => {
+				const flow = testAdapter
 				.send({
 					type: "conversationUpdate",
 					membersAdded: [
@@ -34,9 +34,10 @@ describe("Main Dialog", function () {
 				.assertReply(function (activity, description) {
 					assert.equal(activity.attachments[0].contentType, 'application/vnd.microsoft.card.adaptive');
 					assert.deepEqual(activity.attachments[0].content, introJson);
-				})
+				});
 
-			testNock.simpleMock('mainDialog_introCard_response', done, flow);
+				return testNock.simpleMock('mainDialog_introCard_response', done, flow);
+			});
 		});
 	});
 

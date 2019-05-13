@@ -30,14 +30,14 @@ const setupEnvironment = function (testMode) {
     }
 }
 
-const configuration = async function() {
+async function configuration() {
     // Configure internationalization and default locale
     await i18next.use(i18nextNodeFsBackend)
     .init({
         fallbackLng: 'en',
         preload: [ 'de', 'en', 'es', 'fr', 'it', 'zh' ],
         backend: {
-            loadPath: path.join(__dirname, 'locales', '{{lng}}.json')
+            loadPath: path.join(__dirname, '..', '..', 'lib', 'locales', '{{lng}}.json')
         }
     })
     .then(async () => {
@@ -101,7 +101,8 @@ const getTestAdapter = function() {
     .use(new AutoSaveStateMiddleware(bot.conversationState, bot.userState));
 }
 
-function getTestAdapterDefault() {
+async function getTestAdapterDefault() {
+    await configuration();
     const botSettings = {
         microsoftAppId: appsettings.microsoftAppId,
         microsoftAppPassword: appsettings.microsoftAppPassword,
@@ -145,7 +146,7 @@ function getTestAdapterDefault() {
 
     const botLogic = new DialogBot(conversationState, telemetryClient, mainDialog);
 
-    const adapter = new TestAdapter(botLogic);
+    const adapter = new TestAdapter(botLogic.run.bind(botLogic));
 
     adapter.onTurnError = async function(context, error) {
         await context.sendActivity({
