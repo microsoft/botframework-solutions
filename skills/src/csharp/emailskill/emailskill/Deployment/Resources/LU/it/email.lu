@@ -209,6 +209,7 @@
 ## Delete
 - cancella la mia posta in arrivo
 - elimina la e-mail dal mio account {Line=hotmail}
+- elimina la e-mail inviata da {SenderName={FromRelationshipName=mary} jane}
 - elimina la {PositionReference=prima} e-mail per me
 - elimina la {PositionReference=seconda}
 - elimina la seconda e-mail
@@ -558,6 +559,7 @@
 - nuova e-mail sulla {EmailSubject=scrittura di documenti}
 - puoi mandare una e-mail marcata {Category=non urgente} a {ContactName=james}?
 - scrivi a {ContactName=alex cooper} riguardo {EmailSubject=haha} dicendo {Message=ciao}
+- scrivi a {ContactName=cynthia} e {ContactName=mike}, {Message=quella cena la {OrderReference=scorsa} settimana è stata splendida}
 - scrivi a {ContactName=harry potter} e {ContactName=hermione granger}
 - scrivi a {ContactName=kim white} riguardo {EmailSubject=quel fiore} dicendo {Message=bellissimo}
 - scrivi a {ContactName=lawrence} sul {EmailSubject=problema di apertura}
@@ -597,13 +599,16 @@
 - mostra la {OrderReference=prossima} {Category=non letta}
 - mostra le {OrderReference=prossime} e-mail da wong
 - mostra l'e-mail {OrderReference=successiva}
+- mostrami la {OrderReference=prossima} da {FromRelationshipName={SenderName=mary}}
 - mostrami le {OrderReference=prossime} cinque e-mail
+- passa alle e-mail {ContactName={OrderReference=successive}}
 - procedi, mostrami più mail
 - qual è la prossima
 - vai alla e-mail {OrderReference=successiva} di jason
 - vai alla mail {OrderReference=successiva}
 - vai alla pagina {OrderReference=successiva}
 - vai avanti
+- vai avanti alle {ContactName={OrderReference=prossime}} mail
 
 
 ## ShowPrevious
@@ -620,6 +625,7 @@
 - qual è la {OrderReference=precedente}
 - qual è l'e-mail {OrderReference=precedente}?
 - torna a quello {OrderReference=precedente}, voglio leggerlo di nuovo
+- torna alle {ContactName={OrderReference=ultime}} mail
 - torna all'{OrderReference=ultimo} dalla {SenderName=apple}
 - vai alle mail {OrderReference=precedenti}
 

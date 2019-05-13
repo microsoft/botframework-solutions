@@ -1,94 +1,94 @@
 > # Intent definitions
 
 ## AddToDo
-- ¿podría añadir {TaskContentML=medicamentos} a la {ListType=lista de tareas}?
-- ¿puedes añadir {TaskContentML=crema espesa} a la {ListType=lista de tareas}?
-- ¿puedo añadir {TaskContentML=camisas} en la {ListType=lista de tareas}?
-- ¿puedo poner {TaskContentML=palomitas de queso y caramelo} en mi {ListType=lista de la compra}?
-- a la {ListType=lista de la compra} añadir {TaskContentML=leche}
-- a la {ListType=lista de tareas} de mis vacaciones añadir comprar {TaskContentML=protector solar}
-- a mi {ListType=lista de la compra} añadir {TaskContentML=toallitas}
+- ¿podría añadir {TaskContent=medicamentos} a la {ListType=lista de tareas}?
+- ¿puedes añadir {TaskContent=crema espesa} a la {ListType=lista de tareas}?
+- ¿puedo añadir {TaskContent=camisas} en la {ListType=lista de tareas}?
+- ¿puedo poner {TaskContent=palomitas de queso y caramelo} en mi {ListType=lista de la compra}?
+- a la {ListType=lista de la compra} añadir {TaskContent=leche}
+- a la {ListType=lista de tareas} de mis vacaciones añadir comprar {TaskContent=protector solar}
+- a mi {ListType=lista de la compra} añadir {TaskContent=toallitas}
 - añadir a la {ListType=lista de la compra}
-- añadir a la {ListType=nota de comestibles} {TaskContentML=comprar leche}
+- añadir a la {ListType=nota de comestibles} {TaskContent=comprar leche}
 - añadir a mi {ListType=lista de la compra}
-- añadir a mi {ListType=lista de tareas} {TaskContentML=enviar los formularios del seguro antes del sábado}
-- añadir a mi {ListType=lista de tareas} {TaskContentML=imprimir papeles para 10 copias esta tarde}
-- añadir a mi {ListType=lista de tareas} {TaskContentML=recoger ropa}
+- añadir a mi {ListType=lista de tareas} {TaskContent=enviar los formularios del seguro antes del sábado}
+- añadir a mi {ListType=lista de tareas} {TaskContent=imprimir papeles para 10 copias esta tarde}
+- añadir a mi {ListType=lista de tareas} {TaskContent=recoger ropa}
 - añadir a nota {ListType=lista de la compra}
 - añadir algo a esta {ListType=lista de la compra}
 - añadir algo a mi lista
 - añadir algunos artículos a la {ListType=lista de la compra}
 - añadir algunos artículos a las {ListType=notas de compra}
-- añadir algunos {TaskContentML=vaqueros} a nuestras {ListType=listas de la compra}
-- añadir {TaskContentML=almidón de tapioca} a mi {ListType=lista de la compra}
-- añadir {TaskContentML=almidón de tapioca} a nuestra {ListType=lista de la compra}
-- añadir {TaskContentML=brownies} a la {ListType=lista de la compra}
-- añadir {TaskContentML=cacahuetes} a la {ListType=lista de la compra}
-- añadir {ListType=comestibles} añadir {TaskContentML=espinacas} a mi {ListType=lista de la compra}
-- añadir {ListType=comestibles} {TaskContentML=cenas y bolsa de almacenamiento} a la {ListType=lista de la compra}
-- añadir {ListType=comestibles} {TaskContentML=queso cremoso y pasas} a la lista
-- añadir {TaskContentML=comprar chicle}
-- añadir {TaskContentML=comprar leche} a mi {ListType=lista de la compra}
-- añadir {TaskContentML=comprar una entrada de cine} a mi lista
-- añadir {TaskContentML=correr} a mi {ListType=lista de tareas}
-- añadir {TaskContentML=cortarme el pelo} a mis tareas
-- añadir elemento de acción para {TaskContentML=khalifa para empaquetar mi material escolar en mi lista}
+- añadir algunos {TaskContent=vaqueros} a nuestras {ListType=listas de la compra}
+- añadir {TaskContent=almidón de tapioca} a mi {ListType=lista de la compra}
+- añadir {TaskContent=almidón de tapioca} a nuestra {ListType=lista de la compra}
+- añadir {TaskContent=brownies} a la {ListType=lista de la compra}
+- añadir {TaskContent=cacahuetes} a la {ListType=lista de la compra}
+- añadir {ListType=comestibles} añadir {TaskContent=espinacas} a mi {ListType=lista de la compra}
+- añadir {ListType=comestibles} {TaskContent=cenas y bolsa de almacenamiento} a la {ListType=lista de la compra}
+- añadir {ListType=comestibles} {TaskContent=queso cremoso y pasas} a la lista
+- añadir {TaskContent=comprar chicle}
+- añadir {TaskContent=comprar leche} a mi {ListType=lista de la compra}
+- añadir {TaskContent=comprar una entrada de cine} a mi lista
+- añadir {TaskContent=correr} a mi {ListType=lista de tareas}
+- añadir {TaskContent=cortarme el pelo} a mis tareas
+- añadir elemento de acción para {TaskContent=khalifa para empaquetar mi material escolar en mi lista}
 - añadir elementos mientras hablo
 - añadir esta cosa a mi {ListType=lista de tareas}
 - añadir estas cosas a mi {ListType=lista de la compra}
 - añadir esto a nuestra {ListType=lista de la compra}
-- añadir esto {TaskContentML=mis metas para 2017} en mi lista
-- añadir {TaskContentML=exprimidor} a la {ListType=lista de la compra}
-- añadir {TaskContentML=fecha de vencimiento agosto a mantequilla de cacahuete mermelada pan leche} en {ListType=lista de tareas}
-- añadir {TaskContentML=ir a whole foods} a mi {ListType=lista de tareas}
-- añadir la {TaskContentML=compra de comida y bebidas} a mi {ListType=lista de la compra}
-- añadir {TaskContentML=lectura} a mi {ListType=lista de tareas}
-- añadir {TaskContentML=llamar a mi madre} a mi {ListType=lista de tareas}
+- añadir esto {TaskContent=mis metas para 2017} en mi lista
+- añadir {TaskContent=exprimidor} a la {ListType=lista de la compra}
+- añadir {TaskContent=fecha de vencimiento agosto a mantequilla de cacahuete mermelada pan leche} en {ListType=lista de tareas}
+- añadir {TaskContent=ir a whole foods} a mi {ListType=lista de tareas}
+- añadir la {TaskContent=compra de comida y bebidas} a mi {ListType=lista de la compra}
+- añadir {TaskContent=lectura} a mi {ListType=lista de tareas}
+- añadir {TaskContent=llamar a mi madre} a mi {ListType=lista de tareas}
 - añadir más a la {ListType=lista de la compra}
-- {TaskContentML=añadir melón y azúcares y azúcar moreno} a la {ListType=lista de la compra}
-- añadir tarea para {TaskContentML=comprar un abrigo}
-- añadir tarea para {TaskContentML=poner la mesa del comedor}
-- añadir un artículo para {TaskContentML=comprar algunos aperitivos}
-- añadir un {ListType=artículo} para {TaskContentML=comprar frutas y verduras}
-- añadir un {ListType=artículo} para {TaskContentML=comprar pescado}
-- añadir un {ListType=artículo} para {TaskContentML=comprar verduras}
-- añadir un {ListType=artículo} {TaskContentML=para comprar vestidos de baile}
-- añadir un {ListType=artículo} para {TaskContentML=comprar zumo de naranja}
+- {TaskContent=añadir melón y azúcares y azúcar moreno} a la {ListType=lista de la compra}
+- añadir tarea para {TaskContent=comprar un abrigo}
+- añadir tarea para {TaskContent=poner la mesa del comedor}
+- añadir un artículo para {TaskContent=comprar algunos aperitivos}
+- añadir un {ListType=artículo} para {TaskContent=comprar frutas y verduras}
+- añadir un {ListType=artículo} para {TaskContent=comprar pescado}
+- añadir un {ListType=artículo} para {TaskContent=comprar verduras}
+- añadir un {ListType=artículo} {TaskContent=para comprar vestidos de baile}
+- añadir un {ListType=artículo} para {TaskContent=comprar zumo de naranja}
 - añadir una nueva {ListType=lista de la compra}
-- añadir una {ListType=tarea} {TaskContentML=aspirar antes del 3 de octubre}
-- añadir una {ListType=tarea} {TaskContentML=comprar un jersey bonito}
-- añadir una tarea de {TaskContentML=tareas domésticas para hacer en la casa}
-- añadir una tarea {TaskContentML=domingo de pasta 3 de marzo}
-- añadir una tarea para {TaskContentML=anna west traer mi bañador para mis vacaciones}
-- añadir una tarea para {TaskContentML=comprar en gnc después del trabajo}
-- añadir una {ListType=tarea} para {TaskContentML=comprar zapatos}
-- añadir una tarea para {TaskContentML=jimmy jugar a la xbox conmigo después del trabajo}
-- añadir una tarea para {TaskContentML=li lei traer mi abrigo de casa}
-- añadir una tarea para {TaskContentML=raghu traer mis chocolates de alemania}
-- {TaskContentML=añadir una tarea para} recoger a mary después del trabajo
-- añadir una tarea para {TaskContentML=terminar el examen de conducir esta semana}
-- añadir una tarea que {TaskContentML=compre frutas y verduras}
-- añadir {TaskContentML=zapatos} a las {ListType=listas de la compra}
-- anexar una {TaskContentML=lectura de verano} a mi lista
-- anexar una {TaskContentML=tarea de invitado para invitar a la fiesta}
-- crear tarea para {TaskContentML=comprar en internet el 11 de noviembre}
-- crear tarea para {TaskContentML=correr en el parque}
-- crear tarea para {TaskContentML=leer un libro esta noche}
-- crear una tarea para {TaskContentML=ir al centro comercial}
-- crear una tarea para {TaskContentML=quedar con john después de las 5 de la tarde}
-- crear una tarea para {TaskContentML=quedar con mis amigos}
-- pedir una tarea para {TaskContentML=kim para traer mi abrigo de casa}
-- poner {TaskContentML=excursiones} en mi {ListType=lista de tareas}
-- poner {TaskContentML=helado} en la {ListType=lista de la compra}
-- poner {TaskContentML=jamón} en mi {ListType=lista de la compra}
-- poner {TaskContentML=leche} en mi {ListType=lista de la compra}
-- poner {TaskContentML=palomitas de queso y caramelo} en mi {ListType=lista de la compra}
-- poner {TaskContentML=queso} en la lista
-- recordarme {TaskContentML=asistir a la reunión de mañana}
-- recordarme {TaskContentML=comprar cremas de primeros auxilios y bayas}
-- recordarme {TaskContentML=comprar leche}
-- recordarme comprar {TaskContentML=una alfombra nueva}
-- recordarme {TaskContentML=quedar con mi profesor}
+- añadir una {ListType=tarea} {TaskContent=aspirar antes del 3 de octubre}
+- añadir una {ListType=tarea} {TaskContent=comprar un jersey bonito}
+- añadir una tarea de {TaskContent=tareas domésticas para hacer en la casa}
+- añadir una tarea {TaskContent=domingo de pasta 3 de marzo}
+- añadir una tarea para {TaskContent=anna west traer mi bañador para mis vacaciones}
+- añadir una tarea para {TaskContent=comprar en gnc después del trabajo}
+- añadir una {ListType=tarea} para {TaskContent=comprar zapatos}
+- añadir una tarea para {TaskContent=jimmy jugar a la xbox conmigo después del trabajo}
+- añadir una tarea para {TaskContent=li lei traer mi abrigo de casa}
+- añadir una tarea para {TaskContent=raghu traer mis chocolates de alemania}
+- {TaskContent=añadir una tarea para} recoger a mary después del trabajo
+- añadir una tarea para {TaskContent=terminar el examen de conducir esta semana}
+- añadir una tarea que {TaskContent=compre frutas y verduras}
+- añadir {TaskContent=zapatos} a las {ListType=listas de la compra}
+- anexar una {TaskContent=lectura de verano} a mi lista
+- anexar una {TaskContent=tarea de invitado para invitar a la fiesta}
+- crear tarea para {TaskContent=comprar en internet el 11 de noviembre}
+- crear tarea para {TaskContent=correr en el parque}
+- crear tarea para {TaskContent=leer un libro esta noche}
+- crear una tarea para {TaskContent=ir al centro comercial}
+- crear una tarea para {TaskContent=quedar con john después de las 5 de la tarde}
+- crear una tarea para {TaskContent=quedar con mis amigos}
+- pedir una tarea para {TaskContent=kim para traer mi abrigo de casa}
+- poner {TaskContent=excursiones} en mi {ListType=lista de tareas}
+- poner {TaskContent=helado} en la {ListType=lista de la compra}
+- poner {TaskContent=jamón} en mi {ListType=lista de la compra}
+- poner {TaskContent=leche} en mi {ListType=lista de la compra}
+- poner {TaskContent=palomitas de queso y caramelo} en mi {ListType=lista de la compra}
+- poner {TaskContent=queso} en la lista
+- recordarme {TaskContent=asistir a la reunión de mañana}
+- recordarme {TaskContent=comprar cremas de primeros auxilios y bayas}
+- recordarme {TaskContent=comprar leche}
+- recordarme comprar {TaskContent=una alfombra nueva}
+- recordarme {TaskContent=quedar con mi profesor}
 
 
 ## Cancel
@@ -133,102 +133,103 @@
 
 ## DeleteToDo
 - ¿puedes ayudarme a eliminar {ContainsAll=todas} las tareas?
-- ¿puedes eliminar artículo {TaskContentML=xxx}?
-- ¿puedes eliminar {TaskContentML=tarea1}?
-- borrar {TaskContentML=cacahuetes} de la {ListType=lista de la compra}
-- borrar {TaskContentML=plátanos} de la {ListType=lista de la compra}
+- ¿puedes eliminar artículo {TaskContent=xxx}?
+- ¿puedes eliminar {TaskContent=tarea1}?
+- borrar {TaskContent=cacahuetes} de la {ListType=lista de la compra}
+- borrar {TaskContent=plátanos} de la {ListType=lista de la compra}
 - borrar {ContainsAll=todo} de mi {ListType=lista de la compra}
-- cancelar {TaskContentML=manzanas} de la {ListType=lista de la compra}
-- eliminar {TaskContentML=aspirina} de la {ListType=lista de la compra}
-- eliminar {TaskContentML=camisas} de la lista
-- eliminar {TaskContentML=champú} de la {ListType=lista de la compra}
-- eliminar {TaskContentML=clase} de {ListType=lista de tareas}
-- eliminar el artículo {TaskContentML=comprar calcetines} de mi {ListType=lista de tareas}
-- eliminar el artículo {TaskContentML=parís} de mi lista
-- eliminar {TaskContentML=huevos} de la lista
-- eliminar la {TaskContentML=mezcla para tortitas} de la {ListType=lista de la compra}
+- cancelar {TaskContent=manzanas} de la {ListType=lista de la compra}
+- eliminar {TaskContent=aspirina} de la {ListType=lista de la compra}
+- eliminar {TaskContent=camisas} de la lista
+- eliminar {TaskContent=champú} de la {ListType=lista de la compra}
+- eliminar {TaskContent=clase} de {ListType=lista de tareas}
+- eliminar el artículo {TaskContent=comprar calcetines} de mi {ListType=lista de tareas}
+- eliminar el artículo {TaskContent=parís} de mi lista
+- eliminar {TaskContent=huevos} de la lista
+- eliminar la {TaskContent=mezcla para tortitas} de la {ListType=lista de la compra}
 - eliminar la segunda tarea de mi {ListType=lista de la compra}
-- eliminar la tarea {TaskContentML=comprar leche}
-- eliminar la tarea de {TaskContentML=ir al gimnasio todas las mañanas}
-- eliminar la tarea {TaskContentML=examen físico}
-- eliminar la tarea {TaskContentML=ir a la biblioteca después del trabajo}
-- eliminar la tarea {TaskContentML=ir al dentista mañana por la mañana}
-- eliminar la tarea {TaskContentML=ir al gimnasio}
-- eliminar la tarea {TaskContentML=ir de compras}
-- eliminar la tarea {TaskContentML=ir de excursión mañana}
-- eliminar la tarea {TaskContentML=limpieza de la casa este fin de semana}
-- eliminar la tarea {TaskContentML=practicar piano todos los días}
-- eliminar la tarea {TaskContentML=quedar con john cuando venga el próximo viernes}
-- eliminar la tarea {TaskContentML=quedar con mis amigos mañana}
-- eliminar la tarea {TaskContentML=recoger a tom a las 6 de la tarde}
-- eliminar tarea comprar {TaskContentML=comida para perros}
-- eliminar tarea {TaskContentML=cortar el césped}
-- eliminar tarea {TaskContentML=ir a pescar}
-- eliminar tarea {TaskContentML=ir al cine esta noche}
-- eliminar tarea {TaskContentML=ir de compras}
-- eliminar tarea {TaskContentML=ir de excursión este fin de semana}
+- eliminar la tarea {TaskContent=comprar leche}
+- eliminar la tarea de {TaskContent=ir al gimnasio todas las mañanas}
+- eliminar la tarea {TaskContent=examen físico}
+- eliminar la tarea {TaskContent=ir a la biblioteca después del trabajo}
+- eliminar la tarea {TaskContent=ir al dentista mañana por la mañana}
+- eliminar la tarea {TaskContent=ir al gimnasio}
+- eliminar la tarea {TaskContent=ir de compras}
+- eliminar la tarea {TaskContent=ir de excursión mañana}
+- eliminar la tarea {TaskContent=limpieza de la casa este fin de semana}
+- eliminar la tarea {TaskContent=practicar piano todos los días}
+- eliminar la tarea {TaskContent=quedar con john cuando venga el próximo viernes}
+- eliminar la tarea {TaskContent=quedar con mis amigos mañana}
+- eliminar la tarea {TaskContent=recoger a tom a las 6 de la tarde}
+- eliminar tarea comprar {TaskContent=comida para perros}
+- eliminar tarea {TaskContent=cortar el césped}
+- eliminar tarea {TaskContent=ir a pescar}
+- eliminar tarea {TaskContent=ir al cine esta noche}
+- eliminar tarea {TaskContent=ir de compras}
+- eliminar tarea {TaskContent={ListType=ir de compras} con john este sábado}
+- eliminar tarea {TaskContent=ir de excursión este fin de semana}
 - eliminar {ContainsAll=todas} las tareas
 - eliminar {ContainsAll=todo}
-- eliminar {TaskContentML=zapatos negros} de la {ListType=lista de la compra}
-- {ListType=lista de la compra} eliminar {TaskContentML=comida para perros}
-- {ListType=lista de la compra} eliminar {TaskContentML=huevos}
-- {ListType=lista de la compra} eliminar {TaskContentML=leche}
-- {ListType=lista de la compra} eliminar {TaskContentML=un}
-- {ListType=lista de tareas} eliminar {TaskContentML=vacaciones en parís}
-- no necesito {TaskContentML=comprar leche} en la {ListType=lista de la compra}
-- omitir la {TaskContentML=leche} en la {ListType=lista de la compra}
-- quitar {TaskContentML=café} de mi lista de la {ListType=compra}
-- quitar {TaskContentML=calcetines y zapatos} de mi lista de la {ListType=compra}
-- quitar las {TaskContentML=verduras de ensalada} de la {ListType=lista de la compra}
-- quitar {TaskContentML=leche} de la lista de la {ListType=compra}
-- quitar {TaskContentML=limones y cebollas} de mi lista de la {ListType=compra}
+- eliminar {TaskContent=zapatos negros} de la {ListType=lista de la compra}
+- {ListType=lista de la compra} eliminar {TaskContent=comida para perros}
+- {ListType=lista de la compra} eliminar {TaskContent=huevos}
+- {ListType=lista de la compra} eliminar {TaskContent=leche}
+- {ListType=lista de la compra} eliminar {TaskContent=un}
+- {ListType=lista de tareas} eliminar {TaskContent=vacaciones en parís}
+- no necesito {TaskContent=comprar leche} en la {ListType=lista de la compra}
+- omitir la {TaskContent=leche} en la {ListType=lista de la compra}
+- quitar {TaskContent=café} de mi lista de la {ListType=compra}
+- quitar {TaskContent=calcetines y zapatos} de mi lista de la {ListType=compra}
+- quitar las {TaskContent=verduras de ensalada} de la {ListType=lista de la compra}
+- quitar {TaskContent=leche} de la lista de la {ListType=compra}
+- quitar {TaskContent=limones y cebollas} de mi lista de la {ListType=compra}
 
 
 ## MarkToDo
-- completar {TaskContentML=recoger zapatos negros} en mi {ListType=lista de tareas}
+- completar {TaskContent=recoger zapatos negros} en mi {ListType=lista de tareas}
 - completar {ContainsAll=todo}
 - déjame marcar la {ListType=lista de comestibles}
 - establecer el elemento como terminado
 - establecer la {ListType=lista de la compra} como terminada
-- he terminado con la tarea {TaskContentML=abc} en nuestra {ListType=lista de la compra}
-- he terminado con la tarea {TaskContentML=almidón de tapioca} en nuestra {ListType=lista de la compra}
-- he terminado con la tarea {TaskContentML=compras-a}
+- he terminado con la tarea {TaskContent=abc} en nuestra {ListType=lista de la compra}
+- he terminado con la tarea {TaskContent=almidón de tapioca} en nuestra {ListType=lista de la compra}
+- he terminado con la tarea {TaskContent=compras-a}
 - la 3ª tarea terminada
 - {ListType=lista de la compra} completada
 - {ListType=lista de la compra} terminada
-- marca {TaskContentML=ensalada} en la {ListType=lista de la compra}
-- marcar {TaskContentML=basura} de la {ListType=lista de la compra}
-- marcar {TaskContentML=cacahuetes} en mi {ListType=lista de la compra}
-- marcar {TaskContentML=cacahuetes} en mi {ListType=lista de la compra} como hecho
-- marcar {TaskContentML=champú} de la {ListType=lista de la compra} como hecho
-- marcar {TaskContentML=comprar pescado} como completado
-- marcar el artículo {TaskContentML=basura} de la {ListType=lista de la compra}
-- marcar {TaskContentML=ensalada} en mi {ListType=lista de la compra}
-- marcar {TaskContentML=feliz} en la {ListType=lista de tareas}
-- marcar {TaskContentML=jugar al bádminton con tom} como terminado
-- marcar la casilla del {TaskContentML=champú} de mi {ListType=lista de la compra}
+- marca {TaskContent=ensalada} en la {ListType=lista de la compra}
+- marcar {TaskContent=basura} de la {ListType=lista de la compra}
+- marcar {TaskContent=cacahuetes} en mi {ListType=lista de la compra}
+- marcar {TaskContent=cacahuetes} en mi {ListType=lista de la compra} como hecho
+- marcar {TaskContent=champú} de la {ListType=lista de la compra} como hecho
+- marcar {TaskContent=comprar pescado} como completado
+- marcar el artículo {TaskContent=basura} de la {ListType=lista de la compra}
+- marcar {TaskContent=ensalada} en mi {ListType=lista de la compra}
+- marcar {TaskContent=feliz} en la {ListType=lista de tareas}
+- marcar {TaskContent=jugar al bádminton con tom} como terminado
+- marcar la casilla del {TaskContent=champú} de mi {ListType=lista de la compra}
 - marcar la primera tarea como completada
-- marcar la tarea {TaskContentML=comprar algo de comida} como completa
-- marcar la tarea {TaskContentML=comprar leche} como hecha
+- marcar la tarea {TaskContent=comprar algo de comida} como completa
+- marcar la tarea {TaskContent=comprar leche} como hecha
 - marcar la tarea {ListType=ir de compras} como terminada
-- marcar la tarea {TaskContentML=reservar un restaurante para la cena de mañana} como terminada
-- marcar la tarea {TaskContentML=visitar a mi abuela} como completada
-- marcar {TaskContentML=limones y cebollas} en la {ListType=lista de comestibles}
-- marcar {TaskContentML=manzanas} de la lista
-- marcar {TaskContentML=mezcla para tortitas} en mi {ListType=lista de la compra}
-- marcar {TaskContentML=pescado} como completo
-- marcar {TaskContentML=plátanos} de mi {ListType=lista de la compra}
-- marcar {TaskContentML=quedar con john a las 8 de la mañana} de la {ListType=lista de tareas}
-- marcar {TaskContentML=recoger a mary} como terminado
-- marcar tarea {TaskContentML=comprar una botella de vinagre} como terminada
-- marcar tarea {TaskContentML=correr} como terminada
-- marcar tarea {TaskContentML=leer un libro} como hecha
+- marcar la tarea {TaskContent=reservar un restaurante para la cena de mañana} como terminada
+- marcar la tarea {TaskContent=visitar a mi abuela} como completada
+- marcar {TaskContent=limones y cebollas} en la {ListType=lista de comestibles}
+- marcar {TaskContent=manzanas} de la lista
+- marcar {TaskContent=mezcla para tortitas} en mi {ListType=lista de la compra}
+- marcar {TaskContent=pescado} como completo
+- marcar {TaskContent=plátanos} de mi {ListType=lista de la compra}
+- marcar {TaskContent=quedar con john a las 8 de la mañana} de la {ListType=lista de tareas}
+- marcar {TaskContent=recoger a mary} como terminado
+- marcar tarea {TaskContent=comprar una botella de vinagre} como terminada
+- marcar tarea {TaskContent=correr} como terminada
+- marcar tarea {TaskContent=leer un libro} como hecha
 - se ha hecho {ContainsAll=todo}
-- tarea {TaskContentML=abx-d} se ha terminado
-- tarea completa {TaskContentML=ir de compras}
-- tarea completada {TaskContentML=comprar chicle}
-- terminar {TaskContentML=excursiones} en mi {ListType=lista de tareas}
-- terminar los {TaskContentML=cacahuetes} en la {ListType=lista de la compra}
+- tarea {TaskContent=abx-d} se ha terminado
+- tarea completa {TaskContent=ir de compras}
+- tarea completada {TaskContent=comprar chicle}
+- terminar {TaskContent=excursiones} en mi {ListType=lista de tareas}
+- terminar los {TaskContent=cacahuetes} en la {ListType=lista de la compra}
 - {ContainsAll=todo} lo de la {ListType=lista de la compra} se ha comprado
 - ya se han completado los {ListType=artículos de compra} en la lista
 
@@ -339,7 +340,7 @@ $ContainsAll:simple
 
 $ListType:simple
 
-$TaskContentML:simple
+$TaskContent:simple
 
 
 > # PREBUILT Entity definitions

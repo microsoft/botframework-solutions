@@ -53,6 +53,7 @@ namespace Luis
 
             // Built-in entities
             public string[] email;
+            public double[] number;
             public double[] ordinal;
 
             // Instance
@@ -73,6 +74,7 @@ namespace Luis
                 public InstanceData[] EmailSubject;
                 public InstanceData[] SearchTexts;
                 public InstanceData[] email;
+                public InstanceData[] number;
                 public InstanceData[] ordinal;
             }
             [JsonProperty("$instance")]

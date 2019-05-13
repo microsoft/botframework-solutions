@@ -231,6 +231,7 @@
 - lösche alle e-mails meiner {FromRelationshipName=ex - freundin} {SenderName=lily}
 - lösche alle e-mails, die {Time=heute abend} empfangen wurden
 - lösche die e-mail von meinem {Line=hotmail}-konto
+- lösche die e-mail, die von {SenderName={FromRelationshipName=mary} jane} gesendet wurde
 - lösche die {PositionReference=erste} e-mail für mich
 - lösche die {OrderReference=letzte}
 - lösche die {Category=roten}
@@ -493,6 +494,7 @@
 - beginne eine neue e-mail und sage, {Message=lass uns in den park gehen}
 - beginne eine neue e-mail von {SenderName=tracy} und sage, {Message=hier ist mein lebenslauf}
 - die neue e-mail hat {Category=hohe priorität}, die an {ContactName=jacob} gesendet wird
+- e-mail an {ContactName=cynthia} und {ContactName=mike}, „{Message=das abendessen {OrderReference=letzte} woche war großartig}“.
 - e-mail an {ContactName=harry potter} und {ContactName=hermione granger}
 - e-mail an {ContactName=kim white} über {EmailSubject=diese blume}, die {Message=schön} sagt
 - e-mail an {ContactName=lawrence} über {EmailSubject=eröffnungsfrage}
@@ -595,8 +597,10 @@
 ## ShowNext
 - die {OrderReference=nächste} e-mail
 - die {OrderReference=nächste} {Category=wichtige} nachricht
+- geh weiter zu den {ContactName={OrderReference=nächsten}} mails
 - geh zur {OrderReference=nächsten} seite
 - gehe weiter
+- gehe weiter zu {ContactName={OrderReference=nächsten}} mails
 - gehe weiter zur {OrderReference=nächsten} mail von jason
 - gehe zur {OrderReference=nächsten} mail
 - gibt es irgendwelche {Category=ungelesenen} nachrichten? zeige {OrderReference=nächste}
@@ -610,6 +614,7 @@
 - zeige die {OrderReference=nächsten} nachrichten
 - zeige mir die {OrderReference=nächste}
 - zeige mir die {OrderReference=nächsten} fünf mails
+- zeige mir {OrderReference=nächste} von {FromRelationshipName={SenderName=mary}}
 - zeige {OrderReference=nächste} e-mail an
 - zeige {OrderReference=nächste} {Category=ungelesene}
 
@@ -618,6 +623,7 @@
 - bringe die {OrderReference=vorherige}, ich will sie noch einmal lesen
 - die {OrderReference=vorherige} e-mail
 - gehe zu {OrderReference=vorherigen} mails
+- gehe zurück zu {ContactName={OrderReference=letzten}} mails
 - gib mir die zuvor
 - {OrderReference=vorige} bitte
 - {OrderReference=vorige} e-mail

@@ -35,6 +35,7 @@ namespace Luis
             public string[] ContainsAll;
 
             // Built-in entities
+            public double[] number;
             public double[] ordinal;
 
             // Lists
@@ -51,6 +52,7 @@ namespace Luis
                 public InstanceData[] ListType;
                 public InstanceData[] TaskContent;
                 public InstanceData[] ContainsAll;
+                public InstanceData[] number;
                 public InstanceData[] ordinal;
                 public InstanceData[] FoodOfGrocery;
                 public InstanceData[] ShopVerb;

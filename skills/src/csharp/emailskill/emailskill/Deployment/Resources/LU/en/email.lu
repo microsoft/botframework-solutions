@@ -231,6 +231,7 @@
 - delete all emails from {SenderName=tom}
 - delete all emails received {Time=tonight}
 - delete the email from my {Line=hotmail} account
+- delete the email sent from {SenderName={FromRelationshipName=mary} jane}
 - delete the {PositionReference=first} email for me
 - delete the {OrderReference=last} one
 - delete the {OrderReference=previous} 4 emails
@@ -521,6 +522,7 @@
 - email my {Attachment=presentation}
 - email the {Attachment=file} to {ContactName=henry mathew}
 - email to {ContactName=amy cooper} about {Message=haha saying hello}
+- email to {ContactName=cynthia} and {ContactName=mike}, {Message=that dinner {OrderReference=last} week was splendid}.
 - email to {ContactName=harry potter} and {ContactName=hermione granger}
 - email to {ContactName=lawrence} about {EmailSubject=opening issue}
 - email to {ContactName=mike waters} : {Message=mike, that dinner last week was splendid.}
@@ -620,11 +622,13 @@
 
 ## ShowNext
 - are there any {Category=unread} messages? show {OrderReference=next}
+- go forward to {ContactName={OrderReference=next}} mails
 - go on, show me more mails
 - go to {OrderReference=next} mail
 - go to the {OrderReference=next} page
 - move forward
 - move on {OrderReference=next} mail by jason
+- move on to {ContactName={OrderReference=next}} mails
 - {OrderReference=next} email
 - {OrderReference=next} {Category=unread} email
 - {OrderReference=next} {Category=unread} one
@@ -645,6 +649,7 @@
 - back to the {OrderReference=last} one from {SenderName=apple}
 - bring the {OrderReference=previous} one, i want to read it again
 - go to {OrderReference=previous} mails
+- move back to {ContactName={OrderReference=last}} mails
 - {OrderReference=previous} email
 - {OrderReference=previous} one please
 - show me {OrderReference=previous} email from {SenderName=jack}

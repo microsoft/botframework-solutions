@@ -225,6 +225,7 @@
 - supprimer le {PositionReference=second}
 - supprimer l'e-mail de {SenderName=mary}
 - supprimer l'e-mail de mon compte {Line=hotmail}
+- supprimer l'e-mail envoyé par {SenderName={FromRelationshipName=mary} jane}
 - supprimer les e-mails avec des drapeaux {Category=rouges}
 - supprimer les e-mails {Category=non lus}
 - supprimer les e-mails reçus {Date=hier}
@@ -491,6 +492,7 @@
 - commencer un nouvel e-mail de {SenderName=tracy} disant {Message=voici mon curriculum vitae}
 - commencer un nouvel e-mail en disant {Message=allons au parc}
 - composer un nouveau courriel sur le {EmailSubject=devoir d'espagnol}
+- courriel à {ContactName=cynthia} et {ContactName=mike}, {Message=ce dîner la semaine {OrderReference=dernière} était splendide}.
 - courriel à {ContactName=mike waters}: {Message=mike, ce dîner la semaine dernière était splendide.}
 - courriel à partoneparttwo@gmail.com
 - créer un nouveau courrier intitulé {EmailSubject=urgent informations de réunion} à {ContactName=jonathan}
@@ -591,6 +593,7 @@
 - afficher les messages {OrderReference=suivants}
 - aller à la page {OrderReference=suivante}
 - aller au courrier {OrderReference=suivant}
+- aller aux mails {ContactName={OrderReference=suivants}}
 - allez, montrez-moi plus de mails
 - avancer
 - e-mail {Category=non lu} {OrderReference=suivant}
@@ -599,9 +602,11 @@
 - l'e-mail {OrderReference=suivant}
 - montrer l'e-mail {OrderReference=suivant} de mon {FromRelationshipName=patron}
 - montrer les e-mails {OrderReference=suivants} de wong
+- montrez moi le {OrderReference=suivant} de {FromRelationshipName={SenderName=mary}}
 - montrez-moi le {OrderReference=suivant}
 - montrez-moi les cinq mails {OrderReference=suivants}
 - passer au mail {OrderReference=suivant} de jason
+- passer aux mails {ContactName={OrderReference=suivants}}
 - {OrderReference=prochain} {Category=non lu}
 - y a-t-il des messages {Category=non lus}? afficher le {OrderReference=suivant}
 
@@ -623,6 +628,7 @@
 - quel est l'e-mail {OrderReference=précédent} ?
 - retour à la {OrderReference=dernière} d'{SenderName=apple}
 - retour au {OrderReference=dernier} mail
+- revenir aux {ContactName={OrderReference=derniers}} mails
 
 
 > # Entity definitions
