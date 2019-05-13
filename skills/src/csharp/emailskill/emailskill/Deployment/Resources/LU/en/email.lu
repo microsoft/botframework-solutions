@@ -181,7 +181,7 @@
 - do i receive {Category=new} message
 - does anyone send email to me just then
 - does anyone send message to me {Time=just then}
-- does my {Line=outlook} has {Category=new} email
+- does my {Line=outlook} have {Category=new} email
 - i want to check my emails
 - i want to check my inbox
 - i'd like to check my inbox
