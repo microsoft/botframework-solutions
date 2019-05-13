@@ -18,6 +18,7 @@ namespace Luis
             AcceptEventEntry, 
             ChangeCalendarEntry, 
             CheckAvailability, 
+            Confirm,
             ConnectToMeeting, 
             ContactMeetingAttendees, 
             CreateCalendarEntry, 
@@ -31,6 +32,7 @@ namespace Luis
             FindMeetingRoom, 
             GoBack, 
             None, 
+            Reject,
             ShowNextCalendar, 
             ShowPreviousCalendar, 
             TimeRemaining

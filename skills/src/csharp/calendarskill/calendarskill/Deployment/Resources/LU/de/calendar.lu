@@ -1,1089 +1,1181 @@
 > # Intent definitions
 
 ## AcceptEventEntry
-- Alle Sitzungen für  {Subject=Weihnachtsfeier}   {FromDate=Nächste Woche} .
-- Termin annehmen
-- Akzeptieren  {Subject=Abendessen} 
-- Nehmen Sie meine Sitzung an  {FromTime=19 Uhr}   {FromDate=Heute} 
-- Nehmen Sie meine Sitzung an  {FromDate=Morgen}   {FromTime=10am} 
-- Die Verabredung von  {FromTime=15:00 Uhr}  An  {ToTime=17 Uhr} .
-- Die Verabredung am  {FromDate=18. Januar}  In  {MeetingRoom=Tagungsraum für den Palast} .
-- Nehmen Sie den Termin an, der von lucas versandt wird
-- Veranstaltung annehmen
-- Die Veranstaltung für  {FromTime=Heute abend} .
-- Die Veranstaltung am  {FromDate=Feb. 18}  In  {Location=Peking} .
-- Nehmen Sie die Veranstaltung an, die von yolanda wong gesendet wurde.
-- Die Sitzung, die am  {FromDate=Morgen}  Auf  {MeetingRoom=Zimmer 301} 
-- Nehmen Sie das Treffen an, das von Jack lauren organisiert wird.
-- Nehmen Sie das Treffen mit mary und tom am  {FromDate=Mittwoch} 
-- Das Treffen mit tom chen.
-- Nehmen Sie diesen Termin mit jane und mary auf  {FromDate=Nächster Dienstag} .
-- Nehmen Sie dieses Ereignis an.
-- Das akzeptieren  {Subject=Mittagstreffen} .
-- Akzeptieren  {FromDate=Heute} ' S Veranstaltung bei  {FromTime=15:00 Uhr} .
-- Akzeptieren  {FromDate=Heute} ' s meeting
-- Besuch der  {Subject=Feier: 19} Gesandt von daisy chan.
-- Besuch der  {Subject=Mittagstreffen}  Auf  {FromTime=10:30 am} .
-- Teilnahme an der Sitzung, die am  {FromTime=15:00 Uhr}   {FromDate=Nächster Dienstag}  Am  {MeetingRoom=Konferenzzentrum} .
-- Ich werde an dem Treffen teilnehmen, bei dem  {FromTime=14 Uhr}   {FromDate=Morgen}  In  {MeetingRoom=Zimmer 304} 
-- Ich nehme an der Sitzung teil  {FromTime=Heute Nachmittag} .
-- Ich werde an dieser kommenden Veranstaltung teilnehmen.  {Location=Redmond} .
+- {Subject=abendessen} annehmen
+- ich werde am meeting {FromTime=heute nachmittag} teilnehmen
+- ich werde an dieser bevorstehenden veranstaltung in {Location=redmond} teilnehmen
+- ich werde {FromDate=morgen} an der besprechung um {FromTime=14 uhr} in {MeetingRoom=raum 304} teilnehmen
+- nimm alle treffen für die {Subject=weihnachtsfeier} {FromDate=nächste woche} an.
+- nimm am {Subject=mittagessen-treffen} um {FromTime=10:30 uhr} teil
+- nimm an der besprechung teil, die am {FromDate=nächsten dienstag} um {FromTime=15 uhr} im {MeetingRoom=konferenzzentrum} stattfindet
+- nimm an der von daisy chan geschickten {Subject=feier des 19. jahres} teil
+- nimm das {FromDate=heutige} treffen an
+- nimm das treffen mit mary und tom, das am {FromDate=mittwoch} stattfindet, an.
+- nimm das treffen mit tom chen an.
+- nimm das treffen, das {FromDate=morgen} im {MeetingRoom=raum 301} stattfindet, an
+- nimm das von jack lauren organisierte treffen an.
+- nimm den von lucas verschickten termin an
+- nimm die {FromDate=heutige} veranstaltung um {FromTime=15 uhr} an.
+- nimm die verabredung am {FromDate=18. januar} im {MeetingRoom=palast besprechungsraum} an.
+- nimm die veranstaltung am {FromDate=18. feb.} 18 in {Location=peking} an.
+- nimm die veranstaltung an
+- nimm die veranstaltung für {FromTime=heute abend} an.
+- nimm die von yolanda wong gesendete veranstaltung an.
+- nimm diesen termin mit jane und mary am {FromDate=nächsten dienstag} an.
+- nimm dieses {Subject=mittagessen-treffen} an.
+- nimm dieses veranstaltung an.
+- nimm einen termin an
+- nimm mein treffen {FromDate=heute} um {FromTime=19 uhr} an
+- nimm mein treffen {FromDate=morgen} um {FromTime=10 uhr} an
 
 
 ## ChangeCalendarEntry
-- Vorwärts bringen  {FromTime=4 Uhr}  Termin  {MoveEarlierTimeSpan=2 Stunden} 
-- Können Sie es ändern, um  {ToTime=17 Uhr} 
-- Können Sie diesen Termin auf  {ToTime=17 Uhr} 
-- Veränderung  {FromTime=10 am}  Treffen zum Start  {MoveLaterTimeSpan=20 Minute} Später
-- Veränderung  {FromTime=16 Uhr}   {Subject=Mittagstermin} 
-- Veränderung  {FromTime=17 Uhr}  Termin  {MoveEarlierTimeSpan=1 Stunde} Früheren
-- Termin ändern
-- Veränderung  {Subject=Großveranstaltung}  An  {ToDate=Morgen} 
-- Kalender ändern
-- Veränderung  {Subject=Zahnarzt-Termin} 
-- Veränderung  {Subject=Zahnarzt appt}  An  {MoveLaterTimeSpan=eine Stunde} Später
-- Veränderung  {Subject=Entwicklungsagenda für das Mittagessen}   {FromDate=Morgen} 
-- Ändern Sie es auf  {ToTime=17 Uhr} 
-- Veränderung  {SlotAttribute=Lage} 
-- Veränderung  {Subject=Mittagessen appt}  An  {ToTime=2} 
-- Veränderung  {Subject=Mittagstermin}  Von  {FromTime=11}  -  {FromTime=12}  An  {ToTime=12}  -  {ToTime=1 30} 
-- Veränderung  {Subject=Marathontraining}  Von  {FromTime=8:00am}  An  {ToTime=1:00pm} 
-- Veränderung  {Subject=Marketinggespräch}  Von  {FromDate=Jeden Dienstag}  An  {ToDate=Alle Wochenenden} 
-- Wechselsitzung ab  {FromTime=2} - {FromTime=15:00 Uhr}  An  {ToTime=4} - {FromTime=17 Uhr}   {ToDate=Heute} 
-- Wechselsitzung ab  {FromTime=14 Uhr} - {FromTime=15:00 Uhr}  An  {ToTime=16 Uhr} - {ToTime=17 Uhr}   {ToDate=Heute} 
-- Wechseln Sie meine  {ToTime=23 Uhr}  Termin  {SlotAttribute=Lage}  An  {Location=cal anderson park} 
-- Wechseln Sie meine  {FromTime=15:00 Uhr}  Veranstaltung zu  {ToTime=16 Uhr} 
-- Wechseln Sie meine  {FromTime=18 Uhr}  Veranstaltung zu  {ToTime=19 Uhr} 
-- Wechseln Sie meine  {FromTime=19.30 Uhr}  Termin für  {ToTime=20 Uhr} 
-- Wechseln Sie meine  {FromTime=19 Uhr}  Veranstaltung zu  {ToTime=18 Uhr} 
-- Wechseln Sie meine  {FromTime=8}  An  {FromTime=9}  Termin für  {ToTime=11}  An  {ToTime=12} 
-- Wechseln Sie meine  {FromTime=9 30}  An  {FromTime=10 30}  Termin für  {ToTime=9 30}  An  {ToTime=5} 
-- Mein Termin ändern
-- Wechseln Sie meine  {Subject=Zahnarzt-Termin} 
-- Wechseln Sie meine  {Subject=Zahnarzt-Termin}  Von  {FromTime=3:30}  An  {ToTime=4} 
-- Mein Treffen ändern unter  {FromTime=Nacht}  An  {ToDate=Morgen} 
-- Wechseln Sie meine  {OrderReference=nächster} Sitzung
-- Mein Zeitplan ändern
-- Wechseln Sie meine  {FromTime=Zehn am} Termin
-- Wechseln Sie meine  {Subject=Urlaub}  Vom Ende  {FromDate=Freitag}  An  {ToDate=Montag} 
-- Veränderung  {Subject=Erwägungsgrund}  Zu Beginn  {MoveEarlierTimeSpan=Eine halbe Stunde} Früheren
-- Veränderung  {Subject=Rasieren}   {ToDate=Morgen}   {ToTime=8 30} 
-- Wechsel der  {Subject=Termin}  Ende bei  {FromTime=4}  Zum Schluss  {ToTime=5} Statt
-- Wechsel der  {SlotAttribute=Enddatum}  von  {Subject=Meine Reise}  Aus dem  {FromDate=3.}  zum  {ToDate=4.} 
-- Wechsel der  {SlotAttribute=Endzeit}  Meiner  {FromTime=3 Uhr}  Treffen zu  {ToTime=15:30 Uhr} 
-- Wechsel der  {SlotAttribute=Lage}  Meiner  {Subject=Gesangstermin} 
-- Wechsel der  {SlotAttribute=Zeit} 
-- Wechsel der  {SlotAttribute=Zeit}  An  {ToTime=11 Dreißig} 
-- Wechsel der  {SlotAttribute=Titel}  Meiner  {FromTime=11am}  Termin für  {Subject=Fußballpraxis} 
-- Wechsel der  {SlotAttribute=Titel} Nach meinem Termin
-- Ändern Sie diesen Termin  {SlotAttribute=Lage} 
-- Veränderung  {FromDate=Donnerstag}   {Subject=Teamsitzung} 
-- Veränderung  {SlotAttribute=Zeit} 
-- Veränderung  {FromDate=Heute}  ' S Meeting from  {FromTime=18 Uhr}  An  {ToDate=Morgen}   {ToTime=9am} 
-- Veränderung  {FromDate=Heute}  ' S Meeting from  {FromTime=18 Uhr}  An  {ToDate=Morgen}   {ToTime=21 Uhr} 
-- Veränderung  {FromDate=Morgen}  Ernennung von  {FromTime=10am}  An  {ToDate=Mittwoch}  Auf  {ToTime=9 am} 
-- Verspätung der Begegnungsveranstaltung durch  {MoveLaterTimeSpan=1 Stunde} 
-- Verzögerung  {OrderReference=nächster}  Treffen durch  {MoveLaterTimeSpan=30 Minute} 
-- Kalender bearbeiten
-- Sitzung von  {FromTime=9 am}  An  {ToTime=12 am} 
-- Lassen  {FromTime=17 Uhr}  Treffen ab  {ToTime=3} 
-- Lassen  {OrderReference=nächster} Treffen ab 10 Uhr
-- Machen  {OrderReference=nächster}  Treffen zum Start  {MoveLaterTimeSpan=1 Stunde} Später
-- Den Termin am Ende zu machen  {FromTime=2}  Bis  {ToTime=16 Uhr} 
-- Das Treffen endet am  {FromTime=10}  Bis  {ToTime=11} 
-- Treffen beginnen  {MoveLaterTimeSpan=1 Stunde} Später
-- Treffen beginnen  {MoveEarlierTimeSpan=40 Minute} Früheren
-- Das Treffen ändern
-- Ändern Sie die  {PositionReference=Zweite} Sitzung
-- bewegen  {FromTime=15:00 Uhr}  Treffen zu  {ToTime=16 Uhr} 
-- Umzug appt mit rebecca zu  {ToDate=Nächste Woche} 
-- Umzug Treffen von  {FromTime=21 Uhr} - {FromTime=22 Uhr}  An  {ToTime=20 Uhr} - {ToTime=21 Uhr}   {ToDate=Heute} 
-- move my  {FromTime=13 Uhr}  Termin  {MoveEarlierTimeSpan=30 Minute} 
-- move my  {FromTime=10 nach 10}   {Subject=Arztbesuch}  An  {ToTime=10} 
-- move my  {FromTime=22 Uhr}  Treffen zu  {ToTime=21 Uhr} 
-- move my  {FromTime=12 Uhr}  Treffen zu  {ToTime=2} 
-- move my  {FromTime=16 Uhr}  An  {ToTime=17 Uhr}   {ToDate=Heute} 
-- move my  {ToTime=9 am}   {Subject=Arztbesuch}  An  {ToTime=10 am} 
-- move my  {FromTime=21 Uhr}  Treffen zu  {ToTime=20 Uhr} 
-- Umzug meiner Sitzung zurück durch  {MoveLaterTimeSpan=eine Stunde} 
-- Umzug meiner Sitzung  {ToTime=18 Uhr}  Von  {FromTime=19 Uhr} 
-- Bewegen Sie mein Treffen durch  {MoveEarlierTimeSpan=Eine halbe Stunde} 
-- move my  {OrderReference=nächster} Sitzung
-- move my  {OrderReference=nächster}  Treffen durch  {MoveLaterTimeSpan=30 Minute} 
-- move my  {OrderReference=nächster}  Treffen  {MoveLaterTimeSpan=30 Minute} 
-- move my  {OrderReference=nächster}  Treffen durch  {MoveEarlierTimeSpan=10 Minute} 
-- move my  {OrderReference=nächster}  Treffen durch  {MoveEarlierTimeSpan=30 Minute} 
-- move my  {Subject=Textbesprechung} 
-- move my  {FromTime=Zwölf S. M.}  Treffen nach vorne  {MoveEarlierTimeSpan=Zwei Stunden} 
-- move my  {FromTime=12 S. m.}   {MoveEarlierTimeSpan=30 Minute} oben
-- bewegen  {Subject=Schuh-Termin}  An  {ToDate=Dienstag}  Auf  {ToTime=Eine} 
-- Bitte bewegen Sie dies auf  {ToTime=15 Uhr} 
-- Verschieben Sie meine  {FromTime=16 Uhr}  Sitzung  {FromDate=Heute}  Bis  {ToTime=17 Uhr} 
-- Verschieben Sie meine  {FromTime=Vier S. m.}  Sitzung  {ToDate=Heute}  Bis  {ToTime=Fünf S. m.} 
-- Drücken Sie meine  {Subject=Reise}   {FromDate=Juli 16}  Aussteigen  {MoveLaterTimeSpan=5 Tage} 
-- Umplanungstermin mit der Stephanie unter  {FromDate=Nächste Woche} 
-- Umplanungstermin mit Stephanie  {ToDate=Nächste Woche} 
-- Umplanungstreffen
-- Umplanen Sie meine  {FromTime=3:30}   {Subject=Zahnarzt-Termin}  An  {ToTime=4} 
-- Umplanen Sie meine  {FromTime=3:30}   {Subject=Zahnarzt-Termin}   {FromDate=Heute}  Für  {ToTime=16 Uhr}   {ToDate=Morgen} 
-- Dieses Treffen sollte geändert werden  {ToDate=Morgen} 
-- Termin aktualisieren
-- Aktualisierungskalender
-- aktualisieren  {Subject=Mittagstermin} 
-- Update-Meeting von  {FromTime=8am} - {FromTime=12 Uhr}  An  {ToTime=7am} - {ToTime=11am}   {ToDate=Heute} 
-- Aktualisieren Sie meine Terminvereinbarung
-- Aktualisieren Sie meine  {Subject=Kalender} 
-- Aktualisieren Sie meinen Kalender von  {FromTime=14 Uhr}  An  {ToTime=16 Uhr}   {ToDate=Heute} 
-- Aktualisieren Sie meinen Kalender von  {FromTime=18 Uhr}  An  {ToTime=19 Uhr} 
-- Aktualisieren Sie meine  {Subject=Campingtermin} 
-- Aktualisieren Sie meine  {OrderReference=nächster} Termin
-- Aktualisieren Sie meine  {FromTime=Morgen}   {FromTime=18 Uhr}  Treffen zu  {ToTime=19 Uhr} 
-- aktualisieren  {Subject=Partei} 
+- aktualisiere kalender
+- aktualisiere mein {FromTime=morgiges} {FromTime=18 uhr} meeting auf {ToTime=19 uhr}
+- aktualisiere meinen {Subject=camping-termin}
+- aktualisiere meinen {Subject=kalender}
+- aktualisiere meinen kalender von {FromTime=14 uhr} auf {ToTime=16 uhr} {ToDate=heute}
+- aktualisiere meinen kalender von {FromTime=18} auf {ToTime=19 uhr}
+- aktualisiere meinen {OrderReference=nächsten} termin
+- aktualisiere meinen termin
+- aktualisiere {Subject=mittagessen-termin}
+- aktualisiere {Subject=party}
+- aktualisiere termin
+- ändere das {FromDate=heutige} meeting von {FromTime=18 uhr} auf {ToDate=morgen} {ToTime=21 uhr}
+- ändere das {FromDate=heutige} meeting von {FromTime=18 uhr} auf {ToDate=morgen} {ToTime=9 uhr}
+- ändere den {FromDate=morgigen} termin von {FromTime=10 uhr} auf {ToDate=mittwoch} um {ToTime=9 uhr}
+- ändere den {SlotAttribute=standort} dieses termins
+- ändere den {SlotAttribute=titel} meines {FromTime=11 uhr} termins zu {Subject=fußballtraining}
+- ändere den {SlotAttribute=titel} meines termins
+- ändere die besprechung
+- ändere die {SlotAttribute=zeit}
+- ändere die {SlotAttribute=zeit} auf {ToTime=elf uhr dreißig} uhr
+- ändere die {PositionReference=zweite} sitzung
+- ändere {FromDate=donnerstag} {Subject=teambesprechung}
+- ändere kalender
+- ändere meinen zeitplan
+- ändere {SlotAttribute=zeit}
+- bearbeite kalender
+- bitte verschieb dies auf {ToTime=15 uhr}
+- dieses treffen sollte auf {ToDate=morgen} verschoben werden
+- kannst du diesen termin auf {ToTime=17 uhr} verschieben
+- kannst du es auf {ToTime=17 uhr} ändern
+- lass das {FromTime=17 uhr} treffen um {ToTime=3} beginnen
+- lass das {OrderReference=nächstes} meeting 10 uhr beginnen
+- mach den termin, der um {FromTime=14} uhr endet, bis {ToTime=16 uhr} gehend
+- mache das meeting {MoveEarlierTimeSpan=40 minuten} früher beginnend
+- mache das meeting so, dass es {MoveLaterTimeSpan=1 stunde} später beginnt
+- mache das meeting, das um {FromTime=10} uhr endet, bis {ToTime=11} uhr gehend
+- mache das {OrderReference=nächste} treffen {MoveLaterTimeSpan=1 stunde} später beginnend
+- plane meeting um
+- plane meinen {FromTime=15:30 uhr} {Subject=zahnarzttermin} {FromDate=heute} auf {ToDate=morgen} {ToTime=16 uhr} um
+- plane meinen {Subject=zahnarzttermin} um {FromTime=3:30 uhr} auf {ToTime=4} uhr um
+- plane termin mit stephanie auf {ToDate=nächste woche} um
+- plane termin mit stephanie {FromDate=nächste woche} um
+- schiebe meine {Subject=reise} am {FromDate=16. juli} {MoveLaterTimeSpan=5 tage} weiter
+- verlängere sitzung von {FromTime=9} auf {ToTime=12 uhr}
+- verschiebe {FromTime=10 uhr} meeting, so dass es {MoveLaterTimeSpan=20 minuten} später beginnt
+- verschiebe {FromTime=16 uhr} {Subject=mittagessen verabredung}
+- verschiebe {FromTime=17 uhr} termin {MoveEarlierTimeSpan=1 stunde} früher
+- verschiebe das {FromTime=15 uhr} meeting auf {ToTime=16 uhr}
+- verschiebe das {SlotAttribute=enddatum} {Subject=meiner reise} vom {FromDate=3.} auf den {ToDate=4.}
+- verschiebe das {Subject=marathon-training} von {FromTime=8:00 uhr} auf {ToTime=13:00 uhr}
+- verschiebe das {OrderReference=nächste} meeting um {MoveLaterTimeSpan=30 minuten}
+- verschiebe das {Subject=terminende} von {FromTime=4} auf {ToTime=5} stattdessen
+- verschiebe den {SlotAttribute=standort} meines {ToTime=23 uhr} termins in den {Location=cal anderson park}
+- verschiebe den {SlotAttribute=standort} meines {Subject=gesangstermins}
+- verschiebe den {Subject=vortrag} so, dass er {MoveEarlierTimeSpan=eine halbe stunde} früher beginnt
+- verschiebe die {SlotAttribute=endzeit} meines {FromTime=15 uhr} meetings auf {ToTime=15:30 uhr}
+- verschiebe die meeting-veranstaltung um {MoveLaterTimeSpan=1 stunde}
+- verschiebe einen termin
+- verschiebe {Subject=entwicklungsagenda für mittagessen} {FromDate=morgen}
+- verschiebe es auf {ToTime=17 uhr}
+- verschiebe {Subject=großveranstaltung} auf {ToDate=morgen}
+- verschiebe {Subject=marketing-meeting} von {FromDate=jedem dienstag} auf {ToDate=jeden mittwoch}
+- verschiebe mein {FromTime=12 uhr} meeting auf {ToTime=2}
+- verschiebe mein {FromTime=16 uhr} auf {ToTime=17 uhr} {ToDate=heute}
+- verschiebe mein {FromTime=16 uhr} treffen {FromDate=heute} auf {ToTime=17 uhr}
+- verschiebe mein {FromTime=21 uhr} meeting auf {ToTime=20 uhr}
+- verschiebe mein {FromTime=22 uhr} meeting auf {ToTime=21 uhr}
+- verschiebe mein meeting auf {ToTime=18 uhr} von {FromTime=19 uhr}
+- verschiebe mein meeting in der {FromTime=nacht} auf {ToDate=morgen}
+- verschiebe mein meeting um {MoveEarlierTimeSpan=eine halbe stunde}
+- verschiebe mein meeting um {MoveLaterTimeSpan=eine stunde} zurück
+- verschiebe mein {OrderReference=nächstes} meeting
+- verschiebe mein {OrderReference=nächstes} meeting um {MoveEarlierTimeSpan=10 minuten} nach oben
+- verschiebe mein {OrderReference=nächstes} meeting um {MoveLaterTimeSpan=30 minuten}
+- verschiebe mein {OrderReference=nächstes} meeting um {MoveEarlierTimeSpan=30 minuten} nach oben
+- verschiebe mein {OrderReference=nächstes} meeting um {MoveLaterTimeSpan=dreißig minuten}
+- verschiebe mein {FromTime=sechzehn uhr} treffen {ToDate=heute} auf {ToTime=siebzehn uhr}
+- verschiebe mein {FromTime=vierundzwanzig uhr} treffen um {MoveEarlierTimeSpan=zwei stunden} nach vorne
+- verschiebe mein {FromTime=vierundzwanzig uhr} um {MoveEarlierTimeSpan=dreißig minuten} nach oben
+- verschiebe meine {FromTime=15 uhr} veranstaltung auf {ToTime=16 uhr}
+- verschiebe meine {FromTime=18 uhr} veranstaltung auf {ToTime=19 uhr}
+- verschiebe meine {FromTime=19 uhr} veranstaltung auf {ToTime=18 uhr}
+- verschiebe meine {Subject=textbesprechung}
+- verschiebe meinen {FromTime=10 nach 10} {Subject=arzttermin} auf {ToTime=10}
+- verschiebe meinen {FromTime=10 uhr} termin
+- verschiebe meinen {FromTime=13 uhr} termin um {MoveEarlierTimeSpan=30 minuten}
+- verschiebe meinen {FromTime=19:30 uhr} termin auf {ToTime=20 uhr}
+- verschiebe meinen {FromTime=8} bis {FromTime=9} termin auf {ToTime=11} bis {ToTime=12}
+- verschiebe meinen {FromTime=9 30} bis {FromTime=10 30} termin auf {ToTime=9 30} bis {ToTime=5}
+- verschiebe meinen {ToTime=9 uhr} {Subject=arzttermin} auf {ToTime=10 uhr}
+- verschiebe meinen termin
+- verschiebe meinen {Subject=urlaub} von ende {FromDate=freitag} auf {ToDate=montag}
+- verschiebe meinen {Subject=zahnarzttermin}
+- verschiebe meinen {Subject=zahnarzttermin} von {FromTime=3:30} auf {ToTime=4}
+- verschiebe {Subject=mittagsessen verab.} auf {ToTime=2}
+- verschiebe {Subject=rasur} {ToDate=morgen} {ToTime=8 30}
+- verschiebe {Subject=schuhtermin} auf {ToDate=dienstag} um {ToTime=eins}
+- verschiebe termin
+- verschiebe verabr. mit rebecca auf {ToDate=nächste woche}
+- verschiebe {Subject=zahnarztterm.} auf {MoveLaterTimeSpan=eine stunde} später
+- verschiebe {Subject=zahnarzttermin}
+- wechsele {SlotAttribute=standort}
+- ziehe meinen {FromTime=4-uhr}-termin {MoveEarlierTimeSpan=2 stunden} vor
 
 
 ## CheckAvailability
-- Ich bin verfügbar
-- Ich bin bei  {FromTime=10 am}  Auf  {FromDate=Montag} 
-- Ich bin auf  {FromDate=Montag}  Auf  {FromTime=21 Uhr} 
-- Ich bin verfügbar  {FromDate=Morgen}  Auf  {FromTime=17:30 Uhr} 
-- Ich bin auf der  {FromDate=6. Februar} 
-- Ich bin beschäftigt  {FromDate=Dieses Wochenende} 
-- Ich bin frei
-- Ich bin frei bei  {FromTime=17 Uhr}   {FromDate=Heute} 
-- Ich bin frei bei  {FromTime=7 S. M.} 
-- Ich bin frei für  {Subject=Getränke}   {FromDate=Montag}  Auf  {FromTime=5} 
-- Ich bin frei für  {Subject=Getränke}   {FromDate=Montag}  Auf  {FromTime=17 Uhr} 
-- Ich bin frei für  {Subject=Wandern}  Auf  {FromDate=Samstag}  Auf  {FromTime=8 am} 
-- Ich frei von  {FromTime=15 Uhr}  -  {ToTime=22 Uhr} 
-- Ich bin frei  {FromDate=Montag}  Auf  {FromTime=21 Uhr} 
-- Ich bin frei  {FromDate=Samstag} 
-- Ich bin frei auf der  {FromDate=12. Juli} 
-- Ich bin frei zu  {Subject=Laufwerk}  Mit kim am  {FromDate=Do}  Auf  {FromTime=15 Uhr} 
-- Ich bin frei  {FromDate=Heute} 
-- Ich bin frei  {FromDate=Morgen}   {FromTime=15 Uhr} 
-- Ich bin frei  {FromTime=Heute abend} 
-- Ich bin frei  {FromDate=Dienstag}  Auf  {FromTime=7 am} 
-- Können Sie den Kalender meines Vaters zur freien Zeit überprüfen  {FromDate=Diese Woche} 
-- Können Sie mir sagen, ob mein Mann frei ist  {FromDate=Sonntag} 
-- Anzeige der Verfügbarkeit von Olivia
-- Ich habe Freizeit  {FromDate=Dieses Wochenende} 
-- Ich möchte wissen, ob meine Mutter zur Verfügung steht  {FromDate=Heute} 
-- Carolyn erhältlich  {FromDate=Dienstag}   {FromTime=Nachmittag} 
-- Debra ist auf  {FromDate=Samstag} 
-- Es ist gerald beschäftigt  {FromDate=Dieses Wochenende} 
-- Madison beschäftigt
-- Es ist nicholas verfügbar  {FromDate=Freitag} 
-- Es ist Raymond frei  {FromDate=Montag}   {FromTime='Nabend} 
-- Es ist rebecca beschäftigt  {FromDate=Donnerstag}  Auf  {FromTime=4} 
-- Es ist russell kostenlos auf  {FromDate=Freitag}  Auf  {FromTime=16 Uhr} 
-- Ist  {FromDate=Samstag} kostenlos
-- Es ist theresa frei  {FromDate=9. Oktober} 
-- Es ist virginia frei auf  {FromDate=Montag} 
-- Suche jesse es Kalender nach Verfügbarkeit
-- Was ist die Verfügbarkeit von anna?  {FromDate=Nächster Dienstag} 
-- Wenn ich frei bin
-- Wenn ich frei bin  {FromDate=Heute} 
-- Wann ist aaron frei  {FromDate=Morgen} 
-- Wann ist nagelfrei
-- Wann ist dylan verfügbar
-- Wann ist samuel verfügbar  {FromDate=Morgen} 
-- Wann wird jordanisch frei sein
-- Wird tyler frei  {FromDate=Freitag} 
+- bin ich am {FromDate=12. juli} frei
+- bin ich am {FromDate=6. februar} beschäftigt
+- bin ich am {FromDate=montag} um {FromTime=10 uhr} verfügbar
+- bin ich am {FromDate=montag} um {FromTime=17 uhr} frei für {Subject=getränke}
+- bin ich am {FromDate=montag} um {FromTime=21 uhr} frei
+- bin ich am {FromDate=montag} um {FromTime=21 uhr} verfügbar
+- bin ich am {FromDate=montag} um {FromTime=5} uhr frei für {Subject=getränke}
+- bin ich am {FromDate=samstag} frei
+- bin ich am {FromDate=samstag} um {FromTime=8 uhr} frei zum {Subject=wandern}
+- bin ich an {FromDate=diesem wochenende} beschäftigt
+- bin ich {FromDate=dienstag} um {FromTime=7 uhr} frei
+- bin ich {FromDate=dieses wochenende} beschäftigt
+- bin ich frei
+- bin ich frei, um mit kim am {FromDate=donnerstag} um {FromTime=15 uhr} zu {Subject=fahren}
+- bin ich {FromTime=heute} abend frei
+- bin ich {FromDate=heute} frei
+- bin ich {FromDate=heute} um {FromTime=17 uhr} frei
+- bin ich {FromDate=morgen} um {FromTime=15 uhr} frei
+- bin ich {FromDate=morgen} um {FromTime=17:30 uhr} verfügbar
+- bin ich um {FromTime=19 uhr} frei
+- bin ich verfügbar
+- bin ich von {FromTime=15 uhr} - {ToTime=22 uhr} frei
+- habe ich irgendwelche freizeit an {FromDate=diesem wochenende}
+- ich würde gerne wissen, ob meine mutter {FromDate=heute} verfügbar ist
+- ist debra am {FromDate=samstag} verfügbar
+- ist gerald {FromDate=dieses wochenende} beschäftigt
+- ist madison beschäftigt
+- ist nicholas {FromDate=freitag} verfügbar
+- ist rebecca am {FromDate=donnerstag} um {FromTime=4} uhr beschäftigt
+- ist russell am {FromDate=freitag} um {FromTime=16 uhr} frei
+- ist {FromDate=samstag} frei
+- ist theresa frei {FromDate=9. oktober}
+- ist virginia am {FromDate=montag} frei
+- kannst du den kalender meines vaters auf freie zeit {FromDate=diese woche} prüfen
+- kannst du mir sagen, ob mein mann am {FromDate=sonntag} frei hat
+- suche im kalender von jesse nach verfügbarkeit
+- wann bin ich {FromDate=heute} frei
+- wann hat aaron {FromDate=morgen} frei
+- wann hat bryan frei
+- wann ich frei bin
+- wann ist dylan verfügbar
+- wann ist samuel {FromDate=morgen} verfügbar
+- wann wird jordan frei haben
+- was ist annas verfügbarkeit am {FromDate=kommenden dienstag}
+- wird tyler am {FromDate=freitag} frei sein
+- zeig olivias verfügbarkeit an
+
+
+## Confirm
+- bestätigen
+- bitte
+- das ist großartig
+- das ist gut
+- das ist korrekt
+- das ist richtig
+- das ist richtig, danke
+- exzellent
+- großartig
+- gut
+- ich bin mir sicher
+- in ordnung
+- ja
+- ja bitte
+- ja gut
+- ja hinzufügen
+- ja in der tat
+- ja ist es
+- ja natürlich
+- ja perfekt
+- ja, danke
+- ja, das ist in ordnung
+- ja, es tut
+- ja, ja
+- ja, klar
+- klingt großartig
+- klingt gut
+- klingt gut, okay
+- okay
+- okay danke
+- okay, danke
+- perfekt
+- perfekt dankeschön
+- richtig
+- sicher
+- sicher, mach weiter
+- tu es
 
 
 ## ConnectToMeeting
-- Fügen Sie mich in die Telefonkonferenz
-- Fügen Sie mich in die Telefonkonferenz ein
-- Telefonkonferenz
-- Telefonkonferenz genpakt
-- Aufruf harris Konferenz
-- Aufruf  {Subject=Marketinggespräch} 
-- Aufruf zur Sitzung
-- Rufen Sie die  {Subject=Morgenbreifing} Tagungsnummer
-- Rufen Sie die  {Subject=Wöchentliches Marketing-Treffen} 
-- Konferenzbeitritt
-- Verbinden Sie mich mit  {FromTime=10 00} Telefonruf mit bryan
-- Verbinden Sie mich mit der Telefonkonferenz
-- Verbinden Sie mich mit dem Konferenzgespräch mit debra
-- Verbinden Sie mich mit  {Subject=Marketinggespräch} 
-- Verbinden Sie mich mit dem  {Subject=Haushaltssitzung} Telefonkonferenz
-- Verbinden Sie mich mit dem  {Subject=Marketinggespräch} 
-- Verbinden Sie mich mit Konferenzgespräch
-- Verbinden Sie mich mit meinem  {FromTime=2 Uhr} Sitzung
-- Verbindung zur Telefonkonferenz
-- Verbindung zur Telefonkonferenz  {FromTime=jetzt} 
-- Verbindung zu  {Subject=Wöchentliches Marketing-Treffen} 
-- Wählen Sie in die Telefonkonferenz
-- Wählen  {Subject=Marketinggespräch} 
-- Mich auf der Konferenz
-- Ich muss an der Konferenz teilnehmen
-- Ich muss an der Telefonkonferenz teilnehmen
-- Beitreten  {Subject=Budget} Telefonkonferenz
-- Konferenz
-- Beitreten  {FromTime=Aktuellen}   {Subject=Budget} Telefonruf
-- Beitreten  {FromTime=Aktuellen} Konferenz
-- Beitreten  {FromTime=Aktuellen} Telefonkonferenz
-- Mitmachen
-- Treffen
-- Treffen  {FromTime=jetzt} 
-- Mitmachen bei meinem Treffen
-- Join my  {OrderReference=nächster} Sitzung
-- Beitreten  {OrderReference=nächster}   {Subject=Linkstreffen} 
-- Beitreten  {OrderReference=nächster} Sitzung
-- Beitreten  {OrderReference=nächster} Treffen auf Link
-- Der  {Subject=Haushaltssitzung} Telefonkonferenz
-- Teilnahme an der Konferenz
-- Teilnahme am Treffen
-- Der  {OrderReference=nächster}   {Subject=Lynk} 
-- Link mitmachen  {OrderReference=nächster} Sitzung
-- lync join  {OrderReference=nächster} Sitzung
--  {MeetingRoom=Nokia Konferenzraum} Beitreten
-- Beginnen Sie die Sitzung
-- Meine Konferenz beginnen
-- Mein Treffen beginnen
-- Die Sitzung beginnen
+- füge mich der telefonkonferenz hinzu
+- füge mich telefonkonferenz hinzu
+- hol mich zu der telefonkonferenz
+- ich muss an der telefonkonferenz teilnehmen
+- ich muss an telefonkonferenz teilnehmen
+- konferenzbeitritt
+- link, nimm am {OrderReference=nächsten} meeting teil
+- link, nimm an meinem {OrderReference=nächsten} meeting teil
+- lync, nimm am {OrderReference=nächsten} meeting teil
+- nimm am lync-meeting teil
+- nimm am meeting teil
+- nimm am meeting teil {FromTime=jetzt}
+- nimm am {OrderReference=nächsten} {Subject=link-meeting} teil
+- nimm am {OrderReference=nächsten} {Subject=lync-meeting} teil
+- nimm am {OrderReference=nächsten} meeting teil
+- nimm am {OrderReference=nächsten} meeting teil über den link
+- nimm an der {FromTime=aktuelle} {Subject=budget}-telefonkonf. teil
+- nimm an der {FromTime=aktuellen} konferenz teil
+- nimm an der {FromTime=aktuellen} telefonkonferenz teil
+- nimm an der {Subject=budget-meeting} telefonkonferenz teil
+- nimm an der {Subject=budget}-telefonkonferenz teil
+- nimm an der konferenz teil
+- nimm an der telefonkonferenz teil
+- nimm an meinem meeting teil
+- nimm an meinem {OrderReference=nächsten} meeting teil
+- {MeetingRoom=nokia-konferenzraum} beitreten
+- rufe die konferenz an
+- rufe die nummer der {Subject=morgen-einsatzbesprechungskonferenz} an
+- rufe die telefonkonferenz an
+- rufe genpact telefonkonferenz an
+- rufe harris-konferenz an
+- rufe in das {Subject=marketing-meeting} an
+- rufe in das {Subject=wöchentliche marketing-meeting} an
+- rufe in der besprechung an
+- rufe in die telefonkonferenz an
+- starte das meeting
+- starte meeting
+- starte mein meeting
+- starte meine konferenz
+- verbinde mich mit der telefonkonferenz
+- verbinde mich mit meinem {FromTime=2 uhr} meeting
+- verbinde mich zu {FromTime=10 00} konf.-gespräch mit bryan
+- verbinde mich zu dem {Subject=marketing-meeting}
+- verbinde mich zu der {Subject=budgetsitzung}-telefonkonferenz
+- verbinde mich zu der telefonkonferenz
+- verbinde mich zu {Subject=marketing-meeting}
+- verbinde mich zu telefonkonferenz
+- verbinde mich zu telefonkonferenz mit debra
+- verbinde zum {Subject=wöchentlichen marketing-meeting}
+- verbinde zur telefonkonferenz
+- verbinde zur telefonkonferenz {FromTime=jetzt}
+- wähle das {Subject=marketing-meeting}
+- wähle die telefonkonferenz an
 
 
 ## ContactMeetingAttendees
-- Alarmbereitschaft  {Message=Treffen ist um 8 30} 
-- Alarmnehmer von  {Subject=Abendessen}  das  {Message=Ich komme spät} 
-- Warnung  {Subject=Treffen zur Qualitätskontrolle}  Teilnehmer, die  {Message=Ich bin 15 Minuten zu spät} 
-- Warnung  {Subject=Treffen zur Qualitätskontrolle}  Teilnehmer, die  {Message=Die Sitzung wird 30 Minuten später sein} 
--  {Message=Besprechungsraum wechselte zu neuem Standort} Anfragen an die Teilnehmer
-- Treffen wird bald beginnen erinnern alle Beteiligten
-- Kollegen, die  {Message=Die Erfüllung muss auf 8.30 Uhr verschoben werden.} 
-- Botschaft, die alle dazu raten  {Message=Ich werde spät zum Treffen} 
-- Botschaft nancy und sagen Sie ihm,  {Message=Vertagte das Treffen, weil i ' m werde 30 Minuten zu spät} 
--  {Message=Mein 9-Uhr-Treffen kann nicht bis 9 15 beginnen} Können Sie alle wissen lassen
-- Neuer Tagungsort  {ToTime=Heute Nachmittag}  Lassen Sie andere Teilnehmer wissen  {Message=Treffen ist jetzt in Raum 100} 
-- Alle Teilnehmer informieren
-- Alle Teilnehmer über die Änderung informieren
-- Benachrichtigungen der Bürositzung, dass  {Message=Ich werde etwas später} 
-- Diana benachrichtigen, dass  {Message=Ich werde zu spät zu unserem Treffen kommen} 
-- Benachrichtigen  {ToDate=Freitag} ' s  {ToTime=14 Uhr} Dass wir das Treffen abbrechen
-- Melden Sie kimberly, dass  {Message=Ich werde zu spät für unser 15-Uhr-Treffen} 
-- benachrichtigen Sie noah that  {Message=Unser Treffen wird um 30 Minuten verschoben} 
-- Andere darüber informieren  {Message=Ich werde spät zur Begegnung} 
-- Leute über Treffen informieren  {ToDate=Tue}  das  {Message=Es beginnt 15-30 Minuten später} 
-- ok herausfinden, ob das möglich ist, indem Sie eine Benachrichtigung über die Änderung der Sitzung an alle Teilnehmer senden.
-- Überlaufzeit in Konferenzraum-alle Teilnehmer, die benachrichtigt werden  {Message=Begegnung wird in den nächsten Raum verlegt} -erklärt, warum später
-- Bitte beraten  {Message=Ich bin spät}  Für  {ToDate=15 Uhr} Sitzung
-- Bitte informieren  {ToTime=3 Uhr} Teilnehmer treffen sich
-- Bitte informieren Sie die Teilnehmer  {Message=Treffpunkt ist um 8:30} 
-- Bitte informieren Sie die Teilnehmer des Treffens, dass  {Message=Ich laufe ein paar Minuten zu spät} 
-- Bitte informieren Sie die Kollegen  {Message=Verspätet zu laufen und eine halbe Stunde später zu treffen} 
-- Bitte informieren Sie die Kollegen  {Message=Wir treffen uns um 8:30 Uhr wegen Verspätung} 
-- Bitte informieren Sie joshua, dass  {Message=Ich werde zu spät für unser Treffen heute} 
-- Bitte informieren Sie die Teilnehmer der Besucher, dass  {Message=Ich laufe spät} 
-- Bitte informieren Sie die thomas, dass  {Message=Ich werde zu spät für das Treffen} 
-- Bitte informieren Sie die Arbeitskontaktgruppe, die  {Message=Ich laufe spät zum Treffen} 
-- Bitte informieren Sie alle Arbeitsgruppen in der Arbeitsgruppe  {Message=Treffen um 9 15 Uhr} 
-- Bitte lassen Sie sie wissen  {Message=Ich bin spät} 
-- Bitte informieren Sie uns alle  {Message=i ' m läuft spät zum 15 Uhr Treffen} 
-- Bitte informieren Sie george, dass  {Message=Ich werde zu spät für das Treffen} 
-- Bitte erinnern Sie den Teilnehmer daran, dass  {Message=Ich laufe spät} 
-- Bieten  {Message=Zeitumstellung für das Treffen} An alle Teilnehmer
-- Alle Teilnehmer daran erinnern  {ToDate=Morgen}  ' s  {Subject=Mittagessen}  das  {Message=Wir haben den Veranstaltungsort gewechselt} 
--  {Message=Raum 100 ist Lage}  Für  {ToTime=Heute Nachmittag} Treffen bitte andere informieren
--  {Message=Verspätet für Treffen} -andere benachrichtigen
--  {Message=Verspätet}  Für die  {Subject=Vorstandssitzung} Wachsam catherine daniel und alle anderen Teilnehmer
--  {Message=Verspätet} Lassen Sie es bitte zu meinem Treffen wissen
-- Senden Sie eine Botschaft an  {Message=Absage an meine 15-Tagesversammlung} 
-- Senden Sie eine Nachricht an johnny und jessie, dass  {Message=Unser heutiges Treffen wird um 30 Minuten später sein.} 
-- Senden Sie eine Botschaft an die Teilnehmer des Treffens, dass  {Message=Das Treffen beginnt nun um 8.30 Uhr} 
-- Eine Benachrichtigung an Douglas senden  {Message=Die erste wird an der Sitzung teilnehmen} 
-- Schicken Sie eine Benachrichtigung an paul, dass  {Message=Xu wen wird an der Sitzung teilnehmen} 
-- Senden Sie einen Text an die Menschen, die zu dem Treffen gehen, dass  {Message=Der Standort hat sich verändert} 
-- Senden Sie Erinnerung an  {ToTime=9 am}  Treffen für alle Teilnehmer  {Message=15 Minuten später} 
-- Die Teilnehmer erzählen  {Message=Ich bin spät} 
-- Sagen Sie es jedem  {Message=Das Treffen ist jetzt in Raum 204} 
-- Sagen  {OrderReference=nächster}  Treffen, dass  {Message=Ich laufe spät} 
+- benachrichtige alle teilnehmer
+- benachrichtige alle teilnehmer über die änderung
+- benachrichtige andere, dass {Message=ich zu spät zum meeting komme}
+- benachrichtige den {ToDate=freitags} {ToTime=14 uhr}, dass wir das treffen absagen
+- benachrichtige diana, dass {Message=ich zu spät zu unserem treffen komme}
+- benachrichtige die leute des treffens am {ToDate=di.}, dass {Message=es 15-30 minuten später beginnen wird}
+- benachrichtige die teilnehmer der bürobesprechung, dass {Message=ich etwas später kommen werde}
+- benachrichtige kimberly, dass {Message=ich zu spät zu unserem 15 uhr treffen komme}
+- benachrichtige noah, dass {Message=unser treffen um 30 minuten verschoben wurde}
+- bitte alarmiere die {ToTime=3 uhr} meeting-teilnehmer
+- bitte alarmiere die teilnehmer, {Message=das meeting ist 8:30 uhr}
+- bitte benachrichtige alle, {Message=ich bin zu spät zum 15 uhr meeting}
+- bitte benachrichtige diejenigen, die am meeting teilnehmen, dass {Message=ich ein paar minuten zu spät bin}
+- bitte erinnere den teilnehmer daran, dass {Message=ich zu spät komme}
+- bitte informiere den thomas, dass {Message=ich zu spät zum meeting komme}
+- bitte informiere die arbeitskontaktgruppe, dass {Message=ich zu spät zum meeting komme}
+- bitte informiere die kollegen, dass {Message=wir uns um 8:30 uhr treffen werden, da wir zu spät sind}
+- bitte informiere die meeting-teilnehmer, dass {Message=ich zu spät bin}
+- bitte informiere joshua, dass {Message=ich heute zu spät zu unserem treffen kommen werde}
+- bitte informiere, kollegen {Message=verspäten sich und meeting eine halbe stunde später}
+- bitte lass alle in der arbeitsgruppe wissen, {Message=das meeting beginnt um 9:15 uhr}
+- bitte lass sie wissen, dass {Message=ich zu spät bin}
+- bitte teil george mit, dass {Message=ich zu spät zum meeting komme}
+- bitte teile mit, {Message=ich bin zu spät} für das {ToDate=15 uhr} meeting
+- erinnere alle teilnehmer des {ToDate=morgigen} {Subject=mittagessens}, dass {Message=wir den veranstaltungsort gewechselt haben}
+- {Message=komme zu spät} zu meinem meeting, bitte lass es jennifer wissen
+- meeting wird bald beginnen, erinnere alle beteiligten daran
+- {Message=meeting-raum zu neuem standort verlegt}, sende an meeting-teilnehmer
+- {Message=mein 9 uhr treffen kann bis 9:15 uhr nicht beginnen}, kannst du es alle wissen lassen
+- neuer ort für das treffen {ToTime=heute nachmittag}, lass andere teilnehmer wissen, dass {Message=das meeting jetzt im raum 100 stattfindet}
+- okay, finde heraus, ob dies möglich ist, indem eine änderungsbenachrichtigung des meetings an alle teilnehmer gesendet wird
+- {Message=raum 100 ist standort} für {ToTime=heute nachmittägiges} meeting bitte benachrichtige andere
+- sag allen, dass {Message=das meeting jetzt in raum 204 ist}
+- sag dem {OrderReference=nächsten} meeting, dass {Message=ich zu spät komme}
+- sag den teilnehmern, dass {Message=ich spät dran bin}
+- sende den kollegen nachricht, dass das {Message=treffen auf 8:30 uhr verschoben werden muss}
+- sende eine mitteilung an douglas, {Message=der erste wird an der sitzung teilnehmen}
+- sende eine mitteilung an paul, dass {Message=xu wen an der sitzung teilnehmen wird}
+- sende eine nachricht an die meeting-teilnehmer, dass {Message=das meeting nun um 8:30 uhr beginnt}
+- sende eine nachricht an johnny und jessie, dass {Message=unser heutiges treffen um 30 minuten später sein wird}
+- sende eine nachricht raus, um {Message=mein 15 uhr meeting abzusagen}
+- sende einen text an die personen, die zur besprechung gehen, dass {Message=sich der standort geändert hat}
+- sende erinnerung an das meeting um {ToTime=9 uhr} an alle teilnehmer {Message=15 minuten später}
+- sende nachricht an alle, ankündigung, dass {Message=ich zu spät zum meeting kommen werde}
+- sende nachricht an nancy und sag ihm, er soll {Message=das treffen verschieben, weil ich 30 minuten zu spät sein werde}
+- stelle {Message=die zeitänderung des meetings} allen teilnehmern zur verfügung
+- über die zeit im konferenzraum - alle teilnehmer, die darüber informiert werden sollen, dass {Message=die besprechung in den nächsten raum verlegt wird} - werde später erklären warum
+- {Message=verspäte mich für das meeting} - benachrichtige andere
+- {Message=verspäte mich} für {Subject=vorstandssitzung}, alarmiere catherine daniel und alle anderen teilnehmer
+- warne die teilnehmer des {Subject=abendessen-treffens}, dass {Message=ich zu spät komme}
+- warne die teilnehmer des {Subject=qualitätskontrollmeetings}, dass das meeting 30 minuten später sein wird
+- warne die teilnehmer des {Subject=qualitätskontrollmeetings}, dass {Message=ich 15 minuten zu spät bin}
+- warne die teilnehmer {Message=treffen ist um 8:30}
 
 
 ## CreateCalendarEntry
--  {Duration=2 Stunden}  Treffen mit ladawn Padilla bei  {FromTime=5}  Auf  {FromDate=Dienstag} 
-- Ein Treffen mit Herman in meinen Kalender
-- Fügen Sie einen Termin auf  {FromDate=Mai 8}  Auf  {Location=Shanghai} 
-- Hinzufügen  {Subject=Angewandte Bewegung}  In meinem Kalender  {FromTime=9 am} 
-- Add appt mit mickey li für  {Subject=Abendessen}  Auf  {FromDate=5. März}  Auf  {FromTime=17 Uhr}  Auf  {Location=Dennys} 
-- Hinzufügen  {Subject=Balboa-Praxis}  In meinem Kalender unter  {FromTime=3 30}   {FromDate=Heute} 
-- Hinzufügen  {Subject=Ballett}  In meinem Kalender  {FromDate=Mittwoch}  Auf  {FromTime=Fünf dreißig}  An  {ToTime=26 dreißig Uhr} 
-- Hinzufügen  {Subject=Baseballspiel}  Auf  {FromDate=Freitag} In den Kalender
-- Hinzufügen  {Subject=Chikob-Bullen gegen Waschington-Zauberer}  In meinem Kalender  {FromDate=Morgen}  Auf  {FromTime=Sieben Uhr} 
-- Hinzufügen  {Subject=Chorpraxis}  Auf  {FromDate=Samstag}  Auf  {FromTime=19 Uhr}  Meiner  {DestinationCalendar=persönlich} Kalender
-- Hinzufügen  {Subject=Choreographie}  Meiner  {DestinationCalendar=Familie} Kalender
-- Hinzufügen  {Subject=Chorkonzert}  In den Kalender  {FromDate=1. Mai}  Auf  {FromTime=15 Uhr} 
-- Hinzufügen  {Subject=Kirche}  An  {DestinationCalendar=persönlich}  Kalender am  {FromDate=Sonntag}  Auf  {FromTime=9} 
-- Hinzufügen  {Subject=Kaffee}  Auf  {FromDate=12. August}  Auf  {FromTime=14 Uhr}  Mit Hermann für  {Duration=Eine Stunde} 
-- Hinzufügen  {Subject=Tanz}  Auf  {FromDate=Dienstag}  Auf  {FromTime=Vier Uhr} 
-- Hinzufügen  {Subject=Datum Nacht}  Auf der  {FromDate=5.}  Auf  {FromTime=19 Uhr}   {FromDate=Jeden Monat} 
-- Hinzufügen  {Subject=Zahnarzt-Termin}  Auf  {FromDate=Dienstag Juni}  Am  {Location=1. Klinik} 
-- Hinzufügen  {Subject=Zahnarzt-Termin}  In meinem Kalender unter  {FromTime=3:30}  Für die  {FromDate=8. Mai} 
-- Hinzufügen  {Subject=Zahnarzt-Termin}  In meinem Kalender  {FromDate=Morgen}  Von  {FromTime=3}  An  {ToTime=4:30} 
-- Hinzufügen  {Subject=Zahnarzttermine}  In meinem Kalender unter  {FromTime=3 dreißig p m} 
-- Hinzufügen  {Subject=Abendessen}  An  {DestinationCalendar=persönlich} Kalender
-- Hinzufügen  {Subject=Abendessen}  Mit Mama zu  {DestinationCalendar=persönlich} 
-- Hinzufügen  {Subject=Arztbesuch}  Auf  {FromDate=13. März}  Auf  {FromTime=14 Uhr}  Am  {Location=Tricare virginia Beach Clinic} 
-- Hinzufügen  {Subject=Einkaufen gehen} Mit sam meng auf dem Kalender
-- Hinzufügen  {Subject=Haarschnitt}  Meiner  {DestinationCalendar=Google}  Kalender  {FromDate=Morgen}  Auf  {FromTime=2 30} 
-- Hinzufügen  {Subject=Kane s dr appt}  In den Kalender  {FromTime=3}   {FromDate=Freitag} 
-- Hinzufügen  {Subject=Ahornstrand}  In meinem Kalender unter  {FromTime=10}  Auf  {FromDate=Sonntag} 
-- Hinzufügen  {Subject=Mega-Training}  Auf Kalender auf  {FromDate=4. Juli}  Auf  {FromTime=11 am} 
-- Hinzufügen  {Subject=Büroparty}  Auf  {FromDate=8. März}  Von  {FromTime=6 p}  An  {ToTime=9 p} 
-- Hinzufügen  {Subject=Auftragsschränke}  In meinem Kalender  {FromDate=Heute}  Auf  {FromTime=2 Uhr} 
-- Hinzufügen  {Location=ow huth Mittelschule}   {Subject=Treffen und grüßen} Auf meinem Kalender
-- Hinzufügen  {Subject=Kreditkarte bezahlen}  In den Kalender  {FromDate=Vielleicht zwanzigste} 
-- Hinzufügen  {Subject=Gehaltsbeilage}  Auf meinem Kalender  {FromDate=Morgen} 
-- Hinzufügen  {Subject=Bildertag}  Auf  {Location=Schule}  In meinem Kalender für  {FromDate=Freitag, 8. November}  Von  {FromTime=8 am}  An  {ToTime=9:30} am
-- Hinzufügen  {Subject=Solokonzert}  Auf  {Location=Linkombhalle}  Auf der  {FromDate=7. März}  Auf  {FromTime=20 Uhr} 
-- Hinzufügen  {Subject=Teamsitzung}  In meinem Kalender unter  {FromTime=22 Uhr} Mit Xiaoming wang
-- Hinzufügen  {Subject=ultimative Frisbee}  Auf  {FromDate=Sonntag}  Auf  {FromTime=14 Uhr}  Für  {Duration=2 Stunden} 
-- Hinzufügen  {Subject=Urlaub}  In meinem Kalender aus  {FromDate=4. Juli}  Bis  {ToDate=29. Juli} 
-- Hinzufügen  {Subject=Arbeit}  Nach Kalender unter  {FromTime=15 Uhr}  Auf  {FromDate=Freitag} 
-- Hinzufügen  {Subject=Arbeit}  In den Kalender  {FromDate=Freitag}  Von  {FromTime=8}  Für  {Duration=eine Stunde} 
-- Hinzufügen  {Subject=Arbeit}  In den Kalender  {FromDate=Sonntag}   {FromTime=10}  An  {ToTime=5} 
-- Hinzufügen  {Subject=Arbeit}  In den Kalender  {FromDate=Donnerstag}   {FromTime=8 30 am} 
-- Hinzufügen  {Subject=Arbeit}  In meinem Kalender  {FromDate=Montag}   {FromTime=6 am}  An  {ToTime=11 am} 
-- Hinzufügen  {Subject=Arbeit}  In meinem Kalender  {FromDate=Heute} 
-- Anfügen  {Subject=Vater feiert Geburtstag}   {FromDate=Jeden 21. Juli} 
-- Anhängen  {Subject=Fraktionssitzung}   {FromDate=Nächster Montag}  Auf  {FromTime=11am}  Für  {Duration=eine Stunde} 
-- Einen Kalendertermin erstellen  {FromTime=3:30}   {FromDate=Morgen}  Für  {Duration=Eine halbe Stunde} 
-- Eine Veranstaltung mit eden roth mit  {FromTime=16 Uhr}   {FromDate=Heute}  Für  {Duration=30 Min.} 
-- Ein Treffen auf  {FromTime=7:00pm} 
-- Ein Treffen auf  {FromTime=8am} 
-- Ein Treffen für  {FromDate=Morgen}   {FromTime=18 Uhr} Mit Lucy chen
-- Treffen mit tom34@outlook.com schaffen
-- Termin für  {Duration=30 Minute} 
-- Termin schaffen von  {FromDate=Dienstag}  An  {ToDate=Mittwoch} 
-- Kalender erstellen:  {FromDate=Morgen}   {FromTime=Morgen}  Von  {FromTime=9}  An  {ToTime=11}  Auf  {MeetingRoom=1103 Zimmer}  Für  {Subject=Interne Sitzung} 
-- Termin für  {FromTime=5 30}   {FromDate=Morgen} 
-- Termin für  {FromTime=7 30} 
-- Termin für mich
-- Termin vereinbaren am  {FromDate=Montag} .
-- Termin vereinbaren am  {DestinationCalendar=persönlich} Kalender
-- Termin vereinbaren  {Subject=Play Squash}  Auf  {FromDate=Donnerstag}  Auf  {FromTime=7 20} 
-- Termin vereinbaren  {Subject=Arztculver}   {FromDate=22. August 2013}   {FromTime=13 Uhr} 
-- Termin mit tom roth.
-- Machen für  {FromTime=15 Uhr}  Auf  {FromDate=Weihnachten} 
-- Machen Sie mich zu einem Kalenderereignis
-- Mich zu einem  {Subject=Zahnarzt-Termin}   {FromDate=Mittwoch}  Auf  {FromTime=Zweivierzig} 
-- Machen Sie mir einen Termin
-- Machen Sie mir einen Termin für  {FromDate=Nächstes Wochenende} 
-- Machen Sie mir einen Termin für  {FromTime=Zehn vierzig}   {FromDate=Nächster Montag} 
-- Machen Sie mir einen Termin für die  {FromDate=Nächste Woche Donnerstag} 
-- Machen Sie mir einen Termin im Kalender
-- Machen Sie mir einen Termin  {FromDate=Morgen}  Auf  {FromTime=14:30 Uhr} 
--  {FromDate=15. März}   {Subject=Abendessen}  Auf  {Location=Refektorium}  Auf  {FromTime=18 Uhr} 
-- Treffen ming wang für  {Subject=Mittagessen}  Auf  {FromDate=Dienstag}  Auf  {FromTime=Mittag} 
-- Treffen mit a.j. lee  {FromDate=Samstag}  Auf  {FromTime=15 Uhr} 
-- Treffen mit Carool lee  {Location=Startseite}  Auf  {FromDate=10. März}  Auf  {FromTime=16 Uhr} 
-- Treffen mit ben randie  {FromDate=Morgen}  Auf  {FromTime=Mittag} 
-- Treffen mit ellen fung auf  {FromDate=Montag}  Auf  {FromTime=9 am} 
-- Treffen mit jia li  {FromDate=Montag}   {FromTime=3 30} 
-- Treffen mit Morrison Sonne bei  {FromTime=14 Uhr}   {FromDate=Samstag} 
-- Treffen mit Morrison yang an  {FromTime=4} 
-- Neuer Termin für  {FromDate=Morgen} 
-- Neuer Termin im Kalender
-- Neuer Termin in meinem Kalender
-- Neuer Termin  {FromDate=Nächster Mittwoch} 
-- Neuer Termin  {FromDate=Heute}   {FromTime=18 Uhr}   {Subject=Tote Menschen sehen} 
-- Neuer Termin  {FromDate=Morgen}  Auf  {FromTime=15 Uhr}  Auf  {Location=Versunkene} 
-- Neuer Kalendertermin
-- Neuer Kalendereintrag
-- Neues Kalenderereignis
-- Neuer Kalenderpunkt
-- Auf  {FromDate=Samstag}  Auf  {FromTime=7 dreißig p m} 
--  {DestinationCalendar=persönlich}  Kalender  {FromDate=5/1/2013}   {Subject=Treffen Sie Mutter zum Hofverkauf} 
-- Termin in meinen Kalender
-- put  {Subject=Jahrestag} Auf meinem Kalender
-- put  {Subject=Hündin Termin}   {FromDate=Morgen}   {FromTime=Morgen} 
-- put  {Subject=Kapitäne}  In meinem Kalender für  {FromDate=Samstag}   {FromTime='Nabend} 
-- put  {Subject=Tanz}  Auf meinem Kalender für  {FromDate=Montag}   {FromTime=19 Uhr} 
-- put  {Subject=Tanz}  Auf meinem Kalender aus  {FromTime=6}  An  {ToTime=7} 
-- put  {Subject=Auf Arzt reddy}  Auf  {FromDate=20. Oktober}  Auf  {FromTime=3 30} 
-- put  {Subject=Zahnarzttermin}  Auf meinem Kalender  {FromDate=Samstag 22. März}  Auf  {FromTime=Zwölf Uhr} 
-- put  {Subject=Zahnarzt-Termin}  In meinem Kalender für  {FromDate=Morgen}  Auf  {FromTime=Ein Uhr} 
-- put  {Subject=Zahnarzt-Termin}  In meinem Kalender  {FromDate=Dienstag}   {FromTime=14:45 Uhr} 
-- put  {Subject=Zahnarzt}  Auf meinem Kalender für  {FromDate=Diesen Donnerstag}  Auf  {FromTime=10 am} 
-- put  {Subject=Arztbesuch}  In meinem Kalender für  {FromTime=5 vierzig}   {FromDate=Am nächsten Donnerstag} 
-- put  {Subject=Augenärzte-Termin}   {FromDate=Samstag}  Auf  {FromTime=11 am} 
-- put  {Subject=Friseurmin} Auf Kalender
-- put  {Subject=Wahnsinn}  Auf meinem Kalender unter  {FromTime=6 30 am} 
-- put  {Subject=Jurasarbeit}  Auf meinem Kalender  {FromDate=Donnerstag}   {FromTime=9 am}  An  {ToTime=17 Uhr} 
-- put  {Subject=Julie camil}  In meinem Kalender für  {FromDate=Morgen} 
-- put  {Subject=Mathematikpapier eins}  Auf  {FromDate=Dienstag 13} 
-- put  {Subject=Einkaufstag}  Auf  {FromDate=1. April}  Auf  {FromTime=10 am} Auf Kalender
-- put  {Subject=Schwimmen}  In meinem Kalender  {FromDate=Morgen} 
-- put  {Subject=Schwimmen}   {FromDate=Morgen} 
-- put  {Subject=Tennisspiel}  Für  {FromDate=Freitag}  Auf  {FromTime=1} Auf Kalender
-- put  {Subject=Prüfungstermin}  In meinem Kalender  {FromDate=Morgen}  Auf  {FromTime=7} 
-- put  {Subject=Spaziergang singen Termin} 
-- put  {Subject=Arbeit}  Auf meinem Kalender  {FromDate=Morgen}  Von  {FromTime=8 30}  An  {ToTime=5 30} 
-- put  {Subject=Yoga}  Auf meinem Kalender für  {FromDate=Montag}  Und  {FromDate=Mittwochs}  Auf  {FromTime=15 Uhr} 
-- Zeitplan a  {Subject=Frühstückstreffen}  Auf  {FromTime=8 am}   {FromDate=Morgen} 
-- Zeitplan a  {Subject=Mittagessen für meine Abteilung}  Auf  {Location=pf chang}  Auf  {FromDate=Mittwoch}  Auf  {FromTime=11 30 am} 
-- Planen Sie eine Kalenderveranstaltung für meine Schwester
-- Zeitplan a  {Subject=Chiropraktiker-Termin}  Auf  {FromDate=7. Juli}  Auf  {FromTime=4 Uhr} 
-- Zeitplan a  {Subject=Zahnarzttermin}   {FromDate=Morgen}   {FromTime=Nachmittag um fünf 30 Uhr} 
-- Zeitplan a  {Subject=Zahnarzt-Termin}  Für  {FromDate=Morgen}   {FromTime=Nacht um 19 Uhr} 
-- Zeitplan a  {Subject=Abendessen}  Für  {FromTime=Heute abend}  Auf  {FromTime=20 Uhr} 
-- Zeitplan a  {Subject=Arzttermin}  Für  {FromDate=12. März} 
-- Zeitplan a  {Subject=Arztbesuch}  Auf  {FromTime=15 30} 
-- Zeitplan a  {Subject=Arztbesuch}  Mit Madden auf  {FromDate=12. März}  Auf  {FromTime=16 Uhr} 
-- Zeitplan a  {Subject=Mittagstermin}  Mit Mama  {FromDate=Jeden Dienstag}  Auf  {FromTime=Mittag}  Für die  {FromDate=Nächste 5 Wochen} 
-- Zeitplan a  {Subject=Mittagstreffen} Mit meinem Vorsprung
-- Zeitplan a  {Subject=Massage}  Auf  {FromDate=Dienstag} 
-- Planen Sie ein Treffen
-- Planen Sie ein Treffen für  {FromDate=Am nächsten Donnerstag} 
-- Planen Sie ein Treffen für  {FromDate=Diesen Freitag}   {FromTime=11 am} 
-- Planen Sie ein Treffen für  {FromDate=Morgen}  Auf  {FromTime=17 Uhr} 
-- Planen Sie ein Treffen auf  {FromDate=Nov. 3}  Von  {FromTime=3} - {ToTime=16 Uhr} 
-- Planen Sie ein Treffen  {FromDate=Morgen} 
-- Planen Sie ein Treffen mit andy
-- Planen Sie ein Treffen mit han lu  {FromTime=8 am}   {FromDate=Nächster Dienstag} 
-- Planen Sie ein Treffen mit ryan von  {FromTime=3} - {ToTime=16 Uhr}  Auf  {FromDate=Oktober 25} 
-- Zeitplan a  {Subject=Ausführen}  Am  {Location=See} Mit madden
-- Zeitplan a  {Subject=Shoppingtrip}  Mit Shawntia auf  {FromDate=Freitag}  Auf  {FromTime=17 Uhr} 
-- Zeitplan a  {Subject=Fußballspiel}  Für  {FromDate=Nächster Freitag} 
-- Zeitplan a  {Subject=Wunschzetremin}  Auf  {FromTime=9 am}  Auf  {FromDate=Samstag} 
-- Zeitplan a  {Subject=Besuch des Marktes}   {FromDate=Diesen Samstag}  Auf  {FromTime=10 Uhr} 
-- Zeitplan a  {Subject=Training} Mit madden zu meinem Kalender
-- Terminvereinbarung für  {FromTime=10 30 Uhr morgens}  Auf  {FromDate=20. Januar} 
-- Terminvereinbarung für  {FromTime=9 am} 
-- Terminvereinbarung für mich
-- Terminvereinbarung für mich am  {FromDate=Morgen} 
-- Terminvereinbarung für mich  {FromDate=Heute} 
-- Terminvereinbarung für mich  {FromDate=Morgen}  Auf  {FromTime=3 am} 
-- Terminvereinbarung für meine Mama
-- Terminvereinbarung für  {FromTime=Mittag}   {FromDate=Morgen} 
-- Terminvereinbarung für  {FromTime=Eine Uhr}   {FromDate=Heute} 
-- Terminvereinbarung für  {FromDate=Samstag}  Auf  {FromTime=8}   {Subject=Abendessen} Mit madden
-- Terminvereinbarung für  {FromDate=Samstag}  Auf  {FromTime=Eine 30 Uhr}  An  {Subject=Haus messen} 
-- Terminvereinbarung für  {FromDate=Donnerstag}  Auf  {FromTime=15 Uhr}   {Subject=Haarschnitt} 
-- Terminvereinbarung für  {FromDate=Morgen}  Auf  {FromTime=Eine Uhr} 
-- Terminvereinbarung ab  {FromDate=18. Juni}  An  {ToDate=20. Juni} 
-- Terminvereinbarung über  {FromDate=Montag}  Von  {FromTime=Mittag}  An  {ToTime=16 Uhr} 
-- Terminvereinbarung im Kalender
-- Terminvereinbarung über  {FromDate=5. November November}  Auf  {FromTime=3 30} 
-- Terminvereinbarung über  {FromDate=31. Oktober} 
-- Terminvereinbarung über  {FromDate=Donnerstag Oktober Sekunde}  Auf  {FromTime=8 vierzig am}   {Subject=Mama es medizinischer Termin} 
-- Terminvereinbarung  {Subject=Call meredith}  Auf  {FromTime=12} 
-- Terminvereinbarung  {Subject=Bräutigam meine Hunde}  Auf  {Location=Petco}  Auf  {FromDate=Freitag}  Auf  {FromTime=18 Uhr} 
-- Terminvereinbarung  {Subject=Siehe cj}  Auf  {FromDate=Donnerstag} 
-- Terminvereinbarung mit madden
-- Terminvereinbarung mit madden unter  {FromTime=22 Uhr} 
-- Terminvereinbarung mit madden für  {FromDate=Mittwoch, 20.4.}  Auf  {FromTime=9 30 am} 
-- Terminvereinbarung mit madden  {FromDate=Heute}  Auf  {FromTime=2 Uhr} 
-- Terminvereinbarung mit madden  {FromDate=Morgen}  Auf  {FromTime=17 Uhr} 
-- Terminvereinbarung mit Mama
-- Termine ein Event
-- Terminplan eine Veranstaltung für mich
-- Planungen für eine Veranstaltung  {Subject=Scrum}  Mit madden bei  {FromTime=10 am}   {FromDate=Samstag} 
-- Planen Sie eine Veranstaltung für die  {FromDate=5. Juli} 
-- Termine ein Event im Kalender
-- Terminvereinbarung
-- Terminvereinbarung bei  {FromTime=8 p m}   {FromDate=Morgen} 
-- Terminvereinbarung für madden  {Subject=Kontozahlung} 
-- Terminvereinbarung  {Subject=Jährlicher Check}   {FromDate=Freitag marschiert ein}   {FromTime=10 am}   {Duration=Eine Stunde} 
-- Zeitplan  {Subject=Kunstschau}  Auf dem Kalender für  {FromTime=Mittag}  Auf  {FromDate=6. März} 
-- Zeitplan  {Subject=ben baig}  Für  {FromDate=Samstag}   {FromTime='Nabend} 
-- Zeitplan  {Subject=Camping}  Für  {FromDate=Freitag}  An  {ToDate=Sonntag} 
-- Zeitplan  {Subject=College}  Für  {FromDate=Morgen}  Auf  {FromTime=5 am} 
-- Zeitplan  {Subject=Zahnarzt-Termin}  Mit madden für  {FromDate=20. Mai}  Auf  {FromTime=15 Uhr} 
-- Zeitplan  {Subject=Abendessen}  Auf der  {FromDate=8.}  Auf  {FromTime=6 30 p m} 
-- Zeitplan  {Subject=Abendessen}  Mit madden bei  {FromTime=18 Uhr}  Auf  {FromDate=4. Juni}  Auf  {Location=Büffelwild} 
-- Zeitplan  {Subject=Abendessen}  Mit madden  {FromDate=Jeden Freitag}  Auf  {FromTime=17 Uhr} 
-- Zeitplan  {Subject=Trockenreinigung abholen}  Auf  {FromTime=Dreißig}   {FromDate=Heute} 
-- Zeitplan  {Subject=Fraktionssitzung}  Mit Madden auf  {FromDate=3. März}  Auf  {FromTime=16 Uhr} 
-- Zeitplan  {Subject=Friseurmin}  Auf  {FromDate=Montag}  Auf  {FromTime=14 Uhr} 
-- Zeitplan  {Subject=Urlaub}  Für die  {FromDate=Dreißig erste Juli} 
-- Zeitplan  {Subject=Urlaub}  Auf der  {FromDate=31. Juli} 
-- Zeitplan  {Subject=Mittagessen}  Mit madden für  {FromTime=11 30 am}  Auf  {FromDate=Mittwoch} 
-- Zeitplan  {Subject=Mittagessen}  Mit Madden auf  {FromDate=Dienstag} 
-- Zeitplan  {Subject=Mittagessen}  Mit Pura bei  {FromTime=Mittag}  Auf  {FromDate=Mittwoch kann}   {Duration=20 Minute} 
-- Zeitplan  {Subject=Mechaniker-Prüfung}  Auf  {FromTime=12 Uhr}  Auf  {FromDate=Freitag} 
-- Zeitplan  {Subject=Miranda es Graduierung}  Von  {FromTime=11}  An  {ToTime=3}  Auf  {FromDate=28. Mai} 
-- Planen Sie meinen Urlaub von  {FromDate=Heute}   {FromTime=17 Uhr}  An  {ToDate=Morgen}   {ToTime=17 Uhr} 
-- Zeitplan  {Subject=Therapietermin}  Auf  {FromTime=8 Uhr} 
-- Zeitplan  {Subject=Ruandera es Abschluss}  Für  {FromDate=Samstag}  Auf  {FromTime=11 Uhr} 
-- Zeitplan  {Subject=Hochzeitstag}  Auf  {FromDate=Freitag}   {FromTime='Nabend} 
-- Zeitplan  {Subject=Arbeit}  Für  {FromTime=7 am}   {FromDate=Morgen} 
-- Zeitplan  {Subject=Arbeit}  Auf  {FromDate=Donnerstag die 30 ersten}  Von  {FromTime=Drei}  An  {ToTime=37 dreißig} 
-- Zeitplan  {Subject=Yoga-Kurs}  Von  {FromTime=14 Uhr}  An  {ToTime=15 Uhr} 
-- Vereinbaren Sie einen Termin mit meiner Schwester in meinem  {DestinationCalendar=Wichtigsten} Kalender.
-- Einen Termin mit pura vereinbaren
-- Einen Termin mit pura vereinbaren  {FromDate=Morgen}  Auf  {FromTime=15 Uhr} 
-- Termin mit tom
-- Veranstaltung einrichten
-- Ein Ereignis in meinem Kalender einrichten
-- Einrichtung mit Pura für  {FromDate=Jeden Dienstag}  Auf  {FromTime=13 Uhr} 
-- Treffen mit Thomson eingerichtet
-- Termin festgelegt
-- Sollten Sie planen,  {FromTime=Nach dem Mittagessen} 
-- Wir vereinbaren einen Termin für mich
+- {Duration=2-stündiges} treffen mit ladawn padilla um {FromTime=5} am {FromDate=dienstag}
+- am {FromDate=samstag} um {FromTime=19 uhr 30}
+- anhängiges {Subject=gruppentreffen} {FromDate=nächsten montag} um {FromTime=11 uhr} für {Duration=eine stunde}
+- erstelle ein meeting für {FromDate=morgen} um {FromTime=18 uhr} mit lucy chen
+- erstelle ein meeting mit tom34@outlook.com
+- erstelle ein meeting um {FromTime=8 uhr}
+- erstelle eine veranstaltung mit eden roth um {FromTime=16 uhr} {FromDate=heute} für {Duration=30 minuten}
+- erstelle einen kalendertermin {FromDate=morgen} um {FromTime=3:30} für {Duration=eine halbe stunde}
+- erstelle mir am {FromDate=mittwoch} einen {Subject=zahnarzttermin} um {FromTime=zwei uhr fünfundvierzig}
+- erstelle mir ein kalenderereignis
+- erstelle termin für {Duration=30 minuten}
+- erstelle termin von {FromDate=dienstag} bis {ToDate=mittwoch}
+- füge {Subject=abendessen} mit mama dem {DestinationCalendar=persönlichen} hinzu
+- füge {Subject=abendessen} zum {DestinationCalendar=persönlichen} kalender hinzu
+- füge {Subject=angewandte bewegung} meinem kalender {FromTime=9 uhr} hinzu
+- füge {Subject=arbeit} am {FromDate=freitag} um {FromTime=15 uhr} dem kalender hinzu
+- füge {Subject=arbeit} {FromDate=donnerstag} {FromTime=8:30 uhr} dem kalender hinzu
+- füge {Subject=arbeit} {FromDate=freitag} von {FromTime=8} uhr für {Duration=eine stunde} dem kalender hinzu
+- füge {Subject=arbeit} {FromDate=heute} meinem kalender hinzu
+- füge {Subject=arbeit} {FromDate=montag} {FromTime=6 uhr} bis {ToTime=11 uhr} meinem kalender hinzu
+- füge {Subject=arbeit} {FromDate=sonntag} {FromTime=10} bis {ToTime=5} dem kalender hinzu
+- füge {Subject=arzttermin} am {FromDate=13. märz} um {FromTime=14 uhr} in der {Location=tricare virginia beach clinic} hinzu
+- füge {Subject=balboa-praxis} {FromDate=heute} um {FromTime=15:30 uhr} meinem kalender hinzu
+- füge {Subject=ballett} meinem kalender, {FromDate=mittwoch} um {FromTime=fünf uhr dreißig} bis {ToTime=sechs uhr dreißig nachmittags} hinzu.
+- füge {Subject=baseball-spiel} am {FromDate=freitag} dem kalender hinzu
+- füge {Subject=bildertag} in der {Location=schule} meinem kalender für {FromDate=freitag, den 8. november} von {FromTime=8} bis {ToTime=9:30 uhr} hinzu
+- füge {Subject=büroparty} am {FromDate=8. märz} von {FromTime=18 uhr} bis {ToTime=21 uhr} hinzu
+- füge {Subject=chicago bulls gegen washington wizards} zu meinem kalender hinzu, {FromDate=morgen} um {FromTime=19 uhr}.
+- füge {Subject=choreographie} meinem {DestinationCalendar=familienkalender} hinzu.
+- füge {Subject=chorkonzert} dem kalender für den {FromDate=1. mai} um {FromTime=15 uhr} hinzu
+- füge {Subject=chorprobe} am {FromDate=samstag} um {FromTime=19 uhr} meinem {DestinationCalendar=persönlichen} kalender hinzu.
+- füge {Subject=datum nachts} am {FromDate=5.} um {FromTime=19 uhr} {FromDate=jeden monat} hinzu
+- füge ein treffen mit herman meinem kalender hinzu.
+- füge einen termin am {FromDate=8. mai} in {Location=schanghai} hinzu
+- füge {Subject=einkaufen gehen} mit sam meng dem kalender hinzu
+- füge {Subject=haarschnitt} meinem {DestinationCalendar=google}-kalender {FromDate=morgen} um {FromTime=2:30} hinzu
+- füge {Subject=kaffee} am {FromDate=12. august} um {FromTime=14 uhr} mit herman für {Duration=eine stunde} hinzu
+- füge {Subject=kanes dr. term.} dem kalender für {FromTime=3} {FromDate=freitag} hinzu
+- füge {Subject=kirche} dem {DestinationCalendar=persönlichen} kalender {FromDate=sonntags} {FromTime=9} uhr hinzu
+- füge {Subject=kreditkarte bezahlen} dem kalender {FromDate=mai zwanzigster} hinzu
+- füge {Subject=maple beach} meinem kalender um {FromTime=10} am {FromDate=sonntag} hinzu
+- füge {Subject=megan training} zum kalender am {FromDate=4. juli} um {FromTime=11 uhr} hinzu
+- füge {Location=ow huth mittelschule} {Subject=meet and greet} meinem kalender hinzu
+- füge {Subject=perlengebühren bezahlen} {FromDate=morgen} meinem kalender hinzu
+- füge {Subject=schränke bestellen} meinem kalender {FromDate=heute} um {FromTime=2 uhr} hinzu
+- füge {Subject=solo-auftritt} in der {Location=lincombe-halle} am {FromDate=7. märz} um {FromTime=20 uhr} hinzu
+- füge {Subject=tanz} am {FromDate=dienstag} um {FromTime=vier uhr} hinzu
+- füge {Subject=teambesprechung} um {FromTime=22 uhr} mit xiaoming wang meinem kalender hinzu
+- füge term. mit mickey li zum {Subject=abendessen} am {FromDate=5. märz} um {FromTime=17 uhr} bei {Location=dennys} hinzu
+- füge {Subject=ultimatives frisbee} am {FromDate=sonntag} um {FromTime=14 uhr} für {Duration=2 stunden} hinzu
+- füge {Subject=urlaub} vom {FromDate=4. juli} bis {ToDate=29. juli} meinem kalender hinzu
+- füge {Subject=vaters geburtstag} {FromDate=jeden 21. juli} hinzu
+- füge {Subject=zahnarzttermin} am {FromDate=dienstag juni} in der {Location=1. klinik} hinzu
+- füge {Subject=zahnarzttermin} meinem kalender {FromDate=morgen} von {FromTime=3} bis {ToTime=4:30} hinzu
+- füge {Subject=zahnarzttermin} meinem kalender um {FromTime=3:30 uhr} für den {FromDate=8. mai} hinzu
+- füge {Subject=zahnarzttermine} meinem kalender um {FromTime=15:30 uhr} hinzu.
+- lege den termin fest
+- lege ein ereignis fest
+- lege eine veranstaltung in meinem kalender fest
+- lege einen termin mit meiner schwester in meinem {DestinationCalendar=hauptkalender} fest
+- lege einen termin mit tom fest
+- lege {FromDate=morgen} um {FromTime=15 uhr} einen termin mit pura fest
+- lege treffen mit pura für {FromDate=jeden dienstag} um {FromTime=13 uhr} fest
+- legen treffen mit thomson fest
+- {FromDate=märz 15} {Subject=abendessen} in der {Location=mensa} um {FromTime=18 uhr}
+- neuer kalendereintrag
+- neuer kalenderpunkt
+- neuer kalendertermin
+- neuer termin für {FromDate=morgen}
+- neuer termin {FromDate=heute} um {FromTime=18 uhr} {Subject=sieh tote menschen}
+- neuer termin im kalender
+- neuer termin in meinem kalender
+- neuer termin {FromDate=morgen} um {FromTime=15 uhr} im {Location=versunkenen}
+- neuer termin {FromDate=nächsten mittwoch}
+- neues kalenderereignis
+- {DestinationCalendar=persönlicher} kalender {FromDate=1.5.2013} {Subject=treffen mit mama für garagenflohmarkt}
+- plane {Subject=abendessen} am {FromDate=8.} um {FromTime=18 uhr dreißig}
+- plane {Subject=abendessen} mit madden {FromDate=jeden freitag} um {FromTime=17 uhr}
+- plane {Subject=abendessen} mit madden um {FromTime=18 uhr} am {FromDate=4. juni} im {Location=buffalo wild wings}
+- plane am {FromDate=mittwoch} um {FromTime=11:30 uhr} ein {Subject=business-mittagessen für meine abteilung} in {Location=pf chang}
+- plane {Subject=arbeit} am {FromDate=donnerstag, den einunddreißigsten} von {FromTime=drei} bis {ToTime=sieben uhr dreißig}
+- plane {Subject=arbeit} für {FromDate=morgen} früh {FromTime=7 uhr}
+- plane {Subject=camping} für {FromDate=freitag} bis {ToDate=sonntag}
+- plane {Subject=college} für {FromDate=morgen} um {FromTime=5 uhr}
+- plane ein {Subject=abendessen} für {FromTime=heute abend} um {FromTime=20 uhr}
+- plane ein ereignis
+- plane ein ereignis für mich
+- plane ein ereignis für {Subject=scrum} mit madden um {FromTime=10 uhr} {FromDate=samstag}
+- plane ein ereignis im kalender
+- plane ein {Subject=frühstückstreffen} {FromDate=morgen} um {FromTime=8 uhr}
+- plane ein {Subject=fußballspiel} für {FromDate=nächsten freitag}
+- plane ein kalenderereignis für meine schwester
+- plane ein {Subject=mittagessen-treffen} mit meiner führung
+- plane ein treffen für {FromDate=nächsten donnerstag}
+- plane eine besprechung
+- plane eine {Subject=massage} am {FromDate=dienstag}
+- plane eine veranstaltung für den {FromDate=5. juli}
+- plane einen {Subject=arztpraxistermin} für den {FromDate=12. märz}
+- plane einen {Subject=arzttermin} um {FromTime=15:30 uhr}
+- plane einen {Subject=besuch auf dem markt} {FromDate=diesen samstag} um {FromTime=10 uhr}
+- plane einen {Subject=lauf} am {Location=see} mit madden
+- plane einen termin
+- plane einen termin für {FromDate=morgen}
+- plane einen termin für {FromDate=morgen} um {FromTime=17 uhr}
+- plane {Subject=gruppentreffen} mit madden am {FromDate=3. märz} um {FromTime=16:00 uhr}
+- plane {Subject=haar-termin} am {FromDate=montag} um {FromTime=14 uhr}
+- plane {Subject=kunstausstellung} im kalender für {FromTime=mittag} am {FromDate=6. märz}
+- plane {Subject=mechanikerprüfung} am {FromDate=freitag} um {FromTime=12 uhr}
+- plane {Subject=mirandas graduierung} von {FromTime=11} bis {ToTime=3} am {FromDate=28. mai}
+- plane {Subject=mittagessen} mit madden am {FromDate=dienstag}
+- plane {Subject=mittagessen} mit madden für {FromTime=11:30 uhr} am {FromDate=mittwoch}
+- plane {Subject=therapietermin} um {FromTime=8 uhr}
+- plane {Subject=trockenreinigung abholung} um {FromTime=15:30 uhr} {FromDate=heute}
+- plane {Subject=urlaub} am {FromDate=31. juli}
+- plane {Subject=urlaub} für den {FromDate=einunddreißigsten juli}
+- plane {Subject=wandas graduierung} für {FromDate=samstag} um {FromTime=11 uhr}
+- plane {Subject=yogakurs} von {FromTime=14 uhr} bis {ToTime=15 uhr}
+- setze {Subject=arbeit} in meinen kalender {FromDate=morgen} von {FromTime=8 30} bis {ToTime=5 30}
+- setze {Subject=arzttermin} in meinen kalender für {FromTime=5 vierzig} {FromDate=nächsten donnerstag}
+- setze {Subject=augenarzttermin} {FromDate=samstag} um {FromTime=11 uhr}
+- setze {Subject=delainey auf doktor reddy} am {FromDate=20. oktober} um {FromTime=3 30 uhr}
+- setze {Subject=einkaufstag} am {FromDate=1. april} um {FromTime=10 uhr} auf den kalender
+- setze {Subject=friseurtermin} in den kalender
+- setze {Subject=jahrestag} in meinen kalender
+- setze {Subject=jason arbeit} auf meinen kalender {FromDate=donnerstag} {FromTime=9 uhr} bis {ToTime=17 uhr}
+- setze {Subject=julie camil} in meinen kalender für {FromDate=morgen}
+- setze {Subject=mathematikpapier eins} auf {FromDate=dienstag 13}
+- setze {Subject=schwimmen} in meinen kalender {FromDate=morgen}
+- setze {Subject=schwimmen} {FromDate=morgen}
+- setze {Subject=tanz} auf meinen kalender für {FromDate=montag} {FromTime=19 uhr}
+- setze {Subject=tanz} auf meinen kalender von {FromTime=6} bis {ToTime=7} uhr
+- setze {Subject=tennisspiel} für {FromDate=freitag} um {FromTime=1} auf den kalender
+- setze {Subject=testtermin} in meinen kalender {FromDate=morgen} um {FromTime=7} uhr
+- setze {Subject=wahnsinn} in meinen kalender um {FromTime=6:30}
+- setze {Subject=wegweiser-termin}
+- setze {Subject=yoga} in meinen kalender für {FromDate=montage} und {FromDate=mittwoche} um {FromTime=15 uhr}
+- setze {Subject=zahnarzt} in meinen kalender für {FromDate=diesen donnerstag} um {FromTime=10 uhr}
+- setze {Subject=zahnarzttermin} auf meinen kalender {FromDate=samstag, 22. märz} um {FromTime=zwölf uhr}
+- setze {Subject=zahnarzttermin} in meinen kalender {FromDate=dienstag} {FromTime=14:45 uhr}
+- setze {Subject=zahnarzttermin} in meinen kalender für {FromDate=morgen} um {FromTime=13 uhr}
+- solltest du {FromTime=nach dem mittagessen} planen
+- trage einen termin in meinen kalender ein
+- treffen mit ben randie {FromDate=morgen} {FromTime=mittag}
+- treffen mit ellen fung am {FromDate=montag} um {FromTime=9 uhr}
+- treffen mit jia li {FromDate=montag} {FromTime=3:30}
+- treffen mit morrison sun um {FromTime=14 uhr} {FromDate=samstag}
+- treffen mit morrison yang um {FromTime=4}
+- triff mit a. j. lee {FromDate=samstag} um {FromTime=15 uhr}
+- triff mit carol lee {Location=zu hause} am {FromDate=10. märz} um {FromTime=16 uhr}
+- vereinbare ein {Subject=training} mit madden in meinem kalender
+- vereinbare ein treffen für {FromDate=diesen freitag} {FromTime=11 uhr}
+- vereinbare ein treffen mit andy
+- vereinbare einen {Subject=arzttermin} mit madden am {FromDate=12. märz} um {FromTime=16 uhr}
+- vereinbare einen {Subject=chiropraktiker-termin} am {FromDate=7. juli} um {FromTime=4 uhr}
+- vereinbare einen {Subject=einkaufsbummel} mit shawntia am {FromDate=freitag} um {FromTime=17 uhr}
+- vereinbare einen termin am {FromDate=31. oktober}
+- vereinbare einen termin am {FromDate=5. november} um {FromTime=3:30 uhr}
+- vereinbare einen termin am {FromDate=donnerstag, zweiten oktober} um {FromTime=8 vierzig}, {Subject=mamas medizinischen termin}
+- vereinbare einen termin am {FromDate=montag} von {FromTime=mittags} bis {ToTime=16 uhr}
+- vereinbare einen termin für {FromTime=10:30 uhr morgens} am {FromDate=21. januar}
+- vereinbare einen termin für {FromTime=9 uhr} morgens
+- vereinbare einen termin für {FromDate=donnerstag} um {FromTime=15 uhr} {Subject=haarschnitt}
+- vereinbare einen termin für {FromTime=ein uhr} {FromDate=heute}
+- vereinbare einen termin für meine mutter
+- vereinbare einen termin für mich
+- vereinbare einen termin für mich auf {FromDate=morgen}
+- vereinbare einen termin für mich {FromDate=heute}
+- vereinbare einen termin für mich {FromDate=morgen} um {FromTime=3 uhr}
+- vereinbare einen termin für {FromDate=morgen} {FromTime=mittag}
+- vereinbare einen termin für {FromDate=morgen} um {FromTime=ein uhr}
+- vereinbare einen termin für {FromDate=samstag} um {FromTime=8} uhr, {Subject=abendessen} mit madden
+- vereinbare einen termin für {FromDate=samstag} um {FromTime=dreizehn uhr 30} zur {Subject=vermessung des hauses}
+- vereinbare einen termin in meinem kalender
+- vereinbare einen termin mit madden
+- vereinbare einen termin mit madden für {FromDate=mittwoch, den 24.} um {FromTime=9:30 uhr}
+- vereinbare einen termin mit madden {FromDate=heute} um {FromTime=2 uhr}
+- vereinbare einen termin mit madden {FromDate=morgen} um {FromTime=17 uhr}
+- vereinbare einen termin mit madden um {FromTime=22 uhr}
+- vereinbare einen termin mit mama
+- vereinbare einen termin mit pura
+- vereinbare einen termin vom {FromDate=18. juni} bis {ToDate=20. juni}
+- vereinbare einen {Subject=tierarzttermin} um {FromTime=9 uhr} am {FromDate=samstag}
+- vereinbare einen {Subject=zahnarzttermin} für {FromDate=morgen} {FromTime=nacht um 19 uhr}
+- vereinbare mir einen termin
+- vereinbare mir einen termin für die {FromDate=nächste woche donnerstag}
+- vereinbare mir einen termin für {FromDate=nächstes wochenende}
+- vereinbare mir einen termin für {FromTime=zehn vierzig} {FromDate=nächsten montag}
+- vereinbare mir einen termin im kalender
+- vereinbare mir {FromDate=morgen} um {FromTime=14:30 uhr} einen termin
+- vereinbare {FromDate=morgen} {FromTime=nachmittag um fünf uhr dreißig} einen {Subject=zahnarzttermin}
+- vereinbare term. für {FromTime=15 uhr} an {FromDate=weihnachten}
+- vereinbare termin am {FromDate=montag}
+- vereinbare termin {Subject=doktor culver zu sehen} am {FromDate=22. august 2013} {FromTime=13 uhr}
+- vereinbare termin für {FromTime=5 30} {FromDate=morgen}
+- vereinbare termin für {FromTime=7 30} uhr
+- vereinbare termin für madden {Subject=kontozahlung}
+- vereinbare termin für mich
+- vereinbare termin im {DestinationCalendar=persönlichen} kalender
+- vereinbare termin {Subject=jährliche überprüfung} {FromDate=freitag, erster märz}, {FromTime=10 uhr} {Duration=eine stunde}
+- vereinbare termin mit tom roth
+- vereinbare termin {FromDate=morgen} um {FromTime=20 uhr}
+- vereinbare termin zum {Subject=squash spielen} am {FromDate=donnerstag} um {FromTime=7 20 uhr}
+- vereinbare {Subject=zahnarzttermin} mit madden für den {FromDate=20. mai} um {FromTime=15 uhr}
+- wir vereinbaren einen termin für mich
 
 
 ## DeleteCalendarEntry
-- Können Sie die  {PositionReference=1.} Eine
-- Abbrechen  {FromTime=13 Uhr}   {Subject=Mitarbeiterversammlung} 
-- Alle Veranstaltungen absagen
-- Termine absagen
-- Termin stornieren
-- Termin stornieren  {FromDate=Heute} 
-- Kalendereintrag stornieren
-- Abbrechen  {Subject=Abendessen} 
-- Abbrechen  {Subject=Arztbesuch}   {FromDate=Montag} 
-- Veranstaltung abgesagt
-- Veranstaltung abgesagt  {FromDate=Morgen} 
-- Abbrechen  {Subject=Mittagessen}   {FromDate=Nächster Mittwoch} 
-- Sitzung abgesagt
-- Treffen mit abigail abgesagt  {FromTime=15 Uhr}   {FromDate=Heute} 
-- Treffen mit Bob Marlon abgesagt  {FromTime=15:00 Uhr}   {FromDate=Heute} 
-- Absage an meine  {Subject=Abenteuerlust}  An  {Location=Seattle} 
-- Meinen Termin kündigen
-- Meinen Termin absagen unter  {FromTime=21 Uhr} 
-- Meinen Termin absagen  {FromDate=Oktober 4} 
-- Absage an meine  {Subject=Fahrstunde fahren}   {FromDate=Morgen} 
-- Ich kann meine Veranstaltung abbrechen
-- Absage an mein Treffen
-- Absage an meine Sitzung unter  {Location=Shanghai}  Auf  {FromDate=Montag}  Auf  {FromTime=10 am} 
-- Absage an meine  {OrderReference=nächster} Termin
-- Absage an meine  {Subject=Gesangstermin}  Auf  {FromDate=Montag} 
-- Absage an meine  {Subject=Drei Uhr} Termin
-- Streichung des Termins
-- Absage an dieses Treffen
-- Kalender abbrechen
-- Die Veranstaltung abbrechen
-- Die  {Subject=Fraktionssitzung} 
-- Das Treffen absagen
-- Treffen mit julie absagen
-- Die  {Subject=Lebensmittel ab ted abholen} 
-- Die unbetitelte Veranstaltung auf  {FromDate=Zwanzigste} 
-- Abbrechen  {FromDate=Heute} ' s Ernennung
-- Abbrechen  {FromDate=Morgen} "Der Plan
-- Alle meine Termine klar
-- Alle meine Termine klar  {FromDate=Heute} 
-- Alle Termine aus meinem Kalender für  {FromDate=Heute} 
-- Klarem meinen Kalender
-- Klarstellen Sie meinen Kalender für  {FromDate=29. Januar} 
-- Mein Zeitplan klar
-- Klarer meinen Zeitplan für  {FromDate=Morgen} 
-- Mein Zeitplan klar  {FromDate=Heute} 
-- Abnehmen mein Treffen am  {FromDate=Montag} 
-- Termin löschen
-- Löschen  {Subject=Geburtstagskalender} 
-- Kalender löschen
-- Ereignis löschen
-- Treffen löschen
-- Meinen Zeitplan löschen
-- Löschen Sie meinen Zeitplan für  {FromDate=Heute} 
-- Löschen Sie diesen Termin
-- Löschen der  {PositionReference=1.} Einer aus meinem Kalender
-- Termine mit jeffrey löschen
-- Termine mit Mama löschen
-- Das geplante Treffen mit Zachär löschen
-- Diskutieren Sie den Termin mit george
-- Treffen ablegen
-- Meinen Termin für  {FromDate=Montag} 
-- Ich muss diesen Termin aus meinem Kalender löschen
-- Ich möchte einen Termin löschen
-- Entfernen  {Subject=Zahnarzt-Termin} 
-- Entfernen  {Subject=Abschlusstraftraining} Aus meinem Kalender
+- bereinige alle meine termine
+- bereinige alle meine termine {FromDate=heute}
+- bereinige alle termine aus meinem kalender für {FromDate=heute}
+- bereinige meinen kalender
+- bereinige meinen kalender für den {FromDate=29. januar}
+- bereinige meinen zeitplan
+- bereinige meinen zeitplan für {FromDate=morgen}
+- bereinige meinen zeitplan {FromDate=heute}
+- entferne {Subject=letzte nachhilfe} aus meinem kalender
+- entferne {Subject=zahnarzttermin}
+- ich möchte einen termin löschen
+- ich muss diesen termin aus meinem kalender löschen
+- kannst du die {PositionReference=erste} absagen
+- lass meinen termin für {FromDate=montag} fallen
+- lehne mein meeting am {FromDate=montag} ab
+- lösche besprechung
+- lösche das geplante meeting mit zachary
+- lösche den {PositionReference=1.} aus meinem kalender
+- lösche den kalender
+- lösche den termin mit jeffrey
+- lösche den termin mit mutter
+- lösche diesen termin
+- lösche einen termin
+- lösche ereignis
+- lösche {Subject=geburtstagskalender}
+- lösche kalenderereignis
+- lösche meinen zeitplan
+- lösche meinen zeitplan für {FromDate=heute}
+- lösche termin
+- streiche {FromTime=13 uhr} {Subject=personalbesprechung}
+- streiche {Subject=abendessen}
+- streiche alle veranstaltungen
+- streiche {Subject=arzttermin} {FromDate=montag}
+- streiche besprechung
+- streiche das {Subject=gruppentreffen}
+- streiche das treffen mit julie
+- streiche den {FromDate=heutigen} termin
+- streiche den {FromDate=morgigen} plan
+- streiche den termin
+- streiche die {Subject=abholung von lebensmittel von ted}
+- streiche die besprechung
+- streiche die unbenannte veranstaltung am {FromDate=28. mai}
+- streiche die veranstaltung
+- streiche diesen termin
+- streiche dieses meeting
+- streiche einen termin
+- streiche kalendereintrag
+- streiche meeting mit abigail {FromTime=15 uhr} {FromDate=heute}
+- streiche meeting mit bob marlon um {FromTime=15 uhr} {FromDate=heute}
+- streiche mein meeting
+- streiche mein meeting in {Location=schanghai} am {FromDate=montag} um {FromTime=10 uhr}
+- streiche meine {Subject=abenteuerreise} nach {Location=seattle}
+- streiche meine {Subject=fahrstunde} {FromDate=morgen}
+- streiche meine veranstaltung
+- streiche meinen {Subject=3 uhr} termin
+- streiche meinen {Subject=gesangstermin} am {FromDate=montag}
+- streiche meinen {OrderReference=nächsten} termin
+- streiche meinen termin
+- streiche meinen termin für den {FromDate=4. oktober}
+- streiche meinen termin um {FromTime=21 uhr}
+- streiche {Subject=mittagessen} {FromDate=nächsten mittwoch}
+- streiche termin
+- streiche termin {FromDate=heute}
+- streiche termine
+- streiche veranstaltung
+- streiche veranstaltung {FromDate=morgen}
+- verwirf den termin mit george
+- verwirf die besprechung
 
 
 ## FindCalendarDetail
-- Können Sie mir sagen,  {Subject=Meisterchef} 
-- Können Sie mir etwas sagen  {Subject=Shakespeare} 
-- Details über  {FromDate=Morgen} ' s meeting
-- Detaillierte Informationen zum  {OrderReference=nächster} Sitzung
-- Details zum Treffen mit Anmut
-- Details zum Treffen mit Karen und Tom
-- Finden Sie die Treffen mary
-- Geben Sie mir Details der  {OrderReference=nächster} Termin
-- Ich muss über meine wissen  {Subject=Datum} Mit Stephanie
-- Ich muss über mein Treffen Bescheid wissen
-- Ich muss über meine wissen  {OrderReference=nächster} Termin
-- Ich brauche Sie, um mir die Details des Treffens, das ich mit meinem Kollegen amanda geplant habe, zu geben
-- Bitte öffnen Sie meine  {Subject=Datum} Mit Stephanie und erzählen Sie mir davon
-- Erzähl mir von meinem Treffen  {FromDate=Heute} 
-- Erzähl mir von meiner  {OrderReference=nächster} Sitzung
-- Erzähl mir von meiner  {Subject=Geplante Reise} 
-- Erzähl mir mein Terminkalender mit  {FromTime=Nachmittag} 
-- Erzähl mir von meiner  {FromDate=Sonntag} Zeitplan
-- Erzähl mir alles  {Subject=Abendessen} Mit Stephanie
-- Was sind die Besonderheiten für die  {Subject=Picknick}   {FromDate=Nächste Woche} 
-- Was sind die Pläne für die  {Subject=Abendessen} Mit Stephanie
-- Was hat die Schwester über das Treffen am  {FromDate=Sonntag} 
-- Was ist  {Subject=Schicksalsveranstaltung}  Für  {FromDate=Nächste Woche} 
-- Was ist mein Treffen mit ming xu über
-- Was ist das Treffen mit Aschenley und jane berlin über
-- Was ist das Treffen mit daniel robert in Bezug
+- bitte öffne meine {Subject=verabredung} mit stephanie und erzähl mir davon
+- detail über das {FromDate=morgige} meeting
+- detaillierte informationen über das {OrderReference=nächste} treffen
+- details über das treffen mit grace
+- details über das treffen mit karen und tom
+- erzähl mir alles über die {Subject=abendessensverabredung} mit stephanie
+- erzähl mir von meinem meeting {FromDate=heute}
+- erzähl mir von meinem {OrderReference=nächsten} treffen
+- erzähl mir von meinem {FromDate=sonntagsplan}
+- erzähl mir von meinem zeitplan mit {FromTime=nachmittag}
+- erzähl mir von meiner {Subject=geplanten reise}
+- finde die meetings mary
+- gib mir details zum {OrderReference=nächsten} termin
+- ich möchte, dass du mir die details des treffens mitteilst, das ich mit meiner kollegin amanda vereinbart habe
+- ich muss über mein meeting bescheid wissen
+- ich muss über mein {Subject=treffen} mit stephanie bescheid wissen
+- ich muss über meinen {OrderReference=nächsten} termin bescheid wissen
+- kannst du mir etwas über {Subject=shakespeare} erzählen
+- kannst du mir von {Subject=meisterchef} erzählen
+- was hat die schwester über treffen am {FromDate=sonntag} gesagt
+- was ist das treffen mit daniel robert bezüglich
+- was ist {Subject=destinys veranstaltung} für {FromDate=nächste woche}
+- was sind die besonderheiten für das {Subject=picknick} {FromDate=nächste woche}
+- was sind die pläne für die {Subject=abendessen-verabredung} mit stephanie
+- worum geht es bei diesem treffen mit ashley und jane berlin
+- worum geht es bei meinem treffen mit ming xu
 
 
 ## FindCalendarEntry
-- Auf  {FromTime=10 am}  Ich habe eine  {Duration=30 Minute} Sitzung
-- Kalender für  {FromDate=Heute} 
-- Checks jenkalendarnen für  {FromDate=Dieses Wochenende} 
-- Check kronos Kalender
-- Mein Kalender
-- Schaut ich an, meine  {DestinationCalendar=Familie} Kalender
-- Überprüfen Sie den Zeitplan meiner Mutter
-- Ich habe irgendwelche Termine  {FromDate=Heute} 
-- Ich habe Treffen  {FromDate=Heute} 
-- Ich habe etwas von  {FromTime=11}  An  {ToTime=2} 
-- Ich habe etwas auf  {FromDate=Mittwoch} 
-- Ich habe etwas  {FromDate=Heute} 
-- Ein Treffen über  {Subject=Fraktionssitzung} 
-- Ein Treffen über  {Subject=Plan} 
-- Ein Treffen unter  {FromTime=19 Uhr} Von melissa
-- Ein Treffen von darren über  {Subject=Status-Update} 
-- Finden Sie ein Treffen von deborah über  {Subject=Mannschaftssitzung} 
-- Ein Treffen von donna finden
-- Ein Thema finden  {Subject=Tagessitzung} 
-- Treffen mit Thema finden  {Subject=Wochenbericht} 
-- Treffen mit Titel finden  {Subject=Zweite Lektion} Von amanda
-- Treffen mit Titel finden  {Subject=Teilens} Von steven
-- Finden Sie mir die Treffen bei  {FromTime=6} 
-- Finden Sie mir die Treffen bei  {FromTime=21 Uhr} 
-- Das Treffen finden Sie rund  {FromTime=5}  An  {FromTime=20 Uhr} 
-- Das Treffen mit der Justiz finden
-- Finden Sie das Treffen mit timothy
-- Finden Sie die  {OrderReference=nächster} Sitzung
-- Ich komme zu meiner  {OrderReference=nächster} Ereignis
-- Die  {OrderReference=nächster} Termin
-- Schau auf meine  {OrderReference=nächster} Termin für mich
--  {OrderReference=nächster} Sitzung
-- Erlangung des Termins mit frank
-- Suche nach einem Thema der Sitzung  {Subject=Generalprobe für das Projekt} 
-- Suche nach dem Treffen mit Titel  {Subject=Mitarbeiterorientierung} 
-- Zeigen Sie jean Kalender
-- Zeigen Sie mir den Zeitplan für  {FromDate=Freitag} 
-- Zeigen Sie mir den Kalender von Heidekraut
-- Zeigen Sie mir meinen Kalender
-- Zeigen Sie mir meinen Kalender für  {FromDate=Montag} 
-- Zeigt mir meine  {DestinationCalendar=Google} Kalender
-- Zeigt mir meine  {OrderReference=nächster} Sitzung
-- Zeigen Sie mir meinen Zeitplan  {FromTime=Heute abend} 
-- Zeigen Sie mir den Kalender unter  {FromTime=Nacht} 
-- Zeigen Sie mir das Treffen über  {Subject=Briefing-Sitzung} 
-- Zeigen Sie mir das Treffen über  {Subject=Online-Session} 
-- Zeigen Sie mir das Treffen mit paul
-- Zeigen Sie mir den Kalender für  {FromDate=Montag} 
-- Zeigen Sie meinen Zeitplan bei  {FromTime=Nacht} 
-- Sagen Sie mir die Veranstaltungen im Kalender geplant  {Location=Verfassungssaal} 
-- das  {OrderReference=nächster} Termin danach
-- Feiner Kalender anzeigen
-- Blick auf den Kalender von ethan
-- Was ist danach auf meinem Kalender
-- Was ist los  {FromDate=Dieses Wochenende} 
-- Was passiert  {FromDate=Heute} 
-- Was ist in meinem Kalender für  {FromDate=Heute} 
-- Was ist mein  {PositionReference=1.}  Termin  {FromDate=Morgen} 
-- Was ist mein  {PositionReference=1.}  Sitzung  {FromDate=Morgen} 
-- Was ist mein  {OrderReference=nächster} Termin
-- Was ist mein  {OrderReference=nächster} Sitzung
-- Was ist mein Terminplan  {FromDate=Morgen} 
-- Wie mein Terminplan aussieht  {FromDate=Morgen} 
-- Was ist  {OrderReference=nächster} Auf meinem Kalender
-- Was ist auf meinem Kalender
-- Was ist auf meinem Kalender für  {FromDate=Heute} 
-- Was ist auf meinem Kalender  {FromDate=Heute} 
-- Was ist auf meinem  {OrderReference=nächster} Sitzung
-- Was ist auf meinem Terminplan
-- Was steht auf meinem Terminplan  {FromDate=Morgen} 
-- Was ist auf meinem Terminplan  {FromDate=Heute} 
-- Was ist das Treffen  {FromDate=Heute}  Zwischen  {FromTime=10}  Und  {ToTime=12:00} 
-- Was mache ich  {FromDate=Nächste Woche} 
-- Was mache ich  {FromDate=Neunte Juni} 
-- Was mache ich  {FromTime=Heute abend} 
-- Welche Termine habe ich  {FromDate=Morgen} 
-- Was sind meine Termine  {FromDate=Diese Woche} 
-- Was sind meine Termine  {FromDate=Heute} 
-- Was sind meine Treffen bei  {FromTime=Nacht} 
-- Was habe ich für  {FromDate=Heute} 
-- Was habe ich aus  {FromTime=2}  An  {ToTime=4}  Auf  {ToDate=Samstag} 
-- Was habe ich aus  {FromDate=Montag}  Durch  {ToDate=Mittwoch} 
-- Was habe ich vor  {FromDate=Heute} 
-- Was habe ich  {OrderReference=nächster} 
-- Was habe ich auf meinem Kalender  {FromDate=Heute} 
-- Was habe ich auf  {FromDate=Sonntag} 
-- Was habe ich  {FromTime=Heute Nachmittag} 
-- Was muss ich tun  {FromTime=Heute Nachmittag} 
-- Was muss ich tun  {FromDate=Morgen} 
-- Was habe ich  {FromDate=Morgen} 
-- Was habe ich drauf  {FromDate=Morgen} 
-- Was ich mache  {FromDate=Nächste Woche} 
-- Was ich mache  {FromDate=Dieses Wochenende} 
-- Was macht  {FromDate=Montag}  Auf  {FromTime=Mittag} 
-- Was ist der Zeitplan des Spielplans  {FromDate=Diese Woche} 
-- Was ist mein  {PositionReference=1.}  Sitzung  {FromDate=Heute} 
-- Was ist mein Zeitplan  {FromDate=Morgen} 
-- Was ist  {OrderReference=nächster} In Kalender
-- Was auf meinem Kalender steht  {FromDate=Heute} 
-- Wie sieht der Zeitplan vor
-- Was timothy macht  {FromDate=Heute} 
-- Welche Treffen habe ich  {FromDate=Nächste Woche} 
-- Was war mein  {PositionReference=Ersten} Termin
-- Was ist los  {FromDate=Diese Woche} 
-- Was passiert  {FromDate=Morgen} 
-- Was bin ich  {PositionReference=Ersten}  Sitzung  {FromDate=Morgen} 
-- Wann und wo ist mein  {OrderReference=nächster} Sitzung
-- Das ist mein  {OrderReference=nächster} Ereignis
-- Die wird mein  {OrderReference=nächster}   {Subject=Flug} 
+- der {OrderReference=nächste} termin nach diesem
+- erwirke den termin mit frank
+- finde das {OrderReference=nächste} treffen
+- finde das treffen gegen {FromTime=17} bis {FromTime=20 uhr}
+- finde das treffen mit judith
+- finde das treffen mit timothy
+- finde den {OrderReference=nächsten} termin
+- finde ein meeting mit titel {Subject=teilen} von steven
+- finde ein meeting mit titel {Subject=zweite lektion} von amanda
+- finde ein meeting thema {Subject=tägliche besprechung}
+- finde ein meeting über den {Subject=plan}
+- finde ein treffen mit thema {Subject=wöchentlicher bericht}
+- finde ein treffen um {FromTime=19 uhr} von melissa
+- finde ein treffen von darren über {Subject=status-update}
+- finde ein treffen von deborah über die {Subject=teamsitzung}
+- finde ein treffen von donna
+- finde eine sitzung über {Subject=gruppentreffen}
+- finde mir die treffen um {FromTime=6}
+- finde mir die treffen um {FromTime=9 uhr}
+- habe ich etwas von {FromTime=11} bis {ToTime=2}
+- habe ich {FromDate=heute} irgendetwas
+- habe ich {FromDate=heute} irgendwelche meetings
+- habe ich {FromDate=heute} irgendwelche termine
+- habe ich irgendetwas am {FromDate=mittwoch}
+- kalender für {FromDate=heute}
+- komm zu meiner {OrderReference=nächsten} veranstaltung hin
+- {OrderReference=nächstes} treffen
+- prüfe den zeitplan meiner mutter
+- prüfe janices kalender für {FromDate=dieses wochenende}
+- prüfe kronos kalender
+- prüfe meinen {DestinationCalendar=familienkalender}
+- prüfe meinen kalender
+- sag mir die geplanten veranstaltungen im kalender {Location=verfassungssaal}
+- schlage meinen {OrderReference=nächsten} termin für mich nach
+- suche das meeting mit dem titel {Subject=mitarbeiterorientierung}
+- suche meeting-thema {Subject=projektvorschlag probe}
+- um {FromTime=10 uhr} habe ich ein {Duration=30-minütiges} treffen
+- wann und wo ist mein {OrderReference=nächstes} treffen
+- was habe ich am {FromDate=sonntag}
+- was habe ich für {FromDate=heute}
+- was habe ich {FromDate=heute} auf meinem kalender
+- was habe ich {FromTime=heute nachmittag}
+- was habe ich {FromTime=heute nachmittag} zu tun
+- was habe ich {FromDate=heute} vor
+- was habe ich {FromDate=morgen}
+- was habe ich {FromDate=morgen} vor
+- was habe ich {OrderReference=nächstes}
+- was habe ich von {FromTime=2} bis {ToTime=4} am {ToDate=samstag}
+- was habe ich von {FromDate=montag} bis {ToDate=mittwoch}
+- was ist als {OrderReference=nächstes} auf meinem kalender
+- was ist an {FromDate=diesem wochenende} los
+- was ist das {OrderReference=nächste} im kalender
+- was ist das treffen {FromDate=heute} zwischen {FromTime=10} und {ToTime=12:00}
+- was ist der zeitplan davor
+- was ist in meinem kalender für {FromDate=heute}
+- was ist logans zeitplan {FromDate=diese woche}
+- was ist los in {FromDate=dieser woche}
+- was ist mein {PositionReference=1.} termin {FromDate=morgen}
+- was ist mein {PositionReference=1.} treffen {FromDate=heute}
+- was ist mein {PositionReference=1.} treffen {FromDate=morgen}
+- was ist mein {PositionReference=erstes} treffen {FromDate=morgen}
+- was ist mein {OrderReference=nächster} termin
+- was ist mein {OrderReference=nächstes} treffen
+- was ist mein terminkalender {FromDate=morgen}
+- was ist mein terminplan für {FromDate=morgen}
+- was ist {FromDate=morgen} los
+- was ist nach dem in meinem kalender
+- was mach timothy {FromDate=heute}
+- was mache ich am {FromDate=neunten juni}
+- was mache ich {FromDate=dieses wochenende}
+- was mache ich {FromTime=heute abend}
+- was mache ich {FromDate=nächste woche}
+- was muss ich {FromDate=morgen} machen
+- was passiert {FromDate=heute}
+- was passiert in meinem kalender
+- was passiert in meinem {FromDate=kalender} für heute
+- was passiert in meinem kalender {FromDate=heute}
+- was passiert in meinem {OrderReference=nächsten} treffen
+- was passiert in meinem terminplan
+- was passiert in meinem terminplan für {FromDate=morgen}
+- was passiert in meinem terminplan {FromDate=heute}
+- was sind meine termine für {FromDate=diese woche}
+- was sind meine termine {FromDate=heute}
+- was sind meine treffen in der {FromTime=nacht}
+- was steht {FromDate=heute} in meinem kalender
+- was war mein {PositionReference=erster} termin
+- welche ist meine {OrderReference=nächste} veranstaltung
+- welche termine habe ich {FromDate=morgen}
+- welche treffen habe ich {FromDate=nächste woche}
+- welcher wird mein {OrderReference=nächster} {Subject=flug} sein
+- wie ist mein terminkalender wie {FromDate=morgen}
+- wie ist mein zeitplan für {FromDate=morgen}
+- wie ist mein zeitplan {FromDate=morgen}
+- zeig mir das treffen mit paul
+- zeige emilys kalender
+- zeige ethans kalender
+- zeige jean kalender an
+- zeige meinen zeitplan {FromTime=nachts}
+- zeige mir brendas zeitplan für {FromDate=freitag}
+- zeige mir das meeting über die {Subject=briefing-sitzung}
+- zeige mir das meeting über die {Subject=online-session}
+- zeige mir den kalender {FromTime=nachts}
+- zeige mir heathers kalender
+- zeige mir mein {OrderReference=nächstes} treffen
+- zeige mir meinen {DestinationCalendar=google}-kalender
+- zeige mir meinen kalender
+- zeige mir meinen kalender für {FromDate=montag}
+- zeige mir meinen zeitplan heute {FromTime=abend}
+- zeige mir victorias kalender für {FromDate=montag}
 
 
 ## FindCalendarWhen
-- Meine  {OrderReference=nächster} Treffen mit emily ist, wenn
-- Welches Tag ist  {Subject=lego land} Für
-- Welche Zeit habe ich  {Subject=Arbeit}   {FromDate=Morgen} 
-- Welche Zeit tun ich  {Subject=Arbeit}   {FromDate=Heute} 
-- Was ist die Zeit  {Subject=Beth over}   {FromDate=Heute} 
-- Welche Zeit ist meine  {Subject=Kochkurs}   {FromTime=Heute abend} 
-- Welche Zeit ist meine  {PositionReference=Ersten}  Sitzung  {FromDate=Morgen} 
-- Welche Zeit ist meine  {PositionReference=letzte} Sitzung
-- Welche Zeit ist mein Treffen  {FromDate=Heute} 
-- Welche Zeit ist meine  {Subject=Prüfung der Mobilgeräte}   {FromDate=Morgen} 
-- Welche Zeit ist meine  {OrderReference=nächster} Termin
-- Welche Zeit ist meine  {Subject=Treffen des Geldbeutet-Teams} 
-- Was ist die Zeit oshwin es  {Subject=Interview} 
-- Welche Zeit ist das  {Subject=Eiscreme sozial} 
-- Welche Zeit ist das  {Subject=Messe}   {FromDate=Diesen Samstag} 
-- Wenn es meine  {PositionReference=1.}  Termin  {FromDate=Morgen} 
-- Wenn es meine  {PositionReference=1.}  Sitzung  {FromDate=Morgen} 
-- Wenn es meine  {Subject=Arztbesuch} 
-- Wenn es meine  {OrderReference=nächster} Termin
-- Wenn es meine  {OrderReference=nächster}   {Subject=Arztbesuch} 
-- Wenn es meine  {OrderReference=nächster} Sitzung
-- Wann bin ich  {Subject=England beobachten} 
-- Wann finde ich  {Subject=Trennen}  Von  {Location=Schule} 
-- Wann habe ich  {Subject=Prüfung} 
-- Wann habe ich Freizeit  {FromDate=Heute} 
-- Wann treffe ich mich mit Charles
-- Wann finde ich  {Subject=Arbeit}   {FromDate=Morgen} 
-- Wann ist  {Subject=Konzert} Auf meinem Kalender
-- Wann ist  {Subject=ifeomas Basketball}   {FromDate=Heute} 
-- Wann ist  {Subject=Mittagessen} Mit freimütig
-- Wann ist mein  {PositionReference=1.}  Sitzung  {FromDate=Morgen} 
-- Wann ist mein Termin mit willie
-- Wann ist mein  {Subject=Täglich aufstehen} Mit ethan
-- Wann ist mein  {PositionReference=Fünfte}   {Subject=Auftakt} 
-- Wann ist mein Treffen mit kenneth
-- Wann ist mein Zusammentreffen mit Martha und deborah
-- Wann ist mein  {OrderReference=nächster} Termin
-- Wann ist mein  {OrderReference=nächster} Termin mit Douglas
-- Wann ist mein  {OrderReference=nächster} Ereignis
-- Wann ist mein  {OrderReference=nächster}   {Subject=Haarschnitt} Termin
-- Wann ist mein  {OrderReference=nächster} Sitzung
-- Wann ist mein  {OrderReference=nächster} Treffen mit edward
-- Wann ist mein  {OrderReference=nächster} Treffen mit Miss Kathleen
-- Wann ist mein  {OrderReference=nächster} Treffen mit ms Gesetz
-- Wann ist mein  {OrderReference=nächster}   {Subject=Reise}  An  {Location=Kew Guard} 
-- Wann ist mein  {Subject=Physio} 
-- Wann ist mein  {Subject=Picknick-Mittagessen}   {FromDate=Heute} 
-- Wann ist  {Subject=Sporttag für die Mädchen} 
-- Wann ist die  {OrderReference=nächster}   {Subject=Zahnarzt-Termin} 
-- Wann ist die  {Subject=sozial} 
-- Wann ist die  {Subject=Hochzeit}   {FromDate=Morgen} 
-- Wann ist mein  {Subject=Haarschnitt} 
-- Wann ist mein  {OrderReference=nächster}   {Subject=Reise} 
-- welche  {FromDate=Wochenende}  Ich bin  {Subject=Einkaufen} Mit Sarah
+- mein {OrderReference=nächstes} treffen mit emily ist wann
+- um wie viel uhr {Subject=arbeite} ich {FromDate=heute}
+- um wie viel uhr ist {Subject=beth drüber} {FromDate=heute}
+- um wie viel uhr ist die {Subject=eiscremeparty}
+- um wie viel uhr ist die {Subject=handelsmesse} {FromDate=diesen samstag}
+- um wie viel uhr ist mein {Subject=brieftaschenteam-meeting}
+- um wie viel uhr ist mein {PositionReference=erstes} treffen {FromDate=morgen}
+- um wie viel uhr ist mein {Subject=kochkurs} {FromTime=heute abend}
+- um wie viel uhr ist mein {PositionReference=letztes} treffen
+- um wie viel uhr ist mein {OrderReference=nächster} termin
+- um wie viel uhr ist mein treffen {FromDate=heute}
+- um wie viel uhr ist meine {Subject=mobile-geräte-prüfung} {FromDate=morgen}
+- um wie viel uhr ist oshwins {Subject=interview}
+- um wie viel uhr muss ich {FromDate=morgen} {Subject=arbeiten}
+- wann {Subject=arbeite} ich {FromDate=morgen}
+- wann habe ich {FromDate=heute} freie zeit
+- wann habe ich {Subject=prüfung}
+- wann ist das {Subject=soziale}
+- wann ist der {OrderReference=nächste} {Subject=zahnarzttermin}
+- wann ist die {Subject=hochzeit} {FromDate=morgen}
+- wann ist {Subject=ifeomas basketball} {FromDate=heute}
+- wann ist {Subject=konzert} auf meinem kalender
+- wann ist mein {PositionReference=1.} termin {FromDate=morgen}
+- wann ist mein {PositionReference=1.} treffen {FromDate=morgen}
+- wann ist mein {Subject=arzttermin}
+- wann ist mein {PositionReference=fünfter} {Subject=kick-off}
+- wann ist mein {Subject=haarschnitt}
+- wann ist mein {OrderReference=nächster} {Subject=arzttermin}
+- wann ist mein {OrderReference=nächster} {Subject=haarschnitt}-termin
+- wann ist mein {OrderReference=nächster} termin
+- wann ist mein {OrderReference=nächster} termin mit douglas
+- wann ist mein {OrderReference=nächstes} event
+- wann ist mein {OrderReference=nächstes} treffen
+- wann ist mein {OrderReference=nächstes} treffen mit edward
+- wann ist mein {OrderReference=nächstes} treffen mit fr. lawrence
+- wann ist mein {OrderReference=nächstes} treffen mit frau kathleen
+- wann ist mein {Subject=picknick-mittagessen} {FromDate=heute}
+- wann ist mein {Subject=tägliches aufstehen} mit ethan
+- wann ist mein termin mit willie
+- wann ist mein treffen mit kenneth
+- wann ist mein treffen mit martha und deborah
+- wann ist meine {OrderReference=nächste} {Subject=reise}
+- wann ist meine {OrderReference=nächste} {Subject=reise} nach {Location=kew garde}
+- wann ist meine {OrderReference=nächste} sitzung
+- wann ist meine {Subject=physio}
+- wann ist {Subject=mittagessen} mit frank
+- wann ist {Subject=sporttag für die mädchen}
+- wann {Subject=sehe ich england}
+- wann treffe ich mich mit charles
+- welcher tag ist {Subject=legoland} geplant
+- welches {FromDate=wochenende} bin ich mit sarah {Subject=einkaufen}
 
 
 ## FindCalendarWhere
-- Lage der  {FromTime=11 am} Sitzung
-- Lage der  {OrderReference=nächster} Termin
-- Treffen am  {FromTime=15 Uhr}   {FromDate=Heute} Standorte
-- Zeigen Sie mir den Ort der  {Subject=Intelligente Ausbildung arbeiten} 
-- Zeigen Sie mir, wo meine  {OrderReference=nächster} Termin ist
-- Wie ist der Standort von  {OrderReference=nächster} Sitzung
-- Was der Ort des  {Subject=Wochengespräch} 
-- Wo ist mein Treffen
-- Wo ist mein  {OrderReference=nächster} Termin
-- Wo ist mein  {OrderReference=nächster} Sitzung
-- Wo gehe ich hin  {FromDate=Dieses Wochenende} 
-- Wo gehe ich hin  {FromTime=Heute abend} 
-- Wo bin ich auf die Begegnung austin und john
-- Wo bin ich  {FromDate=Möge der Erste} 
-- Wo bin ich  {FromDate=Morgen} 
-- Wo sind meine Treffen  {FromDate=Heute} 
-- Wohin gehe ich zu meinem Treffen  {FromDate=Morgen}  Auf  {FromTime=11 am} 
-- Wo gehe ich hin  {FromDate=Morgen} 
-- Wo muss ich sein  {OrderReference=nächster} 
-- Wo muss ich sein  {FromDate=Heute} 
-- Wo muss ich hin  {FromDate=Heute} 
-- Wo findet meine Begegnung statt
-- Wo mache ich  {FromDate=Dieses Wochenende} 
-- Wo ist  {Subject=Abendessen} Mit abigail liu
-- Wo ist es
-- Wo ist  {Subject=Margot Mittagessen} 
-- Wo ist Treffen  {FromDate=Morgen}  Auf  {FromTime=11 am} 
-- Wo ist Treffen mit Hemd
-- Wo ist mein  {FromTime=11 am}  Termin  {FromDate=Morgen} Passiert
-- Wo ist mein  {FromTime=11 am}  Sitzung  {FromDate=Morgen} 
-- Wo ist mein aktuelles Treffen
-- Wo ist mein  {Subject=Zahnarzt-Termin} 
-- Wo ist mein  {FromTime=11 Uhr} Sitzung
-- Wo ist mein  {PositionReference=Ersten}  Termin  {FromDate=Morgen} 
-- Wo ist mein  {PositionReference=Her}  Veranstaltung mit Brandon  {FromDate=Freitag} 
-- Wo ist mein  {PositionReference=Her}  Veranstaltung mit Christopher am  {FromDate=Donnerstag} 
-- Wo ist mein Treffen mit Kajak
-- Wo ist mein  {OrderReference=nächster} Termin mit Miss doris
-- Wo ist mein  {OrderReference=nächster} Termin mit olivia
-- Wo ist mein  {OrderReference=nächster}   {Subject=Zahnarzt-Termin} 
-- Wo ist mein  {OrderReference=nächster} Ereignis
-- Wo ist mein  {OrderReference=nächster} Treffen mit ms natalie
-- Wo ist mein  {PositionReference=Dritte}   {Subject=Shiproom} Mit Tiffany
-- Wo ist diese Begegnung
-- Wo ist das Treffen
-- Wo ist das Treffen unter  {FromTime=11 am}   {FromDate=Morgen} 
-- Wo ist das  {Subject=Treffen zur Leistungsbewertung} 
-- Wo ist  {FromDate=Morgen}  ' s  {FromTime=11 am} Sitzung
-- Wo ist  {FromDate=Morgen}  Treffen am  {FromTime=11 am} 
-- Wo ist  {FromDate=Morgen} ' s event
-- Wo bin ich  {OrderReference=nächster} Sitzung
+- ort der {FromTime=11 uhr} besprechung
+- ort des {OrderReference=nächsten} termins
+- treffen um {FromTime=15 uhr} {FromDate=heute} standorte
+- was der ort der {Subject=wöchentlichen sitzung}
+- was ist der ort des {OrderReference=nächsten} treffens
+- wo bin ich {FromDate=morgen}
+- wo findet mein {FromTime=11 uhr} termin {FromDate=morgen} statt
+- wo findet mein treffen statt
+- wo gehe ich heute {FromTime=abend} hin
+- wo ich bin am {FromDate=einundzwanzigsten mai}
+- wo ich {FromDate=dieses wochenende} hingehe
+- wo ist das {Subject=abendessen} mit abigail liu
+- wo ist das {Subject=leistungsbeurteilungsmeeting}
+- wo ist das meeting
+- wo ist das {FromDate=morgige} {FromTime=11 uhr} treffen
+- wo ist das treffen {FromDate=morgen} um {FromTime=11 uhr}
+- wo ist die {FromDate=morgige} veranstaltung
+- wo ist dies treffen
+- wo ist es
+- wo ist {Subject=margot mittagessen}
+- wo ist mein {FromTime=11 uhr} treffen
+- wo ist mein {FromTime=11 uhr} treffen {FromDate=morgen}
+- wo ist mein aktuelles meeting
+- wo ist mein {PositionReference=dritter} {Subject=schiffsraum} mit tiffany
+- wo ist mein {PositionReference=erster} termin {FromDate=morgen}
+- wo ist mein {OrderReference=nächster} termin
+- wo ist mein {OrderReference=nächster} termin mit frau doris
+- wo ist mein {OrderReference=nächster} termin mit olivia
+- wo ist mein {OrderReference=nächster} {Subject=zahnarzttermin}
+- wo ist mein {OrderReference=nächstes} treffen
+- wo ist mein {OrderReference=nächstes} treffen mit fr. natalie
+- wo ist mein treffen
+- wo ist mein treffen mit kayla
+- wo ist mein {Subject=zahnarzttermin}
+- wo ist meine {OrderReference=nächste} veranstaltung
+- wo ist meine {PositionReference=vierte} veranstaltung mit brandon {FromDate=freitag}
+- wo ist meine {PositionReference=vierte} veranstaltung mit christopher am {FromDate=donnerstag}
+- wo ist {FromDate=morgen} treffen um {FromTime=11 uhr}
+- wo ist treffen mit shirley
+- wo ist treffen {FromDate=morgen} um {FromTime=11 uhr}
+- wo muss ich als {OrderReference=nächstes} sein
+- wo muss ich {FromDate=heute} hin
+- wo muss ich {FromDate=heute} sein
+- wo sind meine meetings {FromDate=heute}
+- wo treffe ich mich mit austin und john
+- wohin gehe ich {FromDate=dieses wochenende}
+- wohin gehe ich {FromDate=morgen}
+- wohin soll ich {FromDate=morgen} um {FromTime=11 uhr} zu meinem meeting gehen
+- zeige mir wo mein {OrderReference=nächster} termin ist
+- zeigen sie mir den ort der {Subject=arbeit smart training}
 
 
 ## FindCalendarWho
--  {FromTime=14 Uhr}  Sitzung  {FromDate=Morgen} -wer sonst geht
--  {FromTime=14 Uhr} Treffen mit wem
-- Teilnehmer, die sich der  {FromTime=17 Uhr} Sitzung
-- Die hellen kamen zu  {FromTime=15 Uhr} ' s meeting
-- Markierte die  {FromDate=Morgen} ' s meeting
-- Martin kam zu  {FromDate=Heute} ' s meeting
-- Besucher, die teilnehmen werden  {FromTime=8 Uhr} Sitzung
-- Ich möchte einen Blick auf die Teilnehmerliste werfen
-- Junge sind an der Sitzung
-- "Es wird ein sehr gut
-- Es wird joe sein, an der  {OrderReference=nächster} Sitzung
-- Teilnahme an victoria  {OrderReference=nächster} Sitzung
-- Lassen Sie mich sehen, wer teilnehmen wird  {Subject=Parteitag der Planung} 
-- Liste der Teilnehmer der  {OrderReference=nächster} Sitzung
-- Liste der Teilnehmer für die  {FromTime=14 Uhr}  Sitzung  {FromTime=Morgen} 
-- Zeigen Sie mir die bestätigten Teilnehmer
-- Zeigen Sie mir, wer teilnehmen wird  {Subject=Familientreffen} 
-- Zeigen Sie mir, wer dabei sein wird  {Subject=Planungssitzung}   {FromDate=Morgen}  Auf  {FromTime=14 Uhr} 
-- Teilnehmer der Veranstaltung
-- Wer ist in meinem  {PositionReference=1.}  Sitzung  {FromDate=Heute} 
-- Wer alle bei der  {OrderReference=Weiter 5} Sitzungen
-- Wer bin ich auf treffen  {FromTime=10 am}   {FromDate=Morgen} 
-- Für wen treffe ich mich  {Subject=Abendessen} 
-- Wer habe ich  {OrderReference=nächster} 
-- Wer sonst geht an die  {FromTime=14 Uhr}  Sitzung  {FromDate=Morgen} 
-- Wer sonst ist in  {Subject=Bankentreffen} 
-- Wer ist dabei  {FromTime=14 Uhr}  Sitzung  {FromDate=Morgen} 
-- Wer an der Sitzung teilnimmt
-- Wer nimmt an der Sitzung teil  {FromDate=Mittwoch} 
-- Wer nimmt an den Sitzungen teil
-- Wer kommt zum Treffen  {FromDate=Morgen}  Auf  {FromTime=14 Uhr} 
-- Wer wird an der Sitzung teilnehmen?  {FromDate=Morgen}  Auf  {FromTime=14 Uhr} 
-- Wer geht zum Treffen bei  {FromTime=14 Uhr}   {FromDate=Morgen} 
-- Wer geht  {FromDate=Morgen} ' s meeting
-- Wer ist in meinem  {OrderReference=nächster} Sitzung
-- Wer ist in dieser Sitzung
-- Wer ist in der Sitzung
-- Wer ist mein  {PositionReference=Ersten}  Treffen mit  {FromDate=Morgen} 
-- Wer ist mein  {FromTime=Morgen} Treffen mit
-- Wer steht auf meiner Liste für die  {FromTime=14 Uhr}  Sitzung  {FromDate=Morgen} 
-- Wer beteiligt ist  {FromDate=Morgen}  Auf  {FromTime=14 Uhr} Sitzung
-- Wer ist der  {FromTime=14 Uhr} Treffen mit
-- Wer auf Befantragung der Sitzung reagiert hat
-- Wer wird an der Versammlung teilnehmen?  {FromDate=Morgen}  Auf  {FromTime=14 Uhr} 
-- Wer wird an der Sitzung teilnehmen  {FromTime=4} 
-- Wer wird bei der  {Subject=Kinderspiel} 
-- Wer wird dabei sein  {Subject=Picknick} 
-- Wer wird in  {Subject=Bankentreffen} 
-- Wer wird bei diesen beiden Veranstaltungen dabei sein
-- Wird Bernstein beitreten  {Subject=Büroversammlung}   {FromDate=Heute} 
-- Wird bei  {FromDate=Heute} ' s meeting
-- Wird bei der Sitzung sein
-- Bobby shen be at  {OrderReference=nächster} Sitzung
-- Wird ethan, yutien und a.j.  {Subject=Picknick} 
-- Wird george in der  {Subject=hr trifft}  Auf  {FromTime=1} O ' Uhr
-- Wird jane am  {FromTime=15 Uhr} Sitzung
-- Der Teilnehmer wird jimmy parker
-- Wird john bei  {Subject=Marketinggespräch} 
-- Wird johnny bei  {Subject=Büroversammlung}   {FromDate=Heute} 
-- Wird in der  {FromTime=Morgen}   {Subject=Briefing-Treffen} 
-- Wird nicholas an der  {Subject=Vorstandssitzung} 
-- Paul geht zum Treffen auf  {FromDate=Freitag} 
-- Runge bei uns  {Subject=Wochenteamtreffen} 
-- Wird teresa bei mir sein  {OrderReference=nächster} Sitzung
-- Wird thomas in  {Subject=Versicherungsversammlung}   {FromDate=Montag}  Auf  {FromTime=Mittag} 
-- Timothys kommt zum Treffen
-- Wird jungfrau sein  {OrderReference=nächster} Sitzung
-- Wird in der  {Subject=Finanzsitzung} 
+- {FromTime=14 uhr} treffen mit wem
+- {FromTime=14 uhr} treffen {FromDate=morgen} - wer sonst geht
+- finde teilnehmer, die an der {FromTime=8-uhr}-sitzung teilnehmen werden
+- hat mark sich für die {FromDate=morgige} sitzung angemeldet
+- ich möchte einen blick auf die teilnehmerliste werfen
+- ist martin zur {FromDate=heutigen} besprechung gekommen
+- kam hellen zu dem {FromTime=15 uhr} treffen
+- lass mich sehen, wer am {Subject=parteiplanungsmeeting} teilnehmen wird
+- liste die teilnehmer der {OrderReference=nächsten} besprechung auf
+- liste die teilnehmer des {FromTime=14 uhr} meetings {FromTime=morgen} auf
+- mit wem ist mein {PositionReference=erstes} treffen {FromDate=morgen}
+- mit wem ist mein {FromTime=morgen}-meeting
+- nimmt bruce young am treffen teil
+- nimmt victoria am {OrderReference=nächsten} treffen teil
+- teilnehmer, die am {FromTime=17-uhr}-meeting teilnehmen werden
+- wen habe ich als {OrderReference=nächstes}
+- wen treffe ich {FromDate=morgen} um {FromTime=10 uhr}
+- wen treffe ich zum {Subject=abendessen}
+- wer geht {FromDate=morgen} um {FromTime=14 uhr} zur sitzung
+- wer geht zur {FromDate=morgigen} sitzung
+- wer hat meeting-anfragen beantwortet
+- wer ist beim {FromTime=14 uhr} meeting dabei
+- wer ist {FromDate=heute} in meinem {PositionReference=1.} meeting
+- wer ist in der sitzung
+- wer ist in dieser sitzung
+- wer ist in meiner {OrderReference=nächsten} sitzung
+- wer kommt [zu] dem meeting {FromDate=morgen} um {FromTime=14 uhr}
+- wer nimmt am {FromTime=14 uhr} meeting teil {FromDate=morgen}
+- wer nimmt am {FromDate=mittwoch} an dem treffen teil
+- wer nimmt an den besprechungen teil
+- wer nimmt an der besprechung teil
+- wer nimmt {FromDate=morgen} am {FromTime=14 uhr} meeting teil
+- wer soll {FromDate=morgen} an der sitzung um {FromTime=14 uhr} teilnehmen
+- wer sonst geht {FromDate=morgen} zum {FromTime=14 uhr} meeting
+- wer steht auf meiner liste für das {FromTime=14 uhr} treffen {FromDate=morgen}
+- wer wird am meeting {FromDate=morgen} um {FromTime=14 uhr} teilnehmen
+- wer wird am {Subject=picknick} teilnehmen
+- wer wird an der sitzung um {FromTime=4} teilnehmen
+- wer wird bei den {OrderReference=nächsten 5} sitzungen anwesend sein
+- wer wird bei diesen beiden veranstaltungen dabei sein
+- wer wird beim {Subject=kinderspiel} dabei sein
+- wer wird in {Subject=bankensitzung} sein
+- wer wird sonst noch in der {Subject=bankensitzung} sein
+- werden ethan, yutien und a.j. beim {Subject=picknick} sein
+- wird amber an der {Subject=büroversammlung} {FromDate=heute} teilnehmen
+- wird amy bei der {FromDate=heutigen} sitzung sein
+- wird anthony bei der sitzung sein
+- wird bobby shen bei der {OrderReference=nächsten} sitzung sein
+- wird charles wong bei dem treffen sein
+- wird george bei der {Subject=personalsitzung} um {FromTime=1} uhr sein
+- wird jane bei der {FromTime=15 uhr} sitzung
+- wird jimmy parker an dem treffen teilnehmen
+- wird joe beim {OrderReference=nächsten} treffen dabei sein
+- wird john beim {Subject=marketing-meeting} sein
+- wird johnny {FromDate=heute} bei der {Subject=bürobesprechung} sein
+- wird nancy beim {FromTime=morgen}-{Subject=briefing-meeting} sein
+- wird nicholas am {Subject=management-meeting} teilnehmen
+- wird paul am {FromDate=freitag} zum treffen gehen
+- wird roy bei unserem {Subject=wöchentlichen team-meeting} sein
+- wird teresa bei meinem {OrderReference=nächsten} treffen sein
+- wird timothy zum treffen kommen
+- wird virginia an meinem {OrderReference=nächsten} treffen teilnehmen
+- wird zachary in der {Subject=finanzsitzung} sein
+- zeige besprechungsteilnehmer
+- zeige mir die bestätigten teilnehmer
+- zeige mir wer am {Subject=familientreffen} teilnehmen wird
+- zeige mir wer {FromDate=morgen} um {FromTime=14 uhr} beim {Subject=planungstreffen} sein wird
 
 
 ## FindDuration
-- Wie lange wird das Treffen dauern
-- Dauer der  {Subject=Das Sprechen über maschinelles Lernen} 
-- Wie lange habe ich  {Subject=Mittagessen} 
-- Wie lange dauert dieses Treffen
-- Wie lange ist mein  {FromTime=4 Uhr} Sitzung
-- Wie lange ist mein  {Subject=Zahnarzt-Termin} 
-- Wie lange ist mein  {Subject=Gesichtszeit} 
-- Wie lange ist mein  {Subject=Mittagessen}   {FromDate=Heute} 
-- Wie lange ist mein Treffen bei  {FromTime=4} 
-- Wie lange ist das Ereignis
-- Wie lange ist die  {Subject=Film jurassic world} 
-- Wie lange wird mein  {Subject=Zahnarzt-Termin} letzte
-- Wie viele Stunden
-- Wie viel Zeit bis jetzt für die  {Subject=Rechnungen} 
-- Wie viel Zeit als Set für die  {Subject=Rechnungen} 
-- Wie viel Zeit zwischen dem Zeitplan  {FromDate=Donnerstag}  Sitzungen  {FromDate=Nächste Woche} 
-- Wie viel Zeit habe ich für einen  {Subject=Mittagspause}   {FromDate=Heute} 
-- Wie viel Zeit habe ich für  {Subject=Mittagessen}   {FromDate=Heute} 
-- Wie viel Zeit muss ich  {Subject=Nehmen Sie den Film zurück} 
-- Wie viel Zeit haben wir für  {Subject=Mittagessen}   {FromDate=Heute} 
-- Wie viel Zeit nehmen meine Treffen in Anspruch?
-- Wie viel Zeit  {Subject=Mittagessen}   {FromDate=Heute} 
-- Wie viel Zeit ist für  {Subject=Besorgungen}  Während meiner  {Subject=Mittagspause} 
-- Wie viel Zeit offen  {FromDate=Heute} 
-- Wie viel Auszeit  {Subject=Mittagessen} 
-- Wie viel Zeit muss ich haben  {Subject=Lebensmittel abholen} 
-- Wird es lange dauern
-- Es ist mein Mittagessen lang genug für  {Subject=Besorgungen} 
-- Minuten in  {Subject=Mittagspause} 
-- Bitte zeigen Sie mir, wie viel Zeit ich habe  {Subject=Laufaufträge} 
-- Bitte sagen Sie mir, wie lange ich für  {Subject=Mittagessen} 
-- Zeigen Sie mir die Dauer der  {Subject=Wochenteilung} 
-- Sag mir, wie lange mein  {FromTime=4 oclock} Sitzung
-- Sag mir, wie lange ist  {FromDate=Heute}  ' s  {Subject=Mittagspause} 
-- Sag mir die Dauer der  {Subject=Produkteinführung} 
-- Zeit für  {Subject=Mittagessen} 
--  {FromDate=Heute}  ' s  {Subject=Mittagessen} Wie lange
-- gesamt  {Subject=Mittagspause}  Zeit  {FromDate=Heute} Bitte
-- Wofür ist die Zeit vorgesehen  {Subject=Friseur} 
+- bitte sag mir, wie lange ich zum {Subject=mittagessen} habe
+- bitte zeig mir, wie viel zeit ich habe, um {Subject=besorgungen zu machen}
+- das {FromDate=heutige} {Subject=mittagessen} wird wie lang sein
+- dauer des {Subject=gesprächs über maschinelles lernen}
+- gesamte {Subject=mittagspausenzeit} {FromDate=heute} bitte
+- ist mein mittagessen lang genug für {Subject=besorgungen}
+- minuten in der {Subject=mittagspause}
+- sag mir die dauer der {Subject=produkteinführung}
+- sag mir, wie lange ist die {FromDate=heutige} {Subject=mittagspause}
+- sag mir, wie lange ist mein {FromTime=4 uhr} treffen
+- welche zeit ist für den {Subject=friseur} vorgesehen
+- wie lange habe ich für das {Subject=mittagessen}
+- wie lange ist der {Subject=film jurassic world}
+- wie lange ist die veranstaltung
+- wie lange ist mein {FromTime=4-uhr}-treffen
+- wie lange ist mein meeting um {FromTime=4}
+- wie lange ist mein {Subject=mittagessen} {FromDate=heute}
+- wie lange ist mein {Subject=zahnarzttermin}
+- wie lange ist meine {Subject=gesichtszeit}
+- wie lange wird das treffen etwa dauern
+- wie lange wird dieses treffen dauern
+- wie lange wird mein {Subject=zahnarzttermin} dauern
+- wie viel zeit ab sofort steht für die {Subject=rechnungszahlungen} zur verfügung
+- wie viel zeit draußen zum {Subject=mittagessen}
+- wie viel zeit für {Subject=mittagessen} {FromDate=heute}
+- wie viel zeit gibt es für {Subject=besorgungen} während meiner {Subject=mittagspause}
+- wie viel zeit habe ich {FromDate=heute} für eine {Subject=mittagspause}
+- wie viel zeit habe ich {FromDate=heute} für {Subject=mittagessen}
+- wie viel zeit habe ich {FromDate=heute} zum {Subject=mittagessen}
+- wie viel zeit habe ich um den {Subject=film zurückzunehmen}
+- wie viel zeit haben wir {FromDate=heute} zum {Subject=mittagessen}
+- wie viel zeit {FromDate=heute} offen
+- wie viel zeit nehmen meine meetings in anspruch
+- wie viel zeit steht für die {Subject=rechnungsbezahlung} zur verfügung
+- wie viel zeit werde ich haben um {Subject=lebensmittel abzuholen}
+- wie viel zeit zwischen dem zeitplan der {FromDate=donnerstagstreffen} {FromDate=nächste woche}
+- wie viele stunden
+- wird es lange dauern
+- zeige mir die dauer des {Subject=wöchentlichen teilens}
+- zeit für {Subject=mittagsbesorgungen}
 
 
 ## FindMeetingRoom
-- Einen neuen Tagungsort finden
-- Beten finden Sie mir einen Konferenzraum in der  {Location=Bravern}   {FromTime=Heute Nachmittag} 
-- Einen Konferenzraum buchen
-- Buchen Sie ein Treffen
-- Buch  {MeetingRoom=Blauer Besprechungsraum} 
-- Buchen Sie den Konferenzraum für  {FromDate=Donnerstag}  Auf  {FromTime=Eine} Ich möchte mich mit Benjamin treffen
-- Können Sie reservieren  {MeetingRoom=Zimmer 258} Sofort
-- Besprechungsraum für  {FromDate=Morgen} 
-- Finden Sie einen kostenlosen Tagungsraum für  {FromDate=Nächster Dienstag} 
-- Einen Tagungsraum finden Sie unter  {FromTime=3}  An  {ToTime=5}   {FromDate=Morgen} 
-- Finden Sie mir einen leeren Konferenzraum
-- Helfen Sie mir, einen Konferenzraum zu buchen
-- Helfen Sie mir, einen Besprechungsraum zu buchen  {FromTime=10 am}  An  {ToTime=15 Uhr} 
-- Helfen Sie mir, die  {MeetingRoom=Zimmer 102} 
-- Helfen Sie mir, einen Besprechungsraum zu finden
-- Ich brauche einen neuen Tagungsort
-- Ich möchte mich mit Bruce lee treffen, also buchen Sie den Konferenzraum für  {FromDate=Donnerstag}  Auf  {FromTime=Eine} 
-- Ich möchte mich mit donna treffen bitte für  {FromDate=Donnerstag}  Der Konferenzraum  {FromTime=Eine} 
-- Ich suche einen Konferenzraum
-- Ist dieser Raum beschäftigt  {FromTime=17 Uhr} 
-- Ist dieser Raum beschäftigt  {FromDate=Morgen} 
-- Lassen Sie uns einen neuen Tagungsort finden
-- Weitere Tagungsorte ansiedeln
-- Reservieren  {MeetingRoom=Zimmer 258} 
-- Reservieren  {MeetingRoom=Zimmer 258} jetzt
-- Reservieren  {MeetingRoom=Zimmer 258} Sofort
-- Reservieren Sie den Konferenzraum für  {FromTime=13 Uhr}   {FromDate=Donnerstag} Weil ich ein Treffen mit Bernstein haben muss
-- Reservieren Sie den Konferenzraum für  {FromTime=15:00 Uhr}   {FromDate=Morgen} 
-- Termin-Konferenzraum mit marabohr Cooper für  {FromDate=Donnerstag}  Auf  {FromTime=Eine} 
-- Was treffen Zimmer habe ich
-- Wo werden wir uns treffen
+- bing finde mir {FromTime=heute nachmittag} einen konferenzraum in the {Location=bravern}
+- buche den {MeetingRoom=blauen besprechungsraum}
+- buche den konferenzraum für {FromDate=donnerstag} um {FromTime=eins}, ich möchte mich mit benjamin treffen
+- buche ein treffen
+- buche einen konferenzraum
+- ein neuer versammlungsort finde einen
+- finde einen anderen meeting-standort
+- finde einen freien besprechungsraum von {FromTime=3} bis {ToTime=5} uhr {FromDate=morgen}
+- finde einen freien konferenzraum für {FromDate=nächsten dienstag}.
+- finde einen neuen tagungsort
+- finde mir einen leeren konferenzraum
+- hilf mir den {MeetingRoom=raum 102} zu buchen
+- hilf mir einen konferenzraum zu buchen
+- hilf mir einen meeting-raum zu buchen von {FromTime=10} bis {ToTime=15 uhr}
+- hilf mir einen meeting-raum zu finden
+- ich brauche dich, um einen neuen treffpunkt zu finden
+- ich möchte mich mit bruce lee treffen, also buche den konferenzraum für {FromDate=donnerstag} um {FromTime=eins}
+- ich möchte mich mit donna treffen, bitte buche für {FromDate=donnerstag} den konferenzraum um {FromTime=eins}
+- ich suche einen konferenzraum
+- ist dieser raum {FromDate=morgen} besetzt
+- ist dieser raum um {FromTime=17 uhr} besetzt
+- kannst du das {MeetingRoom=zimmer 258} sofort reservieren
+- lass uns einen neuen treffpunkt finden
+- plane konferenzraum mit mary cooper für {FromDate=donnerstag} um {FromTime=eins}
+- prüfe besprechungsraum für {FromDate=morgen}
+- reserviere den konferenzraum für {FromDate=donnerstag} {FromTime=13 uhr}, da ich ein treffen mit amber haben muss
+- reserviere den konferenzraum für {FromDate=morgen} {FromTime=15 uhr}
+- reserviere {MeetingRoom=raum 258}
+- reserviere {MeetingRoom=raum 258} jetzt
+- reserviere {MeetingRoom=raum 258} sofort
+- welche tagungsräume habe ich
+- wo sollen wir uns treffen
 
 
 ## GoBack
-- Zurück
-- Einen Schritt zurück
-- Zurück die  {OrderReference=letzte} Schritt
-- Kann man zurück
-- Gehen Sie einen Schritt zurück
-- Gehen Sie bitte zurück
-- Gehen Sie zurück die  {OrderReference=Vorherigen} Schritt
-- Zurück zum  {OrderReference=letzte} Schritt
-- Zum Hauptmenü
-- Zurück zum  {OrderReference=Vorherigen} Schritt
-- Ich muss zurück
-- Ich will zurück
-- Ich möchte zurück
-- Bitte zurück
-- Rückgabe
-- Rückkehr zurück
-- Zurück zu  {OrderReference=Vorherigen} Schritt
-- Wir sollten zurück
+- bitte geh zurück
+- bitte zurück gehen
+- einen schritt zurück
+- gehe bitte zurück
+- gehe den {OrderReference=vorherigen} schritt zurück
+- gehe einen schritt zurück
+- gehe zum {OrderReference=vorherigen} schritt zurück
+- gehe zurück
+- gehe zurück zum hauptmenü
+- gehe zurück zum {OrderReference=letzten} schritt
+- ich möchte zurückgehen
+- ich muss zurückgehen
+- ich würde gerne zurückkehren
+- kannst du zurück gehen
+- kehre zurück
+- kehre zurück bitte
+- kehre zurück zu {OrderReference=vorherigem} schritt
+- kehre zurück zum {OrderReference=vorherigen} schritt
+- wir sollten zurückgehen
+- zurück
+- zurück den {OrderReference=letzten} schritt
 
 
 ## None
-- Hallo Welt
-- Wie ist das Wetter heute
-- Was tun?
-- Was ist die Zeit jetzt
-- Wie heiße ich
-- Wie heißt du
+- hallo welt
+- was ist mein name
+- was kannst du tun
+- wie ist das wetter heute
+- wie lautet dein name
+- wie spät ist es jetzt
+- 1
+- 2
+- 3
+- das  {PositionReference=Ersten} Eine
+- das  {PositionReference=Zweite} Eine
+- das  {PositionReference=Dritte} Eine
+
+
+## Reject
+- absagen
+- auch nicht
+- bitte storniere
+- bitte storniere alle von ihnen
+- bitte storniere das
+- bitte storniere es
+- brich das ab
+- das ist nicht richtig
+- egal
+- egal, könntest du das absagen
+- falsch
+- halt
+- ich möchte das stornieren
+- jetzt nicht
+- kannst du das absagen
+- kannst du es absagen
+- keine
+- nein
+- nein danke
+- nein nein
+- nein, ich sage es einfach ab
+- nein, storniere
+- nein, storniere es
+- nicht
+- nichts
+- nichts, einfach absagen
+- nichts, sag es einfach ab
+- oh nein
+- oh, egal
+- oh, storniere
+- sag ab, keine sorge
+- sag einfach ab
+- sag es einfach ab
+- sage, können sie das nicht machen, ab bitte
+- storniere alles
+- storniere bitte
+- storniere das
+- storniere dies
+- storniere es
+- storniere es bitte
+- storniere es ich will das nicht
+- storniere storniere
+- storniere storniere storniere
+- vergiss abbrechen
+- vergiss es
 
 
 ## ShowNextCalendar
-- Was sind die  {OrderReference=Weiter 3} Termine im Kalender
-- Was ist mein  {OrderReference=nächster} Ereignis
+- gehe zum {OrderReference=nächsten}, bitte
+- ich muss zum {OrderReference=nächsten} gehen
+- könntest du den {OrderReference=nächsten} zeigen
+- was danach
+- was ist danach
+- was ist meine {OrderReference=nächste} veranstaltung
+- was ist mit dem {OrderReference=nächsten}
+- was kommt als {OrderReference=nächstes}
+- was sind die {OrderReference=nächsten 3} veranstaltungen in meinem kalender
+- wechsle zum {OrderReference=nächsten}
+- zeige den {PositionReference=letzten}
+- zeige die {OrderReference=nächste}
 
 
 ## ShowPreviousCalendar
-- Ich muss die  {OrderReference=Vorherigen} Termin
-- Zeigt mir die  {OrderReference=Vorherigen} Treffen mit Tiffany
+- bringe den {OrderReference=vorherigen}
+- das {OrderReference=vorherige}
+- das {OrderReference=vorherige} bitte
+- ich muss den {OrderReference=vorherigen} termin überprüfen
+- was ist das {OrderReference=vorherige}
+- zeige die {OrderReference=vorherige}
+- zeige mir das {OrderReference=vorherige} treffen mit tiffany
+- zeige {OrderReference=vorherigen}
 
 
 ## TimeRemaining
-- Können Sie mir die Zeit zeigen, die noch vor meinem  {OrderReference=nächster} Termin
-- Überprüfen Sie, wann ich  {Subject=Gehen Sie zur Schule und holen Sie sich luca} 
-- Ich habe Freizeit vor  {OrderReference=nächster} Termin
-- Wie lange ist es bis zum  {FromDate=14. März} 
-- Wie lange bis  {Subject=Disneyland paris} 
-- Wie lange bis zu meinem  {OrderReference=nächster} Termin
-- Wie lange bis zum  {OrderReference=nächster} Sitzung
-- Wie lange bis  {Subject=Weihnachten} 
-- Wie lange bis zu meinem  {OrderReference=nächster} Sitzung
-- Wie lange bis zum  {Subject=sozial} 
-- Wie lange werde ich auf die  {OrderReference=nächster} Termin
-- Wie viele Tage ist es bis  {FromDate=Weihnachten} 
-- Wie viele Tage bis zum  {Subject=Eröffnungsfeier} 
-- Wie viele Tage bis  {FromDate=April} 
-- Wie viele Tage bis  {FromDate=Weihnachten} 
-- Wie viele Tage bis  {FromDate=Juni am 15.} 
-- Wie viele Tage bis  {FromDate=Juni, 15. Juni 2019} 
-- Wie viele Tage bis  {FromDate=Sechstens.} 
-- Wie viele Tage bis zu meinem  {Subject=Arztbesuch} 
-- Wie viele Tage bis  {FromDate=Erntedankfest} 
-- Wie viele Tage bis zum  {FromDate=10. Dezember} 
-- Wie viele Stunden bis zum  {Subject=Abschlussfeier} 
-- Wie viele Stunden bis  {OrderReference=nächster} Termin
-- Wie viele Stunden bis zu meinem  {Subject=DO-Termin} 
-- Wie viele Minuten vor meinem  {OrderReference=nächster} Termin
-- Wie viele Minuten frei habe ich vor  {OrderReference=nächster} Terminvereinbarung
-- Wie viel mehr habe ich noch vor  {Subject=Luca von der Schule abholen} 
-- Wie lange habe ich noch, bis  {Subject=Luca von der Schule abholen} 
-- Wie lange noch bis zu meinem  {OrderReference=nächster} Termin
-- Wie lange noch bis zu meinem  {OrderReference=nächster} Sitzung
-- Wie viel Zeit vorher  {Subject=Mittagessen} 
-- Wie viel Zeit vor meinem  {OrderReference=nächster} Termin
-- Wie viel Zeit vorher  {OrderReference=nächster} Termin
-- Wie viel Zeit habe ich
-- Wie viel Zeit habe ich vor meinem  {OrderReference=nächster} Termin
-- Wie viel Zeit habe ich vor meinem  {OrderReference=nächster} Sitzung
-- Wie viel Zeit habe ich frei, bis meine  {OrderReference=nächster} Sitzung
-- Wie viel Zeit habe ich, bis ich  {Subject=Treffen} Mit michael
-- Wie viel Zeit habe ich bis ich  {Subject=Die Sitzung beginnen} 
-- Wie viel Zeit habe ich bis zu meinem  {Subject=Doc appt} 
-- Wie viel Zeit habe ich bis zu meinem Treffen mit Larry
-- Wie viel Zeit habe ich bis zu meinem  {OrderReference=nächster} Termin
-- Wie viel Zeit ist vorher  {Subject=Büroversammlung} 
-- Wie viel Zeit bleibt  {OrderReference=nächster} Sitzung
-- Wie viel Zeit bis zu meinem Treffen mit lori
-- Wie viel Zeit bis  {OrderReference=nächster} Terminvereinbarung
-- Wie viel Zeit bis  {FromTime=Mittag} 
-- Ich möchte wissen, welche Zeit noch für meine  {OrderReference=nächster} Termin
-- Showtime vor  {OrderReference=nächster} Termin
-- Sag mir, wie viel Freizeit ich vor mir habe  {OrderReference=nächster} Appt
-- Sag mir, wie viel Zeit vor meinem  {OrderReference=nächster} Sitzung
-- Zeit vor meiner  {OrderReference=nächster} Termin
-- verbleibende Zeit
+- habe ich irgendwelche freie zeit vor dem {OrderReference=nächsten} termin
+- ich möchte die verbleibende zeit für meinen {OrderReference=nächsten} termin wissen
+- kannst du mir die verbleibende zeit vor meinem {OrderReference=nächsten} termin zeigen
+- kontrolliere die zeit, um zu sehen, wann ich {Subject=zur schule gehe und luca abhole}
+- sag mir, wie viel freizeit ich vor dem {OrderReference=nächsten} term. habe
+- sag mir, wie viel zeit ich vor dem {OrderReference=nächsten} treffen habe
+- verbleibende zeit
+- wie lange bis {Subject=disneyland paris}
+- wie lange bis {Subject=weihnachten}
+- wie lange bis zu meinem {OrderReference=nächsten} meeting
+- wie lange bis zu meinem {OrderReference=nächsten} termin
+- wie lange bis zum {Subject=sozialen}
+- wie lange ist es bis zum {FromDate=14. märz}
+- wie lange werde ich auf den {OrderReference=nächsten} termin warten
+- wie viel mehr habe ich bevor ich {Subject=luca von der schule abhole}
+- wie viel mehr habe ich bis ich {Subject=luca von der schule abhole}
+- wie viel zeit bis {FromTime=mittag}
+- wie viel zeit bis zu meinem treffen mit lori
+- wie viel zeit bis zum {OrderReference=nächsten} geplanten termin
+- wie viel zeit bleibt bis zur {OrderReference=nächsten} sitzung
+- wie viel zeit gibt es vor der {Subject=bürositzung}
+- wie viel zeit habe ich
+- wie viel zeit habe ich bis zu meinem {Subject=arztterm.}
+- wie viel zeit habe ich bis zu meinem {OrderReference=nächsten} termin
+- wie viel zeit habe ich bis zu meinem {OrderReference=nächsten} treffen frei
+- wie viel zeit habe ich bis zu meinem treffen mit larry
+- wie viel zeit habe ich vor meinem {OrderReference=nächsten} meeting
+- wie viel zeit habe ich vor meinem {OrderReference=nächsten} termin
+- wie viel zeit habe ich, bis ich das {Subject=treffen beginne}
+- wie viel zeit habe ich, bis ich mich mit michael {Subject=treffen} muss
+- wie viel zeit vor dem {Subject=mittagessen}
+- wie viel zeit vor dem {OrderReference=nächsten} termin
+- wie viel zeit vor meinem {OrderReference=nächsten} termin
+- wie viele länger bis zu meinem {OrderReference=nächsten} meeting
+- wie viele länger bis zu meinem {OrderReference=nächsten} termin
+- wie viele minuten habe ich frei vor dem {OrderReference=nächsten} geplanten termin
+- wie viele minuten vor meinem {OrderReference=nächsten} termin
+- wie viele stunden bis zu meinem {Subject=arzttermin}
+- wie viele stunden bleiben bis zum {OrderReference=nächsten} termin
+- wie viele stunden übrig bis zur {Subject=schlussfeier}
+- wie viele tage bis {FromDate=april}
+- wie viele tage bis {FromDate=weihnachten}
+- wie viele tage bis zu meinem {Subject=arzttermin}
+- wie viele tage bis zum {FromDate=10. dezember}
+- wie viele tage bis zum {FromDate=15. juni}
+- wie viele tage bis zum {FromDate=15. juni} 2019
+- wie viele tage bis zum {FromDate=26. märz}
+- wie viele tage bis zum {FromDate=erntedankfest}
+- wie viele tage sind es bis {FromDate=weihnachten}
+- wie viele tage übrig bis zur {Subject=eröffnungsfeier}
+- zeige uhrzeit vor dem {OrderReference=nächsten} termin
+- zeit vor meinem {OrderReference=nächsten} termin
 
 
 > # Entity definitions
@@ -1092,9 +1184,9 @@ $DestinationCalendar:simple
 
 $Duration:simple
 
-$FromDate:simple
+$ToDate:simple
 
-$FromTime:simple
+$ToTime:simple
 
 $Location:simple
 
@@ -1112,22 +1204,14 @@ $PositionReference:simple
 
 $SlotAttribute:simple
 
+$FromDate:simple
+
+$FromTime:simple
+
 $Subject:simple
-
-$ToDate:simple
-
-$ToTime:simple
 
 
 > # PREBUILT Entity definitions
-
-$PREBUILT:datetimeV2
-
-$PREBUILT:number
-
-$PREBUILT:ordinal
-
-$PREBUILT:personName
 
 
 > # Phrase list definitions
@@ -1135,140 +1219,120 @@ $PREBUILT:personName
 
 > # List entities
 
-$RelationshipName:aunt=
+$RelationshipName:tante=
 
-$RelationshipName:aunts=
+$RelationshipName:tanten=
 
-$RelationshipName:boss=
+$RelationshipName:chef=
 
-$RelationshipName:brother=
+$RelationshipName:bruder=
 
-$RelationshipName:brother in law=
+$RelationshipName:schwager=
 
-$RelationshipName:brother-in-law=
+$RelationshipName:brüder=
 
-$RelationshipName:brothers=
+$RelationshipName:kind=
 
-$RelationshipName:child=
+$RelationshipName:kinder=
 
-$RelationshipName:children=
+$RelationshipName:kollege=
 
-$RelationshipName:colleague=
+$RelationshipName:kolleginnen und kollegen=
 
-$RelationshipName:colleagues=
+$RelationshipName:vetter=
 
-$RelationshipName:cousin=
+$RelationshipName:cousins und cousinen=
 
-$RelationshipName:cousins=
+$RelationshipName:papa=
 
-$RelationshipName:dad=
+$RelationshipName:tochter=
 
-$RelationshipName:daughter=
+$RelationshipName:schwiegertochter=
 
-$RelationshipName:daughter in law=
+$RelationshipName:töchter=
 
-$RelationshipName:daughter-in-law=
+$RelationshipName:familien=
 
-$RelationshipName:daughters=
+$RelationshipName:familie=
 
-$RelationshipName:families=
+$RelationshipName:vater=
 
-$RelationshipName:family=
+$RelationshipName:schwiegervater=
 
-$RelationshipName:father=
+$RelationshipName:freund=
 
-$RelationshipName:father in law=
+$RelationshipName:freunde=
 
-$RelationshipName:father-in-law=
+$RelationshipName:enkelkind=
 
-$RelationshipName:friend=
+$RelationshipName:enkelkinder=
 
-$RelationshipName:friends=
+$RelationshipName:enkelin=
 
-$RelationshipName:grandchild=
+$RelationshipName:großvater=
 
-$RelationshipName:grandchildren=
+$RelationshipName:oma=
 
-$RelationshipName:granddaughter=
+$RelationshipName:großmutter=
 
-$RelationshipName:grandfather=
+$RelationshipName:großeltern=
 
-$RelationshipName:grandma=
+$RelationshipName:enkel=
 
-$RelationshipName:grandmother=
+$RelationshipName:mann=
 
-$RelationshipName:grandparent=
+$RelationshipName:schwiegereltern=
 
-$RelationshipName:grandparents=
+$RelationshipName:mutter=
 
-$RelationshipName:grandson=
+$RelationshipName:schwiegermutter=
 
-$RelationshipName:grandsons=
+$RelationshipName:nachbar=
 
-$RelationshipName:husband=
+$RelationshipName:nachbarn=
 
-$RelationshipName:in-laws=
+$RelationshipName:neffe=
 
-$RelationshipName:kids=
+$RelationshipName:nichte=
 
-$RelationshipName:mom=
+$RelationshipName:elternteil=
 
-$RelationshipName:mother=
-
-$RelationshipName:mother in law=
-
-$RelationshipName:mother-in-law=
-
-$RelationshipName:neighbor=
-
-$RelationshipName:neighbors=
-
-$RelationshipName:nephew=
-
-$RelationshipName:niece=
-
-$RelationshipName:parent=
-
-$RelationshipName:parents=
+$RelationshipName:eltern=
 
 $RelationshipName:partner=
 
-$RelationshipName:siblings=
+$RelationshipName:geschwister=
 
-$RelationshipName:sister=
+$RelationshipName:schwester=
 
-$RelationshipName:sister in law=
+$RelationshipName:schwägerin=
 
-$RelationshipName:sister-in-law=
+$RelationshipName:schwestern=
 
-$RelationshipName:sisters=
+$RelationshipName:sohn=
 
-$RelationshipName:son=
+$RelationshipName:schwiegersohn=
 
-$RelationshipName:son in law=
+$RelationshipName:stieftochter=
 
-$RelationshipName:son-in-law=
+$RelationshipName:stiefvater=
 
-$RelationshipName:step daughter=
+$RelationshipName:stiefmutter=
 
-$RelationshipName:step-daughter=
+$RelationshipName:stiefschwester=
 
-$RelationshipName:stepfather=
+$RelationshipName:stiefsohn=
 
-$RelationshipName:stepmother=
+$RelationshipName:studenten=
 
-$RelationshipName:stepsister=
+$RelationshipName:lehrer=
 
-$RelationshipName:stepson=
+$RelationshipName:onkel=
 
-$RelationshipName:students=
+$RelationshipName:frau=
 
-$RelationshipName:teachers=
 
-$RelationshipName:uncle=
 
-$RelationshipName:uncles=
+> # RegEx entities
 
-$RelationshipName:wife=
 
-$RelationshipName:manager=
