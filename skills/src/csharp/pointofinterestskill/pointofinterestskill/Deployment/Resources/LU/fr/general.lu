@@ -1,162 +1,147 @@
 > # Intent definitions
 
 ## Cancel
-- Annuler
-- annuler l'application
+- allez-vous-en
+- annulé
 - annuler annuler
+- annuler ça
+- annulez
+- annulez l'application
+- ça ne fait rien
+- ça ne fait rien annule
+- ça ne fait rien annule cela
+- désolé, ne le faites pas
+- esprit nerveux
+- il suffit d'annuler
+- il suffit de l'annuler
+- laisse tomber
 - l'annuler
-- annuler jamais l'esprit
-- annuler que
-- Annulé
-- Annulé
-- ne rien faire
-- Fais pas ça
+- n'annule pas cela
+- ne fais pas ça
+- ne fais rien
+- ne l'annule pas
 - ne le fais plus
-- oublier
-- Allez-vous-en
-- Il suffit d'annuler
-- Il suffit de l'annuler
-- L'esprit des nerfs
-- Ça ne fait rien
-- jamais l'esprit annuler
-- jamais l'esprit annuler que
+- non ce n'est pas grave
+- non non annuler
+- oh annuler
+- oh ne fais pas ça
 - pas d'annulation
 - pas d'annulation annuler
-- pas l'annuler
-- pas annuler que
-- sans jamais l'esprit
-- non non annuler
-- non non annuler
-- rien de jamais l'esprit
+- peu importe annulez
+- quitter
+- rien n'a d'importance
 - rien s'il vous plaît
-- Oh annuler
-- Oh ne fais pas ça
-- s'il vous plaît ne rien faire
-- Quitter
-- Désolé, ne le faites pas
+- s'il vous plaît ne faites rien
 
 
 ## Confirm
-- Confirmer
-- Fais-le
-- Fin
-- aller pour elle
-- génial
-- J'en suis sûr
-- C'est bon
+- bien
+- bien sûr
+- bien sûr oui
+- ça a l'air bien
+- ça a l'air bien merci
+- ça a l'air bien pour moi
+- cela sonne bien
+- certainement
+- c'est bien
+- c'est bon
+- c'est correct
+- c'est juste
+- c'est sûr que
+- c'est très bien
+- chose sûre
+- confirmer
+- déjà
+- fais-le
+- j'en suis sûr
+- merci beaucoup
+- merci oui
+- oh oui
+- ok
+- ok pour l'instant
+- ouais cool
+- ouais vas-y fonce
+- oui
+- oui aller de l'avant
+- oui bien
+- oui bro
+- oui chéri
+- oui copain
+- parfait
+- parfait merci
 - sans doute
-- Bien sûr
-- Oh oui
-- Oh oui
-- D'accord
-- OK pour l'instant
-- d'accord
-- Parfait
-- parfait Merci
-- Oui
-- droit Oui
-- Ça a l'air bien
-- sonne bien merci
-- sonne bien merci
-- sonne bien pour moi
+- se lancer
 - sonne bien
 - sonne parfait
-- Sûr
-- bien sûr ne
-- est sûr
-- chose sure
-- bien sûr Oui
-- Merci beaucoup
-- Merci Oui
-- qui est correct
-- qui est juste
-- ce droit
-- qui sonne bien
-- C'est très bien
-- C'est bien
-- Très bien
-- Déjà
-- Oui
-- Oui chéri
-- Oui Bro
-- Oui copain
-- Ouais cool
-- Oui aller de l'avant
-- Ouais aller pour elle
-- Oui bon
-- Oui
+- super
+- sûr
+- très bien
 
 
 ## Escalate
-- puis-je parler à une personne
-- Contacter le support
-- Contacter le service client
-- service à la clientèle
+- contactez le service client
+- contactez le service d'assistance
+- j'ai besoin d'aide humaine réelle
+- j'ai besoin de soutien
+- j'ai besoin d'un service à la clientèle manuel
+- je veux parler à un humain
+- je veux parler à un vrai humain
 - le service humain
-- J'ai besoin du service à la clientèle manuel
-- J'ai besoin d'aide humaine réelle
-- J'ai besoin de soutien
-- Je veux parler à un humain
-- Je veux parler à un vrai humain
-- est-il une personne que je peux parler à
-- y at-il des vrais humains
-- y at-il une personne réelle
 - parler à un humain
+- puis-je parler à une personne
+- service client
+- y a-t-il de vrais humains
+- y a-t-il quelqu'un à qui je puisse parler
+- y a-t-il une vraie personne
 
 
 ## FinishTask
-- tous finis
-- tous ensemble
-- Fait
-- Finir
-- Fini
+- c'est fait
+- c'est fini
+- c'est terminé
+- envoyer
+- fait
+- fini
 - fini avec
-- Je suis fait
-- Je suis fini
-- Il a terminé
-- C'est fait
-- C'est fini
+- finir
+- j'ai fini
+- j'en ai fini
 - juste être
-- Envoyer
-- le soumettre
+- prêt
+- soumettez-le
+- terminé
 
 
 ## GoBack
-- Précédent
-- retour s'il vous plaît
-- Retour à
-- Retour à la dernière
-- Retour à la dernière étape
-- Reviens
-- revenir s'il vous plaît
-- revenir à la dernière
-- Retour
-- revenir sur
-- revenir s'il vous plaît
-- revenir à
 - dernière étape
+- non non pas de retour à
 - pas revenir à
-- pas de revenir à
-- Veuillez retourner
-- Retour
+- retour
+- retour à
+- retour à la dernière étape
+- retour s'il vous plaît
+- revenez s'il vous plaît
+- revenir à
+- revenir s'il vous plaît
+- revenir sur
+- reviens
+- veuillez retourner
 
 
 ## Help
-- toute aide
-- pouvez-vous aider
-- Est-ce que vous pouvez m'aider
-- Donnez-moi de l'aide
-- Aide
-- Comment puis-je l'obtenir
-- Comment le faire
-- J'ai besoin d'aide
-- J'ai besoin d'aide
-- J'ai besoin d'aide
-- est-il une aide
+- aide
+- aider, s'il vous plaît
+- aidez-moi un peu
+- comment le faire
+- comment puis-je l'obtenir
+- j'ai besoin d'aide
 - ouvrir l'aide
-- Aider, s'il vous plaît
-- un peu d'aide
+- pouvez-vous aider
+- pouvez-vous m'aider
 - qui peut m'aider
+- toute aide
+- un peu d'aide
+- y a-t-il de l'aide
 
 ## Logout
 - SignOut
@@ -166,341 +151,307 @@
 - déconnexion
 
 ## None
-- Tous
-- Je veux tous les
-- Je veux tous les
+- je les veux tous
+- totalement
 
 
 ## ReadAloud
-- pouvez-vous le lire
-- pouvez-vous lire que
-- pouvez-vous lire que pour moi
-- pouvez-vous lire la page à haute voix
-- pourriez-vous me dire ce que dit
-- détail à haute voix ce qui dit
-- Hey lire que pour moi
-- J'ai besoin d'entendre cette page
-- Je voudrais que vous lisiez que pour moi
+- commencer à lire ceci
+- détaillez à haute voix ce que ça dit
+- dites-moi le texte actuel à l'écran
 - faire une lecture de cette page
-- s'il vous plaît lire
-- s'il vous plaît le lire
-- s'il vous plaît lisez-moi la page
-- s'il vous plaît lire mon dernier e-mail
-- s'il vous plaît lire ce
-- s'il vous plaît lire à haute voix
-- Veuillez lire cette page
-- s'il vous plaît lire cette page à haute voix
-- s'il vous plaît lire cette page à haute voix
-- s'il vous plaît lire ceci pour moi
-- lire tout sur l'écran pour moi
-- lire à haute voix
-- lire à haute voix le texte actuel à l'écran
-- lire le fichier à haute voix
+- hé lis ça pour moi
+- j'ai besoin d'entendre cette page
+- je voudrais que vous lisiez que pour moi
 - le lire
 - le lire à haute voix
-- le lire à haute voix
-- le lire Outloud
-- Lire s'il vous plaît
-- me le lire
-- Lisez-moi cette page
-- lire ma liste
-- lire Outloud
-- lire la page
-- lire la page à haute voix
-- lire la page Outloud
-- lire la phrase à haute voix
-- lire le texte
-- lire le texte à haute voix
-- lire que
-- lire que à haute voix
-- lire la page
-- lire la page à l'écran pour moi
-- lire la page à haute voix
-- lire la page pour moi
-- lire le texte pour moi
-- lire les mots sur cette page
-- lire ceci pour moi s'il vous plaît
+- lire à haute voix
+- lire à haute voix le texte actuel à l'écran
+- lire à voix haute
+- lire ceci
+- lire ceci à haute voix
 - lire cette page
 - lire cette page à haute voix
-- lire cette page à haute voix
-- lire cette page pour moi
-- Lisez-moi
-- lire ce qui est actuellement sur l'écran pour moi
+- lire la page
+- lire la page à haute voix
+- lire la page à l'écran pour moi
+- lire la phrase à haute voix
+- lire le fichier à haute voix
+- lire le texte
+- lire le texte à haute voix
+- lire les mots sur cette page
+- lire ma liste
+- lisez s'il vous plaît
+- lisez-le, moi
+- lisez-moi
+- lisez-moi ce qui est actuellement sur l'écran
+- lisez-moi ceci s'il vous plaît
+- lisez-moi cette page
+- lisez-moi la page
+- lisez-moi le texte
+- lisez-moi tout sur l'écran
 - parler de ce qui est sur cette page
-- commencer à lire ce
-- Parlez-moi des informations sur l'écran
-- me dire le texte actuel à l'écran
-- vocaliser ce que s sur la page
-- qu'est-ce que la page dire
-- voulez-vous s'il vous plaît lire que pour moi
-- voulez-vous lire que à haute voix s'il vous plaît
-- voulez-vous lire que pour moi s'il vous plaît
+- parlez-moi des informations sur l'écran
+- pourriez-vous me dire ce que ça dit
+- pouvez-vous le lire
+- pouvez-vous lire ça
+- pouvez-vous lire ça pour moi
+- pouvez-vous lire la page à haute voix
+- qu'est-ce que la page dit
+- s'il vous plaît lire ceci
+- s'il vous plaît lisez
+- s'il vous plaît lisez à haute voix
+- s'il vous plaît lisez mon dernier e-mail
+- s'il vous plaît lisez-le
+- s'il vous plaît lisez-moi ceci
+- s'il vous plaît lisez-moi la page
+- veuillez lire cette page
+- veuillez lire cette page à haute voix
+- vocalisez ce qu'il y a sur la page
+- voulez-vous lire ça à haute voix s'il vous plaît
+- voulez-vous me lire ça s'il vous plaît
+- voulez-vous s'il vous plaît lire ça pour moi
 
 
 ## Reject
-- J'aime pas ça
-- Je rejette
-- Négatif
-- Jamais
-- non
-- non, je ne veux pas que
-- pas plus tard
-- pas le laisser
-- pas plus non
-- Oh, non
-- Dans le no du
-- non non merci
-- non pas que l'on
-- pas le rejeter
-- Non, merci
-- Non merci
-- Pas question
-- pas mal
-- Non
-- Pas
-- Pas du tout
-- même pas proche
-- Pas exactement
-- Pas maintenant
-- pas tout à fait
-- pas en ce moment
-- pas que
-- Pas grand-chose
-- Oh non
-- Rejeter
+- jamais
+- je n’aime pas ça
+- je rejette
 - le rejeter
+- même pas proche
+- ne le laisse pas
+- ne pas le rejeter
+- négatif
+- non
+- non merci
+- non non merci
+- non non non
+- non pas celui-là
+- non, je ne veux pas cela
+- oh non
+- oh, non
+- pas
+- pas de mal
+- pas du tout
+- pas en ce moment
+- pas exactement
+- pas grand-chose
+- pas maintenant
+- pas plus tard
+- pas que
+- pas question
+- pas tout à fait
+- plus maintenant non
+- rejeter
 
 
 ## Repeat
-- Nouveau
-- pourriez-vous dis-le à nouveau
-- Je n'ai pas entendu répéter à nouveau
-- Je n'ai pas entendu
+- désolé
+- encore
+- je n'ai pas entendu
+- je n'ai pas entendu, répète encore
 - pardon
-- Répéter
+- pourriez-vous le dire à nouveau
+- qu'as-tu dit
+- quel
+- qu'est-ce que c'était encore
+- répéter
+- répéter ça
+- répéter ceci
 - répéter s'il vous plaît
-- répéter que
-- Répéter
-- dire à nouveau s'il vous plaît
-- dire que de nouveau
-- Pardon
-- Quel
-- Qu'as-tu dit
-- ce qui était encore
 
 
 ## SelectAny
-- tout de celui-ci
-- n'importe lequel est OK
-- n'importe qui est bien
-- Rien
-- choisir n'importe qui
-- Choisissez l'un de celui-ci aléatoirement
-- opter pour un aléatoire
-- opter pour tout cela
-- choisir un choix aléatoire
-- Sélectionnez un aléatoire
-- Sélectionnez
+- anyone is fine
 - choisir n'importe quel choix
-- Sélectionnez l'un d'entre eux
+- faites le choix
+- n'importe lequel est ok
+- opter pour n'importe lequel
+- opter pour un aléatoire
+- quelque chose
+- rien de tout cela
+- sélectionner un choix aléatoire
+- sélectionnez
+- sélectionnez aléatoirement l'un d'eux
+- sélectionnez l'un d'entre eux
+- sélectionnez un aléatoire
 
 
 ## SelectItem
-- choisir la dernière
-- Choisissez le dernier
-- Choisissez no. 2
-- choisir le  {DirectionalReference=en bas à gauche} 
-- choisir le premier choix
+- choisir le n° 2
 - choisir le quatrième
-- choisir le  {DirectionalReference=en haut à gauche} Choix
-- choisir le  {DirectionalReference=en haut à droite} Un
-- Choisir  {DirectionalReference=en haut à droite} 
-- Choisir  {DirectionalReference=en haut à droite} Un
-- J'aime  {DirectionalReference=Gauche} Un
-- J'aime deuxième
-- i like second
-- J'aime le  {DirectionalReference=Bas} Un
-- J'aime le premier
-- J'aime le troisième
-- J'aime le troisième choix
-- J'aime le  {DirectionalReference=en haut à droite} Un
-- J'aime le  {DirectionalReference=en haut à droite} 
-- J'aime  {DirectionalReference=en haut à droite} 
-- Je veux  {DirectionalReference=Bas} 
-- Je veux quatrième
-- Je veux  {DirectionalReference=Gauche} 
-- Je veux  {DirectionalReference=Oui} Un
-- Je veux le premier
-- Je veux le quatrième choix
-- Je veux que le  {DirectionalReference=Gauche} 
-- Je veux que le  {DirectionalReference=Inférieur} Choix
-- Je veux que le  {DirectionalReference=Oui} Un
-- Je veux le second
-- Je veux un troisième
-- Je veux choisir  {DirectionalReference=Bas} Un
-- Je veux choisir  {DirectionalReference=en bas à droite} 
-- Je veux choisir  {DirectionalReference=Oui} 
-- Je veux choisir un deuxième
-- Je veux choisir le premier
-- Je veux choisir le quatrième
-- Je veux choisir le dernier choix
-- Je veux choisir le  {DirectionalReference=Gauche} Un
-- Je veux choisir le  {DirectionalReference=Inférieur} Choix
-- Je veux choisir le  {DirectionalReference=Oui} 
-- Je veux choisir troisième
-- Optez pour un premier
-- Optez pour la dernière
-- opter pour  {DirectionalReference=Gauche} 
-- opter pour  {DirectionalReference=Oui} Un
-- Optez pour le dernier
-- opter pour le  {DirectionalReference=Gauche} Un
-- opter pour le  {DirectionalReference=Inférieur} Choix
-- opter pour le  {DirectionalReference=Oui} 
+- j'aime celui du {DirectionalReference=bas}
+- j'aime celui du {DirectionalReference=haut à droite}
+- j'aime le deuxième
+- j'aime le {DirectionalReference=haut à droite}
+- j'aime le premier
+- j'aime le troisième
+- j'aime le troisième choix
+- j'aime un à {DirectionalReference=gauche}
+- je veux celui de {DirectionalReference=droite}
+- je veux celui de {DirectionalReference=gauche}
+- je veux choisir à {DirectionalReference=droite}
+- je veux choisir celui de {DirectionalReference=droite}
+- je veux choisir celui de {DirectionalReference=gauche}
+- je veux choisir celui du {DirectionalReference=bas}
+- je veux choisir en {DirectionalReference=bas à droite}
+- je veux choisir le choix le plus {DirectionalReference=bas}
+- je veux choisir le dernier choix
+- je veux choisir le deuxième
+- je veux choisir le premier
+- je veux choisir le quatrième
+- je veux choisir le troisième
+- je veux en {DirectionalReference=bas}
+- je veux le choix {DirectionalReference=inférieur}
+- je veux le {DirectionalReference=gauche}
+- je veux le premier
+- je veux le quatrième
+- je veux le quatrième choix
+- je veux le second
+- je veux le troisième
+- opter pour celui de {DirectionalReference=droite}
 - opter pour la deuxième
+- opter pour le choix {DirectionalReference=inférieur}
 - opter pour le deuxième choix
-- Sélectionnez la quatrième
-- Sélectionnez  {DirectionalReference=Inférieur} Un
-- Sélectionnez n ° 5
-- Sélectionnez le  {DirectionalReference=Bas} Choix
-- Sélectionnez le premier
-- sélectionner le dernier choix
-- Sélectionnez le  {DirectionalReference=Inférieur} Un
-- Sélectionnez le  {DirectionalReference=Oui} Un
-- Sélectionnez le troisième
-- Sélectionnez le  {DirectionalReference=en haut à droite} 
-- Sélectionnez troisième
-- Sélectionnez  {DirectionalReference=Supérieur} 
+- opter pour le {DirectionalReference=droit}
+- optez pour celui à {DirectionalReference=gauche}
+- optez pour la {DirectionalReference=gauche}
+- optez pour le dernier
+- optez pour le premier
 - qu'en est-il de la dernière
 - qu'en est-il du troisième
+- sélectionner celui à {DirectionalReference=droite}
+- sélectionner le dernier choix
+- sélectionnez celui en {DirectionalReference=bas}
+- sélectionnez celui en {DirectionalReference=haut à droite}
+- sélectionnez la partie {DirectionalReference=inférieure}
+- sélectionnez la partie {DirectionalReference=supérieure}
+- sélectionnez la partie {DirectionalReference=supérieure droite}
+- sélectionnez la quatrième
+- sélectionnez le choix du {DirectionalReference=bas}
+- sélectionnez le coin {DirectionalReference=inférieur gauche}
+- sélectionnez le coin {DirectionalReference=supérieur droit}
+- sélectionnez le dernier
+- sélectionnez le premier
+- sélectionnez le premier choix
+- sélectionnez le troisième
+- sélectionnez l'option {DirectionalReference=supérieure gauche}
+- sélectionnez n ° 5
+- sélectionnez-en {DirectionalReference=haut à droite}
 
 
 ## SelectNone
-- Je ne veux pas choisir un
-- Je ne veux pas sélectionner un
-- Je ne veux aucun d'entre eux
-- Je veux aucun d'entre eux
-- Ni
-- aucun de ces
-- ni un
-- ni l'un d'eux
-- ni Merci
-- Aucun
+- aucun
 - aucun aucun
-- aucun d'entre eux
-- aucun d'entre eux
-- aucun d'entre eux vous remercie
 - aucun de ces
-- aucun de ces
+- aucun de ceux-là
+- aucun d'entre eux
+- aucun d'entre eux ne vous remercie
+- aucun des deux
 - ils ont l'air mauvais, pouvez-vous me donner d'autres choix
+- je ne veux aucun d'entre eux
+- je ne veux pas choisir quelqu'un d'autre
+- je ne veux pas sélectionner quelqu'un d'autre
+- ni
+- ni l'un ni l'autre
+- ni merci
 
 
 ## ShowNext
-- et après que
-- afficher plus
 - affiche plus
-- Donnez-moi plus
-- aller de l'avant
+- afficher le prochain
+- afficher les 3 prochains
+- afficher les 4 prochains articles
+- afficher les deux options suivantes
+- afficher plus
 - aller à la prochaine
 - aller aux trois prochains éléments
-- J'ai besoin d'aller à l'autre
-- Je veux plus
-- Plus
-- passer à la suivante
-- prochain
-- révéler plus
-- Montrez-moi la prochaine
-- afficher plus
-- afficher les 3 prochains
-- afficher les 4 prochains Articles
-- montrer le prochain
-- afficher les deux options suivantes
-- me dire plus
-- en savoir plus
-- qu'en est-il prochain
-- ce qui après que
-- ce qui est après que
+- aller de l'avant
 - ce qui est plus
-- what's Next
-- ce qui est le prochain 2
-- what's up Next
+- ce qui se passe ensuite
+- dites-m'en plus
+- donnez-moi plus
+- en dire plus
+- et après ça
+- j'ai besoin d'aller au suivant
+- j'en veux plus
+- montrez-moi la prochaine
+- passer à la suivante
+- plus
+- prochaine
+- qu'elle est la suite
+- qu'en est-il du prochain
+- qu'y a-t-il après ça
+- révéler plus
 
 
 ## ShowPrevious
-- Retour à la dernière
-- apporter le précédent
+- afficher le précédent
 - afficher précédemment
-- revenir à la dernière
-- revenir à la dernière
-- revenir à la précédente
-- revenir à la dernière
+- affichez précédent
+- aller à la précédente
 - aller précédemment
-- aller à la précédente
-- aller à la précédente
+- apporter le précédent
+- montrer plus tôt
+- montrez-moi le précédent
 - précédent
 - précédent s'il vous plaît
-- revenir à la précédente
+- quel est le précédent
+- qu'y a-t-il avant ça
+- retour au dernier
 - révéler les précédents
 - révéler précédemment
-- montrer plus tôt
-- Montrez-moi le précédent
-- afficher précédent
-- montrer le précédent
-- ce qui avant que
-- Quel est le précédent
-- ce qui est avant que
+- revenez à la dernière
+- revenir à la dernière
+- revenir à la précédente
 
 
 ## StartOver
-- clair et recommencer
-- pourriez-vous commencer
-- s'il vous plaît recommencer
-- Redémarrer
-- Redémarrez-le
+- effacez et recommencez
+- pourriez-vous recommencer
 - recommencer
-- commencer
-- recommencer
-- recommencer
-- Tourner la page
+- recommencer à zéro
+- redémarrer
+- redémarrez-le
+- s'il vous plaît recommencez
+- tourner la page
 
 
 ## Stop
-- bébé juste être tranquille
-- restez calme
-- être silencieux maintenant
-- venir sur arrêt
-- Rejeter
-- Fin
-- fin il
-- sortie sortie
 - arrêt de sortie
-- Dieu la ferme
-- Hey arrêter
-- Je t'aime pour arrêter de parler
-- Je veux dire arrêter d'écouter
-- J'ai dit stop
-- juste être tranquille
-- mon Dieu la ferme
-- jamais l'esprit arrêter
-- ne soyez pas silencieux
-- pas être tranquille maintenant
-- non non non non arrêtez de parler
-- pas de fermeture
-- pas d'arrêt
-- personne ne se soucie cesser de parler
-- nulle part juste être tranquille
-- Oh mon Dieu la ferme
-- OK stop stop
-- Calme
+- bébé soit juste tranquille
+- ça ne fait rien arrête
+- calme
 - calme maintenant
-- Ferme ta gueule
-- La ferme
-- Shut Up être silencieux
-- taisez-vous
-- La ferme
-- s'il vous plaît arrêter
-- cesser de parler
-- Désactiver
+- cessez de parler
+- désactiver
 - éteindre l'arrêt
+- ferme ta gueule
+- fin
+- hé arrête
+- j'ai dit stop
+- je t'aime pour arrêter de parler
+- je veux dire arrêter d'écouter
+- juste être tranquille
+- la ferme
+- la ferme, tais-toi
+- mettez-y fin
+- mon dieu la ferme
+- ne soyez pas silencieux
+- non non non non arrêtez de parler
+- non tais-toi
+- nulle part juste être tranquille
+- oh mon dieu la ferme
+- ok stop stop
+- pas d'arrêt
+- pas être tranquille maintenant
+- personne ne se soucie, arrête de parler
+- s'il vous plaît arrêtez
+- silence
+- silence maintenant
+- sortie sortie
+- taisez-vous
+- venir sur arrêt
 
 
 > # Entity definitions
@@ -520,4 +471,4 @@ $PREBUILT:ordinal
 
 > # List entities
 
-
+> # RegEx entities
