@@ -64,7 +64,7 @@ A Bot Framework Skill app (in TypeScript) that greets a new user.
 Install the botbuilder-assistant generator
 
 ```bash
-    npm install -g generator-botbuilder-assistant
+npm install -g generator-botbuilder-assistant
 ```
 
 Now you can execute the Skill sub-generator with this command.
@@ -194,7 +194,7 @@ To add your new Skill to your assistant/Bot, run the following command from a co
 ```
 
 ```bash
-botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder "<YOUR-SKILL_PATH>\deployment\resources\LU\en\" --ts 
+botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder "<YOUR-SKILL_PATH>\deployment\resources\LU\en" --ts
 ```
 
 See the [Adding Skills](/docs/howto/skills/addingskills.md) for more detail on how to add skills.

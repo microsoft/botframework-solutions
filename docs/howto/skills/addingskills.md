@@ -3,10 +3,10 @@
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) version 10.8 or higher
-- Install the Dispatch CLI tool
+- Install the LUDown and LUISGen CLI tools
 
     ```shell
-    npm install -g botdispatch
+    npm install -g ludown luisgen
     ```
 
 ## Adding Skills
