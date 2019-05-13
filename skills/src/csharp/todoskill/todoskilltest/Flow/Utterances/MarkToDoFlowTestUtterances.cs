@@ -18,18 +18,18 @@ namespace ToDoSkillTest.Flow.Utterances
                 ordinal: ordinal));
 
             var listType = new string[] { MockData.Grocery };
-            var number = new double[] { 3 };
+            ordinal = new double[] { 3 };
             this.Add(MarkSpecificTaskAsCompletedWithListType, GetBaseMarkToDoIntent(
                 MarkSpecificTaskAsCompletedWithListType,
                 listType: listType,
-                number: number));
+                ordinal: ordinal));
 
-            number = new double[1];
+            ordinal = new double[1];
             var taskContentML = new string[] { "play games 1" };
             var taskContentPattern = new string[] { "play games 2" };
             this.Add(MarkTaskAsCompletedByContent, GetBaseMarkToDoIntent(
                 MarkTaskAsCompletedByContent,
-                number: number,
+                ordinal: ordinal,
                 taskContentML: taskContentML,
                 taskContentPattern: taskContentPattern));
 

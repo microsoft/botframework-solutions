@@ -696,7 +696,7 @@ namespace EmailSkill.Dialogs
                 var messages = state.MessageList;
 
                 if (((state.LuisResult.Entities.ordinal != null) && (state.LuisResult.Entities.ordinal.Count() > 0))
-                    || ((state.LuisResult.Entities.number != null) && (state.LuisResult.Entities.number.Count() > 0)))
+                    || ((state.GeneralLuisResult?.Entities?.number != null) && (state.GeneralLuisResult.Entities.number.Count() > 0)))
                 {
                     // Search by ordinal and number
                     if (state.MessageList.Count > state.UserSelectIndex)
@@ -1034,7 +1034,11 @@ namespace EmailSkill.Dialogs
             };
 
             var avator = await GetMyPhotoUrlAsync(sc.Context);
-            var startIndex = (state.ShowEmailIndex * ConfigData.GetInstance().MaxDisplaySize) + 1;
+
+            var maxPage = (totalCount / ConfigData.GetInstance().MaxDisplaySize) + (totalCount % ConfigData.GetInstance().MaxDisplaySize > 0 ? 1 : 0) - 1;
+            var validShowEmailIndex = (state.ShowEmailIndex < 0) ? 0 : state.ShowEmailIndex;
+            validShowEmailIndex = (validShowEmailIndex > maxPage) ? maxPage : validShowEmailIndex;
+            var startIndex = (validShowEmailIndex * ConfigData.GetInstance().MaxDisplaySize) + 1;
             var endIndex = (startIndex + ConfigData.GetInstance().MaxDisplaySize - 1) > totalCount ? totalCount : (startIndex + ConfigData.GetInstance().MaxDisplaySize - 1);
             var overviewData = new EmailOverviewData()
             {
@@ -1101,7 +1105,6 @@ namespace EmailSkill.Dialogs
                 }
             }
 
-            var maxPage = (totalCount / ConfigData.GetInstance().MaxDisplaySize) + (totalCount % ConfigData.GetInstance().MaxDisplaySize > 0 ? 1 : 0) - 1;
             if (state.ShowEmailIndex < 0)
             {
                 var pagingInfo = ResponseManager.GetResponse(EmailSharedResponses.FirstPageAlready);
@@ -1280,6 +1283,8 @@ namespace EmailSkill.Dialogs
 
                 var entity = luisResult.Entities;
 
+                var generalEntity = state.GeneralLuisResult.Entities;
+
                 if (entity != null)
                 {
                     if (entity.ordinal != null)
@@ -1299,12 +1304,12 @@ namespace EmailSkill.Dialogs
                         }
                     }
 
-                    if (entity.number != null && (entity.ordinal == null || entity.ordinal.Length == 0))
+                    if (generalEntity != null && generalEntity.number != null && (entity.ordinal == null || entity.ordinal.Length == 0))
                     {
                         try
                         {
                             var emailList = state.MessageList;
-                            var value = entity.number[0];
+                            var value = generalEntity.number[0];
                             if (Math.Abs(value - (int)value) < double.Epsilon)
                             {
                                 state.UserSelectIndex = (int)value - 1;
