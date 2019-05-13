@@ -56,6 +56,14 @@ namespace Microsoft.Bot.Builder.Skills
                 await _streamingTransportClient.ConnectAsync();
             }
 
+			// set recipient to the skill
+			if (activity.Recipient == null)
+			{
+				activity.Recipient = new ChannelAccount();
+			}
+
+			activity.Recipient.Id = _skillManifest.MSAappId;
+
             // Serialize the activity and POST to the Skill endpoint
             var body = new StringContent(JsonConvert.SerializeObject(activity, SerializationSettings.BotSchemaSerializationSettings), Encoding.UTF8, SerializationSettings.ApplicationJson);
             var request = Request.CreatePost(string.Empty, body);
