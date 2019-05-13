@@ -53,7 +53,19 @@ const resolveWithMocks = function (testName, done, testFlow) {
     });
 }
 
+function simpleMock(testName, done, testFlow) {
+    nockBack(`${testName}.json`, function(nockDone) {
+        testFlow.then(function() {
+            nockDone();
+            done();
+        }).catch(function(err) {
+            done(err);
+        });
+    });
+}
+
 module.exports = {
     resolveWithMocks: resolveWithMocks,
-    testMode: TEST_MODE
+    testMode: TEST_MODE,
+    simpleMock: simpleMock
 }

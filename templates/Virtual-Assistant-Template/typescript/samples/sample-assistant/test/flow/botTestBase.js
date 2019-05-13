@@ -1,20 +1,25 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
-const { AutoSaveStateMiddleware, TestAdapter } = require('botbuilder-core');
+const { ActivityTypes } = require('botframework-schema');
+const { TestAdapter } = require('botbuilder-core');
+const { AutoSaveStateMiddleware, ConversationState, MemoryStorage, NullTelemetryClient, TelemetryLoggerMiddleware, UserState } = require('botbuilder');
+const { EventDebuggerMiddleware, Locales, SetLocaleMiddleware } = require('botbuilder-solutions');
 const i18next = require('i18next');
 const i18nextNodeFsBackend = require('i18next-node-fs-backend');
 const path = require('path');
+const { BotServices } = require('../../lib/services/botServices');
 const { DialogBot } = require('../../lib/bots/dialogBot.js');
 const { OnboardingDialog } = require('../../lib/dialogs/onboardingDialog.js')
 const { EscalateDialog } = require('../../lib/dialogs/escalateDialog.js')
 const { CancelDialog } = require('../../lib/dialogs/cancelDialog.js')
+const { MainDialog } = require('../../lib/dialogs/mainDialog')
 const appsettings = require('../appsettings.json');
 const cognitiveModelsRaw = require ('../cognitivemodels.json');
-const skills = require ('../../../sample-assistant/src/skills.json');
-const { Locales } = require('botbuilder-solutions');
+const skills = require ('../skills.json');
+
 const TEST_MODE = require('../testBase').testMode;
-const getTelemetryClient = require('../../lib/index.js').getTelemetryClient;
+//const getTelemetryClient = require('../../lib/index.js').getTelemetryClient;
 
 const setupEnvironment = function (testMode) {
     switch (testMode) {
@@ -42,7 +47,7 @@ const configuration = async function() {
     setupEnvironment(TEST_MODE);
 }
 
-const cognitiveModels = new Map(Object.entries(cognitiveModelsRaw));
+const cognitiveModels = new Map();
 const cognitiveModelDictionary = cognitiveModelsRaw.cognitiveModels;
 const cognitiveModelMap = new Map(Object.entries(cognitiveModelDictionary));
 cognitiveModelMap.forEach((value, key) => {
@@ -96,8 +101,75 @@ const getTestAdapter = function() {
     .use(new AutoSaveStateMiddleware(bot.conversationState, bot.userState));
 }
 
+function getTestAdapterDefault() {
+    const botSettings = {
+        microsoftAppId: appsettings.microsoftAppId,
+        microsoftAppPassword: appsettings.microsoftAppPassword,
+        defaultLocale: cognitiveModels.defaultLocale,
+        oauthConnections: [],
+        cosmosDb: appsettings.cosmosDb,
+        appInsights: appsettings.appInsights,
+        blobStorage: appsettings.blobStorage,
+        contentModerator: '',
+        cognitiveModels: cognitiveModels,
+        properties: {},
+        skills: skills
+    };
+
+    const telemetryClient = new NullTelemetryClient();
+    const storage = new MemoryStorage();
+    // create conversation and user state
+    const conversationState = new ConversationState(storage);
+    const userState = new UserState(storage);
+
+    const adapterSettings = {
+        appId: botSettings.microsoftAppId,
+        appPassword: botSettings.microsoftAppPassword
+    };
+    const botServices = new BotServices(botSettings);
+    const onboardingStateAccessor = userState.createProperty('OnboardingState');
+    const onboardingDialog = new OnboardingDialog(botServices, onboardingStateAccessor, telemetryClient)  
+    const escalateDialog = new EscalateDialog(botServices, telemetryClient);
+    const cancelDialog = new CancelDialog();
+    const skillDialogs = [];
+    const mainDialog = new MainDialog(
+        botSettings,
+        botServices,
+        onboardingDialog,
+        escalateDialog,
+        cancelDialog,
+        skillDialogs,
+        onboardingStateAccessor,
+        telemetryClient
+    );
+
+    const botLogic = new DialogBot(conversationState, telemetryClient, mainDialog);
+
+    const adapter = new TestAdapter(botLogic);
+
+    adapter.onTurnError = async function(context, error) {
+        await context.sendActivity({
+            type: ActivityTypes.Trace,
+            text: error.message
+        });
+        await context.sendActivity({
+            type: ActivityTypes.Trace,
+            text: error.stack
+        });
+        await context.sendActivity(i18next.t('main.error'));
+        telemetryClient.trackException({ exception: error });
+    };
+    
+    adapter.use(new TelemetryLoggerMiddleware(telemetryClient, true));
+    adapter.use(new SetLocaleMiddleware(botSettings.defaultLocale || 'en-us'));
+    adapter.use(new EventDebuggerMiddleware());
+    adapter.use(new AutoSaveStateMiddleware(conversationState, userState));
+    return adapter;
+}
+
 module.exports = {
     configuration: configuration,
     initialize: initialize,
-    getTestAdapter: getTestAdapter
+    getTestAdapter: getTestAdapter,
+    getTestAdapterDefault: getTestAdapterDefault
 }
