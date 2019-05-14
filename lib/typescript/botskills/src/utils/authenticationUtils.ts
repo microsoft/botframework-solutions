@@ -14,7 +14,7 @@ import {
     IOauthConnection,
     IScopeManifest,
     ISkillManifest } from '../models';
-import { extractArgs, tryExecute } from './';
+import { tryExecute } from './';
 
 const scopeMap: Map<string, string> = new Map([
     ['Files.Read.Selected', '5447fe39-cb82-4c1a-b977-520e67e724eb'],
@@ -101,11 +101,13 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
             let scopes: string[] = newScopes.slice(0);
 
             // check for existing aad connection
-            let listAuthSettingsCmd: string = `az bot authsetting list `;
-            listAuthSettingsCmd += `-n ${configuration.botName} `;
-            listAuthSettingsCmd += `-g ${configuration.resourceGroup}`;
+            const listAuthSettingsCommand: string[] = ['az', 'bot', 'authsetting', 'list'];
+            listAuthSettingsCommand.push(...['-n', configuration.botName]);
+            listAuthSettingsCommand.push(...['-g', configuration.resourceGroup]);
 
-            const connectionsResult: string = await tryExecute('az', extractArgs(listAuthSettingsCmd));
+            logger.command('Checking for existing aad connections', listAuthSettingsCommand.join(' '));
+
+            const connectionsResult: string = await tryExecute(listAuthSettingsCommand);
             const connections: IAzureAuthSetting[] = JSON.parse(connectionsResult);
             const aadConnection: IAzureAuthSetting | undefined = connections.find(
                 (connection: IAzureAuthSetting) => connection.properties.serviceProviderDisplayName === 'Azure Active Directory v2');
@@ -113,24 +115,28 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
                 const settingName: string = aadConnection.name.split('/')[1];
 
                 // Get current aad auth setting
-                let showAuthSettingsCmd: string = `az bot authsetting show `;
-                showAuthSettingsCmd += `-n ${configuration.botName} `;
-                showAuthSettingsCmd += `-g ${configuration.resourceGroup} `;
-                showAuthSettingsCmd += `-c ${settingName}`;
+                const showAuthSettingsCommand: string[] = ['az', 'bot', 'authsetting', 'show'];
+                showAuthSettingsCommand.push(...['-n', configuration.botName]);
+                showAuthSettingsCommand.push(...['-g', configuration.resourceGroup]);
+                showAuthSettingsCommand.push(...['-c', settingName]);
 
-                const botAuthSettingResult: string = await tryExecute('az', extractArgs(showAuthSettingsCmd));
+                logger.command('Getting current aad auth settings', showAuthSettingsCommand.join(' '));
+
+                const botAuthSettingResult: string = await tryExecute(showAuthSettingsCommand);
                 const botAuthSetting: IAzureAuthSetting = JSON.parse(botAuthSettingResult);
                 const existingScopes: string[] = botAuthSetting.properties.scopes.split(' ');
                 scopes = scopes.concat(existingScopes);
                 connectionName = settingName;
 
                 // delete current aad auth connection
-                let deleteAuthSettingCmd: string = `az bot authsetting delete `;
-                deleteAuthSettingCmd += `-n ${configuration.botName} `;
-                deleteAuthSettingCmd += `-g ${configuration.resourceGroup} `;
-                deleteAuthSettingCmd += `-c ${settingName}`;
+                const deleteAuthSettingCommand: string[] = ['az', 'bot', 'authsetting', 'delete'];
+                deleteAuthSettingCommand.push(...['-n', configuration.botName]);
+                deleteAuthSettingCommand.push(...['-g', configuration.resourceGroup]);
+                deleteAuthSettingCommand.push(...['-c', settingName]);
 
-                const deleteResult: string = await tryExecute('az', extractArgs(deleteAuthSettingCmd));
+                logger.command('Deleting current bot authentication setting', deleteAuthSettingCommand.join(' '));
+
+                const deleteResult: string = await tryExecute(deleteAuthSettingCommand);
             }
 
             // update appsettings.json
@@ -160,9 +166,12 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
             const scopeManifest: IScopeManifest[] = createScopeManifest(scopes);
 
             // get the information of the app
-            let azureAppShowCmd: string = `az ad app show`;
-            azureAppShowCmd += `--id ${appSettings.microsoftAppId}`;
-            const azureAppShowResult: string = await tryExecute('az', extractArgs(azureAppShowCmd));
+            const azureAppShowCommand: string[] = ['az', 'ad', 'app', 'show'];
+            azureAppShowCommand.push(...['--id', appSettings.microsoftAppId]);
+
+            logger.command('Getting the app information', azureAppShowCommand.join(' '));
+
+            const azureAppShowResult: string = await tryExecute(azureAppShowCommand);
             const azureAppReplyUrls: IAppShowReplyUrl = JSON.parse(azureAppShowResult);
 
             // get the Reply Urls from the app
@@ -173,14 +182,16 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
 
             // Update MSA scopes
             logger.message('Configuring MSA app scopes ...');
-            let azureAppUpdateCmd: string = `az ad app update `;
-            azureAppUpdateCmd += `--id ${appSettings.microsoftAppId} `;
-            azureAppUpdateCmd += `--reply-urls ${replyUrls.join(' ')} `;
+            const azureAppUpdateCommand: string[] = ['az', 'ad', 'app', 'update'];
+            azureAppUpdateCommand.push(...['--id', appSettings.microsoftAppId]);
+            azureAppUpdateCommand.push(...['--reply-urls', replyUrls.join(' ')]);
             const scopeManifestText: string = JSON.stringify(scopeManifest)
                 .replace(/\"/g, '\'');
-            azureAppUpdateCmd += `--required-resource-accesses "${scopeManifestText}"`;
+            azureAppUpdateCommand.push(...['--required-resource-accesses', `"${scopeManifestText}"`]);
 
-            const errorResult: string = await tryExecute('az', extractArgs(azureAppUpdateCmd));
+            logger.command('Updating the app information', azureAppUpdateCommand.join(' '));
+
+            const errorResult: string = await tryExecute(azureAppUpdateCommand);
             //  Catch error: Updates to converged applications are not allowed in this version.
             if (errorResult) {
                 logger.warning('Could not configure scopes automatically.');
@@ -188,20 +199,31 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
             }
 
             logger.message('Updating bot oauth settings ...');
-            let authSettingCmd: string = `az bot authsetting create `;
-            authSettingCmd += `--name ${configuration.botName} `;
-            authSettingCmd += `--resource-group ${configuration.resourceGroup} `;
-            authSettingCmd += `--setting-name ${connectionName} `;
-            authSettingCmd += `--client-id "${appSettings.microsoftAppId}" `;
-            authSettingCmd += `--client-secret "${appSettings.microsoftAppPassword}" `;
-            authSettingCmd += `--service Aadv2 `;
-            authSettingCmd += `--parameters clientId="${appSettings.microsoftAppId}" `;
-            authSettingCmd += `clientSecret="${appSettings.microsoftAppPassword}" tenantId=common `;
-            authSettingCmd += `--provider-scope-string "${scopes.join(' ')}"`;
+            const authSettingCommand: string[] = ['az', 'bot', 'authsetting', 'create'];
+            authSettingCommand.push(...['--name', configuration.botName]);
+            authSettingCommand.push(...['--resource-group', configuration.resourceGroup]);
+            authSettingCommand.push(...['--setting-name', connectionName]);
+            authSettingCommand.push(...['--client-id', `"${appSettings.microsoftAppId}"`]);
+            authSettingCommand.push(...['--client-secret', `"${appSettings.microsoftAppPassword}"`]);
+            authSettingCommand.push(...['--service', 'Aadv2']);
+            authSettingCommand.push(...['--parameters', `clientId="${appSettings.microsoftAppId}"`]);
+            authSettingCommand.push(...[`clientSecret="${appSettings.microsoftAppPassword}"`, 'tenantId=common']);
+            authSettingCommand.push(...['--provider-scope-string', `"${scopes.join(' ')}"`]);
 
-            await tryExecute('az', extractArgs(authSettingCmd));
+            logger.command('Creating the updated bot authentication setting', authSettingCommand.join(' '));
+
+            await tryExecute(authSettingCommand);
+
+            logger.message('Authentication process finished successfully.');
         } else {
-            logger.error('Could not configure authentication connection automatically.');
+            if (manifest.authenticationConnections.length > 0) {
+                logger.warning(`Could not configure authentication connection automatically.`);
+                logger.warning(`You must configure one of the following connection types manually in the Azure Portal:
+${manifest.authenticationConnections.map((authConn: IAuthenticationConnection) => authConn.serviceProviderId)
+    .join(', ')}`);
+            } else {
+                logger.warning('There\'s no authentication connection in your Skill\'s manifest.');
+            }
             // $manualAuthRequired = $true
         }
     }

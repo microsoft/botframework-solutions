@@ -1,6 +1,6 @@
 {
   "name": "botskills",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Skill command line tool for manipulating Microsoft Bot Framework skills",
   "main": "lib/botskills.js",
   "bin": {

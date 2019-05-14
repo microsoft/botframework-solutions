@@ -15,5 +15,6 @@ export interface IDisconnectConfiguration {
     dispatchFolder: string;
     lgOutFolder: string;
     dispatchName: string;
+    lgLanguage: string;
     logger?: ILogger;
 }

@@ -1,9 +1,11 @@
 # Adding Skills
 
-## Pre-requisites
+## Prerequisites
+
 - [Node.js](https://nodejs.org/) version 10.8 or higher
-- Dispatch CLI which is used as part of skill registration
-    ```
+- Install the Dispatch CLI tool
+
+    ```shell
     npm install -g botdispatch
     ```
 
@@ -11,10 +13,10 @@
 
 We have two approaches to add Skills to your Virtual Assistant which can be used interchangeably.
 
-1. The first leverages a `add_remote_skill.ps1` Powershell script included as part of your Virtual Assistant solution (located in the `Deployment\Scripts` folder of your assistant).
-2.  `botskills` command line tool which is in preview.
+1. The first leverages a `add_remote_skill.ps1` PowerShell script included as part of your Virtual Assistant solution (located in the `Deployment\Scripts` folder of your assistant).
+2. `botskills` command line tool which is in preview.
 
-> Skills requiring authentication (e.g. the productivity skills) should be added using the Powershell script at this time.
+> Skills requiring authentication (e.g. the productivity skills) should be added using the PowerShell script at this time.
 
 If you wish to use the `botskills` CLI then you can install using the following npm command:
 
@@ -28,9 +30,9 @@ npm install -g botdispatch, botskills
 
 See the [Skills Overview](/docs/README.md#skills) section for details on the Skills provided as part of the Virtual Assistant Solution Accelerator. Follow the deployment instructions required for each skill you wish to use and then return to this section to add these skills to your Virtual Assistant.
 
-## Skill CLI 
+## Skill CLI
 
-The Powershell script and CLI provides automation of all key steps required to add a Skill to your project
+The PowerShell script and CLI provides automation of all key steps required to add a Skill to your project
 
 1. Retrieve the Skill Manifest from the remote Skill through the `/api/skill/manifest` endpoint.
 2. Identify which Language Models are used by the Skill and resolve the triggering utterances either through local LU file resolution or through inline trigger utterances if requested.
@@ -44,23 +46,26 @@ Run the following command to add each Skill to your Virtual Assistant. This assu
 
 The `--luisFolder` parameter can be used to point the Skill CLI at the source LU files for trigger utterances. For Skills provided within this repo these can be found in the `Deployment\Resources\LU` folder of each Skill. The CLI will automatically traverse locale folder hierarchies.  This can be omitted for any of the skills we provide as the LU files are provided locally.
 
-- Powershell:
-```
+- PowerShell:
+
+```powershell
 .\Deployment\scripts\add_remote_skill.ps1 -botName "YOUR_BOT_NAME" -manifestUrl https://YOUR_SKILL.azurewebsites.net/api/skill/manifest -luisFolder [path]
 ```
 
 - botskills CLI:
+
 ```bash
-botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder [path] --cs 
+botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder [path] --cs
 ```
 
 See the [Skill CLI documentation](/lib/typescript/botskills/docs/connect-disconnect.md) for detailed CLI documentation,
 
-## Manual Authentication Connection configuration.
+## Manual Authentication Connection configuration
 
-If a Skill requires Authentication connections to Office/Office 365 in most cases the above script will automatically add this configuration to your Bot and associated Azure AD Application. 
+If a Skill requires Authentication connections to Office/Office 365 in most cases the above script will automatically add this configuration to your Bot and associated Azure AD Application.
 
 In the case that your Azure AD application has allowed users outside of your tenant to access the Application this auto-provisioning isn't possible and the CLI may warn that it wasn't able to configure Scopes and provides the Scopes you should manually add. An example of this is shown below:
+
 ```
 Could not configure scopes automatically. You must configure the following scopes in the Azure Portal to use this skill: User.Read, User.ReadBasic.All, Calendars.ReadWrite, People.Read
 ```
@@ -73,16 +78,18 @@ In this situation for Microsoft Graph based skills follow the instructions below
 
 For Skills that require other Authentication connection configuration please follow the skill specific configuration information.
 
-## Removing a Skill from your Virtual Assistant
+## Remove a Skill from your Virtual Assistant
 
-To disconnect a skill from your Virtual Assistant use the following command, passingthe id of the Skill as per the manifest (e.g. calendarSkill).
+To disconnect a skill from your Virtual Assistant use the following command, passing the id of the Skill as per the manifest (e.g. calendarSkill).
 
-- Powershell:
-```
+- PowerShell:
+
+```powershell
 .\Deployment\scripts\remove_skill.ps1 -manifestUrl https://YOUR_SKILL.azurewebsites.net/api/skill/manifest
 ```
 
 botskills:
+
 ```bash
 botskills disconnect --skillId SKILL_ID
 ```
@@ -90,8 +97,3 @@ botskills disconnect --skillId SKILL_ID
 ## Updating an existing Skill to reflect changes to Actions or LUIS model
 
 > A botskills refresh command will be added shortly. In the meantime, run the above disconnect command and then connect the skill again.
-
-
-
-
-

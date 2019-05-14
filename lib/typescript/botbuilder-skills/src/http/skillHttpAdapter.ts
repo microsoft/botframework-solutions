@@ -1,6 +1,5 @@
 import { BotFrameworkAdapter, BotFrameworkAdapterSettings, BotTelemetryClient, InvokeResponse,
     Severity, TurnContext, WebRequest, WebResponse } from 'botbuilder';
-import { TelemetryExtensions } from 'botbuilder-solutions';
 import { Activity } from 'botframework-schema';
 import { IActivityHandler } from '../activityHandler';
 import { IAuthenticationProvider } from '../auth';
@@ -52,7 +51,10 @@ export class SkillHttpAdapter extends BotFrameworkAdapter {
 
         if (this.telemetryClient) {
             const message: string = `SkillHttpAdapter: Processing incoming activity. Activity id: ${activity.id}`;
-            TelemetryExtensions.trackTraceEx(this.telemetryClient, message, Severity.Information, activity);
+            this.telemetryClient.trackTrace({
+                message: message,
+                severityLevel: Severity.Information
+            });
         }
 
         // process the inbound activity with the bot
