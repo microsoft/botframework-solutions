@@ -39,10 +39,18 @@ namespace BingSearchSkill.Models
             Name = thing.Name;
         }
 
+        public SearchResultModel(FactModel fact)
+        {
+            Type = EntityType.Fact;
+            Description = fact.value[0].description;
+            Url = fact.contractualRules[0].url;
+        }
+
         public enum EntityType
         {
             Person = 1,
             Movie = 2,
+            Fact = 3,
             Unknown = 0
         }
 

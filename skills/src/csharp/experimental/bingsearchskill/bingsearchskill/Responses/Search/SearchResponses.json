@@ -25,5 +25,14 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "AnswerSearchResultPrompt": {
+    "replies": [
+      {
+        "text": "{Answer}. You can find more information here: {Url}",
+        "speak": "{Answer}. You can find more information here."
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

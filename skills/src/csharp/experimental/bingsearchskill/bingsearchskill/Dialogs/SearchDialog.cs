@@ -16,7 +16,8 @@ namespace BingSearchSkill.Dialogs
 {
     public class SearchDialog : SkillDialogBase
     {
-        private const string ApiKeyIndex = "BingSearchKey";
+        private const string BingSearchApiKeyIndex = "BingSearchKey";
+        private const string BingAnswerSearchApiKeyIndex = "BingAnswerSearchKey";
         private BotServices _services;
         private IStatePropertyAccessor<SkillState> _stateAccessor;
 
@@ -74,8 +75,9 @@ namespace BingSearchSkill.Dialogs
                 state.SearchEntityType = SearchResultModel.EntityType.Unknown;
             }
 
-            var key = Settings.Properties[ApiKeyIndex] ?? throw new Exception("The BingSearchKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
-            var client = new BingSearchClient(key);
+            var bingSearchKey = Settings.Properties[BingSearchApiKeyIndex] ?? throw new Exception("The BingSearchKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
+            var bingAnswerSearchKey = Settings.Properties[BingAnswerSearchApiKeyIndex] ?? throw new Exception("The BingSearchKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
+            var client = new BingSearchClient(bingSearchKey, bingAnswerSearchKey);
             var entitiesResult = await client.GetSearchResult(state.SearchEntityName, state.SearchEntityType);
 
             Activity prompt = null;
@@ -107,7 +109,7 @@ namespace BingSearchSkill.Dialogs
                                 new Card("MovieCard", movieData),
                                 tokens);
                 }
-                else
+                else if (entitiesResult[0].Type == SearchResultModel.EntityType.Person)
                 {
                     var celebrityData = new PersonCardData()
                     {
@@ -121,6 +123,14 @@ namespace BingSearchSkill.Dialogs
                                 SearchResponses.EntityKnowledge,
                                 new Card("PersonCard", celebrityData),
                                 tokens);
+                }
+                else
+                {
+                    prompt = ResponseManager.GetResponse(SearchResponses.AnswerSearchResultPrompt, new StringDictionary()
+                    {
+                        { "Answer", entitiesResult[0].Description},
+                        { "Url", entitiesResult[0].Url}
+                    });
                 }
             }
             else

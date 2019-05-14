@@ -15,5 +15,6 @@ namespace BingSearchSkill.Responses.Search
         public const string AskEntityPrompt = "AskEntityPrompt";
         public const string EntityKnowledge = "EntityKnowledge";
         public const string NoResultPrompt = "NoResultPrompt";
+        public const string AnswerSearchResultPrompt = "AnswerSearchResultPrompt";
     }
 }

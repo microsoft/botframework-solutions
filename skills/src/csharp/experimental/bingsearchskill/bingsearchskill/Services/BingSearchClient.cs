@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using BingSearchSkill.Models;
@@ -10,6 +11,7 @@ using Microsoft.Azure.CognitiveServices.Search.WebSearch;
 using Microsoft.Azure.CognitiveServices.Search.WebSearch.Models;
 using Microsoft.Rest;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace BingSearchSkill.Services
 {
@@ -17,11 +19,13 @@ namespace BingSearchSkill.Services
     {
         private EntitySearchClient _entitySearchClient;
         private WebSearchClient _webSearchClient;
+        private string _bingAnswerSearchKey;
 
-        public BingSearchClient(string key)
+        public BingSearchClient(string bingSearchKey, string bingAnswerSearchKey)
         {
-            _entitySearchClient = new EntitySearchClient(new Microsoft.Azure.CognitiveServices.Search.EntitySearch.ApiKeyServiceClientCredentials(key));
-            _webSearchClient = new WebSearchClient(new Microsoft.Azure.CognitiveServices.Search.WebSearch.ApiKeyServiceClientCredentials(key));
+            _entitySearchClient = new EntitySearchClient(new Microsoft.Azure.CognitiveServices.Search.EntitySearch.ApiKeyServiceClientCredentials(bingSearchKey));
+            _webSearchClient = new WebSearchClient(new Microsoft.Azure.CognitiveServices.Search.WebSearch.ApiKeyServiceClientCredentials(bingSearchKey));
+            _bingAnswerSearchKey = bingAnswerSearchKey;
         }
 
         private async Task<Entities> GetEntitySearchResult(string query)
@@ -52,9 +56,16 @@ namespace BingSearchSkill.Services
 
         public async Task<List<SearchResultModel>> GetSearchResult(string query, SearchResultModel.EntityType queryType = SearchResultModel.EntityType.Unknown)
         {
+            var results = new List<SearchResultModel>();
+            var answerSearchResult = await GetAnswerSearchResult(query);
+            if (answerSearchResult != null)
+            {
+                results.Add(answerSearchResult);
+                return results;
+            }
+
             var entitySearchResult = await GetEntitySearchResult(query);
             var webSearchResult = await GetWebSearchResult(query);
-            var results = new List<SearchResultModel>();
             if (entitySearchResult != null)
             {
                 foreach (var entity in entitySearchResult.Value)
@@ -101,6 +112,22 @@ namespace BingSearchSkill.Services
                         return movieResults;
                     }
             }
+        }
+
+        private async Task<SearchResultModel> GetAnswerSearchResult(string query)
+        {
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", _bingAnswerSearchKey);
+            var responseString = await httpClient.GetStringAsync($"https://api.labs.cognitive.microsoft.com/answerSearch/v7.0/search?q={query}&mkt=en-us");
+            var responseJson = JToken.Parse(responseString);
+            var factsJson = responseJson["facts"];
+            if (factsJson != null)
+            {
+                var fact = factsJson.ToObject<FactModel>();
+                return new SearchResultModel(fact);
+            }
+
+            return null;
         }
     }
 }
