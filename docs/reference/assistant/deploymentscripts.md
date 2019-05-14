@@ -27,8 +27,8 @@ This script orchestrates the deployment of all Azure Resources and Cognitive Mod
 | `appId` | The application Id for your Microsoft App Registration. | No |
 | `parametersFile` | Optional configuration file for ARM Template deployment. | No |
 | `languages` | Specifies which languages to deploy cognitive models in a comma separated string (e.g. "en-us,de-de,es-es"). Defaults to "en-us". | No |
-| `outFolder | Location to save `appsettings.json` and `cognitivemodels.json` configuration files. Defaults to current directory. | No |
-| `logFile | Log file for any errors that occur during script execution. Defaults to `Deployment` folder | No |
+| `outFolder` | Location to save `appsettings.json` and `cognitivemodels.json` configuration files. Defaults to current directory. | No |
+| `logFile` | Log file for any errors that occur during script execution. Defaults to `Deployment` folder | No |
 
 ## deploy_cognitive_models.ps1
 
