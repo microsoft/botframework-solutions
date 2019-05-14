@@ -10,15 +10,11 @@ const fs = require("fs");
 const path = require(`path`);
 const pkg = require(`../../package.json`);
 const _pick = require(`lodash/pick`);
-const _camelCase = require("lodash/camelCase");
-const _upperFirst = require("lodash/upperFirst");
 const _kebabCase = require(`lodash/kebabCase`);
 const templateName = "customSkill";
 const languages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
 let skillName;
 let skillDesc;
-let skillClassname;
-let skillFilename;
 let skillGenerationPath = process.cwd();
 let isAlreadyCreated = false;
 let copier;
@@ -250,8 +246,6 @@ module.exports = class extends Generator {
     }
 
     skillName = _kebabCase(this.props.skillName).replace(/([^a-z0-9-]+)/gi, ``);
-    skillClassname =  _upperFirst(_camelCase(this.props.skillName));
-    skillFilename = _camelCase(this.props.skillName);
     skillGenerationPath = path.join(skillGenerationPath, skillName);
     if (this.props.skillGenerationPath !== undefined) {
       skillGenerationPath = path.join(
@@ -274,9 +268,7 @@ module.exports = class extends Generator {
     // Create new skill obj
     const newSkill = {
       skillName: skillName,
-      skillDescription: skillDesc,
-      skillClassname: skillClassname,
-      skillFilename: skillFilename
+      skillDescription: skillDesc
     };
 
     // Start the copy of the template
