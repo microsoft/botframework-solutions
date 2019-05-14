@@ -1,0 +1,41 @@
+[
+    {
+        "scope": "https://westus.api.cognitive.microsoft.com:443",
+        "method": "POST",
+        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
+        "body": "Help",
+        "status": 200,
+        "response": {
+            "query": "Help",
+            "topScoringIntent": {
+                "intent": "Help",
+                "score": 0.989176869
+            },
+            "entities": []
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-store, proxy-revalidate, no-cache, max-age=0, private",
+            "Pragma",
+            "no-cache",
+            "Content-Length",
+            "122",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Apim-Request-Id",
+            "5c20fe2c-9812-4df7-8a8a-33ff1c361042",
+            "Request-Id",
+            "5c20fe2c-9812-4df7-8a8a-33ff1c361042",
+            "Strict-Transport-Security",
+            "max-age=31536000; includeSubDomains; preload",
+            "X-Content-Type-Options",
+            "nosniff",
+            "X-Frame-Options",
+            "SAMEORIGIN",
+            "Date",
+            "Tue, 14 May 2019 19:14:38 GMT",
+            "Connection",
+            "close"
+        ]
+    }
+]

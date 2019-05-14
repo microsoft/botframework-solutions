@@ -1,52 +1,30 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License
 
+const { join } = require('path');
+
 const { ActivityTypes } = require('botframework-schema');
 const { TestAdapter } = require('botbuilder-core');
 const { AutoSaveStateMiddleware, ConversationState, MemoryStorage, NullTelemetryClient, TelemetryLoggerMiddleware, UserState } = require('botbuilder');
 const { EventDebuggerMiddleware, Locales, SetLocaleMiddleware } = require('botbuilder-solutions');
 const i18next = require('i18next');
 const i18nextNodeFsBackend = require('i18next-node-fs-backend');
-const path = require('path');
+
 const { BotServices } = require('../../lib/services/botServices');
-const { DialogBot } = require('../../lib/bots/dialogBot.js');
-const { OnboardingDialog } = require('../../lib/dialogs/onboardingDialog.js')
-const { EscalateDialog } = require('../../lib/dialogs/escalateDialog.js')
-const { CancelDialog } = require('../../lib/dialogs/cancelDialog.js')
-const { MainDialog } = require('../../lib/dialogs/mainDialog')
-const appsettings = require('../appsettings.json');
-const cognitiveModelsRaw = require ('../cognitivemodels.json');
-const skills = require ('../skills.json').skills;
+const { DialogBot } = require('../../lib/bots/dialogBot');
+const { OnboardingDialog } = require('../../lib/dialogs/onboardingDialog');
+const { EscalateDialog } = require('../../lib/dialogs/escalateDialog');
+const { CancelDialog } = require('../../lib/dialogs/cancelDialog');
+const { MainDialog } = require('../../lib/dialogs/mainDialog');
 
 const TEST_MODE = require('../testBase').testMode;
-//const getTelemetryClient = require('../../lib/index.js').getTelemetryClient;
 
-const setupEnvironment = function (testMode) {
-    switch (testMode) {
-        case 'record':
-            break;
-        case 'lockdown':
-            break;
-    }
-}
+const resourcesDir = TEST_MODE === 'lockdown' ? join('..', 'mockedResources') : join('..', '..', 'src');
 
-async function configuration() {
-    // Configure internationalization and default locale
-    await i18next.use(i18nextNodeFsBackend)
-    .init({
-        fallbackLng: 'en',
-        preload: [ 'de', 'en', 'es', 'fr', 'it', 'zh' ],
-        backend: {
-            loadPath: path.join(__dirname, '..', '..', 'lib', 'locales', '{{lng}}.json')
-        }
-    })
-    .then(async () => {
-        await Locales.addResourcesFromPath(i18next, 'common');
-    });
+const appSettings = require(join(resourcesDir, 'appsettings.json'));
+const skills = require(join(resourcesDir, 'skills.json')).skills;
 
-    setupEnvironment(TEST_MODE);
-}
-
+const cognitiveModelsRaw = require(join(resourcesDir, 'cognitivemodels.json'));
 const cognitiveModels = new Map();
 const cognitiveModelDictionary = cognitiveModelsRaw.cognitiveModels;
 const cognitiveModelMap = new Map(Object.entries(cognitiveModelDictionary));
@@ -54,63 +32,31 @@ cognitiveModelMap.forEach((value, key) => {
     cognitiveModels.set(key, value);
 });
 
-/**
- * Initializes the properties for the bot to be tested.
- */
-const initialize = async function(testStorage) {
-    await configuration();
-    
-    const telemetryClient = getTelemetryClient(botSettings);
-    const botSettings = new BotSettings(appsettings.appInsights, appsettings.blobStorage, cognitiveModels, appsettings.cosmosDb, cognitiveModels.defaultLocale, appsettings.microsoftAppId, appsettings.microsoftAppPassword, skills)
-    const adapterSettings = {
-        appId: botSettings.microsoftAppId,
-        appPassword: botSettings.microsoftAppPassword
-    };
-    const adapter = new DefaultAdapter(botSettings, adapterSettings, telemetryClient);
-    const botServices = new BotServices(botSettings);
-    const onboardingStateAccessor = adapter.userState.createProperty('OnboardingState');
-    const onboardingDialog = new OnboardingDialog(botServices, onboardingStateAccessor, telemetryClient)  
-    const escalateDialog = new EscalateDialog(botServices, telemetryClient);
-    const cancelDialog = new CancelDialog();
-    const skillDialogs = [];
-    const mainDialog = new MainDialog(
-        botSettings,
-        botServices,
-        onboardingDialog,
-        escalateDialog,
-        cancelDialog,
-        skillDialogs,
-        onboardingStateAccessor,
-        telemetryClient
-    );
-    this.bot = new DialogBot(adapter.conversationState, telemetryClient, mainDialog);
-}
-
-/**
- * Initializes the TestAdapter.
- * @returns TestAdapter with the Bot logic configured.
- */
-const getTestAdapter = function() {
-    const bot = this.bot;
-
-    return new TestAdapter(async function (context) {
-        const cultureInfo = context.activity.locale || 'en';
-        await i18next.changeLanguage(cultureInfo);
-        return bot.onTurn(context);
+async function initConfiguration() {
+    // Configure internationalization and default locale
+    await i18next.use(i18nextNodeFsBackend)
+    .init({
+        fallbackLng: 'en',
+        preload: [ 'de', 'en', 'es', 'fr', 'it', 'zh' ],
+        backend: {
+            loadPath: join(__dirname, '..', '..', 'lib', 'locales', '{{lng}}.json')
+        }
     })
-    .use(new AutoSaveStateMiddleware(bot.conversationState, bot.userState));
+    .then(async () => {
+        await Locales.addResourcesFromPath(i18next, 'common');
+    });
 }
 
 async function getTestAdapterDefault() {
-    await configuration();
+    await initConfiguration();
     const botSettings = {
-        microsoftAppId: appsettings.microsoftAppId,
-        microsoftAppPassword: appsettings.microsoftAppPassword,
-        defaultLocale: cognitiveModels.defaultLocale,
+        microsoftAppId: appSettings.microsoftAppId,
+        microsoftAppPassword: appSettings.microsoftAppPassword,
+        defaultLocale: cognitiveModelsRaw.defaultLocale,
         oauthConnections: [],
-        cosmosDb: appsettings.cosmosDb,
-        appInsights: appsettings.appInsights,
-        blobStorage: appsettings.blobStorage,
+        cosmosDb: appSettings.cosmosDb,
+        appInsights: appSettings.appInsights,
+        blobStorage: appSettings.blobStorage,
         contentModerator: '',
         cognitiveModels: cognitiveModels,
         properties: {},
@@ -162,15 +108,12 @@ async function getTestAdapterDefault() {
     };
     
     adapter.use(new TelemetryLoggerMiddleware(telemetryClient, true));
-    adapter.use(new SetLocaleMiddleware(botSettings.defaultLocale || 'en-us'));
+    adapter.use(new SetLocaleMiddleware(botSettings.defaultLocale || 'en'));
     adapter.use(new EventDebuggerMiddleware());
     adapter.use(new AutoSaveStateMiddleware(conversationState, userState));
     return adapter;
 }
 
 module.exports = {
-    configuration: configuration,
-    initialize: initialize,
-    getTestAdapter: getTestAdapter,
     getTestAdapterDefault: getTestAdapterDefault
 }

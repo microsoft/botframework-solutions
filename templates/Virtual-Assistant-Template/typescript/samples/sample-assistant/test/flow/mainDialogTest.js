@@ -32,7 +32,7 @@ describe("Main Dialog", function () {
 					assert.deepEqual(activity.attachments[0].content, introJson);
 				});
 
-				return testNock.simpleMock('mainDialog_introCard_response', done, flow);
+				return testNock.resolveWithMocks('mainDialog_introCard_response', done, flow);
 			});
 		});
 	});
@@ -44,7 +44,7 @@ describe("Main Dialog", function () {
 					.send('Hi')
 					.assertReply('Hello.');
 
-				testNock.simpleMock('mainDialog_greeting_response', done, flow);
+				testNock.resolveWithMocks('mainDialog_greeting_response', done, flow);
 			});
 		});
 	});
@@ -56,7 +56,7 @@ describe("Main Dialog", function () {
 					.send('Help')
 					.assertReply('I\'m your Virtual Assistant! I can perform a number of tasks through my connected skills. Right now I can help you with Calendar, Email, Task and Point of Interest questions. Or you can help me do more by creating your own!');
 
-				testNock.simpleMock('mainDialog_help_response', done, flow);
+				testNock.resolveWithMocks('mainDialog_help_response', done, flow);
 			});
 		});
 	});
@@ -71,13 +71,13 @@ describe("Main Dialog", function () {
 						assert.deepEqual(activity.attachments[0].content.title, 'Our agents are available 24/7 at 1(800)555-1234. Or connect with us through Microsoft Teams.');
 					});
 
-				testNock.simpleMock('mainDialog_escalate_response', done, flow);
+				testNock.resolveWithMocks('mainDialog_escalate_response', done, flow);
 			});
         });
     });
 
 	describe("Localization", function () {
-		it("Send a message in FIGS+ZH, set locale property on activity and validate the localized response", function (done) {
+		it("Send a message in spanish, set locale property on activity and validate the localized response", function (done) {
 			botTestBase.getTestAdapterDefault().then((testAdapter) => {
 				const flow = testAdapter
 				.send({
@@ -99,7 +99,7 @@ describe("Main Dialog", function () {
 					assert.deepEqual(activity.attachments[0].content, introJsonEs);
 				});
 
-				return testNock.simpleMock('mainDialog_localization_response', done, flow);
+				return testNock.resolveWithMocks('mainDialog_localization_response', done, flow);
 			});
 		});
 	});

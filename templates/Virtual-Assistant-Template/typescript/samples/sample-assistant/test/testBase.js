@@ -7,17 +7,13 @@ nockBack.setMode(TEST_MODE);
 nockBack.fixtures = __dirname + '/nockFixtures';
 
 const uuidRegex = /[a-f\d-]{8}-[a-f\d-]{4}-[a-f\d-]{4}-[a-f\d-]{4}-[a-f\d-]{12}/;
-const qnaRegex = /\/\/[^.]+\.azurewebsites/;
 
-const replaceUUID = function (value) {
+function sanitizeUUID(value) {
     return value.replace(uuidRegex, 'f7c2ee78-8679-4a3e-b384-0cd10c67e554');
 }
 
-const replaceScope = function (value) {
-    return value.replace(qnaRegex, '//assistant-hostname-qnahost.azurewebsites');
-}
-
-const beforeNock = function (scope) {
+function beforeNock(scope) {
+    // Fix issue with LUIS responses as JSON strings
     scope.filteringRequestBody = function (body, rBody) {
         if (body === JSON.stringify(rBody)) {
             return JSON.parse(body);
@@ -25,31 +21,30 @@ const beforeNock = function (scope) {
 
         return body;
     }
+    // filter keys
+    scope.filteringPath = sanitizeUUID;
+    scope.filteringScope = sanitizeUUID;
+}
 
-    scope.filteringPath = replaceUUID;
-
-    scope.filteringScope = replaceScope;
-};
-
-const afterRecordNock = function (scopes) {
+function afterRecordNock(scopes) {
     return scopes.map(function (scope) {
-        scope.path = replaceUUID(scope.path)
-        scope.scope = replaceScope(scope.scope);
+        scope.path = sanitizeUUID(scope.path)
+        scope.scope = sanitizeUUID(scope.scope);
 
         return scope;
     });
 }
 
-const resolveWithMocks = function (testName, done, testFlow) {
-    nockBack(testName + '.json', { before: beforeNock, afterRecord: afterRecordNock }, function (nockDone) {
-        testFlow
-            .then(function () {
-                nockDone();
-                done();
-            })
-            .catch(function (err) {
-                done(err);
-            });
+const nockSettings = { before: beforeNock, afterRecord: afterRecordNock };
+
+function resolveWithMocks(testName, done, testFlow) {
+    nockBack(testName + '.json', nockSettings, function (nockDone) {
+        testFlow.then(function () {
+            nockDone();
+            done();
+        }).catch(function (err) {
+            done(err);
+        });
     });
 }
 
@@ -66,6 +61,6 @@ function simpleMock(testName, done, testFlow) {
 
 module.exports = {
     resolveWithMocks: resolveWithMocks,
-    testMode: TEST_MODE,
-    simpleMock: simpleMock
+    simpleMock: simpleMock,
+    testMode: TEST_MODE
 }
