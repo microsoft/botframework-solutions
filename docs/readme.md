@@ -69,7 +69,7 @@
 |[Architecture](/docs/reference/assistant/underthecovers.md)|Detailed documentation covering what the template provides and how it works| 
 |[Generating bot responses](/docs/reference/assistant/responses.md)|Your Virtual Assistant can respond in a variety of ways depending on the scenario and the users active device or conversation canvas|
 |[Managing backend client events](/docs/reference/assistant/events.md)|Events enable custom apps or device experiences to pass device or contextual user information to an assistant behind the scenes.|
-|[Deployment scripts](/docs/reference/assistant/deploymentscripts) | Reference for deployment scripts provided in the Virtual Assistant Template |
+|[Deployment scripts](/docs/reference/assistant/deploymentscripts.md) | Reference for deployment scripts provided in the Virtual Assistant Template |
 
 ## Skills
 
