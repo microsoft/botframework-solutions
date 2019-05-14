@@ -18,18 +18,26 @@ async function runCommand(command: string[], description: string): Promise<strin
 
     try {
 
-        return await execute(cmd, commandArgs);
+        return await execute(cmd, commandArgs)
+        // tslint:disable-next-line:typedef
+        .catch((err) => {
+            throw new Error(`The execution of the ${cmd} command failed with the following error:\n${err}`);
+        });
     } catch (err) {
-
-        return err;
+        throw err;
     }
 }
 
 async function getRemoteManifest(manifestUrl: string): Promise<ISkillManifest> {
-    return get({
-        uri: <string> manifestUrl,
-        json: true
-    });
+    try {
+        return get({
+            uri: <string> manifestUrl,
+            json: true
+        });
+    } catch (err) {
+        logger.error(`There was a problem while getting the remote manifest:\n${err}`);
+        throw err;
+    }
 }
 
 function getLocalManifest(manifestPath: string): ISkillManifest {
@@ -73,6 +81,7 @@ async function updateDispatch(configuration: IConnectConfiguration, manifest: IS
         const dispatchFile: string = `${configuration.dispatchName}.dispatch`;
         const dispatchJsonFile: string = `${configuration.dispatchName}.json`;
         const dispatchFilePath: string = join(configuration.dispatchFolder, dispatchFile);
+        const dispatchJsonFilePath: string = join(configuration.dispatchFolder, dispatchJsonFile);
         const intentName: string = manifest.id;
         let luisDictionary: Map<string, string>;
 
@@ -130,7 +139,7 @@ async function updateDispatch(configuration: IConnectConfiguration, manifest: IS
 
             if (!existsSync(luisFilePath)) {
                 // tslint:disable-next-line: max-line-length
-                throw(new Error(`Path to the ${luisFile} leads to a nonexistent file. Make sure the ludown command is being executed successfully`));
+                throw(new Error(`Path to ${luisFile} (${luisFilePath}) leads to a nonexistent file. Make sure the ludown command is being executed successfully`));
             }
             // Update Dispatch file
             const dispatchAddCommand: string[] = ['dispatch', 'add'];
@@ -149,11 +158,16 @@ async function updateDispatch(configuration: IConnectConfiguration, manifest: IS
         dispatchRefreshCommand.push(...['--dispatch', dispatchFilePath]);
         dispatchRefreshCommand.push(...['--dataFolder', configuration.dispatchFolder]);
 
-        await runCommand(dispatchRefreshCommand, `Executing dispatch refresh for the ${configuration.dispatchName} file`);
+        logger.message(await runCommand(dispatchRefreshCommand, `Executing dispatch refresh for the ${configuration.dispatchName} file`));
+
+        if (!existsSync(dispatchJsonFilePath)) {
+            // tslint:disable-next-line: max-line-length
+            throw(new Error(`Path to ${dispatchJsonFile} (${dispatchJsonFilePath}) leads to a nonexistent file. Make sure the dispatch refresh command is being executed successfully`));
+        }
 
         logger.message('Running LuisGen...');
         const luisgenCommand: string[] = ['luisgen'];
-        luisgenCommand.push(join(configuration.dispatchFolder, dispatchJsonFile));
+        luisgenCommand.push(dispatchJsonFilePath);
         luisgenCommand.push(...[`-${configuration.lgLanguage}`, `"DispatchLuis"`]);
         luisgenCommand.push(...['-o', configuration.lgOutFolder]);
 
@@ -161,58 +175,60 @@ async function updateDispatch(configuration: IConnectConfiguration, manifest: IS
 
         logger.success('Successfully updated Dispatch model');
     } catch (err) {
-        logger.error(`An error ocurred while updating the Dispatch model: ${err}`);
-        process.exit(1);
+        throw new Error(`An error ocurred while updating the Dispatch model:\n${err}`);
     }
 }
 
 export async function connectSkill(configuration: IConnectConfiguration): Promise<void> {
+    try {
+        if (configuration.logger) {
+            logger = configuration.logger;
+        }
+        // Take skillManifest
+        const skillManifest: ISkillManifest = configuration.localManifest
+        ? getLocalManifest(configuration.localManifest)
+        : await getRemoteManifest(configuration.remoteManifest);
 
-    if (configuration.logger) {
-        logger = configuration.logger;
+        // Manifest schema validation
+        validateManifestSchema(skillManifest);
+
+        if (logger.isError) {
+            process.exit(1);
+        }
+        // End of manifest schema validation
+
+        // Take VA Skills configurations
+        //tslint:disable-next-line: no-var-requires non-literal-require
+        const assistantSkillsFile: ISkillFIle = require(configuration.skillsFile);
+        const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills || [];
+
+        // Check if the skill is already connected to the assistant
+        if (assistantSkills.find((assistantSkill: ISkillManifest) => assistantSkill.id === skillManifest.id)) {
+            logger.warning(`The skill '${skillManifest.name}' is already registered.`);
+            process.exit(1);
+        }
+
+        // Updating Dispatch
+        logger.message('Updating Dispatch');
+        await updateDispatch(configuration, skillManifest);
+
+        // Adding the skill manifest to the assistant skills array
+        logger.warning(`Appending '${skillManifest.name}' manifest to your assistant's skills configuration file.`);
+        assistantSkills.push(skillManifest);
+
+        // Updating the assistant skills file's skills property with the assistant skills array
+        assistantSkillsFile.skills = assistantSkills;
+
+        // Writing (and overriding) the assistant skills file
+        writeFileSync(configuration.skillsFile, JSON.stringify(assistantSkillsFile, undefined, 4));
+        logger.success(`Successfully appended '${skillManifest.name}' manifest to your assistant's skills configuration file!`);
+
+        // Configuring bot auth settings
+        logger.message('Configuring bot auth settings');
+        await authenticate(configuration, skillManifest, logger);
+    } catch (err) {
+        logger.error(`There was an error while connecting the Skill to the Assistant:\n${err}`);
     }
-    // Take skillManifest
-    const skillManifest: ISkillManifest = configuration.localManifest
-    ? getLocalManifest(configuration.localManifest)
-    : await getRemoteManifest(configuration.remoteManifest);
-
-    // Manifest schema validation
-    validateManifestSchema(skillManifest);
-
-    if (logger.isError) {
-        process.exit(1);
-    }
-    // End of manifest schema validation
-
-    // Take VA Skills configurations
-    //tslint:disable-next-line: no-var-requires non-literal-require
-    const assistantSkillsFile: ISkillFIle = require(configuration.skillsFile);
-    const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills || [];
-
-    // Check if the skill is already connected to the assistant
-    if (assistantSkills.find((assistantSkill: ISkillManifest) => assistantSkill.id === skillManifest.id)) {
-        logger.warning(`The skill '${skillManifest.name}' is already registered.`);
-        process.exit(1);
-    }
-
-    // Updating Dispatch
-    logger.message('Updating Dispatch');
-    await updateDispatch(configuration, skillManifest);
-
-    // Adding the skill manifest to the assistant skills array
-    logger.warning(`Appending '${skillManifest.name}' manifest to your assistant's skills configuration file.`);
-    assistantSkills.push(skillManifest);
-
-    // Updating the assistant skills file's skills property with the assistant skills array
-    assistantSkillsFile.skills = assistantSkills;
-
-    // Writing (and overriding) the assistant skills file
-    writeFileSync(configuration.skillsFile, JSON.stringify(assistantSkillsFile, undefined, 4));
-    logger.success(`Successfully appended '${skillManifest.name}' manifest to your assistant's skills configuration file!`);
-
-    // Configuring bot auth settings
-    logger.message('Configuring bot auth settings');
-    await authenticate(configuration, skillManifest, logger);
 }
 
 let logger: ILogger = new ConsoleLogger();
