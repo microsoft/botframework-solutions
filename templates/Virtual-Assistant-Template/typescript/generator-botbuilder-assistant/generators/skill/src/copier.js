@@ -77,6 +77,10 @@ class Copier {
       path.join(`src`, `dialogs`, `_skillDialogBase.ts`),
       path.join(`src`, `dialogs`, `skillDialogBase.ts`)
     );
+    templateFiles.set(
+      path.join(`test`, `mockResources`, `_cognitiveModels.json`),
+      path.join(`test`, `mockResources`, `cognitiveModels.json`)
+    );
     selectedLanguages.forEach(language => {
       templateFiles.set(
         path.join(`deployment`, `resources`, `LU`, language, `_skill.lu`),
