@@ -16,7 +16,7 @@ const { CancelDialog } = require('../../lib/dialogs/cancelDialog.js')
 const { MainDialog } = require('../../lib/dialogs/mainDialog')
 const appsettings = require('../appsettings.json');
 const cognitiveModelsRaw = require ('../cognitivemodels.json');
-const skills = require ('../skills.json');
+const skills = require ('../skills.json').skills;
 
 const TEST_MODE = require('../testBase').testMode;
 //const getTelemetryClient = require('../../lib/index.js').getTelemetryClient;
