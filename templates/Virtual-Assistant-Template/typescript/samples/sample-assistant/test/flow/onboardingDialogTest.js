@@ -2,47 +2,40 @@ const assert = require('assert');
 const { MemoryStorage } = require('botbuilder-core')
 const botTestBase = require('./botTestBase.js');
 const testNock = require('../testBase');
-
 let testStorage = new MemoryStorage();
 
-xdescribe("Onboarding Dialog", function () {
-    beforeEach(function () {
-        botTestBase.initialize(testStorage);
-    });
-
-    afterEach(function () {
-        testStorage = new MemoryStorage();
-    });
-
+describe("Onboarding Dialog", function () {
     describe("Onboarding", function () {
         it("Spin up the OnboardingDialog directly", function (done) {
-            const testAdapter = botTestBase.getTestAdapter();
-            const flow = testAdapter
-                .send({
-                    channelId: "emulator",
-                    conversation: {
-                        id: "spinUpOnboardingDirectly"
-                    },
-                    from: {
-                        id: "User",
-                        name: "User"
-                    },
-                    recipient: {
-                        id: "1",
-                        name: "Bot",
-                        role: "bot"
-                    },
-                    type: "message",
-                    value: {
-                        action: "startOnboarding"
-                    }
-                })
-                .assertReply('What is your name?');
+            botTestBase.getTestAdapterDefault().then((testAdapter) => {
+                const flow = testAdapter
+                    .send({
+                        channelId: "emulator",
+                        conversation: {
+                            id: "spinUpOnboardingDirectly"
+                        },
+                        from: {
+                            id: "User",
+                            name: "User"
+                        },
+                        recipient: {
+                            id: "1",
+                            name: "Bot",
+                            role: "bot"
+                        },
+                        type: "message",
+                        value: {
+                            action: "startOnboarding"
+                        }
+                    })
+                    .assertReply('What is your name?');
 
-            testNock.resolveWithMocks('onboardingDialog_init', done, flow);
+                return testNock.simpleMock('onboardingDialog_init', done, flow);
+            });
         });
-        it("Response for name prompt", function (done) {
-            const testAdapter = botTestBase.getTestAdapter();
+    });    
+    it("Response for name prompt", function (done) {
+        botTestBase.getTestAdapterDefault().then((testAdapter) => {
             const flow = testAdapter
                 .send({
                     channelId: "emulator",
@@ -85,11 +78,11 @@ xdescribe("Onboarding Dialog", function () {
                 })
                 .assertReply('Hi, user!');
 
-            testNock.resolveWithMocks('onboardingDialog_namePrompt', done, flow);
+            testNock.simpleMock('onboardingDialog_namePrompt', done, flow);
         });
-    
-        it("Validate state is updated", function (done) {
-            const testAdapter = botTestBase.getTestAdapter();
+    });
+    it("Validate state is updated", function (done) {
+        botTestBase.getTestAdapterDefault().then((testAdapter) => {
             const flow = testAdapter
                 .send({
                     channelId: "emulator",
@@ -134,7 +127,7 @@ xdescribe("Onboarding Dialog", function () {
                     assert(state['emulator/users/User/'].OnboardingState.name === 'user');
                 });
 
-            testNock.resolveWithMocks('onboardingDialog_validation', done, flow);
+            return testNock.simpleMock('onboardingDialog_validation', done, flow);
         });
     });
-});
+});   
