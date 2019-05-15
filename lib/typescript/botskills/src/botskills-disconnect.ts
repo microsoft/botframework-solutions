@@ -31,17 +31,15 @@ program.Command.prototype.unknownOption = (flag: string): void => {
 program
     .name('botskills disconnect')
     .description('Disconnect a specific skill from your assitant bot.  Only one of both id or name of the Skill is needed.')
-    .option('-i, --skillId <id>', 'Id of the skill to remove from your assistant')
+    .option('-i, --skillId <id>', 'Id of the skill to remove from your assistant (case sensitive)')
+    .option('--cs', 'Determine your assistant project structure to be a CSharp-like structure')
+    .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
     .option('--dispatchName [name]', '[OPTIONAL] Name of your assistant\'s \'.dispatch\' file (defaults to the name displayed in your Cognitive Models file)')
-    .option('--language [language]', '[OPTIONAL] Locale used for LUIS culture (defaults to \'en-us\')')
-    .option('--luisFolder [path]', '[OPTIONAL] Path to the folder containing your Skills\' .lu files (defaults to \'./deployment/resources/skills/en\' inside your assistant folder)')
     .option('--dispatchFolder [path]', '[OPTIONAL] Path to the folder containing your assistant\'s \'.dispatch\' file (defaults to \'./deployment/resources/dispatch/en\' inside your assistant folder)')
     .option('--outFolder [path]', '[OPTIONAL] Path for any output file that may be generated (defaults to your assistant\'s root folder)')
     .option('--lgOutFolder [path]', '[OPTIONAL] Path for the LuisGen output (defaults to a \'service\' folder inside your assistant\'s folder)')
     .option('--skillsFile [path]', '[OPTIONAL] Path to your assistant Skills configuration file (defaults to the \'skills.json\' inside your assistant\'s folder)')
     .option('--cognitiveModelsFile [path]', '[OPTIONAL] Path to your Cognitive Models file (defaults to \'cognitivemodels.json\' inside your assistant\'s folder)')
-    .option('--cs', 'Determine your assistant project structure to be a CSharp-like structure')
-    .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
     .option('--verbose', '[OPTIONAL] Output detailed information about the processing of the tool')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 // tslint:enable: max-line-length

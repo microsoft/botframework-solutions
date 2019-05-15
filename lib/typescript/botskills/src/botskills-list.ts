@@ -9,7 +9,6 @@ import { extname, isAbsolute, join, resolve } from 'path';
 import { listSkill } from './functionality';
 import { ConsoleLogger, ILogger} from './logger';
 import { IListConfiguration } from './models';
-import { validatePairOfArgs } from './utils';
 
 function showErrorHelp(): void {
     program.outputHelp((str: string) => {
@@ -40,7 +39,7 @@ program.Command.prototype.unknownOption = (flag: string): void => {
 program
     .name('botskills list')
     .description('List all the Skills connected to your assistant')
-    .option('-f, --skillsFile <path>', 'Path to assistant Skills configuration file')
+    .option('-f, --skillsFile [path]', '[OPTIONAL] Path to assistant Skills configuration file')
     .option('--verbose', '[OPTIONAL] Output detailed information about the processing of the tool')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 
