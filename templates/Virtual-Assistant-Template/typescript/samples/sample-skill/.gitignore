@@ -9,3 +9,7 @@ lib/
 
 # Bot Files
 *.bot
+
+#coverage
+coverage
+.nyc_output 
