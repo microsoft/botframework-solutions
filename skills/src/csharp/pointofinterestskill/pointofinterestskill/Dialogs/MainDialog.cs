@@ -155,7 +155,7 @@ namespace PointOfInterestSkill.Dialogs
                 case Events.Location:
                     {
                         // Test trigger with
-                        // /event:{ "Name": "IPA.Location", "Value": "34.05222222222222,-118.2427777777777" }
+                        // /event:{ "Name": "Location", "Value": "34.05222222222222,-118.2427777777777" }
                         var value = dc.Context.Activity.Value.ToString();
 
                         if (!string.IsNullOrEmpty(value))
@@ -180,7 +180,6 @@ namespace PointOfInterestSkill.Dialogs
 
                 case Events.ActiveLocation:
                     {
-                        // Test trigger with...
                         var activeLocationName = dc.Context.Activity.Value.ToString();
 
                         // Set ActiveLocation if one w/ matching name is found in FoundLocations
@@ -351,10 +350,9 @@ namespace PointOfInterestSkill.Dialogs
 
         public class Events
         {
-            public const string ActiveLocation = "IPA.ActiveLocation";
-            public const string ActiveRoute = "IPA.ActiveRoute";
-            public const string Location = "IPA.Location";
-            public const string SkillBeginEvent = "skillBegin";
+            public const string ActiveLocation = "ActiveLocation";
+            public const string ActiveRoute = "ActiveRoute";
+            public const string Location = "Location";
         }
     }
 }

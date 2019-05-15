@@ -11,7 +11,7 @@
         "description": "Find a route from X to Y",
         "slots": [
           {
-            "name": "Location",
+            "name": "location",
             "types": [ "string" ]
           }
         ],
@@ -32,10 +32,10 @@
       "definition": {
         "description": "Cancel an active route.",
         "slots": [
-          {
-            "name": "Location",
-            "types": [ "string" ]
-          }
+					{
+						"name": "location",
+						"types": [ "string" ]
+					}
         ],
         "triggers": {
           "utteranceSources": [
@@ -54,10 +54,10 @@
       "definition": {
         "description": "Find a point of interest.",
         "slots": [
-          {
-            "name": "Location",
-            "types": [ "string" ]
-          }
+					{
+						"name": "location",
+						"types": [ "string" ]
+					}
         ],
         "triggers": {
           "utteranceSources": [
@@ -76,10 +76,10 @@
       "definition": {
         "description": "Find parking",
         "slots": [
-          {
-            "name": "Location",
-            "types": [ "string" ]
-          }
+					{
+						"name": "location",
+						"types": [ "string" ]
+					}
         ],
         "triggers": {
           "utteranceSources": [

@@ -34,21 +34,25 @@
             "types": [ "string" ]
           },
           {
-            "name": "startDate",
+            "name": "startdate",
             "types": [ "string" ]
           },
           {
-            "name": "startTime",
+            "name": "starttime",
             "types": [ "string" ]
           },
           {
             "name": "duration",
             "types": [ "string" ]
           },
-          {
-            "name": "location",
-            "types": [ "string" ]
-          }
+					{
+						"name": "location",
+						"types": [ "string" ]
+					},
+					{
+						"name": "timezone",
+						"types": [ "string" ]
+					}
         ],
         "triggers": {
           "utteranceSources": [
@@ -67,16 +71,20 @@
       "id": "calendarskill_changeEventStatus",
       "definition": {
         "description": "Change the status of an event (accept/decline).",
-        "slots": [
-          {
-            "name": "startDate",
-            "types": [ "string" ]
-          },
-          {
-            "name": "startTime",
-            "types": [ "string" ]
-          }
-        ],
+				"slots": [
+					{
+						"name": "startdate",
+						"types": [ "string" ]
+					},
+					{
+						"name": "starttime",
+						"types": [ "string" ]
+					},
+					{
+						"name": "timezone",
+						"types": [ "string" ]
+					}
+				],
         "triggers": {
           "utteranceSources": [
             {
@@ -94,7 +102,12 @@
       "id": "calendarskill_joinEvent",
       "definition": {
         "description": "Join the upcoming meeting",
-        "slots": [],
+				"slots": [
+					{
+						"name": "timezone",
+						"types": [ "string" ]
+					}
+				],
         "triggers": {
           "utteranceSources": [
             {
@@ -111,7 +124,12 @@
       "id": "calendarskill_summary",
       "definition": {
         "description": "Retrieve a summary of meetings through an event invocation.",
-        "slots": [],
+				"slots": [
+					{
+						"name": "timezone",
+						"types": [ "string" ]
+					}
+				],
         "triggers": {
           "events": [
             {
@@ -125,7 +143,12 @@
       "id": "calendarskill_timeRemaining",
       "definition": {
         "description": "Find out how long until the next event",
-        "slots": [],
+				"slots": [
+					{
+						"name": "timezone",
+						"types": [ "string" ]
+					}
+				],
         "triggers": {
           "utteranceSources": [
             {
@@ -142,24 +165,28 @@
       "id": "calendarskill_summary",
       "definition": {
         "description": "Find an upcoming event",
-        "slots": [
-          {
-            "name": "startDate",
-            "types": [ "string" ]
-          },
-          {
-            "name": "startTime",
-            "types": [ "string" ]
-          },
-          {
-            "name": "endDate",
-            "types": [ "string" ]
-          },
-          {
-            "name": "endTime",
-            "types": [ "string" ]
-          }
-        ],
+				"slots": [
+					{
+						"name": "startdate",
+						"types": [ "string" ]
+					},
+					{
+						"name": "starttime",
+						"types": [ "string" ]
+					},
+					{
+						"name": "enddate",
+						"types": [ "string" ]
+					},
+					{
+						"name": "endtime",
+						"types": [ "string" ]
+					},
+					{
+						"name": "timezone",
+						"types": [ "string" ]
+					}
+				],
         "triggers": {
           "utteranceSources": [
             {
@@ -181,32 +208,36 @@
       "id": "calendarskill_updateEvent",
       "definition": {
         "description": "Update an existing event.",
-        "slots": [
-          {
-            "name": "startDate",
-            "types": [ "string" ]
-          },
-          {
-            "name": "startTime",
-            "types": [ "string" ]
-          },
-          {
-            "name": "endDate",
-            "types": [ "string" ]
-          },
-          {
-            "name": "endTime",
-            "types": [ "string" ]
-          },
-          {
-            "name": "newStartDate",
-            "types": [ "string" ]
-          },
-          {
-            "name": "newStartTime",
-            "types": [ "string" ]
-          }
-        ],
+				"slots": [
+					{
+						"name": "startdate",
+						"types": [ "string" ]
+					},
+					{
+						"name": "starttime",
+						"types": [ "string" ]
+					},
+					{
+						"name": "enddate",
+						"types": [ "string" ]
+					},
+					{
+						"name": "endtime",
+						"types": [ "string" ]
+					},
+					{
+						"name": "newstartdate",
+						"types": [ "string" ]
+					},
+					{
+						"name": "newstarttime",
+						"types": [ "string" ]
+					},
+					{
+						"name": "timezone",
+						"types": [ "string" ]
+					}
+				],
         "triggers": {
           "utteranceSources": [
             {
