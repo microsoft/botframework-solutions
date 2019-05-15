@@ -13,7 +13,7 @@ const localizationJsonIt = require('../../src/content/NewUserGreeting.it.json');
 const localizationJson = require('../../src/content/NewUserGreeting.json');
 const localizationJsonZh = require('../../src/content/NewUserGreeting.zh.json');
 
-describe("localization", function() {
+describe("Localization", function() {
 	describe("de locale", function () {
             it("send conversationUpdate and check the card is received with the de locale", function (done) {
                 botTestBase.getTestAdapterDefault().then((testAdapter) => {

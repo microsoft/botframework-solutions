@@ -9,7 +9,7 @@ const { MemoryStorage } = require('botbuilder-core')
 const testNock = require("../testBase");
 let testStorage = new MemoryStorage();
 
-describe("interruption", function() {
+describe("Interruption", function() {
     describe("nothing to cancel", function() {
         it("send 'cancel' without dialog stack", function(done) {
             botTestBase.getTestAdapterDefault().then((testAdapter) => {
@@ -22,7 +22,7 @@ describe("interruption", function() {
         });
     });
 
-    xdescribe("help interruption", function() {
+    describe("help interruption", function() {
         beforeEach(function(done) {
             testStorage = new MemoryStorage();
             done();
@@ -31,16 +31,16 @@ describe("interruption", function() {
             botTestBase.getTestAdapterDefault({ storage: testStorage }).then((testAdapter) => {
                 const flow = testAdapter
                 .send({
-                    channelId: "emulator",
+                    channelId: "test",
                     conversation: {
-                        id: "stateUpdated"
+                        id: "Convo1"
                     },
                     from: {
-                        id: "User",
-                        name: "User"
+                        id: "user",
+                        name: "User1"
                     },
                     recipient: {
-                        id: "1",
+                        id: "bot",
                         name: "Bot",
                         role: "bot"
                     },
@@ -59,21 +59,21 @@ describe("interruption", function() {
         });
     });
 
-    xdescribe("cancel interruption", function() {
-        it("confirm 'cancel' during the onboarding dialog", function(done) {
+    describe("cancel interruption flow", function() {
+        it("Confirm 'cancel' during the onboarding dialog", function(done) {
             botTestBase.getTestAdapterDefault().then((testAdapter) => {
                 const flow = testAdapter
                     .send({
-                        channelId: "emulator",
+                        channelId: "test",
                         conversation: {
-                            id: "stateUpdated"
+                            id: "Convo1"
                         },
                         from: {
-                            id: "User",
-                            name: "User"
+                            id: "user",
+                            name: "User1"
                         },
                         recipient: {
-                            id: "1",
+                            id: "bot",
                             name: "Bot",
                             role: "bot"
                         },
@@ -84,9 +84,9 @@ describe("interruption", function() {
                     })
                     .assertReply('What is your name?')
                     .send("cancel")
-                    .assertReply("Cancel?")
-                    .send("YES")
-                    .assertReply("Confirm");
+                    .assertReply(" (1) Yes or (2) No")
+                    .send("Yes")
+                    .assertReply("Ok, let's start over.");
                 return testNock.resolveWithMocks("interruption_confirm_cancel_response", done, flow);
             });
         });
@@ -95,16 +95,16 @@ describe("interruption", function() {
             botTestBase.getTestAdapterDefault().then((testAdapter) => {
                 const flow = testAdapter
                     .send({
-                        channelId: "emulator",
+                        channelId: "test",
                         conversation: {
-                            id: "stateUpdated"
+                            id: "Convo1"
                         },
                         from: {
-                            id: "User",
-                            name: "User"
+                            id: "user",
+                            name: "User1"
                         },
                         recipient: {
-                            id: "1",
+                            id: "bot",
                             name: "Bot",
                             role: "bot"
                         },
@@ -115,9 +115,9 @@ describe("interruption", function() {
                     })
                     .assertReply('What is your name?')
                     .send("cancel")
-                    .assertReply("Cancel?")
-                    .send("NO")
-                    .assertReply("Denied");
+                    .assertReply(" (1) Yes or (2) No")
+                    .send("No")
+                    .assertReply("Ok, let's keep going.");
                 return testNock.resolveWithMocks("interruption_deny_cancel_response", done, flow);
             });
         });

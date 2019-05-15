@@ -4,7 +4,7 @@
 /**
  * Possible value: record | lockdown
  */
-const TEST_MODE = 'record';
+const TEST_MODE = 'lockdown';
 
 const nockBack = require('nock').back;
 nockBack.setMode(TEST_MODE);

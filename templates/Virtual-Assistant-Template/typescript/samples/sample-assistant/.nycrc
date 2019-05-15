@@ -7,7 +7,8 @@
     "test/**",
     "coverage/**",
     "**/*.d.ts",
-    "deployment/**"
+    "deployment/**",
+    "src/templateManager/**"
   ],
   "reporter": [
     "html",
