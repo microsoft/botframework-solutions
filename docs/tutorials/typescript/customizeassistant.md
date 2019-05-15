@@ -139,4 +139,4 @@ You can now leverage multiple QnA sources as a part of your assistant's knowledg
 
 ## Next steps
 
-Now that you've learned how to personalize a Virtual Assistant, it's time to [create a new Bot Framework Skill](/docs/tutorials/csharp/skill.md).
+Now that you've learned how to personalize a Virtual Assistant, it's time to [create a new Bot Framework Skill](/docs/tutorials/typescript/skill.md).

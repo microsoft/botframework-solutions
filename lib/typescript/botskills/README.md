@@ -3,6 +3,11 @@ The Botskills tool is a command line tool to manage the skills connected to your
 
 ## Prerequisite
 - [Node.js](https://nodejs.org/) version 10.8 or higher
+- Install the LUDown and LUISGen CLI tools
+
+```shell
+npm install -g ludown luisgen
+```
 
 ## Installation
 To install using npm
@@ -20,21 +25,14 @@ npm uninstall -g botskills
 - [Disconnect](./docs/connect-disconnect.md) a Skill from your assistant
 - [List](./docs/list.md) all Skills connected to your assistant
 
-## Nightly builds
-Nightly builds are based on the latest development code which means they may or may not be stable and probably won't be documented. These builds are better suited for more experienced users and developers although everyone is welcome to give them a shot and provide feedback.
+## Daily builds
+Daily builds are based on the latest development code which means they may or may not be stable and probably won't be documented. These builds are better suited for more experienced users and developers although everyone is welcome to give them a shot and provide feedback.
 
-You can get the latest nightly build of Botskills from the [BotBuilder MyGet]() feed. To install the nightly
+You can get the latest daily build of Botskills from the [BotBuilder MyGet]() feed. To install the daily
 ```bash
-npm config set registry https://botbuilder.myget.org/F/aitemplates/npm/
-```
-Install using npm
-```bash
-npm install -g botskills
-```
-To reset registry
-```bash
-npm config set registry https://registry.npmjs.org/
+npm install -g botskills --registry https://botbuilder.myget.org/F/aitemplates/npm/
 ```
 
 ## Further Reading
-- [Create and customize Skills for your assistant](https://github.com/Microsoft/AI/blob/master/docs/skills/typescript/create.md).
+- [Create and customize Skills for your assistant](../../../docs/tutorials/typescript/skill.md)
+- [Connect a Skill to your Assistant](../../../docs/howto/skills/addingskills.md)

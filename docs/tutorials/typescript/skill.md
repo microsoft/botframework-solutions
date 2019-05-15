@@ -64,7 +64,7 @@ A Bot Framework Skill app (in TypeScript) that greets a new user.
 Install the botbuilder-assistant generator
 
 ```bash
-    npm install -g generator-botbuilder-assistant
+npm install -g generator-botbuilder-assistant
 ```
 
 Now you can execute the Skill sub-generator with this command.
@@ -189,15 +189,15 @@ You can now publish your Skill to Azure using the usual deployment tools and ena
 
 To add your new Skill to your assistant/Bot, run the following command from a command prompt **within the directory of your assistant/Bot**. At this time we have a powershell script and a preview botskills CLI.
 
-``
-.\Deployment\scripts\add_remote_skill.ps1 -botName "YOUR_BOT_NAME" -manifestUrl https://YOUR_SKILL.azurewebsites.net/api/skill/manifest
-``
-
 ```bash
-botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder "<YOUR-SKILL_PATH>\deployment\resources\LU\en\" --ts 
+.\Deployment\scripts\add_remote_skill.ps1 -botName "YOUR_BOT_NAME" -manifestUrl https://YOUR_SKILL.azurewebsites.net/api/skill/manifest
 ```
 
-See the [Adding Skills](/docs/advanced/skills/addingskills.md) for more detail on how to add skills.
+```bash
+botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder "<YOUR-SKILL_PATH>\deployment\resources\LU\en" --ts
+```
+
+See the [Adding Skills](/docs/howto/skills/addingskills.md) for more detail on how to add skills.
 
 ## Testing your Skill
 
