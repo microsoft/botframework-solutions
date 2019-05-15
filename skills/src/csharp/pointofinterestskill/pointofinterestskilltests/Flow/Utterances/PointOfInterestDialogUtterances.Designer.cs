@@ -19,7 +19,7 @@ namespace PointOfInterestSkillTests.Flow.Utterances {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class PointOfInterestDialogUtterances {
@@ -61,7 +61,7 @@ namespace PointOfInterestSkillTests.Flow.Utterances {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to /event:{ &quot;Name&quot;: &quot;IPA.ActiveLocation&quot;, &quot;Value&quot;: &quot;Microsoft Corporation&quot;,&quot;Text&quot;:&quot;find a route&quot; }.
+        ///   Looks up a localized string similar to /event:{ &quot;Name&quot;: &quot;ActiveLocation&quot;, &quot;Value&quot;: &quot;Microsoft Corporation&quot;,&quot;Text&quot;:&quot;find a route&quot; }.
         /// </summary>
         internal static string ActiveLocationEvent {
             get {
@@ -133,7 +133,7 @@ namespace PointOfInterestSkillTests.Flow.Utterances {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to /event:{ &quot;Name&quot;: &quot;IPA.Location&quot;, &quot;Value&quot;: &quot;47.639620,-122.130610&quot; }.
+        ///   Looks up a localized string similar to /event:{ &quot;Name&quot;: &quot;Location&quot;, &quot;Value&quot;: &quot;47.639620,-122.130610&quot; }.
         /// </summary>
         internal static string LocationEvent {
             get {
