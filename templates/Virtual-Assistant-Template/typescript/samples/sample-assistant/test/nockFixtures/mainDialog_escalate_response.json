@@ -23,9 +23,9 @@
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "e779b9b5-613b-4dd7-ad7a-2a040b0026d0",
+            "9f6a65a5-a281-4e8b-b544-7acd58eb3fe9",
             "Request-Id",
-            "e779b9b5-613b-4dd7-ad7a-2a040b0026d0",
+            "9f6a65a5-a281-4e8b-b544-7acd58eb3fe9",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -33,7 +33,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 14 May 2019 19:14:38 GMT",
+            "Wed, 15 May 2019 12:55:30 GMT",
             "Connection",
             "close"
         ]
@@ -70,9 +70,9 @@
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "a7482f7c-3239-4ca0-8769-7c2b63168d65",
+            "9045f4b6-0521-461e-81a8-49831baa10e1",
             "Request-Id",
-            "a7482f7c-3239-4ca0-8769-7c2b63168d65",
+            "9045f4b6-0521-461e-81a8-49831baa10e1",
             "CSP-Billing-Usage",
             "CognitiveServices.LUIS.Transaction|2",
             "Strict-Transport-Security",
@@ -82,7 +82,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 14 May 2019 19:14:39 GMT",
+            "Wed, 15 May 2019 12:55:31 GMT",
             "Connection",
             "close"
         ]

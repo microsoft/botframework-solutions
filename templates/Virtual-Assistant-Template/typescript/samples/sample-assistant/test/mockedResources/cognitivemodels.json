@@ -1,5 +1,5 @@
 {
-  "defaultLocale": "en-us",
+  "defaultLocale": "en",
   "cognitiveModels": {
     "en": {
       "languageModels": [
@@ -25,15 +25,15 @@
         {
           "endpointKey": "<--MOCK-VALUE-->",
           "id": "chitchat",
-          "kbId": "<--MOCK-VALUE-->",
+          "kbId": "f7c2ee78-8679-4a3e-b384-0cd10c67e554",
           "subscriptionKey": "<--MOCK-VALUE-->",
-          "hostname": "https://assistant-qnahost.azurewebsites.net/qnamaker",
+          "hostname": "https://vatsample-qnahost.azurewebsites.net/qnamaker",
           "name": "chitchat"
         },
         {
           "endpointKey": "<--MOCK-VALUE-->",
           "id": "faq",
-          "kbId": "<--MOCK-VALUE-->",
+          "kbId": "f7c2ee78-8679-4a3e-b384-0cd10c67e554",
           "subscriptionKey": "<--MOCK-VALUE-->",
           "hostname": "https://assistant-qnahost.azurewebsites.net/qnamaker",
           "name": "faq"

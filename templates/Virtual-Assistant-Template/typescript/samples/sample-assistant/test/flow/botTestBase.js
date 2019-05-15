@@ -47,7 +47,10 @@ async function initConfiguration() {
     });
 }
 
-async function getTestAdapterDefault() {
+async function getTestAdapterDefault(settings) {
+    // validate settings
+    if (!settings) settings = {};
+    
     await initConfiguration();
     const botSettings = {
         microsoftAppId: appSettings.microsoftAppId,
@@ -64,7 +67,7 @@ async function getTestAdapterDefault() {
     };
 
     const telemetryClient = new NullTelemetryClient();
-    const storage = new MemoryStorage();
+    const storage = settings.storage || new MemoryStorage();
     // create conversation and user state
     const conversationState = new ConversationState(storage);
     const userState = new UserState(storage);

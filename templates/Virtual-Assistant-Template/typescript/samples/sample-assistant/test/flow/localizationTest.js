@@ -37,7 +37,7 @@ describe("localization", function() {
 					assert.deepEqual(activity.attachments[0].content, localizationJsonDe);
                 });
 
-                return testNock.simpleMock('localization_response_de', done, flow);
+                return testNock.resolveWithMocks('localization_response_de', done, flow);
             });
         });
     });
@@ -64,7 +64,7 @@ describe("localization", function() {
 					assert.deepEqual(activity.attachments[0].content, localizationJsonEs);
                 });
 
-                return testNock.simpleMock('localization_response', done, flow);
+                return testNock.resolveWithMocks('localization_response_es', done, flow);
             });
         });
     });
@@ -91,7 +91,7 @@ describe("localization", function() {
 					assert.deepEqual(activity.attachments[0].content, localizationJsonFr);
                 });
 
-                return testNock.simpleMock('localization_response', done, flow);
+                return testNock.resolveWithMocks('localization_response_fr', done, flow);
             });
         });
     });
@@ -118,7 +118,7 @@ describe("localization", function() {
 					assert.deepEqual(activity.attachments[0].content, localizationJsonIt);
                 });
 
-                return testNock.simpleMock('localization_response', done, flow);
+                return testNock.resolveWithMocks('localization_response_it', done, flow);
             });
         });
     });
@@ -145,7 +145,7 @@ describe("localization", function() {
 					assert.deepEqual(activity.attachments[0].content, localizationJson);
                 });
 
-                return testNock.simpleMock('localization_response', done, flow);
+                return testNock.resolveWithMocks('localization_response_en', done, flow);
             });
         });
     });
@@ -172,7 +172,7 @@ describe("localization", function() {
 					assert.deepEqual(activity.attachments[0].content, localizationJsonZh);
                 });
 
-                return testNock.simpleMock('localization_response', done, flow);
+                return testNock.resolveWithMocks('localization_response_zh', done, flow);
             });
         });
     });    

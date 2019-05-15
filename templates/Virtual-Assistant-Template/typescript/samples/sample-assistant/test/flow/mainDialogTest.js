@@ -28,8 +28,8 @@ describe("Main Dialog", function () {
 					}
 				})
 				.assertReply(function (activity, description) {
-					assert.equal(activity.attachments[0].contentType, 'application/vnd.microsoft.card.adaptive');
-					assert.deepEqual(activity.attachments[0].content, introJson);
+					assert.strictEqual(activity.attachments[0].contentType, 'application/vnd.microsoft.card.adaptive');
+					assert.deepStrictEqual(activity.attachments[0].content, introJson);
 				});
 
 				return testNock.resolveWithMocks('mainDialog_introCard_response', done, flow);
