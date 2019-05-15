@@ -1,116 +1,124 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License
+ */
 
-const { TelemetryClient } = require('applicationinsights');
-const { BotFrameworkAdapterSettings } = require ('botbuilder');
-const { MicrosoftAppCredentialsEx, ISkillManifest } = require ('botbuilder-skills');
-const { AutoSaveStateMiddleware, ConversationState, MemoryStorage, TestAdapter, UserState } = require('botbuilder-core');
-const { BotConfiguration, ServiceTypes } = require('botframework-config');
-const config = require('dotenv').config;
+const { join } = require('path');
+
+const { ActivityTypes } = require('botframework-schema');
+const { TestAdapter } = require('botbuilder-core');
+const { AutoSaveStateMiddleware, ConversationState, MemoryStorage, NullTelemetryClient, TelemetryLoggerMiddleware, UserState } = require('botbuilder');
+const { EventDebuggerMiddleware, Locales, SetLocaleMiddleware } = require('botbuilder-solutions');
 const i18next = require('i18next');
 const i18nextNodeFsBackend = require('i18next-node-fs-backend');
-const path = require('path');
-const botServices = require('../../lib/services/botServices.js').BotServices;
-const botSettings= require('../../lib/services/botSettings.js');
-const { DialogBot } = require('../../lib/bots/dialogBot.js');
-const { OnboardingDialog } = require('../../lib/dialog/onbordingDialog.js')
-const appsettings = require('../appsettings.json');
-const cognitiveModelsRaw = require ('../cognitivemodels.json');
-const skillsRaw = require ('../../../sample-assistant/src/skills.json');
-const { Locales, ProactiveState, SkillDefinition } = require('botbuilder-solutions');
+
+const { BotServices } = require('../../lib/services/botServices');
+const { DialogBot } = require('../../lib/bots/dialogBot');
+const { OnboardingDialog } = require('../../lib/dialogs/onboardingDialog');
+const { EscalateDialog } = require('../../lib/dialogs/escalateDialog');
+const { CancelDialog } = require('../../lib/dialogs/cancelDialog');
+const { MainDialog } = require('../../lib/dialogs/mainDialog');
+
 const TEST_MODE = require('../testBase').testMode;
 
-const setupEnvironment = function (testMode) {
-    switch (testMode) {
-        case 'record':
-            config({ path: path.join(__dirname, '..', '..', 'appsettings.json') });
-            //skillsRaw = require('../../../sample-assistant/src/skills.json'); 
-            break;
-        case 'lockdown':
-            config({ path: path.join(__dirname, '..', 'appsettings.json') });
-            //skillsRaw = require('../../../sample-assistant/src/skills.json'); 
-            break;
-    }
-}
+const resourcesDir = TEST_MODE === 'lockdown' ? join('..', 'mockedResources') : join('..', '..', 'src');
 
-const configuration = async function() {
+const appSettings = require(join(resourcesDir, 'appsettings.json'));
+const skills = require(join(resourcesDir, 'skills.json')).skills;
+
+const cognitiveModelsRaw = require(join(resourcesDir, 'cognitivemodels.json'));
+const cognitiveModels = new Map();
+const cognitiveModelDictionary = cognitiveModelsRaw.cognitiveModels;
+const cognitiveModelMap = new Map(Object.entries(cognitiveModelDictionary));
+cognitiveModelMap.forEach((value, key) => {
+    cognitiveModels.set(key, value);
+});
+
+async function initConfiguration() {
     // Configure internationalization and default locale
     await i18next.use(i18nextNodeFsBackend)
     .init({
         fallbackLng: 'en',
         preload: [ 'de', 'en', 'es', 'fr', 'it', 'zh' ],
         backend: {
-            loadPath: path.join(__dirname, 'locales', '{{lng}}.json')
+            loadPath: join(__dirname, '..', '..', 'lib', 'locales', '{{lng}}.json')
         }
     })
     .then(async () => {
         await Locales.addResourcesFromPath(i18next, 'common');
     });
-
-    setupEnvironment(TEST_MODE);
-}
-const appId = botSettings.microsoftAppId
-const appPassword = botSettings.microsoftAppPassword
-
-const searchService = function(botConfiguration, serviceType, nameOrId) {
-    const candidates = botConfiguration.services
-        .filter((s) => !serviceType || s.type === serviceType);
-    const service = candidates.find((s) => s.id === nameOrId || s.name === nameOrId)
-        || candidates.find((s) => true);
-    if (!service && nameOrId) {
-        throw new Error(`Service '${nameOrId}' [type: ${serviceType}] not found in .bot file.`);
-    }
-    return service;
 }
 
-const cognitiveModels = new Map(Object.entries(cognitiveModelsRaw));
-const cognitiveModelDictionary = cognitiveModelsRaw.cognitiveModels;
-const cognitiveModelMap = new Map(Object.entries(cognitiveModelDictionary));
-cognitiveModelMap.forEach((value = Object, key = string) => {
-    cognitiveModels.set(key, value);
-});
-
-/**
- * Initializes the properties for the bot to be tested.
- */
-const initialize = async function(testStorage) {
-    await configuration();
+async function getTestAdapterDefault(settings) {
+    // validate settings
+    if (!settings) settings = {};
     
-    const botSettings = new BotSettings(appsettings.appInsights, appsettings.blobStorage, cognitiveModels, appsettings.cosmosDb, cognitiveModels.defaultLocale, appsettings.microsoftAppId, appsettings.microsoftAppPassword, skills)
-    const botServices = new BotServices(botSettings);
-    const onboardingDialog = new OnboardingDialog(botServices, onboardingStateAccessor, telemetryClient)
+    await initConfiguration();
+    const botSettings = {
+        microsoftAppId: appSettings.microsoftAppId,
+        microsoftAppPassword: appSettings.microsoftAppPassword,
+        defaultLocale: cognitiveModelsRaw.defaultLocale,
+        oauthConnections: [],
+        cosmosDb: appSettings.cosmosDb,
+        appInsights: appSettings.appInsights,
+        blobStorage: appSettings.blobStorage,
+        contentModerator: '',
+        cognitiveModels: cognitiveModels,
+        properties: {},
+        skills: skills
+    };
 
+    const telemetryClient = new NullTelemetryClient();
+    const storage = settings.storage || new MemoryStorage();
+    // create conversation and user state
+    const conversationState = new ConversationState(storage);
+    const userState = new UserState(storage);
+
+    const adapterSettings = {
+        appId: botSettings.microsoftAppId,
+        appPassword: botSettings.microsoftAppPassword
+    };
+    const botServices = new BotServices(botSettings);
+    const onboardingStateAccessor = userState.createProperty('OnboardingState');
+    const onboardingDialog = new OnboardingDialog(botServices, onboardingStateAccessor, telemetryClient)  
+    const escalateDialog = new EscalateDialog(botServices, telemetryClient);
+    const cancelDialog = new CancelDialog();
+    const skillDialogs = [];
     const mainDialog = new MainDialog(
         botSettings,
         botServices,
         onboardingDialog,
         escalateDialog,
+        cancelDialog,
         skillDialogs,
         onboardingStateAccessor,
-        adapter.telemetryClient
+        telemetryClient
     );
-    this.bot = new DialogBot(conversationState, telemetryClient, mainDialog);
+
+    const botLogic = new DialogBot(conversationState, telemetryClient, mainDialog);
+
+    const adapter = new TestAdapter(botLogic.run.bind(botLogic));
+
+    adapter.onTurnError = async function(context, error) {
+        await context.sendActivity({
+            type: ActivityTypes.Trace,
+            text: error.message
+        });
+        await context.sendActivity({
+            type: ActivityTypes.Trace,
+            text: error.stack
+        });
+        await context.sendActivity(i18next.t('main.error'));
+        telemetryClient.trackException({ exception: error });
+    };
+    
+    adapter.use(new TelemetryLoggerMiddleware(telemetryClient, true));
+    adapter.use(new SetLocaleMiddleware(botSettings.defaultLocale || 'en'));
+    adapter.use(new EventDebuggerMiddleware());
+    adapter.use(new AutoSaveStateMiddleware(conversationState, userState));
+    return adapter;
 }
-
-/**
- * Initializes the TestAdapter.
- * @returns TestAdapter with the Bot logic configured.
- */
-const getTestAdapter = function() {
-    const bot = this.bot;
-
-    return new TestAdapter(async function (context) {
-        const cultureInfo = context.activity.locale || 'en';
-        await i18next.changeLanguage(cultureInfo);
-        return bot.onTurn(context);
-    })
-    .use(new AutoSaveStateMiddleware(bot.conversationState, bot.userState));
-}
-
-// PENDING initialize skills
 
 module.exports = {
-    configuration: configuration,
-    initialize: initialize,
-    getTestAdapter: getTestAdapter
+    getTestAdapterDefault: getTestAdapterDefault
 }
