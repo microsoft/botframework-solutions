@@ -1,10 +1,9 @@
-    
 /**
- * Copyright(c) Microsoft Corporation.All rights reserved.
- * Licensed under the MIT License.
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License
  */
 
-const botTestBase = require("./botTestBase.js");
+const botTestBase = require("./botTestBase");
 const { MemoryStorage } = require('botbuilder-core')
 const testNock = require("../testBase");
 let testStorage = new MemoryStorage();

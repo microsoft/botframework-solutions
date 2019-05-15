@@ -1,10 +1,10 @@
 /**
- * Copyright(c) Microsoft Corporation.All rights reserved.
- * Licensed under the MIT License.
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License
  */
 
 const assert = require('assert');
-const botTestBase = require('./botTestBase.js');
+const botTestBase = require('./botTestBase');
 const testNock = require('../testBase');
 const localizationJsonDe = require('../../src/content/NewUserGreeting.de.json');
 const localizationJsonEs = require('../../src/content/NewUserGreeting.es.json');
