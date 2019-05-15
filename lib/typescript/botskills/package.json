@@ -11,7 +11,8 @@
     "build": "tsc",
     "lint": "tslint -t vso ./src/**/*.ts",
     "lint-fix": "tslint --fix ./src/**/*.ts",
-    "test": "cd test/ && mocha --opts mocha.opts"
+    "test": "mocha test/",
+    "coverage": "nyc npm run test"
   },
   "directories": {
     "lib": "lib"
@@ -47,6 +48,8 @@
     "@types/request-promise-native": "^1.0.15",
     "@types/semver": "^5.5.0",
     "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
+    "sinon": "^7.3.2",
     "tslint": "^5.12.1",
     "tslint-microsoft-contrib": "6.0.0",
     "typescript": "^3.2.2"

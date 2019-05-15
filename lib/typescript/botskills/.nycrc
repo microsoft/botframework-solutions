@@ -1,0 +1,18 @@
+{
+  "extension": [
+    ".ts"
+  ],
+  "exclude": [
+    "node_modules/**",
+    "test/**",
+    "coverage/**",
+    "**/*.d.ts",
+    "docs/**"
+  ],
+  "reporter": [
+    "html",
+    "text"
+  ],
+  "sourceMap": true,
+  "cache": true
+}
