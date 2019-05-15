@@ -12,7 +12,7 @@
         "prebuild": "npm run lint",
         "build": "tsc --p tsconfig.json && npm run copy-templates",
         "lint": "tslint -t vso ./src/**/*.ts",
-        "test": "mocha ./test/"
+        "test": "mocha test/"
     },
     "dependencies": {
         "@azure/ms-rest-js": "1.2.6",
