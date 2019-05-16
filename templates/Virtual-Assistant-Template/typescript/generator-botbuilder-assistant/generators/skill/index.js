@@ -246,7 +246,6 @@ module.exports = class extends Generator {
     }
 
     skillName = _kebabCase(this.props.skillName).replace(/([^a-z0-9-]+)/gi, ``);
-
     skillGenerationPath = path.join(skillGenerationPath, skillName);
     if (this.props.skillGenerationPath !== undefined) {
       skillGenerationPath = path.join(

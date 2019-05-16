@@ -56,7 +56,7 @@ export class BotServices {
                         endpointKey: kb.endpointKey,
                         host: kb.hostname
                     };
-                    cognitiveModelSet.qnaServices.set(kb.id, new QnAMaker(qnaEndpoint, undefined, telemetryClient));
+                    cognitiveModelSet.qnaServices.set(kb.id, new QnAMaker(qnaEndpoint, undefined, telemetryClient, true));
                 });
 
                 this.cognitiveModelSets.set(language, cognitiveModelSet);

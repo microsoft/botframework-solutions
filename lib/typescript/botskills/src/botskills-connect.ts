@@ -34,6 +34,8 @@ program
     .option('-b, --botName <name>', 'Name of your assistant bot')
     .option('-l, --localManifest <path>', 'Path to local Skill Manifest file')
     .option('-r, --remoteManifest <url>', 'URL to remote Skill Manifest')
+    .option('--cs', 'Determine your assistant project structure to be a CSharp-like structure')
+    .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
     .option('--dispatchName [name]', '[OPTIONAL] Name of your assistant\'s \'.dispatch\' file (defaults to the name displayed in your Cognitive Models file)')
     .option('--language [language]', '[OPTIONAL] Locale used for LUIS culture (defaults to \'en-us\')')
     .option('--luisFolder [path]', '[OPTIONAL] Path to the folder containing your Skills\' .lu files (defaults to \'./deployment/resources/skills/en\' inside your assistant folder)')
@@ -44,8 +46,6 @@ program
     .option('--resourceGroup [path]', '[OPTIONAL] Name of your assistant\'s resource group in Azure (defaults to your assistant\'s bot name)')
     .option('--appSettingsFile [path]', '[OPTIONAL] Path to your app settings file (defaults to \'appsettings.json\' inside your assistant\'s folder)')
     .option('--cognitiveModelsFile [path]', '[OPTIONAL] Path to your Cognitive Models file (defaults to \'cognitivemodels.json\' inside your assistant\'s folder)')
-    .option('--cs', 'Determine your assistant project structure to be a CSharp-like structure')
-    .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
     .option('--verbose', '[OPTIONAL] Output detailed information about the processing of the tool')
     .action((cmd: program.Command, actions: program.Command) => undefined);
 

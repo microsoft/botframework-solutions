@@ -3,10 +3,10 @@
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) version 10.8 or higher
-- Install the Dispatch CLI tool
+- Install the Dispatch, LUDown and LUISGen CLI tools
 
     ```shell
-    npm install -g botdispatch
+    npm install -g botdispatch ludown luisgen
     ```
 
 ## Adding Skills
@@ -16,12 +16,10 @@ We have two approaches to add Skills to your Virtual Assistant which can be used
 1. The first leverages a `add_remote_skill.ps1` PowerShell script included as part of your Virtual Assistant solution (located in the `Deployment\Scripts` folder of your assistant).
 2. `botskills` command line tool which is in preview.
 
-> Skills requiring authentication (e.g. the productivity skills) should be added using the PowerShell script at this time.
-
-If you wish to use the `botskills` CLI then you can install using the following npm command:
+If you wish to use the `botskills` CLI then you can install it using the following npm command:
 
 ```bash
-npm install -g botdispatch, botskills
+npm install -g botskills
 ```
 
 > Your Virtual Assistant must have been deployed using the [deployment tutorial](/docs/tutorials/assistantandskilldeploymentsteps.md) before using the add_remote_skill `botskills` tool as it relies on the Dispatch models being available and a deployed Bot for authentication connection information.
@@ -44,7 +42,7 @@ The PowerShell script and CLI provides automation of all key steps required to a
 
 Run the following command to add each Skill to your Virtual Assistant. This assumes you are running the CLI within the project directory and have created your Bot through the template and therefore have a `skills.json` file present.
 
-The `--luisFolder` parameter can be used to point the Skill CLI at the source LU files for trigger utterances. For Skills provided within this repo these can be found in the `Deployment\Resources\LU` folder of each Skill. The CLI will automatically traverse locale folder hierarchies.  This can be omitted for any of the skills we provide as the LU files are provided locally.
+The `--luisFolder` parameter can be used to point the Skill CLI at the source LU files for trigger utterances. For Skills provided within this repo these can be found in the `Deployment\Resources\LU` folder of each Skill. The CLI will automatically traverse locale folder hierarchies.  This can be omitted for any of the skills we provide as the LU files are provided locally. Also, you have to specify the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration.
 
 - PowerShell:
 
@@ -58,7 +56,7 @@ The `--luisFolder` parameter can be used to point the Skill CLI at the source LU
 botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder [path] --cs
 ```
 
-See the [Skill CLI documentation](/lib/typescript/botskills/docs/connect-disconnect.md) for detailed CLI documentation,
+See the [Skill CLI documentation](/lib/typescript/botskills/docs/connect-disconnect.md) for detailed CLI documentation.
 
 ## Manual Authentication Connection configuration
 
@@ -94,6 +92,7 @@ botskills:
 botskills disconnect --skillId SKILL_ID
 ```
 
+> Note: The id of the Skill can also be aquired using the `botskills list` command. You can check the [Skill CLI documentation](/lib/typescript/botskills/docs/list.md) on this command.
 ## Updating an existing Skill to reflect changes to Actions or LUIS model
 
 > A botskills refresh command will be added shortly. In the meantime, run the above disconnect command and then connect the skill again.
