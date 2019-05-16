@@ -2,8 +2,8 @@
   "WelcomeMessage": {
     "replies": [
       {
-        "text": "Welcome! I can search movie info, celebrity info for you.",
-        "speak": "Welcome! I can search movie info, celebrity info for you."
+        "text": "Welcome! I can search movie info, celebrity info for you. You can say 'who is Bill Gates' or 'how is Titanic' to start query.",
+        "speak": "Welcome! I can search movie info, celebrity info for you. You can say 'who is Bill Gates' or 'how is Titanic' to start query."
       }
     ],
     "suggestedActions": [],

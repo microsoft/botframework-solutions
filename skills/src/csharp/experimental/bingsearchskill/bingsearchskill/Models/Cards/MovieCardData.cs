@@ -9,26 +9,22 @@ namespace BingSearchSkill.Models.Cards
 {
     public class MovieCardData : ICardData
     {
-        public string Title { get; set; }
+        public string Name { get; set; }
 
-        public string Type { get; set; }
+        public string ContentRating { get; set; }
 
-        public string Score { get; set; }
+        public string Year { get; set; }
+
+        public string GenreArray { get; set; }
+
+        public string Duration { get; set; }
+
+        public string Rating { get; set; }
 
         public string Description { get; set; }
 
-        public string Title_View { get; } = CommonStrings.View;
+        public string Image { get; set; }
 
-        public string Link_View { get; set; }
-
-        public string Title_Trailers { get; } = CommonStrings.Trailers;
-
-        public string Link_Trailers { get; set; }
-
-        public string Title_Trivia { get; } = CommonStrings.Trivia;
-
-        public string Link_Trivia { get; set; }
-
-        public string IconPath { get; set; }
+        public string Speak { get; set; }
     }
 }

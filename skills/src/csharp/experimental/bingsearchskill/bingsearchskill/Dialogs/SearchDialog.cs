@@ -51,11 +51,11 @@ namespace BingSearchSkill.Dialogs
             GetEntityFromLuis(stepContext);
 
             var state = await _stateAccessor.GetAsync(stepContext.Context);
-            if (string.IsNullOrWhiteSpace(state.SearchEntityName))
-            {
-                var prompt = ResponseManager.GetResponse(SearchResponses.AskEntityPrompt);
-                return await stepContext.PromptAsync(DialogIds.NamePrompt, new PromptOptions { Prompt = prompt });
-            }
+            //if (string.IsNullOrWhiteSpace(state.SearchEntityName))
+            //{
+            //    var prompt = ResponseManager.GetResponse(SearchResponses.AskEntityPrompt);
+            //    return await stepContext.PromptAsync(DialogIds.NamePrompt, new PromptOptions { Prompt = prompt });
+            //}
 
             return await stepContext.NextAsync();
         }
@@ -94,14 +94,15 @@ namespace BingSearchSkill.Dialogs
                     tokens["Name"] = movieInfo.Name;
                     var movieData = new MovieCardData()
                     {
-                        Title = movieInfo.Name,
+                        Name = movieInfo.Name,
                         Description = movieInfo.Description,
-                        IconPath = movieInfo.Image,
-                        Score = $"{movieInfo.Rating}/10",
-                        Type = string.Join(", ", movieInfo.Genre),
-                        Link_Trailers = $"https://www.imdb.com/{movieInfo.TrailerUrl}",
-                        Link_Trivia = $"https://www.imdb.com/{movieInfo.Url}trivia",
-                        Link_View = entitiesResult[0].Url,
+                        Image = movieInfo.Image,
+                        Rating = $"{movieInfo.Rating}",
+                        GenreArray = string.Join(" ▪ ", movieInfo.Genre),
+                        Speak = movieInfo.Description,
+                        ContentRating = movieInfo.ContentRating,
+                        Duration = movieInfo.Duration,
+                        Year = movieInfo.Year,
                     };
 
                     prompt = ResponseManager.GetCardResponse(
