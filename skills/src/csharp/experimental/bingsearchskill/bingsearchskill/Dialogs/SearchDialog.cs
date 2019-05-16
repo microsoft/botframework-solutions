@@ -117,6 +117,7 @@ namespace BingSearchSkill.Dialogs
                         Description = entitiesResult[0].Description,
                         IconPath = entitiesResult[0].ImageUrl,
                         Link_View = entitiesResult[0].Url,
+                        EntityTypeDisplayHint = entitiesResult[0].EntityTypeDisplayHint
                     };
 
                     prompt = ResponseManager.GetCardResponse(
