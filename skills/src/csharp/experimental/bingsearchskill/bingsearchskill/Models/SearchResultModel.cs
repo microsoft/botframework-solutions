@@ -34,7 +34,8 @@ namespace BingSearchSkill.Models
             }
 
             Description = thing.Description;
-            ImageUrl = thing.Image.ThumbnailUrl;
+            ImageUrl = thing.Image.HostPageUrl;
+            EntityTypeDisplayHint = thing.EntityPresentationInfo.EntityTypeDisplayHint;
             Url = thing.Url ?? thing.WebSearchUrl;
             Name = thing.Name;
         }
@@ -63,5 +64,7 @@ namespace BingSearchSkill.Models
         public string Url { get; set; }
 
         public string Name { get; set; }
+
+        public string EntityTypeDisplayHint { get; set; }
     }
 }

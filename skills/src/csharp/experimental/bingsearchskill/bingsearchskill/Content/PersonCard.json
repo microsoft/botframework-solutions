@@ -1,52 +1,81 @@
 {
-  "type": "AdaptiveCard",
-  "body": [
-    {
-      "type": "ColumnSet",
-      "columns": [
+    "type": "AdaptiveCard",
+    "id": "CelebrityCard",
+    "backgroundImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKwAAACeCAYAAACvg+F+AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxOTowMzoxMyAxOTo0Mjo0OBCBEeIAAAG8SURBVHhe7dJBDQAgEMCwA/+egQcmlrSfGdg6z0DE/oUEw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phSTEsKYYlxbCkGJYUw5JiWFIMS4phCZm52U4FOCAVGHQAAAAASUVORK5CYII=",
+    "body": [
         {
-          "type": "Column",
-          "items": [
-            {
-              "type": "Image",
-              "style": "person",
-              "url": "{IconPath}",
-              "size": "Medium"
-            }
-          ]
+            "type": "Container",
+            "id": "title",
+            "items": [
+              {
+                "type": "ColumnSet",
+                "columns": [
+                  {
+                    "type": "Column",
+                    "backgroundImage": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRw%0D%0AOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMzEyIDExMCI+PGRlZnM+PHN0%0D%0AeWxlPi5he2ZpbGw6IzY1YWZlMjt9LmJ7b3BhY2l0eTowLjI7ZmlsbDp1cmwoI2EpO30uY3tmaWxs%0D%0AOiMwMDU4YTg7b3BhY2l0eTowLjI1O308L3N0eWxlPjxsaW5lYXJHcmFkaWVudCBpZD0iYSIgeDE9%0D%0AIjIyOC44NyIgeTE9IjU1IiB4Mj0iNDQ5LjM0IiB5Mj0iNTUiIGdyYWRpZW50VW5pdHM9InVzZXJT%0D%0AcGFjZU9uVXNlIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmZmYiIHN0b3Atb3BhY2l0%0D%0AeT0iMC41Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmZmIi8+PC9saW5lYXJHcmFk%0D%0AaWVudD48L2RlZnM+PHRpdGxlPnBsYXRmb3Jtc0Fzc2V0IDQ4cXVlc2l0b25zPC90aXRsZT48cGF0%0D%0AaCBjbGFzcz0iYSIgZD0iTTIzMC43NCw1NS4wNywyODUuODIsMEgwVjExMEgyNzYuNjFMMjMwLjc0%0D%0ALDY0LjEzQTYuNDMsNi40MywwLDAsMSwyMzAuNzQsNTUuMDdaIi8+PHBhdGggY2xhc3M9ImEiIGQ9%0D%0AIk0zMTIsMEgyODUuODJMMjMwLjc0LDU1LjA3YTYuNDMsNi40MywwLDAsMCwwLDkuMDZMMjc2LjYx%0D%0ALDExMEgzMTJaIi8+PHBhdGggY2xhc3M9ImIiIGQ9Ik0zMTIsMEgyODUuODJMMjMwLjc0LDU1LjA3%0D%0AYTYuNDMsNi40MywwLDAsMCwwLDkuMDZMMjc2LjYxLDExMEgzMTJaIi8+PHBhdGggY2xhc3M9ImMi%0D%0AIGQ9Ik0yNDIuNiwyMi4zMiwzMTIsOTEuNzJWMEgyNTUuODdMMjQyLjYsMTMuMjdBNi40Miw2LjQy%0D%0ALDAsMCwwLDI0Mi42LDIyLjMyWiIvPjwvc3ZnPg==",
+                    "items": [
+                      {
+                        "type": "ColumnSet",
+                        "columns": [
+                          {
+                            "type": "Column",
+                            "verticalContentAlignment": "Center",
+                            "items": [
+                              {
+                                "type": "Image",
+                                "id": "icon",
+                                "horizontalAlignment": "Center",
+                                "url": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDIzLjAuMywgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAxMiAxMC41IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMiAxMC41OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9Cjwvc3R5bGU+Cjx0aXRsZT5wbGF0Zm9ybXNBc3NldCA0PC90aXRsZT4KPGc+Cgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTIsMS41djIuMmMtMC4xLTAuMS0wLjItMC4yLTAuNC0wLjNjLTAuMS0wLjEtMC4zLTAuMi0wLjQtMC4ydi0xaC0wLjh2MC43bC0wLjQtMC4xYy0wLjEsMC0wLjIsMC0wLjQsMFYwLjgKCQloLTl2NmMwLDAuMSwwLDAuMiwwLjEsMC4zYzAsMC4xLDAuMSwwLjIsMC4yLDAuM2MwLjEsMC4xLDAuMSwwLjEsMC4yLDAuMmMwLjEsMCwwLjIsMC4xLDAuMywwLjFoNC45TDUuNiw4LjJIMS41CgkJYy0wLjIsMC0wLjQsMC0wLjYtMC4xQzAuNyw4LjEsMC42LDgsMC40LDcuOEMwLjMsNy43LDAuMiw3LjUsMC4xLDcuNEMwLDcuMiwwLDcsMCw2LjhWMGgxMC41djEuNUgxMnoiLz4KCTxyZWN0IHg9IjEuNSIgeT0iMS41IiBjbGFzcz0ic3QwIiB3aWR0aD0iNy41IiBoZWlnaHQ9IjAuOCIvPgoJPHBhdGggY2xhc3M9InN0MCIgZD0iTTEuNSwzaDMuOHYzLjhIMS41VjN6IE0yLjIsNmgyLjJWMy44SDIuMlY2eiIvPgoJPHBhdGggY2xhc3M9InN0MCIgZD0iTTguNywzQzguNSwzLjEsOC4zLDMuMiw4LjEsMy4zQzcuOSwzLjQsNy43LDMuNiw3LjUsMy44SDZWM0g4Ljd6Ii8+Cgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNiw0LjVoMC44VjVjMCwwLjEtMC4xLDAuMi0wLjEsMC4zSDZWNC41eiIvPgoJPHBhdGggY2xhc3M9InN0MCIgZD0iTTYuNiw2YzAsMC4xLDAsMC4zLDAsMC40YzAsMC4xLDAsMC4yLDAuMSwwLjRINlY2SDYuNnoiLz4KCTxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik05LjgsMy44YzAuMywwLDAuNiwwLjEsMC45LDAuMmMwLjMsMC4xLDAuNSwwLjMsMC43LDAuNWMwLjIsMC4yLDAuNCwwLjQsMC41LDAuN0MxMS45LDUuNCwxMiw1LjcsMTIsNgoJCWMwLDAuMy0wLjEsMC42LTAuMiwwLjljLTAuMSwwLjMtMC4zLDAuNS0wLjUsMC43Yy0wLjIsMC4yLTAuNCwwLjQtMC43LDAuNUMxMC4zLDguMiwxMCw4LjMsOS44LDguMmMtMC4yLDAtMC41LDAtMC43LTAuMQoJCUM4LjgsOC4xLDguNiw4LDguNCw3LjhsLTIuNiwyLjZjLTAuMSwwLjEtMC4yLDAuMS0wLjMsMC4xYy0wLjEsMC0wLjIsMC0wLjMtMC4xYy0wLjEtMC4xLTAuMS0wLjItMC4xLTAuM2MwLTAuMSwwLTAuMiwwLjEtMC4zCgkJbDIuNi0yLjZDNy44LDcuMSw3LjcsNi45LDcuNiw2LjdDNy41LDYuNSw3LjUsNi4yLDcuNSw2YzAtMC4zLDAuMS0wLjYsMC4yLTAuOWMwLjEtMC4zLDAuMy0wLjUsMC41LTAuN0M4LjQsNC4yLDguNiw0LDguOSwzLjkKCQlDOS4xLDMuOCw5LjQsMy43LDkuOCwzLjh6IE05LjgsNy41YzAuMiwwLDAuNCwwLDAuNi0wLjFjMC40LTAuMSwwLjctMC40LDAuOC0wLjhjMC4yLTAuNCwwLjItMC44LDAtMS4yYy0wLjEtMC40LTAuNC0wLjctMC44LTAuOAoJCWMtMC40LTAuMi0wLjgtMC4yLTEuMiwwQzguOCw0LjgsOC41LDUuMSw4LjQsNS40Yy0wLjIsMC40LTAuMiwwLjgsMCwxLjJjMC4xLDAuNCwwLjQsMC43LDAuOCwwLjhDOS40LDcuNSw5LjYsNy41LDkuOCw3LjV6Ii8+CjwvZz4KPC9zdmc+Cg==",
+                                "width": "35px",
+                                "height": "35px"
+                              }
+                            ],
+                            "width": "auto"
+                          }
+                        ]
+                      }
+                    ],
+                    "width": "stretch"
+                  }
+                ]
+              }
+            ]
         },
         {
-          "type": "Column",
-          "items": [
-            {
-              "type": "TextBlock",
-              "size": "Large",
-              "weight": "Bolder",
-              "text": "{Name}"
-            }
-          ]
+            "type": "Container",
+            "items": [
+              {
+                "type": "Image",
+                "horizontalAlignment": "Center",
+                "url": "{IconPath}",
+                "size": "Large"
+              },
+                {
+                    "type": "TextBlock",
+                    "size": "ExtraLarge",
+                    "weight": "Bolder",
+                    "color": "Dark",
+                    "text": "{Name}"
+                },
+                {
+                    "type": "TextBlock",
+                    "size": "Large",
+                    "weight": "Bolder",
+                    "text": "{EntityTypeDisplayHint}",
+                    "isSubtle": true
+                },
+                {
+                    "type": "TextBlock",
+                    "size": "Medium",
+                    "color": "Dark",
+                    "text": "{Description}",
+                    "wrap": true,
+                    "maxLines": 4
+                }
+            ]
         }
-      ]
-    },
-    {
-      "type": "Container",
-      "items": [
-        {
-          "type": "TextBlock",
-          "text": "{Description}",
-          "wrap": true
-        }
-      ]
-    }
-  ],
-  "actions": [
-    {
-      "type": "Action.OpenUrl",
-      "title": "{Title_View}",
-      "url": "{Link_View}"
-    }
-  ],
-  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-  "version": "1.0",
-  "Speak": "{Description}"
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "speak": "{Speak}"
 }

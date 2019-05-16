@@ -18,5 +18,7 @@ namespace BingSearchSkill.Models.Cards
         public string Link_View { get; set; }
 
         public string IconPath { get; set; }
+
+        public string EntityTypeDisplayHint { get; set; }
     }
 }
