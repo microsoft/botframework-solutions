@@ -22,6 +22,7 @@ using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
 using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
+using Newtonsoft.Json.Linq;
 
 namespace EmailSkill.Dialogs
 {
@@ -74,9 +75,11 @@ namespace EmailSkill.Dialogs
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
+            var skillOptions = ((JObject)options).ToObject<EmailSkillDialogOptions>();
+
             var state = await EmailStateAccessor.GetAsync(dc.Context);
             await DigestEmailLuisResult(dc, state.LuisResult, true);
-            return await base.OnBeginDialogAsync(dc, options, cancellationToken);
+            return await base.OnBeginDialogAsync(dc, skillOptions, cancellationToken);
         }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))

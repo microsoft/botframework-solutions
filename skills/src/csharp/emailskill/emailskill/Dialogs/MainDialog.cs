@@ -12,7 +12,11 @@ using EmailSkill.Responses.Shared;
 using EmailSkill.Services;
 using Luis;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
@@ -50,6 +54,43 @@ namespace EmailSkill.Dialogs
             TelemetryClient = telemetryClient;
             _stateAccessor = _conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
 
+            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var localeConfig = _services.CognitiveModelSets[locale];
+            localeConfig.LuisServices.TryGetValue("email", out var luisService);
+
+            var skillOptions = new EmailSkillDialogOptions
+            {
+                SubFlowMode = false
+            };
+
+            var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
+            {
+                // Create a LUIS recognizer.
+                // The recognizer is built using the intents, utterances, patterns and entities defined in ./RootDialog.lu file
+                Recognizer = CreateRecognizer(),
+                Rules = new List<IRule>()
+                {
+                    // Intent rules for the LUIS model. Each intent here corresponds to an intent defined in ./Dialogs/Resources/ToDoBot.lu file
+                    //new IntentRule("None")         { Steps = new List<IDialog>() { new SendActivity("This is none intent") } },
+                    new IntentRule("CheckMessages")         { Steps = new List<IDialog>() { new BeginDialog(nameof(ShowEmailDialog), options: skillOptions) } },
+                    new IntentRule("SearchMessages")         { Steps = new List<IDialog>() { new BeginDialog(nameof(ShowEmailDialog), options: skillOptions) } },
+                    new IntentRule("SendEmail")         { Steps = new List<IDialog>() { new BeginDialog(nameof(SendEmailDialog), options: skillOptions) } },
+                    new UnknownIntentRule() { Steps = new List<IDialog>() { new SendActivity("This is none intent") } }
+                    //new IntentRule("AddToDoDialog")    { Steps = new List<IDialog>() { new BeginDialog(nameof(AddToDoDialog)) } },
+                    //new IntentRule("DeleteToDoDialog") { Steps = new List<IDialog>() { new BeginDialog(nameof(DeleteToDoDialog)) } },
+                    //new IntentRule("ViewToDoDialog")   { Steps = new List<IDialog>() { new BeginDialog(nameof(ViewToDoDialog)) } },
+                    //// Come back with LG template based readback for global help
+                    //new IntentRule("Help")             { Steps = new List<IDialog>() { new SendActivity("[Help-Root-Dialog]") } },
+                    //new IntentRule("Cancel")           { Steps = new List<IDialog>() {
+                    //}
+                }
+            };
+
+            // Add named dialogs to the DialogSet. These names are saved in the dialog state.
+            AddDialog(rootDialog);
+
+            rootDialog.AddDialog(new List<IDialog>() { sendEmailDialog, showEmailDialog });
+
             AddDialog(forwardEmailDialog ?? throw new ArgumentNullException(nameof(forwardEmailDialog)));
             AddDialog(sendEmailDialog ?? throw new ArgumentNullException(nameof(sendEmailDialog)));
             AddDialog(showEmailDialog ?? throw new ArgumentNullException(nameof(showEmailDialog)));
@@ -57,6 +98,18 @@ namespace EmailSkill.Dialogs
             AddDialog(deleteEmailDialog ?? throw new ArgumentNullException(nameof(deleteEmailDialog)));
 
             GetReadingDisplayConfig();
+
+            InitialDialogId = nameof(AdaptiveDialog);
+        }
+
+        public static IRecognizer CreateRecognizer()
+        {
+            return new LuisRecognizer(new LuisApplication()
+            {
+                Endpoint = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/b63d15d6-213f-46f5-adf5-da60d8b6d835?verbose=true&timezoneOffset=-360&subscription-key=6491c52cdfa548fdb365a55735ce6aac&q=",//Configuration["LuisAPIHostName"],
+                EndpointKey = "6491c52cdfa548fdb365a55735ce6aac", //Configuration["LuisAPIKey"],
+                ApplicationId = "fa24469556fe41caa1a0119741cbf280",// Configuration["LuisAppId"]
+            });
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -82,84 +135,98 @@ namespace EmailSkill.Dialogs
             }
             else
             {
-                var turnResult = EndOfTurn;
-                var intent = state.LuisResult?.TopIntent().intent;
-                var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
-
                 var skillOptions = new EmailSkillDialogOptions
                 {
                     SubFlowMode = false
                 };
 
+                if (dc.ActiveDialog == null)
+                {
+                    await dc.BeginDialogAsync(nameof(AdaptiveDialog), skillOptions);
+                }
+                else
+                {
+                    var result = await dc.ContinueDialogAsync();
+                }
+
+                //var turnResult = EndOfTurn;
+                //var intent = state.LuisResult?.TopIntent().intent;
+                //var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
+
+                //var skillOptions = new EmailSkillDialogOptions
+                //{
+                //    SubFlowMode = false
+                //};
+
                 // switch on general intents
-                switch (intent)
-                {
-                    case EmailLuis.Intent.SendEmail:
-                        {
-                            turnResult = await dc.BeginDialogAsync(nameof(SendEmailDialog), skillOptions);
-                            break;
-                        }
+                //switch (intent)
+                //{
+                //    case EmailLuis.Intent.SendEmail:
+                //        {
+                //            turnResult = await dc.BeginDialogAsync(nameof(SendEmailDialog), skillOptions);
+                //            break;
+                //        }
 
-                    case EmailLuis.Intent.Forward:
-                        {
-                            turnResult = await dc.BeginDialogAsync(nameof(ForwardEmailDialog), skillOptions);
-                            break;
-                        }
+                //    case EmailLuis.Intent.Forward:
+                //        {
+                //            turnResult = await dc.BeginDialogAsync(nameof(ForwardEmailDialog), skillOptions);
+                //            break;
+                //        }
 
-                    case EmailLuis.Intent.Reply:
-                        {
-                            turnResult = await dc.BeginDialogAsync(nameof(ReplyEmailDialog), skillOptions);
-                            break;
-                        }
+                //    case EmailLuis.Intent.Reply:
+                //        {
+                //            turnResult = await dc.BeginDialogAsync(nameof(ReplyEmailDialog), skillOptions);
+                //            break;
+                //        }
 
-                    case EmailLuis.Intent.SearchMessages:
-                    case EmailLuis.Intent.CheckMessages:
-                    case EmailLuis.Intent.ReadAloud:
-                    case EmailLuis.Intent.QueryLastText:
-                        {
-                            turnResult = await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
-                            break;
-                        }
+                //    case EmailLuis.Intent.SearchMessages:
+                //    case EmailLuis.Intent.CheckMessages:
+                //    case EmailLuis.Intent.ReadAloud:
+                //    case EmailLuis.Intent.QueryLastText:
+                //        {
+                //            turnResult = await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
+                //            break;
+                //        }
 
-                    case EmailLuis.Intent.Delete:
-                        {
-                            turnResult = await dc.BeginDialogAsync(nameof(DeleteEmailDialog), skillOptions);
-                            break;
-                        }
+                //    case EmailLuis.Intent.Delete:
+                //        {
+                //            turnResult = await dc.BeginDialogAsync(nameof(DeleteEmailDialog), skillOptions);
+                //            break;
+                //        }
 
-                    case EmailLuis.Intent.ShowNext:
-                    case EmailLuis.Intent.ShowPrevious:
-                    case EmailLuis.Intent.None:
-                        {
-                            if (intent == EmailLuis.Intent.ShowNext
-                                || intent == EmailLuis.Intent.ShowPrevious
-                                || generalTopIntent == General.Intent.ShowNext
-                                || generalTopIntent == General.Intent.ShowPrevious)
-                            {
-                                turnResult = await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
-                            }
-                            else
-                            {
-                                await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailSharedResponses.DidntUnderstandMessage));
-                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-                            }
+                //    case EmailLuis.Intent.ShowNext:
+                //    case EmailLuis.Intent.ShowPrevious:
+                //    case EmailLuis.Intent.None:
+                //        {
+                //            if (intent == EmailLuis.Intent.ShowNext
+                //                || intent == EmailLuis.Intent.ShowPrevious
+                //                || generalTopIntent == General.Intent.ShowNext
+                //                || generalTopIntent == General.Intent.ShowPrevious)
+                //            {
+                //                turnResult = await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
+                //            }
+                //            else
+                //            {
+                //                await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailSharedResponses.DidntUnderstandMessage));
+                //                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
+                //            }
 
-                            break;
-                        }
+                //            break;
+                //        }
 
-                    default:
-                        {
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailMainResponses.FeatureNotAvailable));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
+                //    default:
+                //        {
+                //            await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailMainResponses.FeatureNotAvailable));
+                //            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
 
-                            break;
-                        }
-                }
+                //            break;
+                //        }
+                //}
 
-                if (turnResult != EndOfTurn)
-                {
-                    await CompleteAsync(dc);
-                }
+                //if (turnResult != EndOfTurn)
+                //{
+                //    await CompleteAsync(dc);
+                //}
             }
         }
 

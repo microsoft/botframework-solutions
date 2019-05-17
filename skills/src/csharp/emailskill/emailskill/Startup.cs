@@ -19,9 +19,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
+//using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
-using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
+//using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
@@ -84,7 +85,7 @@ namespace EmailSkill
             // Configure telemetry
             var telemetryClient = new BotTelemetryClient(new TelemetryClient(settings.AppInsights));
             services.AddSingleton<IBotTelemetryClient>(telemetryClient);
-            services.AddBotApplicationInsights(telemetryClient);
+            //services.AddApplicationInsightsTelemetry(telemetryClient);
 
             // Configure proactive
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
@@ -122,8 +123,8 @@ namespace EmailSkill
             services.AddTransient<SkillHttpAdapter>();
 
             // Configure bot
-            services.AddTransient<MainDialog>();
-            services.AddTransient<IBot, DialogBot<MainDialog>>();
+            services.AddSingleton<MainDialog>();
+            services.AddSingleton<IBot, DialogBot<MainDialog>>();
         }
 
         /// <summary>
@@ -133,12 +134,27 @@ namespace EmailSkill
         /// <param name="env">Hosting Environment.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            _isProduction = env.IsProduction();
-            app.UseBotApplicationInsights()
-                .UseDefaultFiles()
-                .UseStaticFiles()
-                .UseWebSockets()
-                .UseMvc();
+            //_isProduction = env.IsProduction();
+            //app.UseBotApplicationInsights()
+            //    .UseDefaultFiles()
+            //    .UseStaticFiles()
+            //    .UseWebSockets()
+            //    .UseMvc();
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseHsts();
+            }
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            app.UseWebSockets();
+
+            app.UseMvc();
         }
     }
 }

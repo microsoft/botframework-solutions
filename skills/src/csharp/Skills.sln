@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28606.126
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.539
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills", "Skills", "{34280F2E-60EB-4566-9ECD-56F114372037}"
 EndProject
@@ -34,6 +34,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoSkillTest", "todoskill\todoskilltest\ToDoSkillTest.csproj", "{9A2677E6-21E5-47EE-A42F-9D25079496D8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherSkill", "experimental\weatherskill\WeatherSkill.csproj", "{4A057581-2435-4E19-BA1B-30CE1E8AD504}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Skills", "..\..\..\lib\csharp\microsoft.bot.builder.skills\Microsoft.Bot.Builder.Skills\Microsoft.Bot.Builder.Skills.csproj", "{04B15B29-FF74-4198-B454-E129107F1DFD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Solutions", "..\..\..\lib\csharp\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj", "{DD6A4D6E-DB2A-4642-845D-1B3308B067C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -147,6 +151,22 @@ Global
 		{4A057581-2435-4E19-BA1B-30CE1E8AD504}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{4A057581-2435-4E19-BA1B-30CE1E8AD504}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A057581-2435-4E19-BA1B-30CE1E8AD504}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04B15B29-FF74-4198-B454-E129107F1DFD}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
+		{04B15B29-FF74-4198-B454-E129107F1DFD}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
+		{04B15B29-FF74-4198-B454-E129107F1DFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04B15B29-FF74-4198-B454-E129107F1DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04B15B29-FF74-4198-B454-E129107F1DFD}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
+		{04B15B29-FF74-4198-B454-E129107F1DFD}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
+		{04B15B29-FF74-4198-B454-E129107F1DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04B15B29-FF74-4198-B454-E129107F1DFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD6A4D6E-DB2A-4642-845D-1B3308B067C3}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
+		{DD6A4D6E-DB2A-4642-845D-1B3308B067C3}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
+		{DD6A4D6E-DB2A-4642-845D-1B3308B067C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD6A4D6E-DB2A-4642-845D-1B3308B067C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD6A4D6E-DB2A-4642-845D-1B3308B067C3}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
+		{DD6A4D6E-DB2A-4642-845D-1B3308B067C3}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
+		{DD6A4D6E-DB2A-4642-845D-1B3308B067C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD6A4D6E-DB2A-4642-845D-1B3308B067C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
