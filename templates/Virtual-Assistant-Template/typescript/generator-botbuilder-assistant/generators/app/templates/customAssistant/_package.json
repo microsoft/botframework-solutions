@@ -47,6 +47,7 @@
         "@types/restify": "^7.2.4",
         "copyfiles": "^2.1.0",
         "mocha": "^6.1.4",
+        "mocha-junit-reporter": "^1.22.0",
         "nock": "^10.0.6",
         "nodemon": "^1.18.4",
         "nyc": "^14.1.1",
