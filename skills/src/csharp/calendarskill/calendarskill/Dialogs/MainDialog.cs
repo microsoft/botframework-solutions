@@ -198,13 +198,16 @@ namespace CalendarSkill.Dialogs
                 case SkillEvents.SkillBeginEventName:
                     {
                         var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
-
-                        if (dc.Context.Activity.Value is Dictionary<string, object> userData)
+                        var userDataJson = dc.Context.Activity.Value as Newtonsoft.Json.Linq.JObject;
+                        if (userDataJson != null)
                         {
-                            if (userData.TryGetValue("IPA.Timezone", out var timezone))
+                            var userData = userDataJson.ToObject<Dictionary<string, object>>();
+                            if (userData.TryGetValue("timezone", out var timezone))
                             {
+                                var timezoneJson = timezone as Newtonsoft.Json.Linq.JObject;
+
                                 // we have a timezone
-                                state.UserInfo.Timezone = (TimeZoneInfo)timezone;
+                                state.UserInfo.Timezone = timezoneJson.ToObject<TimeZoneInfo>();
                             }
                         }
 
