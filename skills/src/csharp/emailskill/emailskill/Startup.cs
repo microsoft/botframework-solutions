@@ -107,13 +107,15 @@ namespace EmailSkill
                 new ShowEmailResponses()));
 
             // register dialogs
-            services.AddTransient<MainDialog>();
+            services.AddSingleton<MainDialog>();
             services.AddTransient<DeleteEmailDialog>();
             services.AddTransient<FindContactDialog>();
             services.AddTransient<ForwardEmailDialog>();
             services.AddTransient<ReplyEmailDialog>();
             services.AddTransient<SendEmailDialog>();
             services.AddTransient<ShowEmailDialog>();
+            services.AddSingleton<ShowEmailAdaptiveDialog>();
+            services.AddSingleton<SendEmailAdaptiveDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
@@ -123,7 +125,7 @@ namespace EmailSkill
             services.AddTransient<SkillHttpAdapter>();
 
             // Configure bot
-            services.AddSingleton<MainDialog>();
+            //services.AddSingleton<MainDialog>();
             services.AddSingleton<IBot, DialogBot<MainDialog>>();
         }
 

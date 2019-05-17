@@ -44,6 +44,8 @@ namespace EmailSkill.Dialogs
             ShowEmailDialog showEmailDialog,
             ReplyEmailDialog replyEmailDialog,
             DeleteEmailDialog deleteEmailDialog,
+            ShowEmailAdaptiveDialog showEmailAdaptiveDialog,
+            SendEmailAdaptiveDialog sendEmailAdaptiveDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -72,9 +74,9 @@ namespace EmailSkill.Dialogs
                 {
                     // Intent rules for the LUIS model. Each intent here corresponds to an intent defined in ./Dialogs/Resources/ToDoBot.lu file
                     //new IntentRule("None")         { Steps = new List<IDialog>() { new SendActivity("This is none intent") } },
-                    new IntentRule("CheckMessages")         { Steps = new List<IDialog>() { new BeginDialog(nameof(ShowEmailDialog), options: skillOptions) } },
-                    new IntentRule("SearchMessages")         { Steps = new List<IDialog>() { new BeginDialog(nameof(ShowEmailDialog), options: skillOptions) } },
-                    new IntentRule("SendEmail")         { Steps = new List<IDialog>() { new BeginDialog(nameof(SendEmailDialog), options: skillOptions) } },
+                    new IntentRule("CheckMessages")         { Steps = new List<IDialog>() { new BeginDialog(nameof(ShowEmailAdaptiveDialog), options: skillOptions) } },
+                    new IntentRule("SearchMessages")         { Steps = new List<IDialog>() { new BeginDialog(nameof(ShowEmailAdaptiveDialog), options: skillOptions) } },
+                    new IntentRule("SendEmail")         { Steps = new List<IDialog>() { new BeginDialog(nameof(SendEmailAdaptiveDialog), options: skillOptions) } },
                     new UnknownIntentRule() { Steps = new List<IDialog>() { new SendActivity("This is none intent") } }
                     //new IntentRule("AddToDoDialog")    { Steps = new List<IDialog>() { new BeginDialog(nameof(AddToDoDialog)) } },
                     //new IntentRule("DeleteToDoDialog") { Steps = new List<IDialog>() { new BeginDialog(nameof(DeleteToDoDialog)) } },
@@ -89,7 +91,10 @@ namespace EmailSkill.Dialogs
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
             AddDialog(rootDialog);
 
-            rootDialog.AddDialog(new List<IDialog>() { sendEmailDialog, showEmailDialog });
+            rootDialog.AddDialog(new List<IDialog>() { sendEmailAdaptiveDialog, showEmailAdaptiveDialog });
+
+            AddDialog(showEmailAdaptiveDialog ?? throw new ArgumentNullException(nameof(showEmailAdaptiveDialog)));
+            AddDialog(sendEmailAdaptiveDialog ?? throw new ArgumentNullException(nameof(sendEmailAdaptiveDialog)));
 
             AddDialog(forwardEmailDialog ?? throw new ArgumentNullException(nameof(forwardEmailDialog)));
             AddDialog(sendEmailDialog ?? throw new ArgumentNullException(nameof(sendEmailDialog)));
@@ -106,9 +111,9 @@ namespace EmailSkill.Dialogs
         {
             return new LuisRecognizer(new LuisApplication()
             {
-                Endpoint = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/b63d15d6-213f-46f5-adf5-da60d8b6d835?verbose=true&timezoneOffset=-360&subscription-key=6491c52cdfa548fdb365a55735ce6aac&q=",//Configuration["LuisAPIHostName"],
-                EndpointKey = "6491c52cdfa548fdb365a55735ce6aac", //Configuration["LuisAPIKey"],
-                ApplicationId = "fa24469556fe41caa1a0119741cbf280",// Configuration["LuisAppId"]
+                Endpoint = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/91ab2b7e-9336-4f86-8ab6-668e16c26dd9?verbose=true&timezoneOffset=-360&subscription-key=fa24469556fe41caa1a0119741cbf280&q=",//Configuration["LuisAPIHostName"],
+                EndpointKey = "fa24469556fe41caa1a0119741cbf280", //Configuration["LuisAPIKey"],
+                ApplicationId = "91ab2b7e-9336-4f86-8ab6-668e16c26dd9",// Configuration["LuisAppId"]
             });
         }
 
