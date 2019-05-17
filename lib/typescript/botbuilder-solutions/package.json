@@ -13,7 +13,7 @@
         "build": "tsc --p tsconfig.json && npm run copy-templates",
         "lint": "tslint -t vso ./src/**/*.ts",
         "test": "mocha test/",
-        "coverage": "nyc npm run test"
+        "coverage": "nyc mocha test/"
     },
     "dependencies": {
         "adaptivecards": "^1.1.3",
