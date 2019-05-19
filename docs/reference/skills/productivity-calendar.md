@@ -56,6 +56,28 @@ The following scenarios are currently supported by the Skill:
 - Time Remaining
   - *How long until my next meeting?*
   - *How many days are there until Thanksgiving?*
+  
+### Skill Deployment
+
+The Calendar Skill require the following dependencies for end to end operation which are created through an ARM deployment script which you can modify as required.
+
+- Azure Web App
+- Azure Storage Account (Transcripts)
+- Azure Application Insights (Telemetry)
+- Azure CosmosDb (State)
+- Azure Cognitive Services - Language Understanding
+
+> Review the pricing and terms for the services and adjust to suit your scenario.
+
+**To deploy your services using the default configuration, follow the steps in this common [deployment documentation page](/docs/tutorials/assistantandskilldeploymentsteps.md) from the folder where your have cloned the GitHub repo.**
+
+### Authentication Connection Settings
+
+Your Authentication Connection and corresponding Application Registration should have the following Scopes added, these will be added automatically as part of Skill configuration where possible.
+
+- `User.Read`
+- `Calendars.ReadWrite`
+- `People.Read`
 
 ## Language Model
 
@@ -122,28 +144,6 @@ LUIS models for the Skill are provided in .LU file format as part of the Skill. 
 ### Supported Sources
 
 > Office 365 and Outlook.com through the Microsoft Graph is supported along with support for Google accounts.
-
-### Skill Deployment
-
-The Calendar Skill require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
-
-- Azure Web App
-- Azure Storage Account (Transcripts)
-- Azure Application Insights (Telemetry)
-- Azure CosmosDb (State)
-- Azure Cognitive Services - Language Understanding
-
-> Review the pricing and terms for the services and adjust to suit your scenario.
-
-To deploy your services using the default configuration, follow the steps in this common [deployment documentation page](/docs/tutorials/assistantandskilldeploymentsteps.md) from the folder where your have cloned the GitHub repo.
-
-### Authentication Connection Settings
-
-Your Authentication Connection and corresponding Application Registration should have the following Scopes added, these will be added automatically as part of Skill configuration where possible.
-
-- `User.Read`
-- `Calendars.ReadWrite`
-- `People.Read`
 
 ### Example Skill Manifest
 
