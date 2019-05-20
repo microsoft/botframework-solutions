@@ -7,8 +7,9 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
         public static OAuthProvider GetAuthenticationProvider(this string providerString)
         {
             switch (providerString)
-            {
-                case "Azure Active Directory v2":
+			{
+				case "Azure Active Directory":
+				case "Azure Active Directory v2":
                     return OAuthProvider.AzureAD;
                 case "Google":
                     return OAuthProvider.Google;
