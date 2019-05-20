@@ -14,6 +14,7 @@ using CalendarSkill.Utilities;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
@@ -28,6 +29,7 @@ namespace CalendarSkill.Dialogs
         private BotSettings _settings;
         private BotServices _services;
         private ResponseManager _responseManager;
+        private UserState _userState;
         private ConversationState _conversationState;
         private IStatePropertyAccessor<CalendarSkillState> _stateAccessor;
 
@@ -36,6 +38,7 @@ namespace CalendarSkill.Dialogs
             BotServices services,
             ResponseManager responseManager,
             ConversationState conversationState,
+            UserState userState,
             ProactiveState proactiveState,
             CreateEventDialog createEventDialog,
             ChangeEventStatusDialog changeEventStatusDialog,
@@ -49,6 +52,7 @@ namespace CalendarSkill.Dialogs
         {
             _settings = settings;
             _services = services;
+            _userState = userState;
             _responseManager = responseManager;
             _conversationState = conversationState;
             TelemetryClient = telemetryClient;
@@ -79,6 +83,8 @@ namespace CalendarSkill.Dialogs
             // get current activity locale
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.CognitiveModelSets[locale];
+
+            await PopulateStateFromSkillContext(dc.Context);
 
             // Initialize the PageSize parameters in state from configuration
             InitializeConfig(state);
@@ -180,6 +186,38 @@ namespace CalendarSkill.Dialogs
             }
         }
 
+        private async Task PopulateStateFromSkillContext(ITurnContext context)
+        {
+            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
+            // and make available in local state as appropriate.
+            var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
+            var skillContext = await accessor.GetAsync(context, () => new SkillContext());
+            if (skillContext != null)
+            {
+                await context.SendActivityAsync($"keys: {string.Join(", ", skillContext.Keys)}");
+                if (skillContext.ContainsKey("Timezone"))
+                {
+                    var timezone = skillContext["Timezone"];
+
+                    await context.SendActivityAsync(timezone.ToString());
+
+                    var state = await _stateAccessor.GetAsync(context, () => new CalendarSkillState());
+                    var userDataJson = timezone as Newtonsoft.Json.Linq.JObject;
+                    if (userDataJson != null)
+                    {
+                        var userData = userDataJson.ToObject<Dictionary<string, object>>();
+                        if (userData.TryGetValue("timezone", out var timezoneObject))
+                        {
+                            var timezoneJson = timezoneObject as Newtonsoft.Json.Linq.JObject;
+
+                            // we have a timezone
+                            state.UserInfo.Timezone = timezoneJson.ToObject<TimeZoneInfo>();
+                        }
+                    }
+                }
+            }
+        }
+
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var response = dc.Context.Activity.CreateReply();
@@ -197,19 +235,19 @@ namespace CalendarSkill.Dialogs
             {
                 case SkillEvents.SkillBeginEventName:
                     {
-                        var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
-                        var userDataJson = dc.Context.Activity.Value as Newtonsoft.Json.Linq.JObject;
-                        if (userDataJson != null)
-                        {
-                            var userData = userDataJson.ToObject<Dictionary<string, object>>();
-                            if (userData.TryGetValue("timezone", out var timezone))
-                            {
-                                var timezoneJson = timezone as Newtonsoft.Json.Linq.JObject;
+                        //var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
+                        //var userDataJson = dc.Context.Activity.Value as Newtonsoft.Json.Linq.JObject;
+                        //if (userDataJson != null)
+                        //{
+                        //    var userData = userDataJson.ToObject<Dictionary<string, object>>();
+                        //    if (userData.TryGetValue("timezone", out var timezone))
+                        //    {
+                        //        var timezoneJson = timezone as Newtonsoft.Json.Linq.JObject;
 
-                                // we have a timezone
-                                state.UserInfo.Timezone = timezoneJson.ToObject<TimeZoneInfo>();
-                            }
-                        }
+                        //        // we have a timezone
+                        //        state.UserInfo.Timezone = timezoneJson.ToObject<TimeZoneInfo>();
+                        //    }
+                        //}
 
                         break;
                     }

@@ -8,6 +8,14 @@ namespace Microsoft.Bot.Builder.Skills.Models.Manifest
     /// </summary>
     public class Slot
     {
+        public Slot() { }
+
+        public Slot(string name, List<string> types)
+        {
+            Name = name;
+            Types = types;
+        }
+
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
 
