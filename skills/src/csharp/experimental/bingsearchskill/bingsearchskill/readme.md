@@ -1,1 +1,3 @@
-Please refer to the [Enterprise Template documentation](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-enterprise-template-getting-started?view=azure-bot-service-4.0) for deployment and customization instructions.
+# Skill Deployment
+
+Please refer to the [Skill Template documentation](http://aka.ms/virtualassistantdocs) for deployment and customization instructions.
