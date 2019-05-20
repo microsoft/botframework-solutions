@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace BingSearchSkill.Models
 {
@@ -16,6 +17,11 @@ namespace BingSearchSkill.Models
             Url = token["url"].ToString();
             TrailerUrl = token["trailer"]["embedUrl"].ToString();
             Rating = token["aggregateRating"]["ratingValue"].ToString();
+            ContentRating = token["contentRating"].ToString();
+            Year = DateTime.Parse(token["datePublished"].ToString()).Year.ToString();
+            var durationTimeSpan = XmlConvert.ToTimeSpan(token["duration"].ToString());
+            Duration = $"{durationTimeSpan.Hours}h {durationTimeSpan.Minutes}m";
+
             var genre = token["genre"];
             if (genre is JObject)
             {
@@ -42,5 +48,10 @@ namespace BingSearchSkill.Models
 
         public string Description { get; set; }
 
+        public string ContentRating { get; set; }
+
+        public string Year { get; set; }
+
+        public string Duration { get; set; }
     }
 }
