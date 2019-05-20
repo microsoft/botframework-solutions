@@ -66,10 +66,11 @@ namespace BingSearchSkill.Dialogs
             var intent = state.LuisResult.TopIntent().intent;
 
             GetEntityFromLuis(stepContext);
+            var userInput = string.Empty;
             if (string.IsNullOrWhiteSpace(state.SearchEntityName))
             {
                 stepContext.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                var userInput = content != null ? content.ToString() : stepContext.Context.Activity.Text;
+                userInput = content != null ? content.ToString() : stepContext.Context.Activity.Text;
 
                 state.SearchEntityName = userInput;
                 state.SearchEntityType = SearchResultModel.EntityType.Unknown;
@@ -128,11 +129,22 @@ namespace BingSearchSkill.Dialogs
                 }
                 else
                 {
-                    prompt = ResponseManager.GetResponse(SearchResponses.AnswerSearchResultPrompt, new StringDictionary()
+                    if (userInput.Contains("president"))
                     {
-                        { "Answer", entitiesResult[0].Description},
-                        { "Url", entitiesResult[0].Url}
-                    });
+                        prompt = ResponseManager.GetResponse(SearchResponses.AnswerSearchResultPrompt, new StringDictionary()
+                        {
+                            { "Answer", "Sorry I do not know this answer yet."},
+                            { "Url", "www.bing.com" }
+                        });
+                    }
+                    else
+                    {
+                        prompt = ResponseManager.GetResponse(SearchResponses.AnswerSearchResultPrompt, new StringDictionary()
+                        {
+                            { "Answer", entitiesResult[0].Description},
+                            { "Url", entitiesResult[0].Url}
+                        });
+                    }
                 }
             }
             else

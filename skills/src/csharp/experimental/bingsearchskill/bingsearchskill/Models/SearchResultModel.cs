@@ -24,7 +24,7 @@ namespace BingSearchSkill.Models
 
         public SearchResultModel(Thing thing)
         {
-            if (thing.EntityPresentationInfo.EntityTypeHints[0] == "Person")
+            if (thing?.EntityPresentationInfo?.EntityTypeHints?[0] == "Person")
             {
                 Type = EntityType.Person;
             }
@@ -33,18 +33,28 @@ namespace BingSearchSkill.Models
                 Type = EntityType.Unknown;
             }
 
-            Description = thing.Description;
-            ImageUrl = thing.Image.HostPageUrl;
-            EntityTypeDisplayHint = thing.EntityPresentationInfo.EntityTypeDisplayHint;
-            Url = thing.Url ?? thing.WebSearchUrl;
-            Name = thing.Name;
+            Description = thing?.Description;
+            ImageUrl = thing?.Image?.HostPageUrl;
+            EntityTypeDisplayHint = thing?.EntityPresentationInfo?.EntityTypeDisplayHint;
+            Url = thing?.Url ?? thing?.WebSearchUrl;
+            Name = thing?.Name;
         }
 
         public SearchResultModel(FactModel fact)
         {
             Type = EntityType.Fact;
-            Description = fact.value[0].description;
-            Url = fact.contractualRules[0].url;
+            Description = fact?.value?[0]?.description;
+            Url = fact?.contractualRules?[0]?.url;
+
+            if (Description == null)
+            {
+                Description = "Sorry I do not know this answer yet";
+            }
+
+            if (Url == null)
+            {
+                Url = "www.bing.com";
+            }
         }
 
         public enum EntityType

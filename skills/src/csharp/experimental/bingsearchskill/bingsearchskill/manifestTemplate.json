@@ -6,16 +6,33 @@
   "authenticationConnections": [],
   "actions": [
     {
-      "id": "BingSearchSkill_Sample",
+      "id": "BingSearchSkill_GetCelebrityInfo",
       "definition": {
-        "description": "Sample Skill action with no slots",
+        "description": "Get celebrity info.",
         "slots": [],
         "triggers": {
           "utteranceSources": [
             {
               "locale": "en",
               "source": [
-                "BingSearchSkill#Sample"
+                "BingSearchSkill#GetCelebrityInfo"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "BingSearchSkill_SearchMovieInfo",
+      "definition": {
+        "description": "Search movie info.",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "BingSearchSkill#SearchMovieInfo"
               ]
             }
           ]

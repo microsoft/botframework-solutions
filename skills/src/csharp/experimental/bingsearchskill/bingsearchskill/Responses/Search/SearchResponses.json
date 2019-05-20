@@ -20,8 +20,8 @@
   "NoResultPrompt": {
     "replies": [
       {
-        "text": "Sorry, seems we didn't find anything.",
-        "speak": "Sorry, seems we didn't find anything."
+        "text": "Sorry, seems we didn't find anything. I suggest you check out on www.bing.com.",
+        "speak": "Sorry, seems we didn't find anything. I suggest you check out on www.bing.com."
       }
     ],
     "inputHint": "acceptingInput"

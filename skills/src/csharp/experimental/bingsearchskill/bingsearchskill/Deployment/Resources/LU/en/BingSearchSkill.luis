@@ -50,8 +50,36 @@
       "intent": "SearchMovieInfo"
     },
     {
+      "pattern": "tell me about the {MovieTitlePatten} movie",
+      "intent": "SearchMovieInfo"
+    },
+    {
+      "pattern": "what's {MovieTitlePatten} about?",
+      "intent": "SearchMovieInfo"
+    },
+    {
       "pattern": "who is {CelebrityNamePatten}",
       "intent": "GetCelebrityInfo"
+    },
+    {
+      "pattern": "what’s the move {MovieTitlePatten} about?",
+      "intent": "SearchMovieInfo"
+    },
+    {
+      "pattern": "what’s {MovieTitlePatten} about",
+      "intent": "SearchMovieInfo"
+    },
+    {
+      "pattern": "what’s {MovieTitlePatten} about?",
+      "intent": "SearchMovieInfo"
+    },
+    {
+      "pattern": "tell me about the movie {MovieTitlePatten}",
+      "intent": "SearchMovieInfo"
+    },
+    {
+      "pattern": "what's {MovieTitlePatten} about",
+      "intent": "SearchMovieInfo"
     }
   ],
   "utterances": [
@@ -67,6 +95,28 @@
       ]
     },
     {
+      "text": "tell me about the jurassic park movie",
+      "intent": "SearchMovieInfo",
+      "entities": [
+        {
+          "entity": "MovieTitle",
+          "startPos": 18,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "tell me about the movie gone with the wind",
+      "intent": "SearchMovieInfo",
+      "entities": [
+        {
+          "entity": "MovieTitle",
+          "startPos": 24,
+          "endPos": 41
+        }
+      ]
+    },
+    {
       "text": "what is jurassic park",
       "intent": "SearchMovieInfo",
       "entities": [
@@ -74,6 +124,28 @@
           "entity": "MovieTitle",
           "startPos": 8,
           "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "what’s hello about?",
+      "intent": "SearchMovieInfo",
+      "entities": [
+        {
+          "entity": "MovieTitle",
+          "startPos": 7,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "what’s the move harry potter about?",
+      "intent": "SearchMovieInfo",
+      "entities": [
+        {
+          "entity": "MovieTitle",
+          "startPos": 16,
+          "endPos": 27
         }
       ]
     },
