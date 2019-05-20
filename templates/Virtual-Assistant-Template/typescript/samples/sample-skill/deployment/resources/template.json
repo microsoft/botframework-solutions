@@ -143,7 +143,6 @@
         "properties": {
           "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
           "siteConfig": {
-            "webSocketsEnabled": true,
             "appSettings": [
               {
                 "name": "MicrosoftAppId",
@@ -152,8 +151,19 @@
               {
                 "name": "MicrosoftAppPassword",
                 "value": "[parameters('microsoftAppPassword')]"
+              },
+              {
+                "name": "WEBSITE_NODE_DEFAULT_VERSION",
+                "value": "10.14.1"
               }
-            ]
+            ],
+            "cors": {
+              "allowedOrigins": [
+                  "https://botservice.hosting.portal.azure.net",
+                  "https://botservice-ms.hosting.portal.azure.net",
+                  "https://hosting.onecloud.azure-test.net/"
+              ]
+            }
           }
         },
         "dependsOn": [
