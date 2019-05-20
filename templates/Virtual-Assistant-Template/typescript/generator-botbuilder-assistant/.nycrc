@@ -14,7 +14,8 @@
   ],
   "reporter": [
     "html",
-    "text"
+    "text",
+    "cobertura"
   ],
   "all": true,
   "cache": true

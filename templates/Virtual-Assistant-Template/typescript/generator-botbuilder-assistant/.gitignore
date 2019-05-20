@@ -7,6 +7,9 @@ node_modules/
 #generator tests
 test/
 
+# Test report
+test-results.xml
+
 #coverage
 coverage
 .nyc_output
