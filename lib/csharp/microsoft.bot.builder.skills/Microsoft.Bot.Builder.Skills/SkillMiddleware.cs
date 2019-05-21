@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Schema;
+using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills
 {
@@ -28,10 +29,10 @@ namespace Microsoft.Bot.Builder.Skills
             var activity = turnContext.Activity;
             if (activity != null && activity.Type == ActivityTypes.Event)
             {
-                if (activity.Name == SkillEvents.SkillBeginEventName && activity.Value != null)
-                {
-                    var skillContext = activity.Value as SkillContext;
-                    if (skillContext != null)
+                if (activity.Name == SkillEvents.SkillBeginEventName && activity.Value != null && !string.IsNullOrWhiteSpace(activity.Value.ToString()))
+				{
+					var skillContext = JsonConvert.DeserializeObject<SkillContext>(activity.Value.ToString());
+					if (skillContext != null)
                     {
                         var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
                         await accessor.SetAsync(turnContext, skillContext);
