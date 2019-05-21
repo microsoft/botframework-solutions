@@ -34,9 +34,10 @@ export class SkillMiddleware implements Middleware {
 
         if (activity !== undefined && activity.type === ActivityTypes.Event) {
             if (activity.name === SkillEvents.skillBeginEventName && activity.value !== undefined) {
-                // PENDING: Check conversion
-                const skillContext: SkillContext = <SkillContext>activity.value;
-                if (skillContext !== undefined) {
+                const activityValue: string = JSON.stringify(activity.value);
+                const skillContext: SkillContext = JSON.parse(activityValue);
+                //Check for parsing
+                if (skillContext) {
                     await this.skillContextAccessor.set(turnContext, skillContext);
                 }
             } else if (activity.name === SkillEvents.cancelAllSkillDialogsEventName) {
