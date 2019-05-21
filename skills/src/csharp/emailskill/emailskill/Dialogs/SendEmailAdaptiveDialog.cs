@@ -1,12 +1,12 @@
-﻿using EmailSkill.Models;
+﻿using System;
+using System.Collections.Generic;
+using EmailSkill.Models;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
-using System;
-using System.Collections.Generic;
 
 namespace EmailSkill.Dialogs
 {
@@ -27,16 +27,10 @@ namespace EmailSkill.Dialogs
                 Recognizer = CreateRecognizer(),
                 Rules = new List<IRule>()
                 {
-                    // Intent rules for the LUIS model. Each intent here corresponds to an intent defined in ./Dialogs/Resources/ToDoBot.lu file
-                    new IntentRule("None") { Steps = new List<IDialog>() { } },
-                    // Since we are using a regex recognizer, anything except for help or cancel will come back as none intent.
-                    // If so, just accept user's response as the title of the todo and move forward.
-                    //new IntentRule("None")
-                    //{
-                    //    Steps = new List<IDialog>()
-                    //    {
-                    //    }
-                    //}
+                    new IntentRule("Input")
+                    {
+                        Steps = new List<IDialog>(){ }
+                    },
                 },
                 Steps = new List<IDialog>()
                 {
