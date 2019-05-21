@@ -4,11 +4,11 @@
   "description": "The ToDo skill provides task related capabilities and supports Office based tasks.",
   "iconUrl": "toDoSkill.png",
   "authenticationConnections": [
-    {
-      "id": "Outlook",
-      "serviceProviderId": "Azure Active Directory v2",
-      "scopes": "Notes.ReadWrite, User.ReadBasic.All"
-    }
+		{
+			"id": "Outlook",
+			"serviceProviderId": "Azure Active Directory v2",
+			"scopes": "Tasks.ReadWrite Notes.ReadWrite People.Read User.Read Contacts.Read"
+		}
   ],
   "actions": [
     {
