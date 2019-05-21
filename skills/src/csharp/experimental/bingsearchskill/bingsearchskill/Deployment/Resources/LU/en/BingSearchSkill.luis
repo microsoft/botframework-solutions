@@ -13,6 +13,9 @@
       "name": "None"
     },
     {
+      "name": "QueryQna"
+    },
+    {
       "name": "SearchMovieInfo"
     }
   ],
@@ -95,6 +98,11 @@
       ]
     },
     {
+      "text": "how large is swizerland?",
+      "intent": "QueryQna",
+      "entities": []
+    },
+    {
       "text": "tell me about the jurassic park movie",
       "intent": "SearchMovieInfo",
       "entities": [
@@ -128,6 +136,16 @@
       ]
     },
     {
+      "text": "what is the capital of switzerland",
+      "intent": "QueryQna",
+      "entities": []
+    },
+    {
+      "text": "what the gdp of switzerland",
+      "intent": "QueryQna",
+      "entities": []
+    },
+    {
       "text": "what’s hello about?",
       "intent": "SearchMovieInfo",
       "entities": [
@@ -148,6 +166,11 @@
           "endPos": 27
         }
       ]
+    },
+    {
+      "text": "what's the population of switzerland?",
+      "intent": "QueryQna",
+      "entities": []
     },
     {
       "text": "who is bill gates",
