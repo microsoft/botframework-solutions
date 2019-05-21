@@ -10,6 +10,9 @@ lib/
 # Bot Files
 *.bot
 
-# Coverage
+# Test report
+test-results.xml
+
+# Coverage report
 coverage
-.nyc_output  
+.nyc_output
