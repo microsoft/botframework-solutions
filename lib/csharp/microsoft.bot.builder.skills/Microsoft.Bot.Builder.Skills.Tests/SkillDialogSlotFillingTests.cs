@@ -35,7 +35,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 
             // Simple skill, with one slot (param1)
             var slots = new List<Slot>();
-            slots.Add(new Slot("param1", new List<string>() { "string" }));
+            slots.Add(new Slot { Name = "param1", Types = new List<string>() { "string" } });
             _skillManifests.Add(ManifestUtilities.CreateSkill(
                 "testskillwithslots",
                 "testskillwithslots",
@@ -45,9 +45,9 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 
             // Simple skill, with two actions and multiple slots
             var multiParamSlots = new List<Slot>();
-            multiParamSlots.Add(new Slot("param1", new List<string>() { "string" }));
-            multiParamSlots.Add(new Slot("param2", new List<string>() { "string" }));
-            multiParamSlots.Add(new Slot("param3", new List<string>() { "string" }));
+            multiParamSlots.Add(new Slot { Name = "param1", Types = new List<string>() { "string" } });
+            multiParamSlots.Add(new Slot { Name = "param2", Types = new List<string>() { "string" } });
+            multiParamSlots.Add(new Slot { Name = "param3", Types = new List<string>() { "string" } });
 
             var multiActionSkill = ManifestUtilities.CreateSkill(
                 "testskillwithmultipleactionsandslots",
