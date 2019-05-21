@@ -29,7 +29,7 @@ namespace Microsoft.Bot.Builder.Skills
             var activity = turnContext.Activity;
             if (activity != null && activity.Type == ActivityTypes.Event)
             {
-                if (activity.Name == SkillEvents.SkillBeginEventName && activity.Value != null)
+                if (activity.Name == SkillEvents.SkillBeginEventName && activity.Value != null && !string.IsNullOrWhiteSpace(activity.Value.ToString()))
 				{
 					var skillContext = JsonConvert.DeserializeObject<SkillContext>(activity.Value.ToString());
 					if (skillContext != null)
