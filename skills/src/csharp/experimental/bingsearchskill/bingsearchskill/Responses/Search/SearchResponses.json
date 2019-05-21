@@ -12,7 +12,7 @@
     "replies": [
       {
         "text": "OK, here is information of {Name}.",
-        "speak": "OK, here is information of {Name}."
+        "speak": "OK, here is information of {Name}. {Speak}."
       }
     ],
     "inputHint": "acceptingInput"
