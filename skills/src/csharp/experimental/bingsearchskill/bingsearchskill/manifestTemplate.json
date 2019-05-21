@@ -38,6 +38,23 @@
           ]
         }
       }
+    },
+    {
+      "id": "BingSearchSkill_QueryQna",
+      "definition": {
+        "description": "Query Qna.",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "BingSearchSkill#QueryQna"
+              ]
+            }
+          ]
+        }
+      }
     }
   ]
 }
