@@ -100,7 +100,7 @@ Write-Host "> Creating resource group ..."
 if ($parametersFile) {
 	Write-Host "> Validating Azure deployment ..."
 	$validation = az group deployment validate `
-		--resource-group $resourcegroup `
+		--resource-group $resourceGroup `
 		--template-file "$(Join-Path $PSScriptRoot '..' 'resources' 'template.json')" `
 		--parameters "@$($parametersFile)" `
 		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`""
@@ -128,7 +128,7 @@ if ($parametersFile) {
 else {
 	Write-Host "> Validating Azure deployment ..."
 	$validation = az group deployment validate `
-		--resource-group $resourcegroup `
+		--resource-group $resourceGroup `
 		--template-file "$(Join-Path $PSScriptRoot '..' 'resources' 'template.json')" `
 		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`""
 
@@ -187,11 +187,10 @@ if ($outputs)
 	Start-Sleep -s 30
 
 	# Deploy cognitive models
-	Invoke-Expression "$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1') -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -outFolder $($projDir) -languages `"$($languages)`""
+	Invoke-Expression "$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1') -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -outFolder $($projDir) -languages `"$($languages)`""
 	
 	# Publish bot
-	Invoke-Expression "$(Join-Path $PSScriptRoot 'publish.ps1') -name $($name) -resourceGroup $($resourceGroup)"
-
+	Write-Host "+ To publish your bot, run '$(Join-Path $PSScriptRoot 'publish.ps1') -name $($name) -resourceGroup $($resourceGroup)'" -ForegroundColor Magenta
 	Write-Host "> Done."
 }
 else
@@ -207,7 +206,7 @@ else
 				switch ($operation.properties.statusmessage.error.code) {
 					"MissingRegistrationForLocation" {
 						Write-Host "! Deployment failed for resource of type $($operation.properties.targetResource.resourceType). This resource is not avaliable in the location provided." -ForegroundColor DarkRed
-						Write-Host "+ Update the .\Deployment\Resources\parameters.template.json file with a valid region for this resource and provide the file path in the -parametersFile parameter." -ForegroundColor Magenta
+						Write-Host "+ Update the .\deployment\resources\parameters.template.json file with a valid region for this resource and provide the file path in the -parametersFile parameter." -ForegroundColor Magenta
 					}
 					default {
 						Write-Host "! Deployment failed for resource of type $($operation.properties.targetResource.resourceType)."

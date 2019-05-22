@@ -55,12 +55,15 @@ if (-not $luisAuthoringKey) {
 	}
 }
 
+# Get languages
+$languageArr = $languages -split ","
+
 # Initialize settings obj
 $settings = @{ cognitiveModels = New-Object PSObject }
 
 # Deploy localized resources
-Write-Host "Deploying cognitive models ..."
-foreach ($language in $languages -split ",")
+Write-Host "> Deploying cognitive models ..."
+foreach ($language in $languageArr)
 {
     $langCode = ($language -split "-")[0]
 
@@ -69,11 +72,11 @@ foreach ($language in $languages -split ",")
     }
 
     # Deploy LUIS apps
-    $luisFiles = Get-ChildItem "$(Join-Path $PSScriptRoot .. 'Resources' 'LU' $langCode)" | Where {$_.extension -eq ".lu"}
+    $luisFiles = Get-ChildItem "$(Join-Path $PSScriptRoot .. 'resources' 'LU' $langCode)" | Where {$_.extension -eq ".lu"}
     foreach ($lu in $luisFiles)
     {
         # Deploy LUIS model
-        $luisApp = DeployLUIS -name $name -lu_file $lu -region $location -luisAuthoringKey $luisAuthoringKey -language $language -log $logFile
+        $luisApp = DeployLUIS -name $name -lu_file $lu -region $luisAuthoringRegion -luisAuthoringKey $luisAuthoringKey -language $language -log $logFile
         
 		if ($luisApp) {
 			# Add to config 
@@ -81,10 +84,10 @@ foreach ($language in $languages -split ",")
 				id = $lu.BaseName
 				name = $luisApp.name
 				appId = $luisApp.id
-				authoringKey = $luisauthoringkey
-				subscriptionKey = $luisauthoringkey
+				authoringKey = $luisAuthoringKey
+				subscriptionKey = $luisAuthoringKey
 				version = $luisApp.activeVersion
-				region = $location
+				region = $luisAuthoringRegion
 			}
 
 			RunLuisGen $lu "$($lu.BaseName)" $(Join-Path $outFolder Services)

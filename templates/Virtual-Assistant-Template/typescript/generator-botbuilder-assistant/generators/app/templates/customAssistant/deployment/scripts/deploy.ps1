@@ -188,10 +188,9 @@ if ($outputs)
 
 	# Deploy cognitive models
 	Invoke-Expression "$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1') -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -outFolder $($projDir) -languages `"$($languages)`""
-	
-	# Publish bot
-	Invoke-Expression "$(Join-Path $PSScriptRoot 'publish.ps1') -name $($name) -resourceGroup $($resourceGroup)"
 
+	# Publish bot
+	Write-Host "+ To publish your bot, run '$(Join-Path $PSScriptRoot 'publish.ps1') -name $($name) -resourceGroup $($resourceGroup)'" -ForegroundColor Magenta
 	Write-Host "> Done."
 }
 else
