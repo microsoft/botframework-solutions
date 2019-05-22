@@ -13,6 +13,7 @@ using EmailSkill.Services;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
@@ -27,6 +28,7 @@ namespace EmailSkill.Dialogs
         private BotSettings _settings;
         private BotServices _services;
         private ResponseManager _responseManager;
+        private UserState _userState;
         private ConversationState _conversationState;
         private IStatePropertyAccessor<EmailSkillState> _stateAccessor;
 
@@ -35,6 +37,7 @@ namespace EmailSkill.Dialogs
             BotServices services,
             ResponseManager responseManager,
             ConversationState conversationState,
+            UserState userState,
             ForwardEmailDialog forwardEmailDialog,
             SendEmailDialog sendEmailDialog,
             ShowEmailDialog showEmailDialog,
@@ -45,6 +48,7 @@ namespace EmailSkill.Dialogs
         {
             _settings = settings;
             _services = services;
+            _userState = userState;
             _responseManager = responseManager;
             _conversationState = conversationState;
             TelemetryClient = telemetryClient;
@@ -72,6 +76,8 @@ namespace EmailSkill.Dialogs
             // get current activity locale
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.CognitiveModelSets[locale];
+
+            await PopulateStateFromSkillContext(dc.Context);
 
             // If dispatch result is general luis model
             localeConfig.LuisServices.TryGetValue("email", out var luisService);
@@ -163,6 +169,26 @@ namespace EmailSkill.Dialogs
             }
         }
 
+        private async Task PopulateStateFromSkillContext(ITurnContext context)
+        {
+            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
+            // and make available in local state as appropriate.
+            var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
+            var skillContext = await accessor.GetAsync(context, () => new SkillContext());
+            if (skillContext != null)
+            {
+                if (skillContext.ContainsKey("timezone"))
+                {
+                    var timezone = skillContext["timezone"];
+                    var state = await _stateAccessor.GetAsync(context, () => new EmailSkillState());
+                    var timezoneJson = timezone as Newtonsoft.Json.Linq.JObject;
+
+                    // we have a timezone
+                    state.UserInfo.Timezone = timezoneJson.ToObject<TimeZoneInfo>();
+                }
+            }
+        }
+
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var response = dc.Context.Activity.CreateReply();
@@ -178,25 +204,6 @@ namespace EmailSkill.Dialogs
         {
             switch (dc.Context.Activity.Name)
             {
-                case SkillEvents.SkillBeginEventName:
-                    {
-                        var state = await _stateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
-                        var userDataJson = dc.Context.Activity.Value as Newtonsoft.Json.Linq.JObject;
-                        if (userDataJson != null)
-                        {
-                            var userData = userDataJson.ToObject<Dictionary<string, object>>();
-                            if (userData.TryGetValue("timezone", out var timezone))
-                            {
-                                var timezoneJson = timezone as Newtonsoft.Json.Linq.JObject;
-
-                                // we have a timezone
-                                state.UserInfo.Timezone = timezoneJson.ToObject<TimeZoneInfo>();
-                            }
-                        }
-
-                        break;
-                    }
-
                 case TokenEvents.TokenResponseEventName:
                     {
                         // Auth dialog completion
