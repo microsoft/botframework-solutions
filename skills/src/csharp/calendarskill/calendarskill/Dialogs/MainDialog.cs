@@ -221,25 +221,6 @@ namespace CalendarSkill.Dialogs
         {
             switch (dc.Context.Activity.Name)
             {
-                case SkillEvents.SkillBeginEventName:
-                    {
-                        //var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
-                        //var userDataJson = dc.Context.Activity.Value as Newtonsoft.Json.Linq.JObject;
-                        //if (userDataJson != null)
-                        //{
-                        //    var userData = userDataJson.ToObject<Dictionary<string, object>>();
-                        //    if (userData.TryGetValue("timezone", out var timezone))
-                        //    {
-                        //        var timezoneJson = timezone as Newtonsoft.Json.Linq.JObject;
-
-                        //        // we have a timezone
-                        //        state.UserInfo.Timezone = timezoneJson.ToObject<TimeZoneInfo>();
-                        //    }
-                        //}
-
-                        break;
-                    }
-
                 case TokenEvents.TokenResponseEventName:
                     {
                         // Auth dialog completion
