@@ -25,11 +25,6 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                 new string[] { "en", "de", "es", "fr", "it", "zh" },
                 new AuthenticationResponses());
 
-            if (!_authenticationConnections.Any())
-            {
-                throw new Exception("You must configure an authentication connection in your bot file before using this component.");
-            }
-
             var firstStep = new WaterfallStep[]
             {
                 FirstStepAsync,
@@ -50,23 +45,40 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
 
             AddDialog(new WaterfallDialog(DialogIds.FirstStepPrompt, firstStep));
 
+            // Add remote authentication support
             AddDialog(new WaterfallDialog(DialogIds.RemoteAuthPrompt, remoteAuth));
             AddDialog(new EventPrompt(DialogIds.RemoteAuthEventPrompt, TokenEvents.TokenResponseEventName, TokenResponseValidatorAsync));
 
-            AddDialog(new WaterfallDialog(DialogIds.LocalAuthPrompt, localAuth));
-            AddDialog(new ChoicePrompt(DialogIds.ProviderPrompt) { Style = ListStyle.SuggestedAction });
-
-            foreach (var connection in _authenticationConnections)
+            // If authentication connections are provided locally then we enable "local auth" otherwise we only enable remote auth where the calling Bot handles this for us.
+            if (_authenticationConnections.Any())
             {
-                AddDialog(new OAuthPrompt(
-                    connection.Name,
-                    new OAuthPromptSettings
+                bool authDialogAdded = false;
+
+                foreach (var connection in _authenticationConnections)
+                {
+                    // We ignore placeholder connections in config that don't have a Name
+                    if (!string.IsNullOrEmpty(connection.Name))
                     {
-                        ConnectionName = connection.Name,
-                        Title = "login",
-                        Text = string.Format("login with {0}", connection.Name),
-                    },
-                    AuthPromptValidatorAsync));
+                        AddDialog(new OAuthPrompt(
+                            connection.Name,
+                            new OAuthPromptSettings
+                            {
+                                ConnectionName = connection.Name,
+                                Title = "login",
+                                Text = string.Format("login with {0}", connection.Name),
+                            },
+                            AuthPromptValidatorAsync));
+
+                        authDialogAdded = true;
+                    }
+                }
+
+                // Only add Auth supporting local auth dialogs if we found valid authentication connections to use
+                if (authDialogAdded)
+                {
+                    AddDialog(new WaterfallDialog(DialogIds.LocalAuthPrompt, localAuth));
+                    AddDialog(new ChoicePrompt(DialogIds.ProviderPrompt) { Style = ListStyle.SuggestedAction });
+                }
             }
         }
 
