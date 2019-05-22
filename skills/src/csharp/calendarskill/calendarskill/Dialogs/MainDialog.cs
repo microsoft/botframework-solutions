@@ -194,26 +194,14 @@ namespace CalendarSkill.Dialogs
             var skillContext = await accessor.GetAsync(context, () => new SkillContext());
             if (skillContext != null)
             {
-                await context.SendActivityAsync($"keys: {string.Join(", ", skillContext.Keys)}");
-                if (skillContext.ContainsKey("Timezone"))
+                if (skillContext.ContainsKey("timezone"))
                 {
-                    var timezone = skillContext["Timezone"];
-
-                    await context.SendActivityAsync(timezone.ToString());
-
+                    var timezone = skillContext["timezone"];
                     var state = await _stateAccessor.GetAsync(context, () => new CalendarSkillState());
-                    var userDataJson = timezone as Newtonsoft.Json.Linq.JObject;
-                    if (userDataJson != null)
-                    {
-                        var userData = userDataJson.ToObject<Dictionary<string, object>>();
-                        if (userData.TryGetValue("timezone", out var timezoneObject))
-                        {
-                            var timezoneJson = timezoneObject as Newtonsoft.Json.Linq.JObject;
+                    var timezoneJson = timezone as Newtonsoft.Json.Linq.JObject;
 
-                            // we have a timezone
-                            state.UserInfo.Timezone = timezoneJson.ToObject<TimeZoneInfo>();
-                        }
-                    }
+                    // we have a timezone
+                    state.UserInfo.Timezone = timezoneJson.ToObject<TimeZoneInfo>();
                 }
             }
         }
