@@ -1,14 +1,9 @@
 {
-    "authentication": {
-        "failed": "Désolé, je ne peux pas vous inscrire pour le moment",
-        "prompt": "S'il vous plaît vous connecter pour accéder à ce bot.",
-        "succeeded": "Merci, {0}! Vous êtes tous signés.",
-        "title": "Connexion"
-    },
     "cancel": {
         "cancelConfirmed": "D'accord, commençons.",
         "cancelDenied": "D'accord, continuons.",
-        "cancelPrompt": "Êtes-vous sûr de vouloir annuler?"
+        "cancelPrompt": "Êtes-vous sûr de vouloir annuler?",
+        "nothingToCancel": "On dirait qu’il n’y a rien à annuler!"
     },
     "escalate": {
         "phoneInfo": "Nos agents sont disponibles 24/7 au 1 (800) 555-1234.",
@@ -28,7 +23,7 @@
         "helpBtnText2": "Test QnA Maker",
         "helpBtnText3": "Pour en savoir plus",
         "helpBtnValue1": "Puis-je parler à une personne",
-        "helpBtnValue2": "Qu'est-ce que le modèle Enterprise bot?",
+        "helpBtnValue2": "Qu'est-ce que le modèle Virtual Assistant?",
         "helpBtnValue3": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0",
         "helpText": "Je suis ton assistante virtuelle! Je peux effectuer un certain nombre de tâches à travers mes compétences connectées. En ce moment je peux vous aider avec le calendrier, email, la tâche et le point d'intérêt des questions. Ou vous pouvez m'aider à faire plus en créant votre propre!",
         "helpTitle": "Aide pour Virtual Assistant",

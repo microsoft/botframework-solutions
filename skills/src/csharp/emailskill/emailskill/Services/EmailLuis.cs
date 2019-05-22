@@ -45,7 +45,6 @@ namespace Luis
             public string[] RelationshipName;
             public string[] Time;
             public string[] Line;
-            public string[] EmailPlatform;
             public string[] PositionReference;
             public string[] Date;
             public string[] FromRelationshipName;
@@ -69,7 +68,6 @@ namespace Luis
                 public InstanceData[] RelationshipName;
                 public InstanceData[] Time;
                 public InstanceData[] Line;
-                public InstanceData[] EmailPlatform;
                 public InstanceData[] PositionReference;
                 public InstanceData[] Date;
                 public InstanceData[] FromRelationshipName;

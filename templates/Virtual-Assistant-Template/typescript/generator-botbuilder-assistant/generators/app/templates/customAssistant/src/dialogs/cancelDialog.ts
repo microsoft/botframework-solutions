@@ -35,21 +35,6 @@ export class CancelDialog extends ComponentDialog {
         this.addDialog(new ConfirmPrompt(DialogIds.cancelPrompt));
     }
 
-    public async askToCancel (sc: WaterfallStepContext): Promise<DialogTurnResult> {
-        return sc.prompt(DialogIds.cancelPrompt, {
-            prompt: await this.responder.renderTemplate
-            (
-                sc.context,
-                <string> sc.context.activity.locale,
-                CancelResponses.responseIds.cancelPrompt
-            )
-        });
-    }
-
-    public async finishCancelDialog(sc: WaterfallStepContext): Promise<DialogTurnResult> {
-        return sc.endDialog(<boolean> sc.result);
-    }
-
     protected async endComponent(outerDC: DialogContext, result: boolean): Promise<DialogTurnResult> {
         const doCancel: boolean = result;
 
@@ -66,5 +51,20 @@ export class CancelDialog extends ComponentDialog {
             // End this component. Will trigger reprompt/resume on outer stack
             return outerDC.endDialog();
         }
+    }
+
+    private async askToCancel (sc: WaterfallStepContext): Promise<DialogTurnResult> {
+        return sc.prompt(DialogIds.cancelPrompt, {
+            prompt: await this.responder.renderTemplate
+            (
+                sc.context,
+                <string> sc.context.activity.locale,
+                CancelResponses.responseIds.cancelPrompt
+            )
+        });
+    }
+
+    private async finishCancelDialog(sc: WaterfallStepContext): Promise<DialogTurnResult> {
+        return sc.endDialog(<boolean> sc.result);
     }
 }

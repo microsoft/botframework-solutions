@@ -74,7 +74,7 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
         });
 
         after(function() {
-            rimraf.sync(join(__dirname, `tmp`, `*`));
+            rimraf(join(__dirname, `tmp`, `**`), function () {});
         });
 
         describe(`the base`, function() {
@@ -177,7 +177,7 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
         });
 
         after(function() {
-            rimraf.sync(join(__dirname, `tmp`, `*`));
+            rimraf(join(__dirname, `tmp`, `**`), function () {});
         });
 
         describe(`the base`, function() {

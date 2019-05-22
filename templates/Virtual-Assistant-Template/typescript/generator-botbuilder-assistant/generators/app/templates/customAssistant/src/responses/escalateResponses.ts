@@ -13,8 +13,8 @@ import i18next from 'i18next';
 import {
     DictionaryRenderer,
     LanguageTemplateDictionary,
-    TemplateIdMap } from '../services/dictionaryRenderer';
-import { TemplateManager } from '../services/templateManager';
+    TemplateIdMap } from '../templateManager/dictionaryRenderer';
+import { TemplateManager } from '../templateManager/templateManager';
 
 export class EscalateResponses extends TemplateManager {
 

@@ -56,7 +56,6 @@ namespace EmailSkillTest.Flow.Utterances
             string userInput,
             Intent intent = Intent.None,
             double[] ordinal = null,
-            double[] number = null,
             string[] contactName = null,
             string[] senderName = null,
             string[] emailAdress = null,
@@ -76,7 +75,6 @@ namespace EmailSkillTest.Flow.Utterances
                 _instance = new _Entities._Instance(),
 
                 ordinal = ordinal,
-                number = number,
                 ContactName = contactName,
                 SenderName = senderName,
                 EmailSubject = subject,

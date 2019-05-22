@@ -1,14 +1,9 @@
 {
-    "authentication": {
-        "failed": "Es tut mir leid, ich kann dich im Moment nicht anmelden.",
-        "prompt": "Bitte melden Sie sich an, um auf diesen Bot zuzugreifen.",
-        "succeeded": "Danke, {0}! Sie sind alle angemeldet.",
-        "title": "Login"
-    },    
     "cancel": {
         "cancelConfirmed": "Sicher, fangen wir an.",
         "cancelDenied": "Sicher, machen wir weiter.",
-        "cancelPrompt": "Sind Sie sicher, dass Sie absagen wollen?"
+        "cancelPrompt": "Sind Sie sicher, dass Sie absagen wollen?",
+        "nothingToCancel": "Es sieht so aus, als gäbe es nichts zu stornieren!"
     },
     "escalate": {
         "phoneInfo": "Unsere Agenten sind 24/7 bei 1 (800) 555-1234 erhältlich.",
@@ -28,7 +23,7 @@
         "helpBtnText2": "Test QnA Maker",
         "helpBtnText3": "Weitere Informationen",
         "helpBtnValue1": "Kann ich mit einer Person sprechen",
-        "helpBtnValue2": "Was ist die Enterprise Bot Template?",
+        "helpBtnValue2": "Was ist die Virtual Assistant?",
         "helpBtnValue3": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0",
         "helpText": "Ich bin Ihr virtueller Assistent! Ich kann durch meine vernetzten Fähigkeiten eine Reihe von Aufgaben erledigen. Im Moment kann ich Ihnen mit Kalender, E-Mail, Aufgabe und Punkt von Interesse Fragen helfen. Oder Sie können mir helfen, mehr zu tun, indem Sie Ihre eigenen!",
         "helpTitle": "Hilfe für Virtual Assistant",

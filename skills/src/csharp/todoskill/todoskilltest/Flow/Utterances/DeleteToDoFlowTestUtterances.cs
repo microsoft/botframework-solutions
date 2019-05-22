@@ -18,18 +18,18 @@ namespace ToDoSkillTest.Flow.Utterances
                 ordinal: ordinal));
 
             var listType = new string[] { MockData.Shopping };
-            var number = new double[] { 2 };
+            ordinal = new double[] { 2 };
             this.Add(DeleteSpecificTaskWithListType, GetBaseDeleteToDoIntent(
                 DeleteSpecificTaskWithListType,
                 listType: listType,
-                number: number));
+                ordinal: ordinal));
 
-            number = new double[1];
+            ordinal = new double[1];
             var taskContentPattern = new string[] { "play games 1" };
             var taskContentML = new string[] { "play games 1" };
             this.Add(DeleteTaskByContent, GetBaseDeleteToDoIntent(
                 DeleteTaskByContent,
-                number: number,
+                ordinal: ordinal,
                 taskContentPattern: taskContentPattern,
                 taskContentML: taskContentML));
 

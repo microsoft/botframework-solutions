@@ -1,14 +1,9 @@
 {
-    "authentication": {
-        "failed": "对不起, 我现在无法给你登录。",
-        "prompt": "请登录以访问此机器人。",
-        "succeeded": "谢谢, {0}!您都已登录。",
-        "title": "登录"
-    },
     "cancel": {
         "cancelConfirmed": "好吧, 让我们重新开始。",
         "cancelDenied": "好吧, 让我们继续走。",
-        "cancelPrompt": "确实要取消吗？"
+        "cancelPrompt": "确实要取消吗？",
+        "nothingToCancel": "看来没什么可以取消的!"
     },
     "escalate": {
         "phoneInfo": "我们的代理商在 1 (800) 555-1234 时提供全天候服务。",

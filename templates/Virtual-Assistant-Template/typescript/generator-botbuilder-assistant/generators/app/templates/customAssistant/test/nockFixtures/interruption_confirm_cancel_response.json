@@ -1,0 +1,80 @@
+[
+    {
+        "scope": "https://westus.api.cognitive.microsoft.com:443",
+        "method": "POST",
+        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
+        "body": "cancel",
+        "status": 200,
+        "response": {
+            "query": "cancel",
+            "topScoringIntent": {
+                "intent": "Cancel",
+                "score": 0.9978573
+            },
+            "entities": []
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-store, proxy-revalidate, no-cache, max-age=0, private",
+            "Pragma",
+            "no-cache",
+            "Content-Length",
+            "124",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Apim-Request-Id",
+            "bedf24cb-c7c7-4845-b19f-46432dbf0336",
+            "Request-Id",
+            "bedf24cb-c7c7-4845-b19f-46432dbf0336",
+            "Strict-Transport-Security",
+            "max-age=31536000; includeSubDomains; preload",
+            "X-Content-Type-Options",
+            "nosniff",
+            "X-Frame-Options",
+            "SAMEORIGIN",
+            "Date",
+            "Wed, 15 May 2019 20:16:49 GMT",
+            "Connection",
+            "close"
+        ]
+    },
+    {
+        "scope": "https://westus.api.cognitive.microsoft.com:443",
+        "method": "POST",
+        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
+        "body": "Yes",
+        "status": 200,
+        "response": {
+            "query": "Yes",
+            "topScoringIntent": {
+                "intent": "Confirm",
+                "score": 0.9846962
+            },
+            "entities": []
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-store, proxy-revalidate, no-cache, max-age=0, private",
+            "Pragma",
+            "no-cache",
+            "Content-Length",
+            "122",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Apim-Request-Id",
+            "acdde08d-d9de-4ff2-9f1f-773b36072912",
+            "Request-Id",
+            "acdde08d-d9de-4ff2-9f1f-773b36072912",
+            "Strict-Transport-Security",
+            "max-age=31536000; includeSubDomains; preload",
+            "X-Content-Type-Options",
+            "nosniff",
+            "X-Frame-Options",
+            "SAMEORIGIN",
+            "Date",
+            "Wed, 15 May 2019 20:16:49 GMT",
+            "Connection",
+            "close"
+        ]
+    }
+]

@@ -1,14 +1,9 @@
 {
-    "authentication": {
-        "failed": "Sorry, I'm not able to sign you in at the moment.",
-        "prompt": "Please sign in to access this bot.",
-        "succeeded": "Thanks, {0}! You are all signed in.",
-        "title": "Sign in"
-    },
     "cancel": {
         "cancelConfirmed": "Ok, let's start over.",
         "cancelDenied": "Ok, let's keep going.",
-        "cancelPrompt": "Are you sure you want to cancel?"
+        "cancelPrompt": "Are you sure you want to cancel?",
+        "nothingToCancel": "Looks like there's nothing to cancel! Try saying 'help' to get started."
     },
     "escalate": {
         "phoneInfo": "Our agents are available 24/7 at 1(800)555-1234. Or connect with us through Microsoft Teams.",

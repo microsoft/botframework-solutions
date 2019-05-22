@@ -42,10 +42,9 @@ namespace ToDoSkillTest.Flow.Utterances
             intent.Entities = new ToDoLuis._Entities();
             intent.Entities._instance = new ToDoLuis._Entities._Instance();
             intent.Entities.ordinal = ordinal;
-            intent.Entities.number = number;
             intent.Entities.ContainsAll = containsAll;
             intent.Entities.ListType = listType;
-            intent.Entities.TaskContentML = taskContentML;
+            intent.Entities.TaskContent = taskContentML;
             intent.Entities.ShopContent = shopContent;
             intent.Entities.TaskContentPattern = taskContentPattern;
             intent.Entities.FoodOfGrocery = foodOfGrocery;

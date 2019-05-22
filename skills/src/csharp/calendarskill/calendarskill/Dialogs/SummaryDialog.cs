@@ -370,9 +370,9 @@ namespace CalendarSkill.Dialogs
                     string filterKeyWord = null;
 
                     // filter meetings with number
-                    if (luisResult.Entities.ordinal != null)
+                    if (generalLuisResult.Entities.ordinal != null)
                     {
-                        var value = luisResult.Entities.ordinal[0];
+                        var value = generalLuisResult.Entities.ordinal[0];
                         var num = int.Parse(value.ToString());
                         var currentList = GetCurrentPageMeetings(state.SummaryEvents, state);
                         if (num > 0 && num <= currentList.Count)
@@ -381,9 +381,9 @@ namespace CalendarSkill.Dialogs
                         }
                     }
 
-                    if (filteredMeetingList.Count <= 0 && luisResult.Entities.number != null && (luisResult.Entities.ordinal == null || luisResult.Entities.ordinal.Length == 0))
+                    if (filteredMeetingList.Count <= 0 && generalLuisResult.Entities.number != null && (generalLuisResult.Entities.ordinal == null || generalLuisResult.Entities.ordinal.Length == 0))
                     {
-                        var value = luisResult.Entities.number[0];
+                        var value = generalLuisResult.Entities.number[0];
                         var num = int.Parse(value.ToString());
                         var currentList = GetCurrentPageMeetings(state.SummaryEvents, state);
                         if (num > 0 && num <= currentList.Count)
@@ -491,7 +491,7 @@ namespace CalendarSkill.Dialogs
                 else
                 {
                     state.Clear();
-                    return await sc.CancelAllDialogsAsync();
+                    return await sc.EndDialogAsync(true);
                 }
             }
             catch (Exception ex)

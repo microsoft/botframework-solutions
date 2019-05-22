@@ -275,15 +275,16 @@ namespace ToDoSkill.Dialogs
                 var state = await ToDoStateAccessor.GetAsync(dc.Context);
                 var luisResult = state.LuisResult;
                 var entities = luisResult.Entities;
+                var generalEntities = state.GeneralLuisResult.Entities;
                 if (entities.ContainsAll != null)
                 {
                     state.MarkOrDeleteAllTasksFlag = true;
                 }
 
-                if (entities.ordinal != null || entities.number != null)
+                if (entities.ordinal != null || (generalEntities != null && generalEntities.number != null))
                 {
                     var indexOfOrdinal = entities.ordinal == null ? 0 : (int)entities.ordinal[0];
-                    var indexOfNumber = entities.number == null ? 0 : (int)entities.number[0];
+                    var indexOfNumber = generalEntities?.number == null ? 0 : (int)generalEntities.number[0];
                     var index = 0;
                     if (indexOfOrdinal > 0 && indexOfOrdinal <= state.PageSize)
                     {
@@ -343,9 +344,9 @@ namespace ToDoSkill.Dialogs
                     state.TaskContentPattern = entities.TaskContentPattern[0];
                 }
 
-                if (entities.TaskContentML != null)
+                if (entities.TaskContent != null)
                 {
-                    state.TaskContentML = entities.TaskContentML[0];
+                    state.TaskContentML = entities.TaskContent[0];
                 }
             }
             catch

@@ -71,7 +71,7 @@ describe(`The generator-botbuilder-assistant tests`, function() {
         });
 
         after(function() {
-            rimraf.sync(join(__dirname, `tmp`, `*`));
+            rimraf(join(__dirname, `tmp`, `**`), function () {});
         });
 
         describe(`the base`, function() {
@@ -144,7 +144,7 @@ describe(`The generator-botbuilder-assistant tests`, function() {
         });
 
         after(function() {
-            rimraf.sync(join(__dirname, `tmp`, `*`));
+            rimraf(join(__dirname, `tmp`, `**`), function () {});
         });
 
         describe(`the base`, function() {

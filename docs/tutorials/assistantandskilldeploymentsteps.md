@@ -1,4 +1,4 @@
-# Deploy your Virtual Assistant and Skill Template Deployment
+# Deploy your Virtual Assistant or Skill
 
 In this tutorial
 - [Intro](#intro)
@@ -9,8 +9,7 @@ In this tutorial
 ### Prerequisites
 Create a Virtual Assistant or a Bot Framework Skill
 
-> Applies to Virtual Assistant Template and Skill Template (C# and TypeScript)
-
+> Applies to Virtual Assistant Template, Skill Template (C# and TypeScript) and provided Skills
 
 ## Deploy your bot
 

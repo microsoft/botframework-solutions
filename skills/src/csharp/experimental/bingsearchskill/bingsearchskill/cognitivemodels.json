@@ -1,0 +1,26 @@
+{
+  "cognitiveModels": {
+    "en": {
+      "languageModels": [
+        {
+          "id": "BingSearchSkill",
+          "authoringkey": "",
+          "subscriptionkey": "",
+          "region": "",
+          "name": "",
+          "appid": "",
+          "version": ""
+        },
+        {
+          "id": "General",
+          "authoringkey": "",
+          "subscriptionkey": "",
+          "region": "",
+          "name": "",
+          "appid": "",
+          "version": ""
+        }
+      ]
+    }
+  }
+}
