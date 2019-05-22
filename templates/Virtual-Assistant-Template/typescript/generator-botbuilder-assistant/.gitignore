@@ -1,0 +1,15 @@
+# node.js dependencies folder
+node_modules/
+
+# Bot Files
+*.bot
+
+#generator tests
+test/
+
+# Test report
+test-results.xml
+
+#coverage
+coverage
+.nyc_output

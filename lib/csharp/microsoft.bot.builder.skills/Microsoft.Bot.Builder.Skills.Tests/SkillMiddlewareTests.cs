@@ -54,8 +54,8 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             skillContextData.Add("PARAM1", "TEST1");
             skillContextData.Add("PARAM2", "TEST2");
 
-            // Ensure we have a copy
-            skillBeginEvent.Value = new SkillContext(skillContextData);
+			// Ensure we have a copy
+			skillBeginEvent.Value = JsonConvert.SerializeObject(skillContextData);
 
             TestAdapter adapter = new TestAdapter()
                 .Use(new SkillMiddleware(_userState, _conversationState, _dialogStateAccessor));
@@ -77,11 +77,13 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 
             var skillContextData = new SkillContext();
             skillContextData.Add("PARAM1", DateTime.Now);
-            skillContextData.Add("PARAM2", 3);
+
+			// using long 3 because it'll be how 3 is deserialized to after being serialized
+            skillContextData.Add("PARAM2", 3L);
             skillContextData.Add("PARAM3", null);
 
-            // Ensure we have a copy
-            skillBeginEvent.Value = new SkillContext(skillContextData);
+			// Ensure we have a copy
+			skillBeginEvent.Value = JsonConvert.SerializeObject(skillContextData);
 
             TestAdapter adapter = new TestAdapter()
                 .Use(new SkillMiddleware(_userState, _conversationState, _dialogStateAccessor));
@@ -100,9 +102,6 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         {
             string jsonSkillBeginActivity = await File.ReadAllTextAsync(@".\TestData\skillBeginEvent.json");
             var skillBeginEvent = JsonConvert.DeserializeObject<Activity>(jsonSkillBeginActivity);
-
-            // Ensure we have a copy
-            skillBeginEvent.Value = new SkillContext();
 
             TestAdapter adapter = new TestAdapter()
                 .Use(new SkillMiddleware(_userState, _conversationState, _dialogStateAccessor));

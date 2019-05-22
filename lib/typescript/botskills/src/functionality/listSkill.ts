@@ -3,23 +3,24 @@
  * Licensed under the MIT License.
  */
 
+import { existsSync } from 'fs';
 import { ConsoleLogger, ILogger} from '../logger';
 import { IListConfiguration, ISkillFIle, ISkillManifest } from '../models';
 
 export async function listSkill(configuration: IListConfiguration): Promise<boolean> {
-    if (configuration.logger) {
-        logger = configuration.logger;
-    }
-
+    const logger: ILogger = configuration.logger || new ConsoleLogger();
     try {
+        // Validate configuration.skillsFile
+        if (!existsSync(configuration.skillsFile)) {
+            logger.error(`The 'skillsFile' argument is absent or leads to a non-existing file.
+Please make sure to provide a valid path to your Assistant Skills configuration file.`);
+
+            return false;
+        }
         // Take VA Skills configurations
         //tslint:disable-next-line:non-literal-require
         const assistantSkillsFile: ISkillFIle = require(configuration.skillsFile);
-        if (!assistantSkillsFile) {
-            logger.warning(`Impossible to get skills from "${configuration.skillsFile}" file.  Format not compatible.`);
-
-            return false;
-        } else if (!assistantSkillsFile.skills) {
+        if (!assistantSkillsFile.skills) {
             logger.message('There are no Skills connected to the assistant.');
 
             return false;
@@ -46,5 +47,3 @@ export async function listSkill(configuration: IListConfiguration): Promise<bool
         return false;
     }
 }
-
-let logger: ILogger = new ConsoleLogger();

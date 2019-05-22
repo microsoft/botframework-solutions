@@ -27,6 +27,7 @@ export class EscalateDialog extends ComponentDialog {
             this.initialDialogId,
             escalate
         ));
+        this.telemetryClient = telemetryClient;
     }
 
     private async sendPhone(sc: WaterfallStepContext): Promise<DialogTurnResult> {

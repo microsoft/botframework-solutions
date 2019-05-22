@@ -6,3 +6,7 @@ node_modules/
 
 #generator tests
 test/
+
+#coverage
+coverage
+.nyc_output

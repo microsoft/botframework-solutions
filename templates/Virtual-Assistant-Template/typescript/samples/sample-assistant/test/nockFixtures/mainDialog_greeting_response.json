@@ -1,0 +1,149 @@
+[
+    {
+        "scope": "https://westus.api.cognitive.microsoft.com:443",
+        "method": "POST",
+        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
+        "body": "Hi",
+        "status": 200,
+        "response": {
+            "query": "Hi",
+            "topScoringIntent": {
+                "intent": "Confirm",
+                "score": 0.30505392
+            },
+            "entities": []
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-store, proxy-revalidate, no-cache, max-age=0, private",
+            "Pragma",
+            "no-cache",
+            "Content-Length",
+            "122",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Apim-Request-Id",
+            "63d7ebc4-0bf7-4460-8a28-b5057d50de2f",
+            "Request-Id",
+            "63d7ebc4-0bf7-4460-8a28-b5057d50de2f",
+            "Strict-Transport-Security",
+            "max-age=31536000; includeSubDomains; preload",
+            "X-Content-Type-Options",
+            "nosniff",
+            "X-Frame-Options",
+            "SAMEORIGIN",
+            "Date",
+            "Wed, 15 May 2019 12:55:24 GMT",
+            "Connection",
+            "close"
+        ]
+    },
+    {
+        "scope": "https://westus.api.cognitive.microsoft.com:443",
+        "method": "POST",
+        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
+        "body": "Hi",
+        "status": 200,
+        "response": {
+            "query": "Hi",
+            "topScoringIntent": {
+                "intent": "q_chitchat",
+                "score": 0.975212157
+            },
+            "entities": []
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-store, proxy-revalidate, no-cache, max-age=0, private",
+            "Pragma",
+            "no-cache",
+            "Content-Length",
+            "126",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Apim-Request-Id",
+            "7001298a-a9c9-408a-bc18-f653fc41da8d",
+            "Request-Id",
+            "7001298a-a9c9-408a-bc18-f653fc41da8d",
+            "Strict-Transport-Security",
+            "max-age=31536000; includeSubDomains; preload",
+            "X-Content-Type-Options",
+            "nosniff",
+            "X-Frame-Options",
+            "SAMEORIGIN",
+            "Date",
+            "Wed, 15 May 2019 12:55:26 GMT",
+            "Connection",
+            "close"
+        ]
+    },
+    {
+        "scope": "https://vatsample-qnahost.azurewebsites.net:443",
+        "method": "POST",
+        "path": "/qnamaker/knowledgebases/f7c2ee78-8679-4a3e-b384-0cd10c67e554/generateanswer",
+        "body": {
+            "question": "Hi",
+            "scoreThreshold": 0.3,
+            "top": 1,
+            "strictFilters": [],
+            "metadataBoost": [],
+            "timeout": 100000
+        },
+        "status": 200,
+        "response": {
+            "answers": [
+                {
+                    "questions": [
+                        "Hiya",
+                        "Good morning",
+                        "Hi",
+                        "Hello",
+                        "Heya",
+                        "Hi there!",
+                        "Hey"
+                    ],
+                    "answer": "Hello.",
+                    "score": 100,
+                    "id": 14,
+                    "source": "custom editorial",
+                    "metadata": [],
+                    "context": {
+                        "isContextOnly": false,
+                        "prompts": []
+                    }
+                }
+            ],
+            "debugInfo": null
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-cache",
+            "Pragma",
+            "no-cache",
+            "Transfer-Encoding",
+            "chunked",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Expires",
+            "-1",
+            "Server",
+            "Kestrel",
+            "Request-Context",
+            "appId=cid-v1:8efd4ecb-faa7-41b5-92ad-443b0258ad0b",
+            "X-AspNet-Version",
+            "4.0.30319",
+            "X-Powered-By",
+            "ASP.NET",
+            "X-Content-Type-Options",
+            "nosniff",
+            "Strict-Transport-Security",
+            "max-age=31536000",
+            "Set-Cookie",
+            "ARRAffinity=5fc328affd4968eb9e74f9acbf8303b1d86107eaccc771fdc8f0394325e15748;Path=/;HttpOnly;Domain=vatsample-qnahost.azurewebsites.net",
+            "Date",
+            "Wed, 15 May 2019 12:55:27 GMT",
+            "Connection",
+            "close"
+        ]
+    }
+]

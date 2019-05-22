@@ -65,6 +65,7 @@ class Copier {
     templateFiles.set(`_package.json`, `package.json`);
     templateFiles.set(`_.gitignore`, `.gitignore`);
     templateFiles.set(`_.npmrc`, `.npmrc`);
+    templateFiles.set(`_.nycrc`, `.nycrc`);
     templateFiles.set(
       path.join(`src`, `bots`, `_dialogBot.ts`),
       path.join(`src`, `bots`, `dialogBot.ts`)
@@ -76,6 +77,10 @@ class Copier {
     templateFiles.set(
       path.join(`src`, `dialogs`, `_skillDialogBase.ts`),
       path.join(`src`, `dialogs`, `skillDialogBase.ts`)
+    );
+    templateFiles.set(
+      path.join(`test`, `mockResources`, `_cognitiveModels.json`),
+      path.join(`test`, `mockResources`, `cognitiveModels.json`)
     );
     selectedLanguages.forEach(language => {
       templateFiles.set(
