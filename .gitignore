@@ -356,6 +356,7 @@ ASALocalRun/
 **/deploy_cognitive_models_log.txt
 **/add_remote_skill_log.txt
 **/remove_skill_log.txt
+**/.deployment
 
 # Zip files
 *.7z
