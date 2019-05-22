@@ -8,7 +8,7 @@ import { isAbsolute, join, resolve } from 'path';
 import { get } from 'request-promise-native';
 import { ConsoleLogger, ILogger} from '../logger';
 import { IAction, IConnectConfiguration, ISkillFIle, ISkillManifest, IUtteranceSource } from '../models';
-import { authenticate, execute } from '../utils';
+import { authenticate, ChildProcessUtils } from '../utils';
 
 async function runCommand(command: string[], description: string): Promise<string> {
     logger.command(description, command.join(' '));
@@ -18,7 +18,7 @@ async function runCommand(command: string[], description: string): Promise<strin
 
     try {
 
-        return await execute(cmd, commandArgs)
+        return await childProcessUtils.execute(cmd, commandArgs)
         // tslint:disable-next-line:typedef
         .catch((err) => {
             throw new Error(`The execution of the ${cmd} command failed with the following error:\n${err}`);
@@ -232,3 +232,4 @@ export async function connectSkill(configuration: IConnectConfiguration): Promis
 }
 
 let logger: ILogger = new ConsoleLogger();
+const childProcessUtils: ChildProcessUtils = new ChildProcessUtils();

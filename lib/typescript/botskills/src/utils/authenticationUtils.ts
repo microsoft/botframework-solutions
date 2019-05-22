@@ -14,7 +14,7 @@ import {
     IOauthConnection,
     IScopeManifest,
     ISkillManifest } from '../models';
-import { tryExecute } from './';
+import { ChildProcessUtils } from './';
 
 const scopeMap: Map<string, string> = new Map([
     ['Files.Read.Selected', '5447fe39-cb82-4c1a-b977-520e67e724eb'],
@@ -107,7 +107,7 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
 
             logger.command('Checking for existing aad connections', listAuthSettingsCommand.join(' '));
 
-            const connectionsResult: string = await tryExecute(listAuthSettingsCommand);
+            const connectionsResult: string = await childProcessUtils.tryExecute(listAuthSettingsCommand);
             const connections: IAzureAuthSetting[] = JSON.parse(connectionsResult);
             const aadConnection: IAzureAuthSetting | undefined = connections.find(
                 (connection: IAzureAuthSetting) => connection.properties.serviceProviderDisplayName === 'Azure Active Directory v2');
@@ -122,7 +122,7 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
 
                 logger.command('Getting current aad auth settings', showAuthSettingsCommand.join(' '));
 
-                const botAuthSettingResult: string = await tryExecute(showAuthSettingsCommand);
+                const botAuthSettingResult: string = await childProcessUtils.tryExecute(showAuthSettingsCommand);
                 const botAuthSetting: IAzureAuthSetting = JSON.parse(botAuthSettingResult);
                 const existingScopes: string[] = botAuthSetting.properties.scopes.split(' ');
                 scopes = scopes.concat(existingScopes);
@@ -136,7 +136,7 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
 
                 logger.command('Deleting current bot authentication setting', deleteAuthSettingCommand.join(' '));
 
-                const deleteResult: string = await tryExecute(deleteAuthSettingCommand);
+                const deleteResult: string = await childProcessUtils.tryExecute(deleteAuthSettingCommand);
             }
 
             // update appsettings.json
@@ -171,7 +171,7 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
 
             logger.command('Getting the app information', azureAppShowCommand.join(' '));
 
-            const azureAppShowResult: string = await tryExecute(azureAppShowCommand);
+            const azureAppShowResult: string = await childProcessUtils.tryExecute(azureAppShowCommand);
             const azureAppReplyUrls: IAppShowReplyUrl = JSON.parse(azureAppShowResult);
 
             // get the Reply Urls from the app
@@ -191,7 +191,7 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
 
             logger.command('Updating the app information', azureAppUpdateCommand.join(' '));
 
-            const errorResult: string = await tryExecute(azureAppUpdateCommand);
+            const errorResult: string = await childProcessUtils.tryExecute(azureAppUpdateCommand);
             //  Catch error: Updates to converged applications are not allowed in this version.
             if (errorResult) {
                 logger.warning('Could not configure scopes automatically.');
@@ -212,7 +212,7 @@ export async function authenticate(configuration: IConnectConfiguration, manifes
 
             logger.command('Creating the updated bot authentication setting', authSettingCommand.join(' '));
 
-            await tryExecute(authSettingCommand);
+            await childProcessUtils.tryExecute(authSettingCommand);
 
             logger.message('Authentication process finished successfully.');
         } else {
@@ -228,3 +228,5 @@ ${manifest.authenticationConnections.map((authConn: IAuthenticationConnection) =
         }
     }
 }
+
+const childProcessUtils: ChildProcessUtils = new ChildProcessUtils();
