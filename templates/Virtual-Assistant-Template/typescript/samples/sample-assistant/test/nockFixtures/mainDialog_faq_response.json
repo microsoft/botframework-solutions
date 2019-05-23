@@ -1,0 +1,143 @@
+[
+    {
+        "scope": "https://westus.api.cognitive.microsoft.com:443",
+        "method": "POST",
+        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
+        "body": "What is a Virtual Assistant?",
+        "status": 200,
+        "response": {
+            "query": "What is a Virtual Assistant?",
+            "topScoringIntent": {
+                "intent": "ReadAloud",
+                "score": 0.0624975562
+            },
+            "entities": []
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-store, proxy-revalidate, no-cache, max-age=0, private",
+            "Pragma",
+            "no-cache",
+            "Content-Length",
+            "152",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Apim-Request-Id",
+            "daaf0890-f15d-40e4-bbd0-e9e7edb0fbc9",
+            "Request-Id",
+            "daaf0890-f15d-40e4-bbd0-e9e7edb0fbc9",
+            "Strict-Transport-Security",
+            "max-age=31536000; includeSubDomains; preload",
+            "X-Content-Type-Options",
+            "nosniff",
+            "X-Frame-Options",
+            "SAMEORIGIN",
+            "Date",
+            "Thu, 23 May 2019 18:22:48 GMT",
+            "Connection",
+            "close"
+        ]
+    },
+    {
+        "scope": "https://westus.api.cognitive.microsoft.com:443",
+        "method": "POST",
+        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
+        "body": "What is a Virtual Assistant?",
+        "status": 200,
+        "response": {
+            "query": "What is a Virtual Assistant?",
+            "topScoringIntent": {
+                "intent": "q_faq",
+                "score": 0.9488646
+            },
+            "entities": []
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-store, proxy-revalidate, no-cache, max-age=0, private",
+            "Pragma",
+            "no-cache",
+            "Content-Length",
+            "145",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Apim-Request-Id",
+            "45be97bc-ae1f-45e7-89aa-5f17cdb43667",
+            "Request-Id",
+            "45be97bc-ae1f-45e7-89aa-5f17cdb43667",
+            "Strict-Transport-Security",
+            "max-age=31536000; includeSubDomains; preload",
+            "X-Content-Type-Options",
+            "nosniff",
+            "X-Frame-Options",
+            "SAMEORIGIN",
+            "Date",
+            "Thu, 23 May 2019 18:22:48 GMT",
+            "Connection",
+            "close"
+        ]
+    },
+    {
+        "scope": "https://assistant-qnahost.azurewebsites.net:443",
+        "method": "POST",
+        "path": "/qnamaker/knowledgebases/f7c2ee78-8679-4a3e-b384-0cd10c67e554/generateanswer",
+        "body": {
+            "question": "What is a Virtual Assistant?",
+            "scoreThreshold": 0.3,
+            "top": 1,
+            "strictFilters": [],
+            "metadataBoost": [],
+            "timeout": 100000
+        },
+        "status": 200,
+        "response": {
+            "answers": [
+                {
+                    "questions": [
+                        "What is a Virtual Assistant"
+                    ],
+                    "answer": "We have seen significant need from our customers and partners to deliver a conversational assistant tailored to their brand, personalized to their customers and made available across a broad range of conversational canvases and devices. Continuing Microsoft open-sourced approach toward Bot Framework SDK, the open source Virtual Assistant solution provides full control over the end user experience built on a set of foundational capabilities. Additionally, the experience can be infused with intelligence about the end-user and any device/ecosystem information for a truly integrated and intelligent experience.\nFind out more [here](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/README.md).",
+                    "score": 100,
+                    "id": 1,
+                    "source": "custom editorial",
+                    "metadata": [],
+                    "context": {
+                        "isContextOnly": false,
+                        "prompts": []
+                    }
+                }
+            ],
+            "debugInfo": null
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-cache",
+            "Pragma",
+            "no-cache",
+            "Transfer-Encoding",
+            "chunked",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Expires",
+            "-1",
+            "Server",
+            "Kestrel",
+            "Request-Context",
+            "appId=cid-v1:aa07a40b-fb60-4c1e-837a-700f126ea91d",
+            "X-AspNet-Version",
+            "4.0.30319",
+            "X-Powered-By",
+            "ASP.NET",
+            "X-Content-Type-Options",
+            "nosniff",
+            "Strict-Transport-Security",
+            "max-age=31536000",
+            "Set-Cookie",
+            "ARRAffinity=cbe36643270ac9b6419bdc480dc6d6a80403ad70b25f5b4d45dbc4e616c7238f;Path=/;HttpOnly;Domain=sampleva-qnahost.azurewebsites.net",
+            "Date",
+            "Thu, 23 May 2019 18:22:50 GMT",
+            "Connection",
+            "close"
+        ]
+    }
+]
