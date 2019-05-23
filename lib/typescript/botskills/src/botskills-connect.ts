@@ -6,7 +6,7 @@
 import * as program from 'commander';
 import { existsSync } from 'fs';
 import { extname, isAbsolute, join, resolve } from 'path';
-import { connectSkill } from './functionality';
+import { ConnectSkill } from './functionality';
 import { ConsoleLogger, ILogger } from './logger';
 import { ICognitiveModelFile, IConnectConfiguration } from './models';
 import { validatePairOfArgs } from './utils';
@@ -163,4 +163,4 @@ configuration.logger = logger;
 
 // End of arguments validation
 
-connectSkill(<IConnectConfiguration> configuration);
+new ConnectSkill(logger).connectSkill(<IConnectConfiguration> configuration);
