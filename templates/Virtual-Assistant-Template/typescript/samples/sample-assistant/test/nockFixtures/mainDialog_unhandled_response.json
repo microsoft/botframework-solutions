@@ -1,0 +1,137 @@
+[
+    {
+        "scope": "https://westus.api.cognitive.microsoft.com:443",
+        "method": "POST",
+        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
+        "body": "Unhandled message",
+        "status": 200,
+        "response": {
+            "query": "Unhandled message",
+            "topScoringIntent": {
+                "intent": "Confirm",
+                "score": 0.11337278
+            },
+            "entities": []
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-store, proxy-revalidate, no-cache, max-age=0, private",
+            "Pragma",
+            "no-cache",
+            "Content-Length",
+            "137",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Apim-Request-Id",
+            "98c8c56e-bd4f-40e5-a91e-2f141b71f1aa",
+            "Request-Id",
+            "98c8c56e-bd4f-40e5-a91e-2f141b71f1aa",
+            "Strict-Transport-Security",
+            "max-age=31536000; includeSubDomains; preload",
+            "X-Content-Type-Options",
+            "nosniff",
+            "X-Frame-Options",
+            "SAMEORIGIN",
+            "Date",
+            "Thu, 23 May 2019 18:22:44 GMT",
+            "Connection",
+            "close"
+        ]
+    },
+    {
+        "scope": "https://westus.api.cognitive.microsoft.com:443",
+        "method": "POST",
+        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
+        "body": "Unhandled message",
+        "status": 200,
+        "response": {
+            "query": "Unhandled message",
+            "topScoringIntent": {
+                "intent": "q_chitchat",
+                "score": 0.43017894
+            },
+            "entities": []
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-store, proxy-revalidate, no-cache, max-age=0, private",
+            "Pragma",
+            "no-cache",
+            "Content-Length",
+            "140",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Apim-Request-Id",
+            "99716a52-a9ff-425d-8f38-e01ba9986ebb",
+            "Request-Id",
+            "99716a52-a9ff-425d-8f38-e01ba9986ebb",
+            "Strict-Transport-Security",
+            "max-age=31536000; includeSubDomains; preload",
+            "X-Content-Type-Options",
+            "nosniff",
+            "X-Frame-Options",
+            "SAMEORIGIN",
+            "Date",
+            "Thu, 23 May 2019 18:22:44 GMT",
+            "Connection",
+            "close"
+        ]
+    },
+    {
+        "scope": "https://vatsample-qnahost.azurewebsites.net:443",
+        "method": "POST",
+        "path": "/qnamaker/knowledgebases/f7c2ee78-8679-4a3e-b384-0cd10c67e554/generateanswer",
+        "body": {
+            "question": "Unhandled message",
+            "scoreThreshold": 0.3,
+            "top": 1,
+            "strictFilters": [],
+            "metadataBoost": [],
+            "timeout": 100000
+        },
+        "status": 200,
+        "response": {
+            "answers": [
+                {
+                    "questions": [],
+                    "answer": "No good match found in KB.",
+                    "score": 0,
+                    "id": -1,
+                    "source": null,
+                    "metadata": []
+                }
+            ],
+            "debugInfo": null
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-cache",
+            "Pragma",
+            "no-cache",
+            "Transfer-Encoding",
+            "chunked",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Expires",
+            "-1",
+            "Server",
+            "Kestrel",
+            "Request-Context",
+            "appId=cid-v1:aa07a40b-fb60-4c1e-837a-700f126ea91d",
+            "X-AspNet-Version",
+            "4.0.30319",
+            "X-Powered-By",
+            "ASP.NET",
+            "X-Content-Type-Options",
+            "nosniff",
+            "Strict-Transport-Security",
+            "max-age=31536000",
+            "Set-Cookie",
+            "ARRAffinity=cbe36643270ac9b6419bdc480dc6d6a80403ad70b25f5b4d45dbc4e616c7238f;Path=/;HttpOnly;Domain=sampleva-qnahost.azurewebsites.net",
+            "Date",
+            "Thu, 23 May 2019 18:22:46 GMT",
+            "Connection",
+            "close"
+        ]
+    }
+]
