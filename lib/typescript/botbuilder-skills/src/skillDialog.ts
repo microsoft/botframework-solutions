@@ -9,7 +9,7 @@ import { ComponentDialog, Dialog, DialogContext, DialogInstance, DialogReason, D
 import { ActivityExtensions, isProviderTokenResponse, MultiProviderAuthDialog, TokenEvents } from 'botbuilder-solutions';
 import { MicrosoftAppCredentials } from 'botframework-connector';
 import { SkillHttpTransport } from './http';
-import { IAction, ISkillManifest, ISlot } from './models';
+import { IAction, ISkillManifest, ISlot, SkillEvents } from './models';
 import { SkillContext } from './skillContext';
 import { ISkillTransport, TokenRequestHandler } from './skillTransport';
 import { SkillWebSocketTransport } from './websocket';
@@ -77,7 +77,8 @@ export class SkillDialog extends ComponentDialog {
         let slots: SkillContext = new SkillContext();
 
         // Retrieve the SkillContext state object to identify slots (parameters) that can be used to slot-fill when invoking the skill
-        const skillContext: SkillContext = await this.skillContextAccessor.get(innerDC.context, new SkillContext());
+        const sc: SkillContext = await this.skillContextAccessor.get(innerDC.context, new SkillContext());
+        const skillContext: SkillContext = Object.assign(new SkillContext(), sc);
 
         // In instances where the caller is able to identify/specify the action we process the Action specific slots
         // In other scenarios (aggregated skill dispatch) we evaluate all possible slots against context and pass across
@@ -138,7 +139,7 @@ export class SkillDialog extends ComponentDialog {
             from: activity.from,
             recipient: activity.recipient,
             conversation: activity.conversation,
-            name: Events.skillBeginEventName,
+            name: SkillEvents.skillBeginEventName,
             value: slots
         };
 
@@ -261,10 +262,4 @@ export class SkillDialog extends ComponentDialog {
             }
         };
     }
-}
-
-namespace Events {
-    export const skillBeginEventName: string = 'skillBegin';
-    export const tokenRequestEventName: string = 'tokens/request';
-    export const tokenResponseEventName: string = 'tokens/response';
 }
