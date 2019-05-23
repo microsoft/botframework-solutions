@@ -23,9 +23,9 @@
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "96143efa-0f76-4212-823c-b79f833ca6a0",
+            "daaf0890-f15d-40e4-bbd0-e9e7edb0fbc9",
             "Request-Id",
-            "96143efa-0f76-4212-823c-b79f833ca6a0",
+            "daaf0890-f15d-40e4-bbd0-e9e7edb0fbc9",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -33,7 +33,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Thu, 23 May 2019 15:40:49 GMT",
+            "Thu, 23 May 2019 18:22:48 GMT",
             "Connection",
             "close"
         ]
@@ -62,9 +62,9 @@
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "96cb76ff-2c9b-4211-8247-f93a875b313b",
+            "45be97bc-ae1f-45e7-89aa-5f17cdb43667",
             "Request-Id",
-            "96cb76ff-2c9b-4211-8247-f93a875b313b",
+            "45be97bc-ae1f-45e7-89aa-5f17cdb43667",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -72,13 +72,13 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Thu, 23 May 2019 15:40:49 GMT",
+            "Thu, 23 May 2019 18:22:48 GMT",
             "Connection",
             "close"
         ]
     },
     {
-        "scope": "https://sampleva-qnahost.azurewebsites.net:443",
+        "scope": "https://assistant-qnahost.azurewebsites.net:443",
         "method": "POST",
         "path": "/qnamaker/knowledgebases/f7c2ee78-8679-4a3e-b384-0cd10c67e554/generateanswer",
         "body": {
@@ -135,7 +135,7 @@
             "Set-Cookie",
             "ARRAffinity=cbe36643270ac9b6419bdc480dc6d6a80403ad70b25f5b4d45dbc4e616c7238f;Path=/;HttpOnly;Domain=sampleva-qnahost.azurewebsites.net",
             "Date",
-            "Thu, 23 May 2019 15:40:50 GMT",
+            "Thu, 23 May 2019 18:22:50 GMT",
             "Connection",
             "close"
         ]

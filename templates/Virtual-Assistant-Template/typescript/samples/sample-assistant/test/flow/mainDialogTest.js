@@ -10,7 +10,7 @@ const introJson = require('../../src/content/NewUserGreeting.json');
 const introJsonEs = require('../../src/content/NewUserGreeting.es.json');
 
 describe("Main Dialog", function () {
-	xdescribe("Intro Card", function() {
+	describe("Intro Card", function() {
 		it("Send conversationUpdate and verify card is received", function(done) {
 			botTestBase.getTestAdapterDefault().then((testAdapter) => {
 				const flow = testAdapter
@@ -37,7 +37,7 @@ describe("Main Dialog", function () {
 		});
 	});
 
-	xdescribe("Greeting", function () {
+	describe("Greeting", function () {
 		it("Send Hello and check you get the expected response", function (done) {
 			botTestBase.getTestAdapterDefault().then((testAdapter) => {
 				const flow = testAdapter
@@ -49,7 +49,7 @@ describe("Main Dialog", function () {
 		});
 	});
 
-	xdescribe("Help", function () {
+	describe("Help", function () {
 		it("Send Help and check you get the expected response", function (done) {
 			botTestBase.getTestAdapterDefault().then((testAdapter) => {
 				const flow = testAdapter
@@ -61,7 +61,7 @@ describe("Main Dialog", function () {
 		});
 	});
 
-	xdescribe("Escalating", function () {
+	describe("Escalating", function () {
         it("Send 'I want to talk to a human' and check you get the expected response", function (done) {
             botTestBase.getTestAdapterDefault().then((testAdapter) => {
 				const flow = testAdapter
@@ -76,7 +76,7 @@ describe("Main Dialog", function () {
         });
     });
 
-	xdescribe("Localization", function () {
+	describe("Localization", function () {
 		it("Send a message in spanish, set locale property on activity and validate the localized response", function (done) {
 			botTestBase.getTestAdapterDefault().then((testAdapter) => {
 				const flow = testAdapter
@@ -109,7 +109,7 @@ describe("Main Dialog", function () {
 			botTestBase.getTestAdapterDefault().then((testAdapter) => {
 				const flow = testAdapter
 					.send('Unhandled message')
-					.assertReply("I'm sorry, I'm not able to help with that.")
+					.assertReply("I'm sorry, I'm not able to help with that.");
 					
 				testNock.resolveWithMocks('mainDialog_unhandled_response', done, flow);
 			});
@@ -121,7 +121,7 @@ describe("Main Dialog", function () {
 			botTestBase.getTestAdapterDefault().then((testAdapter) => {
 				const flow = testAdapter
 					.send('What is a Virtual Assistant?')
-					.assertReply("We have seen significant need from our customers and partners to deliver a conversational assistant tailored to their brand, personalized to their customers and made available across a broad range of conversational canvases and devices. Continuing Microsoft open-sourced approach toward Bot Framework SDK, the open source Virtual Assistant solution provides full control over the end user experience built on a set of foundational capabilities. Additionally, the experience can be infused with intelligence about the end-user and any device/ecosystem information for a truly integrated and intelligent experience.\nFind out more [here](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/README.md).")
+					.assertReply("We have seen significant need from our customers and partners to deliver a conversational assistant tailored to their brand, personalized to their customers and made available across a broad range of conversational canvases and devices. Continuing Microsoft open-sourced approach toward Bot Framework SDK, the open source Virtual Assistant solution provides full control over the end user experience built on a set of foundational capabilities. Additionally, the experience can be infused with intelligence about the end-user and any device/ecosystem information for a truly integrated and intelligent experience.\nFind out more [here](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/README.md).");
 				
 				testNock.resolveWithMocks('mainDialog_faq_response', done, flow);
 			});
