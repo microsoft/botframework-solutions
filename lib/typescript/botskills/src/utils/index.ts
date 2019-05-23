@@ -3,6 +3,6 @@
  * Licensed under the MIT License.
  */
 
-export { execute, spawn, tryExecute } from './childProcessUtils';
+export { ChildProcessUtils } from './childProcessUtils';
 export { authenticate } from './authenticationUtils';
 export { validatePairOfArgs } from './validationUtils';
