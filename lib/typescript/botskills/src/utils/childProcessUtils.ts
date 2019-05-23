@@ -6,66 +6,71 @@
 import * as child_process from 'child_process';
 import { join } from 'path';
 
-async function execDispatch(args: string[]): Promise<string> {
-    const dispatchPath: string = join(__dirname, '..', '..', 'node_modules', 'botdispatch', 'bin', 'netcoreapp2.1', 'Dispatch.dll');
+export class ChildProcessUtils {
 
-    // tslint:disable-next-line: typedef
-    return new Promise((pResolve, pReject) => {
-        child_process.spawn('dotnet', [dispatchPath, ...args], { stdio: 'inherit' })
-            .on('close', (code: number) => {
-                pResolve('');
-            })
-            .on('error', (err: Error) => {
-                pReject(err);
-            });
-    });
-}
+    private async execDispatch(args: string[]): Promise<string> {
+        const dispatchPath: string = join(__dirname, '..', '..', 'node_modules', 'botdispatch', 'bin', 'netcoreapp2.1', 'Dispatch.dll');
 
-export async function spawn(command: string, args: string[]): Promise<string> {
-
-    // tslint:disable-next-line: typedef
-    return new Promise((pResolve, pReject) => {
-        child_process.spawn(command, args, { stdio: 'inherit', env: process.env, argv0: command, cwd: join(__dirname, '..') })
-            .on('close', (code: number) => {
-                pResolve('');
-            })
-            .on('error', (err: Error) => {
-                pReject(err);
-            });
-    });
-}
-
-export async function execute(command: string, args: string[]): Promise<string> {
-    if (command === 'dispatch') {
-        return execDispatch(args);
+        // tslint:disable-next-line: typedef
+        return new Promise((pResolve, pReject) => {
+            child_process.spawn('dotnet', [dispatchPath, ...args], { stdio: 'inherit' })
+                .on('close', (code: number) => {
+                    pResolve('');
+                })
+                .on('error', (err: Error) => {
+                    pReject(err);
+                });
+        });
     }
 
-    // tslint:disable-next-line: typedef
-    return new Promise((pResolve, pReject) => {
-        child_process.exec(`${command} ${args.join(' ')}`, (err: child_process.ExecException | null, stdout: string, stderr: string) => {
-            if (stderr) {
-                pReject(stderr);
-            }
-            pResolve(stdout);
-        });
-    });
-}
+    public async spawn(command: string, args: string[]): Promise<string> {
 
-export async function tryExecute(command: string[]): Promise<string> {
-    // tslint:disable-next-line: typedef
-    return new Promise((pResolve, pReject) => {
-        try {
+        // tslint:disable-next-line: typedef
+        return new Promise((pResolve, pReject) => {
+            child_process.spawn(command, args, { stdio: 'inherit', env: process.env, argv0: command, cwd: join(__dirname, '..') })
+                .on('close', (code: number) => {
+                    pResolve('');
+                })
+                .on('error', (err: Error) => {
+                    pReject(err);
+                });
+        });
+    }
+
+    public async execute(command: string, args: string[]): Promise<string> {
+        if (command === 'dispatch') {
+            return this.execDispatch(args);
+        }
+
+        // tslint:disable-next-line: typedef
+        return new Promise((pResolve, pReject) => {
             child_process.exec(
-                `${command.join(' ')}`,
+                `${command} ${args.join(' ')}`,
                 (err: child_process.ExecException | null, stdout: string, stderr: string) => {
                     if (stderr) {
                         pReject(stderr);
                     }
                     pResolve(stdout);
-            });
-        } catch (err) {
+                });
+        });
+    }
 
-            return err;
-        }
-    });
+    public async tryExecute(command: string[]): Promise<string> {
+        // tslint:disable-next-line: typedef
+        return new Promise((pResolve, pReject) => {
+            try {
+                child_process.exec(
+                    `${command.join(' ')}`,
+                    (err: child_process.ExecException | null, stdout: string, stderr: string) => {
+                        if (stderr) {
+                            pReject(stderr);
+                        }
+                        pResolve(stdout);
+                });
+            } catch (err) {
+
+                return err;
+            }
+        });
+    }
 }

@@ -6,7 +6,7 @@
 import * as program from 'commander';
 import { existsSync } from 'fs';
 import { extname, isAbsolute, join, resolve } from 'path';
-import { listSkill } from './functionality';
+import { ListSkill } from './functionality';
 import { ConsoleLogger, ILogger} from './logger';
 import { IListConfiguration } from './models';
 
@@ -74,6 +74,6 @@ const configuration: IListConfiguration = {
     logger: logger
 };
 
-listSkill(configuration);
+new ListSkill(logger).listSkill(configuration);
 
 process.exit(0);

@@ -6,7 +6,7 @@
 import * as program from 'commander';
 import { existsSync } from 'fs';
 import { extname, isAbsolute, join, resolve } from 'path';
-import { disconnectSkill } from './functionality';
+import { DisconnectSkill } from './functionality';
 import { ConsoleLogger, ILogger} from './logger';
 import { ICognitiveModelFile, IDisconnectConfiguration } from './models';
 import { validatePairOfArgs } from './utils';
@@ -122,4 +122,4 @@ if (!args.dispatchName) {
     configuration.dispatchName = cognitiveModelsFile.cognitiveModels[languageCode].dispatchModel.name;
 }
 
-disconnectSkill(<IDisconnectConfiguration> configuration);
+new DisconnectSkill(logger).disconnectSkill(<IDisconnectConfiguration> configuration);
