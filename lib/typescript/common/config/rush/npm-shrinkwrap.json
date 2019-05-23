@@ -100,14 +100,14 @@
       }
     },
     "@babel/parser": {
-      "version": "7.4.4",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/parser/-/@babel/parser-7.4.4.tgz",
-      "integrity": "sha1-WXcSlDG4/jNHFzDSVc6GVK4SULY="
+      "version": "7.4.5",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/parser/-/@babel/parser-7.4.5.tgz",
+      "integrity": "sha1-BK+NXVorBEoqG/+sweXmZzVE6HI="
     },
     "@babel/runtime": {
-      "version": "7.4.4",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/runtime/-/@babel/runtime-7.4.4.tgz",
-      "integrity": "sha1-3C40mC6yNoA6onoH/qaFevG5Fx0=",
+      "version": "7.4.5",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/runtime/-/@babel/runtime-7.4.5.tgz",
+      "integrity": "sha1-WCu1MfX53GfS/LaCl5iU914lPxI=",
       "requires": {
         "regenerator-runtime": "^0.13.2"
       }
@@ -123,15 +123,15 @@
       }
     },
     "@babel/traverse": {
-      "version": "7.4.4",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/traverse/-/@babel/traverse-7.4.4.tgz",
-      "integrity": "sha1-B3bwOPbXg2GGC2gjiH1POTcTP+g=",
+      "version": "7.4.5",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@babel/traverse/-/@babel/traverse-7.4.5.tgz",
+      "integrity": "sha1-TpLRco/S8Yl9r90yHvv/khVsMhY=",
       "requires": {
         "@babel/code-frame": "^7.0.0",
         "@babel/generator": "^7.4.4",
         "@babel/helper-function-name": "^7.1.0",
         "@babel/helper-split-export-declaration": "^7.4.4",
-        "@babel/parser": "^7.4.4",
+        "@babel/parser": "^7.4.5",
         "@babel/types": "^7.4.4",
         "debug": "^4.1.0",
         "globals": "^11.1.0",
@@ -232,7 +232,7 @@
     },
     "@rush-temp/botbuilder-skills": {
       "version": "file:projects/botbuilder-skills.tgz",
-      "integrity": "sha512-8gsaqk+RAICc+5OLNBd4k8VOz7WRldgES9Baw59KUoPJUo+LZDb8+y+U88PQb47L+inec1OZ8uXE5VDvrdz7Lg==",
+      "integrity": "sha512-swzweObWSe+yKM+iPGd9VZ0+0uCurPq0hg4tZO0nmZxLr6wqXhDODLqjBIgs21dTAPIuReCS14FEBFsmxrOBBg==",
       "requires": {
         "@azure/ms-rest-js": "1.2.6",
         "@types/documentdb": "1.10.5",
@@ -252,7 +252,7 @@
         "copyfiles": "^2.1.0",
         "i18n": "^0.8.3",
         "jsonwebtoken": "^8.5.1",
-        "jwks-rsa": "^1.4.0",
+        "jwks-rsa": "1.5.0",
         "microsoft-bot-protocol": "^0.0.1",
         "microsoft-bot-protocol-websocket": "^0.0.1",
         "mocha": "^6.1.4",
@@ -374,9 +374,9 @@
       }
     },
     "@types/express-serve-static-core": {
-      "version": "4.16.4",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/express-serve-static-core/-/@types/express-serve-static-core-4.16.4.tgz",
-      "integrity": "sha1-VruL5FWUAdaK9KNiSundMWYQPmA=",
+      "version": "4.16.5",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/express-serve-static-core/-/@types/express-serve-static-core-4.16.5.tgz",
+      "integrity": "sha1-Dkc8zq4UHEMyB1m3/0rw1EKLnN0=",
       "requires": {
         "@types/node": "*",
         "@types/range-parser": "*"
@@ -4082,9 +4082,9 @@
       "integrity": "sha1-LSYY0Qu1ZlcrjXqtUYDYQlfXCpk="
     },
     "uglify-js": {
-      "version": "3.5.14",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/uglify-js/-/uglify-js-3.5.14.tgz",
-      "integrity": "sha1-7fKjIsN/1xc6lU+zWvGZtS+xCUY=",
+      "version": "3.5.15",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/uglify-js/-/uglify-js-3.5.15.tgz",
+      "integrity": "sha1-/itTeP0LCeEWhkBBQ3v/iJEFziQ=",
       "optional": true,
       "requires": {
         "commander": "~2.20.0",
