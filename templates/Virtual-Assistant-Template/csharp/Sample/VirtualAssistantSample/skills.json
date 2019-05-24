@@ -1,2 +1,202 @@
 {
+	"skills": [
+		{
+			"id": "toDoSkill",
+			"msaAppId": "082ed740-5b26-4177-8f13-40d97096a81a",
+			"name": "ToDo Skill",
+			"endpoint": "http://localhost:3980/api/skill/messages",
+			"description": "The ToDo skill provides task related capabilities and supports Office based tasks.",
+			"iconUrl": "http://bftodoskill.azurewebsites.net/toDoSkill.png",
+			"authenticationConnections": [
+				{
+					"id": "Outlook",
+					"serviceProviderId": "Azure Active Directory v2",
+					"scopes": "Notes.ReadWrite, User.ReadBasic.All, Tasks.ReadWrite"
+				}
+			],
+			"actions": [
+				{
+					"id": "toDoSkill_addToDo",
+					"definition": {
+						"description": "Add a task",
+						"slots": [],
+						"triggers": {
+							"utteranceSources": [
+								{
+									"locale": "en",
+									"source": [
+										"todo#AddToDo"
+									]
+								}
+							]
+						}
+					}
+				},
+				{
+					"id": "toDoSkill_showToDo",
+					"definition": {
+						"description": "Show tasks",
+						"slots": [],
+						"triggers": {
+							"utteranceSources": [
+								{
+									"locale": "en",
+									"source": [
+										"todo#ShowToDo"
+									]
+								}
+							]
+						}
+					}
+				},
+				{
+					"id": "toDoSkill_markToDo",
+					"definition": {
+						"description": "Mark a task",
+						"slots": [],
+						"triggers": {
+							"utteranceSources": [
+								{
+									"locale": "en",
+									"source": [
+										"todo#MarkToDo"
+									]
+								}
+							]
+						}
+					}
+				},
+				{
+					"id": "toDoSkill_deleteToDo",
+					"definition": {
+						"description": "Delete a task",
+						"slots": [],
+						"triggers": {
+							"utteranceSources": [
+								{
+									"locale": "en",
+									"source": [
+										"todo#DeleteToDo"
+									]
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"id": "pointOfInterestSkill",
+			"msaAppId": "c06bda4c-db35-47d7-be2a-c541c4236fd6",
+			"name": "Point Of Interest Skill",
+			"endpoint": "http://localhost:3981/api/skill/messages",
+			"description": "The Point of Interest skill provides PoI search capabilities leveraging Azure Maps and Foursquare.",
+			"iconUrl": "http://bfpoiskill.azurewebsites.net/poiSkill.png",
+			"authenticationConnections": [],
+			"actions": [
+				{
+					"id": "poiskill_routeFromXToY",
+					"definition": {
+						"description": "Find a route from X to Y",
+						"slots": [
+							{
+								"name": "location",
+								"types": [
+									"string"
+								]
+							}
+						],
+						"triggers": {
+							"utteranceSources": [
+								{
+									"locale": "en",
+									"source": [
+										"pointofinterest#NAVIGATION_ROUTE_FROM_X_TO_Y"
+									]
+								}
+							]
+						}
+					}
+				},
+				{
+					"id": "poiskill_cancelRoute",
+					"definition": {
+						"description": "Cancel an active route.",
+						"slots": [
+							{
+								"name": "location",
+								"types": [
+									"string"
+								]
+							}
+						],
+						"triggers": {
+							"utteranceSources": [
+								{
+									"locale": "en",
+									"source": [
+										"pointofinterest#NAVIGATION_CANCEL_ROUTE"
+									]
+								}
+							]
+						}
+					}
+				},
+				{
+					"id": "poiskill_findPoI",
+					"definition": {
+						"description": "Find a point of interest.",
+						"slots": [
+							{
+								"name": "location",
+								"types": [
+									"string"
+								]
+							},
+							{
+								"name": "keyword",
+								"types": [
+									"string"
+								]
+							}
+						],
+						"triggers": {
+							"utteranceSources": [
+								{
+									"locale": "en",
+									"source": [
+										"pointofinterest#NAVIGATION_FIND_POINTOFINTEREST"
+									]
+								}
+							]
+						}
+					}
+				},
+				{
+					"id": "poiskill_findParking",
+					"definition": {
+						"description": "Find parking",
+						"slots": [
+							{
+								"name": "location",
+								"types": [
+									"string"
+								]
+							}
+						],
+						"triggers": {
+							"utteranceSources": [
+								{
+									"locale": "en",
+									"source": [
+										"pointofinterest#NAVIGATION_FIND_PARKING"
+									]
+								}
+							]
+						}
+					}
+				}
+			]
+		}
+	]
 }

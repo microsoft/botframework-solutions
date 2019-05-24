@@ -14,6 +14,7 @@ using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
+using Newtonsoft.Json.Linq;
 using ToDoSkill.Models;
 using ToDoSkill.Responses.Main;
 using ToDoSkill.Services;
@@ -27,6 +28,7 @@ namespace ToDoSkill.Dialogs
         private BotServices _services;
         private ResponseManager _responseManager;
         private IStatePropertyAccessor<ToDoSkillState> _toDoStateAccessor;
+		private IServiceManager _serviceManager;
 
         public MainDialog(
             BotSettings settings,
@@ -37,12 +39,14 @@ namespace ToDoSkill.Dialogs
             MarkToDoItemDialog markToDoItemDialog,
             DeleteToDoItemDialog deleteToDoItemDialog,
             ShowToDoItemDialog showToDoItemDialog,
-            IBotTelemetryClient telemetryClient)
+			IServiceManager serviceManager,
+			IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
             _settings = settings;
             _services = services;
             _responseManager = responseManager;
+			_serviceManager = serviceManager;
             TelemetryClient = telemetryClient;
             _toDoStateAccessor = conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
 
@@ -160,6 +164,33 @@ namespace ToDoSkill.Dialogs
         {
             switch (dc.Context.Activity.Name)
             {
+				case Events.DeviceStart:
+					{
+						var state = await _toDoStateAccessor.GetAsync(dc.Context);
+						var taskService = _serviceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
+						var currentAllTasks = await taskService.GetTasksAsync(state.ListType);
+
+						var results = new List<TaskItem>();
+						foreach (var task in currentAllTasks)
+						{
+							if (task.ReminderDateTime != DateTime.MinValue)
+							{
+								results.Add(task);
+							}
+						}
+
+						var response = dc.Context.Activity.CreateReply();
+						var entities = new Dictionary<string, Entity>();
+						entities.Add("reminders", new Entity { Properties = JObject.FromObject(new { reminder = results[0].Topic }) });
+						response.SemanticAction = new SemanticAction("entity", entities);
+						response.Type = ActivityTypes.EndOfConversation;
+
+						await dc.Context.SendActivityAsync(response);
+						await dc.EndDialogAsync();
+
+						break;
+					}
+
                 case SkillEvents.SkillBeginEventName:
                     {
                         var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
@@ -312,5 +343,10 @@ namespace ToDoSkill.Dialogs
                 }
             }
         }
+
+		public class Events
+		{
+			public const string DeviceStart = "VA.DeviceStart";
+		}
     }
 }

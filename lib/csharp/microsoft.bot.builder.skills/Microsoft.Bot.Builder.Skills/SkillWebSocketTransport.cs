@@ -32,7 +32,7 @@ namespace Microsoft.Bot.Builder.Skills
 			_streamingTransportClient = streamingTransportClient;
 		}
 
-        public async Task<bool> ForwardToSkillAsync(ITurnContext turnContext, Activity activity, Action<Activity> tokenRequestHandler = null)
+        public async Task<bool> ForwardToSkillAsync(ITurnContext turnContext, Activity activity, Action<Activity> tokenRequestHandler = null, Action<Activity> apiResponseHandler = null)
         {
             if (_streamingTransportClient == null)
             {
@@ -50,7 +50,8 @@ namespace Microsoft.Bot.Builder.Skills
                     new SkillCallingRequestHandler(
                         turnContext,
                         GetTokenCallback(turnContext, tokenRequestHandler),
-                        GetHandoffActivityCallback()),
+                        GetHandoffActivityCallback(),
+						apiResponseHandler),
                     headers);
 
                 await _streamingTransportClient.ConnectAsync();

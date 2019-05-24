@@ -38,6 +38,7 @@ namespace VirtualAssistantSample.Dialogs
 			OnboardingDialog onboardingDialog,
 			EscalateDialog escalateDialog,
 			CancelDialog cancelDialog,
+			DeviceStartDialog deviceStartDialog,
 			List<SkillDialog> skillDialogs,
 			IBotTelemetryClient telemetryClient,
 			UserState userState)
@@ -52,6 +53,7 @@ namespace VirtualAssistantSample.Dialogs
 			AddDialog(onboardingDialog);
 			AddDialog(escalateDialog);
 			AddDialog(cancelDialog);
+			AddDialog(deviceStartDialog);
 
 			foreach (var skillDialog in skillDialogs)
 			{
@@ -90,10 +92,10 @@ namespace VirtualAssistantSample.Dialogs
 			if (identifiedSkill != null)
 			{
 				// We have identiifed a skill so initialize the skill connection with the target skill
-				await dc.BeginDialogAsync(identifiedSkill.Id);
+				var result = await dc.BeginDialogAsync(identifiedSkill.Id);
 
 				// Pass the activity we have
-				var result = await dc.ContinueDialogAsync();
+				//var result = await dc.ContinueDialogAsync();
 
 				if (result.Status == DialogTurnStatus.Complete)
 				{
@@ -207,6 +209,13 @@ namespace VirtualAssistantSample.Dialogs
 			{
 				switch (ev.Name)
 				{
+					case Events.DeviceStart:
+						{
+							forward = false;
+							await dc.BeginDialogAsync(nameof(DeviceStartDialog));
+							break;
+						}
+
 					case Events.TimezoneEvent:
 						{
 							try
@@ -389,6 +398,7 @@ namespace VirtualAssistantSample.Dialogs
 		{
 			public const string TimezoneEvent = "VA.Timezone";
 			public const string LocationEvent = "VA.Location";
+			public const string DeviceStart = "VA.DeviceStart";
 		}
 	}
 }

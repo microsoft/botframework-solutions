@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.539
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.452
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills", "Skills", "{34280F2E-60EB-4566-9ECD-56F114372037}"
 EndProject
@@ -36,6 +36,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherSkill", "experimental\weatherskill\WeatherSkill.csproj", "{4A057581-2435-4E19-BA1B-30CE1E8AD504}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BingSearchSkill", "experimental\bingsearchskill\bingsearchskill\BingSearchSkill.csproj", "{8CB101FA-B496-4507-80A2-151FAB7E8ED1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoSkill-jobrunner", "TodoSkill-jobrunner\TodoSkill-jobrunner.csproj", "{65AA5B11-39AC-4C21-97DE-AF8DD90C17D6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Skills", "..\..\..\lib\csharp\microsoft.bot.builder.skills\Microsoft.Bot.Builder.Skills\Microsoft.Bot.Builder.Skills.csproj", "{65EF04C8-400C-48B9-9696-84B2F96823F7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Solutions", "..\..\..\lib\csharp\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj", "{FBE86727-CB23-4FD0-ACFC-664CD605A329}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -157,6 +163,30 @@ Global
 		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65AA5B11-39AC-4C21-97DE-AF8DD90C17D6}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{65AA5B11-39AC-4C21-97DE-AF8DD90C17D6}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{65AA5B11-39AC-4C21-97DE-AF8DD90C17D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65AA5B11-39AC-4C21-97DE-AF8DD90C17D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65AA5B11-39AC-4C21-97DE-AF8DD90C17D6}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{65AA5B11-39AC-4C21-97DE-AF8DD90C17D6}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{65AA5B11-39AC-4C21-97DE-AF8DD90C17D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65AA5B11-39AC-4C21-97DE-AF8DD90C17D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65EF04C8-400C-48B9-9696-84B2F96823F7}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
+		{65EF04C8-400C-48B9-9696-84B2F96823F7}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
+		{65EF04C8-400C-48B9-9696-84B2F96823F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65EF04C8-400C-48B9-9696-84B2F96823F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65EF04C8-400C-48B9-9696-84B2F96823F7}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
+		{65EF04C8-400C-48B9-9696-84B2F96823F7}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
+		{65EF04C8-400C-48B9-9696-84B2F96823F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65EF04C8-400C-48B9-9696-84B2F96823F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBE86727-CB23-4FD0-ACFC-664CD605A329}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
+		{FBE86727-CB23-4FD0-ACFC-664CD605A329}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
+		{FBE86727-CB23-4FD0-ACFC-664CD605A329}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBE86727-CB23-4FD0-ACFC-664CD605A329}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBE86727-CB23-4FD0-ACFC-664CD605A329}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
+		{FBE86727-CB23-4FD0-ACFC-664CD605A329}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
+		{FBE86727-CB23-4FD0-ACFC-664CD605A329}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBE86727-CB23-4FD0-ACFC-664CD605A329}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

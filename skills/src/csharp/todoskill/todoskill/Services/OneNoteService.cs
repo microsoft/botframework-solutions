@@ -140,15 +140,20 @@ namespace ToDoSkill.Services
             {
                 throw ServiceHelper.HandleGraphAPIException(ex);
             }
-        }
+		}
 
-        /// <summary>
-        /// Mark tasks as completed.
-        /// </summary>
-        /// <param name="listType">Task list type.</param>
-        /// <param name="taskItems">Task items.</param>
-        /// <returns>True if succeed.</returns>
-        public async Task<bool> MarkTasksCompletedAsync(string listType, List<TaskItem> taskItems)
+		public Task<bool> AddTaskAsync(string listType, string taskText, DateTime taskReminderTime)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// Mark tasks as completed.
+		/// </summary>
+		/// <param name="listType">Task list type.</param>
+		/// <param name="taskItems">Task items.</param>
+		/// <returns>True if succeed.</returns>
+		public async Task<bool> MarkTasksCompletedAsync(string listType, List<TaskItem> taskItems)
         {
             try
             {
@@ -390,5 +395,5 @@ namespace ToDoSkill.Services
                 throw serviceException;
             }
         }
-    }
+	}
 }
