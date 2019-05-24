@@ -1,6 +1,6 @@
 {
     "name": "botbuilder-skills",
-    "version": "4.4.5",
+    "version": "4.4.6",
     "description": "Shared library for building Conversational AI Skills.",
     "homepage": "https://github.com/Microsoft/AI/",
     "author": "Microsoft",
@@ -22,7 +22,7 @@
         "botbuilder-azure": "^4.4.0",
         "botbuilder-core": "^4.4.0",
         "botbuilder-dialogs": "^4.4.0",
-        "botbuilder-solutions": "^4.4.5",
+        "botbuilder-solutions": "^4.4.6",
         "botframework-config": "^4.4.0",
         "botframework-connector": "^4.4.0",
         "botframework-schema": "^4.4.0",
