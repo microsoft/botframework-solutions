@@ -103,4 +103,28 @@ describe("Main Dialog", function () {
 			});
 		});
 	});
+	
+    describe("Confused", function () {
+        it("Send an unhandled message", function (done) {
+            botTestBase.getTestAdapterDefault().then((testAdapter) => {
+                const flow = testAdapter
+                    .send('Unhandled message')
+                    .assertReply("I'm sorry, I'm not able to help with that.");
+                    
+                testNock.resolveWithMocks('mainDialog_unhandled_response', done, flow);
+            });
+        });
+    });
+
+    describe("FAQ", function () {
+        it("Send a message with faq responses", function (done) {
+            botTestBase.getTestAdapterDefault().then((testAdapter) => {
+                const flow = testAdapter
+                    .send('What is a Virtual Assistant?')
+                    .assertReply("We have seen significant need from our customers and partners to deliver a conversational assistant tailored to their brand, personalized to their customers and made available across a broad range of conversational canvases and devices. Continuing Microsoft open-sourced approach toward Bot Framework SDK, the open source Virtual Assistant solution provides full control over the end user experience built on a set of foundational capabilities. Additionally, the experience can be infused with intelligence about the end-user and any device/ecosystem information for a truly integrated and intelligent experience.\nFind out more [here](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/README.md).");
+                
+                testNock.resolveWithMocks('mainDialog_faq_response', done, flow);
+            });
+        });
+    });
 });

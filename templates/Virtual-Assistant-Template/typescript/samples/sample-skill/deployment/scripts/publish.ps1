@@ -1,4 +1,4 @@
-﻿#Requires -Version 6
+#Requires -Version 6
 
 Param(
 	[string] $name,
