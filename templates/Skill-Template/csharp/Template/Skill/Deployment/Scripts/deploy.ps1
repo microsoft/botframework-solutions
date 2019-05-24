@@ -22,6 +22,13 @@ else {
 	New-Item -Path $logFile | Out-Null
 }
 
+if (-not (Test-Path (Join-Path $projDir 'appsettings.json')))
+{
+	Write-Host "! Could not find an 'appsettings.json' file in the current directory." -ForegroundColor DarkRed
+	Write-Host "+ Please re-run this script from your project directory." -ForegroundColor Magenta
+	Break
+}
+
 # Get mandatory parameters
 if (-not $name) {
     $name = Read-Host "? Bot Name (used as default name for resource group and deployed resources)"
