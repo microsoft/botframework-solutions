@@ -23,14 +23,14 @@ namespace Microsoft.Bot.Builder.Skills
         private bool endOfConversation = false;
 
         public SkillWebSocketTransport(
-			SkillManifest skillManifest,
-			IServiceClientCredentials serviceCLientCredentials,
-			IStreamingTransportClient streamingTransportClient = null)
+            SkillManifest skillManifest,
+            IServiceClientCredentials serviceCLientCredentials,
+            IStreamingTransportClient streamingTransportClient = null)
         {
             _skillManifest = skillManifest ?? throw new ArgumentNullException(nameof(skillManifest));
             _serviceClientCredentials = serviceCLientCredentials ?? throw new ArgumentNullException(nameof(serviceCLientCredentials));
-			_streamingTransportClient = streamingTransportClient;
-		}
+            _streamingTransportClient = streamingTransportClient;
+        }
 
         public async Task<bool> ForwardToSkillAsync(ITurnContext turnContext, Activity activity, Action<Activity> tokenRequestHandler = null)
         {
@@ -44,8 +44,8 @@ namespace Microsoft.Bot.Builder.Skills
                 var headers = new Dictionary<string, string>();
                 headers.Add("Authorization", $"Bearer {token}");
 
-				// establish websocket connection
-				_streamingTransportClient = new WebSocketClient(
+                // establish websocket connection
+                _streamingTransportClient = new WebSocketClient(
                     EnsureWebSocketUrl(_skillManifest.Endpoint.ToString()),
                     new SkillCallingRequestHandler(
                         turnContext,
@@ -55,14 +55,18 @@ namespace Microsoft.Bot.Builder.Skills
 
                 await _streamingTransportClient.ConnectAsync();
             }
+            else
+            {
+                await _streamingTransportClient.ConnectAsync();
+            }
 
-			// set recipient to the skill
-			if (activity.Recipient == null)
-			{
-				activity.Recipient = new ChannelAccount();
-			}
+            // set recipient to the skill
+            if (activity.Recipient == null)
+            {
+                activity.Recipient = new ChannelAccount();
+            }
 
-			activity.Recipient.Id = _skillManifest.MSAappId;
+            activity.Recipient.Id = _skillManifest.MSAappId;
 
             // Serialize the activity and POST to the Skill endpoint
             var body = new StringContent(JsonConvert.SerializeObject(activity, SerializationSettings.BotSchemaSerializationSettings), Encoding.UTF8, SerializationSettings.ApplicationJson);
@@ -86,7 +90,8 @@ namespace Microsoft.Bot.Builder.Skills
         {
             if (_streamingTransportClient != null)
             {
-				_streamingTransportClient.Disconnect();
+                _streamingTransportClient.Disconnect();
+                endOfConversation = false;
             }
         }
 
