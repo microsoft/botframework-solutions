@@ -89,6 +89,10 @@ The Virtual Assistant requires the following Azure dependencies to run correctly
     `location` | The region for your Azure Resources. By default, this will be the location for all your Azure Resources | **Yes**
     `appPassword` | The password for the [Azure Active Directory App](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview) that will be used by your bot. It must be at least 16 characters long, contain at least 1 special character, and contain at least 1 numeric character. If using an existing app, this must be the existing password. | **Yes**
     `luisAuthoringKey` | The authoring key for your LUIS account. It can be found at https://www.luis.ai/user/settings or https://eu.luis.ai/user/settings | **Yes**
+    
+**Note:** This script _DOES NOT_ publish the code from your Virtual Assistant project to the Web App Bot resource in Azure, only a skeleton Web App Bot is deployed. After completing the deployment steps below, if you wish to _publish_ the code from your Virtual Assistant project then you can use the [Publish](https://devblogs.microsoft.com/aspnet/when-should-you-right-click-publish/) functionality from within Visual Studio to do this.
+    
+
 
 You can find more detailed deployment steps including customization in the [Virtual Assistant and Skill Template deployment](/docs/tutorials/assistantandskilldeploymentsteps.md) page.
 
