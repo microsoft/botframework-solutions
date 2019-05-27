@@ -109,7 +109,7 @@ namespace ToDoSkill.Dialogs
                     var currentAllTasks = await service.GetTasksAsync(state.ListType);
                     var duplicatedTaskIndex = currentAllTasks.FindIndex(t => t.Topic.Equals(state.TaskContent, StringComparison.InvariantCultureIgnoreCase));
 
-					if (state.TaskContentPattern.ToLower().Contains("on my way home"))
+					if (sc.Context.Activity.Text.ToLower().Contains("on my way home"))
 					{
 						var dateTime = new DateTime(
 							DateTime.Now.Year,

@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Builder.Solutions.Middleware
 
             if (activity.Type == ActivityTypes.Message)
             {
-                var text = activity.Text;
+                var text = activity.Text.Trim();
                 var value = activity.Value?.ToString();
 
                 if (!string.IsNullOrEmpty(text) && text.StartsWith("/event:"))
