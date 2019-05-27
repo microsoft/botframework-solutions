@@ -109,8 +109,8 @@ namespace ToDoSkill.Dialogs
                     var currentAllTasks = await service.GetTasksAsync(state.ListType);
                     var duplicatedTaskIndex = currentAllTasks.FindIndex(t => t.Topic.Equals(state.TaskContent, StringComparison.InvariantCultureIgnoreCase));
 
-					if (sc.Context.Activity.Text.ToLower().Contains("on my way home"))
-					{
+					//if (state.TaskContentPattern.ToLower().Contains("on my way home"))
+					//{
 						var dateTime = new DateTime(
 							DateTime.Now.Year,
 							DateTime.Now.Month,
@@ -119,11 +119,11 @@ namespace ToDoSkill.Dialogs
 							0,
 							0);
 						await service.AddTaskAsync(state.ListType, state.TaskContent, dateTime);
-					}
-					else
-					{
-						await service.AddTaskAsync(state.ListType, state.TaskContent);
-					}
+					//}
+					//else
+					//{
+					//	await service.AddTaskAsync(state.ListType, state.TaskContent);
+					//}
 
                     state.AllTasks = await service.GetTasksAsync(state.ListType);
                     state.ShowTaskPageIndex = 0;
