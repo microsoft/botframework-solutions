@@ -191,8 +191,9 @@ export class ConnectSkill {
 
     public async connectSkill(configuration: IConnectConfiguration): Promise<void> {
         try {
-            if (configuration.logger) {
-                this.logger = configuration.logger;
+            // Validate if no manifest path or URL was passed
+            if (!configuration.localManifest && !configuration.remoteManifest) {
+                throw new Error(`Either the 'localManifest' or 'remoteManifest' argument should be passed.`);
             }
             // Take skillManifest
             const skillManifest: ISkillManifest = configuration.localManifest
