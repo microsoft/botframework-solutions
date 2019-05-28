@@ -26,15 +26,15 @@
         "botframework-config": "^4.4.0",
         "botframework-connector": "^4.4.0",
         "botframework-schema": "^4.4.0",
-        "dateformat": "^3.0.3",
+        "dayjs": "^1.8.14",
         "ms-rest-azure": "^2.5.0",
         "i18next": "^15.0.6",
+        "i18next-node-fs-backend": "^2.1.1",
         "p-queue": "^4.0.0",
         "@microsoft/recognizers-text": "^1.1.4",
         "@microsoft/recognizers-text-choice": "^1.1.4"
     },
     "devDependencies": {
-        "@types/dateformat": "^3.0.0",
         "@types/documentdb": "1.10.5",
         "@types/dotenv": "^6.0.0",
         "@types/node": "^10.10.1",
