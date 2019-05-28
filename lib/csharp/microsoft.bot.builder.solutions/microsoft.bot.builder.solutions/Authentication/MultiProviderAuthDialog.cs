@@ -16,6 +16,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
         private string _selectedAuthType = string.Empty;
         private List<OAuthConnection> _authenticationConnections;
         private ResponseManager _responseManager;
+        private bool localAuthConfigured = false;
 
         public MultiProviderAuthDialog(List<OAuthConnection> authenticationConnections)
             : base(nameof(MultiProviderAuthDialog))
@@ -73,11 +74,13 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                     }
                 }
 
-                // Only add Auth supporting local auth dialogs if we found valid authentication connections to use
+                // Only add Auth supporting local auth dialogs if we found valid authentication connections to use otherwise it will just work in remote mode.
                 if (authDialogAdded)
                 {
                     AddDialog(new WaterfallDialog(DialogIds.LocalAuthPrompt, localAuth));
                     AddDialog(new ChoicePrompt(DialogIds.ProviderPrompt) { Style = ListStyle.SuggestedAction });
+
+                    localAuthConfigured = true;
                 }
             }
         }
@@ -104,7 +107,14 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             }
             else
             {
-                return await stepContext.BeginDialogAsync(DialogIds.LocalAuthPrompt).ConfigureAwait(false);
+                if (localAuthConfigured)
+                {
+                    return await stepContext.BeginDialogAsync(DialogIds.LocalAuthPrompt).ConfigureAwait(false);
+                }
+                else
+                {
+                    throw new Exception("Local authentication is not configured, please check the authentication connection section in your configuration file.");
+                }
             }
         }
 
@@ -119,7 +129,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             }
             else
             {
-                throw new Exception("The adapter does not support RemoteTokenRequest!");
+                throw new Exception("The adapter does not support RemoteTokenRequest.");
             }
         }
 
@@ -132,7 +142,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             }
             else
             {
-                throw new Exception("something wrong with the token response");
+                throw new Exception("Token Response is invalid.");
             }
         }
 
