@@ -246,14 +246,19 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             {
                 return Task.FromResult(true);
             }
-            else if (promptContext.Context.Activity.AsEventActivity().Name == "tokens/response")
-            {
-                promptContext.Recognized.Value = promptContext.Context.Activity.AsEventActivity().Value as TokenResponse;
-                return Task.FromResult(true);
-            }
             else
             {
-                return Task.FromResult(false);
+                var eventActivity = promptContext.Context.Activity.AsEventActivity();
+                if (eventActivity != null && eventActivity.Name == "tokens/response")
+                {
+                    promptContext.Recognized.Value = eventActivity.Value as TokenResponse;
+                    return Task.FromResult(true);
+                }
+                else
+                {
+                    TelemetryClient.TrackEvent("AuthPromptValidatorAsyncFailure");
+                    return Task.FromResult(false);
+                }
             }
         }
 
