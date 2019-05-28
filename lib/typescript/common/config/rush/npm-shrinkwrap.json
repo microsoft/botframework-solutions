@@ -232,7 +232,7 @@
     },
     "@rush-temp/botbuilder-skills": {
       "version": "file:projects/botbuilder-skills.tgz",
-      "integrity": "sha512-swzweObWSe+yKM+iPGd9VZ0+0uCurPq0hg4tZO0nmZxLr6wqXhDODLqjBIgs21dTAPIuReCS14FEBFsmxrOBBg==",
+      "integrity": "sha512-gLCoGV/IAFz0a6tW4fcdhUe6yRwWXSXN2N4sOVtzfL812PGOt0hYx0sVM40PcHLTWasyt1rQCF70U03WZqNapg==",
       "requires": {
         "@azure/ms-rest-js": "1.2.6",
         "@types/documentdb": "1.10.5",
@@ -269,11 +269,10 @@
     },
     "@rush-temp/botbuilder-solutions": {
       "version": "file:projects/botbuilder-solutions.tgz",
-      "integrity": "sha512-tglXdkuIYp0ZObTIIM93QGBAMn39U+/4ZGjYFheMR3x+AtPBoA5sGs0fBpiioe96PBHeBFH5WIIXpgvvIgQ2zg==",
+      "integrity": "sha512-HNPMPokDNdeU8jbh9w4yFdy6Wt6FHcYCajl9D2UlanLak5bLAUVGltgS5MAXliF1C3tHUQMpUHApagZpKAI9nw==",
       "requires": {
         "@microsoft/recognizers-text": "^1.1.4",
         "@microsoft/recognizers-text-choice": "^1.1.4",
-        "@types/dateformat": "^3.0.0",
         "@types/documentdb": "1.10.5",
         "@types/dotenv": "^6.0.0",
         "@types/node": "^10.10.1",
@@ -289,8 +288,9 @@
         "botframework-connector": "^4.4.0",
         "botframework-schema": "^4.4.0",
         "copyfiles": "^2.1.0",
-        "dateformat": "^3.0.3",
+        "dayjs": "^1.8.14",
         "i18next": "^15.0.6",
+        "i18next-node-fs-backend": "^2.1.1",
         "mocha": "^6.1.4",
         "mocha-junit-reporter": "^1.22.0",
         "ms-rest-azure": "^2.5.0",
@@ -333,11 +333,6 @@
         "@types/node": "*"
       }
     },
-    "@types/dateformat": {
-      "version": "3.0.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/dateformat/-/@types/dateformat-3.0.0.tgz",
-      "integrity": "sha1-08v6isN4mZBZLz2VhTMc2yxfl58="
-    },
     "@types/documentdb": {
       "version": "1.10.5",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/documentdb/-/@types/documentdb-1.10.5.tgz",
@@ -374,9 +369,9 @@
       }
     },
     "@types/express-serve-static-core": {
-      "version": "4.16.5",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/express-serve-static-core/-/@types/express-serve-static-core-4.16.5.tgz",
-      "integrity": "sha1-Dkc8zq4UHEMyB1m3/0rw1EKLnN0=",
+      "version": "4.16.6",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/@types/express-serve-static-core/-/@types/express-serve-static-core-4.16.6.tgz",
+      "integrity": "sha1-ZtSyns4+L7blqsIjJyMAJCbmUb0=",
       "requires": {
         "@types/node": "*",
         "@types/range-parser": "*"
@@ -1142,10 +1137,10 @@
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/date-utils/-/date-utils-1.2.21.tgz",
       "integrity": "sha1-YfsWzcEnSzyayq/+n8ad+HIKK2Q="
     },
-    "dateformat": {
-      "version": "3.0.3",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/dateformat/-/dateformat-3.0.3.tgz",
-      "integrity": "sha1-puN0maTZqc+F71hyBE1ikByYia4="
+    "dayjs": {
+      "version": "1.8.14",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/dayjs/-/dayjs-1.8.14.tgz",
+      "integrity": "sha1-Q+T2KDDCwzQsP80lk03JFi2+bzg="
     },
     "debug": {
       "version": "3.2.6",
@@ -1693,11 +1688,20 @@
       }
     },
     "i18next": {
-      "version": "15.1.2",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/i18next/-/i18next-15.1.2.tgz",
-      "integrity": "sha1-Y1t7xojPNmIMq4+hw6+XgXpH+Vo=",
+      "version": "15.1.3",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/i18next/-/i18next-15.1.3.tgz",
+      "integrity": "sha1-8ZhMvuDjywDP+QCLA3JkKJzohAo=",
       "requires": {
         "@babel/runtime": "^7.3.1"
+      }
+    },
+    "i18next-node-fs-backend": {
+      "version": "2.1.3",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/i18next-node-fs-backend/-/i18next-node-fs-backend-2.1.3.tgz",
+      "integrity": "sha1-SD+p7aTBUtYqOlW8ripXJ7qIdVk=",
+      "requires": {
+        "js-yaml": "3.13.1",
+        "json5": "2.0.0"
       }
     },
     "iconv-lite": {
@@ -1845,9 +1849,9 @@
       },
       "dependencies": {
         "semver": {
-          "version": "6.0.0",
-          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/semver/-/semver-6.0.0.tgz",
-          "integrity": "sha1-BeNZ7lceWtftZBpu7B5Ue6Ut6mU="
+          "version": "6.1.0",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/semver/-/semver-6.1.0.tgz",
+          "integrity": "sha1-6V3EFdRezwPy+fg7JkprEfScDMo="
         }
       }
     },
@@ -1962,6 +1966,21 @@
       "version": "5.0.1",
       "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz",
       "integrity": "sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus="
+    },
+    "json5": {
+      "version": "2.0.0",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/json5/-/json5-2.0.0.tgz",
+      "integrity": "sha1-thq/l6oXjEtYU6ZsyO7K/QMEXXg=",
+      "requires": {
+        "minimist": "^1.2.0"
+      },
+      "dependencies": {
+        "minimist": {
+          "version": "1.2.0",
+          "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/minimist/-/minimist-1.2.0.tgz",
+          "integrity": "sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ="
+        }
+      }
     },
     "jsonfile": {
       "version": "4.0.0",
@@ -3315,9 +3334,9 @@
       "integrity": "sha1-8FKijacOYYkX7wqKw0wa5aaChrM="
     },
     "psl": {
-      "version": "1.1.31",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/psl/-/psl-1.1.31.tgz",
-      "integrity": "sha1-6aqG0BAbWxBcvpOsa3hM1UcnYYQ="
+      "version": "1.1.32",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/psl/-/psl-1.1.32.tgz",
+      "integrity": "sha1-PxMnF88vnBaXJLK2yvNzz2lBmNs="
     },
     "pump": {
       "version": "3.0.0",
@@ -4294,9 +4313,9 @@
       "integrity": "sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8="
     },
     "write-file-atomic": {
-      "version": "2.4.2",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/write-file-atomic/-/write-file-atomic-2.4.2.tgz",
-      "integrity": "sha1-pxgXBt+6F4VdIhFAqcBuFfzdh7k=",
+      "version": "2.4.3",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/write-file-atomic/-/write-file-atomic-2.4.3.tgz",
+      "integrity": "sha1-H9Lprh3z51uNjDZ0Q8aS1MqB9IE=",
       "requires": {
         "graceful-fs": "^4.1.11",
         "imurmurhash": "^0.1.4",
