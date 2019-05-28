@@ -22,7 +22,7 @@
     "recipientsSummary": " + {0} più",
     "secondItem": "il secondo è {0};",
     "separatorFormat": " {0} ",
-    "spokenDateFormat": "dddd dd MMMM",
+    "spokenDateFormat": "dddd D MMMM",
     "spokenDatePrefix": "",
     "spokenTimePrefixMoreThanOne": "alle",
     "spokenTimePrefixOne": "alle",
