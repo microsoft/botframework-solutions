@@ -4,14 +4,14 @@
  */
 
 const assert = require('assert');
-const botTestBase = require('./botTestBase');
-const testNock = require('../testBase');
-const localizationJsonDe = require('../../src/content/NewUserGreeting.de.json');
-const localizationJsonEs = require('../../src/content/NewUserGreeting.es.json');
-const localizationJsonFr = require('../../src/content/NewUserGreeting.fr.json');
-const localizationJsonIt = require('../../src/content/NewUserGreeting.it.json');
-const localizationJson = require('../../src/content/NewUserGreeting.json');
-const localizationJsonZh = require('../../src/content/NewUserGreeting.zh.json');
+const botTestBase = require('./helpers/botTestBase');
+const testNock = require('./helpers/testBase');
+const localizationJsonDe = require('../src/content/NewUserGreeting.de.json');
+const localizationJsonEs = require('../src/content/NewUserGreeting.es.json');
+const localizationJsonFr = require('../src/content/NewUserGreeting.fr.json');
+const localizationJsonIt = require('../src/content/NewUserGreeting.it.json');
+const localizationJson = require('../src/content/NewUserGreeting.json');
+const localizationJsonZh = require('../src/content/NewUserGreeting.zh.json');
 
 describe("Localization", function() {
 	describe("de locale", function () {
