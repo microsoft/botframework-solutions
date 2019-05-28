@@ -44,8 +44,6 @@ namespace EmailSkill.Dialogs
             ShowEmailDialog showEmailDialog,
             ReplyEmailDialog replyEmailDialog,
             DeleteEmailDialog deleteEmailDialog,
-            ShowEmailAdaptiveDialog showEmailAdaptiveDialog,
-            SendEmailAdaptiveDialog sendEmailAdaptiveDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -73,32 +71,59 @@ namespace EmailSkill.Dialogs
                 Rules = new List<IRule>()
                 {
                     // Intent rules for the LUIS model. Each intent here corresponds to an intent defined in ./Dialogs/Resources/ToDoBot.lu file
-                    //new IntentRule("None")         { Steps = new List<IDialog>() { new SendActivity("This is none intent") } },
-                    new IntentRule("CheckMessages")         { Steps = new List<IDialog>() { new BeginDialog(nameof(ShowEmailAdaptiveDialog), options: skillOptions) } },
-                    new IntentRule("SearchMessages")         { Steps = new List<IDialog>() { new BeginDialog(nameof(ShowEmailAdaptiveDialog), options: skillOptions) } },
-                    new IntentRule("SendEmail")         { Steps = new List<IDialog>() { new BeginDialog(nameof(SendEmailAdaptiveDialog), options: skillOptions) } },
+                    new IntentRule("CheckMessages")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(ShowEmailDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.CheckMessages.score > 0.4"
+                    },
+                    new IntentRule("SearchMessages")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(ShowEmailDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.SearchMessages.score > 0.4"
+                    },
+                    new IntentRule("SendEmail")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(SendEmailDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.SendEmail.score > 0.4"
+                    },
+                    new IntentRule("Forward")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(ForwardEmailDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.Forward.score > 0.4"
+                    },
+                    new IntentRule("Reply")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(ReplyEmailDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.Reply.score > 0.4"
+                    },
+                    new IntentRule("Delete")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(DeleteEmailDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.Delete.score > 0.4"
+                    },
                     new UnknownIntentRule() { Steps = new List<IDialog>() { new SendActivity("This is none intent") } }
-                    //new IntentRule("AddToDoDialog")    { Steps = new List<IDialog>() { new BeginDialog(nameof(AddToDoDialog)) } },
-                    //new IntentRule("DeleteToDoDialog") { Steps = new List<IDialog>() { new BeginDialog(nameof(DeleteToDoDialog)) } },
-                    //new IntentRule("ViewToDoDialog")   { Steps = new List<IDialog>() { new BeginDialog(nameof(ViewToDoDialog)) } },
-                    //// Come back with LG template based readback for global help
-                    //new IntentRule("Help")             { Steps = new List<IDialog>() { new SendActivity("[Help-Root-Dialog]") } },
-                    //new IntentRule("Cancel")           { Steps = new List<IDialog>() {
-                    //}
                 }
             };
 
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
             AddDialog(rootDialog);
 
-            rootDialog.AddDialog(new List<IDialog>() { sendEmailAdaptiveDialog, showEmailAdaptiveDialog });
+            rootDialog.AddDialog(
+                new List<IDialog>()
+                {
+                    sendEmailDialog,
+                    showEmailDialog,
+                    forwardEmailDialog,
+                    replyEmailDialog,
+                    deleteEmailDialog
+                });
 
-            AddDialog(showEmailAdaptiveDialog ?? throw new ArgumentNullException(nameof(showEmailAdaptiveDialog)));
-            AddDialog(sendEmailAdaptiveDialog ?? throw new ArgumentNullException(nameof(sendEmailAdaptiveDialog)));
+            //AddDialog(showEmailDialog ?? throw new ArgumentNullException(nameof(showEmailDialog)));
+            //AddDialog(sendEmailAdaptiveDialog ?? throw new ArgumentNullException(nameof(sendEmailAdaptiveDialog)));
 
             AddDialog(forwardEmailDialog ?? throw new ArgumentNullException(nameof(forwardEmailDialog)));
-            AddDialog(sendEmailDialog ?? throw new ArgumentNullException(nameof(sendEmailDialog)));
-            AddDialog(showEmailDialog ?? throw new ArgumentNullException(nameof(showEmailDialog)));
+            //AddDialog(sendEmailDialog ?? throw new ArgumentNullException(nameof(sendEmailDialog)));
+            //AddDialog(showEmailDialog ?? throw new ArgumentNullException(nameof(showEmailDialog)));
             AddDialog(replyEmailDialog ?? throw new ArgumentNullException(nameof(replyEmailDialog)));
             AddDialog(deleteEmailDialog ?? throw new ArgumentNullException(nameof(deleteEmailDialog)));
 
@@ -111,8 +136,8 @@ namespace EmailSkill.Dialogs
         {
             return new LuisRecognizer(new LuisApplication()
             {
-                Endpoint = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/91ab2b7e-9336-4f86-8ab6-668e16c26dd9?verbose=true&timezoneOffset=-360&subscription-key=fa24469556fe41caa1a0119741cbf280&q=",//Configuration["LuisAPIHostName"],
-                EndpointKey = "fa24469556fe41caa1a0119741cbf280", //Configuration["LuisAPIKey"],
+                Endpoint = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/91ab2b7e-9336-4f86-8ab6-668e16c26dd9?verbose=true&timezoneOffset=-360&subscription-key=8df4af4708f540d0887a765be9999791&q=",//Configuration["LuisAPIHostName"],
+                EndpointKey = "8df4af4708f540d0887a765be9999791", //Configuration["LuisAPIKey"],
                 ApplicationId = "91ab2b7e-9336-4f86-8ab6-668e16c26dd9",// Configuration["LuisAppId"]
             });
         }
