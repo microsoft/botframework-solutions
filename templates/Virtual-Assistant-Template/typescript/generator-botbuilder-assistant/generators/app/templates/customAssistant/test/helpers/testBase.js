@@ -7,10 +7,11 @@
  * Possible value: record | lockdown
  */
 const TEST_MODE = 'lockdown';
+const join = require('path').join;
 
 const nockBack = require('nock').back;
 nockBack.setMode(TEST_MODE);
-nockBack.fixtures = __dirname + '/nockFixtures';
+nockBack.fixtures = join(__dirname, '..', 'mocks', 'nockFixtures');
 
 const uuidRegex = /[a-f\d-]{8}-[a-f\d-]{4}-[a-f\d-]{4}-[a-f\d-]{4}-[a-f\d-]{12}/;
 
