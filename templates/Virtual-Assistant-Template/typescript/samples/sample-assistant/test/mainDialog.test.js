@@ -4,10 +4,10 @@
  */
 
 const assert = require('assert');
-const botTestBase = require('./botTestBase');
-const testNock = require('../testBase');
-const introJson = require('../../src/content/NewUserGreeting.json');
-const introJsonEs = require('../../src/content/NewUserGreeting.es.json');
+const botTestBase = require('./helpers/botTestBase');
+const testNock = require('./helpers/testBase');
+const introJson = require('../src/content/NewUserGreeting.json');
+const introJsonEs = require('../src/content/NewUserGreeting.es.json');
 
 describe("Main Dialog", function () {
 	describe("Intro Card", function() {

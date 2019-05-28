@@ -19,9 +19,9 @@ const { EscalateDialog } = require('../../lib/dialogs/escalateDialog');
 const { CancelDialog } = require('../../lib/dialogs/cancelDialog');
 const { MainDialog } = require('../../lib/dialogs/mainDialog');
 
-const TEST_MODE = require('../testBase').testMode;
+const TEST_MODE = require('./testBase').testMode;
 
-const resourcesDir = TEST_MODE === 'lockdown' ? join('..', 'mockedResources') : join('..', '..', 'src');
+const resourcesDir = TEST_MODE === 'lockdown' ? join('..', 'mocks', 'resources') : join('..', '..', 'src');
 
 const appSettings = require(join(resourcesDir, 'appsettings.json'));
 const skills = require(join(resourcesDir, 'skills.json')).skills;

@@ -5,8 +5,8 @@
 
 const assert = require('assert');
 const { MemoryStorage } = require('botbuilder-core')
-const botTestBase = require('./botTestBase');
-const testNock = require('../testBase');
+const botTestBase = require('./helpers/botTestBase');
+const testNock = require('./helpers/testBase');
 let testStorage = new MemoryStorage();
 
 describe("Onboarding Dialog", function () {
