@@ -3,9 +3,9 @@
  * Licensed under the MIT License
  */
 
-const botTestBase = require("./botTestBase");
+const botTestBase = require('./helpers/botTestBase');
 const { MemoryStorage } = require('botbuilder-core')
-const testNock = require("../testBase");
+const testNock = require("./helpers/testBase");
 let testStorage = new MemoryStorage();
 
 describe("Interruption", function() {
