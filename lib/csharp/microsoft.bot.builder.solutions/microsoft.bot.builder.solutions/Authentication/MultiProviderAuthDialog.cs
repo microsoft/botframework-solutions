@@ -65,8 +65,8 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                             new OAuthPromptSettings
                             {
                                 ConnectionName = connection.Name,
-                                Title = "login",
-                                Text = string.Format("login with {0}", connection.Name),
+                                Title = "Login",
+                                Text = string.Format("Login with {0}", connection.Name),
                             },
                             AuthPromptValidatorAsync));
 
