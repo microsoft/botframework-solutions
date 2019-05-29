@@ -35,7 +35,9 @@ Create a Virtual Assistant or a Bot Framework Skill
 
 ### Customize deployment using the parameters file
 
-See the [Customizing deployment](/docs/howto/assistant/customizedeployment.md) section for more information.
+If you wish to deploy your Virtual Assistant to a region that doesn't have all of the supporting resources (e.g. Azure Search, QnAMaker, Application Insights) available in the region you need to customize deployment using the provided parameters file to override region for those services that aren't available. See the [Customizing deployment](/docs/howto/assistant/customizedeployment.md) section for more information.
+
+Additionallly you can use the same parameters file to control the pricing tiers for each service. The default configuration doesn't use free tiers (where available) as the numbers of these are limited per Azure subscription resulting in frequent deployment failures.
 
 ### Create your own ARM template
 
