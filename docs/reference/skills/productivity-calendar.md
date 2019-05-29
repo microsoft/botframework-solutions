@@ -9,6 +9,10 @@ The most common scenarios have been implemented in this beta release, with addit
 - [Language Model](#language-model)
 - [Configuration](#configuration)
 
+## Supported Sources
+
+> Office 365 and Outlook.com through the Microsoft Graph is supported along with support for Google accounts.
+
 ## Supported Scenarios
 
 The following scenarios are currently supported by the Skill:
@@ -57,7 +61,7 @@ The following scenarios are currently supported by the Skill:
   - *How long until my next meeting?*
   - *How many days are there until Thanksgiving?*
   
-### Skill Deployment
+## Skill Deployment
 
 The Calendar Skill require the following dependencies for end to end operation which are created through an ARM deployment script which you can modify as required.
 
@@ -73,11 +77,16 @@ The Calendar Skill require the following dependencies for end to end operation w
 
 ### Authentication Connection Settings
 
-Your Authentication Connection and corresponding Application Registration should have the following Scopes added, these will be added automatically as part of Skill configuration where possible.
+If you plan to use the skill as part of a Virtual Assistant the process of registering a skill with your Virtual Assistant will create the supporting authentication connection information automatically for your Virtual Assistant. This skill uses the following authentication scopes which are registered automatically:
 
-- `User.Read`
+- `User.ReadBasic.All`  
 - `Calendars.ReadWrite`
-- `People.Read`
+- `People.Read`    
+- `Contacts.Read`
+
+**However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
+
+Follow the general instructions [here](/docs/reference/skills/manualauthsteps.md) to configure this using the scopes shown above.
 
 ## Language Model
 
@@ -138,15 +147,3 @@ LUIS models for the Skill are provided in .LU file format as part of the Skill. 
 |datetimeV2| Prebuilt entity|
 |number| Prebuilt entity|
 |ordinal| Prebuilt entity|
-
-## Configuration
-
-### Supported Sources
-
-> Office 365 and Outlook.com through the Microsoft Graph is supported along with support for Google accounts.
-
-### Example Skill Manifest
-
-```
-TBC
-```
