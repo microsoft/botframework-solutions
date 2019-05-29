@@ -10,6 +10,7 @@ const rimraf = require(`rimraf`);
 const _kebabCase = require(`lodash/kebabCase`);
 const semver = require('semver');
 const languages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
+const sinon = require(`sinon`);
 
 describe(`The generator-botbuilder-assistant tests`, function() {
     var assistantName;
@@ -39,7 +40,9 @@ describe(`The generator-botbuilder-assistant tests`, function() {
         join(`src`, `responses`),
         join(`src`, `services`),
         `test`,
-        join(`test`, `flow`),
+        join(`test`, `helpers`),
+        join(`test`, `mocks`),
+        join(`test`, `mocks`, `resources`),
     ];
 
     describe(`should create`, function() {
@@ -58,14 +61,17 @@ describe(`The generator-botbuilder-assistant tests`, function() {
             .run(join(__dirname, `..`, `generators`, `app`))
             .inDir(assistantGenerationPath)
             .withArguments([
-              `-n`,
-              assistantName,
-              `-d`,
-              assistantDesc,
-              `-p`,
-              assistantGenerationPath,
-              `--noPrompt`
-            ]);
+                `-n`,
+                assistantName,
+                `-d`,
+                assistantDesc,
+                `-p`,
+                assistantGenerationPath,
+                `--noPrompt`
+            ])
+            .on('ready', generator => {
+                generator.spawnCommandSync = sinon.spy();
+            });
 
             packageJSON = require(join(assistantGenerationPath, assistantName, `package.json`));
         });
@@ -139,6 +145,9 @@ describe(`The generator-botbuilder-assistant tests`, function() {
                         pathConfirmation: pathConfirmation,
                         assistantGenerationPath: assistantGenerationPath,
                         finalConfirmation: finalConfirmation
+                    })
+                    .on('ready', generator => {
+                        generator.spawnCommandSync = sinon.spy();
                     });
             }
         });
