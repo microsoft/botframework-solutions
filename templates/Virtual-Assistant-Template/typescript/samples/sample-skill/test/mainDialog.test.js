@@ -3,8 +3,8 @@
  * Licensed under the MIT License.
  */
 const assert = require("assert");
-const skillTestBase = require("./skillTestBase");
-const testNock = require("../testBase");
+const skillTestBase = require("./helpers/skillTestBase");
+const testNock = require("./helpers/testBase");
 const unhandledReplies = [
   "Can you try to ask me again? I didn't get what you mean.",
   "Can you say that in a different way?",
