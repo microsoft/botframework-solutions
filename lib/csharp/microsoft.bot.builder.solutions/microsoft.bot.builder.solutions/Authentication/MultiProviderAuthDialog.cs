@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.Rest.Serialization;
 
@@ -104,6 +105,42 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             if (stepContext.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter)
             {
                 return await stepContext.BeginDialogAsync(DialogIds.RemoteAuthPrompt).ConfigureAwait(false);
+            }
+            else if (!string.IsNullOrEmpty(stepContext.Context.Activity.ChannelId) && stepContext.Context.Activity.ChannelId == "directlinespeech")
+            {
+                // Speech channel doesn't support OAuthPrompt./OAuthCards so we rely on tokens being set by the Linked Accounts technique
+                // Therefore we don't use OAuthPrompt and instead attempt to directly retrieve the token from the store.
+                if (stepContext.Context.Activity.From == null || string.IsNullOrWhiteSpace(stepContext.Context.Activity.From.Id))
+                {
+                    throw new ArgumentNullException("Missing From or From.Id which is required for token retrieval.");
+                }
+
+                var connectorClient = stepContext.Context.TurnState.Get<IConnectorClient>();
+                if (connectorClient == null)
+                {
+                    throw new InvalidOperationException("An IConnectorClient is required in TurnState for this operation.");
+                }
+
+                var client = new OAuthClient(new Uri(OAuthClientConfig.OAuthEndpoint), connectorClient.Credentials);
+
+                // Attempt to retrieve the token directly
+                var tokenResponse = await client.UserToken.GetTokenWithHttpMessagesAsync(
+                    stepContext.Context.Activity.From.Id,
+                    _authenticationConnections.First().Name,
+                    stepContext.Context.Activity.ChannelId,
+                    null,
+                    null,
+                    canellationToken).ConfigureAwait(false);
+
+                if (tokenResponse != null)
+                {
+                    return await stepContext.EndDialogAsync(tokenResponse).ConfigureAwait(false);
+                }
+                else
+                {
+                    // TODO - Explore a more elegant approach.
+                    throw new Exception("Could not retrieve a Token for the user as expected.");
+                }
             }
             else
             {
