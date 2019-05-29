@@ -42,7 +42,7 @@ let telemetryClient;
 let userState;
 let conversationState;
 let cognitiveModelsRaw;
-const TEST_MODE = require("../testBase").testMode;
+const TEST_MODE = require("./testBase").testMode;
 
 const getCognitiveModels = function(cognitiveModelsRaw) {
   const cognitiveModelDictionary = cognitiveModelsRaw.cognitiveModels;
@@ -60,8 +60,8 @@ const setupEnvironment = function(testMode) {
       getCognitiveModels(cognitiveModelsRaw);
       break;
     case "lockdown":
-      appsettings = require("../mockResources/appsettings.json");
-      cognitiveModelsRaw = require("../mockResources/cognitiveModels.json");
+      appsettings = require("../mocks/resources/appsettings.json");
+      cognitiveModelsRaw = require("../mocks/resources/cognitiveModels.json");
       getCognitiveModels(cognitiveModelsRaw);
       break;
     default:
