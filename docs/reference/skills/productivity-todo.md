@@ -49,46 +49,9 @@ If you plan to use the skill as part of a Virtual Assistant the process of regis
 - `User.ReadBasic.All`
 - `Tasks.ReadWrite`
 
-**However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the ToDo Skill. This is **not** required when using the Skill with a Virtual Assistant.
+**However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
 
-If you wish to make use of the Calendar, Email and Task Skills you need to configure an Authentication Connection enabling uses of your Assistant to authenticate against services such as Office 365 and securely store a token which can be retrieved by your assistant when a user asks a question such as *"What does my day look like today"* to then use against an API like Microsoft Graph.
-
-The [Add Authentication to your bot](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-authentication?view=azure-bot-service-3.0) section in the Azure Bot Service documentation covers more detail on how to configure Authentication. However in this scenario, the automated deployment step has already created the **Azure AD v2 Application** for your Bot and you instead need to follow these instructions:
-
-- Navigate to the Azure Portal, Click Azure Active Directory and then `App Registrations`
-- Find the Application that's been created for your Bot as part of the deployment. You can search for the application by name or ApplicationID as part of the experience but note that search only works across applications currently shown and the one you need may be on a separate page.
-- Click API permissions on the left-hand navigation
-  - Select Add Permission to show the permissions pane
-  - Select `Microsoft Graph`
-  - Select Delegated Permissions and then add each of the following permissions required for the Productivity Skills:
-    - `Notes.ReadWrite` 
-    - `User.ReadBasic.All`
-    - `Tasks.ReadWrite`
- -  Click Add Permissions at the bottom to apply the changes.
-
-Next you need to create the Authentication Connection for your Bot. Within the Azure Portal, find the `Web App Bot` resource created when your deployed your Bot and choose `Settings`. 
-
-- Scroll down to the oAuth Connection settings section.
-- Click `Add Setting`
-- Type in the name of your Connection Setting - e.g. `Outlook`
-- Choose `Azure Active Directory v2` from the Service Provider drop-down
-- Open the `appSettings.config` file for your Skill
-    - Copy/Paste the value of `microsoftAppId` into the ClientId setting
-    - Copy/Paste the value of `microsoftAppPassword` into the Client Secret setting
-    - Set Tenant Id to common
-    - Set scopes to `Notes.ReadWrite, User.ReadBasic.All, Tasks.ReadWrite`
-
-Finally, open the  `appSettings.config` file for your ToDo Skill and update the connection name to match the one provided in the previous step.
-
-```
-"oauthConnections": [
-    {
-      "name": "Outlook",
-      "provider": "Azure Active Directory v2"
-    }
-  ],
-```
-
+Follow the general instructions [here](/docs/reference/skills/manualauthsteps.md) to configure this using the scopes shown above.
 
 ## Language Model
 
