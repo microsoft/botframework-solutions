@@ -4,8 +4,8 @@
  */
 
 const assert = require("assert");
-const skillTestBase = require("./skillTestBase");
-const testNock = require("../testBase");
+const skillTestBase = require("./helpers/skillTestBase");
+const testNock = require("./helpers/testBase");
 const nameInput = "custom";
 const sampleDialogNameReplies = [
   `Hi, ${nameInput}!`,

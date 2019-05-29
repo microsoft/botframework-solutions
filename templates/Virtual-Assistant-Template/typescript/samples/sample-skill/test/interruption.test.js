@@ -3,8 +3,8 @@
  * Licensed under the MIT License.
  */
 
-const skillTestBase = require("./skillTestBase");
-const testNock = require("../testBase");
+const skillTestBase = require("./helpers/skillTestBase");
+const testNock = require("./helpers/testBase");
 
 describe("interruption", function() {
   beforeEach(async function() {
