@@ -10,6 +10,7 @@ const _kebabCase = require(`lodash/kebabCase`);
 const semver = require('semver');
 const languages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
 const join = require(`path`).join;
+const sinon = require(`sinon`);
 
 describe(`The generator-botbuilder-assistant skill tests`, function() {
     var skillName;
@@ -22,6 +23,7 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
     const dialogBotPath = join(`src`, `bots`, `dialogBot.ts`);
     const mainDialogPath = join(`src`, `dialogs`, `mainDialog.ts`);
     const skillDialogBasePath = join(`src`, `dialogs`, `skillDialogBase.ts`);
+    const testCognitiveModelsPath = join(`test`, `mocks`, `resources`, `cognitiveModels.json`);
 
     const templatesFiles = [
         `package.json`,
@@ -29,7 +31,8 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
         `.npmrc`,
         dialogBotPath,
         mainDialogPath,
-        skillDialogBasePath
+        skillDialogBasePath,
+        testCognitiveModelsPath
     ];
 
     const commonDirectories = [
@@ -42,7 +45,11 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
         join(`src`, `dialogs`),
         join(`src`, `models`),
         join(`src`, `responses`),
-        join(`src`, `services`)
+        join(`src`, `services`),
+        `test`,
+        join(`test`, `helpers`),
+        join(`test`, `mocks`),
+        join(`test`, `mocks`, `resources`),
     ];
 
     describe(`should create`, function() {
@@ -68,7 +75,10 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
               `-p`,
               skillGenerationPath,
               `--noPrompt`
-            ]);
+            ])
+            .on('ready', generator => {
+                generator.spawnCommandSync = sinon.spy();
+            });;
 
             packageJSON = require(join(skillGenerationPath, skillName, `package.json`));
         });
@@ -149,6 +159,24 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
                 done();
               });
         });
+
+        describe(`and have in the cognitiveModels file`, function() {
+            it(`an id property with the given name`, function(done) {
+                assert.fileContent(
+                  join(skillGenerationPath, skillName, testCognitiveModelsPath),
+                  `"id": "${skillName}",`
+                );
+                done();
+            });
+
+            it(`a name property with the given name`, function(done) {
+                assert.fileContent(
+                  join(skillGenerationPath, skillName, testCognitiveModelsPath),
+                  `"name": "${skillName}",`
+                );
+                done();
+            });
+        });
     })
 
     describe(`should not create`, function() {
@@ -172,7 +200,10 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
                         pathConfirmation: pathConfirmation,
                         skillGenerationPath: skillGenerationPath,
                         finalConfirmation: finalConfirmation
-                    });
+                    })
+                    .on('ready', generator => {
+                        generator.spawnCommandSync = sinon.spy();
+                    });;
             }
         });
 
