@@ -120,12 +120,12 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
         
         describe(`and have in the package.json`, function() {
             it(`a name property with the given name`, function(done) {
-                assert.equal(packageJSON.name, skillName);
+                assert.strictEqual(packageJSON.name, skillName);
                 done();
             });
 
             it(`a description property with given description`, function(done) {
-                assert.equal(packageJSON.description, skillDesc);
+                assert.strictEqual(packageJSON.description, skillDesc);
                 done();
             });
         });
