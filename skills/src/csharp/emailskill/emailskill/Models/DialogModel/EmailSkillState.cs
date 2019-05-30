@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using EmailSkill.Models;
+using EmailSkill.Models.DialogModel;
 using EmailSkill.Responses.Shared;
 using Luis;
 using Microsoft.Bot.Builder;
@@ -13,7 +14,6 @@ namespace EmailSkill.Models
     {
         public EmailSkillState()
         {
-            User = new User();
             Message = new List<Message>();
             MessageList = new List<Message>();
             FindContactInfor = new FindContactInformation();
@@ -26,7 +26,7 @@ namespace EmailSkill.Models
             IsImportant = false;
             ShowEmailIndex = 0;
             Token = null;
-            ReadEmailIndex = 0;
+            //ReadEmailIndex = 0;
             DirectlyToMe = false;
             StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
             EndDateTime = DateTime.UtcNow;
@@ -35,11 +35,8 @@ namespace EmailSkill.Models
             SearchTexts = null;
             GeneralSenderName = null;
             GeneralSearchTexts = null;
+            CacheModel = null;
         }
-
-        public DialogState ConversationDialogState { get; set; }
-
-        public User User { get; set; }
 
         public UserInformation UserInfo { get; set; } = new UserInformation();
 
@@ -79,17 +76,19 @@ namespace EmailSkill.Models
 
         public int ShowEmailIndex { get; set; }
 
-        public int ReadEmailIndex { get; set; }
+        //public int ReadEmailIndex { get; set; }
 
         public EmailLuis LuisResult { get; set; }
 
         public General GeneralLuisResult { get; set; }
 
-        public IRecognizerConvert LuisResultPassedFromSkill { get; set; }
+        //public IRecognizerConvert LuisResultPassedFromSkill { get; set; }
 
         public MailSource MailSourceType { get; set; }
 
         public int UserSelectIndex { get; set; }
+
+        public EmailStateBase CacheModel { get; set; }
 
         public TimeZoneInfo GetUserTimeZone()
         {
@@ -136,8 +135,8 @@ namespace EmailSkill.Models
             Content = null;
             Subject = null;
             SenderName = null;
-            LuisResultPassedFromSkill = null;
-            ReadEmailIndex = 0;
+            //LuisResultPassedFromSkill = null;
+            //ReadEmailIndex = 0;
             SearchTexts = null;
             GeneralSenderName = null;
             GeneralSearchTexts = null;
@@ -150,8 +149,8 @@ namespace EmailSkill.Models
             Content = null;
             Subject = null;
             SenderName = null;
-            LuisResultPassedFromSkill = null;
-            ReadEmailIndex = 0;
+            //LuisResultPassedFromSkill = null;
+            //ReadEmailIndex = 0;
             SearchTexts = null;
             GeneralSenderName = null;
             GeneralSearchTexts = null;

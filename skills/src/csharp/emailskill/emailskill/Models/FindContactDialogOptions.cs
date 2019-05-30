@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using EmailSkill.Models.DialogModel;
+
 namespace EmailSkill.Models
 {
     public class FindContactDialogOptions : EmailSkillDialogOptions
@@ -8,6 +10,8 @@ namespace EmailSkill.Models
         public FindContactDialogOptions()
         {
             FindContactReason = FindContactReasonType.FirstFindContact;
+            DialogState = null;
+            SubFlowMode = true;
         }
 
         public FindContactDialogOptions(
@@ -16,10 +20,13 @@ namespace EmailSkill.Models
             UpdateUserNameReasonType updateUserNameReason = UpdateUserNameReasonType.NotFound,
             bool promptMoreContact = true)
         {
-            var calendarOptions = options as EmailSkillDialogOptions;
+            var emailOptions = options as EmailSkillDialogOptions;
             FindContactReason = findContactReason;
             UpdateUserNameReason = updateUserNameReason;
             PromptMoreContact = promptMoreContact;
+
+            DialogState = emailOptions.DialogState;
+            SubFlowMode = emailOptions.SubFlowMode;
         }
 
         public enum FindContactReasonType
@@ -63,5 +70,9 @@ namespace EmailSkill.Models
         public UpdateUserNameReasonType UpdateUserNameReason { get; set; }
 
         public bool PromptMoreContact { get; set; }
+
+        public EmailStateBase DialogState { get; set; } = null;
+
+        public bool SubFlowMode { get; set; } = false;
     }
 }

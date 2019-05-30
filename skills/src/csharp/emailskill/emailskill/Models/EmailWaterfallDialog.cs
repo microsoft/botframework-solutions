@@ -1,4 +1,6 @@
-﻿using Microsoft.Bot.Builder.Dialogs;
+﻿using EmailSkill.Models.DialogModel;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -10,9 +12,12 @@ namespace EmailSkill.Models
 {
     public class EmailWaterfallDialog : WaterfallDialog
     {
-        public EmailWaterfallDialog(string id, IEnumerable<WaterfallStep> steps = null)
+        protected IStatePropertyAccessor<EmailSkillState> EmailStateAccessor { get; set; }
+
+        public EmailWaterfallDialog(string id, IEnumerable<WaterfallStep> steps = null, IStatePropertyAccessor<EmailSkillState> statePropertyAccessor = null)
             : base(id, steps)
         {
+            EmailStateAccessor = statePropertyAccessor;
         }
 
         public override async Task<DialogTurnResult> BeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
@@ -28,6 +33,22 @@ namespace EmailSkill.Models
             }
 
             return await base.BeginDialogAsync(dc, skillOptions, cancellationToken);
+        }
+
+        protected override async Task<DialogTurnResult> OnStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            if (EmailStateAccessor != null)
+            {
+                var userState = await EmailStateAccessor.GetAsync(stepContext.Context);
+
+                if (stepContext.State.Dialog.ContainsKey("EmailState"))
+                {
+                    var state = (EmailStateBase)stepContext.State.Dialog["EmailState"];
+                    userState.CacheModel = state;
+                }
+            }
+
+            return await base.OnStepAsync(stepContext, cancellationToken);
         }
     }
 }
