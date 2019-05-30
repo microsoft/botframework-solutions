@@ -63,7 +63,7 @@ describe("main dialog", function() {
       const flow = testAdapter
         .send("blah blah")
         .assertReply(function(activity) {
-          assert.notEqual(-1, unhandledReplies.indexOf(activity.text));
+          assert.notStrictEqual(-1, unhandledReplies.indexOf(activity.text));
         });
 
       testNock.resolveWithMocks("mainDialog_unhandled_response", done, flow);
