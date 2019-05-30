@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,7 +12,11 @@ using CalendarSkill.Services;
 using CalendarSkill.Utilities;
 using Luis;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -37,6 +42,42 @@ namespace CalendarSkill.Dialogs
            : base(nameof(SummaryDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
+
+            var rootDialog = new AdaptiveDialog("ShowMeetingRootDialog")
+            {
+                Recognizer = CreateRecognizer(),
+                Rules = new List<IRule>()
+                {
+                    new IntentRule("ChangeCalendarEntry")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new CodeStep(SaveLuisState),
+                            new BeginDialog(nameof(UpdateEventDialog))
+                        }
+                    },
+                    new IntentRule("DeleteCalendarEntry")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new CodeStep(SaveLuisState),
+                            new BeginDialog(nameof(ChangeEventStatusDialog))
+                        }
+                    },
+                    new IntentRule("AcceptCalendarEntry")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new CodeStep(SaveLuisState),
+                            new BeginDialog(nameof(ChangeEventStatusDialog))
+                        }
+                    },
+                },
+                Steps = new List<IDialog>()
+                {
+                    new BeginDialog(Actions.GetEventsInit)
+                }
+            };
 
             var initStep = new WaterfallStep[]
             {
@@ -66,16 +107,58 @@ namespace CalendarSkill.Dialogs
                 AfterReadOutEvent,
             };
 
+            var initDialog = new WaterfallDialog(Actions.GetEventsInit, initStep) { TelemetryClient = telemetryClient };
+            var showNextDialog = new WaterfallDialog(Actions.ShowNextEvent, showNext) { TelemetryClient = telemetryClient };
+            var showEventsSummaryDialog = new WaterfallDialog(Actions.ShowEventsSummary, showSummary) { TelemetryClient = telemetryClient };
+            var readDialog = new WaterfallDialog(Actions.Read, readEvent) { TelemetryClient = telemetryClient };
+
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.GetEventsInit, initStep) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.ShowNextEvent, showNext) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.ShowEventsSummary, showSummary) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.Read, readEvent) { TelemetryClient = telemetryClient });
+            AddDialog(initDialog);
+            AddDialog(showNextDialog);
+            AddDialog(showEventsSummaryDialog);
+            AddDialog(readDialog);
             AddDialog(updateEventDialog ?? throw new ArgumentNullException(nameof(updateEventDialog)));
             AddDialog(changeEventStatusDialog ?? throw new ArgumentNullException(nameof(changeEventStatusDialog)));
 
             // Set starting dialog for component
-            InitialDialogId = Actions.GetEventsInit;
+            //InitialDialogId = Actions.GetEventsInit;
+            AddDialog(rootDialog);
+            rootDialog.AddDialog(new List<IDialog>() {
+                initDialog,
+                showNextDialog,
+                showEventsSummaryDialog,
+                readDialog
+            });
+            InitialDialogId = "ShowMeetingRootDialog";
+        }
+
+        private static IRecognizer CreateRecognizer()
+        {
+            return new LuisRecognizer(new LuisApplication()
+            {
+                Endpoint = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/807cd523-34cb-4911-b149-cdcb58f661cc?verbose=true&timezoneOffset=-360&subscription-key=80d731206676475bb03d30e3bc2ee07e&q=",//Configuration["LuisAPIHostName"],
+                EndpointKey = "80d731206676475bb03d30e3bc2ee07e", //Configuration["LuisAPIKey"],
+                ApplicationId = "807cd523-34cb-4911-b149-cdcb58f661cc",// Configuration["LuisAppId"]
+            });
+        }
+
+        private async Task<DialogTurnResult> SaveLuisState(DialogContext dc, System.Object options)
+        {
+            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var localeConfig = Services.CognitiveModelSets[locale];
+
+            // Update state with email luis result and entities
+            var calendarLuisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<CalendarLuis>(dc.Context);
+            var state = await Accessor.GetAsync(dc.Context);
+            state.LuisResult = calendarLuisResult;
+
+            localeConfig.LuisServices.TryGetValue("general", out var luisService);
+            var luisResult = await luisService.RecognizeAsync<General>(dc.Context);
+            state.GeneralLuisResult = luisResult;
+
+            await DigestCalendarLuisResult(dc, state.LuisResult, true);
+
+            return new DialogTurnResult(DialogTurnStatus.Complete, options);
         }
 
         public async Task<DialogTurnResult> Init(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))

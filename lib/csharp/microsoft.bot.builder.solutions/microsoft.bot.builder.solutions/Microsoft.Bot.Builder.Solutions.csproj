@@ -23,6 +23,16 @@
     <AssemblyOriginatorKeyFile>..\..\build\35MSSharedLib1024.snk</AssemblyOriginatorKeyFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug - NuGet Packages|AnyCPU'">
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Authentication\AuthenticationResponses.de.json" />
@@ -46,13 +56,11 @@
     <PackageReference Include="AdaptiveCards" Version="1.0.3" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.8.1" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="1.0.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.4.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.4.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.4.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.4.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.4.3" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.4.3" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.5.0-Preview-2019-05-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.5.0-Preview-2019-05-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.5.0-Preview-2019-05-13-01" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.5.0-Preview-2019-05-13-01" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.5.0-Preview-2019-05-13-01" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.0.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.2.0" />
