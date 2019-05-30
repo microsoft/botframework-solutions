@@ -28,7 +28,7 @@ steps:
   workingDirectory: lib/typescript
   displayName: 'rush build'
 
-- powershell: 'node .\common\scripts\install-run-rush.js coverage'
+- pwsh: 'node .\common\scripts\install-run-rush.js coverage'
   errorActionPreference: continue
   ignoreLASTEXITCODE: 'true'
   workingDirectory: lib/typescript
