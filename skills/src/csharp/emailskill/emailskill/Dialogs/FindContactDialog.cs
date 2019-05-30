@@ -336,7 +336,7 @@ namespace EmailSkill.Dialogs
                     }
                     else
                     {
-                        return await sc.EndDialogAsync();
+                        return await sc.EndDialogAsync(options);
                     }
                 }
             }
@@ -401,9 +401,11 @@ namespace EmailSkill.Dialogs
         {
             var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
             var confirmedPerson = state.FindContactInfor.ConfirmedContact;
+            var options = sc.Options as FindContactDialogOptions;
             if (confirmedPerson == null)
             {
-                return await sc.EndDialogAsync();
+                options.DialogState = state;
+                return await sc.EndDialogAsync(options);
             }
 
             var name = confirmedPerson.DisplayName;
@@ -414,7 +416,6 @@ namespace EmailSkill.Dialogs
             }
             else
             {
-                var options = (FindContactDialogOptions)sc.Options;
                 options.DialogState = state;
                 return await sc.BeginDialogAsync(FindContactAction.SelectEmail, options: options, cancellationToken: cancellationToken);
             }
@@ -427,6 +428,7 @@ namespace EmailSkill.Dialogs
                 var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
                 var confirmedPerson = state.FindContactInfor.ConfirmedContact;
                 var name = confirmedPerson.DisplayName;
+                var options = sc.Options as FindContactDialogOptions;
 
                 // it will be new retry whether the user set this attendee down or choose to retry on this one.
                 state.FindContactInfor.FirstRetryInFindContact = true;
@@ -446,11 +448,11 @@ namespace EmailSkill.Dialogs
                         state.FindContactInfor.Contacts.Add(attendee);
                     }
 
-                    return await sc.EndDialogAsync();
+                    options.DialogState = state;
+                    return await sc.EndDialogAsync(options);
                 }
                 else
                 {
-                    var options = sc.Options as FindContactDialogOptions;
                     options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.ConfirmNo;
                     options.DialogState = state;
                     return await sc.ReplaceDialogAsync(FindContactAction.ConfirmAttendee, options);
@@ -516,7 +518,9 @@ namespace EmailSkill.Dialogs
                             }));
                         state.FindContactInfor.FirstRetryInFindContact = true;
                         state.FindContactInfor.CurrentContactName = string.Empty;
-                        return await sc.EndDialogAsync();
+
+                        options.DialogState = state;
+                        return await sc.EndDialogAsync(options);
                     }
                 }
 
@@ -542,7 +546,8 @@ namespace EmailSkill.Dialogs
                 if (string.IsNullOrEmpty(userInput) && options.UpdateUserNameReason != FindContactDialogOptions.UpdateUserNameReasonType.Initialize)
                 {
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.UserNotFoundAgain, new StringDictionary() { { "source", userState.MailSourceType == MailSource.Microsoft ? "Outlook Calendar" : "Google Calendar" } }));
-                    return await sc.EndDialogAsync();
+                    options.DialogState = state;
+                    return await sc.EndDialogAsync(options);
                 }
 
                 var currentRecipientName = string.IsNullOrEmpty(userInput) ? state.FindContactInfor.CurrentContactName : userInput;
@@ -566,7 +571,8 @@ namespace EmailSkill.Dialogs
 
                     state.FindContactInfor.CurrentContactName = string.Empty;
                     state.FindContactInfor.ConfirmedContact = null;
-                    return await sc.EndDialogAsync();
+                    options.DialogState = state;
+                    return await sc.EndDialogAsync(options);
                 }
 
                 var unionList = new List<PersonModel>();
@@ -632,20 +638,22 @@ namespace EmailSkill.Dialogs
 
                 state.FindContactInfor.UnconfirmedContact = unionList;
 
-                options.DialogState = state;
                 if (unionList.Count == 0)
                 {
                     options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.NotFound;
+                    options.DialogState = state;
                     return await sc.ReplaceDialogAsync(FindContactAction.UpdateName, options);
                 }
                 else
                 if (unionList.Count == 1)
                 {
                     state.FindContactInfor.ConfirmedContact = unionList.First();
-                    return await sc.EndDialogAsync();
+                    options.DialogState = state;
+                    return await sc.EndDialogAsync(options);
                 }
                 else
                 {
+                    options.DialogState = state;
                     return await sc.ReplaceDialogAsync(FindContactAction.SelectPerson, options, cancellationToken);
                 }
             }
@@ -696,6 +704,7 @@ namespace EmailSkill.Dialogs
                 var topIntent = luisResult?.TopIntent().intent;
                 var generlLuisResult = userState.GeneralLuisResult;
                 var generalTopIntent = generlLuisResult?.TopIntent().intent;
+                var options = (FindContactDialogOptions)sc.Options;
 
                 if (sc.Result == null)
                 {
@@ -720,7 +729,6 @@ namespace EmailSkill.Dialogs
                         state.FindContactInfor.ShowContactsIndex = 0;
                     }
 
-                    var options = (FindContactDialogOptions)sc.Options;
                     options.DialogState = state;
                     return await sc.ReplaceDialogAsync(FindContactAction.SelectPerson, options: options, cancellationToken: cancellationToken);
                 }
@@ -736,7 +744,8 @@ namespace EmailSkill.Dialogs
                     state.FindContactInfor.ConfirmedContact = confirmedPerson;
                 }
 
-                return await sc.EndDialogAsync();
+                options.DialogState = state;
+                return await sc.EndDialogAsync(options);
             }
             catch (Exception ex)
             {
@@ -782,6 +791,7 @@ namespace EmailSkill.Dialogs
                 var topIntent = luisResult?.TopIntent().intent;
                 var generlLuisResult = userState.GeneralLuisResult;
                 var generalTopIntent = generlLuisResult?.TopIntent().intent;
+                var options = (FindContactDialogOptions)sc.Options;
 
                 if (sc.Result == null)
                 {
@@ -806,7 +816,6 @@ namespace EmailSkill.Dialogs
                         state.FindContactInfor.ShowContactsIndex = 0;
                     }
 
-                    var options = (FindContactDialogOptions)sc.Options;
                     options.DialogState = state;
                     return await sc.ReplaceDialogAsync(FindContactAction.SelectEmail, options, cancellationToken);
                 }
@@ -821,7 +830,8 @@ namespace EmailSkill.Dialogs
                     state.FindContactInfor.ShowContactsIndex = 0;
                 }
 
-                return await sc.EndDialogAsync();
+                options.DialogState = state;
+                return await sc.EndDialogAsync(options);
             }
             catch (Exception ex)
             {
@@ -855,16 +865,19 @@ namespace EmailSkill.Dialogs
         {
             try
             {
+                var options = (FindContactDialogOptions)sc.Options;
+                var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
                 var result = (bool)sc.Result;
                 if (result)
                 {
-                    var options = sc.Options as FindContactDialogOptions;
                     options.FindContactReason = FindContactDialogOptions.FindContactReasonType.FindContactAgain;
+                    options.DialogState = state;
                     return await sc.ReplaceDialogAsync(FindContactAction.ConfirmNameList, options);
                 }
                 else
                 {
-                    return await sc.EndDialogAsync();
+                    options.DialogState = state;
+                    return await sc.EndDialogAsync(options);
                 }
             }
             catch (Exception ex)

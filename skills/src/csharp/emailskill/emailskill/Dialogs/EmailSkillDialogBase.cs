@@ -840,7 +840,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
 
                 var focusedMessage = state.Message.FirstOrDefault();
 
@@ -1191,8 +1191,6 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(context);
-
                 if (recipients == null || recipients.Count() == 0)
                 {
                     throw new Exception("No recipient!");
