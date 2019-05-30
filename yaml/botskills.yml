@@ -1,0 +1,39 @@
+# specific branch build
+trigger:
+  branches:  
+    include:
+    - southworks/*
+
+  paths:
+    include:
+    - lib/typescript/botskills/*
+
+pool:
+  name: Hosted VS2017
+  demands:
+  - npm
+  - npm
+
+steps:
+- task: Npm@1
+  displayName: install
+  inputs:
+    workingDir: lib/typescript/botskills
+    verbose: false
+
+- task: Npm@1
+  displayName: build
+  inputs:
+    command: custom
+    workingDir: lib/typescript/botskills
+    verbose: false
+    customCommand: 'run build'
+
+- task: Npm@1
+  displayName: 'tests with coverage'
+  inputs:
+    command: custom
+    workingDir: lib/typescript/botskills
+    verbose: false
+    customCommand: 'run coverage'
+
