@@ -15,14 +15,19 @@ namespace Microsoft.Bot.Builder.Solutions.Middleware
     /// </summary>
     public class SetSpeakMiddleware : IMiddleware
     {
+        private const string DefaultLocale = "en-us";
+
         private const string DefaultVoiceFont = "Microsoft Server Speech Text to Speech Voice (en-US, Jessa24kRUS)";
+
+        private static string _locale;
 
         private static string _voiceFont;
 
         private static readonly XNamespace NamespaceURI = @"https://www.w3.org/2001/10/synthesis";
 
-        public SetSpeakMiddleware(string voiceName = DefaultVoiceFont)
+        public SetSpeakMiddleware(string locale = DefaultLocale, string voiceName = DefaultVoiceFont)
         {
+            _locale = locale;
             _voiceFont = voiceName;
         }
 
@@ -90,7 +95,7 @@ namespace Microsoft.Bot.Builder.Solutions.Middleware
             }
 
             AddAttributeIfMissing(rootElement, "version", "1.0");
-            AddAttributeIfMissing(rootElement, XNamespace.Xml + "lang", activity.Locale);
+            AddAttributeIfMissing(rootElement, XNamespace.Xml + "lang", _locale);
             AddAttributeIfMissing(rootElement, XNamespace.Xmlns + "mstts", "https://www.w3.org/2001/mstts");
 
             var sayAsElements = rootElement.Elements("say-as");
