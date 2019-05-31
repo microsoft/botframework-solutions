@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -123,7 +124,8 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
 
                 var client = new OAuthClient(new Uri(OAuthClientConfig.OAuthEndpoint), connectorClient.Credentials);
 
-                // Attempt to retrieve the token directly
+                // Attempt to retrieve the token directly, we can't prompt the user for which Token to use so go with the first
+                // Moving forward we expect to have a "default" choice as part of Linked Accounts,.
                 var tokenResponse = await client.UserToken.GetTokenWithHttpMessagesAsync(
                     stepContext.Context.Activity.From.Id,
                     _authenticationConnections.First().Name,
@@ -132,14 +134,22 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                     null,
                     canellationToken).ConfigureAwait(false);
 
-                if (tokenResponse != null)
+                if (tokenResponse != null && tokenResponse.Body != null && !string.IsNullOrEmpty(tokenResponse.Body.Token))
                 {
-                    return await stepContext.EndDialogAsync(tokenResponse).ConfigureAwait(false);
+                    var providerTokenResponse = await CreateProviderTokenResponseAsync(stepContext.Context, tokenResponse.Body).ConfigureAwait(false);
+                    return await stepContext.EndDialogAsync(providerTokenResponse).ConfigureAwait(false);
                 }
                 else
                 {
-                    // TODO - Explore a more elegant approach.
-                    throw new Exception("Could not retrieve a Token for the user as expected.");
+                    TelemetryClient.TrackEvent("DirectLineSpeechTokenRetrievalFailure");
+
+                    var noLinkedAccountResponse = _responseManager.GetResponse(
+                        AuthenticationResponses.NoLinkedAccount,
+                        new StringDictionary() { { "authType", _authenticationConnections.First().Name } });
+
+                    await stepContext.Context.SendActivityAsync(noLinkedAccountResponse).ConfigureAwait(false);
+
+                    return new DialogTurnResult(DialogTurnStatus.Cancelled);
                 }
             }
             else
