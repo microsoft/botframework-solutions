@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Models;
+using EmailSkill.Models.DialogModel;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Services;
 using EmailSkill.Utilities;
@@ -30,7 +31,7 @@ namespace EmailSkill.Dialogs
 
             var replyEmail = new WaterfallStep[]
             {
-                IfClearContextStep,
+                InitEmailSendDialogState,
                 GetAuthToken,
                 AfterGetAuthToken,
                 SetDisplayConfig,
@@ -44,21 +45,23 @@ namespace EmailSkill.Dialogs
 
             var showEmail = new WaterfallStep[]
             {
+                SaveEmailSendDialogState,
                 PagingStep,
                 ShowEmails,
             };
 
             var updateSelectMessage = new WaterfallStep[]
             {
+                SaveEmailSendDialogState,
                 UpdateMessage,
                 PromptUpdateMessage,
                 AfterUpdateMessage,
             };
-            AddDialog(new WaterfallDialog(Actions.Reply, replyEmail));
+            AddDialog(new EmailWaterfallDialog(Actions.Reply, replyEmail, EmailStateAccessor));
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.Show, showEmail) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage) { TelemetryClient = telemetryClient });
+            AddDialog(new EmailWaterfallDialog(Actions.Show, showEmail, EmailStateAccessor) { TelemetryClient = telemetryClient });
+            AddDialog(new EmailWaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage, EmailStateAccessor) { TelemetryClient = telemetryClient });
 
             InitialDialogId = Actions.Reply;
         }
@@ -70,11 +73,12 @@ namespace EmailSkill.Dialogs
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
-                    var state = await EmailStateAccessor.GetAsync(sc.Context);
-                    var token = state.Token;
+                    var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
+                    var userState = await EmailStateAccessor.GetAsync(sc.Context);
+                    var token = userState.Token;
                     var message = state.Message.FirstOrDefault();
 
-                    var service = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
+                    var service = ServiceManager.InitMailService(token, userState.GetUserTimeZone(), userState.MailSourceType);
 
                     // reply user message.
                     if (message != null)
@@ -117,7 +121,6 @@ namespace EmailSkill.Dialogs
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
 
-            await ClearConversationState(sc);
             return await sc.EndDialogAsync(true);
         }
     }

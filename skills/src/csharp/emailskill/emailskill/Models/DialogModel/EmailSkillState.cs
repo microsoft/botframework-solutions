@@ -14,79 +14,35 @@ namespace EmailSkill.Models
     {
         public EmailSkillState()
         {
-            Message = new List<Message>();
-            MessageList = new List<Message>();
-            FindContactInfor = new FindContactInformation();
-            SenderName = null;
+
             TimeZoneInfo = TimeZoneInfo.Utc;
-            Subject = null;
-            Content = null;
-            IsFlaged = false;
-            IsUnreadOnly = true;
-            IsImportant = false;
-            ShowEmailIndex = 0;
+
             Token = null;
-            //ReadEmailIndex = 0;
-            DirectlyToMe = false;
-            StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
-            EndDateTime = DateTime.UtcNow;
-            UserSelectIndex = -1;
+
             MailSourceType = MailSource.Other;
-            SearchTexts = null;
-            GeneralSenderName = null;
-            GeneralSearchTexts = null;
+
             CacheModel = null;
         }
 
         public UserInformation UserInfo { get; set; } = new UserInformation();
 
-        public List<Message> Message { get; set; }
 
-        public List<Message> MessageList { get; set; }
-
-        public string SenderName { get; set; }
-
-        public string SearchTexts { get; set; }
-
-        public string GeneralSenderName { get; set; }
-
-        public string GeneralSearchTexts { get; set; }
 
         public TimeZoneInfo TimeZoneInfo { get; set; }
 
-        public FindContactInformation FindContactInfor { get; set; }
-
-        public string Subject { get; set; }
-
-        public string Content { get; set; }
-
-        public bool IsUnreadOnly { get; set; }
-
-        public bool IsImportant { get; set; }
-
-        public bool IsFlaged { get; set; }
-
-        public DateTime StartDateTime { get; set; }
-
-        public DateTime EndDateTime { get; set; }
+ 
 
         public string Token { get; set; }
 
-        public bool DirectlyToMe { get; set; }
 
-        public int ShowEmailIndex { get; set; }
-
-        //public int ReadEmailIndex { get; set; }
 
         public EmailLuis LuisResult { get; set; }
 
         public General GeneralLuisResult { get; set; }
 
-        //public IRecognizerConvert LuisResultPassedFromSkill { get; set; }
 
         public MailSource MailSourceType { get; set; }
 
-        public int UserSelectIndex { get; set; }
 
         public EmailStateBase CacheModel { get; set; }
 
@@ -100,61 +56,6 @@ namespace EmailSkill.Models
             return TimeZoneInfo.Local;
         }
 
-        public void ClearParticipants()
-        {
-            FindContactInfor.Clear();
-
-            Subject = string.IsNullOrEmpty(Subject) ? EmailCommonStrings.Skip : Subject;
-            Content = string.IsNullOrEmpty(Content) ? EmailCommonStrings.Skip : Content;
-        }
-
-        public void ClearSubject()
-        {
-            Subject = null;
-            Content = string.IsNullOrEmpty(Content) ? EmailCommonStrings.Skip : Content;
-        }
-
-        public void ClearContent()
-        {
-            Content = null;
-            Subject = string.IsNullOrEmpty(Subject) ? EmailCommonStrings.Skip : Subject;
-        }
-
-        public void Clear()
-        {
-            Message.Clear();
-            ShowEmailIndex = 0;
-            IsUnreadOnly = true;
-            IsImportant = false;
-            StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
-            EndDateTime = DateTime.UtcNow;
-            DirectlyToMe = false;
-            UserSelectIndex = -1;
-
-            FindContactInfor.Clear();
-            Content = null;
-            Subject = null;
-            SenderName = null;
-            //LuisResultPassedFromSkill = null;
-            //ReadEmailIndex = 0;
-            SearchTexts = null;
-            GeneralSenderName = null;
-            GeneralSearchTexts = null;
-        }
-
-        // Keep email display and focus data when in sub flow mode
-        public void PartialClear()
-        {
-            FindContactInfor.Clear();
-            Content = null;
-            Subject = null;
-            SenderName = null;
-            //LuisResultPassedFromSkill = null;
-            //ReadEmailIndex = 0;
-            SearchTexts = null;
-            GeneralSenderName = null;
-            GeneralSearchTexts = null;
-        }
 
         public class UserInformation
         {
