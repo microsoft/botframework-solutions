@@ -9,6 +9,7 @@ export interface IDisconnectConfiguration {
     skillId: string;
     skillsFile: string;
     outFolder: string;
+    noTrain: boolean;
     cognitiveModelsFile: string;
     language: string;
     luisFolder: string;
