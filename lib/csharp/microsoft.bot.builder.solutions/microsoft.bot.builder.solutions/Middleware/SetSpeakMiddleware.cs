@@ -15,7 +15,7 @@ namespace Microsoft.Bot.Builder.Solutions.Middleware
     /// </summary>
     public class SetSpeakMiddleware : IMiddleware
     {
-        private const string DefaultLocale = "en-us";
+        private const string DefaultLocale = "en-US";
 
         private const string DefaultVoiceFont = "Microsoft Server Speech Text to Speech Voice (en-US, Jessa24kRUS)";
 
