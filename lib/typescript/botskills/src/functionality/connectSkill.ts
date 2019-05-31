@@ -42,7 +42,6 @@ async function getRemoteManifest(manifestUrl: string): Promise<ISkillManifest> {
 
 function getLocalManifest(manifestPath: string): ISkillManifest {
     const skillManifestPath: string = isAbsolute(manifestPath) ? manifestPath : join(resolve('./'), manifestPath);
-
     if (!existsSync(skillManifestPath)) {
         logger.error(
             `The 'localManifest' argument leads to a non-existing file. Please make sure to provide a valid path to your Skill manifest.`);
@@ -153,26 +152,30 @@ async function updateDispatch(configuration: IConnectConfiguration, manifest: IS
             await runCommand(dispatchAddCommand, `Executing dispatch add for the ${luisApp} LU file`);
         }));
 
-        logger.message('Running dispatch refresh...');
-        const dispatchRefreshCommand: string[] = ['dispatch', 'refresh'];
-        dispatchRefreshCommand.push(...['--dispatch', dispatchFilePath]);
-        dispatchRefreshCommand.push(...['--dataFolder', configuration.dispatchFolder]);
+        // Check if it is necessary to train the skill
+        if (!configuration.noTrain) {
+            logger.message('Running dispatch refresh...');
+            const dispatchRefreshCommand: string[] = ['dispatch', 'refresh'];
+            dispatchRefreshCommand.push(...['--dispatch', dispatchFilePath]);
+            dispatchRefreshCommand.push(...['--dataFolder', configuration.dispatchFolder]);
 
-        logger.message(await runCommand(dispatchRefreshCommand, `Executing dispatch refresh for the ${configuration.dispatchName} file`));
+            logger.message(
+                await runCommand(dispatchRefreshCommand, `Executing dispatch refresh for the ${configuration.dispatchName} file`)
+            );
 
-        if (!existsSync(dispatchJsonFilePath)) {
-            // tslint:disable-next-line: max-line-length
-            throw(new Error(`Path to ${dispatchJsonFile} (${dispatchJsonFilePath}) leads to a nonexistent file. Make sure the dispatch refresh command is being executed successfully`));
+            if (!existsSync(dispatchJsonFilePath)) {
+                // tslint:disable-next-line: max-line-length
+                throw(new Error(`Path to ${dispatchJsonFile} (${dispatchJsonFilePath}) leads to a nonexistent file. Make sure the dispatch refresh command is being executed successfully`));
+            }
+
+            logger.message('Running LuisGen...');
+            const luisgenCommand: string[] = ['luisgen'];
+            luisgenCommand.push(dispatchJsonFilePath);
+            luisgenCommand.push(...[`-${configuration.lgLanguage}`, `"DispatchLuis"`]);
+            luisgenCommand.push(...['-o', configuration.lgOutFolder]);
+
+            await runCommand(luisgenCommand, `Executing luisgen for the ${configuration.dispatchName} file`);
         }
-
-        logger.message('Running LuisGen...');
-        const luisgenCommand: string[] = ['luisgen'];
-        luisgenCommand.push(dispatchJsonFilePath);
-        luisgenCommand.push(...[`-${configuration.lgLanguage}`, `"DispatchLuis"`]);
-        luisgenCommand.push(...['-o', configuration.lgOutFolder]);
-
-        await runCommand(luisgenCommand, `Executing luisgen for the ${configuration.dispatchName} file`);
-
         logger.success('Successfully updated Dispatch model');
     } catch (err) {
         throw new Error(`An error ocurred while updating the Dispatch model:\n${err}`);
