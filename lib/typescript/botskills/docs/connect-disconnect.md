@@ -18,7 +18,8 @@ botskills connect [options]
 | -l, --localManifest \<path>   | Path to local Skill Manifest file                                                                                                                           |
 | -r, --remoteManifest \<url>   | URL to remote Skill Manifest                                                                                                                                |
 | --cs                          | Determine your assistant project structure to be a csharp-like structure                                                                                    |
-| --ts                          | Determine your assistant project structure to be a TypeScript-like structure                                                                                |
+| --ts                          | Determine your assistant project structure to be a TypeScript-like structure   
+| --noTrain                          | (OPTIONAL) Determine whether the skills connected are not going to be trained (by default they are trained)                                                                              |
 | --dispatchName [name]         | (OPTIONAL) Name of your assistant's '.dispatch' file (defaults to the name displayed in your Cognitive Models file)                                         |
 | --language [language]         | (OPTIONAL) Locale used for LUIS culture (defaults to 'en-us')                                                                                               |
 | --luisFolder [path]           | (OPTIONAL) Path to the folder containing your Skills' '.lu' files (defaults to './deployment/resources/skills/en' inside your assistant folder)             |
@@ -64,7 +65,8 @@ botskills disconnect [option]
 |-------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | -i, --skillId \<id>           | Id of the skill to remove from your assistant (case sensitive)                                                                                              |
 | --cs                          | Determine your assistant project structure to be a csharp-like structure                                                                                    |
-| --ts                          | Determine your assistant project structure to be a TypeScript-like structure                                                                                |
+| --ts                          | Determine your assistant project structure to be a TypeScript-like structure         
+| --noTrain                          | (OPTIONAL) Determine whether the skills connected are not going to be trained (by default they are trained)                                                                         |
 | --dispatchName [name]         | (OPTIONAL) Name of your assistant's '.dispatch' file (defaults to the name displayed in your Cognitive Models file)                                         |
 | --dispatchFolder [path]       | (OPTIONAL) Path to the folder containing your assistant's '.dispatch' file (defaults to './deployment/resources/dispatch/en' inside your assistant folder)  |
 | --outFolder [path]            | (OPTIONAL) Path for any output file that may be generated (defaults to your assistant's root folder)                                                        |
