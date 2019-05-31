@@ -33,8 +33,8 @@ describe("Localization", function() {
                     locale: "de"
                 })
                 .assertReply(function (activity, description) {
-                    assert.equal(activity.attachments[0].contentType, 'application/vnd.microsoft.card.adaptive');
-					assert.deepEqual(activity.attachments[0].content, localizationJsonDe);
+                    assert.strictEqual(activity.attachments[0].contentType, 'application/vnd.microsoft.card.adaptive');
+					assert.deepStrictEqual(activity.attachments[0].content, localizationJsonDe);
                 });
 
                 return testNock.resolveWithMocks('localization_response_de', done, flow);
@@ -60,8 +60,8 @@ describe("Localization", function() {
                     locale: 'es-es'
                 })
                 .assertReply(function (activity, description) {
-                    assert.equal(activity.attachments[0].contentType, 'application/vnd.microsoft.card.adaptive');
-					assert.deepEqual(activity.attachments[0].content, localizationJsonEs);
+                    assert.strictEqual(activity.attachments[0].contentType, 'application/vnd.microsoft.card.adaptive');
+					assert.deepStrictEqual(activity.attachments[0].content, localizationJsonEs);
                 });
 
                 return testNock.resolveWithMocks('localization_response_es', done, flow);
@@ -87,8 +87,8 @@ describe("Localization", function() {
                     locale: 'fr'
                 })
                 .assertReply(function (activity, description) {
-                    assert.equal(activity.attachments[0].contentType, 'application/vnd.microsoft.card.adaptive');
-					assert.deepEqual(activity.attachments[0].content, localizationJsonFr);
+                    assert.strictEqual(activity.attachments[0].contentType, 'application/vnd.microsoft.card.adaptive');
+					assert.deepStrictEqual(activity.attachments[0].content, localizationJsonFr);
                 });
 
                 return testNock.resolveWithMocks('localization_response_fr', done, flow);
@@ -114,8 +114,8 @@ describe("Localization", function() {
                     locale: 'it'
                 })
                 .assertReply(function (activity, description) {
-                    assert.equal(activity.attachments[0].contentType, 'application/vnd.microsoft.card.adaptive');
-					assert.deepEqual(activity.attachments[0].content, localizationJsonIt);
+                    assert.strictEqual(activity.attachments[0].contentType, 'application/vnd.microsoft.card.adaptive');
+					assert.deepStrictEqual(activity.attachments[0].content, localizationJsonIt);
                 });
 
                 return testNock.resolveWithMocks('localization_response_it', done, flow);
@@ -141,8 +141,8 @@ describe("Localization", function() {
                     locale: 'en'
                 })
                 .assertReply(function (activity, description) {
-                    assert.equal(activity.attachments[0].contentType, 'application/vnd.microsoft.card.adaptive');
-					assert.deepEqual(activity.attachments[0].content, localizationJson);
+                    assert.strictEqual(activity.attachments[0].contentType, 'application/vnd.microsoft.card.adaptive');
+					assert.deepStrictEqual(activity.attachments[0].content, localizationJson);
                 });
 
                 return testNock.resolveWithMocks('localization_response_en', done, flow);
@@ -168,8 +168,8 @@ describe("Localization", function() {
                     locale: 'zh'
                 })
                 .assertReply(function (activity, description) {
-                    assert.equal(activity.attachments[0].contentType, 'application/vnd.microsoft.card.adaptive');
-					assert.deepEqual(activity.attachments[0].content, localizationJsonZh);
+                    assert.strictEqual(activity.attachments[0].contentType, 'application/vnd.microsoft.card.adaptive');
+					assert.deepStrictEqual(activity.attachments[0].content, localizationJsonZh);
                 });
 
                 return testNock.resolveWithMocks('localization_response_zh', done, flow);

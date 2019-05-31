@@ -25,7 +25,7 @@ describe("sample dialog", function() {
         .assertReply("What is your name?")
         .send(nameInput)
         .assertReply(function(activity) {
-          assert.notEqual(-1, sampleDialogNameReplies.indexOf(activity.text));
+          assert.notStrictEqual(-1, sampleDialogNameReplies.indexOf(activity.text));
         });
 
       testNock.resolveWithMocks("sampleDialog_response", done, flow);
