@@ -36,6 +36,14 @@
         public string DefaultLocale { get; set; }
 
         /// <summary>
+        /// Gets or sets the default voice font of the bot.
+        /// </summary>
+        /// <value>
+        /// The default voice font of the bot.
+        /// </value>
+        public string VoiceFont { get; set; }
+
+        /// <summary>
         /// Gets or sets the OAuth Connections for the bot.
         /// </summary>
         /// <value>
