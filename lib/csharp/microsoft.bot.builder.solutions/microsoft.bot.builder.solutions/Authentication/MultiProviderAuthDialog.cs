@@ -8,7 +8,9 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Rest;
 using Microsoft.Rest.Serialization;
 
 namespace Microsoft.Bot.Builder.Solutions.Authentication
@@ -19,11 +21,14 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
         private List<OAuthConnection> _authenticationConnections;
         private ResponseManager _responseManager;
         private bool localAuthConfigured = false;
+        private MicrosoftAppCredentials _appCredentials;
 
-        public MultiProviderAuthDialog(List<OAuthConnection> authenticationConnections)
+        public MultiProviderAuthDialog(List<OAuthConnection> authenticationConnections, MicrosoftAppCredentials appCredentials = null)
             : base(nameof(MultiProviderAuthDialog))
         {
             _authenticationConnections = authenticationConnections;
+            _appCredentials = appCredentials;
+
             _responseManager = new ResponseManager(
                 new string[] { "en", "de", "es", "fr", "it", "zh" },
                 new AuthenticationResponses());
@@ -116,13 +121,12 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                     throw new ArgumentNullException("Missing From or From.Id which is required for token retrieval.");
                 }
 
-                var connectorClient = stepContext.Context.TurnState.Get<IConnectorClient>();
-                if (connectorClient == null)
+                if (_appCredentials == null)
                 {
-                    throw new InvalidOperationException("An IConnectorClient is required in TurnState for this operation.");
+                    throw new ArgumentNullException("AppCredentials were not passed which are required for speech enabled authentication scenarios.");
                 }
 
-                var client = new OAuthClient(new Uri(OAuthClientConfig.OAuthEndpoint), connectorClient.Credentials);
+                var client = new OAuthClient(new Uri(OAuthClientConfig.OAuthEndpoint), _appCredentials);
 
                 // Attempt to retrieve the token directly, we can't prompt the user for which Token to use so go with the first
                 // Moving forward we expect to have a "default" choice as part of Linked Accounts,.
