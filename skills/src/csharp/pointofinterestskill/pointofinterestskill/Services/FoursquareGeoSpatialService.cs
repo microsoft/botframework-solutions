@@ -172,39 +172,46 @@ namespace PointOfInterestSkill.Services
         {
             url = string.Concat(url, $"&client_id={clientId}&client_secret={clientSecret}&v={apiVersion}");
 
-            var response = await httpClient.GetStringAsync(url);
+			try
+			{
+				var response = await httpClient.GetStringAsync(url);
 
-            var apiResponse = JsonConvert.DeserializeObject<VenueResponse>(response);
+				var apiResponse = JsonConvert.DeserializeObject<VenueResponse>(response);
 
-            var pointOfInterestList = new List<PointOfInterestModel>();
+				var pointOfInterestList = new List<PointOfInterestModel>();
 
-            if (apiResponse?.Response != null)
-            {
-                if (apiResponse.Response.Venue != null)
-                {
-                    var venue = apiResponse.Response.Venue;
-                    var newPointOfInterest = new PointOfInterestModel(venue);
-                    pointOfInterestList.Add(newPointOfInterest);
-                }
-                else if (apiResponse?.Response?.Venues != null)
-                {
-                    foreach (var venue in apiResponse.Response.Venues)
-                    {
-                        var newPointOfInterest = new PointOfInterestModel(venue);
-                        pointOfInterestList.Add(newPointOfInterest);
-                    }
-                }
-                else if (apiResponse?.Response?.Groups != null)
-                {
-                    foreach (var item in apiResponse.Response.Groups.First().Items)
-                    {
-                        var newPointOfInterest = new PointOfInterestModel(item.Venue);
-                        pointOfInterestList.Add(newPointOfInterest);
-                    }
-                }
-            }
+				if (apiResponse?.Response != null)
+				{
+					if (apiResponse.Response.Venue != null)
+					{
+						var venue = apiResponse.Response.Venue;
+						var newPointOfInterest = new PointOfInterestModel(venue);
+						pointOfInterestList.Add(newPointOfInterest);
+					}
+					else if (apiResponse?.Response?.Venues != null)
+					{
+						foreach (var venue in apiResponse.Response.Venues)
+						{
+							var newPointOfInterest = new PointOfInterestModel(venue);
+							pointOfInterestList.Add(newPointOfInterest);
+						}
+					}
+					else if (apiResponse?.Response?.Groups != null)
+					{
+						foreach (var item in apiResponse.Response.Groups.First().Items)
+						{
+							var newPointOfInterest = new PointOfInterestModel(item.Venue);
+							pointOfInterestList.Add(newPointOfInterest);
+						}
+					}
+				}
 
-            return pointOfInterestList;
+				return pointOfInterestList;
+			}
+			catch (Exception ex)
+			{
+				throw new Exception($"{ex.Message}. failed URL: {url}", ex);
+			}
         }
     }
 }
