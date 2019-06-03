@@ -111,6 +111,6 @@ If the bot has been running for a long time and you find it hard to find the Pro
 
 ### If Visual Studio 2019 Preview is installed, node-gyp cannot find MSBuild.exe
 
-This is a known issue with node-gyp: nodejs/node-gyp#1663
+This is a known issue with node-gyp: [nodejs/node-gyp#1663](https://github.com/nodejs/node-gyp/issues/1663)
 
 Uninstalling Visual Studio 2019 Preview fixes the issue.
