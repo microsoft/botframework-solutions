@@ -108,3 +108,9 @@ This is due to a schema change (mainly a move of the class which resulted in typ
 To fix this issue, simply locate your CosmosDB azure resource for your bot (within the same resource group), find the collection called `botstate-collection`.
 In the document list, find the one with id `ProactiveState` and delete it.
 If the bot has been running for a long time and you find it hard to find the ProactiveState document, you can also delete the entire collection if all other conversations can be deleted. After the deletion, restart the app service that hosts your bot (typically with the name like 'your bot name'+some random letters). Then the bot will recreate the state documents when it starts if it doesn't exist, and the following operations will all be following the new schema to serialize and deserialize so everything will run smoothly.
+
+### If Visual Studio 2019 Preview is installed, node-gyp cannot find MSBuild.exe
+
+This is a known issue with node-gyp: nodejs/node-gyp#1663
+
+Uninstalling Visual Studio 2019 Preview fixes the issue.
