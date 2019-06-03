@@ -290,7 +290,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
         private async Task<ProviderTokenResponse> CreateProviderTokenResponseAsync(ITurnContext context, TokenResponse tokenResponse)
         {
             var adapter = context.Adapter as BotFrameworkAdapter;
-            var tokens = await adapter.GetTokenStatusAsync(context, context.Activity.From.Id).ConfigureAwait(false);
+            var tokens = await GetTokenStatusAsync(context, context.Activity.From.Id).ConfigureAwait(false);
             var match = Array.Find(tokens, t => t.ConnectionName == tokenResponse.ConnectionName);
 
             return new ProviderTokenResponse
@@ -298,6 +298,24 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                 AuthenticationProvider = match.ServiceProviderDisplayName.GetAuthenticationProvider(),
                 TokenResponse = tokenResponse,
             };
+        }
+
+        private async Task<TokenStatus[]> GetTokenStatusAsync(ITurnContext context, string userId, string includeFilter = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            BotAssert.ContextNotNull(context);
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
+
+            if (_appCredentials == null)
+            {
+                throw new ArgumentNullException("AppCredentials were not passed which are required for speech enabled authentication scenarios.");
+            }
+
+            var client = new OAuthClient(new Uri(OAuthClientConfig.OAuthEndpoint), _appCredentials);
+            var result = await client.UserToken.GetTokenStatusAsync(userId, context.Activity?.ChannelId, includeFilter, cancellationToken).ConfigureAwait(false);
+            return result?.ToArray();
         }
 
         private Task<bool> AuthPromptValidatorAsync(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)
