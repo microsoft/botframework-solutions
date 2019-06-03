@@ -1,0 +1,711 @@
+﻿> # Intent definitions
+
+## AddFlag
+- add a flag
+- add a flag please
+- add a flag to the {OrderReference=last} email
+- add a flag to this email
+- add flag
+- add flag on it
+- add flag to it
+- add flag to the email {SenderName=john} just sent to me
+- add {Category=flag} to this email
+- add flag to this message
+- flag
+- flag it
+- flag on
+- flag the current email
+- flag the email
+- flag the email from {SenderName=davis}
+- flag this email
+- flag this email as {Category=important} for me
+- i want to add a flag
+- i want to add a flag on this email
+- make it flagged
+- mark as flag
+- mark the email {Category=flagged}
+- put a flag
+- put a flag on the new email
+- the email from {SenderName=thomas} should be flagged
+- the email to {ContactName=ruth} needs to be flagged
+- this email need to be flagged
+- this email needs to be flagged
+- this email should be flagged
+- turn flag on
+
+
+## AddMore
+- add a {Attachment=file} to the email
+- add a {Attachment=picture}
+- add a subject
+- add another line to the message
+- add {Message=did you enjoy the entire program}
+- add {Attachment=file} to email
+- add more
+- add more and change the message
+- add more details to it
+- add more {Message=don't forget to bring beer}
+- add more message
+- add more please
+- add more text
+- add more text please
+- add more to email
+- add more to email body
+- add more to it
+- add more to message
+- add more to {ContactName=roy} 's email
+- add more to text
+- add more to the email
+- add more to the {OrderReference=last} email
+- add more to the message
+- add {Attachment=photo}
+- add some more
+- add something
+- add to body of email
+- add, by the way, what's the plan of next step
+- add: {Message=call me tonight after work}
+- append an {Attachment=attachment} to this email
+- attach {Attachment=file}
+- can i add more to the email
+- can i add more to the message
+- edit email so i can type an additional message
+- i am not done yet. i need to add some more details
+- i forgot to add an important part to that email to {ContactName=james} . please set it up to edit
+- i need to add additional lines
+- i need to add further contents
+- i need to add more message
+- i need to add more text
+- i need to add more to the email
+- i need to add more to the email message i am sending to {ContactName=vincent}
+- i need to add something else to my email to {ContactName=cheryl}
+- i need to add something else to that email to {ContactName=donna} before it is sent
+- i want to add more the email
+- i wish to add more to the message
+- i would like to add more to the email
+- i would like to add more to the email message
+- i would like to open a new line
+- i'd like to add a bit more to the email.
+- i'd like to add a bit more to the message
+- i'd like to add more to the email
+- insert more lines for me please
+- insert more text in my email
+- is it ok if i add more to the email?
+- it isn't complete, need more contents
+- more text
+- need to add information to the {OrderReference=previous} email
+- ok, i need to add a few things to that
+- please add {Message=it was terrible}
+- please add more
+- please add, {Message=please let me know what i can bring. i'd be happy to make a side dish or dessert}
+- put some additional lines to this message
+- wait, i need to write more
+- write more
+
+
+## CancelMessages
+- abort deletion
+- can you cancel it
+- cancel email
+- cancel email to {ContactName=natalie}
+- cancel message
+- cancel my email to {ContactName=jane}
+- cancel searching the messages
+- cancel the email
+- cancel the email sent to {ContactName=alex}
+- cancel the email to my {RelationshipName=sister}
+- cancel the mail
+- cancel the message
+- cancel this email
+- cancel this message
+- cancel this sending process
+- don ' t read
+- don ' t read it
+- don 't send the email
+- don't email
+- don't email to her
+- don't read the email
+- don't read the message
+- don't send
+- don't send it
+- don't send out
+- don't send that email
+- don't send this email
+- don't show me
+- exit
+- forget about the email
+- i want you to cancel the email
+- neither of them
+- never mind cancel the mail
+- never mind cancel the message
+- never mind, forget about the mail
+- nevermind cancel
+- no cancel it, i don't want to send the mail
+- no don't send
+- no don't send it
+- no just cancel the email
+- no, i don't want to send this message
+- no, no, cancel the reading
+- okay cancel sending the mail
+- quit the sending
+- stop message
+- stop reading
+- ^cancel [sending] [(my|the)] (email|mail) to {ContactName}
+
+
+## CheckMessages
+- any {Category=new} email
+- any {Category=new} email available
+- any {Category=new} email {Time=now}
+- any {Category=new} message {Time=now}
+- check email
+- check email please
+- check my email please
+- check my emails
+- check my {Line=gmail}
+- check my inbox
+- check my mail box
+- check my message
+- check {Line=outlook} please
+- check up email
+- check up messages
+- could you please check my emails
+- could you please check my inbox
+- could you please check my messages
+- do i get new email
+- do i have any {Category=new} mail
+- do i have {Category=new} email
+- do i have {Category=new} email {Time=now}
+- do i have {Category=new} message
+- do i receive {Category=new} email
+- do i receive {Category=new} mail in {Line=outlook}?
+- do i receive {Category=new} message
+- does anyone send email to me just then
+- does anyone send message to me {Time=just then}
+- does my {Line=outlook} has {Category=new} email
+- i want to check my emails
+- i want to check my inbox
+- i'd like to check my inbox
+- is there new email
+- please check my emails
+- please check my inbox
+- please check my {Line=outlook}
+- show {OrderReference=latest} emails
+- show my emails
+- show my {Category=unread} mails
+- show the {Category=important} emails in my inbox
+- whether i get {Category=new} email
+- whether i get {Category=new} message
+- whether i have {Category=new} email
+- whether i have {Category=new} message
+- whether i receive new email
+- show [(my|the)] [(unread|important|{Category})] (email|mail|emails)^
+
+
+## ConfirmMessages
+- "okay, send it"
+- "sure, go ahead"
+- "yes, you can"
+- alright, just send the message
+- correct, please send it.
+- i confirm that i want to send this email
+- just do it
+- no problem, go ahead send the mail
+- of course, just delete the mail
+- ok send the mail to {ContactName=may}
+- ok, good to me, send it please
+- ok, good, just send it
+- okay
+- okay send it
+- okay, send it now
+- perfect thank you
+- right, send it please
+- yeah right, send to {ContactName=alex}
+- yes it's right
+- yes that's right
+- yes, send it
+
+
+## Delete
+- can you help me delete it
+- clear my inbox
+- delete all emails from {SenderName=tom}
+- delete all emails received {Time=tonight}
+- delete the email from my {Line=hotmail} account
+- delete the email sent from {SenderName={FromRelationshipName=mary} jane}
+- delete the {PositionReference=first} email for me
+- delete the {OrderReference=last} one
+- delete the {OrderReference=previous} 4 emails
+- delete the {Category=red} ones
+- delete the second mail
+- delete the {PositionReference=second} one
+- delete the {Category=unread} emails
+- delete this email
+- delete this message permanently
+- delete what i just wrote
+- empty the email inbox
+- put it in the recycle bin
+- put the email in the recycle bin
+- put the email to trash bin
+- put the emails from this file folder to trash bin
+- remove emails that are duplicate
+- remove emails with {Category=red} flags
+- remove it from my inbox
+- remove the email from {SenderName=mary}
+- remove the emails received {Date=yesterday}
+- ^(delete|remove) [the] [{OrderReference}] (email|emails|mails) [from {SenderName}]
+
+
+## Forward
+- could you forward this message to {ContactName=ronald} and {ContactName=roy}
+- could you please forward this email to my {RelationshipName=sister}
+- forward all {Attachment=files} from {SenderName=sally} to {ContactName=austin}
+- forward by saying {Message=if you interest} to {ContactName=rebecca}
+- forward email
+- forward email to {RelationshipName=girlfriend}
+- forward emails to {ContactName=gabriel}
+- forward message to {RelationshipName=girlfriend}
+- forward the email from {SenderName=john smith} to {ContactName=michelle} by saying {Message=fyi}
+- forward the email from {SenderName=melissa} to {ContactName=peter}
+- forward the email to {RelationshipName=dad}
+- forward the {OrderReference=last} email to {ContactName=susan}
+- forward this email
+- forward this email to {ContactName=eugene} by typing {Message=what do you think}
+- forward this email to {ContactName=gary brown} please
+- forward this email to {ContactName=joseph}
+- forward this email to partone dot parttwo at gmail dot com
+- forward this email to {ContactName=patricia}
+- forward to {ContactName=alan} {Time=tonight}
+- forward to {ContactName=brian potter} {Time=tonight}
+- forward to {ContactName=deborah} with a message saying that {Message=i don't want that}
+- forward to {ContactName=dorothy} by typing {Message=i agree with it}
+- forward to {RelationshipName=mom}
+- forward to my {RelationshipName=boss} and attach the {Attachment=schedule file}
+- forward to partoneparttwo@gmail.com {Date=next monday}
+- forward to {ContactName=thomas} please
+- forward to {RelationshipName=wife} by saying {Message=i love you}
+- please forward this email to {ContactName=albert} by typing {Message=everything goes fine}
+- please forward this email to partoneparttwo@163.com
+- please forward this email to partoneparttwo@outlook.com
+- please forward this message
+- please forward to {ContactName=benjamin}
+
+
+## None
+- 1
+- 2
+- 3
+- the {PositionReference=first} one
+- the {PositionReference=second} one
+- the {PositionReference=third} one
+
+
+## QueryLastText
+- can you tell me the {OrderReference=last} email i received
+- come to the {OrderReference=last}
+- go to the {OrderReference=last} one
+- i want to see the {OrderReference=last} email
+- {OrderReference=last} email
+- open the {OrderReference=last} email
+- open the {OrderReference=lastest} email i got
+- please tell me who emailed me {OrderReference=last}
+- show me the {OrderReference=lastest} email
+- show me the {OrderReference=newest} email
+- show the {OrderReference=last} email
+- the {OrderReference=last} email
+- what did {RelationshipName=mom} just say
+- what {ContactName=eric watson} just said
+- what {SenderName=harry} {OrderReference=last} email said
+- what {ContactName=henry} just said
+- what is the {OrderReference=last} email i received {Date=today}
+- what is the {OrderReference=lastest} email i received from {FromRelationshipName=dad}
+- what was the {OrderReference=last} email
+- what was the {OrderReference=last} email i got from {FromRelationshipName=dad}
+- what was the {OrderReference=last} email i got from {SenderName=steve edwards}
+- who email me {Time=just now}
+- who emailed me
+- who emailed me just now
+- who emailed me {OrderReference=last}
+- who recently emailed me
+- who sent me the email lastly {Date=yesterday}
+- who sent me the mail just now
+- who texted me
+- who texted me {Time=just now}
+- whose email just then ?
+- whose email {Time=now} ?
+
+
+## ReadAloud
+- can you read my emails
+- can you read my {OrderReference=last} email
+- could you read out the email on {EmailSubject=how to use the new tool}?
+- please read my {OrderReference=last} email
+- read aloud my {Category=new} email
+- read aloud the {EmailSubject=christmas party} email
+- read {SenderName=darren}'s mail on {EmailSubject=the movie}
+- read email
+- read email from {SenderName=dawn}
+- read email from {SenderName=kat}
+- read email from {FromRelationshipName=mum}
+- read email to me
+- read emails
+- read emails from {SenderName=clay}
+- read {PositionReference=first} email in link box
+- read {PositionReference=first} email in the linked inbox
+- read {Line=google} mail
+- read it
+- read {OrderReference=last} email received
+- read {OrderReference=last} incoming emails
+- read {OrderReference=last} mail
+- read {OrderReference=latest} email
+- read {SenderName=mary grace white} email
+- read me {SenderName=dylan}'s email sent on {Date=yesterday}
+- read me {SenderName=jessica}'s email on {EmailSubject=dress code for the party}
+- read me my {OrderReference=last} {Line=hotmail} email
+- read me my {OrderReference=latest} emails
+- read me the email
+- read me the email on {EmailSubject=apple}
+- read me the email on {EmailSubject=thanksgiving day}
+- read me the email sent on {Date=thanksgiving day}
+- read me the email titled {EmailSubject=happy new year}
+- read me the emails from {SenderName=agatha}
+- read me the {OrderReference=last} email {SenderName=claude} sent
+- read me the {OrderReference=last} emails of the {Time=five minutes}
+- read me the {OrderReference=newest} email
+- read me the {OrderReference=recent} email titled {EmailSubject=abcd} from {SenderName=jessica}
+- read most {OrderReference=recent} email
+- read my email from {SenderName=baby}
+- read my email from {SenderName=hubby}
+- read my email from {SenderName=tyler swift}
+- read my email messages
+- read my email please
+- read my email to me
+- read my emails
+- read my emails from {SenderName=patty}
+- read my inbox
+- read my {OrderReference=last} email
+- read my {OrderReference=last} email out to me
+- read my {OrderReference=most recent} email
+- read my {Category=new} email
+- read my {Category=new} emails
+- read my notification
+- read my {Line=outlook} email
+- read my {OrderReference=recent} email
+- read my {OrderReference=recent} email message please
+- read my {OrderReference=recent} email messages
+- read my {OrderReference=recent} email to me
+- read my {PositionReference=second} email
+- read {Category=new} email
+- read {Category=new} email from {SenderName=david ma}
+- read {Category=new} message
+- read out {SenderName=darren}'s mail
+- read out the email from {SenderName=liu} about {EmailSubject=transfer}
+- read out {SenderName=xu}'s email about {EmailSubject=apple's news}
+- read please
+- read {OrderReference=recent} email
+- read the email
+- read the email on {EmailSubject=auto repair}
+- read the {PositionReference=first} email
+- read the {PositionReference=first} email in {Line=hotmail}
+- read the {OrderReference=last} email
+- read the {OrderReference=last} email message
+- read the {OrderReference=latest} email from {FromRelationshipName=mom}
+- read the {OrderReference=latest} email from {SenderName=steve lip}
+- read the {OrderReference=latest} email i sent
+- read {Date=todays} mail
+- read {Date=today}'s mail
+- read {Category=unread} email
+- read {Category=unread} message
+- ^read [(me|out)] [the] (email|emails) from {SenderName} [(about|on) {EmailSubject}]^
+- ^read [me] [the] (email|mail|emails) (on|about|titled) {EmailSubject}
+- ^read [me] [the] (email|mail|emails) (on|about|titled) {EmailSubject} [sent] from {SenderName}^
+- ^read [me] the (email|mail) (titled|about|on) [the] {EmailSubject}^
+
+
+## Reply
+- create a response to the email by saying {Message=pls send me the picture again}
+- email back
+- email back {Message=i will call you back}
+- how to reply to an email
+- make a response with {Message=thank you very much}
+- reply
+- reply by email {Message=thank you very much best regards jun}
+- reply by saying {Message=i love you}
+- reply by saying {Message=yes}
+- reply by typing {Message=hello}
+- reply {Message=required} to an email
+- reply that {Message=i am busy}
+- reply to {ContactName=edward}
+- reply to email {Message=i am busy now}
+- reply to my {OrderReference=last} email
+- reply to {ContactName=susan}
+- reply to the email
+- reply to the {PositionReference=first} one
+- reply {Message=we'll see you later}
+- reply with {Message=hello}
+- reply {Message=yee ha}
+- reply {ContactName=yee} {Message=hello}
+- reply {Message=yes boss.}
+- respond {Message=i ' m sick i can ' t do it}
+- respond to {ContactName=lore hound}
+- respond to {ContactName=nathan}
+- respond to the email by saying {Message=i am busy today}
+- return {ContactName=barbara} on {Line=mobile}
+- return {ContactName=siberian huskies} {Line=mobile}
+- send email back
+- send the response with {Message=i've already know}
+- ^reply [back] with [the] (title|subject) {EmailSubject}
+- ^reply [back] [the] message [that] {Message}^
+- ^reply [back] [with] [the] [message] [that] "{Message.Any}"
+
+
+## SearchMessages
+- can you search my emails
+- detect emails from {SenderName=betty}
+- detect the email containing keyword {SearchTexts=beauty}
+- detect the email from {SenderName=lisa}
+- did i get any email from {SenderName=tom}
+- did i get emails from {SenderName=tom}
+- did i get the email containing keyword {SearchTexts=lunch}
+- email sent from {SenderName=tisa}
+- emails contains {SearchTexts=bank}
+- enumerate the emails with {SearchTexts=algroithm}
+- find an email about {EmailSubject=new year's planning}
+- find an email from abc123@outlook.com
+- find an email from {SenderName=angela}
+- find an email from {SenderName=jay} that contains {SearchTexts=halloween}
+- find an email on the {EmailSubject=dinner reservation}
+- find email titled {EmailSubject=new design}
+- find email with title {EmailSubject=production tools}
+- find emails from {FromRelationshipName=mom}
+- find emails that contain {SearchTexts=malta}
+- find emails with {SearchTexts=resume}
+- find mails titled {EmailSubject=recommended courses}
+- list the emails contain {SearchTexts=funny picture}
+- looking for an email with {SearchTexts=hello}
+- query emails with {SearchTexts=bill}
+- search an email with subject {EmailSubject=background screening}
+- search {SearchTexts=bla bla} in my emails
+- search email contain {SearchTexts=outlook}
+- search email with key words {SearchTexts=lunch}
+- search emails about {EmailSubject=boating}
+- search emails contain {SearchTexts=work items}
+- search emails contains {SearchTexts=coupons}
+- search emails from {SenderName=mike}
+- search {SenderName=jensen}'s emails
+- search keywords {SearchTexts=keywordone keywordtwo} in my emails
+- search {SearchTexts=keywordsone keywordstwo} from inbox
+- search my emails
+- search text with words {SearchTexts=lunch together}
+- search the email with keywords {SearchTexts=hello}
+- search the emails contains {SearchTexts=microsoft}
+- search the emails contains {SearchTexts=money}
+- show emails contain words "{SearchTexts=future plan}"
+- show emails with "{SearchTexts=credit card}"
+- show me emails from {SenderName=clara chan}
+- show me emails from {FromRelationshipName=girlfriend}
+- show me the email about {EmailSubject=spring festival}
+- show me the email from {SenderName=tom} and filtering with word {SearchTexts=lunch}
+- show me the email sent from {FromRelationshipName=mom}
+- tell me the email from {SenderName=lily wong}
+- tell me the email with subject {EmailSubject=weekly report}
+- ^(tell|find|show) [me] [(an|the)] email (with the title|with title|titled) {EmailSubject}
+- ^(tell|find|show) [me] [(an|the)] email (with the title|with title|titled) "{EmailSubject.Any}"
+- ^(search|find|show) [me] [(an|the)] (email|emails|mail) [(containing|filtering)] [with] [the] [(texts|text|word)] "{SearchTexts.Any}"
+- ^(show|search|find) [me] [(an|the)] [{Category}] email[s] (on|about|titled) {EmailSubject} [sent] [(by|from) {SenderName}]^
+
+
+## SendEmail
+- compose new email about {EmailSubject=spanish homework}
+- create new mail titled {EmailSubject=urgent meeting information} to {ContactName=jonathan}
+- email her the message "fine, ok"
+- email my {RelationshipName=brother}
+- email my {Attachment=presentation}
+- email the {Attachment=file} to {ContactName=henry mathew}
+- email to {ContactName=amy cooper} about {Message=haha saying hello}
+- email to {ContactName=cynthia} and {ContactName=mike}, {Message=that dinner {OrderReference=last} week was splendid}.
+- email to {ContactName=harry potter} and {ContactName=hermione granger}
+- email to {ContactName=lawrence} about {EmailSubject=opening issue}
+- email to {ContactName=mike waters} : {Message=mike, that dinner last week was splendid.}
+- email to partoneparttwo@gmail.com
+- email to {ContactName=tom white} about {Message=that flower saying beautiful}
+- i need to send an email about the {EmailSubject=words to a song}
+- make a new email about {EmailSubject=weather forecast}
+- mark email for {Category=follow up} and send to {ContactName=arthur}
+- new email about {EmailSubject=really good talk} to {ContactName=michelle}
+- new email about {EmailSubject=writing documents}
+- new email to {ContactName=kimberly} about {EmailSubject=wingman}
+- send a email to {ContactName=leehom wong} about the {EmailSubject=piano concert} saying {Message=it's wonderful}
+- send a mail to {ContactName=daniel}
+- send a new email about {EmailSubject=facebook}
+- send a new email about the {EmailSubject=hockey tournament} to {ContactName=marie jane}, {ContactName=joseph} , and {ContactName=john}
+- send a new email about the {EmailSubject=problem solving} to {ContactName=andrea}, {ContactName=angela}, and {ContactName=ron}
+- send a new email to {ContactName=larry} with a {Attachment=file} attached
+- send a new email to {ContactName=nicholas} and {ContactName=jesse} about {EmailSubject=coupons}
+- send a new email to partonepartwopartthree@yahoo.com
+- send a new {Category=high importance} email to {ContactName=jordan}
+- send a {Category=read receipt} email to {ContactName=samuel}
+- send {ContactName=alexander} a {Category=red bang} email
+- send an email
+- send an email about {EmailSubject=swim team practice}
+- send an email about {EmailSubject=test status} to {ContactName=mark}
+- send an email about the {EmailSubject=window that is broken}
+- send an email for me
+- send an email marked {Category=follow up} to {ContactName=jerry}
+- send an email marked for {Category=follow up} to {ContactName=christian}
+- send an email marked with a {Category=bang} to {ContactName=amy}
+- send an email to {ContactName=a.j.ron} marked as {Category=important}
+- send an email to {ContactName=christopher carpenter} about the {EmailSubject=hiking trip}
+- send an email to {ContactName=harold} and {ContactName=bob kappus} about {Message=team lunch saying same team lunch this tuesday}
+- send an email to {ContactName=harry potter}
+- send an email to {ContactName=jacqueline} and {ContactName=tianyu} about the {EmailSubject=test result}
+- send an email to {ContactName=jimmy klein} saying {Message=this is the message about weekend plans}
+- send an email to {ContactName=larry} , {ContactName=joseph} and {ContactName=billy larkson}
+- send an email to {ContactName=lily roth} and abc123@microsoft.com
+- send an email to {ContactName=lu} , {ContactName=yue} and {ContactName=qiong} about {EmailSubject=funding}
+- send an email to {RelationshipName=mom}
+- send an email to my {RelationshipName=brother}
+- send an email to {ContactName=nathan} with a {Category=red bang}
+- send an email to partone@gmail.com
+- send an email to partone_parttwo@microsoft.com
+- send an email to {ContactName=sean} about {EmailSubject=weekend plans}
+- send an email to {ContactName=zachary} about {EmailSubject=we can plan things let's go hiking}
+- send an email {Date=today}
+- send an email with {Category=read receipt} to {ContactName=peter}
+- send an {Category=important} email to {ContactName=olivia}
+- send an {Category=urgent} email
+- send an {Category=urgent} email from my {Line=work account} to {ContactName=christian}
+- send an {Category=urgent} email from my {Line=work} email to {ContactName=jack}
+- send and email about {EmailSubject=swim team practice}
+- send {ContactName=angela} an email marked as {Category=high priority}
+- send {ContactName=billy} an email with a {Category=red bang}
+- send email about {EmailSubject=homework plan} to {ContactName=raymond} and {ContactName=philip}
+- send email marked {Category=priority} to {ContactName=yun-sim} and {ContactName=yi}
+- send email to {ContactName=a} and {ContactName=tian}
+- send email to {ContactName=hannah} saying {Message=test}
+- send email to {ContactName=heather} about {EmailSubject=car}
+- send email to {ContactName=jiayi} {Date=today}
+- send email to {ContactName=kai xu}, {ContactName=mingming} and my {RelationshipName=mother}
+- send email to {ContactName=louis} and mark it {Category=important}
+- send email to partone.parttwo@outlook.com
+- send {Category=important} email to {ContactName=evelyn} and {ContactName=gary}
+- send {ContactName=jacqueline} an email with {Category=low priority}
+- send {Attachment=large files} through email
+- send {ContactName=lori} a new {Category=flagged} email
+- send mail to {ContactName=dorothy}
+- send my {Attachment=housekeeping doc} to {ContactName=jeffrey}
+- send my {Attachment=payment visio diagram} to {ContactName=ronald}
+- send new email to {ContactName=christian} and mark it {Category=high importance}
+- send the email
+- send the email {Time=now}
+- send this {Attachment=document} to an email
+- send {ContactName=thomas} an email
+- set an email {Date=today}
+- start a new email about {EmailSubject=marriage counselor appointments}
+- start a new email from {SenderName=tracy} saying {Message=here is my resume}
+- start a new email saying {Message=lets go to the park}
+- start a new email to {ContactName=aaron} about {EmailSubject=sleeping over tonight}
+- start an email to {ContactName=jason} about {EmailSubject=speaking up}
+- start new email about {EmailSubject=taco blog} to {ContactName=nicole} and {ContactName=emily}
+- start new email to {RelationshipName=friends} about the {EmailSubject=club}
+- start up a new email to {ContactName=michelle} about {EmailSubject=watching baseball}
+- the new email is {Category=high priority} that is being sent to {ContactName=jacob}
+- will you send a marked {Category=non urgent} email to {ContactName=james}
+- write an email about the {EmailSubject=fundraiser}
+- write an email which title is {EmailSubject=hello} and context is {Message=let's have meeting together}
+- write an {Category=urgent} email to {ContactName=bobby}
+- write email
+- write email to {RelationshipName=mom} subject is {EmailSubject=babysit}
+- ^(write|send|start) [(a|an|the)] [new] email to {ContactName}^
+- ^[(send|write)] [(the|a)] [new] [(email|mail)] [to {ContactName}] [with message "{Message.Any}"]
+- ^(write|send|start) [(a|an|the)] [new] email to {ContactName} (about|on|with) [the subject] [that] {EmailSubject}^
+
+
+## ShowNext
+- are there any {Category=unread} messages? show {OrderReference=next}
+- go forward to {ContactName={OrderReference=next}} mails
+- go on, show me more mails
+- go to {OrderReference=next} mail
+- go to the {OrderReference=next} page
+- move forward
+- move on {OrderReference=next} mail by jason
+- move on to {ContactName={OrderReference=next}} mails
+- {OrderReference=next} email
+- {OrderReference=next} {Category=unread} email
+- {OrderReference=next} {Category=unread} one
+- show me {OrderReference=next} from {SenderName=mary}
+- show me the {OrderReference=next}
+- show me the {OrderReference=next} five mails
+- show {OrderReference=next} email
+- show {OrderReference=next} {Category=unread}
+- show the {OrderReference=next} email from my {FromRelationshipName=boss}
+- show the {OrderReference=next} emails by wong
+- show the {OrderReference=next} messages
+- the {OrderReference=next} email
+- the {OrderReference=next} {Category=important} message
+- ^(show|give|tell) [me] [the] next (email|message|mail)^
+
+
+## ShowPrevious
+- back to the {OrderReference=last} one from {SenderName=apple}
+- bring the {OrderReference=previous} one, i want to read it again
+- go to {OrderReference=previous} mails
+- move back to {ContactName={OrderReference=last}} mails
+- {OrderReference=previous} email
+- {OrderReference=previous} one please
+- show me {OrderReference=previous} email from {SenderName=jack}
+- show me the {OrderReference=last} three mails
+- show me the one {OrderReference=before}
+- show me the {OrderReference=previous} email
+- show {OrderReference=previous} in {Category=red} category
+- show {OrderReference=previous} one in inbox
+- show the {OrderReference=previous} email from my {FromRelationshipName=mentor}
+- show the {OrderReference=previous} one
+- the {OrderReference=previous} email
+- what is the {OrderReference=previous} email
+- ^(show|give|tell) [me] [the] previous (email|message|mail)^
+
+
+> # Entity definitions
+
+$Attachment:simple
+
+$Category:simple
+
+$ContactName:simple
+
+$Date:simple
+
+$EmailSubject:simple
+
+$FromRelationshipName:simple
+
+$Line:simple
+
+$Message:simple
+
+$OrderReference:simple
+
+$PositionReference:simple
+
+$RelationshipName:simple
+
+$SearchTexts:simple
+
+$SenderName:simple
+
+$Time:simple
+
+
+> # PREBUILT Entity definitions
+
+$PREBUILT:email
+
+$PREBUILT:ordinal
+
+
+> # Phrase list definitions
+
+
+> # List entities
+
+> # RegEx entities

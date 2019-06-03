@@ -1,0 +1,29 @@
+﻿# cancelledTemplate
+- 好的，我们从头再来。
+
+# completedTemplate
+- 我还能帮你什么？
+
+# confusedTemplate
+- 对不起，我帮不了。
+
+# errorTemplate
+- 对不起, 看起来出了问题。
+
+# logoutTemplate
+- 
+
+# newUserIntroTemplate
+- ```
+[Attachment=Content\NewUserGreeting.zh.json adaptivecard]
+```
+
+# returningUserIntroTemplate
+- ```
+[Attachment=Content\ReturningUserGreeting.zh.json adaptivecard]
+```
+
+# helpTemplate
+- ```
+[Attachment=Content\HelpCard.zh.json hero]
+```
