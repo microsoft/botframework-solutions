@@ -26,23 +26,15 @@ namespace EmailSkill.Models
 
         public UserInformation UserInfo { get; set; } = new UserInformation();
 
-
-
         public TimeZoneInfo TimeZoneInfo { get; set; }
 
- 
-
         public string Token { get; set; }
-
-
 
         public EmailLuis LuisResult { get; set; }
 
         public General GeneralLuisResult { get; set; }
 
-
         public MailSource MailSourceType { get; set; }
-
 
         public EmailStateBase CacheModel { get; set; }
 
@@ -55,7 +47,6 @@ namespace EmailSkill.Models
 
             return TimeZoneInfo.Local;
         }
-
 
         public class UserInformation
         {

@@ -53,67 +53,17 @@ namespace EmailSkill.Dialogs
                 Recognizer = CreateRecognizer(),
                 Rules = new List<IRule>()
                 {
-                    new IntentRule("Forward")
-                    {
-                        Steps = new List<IDialog>()
-                        {
-                            new BeginDialog(nameof(ForwardEmailDialog), options: skillOptions),
-                        }
-                    },
-
-                    new IntentRule("Delete")
-                    {
-                        Steps = new List<IDialog>()
-                        {
-                            new BeginDialog(nameof(DeleteEmailDialog), options: skillOptions),
-                        }
-                    },
-
-                    new IntentRule("Reply")
-                    {
-                        Steps = new List<IDialog>()
-                        {
-                            new BeginDialog(nameof(ReplyEmailDialog), options: skillOptions),
-                        }
-                    },
-
-                    new IntentRule("CheckMessages")
-                    {
-                        Steps = new List<IDialog>()
-                        {
-                            new BeginDialog(Actions.DisplayFiltered, options: skillOptions),
-                        }
-                    },
-
-                    new IntentRule("SearchMessages")
-                    {
-                        Steps = new List<IDialog>()
-                        {
-                            new BeginDialog(Actions.DisplayFiltered, options: skillOptions),
-                        }
-                    },
-
-                    new IntentRule("ShowNext")
-                    {
-                        Steps = new List<IDialog>()
-                        {
-                            new ReplaceDialog(Actions.Show, options: skillOptions),
-                        }
-                    },
-
-                    new IntentRule("ShowPrevious")
-                    {
-                        Steps = new List<IDialog>()
-                        {
-                            new ReplaceDialog(Actions.Show, options: skillOptions),
-                        }
-                    },
+                    new IntentRule("Forward") { Steps = new List<IDialog>() { new BeginDialog(nameof(ForwardEmailDialog), options: skillOptions) } },
+                    new IntentRule("Delete") { Steps = new List<IDialog>() { new BeginDialog(nameof(DeleteEmailDialog), options: skillOptions) } },
+                    new IntentRule("Reply") { Steps = new List<IDialog>() { new BeginDialog(nameof(ReplyEmailDialog), options: skillOptions) } },
+                    new IntentRule("CheckMessages") { Steps = new List<IDialog>() { new BeginDialog(Actions.DisplayFiltered, options: skillOptions) } },
+                    new IntentRule("SearchMessages") { Steps = new List<IDialog>() { new BeginDialog(Actions.DisplayFiltered, options: skillOptions) } },
+                    new IntentRule("ShowNext") { Steps = new List<IDialog>() { new ReplaceDialog(Actions.Show, options: skillOptions) } },
+                    new IntentRule("ShowPrevious") { Steps = new List<IDialog>() { new ReplaceDialog(Actions.Show, options: skillOptions) } },
                 },
 
                 Steps = new List<IDialog>()
                 {
-                    //new CodeStep(SaveLuisState1),
-                    //new CodeStep(SaveLuisState2),
                     new BeginDialog(Actions.Show, options: skillOptions),
                 },
             };
@@ -140,7 +90,6 @@ namespace EmailSkill.Dialogs
                 ShowEmails,
                 PromptToHandle,
                 CheckRead,
-                //HandleMore
                 PromptToReshow,
                 HandleReshow
             };
@@ -150,17 +99,7 @@ namespace EmailSkill.Dialogs
                 SaveDialogState,
                 FilterEmail,
                 ShowFilteredEmails,
-                //PromptToHandle,
-                //CheckRead,
-                //HandleMore
             };
-
-            //var redisplayEmail = new WaterfallStep[]
-            //{
-            //    PromptToReshow,
-            //    CheckReshow,
-            //    HandleMore,
-            //};
 
             // Define the conversation flow using a waterfall model.
             var showEmailDialog = new EmailWaterfallDialog(Actions.Show, showEmail, EmailStateAccessor) { TelemetryClient = telemetryClient };
@@ -170,16 +109,7 @@ namespace EmailSkill.Dialogs
             var promptDialog = new TextPrompt(Actions.Prompt);
 
             AddDialog(rootDialog);
-            rootDialog.AddDialog(new List<IDialog>() {
-                showEmailDialog,
-                readEmailDialog,
-                displayDialog,
-                displayFilteredDialog,
-                deleteEmailDialog,
-                replyEmailDialog,
-                forwardEmailDialog,
-                promptDialog
-            });
+            rootDialog.AddDialog(new List<IDialog>() { showEmailDialog, readEmailDialog, displayDialog, displayFilteredDialog, deleteEmailDialog, replyEmailDialog, forwardEmailDialog, promptDialog });
             InitialDialogId = "ShowEmailRootDialog";
         }
 
@@ -192,20 +122,6 @@ namespace EmailSkill.Dialogs
                 ApplicationId = "1a441c29-5a3f-4615-9e6c-7473ffaa815c",
             });
         }
-
-        //private async Task<DialogTurnResult> SaveLuisState1(DialogContext dc, System.Object options)
-        //{
-        //    dc.State.Dialog.Add("haha", "hahahaha");
-
-        //    return new DialogTurnResult(DialogTurnStatus.Complete, options);
-        //}
-
-        //private async Task<DialogTurnResult> SaveLuisState2(DialogContext dc, System.Object options)
-        //{
-        //    var state = (string)dc.State.Dialog["haha"];
-        //    options = state;
-        //    return new DialogTurnResult(DialogTurnStatus.Complete, options);
-        //}
 
         private async Task<DialogTurnResult> SaveDialogState(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -344,15 +260,10 @@ namespace EmailSkill.Dialogs
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.CancellingMessage));
                     return await sc.EndDialogAsync(false);
                 }
-                //else if (
-                //    skillOptions.DialogState.UserSelectIndex != -1 ||
-                //    (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true))
                 else
                 {
                     return await sc.BeginDialogAsync(Actions.Read, skillOptions);
                 }
-
-                //return await sc.NextAsync();
             }
             catch (Exception ex)
             {
@@ -544,118 +455,5 @@ namespace EmailSkill.Dialogs
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
-
-        protected EmailStateBase DigestLuisResult(DialogContext dc, EmailLuis luisResult, General generalLuisResult, EmailStateBase state, bool isBeginDialog)
-        {
-            try
-            {
-                var intent = luisResult.TopIntent().intent;
-                var entity = luisResult.Entities;
-                var generalEntity = generalLuisResult.Entities;
-
-                if (entity != null)
-                {
-                    if (entity.ordinal != null)
-                    {
-                        try
-                        {
-                            var emailList = state.MessageList;
-                            var value = entity.ordinal[0];
-                            if (Math.Abs(value - (int)value) < double.Epsilon)
-                            {
-                                state.UserSelectIndex = (int)value - 1;
-                            }
-                        }
-                        catch
-                        {
-                            // ignored
-                        }
-                    }
-
-                    if (generalEntity != null && generalEntity.number != null && (entity.ordinal == null || entity.ordinal.Length == 0))
-                    {
-                        try
-                        {
-                            var emailList = state.MessageList;
-                            var value = generalEntity.number[0];
-                            if (Math.Abs(value - (int)value) < double.Epsilon)
-                            {
-                                state.UserSelectIndex = (int)value - 1;
-                            }
-                        }
-                        catch
-                        {
-                            // ignored
-                        }
-                    }
-
-                    if (!isBeginDialog)
-                    {
-                        return state;
-                    }
-
-                    switch (intent)
-                    {
-                        case EmailLuis.Intent.CheckMessages:
-                        case EmailLuis.Intent.SearchMessages:
-                        case EmailLuis.Intent.ReadAloud:
-                        case EmailLuis.Intent.ShowNext:
-                        case EmailLuis.Intent.ShowPrevious:
-                            {
-                                // Get email search type
-                                if (dc.Context.Activity.Text != null)
-                                {
-                                    var words = dc.Context.Activity.Text.Split(' ');
-                                    {
-                                        foreach (var word in words)
-                                        {
-                                            var lowerInput = word.ToLower();
-
-                                            if (lowerInput.Contains(EmailCommonStrings.High) || lowerInput.Contains(EmailCommonStrings.Important))
-                                            {
-                                                state.IsImportant = true;
-                                            }
-                                            else if (lowerInput.Contains(EmailCommonStrings.Unread))
-                                            {
-                                                state.IsUnreadOnly = true;
-                                            }
-                                            else if (lowerInput.Contains(EmailCommonStrings.All))
-                                            {
-                                                state.IsUnreadOnly = false;
-                                            }
-                                        }
-                                    }
-                                }
-
-                                if (entity.SenderName != null)
-                                {
-                                    state.SenderName = entity.SenderName[0];
-                                }
-
-                                if (entity.SearchTexts != null)
-                                {
-                                    state.SearchTexts = entity.SearchTexts[0];
-                                }
-                                else if (entity.EmailSubject != null)
-                                {
-                                    state.SearchTexts = entity.EmailSubject[0];
-                                }
-
-                                break;
-                            }
-
-                        default:
-                            break;
-                    }
-                }
-
-                return state;
-            }
-            catch
-            {
-                return state;
-            }
-        }
-
     }
 }

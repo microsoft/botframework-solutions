@@ -118,12 +118,7 @@ namespace EmailSkill.Dialogs
                     deleteEmailDialog
                 });
 
-            //AddDialog(showEmailDialog ?? throw new ArgumentNullException(nameof(showEmailDialog)));
-            //AddDialog(sendEmailAdaptiveDialog ?? throw new ArgumentNullException(nameof(sendEmailAdaptiveDialog)));
-
             AddDialog(forwardEmailDialog ?? throw new ArgumentNullException(nameof(forwardEmailDialog)));
-            //AddDialog(sendEmailDialog ?? throw new ArgumentNullException(nameof(sendEmailDialog)));
-            //AddDialog(showEmailDialog ?? throw new ArgumentNullException(nameof(showEmailDialog)));
             AddDialog(replyEmailDialog ?? throw new ArgumentNullException(nameof(replyEmailDialog)));
             AddDialog(deleteEmailDialog ?? throw new ArgumentNullException(nameof(deleteEmailDialog)));
 
@@ -178,85 +173,6 @@ namespace EmailSkill.Dialogs
                 {
                     var result = await dc.ContinueDialogAsync();
                 }
-
-                //var turnResult = EndOfTurn;
-                //var intent = state.LuisResult?.TopIntent().intent;
-                //var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
-
-                //var skillOptions = new EmailSkillDialogOptions
-                //{
-                //    SubFlowMode = false
-                //};
-
-                // switch on general intents
-                //switch (intent)
-                //{
-                //    case EmailLuis.Intent.SendEmail:
-                //        {
-                //            turnResult = await dc.BeginDialogAsync(nameof(SendEmailDialog), skillOptions);
-                //            break;
-                //        }
-
-                //    case EmailLuis.Intent.Forward:
-                //        {
-                //            turnResult = await dc.BeginDialogAsync(nameof(ForwardEmailDialog), skillOptions);
-                //            break;
-                //        }
-
-                //    case EmailLuis.Intent.Reply:
-                //        {
-                //            turnResult = await dc.BeginDialogAsync(nameof(ReplyEmailDialog), skillOptions);
-                //            break;
-                //        }
-
-                //    case EmailLuis.Intent.SearchMessages:
-                //    case EmailLuis.Intent.CheckMessages:
-                //    case EmailLuis.Intent.ReadAloud:
-                //    case EmailLuis.Intent.QueryLastText:
-                //        {
-                //            turnResult = await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
-                //            break;
-                //        }
-
-                //    case EmailLuis.Intent.Delete:
-                //        {
-                //            turnResult = await dc.BeginDialogAsync(nameof(DeleteEmailDialog), skillOptions);
-                //            break;
-                //        }
-
-                //    case EmailLuis.Intent.ShowNext:
-                //    case EmailLuis.Intent.ShowPrevious:
-                //    case EmailLuis.Intent.None:
-                //        {
-                //            if (intent == EmailLuis.Intent.ShowNext
-                //                || intent == EmailLuis.Intent.ShowPrevious
-                //                || generalTopIntent == General.Intent.ShowNext
-                //                || generalTopIntent == General.Intent.ShowPrevious)
-                //            {
-                //                turnResult = await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
-                //            }
-                //            else
-                //            {
-                //                await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailSharedResponses.DidntUnderstandMessage));
-                //                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-                //            }
-
-                //            break;
-                //        }
-
-                //    default:
-                //        {
-                //            await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailMainResponses.FeatureNotAvailable));
-                //            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-
-                //            break;
-                //        }
-                //}
-
-                //if (turnResult != EndOfTurn)
-                //{
-                //    await CompleteAsync(dc);
-                //}
             }
         }
 

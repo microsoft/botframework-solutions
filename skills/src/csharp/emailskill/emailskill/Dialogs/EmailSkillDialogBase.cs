@@ -188,7 +188,6 @@ namespace EmailSkill.Dialogs
             }
         }
 
-
         protected virtual async Task<DialogTurnResult> SetDisplayConfig(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -861,24 +860,6 @@ namespace EmailSkill.Dialogs
             return result;
         }
 
-        protected string GetSelectPromptString(PromptOptions selectOption, bool containNumbers)
-        {
-            var result = string.Empty;
-            for (var i = 0; i < selectOption.Choices.Count; i++)
-            {
-                var choice = selectOption.Choices[i];
-                result += "  ";
-                if (containNumbers)
-                {
-                    result += i + 1 + "-";
-                }
-
-                result += choice.Value + "\r\n";
-            }
-
-            return result;
-        }
-
         protected async Task<bool> GetPreviewSubject(WaterfallStepContext sc, string actionType)
         {
             try
@@ -993,21 +974,6 @@ namespace EmailSkill.Dialogs
             // Get user message.
             result = await serivce.GetMyMessagesAsync(startDateTime, endDateTime, isUnreadOnly, isImportant, directlyToMe, mailAddress);
 
-            // Filter messages
-            //var searchSender = state.SenderName?.ToLowerInvariant();
-            //var searchSubject = state.SearchTexts?.ToLowerInvariant();
-            //var searchType = EmailSearchType.None;
-            //(result, searchType) = FilterMessages(result, searchSender, searchSubject, null);
-
-            //if (searchType == EmailSearchType.SearchByContact)
-            //{
-            //    state.SearchTexts = null;
-            //}
-            //else if (searchType == EmailSearchType.SearchBySubject)
-            //{
-            //    state.SenderName = null;
-            //}
-
             // Go back to last page if next page didn't get anything
             if (skip >= result.Count)
             {
@@ -1043,7 +1009,7 @@ namespace EmailSkill.Dialogs
         protected async Task ShowMailList(WaterfallStepContext sc, List<Message> messages, int totalCount, int importantCount, CancellationToken cancellationToken = default(CancellationToken))
         {
             var updatedMessages = new List<Message>();
-            var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
+            var state = (EmailStateBase)sc.State.Dialog[EmailStateKey];
             var userState = await EmailStateAccessor.GetAsync(sc.Context);
 
             var cards = new List<Card>();
@@ -1281,7 +1247,6 @@ namespace EmailSkill.Dialogs
             }
         }
 
-
         protected async Task ClearAllState(WaterfallStepContext sc)
         {
             try
@@ -1406,6 +1371,118 @@ namespace EmailSkill.Dialogs
 
                                     // Clear focus email if there is any.
                                     state.Message.Clear();
+                                }
+
+                                break;
+                            }
+
+                        default:
+                            break;
+                    }
+                }
+
+                return state;
+            }
+            catch
+            {
+                return state;
+            }
+        }
+
+        protected EmailStateBase DigestLuisResult(DialogContext dc, EmailLuis luisResult, General generalLuisResult, EmailStateBase state, bool isBeginDialog)
+        {
+            try
+            {
+                var intent = luisResult.TopIntent().intent;
+                var entity = luisResult.Entities;
+                var generalEntity = generalLuisResult.Entities;
+
+                if (entity != null)
+                {
+                    if (entity.ordinal != null)
+                    {
+                        try
+                        {
+                            var emailList = state.MessageList;
+                            var value = entity.ordinal[0];
+                            if (Math.Abs(value - (int)value) < double.Epsilon)
+                            {
+                                state.UserSelectIndex = (int)value - 1;
+                            }
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
+                    }
+
+                    if (generalEntity != null && generalEntity.number != null && (entity.ordinal == null || entity.ordinal.Length == 0))
+                    {
+                        try
+                        {
+                            var emailList = state.MessageList;
+                            var value = generalEntity.number[0];
+                            if (Math.Abs(value - (int)value) < double.Epsilon)
+                            {
+                                state.UserSelectIndex = (int)value - 1;
+                            }
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
+                    }
+
+                    if (!isBeginDialog)
+                    {
+                        return state;
+                    }
+
+                    switch (intent)
+                    {
+                        case EmailLuis.Intent.CheckMessages:
+                        case EmailLuis.Intent.SearchMessages:
+                        case EmailLuis.Intent.ReadAloud:
+                        case EmailLuis.Intent.ShowNext:
+                        case EmailLuis.Intent.ShowPrevious:
+                            {
+                                // Get email search type
+                                if (dc.Context.Activity.Text != null)
+                                {
+                                    var words = dc.Context.Activity.Text.Split(' ');
+                                    {
+                                        foreach (var word in words)
+                                        {
+                                            var lowerInput = word.ToLower();
+
+                                            if (lowerInput.Contains(EmailCommonStrings.High) || lowerInput.Contains(EmailCommonStrings.Important))
+                                            {
+                                                state.IsImportant = true;
+                                            }
+                                            else if (lowerInput.Contains(EmailCommonStrings.Unread))
+                                            {
+                                                state.IsUnreadOnly = true;
+                                            }
+                                            else if (lowerInput.Contains(EmailCommonStrings.All))
+                                            {
+                                                state.IsUnreadOnly = false;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                if (entity.SenderName != null)
+                                {
+                                    state.SenderName = entity.SenderName[0];
+                                }
+
+                                if (entity.SearchTexts != null)
+                                {
+                                    state.SearchTexts = entity.SearchTexts[0];
+                                }
+                                else if (entity.EmailSubject != null)
+                                {
+                                    state.SearchTexts = entity.EmailSubject[0];
                                 }
 
                                 break;
