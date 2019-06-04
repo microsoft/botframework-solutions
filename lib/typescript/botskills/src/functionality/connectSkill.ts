@@ -7,16 +7,19 @@ import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { isAbsolute, join, resolve } from 'path';
 import { get } from 'request-promise-native';
 import { ConsoleLogger, ILogger} from '../logger';
-import { IAction, IConnectConfiguration, ISkillFIle, ISkillManifest, IUtteranceSource } from '../models';
+import { IAction, IConnectConfiguration, ISkillFIle, ISkillManifest, ITrainConfiguration, IUtteranceSource } from '../models';
 import { authenticate, ChildProcessUtils } from '../utils';
+import { TrainSkill } from './trainSkill';
 
 export class ConnectSkill {
     private logger: ILogger;
     private childProcessUtils: ChildProcessUtils;
+    private trainSkill: TrainSkill;
 
     constructor(logger: ILogger) {
         this.logger = logger || new ConsoleLogger();
         this.childProcessUtils = new ChildProcessUtils();
+        this.trainSkill = new TrainSkill(this.logger);
     }
 
     public async runCommand(command: string[], description: string): Promise<string> {
@@ -82,14 +85,11 @@ export class ConnectSkill {
         }
     }
 
-    // tslint:disable-next-line:max-func-body-length
     public async updateDispatch(configuration: IConnectConfiguration, manifest: ISkillManifest): Promise<void> {
         try {
             // Initializing variables for the updateDispatch scope
             const dispatchFile: string = `${configuration.dispatchName}.dispatch`;
-            const dispatchJsonFile: string = `${configuration.dispatchName}.json`;
             const dispatchFilePath: string = join(configuration.dispatchFolder, dispatchFile);
-            const dispatchJsonFilePath: string = join(configuration.dispatchFolder, dispatchJsonFile);
             const intentName: string = manifest.id;
             let luisDictionary: Map<string, string>;
 
@@ -163,31 +163,10 @@ export class ConnectSkill {
 
              // Check if it is necessary to train the skill
             if (!configuration.noTrain) {
-                this.logger.message('Running dispatch refresh...');
-                const dispatchRefreshCommand: string[] = ['dispatch', 'refresh'];
-                dispatchRefreshCommand.push(...['--dispatch', dispatchFilePath]);
-                dispatchRefreshCommand.push(...['--dataFolder', configuration.dispatchFolder]);
-
-                this.logger.message(await this.runCommand(
-                    dispatchRefreshCommand,
-                    `Executing dispatch refresh for the ${configuration.dispatchName} file`));
-                if (!existsSync(dispatchJsonFilePath)) {
-                    // tslint:disable-next-line: max-line-length
-                    throw(new Error(`Path to ${dispatchJsonFile} (${dispatchJsonFilePath}) leads to a nonexistent file. Make sure the dispatch refresh command is being executed successfully`));
-                }
-
-                this.logger.message('Running LuisGen...');
-                const luisgenCommand: string[] = ['luisgen'];
-                luisgenCommand.push(dispatchJsonFilePath);
-                luisgenCommand.push(...[`-${configuration.lgLanguage}`, `"DispatchLuis"`]);
-                luisgenCommand.push(...['-o', configuration.lgOutFolder]);
-
-                await this.runCommand(luisgenCommand, `Executing luisgen for the ${configuration.dispatchName} file`);
-
-                if (!existsSync(dispatchJsonFilePath)) {
-                    // tslint:disable-next-line: max-line-length
-                    throw(new Error(`Path to ${dispatchJsonFile} (${dispatchJsonFilePath}) leads to a nonexistent file. Make sure the dispatch refresh command is being executed successfully`));
-                }
+                const trainConfiguration: ITrainConfiguration = {...{}, ...configuration};
+                await this.trainSkill.trainSkill(trainConfiguration);
+            } else {
+                this.logger.warning(`Run 'botskills train --${configuration.lgLanguage}' command to train your connected skills`);
             }
 
             this.logger.success('Successfully updated Dispatch model');
