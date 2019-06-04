@@ -51,8 +51,8 @@ namespace CalendarSkill.Dialogs
                 AfterConfirmNumber
             };
 
-            AddDialog(new WaterfallDialog(Actions.ConnectToMeeting, joinMeeting) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.ConfirmNumber, confirmNumber) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.ConnectToMeeting, joinMeeting) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.ConfirmNumber, confirmNumber) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Actions.ConnectToMeeting;
@@ -82,7 +82,7 @@ namespace CalendarSkill.Dialogs
 
         private async Task<List<EventModel>> GetMeetingToJoin(WaterfallStepContext sc)
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await CalendarStateAccessor.GetAsync(sc.Context);
             var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
 
             var eventList = await GetEventsByTime(new List<DateTime>() { DateTime.Today }, state.StartTime, state.EndDate, state.EndTime, state.GetUserTimeZone(), calendarService);
@@ -119,7 +119,7 @@ namespace CalendarSkill.Dialogs
             {
                 var tokenResponse = sc.Result as TokenResponse;
 
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 var options = sc.Options as ShowMeetingsDialogOptions;
                 if (state.SummaryEvents == null)
                 {
@@ -177,7 +177,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
 
                 var luisResult = state.LuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
@@ -379,7 +379,7 @@ namespace CalendarSkill.Dialogs
 
         private async Task<DialogTurnResult> ConfirmNumber(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await CalendarStateAccessor.GetAsync(sc.Context);
 
             var selectedEvent = state.ConfirmedMeeting.First();
             var phoneNumber = GetDialInNumberFromMeeting(selectedEvent);
@@ -392,7 +392,7 @@ namespace CalendarSkill.Dialogs
 
         private async Task<DialogTurnResult> AfterConfirmNumber(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await CalendarStateAccessor.GetAsync(sc.Context);
             if (sc.Result is bool)
             {
                 if ((bool)sc.Result)

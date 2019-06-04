@@ -108,13 +108,13 @@ namespace CalendarSkill.Dialogs
                 AfterAddMoreUserPrompt
             };
 
-            AddDialog(new WaterfallDialog(Actions.ConfirmNameList, confirmNameList) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.LoopNameList, loopNameList) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.ConfirmAttendee, confirmAttendee) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.UpdateName, updateName) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.SelectPerson, selectPerson) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.SelectEmail, selectEmail) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.AddMoreUserPrompt, addMoreUserPrompt) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.ConfirmNameList, confirmNameList) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.LoopNameList, loopNameList) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.ConfirmAttendee, confirmAttendee) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.UpdateName, updateName) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.SelectPerson, selectPerson) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.SelectEmail, selectEmail) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.AddMoreUserPrompt, addMoreUserPrompt) { TelemetryClient = telemetryClient });
             InitialDialogId = Actions.ConfirmNameList;
         }
 
@@ -122,7 +122,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 var options = sc.Options as FindContactDialogOptions;
 
                 // got attendee name list already.
@@ -161,7 +161,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
 
                 // get name list from sc.result
                 if (sc.Result != null)
@@ -221,7 +221,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 if (state.ConfirmAttendeesNameIndex < state.AttendeesNameList.Count)
                 {
                     state.CurrentAttendeeName = state.AttendeesNameList[state.ConfirmAttendeesNameIndex];
@@ -257,7 +257,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 state.ConfirmAttendeesNameIndex = state.ConfirmAttendeesNameIndex + 1;
                 state.ConfirmedPerson = null;
                 return await sc.ReplaceDialogAsync(Actions.LoopNameList, sc.Options, cancellationToken);
@@ -274,7 +274,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
 
                 // when called bt LoopNameList, the options reason is initialize.
                 // when replaced by itself, the reason will be Confirm No.
@@ -300,7 +300,7 @@ namespace CalendarSkill.Dialogs
 
         public async Task<DialogTurnResult> ConfirmEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await CalendarStateAccessor.GetAsync(sc.Context);
             var confirmedPerson = state.ConfirmedPerson;
             if (confirmedPerson == null)
             {
@@ -323,7 +323,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 var confirmedPerson = state.ConfirmedPerson;
                 var name = confirmedPerson.DisplayName;
 
@@ -363,7 +363,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 state.UnconfirmedPerson.Clear();
                 state.ConfirmedPerson = null;
                 var options = (FindContactDialogOptions)sc.Options;
@@ -429,7 +429,7 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var userInput = sc.Result as string;
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 var options = (FindContactDialogOptions)sc.Options;
 
                 if (string.IsNullOrEmpty(userInput) && options.UpdateUserNameReason != FindContactDialogOptions.UpdateUserNameReasonType.Initialize)
@@ -564,7 +564,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 var unionList = state.UnconfirmedPerson;
                 if (unionList.Count <= ConfigData.GetInstance().MaxDisplaySize)
                 {
@@ -587,7 +587,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 var luisResult = state.LuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
                 var generlLuisResult = state.GeneralLuisResult;
@@ -645,7 +645,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 var confirmedPerson = state.ConfirmedPerson;
                 var emailString = string.Empty;
                 var emailList = confirmedPerson.Emails.ToList();
@@ -671,7 +671,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 var luisResult = state.LuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
                 var generlLuisResult = state.GeneralLuisResult;
@@ -728,7 +728,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
                     Prompt = ResponseManager.GetResponse(FindContactResponses.AddMoreUserPrompt, new StringDictionary() { { "Users", state.Attendees.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}: {li.Address}") } }),
@@ -769,7 +769,7 @@ namespace CalendarSkill.Dialogs
 
         private async Task<PromptOptions> GenerateOptionsForEmail(WaterfallStepContext sc, CustomizedPerson confirmedPerson, ITurnContext context, bool isSinglePage = true)
         {
-            var state = await Accessor.GetAsync(context);
+            var state = await CalendarStateAccessor.GetAsync(context);
             var pageIndex = state.ShowAttendeesIndex;
             var pageSize = 3;
             var skip = pageSize * pageIndex;
@@ -856,7 +856,7 @@ namespace CalendarSkill.Dialogs
 
         private async Task<PromptOptions> GenerateOptionsForName(WaterfallStepContext sc, List<CustomizedPerson> unionList, ITurnContext context, bool isSinglePage = true)
         {
-            var state = await Accessor.GetAsync(context);
+            var state = await CalendarStateAccessor.GetAsync(context);
             var pageIndex = state.ShowAttendeesIndex;
             var pageSize = 3;
             var skip = pageSize * pageIndex;

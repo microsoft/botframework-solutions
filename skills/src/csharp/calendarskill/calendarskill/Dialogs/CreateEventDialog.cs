@@ -84,12 +84,12 @@ namespace CalendarSkill.Dialogs
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.CreateEvent, createEvent) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.UpdateStartDateForCreate, updateStartDate) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.UpdateStartTimeForCreate, updateStartTime) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.UpdateDurationForCreate, updateDuration) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.GetRecreateInfo, getRecreateInfo) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.ShowRestParticipants, showRestParticipants) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.CreateEvent, createEvent) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.UpdateStartDateForCreate, updateStartDate) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.UpdateStartTimeForCreate, updateStartTime) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.UpdateDurationForCreate, updateDuration) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.GetRecreateInfo, getRecreateInfo) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.ShowRestParticipants, showRestParticipants) { TelemetryClient = telemetryClient });
             AddDialog(new DatePrompt(Actions.DatePromptForCreate));
             AddDialog(new TimePrompt(Actions.TimePromptForCreate));
             AddDialog(new DurationPrompt(Actions.DurationPromptForCreate));
@@ -105,7 +105,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
                 if (state.RecreateState == RecreateEventState.Subject)
                 {
@@ -143,7 +143,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (sc.Result != null || state.CreateHasDetail || state.RecreateState == RecreateEventState.Subject)
                 {
                     if (string.IsNullOrEmpty(state.Title))
@@ -188,7 +188,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (string.IsNullOrEmpty(state.APIToken))
                 {
                     return await sc.EndDialogAsync(true, cancellationToken);
@@ -221,7 +221,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (sc.Result != null && (!state.CreateHasDetail || state.RecreateState == RecreateEventState.Content))
                 {
                     if (string.IsNullOrEmpty(state.Content))
@@ -255,7 +255,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (state.RecreateState == null || state.RecreateState == RecreateEventState.Time)
                 {
                     return await sc.BeginDialogAsync(Actions.UpdateStartTimeForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound), cancellationToken);
@@ -276,7 +276,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
                 if (state.EndDateTime == null)
                 {
@@ -298,7 +298,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
                 if (state.Location == null && (!state.CreateHasDetail || state.RecreateState == RecreateEventState.Location))
                 {
@@ -320,7 +320,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (state.Location == null && sc.Result != null && (!state.CreateHasDetail || state.RecreateState == RecreateEventState.Location))
                 {
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
@@ -450,7 +450,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
@@ -512,7 +512,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (state.CreateHasDetail && state.RecreateState != RecreateEventState.Time)
                 {
                     return await sc.NextAsync(cancellationToken: cancellationToken);
@@ -535,7 +535,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (state.CreateHasDetail && state.RecreateState != RecreateEventState.Time)
                 {
                     var datetime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
@@ -600,7 +600,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (!state.StartTime.Any())
                 {
                     return await sc.PromptAsync(Actions.TimePromptForCreate, new NoSkipPromptOptions
@@ -626,7 +626,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (sc.Result != null && !state.StartTime.Any())
                 {
                     IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
@@ -692,7 +692,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (state.Duration > 0 || state.EndTime.Any() || state.EndDate.Any() || (state.CreateHasDetail && state.RecreateState != RecreateEventState.Time && state.RecreateState != RecreateEventState.Duration))
                 {
                     return await sc.NextAsync(cancellationToken: cancellationToken);
@@ -715,7 +715,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (state.EndDate.Any() || state.EndTime.Any())
                 {
                     var startDate = !state.StartDate.Any() ? TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone()) : state.StartDate.Last();
@@ -811,7 +811,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (sc.Result != null)
                 {
                     var recreateState = sc.Result as RecreateEventState?;
@@ -881,7 +881,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {

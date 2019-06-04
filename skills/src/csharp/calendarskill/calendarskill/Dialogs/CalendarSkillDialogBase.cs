@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
+using CalendarSkill.Models.DialogModel;
 using CalendarSkill.Prompts;
 using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.Shared;
@@ -30,7 +32,8 @@ namespace CalendarSkill.Dialogs
 {
     public class CalendarSkillDialogBase : ComponentDialog
     {
-        private ConversationState _conversationState;
+
+        protected const string CalendarStateKey = "CalendarState";
 
         public CalendarSkillDialogBase(
             string dialogId,
@@ -45,8 +48,8 @@ namespace CalendarSkill.Dialogs
             Settings = settings;
             Services = services;
             ResponseManager = responseManager;
-            _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
-            Accessor = _conversationState.CreateProperty<CalendarSkillState>(nameof(CalendarSkillState));
+            DialogStateAccessor = conversationState.CreateProperty<DialogState>(nameof(DialogState));
+            CalendarStateAccessor = conversationState.CreateProperty<CalendarSkillState>(nameof(CalendarSkillState));
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
 
@@ -65,7 +68,9 @@ namespace CalendarSkill.Dialogs
 
         protected BotServices Services { get; set; }
 
-        protected IStatePropertyAccessor<CalendarSkillState> Accessor { get; set; }
+        protected IStatePropertyAccessor<DialogState> DialogStateAccessor { get; set; }
+
+        protected IStatePropertyAccessor<CalendarSkillState> CalendarStateAccessor { get; set; }
 
         protected IServiceManager ServiceManager { get; set; }
 
@@ -73,7 +78,7 @@ namespace CalendarSkill.Dialogs
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(dc.Context);
+            var state = await CalendarStateAccessor.GetAsync(dc.Context);
 
             // find contact dialog is not a start dialog, should not run luis part.
             if (state.LuisResult != null && Id != nameof(FindContactDialog))
@@ -86,7 +91,7 @@ namespace CalendarSkill.Dialogs
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(dc.Context);
+            var state = await CalendarStateAccessor.GetAsync(dc.Context);
             if (state.LuisResult != null)
             {
                 await DigestCalendarLuisResult(dc, state.LuisResult, false);
@@ -122,7 +127,7 @@ namespace CalendarSkill.Dialogs
                 // When the token is cached we get a TokenResponse object.
                 if (sc.Result is ProviderTokenResponse providerTokenResponse)
                 {
-                    var state = await Accessor.GetAsync(sc.Context);
+                    var state = await CalendarStateAccessor.GetAsync(sc.Context);
                     state.APIToken = providerTokenResponse.TokenResponse.Token;
 
                     var provider = providerTokenResponse.AuthenticationProvider;
@@ -184,7 +189,7 @@ namespace CalendarSkill.Dialogs
 
         protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> pc, CancellationToken cancellationToken)
         {
-            var state = await Accessor.GetAsync(pc.Context);
+            var state = await CalendarStateAccessor.GetAsync(pc.Context);
             var generalLuisResult = state.GeneralLuisResult;
             var generalTopIntent = generalLuisResult?.TopIntent().intent;
             var calendarLuisResult = state.LuisResult;
@@ -261,7 +266,7 @@ namespace CalendarSkill.Dialogs
             string templateId,
             StringDictionary tokens = null)
         {
-            var state = await Accessor.GetAsync(dc.Context);
+            var state = await CalendarStateAccessor.GetAsync(dc.Context);
 
             var overviewCard = new Card()
             {
@@ -296,7 +301,7 @@ namespace CalendarSkill.Dialogs
             int lastIndex = -1,
             int totalCount = -1)
         {
-            var state = await Accessor.GetAsync(dc.Context);
+            var state = await CalendarStateAccessor.GetAsync(dc.Context);
 
             if (firstIndex == -1 || lastIndex == -1 || totalCount == -1)
             {
@@ -327,7 +332,7 @@ namespace CalendarSkill.Dialogs
 
         protected async Task<Activity> GetDetailMeetingResponseAsync(DialogContext dc, EventModel eventItem, string templateId, StringDictionary tokens = null)
         {
-            var state = await Accessor.GetAsync(dc.Context);
+            var state = await CalendarStateAccessor.GetAsync(dc.Context);
 
             var detailCard = new Card()
             {
@@ -369,7 +374,7 @@ namespace CalendarSkill.Dialogs
 
         protected async Task<string> GetMyPhotoUrlAsync(ITurnContext context)
         {
-            var state = await Accessor.GetAsync(context);
+            var state = await CalendarStateAccessor.GetAsync(context);
             var token = state.APIToken;
             var service = ServiceManager.InitUserService(token, state.EventSource);
 
@@ -395,7 +400,7 @@ namespace CalendarSkill.Dialogs
 
         protected async Task<string> GetUserPhotoUrlAsync(ITurnContext context, EventModel.Attendee attendee)
         {
-            var state = await Accessor.GetAsync(context);
+            var state = await CalendarStateAccessor.GetAsync(context);
             var token = state.APIToken;
             var service = ServiceManager.InitUserService(token, state.EventSource);
             var displayName = attendee.DisplayName ?? attendee.Address;
@@ -549,7 +554,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(dc.Context);
+                var state = await CalendarStateAccessor.GetAsync(dc.Context);
 
                 var intent = luisResult.TopIntent().intent;
 
@@ -937,8 +942,107 @@ namespace CalendarSkill.Dialogs
             }
             catch
             {
-                var state = await Accessor.GetAsync(dc.Context);
+                var state = await CalendarStateAccessor.GetAsync(dc.Context);
                 state.Clear();
+                await dc.CancelAllDialogsAsync();
+                throw;
+            }
+        }
+
+        protected async Task<ShowMeetingsDialogState> DigestShowMeetingsLuisResult(DialogContext dc, CalendarLuis luisResult, General generalLuisResult, ShowMeetingsDialogState state, bool isBeginDialog)
+        {
+            try
+            {
+                var intent = luisResult.TopIntent().intent;
+
+                var entity = luisResult.Entities;
+
+                var userState = await CalendarStateAccessor.GetAsync(dc.Context);
+
+                if (!isBeginDialog)
+                {
+                    return state;
+                }
+
+                switch (intent)
+                {
+                    case CalendarLuis.Intent.FindCalendarEntry:
+                    case CalendarLuis.Intent.FindCalendarDetail:
+                    case CalendarLuis.Intent.FindCalendarWhen:
+                    case CalendarLuis.Intent.FindCalendarWhere:
+                    case CalendarLuis.Intent.FindCalendarWho:
+                    case CalendarLuis.Intent.FindDuration:
+                        {
+                            if (entity.OrderReference != null)
+                            {
+                                state.OrderReference = GetOrderReferenceFromEntity(entity);
+                            }
+
+                            if (entity.FromDate != null)
+                            {
+                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, userState.GetUserTimeZone(), true);
+                                if (date != null)
+                                {
+                                    state.StartDate = date;
+                                    state.StartDateString = dateString;
+                                }
+
+                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, userState.GetUserTimeZone(), false);
+                                if (date != null)
+                                {
+                                    state.EndDate = date;
+                                }
+                            }
+
+                            if (entity.ToDate != null)
+                            {
+                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToDate[0]);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, userState.GetUserTimeZone());
+                                if (date != null)
+                                {
+                                    state.EndDate = date;
+                                }
+                            }
+
+                            if (entity.FromTime != null)
+                            {
+                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromTime[0]);
+                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, userState.GetUserTimeZone(), true);
+                                if (time != null)
+                                {
+                                    state.StartTime = time;
+                                }
+
+                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, userState.GetUserTimeZone(), false);
+                                if (time != null)
+                                {
+                                    state.EndTime = time;
+                                }
+                            }
+
+                            if (entity.ToTime != null)
+                            {
+                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToTime[0]);
+                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, userState.GetUserTimeZone());
+                                if (time != null)
+                                {
+                                    state.EndTime = time;
+                                }
+                            }
+
+                            state.AskParameterContent = luisResult.Text;
+
+                            break;
+                        }
+                }
+
+                return state;
+            }
+            catch
+            {
+                var userState = await CalendarStateAccessor.GetAsync(dc.Context);
+                userState.Clear();
                 await dc.CancelAllDialogsAsync();
                 throw;
             }
@@ -1005,7 +1109,7 @@ namespace CalendarSkill.Dialogs
             await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.CalendarErrorMessage));
 
             // clear state
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await CalendarStateAccessor.GetAsync(sc.Context);
             state.Clear();
             await sc.CancelAllDialogsAsync();
 
@@ -1033,7 +1137,7 @@ namespace CalendarSkill.Dialogs
             }
 
             // clear state
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await CalendarStateAccessor.GetAsync(sc.Context);
             state.Clear();
         }
 
@@ -1068,7 +1172,7 @@ namespace CalendarSkill.Dialogs
 
         protected async Task<string> GetReadyToSendNameListStringAsync(WaterfallStepContext sc)
         {
-            var state = await Accessor.GetAsync(sc?.Context);
+            var state = await CalendarStateAccessor.GetAsync(sc?.Context);
             var unionList = state.AttendeesNameList.ToList();
             if (unionList.Count == 1)
             {
@@ -1149,7 +1253,7 @@ namespace CalendarSkill.Dialogs
         protected async Task<List<PersonModel>> GetContactsAsync(WaterfallStepContext sc, string name)
         {
             var result = new List<PersonModel>();
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await CalendarStateAccessor.GetAsync(sc.Context);
             var token = state.APIToken;
             var service = ServiceManager.InitUserService(token, state.EventSource);
 
@@ -1161,7 +1265,7 @@ namespace CalendarSkill.Dialogs
         protected async Task<List<PersonModel>> GetPeopleWorkWithAsync(WaterfallStepContext sc, string name)
         {
             var result = new List<PersonModel>();
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await CalendarStateAccessor.GetAsync(sc.Context);
             var token = state.APIToken;
             var service = ServiceManager.InitUserService(token, state.EventSource);
 
@@ -1174,7 +1278,7 @@ namespace CalendarSkill.Dialogs
         protected async Task<List<PersonModel>> GetUserAsync(WaterfallStepContext sc, string name)
         {
             var result = new List<PersonModel>();
-            var state = await Accessor.GetAsync(sc.Context);
+            var state = await CalendarStateAccessor.GetAsync(sc.Context);
             var token = state.APIToken;
             var service = ServiceManager.InitUserService(token, state.EventSource);
 
@@ -1186,7 +1290,7 @@ namespace CalendarSkill.Dialogs
 
         protected async Task<PersonModel> GetMe(ITurnContext context)
         {
-            var state = await Accessor.GetAsync(context);
+            var state = await CalendarStateAccessor.GetAsync(context);
             var token = state.APIToken;
             var service = ServiceManager.InitUserService(token, state.EventSource);
             return await service.GetMeAsync();
@@ -1213,7 +1317,7 @@ namespace CalendarSkill.Dialogs
 
         protected async Task<PromptOptions> GenerateOptions(List<PersonModel> personList, List<PersonModel> userList, DialogContext dc)
         {
-            var state = await Accessor.GetAsync(dc.Context);
+            var state = await CalendarStateAccessor.GetAsync(dc.Context);
             var pageIndex = state.ShowAttendeesIndex;
             var pageSize = 5;
             var skip = pageSize * pageIndex;
@@ -1339,7 +1443,7 @@ namespace CalendarSkill.Dialogs
 
         private async Task<List<Card>> GetMeetingCardListAsync(DialogContext dc, List<EventModel> events)
         {
-            var state = await Accessor.GetAsync(dc.Context);
+            var state = await CalendarStateAccessor.GetAsync(dc.Context);
 
             var eventItemList = new List<Card>();
 
@@ -1530,6 +1634,20 @@ namespace CalendarSkill.Dialogs
             else
             {
                 return Task.FromResult(false);
+            }
+        }
+
+        protected async Task ClearAllState(WaterfallStepContext sc)
+        {
+            try
+            {
+                await DialogStateAccessor.DeleteAsync(sc.Context);
+                await CalendarStateAccessor.SetAsync(sc.Context, new CalendarSkillState());
+            }
+            catch (Exception)
+            {
+                // todo : should log error here.
+                throw;
             }
         }
     }

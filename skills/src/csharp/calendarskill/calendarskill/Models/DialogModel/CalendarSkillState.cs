@@ -10,7 +10,6 @@ namespace CalendarSkill.Models
     {
         public CalendarSkillState()
         {
-            User = new User();
             UserInfo = new UserInformation();
             Title = null;
             Content = null;
@@ -39,7 +38,6 @@ namespace CalendarSkill.Models
             AttendeesNameList = new List<string>();
             CurrentAttendeeName = string.Empty;
             ConfirmAttendeesNameIndex = 0;
-            DialogName = string.Empty;
             ShowAttendeesIndex = 0;
             ShowEventIndex = 0;
             SummaryEvents = null;
@@ -54,14 +52,12 @@ namespace CalendarSkill.Models
             FirstRetryInFindContact = true;
             UnconfirmedPerson = new List<CustomizedPerson>();
             ConfirmedPerson = new CustomizedPerson();
-            FirstEnterFindContact = true;
             IsActionFromSummary = false;
             ConfirmedMeeting = new List<EventModel>();
             TotalConflictCount = 0;
             FilterMeetingKeyWord = null;
+            CacheModel = null;
         }
-
-        public User User { get; set; }
 
         public UserInformation UserInfo { get; set; } = new UserInformation();
 
@@ -137,8 +133,6 @@ namespace CalendarSkill.Models
 
         public int ConfirmAttendeesNameIndex { get; set; }
 
-        public string DialogName { get; set; }
-
         public int ShowAttendeesIndex { get; set; }
 
         public int ShowEventIndex { get; set; }
@@ -169,8 +163,6 @@ namespace CalendarSkill.Models
 
         public bool FirstRetryInFindContact { get; set; }
 
-        public bool FirstEnterFindContact { get; set; }
-
         public List<CustomizedPerson> UnconfirmedPerson { get; set; }
 
         public CustomizedPerson ConfirmedPerson { get; set; }
@@ -182,6 +174,8 @@ namespace CalendarSkill.Models
         public int TotalConflictCount { get; set; }
 
         public string FilterMeetingKeyWord { get; set; }
+
+        public CalendarDialogStateBase CacheModel { get; set; }
 
         public TimeZoneInfo GetUserTimeZone()
         {
@@ -195,7 +189,6 @@ namespace CalendarSkill.Models
 
         public void Clear()
         {
-            User = new User();
             Title = null;
             Content = null;
             StartDate = new List<DateTime>();
@@ -224,7 +217,6 @@ namespace CalendarSkill.Models
             AttendeesNameList = new List<string>();
             CurrentAttendeeName = string.Empty;
             ConfirmAttendeesNameIndex = 0;
-            DialogName = string.Empty;
             ShowAttendeesIndex = 0;
             ShowEventIndex = 0;
             SummaryEvents = null;
@@ -239,11 +231,11 @@ namespace CalendarSkill.Models
             FirstRetryInFindContact = true;
             UnconfirmedPerson = new List<CustomizedPerson>();
             ConfirmedPerson = new CustomizedPerson();
-            FirstEnterFindContact = true;
             IsActionFromSummary = false;
             ConfirmedMeeting = new List<EventModel>();
             TotalConflictCount = 0;
             FilterMeetingKeyWord = null;
+            CacheModel = null;
         }
 
         public void ClearChangeStautsInfo()

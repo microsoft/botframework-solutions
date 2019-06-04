@@ -68,6 +68,11 @@ namespace CalendarSkill.Dialogs
             var localeConfig = _services.CognitiveModelSets[locale];
             localeConfig.LuisServices.TryGetValue("calendar", out var luisService);
 
+            var skillOptions = new CalendarSkillDialogOptions
+            {
+                SubFlowMode = false
+            };
+
             var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
                 // Create a LUIS recognizer.
@@ -108,7 +113,7 @@ namespace CalendarSkill.Dialogs
                         Steps = new List<IDialog>()
                         {
                             //new SendActivity("show meeting intent"),
-                            new BeginDialog(nameof(SummaryDialog)),
+                            new BeginDialog(nameof(SummaryDialog), options: skillOptions),
                             new EndDialog()
                         },
                         Constraint = "turn.dialogEvent.value.intents.FindCalendarEntry.score > 0.4"

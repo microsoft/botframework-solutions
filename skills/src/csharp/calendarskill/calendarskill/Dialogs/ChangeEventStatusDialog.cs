@@ -46,8 +46,8 @@ namespace CalendarSkill.Dialogs
                 AfterUpdateStartTime,
             };
 
-            AddDialog(new WaterfallDialog(Actions.ChangeEventStatus, changeEventStatus) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.UpdateStartTime, updateStartTime) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.ChangeEventStatus, changeEventStatus) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.UpdateStartTime, updateStartTime) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Actions.ChangeEventStatus;
@@ -57,7 +57,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 if (sc.Result != null && state.Events.Count > 1)
                 {
                     var events = state.Events;
@@ -102,7 +102,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
@@ -159,7 +159,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 if (state.LuisResult?.TopIntent().intent.ToString() == CalendarLuis.Intent.DeleteCalendarEntry.ToString())
                 {
                     state.NewEventStatus = EventStatus.Cancelled;
@@ -200,7 +200,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
 
                 if (state.Events.Count > 0)
                 {
@@ -260,7 +260,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
 
                 if (sc.Result != null)
                 {

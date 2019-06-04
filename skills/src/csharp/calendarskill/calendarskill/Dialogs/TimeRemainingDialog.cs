@@ -39,7 +39,7 @@ namespace CalendarSkill.Dialogs
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.ShowTimeRemaining, timeRemain) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.ShowTimeRemaining, timeRemain) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Actions.ShowTimeRemaining;
@@ -49,7 +49,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.APIToken))
                 {
                     return await sc.EndDialogAsync(true);

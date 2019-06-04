@@ -54,9 +54,9 @@ namespace CalendarSkill.Dialogs
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.UpdateEventTime, updateEvent) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.UpdateStartTime, updateStartTime) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.UpdateNewStartTime, updateNewStartTime) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.UpdateEventTime, updateEvent) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.UpdateStartTime, updateStartTime) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.UpdateNewStartTime, updateNewStartTime) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Actions.UpdateEventTime;
@@ -66,7 +66,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 if (sc.Result != null && sc.Result is FoundChoice && state.Events.Count > 1)
                 {
                     var events = state.Events;
@@ -103,7 +103,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 var newStartTime = (DateTime)state.NewStartDateTime;
                 var origin = state.Events[0];
                 var last = origin.EndTime - origin.StartTime;
@@ -129,7 +129,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
@@ -186,7 +186,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 if (state.NewStartDate.Any() || state.NewStartTime.Any() || state.MoveTimeSpan != 0)
                 {
                     return await sc.ContinueDialogAsync();
@@ -209,7 +209,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 if (state.NewStartDate.Any() || state.NewStartTime.Any() || state.MoveTimeSpan != 0)
                 {
                     var originalEvent = state.Events[0];
@@ -348,7 +348,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.APIToken))
                 {
                     return await sc.EndDialogAsync(true);
@@ -373,7 +373,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
 
                 if (state.Events.Count > 0)
                 {
@@ -422,7 +422,7 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var state = await CalendarStateAccessor.GetAsync(sc.Context);
 
                 if (sc.Result != null)
                 {
