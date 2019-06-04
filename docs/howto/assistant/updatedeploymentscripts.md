@@ -23,7 +23,7 @@ GitHub doesn't provide the ability to download folders or files interactively in
 2. Browse to the appropriate deployment scripts folder using the table above as a reference to the location
 3. Copy the entire contents of the `Deployment` folder (resources and script subdirectories) over the files in the `Deployment` folder of your Assistant or Skill project.
 
-You now have the latest deployment scripts for deployment and updating of cognitive models.
+You now have the latest scripts for Assistant/Skill deployment and updating of cognitive models.
 
 ## Skills
 
