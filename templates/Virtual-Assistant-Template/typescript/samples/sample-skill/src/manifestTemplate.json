@@ -1,0 +1,37 @@
+{
+    "id": "",
+    "name": "",
+    "description": "",
+    "iconUrl": "",
+    "authenticationConnections": [
+      {
+        "id": "",
+        "serviceProviderId": "",
+        "scopes": ""
+      }
+    ],
+    "actions": [
+      {
+        "id": "",
+        "definition": {
+          "description": "",
+          "slots": [
+            {
+              "name": "",
+              "types": [ "string" ]
+            }
+          ],
+          "triggers": {
+            "utteranceSources": [
+              {
+                "locale": "en",
+                "source": [
+                  "luisModel#intent"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    ]
+}
