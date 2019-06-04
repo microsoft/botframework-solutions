@@ -47,6 +47,8 @@
 | How-to: Migrate the Virtual Assistant (Beta Release 0.3) solution to the Virtual Assistant Template <br/><br/> <p align="center">[![Migrating from the beta Virtual Assistant solution with C#](./media/csharp_icon.png)](/docs/howto/assistant/csharp/oldvatovamigration.md)</p> |Guidance on how to move from the original Virtual Assistant solution to the new Template |
 | [How-To: Send activities from your assistant to users proactively](/docs/howto/assistant/csharp/proactivemessaging.md) | Adding proactive experiences to your assistant |
 | [How-To: Customize Azure Resource Deployment](/docs/howto/assistant/customizedeployment.md) | How to customise the provided ARM template for different deployment scenarios. |
+| [How-To: Update your deployment scripts](/docs/howto/assistant/updatedeploymentscripts.md) | How to update the deployment scripts for Virtal Assistant and Skill projects that you have already created. |
+
 
 ## Skills
 

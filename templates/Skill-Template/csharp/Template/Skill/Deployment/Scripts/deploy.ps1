@@ -194,7 +194,7 @@ if ($outputs)
 	Start-Sleep -s 30
 
 	# Deploy cognitive models
-	Invoke-Expression "$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1') -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -outFolder $($projDir) -languages `"$($languages)`""
+	Invoke-Expression "$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1') -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -outFolder `"$($projDir)`" -languages `"$($languages)`""
 	
 	# Publish bot
 	Invoke-Expression "$(Join-Path $PSScriptRoot 'publish.ps1') -name $($name) -resourceGroup $($resourceGroup)"
