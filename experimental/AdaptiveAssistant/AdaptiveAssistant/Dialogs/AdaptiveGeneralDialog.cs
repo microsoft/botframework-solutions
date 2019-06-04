@@ -4,6 +4,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -15,14 +16,15 @@ namespace AdaptiveAssistant.Dialogs
 {
     public class AdaptiveGeneralDialog : ComponentDialog
     {
-        public AdaptiveGeneralDialog(BotServices services)
+        public AdaptiveGeneralDialog(BotServices services, TemplateEngine engine)
             : base(nameof(AdaptiveGeneralDialog))
         {
             var localizedServices = services.CognitiveModelSets[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName];
 
-            var generalDialog = new AdaptiveDialog()
+            var generalDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
                 Recognizer = localizedServices.LuisServices["general"],
+                Generator = new TemplateEngineLanguageGenerator(nameof(AdaptiveGeneralDialog), engine),
                 Rules = new List<IRule>()
                 {
                     new IntentRule(
@@ -30,47 +32,27 @@ namespace AdaptiveAssistant.Dialogs
                         steps: new List<IDialog>
                         {
                             new TraceActivity(),
-                            new SendActivity("cancelConfirmedMessage")
+                            new SendActivity("[cancelledMessage]")
                         }),
                     new IntentRule(
                         intent: GeneralLuis.Intent.Help.ToString(),
                         steps: new List<IDialog>
                         {
                             new TraceActivity(),
-                            new SendActivity("helpMessage")
+                            new SendActivity("[helpCard]")
                         }),
                     new IntentRule(
                         intent: GeneralLuis.Intent.Escalate.ToString(),
                         steps: new List<IDialog>
                         {
                             new TraceActivity(),
-                            new SendActivity("escalateMessage")
+                            new SendActivity("[escalateMessage]")
                         })
                 }
             };
 
             AddDialog(generalDialog);
-            InitialDialogId = generalDialog.Id;
-        }
-
-        public override Task<DialogTurnResult> BeginDialogAsync(DialogContext outerDc, object options = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            return base.BeginDialogAsync(outerDc, options, cancellationToken);
-        }
-
-        protected override Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            return base.OnBeginDialogAsync(innerDc, options, cancellationToken);
-        }
-
-        public override Task<DialogTurnResult> ContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            return base.ContinueDialogAsync(dc, cancellationToken);
-        }
-
-        protected override Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            return base.OnContinueDialogAsync(innerDc, cancellationToken);
+            InitialDialogId = nameof(AdaptiveDialog);
         }
     }
 }

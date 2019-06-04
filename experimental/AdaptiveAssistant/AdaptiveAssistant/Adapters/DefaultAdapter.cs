@@ -43,7 +43,7 @@ namespace AdaptiveAssistant.Bots
             this.UseStorage(storage);
             this.UseState(userState, conversationState);
             this.Use(new RegisterClassMiddleware<ResourceExplorer>(resourceExplorer));
-            this.UseLanguageGeneration(resourceExplorer, "MainResponses.lg");
+            this.UseLanguageGeneration(resourceExplorer);
             this.UseDebugger(4712, events: new Events<AdaptiveEvents>());
         }
     }

@@ -53,6 +53,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Integ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Integration.ApplicationInsights.Core", "..\..\botbuilder-dotnet\libraries\integration\Microsoft.Bot.Builder.Integration.ApplicationInsights.Core\Microsoft.Bot.Builder.Integration.ApplicationInsights.Core.csproj", "{C93FA1C1-B442-42A6-AC38-19149BE56599}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoBotWithLUIS", "..\..\BotBuilder-Samples\experimental\adaptive-dialog\csharp_dotnetcore\todo-bot\ToDoBotWithLUIS.csproj", "{8A164239-BC01-46A5-82E3-9D3D78875E19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug - NuGet Packages|Any CPU = Debug - NuGet Packages|Any CPU
@@ -245,6 +247,14 @@ Global
 		{C93FA1C1-B442-42A6-AC38-19149BE56599}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
 		{C93FA1C1-B442-42A6-AC38-19149BE56599}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C93FA1C1-B442-42A6-AC38-19149BE56599}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A164239-BC01-46A5-82E3-9D3D78875E19}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A164239-BC01-46A5-82E3-9D3D78875E19}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{8A164239-BC01-46A5-82E3-9D3D78875E19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A164239-BC01-46A5-82E3-9D3D78875E19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A164239-BC01-46A5-82E3-9D3D78875E19}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A164239-BC01-46A5-82E3-9D3D78875E19}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{8A164239-BC01-46A5-82E3-9D3D78875E19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A164239-BC01-46A5-82E3-9D3D78875E19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

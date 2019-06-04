@@ -24,6 +24,7 @@ using AdaptiveAssistant.Dialogs;
 using AdaptiveAssistant.Services;
 using System.IO;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
+using Microsoft.Bot.Builder.LanguageGeneration;
 
 namespace AdaptiveAssistant
 {
@@ -56,7 +57,6 @@ namespace AdaptiveAssistant
             // Load settings
             var settings = new BotSettings();
             Configuration.Bind(settings);
-            services.AddSingleton(Configuration);
             services.AddSingleton(settings);
 
             // Configure bot services
@@ -72,18 +72,19 @@ namespace AdaptiveAssistant
             services.AddBotApplicationInsights(telemetryClient);
 
             // Configure storage
-            services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
+            // services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
+            services.AddSingleton<IStorage>(new MemoryStorage());
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
-            services.AddSingleton(sp =>
-            {
-                var userState = sp.GetService<UserState>();
-                var conversationState = sp.GetService<ConversationState>();
-                return new BotStateSet(userState, conversationState);
-            });
 
             // Register resource explorer for language generation
-            services.AddSingleton(sp => ResourceExplorer.LoadProject(Directory.GetCurrentDirectory()));        
+            services.AddSingleton(sp => ResourceExplorer.LoadProject(Directory.GetCurrentDirectory()));
+
+            services.AddSingleton(sp => TemplateEngine.FromFiles(
+                "./Responses/MainResponses.lg",
+                "./Responses/EscalateResponses.lg",
+                "./Responses/CancelResponses.lg",
+                "./Responses/OnboardingResponses.lg"));
 
             // Configure adapters
             services.AddSingleton<IBotFrameworkHttpAdapter, DefaultAdapter>();

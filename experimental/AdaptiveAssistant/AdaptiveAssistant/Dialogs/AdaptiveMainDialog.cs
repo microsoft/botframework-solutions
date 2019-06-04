@@ -2,9 +2,9 @@
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Selectors;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
-using Microsoft.Bot.Builder.Expressions.Parser;
+using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -12,69 +12,58 @@ namespace AdaptiveAssistant.Dialogs
 {
     public class AdaptiveMainDialog : ComponentDialog
     {
-        public AdaptiveMainDialog(BotServices services)
+        private static IConfiguration Configuration;
+
+        public AdaptiveMainDialog(IConfiguration configuration, BotServices services, TemplateEngine engine)
             : base(nameof(AdaptiveMainDialog))
         {
+            Configuration = configuration;
+
             var localizedServices = services.CognitiveModelSets[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName];
 
-            var mainDialog = new AdaptiveDialog()
+            var mainDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
-                AutoEndDialog = false,
-                Selector = new MostSpecificSelector() { Selector = new FirstSelector() },
                 Recognizer = localizedServices.DispatchService,
-                Steps = new List<IDialog>()
-                {
-                    new IfCondition()
-                    {
-                        Condition = new ExpressionEngine().Parse("turn.activity.type == 'conversationUpdate'"),
-                        Steps = new List<IDialog>
-                        {
-                            new SendActivity("[newUserIntroCard]")
-                        }
-                    }
-                },
+                Generator = new TemplateEngineLanguageGenerator(nameof(AdaptiveMainDialog), engine),
                 Rules = new List<IRule>()
                 {
-                    new IntentRule(
-                        intent: "l_general",
-                        steps: new List<IDialog>
-                        {
-                            new TraceActivity(),
-                            new BeginDialog(nameof(AdaptiveGeneralDialog))
-                        }),
-                    new IntentRule(
-                        intent: "q_faq",
-                        steps: new List<IDialog>
-                        {
-                            new TraceActivity(),
-                            new SendActivity("FAQ triggered"),
-                        }),
-                    new IntentRule(
-                        intent: "q_chitchat",
-                        steps: new List<IDialog>
-                        {
-                            new TraceActivity(),
-                            new SendActivity("Chitchat triggered"),
-                        }),
-                    new IntentRule(
-                        intent: "None",
-                        steps: new List<IDialog>
+                    new EventRule()
+                    {
+                        Events = new List<string> { "activityReceived" },
+                        Constraint = "turn.activity.type == 'conversationUpdate'",
+                        Steps = new List<IDialog> { new SendActivity("Hi there!") }
+                    },
+                    new IntentRule("q_faq")
+                    {
+                        Steps = new List<IDialog>() { new SendActivity("faq") }
+                    },
+                    new IntentRule("q_chitchat")
+                    {
+                        Steps = new List<IDialog>() { new SendActivity("chitchat") }
+                    },
+                    new IntentRule("l_general")
+                    {
+                        Steps = new List<IDialog>(){ new BeginDialog(nameof(AdaptiveGeneralDialog)) }
+                    },
+                    new UnknownIntentRule()
+                    {
+                        Steps = new List<IDialog>
                         {
                             new TraceActivity(),
                             new SendActivity("[confusedMessage]")
-                        }),
-                    new UnknownIntentRule(
-                        steps: new List<IDialog>
-                        {
-                            new TraceActivity(),
-                            new SendActivity("[confusedMessage]")
-                        })
+                        }
+                    }
                 }
             };
 
+            // Add named dialogs to the DialogSet. These names are saved in the dialog state.
             AddDialog(mainDialog);
-            AddDialog(new AdaptiveGeneralDialog(services));
-            InitialDialogId = mainDialog.Id;
+
+            // Add all child dialogS
+            AddDialog(new AdaptiveGeneralDialog(services, engine));
+
+            // The initial child Dialog to run.
+            InitialDialogId = nameof(AdaptiveDialog);
         }
     }
 }
