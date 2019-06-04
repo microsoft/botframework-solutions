@@ -33,6 +33,7 @@
         "microsoft-bot-protocol": "^0.0.1",
         "microsoft-bot-protocol-websocket": "^0.0.1",
         "p-queue": "^4.0.0",
+        "request-promise-native": "^1.0.7",
         "uuid": "^3.3.2"
     },
     "devDependencies": {
