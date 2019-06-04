@@ -39,6 +39,7 @@ foreach ($langCode in $languageMap.Keys) {
             luis export version `
                 --appId $luisApp.appid `
                 --versionId $luisApp.version `
+                --region $luisApp.region `
                 --authoringKey $luisApp.authoringKey | ludown refresh `
                 --stdin `
                 -n "$($luisApp.id).lu" `
