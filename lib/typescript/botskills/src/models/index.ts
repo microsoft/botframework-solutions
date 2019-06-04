@@ -26,3 +26,4 @@ export {
     ITriggers,
     IUtterance,
     IUtteranceSource } from './skillManifest';
+export { ITrainConfiguration } from './trainConfiguration';
