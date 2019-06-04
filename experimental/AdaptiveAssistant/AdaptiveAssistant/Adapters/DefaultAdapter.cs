@@ -45,7 +45,6 @@ namespace AdaptiveAssistant.Bots
             this.Use(new RegisterClassMiddleware<ResourceExplorer>(resourceExplorer));
             this.UseLanguageGeneration(resourceExplorer, "MainResponses.lg");
             this.UseDebugger(4712, events: new Events<AdaptiveEvents>());
-            // Use(new ShowTypingMiddleware());
         }
     }
 }
