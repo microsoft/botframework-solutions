@@ -3981,9 +3981,9 @@
       "integrity": "sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8="
     },
     "resolve": {
-      "version": "1.11.0",
-      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/resolve/-/resolve-1.11.0.tgz",
-      "integrity": "sha1-QBSHC6KWF2uGND1Qtg87UGCc4jI=",
+      "version": "1.11.1",
+      "resolved": "https://botbuilder.myget.org/F/aitemplates/npm/resolve/-/resolve-1.11.1.tgz",
+      "integrity": "sha1-6hDYEQN2mC/vV434/DC5rDCgej4=",
       "requires": {
         "path-parse": "^1.0.6"
       }
