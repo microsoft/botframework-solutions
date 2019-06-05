@@ -219,7 +219,10 @@ namespace CalendarSkill.Dialogs
                 dialogState.FindContactInfor.ContactsNameList = new List<string>();
                 dialogState.FindContactInfor.CurrentContactName = string.Empty;
                 dialogState.FindContactInfor.ConfirmContactsNameIndex = 0;
-                return await sc.EndDialogAsync();
+
+                var returnOptions = sc.Options as FindContactDialogOptions;
+                returnOptions.DialogState = dialogState;
+                return await sc.EndDialogAsync(returnOptions);
             }
             catch (Exception ex)
             {
@@ -254,7 +257,8 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        return await sc.EndDialogAsync();
+                        options.DialogState = dialogState;
+                        return await sc.EndDialogAsync(options);
                     }
                 }
             }
@@ -315,11 +319,13 @@ namespace CalendarSkill.Dialogs
         public async Task<DialogTurnResult> ConfirmEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var dialogState = (CreateEventDialogState)sc.State.Dialog[CalendarStateKey];
+            var options = (FindContactDialogOptions)sc.Options;
 
             var confirmedPerson = dialogState.FindContactInfor.ConfirmedContact;
             if (confirmedPerson == null)
             {
-                return await sc.EndDialogAsync();
+                options.DialogState = dialogState;
+                return await sc.EndDialogAsync(options);
             }
 
             var name = confirmedPerson.DisplayName;
@@ -339,6 +345,7 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var dialogState = (CreateEventDialogState)sc.State.Dialog[CalendarStateKey];
+                var options = (FindContactDialogOptions)sc.Options;
 
                 var confirmedPerson = dialogState.FindContactInfor.ConfirmedContact;
                 var name = confirmedPerson.DisplayName;
@@ -358,11 +365,11 @@ namespace CalendarSkill.Dialogs
                         dialogState.FindContactInfor.Contacts.Add(attendee);
                     }
 
-                    return await sc.EndDialogAsync();
+                    options.DialogState = dialogState;
+                    return await sc.EndDialogAsync(options);
                 }
                 else
                 {
-                    var options = sc.Options as FindContactDialogOptions;
                     options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.ConfirmNo;
                     return await sc.ReplaceDialogAsync(Actions.ConfirmAttendee, options);
                 }
@@ -428,7 +435,8 @@ namespace CalendarSkill.Dialogs
                             }));
                         dialogState.FindContactInfor.FirstRetryInFindContact = true;
                         dialogState.FindContactInfor.CurrentContactName = string.Empty;
-                        return await sc.EndDialogAsync();
+                        options.DialogState = dialogState;
+                        return await sc.EndDialogAsync(options);
                     }
                 }
 
@@ -454,7 +462,9 @@ namespace CalendarSkill.Dialogs
                 if (string.IsNullOrEmpty(userInput) && options.UpdateUserNameReason != FindContactDialogOptions.UpdateUserNameReasonType.Initialize)
                 {
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.UserNotFoundAgain, new StringDictionary() { { "source", userState.EventSource == EventSource.Microsoft ? "Outlook Calendar" : "Google Calendar" } }));
-                    return await sc.EndDialogAsync();
+
+                    options.DialogState = dialogState;
+                    return await sc.EndDialogAsync(options);
                 }
 
                 var currentRecipientName = string.IsNullOrEmpty(userInput) ? dialogState.FindContactInfor.CurrentContactName : userInput;
@@ -475,7 +485,9 @@ namespace CalendarSkill.Dialogs
 
                     dialogState.FindContactInfor.CurrentContactName = string.Empty;
                     dialogState.FindContactInfor.ConfirmedContact = null;
-                    return await sc.EndDialogAsync();
+
+                    options.DialogState = dialogState;
+                    return await sc.EndDialogAsync(options);
                 }
 
                 var unionList = new List<CustomizedPerson>();
