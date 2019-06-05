@@ -836,18 +836,6 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        private List<EventModel> GetCurrentPageMeetings(List<EventModel> allMeetings, ShowMeetingsDialogState dialogState, CalendarSkillState userState)
-        {
-            return GetCurrentPageMeetings(allMeetings, dialogState, userState, out var firstIndex, out var lastIndex);
-        }
-
-        private List<EventModel> GetCurrentPageMeetings(List<EventModel> allMeetings, ShowMeetingsDialogState dialogState, CalendarSkillState userState, out int firstIndex, out int lastIndex)
-        {
-            firstIndex = dialogState.ShowEventIndex * userState.PageSize;
-            lastIndex = Math.Min(userState.PageSize, allMeetings.Count - (dialogState.ShowEventIndex * userState.PageSize));
-            return allMeetings.GetRange(firstIndex, lastIndex);
-        }
-
         private bool SearchesTodayMeeting(ShowMeetingsDialogState dialogState, CalendarSkillState userState)
         {
             var userNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, userState.GetUserTimeZone());

@@ -10,12 +10,9 @@ namespace CalendarSkill.Models.DialogModel
         public ShowMeetingsDialogState(CalendarDialogStateBase state = null)
             : base(state)
         {
-            ReadOutEvents = new List<EventModel>();
         }
 
         public string StartDateString { get; set; }
-
-        public List<EventModel> ReadOutEvents { get; set; }
 
         public string AskParameterContent { get; set; }
 

@@ -49,7 +49,7 @@ namespace CalendarSkill.Dialogs
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new CalendarWaterfallDialog(Actions.ShowUpcomingMeeting, upcomingMeeting));
+            AddDialog(new CalendarWaterfallDialog(Actions.ShowUpcomingMeeting, upcomingMeeting, CalendarStateAccessor));
 
             // Set starting dialog for component
             InitialDialogId = Actions.ShowUpcomingMeeting;

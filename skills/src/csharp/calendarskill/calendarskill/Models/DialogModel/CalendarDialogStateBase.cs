@@ -66,6 +66,8 @@ namespace CalendarSkill.Models
 
         public List<EventModel> SummaryEvents { get; set; }
 
+        public List<EventModel> ReadOutEvents { get; set; }
+
         public void Clear()
         {
             InitData();
@@ -85,6 +87,7 @@ namespace CalendarSkill.Models
             ShowEventIndex = 0;
             FilterMeetingKeyWord = null;
             SummaryEvents = null;
+            ReadOutEvents = new List<EventModel>();
         }
 
         public class FindContactInformation

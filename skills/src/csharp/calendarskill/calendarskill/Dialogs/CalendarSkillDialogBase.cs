@@ -1550,5 +1550,17 @@ namespace CalendarSkill.Dialogs
                 throw;
             }
         }
+
+        protected List<EventModel> GetCurrentPageMeetings(List<EventModel> allMeetings, CalendarDialogStateBase dialogState, CalendarSkillState userState)
+        {
+            return GetCurrentPageMeetings(allMeetings, dialogState, userState, out var firstIndex, out var lastIndex);
+        }
+
+        protected List<EventModel> GetCurrentPageMeetings(List<EventModel> allMeetings, CalendarDialogStateBase dialogState, CalendarSkillState userState, out int firstIndex, out int lastIndex)
+        {
+            firstIndex = dialogState.ShowEventIndex * userState.PageSize;
+            lastIndex = Math.Min(userState.PageSize, allMeetings.Count - (dialogState.ShowEventIndex * userState.PageSize));
+            return allMeetings.GetRange(firstIndex, lastIndex);
+        }
     }
 }
