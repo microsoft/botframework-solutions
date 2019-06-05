@@ -371,3 +371,4 @@ ASALocalRun/
 *.lzma
 *.cab
 .DS_Store
+/.project

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_menu_configuration"
+        android:icon="@drawable/ic_debug"
+        android:title="@string/nav_menu_configuration"/>
+    <item
+        android:id="@+id/nav_menu_app_configuration"
+        android:icon="@drawable/ic_debug"
+        android:title="@string/nav_menu_app_configuration"/>
+    <item
+        android:id="@+id/nav_menu_reset_bot"
+        android:icon="@drawable/ic_debug"
+        android:title="@string/nav_menu_reset_bot"/>
+    <item
+        android:id="@+id/nav_menu_location"
+        android:icon="@drawable/ic_gps"
+        android:title="@string/nav_menu_location" />
+    <item
+        android:id="@+id/nav_menu_welcome_req"
+        android:icon="@drawable/ic_welcome"
+        android:title="@string/nav_menu_welcome" />
+    <item
+        android:id="@+id/nav_menu_emulate_activity_msg"
+        android:icon="@drawable/ic_debug"
+        android:title="@string/nav_menu_emulate_activity_msg" />
+    <item
+        android:id="@+id/nav_menu_show_assistant_settings"
+        android:icon="@drawable/ic_debug"
+        android:title="@string/nav_menu_show_assistant_settings_msg" />
+</menu>
