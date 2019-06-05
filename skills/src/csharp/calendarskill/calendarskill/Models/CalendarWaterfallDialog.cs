@@ -33,5 +33,21 @@ namespace CalendarSkill.Models
 
             return await base.BeginDialogAsync(dc, skillOptions, cancellationToken);
         }
+
+        protected override async Task<DialogTurnResult> OnStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            if (CalendarStateAccessor != null)
+            {
+                var userState = await CalendarStateAccessor.GetAsync(stepContext.Context);
+
+                if (stepContext.State.Dialog.ContainsKey("CalendarState"))
+                {
+                    var state = (CalendarDialogStateBase)stepContext.State.Dialog["CalendarState"];
+                    userState.CacheModel = state;
+                }
+            }
+
+            return await base.OnStepAsync(stepContext, cancellationToken);
+        }
     }
 }

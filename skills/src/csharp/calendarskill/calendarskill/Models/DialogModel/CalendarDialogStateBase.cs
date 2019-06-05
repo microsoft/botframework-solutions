@@ -10,20 +10,30 @@ namespace CalendarSkill.Models
     {
         public CalendarDialogStateBase()
         {
-            Title = null;
-            StartDate = new List<DateTime>();
-            StartTime = new List<DateTime>();
-            StartDateTime = null;
-            EndDate = new List<DateTime>();
-            EndTime = new List<DateTime>();
-            EndDateTime = null;
-            OrderReference = null;
-            Attendees = new List<EventModel.Attendee>();
-            Events = new List<EventModel>();
-            ShowEventIndex = 0;
-            IsActionFromSummary = false;
-            FilterMeetingKeyWord = null;
-            SummaryEvents = null;
+            initData();
+        }
+
+        public CalendarDialogStateBase(CalendarDialogStateBase state)
+        {
+            if (state != null)
+            {
+                Title = state.Title;
+                StartDate = state.StartDate;
+                StartTime = state.StartTime;
+                StartDateTime = state.StartDateTime;
+                EndDate = state.EndDate;
+                EndTime = state.EndTime;
+                EndDateTime = state.EndDateTime;
+                OrderReference = state.OrderReference;
+                Attendees = state.Attendees;
+                Events = state.Events;
+                ShowEventIndex = state.ShowEventIndex;
+                FilterMeetingKeyWord = state.FilterMeetingKeyWord;
+            }
+            else
+            {
+                initData();
+            }
         }
 
         public string Title { get; set; }
@@ -55,8 +65,6 @@ namespace CalendarSkill.Models
 
         public int ShowEventIndex { get; set; }
 
-        public bool IsActionFromSummary { get; set; }
-
         public string FilterMeetingKeyWord { get; set; }
 
         public List<EventModel> SummaryEvents { get; set; }
@@ -74,7 +82,23 @@ namespace CalendarSkill.Models
             Attendees = new List<EventModel.Attendee>();
             Events = new List<EventModel>();
             ShowEventIndex = 0;
-            IsActionFromSummary = false;
+            FilterMeetingKeyWord = null;
+            SummaryEvents = null;
+        }
+
+        private void initData()
+        {
+            Title = null;
+            StartDate = new List<DateTime>();
+            StartTime = new List<DateTime>();
+            StartDateTime = null;
+            EndDate = new List<DateTime>();
+            EndTime = new List<DateTime>();
+            EndDateTime = null;
+            OrderReference = null;
+            Attendees = new List<EventModel.Attendee>();
+            Events = new List<EventModel>();
+            ShowEventIndex = 0;
             FilterMeetingKeyWord = null;
             SummaryEvents = null;
         }

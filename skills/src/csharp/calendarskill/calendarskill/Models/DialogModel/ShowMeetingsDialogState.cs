@@ -7,27 +7,10 @@ namespace CalendarSkill.Models.DialogModel
 {
     public class ShowMeetingsDialogState : CalendarDialogStateBase
     {
-        public ShowMeetingsDialogState()
-            : base()
+        public ShowMeetingsDialogState(CalendarDialogStateBase state = null)
+            : base(state)
         {
             ReadOutEvents = new List<EventModel>();
-        }
-
-        public ShowMeetingsDialogState(CalendarDialogStateBase state)
-        {
-            Title = state.Title;
-            StartDate = state.StartDate;
-            StartTime = state.StartTime;
-            StartDateTime = state.StartDateTime;
-            EndDate = state.EndDate;
-            EndTime = state.EndTime;
-            EndDateTime = state.EndDateTime;
-            OrderReference = state.OrderReference;
-            Attendees = state.Attendees;
-            Events = state.Events;
-            ShowEventIndex = state.ShowEventIndex;
-            IsActionFromSummary = state.IsActionFromSummary;
-            FilterMeetingKeyWord = state.FilterMeetingKeyWord;
         }
 
         public string StartDateString { get; set; }
