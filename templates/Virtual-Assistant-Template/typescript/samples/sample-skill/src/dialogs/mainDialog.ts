@@ -81,7 +81,7 @@ export class MainDialog extends RouterDialog {
 
     protected async route(dc: DialogContext): Promise<void> {
         // get current activity locale
-        const locale: string =  i18next.language;
+        const locale: string = i18next.language.substring(0, 2);
         const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.cognitiveModelSets.get(locale);
 
         // Populate state from SkillContext slots as required
@@ -172,7 +172,7 @@ export class MainDialog extends RouterDialog {
 
         if (dc.context.activity.type === ActivityTypes.Message) {
             // get current activity locale
-            const locale: string =  i18next.language;
+            const locale: string = i18next.language.substring(0, 2);
             const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.cognitiveModelSets.get(locale);
             if (localeConfig === undefined) {
                 throw new Error('There is no cognitiveModels for the locale');

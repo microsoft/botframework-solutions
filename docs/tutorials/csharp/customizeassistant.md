@@ -7,7 +7,7 @@
 - [Intro](#intro)
 - [Edit your greeting](#edit-your-greeting)
 - [Edit your responses](#edit-your-responses)
-- [Edit your cognitive models](#edit-your-cognitive-models)
+- [Edit your cognitive models](#add-an-additional-knowledgebase)
 - [Next steps](#next-steps)
 
 ## Intro

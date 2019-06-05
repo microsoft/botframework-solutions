@@ -46,7 +46,7 @@ A Virtual Assistant app (in TypeScript) that greets a new user.
 3. Download and install Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions because the Virtual Assistant makes use of the latest capabilities: 
 
    ```shell
-   npm install -g botdispatch ludown@1.2.0 luis-apis qnamaker luisgen@2.0.2 botskills
+   npm install -g botdispatch ludown luis-apis qnamaker luisgen@2.0.2 botskills
    ```
 
 4. Install [Yeoman](http://yeoman.io)

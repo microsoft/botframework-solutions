@@ -74,7 +74,7 @@ else
                 <div class="linkedAccount">
                     <div class="linkedAccount-label linkedAccount-connectionName">@account.ConnectionName</div>
                     <div class="linkedAccount-label linkedAccount-displayName">@account.ServiceProviderDisplayName</div>
-                    @if (!account.HasToken)
+                    @if (account.HasToken.HasValue && !account.HasToken.Value)
                     {
                         <div class="linkedAccount-label linkedAccount-status">
                             <div class="icon">

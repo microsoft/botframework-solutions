@@ -28,6 +28,7 @@ $config.cognitiveModels.PSObject.Properties | Foreach-Object { $languageMap[$_.N
 
 foreach ($langCode in $languageMap.Keys) {
     $models = $languageMap[$langCode]
+    $dispatch = $models.dispatchModel
 
     if($RemoteToLocal)
     {
@@ -38,10 +39,22 @@ foreach ($langCode in $languageMap.Keys) {
             luis export version `
                 --appId $luisApp.appId `
                 --versionId $luisApp.version `
+                --region $luisApp.region `
                 --authoringKey $luisApp.authoringKey | ludown refresh `
                 --stdin `
                 -n "$($luisApp.id).lu" `
                 -o $(Join-Path $luisFolder $langCode)
+
+            # Add the LUIS application to the dispatch model. 
+            # If the LUIS application id already exists within the model no action will be taken
+            Write-Host "> Adding $($luisApp.id) app to dispatch model ... "
+			(dispatch add `
+				--type "luis" `
+				--name $luisApp.name `
+				--id $luisApp.appid  `
+				--intentName "l_$($luisApp.id)" `
+                --dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
+                --dataFolder $dispatchFolder)  2>> $logFile | Out-Null
         }
 
         # Update local LU files based on hosted QnA KBs
@@ -55,6 +68,18 @@ foreach ($langCode in $languageMap.Keys) {
                 --stdin `
                 -n "$($kb.id).lu" `
                 -o $(Join-Path $qnaFolder $langCode)
+
+            # Add the knowledge base to the dispatch model. 
+            # If the knowledge base id already exists within the model no action will be taken
+            Write-Host "> Adding $($kb.id) kb to dispatch model ..."   
+            (dispatch add `
+				--type "qna" `
+				--name $kb.name `
+				--id $kb.kbId  `
+				--key $kb.subscriptionKey  `
+				--intentName "q_$($kb.id)" `
+                --dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
+                --dataFolder $dispatchFolder)  2>> $logFile | Out-Null
         }
     }
     else
@@ -85,7 +110,6 @@ foreach ($langCode in $languageMap.Keys) {
 
 # Update dispatch model
 Write-Host "> Updating dispatch model ..."
-$dispatch = $models.dispatchModel
 dispatch refresh `
     --dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
     --dataFolder $dispatchFolder 2>> $logFile | Out-Null

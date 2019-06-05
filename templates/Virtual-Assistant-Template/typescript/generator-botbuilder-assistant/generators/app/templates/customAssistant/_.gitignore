@@ -7,8 +7,12 @@ lib/
 # Environment variables
 .env.*
 
+# Bot Files
+*.bot
+
 # Test report
 test-results.xml
 
-# Bot Files
-*.bot
+# Coverage report
+coverage
+.nyc_output

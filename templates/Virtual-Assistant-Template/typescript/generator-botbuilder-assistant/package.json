@@ -1,6 +1,6 @@
 {
   "name": "generator-botbuilder-assistant",
-  "version": "1.0.1",
+  "version": "1.0.5",
   "description": "Project template for Virtual Assistant using the Bot Builder SDK V4.",
   "homepage": "https://github.com/Microsoft/AI/tree/master/templates/Virtual-Assistant-Template/src/typescript",
   "repository": {
@@ -42,10 +42,9 @@
     "mocha": "^6.1.4",
     "mocha-junit-reporter": "^1.22.0",
     "nyc": "^14.1.1",
-    "source-map-support": "^0.5.12",
-    "ts-node": "^8.1.0",
     "typescript": "^3.4.5",
     "prettier": "^1.15.3",
+    "sinon": "^7.3.2",
     "yeoman-assert": "^3.1.1",
     "yeoman-test": "^1.9.1"
   },

@@ -161,28 +161,30 @@ export class ConnectSkill {
                 await this.runCommand(dispatchAddCommand, `Executing dispatch add for the ${luisApp} LU file`);
             }));
 
-            this.logger.message('Running dispatch refresh...');
-            const dispatchRefreshCommand: string[] = ['dispatch', 'refresh'];
-            dispatchRefreshCommand.push(...['--dispatch', dispatchFilePath]);
-            dispatchRefreshCommand.push(...['--dataFolder', configuration.dispatchFolder]);
+            // Check if it is necessary to train the skill
+            if (!configuration.noTrain) {
+                this.logger.message('Running dispatch refresh...');
+                const dispatchRefreshCommand: string[] = ['dispatch', 'refresh'];
+                dispatchRefreshCommand.push(...['--dispatch', dispatchFilePath]);
+                dispatchRefreshCommand.push(...['--dataFolder', configuration.dispatchFolder]);
 
-            this.logger.message(await this.runCommand(
-                dispatchRefreshCommand,
-                `Executing dispatch refresh for the ${configuration.dispatchName} file`));
+                this.logger.message(await this.runCommand(
+                    dispatchRefreshCommand,
+                    `Executing dispatch refresh for the ${configuration.dispatchName} file`));
 
-            if (!existsSync(dispatchJsonFilePath)) {
-                // tslint:disable-next-line: max-line-length
-                throw(new Error(`Path to ${dispatchJsonFile} (${dispatchJsonFilePath}) leads to a nonexistent file. Make sure the dispatch refresh command is being executed successfully`));
+                if (!existsSync(dispatchJsonFilePath)) {
+                    // tslint:disable-next-line: max-line-length
+                    throw(new Error(`Path to ${dispatchJsonFile} (${dispatchJsonFilePath}) leads to a nonexistent file. Make sure the dispatch refresh command is being executed successfully`));
+                }
+
+                this.logger.message('Running LuisGen...');
+                const luisgenCommand: string[] = ['luisgen'];
+                luisgenCommand.push(dispatchJsonFilePath);
+                luisgenCommand.push(...[`-${configuration.lgLanguage}`, `"DispatchLuis"`]);
+                luisgenCommand.push(...['-o', configuration.lgOutFolder]);
+
+                await this.runCommand(luisgenCommand, `Executing luisgen for the ${configuration.dispatchName} file`);
             }
-
-            this.logger.message('Running LuisGen...');
-            const luisgenCommand: string[] = ['luisgen'];
-            luisgenCommand.push(dispatchJsonFilePath);
-            luisgenCommand.push(...[`-${configuration.lgLanguage}`, `"DispatchLuis"`]);
-            luisgenCommand.push(...['-o', configuration.lgOutFolder]);
-
-            await this.runCommand(luisgenCommand, `Executing luisgen for the ${configuration.dispatchName} file`);
-
             this.logger.success('Successfully updated Dispatch model');
         } catch (err) {
             throw new Error(`An error ocurred while updating the Dispatch model:\n${err}`);

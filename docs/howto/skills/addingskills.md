@@ -11,26 +11,7 @@
 
 ## Adding Skills
 
-We have two approaches to add Skills to your Virtual Assistant which can be used interchangeably.
-
-1. The first leverages a `add_remote_skill.ps1` PowerShell script included as part of your Virtual Assistant solution (located in the `Deployment\Scripts` folder of your assistant).
-2. `botskills` command line tool which is in preview.
-
-If you wish to use the `botskills` CLI then you can install it using the following npm command:
-
-```bash
-npm install -g botskills
-```
-
-> Your Virtual Assistant must have been deployed using the [deployment tutorial](/docs/tutorials/assistantandskilldeploymentsteps.md) before using the add_remote_skill `botskills` tool as it relies on the Dispatch models being available and a deployed Bot for authentication connection information.
-
-## Skill Deployment
-
-See the [Skills Overview](/docs/README.md#skills) section for details on the Skills provided as part of the Virtual Assistant Solution Accelerator. Follow the deployment instructions required for each skill you wish to use and then return to this section to add these skills to your Virtual Assistant.
-
-## Skill CLI
-
-The PowerShell script and CLI provides automation of all key steps required to add a Skill to your project
+To add your new Skill to your assistant/Bot we provide a `botskills` command line tool to automate the process of adding the Skill to your dispatch model and creating authentication connections where needed. The CLI performs the following operations on your behalf:
 
 1. Retrieve the Skill Manifest from the remote Skill through the `/api/skill/manifest` endpoint.
 2. Identify which Language Models are used by the Skill and resolve the triggering utterances either through local LU file resolution or through inline trigger utterances if requested.
@@ -38,19 +19,23 @@ The PowerShell script and CLI provides automation of all key steps required to a
 4. Refresh the dispatch LUIS model with the new utterances
 5. In the case of Active Directory Authentication Providers, an authentication connection will be added to your Bot automatically and the associated Scopes added to your Azure AD application that backs your deployed Assistant.
 
-## Adding Skills to your Virtual Assistant
+The `botskills` CLI can be installed using the following npm command:
 
-Run the following command to add each Skill to your Virtual Assistant. This assumes you are running the CLI within the project directory and have created your Bot through the template and therefore have a `skills.json` file present.
-
-The `--luisFolder` parameter can be used to point the Skill CLI at the source LU files for trigger utterances. For Skills provided within this repo these can be found in the `Deployment\Resources\LU` folder of each Skill. The CLI will automatically traverse locale folder hierarchies.  This can be omitted for any of the skills we provide as the LU files are provided locally. Also, you have to specify the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration.
-
-- PowerShell:
-
-```powershell
-.\Deployment\scripts\add_remote_skill.ps1 -botName "YOUR_BOT_NAME" -manifestUrl https://YOUR_SKILL.azurewebsites.net/api/skill/manifest -luisFolder [path]
+```bash
+npm install -g botskills
 ```
 
-- botskills CLI:
+> Your Virtual Assistant must have been deployed using the [deployment tutorial](/docs/tutorials/assistantandskilldeploymentsteps.md) before using the `botskills` CLI as it relies on the Dispatch models being available and a deployed Bot for authentication connection information.
+
+## Skill Deployment
+
+See the [Skills Overview](/docs/README.md#skills) section for details on the Skills provided as part of the Virtual Assistant Solution Accelerator. Follow the deployment instructions required for each skill you wish to use and then return to this section to add these skills to your Virtual Assistant.
+
+## Adding Skills to your Virtual Assistant
+
+Run the following command to add each Skill to your Virtual Assistant. This assumes you are running the CLI within the project directory and have created your Bot through the template and therefore have a `skills.json` file present in the working folder.
+
+The `--luisFolder` parameter can be used to point the Skill CLI at the source LU files for trigger utterances. For Skills provided within this repo these can be found in the `Deployment\Resources\LU` folder of each Skill. The CLI will automatically traverse locale folder hierarchies.  This can be omitted for any of the skills we provide as the LU files are provided locally. Also, you have to specify the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration.
 
 ```bash
 botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder [path] --cs
@@ -78,13 +63,7 @@ For Skills that require other Authentication connection configuration please fol
 
 ## Remove a Skill from your Virtual Assistant
 
-To disconnect a skill from your Virtual Assistant use the following command, passing the id of the Skill as per the manifest (e.g. calendarSkill).
-
-- PowerShell:
-
-```powershell
-.\Deployment\scripts\remove_skill.ps1 -manifestUrl https://YOUR_SKILL.azurewebsites.net/api/skill/manifest
-```
+To disconnect a skill from your Virtual Assistant use the following command, passing the id of the Skill as per the manifest (e.g. calendarSkill). You can use the `botskills list` to view the registered skills.
 
 botskills:
 

@@ -241,7 +241,7 @@
       "kind": "QnAMaker",
       "apiVersion": "2017-04-18",
       "name": "[parameters('qnaMakerServiceName')]",
-      "location": "[parameters('qnaServiceLocation')]",
+      "location": "westus",
       "sku": {
         "name": "[parameters('qnaMakerServiceSku')]"
       },

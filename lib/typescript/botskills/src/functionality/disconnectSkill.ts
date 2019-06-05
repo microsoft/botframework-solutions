@@ -59,32 +59,37 @@ Run 'botskills list --assistantSkills "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in or
 
                 return false;
             }
-            dispatchData.serviceIds.splice(dispatchData.serviceIds.findIndex((serviceId: string) => serviceId === serviceToRemove.id));
-            dispatchData.services.splice(dispatchData.services.findIndex((service: IDispatchService) =>
-                service.name === configuration.skillId));
+            dispatchData.serviceIds.splice(dispatchData.serviceIds.findIndex((serviceId: string) => serviceId === serviceToRemove.id), 1);
+            const skillIndex: number = dispatchData.services.findIndex(
+                (service: IDispatchService) => service.name === configuration.skillId);
+            dispatchData.services.splice(
+                skillIndex,
+                1);
             writeFileSync(dispatchFilePath, JSON.stringify(dispatchData, undefined, 4));
 
-            this.logger.message('Running Dispatch refresh');
+            // Check if it is necessary to train the skill
+            if (!configuration.noTrain) {
+                this.logger.message('Running Dispatch refresh');
+                const dispatchRefreshCommand: string[] = ['dispatch', 'refresh'];
+                dispatchRefreshCommand.push(...['--dispatch', dispatchFilePath]);
+                dispatchRefreshCommand.push(...['--dataFolder', configuration.dispatchFolder]);
+                await this.runCommand(dispatchRefreshCommand, `Executing dispatch refresh for the ${configuration.dispatchName} file`);
 
-            const dispatchRefreshCommand: string[] = ['dispatch', 'refresh'];
-            dispatchRefreshCommand.push(...['--dispatch', dispatchFilePath]);
-            dispatchRefreshCommand.push(...['--dataFolder', configuration.dispatchFolder]);
-            await this.runCommand(dispatchRefreshCommand, `Executing dispatch refresh for the ${configuration.dispatchName} file`);
+                if (!existsSync(dispatchJsonFilePath)) {
+                    // this.logger.error(`Path to ${dispatchJsonFile} (${dispatchJsonFilePath}) leads
+                    // to a nonexistent file. Make sure the dispatch refresh command is being executed successfully`);
+                    // tslint:disable-next-line: max-line-length
+                    throw(new Error(`Path to ${dispatchJsonFile} (${dispatchJsonFilePath}) leads to a nonexistent file. Make sure the dispatch refresh command is being executed successfully`));
+                }
 
-            if (!existsSync(dispatchJsonFilePath)) {
-                // this.logger.error(`Path to ${dispatchJsonFile} (${dispatchJsonFilePath}) leads
-                // to a nonexistent file. Make sure the dispatch refresh command is being executed successfully`);
-                // tslint:disable-next-line: max-line-length
-                throw(new Error(`Path to ${dispatchJsonFile} (${dispatchJsonFilePath}) leads to a nonexistent file. Make sure the dispatch refresh command is being executed successfully`));
+                this.logger.message('Running LuisGen...');
+
+                const luisgenCommand: string[] = ['luisgen'];
+                luisgenCommand.push(dispatchJsonFilePath);
+                luisgenCommand.push(...[`-${configuration.lgLanguage}`, '"DispatchLuis"']);
+                luisgenCommand.push(...['-o', configuration.lgOutFolder]);
+                await this.runCommand(luisgenCommand, `Executing luisgen for the ${configuration.dispatchName} file`);
             }
-
-            this.logger.message('Running LuisGen...');
-
-            const luisgenCommand: string[] = ['luisgen'];
-            luisgenCommand.push(dispatchJsonFilePath);
-            luisgenCommand.push(...[`-${configuration.lgLanguage}`, '"DispatchLuis"']);
-            luisgenCommand.push(...['-o', configuration.lgOutFolder]);
-            await this.runCommand(luisgenCommand, `Executing luisgen for the ${configuration.dispatchName} file`);
 
             return true;
         } catch (err) {

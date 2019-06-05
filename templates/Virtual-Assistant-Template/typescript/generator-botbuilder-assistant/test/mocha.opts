@@ -1,5 +1,4 @@
---require ts-node/register
---require source-map-support/register
 --reporter mocha-junit-reporter
 --timeout 30000
 --recursive
+--colors

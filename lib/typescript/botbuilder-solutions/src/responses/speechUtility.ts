@@ -23,7 +23,7 @@ export enum ReadPreference {
 }
 
 export namespace SpeechUtility {
-    const breakString: string = '<break/>';
+    export const breakString: string = '<break/>';
 
     export function listToSpeechReadyString(toProcess: PromptOptions|Activity,
                                             readOrder: ReadPreference = ReadPreference.Enumeration,
@@ -62,7 +62,7 @@ export namespace SpeechUtility {
         if (readSize === 1) {
             itemDetails.push(selectionStrings[0]);
         } else {
-            for (const index: number = 0; index < readSize; index + 1) {
+            for (let index: number = 0; index < readSize; index = index + 1) {
                 let readFormat: string = '';
                 if (index === 0) {
                     if (readOrder === ReadPreference.Chronological) {
@@ -84,7 +84,7 @@ export namespace SpeechUtility {
                     }
                 }
 
-                const selectionDetail: string = i18next.t(readFormat, selectionStrings[index]);
+                const selectionDetail: string = readFormat.replace('{0}', selectionStrings[index]);
                 itemDetails.push(selectionDetail);
             }
         }

@@ -3,9 +3,7 @@
 ## Overview
 
 Speech-led conversational scenarios require a different mindset and approach for certain scenarios,
-one such example is [Authentication](../common/authentication.md).
-If you take a Productivity scenario, whereby the user wants to access information in their calendar it's important
-for the VA Bot to have access to a security token (Office 365 for example).
+one such example is Authentication. If you take a Productivity scenario, whereby the user wants to access information in their calendar it's important for the VA Bot to have access to a security token (Office 365 for example).
 
 The first time this scenario executes the Virtual Agent needs to prompt a user for authentication. When using WebChat, this is normally
 done by returning an OAuthCard to the user along with a Button linking to an OAuth authentication page as shown below.
