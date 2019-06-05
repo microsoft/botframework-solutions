@@ -1,0 +1,27 @@
+{
+    "id": "testSkill",
+    "msaAppId": "00000000-0000-0000-0000-000000000000",
+    "name": "Test Skill",
+    "endpoint": "https://bftestskill.azurewebsites.net/api/skill/messages",
+    "description": "This is a test skill to use for testing purpose.",
+    "authenticationConnections": [],
+    "actions": [
+        {
+            "id": "testSkill_testAction",
+            "definition": {
+                "description": "Test Action",
+                "slots": [],
+                "triggers": {
+                    "utteranceSources": [
+                        {
+                            "locale": "en",
+                            "source": [
+                                "test#Test"
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
