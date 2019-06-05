@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">Virtual Assistant MKII</string>
+
+    <!-- Permissions -->
+    <string name="permission_record_audio_title" translatable="false">Permission to record audio</string>
+    <string name="permission_record_audio_rationale" translatable="false">In order for this app to listen to your voice, it requires permission use the microphone</string>
+    <string name="permission_record_audio_denied" translatable="false">You will only be able to type to the Bot</string>
+    <string name="permission_access_fine_location_title" translatable="false">GPS Permission</string>
+    <string name="permission_access_fine_location_rationale" translatable="false">Location permission is required to be able to direct you to points of interest</string>
+
+    <!-- General Messages for User -->
+    <string name="msg_listening" translatable="false">I am listening…</string>
+    <string name="msg_listening_not" translatable="false">I am no longer listening…</string>
+    <string name="msg_disconnected" translatable="false">Reconnecting to Service</string>
+
+    <!-- General Strings -->
+    <string name="bot_input_hint" translatable="false">Type a message to the bot</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Navigation Drawer Menu -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_menu_webview" translatable="false">WebView UI</string>
+    <string name="nav_menu_location" translatable="false">Send Location Event</string>
+    <string name="nav_menu_welcome" translatable="false">Send Welcome Event</string>
+    <string name="nav_menu_hide_overlay" translatable="false">Disable Overlay</string>
+    <string name="nav_menu_show_textinput" translatable="false">Show Textinput</string>
+    <string name="nav_menu_emulate_activity_msg" translatable="false">Inject Adaptive Card Event</string>
+    <string name="nav_menu_reset_bot" translatable="false">Reset Bot</string>
+    <string name="nav_menu_toggle_kws" translatable="false">Enable KWS</string>
+    <string name="nav_menu_configuration" translatable="false">Bot Configuration</string>
+    <string name="nav_menu_app_configuration" translatable="false">App Configuration</string>
+    <string name="nav_menu_show_assistant_settings_msg" translatable="false">Show Assistant Settings</string>
+
+    <!-- Configuration -->
+    <string name="configuration_service_key_hint">Service Key</string>
+    <string name="configuration_service_region_hint">Service Region</string>
+    <string name="configuration_bot_id_hint">Bot ID</string>
+    <string name="configuration_voice_name_hint">Voice Name</string>
+    <string name="configuration_user_id_hint">User ID</string>
+    <string name="configuration_locale_hint">Locale</string>
+    <string name="configuration_geolocation_lat_hint">Lat</string>
+    <string name="configuration_geolocation_lon_hint">Lon</string>
+    <string name="configuration_chat_history_line_count">Chat history line-count</string>
+
+    <!-- Widgets -->
+    <string name="widget_push_to_talk">Talk</string>
+
+    <!-- SERVICE -->
+    <string name="service_notification_action_button">Listen</string>
+
+</resources>

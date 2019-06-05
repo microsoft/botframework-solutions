@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <!-- General -->
+    <color name="color_background">#272727</color>
+
+    <!-- Chat -->
+    <color name="color_card_background">#242424</color>
+    <color name="color_chat_background">#edf0f2</color>
+    <color name="color_chat_text_bot">#000000</color>
+    <color name="color_speech_bubble_background">#f4f4f4</color>
+
+    <!-- Car Toggle-Switch indicator -->
+    <color name="color_toggle_on">#97FE46</color>
+    <color name="color_toggle_off">#373736</color>
+</resources>
