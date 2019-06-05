@@ -35,7 +35,7 @@ namespace CalendarSkill.Dialogs
 
             var changeEventStatus = new WaterfallStep[]
             {
-                InitCalendarChangeEventStatusDialogState,
+                InitChangeEventStatusDialogState,
                 GetAuthToken,
                 AfterGetAuthToken,
                 FromTokenToStartTime,
@@ -45,7 +45,7 @@ namespace CalendarSkill.Dialogs
 
             var updateStartTime = new WaterfallStep[]
             {
-                SaveCalendarChangeEventStatusDialogState,
+                SaveChangeEventStatusDialogState,
                 UpdateStartTime,
                 AfterUpdateStartTime,
             };
@@ -328,7 +328,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        private async Task<DialogTurnResult> InitCalendarChangeEventStatusDialogState(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> InitChangeEventStatusDialogState(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -367,7 +367,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        private async Task<DialogTurnResult> SaveCalendarChangeEventStatusDialogState(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> SaveChangeEventStatusDialogState(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {

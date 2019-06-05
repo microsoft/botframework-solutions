@@ -84,13 +84,13 @@ namespace CalendarSkill.Dialogs
 
             var initStep = new WaterfallStep[]
             {
-                SaveCalendarShowMeetingsDialogState,
+                SaveShowMeetingsDialogState,
                 Init,
             };
 
             var showNext = new WaterfallStep[]
             {
-                SaveCalendarShowMeetingsDialogState,
+                SaveShowMeetingsDialogState,
                 GetAuthToken,
                 AfterGetAuthToken,
                 ShowNextEvent,
@@ -98,7 +98,7 @@ namespace CalendarSkill.Dialogs
 
             var showSummary = new WaterfallStep[]
             {
-                SaveCalendarShowMeetingsDialogState,
+                SaveShowMeetingsDialogState,
                 GetAuthToken,
                 AfterGetAuthToken,
                 ShowEventsList,
@@ -109,7 +109,7 @@ namespace CalendarSkill.Dialogs
 
             var readEvent = new WaterfallStep[]
             {
-                SaveCalendarShowMeetingsDialogState,
+                SaveShowMeetingsDialogState,
                 ReadEvent,
                 AfterReadOutEvent
             };
@@ -864,7 +864,7 @@ namespace CalendarSkill.Dialogs
                 EventModel.IsSameDate(searchDate, userNow);
         }
 
-        private async Task<DialogTurnResult> SaveCalendarShowMeetingsDialogState(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> SaveShowMeetingsDialogState(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {

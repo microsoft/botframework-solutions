@@ -36,7 +36,7 @@ namespace CalendarSkill.Dialogs
             TelemetryClient = telemetryClient;
             var updateEvent = new WaterfallStep[]
             {
-                InitCalendarChangeEventStatusDialogState,
+                InitUpdateEventDialogState,
                 GetAuthToken,
                 AfterGetAuthToken,
                 FromTokenToStartTime,
@@ -47,14 +47,14 @@ namespace CalendarSkill.Dialogs
 
             var updateStartTime = new WaterfallStep[]
             {
-                SaveCalendarChangeEventStatusDialogState,
+                SaveUpdateEventDialogState,
                 UpdateStartTime,
                 AfterUpdateStartTime,
             };
 
             var updateNewStartTime = new WaterfallStep[]
             {
-                SaveCalendarChangeEventStatusDialogState,
+                SaveUpdateEventDialogState,
                 GetNewEventTime,
                 AfterGetNewEventTime,
             };
@@ -501,7 +501,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        private async Task<DialogTurnResult> InitCalendarChangeEventStatusDialogState(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> InitUpdateEventDialogState(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -540,7 +540,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        private async Task<DialogTurnResult> SaveCalendarChangeEventStatusDialogState(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> SaveUpdateEventDialogState(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {

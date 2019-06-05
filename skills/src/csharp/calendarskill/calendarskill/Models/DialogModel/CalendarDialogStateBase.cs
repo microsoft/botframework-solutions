@@ -10,7 +10,7 @@ namespace CalendarSkill.Models
     {
         public CalendarDialogStateBase()
         {
-            initData();
+            InitData();
         }
 
         public CalendarDialogStateBase(CalendarDialogStateBase state)
@@ -25,14 +25,13 @@ namespace CalendarSkill.Models
                 EndTime = state.EndTime;
                 EndDateTime = state.EndDateTime;
                 OrderReference = state.OrderReference;
-                Attendees = state.Attendees;
                 Events = state.Events;
                 ShowEventIndex = state.ShowEventIndex;
                 FilterMeetingKeyWord = state.FilterMeetingKeyWord;
             }
             else
             {
-                initData();
+                InitData();
             }
         }
 
@@ -59,8 +58,6 @@ namespace CalendarSkill.Models
         // the order reference, such as 'next'
         public string OrderReference { get; set; }
 
-        public List<EventModel.Attendee> Attendees { get; set; }
-
         public List<EventModel> Events { get; set; }
 
         public int ShowEventIndex { get; set; }
@@ -71,22 +68,10 @@ namespace CalendarSkill.Models
 
         public void Clear()
         {
-            Title = null;
-            StartDate = new List<DateTime>();
-            StartTime = new List<DateTime>();
-            StartDateTime = null;
-            EndDate = new List<DateTime>();
-            EndTime = new List<DateTime>();
-            EndDateTime = null;
-            OrderReference = null;
-            Attendees = new List<EventModel.Attendee>();
-            Events = new List<EventModel>();
-            ShowEventIndex = 0;
-            FilterMeetingKeyWord = null;
-            SummaryEvents = null;
+            InitData();
         }
 
-        private void initData()
+        private void InitData()
         {
             Title = null;
             StartDate = new List<DateTime>();
@@ -96,11 +81,74 @@ namespace CalendarSkill.Models
             EndTime = new List<DateTime>();
             EndDateTime = null;
             OrderReference = null;
-            Attendees = new List<EventModel.Attendee>();
             Events = new List<EventModel>();
             ShowEventIndex = 0;
             FilterMeetingKeyWord = null;
             SummaryEvents = null;
+        }
+
+        public class FindContactInformation
+        {
+            public FindContactInformation()
+            {
+                CurrentContactName = string.Empty;
+                ContactsNameList = new List<string>();
+                Contacts = new List<EventModel.Attendee>();
+                ConfirmContactsNameIndex = 0;
+                ShowContactsIndex = 0;
+                UnconfirmedContact = new List<CustomizedPerson>();
+                FirstRetryInFindContact = true;
+                ConfirmedContact = new CustomizedPerson();
+            }
+
+            public List<string> ContactsNameList { get; set; }
+
+            public List<EventModel.Attendee> Contacts { get; set; }
+
+            public int ConfirmContactsNameIndex { get; set; }
+
+            public List<CustomizedPerson> UnconfirmedContact { get; set; }
+
+            public bool FirstRetryInFindContact { get; set; }
+
+            public CustomizedPerson ConfirmedContact { get; set; }
+
+            public int ShowContactsIndex { get; set; }
+
+            public string CurrentContactName { get; set; }
+
+            public void Clear()
+            {
+                CurrentContactName = string.Empty;
+                ContactsNameList.Clear();
+                Contacts.Clear();
+                ConfirmContactsNameIndex = 0;
+                ShowContactsIndex = 0;
+                UnconfirmedContact.Clear();
+                FirstRetryInFindContact = true;
+                ConfirmedContact = new CustomizedPerson();
+            }
+        }
+
+        public class CustomizedPerson
+        {
+            public CustomizedPerson()
+            {
+            }
+
+            public CustomizedPerson(PersonModel person)
+            {
+                this.Emails = new List<ScoredEmailAddress>();
+                person.Emails.ToList().ForEach(e => this.Emails.Add(new ScoredEmailAddress() { Address = e }));
+                this.DisplayName = person.DisplayName;
+                this.UserPrincipalName = person.UserPrincipalName;
+            }
+
+            public List<ScoredEmailAddress> Emails { get; set; }
+
+            public string DisplayName { get; set; }
+
+            public string UserPrincipalName { get; set; }
         }
 
         //public void ClearChangeStautsInfo()

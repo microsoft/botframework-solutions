@@ -339,25 +339,25 @@ namespace CalendarSkill.Models
             public double Longitude { get; set; }
         }
 
-        public class CustomizedPerson
-        {
-            public CustomizedPerson()
-            {
-            }
+        //public class CustomizedPerson
+        //{
+        //    public CustomizedPerson()
+        //    {
+        //    }
 
-            public CustomizedPerson(PersonModel person)
-            {
-                this.Emails = new List<ScoredEmailAddress>();
-                person.Emails.ToList().ForEach(e => this.Emails.Add(new ScoredEmailAddress() { Address = e }));
-                this.DisplayName = person.DisplayName;
-                this.UserPrincipalName = person.UserPrincipalName;
-            }
+        //    public CustomizedPerson(PersonModel person)
+        //    {
+        //        this.Emails = new List<ScoredEmailAddress>();
+        //        person.Emails.ToList().ForEach(e => this.Emails.Add(new ScoredEmailAddress() { Address = e }));
+        //        this.DisplayName = person.DisplayName;
+        //        this.UserPrincipalName = person.UserPrincipalName;
+        //    }
 
-            public List<ScoredEmailAddress> Emails { get; set; }
+        //    public List<ScoredEmailAddress> Emails { get; set; }
 
-            public string DisplayName { get; set; }
+        //    public string DisplayName { get; set; }
 
-            public string UserPrincipalName { get; set; }
-        }
+        //    public string UserPrincipalName { get; set; }
+        //}
     }
 }
