@@ -126,9 +126,10 @@ This approach supports multi-lingual responses using the standard resource file 
 
 You may wish to add an additional [QnA Maker](https://www.qnamaker.ai/) knowledge base to your assistant, this can be performed through the following steps.
 
-1. Add a new QnA Maker knowledge base from a `.lu` file adding that file to the corresponding resource folder, for example, if you are using an english resource, you should place it in the `deployment\resources\QnA\en` folder. Alternatively, you can create this using the QnAMaker portal.
+1. Create your new knowledge base using the QnAMaker portal. You can alternatively create this from a new `.lu` file by adding that file to the corresponding resource folder. For example, if you are using an English resource, you should place it in the `deployment\resources\QnA\en` folder. To understand how to create a knowledge base from a `.lu` file using the `ludown` and `qnamaker` CLI tools please refer to [this blog post](https://blog.botframework.com/2018/06/20/qnamaker-with-the-new-botbuilder-tools-for-local-development/) for more information.
 
-2. Update the `cognitiveModels.json` file in the root of your project with a new entry for your newly created QnAMaker knowledgebase, an example is shown below:
+3. Update the `cognitiveModels.json` file in the root of your project with a new entry for your newly created QnAMaker knowledgebase, an example is shown below:
+
     ```json
         {
           "id": "YOUR_KB_ID",
@@ -140,13 +141,17 @@ You may wish to add an additional [QnA Maker](https://www.qnamaker.ai/) knowledg
         }
     ```
 
-3. The final step is to update your Dispatcher and associated strongly typed class (LuisGen). We have provided the `update_cognitive_models.ps1` script to simplify this for you. The `-RemoteToLocal` parameter will generate the matching LU file on disk for your new knowledgebase based on the deployed resource and refresh the dispatcher. Run the following command from within  Powershell (pwsh.exe) within your **project directory**.
+    The `kbID`, `hostName` and `endpoint key` can all be found within the **Publish** page on the [QnAMaker portal](https://qnamaker.ai). The subscription key is available from your QnA resource in the Azure Portal.
+
+4. The final step is to update your dispatch model and associated strongly typed class (LuisGen). We have provided the `update_cognitive_models.ps1` script to simplify this for you. The optional `-RemoteToLocal` parameter will generate the matching LU file on disk for your new knowledgebase (if you created using portal). The script will then refresh the dispatcher. 
+
+    Run the following command from within  Powershell (pwsh.exe) within your **project directory**.
 
     ```shell
         .\Deployment\Scripts\update_cognitive_models.ps1 -RemoteToLocal
     ```
 
-4. Update the `Dialogs\MainDialog.cs` file to include the corresponding Dispatch intent for your new QnA source following the existing examples provided.
+5. Update the `Dialogs\MainDialog.cs` file to include the corresponding Dispatch intent for your new QnA source following the existing examples provided.
 
 You can now leverage multiple QnA sources as a part of your assistant's knowledge.
 
