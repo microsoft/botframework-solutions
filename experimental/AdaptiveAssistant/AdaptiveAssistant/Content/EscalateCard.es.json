@@ -1,0 +1,15 @@
+{
+  "subtitle": "Nuestros agentes están disponibles 24/7 en 1 (800) 555-1234.",
+  "buttons": [
+    {
+      "type": "openUrl",
+      "title": "Call Now",
+      "value": "tel:18005551234"
+    },
+    {
+      "type": "openUrl",
+      "title": "Open Teams",
+      "value": "msteams://"
+    }
+  ]
+}

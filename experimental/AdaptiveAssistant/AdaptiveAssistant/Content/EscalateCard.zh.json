@@ -1,0 +1,15 @@
+﻿{
+  "subtitle": "我们的代理商在 1 (800) 555-1234 时提供全天候服务。",
+  "buttons": [
+    {
+      "type": "openUrl",
+      "title": "Call Now",
+      "value": "tel:18005551234"
+    },
+    {
+      "type": "openUrl",
+      "title": "Open Teams",
+      "value": "msteams://"
+    }
+  ]
+}
