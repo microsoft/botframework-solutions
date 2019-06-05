@@ -8,15 +8,17 @@ import { isAbsolute, join, resolve } from 'path';
 import { get } from 'request-promise-native';
 import { ConsoleLogger, ILogger} from '../logger';
 import { IAction, IConnectConfiguration, ISkillFIle, ISkillManifest, IUtteranceSource } from '../models';
-import { authenticate, ChildProcessUtils } from '../utils';
+import { AuthenticationUtils, ChildProcessUtils } from '../utils';
 
 export class ConnectSkill {
     private logger: ILogger;
     private childProcessUtils: ChildProcessUtils;
+    private authenticationUtils: AuthenticationUtils;
 
     constructor(logger: ILogger) {
         this.logger = logger || new ConsoleLogger();
         this.childProcessUtils = new ChildProcessUtils();
+        this.authenticationUtils = new AuthenticationUtils();
     }
 
     public async runCommand(command: string[], description: string): Promise<string> {
@@ -236,7 +238,7 @@ export class ConnectSkill {
 
             // Configuring bot auth settings
             this.logger.message('Configuring bot auth settings');
-            await authenticate(configuration, skillManifest, this.logger);
+            await this.authenticationUtils.authenticate(configuration, skillManifest, this.logger);
 
             return true;
         } catch (err) {
