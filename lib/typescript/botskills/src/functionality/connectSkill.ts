@@ -8,18 +8,20 @@ import { isAbsolute, join, resolve } from 'path';
 import { get } from 'request-promise-native';
 import { ConsoleLogger, ILogger} from '../logger';
 import { IAction, IConnectConfiguration, ISkillFIle, ISkillManifest, ITrainConfiguration, IUtteranceSource } from '../models';
-import { authenticate, ChildProcessUtils } from '../utils';
+import { AuthenticationUtils, ChildProcessUtils } from '../utils';
 import { TrainSkill } from './trainSkill';
 
 export class ConnectSkill {
     private logger: ILogger;
     private childProcessUtils: ChildProcessUtils;
     private trainSkill: TrainSkill;
+    private authenticationUtils: AuthenticationUtils;
 
     constructor(logger: ILogger) {
         this.logger = logger || new ConsoleLogger();
         this.childProcessUtils = new ChildProcessUtils();
         this.trainSkill = new TrainSkill(this.logger);
+        this.authenticationUtils = new AuthenticationUtils();
     }
 
     public async runCommand(command: string[], description: string): Promise<string> {
@@ -47,8 +49,7 @@ export class ConnectSkill {
                 json: true
             });
         } catch (err) {
-            this.logger.error(`There was a problem while getting the remote manifest:\n${err}`);
-            throw err;
+            throw new Error(`There was a problem while getting the remote manifest:\n${err}`);
         }
     }
 
@@ -56,9 +57,8 @@ export class ConnectSkill {
         const skillManifestPath: string = isAbsolute(manifestPath) ? manifestPath : join(resolve('./'), manifestPath);
 
         if (!existsSync(skillManifestPath)) {
-            this.logger.error(
+            throw new Error(
             `The 'localManifest' argument leads to a non-existing file. Please make sure to provide a valid path to your Skill manifest.`);
-            process.exit(1);
         }
 
         return JSON.parse(readFileSync(skillManifestPath, 'UTF8'));
@@ -141,7 +141,7 @@ export class ConnectSkill {
                 ludownParseCommand.push(...['--in', luFilePath]);
                 ludownParseCommand.push(...['--luis_culture', configuration.language]);
                 ludownParseCommand.push(...['--out_folder', configuration.luisFolder]);
-                ludownParseCommand.push(...['--out', `"${luisApp}.luis"`]);
+                ludownParseCommand.push(...['--out', `"${luisFile}"`]);
 
                 await this.runCommand(ludownParseCommand, `Parsing ${luisApp} LU file`);
 
@@ -152,7 +152,7 @@ export class ConnectSkill {
                 // Update Dispatch file
                 const dispatchAddCommand: string[] = ['dispatch', 'add'];
                 dispatchAddCommand.push(...['--type', 'file']);
-                dispatchAddCommand.push(...['--name', manifest.id]);
+                dispatchAddCommand.push(...['--name', intentName]);
                 dispatchAddCommand.push(...['--filePath', luisFilePath]);
                 dispatchAddCommand.push(...['--intentName', intentName]);
                 dispatchAddCommand.push(...['--dataFolder', configuration.dispatchFolder]);
@@ -161,24 +161,22 @@ export class ConnectSkill {
                 await this.runCommand(dispatchAddCommand, `Executing dispatch add for the ${luisApp} LU file`);
             }));
 
-             // Check if it is necessary to train the skill
+            // Check if it is necessary to train the skill
             if (!configuration.noTrain) {
                 const trainConfiguration: ITrainConfiguration = {...{}, ...configuration};
                 await this.trainSkill.trainSkill(trainConfiguration);
-            } else {
-                this.logger.warning(`Run 'botskills train --${configuration.lgLanguage}' command to train your connected skills`);
             }
-
             this.logger.success('Successfully updated Dispatch model');
         } catch (err) {
             throw new Error(`An error ocurred while updating the Dispatch model:\n${err}`);
         }
     }
 
-    public async connectSkill(configuration: IConnectConfiguration): Promise<void> {
+    public async connectSkill(configuration: IConnectConfiguration): Promise<boolean> {
         try {
-            if (configuration.logger) {
-                this.logger = configuration.logger;
+            // Validate if no manifest path or URL was passed
+            if (!configuration.localManifest && !configuration.remoteManifest) {
+                throw new Error(`Either the 'localManifest' or 'remoteManifest' argument should be passed.`);
             }
             // Take skillManifest
             const skillManifest: ISkillManifest = configuration.localManifest
@@ -189,7 +187,8 @@ export class ConnectSkill {
             this.validateManifestSchema(skillManifest);
 
             if (this.logger.isError) {
-                process.exit(1);
+
+                return false;
             }
             // End of manifest schema validation
 
@@ -201,7 +200,8 @@ export class ConnectSkill {
             // Check if the skill is already connected to the assistant
             if (assistantSkills.find((assistantSkill: ISkillManifest) => assistantSkill.id === skillManifest.id)) {
                 this.logger.warning(`The skill '${skillManifest.name}' is already registered.`);
-                process.exit(1);
+
+                return false;
             }
 
             // Updating Dispatch
@@ -221,9 +221,13 @@ export class ConnectSkill {
 
             // Configuring bot auth settings
             this.logger.message('Configuring bot auth settings');
-            await authenticate(configuration, skillManifest, this.logger);
+            await this.authenticationUtils.authenticate(configuration, skillManifest, this.logger);
+
+            return true;
         } catch (err) {
             this.logger.error(`There was an error while connecting the Skill to the Assistant:\n${err}`);
+
+            return false;
         }
     }
 }

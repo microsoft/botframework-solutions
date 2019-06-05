@@ -11,10 +11,16 @@ import { ChildProcessUtils } from '../utils';
 export class TrainSkill {
     public logger: ILogger;
     private childProcessUtils: ChildProcessUtils;
+    private dispatchFile: string = '';
+    private dispatchJsonFile: string = '';
+    private dispatchFilePath: string = '';
+    private dispatchJsonFilePath: string = '';
+
     constructor(logger?: ILogger) {
         this.logger = logger || new ConsoleLogger();
         this.childProcessUtils = new ChildProcessUtils();
     }
+
     private async runCommand(command: string[], description: string): Promise<string> {
         this.logger.command(description, command.join(' '));
         const cmd: string = command[0];
@@ -29,45 +35,53 @@ export class TrainSkill {
 
     private async updateDispatch(configuration: ITrainConfiguration): Promise<void> {
         try {
-            const dispatchFile: string = `${configuration.dispatchName}.dispatch`;
-            const dispatchJsonFile: string = `${configuration.dispatchName}.json`;
-            const dispatchFilePath: string = join(configuration.dispatchFolder, dispatchFile);
-            const dispatchJsonFilePath: string = join(configuration.dispatchFolder, dispatchJsonFile);
             this.logger.message('Running dispatch refresh...');
+
             const dispatchRefreshCommand: string[] = ['dispatch', 'refresh'];
-            dispatchRefreshCommand.push(...['--dispatch', dispatchFilePath]);
+            dispatchRefreshCommand.push(...['--dispatch', this.dispatchFilePath]);
             dispatchRefreshCommand.push(...['--dataFolder', configuration.dispatchFolder]);
+
             this.logger.message(await this.runCommand(
                 dispatchRefreshCommand,
                 `Executing dispatch refresh for the ${configuration.dispatchName} file`));
-            if (!existsSync(dispatchJsonFilePath)) {
+
+            if (!existsSync(this.dispatchJsonFilePath)) {
                 // tslint:disable-next-line: max-line-length
-                throw(new Error(`Path to ${dispatchJsonFile} (${dispatchJsonFilePath}) leads to a nonexistent file. Make sure the dispatch refresh command is being executed successfully`));
+                throw(new Error(`Path to ${this.dispatchJsonFile} (${this.dispatchJsonFilePath}) leads to a nonexistent file. Make sure the dispatch refresh command is being executed successfully`));
             }
         } catch (err) {
-            this.logger.error(`There was an error in the dispatch refresh command:\n${err}`);
-            throw err;
+            throw new Error(`There was an error in the dispatch refresh command:\n${err}`);
         }
     }
 
     private async runLuisGen(configuration: ITrainConfiguration): Promise<void> {
         try {
-            const dispatchJsonFile: string = `${configuration.dispatchName}.json`;
-            const dispatchJsonFilePath: string = join(configuration.dispatchFolder, dispatchJsonFile);
             this.logger.message('Running LuisGen...');
+
             const luisgenCommand: string[] = ['luisgen'];
-            luisgenCommand.push(dispatchJsonFilePath);
+            luisgenCommand.push(this.dispatchJsonFilePath);
             luisgenCommand.push(...[`-${configuration.lgLanguage}`, `"DispatchLuis"`]);
             luisgenCommand.push(...['-o', configuration.lgOutFolder]);
+
             await this.runCommand(luisgenCommand, `Executing luisgen for the ${configuration.dispatchName} file`);
         } catch (err) {
-            this.logger.error(`There was an error in the luisgen command:\n${err}`);
-            throw err;
+            throw new Error(`There was an error in the luisgen command:\n${err}`);
         }
     }
 
     public async trainSkill(configuration: ITrainConfiguration): Promise<boolean> {
         try {
+            this.dispatchFile = `${configuration.dispatchName}.dispatch`;
+            this.dispatchJsonFile = `${configuration.dispatchName}.json`;
+            this.dispatchFilePath = join(configuration.dispatchFolder, this.dispatchFile);
+            this.dispatchJsonFilePath = join(configuration.dispatchFolder, this.dispatchJsonFile);
+
+            if (!existsSync(configuration.dispatchFolder)) {
+                throw(new Error(`Path to the Dispatch folder (${configuration.dispatchFolder}) leads to a nonexistent folder.`));
+            } else if (!existsSync(this.dispatchFilePath)) {
+                throw(new Error(`Path to the ${this.dispatchFile} file leads to a nonexistent file.`));
+            }
+
             await this.updateDispatch(configuration);
             await this.runLuisGen(configuration);
             this.logger.success('Successfully trained Dispatch model');
