@@ -33,9 +33,9 @@ namespace LinkedAccounts.Web.Controllers
         }
 
         /// <summary>
-        /// Initialisation work for the LinkedAccounts feature
+        /// Initialisation work for the LinkedAccounts feature.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>IActionResult.</returns>
         public async Task<IActionResult> LinkedAccounts()
         {
             this.ViewData["Message"] = "Your application description page.";
@@ -87,10 +87,10 @@ namespace LinkedAccounts.Web.Controllers
         }
 
         /// <summary>
-        /// Retrieve a URL for the user to link a given connection name to their Bot
+        /// Retrieve a URL for the user to link a given connection name to their Bot.
         /// </summary>
-        /// <param name="account"></param>
-        /// <returns></returns>
+        /// <param name="account">TokenStatus information.</param>
+        /// <returns>IActionResult.</returns>
         public async Task<IActionResult> SignIn(TokenStatus account)
         {
             var userId = UserId.GetUserId(HttpContext, this.User);
@@ -101,10 +101,10 @@ namespace LinkedAccounts.Web.Controllers
         }
 
         /// <summary>
-        /// Sign a user out of a given connection name previously linked to their Bot
+        /// Sign a user out of a given connection name previously linked to their Bot.
         /// </summary>
-        /// <param name="account"></param>
-        /// <returns></returns>
+        /// <param name="account">TokenStatus information.</param>
+        /// <returns>IActionResult.</returns>
         public async Task<IActionResult> SignOut(TokenStatus account)
         {
             var userId = UserId.GetUserId(HttpContext, this.User);
@@ -125,7 +125,9 @@ namespace LinkedAccounts.Web.Controllers
 
         
         [HttpPost]
+#pragma warning disable CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
         public async Task<IActionResult> ChangeUserId(LinkedAccountsViewModel model)
+#pragma warning restore CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
         {
             if (ModelState.IsValid)
             {                               
