@@ -1,57 +1,66 @@
 ﻿using AdaptiveAssistant.Services;
+using AdaptiveAssistant.Steps;
+using Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
+using Microsoft.Bot.Builder.Expressions.Parser;
 using Microsoft.Bot.Builder.LanguageGeneration;
-using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
 using System.Globalization;
 
 namespace AdaptiveAssistant.Dialogs
 {
     public class AdaptiveMainDialog : ComponentDialog
     {
-        private static IConfiguration Configuration;
-
-        public AdaptiveMainDialog(IConfiguration configuration, BotServices services, TemplateEngine engine)
+        public AdaptiveMainDialog(
+            BotServices services,
+            TemplateEngine engine)
             : base(nameof(AdaptiveMainDialog))
         {
-            Configuration = configuration;
-
             var localizedServices = services.CognitiveModelSets[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName];
 
             var mainDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
                 Recognizer = localizedServices.DispatchService,
                 Generator = new TemplateEngineLanguageGenerator(nameof(AdaptiveMainDialog), engine),
-                Rules = new List<IRule>()
+                Rules =
                 {
                     new EventRule()
                     {
-                        Events = new List<string> { "activityReceived" },
+                        Events = { "activityReceived" },
                         Constraint = "turn.activity.type == 'conversationUpdate'",
-                        Steps = new List<IDialog> { new SendActivity("Hi there!") }
+                        Steps =
+                        {
+                            new IfCondition()
+                            {
+                                Condition = new ExpressionEngine().Parse("user.greeted == null"),
+                                Steps = { new SendActivity("[newUserIntroCard]") },
+                                ElseSteps = { new SendActivity("[returningUserIntroCard]") }
+                            },
+                        }
                     },
-                    new IntentRule("q_faq")
+                    new IntentRule(DispatchLuis.Intent.l_general.ToString())
                     {
-                        Steps = new List<IDialog>() { new SendActivity("faq") }
+                        Steps = { new BeginDialog(nameof(AdaptiveGeneralDialog)) }
                     },
-                    new IntentRule("q_chitchat")
+                    new IntentRule(DispatchLuis.Intent.q_faq.ToString())
                     {
-                        Steps = new List<IDialog>() { new SendActivity("chitchat") }
+                        Steps = { new CallQnAMaker(localizedServices.QnAServices["faq"]) }
                     },
-                    new IntentRule("l_general")
+                    new IntentRule(DispatchLuis.Intent.q_chitchat.ToString())
                     {
-                        Steps = new List<IDialog>(){ new BeginDialog(nameof(AdaptiveGeneralDialog)) }
+                        Steps = { new CallQnAMaker(localizedServices.QnAServices["chitchat"]) }
+                    },
+                    new EventRule()
+                    {
+                        Events = { "NoQnAMatch" },
+                        Steps = { new SendActivity("[confusedMessage]") }
                     },
                     new UnknownIntentRule()
                     {
-                        Steps = new List<IDialog>
-                        {
-                            new TraceActivity(),
-                            new SendActivity("[confusedMessage]")
-                        }
+                        Steps = { new SendActivity("[confusedMessage]") }
                     }
                 }
             };
@@ -59,7 +68,7 @@ namespace AdaptiveAssistant.Dialogs
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
             AddDialog(mainDialog);
 
-            // Add all child dialogS
+            // Add all child dialogs
             AddDialog(new AdaptiveGeneralDialog(services, engine));
 
             // The initial child Dialog to run.
@@ -67,3 +76,28 @@ namespace AdaptiveAssistant.Dialogs
         }
     }
 }
+
+
+//AutoEndDialog = false,
+//Steps = new List<IDialog>
+//{
+//    new IfCondition(){
+//        Condition = new ExpressionEngine().Parse("turn.activity.type == 'conversationUpdate'"),
+//        Steps = new List<IDialog>
+//        {
+//            new SendActivity("Hi there!")
+//        }
+//    }
+//},
+
+//new EventRule()
+//{
+//    Events = new List<string>{ AdaptiveEvents.RecognizedIntent },
+//    Steps = new List<IDialog>
+//    {
+//        new CodeStep(async (dc, result) =>
+//        {
+//           return EndOfTurn;
+//        })
+//    }
+//},

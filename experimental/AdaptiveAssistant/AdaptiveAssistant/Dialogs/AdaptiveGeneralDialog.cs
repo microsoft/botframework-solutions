@@ -5,10 +5,8 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.LanguageGeneration;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,7 +14,9 @@ namespace AdaptiveAssistant.Dialogs
 {
     public class AdaptiveGeneralDialog : ComponentDialog
     {
-        public AdaptiveGeneralDialog(BotServices services, TemplateEngine engine)
+        public AdaptiveGeneralDialog(
+            BotServices services,
+            TemplateEngine engine)
             : base(nameof(AdaptiveGeneralDialog))
         {
             var localizedServices = services.CognitiveModelSets[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName];
@@ -27,31 +27,23 @@ namespace AdaptiveAssistant.Dialogs
                 Generator = new TemplateEngineLanguageGenerator(nameof(AdaptiveGeneralDialog), engine),
                 Rules = new List<IRule>()
                 {
-                    new IntentRule(
-                        intent: GeneralLuis.Intent.Cancel.ToString(),
-                        steps: new List<IDialog>
-                        {
-                            new TraceActivity(),
-                            new SendActivity("[cancelledMessage]")
-                        }),
-                    new IntentRule(
-                        intent: GeneralLuis.Intent.Help.ToString(),
-                        steps: new List<IDialog>
-                        {
-                            new TraceActivity(),
-                            new SendActivity("[helpCard]")
-                        }),
-                    new IntentRule(
-                        intent: GeneralLuis.Intent.Escalate.ToString(),
-                        steps: new List<IDialog>
-                        {
-                            new TraceActivity(),
-                            new SendActivity("[escalateMessage]")
-                        })
+                    new IntentRule(GeneralLuis.Intent.Cancel.ToString())
+                    {
+                        Steps = { new SendActivity("[cancelledMessage]") }
+                    },
+                    new IntentRule(GeneralLuis.Intent.Help.ToString())
+                    {
+                        Steps = { new SendActivity("[helpCard]") }
+                    },
+                    new IntentRule(GeneralLuis.Intent.Escalate.ToString())
+                    {
+                        Steps = { new BeginDialog(nameof(AdaptiveOnboardingDialog)), new SendActivity("[escalateMessage]") }
+                    }
                 }
             };
 
             AddDialog(generalDialog);
+            AddDialog(new AdaptiveOnboardingDialog(engine));
             InitialDialogId = nameof(AdaptiveDialog);
         }
     }
