@@ -305,11 +305,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (activityReceived.botConnectorActivity != null) {
             BotConnectorActivity botConnectorActivity = activityReceived.botConnectorActivity;
 
-<<<<<<< HEAD
-=======
-            String amount;
-
->>>>>>> 91eaf25eb5775864ddc8f73e8d0949ee61a6d6f9
             switch (botConnectorActivity.getType()) {
                 case "message":
                     chatAdapter.addChat(botConnectorActivity, this);
