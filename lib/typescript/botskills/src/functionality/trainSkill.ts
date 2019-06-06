@@ -41,13 +41,13 @@ export class TrainSkill {
             dispatchRefreshCommand.push(...['--dispatch', this.dispatchFilePath]);
             dispatchRefreshCommand.push(...['--dataFolder', configuration.dispatchFolder]);
 
-            this.logger.message(await this.runCommand(
+            await this.runCommand(
                 dispatchRefreshCommand,
-                `Executing dispatch refresh for the ${configuration.dispatchName} file`));
+                `Executing dispatch refresh for the ${configuration.dispatchName} file`);
 
             if (!existsSync(this.dispatchJsonFilePath)) {
                 // tslint:disable-next-line: max-line-length
-                throw(new Error(`Path to ${this.dispatchJsonFile} (${this.dispatchJsonFilePath}) leads to a nonexistent file. Make sure the dispatch refresh command is being executed successfully`));
+                throw new Error(`Path to ${this.dispatchJsonFile} (${this.dispatchJsonFilePath}) leads to a nonexistent file. Make sure the dispatch refresh command is being executed successfully`);
             }
         } catch (err) {
             throw new Error(`There was an error in the dispatch refresh command:\n${err}`);

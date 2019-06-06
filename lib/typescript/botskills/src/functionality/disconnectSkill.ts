@@ -55,7 +55,9 @@ Run 'botskills list --assistantSkills "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in or
             // Check if it is necessary to train the skill
             if (!configuration.noTrain) {
                 const trainConfiguration: ITrainConfiguration = {...{}, ...configuration};
-                await this.trainSkill.trainSkill(trainConfiguration);
+                if (!await this.trainSkill.trainSkill(trainConfiguration)) {
+                    throw new Error(`There was an error while training the Dispatch model.`);
+                }
             } else {
                 this.logger.warning(`Run 'botskills train --${configuration.lgLanguage}' command to train your connected skills`);
             }
