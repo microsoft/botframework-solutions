@@ -1,0 +1,353 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <style type="text/css">
+    body, html, #webchat { height: 100%; margin: 0 }
+  </style>
+</head>
+
+<body>
+  <div id="webchat" role="main"></div>
+  <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/eventemitter3@3.1.0/umd/eventemitter3.min.js"></script>
+  <script src="https://unpkg.com/core-js@2.6.3/client/core.min.js"></script>
+  <script>
+    'use strict';
+
+    const EventEmitter = window.EventEmitter3.EventEmitter;
+    const emitter = new EventEmitter3();
+
+    const createDirectLineJSForSpeech = bridge => {
+      let activityObserver;
+      let connectionStatusObserver;
+      const connectionStatus$ = new Observable(observer => {
+        connectionStatusObserver = observer;
+      });
+
+      return {
+        activity$: new Observable(observer => {
+          activityObserver = observer;
+          connectionStatusObserver.next(0);
+          connectionStatusObserver.next(1);
+
+          bridge.connect();
+
+          connectionStatusObserver.next(2);
+
+          bridge.addEventListener('activityReceived', event => observer.next(event.data));
+        }),
+        connectionStatus$,
+        postActivity: activity => {
+          const id = Math.random().toString(36).substr(2);
+
+          activityObserver.next({ ...activity, id });
+
+          const tc39Observable = new Observable(observer => {
+            observer.next({ id });
+            observer.complete();
+          });
+
+          return {
+            subscribe: (next, error, complete) => tc39Observable.subscribe({ next, error, complete })
+          };
+        }
+      };
+    }
+
+    class SpeechChannelBridge {
+      constructor(emitter) {
+        this.emitter = new window.EventEmitter3.EventEmitter();
+      }
+
+      addEventListener(name, listener) {
+        this.emitter.on(name, listener);
+      }
+
+      removeEventListener(name, listener) {
+        this.emitter.removeListener(name, listener);
+      }
+
+      connect() {
+        if (typeof window.CSharp === 'undefined') {
+          console.warn('Not running in Xamarin, cannot call Connect().');
+        } else {
+          window.CSharp.Connect();
+        }
+      }
+
+      activityReceived(activity) {
+        this.emitter.emit('activityReceived', {
+          data: activity,
+          sender: this
+        });
+      }
+
+      startKeywordListening() {
+        shouldStartListening = false;
+        this.emitter.emit('keywordListening', { sender: this });
+        store.dispatch({
+          type: 'WEB_CHAT/START_DICTATE'
+        });
+        CSharp.StartKeywordListening();
+      }
+
+      recognized(recognition) {
+        this.emitter.emit('recognized', {
+          data: recognition,
+          sender: this
+        });
+      }
+
+      recognizing(recognition) {
+        this.emitter.emit('recognizing', {
+          data: recognition,
+          sender: this
+        });
+      }
+
+      sessionStarted() {
+        console.log('sessionStarted');
+        this.emitter.emit('sessionStarted', {
+          sender: this
+        });
+      }
+
+      sessionStopped() {
+        this.emitter.emit('sessionStopped', {
+          sender: this
+        });
+      }
+
+      canceled(data) {
+        console.log('canceled: ' + data);
+        this.emitter.emit('canceled', {
+          sender: this,
+          data: data
+        });
+      }
+
+      startListening() {
+        console.log("startListening");
+
+        // CSharp.SendTestActivity();
+
+        if (typeof window.CSharp === 'undefined') {
+          console.warn('Not running in Xamarin, cannot call ListenOnce(), will fake sessionStarted().');
+          this.sessionStarted();
+        } else {
+          window.CSharp.ListenOnce();
+        }
+      }
+    }
+
+    let shouldStartListening = true;
+    const speechChannelBridge = new SpeechChannelBridge();
+    const directLine = createDirectLineJSForSpeech(speechChannelBridge);
+    const speechChannelPonyfillFactory = () => {
+      return {
+        // https://developer.mozilla.org/en-US/docs/Web/API/SpeechGrammarList
+        SpeechGrammarList: class SpeechChannelGrammarList {},
+        // https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition
+        SpeechRecognition: class SpeechChannelSpeechRecognition {
+          constructor() {
+            this.emitter = new EventEmitter();
+
+            this.continuous = false;
+            this.grammars = null;
+            this.interimResults = true;
+            this.lang = Navigator.language;
+            this.maxAlternatives = 1;
+            this.serviceURI = null;
+
+            [
+              'audioend',
+              'audiostart',
+              'end',
+              'error',
+              'nomatch',
+              'result',
+              'soundend',
+              'soundstart',
+              'speechend',
+              'speechstart',
+              'start'
+            ].forEach(name => {
+              this.emitter.addListener(name, event => {
+                const handler = this[`on${ name }`];
+
+                handler && handler(event);
+              });
+            });
+
+            this.handleCancelled = this.handleCancelled.bind(this);
+            this.handleRecognized = this.handleRecognized.bind(this);
+            this.handleRecognizing = this.handleRecognizing.bind(this);
+            this.handleSessionStarted = this.handleSessionStarted.bind(this);
+            this.handleSessionStopped = this.handleSessionStopped.bind(this);
+
+          }
+
+          abort() {
+            speechChannelBridge.removeEventListener('canceled', this.handleCancelled);
+            speechChannelBridge.removeEventListener('recognized', this.handleRecognized);
+            speechChannelBridge.removeEventListener('recognizing',this.handleRecognizing);
+            speechChannelBridge.removeEventListener('sessionStarted', this.handleSessionStarted);
+            speechChannelBridge.removeEventListener('sessionStopped', this.handleSessionStopped);
+          }
+
+          dispatchEvent(name, event = {}) {
+            this.emitter.emit(name, { ...event, sender: this });
+          }
+
+          handleSessionStarted() {
+            this.dispatchEvent('start');
+            this.dispatchEvent('audiostart');
+            this.dispatchEvent('soundstart');
+            this.dispatchEvent('speechstart');
+          }
+
+          handleSessionStopped() {
+            console.log('sessionStopped inside SpeechChannelSpeechRecognition');
+          }
+
+          handleCancelled() {
+            this.dispatchEvent('error');
+          }
+
+          handleRecognized(event) {
+            console.log('recognized inside SpeechChannelSpeechRecognition');
+
+            const results = [[{
+              confidence: .8,
+              transcript: event.data
+            }]];
+
+            results[0].isFinal = true;
+
+            this.dispatchEvent('speechend');
+            this.dispatchEvent('soundend');
+            this.dispatchEvent('audioend');
+            this.dispatchEvent('result', { resultIndex: 0, results });
+            this.dispatchEvent('end');
+          }
+
+          handleRecognizing(event) {
+            const results = [[{
+              confidence: .8,
+              transcript: event.data
+            }]];
+
+            results[0].isFinal = false;
+
+            this.dispatchEvent('result', { resultIndex: 0, results });
+          }
+
+          start() {
+            console.log('SpeechChannelSpeechRecognition start');
+
+            if (shouldStartListening) {
+              speechChannelBridge.startListening();
+            } else {
+              this.handleSessionStarted();
+              shouldStartListening = true;
+            }
+            speechChannelBridge.addEventListener('canceled', this.handleCancelled);
+            speechChannelBridge.addEventListener('recognized', this.handleRecognized);
+            speechChannelBridge.addEventListener('recognizing',this.handleRecognizing);
+            speechChannelBridge.addEventListener('sessionStarted', this.handleSessionStarted);
+            speechChannelBridge.addEventListener('sessionStopped', this.handleSessionStopped);
+          }
+        }
+      }
+    };
+
+    // these are our calls from CSharp
+    function canceled(data) {
+      speechChannelBridge.canceled(data);
+    }
+
+    function sessionStarted() {
+      speechChannelBridge.sessionStarted();
+    }
+
+    function sessionStopped() {
+      speechChannelBridge.sessionStopped();
+    }
+
+    function activityReceived(data) {
+      speechChannelBridge.activityReceived(data);
+    }
+
+    function keywordListening(data) {
+      speechChannelBridge.keywordListening(data);
+    }
+
+    function recognized(data) {
+      speechChannelBridge.recognized(data);
+    }
+
+    function recognizing(data) {
+      speechChannelBridge.recognizing(data);
+    }
+
+    function synthesizing() {
+    }
+
+    const cardActionMiddleware = () => next => ({ cardAction, getSignInUrl }) => {
+      switch (cardAction.type) {
+        case 'imBack':
+          // Note: instead of dispatch it to the store, you might want to send thru your C# counterpart, so it won't go thru DirectLine.postActivity.
+          return store.dispatch({
+            type: 'WEB_CHAT/SEND_MESSAGE',
+            payload: { text: cardAction.value }
+          });
+
+        case 'postBack':
+          // Note: instead of dispatch it to the store, you might want to send thru your C# counterpart, so it won't go thru DirectLine.postActivity.
+          return store.dispatch({
+            type: 'WEB_CHAT/SEND_POST_BACK',
+            payload: { value: cardAction.value }
+          });
+
+        default:
+          // This one is fall-thru, for example:
+          // - Open a URL
+          // - OAuth card need special handling.
+          // - "MessageBack", our next gen of imBack/postBack, it is not used in Adaptive Cards yet. It is used in suggested actions if the bot send it.
+
+          return next({ cardAction, getSignInUrl });
+      }
+    };
+
+    const store = window.WebChat.createStore({}, () => next => action => {
+      console.log(action);
+
+      return next(action);
+    });
+
+    let styleSet = window.WebChat.createStyleSet();
+
+    styleSet = {
+      ...styleSet,
+      root: {
+        ...styleSet.root,
+        backgroundImage: 'url(https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/1200px-BMW.svg.png)',
+        backgroundPosition: '50% 50%',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '50%'
+      }
+    };
+
+    window.WebChat.renderWebChat({
+      cardActionMiddleware,
+      directLine,
+      store,
+      styleSet,
+      webSpeechPonyfillFactory: speechChannelPonyfillFactory
+    }, document.getElementById('webchat'));
+
+    speechChannelBridge.startKeywordListening();
+  </script>
+</body>
+
+</html>
