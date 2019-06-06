@@ -9347,9 +9347,9 @@
 - i am {VALUE=chilly}
 - i am {VALUE=warm}
 - i am {VALUE=nippy} in here
-- i'm feeling cold
-- I'm cold
-- I am feeling cold
+- i'm feeling {VALUE=cold}
+- I'm {VALUE=cold}
+- I am feeling {VALUE=cold}
 - i am {VALUE=nippy} on the {SETTING=left front side}
 - i am {VALUE=shivering}
 - i am {VALUE=shivering} in here
