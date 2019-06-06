@@ -13,7 +13,7 @@ namespace LinkedAccounts.Web.Controllers
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
-    /// Controller for Account Linking
+    /// Controller used for account linked.
     /// </summary>
     [Route("[controller]/[action]")]
     public class AccountController : Controller
