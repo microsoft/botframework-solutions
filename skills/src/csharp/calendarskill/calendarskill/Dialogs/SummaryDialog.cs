@@ -74,7 +74,7 @@ namespace CalendarSkill.Dialogs
                         {
                             new BeginDialog(nameof(ChangeEventStatusDialog), options: skillOptions)
                         }
-                    },
+                    }
                 },
                 Steps = new List<IDialog>()
                 {
@@ -375,44 +375,44 @@ namespace CalendarSkill.Dialogs
                 skillOptions.DialogState = dialogState;
 
                 var luisResult = userState.LuisResult;
-                //var topIntent = luisResult?.TopIntent().intent;
+                var topIntent = luisResult?.TopIntent().intent;
 
                 var generalLuisResult = userState.GeneralLuisResult;
-                //var generalTopIntent = generalLuisResult?.TopIntent().intent;
-                //generalTopIntent = MergeShowIntent(generalTopIntent, topIntent, luisResult);
+                var generalTopIntent = generalLuisResult?.TopIntent().intent;
+                generalTopIntent = MergeShowIntent(generalTopIntent, topIntent, luisResult);
 
-                //if (topIntent == null)
-                //{
-                //    state.Clear();
-                //    return await sc.CancelAllDialogsAsync();
-                //}
+                if (topIntent == null)
+                {
+                    await ClearAllState(sc.Context);
+                    return await sc.CancelAllDialogsAsync();
+                }
 
-                //if ((generalTopIntent == General.Intent.ShowNext || topIntent == CalendarLuis.Intent.ShowNextCalendar) && state.SummaryEvents != null)
-                //{
-                //    if ((state.ShowEventIndex + 1) * state.PageSize < state.SummaryEvents.Count)
-                //    {
-                //        state.ShowEventIndex++;
-                //    }
-                //    else
-                //    {
-                //        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.CalendarNoMoreEvent));
-                //    }
+                if ((generalTopIntent == General.Intent.ShowNext || topIntent == CalendarLuis.Intent.ShowNextCalendar) && dialogState.SummaryEvents != null)
+                {
+                    if ((dialogState.ShowEventIndex + 1) * userState.PageSize < dialogState.SummaryEvents.Count)
+                    {
+                        dialogState.ShowEventIndex++;
+                    }
+                    else
+                    {
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.CalendarNoMoreEvent));
+                    }
 
-                //    return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, sc.Options);
-                //}
-                //else if ((generalTopIntent == General.Intent.ShowPrevious || topIntent == CalendarLuis.Intent.ShowPreviousCalendar) && state.SummaryEvents != null)
-                //{
-                //    if (state.ShowEventIndex > 0)
-                //    {
-                //        state.ShowEventIndex--;
-                //    }
-                //    else
-                //    {
-                //        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.CalendarNoPreviousEvent));
-                //    }
+                    return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, sc.Options);
+                }
+                else if ((generalTopIntent == General.Intent.ShowPrevious || topIntent == CalendarLuis.Intent.ShowPreviousCalendar) && dialogState.SummaryEvents != null)
+                {
+                    if (dialogState.ShowEventIndex > 0)
+                    {
+                        dialogState.ShowEventIndex--;
+                    }
+                    else
+                    {
+                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.CalendarNoPreviousEvent));
+                    }
 
-                //    return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, sc.Options);
-                //}
+                    return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, sc.Options);
+                }
 
                 sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                 var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;

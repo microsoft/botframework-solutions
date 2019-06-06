@@ -77,25 +77,11 @@ namespace CalendarSkill.Dialogs
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await CalendarStateAccessor.GetAsync(dc.Context);
-
-            // find contact dialog is not a start dialog, should not run luis part.
-            if (state.LuisResult != null && Id != nameof(FindContactDialog))
-            {
-                await DigestCalendarLuisResult(dc, state.LuisResult, true);
-            }
-
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await CalendarStateAccessor.GetAsync(dc.Context);
-            if (state.LuisResult != null)
-            {
-                await DigestCalendarLuisResult(dc, state.LuisResult, false);
-            }
-
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
@@ -265,7 +251,8 @@ namespace CalendarSkill.Dialogs
             string templateId,
             StringDictionary tokens = null)
         {
-            var state = await CalendarStateAccessor.GetAsync(dc.Context);
+            var userState = await CalendarStateAccessor.GetAsync(dc.Context);
+            var dialogState = (ShowMeetingsDialogState)dc.State.Dialog[CalendarStateKey];
 
             var overviewCard = new Card()
             {
@@ -277,7 +264,7 @@ namespace CalendarSkill.Dialogs
                     OverlapEventCount = overlapEventCount.ToString(),
                     TotalEventCountUnit = string.Format(
                         totalCount == 1 ? CalendarCommonStrings.OverviewTotalMeetingOne : CalendarCommonStrings.OverviewTotalMeetingPlural,
-                        state.StartDateString ?? CalendarCommonStrings.TodayLower),
+                        dialogState.StartDateString ?? CalendarCommonStrings.TodayLower),
                     OverlapEventCountUnit = CalendarCommonStrings.OverviewOverlapMeeting,
                     Provider = string.Format(CalendarCommonStrings.OverviewEventSource, events[0].SourceString()),
                     UserPhoto = await GetMyPhotoUrlAsync(dc.Context),
@@ -549,405 +536,6 @@ namespace CalendarSkill.Dialogs
             return timex.Contains("T");
         }
 
-        protected async Task DigestCalendarLuisResult(DialogContext dc, CalendarLuis luisResult, bool isBeginDialog)
-        {
-            try
-            {
-                var state = await CalendarStateAccessor.GetAsync(dc.Context);
-
-                var intent = luisResult.TopIntent().intent;
-
-                var entity = luisResult.Entities;
-
-                if (!isBeginDialog)
-                {
-                    return;
-                }
-
-                switch (intent)
-                {
-                    case CalendarLuis.Intent.FindMeetingRoom:
-                    case CalendarLuis.Intent.CreateCalendarEntry:
-                        {
-                            state.CreateHasDetail = false;
-                            if (entity.Subject != null)
-                            {
-                                state.CreateHasDetail = true;
-                                state.Title = GetSubjectFromEntity(entity);
-                            }
-
-                            if (entity.personName != null)
-                            {
-                                state.CreateHasDetail = true;
-                                state.AttendeesNameList = GetAttendeesFromEntity(entity, luisResult.Text, state.AttendeesNameList);
-                            }
-
-                            if (entity.FromDate != null)
-                            {
-                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
-                                if (date != null)
-                                {
-                                    state.CreateHasDetail = true;
-                                    state.StartDate = date;
-                                }
-
-                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
-                                if (date != null)
-                                {
-                                    state.CreateHasDetail = true;
-                                    state.EndDate = date;
-                                }
-                            }
-
-                            if (entity.ToDate != null)
-                            {
-                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
-                                if (date != null)
-                                {
-                                    state.CreateHasDetail = true;
-                                    state.EndDate = date;
-                                }
-                            }
-
-                            if (entity.FromTime != null)
-                            {
-                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromTime[0]);
-                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
-                                if (time != null)
-                                {
-                                    state.CreateHasDetail = true;
-                                    state.StartTime = time;
-                                }
-
-                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
-                                if (time != null)
-                                {
-                                    state.CreateHasDetail = true;
-                                    state.EndTime = time;
-                                }
-                            }
-
-                            if (entity.ToTime != null)
-                            {
-                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToTime[0]);
-                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone());
-                                if (time != null)
-                                {
-                                    state.CreateHasDetail = true;
-                                    state.EndTime = time;
-                                }
-                            }
-
-                            if (entity.Duration != null)
-                            {
-                                var duration = GetDurationFromEntity(entity, dc.Context.Activity.Locale);
-                                if (duration != -1)
-                                {
-                                    state.CreateHasDetail = true;
-                                    state.Duration = duration;
-                                }
-                            }
-
-                            if (entity.MeetingRoom != null)
-                            {
-                                state.CreateHasDetail = true;
-                                state.Location = GetMeetingRoomFromEntity(entity);
-                            }
-
-                            if (entity.Location != null)
-                            {
-                                state.CreateHasDetail = true;
-                                state.Location = GetLocationFromEntity(entity);
-                            }
-
-                            break;
-                        }
-
-                    case CalendarLuis.Intent.DeleteCalendarEntry:
-                        {
-                            if (entity.Subject != null)
-                            {
-                                state.Title = GetSubjectFromEntity(entity);
-                            }
-
-                            if (entity.FromDate != null)
-                            {
-                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
-                                if (date != null)
-                                {
-                                    state.StartDate = date;
-                                }
-
-                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
-                                if (date != null)
-                                {
-                                    state.EndDate = date;
-                                }
-                            }
-
-                            if (entity.FromTime != null)
-                            {
-                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromTime[0]);
-                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
-                                if (time != null)
-                                {
-                                    state.StartTime = time;
-                                }
-
-                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
-                                if (time != null)
-                                {
-                                    state.EndTime = time;
-                                }
-                            }
-
-                            break;
-                        }
-
-                    case CalendarLuis.Intent.ChangeCalendarEntry:
-                        {
-                            if (entity.Subject != null)
-                            {
-                                state.Title = GetSubjectFromEntity(entity);
-                            }
-
-                            if (entity.FromDate != null)
-                            {
-                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
-                                if (date != null)
-                                {
-                                    state.OriginalStartDate = date;
-                                }
-
-                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
-                                if (date != null)
-                                {
-                                    state.OriginalEndDate = date;
-                                }
-                            }
-
-                            if (entity.ToDate != null)
-                            {
-                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
-                                if (date != null)
-                                {
-                                    state.NewStartDate = date;
-                                }
-                            }
-
-                            if (entity.FromTime != null)
-                            {
-                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromTime[0]);
-                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
-                                if (time != null)
-                                {
-                                    state.OriginalStartTime = time;
-                                }
-
-                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
-                                if (time != null)
-                                {
-                                    state.OriginalEndTime = time;
-                                }
-                            }
-
-                            if (entity.ToTime != null)
-                            {
-                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToTime[0]);
-                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
-                                if (time != null)
-                                {
-                                    state.NewStartTime = time;
-                                }
-
-                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
-                                if (time != null)
-                                {
-                                    state.NewEndTime = time;
-                                }
-                            }
-
-                            if (entity.MoveEarlierTimeSpan != null)
-                            {
-                                state.MoveTimeSpan = GetMoveTimeSpanFromEntity(entity.MoveEarlierTimeSpan[0], dc.Context.Activity.Locale, false);
-                            }
-
-                            if (entity.MoveLaterTimeSpan != null)
-                            {
-                                state.MoveTimeSpan = GetMoveTimeSpanFromEntity(entity.MoveLaterTimeSpan[0], dc.Context.Activity.Locale, true);
-                            }
-
-                            if (entity.datetime != null)
-                            {
-                                var match = entity._instance.datetime.ToList().Find(w => w.Text.ToLower() == CalendarCommonStrings.DailyToken
-                                || w.Text.ToLower() == CalendarCommonStrings.WeeklyToken
-                                || w.Text.ToLower() == CalendarCommonStrings.MonthlyToken);
-                                if (match != null)
-                                {
-                                    state.RecurrencePattern = match.Text.ToLower();
-                                }
-                            }
-
-                            break;
-                        }
-
-                    case CalendarLuis.Intent.FindCalendarEntry:
-                    case CalendarLuis.Intent.FindCalendarDetail:
-                    case CalendarLuis.Intent.FindCalendarWhen:
-                    case CalendarLuis.Intent.FindCalendarWhere:
-                    case CalendarLuis.Intent.FindCalendarWho:
-                    case CalendarLuis.Intent.FindDuration:
-                        {
-                            if (entity.OrderReference != null)
-                            {
-                                state.OrderReference = GetOrderReferenceFromEntity(entity);
-                            }
-
-                            if (entity.FromDate != null)
-                            {
-                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
-                                if (date != null)
-                                {
-                                    state.StartDate = date;
-                                    state.StartDateString = dateString;
-                                }
-
-                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
-                                if (date != null)
-                                {
-                                    state.EndDate = date;
-                                }
-                            }
-
-                            if (entity.ToDate != null)
-                            {
-                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
-                                if (date != null)
-                                {
-                                    state.EndDate = date;
-                                }
-                            }
-
-                            if (entity.FromTime != null)
-                            {
-                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromTime[0]);
-                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
-                                if (time != null)
-                                {
-                                    state.StartTime = time;
-                                }
-
-                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
-                                if (time != null)
-                                {
-                                    state.EndTime = time;
-                                }
-                            }
-
-                            if (entity.ToTime != null)
-                            {
-                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToTime[0]);
-                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone());
-                                if (time != null)
-                                {
-                                    state.EndTime = time;
-                                }
-                            }
-
-                            state.AskParameterContent = luisResult.Text;
-
-                            break;
-                        }
-
-                    case CalendarLuis.Intent.ConnectToMeeting:
-                    case CalendarLuis.Intent.TimeRemaining:
-                        {
-                            if (entity.FromDate != null)
-                            {
-                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
-                                if (date != null)
-                                {
-                                    state.StartDate = date;
-                                }
-                            }
-
-                            if (entity.ToDate != null)
-                            {
-                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToDate[0]);
-                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, state.GetUserTimeZone());
-                                if (date != null)
-                                {
-                                    state.EndDate = date;
-                                }
-                            }
-
-                            if (entity.FromTime != null)
-                            {
-                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromTime[0]);
-                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), true);
-                                if (time != null)
-                                {
-                                    state.StartTime = time;
-                                }
-
-                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone(), false);
-                                if (time != null)
-                                {
-                                    state.EndTime = time;
-                                }
-                            }
-
-                            if (entity.ToTime != null)
-                            {
-                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.ToTime[0]);
-                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, state.GetUserTimeZone());
-                                if (time != null)
-                                {
-                                    state.EndTime = time;
-                                }
-                            }
-
-                            if (entity.OrderReference != null)
-                            {
-                                state.OrderReference = GetOrderReferenceFromEntity(entity);
-                            }
-
-                            if (entity.Subject != null)
-                            {
-                                state.Title = entity._instance.Subject[0].Text;
-                            }
-
-                            break;
-                        }
-
-                    case CalendarLuis.Intent.None:
-                        {
-                            break;
-                        }
-
-                    default:
-                        {
-                            break;
-                        }
-                }
-            }
-            catch
-            {
-                var state = await CalendarStateAccessor.GetAsync(dc.Context);
-                state.Clear();
-                await dc.CancelAllDialogsAsync();
-                throw;
-            }
-        }
-
         protected List<DateTimeResolution> RecognizeDateTime(string dateTimeString, string culture, bool convertToDate = true)
         {
             var results = DateTimeRecognizer.RecognizeDateTime(DateTimeHelper.ConvertNumberToDateTimeString(dateTimeString, convertToDate), culture, options: DateTimeOptions.CalendarMode);
@@ -1072,8 +660,10 @@ namespace CalendarSkill.Dialogs
 
         protected async Task<string> GetReadyToSendNameListStringAsync(WaterfallStepContext sc)
         {
-            var state = await CalendarStateAccessor.GetAsync(sc?.Context);
-            var unionList = state.AttendeesNameList.ToList();
+            var userState = await CalendarStateAccessor.GetAsync(sc.Context);
+            var dialogState = (CreateEventDialogState)sc.State.Dialog[CalendarStateKey];
+
+            var unionList = dialogState.FindContactInfor.ContactsNameList.ToList();
             if (unionList.Count == 1)
             {
                 return unionList.First();
@@ -1217,8 +807,10 @@ namespace CalendarSkill.Dialogs
 
         protected async Task<PromptOptions> GenerateOptions(List<PersonModel> personList, List<PersonModel> userList, DialogContext dc)
         {
-            var state = await CalendarStateAccessor.GetAsync(dc.Context);
-            var pageIndex = state.ShowAttendeesIndex;
+            var userState = await CalendarStateAccessor.GetAsync(dc.Context);
+            var dialogState = (CreateEventDialogState)dc.State.Dialog[CalendarStateKey];
+
+            var pageIndex = dialogState.FindContactInfor.ShowContactsIndex;
             var pageSize = 5;
             var skip = pageSize * pageIndex;
             var options = new PromptOptions
