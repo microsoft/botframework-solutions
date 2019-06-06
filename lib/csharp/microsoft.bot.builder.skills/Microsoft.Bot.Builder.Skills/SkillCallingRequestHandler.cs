@@ -111,7 +111,7 @@ namespace Microsoft.Bot.Builder.Skills
             _router = new Router(routes);
         }
 
-        public override async Task<Response> ProcessRequestAsync(ReceiveRequest request, ILogger<RequestHandler> logger = null)
+        public override async Task<Response> ProcessRequestAsync(ReceiveRequest request, object context = null, ILogger<RequestHandler> logger = null)
         {
             var routeContext = _router.Route(request);
             if (routeContext != null)

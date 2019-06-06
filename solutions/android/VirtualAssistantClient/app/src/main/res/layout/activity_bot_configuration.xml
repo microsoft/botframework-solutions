@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_background"
+    tools:context=".activities.botconfiguration.BotConfigurationActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/buttons">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_margin="8dp"
+            android:orientation="vertical" >
+
+            <!-- SERVICE KEY -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/service_key_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/configuration_service_key_hint">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/service_key"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:imeOptions="actionDone"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- SERVICE REGION -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/service_region_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/configuration_service_region_hint">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/service_region"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:imeOptions="actionDone"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- BOT ID -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/bot_id_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/configuration_bot_id_hint">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/bot_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:imeOptions="actionDone"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- VOICE NAME -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/voice_name_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/configuration_voice_name_hint">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/voice_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:imeOptions="actionDone"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- USER ID -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/user_id_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/configuration_user_id_hint">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/user_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:imeOptions="actionDone"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- USER ID -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/locale_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/configuration_locale_hint">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/locale"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:imeOptions="actionDone"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Geo Location -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:weightSum="2">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/geolocation_lat_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/configuration_geolocation_lat_hint">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/geolocation_lat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:imeOptions="actionDone"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/geolocation_lon_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/configuration_geolocation_lon_hint">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/geolocation_lon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:imeOptions="actionDone"/>
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!-- OK AND CANCEL BUTTONS -->
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="8dp"
+        android:orientation="horizontal">
+
+        <!-- CANCEL -->
+        <android.support.design.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:text="@string/cancel"/>
+
+        <!-- OK -->
+        <android.support.design.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button"
+            android:id="@+id/btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ok"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.microsoft.bot.builder.solutions.virtualassistant">
+    <!--
+        for an overview of permissions, see :
+        https://developer.android.com/guide/topics/permissions/overview
+    -->
+    <!-- NORMAL -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- for ContextCompat.startForegroundService -->
+    <!-- DANGEROUS -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- FOR SPEECH COMMANDS -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application
+        android:name=".MainApplication"
+        android:allowBackup="true"
+        android:fullBackupContent="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- android:windowSoftInputMode="adjustPan" prevents keyboard from hiding TextInputEditText's -->
+        <activity
+            android:name=".activities.main.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".assistant.VoiceInteractionActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.VOICE" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.botconfiguration.BotConfigurationActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+
+        <activity
+            android:name=".activities.configuration.AppConfigurationActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+
+        <!-- WIDGETS -->
+        <receiver android:name=".widgets.WidgetTalkButton">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_talk_button_info" />
+        </receiver>
+
+        <receiver android:name=".widgets.WidgetBotRequest">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_bot_request_info" />
+        </receiver>
+
+        <receiver android:name=".widgets.WidgetBotResponse">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_bot_response_info" />
+        </receiver>
+
+        <service
+            android:name=".service.SpeechService"
+            android:enabled="true"
+            android:exported="true" /> <!-- ASSISTANT -->
+
+        <service
+            android:name=".assistant.AssistantService"
+            android:permission="android.permission.BIND_VOICE_INTERACTION">
+            <meta-data
+                android:name="android.voice_interaction"
+                android:resource="@xml/assistant_service" />
+            <intent-filter>
+                <action android:name="android.service.voice.VoiceInteractionService" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".assistant.AssistantSessionService"
+            android:permission="android.permission.BIND_VOICE_INTERACTION" />
+
+    </application>
+
+</manifest>

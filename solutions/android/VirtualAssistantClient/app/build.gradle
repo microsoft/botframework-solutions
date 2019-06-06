@@ -1,0 +1,66 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.microsoft.bot.builder.solutions.virtualassistant"
+        minSdkVersion 24
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    // Android Support
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.android.support:design:28.0.0'
+
+    // Butterknife
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    // for Events
+    implementation 'org.greenrobot:eventbus:3.1.1'
+
+    // for adaptive card rendering, see https://mvnrepository.com/artifact/io.adaptivecards/adaptivecards-android
+    implementation 'io.adaptivecards:adaptivecards-android:1.2.0-beta1'
+
+    // JSON
+    implementation "com.google.code.gson:gson:2.8.4"
+
+    // rxJava
+    implementation 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
+    implementation 'io.reactivex:rxandroid:1.2.1'
+    implementation 'io.reactivex:rxjava:1.1.6'
+
+    // Material Dialogs
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+
+    // fused API
+    implementation "com.google.android.gms:play-services-location:16.0.0"
+    implementation "com.android.support:support-media-compat:28.0.0"
+//fixes fused API outdated library
+    implementation "com.android.support:support-v4:28.0.0"//fixes fused API outdated library
+
+    // Direct Line Speech (local module)
+    implementation project(':directlinespeech')
+}
