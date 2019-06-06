@@ -32,6 +32,7 @@ Create a Virtual Assistant or a Bot Framework Skill
     `appId` | The appId of an existing MSA App Registration. If left blank, a new app will be provisioned automatically. | No
     `parametersFile` | A .json file that can overwrite the default values of the Azure Resource Manager template. | No
     `outFolder` | Output directory for created appsettings.json and cognitivemodels.json files. Default value is current directory. | No
+    `languages` | Which language(s) to deploy for Dispatch/LUIS and QnAMaker resources. Default value is `en-us` and current options are `en-us, es-es, fr-fr, it-it, zh-zh`. | No
 
 ### Customize deployment using the parameters file
 
