@@ -3,11 +3,12 @@ using AdaptiveAssistant.Steps;
 using Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Expressions.Parser;
 using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Builder.Skills;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace AdaptiveAssistant.Dialogs
@@ -15,8 +16,10 @@ namespace AdaptiveAssistant.Dialogs
     public class AdaptiveMainDialog : ComponentDialog
     {
         public AdaptiveMainDialog(
+            BotSettings settings,
             BotServices services,
-            TemplateEngine engine)
+            TemplateEngine engine,
+            List<SkillDialog> skillDialogs)
             : base(nameof(AdaptiveMainDialog))
         {
             var localizedServices = services.CognitiveModelSets[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName];
@@ -27,6 +30,7 @@ namespace AdaptiveAssistant.Dialogs
                 Generator = new TemplateEngineLanguageGenerator(nameof(AdaptiveMainDialog), engine),
                 Rules =
                 {
+                    // Introduction event
                     new EventRule()
                     {
                         Events = { "activityReceived" },
@@ -36,23 +40,37 @@ namespace AdaptiveAssistant.Dialogs
                             new IfCondition()
                             {
                                 Condition = new ExpressionEngine().Parse("user.greeted == null"),
-                                Steps = { new SendActivity("[newUserIntroCard]") },
+                                Steps =
+                                {
+                                    new SendActivity("[newUserIntroCard]"),
+                                    new SetProperty() { Property = "user.greeted", Value = new ExpressionEngine().Parse("true") }
+                                },
                                 ElseSteps = { new SendActivity("[returningUserIntroCard]") }
                             },
                         }
                     },
+                    // General intents (Cancel, Help, Escalate, etc)
                     new IntentRule(DispatchLuis.Intent.l_general.ToString())
                     {
                         Steps = { new BeginDialog(nameof(AdaptiveGeneralDialog)) }
                     },
+                    // FAQ QnA Maker
                     new IntentRule(DispatchLuis.Intent.q_faq.ToString())
                     {
                         Steps = { new CallQnAMaker(localizedServices.QnAServices["faq"]) }
                     },
+                    // Chitchat QnA Maker
                     new IntentRule(DispatchLuis.Intent.q_chitchat.ToString())
                     {
                         Steps = { new CallQnAMaker(localizedServices.QnAServices["chitchat"]) }
                     },
+                    // Check unhandled identified intents agains registered skills
+                    new EventRule()
+                    {
+                        Events = { AdaptiveEvents.RecognizedIntent },
+                        Steps = { new InvokeSkill(settings) }
+                    },
+                    // If a QnA intent was triggered, but no match was found
                     new EventRule()
                     {
                         Events = { "NoQnAMatch" },
@@ -71,33 +89,13 @@ namespace AdaptiveAssistant.Dialogs
             // Add all child dialogs
             AddDialog(new AdaptiveGeneralDialog(services, engine));
 
+            foreach (var dialog in skillDialogs)
+            {
+                AddDialog(dialog);
+            }
+
             // The initial child Dialog to run.
             InitialDialogId = nameof(AdaptiveDialog);
         }
     }
 }
-
-
-//AutoEndDialog = false,
-//Steps = new List<IDialog>
-//{
-//    new IfCondition(){
-//        Condition = new ExpressionEngine().Parse("turn.activity.type == 'conversationUpdate'"),
-//        Steps = new List<IDialog>
-//        {
-//            new SendActivity("Hi there!")
-//        }
-//    }
-//},
-
-//new EventRule()
-//{
-//    Events = new List<string>{ AdaptiveEvents.RecognizedIntent },
-//    Steps = new List<IDialog>
-//    {
-//        new CodeStep(async (dc, result) =>
-//        {
-//           return EndOfTurn;
-//        })
-//    }
-//},

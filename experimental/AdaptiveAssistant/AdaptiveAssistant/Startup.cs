@@ -25,6 +25,9 @@ using AdaptiveAssistant.Services;
 using System.IO;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Builder.Skills;
+using System.Collections.Generic;
+using Microsoft.Bot.Builder.Skills.Auth;
 
 namespace AdaptiveAssistant
 {
@@ -72,8 +75,8 @@ namespace AdaptiveAssistant
             services.AddBotApplicationInsights(telemetryClient);
 
             // Configure storage
-            // services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
-            services.AddSingleton<IStorage>(new MemoryStorage());
+            // services.AddSingleton<IStorage>(new MemoryStorage());
+            services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
 
@@ -88,6 +91,22 @@ namespace AdaptiveAssistant
 
             // Configure adapters
             services.AddSingleton<IBotFrameworkHttpAdapter, DefaultAdapter>();
+
+            // Register skill dialogs
+            services.AddTransient(sp =>
+            {
+                var userState = sp.GetService<UserState>();
+                var skillDialogs = new List<SkillDialog>();
+
+                foreach (var skill in settings.Skills)
+                {
+                    var authDialog = BuildAuthDialog(skill, settings);
+                    var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MSAappId);
+                    skillDialogs.Add(new SkillDialog(skill, credentials, telemetryClient, userState, authDialog));
+                }
+
+                return skillDialogs;
+            });
 
             // Register dialogs
             services.AddTransient<AdaptiveMainDialog>();

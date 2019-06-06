@@ -151,7 +151,7 @@ namespace Microsoft.Bot.Builder.Skills
         /// <param name="innerDc">Inner Dialog Context.</param>
         /// <param name="cancellationToken">Cancellation Token.</param>
         /// <returns>DialogTurnResult.</returns>
-        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, DialogConsultation consultation, CancellationToken cancellationToken = default(CancellationToken))
         {
             var activity = innerDc.Context.Activity;
 
