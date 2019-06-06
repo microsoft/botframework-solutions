@@ -273,22 +273,6 @@ public class SpeechService extends Service {
                     Log.i(TAG_FOREGROUND_SERVICE, "Activity with PlayLocalFile");
                     playMediaStream(botConnectorActivity.getFile());
                     break;
-                case "AbsoluteTemp": {
-                    // "set the cabin temp to 75F"
-                    amount = botConnectorActivity.getAmount();//amount is absolute temp
-                    Log.i(TAG_FOREGROUND_SERVICE, "Activity with AbsoluteTemp to "+ amount);
-                    break;
-                }
-                case "DecreaseTemp": {
-                    amount = botConnectorActivity.getAmount();
-                    Log.i(TAG_FOREGROUND_SERVICE, "Activity with DecreaseTemp by " + amount);
-                    break;
-                }
-                case "IncreaseTemp": {
-                    amount = botConnectorActivity.getAmount();
-                    Log.i(TAG_FOREGROUND_SERVICE, "Activity with IncreaseTemp by " + amount);
-                    break;
-                }
                 default:
                     break;
             }
