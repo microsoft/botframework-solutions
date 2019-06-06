@@ -16,13 +16,13 @@ pool:
 
 steps:
 - task: Npm@1
-  displayName: install
+  displayName: 'npm install'
   inputs:
     workingDir: lib/typescript/botskills
     verbose: false
 
 - task: Npm@1
-  displayName: build
+  displayName: 'npm run build'
   inputs:
     command: custom
     workingDir: lib/typescript/botskills
@@ -30,10 +30,24 @@ steps:
     customCommand: 'run build'
 
 - task: Npm@1
-  displayName: 'tests with coverage'
+  displayName: 'npm test - coverage'
   inputs:
     command: custom
     workingDir: lib/typescript/botskills
     verbose: false
     customCommand: 'run coverage'
+    
+- task: PublishTestResults@2
+  displayName: 'publish test results'
+  inputs:
+    testResultsFiles: 'test-results.xml'
+    searchFolder: 'lib/typescript/botskills'
+    failTaskOnFailedTests: true    
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'publish code coverage'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: 'lib/typescript/botskills/coverage/cobertura-coverage.xml'
+    reportDirectory: 'lib/typescript/botskills/coverage/'
 
