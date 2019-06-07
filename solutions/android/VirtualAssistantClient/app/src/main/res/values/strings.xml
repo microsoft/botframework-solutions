@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Virtual Assistant MKII</string>
+    <string name="app_name">Virtual Assistant Client</string>
 
     <!-- Permissions -->
     <string name="permission_record_audio_title" translatable="false">Permission to record audio</string>
