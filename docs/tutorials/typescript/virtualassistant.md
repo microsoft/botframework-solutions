@@ -46,16 +46,22 @@ A Virtual Assistant app (in TypeScript) that greets a new user.
 3. Download and install Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions because the Virtual Assistant makes use of the latest capabilities: 
 
    ```shell
-   npm install -g botdispatch ludown luis-apis qnamaker luisgen@2.0.2 botskills
+   npm install -g botdispatch ludown luis-apis qnamaker luisgen@2.0.2
    ```
 
-4. Install [Yeoman](http://yeoman.io)
+4. Install Botskills (CLI) tool:
+   
+   ```
+   npm install -g botskills
+   ```
+
+5. Install [Yeoman](http://yeoman.io)
 
    ```shell
    npm install -g yo
    ```
 
-5. Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest).
+6. Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest).
 
 ## Create your assistant
 
