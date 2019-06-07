@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills.Auth;
-using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
@@ -86,7 +85,7 @@ namespace Microsoft.Bot.Builder.Skills
         /// <returns>dialog turn result.</returns>
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var slots = new Dictionary<string, object>();
+            var slots = new Dictionary<string, JObject>();
 
             // Retrieve the SkillContext state object to identify slots (parameters) that can be used to slot-fill when invoking the skill
             var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
@@ -136,7 +135,7 @@ namespace Microsoft.Bot.Builder.Skills
 
 			foreach (var slot in slots)
 			{
-				semanticAction.Entities.Add(slot.Key, new Entity { Properties = JObject.FromObject(slot.Value) });
+				semanticAction.Entities.Add(slot.Key, new Entity { Properties = slot.Value });
 			}
 
 			activity.SemanticAction = semanticAction;
@@ -194,7 +193,7 @@ namespace Microsoft.Bot.Builder.Skills
                 foreach (Slot slot in actionSlots)
                 {
                     // For each slot we check to see if there is an exact match, if so we pass this slot across to the skill
-                    if (skillContext.TryGetValue(slot.Name, out object slotValue))
+                    if (skillContext.TryGetValue(slot.Name, out JObject slotValue))
                     {
                         slots.Add(slot.Name, slotValue);
 

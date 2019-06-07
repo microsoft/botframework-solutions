@@ -30,10 +30,13 @@ namespace Microsoft.Bot.Builder.Skills
                 if (activity.Name == SkillEvents.CancelAllSkillDialogsEventName)
                 {
                     // when skill receives a CancelAllSkillDialogsEvent, clear the dialog stack and short-circuit
-                    var currentConversation = await _dialogState.GetAsync(turnContext);
-                    currentConversation.DialogStack.Clear();
-                    await _dialogState.SetAsync(turnContext, currentConversation);
-                    await _conversationState.SaveChangesAsync(turnContext, true);
+                    var currentConversation = await _dialogState.GetAsync(turnContext, () => new DialogState());
+					if (currentConversation.DialogStack != null)
+					{
+						currentConversation.DialogStack.Clear();
+						await _dialogState.SetAsync(turnContext, currentConversation);
+						await _conversationState.SaveChangesAsync(turnContext, true);
+					}
 
                     return;
                 }
