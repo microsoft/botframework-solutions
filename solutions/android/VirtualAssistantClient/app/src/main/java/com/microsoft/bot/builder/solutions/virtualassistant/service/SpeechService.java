@@ -101,7 +101,9 @@ public class SpeechService extends Service {
         locationProvider = new LocationProvider(this, location -> {
             final String locLat = String.valueOf(location.getLatitude());
             final String locLon = String.valueOf(location.getLongitude());
-            speechSdk.sendLocationEvent(locLat, locLon);
+            if (speechSdk != null) {
+                speechSdk.sendLocationEvent(locLat, locLon);
+            }
         });
     }
 
