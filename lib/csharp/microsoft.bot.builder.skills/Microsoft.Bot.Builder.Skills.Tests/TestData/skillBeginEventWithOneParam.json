@@ -1,1 +1,0 @@
-﻿{"type":"event","channelId":"test","from":{"id":"user1","name":"User1"},"conversation":{"id":"Conversation1"},"recipient":{"id":"bot","name":"Bot"},"value":{"param1":"TEST"},"name":"skill/begin"}
