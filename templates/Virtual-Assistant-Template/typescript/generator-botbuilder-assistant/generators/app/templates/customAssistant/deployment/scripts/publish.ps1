@@ -19,7 +19,7 @@ else {
 if (-not (Test-Path (Join-Path $projFolder 'web.config'))) {
 
 	# Add needed deployment files for az
-	az bot prepare-deploy --code-dir $projFolder --lang Typescript
+	az bot prepare-deploy --code-dir $projFolder --lang Node
 }
 
 # Check for existing deployment configuration
