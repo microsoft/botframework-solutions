@@ -53,7 +53,7 @@ foreach ($langCode in $languageMap.Keys) {
 				--id $luisApp.appid  `
 				--intentName "l_$($luisApp.id)" `
                 --dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
-                --dataFolder $dispatchFolder)  2>> $logFile | Out-Null
+                --dataFolder $(Join-Path $dispatchFolder $langCode))  2>> $logFile | Out-Null
         }
 
         # Update local LU files based on hosted QnA KBs
@@ -78,7 +78,7 @@ foreach ($langCode in $languageMap.Keys) {
 				--key $kb.subscriptionKey  `
 				--intentName "q_$($kb.id)" `
                 --dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
-                --dataFolder $dispatchFolder)  2>> $logFile | Out-Null
+                --dataFolder $(Join-Path $dispatchFolder $langCode))  2>> $logFile | Out-Null
         }
     }
     else
@@ -111,7 +111,7 @@ foreach ($langCode in $languageMap.Keys) {
 Write-Host "> Updating dispatch model ..."
 dispatch refresh `
     --dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
-    --dataFolder $dispatchFolder 2>> $logFile | Out-Null
+    --dataFolder $(Join-Path $dispatchFolder $langCode) 2>> $logFile | Out-Null
 
 # Update dispatch.cs file
 Write-Host "> Running LuisGen ..."
