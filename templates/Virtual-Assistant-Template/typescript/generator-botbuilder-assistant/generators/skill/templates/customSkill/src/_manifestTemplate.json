@@ -1,0 +1,26 @@
+{
+  "id": "<%= skillName %>",
+  "name": "<%= skillName %>",
+  "description": "This is the description of the <%= skillName %>",
+  "iconUrl": "",
+  "authenticationConnections": [],
+  "actions": [
+    {
+      "id": "<%= skillName %>_Sample",
+      "definition": {
+        "description": "Trigger <%= skillName %>",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "<%= skillName %>#Sample"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
