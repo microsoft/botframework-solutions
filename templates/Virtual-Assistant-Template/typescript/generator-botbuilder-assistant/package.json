@@ -1,6 +1,6 @@
 {
   "name": "generator-botbuilder-assistant",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Project template for Virtual Assistant using the Bot Builder SDK V4.",
   "homepage": "https://github.com/Microsoft/AI/tree/master/templates/Virtual-Assistant-Template/src/typescript",
   "repository": {

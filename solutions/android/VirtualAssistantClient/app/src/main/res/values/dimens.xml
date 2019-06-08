@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Main Activity -->
+    <dimen name="activity_margin">8dp</dimen>
+
+    <!-- Side-Bar -->
+    <dimen name="side_bar_width">80dp</dimen>
+    <dimen name="side_bar_assistant_size">50dp</dimen>
+    <dimen name="side_bar_button_width">30dp</dimen>
+    <dimen name="side_bar_shadow_width">10dp</dimen>
+
+    <!-- Chat -->
+    <dimen name="list_item_spacing_small">4dp</dimen>
+
+    <!--
+Refer to App Widget Documentation for margin information
+http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
+    -->
+    <dimen name="widget_margin">8dp</dimen>
+
+</resources>

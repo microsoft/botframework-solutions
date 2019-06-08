@@ -4,5 +4,5 @@
  */
 
 export { ChildProcessUtils } from './childProcessUtils';
-export { authenticate } from './authenticationUtils';
+export { AuthenticationUtils } from './authenticationUtils';
 export { validatePairOfArgs } from './validationUtils';

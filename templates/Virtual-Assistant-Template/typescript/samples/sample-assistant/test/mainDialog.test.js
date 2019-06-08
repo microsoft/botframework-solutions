@@ -67,8 +67,8 @@ describe("Main Dialog", function () {
 				const flow = testAdapter
 					.send('I want to talk to a human')	
 					.assertReply(function (activity, description) {
-						assert.equal(activity.attachments[0].contentType, 'application/vnd.microsoft.card.hero');
-						assert.deepEqual(activity.attachments[0].content.title, 'Our agents are available 24/7 at 1(800)555-1234. Or connect with us through Microsoft Teams.');
+						assert.strictEqual(activity.attachments[0].contentType, 'application/vnd.microsoft.card.hero');
+						assert.deepStrictEqual(activity.attachments[0].content.title, 'Our agents are available 24/7 at 1(800)555-1234. Or connect with us through Microsoft Teams.');
 					});
 
 				testNock.resolveWithMocks('mainDialog_escalate_response', done, flow);
@@ -95,8 +95,8 @@ describe("Main Dialog", function () {
 					locale: 'es-es'
 				})
 				.assertReply(function (activity, description) {
-					assert.equal(activity.attachments[0].contentType, 'application/vnd.microsoft.card.adaptive');
-					assert.deepEqual(activity.attachments[0].content, introJsonEs);
+					assert.strictEqual(activity.attachments[0].contentType, 'application/vnd.microsoft.card.adaptive');
+					assert.deepStrictEqual(activity.attachments[0].content, introJsonEs);
 				});
 
 				return testNock.resolveWithMocks('mainDialog_localization_response', done, flow);

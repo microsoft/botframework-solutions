@@ -28,7 +28,7 @@ namespace Microsoft.Bot.Builder.Skills
 
         public IActivityHandler SkillWebSocketBotAdapter { get; set; }
 
-        public async override Task<Response> ProcessRequestAsync(ReceiveRequest request, ILogger<RequestHandler> logger = null)
+        public async override Task<Response> ProcessRequestAsync(ReceiveRequest request, object context = null, ILogger<RequestHandler> logger = null)
         {
             if (Bot == null)
             {

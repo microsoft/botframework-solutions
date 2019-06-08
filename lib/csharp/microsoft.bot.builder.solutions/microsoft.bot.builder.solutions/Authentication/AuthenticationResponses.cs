@@ -17,5 +17,6 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
         public const string AuthProvidersPrompt = "AuthProvidersPrompt";
         public const string ConfiguredAuthProvidersPrompt = "ConfiguredAuthProvidersPrompt";
         public const string ErrorMessageAuthFailure = "ErrorMessageAuthFailure";
+        public const string NoLinkedAccount = "NoLinkedAccount";
     }
 }

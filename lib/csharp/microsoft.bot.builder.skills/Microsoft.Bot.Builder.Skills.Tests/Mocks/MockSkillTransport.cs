@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.Bot.Protocol;
 using Microsoft.Bot.Schema;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills.Tests.Mocks
 {
 	public class MockSkillTransport : ISkillTransport
 	{
-		private string _activityForwarded = string.Empty;
+		private Activity _activityForwarded;
 
 		public Task CancelRemoteDialogsAsync(ITurnContext turnContext)
 		{
@@ -22,19 +19,19 @@ namespace Microsoft.Bot.Builder.Skills.Tests.Mocks
 
 		public Task<bool> ForwardToSkillAsync(ITurnContext dialogContext, Activity activity, Action<Activity> tokenRequestHandler = null)
 		{
-			_activityForwarded = JsonConvert.SerializeObject(activity, SerializationSettings.BotSchemaSerializationSettings);
+			_activityForwarded = activity;
 
 			return Task.FromResult(true);
 		}
 
 		public bool CheckIfSkillInvoked()
 		{
-			return !string.IsNullOrWhiteSpace(_activityForwarded);
+			return _activityForwarded != null;
 		}
 
-		public void VerifyActivityForwardedCorrectly(Func<string, bool> assertion)
+		public void VerifyActivityForwardedCorrectly(Action<Activity> assertion)
 		{
-			Assert.IsTrue(assertion(_activityForwarded));
+			assertion(_activityForwarded);
 		}
 	}
 }
