@@ -47,6 +47,7 @@ namespace Microsoft.Bot.Builder.Skills
             if (string.IsNullOrEmpty(body) || request.Streams?.Count == 0)
             {
                 response.StatusCode = (int)HttpStatusCode.BadRequest;
+				response.SetBody("Empty request body.");
                 return response;
             }
 
@@ -56,13 +57,26 @@ namespace Microsoft.Bot.Builder.Skills
                 return response;
             }
 
-            try
-            {
-                var activity = JsonConvert.DeserializeObject<Activity>(body, Serialization.Settings);
-                var cancellationTokenSource = new CancellationTokenSource();
+			Activity activity = null;
 
+			try
+			{
+				activity = JsonConvert.DeserializeObject<Activity>(body, Serialization.Settings);
+			}
+			catch (Exception ex)
+			{
+				_botTelemetryClient.TrackException(ex);
+
+				response.StatusCode = (int)HttpStatusCode.BadRequest;
+				response.SetBody("Request body is not an Activity instance.");
+				return response;
+			}
+
+			try
+			{
+				var cancellationTokenSource = new CancellationTokenSource();
 				_stopWatch.Start();
-                var invokeResponse = await this.SkillWebSocketBotAdapter.ProcessActivityAsync(activity, new BotCallbackHandler(this.Bot.OnTurnAsync), cancellationTokenSource.Token).ConfigureAwait(false);
+				var invokeResponse = await this.SkillWebSocketBotAdapter.ProcessActivityAsync(activity, new BotCallbackHandler(this.Bot.OnTurnAsync), cancellationTokenSource.Token).ConfigureAwait(false);
 				_stopWatch.Stop();
 
 				_botTelemetryClient.TrackEvent("SkillWebSocketProcessRequestLatency", null, new Dictionary<string, double>
@@ -70,28 +84,37 @@ namespace Microsoft.Bot.Builder.Skills
 					{ "Latency", _stopWatch.ElapsedMilliseconds },
 				});
 
-                // trigger cancel token after activity is handled. this will stop the typing indicator
-                cancellationTokenSource.Cancel();
+				// trigger cancel token after activity is handled. this will stop the typing indicator
+				cancellationTokenSource.Cancel();
 
-                if (invokeResponse == null)
-                {
-                    response.StatusCode = (int)HttpStatusCode.OK;
-                }
-                else
-                {
-                    response.StatusCode = invokeResponse.Status;
-                    if (invokeResponse.Body != null)
-                    {
-                        response.SetBody(invokeResponse.Body);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
+				if (invokeResponse == null)
+				{
+					response.StatusCode = (int)HttpStatusCode.OK;
+				}
+				else
+				{
+					response.StatusCode = invokeResponse.Status;
+					if (invokeResponse.Body != null)
+					{
+						response.SetBody(invokeResponse.Body);
+					}
+				}
+			}
+			catch (SkillWebSocketCallbackException ex)
+			{
 				_botTelemetryClient.TrackException(ex);
 
-                response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            }
+				response.StatusCode = (int)HttpStatusCode.InternalServerError;
+				response.SetBody(ex.Message);
+
+				return response;
+			}
+			catch (Exception ex)
+			{
+				_botTelemetryClient.TrackException(ex);
+
+				response.StatusCode = (int)HttpStatusCode.InternalServerError;
+			}
 
             return response;
         }

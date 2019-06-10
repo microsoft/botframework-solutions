@@ -127,9 +127,18 @@ namespace Microsoft.Bot.Builder.Skills
                     _botTelemetryClient.TrackTrace($"Sending activity. ReplyToId: {activity.ReplyToId}", Severity.Information, null);
 
                     var stopWatch = new Diagnostics.Stopwatch();
-                    stopWatch.Start();
-                    response = await SendRequestAsync<ResourceResponse>(request).ConfigureAwait(false);
-                    stopWatch.Stop();
+
+					try
+					{
+						stopWatch.Start();
+						response = await SendRequestAsync<ResourceResponse>(request).ConfigureAwait(false);
+						stopWatch.Stop();
+					}
+					catch (Exception ex)
+					{
+						throw new SkillWebSocketCallbackException($"Callback failed. Verb: POST, Path: {requestPath}", ex);
+					}
+
                     _botTelemetryClient.TrackEvent("SkillWebSocketSendActivityLatency", null, new Dictionary<string, double>
                     {
                         { "Latency", stopWatch.ElapsedMilliseconds },
@@ -162,13 +171,24 @@ namespace Microsoft.Bot.Builder.Skills
             var request = Request.CreatePut(requestPath);
             request.SetBody(activity);
 
-            _botTelemetryClient.TrackTrace($"Updating activity. activity id: {activity.Id}", Severity.Information, null);
+			var response = default(ResourceResponse);
+
+			_botTelemetryClient.TrackTrace($"Updating activity. activity id: {activity.Id}", Severity.Information, null);
 
             var stopWatch = new Diagnostics.Stopwatch();
-            stopWatch.Start();
-            var response = await SendRequestAsync<ResourceResponse>(request, cancellationToken).ConfigureAwait(false);
-            stopWatch.Stop();
-            _botTelemetryClient.TrackEvent("SkillWebSocketUpdateActivityLatency", null, new Dictionary<string, double>
+
+			try
+			{
+				stopWatch.Start();
+				response = await SendRequestAsync<ResourceResponse>(request, cancellationToken).ConfigureAwait(false);
+				stopWatch.Stop();
+			}
+			catch (Exception ex)
+			{
+				throw new SkillWebSocketCallbackException($"Callback failed. Verb: PUT, Path: {requestPath}", ex);
+			}
+
+			_botTelemetryClient.TrackEvent("SkillWebSocketUpdateActivityLatency", null, new Dictionary<string, double>
             {
                 { "Latency", stopWatch.ElapsedMilliseconds },
             });
@@ -181,13 +201,23 @@ namespace Microsoft.Bot.Builder.Skills
             var requestPath = $"/activities/{reference.ActivityId}";
             var request = Request.CreateDelete(requestPath);
 
-            _botTelemetryClient.TrackTrace($"Updating activity. activity id: {reference.ActivityId}", Severity.Information, null);
+			var response = default(ResourceResponse);
+
+			_botTelemetryClient.TrackTrace($"Deleting activity. activity id: {reference.ActivityId}", Severity.Information, null);
 
             var stopWatch = new Diagnostics.Stopwatch();
-            stopWatch.Start();
-            await SendRequestAsync<ResourceResponse>(request, cancellationToken).ConfigureAwait(false);
-            stopWatch.Stop();
-            _botTelemetryClient.TrackEvent("SkillWebSocketDeleteActivityLatency", null, new Dictionary<string, double>
+			try
+			{
+				stopWatch.Start();
+				await SendRequestAsync<ResourceResponse>(request, cancellationToken).ConfigureAwait(false);
+				stopWatch.Stop();
+			}
+			catch (Exception ex)
+			{
+				throw new SkillWebSocketCallbackException($"Callback failed. Verb: DELETE, Path: {requestPath}", ex);
+			}
+
+			_botTelemetryClient.TrackEvent("SkillWebSocketDeleteActivityLatency", null, new Dictionary<string, double>
             {
                 { "Latency", stopWatch.ElapsedMilliseconds },
             });

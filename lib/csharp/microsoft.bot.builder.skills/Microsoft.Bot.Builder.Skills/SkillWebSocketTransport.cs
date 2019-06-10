@@ -53,6 +53,7 @@ namespace Microsoft.Bot.Builder.Skills
                         GetHandoffActivityCallback()),
                     headers);
 
+				_streamingTransportClient.Disconnected += StreamingTransportClient_Disconnected;
                 await _streamingTransportClient.ConnectAsync();
             }
 
@@ -72,7 +73,12 @@ namespace Microsoft.Bot.Builder.Skills
             return endOfConversation;
         }
 
-        public async Task CancelRemoteDialogsAsync(ITurnContext turnContext)
+		private void StreamingTransportClient_Disconnected(object sender, DisconnectedEventArgs e)
+		{
+
+		}
+
+		public async Task CancelRemoteDialogsAsync(ITurnContext turnContext)
         {
             var cancelRemoteDialogEvent = turnContext.Activity.CreateReply();
 
