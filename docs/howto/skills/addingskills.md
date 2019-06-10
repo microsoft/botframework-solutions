@@ -76,11 +76,11 @@ botskills disconnect --skillId SKILL_ID
 
 > A botskills refresh command will be added shortly. In the meantime, run the above disconnect command and then connect the skill again.
 
-## Train Connected Skills
-To train your connected skills use the following command, specifying the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration. 
+## Refresh Connected Skills
+To refresh the model of your connected skills use the following command, specifying the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration. 
 
 botskills:
 
 ```bash
-botskills train --cs
+botskills refresh --cs
 ```

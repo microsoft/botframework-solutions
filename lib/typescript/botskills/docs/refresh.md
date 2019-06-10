@@ -1,13 +1,13 @@
-# Train Connected Skills
+# Refresh Connected Skills
 
-The `train` command allows you to train your connected skills specifying the assistant's coding language using `--cs` or `--ts`.
+The `refresh` command allows you to refresh the model of your connected skills specifying the assistant's coding language using `--cs` or `--ts`.
 
 > **Tip:** It's highly advisable to execute this command from the root folder of your assistant bot, so if you are using the suggested folder structure from the Templates, you may ommit most of the optional arguments, as they default to the expected values from the Templates' folder structure.
 
-The basic command to train your connected skills:
+The basic command to refresh your connected skills:
 
 ```bash
-botskills train [options]
+botskills refresh [options]
 ```
 
 ### Options
@@ -29,5 +29,5 @@ botskills train [options]
 An example on how to use:
 
 ```bash
-botskills train --cs --verbose
+botskills refresh --cs --verbose
 ```
