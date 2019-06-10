@@ -30,9 +30,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.4.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.4.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.4.5" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.4.5" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.4.5" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.3" />
