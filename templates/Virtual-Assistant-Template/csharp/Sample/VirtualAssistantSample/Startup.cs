@@ -122,6 +122,7 @@ namespace VirtualAssistantSample
             app.UseBotApplicationInsights()
                 .UseDefaultFiles()
                 .UseStaticFiles()
+                .UseWebSockets()
                 .UseMvc();
         }
 
@@ -133,7 +134,7 @@ namespace VirtualAssistantSample
                 if (settings.OAuthConnections.Any() && settings.OAuthConnections.Any(o => skill.AuthenticationConnections.Any(s => s.ServiceProviderId == o.Provider)))
                 {
                     var oauthConnections = settings.OAuthConnections.Where(o => skill.AuthenticationConnections.Any(s => s.ServiceProviderId == o.Provider)).ToList();
-                    return new MultiProviderAuthDialog(oauthConnections);
+                    return new MultiProviderAuthDialog(oauthConnections, new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
                 }
                 else
                 {
