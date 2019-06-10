@@ -81,53 +81,86 @@ namespace CalendarSkill.Dialogs
                 Rules = new List<IRule>()
                 {
                     // Intent rules for the LUIS model. Each intent here corresponds to an intent defined in ./Dialogs/Resources/ToDoBot.lu file
-                    //new IntentRule("None")         { Steps = new List<IDialog>() { new SendActivity("This is none intent") } },
-                    //new IntentRule("CreateCalendarEntry")
-                    //{
-                    //    Steps = new List<IDialog>() { new BeginDialog(nameof(CreateEventDialog)) },
-                    //    Constraint = "turn.dialogEvent.value.intents.CreateCalendarEntry.score > 0.4"
-                    //},
-                    //new IntentRule("AcceptEventEntry")
-                    //{
-                    //    Steps = new List<IDialog>() { new BeginDialog(nameof(ChangeEventStatusDialog)) },
-                    //    Constraint = "turn.dialogEvent.value.intents.AcceptEventEntry.score > 0.4"
-                    //},
-                    //new IntentRule("DeleteCalendarEntry")
-                    //{
-                    //    Steps = new List<IDialog>() { new BeginDialog(nameof(ChangeEventStatusDialog)) },
-                    //    Constraint = "turn.dialogEvent.value.intents.DeleteCalendarEntry.score > 0.4"
-                    //},
-                    //new IntentRule("ChangeCalendarEntry")
-                    //{
-                    //    Steps = new List<IDialog>() { new BeginDialog(nameof(UpdateEventDialog)) },
-                    //    Constraint = "turn.dialogEvent.value.intents.ChangeCalendarEntry.score > 0.4"
-                    //},
-                    //new IntentRule("ConnectToMeeting")
-                    //{
-                    //    Steps = new List<IDialog>() { new BeginDialog(nameof(ConnectToMeetingDialog)) },
-                    //    Constraint = "turn.dialogEvent.value.intents.ConnectToMeeting.score > 0.4"
-                    //},
+                    new IntentRule("CreateCalendarEntry")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(CreateEventDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.CreateCalendarEntry.score > 0.4"
+                    },
+                    new IntentRule("FindMeetingRoom")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(CreateEventDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.FindMeetingRoom.score > 0.4"
+                    },
+                    new IntentRule("AcceptEventEntry")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(ChangeEventStatusDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.AcceptEventEntry.score > 0.4"
+                    },
+                    new IntentRule("DeleteCalendarEntry")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(ChangeEventStatusDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.DeleteCalendarEntry.score > 0.4"
+                    },
+                    new IntentRule("ChangeCalendarEntry")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(UpdateEventDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.ChangeCalendarEntry.score > 0.4"
+                    },
+                    new IntentRule("ConnectToMeeting")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(ConnectToMeetingDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.ConnectToMeeting.score > 0.4"
+                    },
                     new IntentRule("FindCalendarEntry")
                     {
-                        //Steps = new List<IDialog>() { new SendActivity("show meeting intent") },
-                        Steps = new List<IDialog>()
-                        {
-                            //new SendActivity("show meeting intent"),
-                            new BeginDialog(nameof(SummaryDialog), options: skillOptions),
-                            new EndDialog()
-                        },
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(SummaryDialog), options: skillOptions) },
                         Constraint = "turn.dialogEvent.value.intents.FindCalendarEntry.score > 0.4"
                     },
-                    //new IntentRule("TimeRemaining")
-                    //{
-                    //    Steps = new List<IDialog>() { new BeginDialog(nameof(TimeRemainingDialog)) },
-                    //    Constraint = "turn.dialogEvent.value.intents.TimeRemaining.score > 0.4"
-                    //},
-                    //new IntentRule("None")
-                    //{
-                    //    Steps = new List<IDialog>() { new SendActivity("This is none intent") },
-                    //    Constraint = "turn.dialogEvent.value.intents.None.score > 0.4"
-                    //},
+                    new IntentRule("FindCalendarWhen")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(SummaryDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.FindCalendarWhen.score > 0.4"
+                    },
+                    new IntentRule("FindCalendarDetail")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(SummaryDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.FindCalendarDetail.score > 0.4"
+                    },
+                    new IntentRule("FindCalendarWhere")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(SummaryDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.FindCalendarWhere.score > 0.4"
+                    },
+                    new IntentRule("FindCalendarWho")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(SummaryDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.FindCalendarWho.score > 0.4"
+                    },
+                    new IntentRule("FindDuration")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(SummaryDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.FindDuration.score > 0.4"
+                    },
+                    new IntentRule("ShowNextCalendar")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(SummaryDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.ShowNextCalendar.score > 0.4"
+                    },
+                    new IntentRule("ShowPreviousCalendar")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(SummaryDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.ShowPreviousCalendar.score > 0.4"
+                    },
+                    new IntentRule("TimeRemaining")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(TimeRemainingDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.TimeRemaining.score > 0.4"
+                    },
+                    new IntentRule("None")
+                    {
+                        Steps = new List<IDialog>() { new SendActivity("This is none intent") },
+                        Constraint = "turn.dialogEvent.value.intents.None.score > 0.4"
+                    },
                     //new UnknownIntentRule() { Steps = new List<IDialog>() { new SendActivity("This is unknown intent") } }
                     //new IntentRule("AddToDoDialog")    { Steps = new List<IDialog>() { new BeginDialog(nameof(AddToDoDialog)) } },
                     //new IntentRule("DeleteToDoDialog") { Steps = new List<IDialog>() { new BeginDialog(nameof(DeleteToDoDialog)) } },
@@ -142,7 +175,16 @@ namespace CalendarSkill.Dialogs
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
             AddDialog(rootDialog);
 
-            rootDialog.AddDialog(new List<IDialog>() { summaryDialog });
+            rootDialog.AddDialog(new List<IDialog>()
+            {
+                createEventDialog,
+                changeEventStatusDialog,
+                summaryDialog,
+                timeRemainingDialog,
+                updateEventDialog,
+                upcomingEventDialog,
+                connectToMeetingDialog
+            });
 
 
             //// Register dialogs

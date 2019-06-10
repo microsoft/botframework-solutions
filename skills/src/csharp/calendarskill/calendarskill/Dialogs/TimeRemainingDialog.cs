@@ -282,7 +282,7 @@ namespace CalendarSkill.Dialogs
                 var skillLuisResult = luisResult?.TopIntent().intent;
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
-                var newState = await DigestTimeRemainingLuisResult(sc, userState.LuisResult, userState.GeneralLuisResult, dialogState as CalendarDialogStateBase, true);
+                var newState = await DigestTimeRemainingLuisResult(sc, userState.LuisResult, userState.GeneralLuisResult, dialogState as CalendarDialogStateBase, false);
                 sc.State.Dialog.Add(CalendarStateKey, newState);
 
                 return await sc.NextAsync();

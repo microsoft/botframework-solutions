@@ -27,7 +27,7 @@ namespace CalendarSkill.Models
                 OrderReference = state.OrderReference;
                 Events = state.Events;
                 ShowEventIndex = state.ShowEventIndex;
-                FilterMeetingKeyWord = state.FilterMeetingKeyWord;
+                SummaryEvents = state.SummaryEvents;
             }
             else
             {
@@ -61,12 +61,8 @@ namespace CalendarSkill.Models
         public List<EventModel> Events { get; set; }
 
         public int ShowEventIndex { get; set; }
-
-        public string FilterMeetingKeyWord { get; set; }
-
+        
         public List<EventModel> SummaryEvents { get; set; }
-
-        public List<EventModel> ReadOutEvents { get; set; }
 
         public void Clear()
         {
@@ -85,9 +81,7 @@ namespace CalendarSkill.Models
             OrderReference = null;
             Events = new List<EventModel>();
             ShowEventIndex = 0;
-            FilterMeetingKeyWord = null;
             SummaryEvents = null;
-            ReadOutEvents = new List<EventModel>();
         }
 
         public class FindContactInformation

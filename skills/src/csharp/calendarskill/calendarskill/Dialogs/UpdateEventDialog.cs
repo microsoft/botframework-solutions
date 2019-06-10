@@ -94,6 +94,7 @@ namespace CalendarSkill.Dialogs
                 }
                 else if (dialogState.NewStartDateTime == null)
                 {
+                    skillOptions.DialogState = dialogState;
                     return await sc.BeginDialogAsync(Actions.UpdateNewStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound, skillOptions));
                 }
                 else
@@ -112,7 +113,11 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var skillOptions = (CalendarSkillDialogOptions)sc.Options;
+                if (sc.Result is CalendarSkillDialogOptions skillOptions)
+                {
+                    sc.State.Dialog[CalendarStateKey] = skillOptions.DialogState;
+                }
+
                 var userState = await CalendarStateAccessor.GetAsync(sc.Context);
                 var dialogState = (UpdateEventDialogState)sc.State.Dialog[CalendarStateKey];
 
@@ -271,12 +276,14 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
+                        skillOptions.DialogState = dialogState;
                         return await sc.BeginDialogAsync(Actions.UpdateNewStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound, skillOptions));
                     }
 
                     dialogState.NewStartDateTime = TimeZoneInfo.ConvertTimeToUtc(dialogState.NewStartDateTime.Value, userState.GetUserTimeZone());
 
-                    return await sc.ContinueDialogAsync();
+                    skillOptions.DialogState = dialogState;
+                    return await sc.EndDialogAsync(skillOptions);
                 }
                 else if (sc.Result != null)
                 {
@@ -341,16 +348,19 @@ namespace CalendarSkill.Dialogs
                     if (newStartTime != null)
                     {
                         dialogState.NewStartDateTime = newStartTime;
+                        skillOptions.DialogState = dialogState;
 
-                        return await sc.ContinueDialogAsync();
+                        return await sc.EndDialogAsync(skillOptions);
                     }
                     else
                     {
+                        skillOptions.DialogState = dialogState;
                         return await sc.BeginDialogAsync(Actions.UpdateNewStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime, skillOptions));
                     }
                 }
                 else
                 {
+                    skillOptions.DialogState = dialogState;
                     return await sc.BeginDialogAsync(Actions.UpdateNewStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotADateTime, skillOptions));
                 }
             }
@@ -375,6 +385,7 @@ namespace CalendarSkill.Dialogs
                 }
 
                 var calendarService = ServiceManager.InitCalendarService(userState.APIToken, userState.EventSource);
+                skillOptions.DialogState = dialogState;
                 return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound, skillOptions));
             }
             catch (SkillException ex)
@@ -486,7 +497,8 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    return await sc.EndDialogAsync(true);
+                    skillOptions.DialogState = dialogState;
+                    return await sc.EndDialogAsync(skillOptions);
                 }
             }
             catch (SkillException ex)
@@ -574,7 +586,7 @@ namespace CalendarSkill.Dialogs
                 var skillLuisResult = luisResult?.TopIntent().intent;
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
-                var newState = await DigestUpdateEventLuisResult(sc, userState.LuisResult, userState.GeneralLuisResult, dialogState as UpdateEventDialogState, true);
+                var newState = await DigestUpdateEventLuisResult(sc, userState.LuisResult, userState.GeneralLuisResult, dialogState as UpdateEventDialogState, false);
                 sc.State.Dialog.Add(CalendarStateKey, newState);
 
                 return await sc.NextAsync();

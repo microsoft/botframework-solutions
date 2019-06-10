@@ -127,6 +127,7 @@ namespace CalendarSkill.Dialogs
 
                 var userState = await CalendarStateAccessor.GetAsync(sc.Context);
                 var dialogState = (ConnectToMettingDialogState)sc.State.Dialog[CalendarStateKey];
+                var skillOptions = (CalendarSkillDialogOptions)sc.Options;
 
                 var options = sc.Options as ShowMeetingsDialogOptions;
                 if (dialogState.SummaryEvents == null)
@@ -152,6 +153,7 @@ namespace CalendarSkill.Dialogs
                 else if (dialogState.SummaryEvents.Count == 1)
                 {
                     dialogState.ConfirmedMeeting.Add(dialogState.SummaryEvents.First());
+                    skillOptions.DialogState = dialogState;
                     return await sc.ReplaceDialogAsync(Actions.ConfirmNumber, sc.Options);
                 }
 
@@ -187,6 +189,7 @@ namespace CalendarSkill.Dialogs
             {
                 var userState = await CalendarStateAccessor.GetAsync(sc.Context);
                 var dialogState = (ConnectToMettingDialogState)sc.State.Dialog[CalendarStateKey];
+                var skillOptions = (CalendarSkillDialogOptions)sc.Options;
 
                 var luisResult = userState.LuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
@@ -211,6 +214,7 @@ namespace CalendarSkill.Dialogs
                         await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.CalendarNoMoreEvent));
                     }
 
+                    skillOptions.DialogState = dialogState;
                     return await sc.ReplaceDialogAsync(Actions.ConnectToMeeting, sc.Options);
                 }
                 else if (generalTopIntent == General.Intent.ShowPrevious && dialogState.SummaryEvents != null)
@@ -224,6 +228,7 @@ namespace CalendarSkill.Dialogs
                         await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.CalendarNoPreviousEvent));
                     }
 
+                    skillOptions.DialogState = dialogState;
                     return await sc.ReplaceDialogAsync(Actions.ConnectToMeeting, sc.Options);
                 }
 
@@ -358,19 +363,20 @@ namespace CalendarSkill.Dialogs
 
                     if (filteredMeetingList.Count == 1)
                     {
-                        dialogState.ReadOutEvents = filteredMeetingList;
+                        skillOptions.DialogState = dialogState;
                         return await sc.BeginDialogAsync(Actions.ConfirmNumber, sc.Options);
                     }
                     else if (filteredMeetingList.Count > 1)
                     {
                         dialogState.SummaryEvents = filteredMeetingList;
-                        dialogState.FilterMeetingKeyWord = filterKeyWord;
+                        skillOptions.DialogState = dialogState;
                         return await sc.ReplaceDialogAsync(Actions.ConnectToMeeting, new ShowMeetingsDialogOptions(showMeetingReason, sc.Options));
                     }
                 }
 
                 if (dialogState.ConfirmedMeeting != null && dialogState.ConfirmedMeeting.Count > 0)
                 {
+                    skillOptions.DialogState = dialogState;
                     return await sc.ReplaceDialogAsync(Actions.ConfirmNumber, sc.Options);
                 }
                 else
@@ -499,7 +505,7 @@ namespace CalendarSkill.Dialogs
                 var skillLuisResult = luisResult?.TopIntent().intent;
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
-                var newState = await DigestConnectToMeetingLuisResult(sc, userState.LuisResult, userState.GeneralLuisResult, dialogState as ConnectToMettingDialogState, true);
+                var newState = await DigestConnectToMeetingLuisResult(sc, userState.LuisResult, userState.GeneralLuisResult, dialogState as ConnectToMettingDialogState, false);
                 sc.State.Dialog.Add(CalendarStateKey, newState);
 
                 return await sc.NextAsync();

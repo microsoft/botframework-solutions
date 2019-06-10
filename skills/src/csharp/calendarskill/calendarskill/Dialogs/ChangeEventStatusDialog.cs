@@ -186,6 +186,7 @@ namespace CalendarSkill.Dialogs
                 var calendarService = ServiceManager.InitCalendarService(userState.APIToken, userState.EventSource);
                 if (dialogState.StartDateTime == null)
                 {
+                    skillOptions.DialogState = dialogState;
                     return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound, skillOptions));
                 }
                 else
@@ -401,7 +402,7 @@ namespace CalendarSkill.Dialogs
                 var skillLuisResult = luisResult?.TopIntent().intent;
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
-                var newState = await DigestChangeEventStatusLuisResult(sc, userState.LuisResult, userState.GeneralLuisResult, dialogState as ChangeEventStatusDialogState, true);
+                var newState = await DigestChangeEventStatusLuisResult(sc, userState.LuisResult, userState.GeneralLuisResult, dialogState as ChangeEventStatusDialogState, false);
                 sc.State.Dialog.Add(CalendarStateKey, newState);
 
                 return await sc.NextAsync();

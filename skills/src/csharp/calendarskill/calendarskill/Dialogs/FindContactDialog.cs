@@ -174,6 +174,7 @@ namespace CalendarSkill.Dialogs
             {
                 var userState = await CalendarStateAccessor.GetAsync(sc.Context);
                 var dialogState = (CreateEventDialogState)sc.State.Dialog[CalendarStateKey];
+                var skillOptions = (FindContactDialogOptions)sc.Options;
 
                 // get name list from sc.result
                 if (sc.Result != null)
@@ -213,6 +214,8 @@ namespace CalendarSkill.Dialogs
 
                     // go to loop to go through all the names
                     dialogState.FindContactInfor.ConfirmContactsNameIndex = 0;
+
+                    skillOptions.DialogState = dialogState;
                     return await sc.ReplaceDialogAsync(Actions.LoopNameList, sc.Options, cancellationToken);
                 }
 
@@ -243,6 +246,7 @@ namespace CalendarSkill.Dialogs
                     dialogState.FindContactInfor.CurrentContactName = dialogState.FindContactInfor.ContactsNameList[dialogState.FindContactInfor.ConfirmContactsNameIndex];
                     var options = sc.Options as FindContactDialogOptions;
                     options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.Initialize;
+                    options.DialogState = dialogState;
                     return await sc.BeginDialogAsync(Actions.ConfirmAttendee, sc.Options, cancellationToken);
                 }
                 else
@@ -253,6 +257,7 @@ namespace CalendarSkill.Dialogs
                     var options = sc.Options as FindContactDialogOptions;
                     if (options.PromptMoreContact && dialogState.FindContactInfor.Contacts.Count < 20)
                     {
+                        options.DialogState = dialogState;
                         return await sc.ReplaceDialogAsync(Actions.AddMoreUserPrompt, options);
                     }
                     else
@@ -274,11 +279,19 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                if (sc.Result != null && sc.Result is FindContactDialogOptions)
+                {
+                    var result = (FindContactDialogOptions)sc.Result;
+                    sc.State.Dialog[CalendarStateKey] = result.DialogState;
+                }
+
                 var dialogState = (CreateEventDialogState)sc.State.Dialog[CalendarStateKey];
+                var skillOptions = (FindContactDialogOptions)sc.Options;
 
                 dialogState.FindContactInfor.ConfirmContactsNameIndex = dialogState.FindContactInfor.ConfirmContactsNameIndex + 1;
                 dialogState.FindContactInfor.ConfirmedContact = null;
-                return await sc.ReplaceDialogAsync(Actions.LoopNameList, sc.Options, cancellationToken);
+                skillOptions.DialogState = dialogState;
+                return await sc.ReplaceDialogAsync(Actions.LoopNameList, skillOptions, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -300,6 +313,7 @@ namespace CalendarSkill.Dialogs
 
                 // set the ConfirmPerson to null as defaut.
                 dialogState.FindContactInfor.ConfirmedContact = null;
+                skillOptions.DialogState = dialogState;
                 return await sc.BeginDialogAsync(Actions.UpdateName, skillOptions, cancellationToken: cancellationToken);
             }
             catch (SkillException skillEx)
@@ -336,7 +350,8 @@ namespace CalendarSkill.Dialogs
             }
             else
             {
-                return await sc.BeginDialogAsync(Actions.SelectEmail);
+                options.DialogState = dialogState;
+                return await sc.BeginDialogAsync(Actions.SelectEmail, options, cancellationToken);
             }
         }
 
@@ -371,6 +386,7 @@ namespace CalendarSkill.Dialogs
                 else
                 {
                     options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.ConfirmNo;
+                    options.DialogState = dialogState;
                     return await sc.ReplaceDialogAsync(Actions.ConfirmAttendee, options);
                 }
             }
@@ -564,6 +580,7 @@ namespace CalendarSkill.Dialogs
                 if (unionList.Count == 0)
                 {
                     options.UpdateUserNameReason = FindContactDialogOptions.UpdateUserNameReasonType.NotFound;
+                    options.DialogState = dialogState;
                     return await sc.ReplaceDialogAsync(Actions.UpdateName, options);
                 }
                 else
@@ -574,6 +591,7 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
+                    options.DialogState = dialogState;
                     return await sc.ReplaceDialogAsync(Actions.SelectPerson, sc.Options, cancellationToken);
                 }
             }
@@ -620,6 +638,7 @@ namespace CalendarSkill.Dialogs
             {
                 var userState = await CalendarStateAccessor.GetAsync(sc.Context);
                 var dialogState = (CreateEventDialogState)sc.State.Dialog[CalendarStateKey];
+                var skillOptions = (FindContactDialogOptions)sc.Options;
 
                 var luisResult = userState.LuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
@@ -650,7 +669,8 @@ namespace CalendarSkill.Dialogs
                         dialogState.FindContactInfor.ShowContactsIndex = 0;
                     }
 
-                    return await sc.ReplaceDialogAsync(Actions.SelectPerson, options: sc.Options, cancellationToken: cancellationToken);
+                    skillOptions.DialogState = dialogState;
+                    return await sc.ReplaceDialogAsync(Actions.SelectPerson, skillOptions, cancellationToken: cancellationToken);
                 }
 
                 var choiceResult = (sc.Result as FoundChoice)?.Value.Trim('*');
@@ -707,6 +727,7 @@ namespace CalendarSkill.Dialogs
             {
                 var userState = await CalendarStateAccessor.GetAsync(sc.Context);
                 var dialogState = (CreateEventDialogState)sc.State.Dialog[CalendarStateKey];
+                var skillOptions = (FindContactDialogOptions)sc.Options;
 
                 var luisResult = userState.LuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
@@ -737,7 +758,8 @@ namespace CalendarSkill.Dialogs
                         dialogState.FindContactInfor.ShowContactsIndex = 0;
                     }
 
-                    return await sc.ReplaceDialogAsync(Actions.SelectEmail, sc.Options, cancellationToken);
+                    skillOptions.DialogState = dialogState;
+                    return await sc.ReplaceDialogAsync(Actions.SelectEmail, skillOptions, cancellationToken);
                 }
 
                 var choiceResult = (sc.Result as FoundChoice)?.Value.Trim('*');
@@ -750,7 +772,8 @@ namespace CalendarSkill.Dialogs
                     dialogState.FindContactInfor.ShowContactsIndex = 0;
                 }
 
-                return await sc.EndDialogAsync();
+                skillOptions.DialogState = dialogState;
+                return await sc.EndDialogAsync(skillOptions);
             }
             catch (Exception ex)
             {
@@ -784,16 +807,18 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                var skillOptions = (FindContactDialogOptions)sc.Options;
+                var state = (CreateEventDialogState)sc.State.Dialog[CalendarStateKey];
                 var result = (bool)sc.Result;
+                skillOptions.DialogState = state;
                 if (result)
                 {
-                    var options = sc.Options as FindContactDialogOptions;
-                    options.FindContactReason = FindContactDialogOptions.FindContactReasonType.FindContactAgain;
-                    return await sc.ReplaceDialogAsync(Actions.ConfirmNameList, options);
+                    skillOptions.FindContactReason = FindContactDialogOptions.FindContactReasonType.FindContactAgain;
+                    return await sc.ReplaceDialogAsync(Actions.ConfirmNameList, skillOptions);
                 }
                 else
                 {
-                    return await sc.EndDialogAsync();
+                    return await sc.EndDialogAsync(skillOptions);
                 }
             }
             catch (Exception ex)
@@ -1034,7 +1059,7 @@ namespace CalendarSkill.Dialogs
                 var skillLuisResult = luisResult?.TopIntent().intent;
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
-                var newState = await DigestFindContactLuisResult(sc, userState.LuisResult, userState.GeneralLuisResult, dialogState as CreateEventDialogState, true);
+                var newState = await DigestFindContactLuisResult(sc, userState.LuisResult, userState.GeneralLuisResult, dialogState as CreateEventDialogState, false);
                 sc.State.Dialog.Add(CalendarStateKey, newState);
 
                 return await sc.NextAsync();
