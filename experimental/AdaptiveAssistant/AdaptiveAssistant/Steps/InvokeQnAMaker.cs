@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace AdaptiveAssistant.Steps
 {
-    public class CallQnAMaker : DialogCommand
+    public class InvokeQnAMaker : DialogCommand
     {
         private QnAMaker _qnaService;
 
-        public CallQnAMaker(QnAMaker qnaService)
+        public InvokeQnAMaker(QnAMaker qnaService)
         {
             _qnaService = qnaService;
         }

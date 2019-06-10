@@ -24,7 +24,7 @@ namespace AdaptiveAssistant.Dialogs
         {
             var localizedServices = services.CognitiveModelSets[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName];
 
-            var mainDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
+            var mainDialog = new AdaptiveDialog("mainAdaptive")
             {
                 Recognizer = localizedServices.DispatchService,
                 Generator = new TemplateEngineLanguageGenerator(nameof(AdaptiveMainDialog), engine),
@@ -33,20 +33,27 @@ namespace AdaptiveAssistant.Dialogs
                     // Introduction event
                     new EventRule()
                     {
-                        Events = { "activityReceived" },
+                        Events = { AdaptiveEvents.ActivityReceived },
                         Constraint = "turn.activity.type == 'conversationUpdate'",
                         Steps =
                         {
+                            // If user has not been greeted, show newUserIntroCard, else show returningUserIntroCard
                             new IfCondition()
                             {
                                 Condition = new ExpressionEngine().Parse("user.greeted == null"),
                                 Steps =
                                 {
                                     new SendActivity("[newUserIntroCard]"),
-                                    new SetProperty() { Property = "user.greeted", Value = new ExpressionEngine().Parse("true") }
+                                    new SetProperty() { Property = "user.greeted", Value = new ExpressionEngine().Parse("true") },
                                 },
-                                ElseSteps = { new SendActivity("[returningUserIntroCard]") }
+                                ElseSteps = { new SendActivity("Welcome back!") }
                             },
+                            // If we do not have the user's name, start the onboarding dialog
+                            new IfCondition()
+                            {
+                                Condition = new ExpressionEngine().Parse("user.name == null"),
+                                Steps = { new BeginDialog(nameof(AdaptiveOnboardingDialog)) }
+                            }
                         }
                     },
                     // General intents (Cancel, Help, Escalate, etc)
@@ -57,12 +64,12 @@ namespace AdaptiveAssistant.Dialogs
                     // FAQ QnA Maker
                     new IntentRule(DispatchLuis.Intent.q_faq.ToString())
                     {
-                        Steps = { new CallQnAMaker(localizedServices.QnAServices["faq"]) }
+                        Steps = { new InvokeQnAMaker(localizedServices.QnAServices["faq"]) }
                     },
                     // Chitchat QnA Maker
                     new IntentRule(DispatchLuis.Intent.q_chitchat.ToString())
                     {
-                        Steps = { new CallQnAMaker(localizedServices.QnAServices["chitchat"]) }
+                        Steps = { new InvokeQnAMaker(localizedServices.QnAServices["chitchat"]) }
                     },
                     // Check unhandled identified intents agains registered skills
                     new EventRule()
@@ -88,6 +95,7 @@ namespace AdaptiveAssistant.Dialogs
 
             // Add all child dialogs
             AddDialog(new AdaptiveGeneralDialog(services, engine));
+            AddDialog(new AdaptiveOnboardingDialog(engine));
 
             foreach (var dialog in skillDialogs)
             {
@@ -95,7 +103,7 @@ namespace AdaptiveAssistant.Dialogs
             }
 
             // The initial child Dialog to run.
-            InitialDialogId = nameof(AdaptiveDialog);
+            InitialDialogId = "mainAdaptive";
         }
     }
 }

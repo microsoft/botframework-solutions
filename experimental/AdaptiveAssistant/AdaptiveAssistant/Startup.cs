@@ -109,10 +109,10 @@ namespace AdaptiveAssistant
             });
 
             // Register dialogs
-            services.AddTransient<AdaptiveMainDialog>();
+            services.AddSingleton<AdaptiveMainDialog>();
 
             // Configure bot
-            services.AddTransient<IBot, DialogBot<AdaptiveMainDialog>>();
+            services.AddSingleton<IBot, DialogBot<AdaptiveMainDialog>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

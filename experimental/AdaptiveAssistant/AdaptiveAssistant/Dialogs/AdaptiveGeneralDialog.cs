@@ -7,8 +7,6 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace AdaptiveAssistant.Dialogs
 {
@@ -21,7 +19,7 @@ namespace AdaptiveAssistant.Dialogs
         {
             var localizedServices = services.CognitiveModelSets[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName];
 
-            var generalDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
+            var generalDialog = new AdaptiveDialog("generalAdaptive")
             {
                 Recognizer = localizedServices.LuisServices["general"],
                 Generator = new TemplateEngineLanguageGenerator(nameof(AdaptiveGeneralDialog), engine),
@@ -37,14 +35,15 @@ namespace AdaptiveAssistant.Dialogs
                     },
                     new IntentRule(GeneralLuis.Intent.Escalate.ToString())
                     {
-                        Steps = { new BeginDialog(nameof(AdaptiveOnboardingDialog)), new SendActivity("[escalateMessage]") }
-                    }
+                        Steps = { new SendActivity("[escalateMessage]") }
+                    },
+                    new IntentRule("None")
                 }
             };
 
             AddDialog(generalDialog);
             AddDialog(new AdaptiveOnboardingDialog(engine));
-            InitialDialogId = nameof(AdaptiveDialog);
+            InitialDialogId = "generalAdaptive";
         }
     }
 }
