@@ -310,6 +310,7 @@ module.exports = class extends Generator {
           )
         );
       } else {
+        this.spawnCommandSync("npm run build", []);
         this.log(chalk.green(`------------------------ `));
         this.log(chalk.green(` Your new skill is ready!  `));
         this.log(chalk.green(`------------------------ `));

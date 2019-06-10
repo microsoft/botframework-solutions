@@ -3,11 +3,9 @@
 The ToDo Skill provides ToDo related capabilities to a Virtual Assistant.
 The most common scenarios have been implemented in this beta release, with additional scenarios in development.
 
-## Table of Contents
+### Supported Sources
 
-- [Supported Scenarios](#supported-scenarios)
-- [Language Model](#language-model)
-- [Configuration](#configuration)
+> Office 365 and Outlook.com through the Microsoft Graph is supported at this time. Additional sources will be coming in a future release.
 
 ## Supported Scenarios
 
@@ -29,6 +27,31 @@ The following scenarios are currently supported by the Skill:
   - *Mark the task "get some food" as complete*
   - *Task completed "reserve a restaurant for anniversary"*
   - *Check off "bananas" on my grocery list*
+
+## Skill Deployment
+
+The ToDo Skill require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
+
+- Azure Web App
+- Azure Storage Account (Transcripts)
+- Azure Application Insights (Telemetry)
+- Azure CosmosDb (State)
+- Azure Cognitive Services - Language Understanding
+
+> Review the pricing and terms for the services and adjust to suit your scenario.
+
+To deploy your services using the default configuration, follow the steps in this common [deployment documentation page](/docs/tutorials/assistantandskilldeploymentsteps.md) from the folder where your have cloned the GitHub repo.
+
+### Authentication Connection Settings
+
+If you plan to use the skill as part of a Virtual Assistant the process of registering a skill with your Virtual Assistant will create the supporting authentication connection information automatically for your Virtual Assistant. This skill uses the following authentication scopes which are registered automatically:
+- `Notes.ReadWrite` 
+- `User.ReadBasic.All`
+- `Tasks.ReadWrite`
+
+**However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
+
+Follow the general instructions [here](/docs/reference/skills/manualauthsteps.md) to configure this using the scopes shown above.
 
 ## Language Model
 
@@ -65,35 +88,3 @@ LUIS models for the Skill are provided in .LU file format as part of the Skill. 
 |TaskContentPattern| Pattern.any |
 |number| Prebuilt entity|
 |ordinal| Prebuilt entity|
-
-## Configuration
-
-### Supported Sources
-
-> Office 365 and Outlook.com through the Microsoft Graph is supported at this time. Additional sources will be coming in a future release.
-
-### Skill Deployment
-
-The ToDo Skill require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
-
-- Azure Web App
-- Azure Storage Account (Transcripts)
-- Azure Application Insights (Telemetry)
-- Azure CosmosDb (State)
-- Azure Cognitive Services - Language Understanding
-
-> Review the pricing and terms for the services and adjust to suit your scenario.
-
-To deploy your services using the default configuration, follow the steps in this common [deployment documentation page](/docs/tutorials/assistantandskilldeploymentsteps.md) from the folder where your have cloned the GitHub repo.
-
-### Authentication Connection Settings
-
-Your Authentication Connection and corresponding Application Registration should have the following Scopes added, these will be added automatically as part of Skill configuration where possible.
-
-- `Notes.ReadWrite`
-
-### Example Skill Manifest
-
-```
-TBC
-```

@@ -71,6 +71,10 @@ class Copier {
       path.join(`src`, `bots`, `dialogBot.ts`)
     );
     templateFiles.set(
+      path.join(`src`, `_manifestTemplate.json`),
+      path.join(`src`, `manifestTemplate.json`)
+    );
+    templateFiles.set(
       path.join(`src`, `dialogs`, `_mainDialog.ts`),
       path.join(`src`, `dialogs`, `mainDialog.ts`)
     );
@@ -79,8 +83,8 @@ class Copier {
       path.join(`src`, `dialogs`, `skillDialogBase.ts`)
     );
     templateFiles.set(
-      path.join(`test`, `mockResources`, `_cognitiveModels.json`),
-      path.join(`test`, `mockResources`, `cognitiveModels.json`)
+      path.join(`test`, `mocks`, `resources`, `_cognitiveModels.json`),
+      path.join(`test`, `mocks`, `resources`, `cognitiveModels.json`)
     );
     selectedLanguages.forEach(language => {
       templateFiles.set(

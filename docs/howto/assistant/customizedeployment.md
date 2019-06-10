@@ -8,12 +8,12 @@ Azure Bot Service | S1 | The Azure Bot Service resource stores configuration inf
 Azure Blob Storage | Standard LRS | Used to store conversation transcripts.
 Azure Cosmos DB | Standard | Used to store conversation state. |
 Azure App Service Plan | S1 | Used to host your Bot Web App and QnA Maker Web App. |
-Azure Application Insights | N/A | Used to capture conversation and application telemetry.
+Azure Application Insights | N/A | Used to capture conversation and application telemetry. [Available regions](https://azure.microsoft.com/en-us/global-infrastructure/services/?products=monitor)
 Bot Web App | N/A | Hosts your Bot application.
 Language Understanding | S0 | Subscription keys for Language Understanding Cognitive Service.
-QnA Maker | S0 | Subscription keys for QnA Maker Cognitive Service.
+QnA Maker | S0 | Subscription keys for QnA Maker Cognitive Service. [Available regions](https://azure.microsoft.com/en-us/global-infrastructure/services/?products=cognitive-services)
 QnA Maker Web App | N/A | Hosts your QnA Maker knowledgebases.
-QnA Maker Azure Search Service | Standard | Search index for your QnA Maker knowledgebases.
+QnA Maker Azure Search Service | Standard | Search index for your QnA Maker knowledgebases. [Available regions](https://azure.microsoft.com/en-us/global-infrastructure/services/?products=search)
 Content Moderator | S0 | Subscription keys for Content Moderator Cognitive Service.
 
 Any of the following parameters in the ARM template can be overridden with your preferred values using the `parameters.template.json` file provided in the `Deployment\Resources` folder:

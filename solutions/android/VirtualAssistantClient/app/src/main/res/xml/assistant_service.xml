@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<voice-interaction-service
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:recognitionService="com.microsoft.bot.builder.solutions.virtualassistant.assistant.AssistantService"
+    android:sessionService="com.microsoft.bot.builder.solutions.virtualassistant.assistant.AssistantSessionService"
+    android:supportsAssist="true"/>
+
+    <!--
+      android:settingsActivity="com.android.test.voiceinteraction.SettingsActivity"
+    -->

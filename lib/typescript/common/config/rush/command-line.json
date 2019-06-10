@@ -14,6 +14,20 @@
             "summary": "Run tslint",
             "safeForSimultaneousRushProcesses": true,
             "enableParallelism": true
+        },
+        {
+            "commandKind": "bulk",
+            "name": "coverage",
+            "summary": "Run test with coverage",
+            "safeForSimultaneousRushProcesses": true,
+            "enableParallelism": true
+        },
+        {
+            "commandKind": "bulk",
+            "name": "test",
+            "summary": "Run test",
+            "safeForSimultaneousRushProcesses": true,
+            "enableParallelism": true
         }
     ]
 }

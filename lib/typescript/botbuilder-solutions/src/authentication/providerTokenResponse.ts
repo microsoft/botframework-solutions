@@ -16,6 +16,7 @@ export function isProviderTokenResponse(value: Object): boolean {
 
 export function getAuthenticationProvider(provider: string): OAuthProvider {
     switch (provider) {
+        case 'Azure Active Directory':
         case OAuthProvider.AzureAD.toString():
             return OAuthProvider.AzureAD;
         case OAuthProvider.Google.toString():

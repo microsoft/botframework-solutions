@@ -6,7 +6,7 @@
 import * as program from 'commander';
 import { existsSync } from 'fs';
 import { extname, isAbsolute, join, resolve } from 'path';
-import { disconnectSkill } from './functionality';
+import { DisconnectSkill } from './functionality';
 import { ConsoleLogger, ILogger} from './logger';
 import { ICognitiveModelFile, IDisconnectConfiguration } from './models';
 import { validatePairOfArgs } from './utils';
@@ -34,7 +34,9 @@ program
     .option('-i, --skillId <id>', 'Id of the skill to remove from your assistant (case sensitive)')
     .option('--cs', 'Determine your assistant project structure to be a CSharp-like structure')
     .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
+    .option('--noTrain', '[OPTIONAL] Determine whether the skills connected are not going to be trained (by default they are trained)')
     .option('--dispatchName [name]', '[OPTIONAL] Name of your assistant\'s \'.dispatch\' file (defaults to the name displayed in your Cognitive Models file)')
+    .option('--language [language]', '[OPTIONAL] Locale used for LUIS culture (defaults to \'en-us\')')
     .option('--dispatchFolder [path]', '[OPTIONAL] Path to the folder containing your assistant\'s \'.dispatch\' file (defaults to \'./deployment/resources/dispatch/en\' inside your assistant folder)')
     .option('--outFolder [path]', '[OPTIONAL] Path for any output file that may be generated (defaults to your assistant\'s root folder)')
     .option('--lgOutFolder [path]', '[OPTIONAL] Path for the LuisGen output (defaults to a \'service\' folder inside your assistant\'s folder)')
@@ -50,6 +52,7 @@ if (process.argv.length < 3) {
 }
 
 logger.isVerbose = args.verbose;
+let noTrain: boolean = false;
 
 // Validation of arguments
 // cs and ts validation
@@ -63,6 +66,11 @@ if (csAndTsValidationResult) {
 }
 const projectLanguage: string = args.cs ? 'cs' : 'ts';
 
+// noTrain validation
+if (args.noTrain) {
+    noTrain = true;
+}
+
 // skillId validation
 if (!args.skillId) {
     logger.error(`The 'skillId' argument should be provided.`);
@@ -72,6 +80,7 @@ if (!args.skillId) {
 const configuration: Partial<IDisconnectConfiguration> = {
     skillId: args.skillId,
     lgLanguage: projectLanguage,
+    noTrain: noTrain,
     logger: logger
 };
 
@@ -105,9 +114,6 @@ const language: string = args.language || 'en-us';
 configuration.language = language;
 const languageCode: string = (language.split('-'))[0];
 
-// luisFolder validation
-configuration.luisFolder = args.luisFolder || join(configuration.outFolder, 'Deployment', 'Resources', 'Skills', languageCode);
-
 // dispatchFolder validation
 configuration.dispatchFolder = args.dispatchFolder || join(configuration.outFolder, 'Deployment', 'Resources', 'Dispatch', languageCode);
 
@@ -122,4 +128,4 @@ if (!args.dispatchName) {
     configuration.dispatchName = cognitiveModelsFile.cognitiveModels[languageCode].dispatchModel.name;
 }
 
-disconnectSkill(<IDisconnectConfiguration> configuration);
+new DisconnectSkill(logger).disconnectSkill(<IDisconnectConfiguration> configuration);

@@ -3,6 +3,6 @@
  * Licensed under the MIT License.
  */
 
-export { connectSkill } from './connectSkill';
-export { disconnectSkill } from './disconnectSkill';
-export { listSkill } from './listSkill';
+export { ConnectSkill } from './connectSkill';
+export { DisconnectSkill } from './disconnectSkill';
+export { ListSkill } from './listSkill';

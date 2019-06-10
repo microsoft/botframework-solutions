@@ -46,11 +46,16 @@ A Virtual Assistant app (in C#) that greets a new user.
 5. Download and install the Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions as the Virtual Assistant makes use of the latest capabilities:
 
    ```
-   npm install -g botdispatch ludown@1.2.0 luis-apis qnamaker luisgen@2.0.2 botskills
+   npm install -g botdispatch ludown luis-apis qnamaker luisgen@2.0.2
+   ```
+6. Install Botskills (CLI) tool:
+   
+   ```
+   npm install -g botskills
    ```
 
-6. Download and install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest).
-7. Download and install the [Bot Framework Emulator](https://aka.ms/botframework-emulator).
+7. Download and install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest) **(Version 2.0.64 minimum required)**.
+8. Download and install the [Bot Framework Emulator](https://aka.ms/botframework-emulator).
 
 ## Create your assistant
 
