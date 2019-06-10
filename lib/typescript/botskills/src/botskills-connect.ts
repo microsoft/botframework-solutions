@@ -36,7 +36,7 @@ program
     .option('-r, --remoteManifest <url>', 'URL to remote Skill Manifest')
     .option('--cs', 'Determine your assistant project structure to be a CSharp-like structure')
     .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
-    .option('--noTrain', '[OPTIONAL] Determine whether the skills connected are not going to be trained (by default they are trained)')
+    .option('--noRefresh', '[OPTIONAL] Determine whether the model of your skills connected are not going to be trained (by default they are trained)')
     .option('--dispatchName [name]', '[OPTIONAL] Name of your assistant\'s \'.dispatch\' file (defaults to the name displayed in your Cognitive Models file)')
     .option('--language [language]', '[OPTIONAL] Locale used for LUIS culture (defaults to \'en-us\')')
     .option('--luisFolder [path]', '[OPTIONAL] Path to the folder containing your Skills\' .lu files (defaults to \'./deployment/resources/skills/en\' inside your assistant folder)')
@@ -58,7 +58,7 @@ if (process.argv.length < 3) {
 }
 
 logger.isVerbose = args.verbose;
-let noTrain: boolean = false;
+let noRefresh: boolean = false;
 
 // Validation of arguments
 // cs and ts validation
@@ -73,9 +73,9 @@ if (csAndTsValidationResult) {
 
 const projectLanguage: string = args.cs ? 'cs' : 'ts';
 
-// noTrain validation
-if (args.noTrain) {
-    noTrain = true;
+// noRefresh validation
+if (args.noRefresh) {
+    noRefresh = true;
 }
 
 // botName validation
@@ -103,7 +103,7 @@ const configuration: Partial<IConnectConfiguration> = {
     botName: args.botName,
     localManifest: args.localManifest,
     remoteManifest: args.remoteManifest,
-    noTrain: noTrain,
+    noRefresh: noRefresh,
     lgLanguage: projectLanguage
 };
 

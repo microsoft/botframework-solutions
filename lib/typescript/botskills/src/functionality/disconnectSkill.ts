@@ -53,7 +53,7 @@ Run 'botskills list --assistantSkills "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in or
             writeFileSync(dispatchFilePath, JSON.stringify(dispatchData, undefined, 4));
 
             // Check if it is necessary to train the skill
-            if (!configuration.noTrain) {
+            if (!configuration.noRefresh) {
                 const trainConfiguration: ITrainConfiguration = {...{}, ...configuration};
                 if (!await this.trainSkill.trainSkill(trainConfiguration)) {
                     throw new Error(`There was an error while training the Dispatch model.`);
