@@ -5,10 +5,10 @@
 import { existsSync } from 'fs';
 import { join } from 'path';
 import { ConsoleLogger, ILogger } from '../logger';
-import { ITrainConfiguration } from '../models';
+import { IRefreshConfiguration } from '../models';
 import { ChildProcessUtils } from '../utils';
 
-export class TrainSkill {
+export class RefreshSkill {
     public logger: ILogger;
     private childProcessUtils: ChildProcessUtils;
     private dispatchFile: string = '';
@@ -33,7 +33,7 @@ export class TrainSkill {
         }
     }
 
-    private async updateDispatch(configuration: ITrainConfiguration): Promise<void> {
+    private async updateDispatch(configuration: IRefreshConfiguration): Promise<void> {
         try {
             this.logger.message('Running dispatch refresh...');
 
@@ -54,7 +54,7 @@ export class TrainSkill {
         }
     }
 
-    private async runLuisGen(configuration: ITrainConfiguration): Promise<void> {
+    private async runLuisGen(configuration: IRefreshConfiguration): Promise<void> {
         try {
             this.logger.message('Running LuisGen...');
 
@@ -69,7 +69,7 @@ export class TrainSkill {
         }
     }
 
-    public async trainSkill(configuration: ITrainConfiguration): Promise<boolean> {
+    public async refreshSkill(configuration: IRefreshConfiguration): Promise<boolean> {
         try {
             this.dispatchFile = `${configuration.dispatchName}.dispatch`;
             this.dispatchJsonFile = `${configuration.dispatchName}.json`;
@@ -84,11 +84,11 @@ export class TrainSkill {
 
             await this.updateDispatch(configuration);
             await this.runLuisGen(configuration);
-            this.logger.success('Successfully trained Dispatch model');
+            this.logger.success('Successfully refreshed Dispatch model');
 
             return true;
         } catch (err) {
-            this.logger.error(`There was an error while training any Skill from the Assistant:\n${err}`);
+            this.logger.error(`There was an error while refreshing any Skill from the Assistant:\n${err}`);
 
             return false;
         }

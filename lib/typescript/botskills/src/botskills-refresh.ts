@@ -5,9 +5,9 @@
 
 import * as program from 'commander';
 import { join, resolve } from 'path';
-import { TrainSkill } from './functionality';
+import { RefreshSkill } from './functionality';
 import { ConsoleLogger, ILogger} from './logger';
-import { ICognitiveModelFile, ITrainConfiguration } from './models';
+import { ICognitiveModelFile, IRefreshConfiguration } from './models';
 import { validatePairOfArgs } from './utils';
 
 function showErrorHelp(): void {
@@ -28,8 +28,8 @@ program.Command.prototype.unknownOption = (flag: string): void => {
 
 // tslint:disable: max-line-length
 program
-    .name('botskills train')
-    .description('Train the connected skills.')
+    .name('botskills refresh')
+    .description('Refresh the connected skills.')
     .option('--cs', 'Determine your assistant project structure to be a CSharp-like structure')
     .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
     .option('--dispatchName [name]', '[OPTIONAL] Name of your assistant\'s \'.dispatch\' file (defaults to the name displayed in your Cognitive Models file)')
@@ -63,7 +63,7 @@ if (csAndTsValidationResult) {
 
 const projectLanguage: string = args.cs ? 'cs' : 'ts';
 // Initialize an instance of IConnectConfiguration to send the needed arguments to the connectSkill function
-const configuration: Partial<ITrainConfiguration> = {
+const configuration: Partial<IRefreshConfiguration> = {
     lgLanguage: projectLanguage
 };
 
@@ -99,4 +99,4 @@ if (!args.dispatchName) {
 configuration.logger = logger;
 // End of arguments validation
 
-new TrainSkill(logger).trainSkill(<ITrainConfiguration> configuration);
+new RefreshSkill(logger).refreshSkill(<IRefreshConfiguration> configuration);

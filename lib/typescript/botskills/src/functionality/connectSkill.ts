@@ -7,20 +7,20 @@ import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { isAbsolute, join, resolve } from 'path';
 import { get } from 'request-promise-native';
 import { ConsoleLogger, ILogger} from '../logger';
-import { IAction, IConnectConfiguration, ISkillFIle, ISkillManifest, ITrainConfiguration, IUtteranceSource } from '../models';
+import { IAction, IConnectConfiguration, IRefreshConfiguration, ISkillFIle, ISkillManifest, IUtteranceSource } from '../models';
 import { AuthenticationUtils, ChildProcessUtils } from '../utils';
-import { TrainSkill } from './trainSkill';
+import { RefreshSkill } from './refreshSkill';
 
 export class ConnectSkill {
     private logger: ILogger;
     private childProcessUtils: ChildProcessUtils;
-    private trainSkill: TrainSkill;
+    private refreshSkill: RefreshSkill;
     private authenticationUtils: AuthenticationUtils;
 
     constructor(logger: ILogger) {
         this.logger = logger || new ConsoleLogger();
         this.childProcessUtils = new ChildProcessUtils();
-        this.trainSkill = new TrainSkill(this.logger);
+        this.refreshSkill = new RefreshSkill(this.logger);
         this.authenticationUtils = new AuthenticationUtils();
     }
 
@@ -161,11 +161,11 @@ export class ConnectSkill {
                 await this.runCommand(dispatchAddCommand, `Executing dispatch add for the ${luisApp} LU file`);
             }));
 
-            // Check if it is necessary to train the skill
+            // Check if it is necessary to refresh the skill
             if (!configuration.noRefresh) {
-                const trainConfiguration: ITrainConfiguration = {...{}, ...configuration};
-                if (!await this.trainSkill.trainSkill(trainConfiguration)) {
-                    throw new Error(`There was an error while training the Dispatch model.`);
+                const refreshConfiguration: IRefreshConfiguration = {...{}, ...configuration};
+                if (!await this.refreshSkill.refreshSkill(refreshConfiguration)) {
+                    throw new Error(`There was an error while refreshing the Dispatch model.`);
                 }
             }
             this.logger.success('Successfully updated Dispatch model');

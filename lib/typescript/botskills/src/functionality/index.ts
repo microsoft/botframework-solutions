@@ -6,4 +6,4 @@
 export { ConnectSkill } from './connectSkill';
 export { DisconnectSkill } from './disconnectSkill';
 export { ListSkill } from './listSkill';
-export { TrainSkill } from './trainSkill';
+export { RefreshSkill } from './refreshSkill';

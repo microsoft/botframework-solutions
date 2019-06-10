@@ -5,7 +5,7 @@
 
 import { ILogger } from '../logger';
 
-export interface ITrainConfiguration {
+export interface IRefreshConfiguration {
     dispatchName: string;
     dispatchFolder: string;
     language: string;

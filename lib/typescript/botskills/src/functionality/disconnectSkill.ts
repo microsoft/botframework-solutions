@@ -6,16 +6,16 @@
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { ConsoleLogger, ILogger } from '../logger';
-import { IDisconnectConfiguration, IDispatchFile, IDispatchService, ISkillFIle, ISkillManifest, ITrainConfiguration } from '../models/';
-import { TrainSkill } from './trainSkill';
+import { IDisconnectConfiguration, IDispatchFile, IDispatchService, IRefreshConfiguration, ISkillFIle, ISkillManifest } from '../models/';
+import { RefreshSkill } from './refreshSkill';
 
 export class DisconnectSkill {
     public logger: ILogger;
-    private trainSkill: TrainSkill;
+    private refreshSkill: RefreshSkill;
 
     constructor(logger?: ILogger) {
         this.logger = logger || new ConsoleLogger();
-        this.trainSkill = new TrainSkill(this.logger);
+        this.refreshSkill = new RefreshSkill(this.logger);
     }
 
     public async updateDispatch(configuration: IDisconnectConfiguration): Promise<boolean> {
@@ -52,14 +52,14 @@ Run 'botskills list --assistantSkills "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in or
                 1);
             writeFileSync(dispatchFilePath, JSON.stringify(dispatchData, undefined, 4));
 
-            // Check if it is necessary to train the skill
+            // Check if it is necessary to refresh the skill
             if (!configuration.noRefresh) {
-                const trainConfiguration: ITrainConfiguration = {...{}, ...configuration};
-                if (!await this.trainSkill.trainSkill(trainConfiguration)) {
-                    throw new Error(`There was an error while training the Dispatch model.`);
+                const refreshConfiguration: IRefreshConfiguration = {...{}, ...configuration};
+                if (!await this.refreshSkill.refreshSkill(refreshConfiguration)) {
+                    throw new Error(`There was an error while refreshing the Dispatch model.`);
                 }
             } else {
-                this.logger.warning(`Run 'botskills train --${configuration.lgLanguage}' command to train your connected skills`);
+                this.logger.warning(`Run 'botskills refresh --${configuration.lgLanguage}' command to refresh your connected skills`);
             }
 
             return true;
