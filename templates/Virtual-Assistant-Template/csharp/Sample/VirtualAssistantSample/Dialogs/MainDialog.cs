@@ -217,11 +217,11 @@ namespace VirtualAssistantSample.Dialogs
 								var skillContext = await _skillContextAccessor.GetAsync(dc.Context, () => new SkillContext());
 								if (skillContext.ContainsKey(TimeZone))
 								{
-									skillContext[TimeZone] = tz;
+									skillContext[TimeZone] = JObject.Parse(tz.ToSerializedString());
 								}
 								else
 								{
-									skillContext.Add(TimeZone, tz);
+									skillContext.Add(TimeZone, JObject.Parse(tz.ToSerializedString()));
 								}
 
 								await _skillContextAccessor.SetAsync(dc.Context, skillContext);
@@ -242,11 +242,11 @@ namespace VirtualAssistantSample.Dialogs
 							var skillContext = await _skillContextAccessor.GetAsync(dc.Context, () => new SkillContext());
 							if (skillContext.ContainsKey(Location))
 							{
-								skillContext[Location] = location;
+								skillContext[Location] = JObject.Parse(location);
 							}
 							else
 							{
-								skillContext.Add(Location, location);
+								skillContext.Add(Location, JObject.Parse(location));
 							}
 
 							await _skillContextAccessor.SetAsync(dc.Context, skillContext);

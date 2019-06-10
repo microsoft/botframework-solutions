@@ -6,20 +6,23 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Protocol.StreamingExtensions.NetCore;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Configuration;
 using VirtualAssistantSample.Responses.Main;
 using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Bots
 {
-    public class DefaultAdapter : BotFrameworkHttpAdapter
+    public class DefaultAdapter : WebSocketEnabledHttpAdapter
     {
         public DefaultAdapter(
             BotSettings settings,
+            IConfiguration configuration,
             ICredentialProvider credentialProvider,
             IBotTelemetryClient telemetryClient,
             BotStateSet botStateSet)
-            : base(credentialProvider)
+            : base(configuration, credentialProvider)
         {
             OnTurnError = async (turnContext, exception) =>
             {
@@ -34,6 +37,7 @@ namespace VirtualAssistantSample.Bots
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
+            Use(new SetSpeakMiddleware(settings.DefaultLocale));
             Use(new AutoSaveStateMiddleware(botStateSet));
         }
     }
