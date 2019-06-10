@@ -201,8 +201,6 @@ namespace Microsoft.Bot.Builder.Skills
             var requestPath = $"/activities/{reference.ActivityId}";
             var request = Request.CreateDelete(requestPath);
 
-			var response = default(ResourceResponse);
-
 			_botTelemetryClient.TrackTrace($"Deleting activity. activity id: {reference.ActivityId}", Severity.Information, null);
 
             var stopWatch = new Diagnostics.Stopwatch();
