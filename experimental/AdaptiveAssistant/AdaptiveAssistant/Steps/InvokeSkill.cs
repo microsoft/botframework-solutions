@@ -35,8 +35,7 @@ namespace AdaptiveAssistant.Steps
 
                 if (identifiedSkill != null)
                 {
-                    await dc.Parent.BeginDialogAsync(identifiedSkill.Id);
-                    return await dc.Parent.ContinueDialogAsync();
+                    return await dc.Parent.BeginDialogAsync(identifiedSkill.Id);
                 }
             }
 
