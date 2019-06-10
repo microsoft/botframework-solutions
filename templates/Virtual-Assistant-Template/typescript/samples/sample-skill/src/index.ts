@@ -21,8 +21,9 @@ import {
 import {
     IAuthenticationConnection,
     ISkillManifest,
+    manifestGenerator,
     SkillContext,
-    SkillHttpAdapter} from 'botbuilder-skills';
+    SkillHttpAdapter } from 'botbuilder-skills';
 import {
     ICognitiveModelConfiguration,
     IOAuthConnection,
@@ -31,6 +32,7 @@ import {
     ResponseManager} from 'botbuilder-solutions';
 import i18next from 'i18next';
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
+import { join } from 'path';
 import * as restify from 'restify';
 import { CustomSkillAdapter } from './adapters/customSkillAdapter';
 import { DefaultAdapter } from './adapters/defaultAdapter';
@@ -192,6 +194,10 @@ server.post('/api/skill/messages', (req: restify.Request, res: restify.Response)
         await bot.run(turnContext);
     });
 });
+
+const manifestPath: string = join(__dirname, 'manifestTemplate.json');
+server.use(restify.plugins.queryParser());
+server.get('/api/skill/manifest', manifestGenerator(manifestPath, botSettings));
 
 // This method creates a MultiProviderAuthDialog based on a skill manifest.
 function buildAuthDialog(skill: ISkillManifest, settings: Partial<IBotSettings>): MultiProviderAuthDialog|undefined {
