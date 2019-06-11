@@ -28,6 +28,7 @@ namespace AdaptiveAssistant.Dialogs
 
             var mainDialog = new AdaptiveDialog("mainAdaptive")
             {
+                AutoEndDialog = false,
                 Recognizer = localizedServices.DispatchService,
                 Generator = new TemplateEngineLanguageGenerator(nameof(AdaptiveMainDialog), engine),
                 Rules =
@@ -50,12 +51,12 @@ namespace AdaptiveAssistant.Dialogs
                                 },
                                 ElseSteps = { new SendActivity("Welcome back!") }
                             },
-                            // // If we do not have the user's name, start the onboarding dialog
-                            // new IfCondition()
-                            // {
-                            //     Condition = new ExpressionEngine().Parse("user.name == null"),
-                            //     Steps = { new BeginDialog(nameof(AdaptiveOnboardingDialog)) }
-                            // }
+                             // If we do not have the user's name, start the onboarding dialog
+                             new IfCondition()
+                             {
+                                 Condition = new ExpressionEngine().Parse("user.name == null"),
+                                 Steps = { new BeginDialog(nameof(AdaptiveOnboardingDialog)) }
+                             }
                         }
                     },
                     // General intents (Cancel, Help, Escalate, etc)

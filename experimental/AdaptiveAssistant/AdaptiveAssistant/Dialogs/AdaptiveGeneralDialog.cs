@@ -42,7 +42,6 @@ namespace AdaptiveAssistant.Dialogs
             };
 
             AddDialog(generalDialog);
-            AddDialog(new AdaptiveOnboardingDialog(engine));
             InitialDialogId = "generalAdaptive";
         }
     }
