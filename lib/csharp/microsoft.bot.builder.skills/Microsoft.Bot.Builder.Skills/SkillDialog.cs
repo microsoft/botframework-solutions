@@ -225,7 +225,7 @@ namespace Microsoft.Bot.Builder.Skills
                 }
                 else
 				{
-					var dialogResult = new DialogTurnResult(DialogTurnStatus.Empty);
+					var dialogResult = new DialogTurnResult(DialogTurnStatus.Waiting);
 
 					// if there's any response we need to send to the skill queued
 					// forward to skill and start a new turn
