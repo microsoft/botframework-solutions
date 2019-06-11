@@ -167,6 +167,8 @@ export class ConnectSkill {
                 if (!await this.refreshSkill.refreshSkill(refreshConfiguration)) {
                     throw new Error(`There was an error while refreshing the Dispatch model.`);
                 }
+            } else {
+                this.logger.warning(`Run 'botskills refresh --${configuration.lgLanguage}' command to refresh your connected skills`);
             }
             this.logger.success('Successfully updated Dispatch model');
         } catch (err) {
@@ -196,7 +198,7 @@ export class ConnectSkill {
 
             // Take VA Skills configurations
             //tslint:disable-next-line: no-var-requires non-literal-require
-            const assistantSkillsFile: ISkillFIle = require(configuration.skillsFile);
+            const assistantSkillsFile: ISkillFIle = JSON.parse(readFileSync(configuration.skillsFile, 'UTF8'));
             const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills || [];
 
             // Check if the skill is already connected to the assistant
