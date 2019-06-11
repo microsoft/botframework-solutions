@@ -13,6 +13,8 @@ The most common scenarios have been implemented in this beta release, with addit
 
 > Office 365 and Outlook.com through the Microsoft Graph is supported along with support for Google accounts.
 
+To use Google account skill you need create your calendar API credential in [Google developers console](https://console.developers.google.com). Then create an OAuth connection setting in your Web App Bot. Choose "Google" in Service Provider and put the client id and secret that generated in credential. The scopes are "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts". Also you need add them in appsettings.json file.
+
 ## Supported Scenarios
 
 The following scenarios are currently supported by the Skill:
@@ -22,26 +24,19 @@ The following scenarios are currently supported by the Skill:
   - *Accept the event sent by Yolanda Wong*
 - Change an Event
   - *Bring forward my 4:00 appointment two hours*
-  - *Change my vacation from ending on Friday to Monday*
-- Check Availability
-  - *Is Debra available on Saturday?*
-  - *Am I busy this weekend?*
+  - *reschedule my interview on monday to 1 pm*
 - Connect to a Meeting
-- Contact Attendees
-  - Notify Noah that our meeting is pushed back 30 minutes
-  - Tell Jennifer that I'm running late
+  - *connect me to conference call*
+  - *connect me with my 2 o'clock meeting*
 - Create a Meeting
-  - Create a meeting tomorrow at 9 AM with Lucy Chen
-  - Put anniversary on my calendar
+  - *Create a meeting tomorrow at 9 AM with Lucy Chen*
+  - *Put anniversary on my calendar*
 - Delete a Meeting
-  - Cancel my meeting with Abigail at 3 PM today
-  - Clear all my appointments
-- Get Meeting Details
-  - *Tell me about my meeting today*
-  - *What are the plans for the dinner date with Stephanie?*
+  - *Cancel my meeting at 3 PM today*
+  - *drop my appointment for monday*
 - Find a Meeting
   - *Do I have any appointments today?*
-  - *Search for the "employee orientation" meeting*
+  - *get to my next event*
 - Find an Event by Time
   - *What day is Lego Land scheduled for?*
   - *What time is my next appointment?*
@@ -49,14 +44,11 @@ The following scenarios are currently supported by the Skill:
   - *Where is my meeting with Kayla?*
   - *Where do I need to be next?*
 - Find an Event by Attendee
-  - Who am I meeting at 10 AM tomorrow?
-  - Who is in my next meeting?
+  - *Who am I meeting at 10 AM tomorrow?*
+  - *Who is in my next meeting?*
 - Find an Event's Duration
-  - How long will the next meeting last?
-  - What's the duration of my 4 PM meeting?
-- Calendar Navigation
-  - *Show me the next meeting please*
-  - *What was my previous appointment?*
+  - *How long will the next meeting last?*
+  - *What's the duration of my 4 PM meeting?*
 - Time Remaining
   - *How long until my next meeting?*
   - *How many days are there until Thanksgiving?*
