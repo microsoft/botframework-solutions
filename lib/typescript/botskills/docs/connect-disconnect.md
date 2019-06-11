@@ -68,6 +68,7 @@ botskills disconnect [option]
 | --ts                          | Determine your assistant project structure to be a TypeScript-like structure         
 | --noTrain                          | (OPTIONAL) Determine whether the skills connected are not going to be trained (by default they are trained)                                                                         |
 | --dispatchName [name]         | (OPTIONAL) Name of your assistant's '.dispatch' file (defaults to the name displayed in your Cognitive Models file)                                         |
+| --language [language]         | (OPTIONAL) Locale used for LUIS culture (defaults to 'en-us')                                                                                               |
 | --dispatchFolder [path]       | (OPTIONAL) Path to the folder containing your assistant's '.dispatch' file (defaults to './deployment/resources/dispatch/en' inside your assistant folder)  |
 | --outFolder [path]            | (OPTIONAL) Path for any output file that may be generated (defaults to your assistant's root folder)                                                        |
 | --lgOutFolder [path]          | (OPTIONAL) Path for the LuisGen output (defaults to a 'service' folder inside your assistant's folder)                                                      |

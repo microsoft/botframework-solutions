@@ -54,7 +54,7 @@ A Virtual Assistant app (in C#) that greets a new user.
    npm install -g botskills
    ```
 
-7. Download and install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest).
+7. Download and install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest) **(Version 2.0.64 minimum required)**.
 8. Download and install the [Bot Framework Emulator](https://aka.ms/botframework-emulator).
 
 ## Create your assistant
