@@ -72,7 +72,18 @@ botskills disconnect --skillId SKILL_ID
 ```
 
 > Note: The id of the Skill can also be aquired using the `botskills list` command. You can check the [Skill CLI documentation](/lib/typescript/botskills/docs/list.md) on this command.
+
 ## Updating an existing Skill to reflect changes to Actions or LUIS model
+
+To update a Skill to your assistant/Bot we provide a `botskills` command line tool to automate the process of adding the Skill to your dispatch model and creating authentication connections where needed.
+
+Run the following command to update a Skill to your Virtual Assistant. This assumes you are running the CLI within the project directory and have created your Bot through the template and therefore have a `skills.json` file present in the working folder.
+
+The `--luisFolder` parameter can be used to point the Skill CLI at the source LU files for trigger utterances. For Skills provided within this repo these can be found in the `Deployment\Resources\LU` folder of each Skill. The CLI will automatically traverse locale folder hierarchies. This can be omitted for any of the skills we provide as the LU files are provided locally. Also, you have to specify the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration.
+
+```bash
+botskills update --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder [path] --cs
+```
 
 ## Refresh Connected Skills
 To refresh the dispatch model with any changes made to connected skills use the following command, specifying the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration. 
@@ -82,3 +93,7 @@ botskills:
 ```bash
 botskills refresh --cs
 ```
+<<<<<<< HEAD
+=======
+
+>>>>>>> Add documentation
