@@ -55,10 +55,6 @@ namespace Microsoft.Bot.Builder.Skills
 
                 await _streamingTransportClient.ConnectAsync();
             }
-            else
-            {
-                await _streamingTransportClient.ConnectAsync();
-            }
 
             // set recipient to the skill
             if (activity.Recipient == null)
@@ -91,7 +87,6 @@ namespace Microsoft.Bot.Builder.Skills
             if (_streamingTransportClient != null)
             {
 				_streamingTransportClient.Disconnect();
-                endOfConversation = false;
             }
         }
 
