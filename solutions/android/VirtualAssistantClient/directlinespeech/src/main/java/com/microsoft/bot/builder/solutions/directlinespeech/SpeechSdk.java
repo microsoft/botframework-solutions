@@ -1,5 +1,6 @@
 package com.microsoft.bot.builder.solutions.directlinespeech;
 
+import android.os.Handler;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -32,6 +33,7 @@ import events.Connected;
 import events.Disconnected;
 import events.Recognized;
 import events.RecognizedIntermediateResult;
+import events.RequestTimeout;
 
 public class SpeechSdk {
 
@@ -39,6 +41,7 @@ public class SpeechSdk {
     private static final String LOGTAG = "SpeechSdk";
     public static final String CARBONLOGFILENAME = "carbon.log";
     public static final String APPLOGFILENAME = "app.log";
+    private final int RESPONSE_TIMEOUT_PERIOD_MS = 15 * 1000;
 
     // STATE
     private MicrophoneStream microphoneStream;
@@ -52,6 +55,8 @@ public class SpeechSdk {
     private boolean isConnected;
     private byte[] audioBuffer;
     private Configuration configuration;
+    private Handler handler;
+    private Runnable timeoutResponseRunnable;
 
     private File localAppLogFile;
     private FileWriter streamWriter;
@@ -70,6 +75,7 @@ public class SpeechSdk {
         this.localLogDirectory = localLogFileDirectory;
         intializeAppLogFile();
         initializeSpeech(configuration, haveRecordAudioPermission);
+        handler = new Handler();
     }
 
     private void intializeAppLogFile() {
@@ -140,6 +146,8 @@ public class SpeechSdk {
 
             // trigger callback to expose result in 3rd party app
             EventBus.getDefault().post(new Recognized(recognizedSpeech));
+
+            startResponseTimeoutTimer();
         });
 
         botConnector.sessionStarted.addEventListener((o, sessionEventArgs) -> {
@@ -151,6 +159,9 @@ public class SpeechSdk {
         });
 
         botConnector.canceled.addEventListener((Object o, SpeechRecognitionCanceledEventArgs canceledEventArgs) -> {
+            // cancel reponse timeout timer ASAP
+            cancelResponseTimeoutTimer();
+
             final int errCode = canceledEventArgs.getErrorCode().getValue().swigValue();
             LogInfo("canceled with error code: "+ errCode +" ,also: "+ canceledEventArgs.getErrorDetails());
 
@@ -169,6 +180,11 @@ public class SpeechSdk {
             LogInfo("received activity: " + json);
 
             if (activityEventArgs.hasAudio()) {
+                // cancel response timeout timer
+                // note: located here because a lot of activity events are received,
+                //       by putting it here, only one event (with speech) cancels the timer.
+                cancelResponseTimeoutTimer();
+
                 LogInfo("Activity Has Audio");
                 PullAudioOutputStream outputStream = activityEventArgs.getAudio();
                 synthesizer.playStream(outputStream);
@@ -252,6 +268,25 @@ public class SpeechSdk {
         });
     }
 
+    private void startResponseTimeoutTimer(){
+        LogInfo("startResponseTimeoutTimer");
+        if (timeoutResponseRunnable == null) {
+            timeoutResponseRunnable = () -> {
+                // reset state as if the previous request was received to let user make new request
+                EventBus.getDefault().post(new RequestTimeout());
+            };
+        }
+
+        handler.postDelayed(timeoutResponseRunnable, RESPONSE_TIMEOUT_PERIOD_MS);
+    }
+
+    private void cancelResponseTimeoutTimer(){
+        LogInfo("cancelResponseTimeoutTimer");
+        if (timeoutResponseRunnable != null){
+            handler.removeCallbacks(timeoutResponseRunnable);
+        }
+    }
+
     public void sendActivityMessageAsync(CharSequence chars) {
         LogInfo("sendActivityMessageAsync\n" + chars);
         if (botConnector != null) {
@@ -267,6 +302,7 @@ public class SpeechSdk {
             final Future<Void> task = botConnector.sendActivityAsync(activity);
             setOnTaskCompletedListener(task, result -> {
                 LogInfo("sendActivityAsync done");
+                startResponseTimeoutTimer();
             });
         }
     }
@@ -305,6 +341,7 @@ public class SpeechSdk {
     }
 
     public void reset() {
+        cancelResponseTimeoutTimer();
         isConnected = false;
         stopKeywordListening();
         final Future<Void> task = botConnector.disconnectAsync();
