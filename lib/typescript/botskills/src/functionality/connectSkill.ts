@@ -7,7 +7,7 @@ import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { isAbsolute, join, resolve } from 'path';
 import { get } from 'request-promise-native';
 import { ConsoleLogger, ILogger} from '../logger';
-import { IAction, IConnectConfiguration, IRefreshConfiguration, ISkillFIle, ISkillManifest, IUtteranceSource } from '../models';
+import { IAction, IConnectConfiguration, IRefreshConfiguration, ISkillFile, ISkillManifest, IUtteranceSource } from '../models';
 import { AuthenticationUtils, ChildProcessUtils } from '../utils';
 import { RefreshSkill } from './refreshSkill';
 
