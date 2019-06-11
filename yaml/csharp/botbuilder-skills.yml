@@ -51,7 +51,6 @@ steps:
     arguments: '-v n --configuration $(buildConfiguration) --no-build --no-restore --filter TestCategory!=IgnoreInAutomatedBuild /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
     workingDirectory: 'lib\csharp\microsoft.bot.builder.skills\Microsoft.Bot.Builder.Skills.Tests'
    
-
 - task: PublishCodeCoverageResults@1
   displayName: 'Publish code coverage'
   inputs:

@@ -6,7 +6,7 @@ Learn how to create a *Pipeline* using a `YAML` file as configuration, as it's a
 
 - [Intro](#intro)
 - [Add Coverlet to the project](#Add-Coverlet-to-the-project)
-- [Create a YAML file with C# configuration](#Create-a-YAML-file-with-C#-configuration)
+- [Create a YAML file](#Create-a-YAML-file)
 - [Configure build step by step in Pipelines](#Configure-build-step-by-step-in-Pipelines)
 
 ## Intro
@@ -42,7 +42,7 @@ In first place, you need to add to the project the `Coverlet` package called `co
 
 4. Finally build the solution and `Coverlet` will be added as dependency in the project. 
 
-## Create a YAML file with C# configuration
+## Create a YAML file
 
 Create a `YAML` file with the configuration that the *Pipeline* will use. This is according to the needs of the user.
 
