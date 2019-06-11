@@ -58,6 +58,7 @@ import events.ActivityReceived;
 import events.Disconnected;
 import events.Recognized;
 import events.RecognizedIntermediateResult;
+import events.RequestTimeout;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -273,9 +274,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         speechServiceBinder.getSpeechSdk().sendActivityMessageAsync(msg);
     }
 
-    // EventBus: the user spoke and the app recognized intermediate speech
+    // EventBus: the connection disconnected
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onDisconnectedEvent(Disconnected event) {
+    public void onEventDisconnected(Disconnected event) {
         detectedSpeechToText.setText(R.string.msg_disconnected);
         boolean havePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
         speechServiceBinder.initializeSpeechSdk(havePermission);
@@ -287,13 +288,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     // EventBus: the user spoke and the app recognized intermediate speech
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onRecognizedIntermediateResultEvent(RecognizedIntermediateResult event) {
+    public void onEventRecognizedIntermediateResult(RecognizedIntermediateResult event) {
         detectedSpeechToText.setText(event.recognized_speech);
     }
 
     // EventBus: the user spoke and the app recognized the speech. Disconnect mic.
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onRecognizedEvent(Recognized event) {
+    public void onEventRecognized(Recognized event) {
         detectedSpeechToText.setText(event.recognized_speech);
         // in 2 seconds clear the text (at this point the bot should be giving its' response)
         handler.postDelayed(() -> detectedSpeechToText.setText(""), 2000);
@@ -301,7 +302,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     // EventBus: received a response from Bot
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onActivityReceivedEvent(ActivityReceived activityReceived) throws IOException {
+    public void onEventActivityReceived(ActivityReceived activityReceived) throws IOException {
         if (activityReceived.botConnectorActivity != null) {
             BotConnectorActivity botConnectorActivity = activityReceived.botConnectorActivity;
 
@@ -322,6 +323,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     break;
             }
         }
+    }
+
+    // EventBus: the previous request has timed-out
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventRequestTimeout(RequestTimeout event) {
+        // here you can notify the user to repeat the request
     }
 
     private void playMediaStream(String mediaStream) {
