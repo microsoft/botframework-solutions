@@ -36,6 +36,7 @@ program
     .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
     .option('--noTrain', '[OPTIONAL] Determine whether the skills connected are not going to be trained (by default they are trained)')
     .option('--dispatchName [name]', '[OPTIONAL] Name of your assistant\'s \'.dispatch\' file (defaults to the name displayed in your Cognitive Models file)')
+    .option('--language [language]', '[OPTIONAL] Locale used for LUIS culture (defaults to \'en-us\')')
     .option('--dispatchFolder [path]', '[OPTIONAL] Path to the folder containing your assistant\'s \'.dispatch\' file (defaults to \'./deployment/resources/dispatch/en\' inside your assistant folder)')
     .option('--outFolder [path]', '[OPTIONAL] Path for any output file that may be generated (defaults to your assistant\'s root folder)')
     .option('--lgOutFolder [path]', '[OPTIONAL] Path for the LuisGen output (defaults to a \'service\' folder inside your assistant\'s folder)')
@@ -112,9 +113,6 @@ configuration.cognitiveModelsFile = cognitiveModelsFilePath;
 const language: string = args.language || 'en-us';
 configuration.language = language;
 const languageCode: string = (language.split('-'))[0];
-
-// luisFolder validation
-configuration.luisFolder = args.luisFolder || join(configuration.outFolder, 'Deployment', 'Resources', 'Skills', languageCode);
 
 // dispatchFolder validation
 configuration.dispatchFolder = args.dispatchFolder || join(configuration.outFolder, 'Deployment', 'Resources', 'Dispatch', languageCode);

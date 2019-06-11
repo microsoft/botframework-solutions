@@ -1,21 +1,21 @@
 {
-  "id": "sampleSkill",
-  "name": "Sample Skill",
-  "description": "This is the description of the sample skill",
+  "id": "<%= skillName %>",
+  "name": "<%= skillName %>",
+  "description": "This is the description of the <%= skillName %>",
   "iconUrl": "",
   "authenticationConnections": [],
   "actions": [
     {
-      "id": "sampleSkill_Sample",
+      "id": "<%= skillName %>_Sample",
       "definition": {
-        "description": "Trigger sample skill",
+        "description": "Trigger <%= skillName %>",
         "slots": [],
         "triggers": {
           "utteranceSources": [
             {
               "locale": "en",
               "source": [
-                "sample-skill#Sample"
+                "<%= skillName %>#Sample"
               ]
             }
           ]
