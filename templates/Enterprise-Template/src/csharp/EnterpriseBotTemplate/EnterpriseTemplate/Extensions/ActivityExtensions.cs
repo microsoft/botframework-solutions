@@ -32,7 +32,7 @@ namespace $safeprojectname$.Extensions
                         if (activity.Type == ActivityTypes.ConversationUpdate)
                         {
                             // When bot is added to the conversation (triggers start only once per conversation)
-                            if (turnContext.Activity.MembersAdded != null && activity.MembersAdded.Any(m => m.Id == activity.Recipient.Id))
+                            if (activity.MembersAdded != null && activity.MembersAdded.Any(m => m.Id == activity.Recipient.Id))
                             {
                                 return true;
                             }
