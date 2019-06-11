@@ -39,4 +39,5 @@ npm install -g botskills --registry https://botbuilder.myget.org/F/aitemplates/n
 - [Create and customize Skills for your assistant](../../../docs/tutorials/typescript/skill.md)
 - [Connect a Skill to your Assistant](../../../docs/howto/skills/addingskills.md)
 - [Disconnect a Skill to your Assistant](../../../docs/howto/skills/addingskills.md#remove-a-skill-from-your-virtual-assistant)
+- [Update a Skill to your Assistant](../../../docs/howto/skills/addingskills.md#updating-an-existing-skill-to-reflect-changes-to-actions-or-luis-model)
 - [Refresh Connected Skills](../../../docs/howto/skills/addingskills.md#refresh-connected-skills)
