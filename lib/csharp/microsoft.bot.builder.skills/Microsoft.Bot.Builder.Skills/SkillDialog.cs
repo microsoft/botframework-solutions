@@ -173,8 +173,8 @@ namespace Microsoft.Bot.Builder.Skills
 
             var dialogResult = await ForwardToSkillAsync(innerDc, activity);
 
-            _skillTransport.Disconnect();
-
+            // Temporary remove to maintain skill connection mid-dialog
+            // _skillTransport.Disconnect();
             return dialogResult;
         }
 
