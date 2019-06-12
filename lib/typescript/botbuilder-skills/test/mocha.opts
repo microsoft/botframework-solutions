@@ -1,4 +1,3 @@
---reporter mocha-junit-reporter
 --timeout 50000
 --recursive
 --colors

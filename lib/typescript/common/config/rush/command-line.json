@@ -17,6 +17,13 @@
         },
         {
             "commandKind": "bulk",
+            "name": "test",
+            "summary": "Run test",
+            "safeForSimultaneousRushProcesses": true,
+            "enableParallelism": true
+        },
+        {
+            "commandKind": "bulk",
             "name": "coverage",
             "summary": "Run test with coverage",
             "safeForSimultaneousRushProcesses": true,
@@ -24,8 +31,8 @@
         },
         {
             "commandKind": "bulk",
-            "name": "test",
-            "summary": "Run test",
+            "name": "test-coverage-ci",
+            "summary": "Run test with coverage to publish in Azure Pipelines",
             "safeForSimultaneousRushProcesses": true,
             "enableParallelism": true
         }
