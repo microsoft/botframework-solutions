@@ -82,6 +82,8 @@ public class ChatViewholder extends RecyclerView.ViewHolder {
                         RenderedAdaptiveCard renderedCard = AdaptiveCardRenderer.getInstance().render(parentActivity, parentActivity.getSupportFragmentManager(), adaptiveCard, cardActionHandler, hostConfig);
 
                         View adaptiveCardRendered = renderedCard.getView();
+                        adaptiveCardRendered.setFocusable(false);
+                        adaptiveCardRendered.setFocusableInTouchMode(false);
                         adaptiveCardRendered.setOnClickListener(v -> {
                             onClickListener.adaptiveCardClick(speak); // callback to activity
                         });
