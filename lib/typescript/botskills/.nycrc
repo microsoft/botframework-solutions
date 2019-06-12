@@ -11,8 +11,7 @@
   ],
   "reporter": [
     "html",
-    "text",
-    "cobertura"
+    "text"
   ],
   "sourceMap": true,
   "cache": true
