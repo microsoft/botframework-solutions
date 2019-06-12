@@ -151,6 +151,14 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
 
                 await stepContext.Context.SendActivityAsync(noLinkedAccountResponse).ConfigureAwait(false);
 
+                // Enable Direct Line Speech clients to receive an event that will tell them
+                // to trigger a sign-in flow when a token isn't present
+                var requestOAuthFlowEvent = stepContext.Context.Activity.CreateReply();
+                requestOAuthFlowEvent.Type = ActivityTypes.Event;
+                requestOAuthFlowEvent.Name = "RequestOAuthFlow";
+
+                await stepContext.Context.SendActivityAsync(requestOAuthFlowEvent).ConfigureAwait(false);
+
                 return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
 
