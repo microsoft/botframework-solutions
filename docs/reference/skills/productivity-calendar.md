@@ -13,7 +13,14 @@ The most common scenarios have been implemented in this beta release, with addit
 
 > Office 365 and Outlook.com through the Microsoft Graph is supported along with support for Google accounts.
 
-To use Google account skill you need create your calendar API credential in [Google developers console](https://console.developers.google.com). Then create an OAuth connection setting in your Web App Bot. Choose "Google" in Service Provider and put the client id and secret that generated in credential. The scopes are "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts". Also you need add them in appsettings.json file.
+To use Google account skill you need follow these steps:
+1. Create your calendar API credential in [Google developers console](https://console.developers.google.com). 
+2. Create an OAuth connection setting in your Web App Bot.
+    - Connection name: `googleapi`
+    - Service Provider: `Google`
+    - Client id and secret are generated in step 1
+    - Scopes: `https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts`.
+3. Add the connection name, client id, secret and scopes in appsetting.json file.
 
 ## Supported Scenarios
 
@@ -24,19 +31,19 @@ The following scenarios are currently supported by the Skill:
   - *Accept the event sent by Yolanda Wong*
 - Change an Event
   - *Bring forward my 4:00 appointment two hours*
-  - *reschedule my interview on monday to 1 pm*
+  - *Reschedule my interview on monday to 1 pm*
 - Connect to a Meeting
-  - *connect me to conference call*
-  - *connect me with my 2 o'clock meeting*
+  - *Connect me to conference call*
+  - *Connect me with my 2 o'clock meeting*
 - Create a Meeting
   - *Create a meeting tomorrow at 9 AM with Lucy Chen*
   - *Put anniversary on my calendar*
 - Delete a Meeting
   - *Cancel my meeting at 3 PM today*
-  - *drop my appointment for monday*
+  - *Drop my appointment for monday*
 - Find a Meeting
   - *Do I have any appointments today?*
-  - *get to my next event*
+  - *Get to my next event*
 - Find an Event by Time
   - *What day is Lego Land scheduled for?*
   - *What time is my next appointment?*
