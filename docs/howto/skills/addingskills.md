@@ -74,4 +74,11 @@ botskills disconnect --skillId SKILL_ID
 > Note: The id of the Skill can also be aquired using the `botskills list` command. You can check the [Skill CLI documentation](/lib/typescript/botskills/docs/list.md) on this command.
 ## Updating an existing Skill to reflect changes to Actions or LUIS model
 
-> A botskills refresh command will be added shortly. In the meantime, run the above disconnect command and then connect the skill again.
+## Refresh Connected Skills
+To refresh the dispatch model with any changes made to connected skills use the following command, specifying the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration. 
+
+botskills:
+
+```bash
+botskills refresh --cs
+```

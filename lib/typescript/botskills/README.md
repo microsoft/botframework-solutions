@@ -21,8 +21,9 @@ npm uninstall -g botskills
 ```
 
 ## Botskills functionality
-- [Connect](./docs/connect-disconnect.md) a Skill to your assistant
-- [Disconnect](./docs/connect-disconnect.md) a Skill from your assistant
+- [Connect](./docs/connect-disconnect.md#connect-a-skill-to-your-assistant) a Skill to your assistant
+- [Disconnect](./docs/connect-disconnect.md#disconnect-a-skill-to-your-assistant) a Skill from your assistant
+- [Refresh](./docs/refresh.md) connected skills
 - [List](./docs/list.md) all Skills connected to your assistant
 
 ## Daily builds
@@ -36,3 +37,5 @@ npm install -g botskills --registry https://botbuilder.myget.org/F/aitemplates/n
 ## Further Reading
 - [Create and customize Skills for your assistant](../../../docs/tutorials/typescript/skill.md)
 - [Connect a Skill to your Assistant](../../../docs/howto/skills/addingskills.md)
+- [Disconnect a Skill to your Assistant](../../../docs/howto/skills/addingskills.md#remove-a-skill-from-your-virtual-assistant)
+- [Refresh Connected Skills](../../../docs/howto/skills/addingskills.md#refresh-connected-skills)

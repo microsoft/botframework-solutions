@@ -5,21 +5,14 @@
 
 import { ILogger } from '../logger';
 
-export interface IConnectConfiguration {
-    botName: string;
-    localManifest: string;
-    remoteManifest: string;
-    noRefresh: boolean;
+export interface IRefreshConfiguration {
     dispatchName: string;
+    dispatchFolder: string;
     language: string;
     luisFolder: string;
-    dispatchFolder: string;
+    lgLanguage: string;
     outFolder: string;
     lgOutFolder: string;
-    skillsFile: string;
-    resourceGroup: string;
-    appSettingsFile: string;
     cognitiveModelsFile: string;
-    lgLanguage: string;
     logger?: ILogger;
 }
