@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.microsoft.bot.builder.solutions.virtualassistant.MainApplication;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.utils.RawUtils;
 
@@ -39,6 +38,10 @@ public class ChatViewholder extends RecyclerView.ViewHolder {
     private View view;
     private ActionHandler cardActionHandler;
 
+    public interface OnClickListener {
+        void adaptiveCardClick(String speak);
+    }
+
     public ChatViewholder(@NonNull View itemView) {
         super(itemView);
         view = itemView;
@@ -50,7 +53,7 @@ public class ChatViewholder extends RecyclerView.ViewHolder {
      * bind the layout with the data
      * @param botConnectorActivity data
      */
-    void bind(@NonNull BotConnectorActivity botConnectorActivity, AppCompatActivity parentActivity) {
+    void bind(@NonNull BotConnectorActivity botConnectorActivity, AppCompatActivity parentActivity, @NonNull OnClickListener onClickListener) {
         textMessage.setText(botConnectorActivity.getText());
 
         if (botConnectorActivity.getAttachmentLayout() != null){
@@ -79,13 +82,8 @@ public class ChatViewholder extends RecyclerView.ViewHolder {
                         RenderedAdaptiveCard renderedCard = AdaptiveCardRenderer.getInstance().render(parentActivity, parentActivity.getSupportFragmentManager(), adaptiveCard, cardActionHandler, hostConfig);
 
                         View adaptiveCardRendered = renderedCard.getView();
-                        adaptiveCardRendered.setTag(speak);
-                        adaptiveCardRendered.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String speak = (String) v.getTag();
-                                //todo callback to activity
-                            }
+                        adaptiveCardRendered.setOnClickListener(v -> {
+                            onClickListener.adaptiveCardClick(speak); // callback to activity
                         });
 
                         // add the card to its individual container to allow for resizing
