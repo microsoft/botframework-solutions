@@ -20,11 +20,11 @@ namespace LinkedAccounts.Web.Controllers
         private const string TokenServiceUrl = "https://api.botframework.com";
 
         /// <summary>
-        /// Enumerate the Linked Account status for a given UserId and return status information
+        /// Enumerate the Linked Account status for a given UserId and return status information.
         /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="credentialProvider"></param>
-        /// <returns></returns>
+        /// <param name="userId">User Id value.</param>
+        /// <param name="credentialProvider">The credential provider value.</param>
+        /// <returns>Array of TokenStatus.</returns>
         public async Task<TokenStatus[]> GetTokenStatusAsync(string userId, ICredentialProvider credentialProvider)
         {
             // The BotFramework Adapter, Bot ApplicationID and Bot Secret is required to access the Token APIs
@@ -49,13 +49,13 @@ namespace LinkedAccounts.Web.Controllers
         }
 
         /// <summary>
-        /// Retrieve a signin link for a user based on the Connection Name. This is then used for the user to click and authenticate, generating a token returned back to the Token store
+        /// Retrieve a signin link for a user based on the Connection Name. This is then used for the user to click and authenticate, generating a token returned back to the Token store.
         /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="credentialProvider"></param>
-        /// <param name="connectionName"></param>
-        /// <param name="finalRedirect"></param>
-        /// <returns></returns>
+        /// <param name="userId">The user id value.</param>
+        /// <param name="credentialProvider">The credential provider value.</param>
+        /// <param name="connectionName">The connection name value.</param>
+        /// <param name="finalRedirect">The final redirect value.</param>
+        /// <returns>Sign in link string value.</returns>
         public async Task<string> GetSignInLinkAsync(string userId, ICredentialProvider credentialProvider, string connectionName, string finalRedirect)
         {
             // The BotFramework Adapter, Bot ApplicationID and Bot Secret is required to access the Token APIs
@@ -86,12 +86,12 @@ namespace LinkedAccounts.Web.Controllers
         }
 
         /// <summary>
-        /// Sign a given user out of a previously linked account
+        /// Sign a given user out of a previously linked account.
         /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="credentialProvider"></param>
-        /// <param name="connectionName"></param>
-        /// <returns></returns>
+        /// <param name="userId">The user id value.</param>
+        /// <param name="credentialProvider">The credential provider value.</param>
+        /// <param name="connectionName">The connection name value.</param>
+        /// <returns>Task.</returns>
         public async Task SignOutAsync(string userId, ICredentialProvider credentialProvider, string connectionName = null)
         {
             // The BotFramework Adapter, Bot ApplicationID and Bot Secret is required to access the Token APIs

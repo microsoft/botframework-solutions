@@ -17,5 +17,7 @@ namespace LinkedAccounts.Web.Models
         public string DirectLineToken { get; set; }
         
         public string Endpoint { get; set; }
+
+        public bool CompanionApp { get; set; }
     }
 }
