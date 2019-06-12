@@ -88,35 +88,35 @@ steps:
 1. With the `YAML` file configurated you can go to *Azure DevOps* site and proceed to add the new Pipeline. Selecting the *Pipelines* option, will appear the builds like the following screenshot: 
 
 <p align="center">
-<img src="../docs/media/pipelines-build.png" width="500"/>
+<img src="../../docs/media/pipelines-build.png" width="500"/>
 </p>
 
 2. Then, selecting the option 'New', will add a new *Pipeline*. The next step will be to connect with the code and for that the recommended option is `GitHub with YAML`.
 
 <p align="center">
-<img src="../docs/media/configure-new-pipeline.png"?raw=true width="900">
+<img src="../../docs/media/configure-new-pipeline.png"?raw=true width="900">
 </p>
 
 3. Select the repository that will include the builds
 
 <p align="center">
-<img src="../docs/media/select-repository.png" width="700">
+<img src="../../docs/media/select-repository.png" width="700">
 </p>
 
 4. You will use an existing `YAML` file for this purpose.
 
 <p align="center">
-<img src="../docs/media/configure-pipeline.png" width="600">
+<img src="../../docs/media/configure-pipeline.png" width="600">
 </p>
 
 5. You can use the `YAML` file created before by completing the path with the location of the `YAML` file. It's also necessary to select the branch that has the file. 
 
 <p align="center">
-<img src="../docs/media/branch-path.png" width="500">
+<img src="../../docs/media/branch-path.png" width="500">
 </p>
 
 6. The *Pipeline* was created successfully and you can see the configuration of the `YAML` file. The next step will be to run the `YAML` to start the build process.
 
 <p align="center">
-<img src="../docs/media/run-build.png" width="900">
+<img src="../../docs/media/run-build.png" width="900">
 </p>
