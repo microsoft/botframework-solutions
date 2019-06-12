@@ -24,6 +24,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatViewholder> {
     // STATE
     private ArrayList<BotConnectorActivity> chatList = new ArrayList<>();
     private AppCompatActivity parentActivity;
+    private ChatViewholder.OnClickListener clickListener;
     private static int MAX_CHAT_ITEMS = 1;
 
 
@@ -37,7 +38,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatViewholder> {
     @Override
     public void onBindViewHolder(@NonNull ChatViewholder chatViewholder, int position) {
         BotConnectorActivity botConnectorActivity = chatList.get(position);
-        chatViewholder.bind(botConnectorActivity, parentActivity);
+        chatViewholder.bind(botConnectorActivity, parentActivity, clickListener);
     }
 
     @Override
@@ -46,9 +47,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatViewholder> {
         return chatList.size();
     }
 
-    public void addChat(BotConnectorActivity botConnectorActivity, AppCompatActivity parentActivity) {
+    public void addChat(BotConnectorActivity botConnectorActivity, AppCompatActivity parentActivity, ChatViewholder.OnClickListener clickListener) {
         Log.v(LOGTAG, "showing row id "+ botConnectorActivity.getId());
         this.parentActivity = parentActivity;
+        this.clickListener = clickListener;
         chatList.add(botConnectorActivity);
         if (chatList.size() > MAX_CHAT_ITEMS) {
             chatList.remove(0);

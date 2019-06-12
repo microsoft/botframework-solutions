@@ -37,6 +37,7 @@ import com.microsoft.bot.builder.solutions.virtualassistant.activities.BaseActiv
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.botconfiguration.BotConfigurationActivity;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.configuration.AppConfigurationActivity;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.list.ChatAdapter;
+import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.list.ChatViewholder;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.list.ItemOffsetDecoration;
 import com.microsoft.bot.builder.solutions.virtualassistant.assistant.VoiceInteractionActivity;
 
@@ -60,7 +61,8 @@ import events.Recognized;
 import events.RecognizedIntermediateResult;
 import events.RequestTimeout;
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity
+        implements NavigationView.OnNavigationItemSelectedListener, ChatViewholder.OnClickListener {
 
     // VIEWS
     @BindView(R.id.root_container) RelativeLayout uiContainer;
@@ -308,7 +310,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
             switch (botConnectorActivity.getType()) {
                 case "message":
-                    chatAdapter.addChat(botConnectorActivity, this);
+                    chatAdapter.addChat(botConnectorActivity, this, this);
                     // make the chat list scroll automatically after adding a bot response
                     chatRecyclerView.getLayoutManager().scrollToPosition(chatAdapter.getItemCount() - 1);
                     break;
@@ -342,6 +344,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             Log.e(LOGTAG, "IOexception " + e.getMessage());
         }
 
+    }
+
+    // concrete implementation of ChatViewholder.OnClickListener
+    @Override
+    public void adaptiveCardClick(String speak) {
+        sendTextMessage(speak);
     }
 
     // provide additional data to the Assistant
