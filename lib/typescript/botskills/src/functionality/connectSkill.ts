@@ -198,7 +198,7 @@ export class ConnectSkill {
 
             // Take VA Skills configurations
             //tslint:disable-next-line: no-var-requires non-literal-require
-            const assistantSkillsFile: ISkillFIle = JSON.parse(readFileSync(configuration.skillsFile, 'UTF8'));
+            const assistantSkillsFile: ISkillFile = JSON.parse(readFileSync(configuration.skillsFile, 'UTF8'));
             const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills || [];
 
             // Check if the skill is already connected to the assistant
