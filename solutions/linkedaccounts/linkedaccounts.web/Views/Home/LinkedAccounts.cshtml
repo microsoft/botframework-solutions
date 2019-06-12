@@ -46,10 +46,9 @@ else
     <div class="content-row">
         <div class="content-title">Linked Accounts</div>
         <div class="main-text main-text-p1">
-            The authentication providers listed below are the same providers you have enabled on your bot.
-
-            You may need to use a different user id in the Web Chat than what is displayed here.
-            You can update the values and select "Update User ID" to update what is stored in session.
+            The authentication providers listed below are those enabled on the Virtual Assistant.
+            
+            If you need to use a different User Id for your client, you can update it's value and select <b>Update User Id</b> to update what is stored in session.
         </div>
         <div class="linkedAccount-displayName">
             User ID:
@@ -57,8 +56,14 @@ else
             {
 
                 @Html.TextBoxFor(model => model.UserId, new { style = "width:300px;" })
-                <button type="submit">Update User ID</button>
-                <button onclick="copyUserId()">Copy User ID</button>
+                <button type="submit">Update</button>
+                <button onclick="copyUserId()">Copy</button>
+                if (Model.CompanionApp)
+                {
+                    <button onclick="window.open('microsoft://virtualassistant/user/@Model.UserId','_blank')" type="button">
+                        Complete and return to app
+                    </button>
+                }
                 @Html.ActionLink("Sign Out All", "SignOutAll", "Home", null, new { @class = "button" })
             }
         </div>
