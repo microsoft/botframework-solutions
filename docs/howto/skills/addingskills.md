@@ -93,7 +93,3 @@ botskills:
 ```bash
 botskills refresh --cs
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> Add documentation
