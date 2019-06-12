@@ -29,32 +29,32 @@ namespace Microsoft.Bot.Builder.Skills
         private Queue<Activity> _queuedResponses = new Queue<Activity>();
         private object _lockObject = new object();
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="SkillDialog"/> class.
-		/// SkillDialog constructor that accepts the manifest description of a Skill along with TelemetryClient for end to end telemetry.
-		/// </summary>
-		/// <param name="skillManifest">Skill manifest.</param>
-		/// <param name="serviceClientCredentials">Service client credentials.</param>
-		/// <param name="telemetryClient">Telemetry Client.</param>
-		/// <param name="userState">User State.</param>
-		/// <param name="authDialog">Auth Dialog.</param>
-		/// <param name="skillTransport">Transport used for skill invocation.</param>
-		public SkillDialog(
-			SkillManifest skillManifest,
-			IServiceClientCredentials serviceClientCredentials,
-			IBotTelemetryClient telemetryClient,
-			UserState userState,
-			MultiProviderAuthDialog authDialog = null,
-			ISkillTransport skillTransport = null)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SkillDialog"/> class.
+        /// SkillDialog constructor that accepts the manifest description of a Skill along with TelemetryClient for end to end telemetry.
+        /// </summary>
+        /// <param name="skillManifest">Skill manifest.</param>
+        /// <param name="serviceClientCredentials">Service client credentials.</param>
+        /// <param name="telemetryClient">Telemetry Client.</param>
+        /// <param name="userState">User State.</param>
+        /// <param name="authDialog">Auth Dialog.</param>
+        /// <param name="skillTransport">Transport used for skill invocation.</param>
+        public SkillDialog(
+            SkillManifest skillManifest,
+            IServiceClientCredentials serviceClientCredentials,
+            IBotTelemetryClient telemetryClient,
+            UserState userState,
+            MultiProviderAuthDialog authDialog = null,
+            ISkillTransport skillTransport = null)
             : base(skillManifest.Id)
         {
             _skillManifest = skillManifest ?? throw new ArgumentNullException(nameof(SkillManifest));
-			_serviceClientCredentials = serviceClientCredentials ?? throw new ArgumentNullException(nameof(serviceClientCredentials));
+            _serviceClientCredentials = serviceClientCredentials ?? throw new ArgumentNullException(nameof(serviceClientCredentials));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
             _userState = userState;
-			_skillTransport = skillTransport ?? new SkillWebSocketTransport(_skillManifest, _serviceClientCredentials);
+            _skillTransport = skillTransport ?? new SkillWebSocketTransport(_skillManifest, _serviceClientCredentials);
 
-			if (authDialog != null)
+            if (authDialog != null)
             {
                 _authDialog = authDialog;
                 AddDialog(authDialog);
@@ -131,14 +131,14 @@ namespace Microsoft.Bot.Builder.Skills
             await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Handing off to the {_skillManifest.Name} skill."));
 
             var activity = innerDc.Context.Activity;
-			var semanticAction = new SemanticAction { Entities = new Dictionary<string, Entity>() };
+            var semanticAction = new SemanticAction { Entities = new Dictionary<string, Entity>() };
 
-			foreach (var slot in slots)
-			{
-				semanticAction.Entities.Add(slot.Key, new Entity { Properties = slot.Value });
-			}
+            foreach (var slot in slots)
+            {
+                semanticAction.Entities.Add(slot.Key, new Entity { Properties = slot.Value });
+            }
 
-			activity.SemanticAction = semanticAction;
+            activity.SemanticAction = semanticAction;
 
             return await ForwardToSkillAsync(innerDc, activity);
         }
@@ -149,7 +149,7 @@ namespace Microsoft.Bot.Builder.Skills
         /// <param name="innerDc">Inner Dialog Context.</param>
         /// <param name="cancellationToken">Cancellation Token.</param>
         /// <returns>DialogTurnResult.</returns>
-        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, DialogConsultation consultation, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var activity = innerDc.Context.Activity;
 
@@ -218,23 +218,23 @@ namespace Microsoft.Bot.Builder.Skills
             {
                 var endOfConversation = await _skillTransport.ForwardToSkillAsync(innerDc.Context, activity, GetTokenRequestCallback(innerDc));
 
-				if (endOfConversation)
+                if (endOfConversation)
                 {
                     await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot."));
                     return await innerDc.EndDialogAsync();
                 }
                 else
-				{
-					var dialogResult = new DialogTurnResult(DialogTurnStatus.Waiting);
+                {
+                    var dialogResult = new DialogTurnResult(DialogTurnStatus.Waiting);
 
-					// if there's any response we need to send to the skill queued
-					// forward to skill and start a new turn
-					while (_queuedResponses.Count > 0 && dialogResult.Status != DialogTurnStatus.Complete && dialogResult.Status != DialogTurnStatus.Cancelled)
-					{
-						dialogResult = await ForwardToSkillAsync(innerDc, _queuedResponses.Dequeue());
-					}
+                    // if there's any response we need to send to the skill queued
+                    // forward to skill and start a new turn
+                    while (_queuedResponses.Count > 0 && dialogResult.Status != DialogTurnStatus.Complete && dialogResult.Status != DialogTurnStatus.Cancelled)
+                    {
+                        dialogResult = await ForwardToSkillAsync(innerDc, _queuedResponses.Dequeue());
+                    }
 
-					return dialogResult;
+                    return dialogResult;
                 }
             }
             catch

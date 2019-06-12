@@ -17,7 +17,7 @@ namespace AdaptiveAssistant.Dialogs
             var dialog = new AdaptiveDialog("onboardingAdaptive")
             {
                 Recognizer = new RegexRecognizer(),
-                Generator = new TemplateEngineLanguageGenerator(nameof(AdaptiveOnboardingDialog), engine),
+                Generator = new TemplateEngineLanguageGenerator(engine),
                 Steps = new List<IDialog>()
                 {
                     new TextInput()

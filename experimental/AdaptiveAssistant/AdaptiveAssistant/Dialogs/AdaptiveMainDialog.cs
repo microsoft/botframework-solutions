@@ -30,7 +30,7 @@ namespace AdaptiveAssistant.Dialogs
             {
                 AutoEndDialog = false,
                 Recognizer = localizedServices.DispatchService,
-                Generator = new TemplateEngineLanguageGenerator(nameof(AdaptiveMainDialog), engine),
+                Generator = new TemplateEngineLanguageGenerator(engine),
                 Rules =
                 {
                     // Introduction event
@@ -51,12 +51,12 @@ namespace AdaptiveAssistant.Dialogs
                                 },
                                 ElseSteps = { new SendActivity("Welcome back!") }
                             },
-                             // If we do not have the user's name, start the onboarding dialog
-                             new IfCondition()
-                             {
-                                 Condition = new ExpressionEngine().Parse("user.name == null"),
-                                 Steps = { new BeginDialog(nameof(AdaptiveOnboardingDialog)) }
-                             }
+                            // If we do not have the user's name, start the onboarding dialog
+                            new IfCondition()
+                            {
+                                Condition = new ExpressionEngine().Parse("user.name == null"),
+                                Steps = { new BeginDialog(nameof(AdaptiveOnboardingDialog)) }
+                            }
                         }
                     },
                     // General intents (Cancel, Help, Escalate, etc)
@@ -74,11 +74,15 @@ namespace AdaptiveAssistant.Dialogs
                     {
                         Steps = { new InvokeQnAMaker(localizedServices.QnAServices["chitchat"]) }
                     },
+                    new IntentRule(DispatchLuis.Intent.emailSkill.ToString())
+                    {
+                        Steps = { new InvokeSkill(settings) }
+                    },
                     // Check unhandled identified intents agains registered skills
                     new EventRule()
                     {
                         Events = { AdaptiveEvents.RecognizedIntent },
-                        Steps = { new InvokeSkill(settings) }
+                        Steps = { new TraceActivity() }
                     },
                     // If a QnA intent was triggered, but no match was found
                     new EventRule()

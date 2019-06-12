@@ -22,7 +22,7 @@ namespace AdaptiveAssistant.Dialogs
             var generalDialog = new AdaptiveDialog("generalAdaptive")
             {
                 Recognizer = localizedServices.LuisServices["general"],
-                Generator = new TemplateEngineLanguageGenerator(nameof(AdaptiveGeneralDialog), engine),
+                Generator = new TemplateEngineLanguageGenerator(engine),
                 Rules = new List<IRule>()
                 {
                     new IntentRule(GeneralLuis.Intent.Cancel.ToString())
