@@ -32,7 +32,7 @@ steps:
   errorActionPreference: continue
   ignoreLASTEXITCODE: 'true'
   workingDirectory: lib/typescript
-  displayName: 'rush coverage'
+  displayName: 'rush test-coverage-ci'
 
 - task: PublishTestResults@2
   displayName: 'Publish Test Results '
