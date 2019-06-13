@@ -14,7 +14,7 @@
 ### Generate the skill using prompts
 
 - The generator will start prompting for some information that is needed for generating the sample:
-    - `What's the name of your skill? (customSkill)`
+    - `What's the name of your skill? (sample-skill)`
         > The name of your skill (used also as your project's name and for the root folder's name).
     - `What will your skill do? ()`
         > The description of your skill.
@@ -36,7 +36,7 @@
 
 | Option                            | Description                                                                                                  |
 |-----------------------------------|--------------------------------------------------------------------------------------------------------------|
-| -n, --skillName [name]              | name of new skill (by default takes `customSkill`)                                                          |
+| -n, --skillName [name]              | name of new skill (by default takes `sample-skill`)                                                          |
 | -d, --skillDesc [description]       | description of the new skill (by default takes ``) |
 | -l, --skillLang [languages]| languages for the new skill. Possible values are `de`, `en`, `es`, `fr`, `it`, `zh` (by default takes all the languages)| 
 | -p, --skillGenerationPath [path]    | destination path for the new skill (by default takes the path where you are runnning the generator)            |

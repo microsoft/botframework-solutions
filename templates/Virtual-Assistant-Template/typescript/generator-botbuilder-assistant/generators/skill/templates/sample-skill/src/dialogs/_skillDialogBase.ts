@@ -35,7 +35,7 @@ enum DialogIds {
 }
 
 export class SkillDialogBase extends ComponentDialog {
-    private readonly solutionName: string = '<%=skillName%>';
+    private readonly solutionName: string = '<%=skillNameCamelCase%>';
     protected settings: Partial<IBotSettings>;
     protected services: BotServices;
     protected stateAccessor: StatePropertyAccessor<SkillState>;
