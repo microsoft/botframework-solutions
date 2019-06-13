@@ -131,7 +131,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                 // just take the first auth connection for directline speech
                 var firstAuthConnection = _authenticationConnections.First().Name;
 
-                var tokenResponse = await adapter.GetUserTokenAsync(stepContext.Context, firstAuthConnection, null, cancellationToken);
+                var tokenResponse = await adapter.GetUserTokenAsync(stepContext.Context, firstAuthConnection, null, cancellationToken).ConfigureAwait(false);
 
                 if (tokenResponse != null)
                 {
