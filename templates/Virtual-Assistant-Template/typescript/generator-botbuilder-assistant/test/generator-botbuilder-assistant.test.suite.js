@@ -8,6 +8,7 @@ const assert = require(`yeoman-assert`);
 const helpers = require(`yeoman-test`);
 const rimraf = require(`rimraf`);
 const _kebabCase = require(`lodash/kebabCase`);
+const _camelCase = require(`lodash/camelCase`);
 const semver = require('semver');
 const someLanguages = [`zh`, `de`, `en`];
 const nonexistentLanguages = [`br`, `pt`];
@@ -16,16 +17,19 @@ const sinon = require(`sinon`);
 describe(`The generator-botbuilder-assistant tests`, function() {
     var assistantName;
     var assistantDesc;
+    var assistantNameCamelCase;
     var pathConfirmation;
     var assistantGenerationPath;
     var finalConfirmation;
     var run = true;
     var packageJSON;
+    const dialogBotPath = join(`src`, `bots`, `dialogBot.ts`);
 
     const templatesFiles = [
         `package.json`,
         `.gitignore`,
         `.npmrc`,
+        dialogBotPath
     ];
     const commonDirectories = [
         `deployment`,
@@ -47,9 +51,13 @@ describe(`The generator-botbuilder-assistant tests`, function() {
     ];
 
     describe(`should create`, function() {
-        assistantName = `customAssistant`;
-        assistantDesc = `A description for customAssistant`;
+        assistantName = `sample-assistant`;
+        assistantDesc = `A description for sample-assistant`;
         assistantName = _kebabCase(assistantName).replace(
+            /([^a-z0-9-]+)/gi,
+            ``
+        ); 
+        assistantNameCamelCase = _camelCase(assistantName).replace(
             /([^a-z0-9-]+)/gi,
             ``
         ); 
@@ -127,6 +135,16 @@ describe(`The generator-botbuilder-assistant tests`, function() {
                 done();
             });
         });
+
+        describe(`and have in the dialogBot`, function() {
+            it(`a private property with the given name`, function(done) {
+                assert.fileContent(
+                  join(assistantGenerationPath, assistantName, dialogBotPath),
+                  `private readonly solutionName: string = '${assistantNameCamelCase}';`
+                );
+                done();
+            });      
+        });    
     });
     
     describe(`should not create`, function () {

@@ -19,7 +19,7 @@ import {
 
 export class DialogBot<T extends Dialog> extends ActivityHandler {
     private readonly telemetryClient: BotTelemetryClient;
-    private readonly solutionName: string = '<%=skillName%>';
+    private readonly solutionName: string = '<%=skillNameCamelCase%>';
     private readonly rootDialogId: string;
     private dialogs: DialogSet;
 
