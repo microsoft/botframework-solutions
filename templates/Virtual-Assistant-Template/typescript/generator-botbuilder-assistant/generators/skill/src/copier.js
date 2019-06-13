@@ -94,7 +94,7 @@ class Copier {
           `resources`,
           `LU`,
           language,
-          `${newSkill.skillName}.lu`
+          `${newSkill.skillNameCamelCase}.lu`
         )
       );
     });

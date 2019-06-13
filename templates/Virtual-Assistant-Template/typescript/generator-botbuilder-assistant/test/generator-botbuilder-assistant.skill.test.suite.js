@@ -7,6 +7,7 @@ const assert = require(`yeoman-assert`);
 const helpers = require(`yeoman-test`);
 const rimraf = require(`rimraf`);
 const _kebabCase = require(`lodash/kebabCase`);
+const _camelCase = require(`lodash/camelCase`);
 const semver = require('semver');
 const languages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
 const join = require(`path`).join;
@@ -14,6 +15,7 @@ const sinon = require(`sinon`);
 
 describe(`The generator-botbuilder-assistant skill tests`, function() {
     var skillName;
+    var skillNameCamelCase;
     var skillDesc;
     var pathConfirmation;
     var skillGenerationPath;
@@ -53,9 +55,14 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
     ];
 
     describe(`should create`, function() {
-        skillName = `customSkill`;
-        skillDesc = `A description for customSkill`;
+        skillName = `sample-skill`;
+        skillDesc = `A description for sample-skill`;
         skillName = _kebabCase(skillName).replace(
+            /([^a-z0-9-]+)/gi,
+            ``
+        ); 
+
+        skillNameCamelCase = _camelCase(skillName).replace(
             /([^a-z0-9-]+)/gi,
             ``
         ); 
@@ -134,7 +141,7 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
             it(`a private property with the given name`, function(done) {
                 assert.fileContent(
                   join(skillGenerationPath, skillName, dialogBotPath),
-                  `private readonly solutionName: string = '${skillName}';`
+                  `private readonly solutionName: string = '${skillNameCamelCase}';`
                 );
                 done();
               });
@@ -144,7 +151,7 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
             it(`a private property with the given name`, function(done) {
                 assert.fileContent(
                   join(skillGenerationPath, skillName, mainDialogPath),
-                  `private readonly solutionName: string = '${skillName}';`
+                  `private readonly solutionName: string = '${skillNameCamelCase}';`
                 );
                 done();
               });
@@ -154,7 +161,7 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
             it(`a private property with the given name`, function(done) {
                 assert.fileContent(
                   join(skillGenerationPath, skillName, skillDialogBasePath),
-                  `private readonly solutionName: string = '${skillName}';`
+                  `private readonly solutionName: string = '${skillNameCamelCase}';`
                 );
                 done();
               });

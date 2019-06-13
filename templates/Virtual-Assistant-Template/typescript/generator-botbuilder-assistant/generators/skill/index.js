@@ -11,8 +11,10 @@ const path = require(`path`);
 const pkg = require(`../../package.json`);
 const _pick = require(`lodash/pick`);
 const _kebabCase = require(`lodash/kebabCase`);
-const templateName = "customSkill";
+const _camelCase = require(`lodash/camelCase`);
+const templateName = "sample-skill";
 const languages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
+let skillNameCamelCase;
 let skillName;
 let skillDesc;
 let skillGenerationPath = process.cwd();
@@ -86,7 +88,7 @@ module.exports = class extends Generator {
     this.option(`skillName`, {
       description: `The name you want to give to your skill.`,
       type: String,
-      default: `customSkill`,
+      default: `sample-skill`,
       alias: `n`
     });
 
@@ -153,7 +155,9 @@ module.exports = class extends Generator {
         type: `input`,
         name: `skillName`,
         message: `What's the name of your skill?`,
-        default: this.options.skillName ? this.options.skillName : `customSkill`
+        default: this.options.skillName
+          ? this.options.skillName
+          : `sample-skill`
       },
       // Description of the skill
       {
@@ -254,6 +258,11 @@ module.exports = class extends Generator {
       );
     }
 
+    skillNameCamelCase = _camelCase(this.props.skillName).replace(
+      /([^a-z0-9-]+)/gi,
+      ``
+    );
+
     if (fs.existsSync(skillGenerationPath)) {
       isAlreadyCreated = true;
       return;
@@ -268,6 +277,7 @@ module.exports = class extends Generator {
     // Create new skill obj
     const newSkill = {
       skillName: skillName,
+      skillNameCamelCase: skillNameCamelCase,
       skillDescription: skillDesc
     };
 
