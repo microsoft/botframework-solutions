@@ -22,7 +22,7 @@ import {
 import { EventDebuggerMiddleware, SetLocaleMiddleware } from 'botbuilder-solutions';
 import { IBotSettings } from '../services/botSettings';
 
-export class CustomSkillAdapter extends SkillHttpBotAdapter {
+export class SampleSkillAdapter extends SkillHttpBotAdapter {
 
     constructor(
         settings: Partial<IBotSettings>,
