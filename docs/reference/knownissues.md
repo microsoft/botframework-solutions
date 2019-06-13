@@ -1,12 +1,12 @@
 # Known Issues
 
-## The Teams channel doesn't render an OAuth card
+## The Teams channel doesn't render OAuth cards.
 
 There is a known issue in the Teams channel where the default OAuth Card is not shown when using the OAuthPrompt in the SDK. To workaround this in the short-term please follow the following instructions.
 
 Please be aware that you *must* use [App Studio](https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-app-studio) to create an Application Manifest. Otherwise you won't be able to click any login buttons within Teams. It's key to ensure that under Domains and permissions in the Manifest Editor that you enter the domain token.botframework.com to enable clicking of the login button.  You cannot click the link in the Channel Page of the Bot Framework to start a conversation with your Bot.
 
-You then need to make these code changes
+You then need to make the following code changes:
 
 ### DialogBot.cs in your Bots folder
 
@@ -47,9 +47,17 @@ protected async override Task<DialogTurnResult> OnContinueDialogAsync(DialogCont
 
 QnAMaker has a central Cognitive Service resource that must be deployed in `westus`, the dependent Web App, Azure Search and AppInsights resources can be installed in a broader range of regions. We have therefore fixed this QnAMaker resource to be `westus` in the ARM template (template.json) which can be found in the `deployment\resources` folder of your Virtual Assistant. When deploying in a region such as westeurope all dependent resources will be created in the requested region. This script will be updated as new regions are available.
 
+## Skills don't respond when using WebChat
+
+There is a known issue with regard to responses from Skills not being returned to WebChat clients through the Virtual Assistant. They do however work across other channels. We have a fix in the latest daily build for [Bot.Builder.Skills](https://botbuilder.myget.org/feed/aitemplates/package/nuget/Microsoft.Bot.Builder.Skills) and [Bot.Builder.Solutions](https://botbuilder.myget.org/feed/aitemplates/package/nuget/Microsoft.Bot.Builder.Solutions) which resolves the problem. This will be published to nuget in our next release.
+
+There is a command line example on the Myget page of how to install from this repository but you can also add a package source in Visual Studio referencing https://botbuilder.myget.org/F/aitemplates/api/v3/index.json
+
+Once you have updated the packages, redeploy your Virtual Assistant to Azure and try again.
+
 ## The introduction card isn't displayed when a locale is missing
 
-There is a known issue in the Virtual Assistant when the bot doesn't pass a Locale setting at the beginning of the conversation, the Intro Card won't show up. This is due to a design flaw in the current channel protocol. The StartConversation call doesn't accept Locale as a parameter.
+There is a known issue in the Virtual Assistant when the bot doesn't pass a Locale setting at the beginning of the conversation, the Intro Card won't show up. This is due to a limitation in the current channel protocol. The StartConversation call doesn't accept Locale as a parameter.
 
 When you're testing in Bot Emulator, you can get around this issue by setting the Locale in Emulator Settings. Emulator will pass the locale setting to the bot as the first ConversationUpdate call.
 
@@ -83,6 +91,4 @@ Then the bot will recreate the state `-documents` when it starts if it doesn't e
 
 ## If Visual Studio 2019 Preview is installed, node-gyp cannot find MSBuild.exe
 
-This is a known issue with node-gyp: [nodejs/node-gyp#1663](https://github.com/nodejs/node-gyp/issues/1663)
-
-Uninstalling Visual Studio 2019 Preview fixes the issue.
+This is a known issue with node-gyp: [nodejs/node-gyp#1663](https://github.com/nodejs/node-gyp/issues/1663). Uninstalling Visual Studio 2019 Preview fixes the issue.
