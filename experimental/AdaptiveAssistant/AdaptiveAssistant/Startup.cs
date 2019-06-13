@@ -83,11 +83,13 @@ namespace AdaptiveAssistant
             // Register resource explorer for language generation
             services.AddSingleton(sp => ResourceExplorer.LoadProject(Directory.GetCurrentDirectory()));
 
-            services.AddSingleton(sp => TemplateEngine.FromFiles(
+            services.AddSingleton(sp => TemplateEngine.FromFiles(new[]
+            {
                 "./Responses/MainResponses.lg",
                 "./Responses/EscalateResponses.lg",
                 "./Responses/CancelResponses.lg",
-                "./Responses/OnboardingResponses.lg"));
+                "./Responses/OnboardingResponses.lg"
+            }));
 
             // Configure adapters
             services.AddSingleton<IBotFrameworkHttpAdapter, DefaultAdapter>();
@@ -109,10 +111,10 @@ namespace AdaptiveAssistant
             });
 
             // Register dialogs
-            services.AddSingleton<AdaptiveMainDialog>();
+            services.AddTransient<AdaptiveMainDialog>();
 
             // Configure bot
-            services.AddSingleton<IBot, DialogBot<AdaptiveMainDialog>>();
+            services.AddTransient<IBot, DialogBot<AdaptiveMainDialog>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

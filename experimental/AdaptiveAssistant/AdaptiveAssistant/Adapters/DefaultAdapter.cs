@@ -29,7 +29,7 @@ namespace AdaptiveAssistant.Bots
             ResourceExplorer resourceExplorer)
             : base(credentialProvider)
         {
-            var templateEngine = TemplateEngine.FromFiles("./Responses/MainResponses.lg");
+            var templateEngine = TemplateEngine.FromFiles(new[] { "./Responses/MainResponses.lg" });
 
             OnTurnError = async (turnContext, exception) =>
             {
