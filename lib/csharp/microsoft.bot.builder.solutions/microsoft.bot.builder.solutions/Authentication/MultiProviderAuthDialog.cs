@@ -289,6 +289,11 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
         private async Task<ProviderTokenResponse> CreateProviderTokenResponseAsync(ITurnContext context, TokenResponse tokenResponse)
         {
             var adapter = context.Adapter as IUserTokenProvider;
+            if (adapter == null)
+            {
+                throw new Exception("Your bot adapter instance does not implement IUserTokenProvider!");
+            }
+
             var tokens = await adapter.GetTokenStatusAsync(context, context.Activity.From.Id).ConfigureAwait(false);
             var match = Array.Find(tokens, t => t.ConnectionName == tokenResponse.ConnectionName);
 
