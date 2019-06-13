@@ -10,7 +10,7 @@ using Microsoft.Bot.Schema;
 using $safeprojectname$.Responses.Main;
 using $safeprojectname$.Services;
 
-namespace $safeprojectname$.Bots
+namespace $safeprojectname$.Adapters
 {
     public class DefaultAdapter : BotFrameworkHttpAdapter
     {

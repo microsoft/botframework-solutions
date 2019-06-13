@@ -22,6 +22,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using $safeprojectname$.Adapters;
 using $safeprojectname$.Bots;
 using $safeprojectname$.Dialogs;
 using $safeprojectname$.Services;
@@ -104,12 +105,19 @@ namespace $safeprojectname$
                 return skillDialogs;
             });
 
-            // Configure adapters
-            services.AddSingleton<IBotFrameworkHttpAdapter, DefaultAdapter>();
+			// Configure adapters
+			// DefaultAdapter is for all regular channels that use Http transport
+			services.AddSingleton<IBotFrameworkHttpAdapter, DefaultAdapter>();
 
-            // Configure bot
-            services.AddTransient<IBot, DialogBot<MainDialog>>();
-        }
+			// DefaultWebSocketAdapter is for directline speech channel
+			// This adapter implementation is currently a workaround as
+			// later on we'll have a WebSocketEnabledHttpAdapter implementation that handles
+			// both Http for regular channels and websocket for directline speech channel
+			services.AddSingleton<WebSocketEnabledHttpAdapter, DefaultWebSocketAdapter>();
+
+			// Configure bot
+			services.AddTransient<IBot, DialogBot<MainDialog>>();
+		}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -122,7 +130,8 @@ namespace $safeprojectname$
             app.UseBotApplicationInsights()
                 .UseDefaultFiles()
                 .UseStaticFiles()
-                .UseMvc();
+				.UseWebSockets()
+				.UseMvc();
         }
 
         // This method creates a MultiProviderAuthDialog based on a skill manifest.
