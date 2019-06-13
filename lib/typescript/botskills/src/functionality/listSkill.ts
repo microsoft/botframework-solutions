@@ -5,7 +5,7 @@
 
 import { existsSync, readFileSync } from 'fs';
 import { ConsoleLogger, ILogger} from '../logger';
-import { IListConfiguration, ISkillFIle, ISkillManifest } from '../models';
+import { IListConfiguration, ISkillFile, ISkillManifest } from '../models';
 
 export class ListSkill {
     public logger: ILogger;
@@ -23,7 +23,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
             }
             // Take VA Skills configurations
             //tslint:disable-next-line:non-literal-require
-            const assistantSkillsFile: ISkillFIle = JSON.parse(readFileSync(configuration.skillsFile, 'UTF8'));
+            const assistantSkillsFile: ISkillFile = JSON.parse(readFileSync(configuration.skillsFile, 'UTF8'));
             if (!assistantSkillsFile.skills) {
                 this.logger.message('There are no Skills connected to the assistant.');
 
