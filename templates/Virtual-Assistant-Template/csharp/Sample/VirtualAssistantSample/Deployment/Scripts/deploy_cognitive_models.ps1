@@ -4,7 +4,10 @@ Param(
 	[string] $name,
 	[string] $luisAuthoringRegion,
     [string] $luisAuthoringKey,
+	[string] $luisAccountName,
+	[string] $luisSubscriptionKey,
     [string] $qnaSubscriptionKey,
+	[string] $resourceGroup,
     [string] $languages = "en-us",
     [string] $outFolder = $(Get-Location),
 	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_cognitive_models_log.txt")
@@ -60,6 +63,9 @@ if (-not $qnaSubscriptionKey) {
     $qnaSubscriptionKey = Read-Host "? QnA Maker Subscription Key"
 }
 
+$azAccount = az account show | ConvertFrom-Json
+$azAccessToken = az account get-access-token | ConvertFrom-Json
+
 # Get languages
 $languageArr = $languages -split ","
 
@@ -93,9 +99,25 @@ foreach ($language in $languageArr)
     foreach ($lu in $luisFiles)
     {
         # Deploy LUIS model
-        $luisApp = DeployLUIS -name $name -lu_file $lu -region $luisAuthoringRegion -luisAuthoringKey $luisAuthoringKey -language $language -log $logFile
+        $luisApp = DeployLUIS `
+			-name $name `
+			-lu_file $lu `
+			-region $luisAuthoringRegion `
+			-luisAuthoringKey $luisAuthoringKey `
+			-language $language `
+			-log $logFile
         
 		if ($luisApp) {
+			# Setting subscription key
+			luis add appazureaccount `
+				--appId $luisApp.id `
+				--accountName $luisAccountName `
+				--authoringKey $luisAuthoringKey `
+				--region $luisAuthoringRegion `
+				--armToken $azAccessToken.accessToken `
+				--azureSubscriptionId $azAccount.id `
+				--resourceGroup $resourceGroup
+
 			 # Add luis app to dispatch
 			Write-Host "> Adding $($lu.BaseName) app to dispatch model ..."
 			(dispatch add `
@@ -111,8 +133,8 @@ foreach ($language in $languageArr)
 				id = $lu.BaseName
 				name = $luisApp.name
 				appid = $luisApp.id
-				authoringkey = $luisauthoringkey
-				subscriptionkey = $luisauthoringkey
+				authoringkey = $luisAuthoringKey
+				subscriptionkey = $luisSubscriptionKey
 				version = $luisApp.activeVersion
 				region = $luisAuthoringRegion
 			}
@@ -171,13 +193,23 @@ foreach ($language in $languageArr)
 	else {
 		$dispatchApp  = $dispatch | ConvertFrom-Json
 
+		# Setting subscription key
+		luis add appazureaccount `
+			--appId dispatchApp.appId `
+			--accountName $luisAccountName `
+			--authoringKey $luisAuthoringKey `
+			--region $luisAuthoringRegion `
+			--armToken $azAccessToken.accessToken `
+			--azureSubscriptionId $azAccount.id `
+			--resourceGroup $resourceGroup
+
 	    # Add to config
 		$config.dispatchModel = @{
 			type = "dispatch"
 			name = $dispatchApp.name
 			appid = $dispatchApp.appId
 			authoringkey = $luisauthoringkey
-			subscriptionkey = $luisauthoringkey
+			subscriptionkey = $luisSubscriptionKey
 			region = $luisAuthoringRegion
 		}
 	}

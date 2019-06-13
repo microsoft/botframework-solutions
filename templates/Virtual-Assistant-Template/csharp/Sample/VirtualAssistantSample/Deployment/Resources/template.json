@@ -345,6 +345,7 @@
     "luis": {
       "type": "object",
       "value": {
+        "accountName": "[parameters('luisServiceName')]",
         "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisServiceName')),'2017-04-18').key1]"
       }
     },
