@@ -13,11 +13,8 @@ const _pick = require(`lodash/pick`);
 const _kebabCase = require(`lodash/kebabCase`);
 const templateName = "customSkill";
 const languages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
-let skillName;
-let skillDesc;
 let skillGenerationPath = process.cwd();
 let isAlreadyCreated = false;
-let copier;
 
 const languagesChoice = [
   {
@@ -117,7 +114,7 @@ module.exports = class extends Generator {
     });
 
     // Instantiate the copier
-    copier = new Copier(this);
+    this.copier = new Copier(this);
   }
 
   prompting() {
@@ -240,12 +237,15 @@ module.exports = class extends Generator {
       return;
     }
 
-    skillDesc = this.props.skillDesc;
+    const skillDesc = this.props.skillDesc;
     if (!this.props.skillName.replace(/\s/g, ``).length) {
       this.props.skillName = templateName;
     }
 
-    skillName = _kebabCase(this.props.skillName).replace(/([^a-z0-9-]+)/gi, ``);
+    const skillName = _kebabCase(this.props.skillName).replace(
+      /([^a-z0-9-]+)/gi,
+      ``
+    );
     skillGenerationPath = path.join(skillGenerationPath, skillName);
     if (this.props.skillGenerationPath !== undefined) {
       skillGenerationPath = path.join(
@@ -272,9 +272,9 @@ module.exports = class extends Generator {
     };
 
     // Start the copy of the template
-    copier.selectLanguages(skillLang);
-    copier.copyIgnoringTemplateFiles(templateName, skillGenerationPath);
-    copier.copyTemplateFiles(templateName, skillGenerationPath, newSkill);
+    this.copier.selectLanguages(skillLang);
+    this.copier.copyIgnoringTemplateFiles(templateName, skillGenerationPath);
+    this.copier.copyTemplateFiles(templateName, skillGenerationPath, newSkill);
   }
 
   install() {

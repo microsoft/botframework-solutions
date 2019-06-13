@@ -13,11 +13,8 @@ const _pick = require(`lodash/pick`);
 const _kebabCase = require(`lodash/kebabCase`);
 const templateName = "customAssistant";
 const languages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
-let assistantName;
-let assistantDesc;
 let assistantGenerationPath = process.cwd();
 let isAlreadyCreated = false;
-let copier;
 
 const languagesChoice = [
   {
@@ -117,7 +114,7 @@ module.exports = class extends Generator {
     });
 
     // Instantiate the copier
-    copier = new Copier(this);
+    this.copier = new Copier(this);
   }
 
   prompting() {
@@ -242,12 +239,12 @@ module.exports = class extends Generator {
       return;
     }
 
-    assistantDesc = this.props.assistantDesc;
+    const assistantDesc = this.props.assistantDesc;
     if (!this.props.assistantName.replace(/\s/g, ``).length) {
       this.props.assistantName = templateName;
     }
 
-    assistantName = _kebabCase(this.props.assistantName).replace(
+    const assistantName = _kebabCase(this.props.assistantName).replace(
       /([^a-z0-9-]+)/gi,
       ``
     );
@@ -278,9 +275,12 @@ module.exports = class extends Generator {
     };
 
     // Start the copy of the template
-    copier.selectLanguages(assistantLang);
-    copier.copyIgnoringTemplateFiles(templateName, assistantGenerationPath);
-    copier.copyTemplateFiles(
+    this.copier.selectLanguages(assistantLang);
+    this.copier.copyIgnoringTemplateFiles(
+      templateName,
+      assistantGenerationPath
+    );
+    this.copier.copyTemplateFiles(
       templateName,
       assistantGenerationPath,
       newAssistant

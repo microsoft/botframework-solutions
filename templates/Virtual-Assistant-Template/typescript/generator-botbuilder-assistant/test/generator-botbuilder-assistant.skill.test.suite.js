@@ -9,7 +9,8 @@ const rimraf = require(`rimraf`);
 const _kebabCase = require(`lodash/kebabCase`);
 const semver = require('semver');
 const languages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
-const join = require(`path`).join;
+const someLanguages = [`zh`, `de`, `en`];
+const { join } = require(`path`);
 const sinon = require(`sinon`);
 
 describe(`The generator-botbuilder-assistant skill tests`, function() {
@@ -62,6 +63,8 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
         skillGenerationPath = join(__dirname, "tmp");
         pathConfirmation = true;
         finalConfirmation = true;
+        const pipelinePath = join(`pipeline`, `${skillName}.yml`);
+        templatesFiles.push(pipelinePath);
 
         before(async function(){
             await helpers
@@ -72,6 +75,8 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
               skillName,
               `-d`,
               skillDesc,
+              `-l`,
+              someLanguages.join(`,`),
               `-p`,
               skillGenerationPath,
               `--noPrompt`
@@ -212,7 +217,7 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
         });
 
         describe(`the base`, function() {
-            it(skillName + ` folder when the final confirmation is deny`, function(done) {
+            it(skillName + ` folder when the execution is skipped`, function(done) {
               if(!run){
                 this.skip()          
               }

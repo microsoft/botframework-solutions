@@ -9,7 +9,8 @@ const helpers = require(`yeoman-test`);
 const rimraf = require(`rimraf`);
 const _kebabCase = require(`lodash/kebabCase`);
 const semver = require('semver');
-const languages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
+const someLanguages = [`zh`, `de`, `en`];
+const nonexistentLanguages = [`br`, `pt`];
 const sinon = require(`sinon`);
 
 describe(`The generator-botbuilder-assistant tests`, function() {
@@ -24,7 +25,7 @@ describe(`The generator-botbuilder-assistant tests`, function() {
     const templatesFiles = [
         `package.json`,
         `.gitignore`,
-        `.npmrc`
+        `.npmrc`,
     ];
     const commonDirectories = [
         `deployment`,
@@ -55,6 +56,8 @@ describe(`The generator-botbuilder-assistant tests`, function() {
         assistantGenerationPath = join(__dirname, "tmp");
         pathConfirmation = true;
         finalConfirmation = true;
+        const pipelinePath = join(`pipeline`, `${assistantName}.yml`);
+        templatesFiles.push(pipelinePath);
 
         before(async function(){
             await helpers
@@ -65,6 +68,8 @@ describe(`The generator-botbuilder-assistant tests`, function() {
                 assistantName,
                 `-d`,
                 assistantDesc,
+                `-l`,
+                someLanguages.join(`,`),
                 `-p`,
                 assistantGenerationPath,
                 `--noPrompt`
@@ -141,7 +146,7 @@ describe(`The generator-botbuilder-assistant tests`, function() {
                     .withPrompts({
                         assistantName: assistantName,
                         assistantDesc: assistantDesc,
-                        assistantLang: languages,
+                        assistantLang: someLanguages,
                         pathConfirmation: pathConfirmation,
                         assistantGenerationPath: assistantGenerationPath,
                         finalConfirmation: finalConfirmation
@@ -157,7 +162,7 @@ describe(`The generator-botbuilder-assistant tests`, function() {
         });
 
         describe(`the base`, function() {
-            it(assistantName + ` folder when the final confirmation is deny`, function(done) {
+            it(assistantName + ` folder when the execution is skipped`, function(done) {
               if(!run){
                 this.skip()          
               }
