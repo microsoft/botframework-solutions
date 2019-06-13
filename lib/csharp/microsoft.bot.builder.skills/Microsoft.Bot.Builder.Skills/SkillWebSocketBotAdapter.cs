@@ -128,16 +128,16 @@ namespace Microsoft.Bot.Builder.Skills
 
                     var stopWatch = new Diagnostics.Stopwatch();
 
-					try
-					{
-						stopWatch.Start();
-						response = await SendRequestAsync<ResourceResponse>(request).ConfigureAwait(false);
-						stopWatch.Stop();
-					}
-					catch (Exception ex)
-					{
-						throw new SkillWebSocketCallbackException($"Callback failed. Verb: POST, Path: {requestPath}", ex);
-					}
+                    try
+                    {
+                        stopWatch.Start();
+                        response = await SendRequestAsync<ResourceResponse>(request).ConfigureAwait(false);
+                        stopWatch.Stop();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new SkillWebSocketCallbackException($"Callback failed. Verb: POST, Path: {requestPath}", ex);
+                    }
 
                     _botTelemetryClient.TrackEvent("SkillWebSocketSendActivityLatency", null, new Dictionary<string, double>
                     {
@@ -171,24 +171,24 @@ namespace Microsoft.Bot.Builder.Skills
             var request = Request.CreatePut(requestPath);
             request.SetBody(activity);
 
-			var response = default(ResourceResponse);
+            var response = default(ResourceResponse);
 
-			_botTelemetryClient.TrackTrace($"Updating activity. activity id: {activity.Id}", Severity.Information, null);
+            _botTelemetryClient.TrackTrace($"Updating activity. activity id: {activity.Id}", Severity.Information, null);
 
             var stopWatch = new Diagnostics.Stopwatch();
 
-			try
-			{
-				stopWatch.Start();
-				response = await SendRequestAsync<ResourceResponse>(request, cancellationToken).ConfigureAwait(false);
-				stopWatch.Stop();
-			}
-			catch (Exception ex)
-			{
-				throw new SkillWebSocketCallbackException($"Callback failed. Verb: PUT, Path: {requestPath}", ex);
-			}
+            try
+            {
+                stopWatch.Start();
+                response = await SendRequestAsync<ResourceResponse>(request, cancellationToken).ConfigureAwait(false);
+                stopWatch.Stop();
+            }
+            catch (Exception ex)
+            {
+                throw new SkillWebSocketCallbackException($"Callback failed. Verb: PUT, Path: {requestPath}", ex);
+            }
 
-			_botTelemetryClient.TrackEvent("SkillWebSocketUpdateActivityLatency", null, new Dictionary<string, double>
+            _botTelemetryClient.TrackEvent("SkillWebSocketUpdateActivityLatency", null, new Dictionary<string, double>
             {
                 { "Latency", stopWatch.ElapsedMilliseconds },
             });
@@ -201,21 +201,21 @@ namespace Microsoft.Bot.Builder.Skills
             var requestPath = $"/activities/{reference.ActivityId}";
             var request = Request.CreateDelete(requestPath);
 
-			_botTelemetryClient.TrackTrace($"Deleting activity. activity id: {reference.ActivityId}", Severity.Information, null);
+            _botTelemetryClient.TrackTrace($"Deleting activity. activity id: {reference.ActivityId}", Severity.Information, null);
 
             var stopWatch = new Diagnostics.Stopwatch();
-			try
-			{
-				stopWatch.Start();
-				await SendRequestAsync<ResourceResponse>(request, cancellationToken).ConfigureAwait(false);
-				stopWatch.Stop();
-			}
-			catch (Exception ex)
-			{
-				throw new SkillWebSocketCallbackException($"Callback failed. Verb: DELETE, Path: {requestPath}", ex);
-			}
+            try
+            {
+                stopWatch.Start();
+                await SendRequestAsync<ResourceResponse>(request, cancellationToken).ConfigureAwait(false);
+                stopWatch.Stop();
+            }
+            catch (Exception ex)
+            {
+                throw new SkillWebSocketCallbackException($"Callback failed. Verb: DELETE, Path: {requestPath}", ex);
+            }
 
-			_botTelemetryClient.TrackEvent("SkillWebSocketDeleteActivityLatency", null, new Dictionary<string, double>
+            _botTelemetryClient.TrackEvent("SkillWebSocketDeleteActivityLatency", null, new Dictionary<string, double>
             {
                 { "Latency", stopWatch.ElapsedMilliseconds },
             });
