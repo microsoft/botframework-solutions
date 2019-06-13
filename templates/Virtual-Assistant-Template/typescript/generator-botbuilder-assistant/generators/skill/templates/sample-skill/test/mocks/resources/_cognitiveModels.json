@@ -12,12 +12,12 @@
           "region": "westus"
         },
         {
-          "id": "<%=skillName%>",
+          "id": "<%=skillNameCamelCase%>",
           "version": "0.1",
           "appId": "00000002-0000-0000-0000-000000000001",
           "subscriptionKey": "00000002-0000-0000-0000-000000000001",
           "authoringKey": "00000002-0000-0000-0000-000000000001",
-          "name": "<%=skillName%>",
+          "name": "<%=skillNameCamelCase%>",
           "region": "westus"
         }
       ]

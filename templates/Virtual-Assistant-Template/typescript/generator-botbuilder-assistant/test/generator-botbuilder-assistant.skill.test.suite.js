@@ -176,7 +176,7 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
             it(`an id property with the given name`, function(done) {
                 assert.fileContent(
                   join(skillGenerationPath, skillName, testCognitiveModelsPath),
-                  `"id": "${skillName}",`
+                  `"id": "${skillNameCamelCase}",`
                 );
                 done();
             });
@@ -184,7 +184,7 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
             it(`a name property with the given name`, function(done) {
                 assert.fileContent(
                   join(skillGenerationPath, skillName, testCognitiveModelsPath),
-                  `"name": "${skillName}",`
+                  `"name": "${skillNameCamelCase}",`
                 );
                 done();
             });
