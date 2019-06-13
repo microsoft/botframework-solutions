@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using Microsoft.ApplicationInsights;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.ApplicationInsights;
@@ -16,7 +17,7 @@ namespace VirtualAssistantSample.Services
         {
         }
 
-        public BotServices(BotSettings settings)
+        public BotServices(BotSettings settings, IBotTelemetryClient client)
         {
             foreach (var pair in settings.CognitiveModels)
             {
@@ -24,7 +25,7 @@ namespace VirtualAssistantSample.Services
                 var language = pair.Key;
                 var config = pair.Value;
 
-                var telemetryClient = new BotTelemetryClient(new TelemetryClient(settings.AppInsights));
+                var telemetryClient = client;
                 var luisOptions = new LuisPredictionOptions()
                 {
                     TelemetryClient = telemetryClient,
