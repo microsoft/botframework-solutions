@@ -6,6 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Deployment\Resources\Skills\en\settings_dispatch.luis" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Deployment\Resources\Skills\en\settings_dispatch.luis" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AdaptiveCards" Version="1.1.2" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.10.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
