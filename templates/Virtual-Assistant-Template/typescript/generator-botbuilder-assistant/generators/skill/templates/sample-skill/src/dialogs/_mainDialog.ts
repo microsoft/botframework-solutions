@@ -42,7 +42,7 @@ enum Events {
 export class MainDialog extends RouterDialog {
 
     // Fields
-    private readonly solutionName: string = '<%=skillName%>';
+    private readonly solutionName: string = '<%=skillNameCamelCase%>';
     private readonly luisServiceGeneral: string = 'general';
     private readonly settings: Partial<IBotSettings>;
     private readonly services: BotServices;

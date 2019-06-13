@@ -1,0 +1,55 @@
+# specific branch build
+trigger:
+  branches:  
+    include:
+    - master
+    - features/*
+
+pool:
+  name: Hosted VS2017
+steps:
+- task: NodeTool@0
+  displayName: 'Use Node 10.x'
+  inputs:
+    versionSpec: 10.x
+
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    # if your working directory is not root, you may change the following path
+    workingDir: '<%=assistantName%>'
+    verbose: false
+
+- task: Npm@1
+  displayName: 'npm run build'
+  inputs:
+    command: custom
+    # if your working directory is not root, you may change the following path
+    workingDir: '<%=assistantName%>'
+    verbose: false
+    customCommand: 'run build'
+
+- task: Npm@1
+  displayName: 'npm test - coverage'
+  inputs:
+    command: custom
+    # if your working directory is not root, you may change the following path
+    workingDir: '<%=assistantName%>'
+    verbose: false
+    customCommand: 'run test-coverage-ci'
+
+- task: PublishTestResults@2
+  displayName: 'publish test results'
+  inputs:
+    testResultsFiles: 'test-results.xml'
+    # if your working directory is not root, you may change the following path
+    searchFolder: '<%=assistantName%>'
+    failTaskOnFailedTests: true
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'publish code coverage'
+  inputs:
+    codeCoverageTool: Cobertura
+    # if your working directory is not root, you may change the following paths
+    summaryFileLocation: '<%=assistantName%>/coverage/cobertura-coverage.xml'
+    reportDirectory: '<%=assistantName%>/coverage/'
