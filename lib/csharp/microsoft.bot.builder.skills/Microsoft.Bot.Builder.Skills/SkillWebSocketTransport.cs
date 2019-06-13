@@ -20,15 +20,18 @@ namespace Microsoft.Bot.Builder.Skills
         private IStreamingTransportClient _streamingTransportClient;
         private readonly SkillManifest _skillManifest;
         private readonly IServiceClientCredentials _serviceClientCredentials;
+		private readonly IBotTelemetryClient _botTelemetryClient;
         private bool endOfConversation = false;
 
         public SkillWebSocketTransport(
 			SkillManifest skillManifest,
 			IServiceClientCredentials serviceCLientCredentials,
+			IBotTelemetryClient botTelemetryClient,
 			IStreamingTransportClient streamingTransportClient = null)
         {
             _skillManifest = skillManifest ?? throw new ArgumentNullException(nameof(skillManifest));
             _serviceClientCredentials = serviceCLientCredentials ?? throw new ArgumentNullException(nameof(serviceCLientCredentials));
+			_botTelemetryClient = botTelemetryClient;
 			_streamingTransportClient = streamingTransportClient;
 		}
 
@@ -49,6 +52,7 @@ namespace Microsoft.Bot.Builder.Skills
                     EnsureWebSocketUrl(_skillManifest.Endpoint.ToString()),
                     new SkillCallingRequestHandler(
                         turnContext,
+						_botTelemetryClient,
                         GetTokenCallback(turnContext, tokenRequestHandler),
                         GetHandoffActivityCallback()),
                     headers);
@@ -57,16 +61,16 @@ namespace Microsoft.Bot.Builder.Skills
             }
 
 			// set recipient to the skill
-			if (activity.Recipient == null)
-			{
-				activity.Recipient = new ChannelAccount();
-			}
-
+			var recipientId = activity.Recipient.Id;
 			activity.Recipient.Id = _skillManifest.MSAappId;
 
-            // Serialize the activity and POST to the Skill endpoint
-            var body = new StringContent(JsonConvert.SerializeObject(activity, SerializationSettings.BotSchemaSerializationSettings), Encoding.UTF8, SerializationSettings.ApplicationJson);
+			// Serialize the activity and POST to the Skill endpoint
+			var body = new StringContent(JsonConvert.SerializeObject(activity, SerializationSettings.BotSchemaSerializationSettings), Encoding.UTF8, SerializationSettings.ApplicationJson);
             var request = Request.CreatePost(string.Empty, body);
+
+			// set back recipient id to make things consistent
+			activity.Recipient.Id = recipientId;
+
             await _streamingTransportClient.SendAsync(request);
 
             return endOfConversation;
