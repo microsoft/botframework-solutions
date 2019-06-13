@@ -35,7 +35,7 @@ steps:
     command: custom
     workingDir: lib/typescript/botskills
     verbose: false
-    customCommand: 'run coverage'
+    customCommand: 'run test-coverage-ci'
     
 - task: PublishTestResults@2
   displayName: 'publish test results'
