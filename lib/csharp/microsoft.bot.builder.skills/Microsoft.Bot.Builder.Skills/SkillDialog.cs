@@ -49,12 +49,12 @@ namespace Microsoft.Bot.Builder.Skills
             : base(skillManifest.Id)
         {
             _skillManifest = skillManifest ?? throw new ArgumentNullException(nameof(SkillManifest));
-			_serviceClientCredentials = serviceClientCredentials ?? throw new ArgumentNullException(nameof(serviceClientCredentials));
+            _serviceClientCredentials = serviceClientCredentials ?? throw new ArgumentNullException(nameof(serviceClientCredentials));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
             _userState = userState;
-			_skillTransport = skillTransport ?? new SkillWebSocketTransport(_skillManifest, _serviceClientCredentials);
+            _skillTransport = skillTransport ?? new SkillWebSocketTransport(_skillManifest, _serviceClientCredentials, telemetryClient);
 
-			if (authDialog != null)
+            if (authDialog != null)
             {
                 _authDialog = authDialog;
                 AddDialog(authDialog);
