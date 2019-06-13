@@ -11,8 +11,10 @@ const path = require(`path`);
 const pkg = require(`../../package.json`);
 const _pick = require(`lodash/pick`);
 const _kebabCase = require(`lodash/kebabCase`);
-const templateName = "customAssistant";
+const _camelCase = require(`lodash/camelCase`);
+const templateName = "sample-assistant";
 const languages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
+let assistantNameCamelCase;
 let assistantName;
 let assistantDesc;
 let assistantGenerationPath = process.cwd();
@@ -86,7 +88,7 @@ module.exports = class extends Generator {
     this.option(`assistantName`, {
       description: `The name you want to give to your assistant.`,
       type: String,
-      default: `customAssistant`,
+      default: `sample-assistant`,
       alias: `n`
     });
 
@@ -155,7 +157,7 @@ module.exports = class extends Generator {
         message: `What's the name of your assistant?`,
         default: this.options.assistantName
           ? this.options.assistantName
-          : `customAssistant`
+          : `sample-assistant`
       },
       // Description of the assistant
       {
@@ -252,6 +254,11 @@ module.exports = class extends Generator {
       ``
     );
 
+    assistantNameCamelCase = _camelCase(this.props.assistantName).replace(
+      /([^a-z0-9-]+)/gi,
+      ``
+    );
+
     assistantGenerationPath = path.join(assistantGenerationPath, assistantName);
     if (this.props.assistantGenerationPath !== undefined) {
       assistantGenerationPath = path.join(
@@ -274,6 +281,7 @@ module.exports = class extends Generator {
     // Create new assistant obj
     const newAssistant = {
       assistantName: assistantName,
+      assistantNameCamelCase: assistantNameCamelCase,
       assistantDescription: assistantDesc
     };
 
