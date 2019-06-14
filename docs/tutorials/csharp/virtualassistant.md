@@ -101,6 +101,11 @@ You can find more detailed deployment steps including customization in the [Virt
 
 ## Run your assistant
 
+Currently VA supports both regular channels such as Directline, Facebook etc, as well as the Directline Speech channel which is currently in preview. To enable the Directline Speech channel, please add a separate Nuget feed in your Visual Studio Tools -> Nuget Package Manager -> Package Manager Settings, under 'Package Sources', add a new source:
+https://botbuilder.myget.org/F/experimental/api/v3/index.json
+
+With this source added, you will be able to build and run your VirtualAssistantSample project.
+
 When deployment is complete, you can run your Virtual Assistant debugging through the following steps:
 
 1. Press **F5** within Visual Studio to run your assistant.
