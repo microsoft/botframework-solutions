@@ -15,6 +15,9 @@ namespace ToDoSkillTest.Flow.Utterances
 
             listType = new string[] { MockData.Shopping };
             this.Add(ShowShoppingList, GetBaseShowTasksIntent(ShowShoppingList, listType: listType));
+
+            listType = new string[] { MockData.CustomizedListType };
+            this.Add(ShowCustomizedListTypeList, GetBaseShowTasksIntent(ShowCustomizedListTypeList, listType: listType));
         }
 
         public static string ShowToDoList { get; } = "Show my to do list";
@@ -22,6 +25,8 @@ namespace ToDoSkillTest.Flow.Utterances
         public static string ShowGroceryList { get; } = "Show my grocery list";
 
         public static string ShowShoppingList { get; } = "Show my shopping list";
+
+        public static string ShowCustomizedListTypeList { get; } = "Show my homework list";
 
         private ToDoLuis GetBaseShowTasksIntent(
             string userInput,

@@ -19,9 +19,11 @@ using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Protocol.StreamingExtensions.NetCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using VirtualAssistantSample.Adapters;
 using VirtualAssistantSample.Bots;
 using VirtualAssistantSample.Dialogs;
 using VirtualAssistantSample.Services;
@@ -64,7 +66,9 @@ namespace VirtualAssistantSample
 
             // Configure credentials
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
-            services.AddSingleton(new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
+
+            var appCredentials = new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword);
+            services.AddSingleton(appCredentials);
 
             // Configure telemetry
             var telemetryClient = new BotTelemetryClient(new TelemetryClient(settings.AppInsights));
@@ -98,14 +102,21 @@ namespace VirtualAssistantSample
                 {
                     var authDialog = BuildAuthDialog(skill, settings);
                     var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MSAappId);
-					skillDialogs.Add(new SkillDialog(skill, credentials, telemetryClient, userState, authDialog));
+                    skillDialogs.Add(new SkillDialog(skill, credentials, telemetryClient, userState, authDialog));
                 }
 
                 return skillDialogs;
             });
 
             // Configure adapters
+            // DefaultAdapter is for all regular channels that use Http transport
             services.AddSingleton<IBotFrameworkHttpAdapter, DefaultAdapter>();
+
+            // DefaultWebSocketAdapter is for directline speech channel
+            // This adapter implementation is currently a workaround as
+            // later on we'll have a WebSocketEnabledHttpAdapter implementation that handles
+            // both Http for regular channels and websocket for directline speech channel
+            services.AddSingleton<WebSocketEnabledHttpAdapter, DefaultWebSocketAdapter>();
 
             // Configure bot
             services.AddTransient<IBot, DialogBot<MainDialog>>();
@@ -122,6 +133,7 @@ namespace VirtualAssistantSample
             app.UseBotApplicationInsights()
                 .UseDefaultFiles()
                 .UseStaticFiles()
+                .UseWebSockets()
                 .UseMvc();
         }
 

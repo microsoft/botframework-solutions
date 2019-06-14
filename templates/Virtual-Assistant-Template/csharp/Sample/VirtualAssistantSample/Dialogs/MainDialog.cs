@@ -179,6 +179,7 @@ namespace VirtualAssistantSample.Dialogs
             else
             {
                 // If dispatch intent does not map to configured models, send "confused" response.
+                // Alternatively as a form of backup you can try QnAMaker for anything not understood by dispatch.
                 await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
             }
         }

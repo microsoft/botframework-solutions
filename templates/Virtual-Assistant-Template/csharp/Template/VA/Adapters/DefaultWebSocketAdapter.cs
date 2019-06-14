@@ -3,23 +3,25 @@
 
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
-using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Protocol.StreamingExtensions.NetCore;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Configuration;
 using $safeprojectname$.Responses.Main;
 using $safeprojectname$.Services;
 
 namespace $safeprojectname$.Adapters
 {
-    public class DefaultAdapter : BotFrameworkHttpAdapter
+	public class DefaultWebSocketAdapter : WebSocketEnabledHttpAdapter
     {
-        public DefaultAdapter(
+        public DefaultWebSocketAdapter(
+            IConfiguration config,
             BotSettings settings,
             ICredentialProvider credentialProvider,
             IBotTelemetryClient telemetryClient,
             BotStateSet botStateSet)
-            : base(credentialProvider)
+            : base(config, credentialProvider)
         {
             OnTurnError = async (turnContext, exception) =>
             {
@@ -35,6 +37,7 @@ namespace $safeprojectname$.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
             Use(new AutoSaveStateMiddleware(botStateSet));
+            Use(new SetSpeakMiddleware(settings.DefaultLocale ?? "en-us"));
         }
     }
 }
