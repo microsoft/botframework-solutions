@@ -19,6 +19,7 @@ using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
@@ -34,7 +35,8 @@ namespace EmailSkill.Dialogs
              ResponseManager responseManager,
              ConversationState conversationState,
              IServiceManager serviceManager,
-             IBotTelemetryClient telemetryClient)
+             IBotTelemetryClient telemetryClient,
+             MicrosoftAppCredentials appCredentials)
              : base(dialogId)
         {
             Settings = settings;
@@ -45,7 +47,7 @@ namespace EmailSkill.Dialogs
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
 
-            AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections));
+            AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections, appCredentials));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }

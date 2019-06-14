@@ -100,7 +100,7 @@ namespace $safeprojectname$
 
                 foreach (var skill in settings.Skills)
                 {
-                    var authDialog = BuildAuthDialog(skill, settings);
+                    var authDialog = BuildAuthDialog(skill, settings, appCredentials);
                     var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MSAappId);
                     skillDialogs.Add(new SkillDialog(skill, credentials, telemetryClient, userState, authDialog));
                 }
@@ -138,14 +138,14 @@ namespace $safeprojectname$
         }
 
         // This method creates a MultiProviderAuthDialog based on a skill manifest.
-        private MultiProviderAuthDialog BuildAuthDialog(SkillManifest skill, BotSettings settings)
+        private MultiProviderAuthDialog BuildAuthDialog(SkillManifest skill, BotSettings settings, MicrosoftAppCredentials appCredentials)
         {
             if (skill.AuthenticationConnections?.Count() > 0)
             {
                 if (settings.OAuthConnections.Any() && settings.OAuthConnections.Any(o => skill.AuthenticationConnections.Any(s => s.ServiceProviderId == o.Provider)))
                 {
                     var oauthConnections = settings.OAuthConnections.Where(o => skill.AuthenticationConnections.Any(s => s.ServiceProviderId == o.Provider)).ToList();
-                    return new MultiProviderAuthDialog(oauthConnections);
+                    return new MultiProviderAuthDialog(oauthConnections, appCredentials);
                 }
                 else
                 {

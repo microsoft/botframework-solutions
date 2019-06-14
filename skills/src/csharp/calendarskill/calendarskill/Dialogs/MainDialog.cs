@@ -84,7 +84,7 @@ namespace CalendarSkill.Dialogs
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.CognitiveModelSets[locale];
 
-            await PopulateStateFromSkillContext(dc.Context);
+            await PopulateStateFromSemanticAction(dc.Context);
 
             // Initialize the PageSize parameters in state from configuration
             InitializeConfig(state);
@@ -186,23 +186,19 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        private async Task PopulateStateFromSkillContext(ITurnContext context)
+        private async Task PopulateStateFromSemanticAction(ITurnContext context)
         {
-            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
-            // and make available in local state as appropriate.
-            var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
-            var skillContext = await accessor.GetAsync(context, () => new SkillContext());
-            if (skillContext != null)
+            var activity = context.Activity;
+            var semanticAction = activity.SemanticAction;
+            if (semanticAction != null && semanticAction.Entities.ContainsKey("timezone"))
             {
-                if (skillContext.ContainsKey("timezone"))
-                {
-                    var timezone = skillContext["timezone"];
-                    var state = await _stateAccessor.GetAsync(context, () => new CalendarSkillState());
-                    var timezoneJson = timezone as Newtonsoft.Json.Linq.JObject;
+                var timezone = semanticAction.Entities["timezone"];
+                var timezoneObj = timezone.Properties["timezone"].ToObject<TimeZoneInfo>();
 
-                    // we have a timezone
-                    state.UserInfo.Timezone = timezoneJson.ToObject<TimeZoneInfo>();
-                }
+                var state = await _stateAccessor.GetAsync(context, () => new CalendarSkillState());
+
+                // we have a timezone
+                state.UserInfo.Timezone = timezoneObj;
             }
         }
 

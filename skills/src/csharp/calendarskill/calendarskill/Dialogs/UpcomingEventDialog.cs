@@ -14,6 +14,7 @@ using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector.Authentication;
 using static CalendarSkill.Proactive.CheckUpcomingEventHandler;
 
 namespace CalendarSkill.Dialogs
@@ -33,8 +34,9 @@ namespace CalendarSkill.Dialogs
             ProactiveState proactiveState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
-            IBackgroundTaskQueue backgroundTaskQueue)
-            : base(nameof(UpcomingEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
+            IBackgroundTaskQueue backgroundTaskQueue,
+            MicrosoftAppCredentials appCredentials)
+            : base(nameof(UpcomingEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             _backgroundTaskQueue = backgroundTaskQueue;
             _proactiveState = proactiveState;

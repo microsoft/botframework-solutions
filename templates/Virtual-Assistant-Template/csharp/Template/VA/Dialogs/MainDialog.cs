@@ -86,10 +86,7 @@ namespace $safeprojectname$.Dialogs
             if (identifiedSkill != null)
             {
                 // We have identiifed a skill so initialize the skill connection with the target skill
-                await dc.BeginDialogAsync(identifiedSkill.Id);
-
-                // Pass the activity we have
-                var result = await dc.ContinueDialogAsync();
+                var result = await dc.BeginDialogAsync(identifiedSkill.Id);
 
                 if (result.Status == DialogTurnStatus.Complete)
                 {
@@ -204,6 +201,58 @@ namespace $safeprojectname$.Dialogs
             {
                 switch (ev.Name)
                 {
+                    case Events.TimezoneEvent:
+                        {
+                            try
+                            {
+                                var timezone = ev.Value.ToString();
+                                var tz = TimeZoneInfo.FindSystemTimeZoneById(timezone);
+                                var timeZoneObj = new JObject();
+                                timeZoneObj.Add(TimeZone, JToken.FromObject(tz));
+
+                                var skillContext = await _skillContextAccessor.GetAsync(dc.Context, () => new SkillContext());
+                                if (skillContext.ContainsKey(TimeZone))
+                                {
+                                    skillContext[TimeZone] = timeZoneObj;
+                                }
+                                else
+                                {
+                                    skillContext.Add(TimeZone, timeZoneObj);
+                                }
+
+                                await _skillContextAccessor.SetAsync(dc.Context, skillContext);
+                            }
+                            catch
+                            {
+                                await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Timezone passed could not be mapped to a valid Timezone. Property not set."));
+                            }
+
+                            forward = false;
+                            break;
+                        }
+
+                    case Events.LocationEvent:
+                        {
+                            var location = ev.Value.ToString();
+                            var locationObj = new JObject();
+                            locationObj.Add(Location, JToken.FromObject(location));
+
+                            var skillContext = await _skillContextAccessor.GetAsync(dc.Context, () => new SkillContext());
+                            if (skillContext.ContainsKey(Location))
+                            {
+                                skillContext[Location] = locationObj;
+                            }
+                            else
+                            {
+                                skillContext.Add(Location, locationObj);
+                            }
+
+                            await _skillContextAccessor.SetAsync(dc.Context, skillContext);
+
+                            forward = false;
+                            break;
+                        }
+
                     case TokenEvents.TokenResponseEventName:
                         {
                             forward = true;
