@@ -19,6 +19,7 @@ using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Protocol.StreamingExtensions.NetCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

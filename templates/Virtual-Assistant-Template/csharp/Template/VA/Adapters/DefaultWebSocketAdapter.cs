@@ -37,6 +37,7 @@ namespace $safeprojectname$.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
             Use(new AutoSaveStateMiddleware(botStateSet));
+            Use(new SetSpeakMiddleware(settings.DefaultLocale ?? "en-us"));
         }
     }
 }
