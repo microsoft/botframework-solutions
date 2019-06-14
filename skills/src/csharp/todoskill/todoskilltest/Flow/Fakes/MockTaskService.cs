@@ -33,6 +33,13 @@ namespace ToDoSkillTest.Fakes
             IsCompleted = t.IsCompleted
         });
 
+        private List<TaskItem> allCustomizedListTypeItems = MockData.MockCustomizedListTypeItems.ConvertAll(t => new TaskItem()
+        {
+            Id = t.Id,
+            Topic = t.Topic,
+            IsCompleted = t.IsCompleted
+        });
+
         public bool IsListCreated { get; set; }
 
         public void ChangeData(DataOperationType.OperationType type)
@@ -83,6 +90,11 @@ namespace ToDoSkillTest.Fakes
                 listTypeIds.Add(MockData.Grocery, MockData.Grocery);
             }
 
+            if (!listTypeIds.ContainsKey(MockData.CustomizedListType))
+            {
+                listTypeIds.Add(MockData.CustomizedListType, MockData.CustomizedListType);
+            }
+
             IsListCreated = true;
             return Task.FromResult(this as ITaskService);
         }
@@ -117,6 +129,11 @@ namespace ToDoSkillTest.Fakes
                 this.allShoppingItems.RemoveAll(t => t.IsCompleted);
                 return Task.FromResult(this.allShoppingItems);
             }
+            else if (listType.Equals(MockData.CustomizedListType, StringComparison.InvariantCultureIgnoreCase))
+            {
+                this.allCustomizedListTypeItems.RemoveAll(t => t.IsCompleted);
+                return Task.FromResult(this.allCustomizedListTypeItems);
+            }
             else
             {
                 this.allGroceryItems.RemoveAll(t => t.IsCompleted);
@@ -138,6 +155,15 @@ namespace ToDoSkillTest.Fakes
             else if (listType.Equals(MockData.Shopping, StringComparison.InvariantCultureIgnoreCase))
             {
                 this.allShoppingItems.Insert(0, new TaskItem()
+                {
+                    Topic = taskText,
+                    IsCompleted = false,
+                    Id = MockData.TaskId
+                });
+            }
+            else if (listType.Equals(MockData.CustomizedListType, StringComparison.InvariantCultureIgnoreCase))
+            {
+                this.allCustomizedListTypeItems.Insert(0, new TaskItem()
                 {
                     Topic = taskText,
                     IsCompleted = false,

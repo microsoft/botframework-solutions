@@ -433,8 +433,11 @@ namespace ToDoSkill.Dialogs
             }
             else
             {
-                state.ListType = ToDoStrings.ToDo;
                 state.TaskContent = state.TaskContentML ?? state.TaskContentPattern;
+                if (string.IsNullOrEmpty(state.ListType))
+                {
+                    state.ListType = ToDoStrings.ToDo;
+                }
             }
         }
     }

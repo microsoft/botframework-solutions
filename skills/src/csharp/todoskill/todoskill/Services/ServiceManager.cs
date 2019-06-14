@@ -4,10 +4,22 @@
 namespace ToDoSkill.Services
 {
     using System.Collections.Generic;
+    using Microsoft.Extensions.Configuration;
     using ToDoSkill.Models;
 
     public class ServiceManager : IServiceManager
     {
+        public ServiceManager()
+        {
+        }
+
+        public ServiceManager(IConfiguration configuration)
+        {
+            this.Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
         /// <summary>
         /// Init task service.
         /// </summary>
@@ -20,12 +32,12 @@ namespace ToDoSkill.Services
             ITaskService taskService;
             if (taskServiceType == ServiceProviderType.OneNote)
             {
-                var oneNoteService = new OneNoteService();
+                var oneNoteService = new OneNoteService(Configuration);
                 taskService = oneNoteService.InitAsync(token, listTypeIds).Result;
             }
             else
             {
-                var outlookService = new OutlookService();
+                var outlookService = new OutlookService(Configuration);
                 taskService = outlookService.InitAsync(token, listTypeIds).Result;
             }
 
