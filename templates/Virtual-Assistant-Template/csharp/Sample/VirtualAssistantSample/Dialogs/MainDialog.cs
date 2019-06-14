@@ -145,16 +145,16 @@ namespace VirtualAssistantSample.Dialogs
 				}
 				else
 				{
-					var answers = await qnaService.GetAnswersAsync(dc.Context, null, null);
+                    var answers = await qnaService.GetAnswersAsync(dc.Context, null, null);
 
-					if (answers != null && answers.Count() > 0)
-					{
-						await dc.Context.SendActivityAsync(answers[0].Answer, speak: answers[0].Answer);
-					}
-					else
-					{
-						await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
-					}
+                    if (answers != null && answers.Count() > 0)
+                    {
+                        await dc.Context.SendActivityAsync(answers[0].Answer, speak: answers[0].Answer);
+                    }
+                    else
+                    {
+                        await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
+                    }
 				}
 			}
 			else if (intent == DispatchLuis.Intent.q_chitchat)
@@ -182,6 +182,7 @@ namespace VirtualAssistantSample.Dialogs
 			else
 			{
 				// If dispatch intent does not map to configured models, send "confused" response.
+                // Alternatively as a form of backup you can try QnAMaker for anything not understood by dispatch.
 				await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
 			}
 		}

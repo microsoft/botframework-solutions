@@ -10,7 +10,6 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.Rest;
 using Microsoft.Rest.Serialization;
 
 namespace Microsoft.Bot.Builder.Solutions.Authentication
@@ -23,7 +22,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
         private bool localAuthConfigured = false;
         private MicrosoftAppCredentials _appCredentials;
 
-        public MultiProviderAuthDialog(List<OAuthConnection> authenticationConnections, MicrosoftAppCredentials appCredentials = null)
+        public MultiProviderAuthDialog(List<OAuthConnection> authenticationConnections, MicrosoftAppCredentials appCredentials)
             : base(nameof(MultiProviderAuthDialog))
         {
             _authenticationConnections = authenticationConnections;
