@@ -35,7 +35,7 @@ namespace VirtualAssistantSample.Controllers
         [HttpGet]
         public async Task StartWebSocketAsync()
         {
-            // Delegate the processing of the HTTP POST to the adapter.
+            // Delegate the processing of the Websocket Get request to the adapter.
             // The adapter will invoke the bot.
             await _webSocketEnabledHttpAdapter.ProcessAsync(Request, Response, _bot);
         }
