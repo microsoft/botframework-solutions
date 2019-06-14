@@ -66,8 +66,8 @@ namespace $safeprojectname$
             // Configure credentials
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
 
-			var appCredentials = new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword);
-			services.AddSingleton(appCredentials);
+            var appCredentials = new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword);
+            services.AddSingleton(appCredentials);
 
             // Configure telemetry
             var telemetryClient = new BotTelemetryClient(new TelemetryClient(settings.AppInsights));
@@ -101,25 +101,25 @@ namespace $safeprojectname$
                 {
                     var authDialog = BuildAuthDialog(skill, settings);
                     var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MSAappId);
-					skillDialogs.Add(new SkillDialog(skill, credentials, telemetryClient, userState, authDialog));
+                    skillDialogs.Add(new SkillDialog(skill, credentials, telemetryClient, userState, authDialog));
                 }
 
                 return skillDialogs;
             });
 
-			// Configure adapters
-			// DefaultAdapter is for all regular channels that use Http transport
-			services.AddSingleton<IBotFrameworkHttpAdapter, DefaultAdapter>();
+            // Configure adapters
+            // DefaultAdapter is for all regular channels that use Http transport
+            services.AddSingleton<IBotFrameworkHttpAdapter, DefaultAdapter>();
 
-			// DefaultWebSocketAdapter is for directline speech channel
-			// This adapter implementation is currently a workaround as
-			// later on we'll have a WebSocketEnabledHttpAdapter implementation that handles
-			// both Http for regular channels and websocket for directline speech channel
-			services.AddSingleton<WebSocketEnabledHttpAdapter, DefaultWebSocketAdapter>();
+            // DefaultWebSocketAdapter is for directline speech channel
+            // This adapter implementation is currently a workaround as
+            // later on we'll have a WebSocketEnabledHttpAdapter implementation that handles
+            // both Http for regular channels and websocket for directline speech channel
+            services.AddSingleton<WebSocketEnabledHttpAdapter, DefaultWebSocketAdapter>();
 
-			// Configure bot
-			services.AddTransient<IBot, DialogBot<MainDialog>>();
-		}
+            // Configure bot
+            services.AddTransient<IBot, DialogBot<MainDialog>>();
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -132,8 +132,8 @@ namespace $safeprojectname$
             app.UseBotApplicationInsights()
                 .UseDefaultFiles()
                 .UseStaticFiles()
-				.UseWebSockets()
-				.UseMvc();
+                .UseWebSockets()
+                .UseMvc();
         }
 
         // This method creates a MultiProviderAuthDialog based on a skill manifest.

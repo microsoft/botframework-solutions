@@ -14,13 +14,13 @@ namespace VirtualAssistantSample.Controllers
     public class BotController : ControllerBase
     {
         private readonly IBotFrameworkHttpAdapter _adapter;
-		private readonly WebSocketEnabledHttpAdapter _webSocketEnabledHttpAdapter;
+        private readonly WebSocketEnabledHttpAdapter _webSocketEnabledHttpAdapter;
         private readonly IBot _bot;
 
         public BotController(IBotFrameworkHttpAdapter httpAdapter, WebSocketEnabledHttpAdapter webSocketEnabledHttpAdapter, IBot bot)
         {
             _adapter = httpAdapter;
-			_webSocketEnabledHttpAdapter = webSocketEnabledHttpAdapter;
+            _webSocketEnabledHttpAdapter = webSocketEnabledHttpAdapter;
             _bot = bot;
         }
 
@@ -32,12 +32,12 @@ namespace VirtualAssistantSample.Controllers
             await _adapter.ProcessAsync(Request, Response, _bot);
         }
 
-		[HttpGet]
-		public async Task StartWebSocketAsync()
-		{
-			// Delegate the processing of the HTTP POST to the adapter.
-			// The adapter will invoke the bot.
-			await _webSocketEnabledHttpAdapter.ProcessAsync(Request, Response, _bot);
-		}
+        [HttpGet]
+        public async Task StartWebSocketAsync()
+        {
+            // Delegate the processing of the HTTP POST to the adapter.
+            // The adapter will invoke the bot.
+            await _webSocketEnabledHttpAdapter.ProcessAsync(Request, Response, _bot);
+        }
     }
 }
