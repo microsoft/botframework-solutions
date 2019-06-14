@@ -13,6 +13,8 @@ namespace ToDoSkillTest.Flow.Fakes
 
         public const string Grocery = "Grocery";
 
+        public const string CustomizedListType = "Homework";
+
         public const string ListType = "listType";
 
         public const string TaskCount = "taskCount";
@@ -38,6 +40,8 @@ namespace ToDoSkillTest.Flow.Fakes
         public const string GroceryItemEggs = "eggs";
 
         public const string ShoppingItemShoes = "shoes";
+
+        public const string CustomizedListTypeItemHistory = "history";
 
         public const string FirstTaskDetailMessage = "You have {0} tasks on your {1} list: Here are the {2} most recent, they are {3}";
 
@@ -245,6 +249,44 @@ namespace ToDoSkillTest.Flow.Fakes
             {
                 Id = "GroceryItem9",
                 Topic = "Buy Milk 9",
+                IsCompleted = false
+            }
+        };
+
+        public static List<TaskItem> MockCustomizedListTypeItems { get; set; } = new List<TaskItem>
+        {
+            new TaskItem()
+            {
+                Id = "HomeworkItem1",
+                Topic = "History 1",
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "HomeworkItem2",
+                Topic = "History 2",
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "HomeworkItem3",
+                Topic = "History 3",
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "HomeworkItem4",
+                Topic = "History 4",
+                IsCompleted = false
+            },
+
+            new TaskItem()
+            {
+                Id = "HomeworkItem5",
+                Topic = "History 5",
                 IsCompleted = false
             }
         };

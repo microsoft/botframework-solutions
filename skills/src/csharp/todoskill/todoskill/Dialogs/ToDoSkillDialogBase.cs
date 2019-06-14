@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
@@ -30,6 +31,8 @@ namespace ToDoSkill.Dialogs
 {
     public class ToDoSkillDialogBase : ComponentDialog
     {
+        private const string Synonym = "Synonym";
+
         public ToDoSkillDialogBase(
             string dialogId,
             BotSettings settings,
@@ -305,17 +308,21 @@ namespace ToDoSkill.Dialogs
 
                 if (entities.ListType != null)
                 {
-                    if (ToDoStrings.GrocerySynonym.Contains(entities.ListType[0], StringComparison.InvariantCultureIgnoreCase))
+                    var topListType = entities.ListType[0];
+
+                    var toDoStringProperties = typeof(ToDoStrings).GetProperties();
+                    foreach (PropertyInfo toDoStringProperty in toDoStringProperties)
                     {
-                        state.ListType = ToDoStrings.Grocery;
-                    }
-                    else if (ToDoStrings.ShoppingSynonym.Contains(entities.ListType[0], StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        state.ListType = ToDoStrings.Shopping;
-                    }
-                    else
-                    {
-                        state.ListType = ToDoStrings.ToDo;
+                        var listTypeSynonymKey = toDoStringProperty.Name;
+                        if (listTypeSynonymKey.Contains(Synonym))
+                        {
+                            string listTypeSynonymValue = toDoStringProperty.GetValue(null).ToString();
+                            if (listTypeSynonymValue.Contains(topListType, StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                string listTypeKey = listTypeSynonymKey.Substring(0, listTypeSynonymKey.Length - Synonym.Length);
+                                state.ListType = toDoStringProperties.Where(x => x.Name == listTypeKey).First().GetValue(null).ToString();
+                            }
+                        }
                     }
                 }
 

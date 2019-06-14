@@ -88,3 +88,53 @@ LUIS models for the Skill are provided in .LU file format as part of the Skill. 
 |TaskContentPattern| Pattern.any |
 |number| Prebuilt entity|
 |ordinal| Prebuilt entity|
+
+
+## Add Your Own List Type
+
+If you want to add your customized list types, for example, your homework list or movie list, please follow these steps:
+
+1.Add your list type to `appsettings.json`
+
+```json
+"customizeListTypes": [
+    "Homework",
+    "Movie"
+  ]
+```
+
+2.Add your list type name and its synonym in `Responses\Shared\ToDoString.resx`
+
+Name | Value |
+---- | ----- |
+Homework | Homework |
+HomeworkSynonym | homework, home work |
+
+3.Modify your LUIS file. Modify `Deployment\Resources\LU\en\todo.lu` so that your LUIS app can tell these new ListType entities. You can provide more utterance to make your LUIS model perform better.
+
+```diff
+## AddToDo
++ - add {TaskContent=History} to my {ListType=homework} list
++ - add {TaskContent=Math} to my {ListType=homework}
+```
+
+(Optional) If you want to surport multi languages, please modify corresponding `.resx` files and `.lu` files, such as `Deployment\Resources\LU\zh\todo.lu`.
+
+```diff
+## AddToDo
++ - 在{ListType=作业}列表里加上{TaskContent=数学}
+```
+
+(Optional) After you add new list type, you can modify prompts as needed to make your conversation more friendly. For example, you can modify `Responses\Main\ToDoMainResponses.json`:
+
+```diff
+"ToDoWelcomeMessage": {
+    "replies": [
+      {
++       "text": "Hi. I'm To Do bot. I can help you manage your To Do, Shopping, Grocery or Homework list."
+-       "text": "Hi. I'm To Do bot. I can help you manage your To Do, Shopping or Grocery list."
+      }
+    ]
+```
+
+4.Redeploy your ToDo Skill.
