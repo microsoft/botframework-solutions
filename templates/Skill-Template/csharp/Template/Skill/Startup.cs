@@ -60,6 +60,7 @@ namespace $safeprojectname$
             var settings = new BotSettings();
             Configuration.Bind(settings);
             services.AddSingleton(settings);
+            services.AddSingleton<BotSettingsBase>(settings);
 
             // Configure credentials
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
