@@ -66,7 +66,9 @@ namespace VirtualAssistantSample
 
             // Configure credentials
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
-            services.AddSingleton(new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
+
+			var appCredentials = new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword);
+			services.AddSingleton(appCredentials);
 
             // Configure telemetry
             var telemetryClient = new BotTelemetryClient(new TelemetryClient(settings.AppInsights));

@@ -34,6 +34,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Microsoft.Bot.Protocol.StreamingExtensions">
+      <HintPath>Dependencies\Microsoft.Bot.Protocol.StreamingExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bot.Protocol.StreamingExtensions.NetCore">
       <HintPath>Dependencies\Microsoft.Bot.Protocol.StreamingExtensions.NetCore.dll</HintPath>
     </Reference>

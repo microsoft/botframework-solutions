@@ -173,7 +173,10 @@ namespace Microsoft.Bot.Builder.Skills
 
             var dialogResult = await ForwardToSkillAsync(innerDc, activity);
 
-            _skillTransport.Disconnect();
+			// comment out for now to accomodate for
+			// scenarios where skillTransport can't be transient
+			// will uncomment once the fix from StreamingExtensions is in
+            //_skillTransport.Disconnect();
 
             return dialogResult;
         }
