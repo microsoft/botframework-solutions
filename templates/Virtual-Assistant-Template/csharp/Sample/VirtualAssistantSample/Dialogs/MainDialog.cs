@@ -90,10 +90,7 @@ namespace VirtualAssistantSample.Dialogs
 			if (identifiedSkill != null)
 			{
 				// We have identiifed a skill so initialize the skill connection with the target skill
-				await dc.BeginDialogAsync(identifiedSkill.Id);
-
-				// Pass the activity we have
-				var result = await dc.ContinueDialogAsync();
+				var result = await dc.BeginDialogAsync(identifiedSkill.Id);
 
 				if (result.Status == DialogTurnStatus.Complete)
 				{
