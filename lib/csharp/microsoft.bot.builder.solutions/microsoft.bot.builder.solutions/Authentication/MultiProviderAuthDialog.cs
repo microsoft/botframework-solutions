@@ -57,7 +57,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             AddDialog(new EventPrompt(DialogIds.RemoteAuthEventPrompt, TokenEvents.TokenResponseEventName, TokenResponseValidatorAsync));
 
             // If authentication connections are provided locally then we enable "local auth" otherwise we only enable remote auth where the calling Bot handles this for us.
-            if (_authenticationConnections.Any())
+            if (_authenticationConnections != null && _authenticationConnections.Any())
             {
                 bool authDialogAdded = false;
 
@@ -88,6 +88,10 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
 
                     localAuthConfigured = true;
                 }
+            }
+            else
+            {
+                throw new ArgumentNullException(nameof(authenticationConnections));
             }
         }
 
@@ -125,28 +129,38 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                 }
 
                 var client = new OAuthClient(new Uri(OAuthClientConfig.OAuthEndpoint), _appCredentials);
+                var connectionName = _authenticationConnections.First().Name;
 
-                // Attempt to retrieve the token directly, we can't prompt the user for which Token to use so go with the first
-                // Moving forward we expect to have a "default" choice as part of Linked Accounts,.
-                var tokenResponse = await client.UserToken.GetTokenWithHttpMessagesAsync(
-                    stepContext.Context.Activity.From.Id,
-                    _authenticationConnections.First().Name,
-                    stepContext.Context.Activity.ChannelId,
-                    null,
-                    null,
-                    cancellationToken).ConfigureAwait(false);
-
-                if (tokenResponse?.Body != null && !string.IsNullOrEmpty(tokenResponse.Body.Token))
+                try
                 {
-                    var providerTokenResponse = await CreateProviderTokenResponseAsync(stepContext.Context, tokenResponse.Body).ConfigureAwait(false);
-                    return await stepContext.EndDialogAsync(providerTokenResponse, cancellationToken).ConfigureAwait(false);
-                }
+                    // Attempt to retrieve the token directly, we can't prompt the user for which Token to use so go with the first
+                    // Moving forward we expect to have a "default" choice as part of Linked Accounts,.
+                    var tokenResponse = await client.UserToken.GetTokenWithHttpMessagesAsync(
+                        stepContext.Context.Activity.From.Id,
+                        connectionName,
+                        stepContext.Context.Activity.ChannelId,
+                        null,
+                        null,
+                        cancellationToken).ConfigureAwait(false);
 
-                TelemetryClient.TrackEvent("DirectLineSpeechTokenRetrievalFailure");
+                    if (tokenResponse?.Body != null && !string.IsNullOrEmpty(tokenResponse.Body.Token))
+                    {
+                        var providerTokenResponse = await CreateProviderTokenResponseAsync(stepContext.Context, tokenResponse.Body).ConfigureAwait(false);
+                        return await stepContext.EndDialogAsync(providerTokenResponse, cancellationToken).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        throw new Exception($"Empty token response for user: {stepContext.Context.Activity.From.Id}, connectionName: {connectionName}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TelemetryClient.TrackEvent("DirectLineSpeechTokenRetrievalFailure", new Dictionary<string, string> { { "Exception", ex.Message } });
+                }
 
                 var noLinkedAccountResponse = _responseManager.GetResponse(
                     AuthenticationResponses.NoLinkedAccount,
-                    new StringDictionary() { { "authType", _authenticationConnections.First().Name } });
+                    new StringDictionary() { { "authType", connectionName } });
 
                 await stepContext.Context.SendActivityAsync(noLinkedAccountResponse).ConfigureAwait(false);
 
@@ -197,7 +211,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
         {
             if (_authenticationConnections.Count == 1)
             {
-                var result = _authenticationConnections.ElementAt(0).Name;
+                var result = _authenticationConnections.First().Name;
                 return await stepContext.NextAsync(result).ConfigureAwait(false);
             }
 
