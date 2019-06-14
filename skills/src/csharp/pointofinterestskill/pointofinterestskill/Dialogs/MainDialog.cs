@@ -279,8 +279,6 @@ namespace PointOfInterestSkill.Dialogs
 
         private async Task PopulateStateFromSkillContext(ITurnContext context)
         {
-            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
-            // and make available in local state as appropriate.
             var activity = context.Activity;
             var semanticAction = activity.SemanticAction;
             if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
