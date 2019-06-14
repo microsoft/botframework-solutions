@@ -9,44 +9,40 @@ using Microsoft.Bot.Builder.LanguageGeneration;
 
 namespace AdaptiveAssistant.Dialogs
 {
-    public class AdaptiveOnboardingDialog : ComponentDialog
+    public class AdaptiveOnboardingDialog : AdaptiveDialog
     {
         public AdaptiveOnboardingDialog(TemplateEngine engine)
             : base(nameof(AdaptiveOnboardingDialog))
         {
-            var dialog = new AdaptiveDialog("onboardingAdaptive")
+            Recognizer = new RegexRecognizer();
+            Generator = new TemplateEngineLanguageGenerator(engine);
+
+            Steps = new List<IDialog>()
             {
-                Recognizer = new RegexRecognizer(),
-                Generator = new TemplateEngineLanguageGenerator(engine),
-                Steps = new List<IDialog>()
+                new TextInput()
                 {
-                    new TextInput()
-                    {
-                        Property = "user.name",
-                        Prompt = new ActivityTemplate("[namePrompt]")
-                    },
-                    new SendActivity("[haveNameMessage]"),
-                    new TextInput()
-                    {
-                        Property = "user.email",
-                        Prompt = new ActivityTemplate("[emailPrompt]")
-                    },
-                    new SendActivity("[haveEmailMessage]"),
-                    new TextInput()
-                    {
-                        Property = "user.location",
-                        Prompt = new ActivityTemplate("[locationPrompt]")
-                    },
-                    new SendActivity("[haveLocationMessage]")
+                    Property = "user.name",
+                    Prompt = new ActivityTemplate("[namePrompt]")
                 },
-                Rules = new List<IRule>()
+                new SendActivity("[haveNameMessage]"),
+                new TextInput()
                 {
-                    new IntentRule("None")
-                }
+                    Property = "user.email",
+                    Prompt = new ActivityTemplate("[emailPrompt]")
+                },
+                new SendActivity("[haveEmailMessage]"),
+                new TextInput()
+                {
+                    Property = "user.location",
+                    Prompt = new ActivityTemplate("[locationPrompt]")
+                },
+                new SendActivity("[haveLocationMessage]")
             };
 
-            AddDialog(dialog);
-            InitialDialogId = "onboardingAdaptive";
+            Rules = new List<IRule>()
+            {
+                new IntentRule("None")
+            };
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using AdaptiveAssistant.Services;
 using AdaptiveAssistant.Steps;
 using Luis;
-using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Selectors;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Expressions.Parser;
 using Microsoft.Bot.Builder.LanguageGeneration;
@@ -13,7 +13,7 @@ using System.Globalization;
 
 namespace AdaptiveAssistant.Dialogs
 {
-    public class AdaptiveMainDialog : ComponentDialog
+    public class AdaptiveMainDialog : AdaptiveDialog
     {
         public AdaptiveMainDialog(
             BotSettings settings,
@@ -24,19 +24,23 @@ namespace AdaptiveAssistant.Dialogs
         {
             var localizedServices = services.CognitiveModelSets[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName];
 
-            var mainDialog = new AdaptiveDialog("mainAdaptive")
+            AutoEndDialog = false;
+            Selector = new MostSpecificSelector
             {
-                AutoEndDialog = false,
-                Recognizer = localizedServices.DispatchService,
-                Generator = new TemplateEngineLanguageGenerator(engine),
-                Rules =
+                Selector = new FirstSelector()
+            };
+            Selector.Initialize(this.Rules, true);
+
+            Recognizer = localizedServices.DispatchService;
+            Generator = new TemplateEngineLanguageGenerator(engine);
+            Rules = new List<IRule>()
+            {
+                // Introduction event
+                new EventRule()
                 {
-                    // Introduction event
-                    new EventRule()
-                    {
-                        Events = { AdaptiveEvents.ActivityReceived },
-                        Constraint = "turn.activity.type == 'conversationUpdate'",
-                        Steps =
+                    Events = { AdaptiveEvents.ActivityReceived },
+                    Constraint = "turn.activity.type == 'conversationUpdate'",
+                    Steps =
                         {
                             // If user has not been greeted, show newUserIntroCard, else show returningUserIntroCard
                             new IfCondition()
@@ -56,43 +60,39 @@ namespace AdaptiveAssistant.Dialogs
                             //     Steps = { new BeginDialog(nameof(AdaptiveOnboardingDialog)) }
                             // }
                         }
-                    },
-                    // General intents (Cancel, Help, Escalate, etc)
-                    new IntentRule(DispatchLuis.Intent.l_general.ToString())
-                    {
-                        Steps = { new BeginDialog(nameof(AdaptiveGeneralDialog)) }
-                    },
-                    // FAQ QnA Maker
-                    new IntentRule(DispatchLuis.Intent.q_faq.ToString())
-                    {
-                        Steps = { new InvokeQnAMaker(localizedServices.QnAServices["faq"]) }
-                    },
-                    // Chitchat QnA Maker
-                    new IntentRule(DispatchLuis.Intent.q_chitchat.ToString())
-                    {
-                        Steps = { new InvokeQnAMaker(localizedServices.QnAServices["chitchat"]) }
-                    },
-                    // Check unhandled identified intents agains registered skills
-                    new EventRule()
-                    {
-                        Events = { AdaptiveEvents.RecognizedIntent },
-                        Steps = { new InvokeSkill(settings) }
-                    },
-                    // If a QnA intent was triggered, but no match was found
-                    new EventRule()
-                    {
-                        Events = { "NoQnAMatch" },
-                        Steps = { new SendActivity("[confusedMessage]") }
-                    },
-                    new UnknownIntentRule()
-                    {
-                        Steps = { new SendActivity("[confusedMessage]") }
-                    }
+                },
+                // General intents (Cancel, Help, Escalate, etc)
+                new IntentRule(DispatchLuis.Intent.l_general.ToString())
+                {
+                    Steps = { new BeginDialog(nameof(AdaptiveGeneralDialog)) }
+                },
+                // FAQ QnA Maker
+                new IntentRule(DispatchLuis.Intent.q_faq.ToString())
+                {
+                    Steps = { new InvokeQnAMaker(localizedServices.QnAServices["faq"]) }
+                },
+                // Chitchat QnA Maker
+                new IntentRule(DispatchLuis.Intent.q_chitchat.ToString())
+                {
+                    Steps = { new InvokeQnAMaker(localizedServices.QnAServices["chitchat"]) }
+                },
+                // Check unhandled identified intents agains registered skills
+                new EventRule()
+                {
+                    Events = { AdaptiveEvents.RecognizedIntent },
+                    Steps = { new InvokeSkill(settings) }
+                },
+                // If a QnA intent was triggered, but no match was found
+                new EventRule()
+                {
+                    Events = { "NoQnAMatch" },
+                    Steps = { new SendActivity("[confusedMessage]") }
+                },
+                new UnknownIntentRule()
+                {
+                    Steps = { new SendActivity("[confusedMessage]") }
                 }
             };
-
-            // Add named dialogs to the DialogSet. These names are saved in the dialog state.
-            AddDialog(mainDialog);
 
             // Add all child dialogs
             AddDialog(new AdaptiveGeneralDialog(services, engine));
@@ -102,9 +102,6 @@ namespace AdaptiveAssistant.Dialogs
             {
                 AddDialog(dialog);
             }
-
-            // The initial child Dialog to run.
-            InitialDialogId = "mainAdaptive";
         }
     }
 }
