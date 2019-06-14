@@ -210,15 +210,17 @@ namespace VirtualAssistantSample.Dialogs
 							{
 								var timezone = ev.Value.ToString();
 								var tz = TimeZoneInfo.FindSystemTimeZoneById(timezone);
+								var timeZoneObj = new JObject();
+								timeZoneObj.Add(TimeZone, JToken.FromObject(tz));
 
 								var skillContext = await _skillContextAccessor.GetAsync(dc.Context, () => new SkillContext());
 								if (skillContext.ContainsKey(TimeZone))
 								{
-									skillContext[TimeZone] = tz;
+									skillContext[TimeZone] = timeZoneObj;
 								}
 								else
 								{
-									skillContext.Add(TimeZone, tz);
+									skillContext.Add(TimeZone, timeZoneObj);
 								}
 
 								await _skillContextAccessor.SetAsync(dc.Context, skillContext);
@@ -235,15 +237,17 @@ namespace VirtualAssistantSample.Dialogs
 					case Events.LocationEvent:
 						{
 							var location = ev.Value.ToString();
+							var locationObj = new JObject();
+							locationObj.Add(Location, JToken.FromObject(location));
 
 							var skillContext = await _skillContextAccessor.GetAsync(dc.Context, () => new SkillContext());
 							if (skillContext.ContainsKey(Location))
 							{
-								skillContext[Location] = location;
+								skillContext[Location] = locationObj;
 							}
 							else
 							{
-								skillContext.Add(Location, location);
+								skillContext.Add(Location, locationObj);
 							}
 
 							await _skillContextAccessor.SetAsync(dc.Context, skillContext);

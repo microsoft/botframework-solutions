@@ -199,21 +199,73 @@ namespace $safeprojectname$.Dialogs
             if (!string.IsNullOrWhiteSpace(ev.Name))
             {
                 switch (ev.Name)
-                {
-                    case TokenEvents.TokenResponseEventName:
-                        {
-                            forward = true;
-                            break;
-                        }
+				{
+					case Events.TimezoneEvent:
+						{
+							try
+							{
+								var timezone = ev.Value.ToString();
+								var tz = TimeZoneInfo.FindSystemTimeZoneById(timezone);
+								var timeZoneObj = new JObject();
+								timeZoneObj.Add(TimeZone, JToken.FromObject(tz));
 
-                    default:
-                        {
-                            await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event {ev.Name} was received but not processed."));
-                            forward = false;
-                            break;
-                        }
-                }
-            }
+								var skillContext = await _skillContextAccessor.GetAsync(dc.Context, () => new SkillContext());
+								if (skillContext.ContainsKey(TimeZone))
+								{
+									skillContext[TimeZone] = timeZoneObj;
+								}
+								else
+								{
+									skillContext.Add(TimeZone, timeZoneObj);
+								}
+
+								await _skillContextAccessor.SetAsync(dc.Context, skillContext);
+							}
+							catch
+							{
+								await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Timezone passed could not be mapped to a valid Timezone. Property not set."));
+							}
+
+							forward = false;
+							break;
+						}
+
+					case Events.LocationEvent:
+						{
+							var location = ev.Value.ToString();
+							var locationObj = new JObject();
+							locationObj.Add(Location, JToken.FromObject(location));
+
+							var skillContext = await _skillContextAccessor.GetAsync(dc.Context, () => new SkillContext());
+							if (skillContext.ContainsKey(Location))
+							{
+								skillContext[Location] = locationObj;
+							}
+							else
+							{
+								skillContext.Add(Location, locationObj);
+							}
+
+							await _skillContextAccessor.SetAsync(dc.Context, skillContext);
+
+							forward = false;
+							break;
+						}
+
+					case TokenEvents.TokenResponseEventName:
+						{
+							forward = true;
+							break;
+						}
+
+					default:
+						{
+							await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event {ev.Name} was received but not processed."));
+							forward = false;
+							break;
+						}
+				}
+			}
 
             if (forward)
             {

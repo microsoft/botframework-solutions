@@ -184,29 +184,25 @@ namespace CalendarSkill.Dialogs
                     await CompleteAsync(dc);
                 }
             }
-        }
+		}
 
-        private async Task PopulateStateFromSkillContext(ITurnContext context)
-        {
-            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
-            // and make available in local state as appropriate.
-            var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
-            var skillContext = await accessor.GetAsync(context, () => new SkillContext());
-            if (skillContext != null)
-            {
-                if (skillContext.ContainsKey("timezone"))
-                {
-                    var timezone = skillContext["timezone"];
-                    var state = await _stateAccessor.GetAsync(context, () => new CalendarSkillState());
-                    var timezoneJson = timezone as Newtonsoft.Json.Linq.JObject;
+		private async Task PopulateStateFromSkillContext(ITurnContext context)
+		{
+			var activity = context.Activity;
+			var semanticAction = activity.SemanticAction;
+			if (semanticAction != null && semanticAction.Entities.ContainsKey("timezone"))
+			{
+				var timezone = semanticAction.Entities["timezone"];
+				var timezoneObj = timezone.Properties["timezone"].ToObject<TimeZoneInfo>();
 
-                    // we have a timezone
-                    state.UserInfo.Timezone = timezoneJson.ToObject<TimeZoneInfo>();
-                }
-            }
-        }
+				var state = await _stateAccessor.GetAsync(context, () => new CalendarSkillState());
 
-        protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
+				// we have a timezone
+				state.UserInfo.Timezone = timezoneObj;
+			}
+		}
+
+		protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var response = dc.Context.Activity.CreateReply();
             response.Type = ActivityTypes.EndOfConversation;

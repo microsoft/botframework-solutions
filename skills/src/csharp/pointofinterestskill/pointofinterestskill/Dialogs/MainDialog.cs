@@ -281,27 +281,26 @@ namespace PointOfInterestSkill.Dialogs
 		{
 			// If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
 			// and make available in local state as appropriate.
-			var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
-			var skillContext = await accessor.GetAsync(context, () => new SkillContext());
-			if (skillContext != null)
+			var activity = context.Activity;
+			var semanticAction = activity.SemanticAction;
+			if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
 			{
-				if (skillContext.ContainsKey("Location"))
-				{
-					var location = skillContext["Location"];
-					var coords = ((string)location).Split(',');
-					if (coords.Length == 2)
-					{
-						if (double.TryParse(coords[0], out var lat) && double.TryParse(coords[1], out var lng))
-						{
-							var coordinates = new LatLng
-							{
-								Latitude = lat,
-								Longitude = lng,
-							};
+				var location = semanticAction.Entities["location"];
+				var locationObj = location.Properties["location"].ToString();
 
-							var state = await _stateAccessor.GetAsync(context, () => new PointOfInterestSkillState());
-							state.CurrentCoordinates = coordinates;
-						}
+				var coords = locationObj.Split(',');
+				if (coords.Length == 2)
+				{
+					if (double.TryParse(coords[0], out var lat) && double.TryParse(coords[1], out var lng))
+					{
+						var coordinates = new LatLng
+						{
+							Latitude = lat,
+							Longitude = lng,
+						};
+
+						var state = await _stateAccessor.GetAsync(context, () => new PointOfInterestSkillState());
+						state.CurrentCoordinates = coordinates;
 					}
 				}
 			}
