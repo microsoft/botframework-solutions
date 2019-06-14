@@ -54,17 +54,26 @@ namespace $safeprojectname$
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            var provider = services.BuildServiceProvider();
+
             // Load settings
             var settings = new BotSettings();
             Configuration.Bind(settings);
             services.AddSingleton(settings);
             services.AddSingleton<BotSettingsBase>(settings);
 
-            // Configure bot services
-            services.AddSingleton<BotServices>();
-
             // Configure credentials
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
+            services.AddSingleton(new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
+
+            // Configure telemetry
+            services.AddApplicationInsightsTelemetry();
+            var telemetryClient = new BotTelemetryClient(new TelemetryClient());
+            services.AddSingleton<IBotTelemetryClient>(telemetryClient);
+            services.AddBotApplicationInsights(telemetryClient);
+
+            // Configure bot services
+            services.AddSingleton<BotServices>();
 
             // Configure storage
             services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
@@ -76,11 +85,6 @@ namespace $safeprojectname$
                 var conversationState = sp.GetService<ConversationState>();
                 return new BotStateSet(userState, conversationState);
             });
-
-            // Configure telemetry
-            var telemetryClient = new BotTelemetryClient(new TelemetryClient(settings.AppInsights));
-            services.AddSingleton<IBotTelemetryClient>(telemetryClient);
-            services.AddBotApplicationInsights(telemetryClient);
 
             // Configure proactive
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
