@@ -115,8 +115,4 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Dependencies\" />
-  </ItemGroup>
-
 </Project>
