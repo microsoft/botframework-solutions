@@ -34,10 +34,10 @@ namespace PointOfInterestSkill.Dialogs
             ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
-			RouteDialog routeDialog,
-			CancelRouteDialog cancelRouteDialog,
-			FindPointOfInterestDialog findPointOfInterestDialog,
-			FindParkingDialog findParkingDialog,
+            RouteDialog routeDialog,
+            CancelRouteDialog cancelRouteDialog,
+            FindPointOfInterestDialog findPointOfInterestDialog,
+            FindParkingDialog findParkingDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -50,14 +50,14 @@ namespace PointOfInterestSkill.Dialogs
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<PointOfInterestSkillState>(nameof(PointOfInterestSkillState));
 
-			// Register dialogs
-			AddDialog(routeDialog ?? throw new ArgumentNullException(nameof(routeDialog)));
-			AddDialog(cancelRouteDialog ?? throw new ArgumentNullException(nameof(cancelRouteDialog)));
-			AddDialog(findPointOfInterestDialog ?? throw new ArgumentNullException(nameof(findPointOfInterestDialog)));
-			AddDialog(findParkingDialog ?? throw new ArgumentNullException(nameof(findParkingDialog)));
-		}
+            // Register dialogs
+            AddDialog(routeDialog ?? throw new ArgumentNullException(nameof(routeDialog)));
+            AddDialog(cancelRouteDialog ?? throw new ArgumentNullException(nameof(cancelRouteDialog)));
+            AddDialog(findPointOfInterestDialog ?? throw new ArgumentNullException(nameof(findPointOfInterestDialog)));
+            AddDialog(findParkingDialog ?? throw new ArgumentNullException(nameof(findParkingDialog)));
+        }
 
-		protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // send a greeting if we're in local mode
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.PointOfInterestWelcomeMessage));
@@ -275,38 +275,38 @@ namespace PointOfInterestSkill.Dialogs
             }
 
             return result;
-		}
+        }
 
-		private async Task PopulateStateFromSkillContext(ITurnContext context)
-		{
-			// If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
-			// and make available in local state as appropriate.
-			var activity = context.Activity;
-			var semanticAction = activity.SemanticAction;
-			if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
-			{
-				var location = semanticAction.Entities["location"];
-				var locationObj = location.Properties["location"].ToString();
+        private async Task PopulateStateFromSkillContext(ITurnContext context)
+        {
+            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
+            // and make available in local state as appropriate.
+            var activity = context.Activity;
+            var semanticAction = activity.SemanticAction;
+            if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
+            {
+                var location = semanticAction.Entities["location"];
+                var locationObj = location.Properties["location"].ToString();
 
-				var coords = locationObj.Split(',');
-				if (coords.Length == 2)
-				{
-					if (double.TryParse(coords[0], out var lat) && double.TryParse(coords[1], out var lng))
-					{
-						var coordinates = new LatLng
-						{
-							Latitude = lat,
-							Longitude = lng,
-						};
+                var coords = locationObj.Split(',');
+                if (coords.Length == 2)
+                {
+                    if (double.TryParse(coords[0], out var lat) && double.TryParse(coords[1], out var lng))
+                    {
+                        var coordinates = new LatLng
+                        {
+                            Latitude = lat,
+                            Longitude = lng,
+                        };
 
-						var state = await _stateAccessor.GetAsync(context, () => new PointOfInterestSkillState());
-						state.CurrentCoordinates = coordinates;
-					}
-				}
-			}
-		}
+                        var state = await _stateAccessor.GetAsync(context, () => new PointOfInterestSkillState());
+                        state.CurrentCoordinates = coordinates;
+                    }
+                }
+            }
+        }
 
-		private async Task<InterruptionAction> OnCancel(DialogContext dc)
+        private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.CancelMessage));
             await CompleteAsync(dc);

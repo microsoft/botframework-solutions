@@ -184,25 +184,25 @@ namespace CalendarSkill.Dialogs
                     await CompleteAsync(dc);
                 }
             }
-		}
+        }
 
-		private async Task PopulateStateFromSkillContext(ITurnContext context)
-		{
-			var activity = context.Activity;
-			var semanticAction = activity.SemanticAction;
-			if (semanticAction != null && semanticAction.Entities.ContainsKey("timezone"))
-			{
-				var timezone = semanticAction.Entities["timezone"];
-				var timezoneObj = timezone.Properties["timezone"].ToObject<TimeZoneInfo>();
+        private async Task PopulateStateFromSkillContext(ITurnContext context)
+        {
+            var activity = context.Activity;
+            var semanticAction = activity.SemanticAction;
+            if (semanticAction != null && semanticAction.Entities.ContainsKey("timezone"))
+            {
+                var timezone = semanticAction.Entities["timezone"];
+                var timezoneObj = timezone.Properties["timezone"].ToObject<TimeZoneInfo>();
 
-				var state = await _stateAccessor.GetAsync(context, () => new CalendarSkillState());
+                var state = await _stateAccessor.GetAsync(context, () => new CalendarSkillState());
 
-				// we have a timezone
-				state.UserInfo.Timezone = timezoneObj;
-			}
-		}
+                // we have a timezone
+                state.UserInfo.Timezone = timezoneObj;
+            }
+        }
 
-		protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var response = dc.Context.Activity.CreateReply();
             response.Type = ActivityTypes.EndOfConversation;
