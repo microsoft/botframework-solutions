@@ -69,7 +69,7 @@ namespace PointOfInterestSkill.Dialogs
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.CognitiveModelSets[locale];
 
-            await PopulateStateFromSkillContext(dc.Context);
+            await PopulateStateFromSemanticAction(dc.Context);
 
             // If dispatch result is general luis model
             localeConfig.LuisServices.TryGetValue("pointofinterest", out var luisService);
@@ -277,7 +277,7 @@ namespace PointOfInterestSkill.Dialogs
             return result;
         }
 
-        private async Task PopulateStateFromSkillContext(ITurnContext context)
+        private async Task PopulateStateFromSemanticAction(ITurnContext context)
         {
             var activity = context.Activity;
             var semanticAction = activity.SemanticAction;

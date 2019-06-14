@@ -84,7 +84,7 @@ namespace CalendarSkill.Dialogs
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.CognitiveModelSets[locale];
 
-            await PopulateStateFromSkillContext(dc.Context);
+            await PopulateStateFromSemanticAction(dc.Context);
 
             // Initialize the PageSize parameters in state from configuration
             InitializeConfig(state);
@@ -186,7 +186,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        private async Task PopulateStateFromSkillContext(ITurnContext context)
+        private async Task PopulateStateFromSemanticAction(ITurnContext context)
         {
             var activity = context.Activity;
             var semanticAction = activity.SemanticAction;

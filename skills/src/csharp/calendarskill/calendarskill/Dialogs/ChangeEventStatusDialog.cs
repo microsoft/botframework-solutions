@@ -15,6 +15,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector.Authentication;
 
 namespace CalendarSkill.Dialogs
 {
@@ -26,8 +27,9 @@ namespace CalendarSkill.Dialogs
             ResponseManager responseManager,
             ConversationState conversationState,
             IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient)
-            : base(nameof(ChangeEventStatusDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            MicrosoftAppCredentials appCredentials)
+            : base(nameof(ChangeEventStatusDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 

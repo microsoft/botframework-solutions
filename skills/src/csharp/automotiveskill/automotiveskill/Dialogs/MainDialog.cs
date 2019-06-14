@@ -121,24 +121,6 @@ namespace AutomotiveSkill.Dialogs
             await dc.EndDialogAsync(result);
         }
 
-        protected override async Task OnEventAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            switch (dc.Context.Activity.Name)
-            {
-                case SkillEvents.SkillBeginEventName:
-                    {
-                        var state = await _stateAccessor.GetAsync(dc.Context, () => new AutomotiveSkillState());
-
-                        if (dc.Context.Activity.Value is Dictionary<string, object> userData)
-                        {
-                            // capture any user data sent to the skill from the parent here.
-                        }
-
-                        break;
-                    }
-            }
-        }
-
         protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var result = InterruptionAction.NoAction;
