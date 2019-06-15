@@ -22,7 +22,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
         private bool localAuthConfigured = false;
         private MicrosoftAppCredentials _appCredentials;
 
-        public MultiProviderAuthDialog(List<OAuthConnection> authenticationConnections, MicrosoftAppCredentials appCredentials)
+        public MultiProviderAuthDialog(List<OAuthConnection> authenticationConnections, MicrosoftAppCredentials appCredentials = null)
             : base(nameof(MultiProviderAuthDialog))
         {
             _authenticationConnections = authenticationConnections;
@@ -323,14 +323,29 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                 throw new ArgumentNullException(nameof(userId));
             }
 
-            if (_appCredentials == null)
+            if (!string.IsNullOrEmpty(context.Activity.ChannelId) && context.Activity.ChannelId == "directlinespeech")
             {
-                throw new ArgumentNullException("AppCredentials were not passed which are required for speech enabled authentication scenarios.");
-            }
+                if (_appCredentials == null)
+                {
+                    throw new ArgumentNullException("AppCredentials were not passed which are required for speech enabled authentication scenarios.");
+                }
 
-            var client = new OAuthClient(new Uri(OAuthClientConfig.OAuthEndpoint), _appCredentials);
-            var result = await client.UserToken.GetTokenStatusAsync(userId, context.Activity?.ChannelId, includeFilter, cancellationToken).ConfigureAwait(false);
-            return result?.ToArray();
+                var client = new OAuthClient(new Uri(OAuthClientConfig.OAuthEndpoint), _appCredentials);
+                var result = await client.UserToken.GetTokenStatusAsync(userId, context.Activity?.ChannelId, includeFilter, cancellationToken).ConfigureAwait(false);
+                return result?.ToArray();
+            }
+            else
+            {
+                var tokenProvider = context.Adapter as IUserTokenProvider;
+                if (tokenProvider != null)
+                {
+                    return await tokenProvider.GetTokenStatusAsync(context, userId, includeFilter, cancellationToken).ConfigureAwait(false);
+                }
+                else
+                {
+                    throw new Exception("Adapter does not support IUserTokenProvider");
+                }
+            }
         }
 
         private Task<bool> AuthPromptValidatorAsync(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)
