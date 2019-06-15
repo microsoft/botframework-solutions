@@ -23,11 +23,14 @@ using $safeprojectname$.Services;
 namespace $safeprojectname$.Dialogs
 {
     public class MainDialog : RouterDialog
-    {
+{
+        private const string Location = "location";
+        private const string TimeZone = "timezone";
         private BotSettings _settings;
         private BotServices _services;
         private MainResponses _responder = new MainResponses();
         private IStatePropertyAccessor<OnboardingState> _onboardingState;
+        private IStatePropertyAccessor<SkillContext> _skillContextAccessor;
 
         public MainDialog(
             BotSettings settings,
@@ -44,6 +47,7 @@ namespace $safeprojectname$.Dialogs
             _services = services;
             TelemetryClient = telemetryClient;
             _onboardingState = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
+            _skillContextAccessor = userState.CreateProperty<SkillContext>(nameof(SkillContext));
 
             AddDialog(onboardingDialog);
             AddDialog(escalateDialog);
@@ -381,6 +385,12 @@ namespace $safeprojectname$.Dialogs
             await dc.Context.SendActivityAsync(MainStrings.LOGOUT);
 
             return InterruptionAction.StartedDialog;
+        }
+
+        private class Events
+        {
+            public const string TimezoneEvent = "VA.Timezone";
+            public const string LocationEvent = "VA.Location";
         }
     }
 }
