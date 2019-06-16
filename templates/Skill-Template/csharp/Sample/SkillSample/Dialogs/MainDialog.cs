@@ -241,13 +241,14 @@ namespace SkillSample.Dialogs
             // Example of populating local state with data passed through semanticAction out of Activity
             var activity = context.Activity;
             var semanticAction = activity.SemanticAction;
-            //if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
-            //{
+
+            // if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
+            // {
             //    var location = semanticAction.Entities["location"];
             //    var locationObj = location.Properties["location"].ToString();
             //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
             //    state.CurrentCoordinates = locationObj;
-            //}
+            // }
         }
     }
 }
