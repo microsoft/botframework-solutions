@@ -54,7 +54,7 @@ This example would result in an Activity being received by the Bot with a `Activ
 This event as detailed above clears down all state including linked accounts enabling you to test authentication and onboarding scenarios.
 
 ```json
-/event:{Name:"VA.ResetUser"}
+/event:{ "Name": "VA.ResetUser"}
 ```
 
 ## Event Prompt
