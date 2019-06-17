@@ -312,7 +312,7 @@ public class SpeechSdk {
      */
     public void sendLocationEvent(String latitude, String longitude) {
         String coordinates = latitude + "," + longitude;
-        Activity activityTemplate = createEventActivity("IPA.Location", null, coordinates);
+        Activity activityTemplate = createEventActivity("VA.Location", null, coordinates);
         if (from_user != null) activityTemplate.setFrom(from_user);
 
         final String activityJson = gson.toJson(activityTemplate);
