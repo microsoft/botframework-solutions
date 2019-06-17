@@ -7,13 +7,16 @@ const assert = require(`yeoman-assert`);
 const helpers = require(`yeoman-test`);
 const rimraf = require(`rimraf`);
 const _kebabCase = require(`lodash/kebabCase`);
+const _camelCase = require(`lodash/camelCase`);
 const semver = require('semver');
 const languages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
-const join = require(`path`).join;
+const someLanguages = [`zh`, `de`, `en`];
+const { join } = require(`path`);
 const sinon = require(`sinon`);
 
 describe(`The generator-botbuilder-assistant skill tests`, function() {
     var skillName;
+    var skillNameCamelCase;
     var skillDesc;
     var pathConfirmation;
     var skillGenerationPath;
@@ -53,15 +56,22 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
     ];
 
     describe(`should create`, function() {
-        skillName = `customSkill`;
-        skillDesc = `A description for customSkill`;
+        skillName = `sample-skill`;
+        skillDesc = `A description for sample-skill`;
         skillName = _kebabCase(skillName).replace(
+            /([^a-z0-9-]+)/gi,
+            ``
+        ); 
+
+        skillNameCamelCase = _camelCase(skillName).replace(
             /([^a-z0-9-]+)/gi,
             ``
         ); 
         skillGenerationPath = join(__dirname, "tmp");
         pathConfirmation = true;
         finalConfirmation = true;
+        const pipelinePath = join(`pipeline`, `${skillName}.yml`);
+        templatesFiles.push(pipelinePath);
 
         before(async function(){
             await helpers
@@ -72,6 +82,8 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
               skillName,
               `-d`,
               skillDesc,
+              `-l`,
+              someLanguages.join(`,`),
               `-p`,
               skillGenerationPath,
               `--noPrompt`
@@ -134,7 +146,7 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
             it(`a private property with the given name`, function(done) {
                 assert.fileContent(
                   join(skillGenerationPath, skillName, dialogBotPath),
-                  `private readonly solutionName: string = '${skillName}';`
+                  `private readonly solutionName: string = '${skillNameCamelCase}';`
                 );
                 done();
               });
@@ -144,7 +156,7 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
             it(`a private property with the given name`, function(done) {
                 assert.fileContent(
                   join(skillGenerationPath, skillName, mainDialogPath),
-                  `private readonly solutionName: string = '${skillName}';`
+                  `private readonly solutionName: string = '${skillNameCamelCase}';`
                 );
                 done();
               });
@@ -154,7 +166,7 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
             it(`a private property with the given name`, function(done) {
                 assert.fileContent(
                   join(skillGenerationPath, skillName, skillDialogBasePath),
-                  `private readonly solutionName: string = '${skillName}';`
+                  `private readonly solutionName: string = '${skillNameCamelCase}';`
                 );
                 done();
               });
@@ -164,7 +176,7 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
             it(`an id property with the given name`, function(done) {
                 assert.fileContent(
                   join(skillGenerationPath, skillName, testCognitiveModelsPath),
-                  `"id": "${skillName}",`
+                  `"id": "${skillNameCamelCase}",`
                 );
                 done();
             });
@@ -172,7 +184,7 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
             it(`a name property with the given name`, function(done) {
                 assert.fileContent(
                   join(skillGenerationPath, skillName, testCognitiveModelsPath),
-                  `"name": "${skillName}",`
+                  `"name": "${skillNameCamelCase}",`
                 );
                 done();
             });
@@ -212,7 +224,7 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
         });
 
         describe(`the base`, function() {
-            it(skillName + ` folder when the final confirmation is deny`, function(done) {
+            it(skillName + ` folder when the execution is skipped`, function(done) {
               if(!run){
                 this.skip()          
               }

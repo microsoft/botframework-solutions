@@ -1,37 +1,26 @@
 {
-    "id": "",
-    "name": "",
-    "description": "",
-    "iconUrl": "",
-    "authenticationConnections": [
-      {
-        "id": "",
-        "serviceProviderId": "",
-        "scopes": ""
-      }
-    ],
-    "actions": [
-      {
-        "id": "",
-        "definition": {
-          "description": "",
-          "slots": [
+  "id": "sample-skill",
+  "name": "sample-skill",
+  "description": "This is the description of the sample-skill",
+  "iconUrl": "",
+  "authenticationConnections": [],
+  "actions": [
+    {
+      "id": "sample-skill_Sample",
+      "definition": {
+        "description": "Trigger sample-skill",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
             {
-              "name": "",
-              "types": [ "string" ]
+              "locale": "en",
+              "source": [
+                "sample-skill#Sample"
+              ]
             }
-          ],
-          "triggers": {
-            "utteranceSources": [
-              {
-                "locale": "en",
-                "source": [
-                  "luisModel#intent"
-                ]
-              }
-            ]
-          }
+          ]
         }
       }
-    ]
+    }
+  ]
 }

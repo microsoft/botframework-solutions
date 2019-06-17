@@ -133,6 +133,24 @@ namespace ToDoSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Homework.
+        /// </summary>
+        public static string Homework {
+            get {
+                return ResourceManager.GetString("Homework", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to homework.
+        /// </summary>
+        public static string HomeworkSynonym {
+            get {
+                return ResourceManager.GetString("HomeworkSynonym", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Task Notebook.
         /// </summary>
         public static string OneNoteBookName {

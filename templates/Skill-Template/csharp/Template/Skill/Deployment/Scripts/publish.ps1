@@ -19,7 +19,7 @@ else {
 if (-not (Test-Path (Join-Path $projFolder '.deployment'))) {
 
 	# Get path to csproj file
-	$projFile = Get-ChildItem $prjFolder `
+	$projFile = Get-ChildItem $projFolder `
 		| Where-Object {$_.extension -eq ".csproj" } `
 		| Select-Object -First 1
 

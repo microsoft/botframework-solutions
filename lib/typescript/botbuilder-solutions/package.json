@@ -12,8 +12,9 @@
         "prebuild": "npm run lint",
         "build": "tsc --p tsconfig.json && npm run copy-templates",
         "lint": "tslint -t vso ./src/**/*.ts",
-        "test": "mocha test/",
-        "coverage": "nyc mocha test/"
+        "test": "mocha",
+        "coverage": "nyc mocha",
+        "test-coverage-ci": "nyc --reporter=cobertura mocha --reporter mocha-junit-reporter"
     },
     "dependencies": {
         "adaptivecards": "^1.1.3",

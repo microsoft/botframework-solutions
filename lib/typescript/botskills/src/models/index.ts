@@ -13,9 +13,10 @@ export {
 export { ICognitiveModelFile } from './cognitiveFile';
 export { IConnectConfiguration } from './connectConfiguration';
 export { IDisconnectConfiguration } from './disconnectConfiguration';
+export { IUpdateConfiguration } from './updateConfiguration';
 export { IDispatchFile, IDispatchService } from './dispatchFile';
 export { IListConfiguration } from './listConfiguration';
-export { ISkillFIle } from './skillFile';
+export { ISkillFile } from './skillFile';
 export {
     IAction,
     IActionDefinition,
@@ -26,3 +27,4 @@ export {
     ITriggers,
     IUtterance,
     IUtteranceSource } from './skillManifest';
+export { IRefreshConfiguration } from './refreshConfiguration';

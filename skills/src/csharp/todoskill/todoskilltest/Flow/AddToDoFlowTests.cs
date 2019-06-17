@@ -88,6 +88,23 @@ namespace ToDoSkillTest.Flow
                 .StartTestAsync();
         }
 
+        [TestMethod]
+        public async Task Test_AddToDoItem_With_Content_And_CustomizedListType()
+        {
+            ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
+            await this.GetTestFlow()
+                .Send(AddToDoFlowTestUtterances.AddTaskWithContentAndCustomizeListType)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
+                .AssertReply(this.ShowUpdatedCustomizedListTypeList())
+                .AssertReplyOneOf(this.AddMoreTask(MockData.CustomizedListType))
+                .Send(MockData.ConfirmNo)
+                .AssertReplyOneOf(this.ActionEndMessage())
+                .StartTestAsync();
+        }
+
         private string[] CollectToDoContent()
         {
             return this.ParseReplies(AddToDoResponses.AskTaskContentText, new StringDictionary());
@@ -158,6 +175,22 @@ namespace ToDoSkillTest.Flow
                         { MockData.TaskContent, MockData.ShoppingItemShoes },
                         { MockData.ListType, MockData.Shopping }
                    }), messageActivity.Speak);
+            };
+        }
+
+        private Action<IActivity> ShowUpdatedCustomizedListTypeList()
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+                Assert.AreEqual(1, messageActivity.Attachments.Count);
+
+                CollectionAssert.Contains(
+                    this.ParseReplies(AddToDoResponses.AfterTaskAdded, new StringDictionary()
+                    {
+                        { MockData.TaskContent, MockData.CustomizedListTypeItemHistory },
+                        { MockData.ListType, MockData.CustomizedListType }
+                    }), messageActivity.Speak);
             };
         }
 

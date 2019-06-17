@@ -11,8 +11,9 @@
     "build": "tsc",
     "lint": "tslint -t vso ./src/**/*.ts",
     "lint-fix": "tslint --fix ./src/**/*.ts",
-    "test": "mocha test/",
-    "coverage": "nyc npm run test"
+    "test": "mocha",
+    "coverage": "nyc mocha",
+    "test-coverage-ci": "nyc --reporter=cobertura mocha --reporter mocha-junit-reporter"
   },
   "directories": {
     "lib": "lib"
