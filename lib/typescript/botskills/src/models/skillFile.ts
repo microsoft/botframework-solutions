@@ -5,6 +5,6 @@
 
 import { ISkillManifest } from './skillManifest';
 
-export interface ISkillFIle {
+export interface ISkillFile {
     skills: ISkillManifest[];
 }

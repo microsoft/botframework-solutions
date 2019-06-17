@@ -47,6 +47,17 @@ namespace ToDoSkillTest.Flow.Utterances
                 listType: listType,
                 shopVerb: shopVerb,
                 taskContentML: taskContentML));
+
+            listType = new string[] { MockData.CustomizedListType };
+            taskContentPattern = new string[] { "history" };
+            taskContentML = new string[] { "history" };
+
+            this.Add(AddTaskWithContentAndCustomizeListType, GetBaseAddTaskIntent(
+                AddTaskWithContentAndCustomizeListType,
+                listType: listType,
+                taskContentPattern: taskContentPattern,
+                taskContentML: taskContentML
+                ));
         }
 
         public static string BaseAddTask { get; } = "add a task";
@@ -58,6 +69,8 @@ namespace ToDoSkillTest.Flow.Utterances
         public static string AddTaskWithContentAndListType { get; } = "add eggs to my grocery list";
 
         public static string AddTaskWithContentAndShopVerb { get; } = "add purchase shoes to my shopping list";
+
+        public static string AddTaskWithContentAndCustomizeListType { get; } = "add history to my homework list";
 
         private ToDoLuis GetBaseAddTaskIntent(
             string userInput,

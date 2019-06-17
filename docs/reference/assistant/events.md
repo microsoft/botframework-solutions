@@ -18,12 +18,12 @@ When a user sends an event, this is processed by their Virtual Assistant to imme
 
 The following events are supported out of the box and persist values into user state. These are used by the available Skills.
 
-- Name: `IPA.Location`, Value: `latitude`,`latitude`
-- Name: `IPA.Timezone`, Value: [TimeZoneInfo](https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo?view=netcore-2.2) identifier (e.g. Pacific Standard Time)
+- Name: `VA.Location`, Value: `latitude`,`latitude`
+- Name: `VA.Timezone`, Value: [TimeZoneInfo](https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo?view=netcore-2.2) identifier (e.g. Pacific Standard Time)
 
 In addition to these, a `ResetUser` event is available which provides a way to request that all user state information and linked accounts are removed demonstrating how a Forget-Me type experience could be initiated, no Value is required for this event.
 
-- Name: `IPA.ResetUser`
+- Name: `VA.ResetUser`
 
 > The mechanism for sharing User information between the Virtual Assistant and Skills is expected to change. 
 > An automatic event processing and storage mechanism is being evaluated for a future release.
@@ -39,22 +39,22 @@ In order to test events with the [Bot Framework Emulator](https://aka.ms/botfram
 This provides a workaround where messages are sent with a payload like `/event:{ "Name": "EventName", "Value": "EventValue" }`. 
 The EventName and EventValue is transposed onto the Activity and passed on to the Bot for processing.
 
-For example this message would result in an Activity being received by the Bot with a `ActivityType` of `Event`, ` Name` of `IPA.Location` and `Value` of a latitude, longitude pair
+For example this message would result in an Activity being received by the Bot with a `ActivityType` of `Event`, ` Name` of `VA.Location` and `Value` of a latitude, longitude pair
 
 ```json
-/event:{ "Name": "IPA.Location", "Value": "47.639620,-122.130610" }
+/event:{ "Name": "VA.Location", "Value": "47.639620,-122.130610" }
 ```
 
-This example would result in an Activity being received by the Bot with a `ActivityType` of `Event`, `Name` of `IPA.Timezone` and `Value` of `Pacific Standard Time`.
+This example would result in an Activity being received by the Bot with a `ActivityType` of `Event`, `Name` of `VA.Timezone` and `Value` of `Pacific Standard Time`.
 
 ```json
-/event:{ "Name": "IPA.Timezone", "Value": "Pacific Standard Time" }
+/event:{ "Name": "VA.Timezone", "Value": "Pacific Standard Time" }
 ```
 
 This event as detailed above clears down all state including linked accounts enabling you to test authentication and onboarding scenarios.
 
 ```json
-/event:{Name:"IPA.ResetUser"}
+/event:{ "Name": "VA.ResetUser"}
 ```
 
 ## Event Prompt

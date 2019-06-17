@@ -49,12 +49,12 @@ namespace Microsoft.Bot.Builder.Skills
             : base(skillManifest.Id)
         {
             _skillManifest = skillManifest ?? throw new ArgumentNullException(nameof(SkillManifest));
-			_serviceClientCredentials = serviceClientCredentials ?? throw new ArgumentNullException(nameof(serviceClientCredentials));
+            _serviceClientCredentials = serviceClientCredentials ?? throw new ArgumentNullException(nameof(serviceClientCredentials));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
             _userState = userState;
-			_skillTransport = skillTransport ?? new SkillWebSocketTransport(_skillManifest, _serviceClientCredentials);
+            _skillTransport = skillTransport ?? new SkillWebSocketTransport(_skillManifest, _serviceClientCredentials, telemetryClient);
 
-			if (authDialog != null)
+            if (authDialog != null)
             {
                 _authDialog = authDialog;
                 AddDialog(authDialog);
@@ -173,8 +173,10 @@ namespace Microsoft.Bot.Builder.Skills
 
             var dialogResult = await ForwardToSkillAsync(innerDc, activity);
 
-            _skillTransport.Disconnect();
-
+            // comment out for now to accomodate for
+            // scenarios where skillTransport can't be transient
+            // will uncomment once the fix from StreamingExtensions is in
+            // _skillTransport.Disconnect();
             return dialogResult;
         }
 
@@ -225,7 +227,7 @@ namespace Microsoft.Bot.Builder.Skills
                 }
                 else
 				{
-					var dialogResult = new DialogTurnResult(DialogTurnStatus.Empty);
+					var dialogResult = new DialogTurnResult(DialogTurnStatus.Waiting);
 
 					// if there's any response we need to send to the skill queued
 					// forward to skill and start a new turn

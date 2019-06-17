@@ -18,6 +18,7 @@ using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Recognizers.Text.DateTime;
 using static CalendarSkill.Models.CreateEventStateModel;
 
@@ -26,14 +27,15 @@ namespace CalendarSkill.Dialogs
     public class CreateEventDialog : CalendarSkillDialogBase
     {
         public CreateEventDialog(
-               BotSettings settings,
-               BotServices services,
-               ResponseManager responseManager,
-               ConversationState conversationState,
-               FindContactDialog findContactDialog,
-               IServiceManager serviceManager,
-               IBotTelemetryClient telemetryClient)
-               : base(nameof(CreateEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
+            BotSettings settings,
+            BotServices services,
+            ResponseManager responseManager,
+            ConversationState conversationState,
+            FindContactDialog findContactDialog,
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient,
+            MicrosoftAppCredentials appCredentials)
+            : base(nameof(CreateEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 

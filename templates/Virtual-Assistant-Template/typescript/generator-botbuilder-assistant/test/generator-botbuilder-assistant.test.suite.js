@@ -8,23 +8,28 @@ const assert = require(`yeoman-assert`);
 const helpers = require(`yeoman-test`);
 const rimraf = require(`rimraf`);
 const _kebabCase = require(`lodash/kebabCase`);
+const _camelCase = require(`lodash/camelCase`);
 const semver = require('semver');
-const languages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
+const someLanguages = [`zh`, `de`, `en`];
+const nonexistentLanguages = [`br`, `pt`];
 const sinon = require(`sinon`);
 
 describe(`The generator-botbuilder-assistant tests`, function() {
     var assistantName;
     var assistantDesc;
+    var assistantNameCamelCase;
     var pathConfirmation;
     var assistantGenerationPath;
     var finalConfirmation;
     var run = true;
     var packageJSON;
+    const dialogBotPath = join(`src`, `bots`, `dialogBot.ts`);
 
     const templatesFiles = [
         `package.json`,
         `.gitignore`,
-        `.npmrc`
+        `.npmrc`,
+        dialogBotPath
     ];
     const commonDirectories = [
         `deployment`,
@@ -46,15 +51,21 @@ describe(`The generator-botbuilder-assistant tests`, function() {
     ];
 
     describe(`should create`, function() {
-        assistantName = `customAssistant`;
-        assistantDesc = `A description for customAssistant`;
+        assistantName = `sample-assistant`;
+        assistantDesc = `A description for sample-assistant`;
         assistantName = _kebabCase(assistantName).replace(
+            /([^a-z0-9-]+)/gi,
+            ``
+        ); 
+        assistantNameCamelCase = _camelCase(assistantName).replace(
             /([^a-z0-9-]+)/gi,
             ``
         ); 
         assistantGenerationPath = join(__dirname, "tmp");
         pathConfirmation = true;
         finalConfirmation = true;
+        const pipelinePath = join(`pipeline`, `${assistantName}.yml`);
+        templatesFiles.push(pipelinePath);
 
         before(async function(){
             await helpers
@@ -65,6 +76,8 @@ describe(`The generator-botbuilder-assistant tests`, function() {
                 assistantName,
                 `-d`,
                 assistantDesc,
+                `-l`,
+                someLanguages.join(`,`),
                 `-p`,
                 assistantGenerationPath,
                 `--noPrompt`
@@ -122,6 +135,16 @@ describe(`The generator-botbuilder-assistant tests`, function() {
                 done();
             });
         });
+
+        describe(`and have in the dialogBot`, function() {
+            it(`a private property with the given name`, function(done) {
+                assert.fileContent(
+                  join(assistantGenerationPath, assistantName, dialogBotPath),
+                  `private readonly solutionName: string = '${assistantNameCamelCase}';`
+                );
+                done();
+            });      
+        });    
     });
     
     describe(`should not create`, function () {
@@ -141,7 +164,7 @@ describe(`The generator-botbuilder-assistant tests`, function() {
                     .withPrompts({
                         assistantName: assistantName,
                         assistantDesc: assistantDesc,
-                        assistantLang: languages,
+                        assistantLang: someLanguages,
                         pathConfirmation: pathConfirmation,
                         assistantGenerationPath: assistantGenerationPath,
                         finalConfirmation: finalConfirmation
@@ -157,7 +180,7 @@ describe(`The generator-botbuilder-assistant tests`, function() {
         });
 
         describe(`the base`, function() {
-            it(assistantName + ` folder when the final confirmation is deny`, function(done) {
+            it(assistantName + ` folder when the execution is skipped`, function(done) {
               if(!run){
                 this.skip()          
               }

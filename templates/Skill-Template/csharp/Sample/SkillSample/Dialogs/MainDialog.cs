@@ -65,8 +65,8 @@ namespace SkillSample.Dialogs
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.CognitiveModelSets[locale];
 
-            // Populate state from SkillContext slots as required
-            await PopulateStateFromSkillContext(dc.Context);
+            // Populate state from SemanticAction as required
+            await PopulateStateFromSemanticAction(dc.Context);
 
             // Get skill LUIS model from configuration
             localeConfig.LuisServices.TryGetValue("skill", out var luisService);
@@ -125,18 +125,6 @@ namespace SkillSample.Dialogs
         {
             switch (dc.Context.Activity.Name)
             {
-                case SkillEvents.SkillBeginEventName:
-                    {
-                        var state = await _stateAccessor.GetAsync(dc.Context, () => new SkillState());
-
-                        if (dc.Context.Activity.Value is Dictionary<string, object> userData)
-                        {
-                            // Capture user data from event if needed
-                        }
-
-                        break;
-                    }
-
                 case TokenEvents.TokenResponseEventName:
                     {
                         // Auth dialog completion
@@ -248,21 +236,19 @@ namespace SkillSample.Dialogs
             return InterruptionAction.StartedDialog;
         }
 
-        private async Task PopulateStateFromSkillContext(ITurnContext context)
+        private async Task PopulateStateFromSemanticAction(ITurnContext context)
         {
-            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
-            // and make available in local state as appropriate.
-            var skillContext = await _contextAccessor.GetAsync(context, () => new SkillContext());
-            if (skillContext != null)
-            {
-                // Example of populating local state with data passed through Skill Context
-                // if (skillContext.ContainsKey("Location"))
-                // {
-                //    // Add to your local state
-                //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
-                //    state.Location = skillContext["Location"];
-                // }
-            }
+            // Example of populating local state with data passed through semanticAction out of Activity
+            var activity = context.Activity;
+            var semanticAction = activity.SemanticAction;
+
+            // if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
+            // {
+            //    var location = semanticAction.Entities["location"];
+            //    var locationObj = location.Properties["location"].ToString();
+            //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
+            //    state.CurrentCoordinates = locationObj;
+            // }
         }
     }
 }

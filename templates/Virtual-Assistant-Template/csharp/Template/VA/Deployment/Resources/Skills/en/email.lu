@@ -181,7 +181,7 @@
 - do i receive {Category=new} message
 - does anyone send email to me just then
 - does anyone send message to me {Time=just then}
-- does my {Line=outlook} has {Category=new} email
+- does my {Line=outlook} have {Category=new} email
 - i want to check my emails
 - i want to check my inbox
 - i'd like to check my inbox
@@ -231,7 +231,7 @@
 - delete all emails from {SenderName=tom}
 - delete all emails received {Time=tonight}
 - delete the email from my {Line=hotmail} account
-- delete the email sent from {SenderName={FromRelationshipName=mary} jane}
+- delete the email sent from {SenderName=mary jane}
 - delete the {PositionReference=first} email for me
 - delete the {OrderReference=last} one
 - delete the {OrderReference=previous} 4 emails
@@ -466,7 +466,7 @@
 - did i get any email from {SenderName=tom}
 - did i get emails from {SenderName=tom}
 - did i get the email containing keyword {SearchTexts=lunch}
-- email sent from {SenderName=tisa}
+- email sent from {SenderName=lisa}
 - emails contains {SearchTexts=bank}
 - enumerate the emails with {SearchTexts=algroithm}
 - find an email about {EmailSubject=new year's planning}
@@ -622,13 +622,13 @@
 
 ## ShowNext
 - are there any {Category=unread} messages? show {OrderReference=next}
-- go forward to {ContactName={OrderReference=next}} mails
+- go forward to {OrderReference=next} mails
 - go on, show me more mails
 - go to {OrderReference=next} mail
 - go to the {OrderReference=next} page
 - move forward
 - move on {OrderReference=next} mail by jason
-- move on to {ContactName={OrderReference=next}} mails
+- move on to {OrderReference=next} mails
 - {OrderReference=next} email
 - {OrderReference=next} {Category=unread} email
 - {OrderReference=next} {Category=unread} one
@@ -649,7 +649,7 @@
 - back to the {OrderReference=last} one from {SenderName=apple}
 - bring the {OrderReference=previous} one, i want to read it again
 - go to {OrderReference=previous} mails
-- move back to {ContactName={OrderReference=last}} mails
+- move back to {OrderReference=last} mails
 - {OrderReference=previous} email
 - {OrderReference=previous} one please
 - show me {OrderReference=previous} email from {SenderName=jack}

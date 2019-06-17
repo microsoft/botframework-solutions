@@ -10,7 +10,6 @@ using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.Rest;
 using Microsoft.Rest.Serialization;
 
 namespace Microsoft.Bot.Builder.Solutions.Authentication
@@ -58,7 +57,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             AddDialog(new EventPrompt(DialogIds.RemoteAuthEventPrompt, TokenEvents.TokenResponseEventName, TokenResponseValidatorAsync));
 
             // If authentication connections are provided locally then we enable "local auth" otherwise we only enable remote auth where the calling Bot handles this for us.
-            if (_authenticationConnections.Any())
+            if (_authenticationConnections != null && _authenticationConnections.Any())
             {
                 bool authDialogAdded = false;
 
@@ -89,6 +88,10 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
 
                     localAuthConfigured = true;
                 }
+            }
+            else
+            {
+                throw new ArgumentNullException(nameof(authenticationConnections));
             }
         }
 
@@ -126,30 +129,48 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                 }
 
                 var client = new OAuthClient(new Uri(OAuthClientConfig.OAuthEndpoint), _appCredentials);
+                var connectionName = _authenticationConnections.First().Name;
 
-                // Attempt to retrieve the token directly, we can't prompt the user for which Token to use so go with the first
-                // Moving forward we expect to have a "default" choice as part of Linked Accounts,.
-                var tokenResponse = await client.UserToken.GetTokenWithHttpMessagesAsync(
-                    stepContext.Context.Activity.From.Id,
-                    _authenticationConnections.First().Name,
-                    stepContext.Context.Activity.ChannelId,
-                    null,
-                    null,
-                    cancellationToken).ConfigureAwait(false);
-
-                if (tokenResponse?.Body != null && !string.IsNullOrEmpty(tokenResponse.Body.Token))
+                try
                 {
-                    var providerTokenResponse = await CreateProviderTokenResponseAsync(stepContext.Context, tokenResponse.Body).ConfigureAwait(false);
-                    return await stepContext.EndDialogAsync(providerTokenResponse, cancellationToken).ConfigureAwait(false);
-                }
+                    // Attempt to retrieve the token directly, we can't prompt the user for which Token to use so go with the first
+                    // Moving forward we expect to have a "default" choice as part of Linked Accounts,.
+                    var tokenResponse = await client.UserToken.GetTokenWithHttpMessagesAsync(
+                        stepContext.Context.Activity.From.Id,
+                        connectionName,
+                        stepContext.Context.Activity.ChannelId,
+                        null,
+                        null,
+                        cancellationToken).ConfigureAwait(false);
 
-                TelemetryClient.TrackEvent("DirectLineSpeechTokenRetrievalFailure");
+                    if (tokenResponse?.Body != null && !string.IsNullOrEmpty(tokenResponse.Body.Token))
+                    {
+                        var providerTokenResponse = await CreateProviderTokenResponseAsync(stepContext.Context, tokenResponse.Body).ConfigureAwait(false);
+                        return await stepContext.EndDialogAsync(providerTokenResponse, cancellationToken).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        throw new Exception($"Empty token response for user: {stepContext.Context.Activity.From.Id}, connectionName: {connectionName}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TelemetryClient.TrackEvent("DirectLineSpeechTokenRetrievalFailure", new Dictionary<string, string> { { "Exception", ex.Message } });
+                }
 
                 var noLinkedAccountResponse = _responseManager.GetResponse(
                     AuthenticationResponses.NoLinkedAccount,
-                    new StringDictionary() { { "authType", _authenticationConnections.First().Name } });
+                    new StringDictionary() { { "authType", connectionName } });
 
                 await stepContext.Context.SendActivityAsync(noLinkedAccountResponse).ConfigureAwait(false);
+
+                // Enable Direct Line Speech clients to receive an event that will tell them
+                // to trigger a sign-in flow when a token isn't present
+                var requestOAuthFlowEvent = stepContext.Context.Activity.CreateReply();
+                requestOAuthFlowEvent.Type = ActivityTypes.Event;
+                requestOAuthFlowEvent.Name = "RequestOAuthFlow";
+
+                await stepContext.Context.SendActivityAsync(requestOAuthFlowEvent).ConfigureAwait(false);
 
                 return new DialogTurnResult(DialogTurnStatus.Cancelled);
             }
@@ -190,7 +211,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
         {
             if (_authenticationConnections.Count == 1)
             {
-                var result = _authenticationConnections.ElementAt(0).Name;
+                var result = _authenticationConnections.First().Name;
                 return await stepContext.NextAsync(result).ConfigureAwait(false);
             }
 
@@ -302,14 +323,29 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                 throw new ArgumentNullException(nameof(userId));
             }
 
-            if (_appCredentials == null)
+            if (!string.IsNullOrEmpty(context.Activity.ChannelId) && context.Activity.ChannelId == "directlinespeech")
             {
-                throw new ArgumentNullException("AppCredentials were not passed which are required for speech enabled authentication scenarios.");
-            }
+                if (_appCredentials == null)
+                {
+                    throw new ArgumentNullException("AppCredentials were not passed which are required for speech enabled authentication scenarios.");
+                }
 
-            var client = new OAuthClient(new Uri(OAuthClientConfig.OAuthEndpoint), _appCredentials);
-            var result = await client.UserToken.GetTokenStatusAsync(userId, context.Activity?.ChannelId, includeFilter, cancellationToken).ConfigureAwait(false);
-            return result?.ToArray();
+                var client = new OAuthClient(new Uri(OAuthClientConfig.OAuthEndpoint), _appCredentials);
+                var result = await client.UserToken.GetTokenStatusAsync(userId, context.Activity?.ChannelId, includeFilter, cancellationToken).ConfigureAwait(false);
+                return result?.ToArray();
+            }
+            else
+            {
+                var tokenProvider = context.Adapter as IUserTokenProvider;
+                if (tokenProvider != null)
+                {
+                    return await tokenProvider.GetTokenStatusAsync(context, userId, includeFilter, cancellationToken).ConfigureAwait(false);
+                }
+                else
+                {
+                    throw new Exception("Adapter does not support IUserTokenProvider");
+                }
+            }
         }
 
         private Task<bool> AuthPromptValidatorAsync(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)

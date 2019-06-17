@@ -20,6 +20,13 @@ namespace ToDoSkillTest.API
         }
 
         [TestMethod]
+        public void LoadCustomizedListTypesFromSettingsTests()
+        {
+            var listType = ServiceHelper.GetListTypes(MockConfiguration.Configuration);
+            Assert.IsTrue(listType.Count == 4 && listType.Contains(MockData.Homework));
+        }
+
+        [TestMethod]
         public async Task AddTaskTests()
         {
             var service = new OutlookService();

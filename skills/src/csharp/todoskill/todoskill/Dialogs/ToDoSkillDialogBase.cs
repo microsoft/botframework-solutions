@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
@@ -14,6 +15,7 @@ using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
 using ToDoSkill.Dialogs.Shared.Resources;
@@ -30,6 +32,8 @@ namespace ToDoSkill.Dialogs
 {
     public class ToDoSkillDialogBase : ComponentDialog
     {
+        private const string Synonym = "Synonym";
+
         public ToDoSkillDialogBase(
             string dialogId,
             BotSettings settings,
@@ -38,7 +42,8 @@ namespace ToDoSkill.Dialogs
             ConversationState conversationState,
             UserState userState,
             IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            MicrosoftAppCredentials appCredentials)
             : base(dialogId)
         {
             Services = services;
@@ -51,7 +56,7 @@ namespace ToDoSkill.Dialogs
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
 
-            AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections));
+            AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections, appCredentials));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.ConfirmPrompt, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }
@@ -305,17 +310,21 @@ namespace ToDoSkill.Dialogs
 
                 if (entities.ListType != null)
                 {
-                    if (ToDoStrings.GrocerySynonym.Contains(entities.ListType[0], StringComparison.InvariantCultureIgnoreCase))
+                    var topListType = entities.ListType[0];
+
+                    var toDoStringProperties = typeof(ToDoStrings).GetProperties();
+                    foreach (PropertyInfo toDoStringProperty in toDoStringProperties)
                     {
-                        state.ListType = ToDoStrings.Grocery;
-                    }
-                    else if (ToDoStrings.ShoppingSynonym.Contains(entities.ListType[0], StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        state.ListType = ToDoStrings.Shopping;
-                    }
-                    else
-                    {
-                        state.ListType = ToDoStrings.ToDo;
+                        var listTypeSynonymKey = toDoStringProperty.Name;
+                        if (listTypeSynonymKey.Contains(Synonym))
+                        {
+                            string listTypeSynonymValue = toDoStringProperty.GetValue(null).ToString();
+                            if (listTypeSynonymValue.Contains(topListType, StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                string listTypeKey = listTypeSynonymKey.Substring(0, listTypeSynonymKey.Length - Synonym.Length);
+                                state.ListType = toDoStringProperties.Where(x => x.Name == listTypeKey).First().GetValue(null).ToString();
+                            }
+                        }
                     }
                 }
 
