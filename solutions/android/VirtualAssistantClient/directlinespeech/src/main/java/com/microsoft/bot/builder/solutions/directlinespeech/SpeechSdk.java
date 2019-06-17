@@ -308,7 +308,7 @@ public class SpeechSdk {
     }
 
     /*
-     * Send the IPA.Location event to the bot
+     * Send the VA.Location event to the bot
      */
     public void sendLocationEvent(String latitude, String longitude) {
         String coordinates = latitude + "," + longitude;
@@ -325,11 +325,11 @@ public class SpeechSdk {
     }
 
     /*
-     * Send the IPA.TimeZone event to the bot
+     * Send the VA.TimeZone event to the bot
      */
     public void sendTimeZoneEvent() {
         TimeZone tz = TimeZone.getDefault();
-        Activity activityTemplate = createEventActivity("IPA.Timezone", null, tz.getDisplayName());
+        Activity activityTemplate = createEventActivity("VA.Timezone", null, tz.getDisplayName());
 
         final String activityJson = gson.toJson(activityTemplate);
         BotConnectorActivity activity = BotConnectorActivity.fromSerializedActivity(activityJson);
