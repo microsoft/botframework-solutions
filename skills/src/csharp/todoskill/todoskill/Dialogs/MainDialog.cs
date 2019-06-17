@@ -160,18 +160,6 @@ namespace ToDoSkill.Dialogs
         {
             switch (dc.Context.Activity.Name)
             {
-                case SkillEvents.SkillBeginEventName:
-                    {
-                        var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
-
-                        if (dc.Context.Activity.Value is Dictionary<string, object> userData)
-                        {
-                            // Capture user data from event if needed
-                        }
-
-                        break;
-                    }
-
                 case TokenEvents.TokenResponseEventName:
                     {
                         // Auth dialog completion

@@ -1,14 +1,14 @@
 {
-  "id": "sampleSkill",
-  "name": "Sample Skill",
-  "description": "This is the description of the sample skill",
+  "id": "sample-skill",
+  "name": "sample-skill",
+  "description": "This is the description of the sample-skill",
   "iconUrl": "",
   "authenticationConnections": [],
   "actions": [
     {
-      "id": "sampleSkill_Sample",
+      "id": "sample-skill_Sample",
       "definition": {
-        "description": "Trigger sample skill",
+        "description": "Trigger sample-skill",
         "slots": [],
         "triggers": {
           "utteranceSources": [

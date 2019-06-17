@@ -8,14 +8,17 @@ namespace ToDoSkill.Services
     using System.Linq;
     using System.Net.Http;
     using System.Net.Http.Headers;
+    using System.Reflection;
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using System.Xml;
     using Microsoft.Bot.Builder.Skills;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Graph;
     using Newtonsoft.Json;
     using ToDoSkill.Models;
+    using ToDoSkill.Responses.Shared;
 
     /// <summary>
     /// To Do skill helper class.
@@ -27,6 +30,40 @@ namespace ToDoSkill.Services
 
         private static readonly Regex ComplexTokensRegex = new Regex(@"\{[^{\}]+(?=})\}", RegexOptions.Compiled);
         private static HttpClient httpClient = new HttpClient();
+
+        /// <summary>
+        /// Get list types.
+        /// </summary>
+        /// <param name="configuration">Configuration from appsetting.</param>
+        /// <returns>List of types.</returns>
+        public static List<string> GetListTypes(IConfiguration configuration)
+        {
+            List<string> customizedListTypeKeys = new List<string>();
+            if (configuration != null)
+            {
+                customizedListTypeKeys = configuration.GetSection("customizeListTypes").Get<List<string>>();
+            }
+
+            List<string> customizedListTypes = new List<string>();
+            var toDoStringProperties = typeof(ToDoStrings).GetProperties();
+            foreach (var customizedListTypeKey in customizedListTypeKeys)
+            {
+                foreach (PropertyInfo toDoStringProperty in toDoStringProperties)
+                {
+                    if (customizedListTypeKey == toDoStringProperty.Name)
+                    {
+                        string customizedListType = toDoStringProperty.GetValue(null).ToString();
+                        customizedListTypes.Add(customizedListType);
+                    }
+                }
+            }
+
+            // Add three default types we provided.
+            customizedListTypes.Add(ToDoStrings.ToDo);
+            customizedListTypes.Add(ToDoStrings.Grocery);
+            customizedListTypes.Add(ToDoStrings.Shopping);
+            return customizedListTypes;
+        }
 
         /// <summary>
         /// Generate create notebook http request.

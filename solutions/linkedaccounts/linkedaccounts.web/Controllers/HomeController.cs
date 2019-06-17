@@ -27,16 +27,17 @@ namespace LinkedAccounts.Web.Controllers
             this.Configuration = configuration;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(bool companionApp = false)
         {
-            return this.View();
+            return RedirectToAction("LinkedAccounts", new { companionApp = companionApp });
         }
 
         /// <summary>
-        /// Initialisation work for the LinkedAccounts feature.
+        /// Initialisation work for the Linked Accounts feature.
         /// </summary>
+        /// <param name="companionApp">Flag used to show a sample deep link to a companion application.</param>
         /// <returns>IActionResult.</returns>
-        public async Task<IActionResult> LinkedAccounts()
+        public async Task<IActionResult> LinkedAccounts(bool companionApp = false)
         {
             this.ViewData["Message"] = "Your application description page.";
 
@@ -47,22 +48,22 @@ namespace LinkedAccounts.Web.Controllers
             HttpClient client = new HttpClient();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, $"{endpoint}/tokens/generate");
             request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", secret);
-           
+
             // In order to avoid magic code prompts we need to set a TrustedOrigin, therefore requests using the token can be validated
             // as coming from this web-site and protecting against scenarios where a URL is shared with someone else
             string trustedOrigin = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
 
-            request.Content = new StringContent(JsonConvert.SerializeObject(new { TrustedOrigins = new string[] { trustedOrigin } }),
+            request.Content = new StringContent(
+                JsonConvert.SerializeObject(new { TrustedOrigins = new string[] { trustedOrigin } }),
                     Encoding.UTF8,
                     "application/json");
 
             var response = await client.SendAsync(request);
-            string token = String.Empty;
+            string token = string.Empty;
 
             if (response.IsSuccessStatusCode)
             {
                 // We have a Directline Token
-
                 var body = await response.Content.ReadAsStringAsync();
                 token = JsonConvert.DeserializeObject<DirectLineToken>(body).token;
 
@@ -77,7 +78,8 @@ namespace LinkedAccounts.Web.Controllers
                     UserId = userId,
                     DirectLineToken = token,
                     Endpoint = endpoint,
-                    Status = tokenStatuses
+                    Status = tokenStatuses,
+                    CompanionApp = companionApp,
                 });
             }
             else
