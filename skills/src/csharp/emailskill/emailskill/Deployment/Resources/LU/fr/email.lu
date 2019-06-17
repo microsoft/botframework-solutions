@@ -440,7 +440,7 @@
 - détecter l'e-mail contenant le mot clé {SearchTexts=beauté}
 - détecter l'e-mail de {SenderName=lisa}
 - détecter les e-mails de {SenderName=betty}
-- e-mail envoyé par {SenderName=tisa}
+- e-mail envoyé par {SenderName=tina}
 - e-mails qui contient le mot {SearchTexts=banque}
 - énumérer les e-mails avec {SearchTexts=algorithme}
 - liste des e-mails qui contiennent des {SearchTexts=images amusantes}
@@ -665,8 +665,6 @@ $Time:simple
 > # PREBUILT Entity definitions
 
 $PREBUILT:email
-
-$PREBUILT:number
 
 $PREBUILT:ordinal
 

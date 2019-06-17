@@ -38,6 +38,8 @@ program
 program
     .command('connect', 'connect any skill to your assistant bot')
     .command('disconnect', 'disconnect a specific skill from your assitant bot')
+    .command('update', 'update a specific skill from your assistant bot')
+    .command('refresh', 'refresh the connected skills')
     .command('list', 'list the connected skills in the assistant');
 
 const args: program.Command = program.parse(process.argv);

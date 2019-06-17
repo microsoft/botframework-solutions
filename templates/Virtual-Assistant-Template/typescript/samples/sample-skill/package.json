@@ -14,8 +14,9 @@
         "lint-fix": "tslint --fix ./src/**/*.ts",
         "start": "npm run build && node ./lib/index.js NODE_ENV=development",
         "watch": "nodemon ./lib/index.js NODE_ENV=development",
-        "test": "mocha test/",
-        "coverage": "nyc npm run test"
+        "test": "mocha",
+        "coverage": "nyc mocha",
+        "test-coverage-ci": "nyc --reporter=cobertura mocha --reporter mocha-junit-reporter"
     },
     "dependencies": {
         "@microsoft/microsoft-graph-client": "^1.3.0",
@@ -27,7 +28,7 @@
         "botbuilder-azure": "^4.4.0",
         "botbuilder-core": "^4.4.0",
         "botbuilder-dialogs": "^4.4.0",
-        "botbuilder-skills": "^4.4.6",
+        "botbuilder-skills": "^1.0.0-preview64",
         "botbuilder-solutions": "^4.4.6",
         "botframework-config": "^4.4.0",
         "botframework-connector": "^4.4.0",

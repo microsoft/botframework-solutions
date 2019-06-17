@@ -71,6 +71,7 @@ namespace CalendarSkill
 
             // Configure credentials
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
+            services.AddSingleton(new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
 
             // Configure bot state
             services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));

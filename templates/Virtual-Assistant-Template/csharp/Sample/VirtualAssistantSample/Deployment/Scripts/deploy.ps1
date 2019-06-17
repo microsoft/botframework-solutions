@@ -183,7 +183,7 @@ if ($outputs)
 
 	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppId' -Value $appId
 	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppPassword' -Value $appPassword
-	if ($outputs.appInsights) { $settings | Add-Member -Type NoteProperty -Force -Name 'appInsights' -Value $outputs.appInsights.value }
+	if ($outputs.ApplicationInsights) { $settings | Add-Member -Type NoteProperty -Force -Name 'ApplicationInsights' -Value $outputs.ApplicationInsights.value }
 	if ($outputs.storage) { $settings | Add-Member -Type NoteProperty -Force -Name 'blobStorage' -Value $outputs.storage.value }
 	if ($outputs.cosmosDb) { $settings | Add-Member -Type NoteProperty -Force -Name 'cosmosDb' -Value $outputs.cosmosDb.value }
 	if ($outputs.contentModerator) { $settings | Add-Member -Type NoteProperty -Force -Name 'contentModerator' -Value $outputs.contentModerator.value }
@@ -197,7 +197,7 @@ if ($outputs)
 	Invoke-Expression "$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1') -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -outFolder `"$($projDir)`" -languages `"$($languages)`""
 	
 	# Publish bot
-	Invoke-Expression "$(Join-Path $PSScriptRoot 'publish.ps1') -name $($name) -resourceGroup $($resourceGroup)"
+	Invoke-Expression "$(Join-Path $PSScriptRoot 'publish.ps1') -name $($name) -resourceGroup $($resourceGroup) -projFolder `"$($projDir)`""
 
 	Write-Host "> Done."
 }

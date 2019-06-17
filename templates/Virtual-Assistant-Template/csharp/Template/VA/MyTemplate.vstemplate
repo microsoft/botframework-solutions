@@ -26,6 +26,7 @@
       </Folder>
       <Folder Name="Adapters" TargetFolderName="Adapters">
         <ProjectItem ReplaceParameters="true" TargetFileName="DefaultAdapter.cs">DefaultAdapter.cs</ProjectItem>
+	      <ProjectItem ReplaceParameters="true" TargetFileName="DefaultWebSocketAdapter.cs">DefaultWebSocketAdapter.cs</ProjectItem>
       </Folder>
       <Folder Name="Bots" TargetFolderName="Bots">
         <ProjectItem ReplaceParameters="true" TargetFileName="DialogBot.cs">DialogBot.cs</ProjectItem>
