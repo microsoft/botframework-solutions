@@ -11,7 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
+import com.microsoft.bot.builder.solutions.virtualassistant.utils.LogUtils;
 import com.microsoft.bot.builder.solutions.virtualassistant.utils.RawUtils;
 
 import org.json.JSONObject;
@@ -56,9 +58,9 @@ public class ChatViewholder extends RecyclerView.ViewHolder {
     void bind(@NonNull BotConnectorActivity botConnectorActivity, AppCompatActivity parentActivity, @NonNull OnClickListener onClickListener) {
         textMessage.setText(botConnectorActivity.getText());
 
-        if (botConnectorActivity.getAttachmentLayout() != null){
+        if (botConnectorActivity.getAttachmentLayout() != null && botConnectorActivity.getAttachments().size() > 0){
             if (botConnectorActivity.getAttachmentLayout().equals("carousel") || botConnectorActivity.getAttachmentLayout().equals("list")){
-                Gson gson = new Gson();
+                Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
                 adaptiveCardLayout.setVisibility(View.VISIBLE);
                 adaptiveCardLayout.removeAllViews();
@@ -71,7 +73,7 @@ public class ChatViewholder extends RecyclerView.ViewHolder {
                         JSONObject cardJsonObject = new JSONObject(cardJson);
                         JSONObject cardContent = cardJsonObject.getJSONObject("content");
                         String cardBodyJson = cardContent.toString();
-                        logLargeString("Received Card: " + cardBodyJson);// this JSON can be used with https://adaptivecards.io/designer/
+                        LogUtils.logLongInfoMessage(LOGTAG, "Received Card: " + cardBodyJson);// this JSON can be used with https://adaptivecards.io/designer/
 
                         // collect what the payload is when clicked
                         final String speak = cardContent.getString("speak");
@@ -105,15 +107,6 @@ public class ChatViewholder extends RecyclerView.ViewHolder {
             }
         } else {
             adaptiveCardLayout.setVisibility(View.GONE);
-        }
-    }
-
-    public void logLargeString(String str) {
-        if(str.length() > 3000) {
-            Log.i(LOGTAG, str.substring(0, 3000));
-            logLargeString(str.substring(3000));
-        } else {
-            Log.i(LOGTAG, str); // continuation
         }
     }
 }
