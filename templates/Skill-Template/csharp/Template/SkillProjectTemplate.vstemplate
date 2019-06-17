@@ -12,29 +12,29 @@
     <Icon>__TemplateIcon.ico</Icon>
   </TemplateData>
   <TemplateContent>
-    <Project TargetFileName="Skill.csproj" File="Skill.csproj" ReplaceParameters="true">
-      <Folder Name="Connected Services" TargetFolderName="Connected Services">
+    <Project TargetFileName="Skill.csproj" File="Skill\Skill.csproj" ReplaceParameters="true">
+      <Folder Name="Skill\Connected Services" TargetFolderName="Connected Services">
         <Folder Name="Application Insights" TargetFolderName="Application Insights">
           <ProjectItem ReplaceParameters="true" TargetFileName="ConnectedService.json">ConnectedService.json</ProjectItem>
         </Folder>
       </Folder>
-      <Folder Name="Properties" TargetFolderName="Properties">
+      <Folder Name="Skill\Properties" TargetFolderName="Properties">
         <ProjectItem ReplaceParameters="true" TargetFileName="launchSettings.json">launchSettings.json</ProjectItem>
       </Folder>
-      <Folder Name="wwwroot" TargetFolderName="wwwroot">
+      <Folder Name="Skill\wwwroot" TargetFolderName="wwwroot">
         <ProjectItem ReplaceParameters="true" TargetFileName="default.htm">default.htm</ProjectItem>
       </Folder>
-      <Folder Name="Adapters" TargetFolderName="Adapters">
+      <Folder Name="Skill\Adapters" TargetFolderName="Adapters">
         <ProjectItem ReplaceParameters="true" TargetFileName="CustomSkillAdapter.cs">CustomSkillAdapter.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="DefaultAdapter.cs">DefaultAdapter.cs</ProjectItem>
       </Folder>
-      <Folder Name="Bots" TargetFolderName="Bots">
+      <Folder Name="Skill\Bots" TargetFolderName="Bots">
         <ProjectItem ReplaceParameters="true" TargetFileName="DialogBot.cs">DialogBot.cs</ProjectItem>
       </Folder>
-      <Folder Name="Controllers" TargetFolderName="Controllers">
+      <Folder Name="Skill\Controllers" TargetFolderName="Controllers">
         <ProjectItem ReplaceParameters="true" TargetFileName="BotController.cs">BotController.cs</ProjectItem>
       </Folder>
-      <Folder Name="Deployment" TargetFolderName="Deployment">
+      <Folder Name="Skill\Deployment" TargetFolderName="Deployment">
         <Folder Name="Resources" TargetFolderName="Resources">
           <Folder Name="LU" TargetFolderName="LU">
             <Folder Name="de" TargetFolderName="de">
@@ -73,15 +73,15 @@
           <ProjectItem ReplaceParameters="false" TargetFileName="update_cognitive_models.ps1">update_cognitive_models.ps1</ProjectItem>
         </Folder>
       </Folder>
-      <Folder Name="Dialogs" TargetFolderName="Dialogs">
+      <Folder Name="Skill\Dialogs" TargetFolderName="Dialogs">
         <ProjectItem ReplaceParameters="true" TargetFileName="MainDialog.cs">MainDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="SampleDialog.cs">SampleDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="SkillDialogBase.cs">SkillDialogBase.cs</ProjectItem>
       </Folder>
-      <Folder Name="Models" TargetFolderName="Models">
+      <Folder Name="Skill\Models" TargetFolderName="Models">
         <ProjectItem ReplaceParameters="true" TargetFileName="SkillState.cs">SkillState.cs</ProjectItem>
       </Folder>
-      <Folder Name="Responses" TargetFolderName="Responses">
+      <Folder Name="Skill\Responses" TargetFolderName="Responses">
         <Folder Name="Main" TargetFolderName="Main">
           <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.tt">MainResponses.tt</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="MainResponses.cs">MainResponses.cs</ProjectItem>
@@ -114,19 +114,19 @@
           <ProjectItem ReplaceParameters="true" TargetFileName="SharedResponses.zh.json">SharedResponses.zh.json</ProjectItem>
         </Folder>
       </Folder>
-      <Folder Name="Services" TargetFolderName="Services">
+      <Folder Name="Skill\Services" TargetFolderName="Services">
         <ProjectItem ReplaceParameters="true" TargetFileName="BotServices.cs">BotServices.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="BotSettings.cs">BotSettings.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$Luis.cs">SkillLuis.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="GeneralLuis.cs">GeneralLuis.cs</ProjectItem>
       </Folder>
-      <ProjectItem ReplaceParameters="true" TargetFileName=".filenesting.json">.filenesting.json</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.json">appsettings.json</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="cognitivemodels.json">cognitivemodels.json</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="manifestTemplate.json">manifestTemplate.json</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
-      <ProjectItem ReplaceParameters="false" TargetFileName="readme.md">readme.md</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="Startup.cs">Startup.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName=".filenesting.json">Skill\.filenesting.json</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.json">Skill\appsettings.json</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="cognitivemodels.json">Skill\cognitivemodels.json</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="manifestTemplate.json">Skill\manifestTemplate.json</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Skill\Program.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="readme.md">Skill\readme.md</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Startup.cs">Skill\Startup.cs</ProjectItem>
     </Project>
   </TemplateContent>
 </VSTemplate>
