@@ -9,7 +9,7 @@ Close #123: Description for this goes here.
 *What is the context of this pull request? Why is it being done?*
 
 ## Changes
-*Are there any changes that need to be called out as significant or particularly confusing?*
+*Are there any changes that need to be called out as significant or particularly difficult to grasp?*
 
 *Include illustrative screenshots for context if applicable.*
 
