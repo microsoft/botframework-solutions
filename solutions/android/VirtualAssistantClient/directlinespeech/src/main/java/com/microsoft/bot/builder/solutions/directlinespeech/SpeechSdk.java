@@ -385,6 +385,10 @@ public class SpeechSdk {
         return suggestedActions;
     }
 
+    public void clearSuggestedActions() {
+        suggestedActions.clear();
+    }
+
     public void requestWelcomeCard() {
 //        from: user object,
 //        name: 'startConversation',

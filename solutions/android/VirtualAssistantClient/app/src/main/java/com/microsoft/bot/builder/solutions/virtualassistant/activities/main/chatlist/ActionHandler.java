@@ -1,4 +1,4 @@
-package com.microsoft.bot.builder.solutions.virtualassistant.activities.main.list;
+package com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist;
 
 import android.util.Log;
 
