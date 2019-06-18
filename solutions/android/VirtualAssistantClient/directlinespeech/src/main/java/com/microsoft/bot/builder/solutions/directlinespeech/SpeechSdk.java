@@ -20,6 +20,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,6 +29,7 @@ import java.util.concurrent.Future;
 
 import client.model.Activity;
 import client.model.ActivityTypes;
+import client.model.CardAction;
 import client.model.ChannelAccount;
 import events.ActivityReceived;
 import events.Connected;
@@ -57,12 +60,14 @@ public class SpeechSdk {
     private Configuration configuration;
     private Handler handler;
     private Runnable timeoutResponseRunnable;
+    private ArrayList<CardAction> suggestedActions;
 
     private File localAppLogFile;
     private FileWriter streamWriter;
 
     public void initialize(Configuration configuration, boolean haveRecordAudioPermission, String localLogFileDirectory){
         audioBuffer = new byte[1024 * 2];
+        suggestedActions = new ArrayList<>();
         gson = new Gson();
         this.configuration = configuration;
         synthesizer = new Synthesizer();
@@ -111,6 +116,20 @@ public class SpeechSdk {
             }catch(IOException e){
                 Log.e(LOGTAG, e.getMessage());
             }
+        }
+    }
+
+    private void logLongInfoMessage(String tag, String message){
+        // Split by line, then ensure each line can fit into Log's maximum length.
+        final int MAX_LOG_LENGTH = 4000;
+        for (int i = 0, length = message.length(); i < length; i++) {
+            int newline = message.indexOf('\n', i);
+            newline = newline != -1 ? newline : length;
+            do {
+                int end = Math.min(newline, i + MAX_LOG_LENGTH);
+                Log.i(tag, message.substring(i, end));
+                i = end;
+            } while (i < newline);
         }
     }
 
@@ -177,7 +196,7 @@ public class SpeechSdk {
 
         botConnector.activityReceived.addEventListener((o, activityEventArgs) -> {
             final String json = activityEventArgs.getActivity().serialize();
-            LogInfo("received activity: " + json);
+            logLongInfoMessage(LOGTAG, "received activity: " + json);
 
             if (activityEventArgs.hasAudio()) {
                 // cancel response timeout timer
@@ -204,6 +223,12 @@ public class SpeechSdk {
         // trigger callback to expose result in 3rd party app
 
         client.model.BotConnectorActivity botConnectorActivity = gson.fromJson(activityJson, client.model.BotConnectorActivity.class);
+
+        if (botConnectorActivity.getSuggestedActions() != null && botConnectorActivity.getSuggestedActions().getActions() != null) {
+            List<CardAction> actionList = botConnectorActivity.getSuggestedActions().getActions();
+            suggestedActions.clear();
+            suggestedActions.addAll(actionList);
+        }
         EventBus.getDefault().post(new ActivityReceived(botConnectorActivity));
     }
 
@@ -354,6 +379,10 @@ public class SpeechSdk {
             Log.d(LOGTAG,"disconnected");
             connectAsync();
         });
+    }
+
+    public ArrayList<CardAction> getSuggestedActions() {
+        return suggestedActions;
     }
 
     public void requestWelcomeCard() {

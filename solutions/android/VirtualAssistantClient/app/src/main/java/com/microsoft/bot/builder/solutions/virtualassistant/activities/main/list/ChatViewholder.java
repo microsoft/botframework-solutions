@@ -41,7 +41,7 @@ public class ChatViewholder extends RecyclerView.ViewHolder {
     private ActionHandler cardActionHandler;
 
     public interface OnClickListener {
-        void adaptiveCardClick(String speak);
+        void adaptiveCardClick(int position, String speak);
     }
 
     public ChatViewholder(@NonNull View itemView) {
@@ -77,6 +77,7 @@ public class ChatViewholder extends RecyclerView.ViewHolder {
 
                         // collect what the payload is when clicked
                         final String speak = cardContent.getString("speak");
+                        final int position = x;
 
                         ParseResult parseResult = AdaptiveCard.DeserializeFromString(cardBodyJson, AdaptiveCardRenderer.VERSION);
                         AdaptiveCard adaptiveCard = parseResult.GetAdaptiveCard();
@@ -87,7 +88,7 @@ public class ChatViewholder extends RecyclerView.ViewHolder {
                         adaptiveCardRendered.setFocusable(false);
                         adaptiveCardRendered.setFocusableInTouchMode(false);
                         adaptiveCardRendered.setOnClickListener(v -> {
-                            onClickListener.adaptiveCardClick(speak); // callback to activity
+                            onClickListener.adaptiveCardClick(position, speak); // callback to activity
                         });
 
                         // add the card to its individual container to allow for resizing
