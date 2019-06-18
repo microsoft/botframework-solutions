@@ -36,9 +36,11 @@ import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.BaseActivity;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.botconfiguration.BotConfigurationActivity;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.configuration.AppConfigurationActivity;
-import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.list.ChatAdapter;
-import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.list.ChatViewholder;
-import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.list.ItemOffsetDecoration;
+import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.actionslist.ActionsAdapter;
+import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.actionslist.ActionsViewholder;
+import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ChatAdapter;
+import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ChatViewholder;
+import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ItemOffsetDecoration;
 import com.microsoft.bot.builder.solutions.virtualassistant.assistant.VoiceInteractionActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -64,11 +66,12 @@ import events.RecognizedIntermediateResult;
 import events.RequestTimeout;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ChatViewholder.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ChatViewholder.OnClickListener, ActionsViewholder.OnClickListener {
 
     // VIEWS
     @BindView(R.id.root_container) RelativeLayout uiContainer;
     @BindView(R.id.recyclerview) RecyclerView chatRecyclerView;
+    @BindView(R.id.suggestedactions) RecyclerView suggActionsRecyclerView;
     @BindView(R.id.textinputlayout) TextInputLayout textInputLayout;
     @BindView(R.id.textinput) TextInputEditText textInput;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
@@ -83,6 +86,7 @@ public class MainActivity extends BaseActivity
 
     // STATE
     private ChatAdapter chatAdapter;
+    private ActionsAdapter suggActionsAdapter;
     private boolean alwaysShowTextInput;
     private Handler handler;
     private boolean launchedAsAssistant;
@@ -120,6 +124,7 @@ public class MainActivity extends BaseActivity
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         setupChatRecyclerView();
+        setupSuggestedActionsRecyclerView();
 
         // check if this activity was launched as an assistant
         Intent intent = getIntent();
@@ -173,6 +178,17 @@ public class MainActivity extends BaseActivity
 
         final int spacing = getResources().getDimensionPixelOffset(R.dimen.list_item_spacing_small);
         chatRecyclerView.addItemDecoration(new ItemOffsetDecoration(spacing));
+    }
+
+    private void setupSuggestedActionsRecyclerView() {
+        suggActionsAdapter = new ActionsAdapter();
+        suggActionsRecyclerView.setAdapter(suggActionsAdapter);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        suggActionsRecyclerView.setLayoutManager(layoutManager);
+
+        final int spacing = getResources().getDimensionPixelOffset(R.dimen.list_item_spacing_small);
+        suggActionsRecyclerView.addItemDecoration(new ItemOffsetDecoration(spacing));
     }
 
     @Override
@@ -277,6 +293,14 @@ public class MainActivity extends BaseActivity
     // send text message
     private void sendTextMessage(String msg){
         speechServiceBinder.getSpeechSdk().sendActivityMessageAsync(msg);
+
+        // clear out suggested actions
+        List<CardAction> list = speechServiceBinder.getSpeechSdk().getSuggestedActions();
+        if (list != null && list.size() > 0){
+            list = null;
+            speechServiceBinder.getSpeechSdk().clearSuggestedActions();
+            suggActionsAdapter.clear();
+        }
     }
 
     // EventBus: the connection disconnected
@@ -313,9 +337,14 @@ public class MainActivity extends BaseActivity
 
             switch (botConnectorActivity.getType()) {
                 case "message":
-                    chatAdapter.addChat(botConnectorActivity, this, this);
-                    // make the chat list scroll automatically after adding a bot response
-                    chatRecyclerView.getLayoutManager().scrollToPosition(chatAdapter.getItemCount() - 1);
+                    if (botConnectorActivity.getSuggestedActions() != null && botConnectorActivity.getSuggestedActions().getActions() != null) {
+                        List<CardAction> list = speechServiceBinder.getSpeechSdk().getSuggestedActions();
+                        suggActionsAdapter.addAll(list, this, this);
+                    } else {
+                        chatAdapter.addChat(botConnectorActivity, this, this);
+                        // make the chat list scroll automatically after adding a bot response
+                        chatRecyclerView.getLayoutManager().scrollToPosition(chatAdapter.getItemCount() - 1);
+                    }
                     break;
                 case "dialogState":
                     Log.i(LOGTAG, "Activity with DialogState");
@@ -364,6 +393,21 @@ public class MainActivity extends BaseActivity
             sendTextMessage(value);
         } else {
             sendTextMessage(speak);
+        }
+    }
+
+    // concrete implementation of ActionsViewholder.OnClickListener
+    @Override
+    public void suggestedActionClick(int position) {
+        CardAction cardAction = null;
+        List<CardAction> list = speechServiceBinder.getSpeechSdk().getSuggestedActions();
+        if (list != null){
+            cardAction = list.get(position);
+        }
+
+        if (cardAction != null) {
+            String value = (String) cardAction.getValue();
+            sendTextMessage(value);
         }
     }
 
