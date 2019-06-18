@@ -17,4 +17,4 @@ Close #123: Description for this goes here.
 *Is this covered by existing tests or new ones? If no, why not?*
 
 ## Launch Plan
-*Is this part of a multi-phase project? If so, link to any relevant pull requests.*
+*Are there any remaining steps or dependencies before this issue can be fully resolved? If so, describe and link to any relevant pull requests or issues.*
