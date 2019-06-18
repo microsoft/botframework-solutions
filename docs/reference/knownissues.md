@@ -10,13 +10,18 @@ Please be aware that you *must* use [App Studio](https://docs.microsoft.com/en-u
 
 We made a change to the behaviour when invoking Skills which removed the need for an additional `SkillBegin` event. This change enabled simplification of the SkillDialog logic which the latest Virtual Assistant template has incorporated. However existing assistants created using an earlier version of the template who have updated to the latest `Bot.Builder.Skills/Bot.Builder.Solutions` packages may experience a situation, whereby, when invoking a Skill the initial message is sent twice. 
 
-This is due to a line of code which can be safely removed from your existing Assistant project. Within your `MainDialog.cs` file and the `RouteAsync` method, remove the following line to resolve this issue.
+This is due to a line of code which can be safely removed from your existing Assistant project. Within your `MainDialog.cs` file and the `RouteAsync` method, remove the call to `ContinueDialogAsync` by changing the existing code:
 
 ```
-  // Pass the activity we have
-  var result = await dc.ContinueDialogAsync();
-```
+await dc.BeginDialogAsync(identifiedSkill.Id);
 
+// Pass the activity we have
+var result = await dc.ContinueDialogAsync();
+```
+To
+```
+var result = await dc.BeginDialogAsync(identifiedSkill.Id);
+```
 Ensure you have also updated to the latest `Bot.Builder.Skills/Bot.Builder.Solutions` packages .
 
 ## QnAMaker can't be entirely deployed in a region other than westus.
