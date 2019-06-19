@@ -107,8 +107,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         }
 
         const adapter: BotFrameworkAdapter = <BotFrameworkAdapter> stepContext.context.adapter;
-        // PENDING check adapter.getTokenStatus
-        const tokenStatusCollection: TokenStatus[] = [];
+        const tokenStatusCollection: TokenStatus[] = await adapter.getTokenStatus(stepContext.context, stepContext.context.activity.from.id);
 
         const matchingProviders: TokenStatus[] = tokenStatusCollection.filter((p: TokenStatus) => {
             return (p.hasToken || false) && this.authenticationConnections.some((t: IOAuthConnection) => {
@@ -183,10 +182,9 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         }
     }
 
-    private createProviderTokenResponse(context: TurnContext, tokenResponse: TokenResponse): Promise<IProviderTokenResponse> {
+    private async createProviderTokenResponse(context: TurnContext, tokenResponse: TokenResponse): Promise<IProviderTokenResponse> {
         const adapter: BotFrameworkAdapter = <BotFrameworkAdapter> context.adapter;
-        // PENDING check adapter.getTokenStatusAsync
-        const tokens: TokenStatus[] = [];
+        const tokens: TokenStatus[] = await adapter.getTokenStatus(context, context.activity.from.id);
         const match: TokenStatus|undefined = tokens.find((t: TokenStatus) => t.connectionName === tokenResponse.connectionName);
 
         if (!match) {
