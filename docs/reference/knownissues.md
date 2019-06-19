@@ -2,58 +2,31 @@
 
 ## The Teams channel doesn't render OAuth cards.
 
-There is a known issue in the Teams channel where the default OAuth Card is not shown when using the OAuthPrompt in the SDK. To workaround this in the short-term please follow the following instructions.
+Prior versions of the BF SDK and VA template experienced issues when using Teams whereby Authentication cards (OAuthPrompt generated) did not function as expected. This required manual changes to work around the issue which are now incorporated into the BF SDK and Virtual Assistant template. If you experience these problems please update to Bot Framework SDK 4.4.5 or higher and update your `Microsoft.Bot.Builder.Solutions` and `Microsoft.Bot.Builder.Skills` nuget packages to 4.4.4.1 or higher.
 
-Please be aware that you *must* use [App Studio](https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-app-studio) to create an Application Manifest. Otherwise you won't be able to click any login buttons within Teams. It's key to ensure that under Domains and permissions in the Manifest Editor that you enter the domain token.botframework.com to enable clicking of the login button.  You cannot click the link in the Channel Page of the Bot Framework to start a conversation with your Bot.
+Please be aware that you *must* use [App Studio](https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-app-studio) to create an Application Manifest when using Teams. Otherwise you won't be able to click any login buttons within Teams. It's key to ensure that under Domains and permissions in the Manifest Editor that you enter the domain `token.botframework.com` to enable clicking of the login button. You cannot click the link in the Channel Page of the Bot Framework to start a conversation with your Bot.
 
-You then need to make the following code changes:
+## When invoking a Skill you may experience the initial message being sent twice
 
-### DialogBot.cs in your Bots folder
+We made a change to the behaviour when invoking Skills which removed the need for an additional `SkillBegin` event. This change enabled simplification of the SkillDialog logic which the latest Virtual Assistant template has incorporated. However existing assistants created using an earlier version of the template who have updated to the latest `Bot.Builder.Skills/Bot.Builder.Solutions` packages may experience a situation, whereby, when invoking a Skill the initial message is sent twice. 
 
-Add the following under the `if` handler for BotTimedOut. This responses to the Invoke messages sent by Teams and addresses the issue where the animated circle keeps spinning as Teams hasn't been responded to.
-```
-else if (turnContext?.Activity.Type == ActivityTypes.Invoke && turnContext?.Activity.Name == "signin/verifyState")
-{
-       await turnContext.SendActivityAsync(new Activity(ActivityTypesEx.InvokeResponse, value: null));
-}
-```
-
-### MainDialog.cs in Dialogs folder
-
-This change ensures the Invoke message is propogated into the waiting Dialog. The RouterDialog doesn't pass this along as it wasn't an expected ActivityType so we have to override this behaviour. We'll push a new Bot.Solutions package with a change to remove the need for this override shortly.
+This is due to a line of code which can be safely removed from your existing Assistant project. Within your `MainDialog.cs` file and the `RouteAsync` method, remove the call to `ContinueDialogAsync` by changing the existing code:
 
 ```
-protected async override Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
-{
-    if (innerDc.Context.Activity.Type == ActivityTypes.Invoke)
-    {   
-            var result = await innerDc.ContinueDialogAsync();
+await dc.BeginDialogAsync(identifiedSkill.Id);
 
-            if (result.Status == DialogTurnStatus.Complete)
-            {
-                await CompleteAsync(innerDc);
-            }
-
-        return result;
-    }
-    else
-    {
-        return await base.OnContinueDialogAsync(innerDc, cancellationToken);
-    }
-}
+// Pass the activity we have
+var result = await dc.ContinueDialogAsync();
 ```
+To
+```
+var result = await dc.BeginDialogAsync(identifiedSkill.Id);
+```
+Ensure you have also updated to the latest `Bot.Builder.Skills/Bot.Builder.Solutions` packages .
 
 ## QnAMaker can't be entirely deployed in a region other than westus.
 
 QnAMaker has a central Cognitive Service resource that must be deployed in `westus`, the dependent Web App, Azure Search and AppInsights resources can be installed in a broader range of regions. We have therefore fixed this QnAMaker resource to be `westus` in the ARM template (template.json) which can be found in the `deployment\resources` folder of your Virtual Assistant. When deploying in a region such as westeurope all dependent resources will be created in the requested region. This script will be updated as new regions are available.
-
-## Skills don't respond when using WebChat
-
-There is a known issue with regard to responses from Skills not being returned to WebChat clients through the Virtual Assistant. They do however work across other channels. We have a fix in the latest daily build for [Bot.Builder.Skills](https://botbuilder.myget.org/feed/aitemplates/package/nuget/Microsoft.Bot.Builder.Skills) and [Bot.Builder.Solutions](https://botbuilder.myget.org/feed/aitemplates/package/nuget/Microsoft.Bot.Builder.Solutions) which resolves the problem. This will be published to nuget in our next release.
-
-There is a command line example on the Myget page of how to install from this repository but you can also add a package source in Visual Studio referencing https://botbuilder.myget.org/F/aitemplates/api/v3/index.json
-
-Once you have updated the packages, redeploy your Virtual Assistant to Azure and try again.
 
 ## The introduction card isn't displayed when a locale is missing
 
