@@ -634,24 +634,25 @@ namespace EmailSkill.Dialogs
             {
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
-                skillOptions.DialogState = state;
 
                 // ensure state.nameList is not null or empty
-                if (!state.FindContactInfor.ContactsNameList.Any())
-                {
-                    var userInput = sc.Result.ToString();
-                    if (string.IsNullOrWhiteSpace(userInput))
-                    {
-                        return await sc.BeginDialogAsync(Actions.CollectRecipient, skillOptions);
-                    }
+                //if (!state.FindContactInfor.ContactsNameList.Any())
+                //{
+                //    var userInput = sc.Result.ToString();
+                //    if (string.IsNullOrWhiteSpace(userInput))
+                //    {
+                //        skillOptions.DialogState = state;
+                //        return await sc.BeginDialogAsync(Actions.CollectRecipient, skillOptions);
+                //    }
 
-                    var nameList = userInput.Split(EmailCommonPhrase.GetContactNameSeparator(), options: StringSplitOptions.None)
-                        .Select(x => x.Trim())
-                        .Where(x => !string.IsNullOrWhiteSpace(x))
-                        .ToList();
-                    state.FindContactInfor.ContactsNameList = nameList;
-                }
+                //    var nameList = userInput.Split(EmailCommonPhrase.GetContactNameSeparator(), options: StringSplitOptions.None)
+                //        .Select(x => x.Trim())
+                //        .Where(x => !string.IsNullOrWhiteSpace(x))
+                //        .ToList();
+                //    state.FindContactInfor.ContactsNameList = nameList;
+                //}
 
+                skillOptions.DialogState = state;
                 return await sc.BeginDialogAsync(nameof(FindContactDialog), options: new FindContactDialogOptions(sc.Options), cancellationToken: cancellationToken);
             }
             catch (Exception ex)

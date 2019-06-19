@@ -237,7 +237,12 @@ namespace EmailSkill.Dialogs
                 var localeConfig = _services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities
-                var emailLuisResult = await localeConfig.LuisServices["email"].RecognizeAsync<EmailLuis>(dc.Context, cancellationToken);
+                //var emailLuisResult = await localeConfig.LuisServices["email"].RecognizeAsync<EmailLuis>(dc.Context, cancellationToken);
+
+                EmailLuis emailLuisResult = new EmailLuis();
+                var emailResult = await localeConfig.LuisServices["email"].RecognizeAsync(dc.Context, cancellationToken);
+                emailLuisResult.Convert(emailResult);
+
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
                 state.LuisResult = emailLuisResult;
 

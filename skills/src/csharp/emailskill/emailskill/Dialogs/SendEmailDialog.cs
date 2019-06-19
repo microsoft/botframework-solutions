@@ -54,7 +54,7 @@ namespace EmailSkill.Dialogs
             var collectRecipients = new WaterfallStep[]
             {
                 SaveEmailSendDialogState,
-                PromptRecipientCollection,
+                //PromptRecipientCollection,
                 GetRecipients,
             };
 

@@ -353,6 +353,12 @@ namespace EmailSkill.Dialogs
             try
             {
                 var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
+                if (sc.Result is FindContactDialogOptions)
+                {
+                    var option = (FindContactDialogOptions)sc.Result;
+                    state = (SendEmailDialogState)option.DialogState;
+                }
+
                 state.FindContactInfor.ConfirmContactsNameIndex = state.FindContactInfor.ConfirmContactsNameIndex + 1;
                 state.FindContactInfor.ConfirmedContact = null;
 
@@ -426,6 +432,11 @@ namespace EmailSkill.Dialogs
             try
             {
                 var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
+                if (sc.Result is FindContactDialogOptions)
+                {
+                    var option = (FindContactDialogOptions)sc.Result;
+                    state = (SendEmailDialogState)option.DialogState;
+                }
                 var confirmedPerson = state.FindContactInfor.ConfirmedContact;
                 var name = confirmedPerson.DisplayName;
                 var options = sc.Options as FindContactDialogOptions;
@@ -471,6 +482,11 @@ namespace EmailSkill.Dialogs
             try
             {
                 var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
+                if (sc.Result is FindContactDialogOptions)
+                {
+                    var option = (FindContactDialogOptions)sc.Result;
+                    state = (SendEmailDialogState)option.DialogState;
+                }
                 var userState = await Accessor.GetAsync(sc.Context);
                 state.FindContactInfor.UnconfirmedContact.Clear();
                 state.FindContactInfor.ConfirmedContact = null;
@@ -541,6 +557,12 @@ namespace EmailSkill.Dialogs
                 var userInput = sc.Result as string;
                 var userState = await Accessor.GetAsync(sc.Context);
                 var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
+                if (sc.Result is FindContactDialogOptions)
+                {
+                    var option = (FindContactDialogOptions)sc.Result;
+                    state = (SendEmailDialogState)option.DialogState;
+                }
+
                 var options = (FindContactDialogOptions)sc.Options;
 
                 if (string.IsNullOrEmpty(userInput) && options.UpdateUserNameReason != FindContactDialogOptions.UpdateUserNameReasonType.Initialize)
