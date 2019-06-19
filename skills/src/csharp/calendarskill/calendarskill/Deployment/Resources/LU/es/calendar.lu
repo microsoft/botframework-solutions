@@ -4,7 +4,7 @@
 - acepta {Subject=cena}
 - acepta el evento
 - acepta el evento de {FromDate=hoy} a {FromTime=las 15:00}.
-- acepta el evento del {FromDate=18 de febrero} en {Location=pekín}.
+- acepta el evento del {FromDate=18 de febrero} en {Location=Madrid}.
 - acepta el evento enviado por yolanda wong.
 - acepta el evento para {FromTime=esta noche}.
 - acepta esta cita con jane y mary el {FromDate=próximo martes}
@@ -40,6 +40,7 @@
 - actualiza la reunión de {ToDate=hoy}, de {FromTime=8:00} - {FromTime=12:00} a {ToTime=7:00} - {ToTime=11:00}
 - actualiza mi {Subject=calendario}
 - actualiza mi calendario de {FromTime=18:00} a {ToTime=19:00}
+- actualiza mi calendario de {ToDate=hoy} de {ToTime=11} a {ToTime=12:30}
 - actualiza mi calendario de {ToDate=hoy} de {FromTime=14:00} a {ToTime=16:00}
 - actualiza mi cita
 - actualiza mi {Subject=cita para el camping}
@@ -76,6 +77,7 @@
 - cambia la reunión de {FromDate=hoy} a {FromTime=las 18:00} a {ToDate=mañana} a {ToTime=las 9:00}
 - cambia la reunión de {ToDate=hoy} de {FromTime=14:00} - {FromTime=15:00} a {ToTime=16:00} - {ToTime=17:00}
 - cambia la reunión de {FromTime=las 10:00} para que empiece {MoveLaterTimeSpan=20 minutos} más tarde
+- cambia la reunión de {FromTime=las 12:00} para que empiece {MoveEarlierTimeSpan=10 minutos} antes
 - cambia la {Subject=reunión de marketing} de {FromDate=cada martes} a {ToDate=cada miércoles}
 - cambia la {SlotAttribute=ubicación} de esta cita
 - cambia la {SlotAttribute=ubicación} de mi {Subject=cita de canto}
@@ -116,6 +118,7 @@
 - mueve la cita con rebecca a {ToDate=la semana que viene}
 - mueve la reunión de {ToDate=hoy} de {FromTime=21:00} - {FromTime=22:00} a {ToTime=20:00} - {ToTime=21:00}
 - mueve la reunión de {FromTime=las 15:00} a {ToTime=las 16:00}
+- mueve la {Subject=reunión de organización de la fiesta} del sábado al {ToDate=viernes} a {ToTime=las 13:00}
 - mueve mi {Subject=cita con el médico} de {FromTime=las 10:10} a {ToTime=las 10:00}
 - mueve mi {Subject=cita con el médico} de {ToTime=las 9:00} a {ToTime=las 10:00}
 - mueve mi {OrderReference=próxima} reunión
@@ -574,6 +577,7 @@
 - cancela evento {FromDate=mañana}
 - cancela la {Subject=cena}
 - cancela la cita
+- cancela la {Subject=cita con el médico} del {FromDate=lunes}
 - cancela la cita de {FromDate=hoy}
 - cancela la reunión
 - cancela la reunión con julie
@@ -810,7 +814,6 @@
 - ¿cuándo tengo {Subject=examen}?
 - ¿cuándo tengo tiempo libre {FromDate=hoy}?
 - ¿cuándo {Subject=trabajo} {FromDate=mañana}?
-- ¿cuándo voy a {Subject=ver a inglaterra}?
 - ¿para qué día está programado {Subject=lego land}?
 - ¿qué {FromDate=fin de semana} voy de {Subject=compras} con sarah?
 
