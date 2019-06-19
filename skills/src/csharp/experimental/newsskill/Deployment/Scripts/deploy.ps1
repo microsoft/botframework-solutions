@@ -150,7 +150,7 @@ else {
 
 $settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppId' -Value $appId
 $settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppPassword' -Value $appPassword
-if ($outputs.appInsights) { $settings | Add-Member -Type NoteProperty -Force -Name 'appInsights' -Value $outputs.appInsights.value }
+if ($outputs.ApplicationInsights) { $settings | Add-Member -Type NoteProperty -Force -Name 'ApplicationInsights' -Value $outputs.ApplicationInsights.value }
 if ($outputs.storage) { $settings | Add-Member -Type NoteProperty -Force -Name 'blobStorage' -Value $outputs.storage.value }
 if ($outputs.cosmosDb) { $settings | Add-Member -Type NoteProperty -Force -Name 'cosmosDb' -Value $outputs.cosmosDb.value }
 if ($outputs.bingSearch) { $settings | Add-Member -Type NoteProperty -Force -Name 'properties' -Value @{ bingSearchKey = $outputs.bingSearch.value }}
