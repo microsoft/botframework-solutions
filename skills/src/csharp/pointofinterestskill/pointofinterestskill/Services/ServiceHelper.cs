@@ -17,7 +17,11 @@ namespace PointOfInterestSkill.Services
         /// <returns>Generated httpClient.</returns>
         public static HttpClient GetHttpClient()
         {
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            if (!httpClient.DefaultRequestHeaders.Contains("Accept"))
+            {
+                httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+            }
+
             return httpClient;
         }
     }
