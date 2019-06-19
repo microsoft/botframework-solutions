@@ -1,3 +1,4 @@
+[![Board Status](https://fuselabs.visualstudio.com/566d503b-55c0-46b5-9e83-8a4efa7f9efa/2eaec1b3-5556-4e70-98c8-b640de1c04f8/_apis/work/boardbadge/c502e5fa-21a3-480d-a23f-8e9777f534b8)](https://fuselabs.visualstudio.com/566d503b-55c0-46b5-9e83-8a4efa7f9efa/_boards/board/t/2eaec1b3-5556-4e70-98c8-b640de1c04f8/Microsoft.RequirementCategory)
 ![Bot Framework Solutions](/docs/media/bot_framework_solutions_header.png)
 
 This repository is the home for a set of templates and solutions to help build conversational experiences using [Azure Bot Service](https://aka.ms/azurebotservice) and [Bot Framework](https://botframework.com).
