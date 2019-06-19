@@ -17,7 +17,7 @@ namespace Microsoft.Bot.Builder.Solutions.Middleware
     {
         private const string DefaultLocale = "en-US";
 
-        private const string DefaultVoiceFont = "Microsoft Server Speech Text to Speech Voice (en-US, Jessa24kRUS)";
+        private const string DefaultVoiceFont = "Microsoft Server Speech Text to Speech Voice (en-US, JessaNeural)";
 
         private static string _locale;
 
@@ -91,7 +91,7 @@ namespace Microsoft.Bot.Builder.Solutions.Middleware
             if (rootElement == null || rootElement.Name.LocalName != "speak")
             {
                 // If the text is not valid XML, or if it's not a <speak> node, treat it as plain text.
-                rootElement = new XElement(NamespaceURI + "speak", activity.Speak);
+                rootElement = new XElement(NamespaceURI + "speak", new XRaw(activity.Speak));
             }
 
             AddAttributeIfMissing(rootElement, "version", "1.0");
@@ -170,6 +170,22 @@ namespace Microsoft.Bot.Builder.Solutions.Middleware
             if (existingAttribute?.Value == currentAttributeValue)
             {
                 existingAttribute?.SetValue(newAttributeValue);
+            }
+        }
+
+        private class XRaw : XText
+        {
+            public XRaw(string text)
+                : base(text)
+            { }
+
+            public XRaw(XText text)
+                : base(text)
+            { }
+
+            public override void WriteTo(System.Xml.XmlWriter writer)
+            {
+                writer.WriteRaw(this.Value);
             }
         }
     }
