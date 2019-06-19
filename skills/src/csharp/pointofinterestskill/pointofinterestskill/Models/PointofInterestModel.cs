@@ -40,6 +40,10 @@ namespace PointOfInterestSkill.Models
             Address = !string.IsNullOrEmpty(azureMapsPoi.Address?.FreeformAddress)
                 ? azureMapsPoi.Address?.FreeformAddress
                 : Address;
+
+            // Set if to be the same as Address for now
+            // Change it to proper handling when using AzureMaps again
+            AddressForSpeak = Address;
             Geolocation = azureMapsPoi.Position
                 ?? Geolocation;
             Category = (azureMapsPoi.Poi?.Classifications != null)
