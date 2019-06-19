@@ -180,7 +180,7 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="GeneralLuis.cs">GeneralLuis.cs</ProjectItem>
       </Folder>
       <Folder Name="Pipeline" TargetFolderName="Pipeline">
-        <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.yml">virtual-assistant.yml</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.yml">VirtualAssistantTemplate.yml</ProjectItem>
       </Folder>
       <ProjectItem ReplaceParameters="true" TargetFileName=".filenesting.json">.filenesting.json</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.json">appsettings.json</ProjectItem>

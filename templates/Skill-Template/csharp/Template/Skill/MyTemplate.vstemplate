@@ -121,7 +121,7 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="GeneralLuis.cs">GeneralLuis.cs</ProjectItem>
       </Folder>
       <Folder Name="Pipeline" TargetFolderName="Pipeline">
-        <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.yml">skill.yml</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.yml">SkillTemplate.yml</ProjectItem>
       </Folder>
       <ProjectItem ReplaceParameters="true" TargetFileName=".filenesting.json">.filenesting.json</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.json">appsettings.json</ProjectItem>
