@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
+
 namespace Microsoft.Bot.Builder.Skills
 {
     /// <summary>
