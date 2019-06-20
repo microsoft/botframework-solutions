@@ -15,14 +15,18 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.microsoft.bot.builder.solutions.directlinespeech.ConfigurationManager;
 import com.microsoft.bot.builder.solutions.directlinespeech.SpeechSdk;
 import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
+import com.microsoft.bot.builder.solutions.virtualassistant.ISpeechService;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.configuration.DefaultConfiguration;
 import com.microsoft.bot.builder.solutions.virtualassistant.widgets.WidgetBotRequest;
@@ -57,14 +61,96 @@ public class SpeechService extends Service {
     public static final String ACTION_START_LISTENING = "ACTION_START_LISTENING";
 
     // STATE
-    private IBinder binder;
+    private ISpeechService.Stub binder;
     private SpeechSdk speechSdk;
     private ConfigurationManager configurationManager;
     private LocationProvider locationProvider;
+    private Gson gson;
 
     // CONSTRUCTOR
     public SpeechService() {
-        binder = new ServiceBinder(this);
+        binder = new ISpeechService.Stub() {
+            @Override
+            public boolean isSpeechSdkRunning() throws RemoteException {
+                return speechSdk != null;
+            }
+
+            @Override
+            public void sendTextMessage(String msg) {
+                if (speechSdk != null) speechSdk.sendActivityMessageAsync(msg);
+            }
+
+            /**
+             * Initialize the speech SDK.
+             * Note: This can be called repeatedly without negative consequences, i.e. device rotation
+             * @param haveRecordAudioPermission true or false
+             */
+            @Override
+            public void initializeSpeechSdk(boolean haveRecordAudioPermission){
+                SpeechService.this.initializeSpeechSdk(haveRecordAudioPermission);
+            }
+
+            @Override
+            public void connectAsync(){
+                speechSdk.connectAsync();
+            }
+
+            @Override
+            public void startLocationUpdates() {
+                SpeechService.this.startLocationUpdates();
+            }
+
+            @Override
+            public void resetBot(){
+                speechSdk.resetBot();
+            }
+
+            @Override
+            public String getConfiguration(){
+                return gson.toJson(configurationManager.getConfiguration());
+            }
+
+            @Override
+            public void sendLocationEvent(String lat, String lon){
+                speechSdk.sendLocationEvent(lat, lon);
+            }
+
+            @Override
+            public void requestWelcomeCard(){
+                speechSdk.requestWelcomeCard();
+            }
+
+            @Override
+            public void injectReceivedActivity(String json){
+                speechSdk.activityReceived(json);
+            }
+
+            @Override
+            public void listenOnceAsync(){
+                speechSdk.listenOnceAsync();
+            }
+
+            @Override
+            public void sendActivityMessageAsync(String msg){
+                speechSdk.sendActivityMessageAsync(msg);
+            }
+
+            @Override
+            public String getSuggestedActions(){
+                return gson.toJson(speechSdk.getSuggestedActions());
+            }
+
+            @Override
+            public void clearSuggestedActions(){
+                speechSdk.clearSuggestedActions();
+            }
+
+            @Override
+            public void setConfiguration(String json) {
+                Configuration configuration = gson.fromJson(json, new TypeToken<Configuration>(){}.getType());
+                configurationManager.setConfiguration(configuration);
+            }
+        };
     }
 
     @Override
@@ -77,6 +163,7 @@ public class SpeechService extends Service {
         super.onCreate();
         Log.d(TAG_FOREGROUND_SERVICE, "onCreate()");
         EventBus.getDefault().register(this);
+        gson = new Gson();
 
         // set up configuration for SpeechSdk
         configurationManager = new ConfigurationManager(this);
@@ -141,7 +228,7 @@ public class SpeechService extends Service {
     }
 
     private void startForegroundService() {
-        Log.d(TAG_FOREGROUND_SERVICE, "startForegroundService()");
+        Log.d(TAG_FOREGROUND_SERVICE, "startForegroundService() starting");
 
         // Create notification default intent
         Intent intent = new Intent();
@@ -200,9 +287,11 @@ public class SpeechService extends Service {
         Notification notification = builder.build();
 
         // Start foreground service
-        startForeground(1, notification);
+        startForeground(STOP_FOREGROUND_REMOVE, notification);
 
         startLocationUpdates();
+
+        Log.d(TAG_FOREGROUND_SERVICE, "startForegroundService() complete");
     }
 
     private void stopForegroundService() {
@@ -221,27 +310,37 @@ public class SpeechService extends Service {
         locationProvider.startLocationUpdates();
     }
 
-    /**
-     * Initialize the speech SDK.
-     * Note: This can be called repeatedly without negative consequences, i.e. device rotation
-     * @param haveRecordAudioPermission true or false
-     */
-    public void initializeSpeechSdk(boolean haveRecordAudioPermission){
+    private void initializeSpeechSdk(boolean haveRecordAudioPermission){
         if (speechSdk != null) {
             speechSdk.reset();
         }
         speechSdk = new SpeechSdk();
-        File directory = this.getFilesDir();
+        File directory = getFilesDir();
         Configuration configuration = configurationManager.getConfiguration();
         speechSdk.initialize(configuration, haveRecordAudioPermission, directory.getPath());
     }
 
-    public SpeechSdk getSpeechSdk(){
-        if (speechSdk == null)
-            throw new IllegalStateException("initializeSpeechSdk() hasn't been called");
-        else
-            return speechSdk;
-    }
+//    /**
+//     * Initialize the speech SDK.
+//     * Note: This can be called repeatedly without negative consequences, i.e. device rotation
+//     * @param haveRecordAudioPermission true or false
+//     */
+//    public void initializeSpeechSdk(boolean haveRecordAudioPermission){
+//        if (speechSdk != null) {
+//            speechSdk.reset();
+//        }
+//        speechSdk = new SpeechSdk();
+//        File directory = this.getFilesDir();
+//        Configuration configuration = configurationManager.getConfiguration();
+//        speechSdk.initialize(configuration, haveRecordAudioPermission, directory.getPath());
+//    }
+
+//    public SpeechSdk getSpeechSdk(){
+//        if (speechSdk == null)
+//            throw new IllegalStateException("initializeSpeechSdk() hasn't been called");
+//        else
+//            return speechSdk;
+//    }
 
 
     // EventBus: the user spoke and the app recognized intermediate speech
@@ -312,13 +411,5 @@ public class SpeechService extends Service {
         ComponentName thisWidget = new ComponentName(context, WidgetBotRequest.class);
         remoteViews.setTextViewText(R.id.appwidget_text, text);
         appWidgetManager.updateAppWidget(thisWidget, remoteViews);
-    }
-
-    public Configuration getConfiguration(){
-        return configurationManager.getConfiguration();
-    }
-
-    public void setConfiguration(Configuration configuration){
-        configurationManager.setConfiguration(configuration);
     }
 }
