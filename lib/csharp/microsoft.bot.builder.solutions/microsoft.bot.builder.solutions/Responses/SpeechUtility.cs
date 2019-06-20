@@ -89,7 +89,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
         /// <returns>Formatted speech-ready string.</returns>
         private static string ListToSpeechReadyString(string parentString, List<string> selectionStrings, ReadPreference readOrder, int maxSize)
         {
-            var result = parentString ?? string.Empty;
+            var result = $"{parentString} " ?? string.Empty;
 
             List<string> itemDetails = new List<string>();
 
