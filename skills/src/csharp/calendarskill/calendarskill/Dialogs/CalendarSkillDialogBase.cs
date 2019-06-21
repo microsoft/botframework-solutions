@@ -80,7 +80,7 @@ namespace CalendarSkill.Dialogs
             // find contact dialog is not a start dialog, should not run luis part.
             if (state.LuisResult != null && Id != nameof(FindContactDialog))
             {
-                await DigestCalendarLuisResult(dc, state.LuisResult, true);
+                await DigestCalendarLuisResult(dc, state.LuisResult, state.GeneralLuisResult, true);
             }
 
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
@@ -91,7 +91,7 @@ namespace CalendarSkill.Dialogs
             var state = await Accessor.GetAsync(dc.Context);
             if (state.LuisResult != null)
             {
-                await DigestCalendarLuisResult(dc, state.LuisResult, false);
+                await DigestCalendarLuisResult(dc, state.LuisResult, state.GeneralLuisResult, false);
             }
 
             return await base.OnContinueDialogAsync(dc, cancellationToken);
@@ -547,7 +547,7 @@ namespace CalendarSkill.Dialogs
             return timex.Contains("T");
         }
 
-        protected async Task DigestCalendarLuisResult(DialogContext dc, CalendarLuis luisResult, bool isBeginDialog)
+        protected async Task DigestCalendarLuisResult(DialogContext dc, CalendarLuis luisResult, General generalLuisResult, bool isBeginDialog)
         {
             try
             {
@@ -556,6 +556,19 @@ namespace CalendarSkill.Dialogs
                 var intent = luisResult.TopIntent().intent;
 
                 var entity = luisResult.Entities;
+
+                if (generalLuisResult.Entities.ordinal != null)
+                {
+                    var value = generalLuisResult.Entities.ordinal[0];
+                    var num = int.Parse(value.ToString());
+                    state.UserSelectIndex = num - 1;
+                }
+                else if (generalLuisResult.Entities.number != null)
+                {
+                    var value = generalLuisResult.Entities.number[0];
+                    var num = int.Parse(value.ToString());
+                    state.UserSelectIndex = num - 1;
+                }
 
                 if (!isBeginDialog)
                 {

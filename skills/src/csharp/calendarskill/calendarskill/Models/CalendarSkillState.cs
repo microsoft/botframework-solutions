@@ -43,7 +43,7 @@ namespace CalendarSkill.Models
             ShowAttendeesIndex = 0;
             ShowEventIndex = 0;
             SummaryEvents = null;
-            ReadOutEvents = new List<EventModel>();
+            FocusEvents = new List<EventModel>();
             Duration = 0;
             MoveTimeSpan = 0;
             AskParameterContent = string.Empty;
@@ -59,6 +59,7 @@ namespace CalendarSkill.Models
             ConfirmedMeeting = new List<EventModel>();
             TotalConflictCount = 0;
             FilterMeetingKeyWord = null;
+            UserSelectIndex = -1;
         }
 
         public User User { get; set; }
@@ -145,7 +146,7 @@ namespace CalendarSkill.Models
 
         public List<EventModel> SummaryEvents { get; set; }
 
-        public List<EventModel> ReadOutEvents { get; set; }
+        public List<EventModel> FocusEvents { get; set; }
 
         public int Duration { get; set; }
 
@@ -182,6 +183,8 @@ namespace CalendarSkill.Models
         public int TotalConflictCount { get; set; }
 
         public string FilterMeetingKeyWord { get; set; }
+
+        public int UserSelectIndex { get; set; }
 
         public TimeZoneInfo GetUserTimeZone()
         {
@@ -228,7 +231,7 @@ namespace CalendarSkill.Models
             ShowAttendeesIndex = 0;
             ShowEventIndex = 0;
             SummaryEvents = null;
-            ReadOutEvents = new List<EventModel>();
+            FocusEvents = new List<EventModel>();
             Duration = 0;
             MoveTimeSpan = 0;
             AskParameterContent = string.Empty;
@@ -243,6 +246,14 @@ namespace CalendarSkill.Models
             IsActionFromSummary = false;
             ConfirmedMeeting = new List<EventModel>();
             TotalConflictCount = 0;
+            FilterMeetingKeyWord = null;
+            UserSelectIndex = -1;
+        }
+
+        public void ClearSummaryList()
+        {
+            SummaryEvents = null;
+            FocusEvents = null;
             FilterMeetingKeyWord = null;
         }
 
@@ -265,6 +276,7 @@ namespace CalendarSkill.Models
             NewStartTime = new List<DateTime>();
             NewEndDate = new List<DateTime>();
             NewEndTime = new List<DateTime>();
+            NewStartDateTime = null;
             Events = new List<EventModel>();
             IsActionFromSummary = false;
         }
