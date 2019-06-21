@@ -1,0 +1,6 @@
+Thank you for raising a pull request. Please ensure you have have completed the following:
+
+- [ ] I have commented my code, particularly in hard-to-understand areas	
+- [ ] I have updated related documentation
+- [ ] I have replicated my changes in the **Virtual Assistant Template** and **Sample** projects
+- [ ] I have replicated my changes in the **Skill Template** and **Sample** projects
