@@ -36,10 +36,6 @@
         "@microsoft/recognizers-text-choice": "^1.1.4"
     },
     "devDependencies": {
-        "@types/documentdb": "1.10.5",
-        "@types/dotenv": "^6.0.0",
-        "@types/node": "^10.10.1",
-        "@types/restify": "^7.2.4",
         "copyfiles": "^2.1.0",
         "mocha": "^6.1.4",
         "mocha-junit-reporter": "^1.22.0",
