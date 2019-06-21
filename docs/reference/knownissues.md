@@ -58,15 +58,20 @@ If you try to use the PowerBI analytics dashboard with your Virtual Assistant / 
 4. Existing data in your Application Insights may cause the error to persist. You can either drop and re-create your Application insights resource updating the appSettings.config file with the new Instrumentation key or follow these [purge instructions](https://docs.microsoft.com/en-us/rest/api/application-insights/components/purge).
 
 
-## Deployment doesn't assign the newly created LUIS subscription key to the created LUIS models.
+## Deployment doesn't assign the newly created LUIS subscription key to the created LUIS models / LUIS Forbidden Error.
 
 Due to a limitation with the LUIS authoring APIs the deployment script isn't able to assign the newly created LUIS subscription-key to the deployed and published LUIS models. Instead, the current workaround is to rely on the Starter Key meaning the Virtual Assistant and Skills work with no manual steps. We are working on changes to the LUIS authoring APIs to enable this to be assigned automatically.
 
-In the meantime, you'll have to manually update the subscription key for each deployed LUIS model, train and publish. Then update the `subscriptionKey` for each LUIS model in `cognitiveModels.json` with the new subscription key. If you exhaust the quota for your LUIS key you will experience errors when invoking LUIS, updating to a subscription key will resolve this.
+This may cause you to also experience `Forbidden` LUIS errors when testing your Bot as you may have exhausted the quota for your starter LUIS key, changing from your starter LUIS subscription key will resolve this.
 
-As shown below, click Assign Resoure and locate the appropriate subscription key and then re-publish. **You'll need to repeat this for each Dispatch and LUIS model used by your project.**
+In the meantime, you'll have to manually perform the following steps:
+
+1. As shown below go through **each LUIS model including Dispatch**, click Assign Resoucre and locate the appropriate subscription key and then re-publish. 
 
 ![Assign Resource](/docs/media/luis-assignresource.png)
+
+2. Update the `subscriptionKey` for each LUIS model (includign Dispatch) in `cognitiveModels.json` with your new subscription key. 
+
 
 ## The introduction card isn't displayed when a locale is missing
 
