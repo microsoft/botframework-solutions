@@ -205,11 +205,10 @@
     }
   ],
   "outputs": {
-    "appInsights": {
+    "ApplicationInsights": {
       "type": "object",
       "value": {
-        "appId": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).AppId]",
-        "instrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]"
+        "InstrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]"
       }
     },
     "storage": {
