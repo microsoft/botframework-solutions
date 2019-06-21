@@ -23,6 +23,8 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
     var finalConfirmation;
     var run = true;
     var packageJSON;
+    var manifestTemplate;
+    const manifestTemplatePath = join(`src`, `manifestTemplate.json`);
     const dialogBotPath = join(`src`, `bots`, `dialogBot.ts`);
     const mainDialogPath = join(`src`, `dialogs`, `mainDialog.ts`);
     const skillDialogBasePath = join(`src`, `dialogs`, `skillDialogBase.ts`);
@@ -32,6 +34,7 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
         `package.json`,
         `.gitignore`,
         `.npmrc`,
+        manifestTemplatePath,
         dialogBotPath,
         mainDialogPath,
         skillDialogBasePath,
@@ -93,6 +96,7 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
             });;
 
             packageJSON = require(join(skillGenerationPath, skillName, `package.json`));
+            manifestTemplate = require(join(skillGenerationPath, skillName, manifestTemplatePath));
         });
 
         after(function() {
@@ -128,6 +132,38 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
                     done();
                 })
             );
+        });
+
+        describe(`and have in the manifestTemplate.json`, function() {
+            it(`an id property with the given name`, function(done) {
+                assert.strictEqual(manifestTemplate.id, skillNameCamelCase);
+                done();
+            });
+
+            it(`a name property with given name`, function(done) {
+                assert.strictEqual(manifestTemplate.name, skillNameCamelCase);
+                done();
+            });
+
+            it(`a description property with given name`, function(done) {
+                assert.strictEqual(manifestTemplate.description, `This is the description of the ${skillNameCamelCase}`);
+                done();
+            });
+
+            it(`an id of an action property with given name`, function(done) {
+                assert.strictEqual(manifestTemplate.actions[0].id, `${skillNameCamelCase}_Sample`);
+                done();
+            });
+
+            it(`a description definition of an action property with given name`, function(done) {
+                assert.strictEqual(manifestTemplate.actions[0].definition.description, `Trigger ${skillNameCamelCase}`);
+                done();
+            });
+
+            it(`an utterance source with given name`, function(done) {
+                assert.strictEqual(manifestTemplate.actions[0].definition.triggers.utteranceSources[0].source[0], `${skillNameCamelCase}#Sample`);
+                done();
+            });
         });
         
         describe(`and have in the package.json`, function() {
