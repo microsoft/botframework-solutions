@@ -1,4 +1,4 @@
-package com.microsoft.bot.builder.solutions.virtualassistant.activities.main.list;
+package com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist;
 
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
+import com.microsoft.bot.builder.solutions.virtualassistant.utils.LogUtils;
 import com.microsoft.bot.builder.solutions.virtualassistant.utils.RawUtils;
 
 import org.json.JSONObject;
@@ -38,6 +40,10 @@ public class ChatViewholder extends RecyclerView.ViewHolder {
     private View view;
     private ActionHandler cardActionHandler;
 
+    public interface OnClickListener {
+        void adaptiveCardClick(int position, String speak);
+    }
+
     public ChatViewholder(@NonNull View itemView) {
         super(itemView);
         view = itemView;
@@ -49,12 +55,12 @@ public class ChatViewholder extends RecyclerView.ViewHolder {
      * bind the layout with the data
      * @param botConnectorActivity data
      */
-    void bind(@NonNull BotConnectorActivity botConnectorActivity, AppCompatActivity parentActivity) {
+    void bind(@NonNull BotConnectorActivity botConnectorActivity, AppCompatActivity parentActivity, @NonNull OnClickListener onClickListener) {
         textMessage.setText(botConnectorActivity.getText());
 
-        if (botConnectorActivity.getAttachmentLayout() != null){
+        if (botConnectorActivity.getAttachmentLayout() != null && botConnectorActivity.getAttachments().size() > 0){
             if (botConnectorActivity.getAttachmentLayout().equals("carousel") || botConnectorActivity.getAttachmentLayout().equals("list")){
-                Gson gson = new Gson();
+                Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
                 adaptiveCardLayout.setVisibility(View.VISIBLE);
                 adaptiveCardLayout.removeAllViews();
@@ -65,8 +71,13 @@ public class ChatViewholder extends RecyclerView.ViewHolder {
 
                     try {
                         JSONObject cardJsonObject = new JSONObject(cardJson);
-                        String cardBodyJson = cardJsonObject.getString("content");
-                        logLargeString("Received Card: " + cardBodyJson);// this JSON can be used with https://adaptivecards.io/designer/
+                        JSONObject cardContent = cardJsonObject.getJSONObject("content");
+                        String cardBodyJson = cardContent.toString();
+                        LogUtils.logLongInfoMessage(LOGTAG, "Received Card: " + cardBodyJson);// this JSON can be used with https://adaptivecards.io/designer/
+
+                        // collect what the payload is when clicked
+                        final String speak = cardContent.getString("speak");
+                        final int position = x;
 
                         ParseResult parseResult = AdaptiveCard.DeserializeFromString(cardBodyJson, AdaptiveCardRenderer.VERSION);
                         AdaptiveCard adaptiveCard = parseResult.GetAdaptiveCard();
@@ -74,6 +85,11 @@ public class ChatViewholder extends RecyclerView.ViewHolder {
                         RenderedAdaptiveCard renderedCard = AdaptiveCardRenderer.getInstance().render(parentActivity, parentActivity.getSupportFragmentManager(), adaptiveCard, cardActionHandler, hostConfig);
 
                         View adaptiveCardRendered = renderedCard.getView();
+                        adaptiveCardRendered.setFocusable(false);
+                        adaptiveCardRendered.setFocusableInTouchMode(false);
+                        adaptiveCardRendered.setOnClickListener(v -> {
+                            onClickListener.adaptiveCardClick(position, speak); // callback to activity
+                        });
 
                         // add the card to its individual container to allow for resizing
                         View adaptiveCardView = LayoutInflater.from(parentActivity).inflate(R.layout.item_adaptive_card, adaptiveCardLayout, false);
@@ -83,7 +99,7 @@ public class ChatViewholder extends RecyclerView.ViewHolder {
                         // add the cards to the existing layout to make them visible
                         adaptiveCardLayout.addView(itemAdaptiveCard);
 
-                        Log.d("ActionHandler", "renderedAdaptiveCard warnings: "+renderedCard.getWarnings().size() + " " + renderedCard.getWarnings().toString());
+                        Log.d(LOGTAG, "renderedAdaptiveCard warnings: "+renderedCard.getWarnings().size() + " " + renderedCard.getWarnings().toString());
                     }
                     catch (Exception ex) {
                         Log.e(LOGTAG,"Error in json: " + ex.getMessage());
@@ -92,15 +108,6 @@ public class ChatViewholder extends RecyclerView.ViewHolder {
             }
         } else {
             adaptiveCardLayout.setVisibility(View.GONE);
-        }
-    }
-
-    public void logLargeString(String str) {
-        if(str.length() > 3000) {
-            Log.i(LOGTAG, str.substring(0, 3000));
-            logLargeString(str.substring(3000));
-        } else {
-            Log.i(LOGTAG, str); // continuation
         }
     }
 }

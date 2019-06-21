@@ -1,4 +1,4 @@
-package com.microsoft.bot.builder.solutions.virtualassistant.activities.main.list;
+package com.microsoft.bot.builder.solutions.virtualassistant.activities.main.actionslist;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
