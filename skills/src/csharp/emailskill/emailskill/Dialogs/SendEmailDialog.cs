@@ -40,7 +40,7 @@ namespace EmailSkill.Dialogs
                 GetAuthToken,
                 AfterGetAuthToken,
                 CollectRecipient,
-                ByPassOptionalField,
+                //ByPassOptionalField,
                 CollectSubject,
                 CollectText,
                 ConfirmBeforeSending,
@@ -85,47 +85,6 @@ namespace EmailSkill.Dialogs
             InitialDialogId = Actions.Send;
         }
 
-        public async Task<DialogTurnResult> ByPassOptionalField(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var skillOptions = (EmailSkillDialogOptions)sc.Options;
-
-                if (!skillOptions.SubFlowMode)
-                {
-                    if ((state.FindContactInfor.Contacts != null) && (state.FindContactInfor.Contacts.Count > 0))
-                    {
-                        // Bypass logic: Send an email to Michelle saying I will be late today ->  Use “I will be late today” as subject. No need to ask for subject/content
-                        // If information is detected as content, move to subject.
-                        if (string.IsNullOrEmpty(state.Subject))
-                        {
-                            if (!string.IsNullOrEmpty(state.Content))
-                            {
-                                state.Subject = state.Content;
-                                state.Content = EmailCommonStrings.EmptyContent;
-                            }
-                        }
-                        else
-                        {
-                            if (string.IsNullOrEmpty(state.Content))
-                            {
-                                state.Content = EmailCommonStrings.EmptyContent;
-                            }
-                        }
-                    }
-                }
-
-                return await sc.NextAsync();
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
         public async Task<DialogTurnResult> CollectSubject(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -140,6 +99,16 @@ namespace EmailSkill.Dialogs
 
                 if (!string.IsNullOrWhiteSpace(state.Subject))
                 {
+                    return await sc.NextAsync();
+                }
+
+                bool? isSkipByDefault = false;
+                isSkipByDefault = Settings.DefaultValue?.SendEmail?.First(item => item.Name == "EmailSubject")?.IsSkipByDefault;
+                if (isSkipByDefault.GetValueOrDefault())
+                {
+                    var defaultValue = Settings.DefaultValue?.SendEmail?.First(item => item.Name == "EmailSubject")?.DefaultValue;
+                    state.Subject = string.IsNullOrEmpty(defaultValue) ? EmailCommonStrings.EmptySubject : defaultValue;
+
                     return await sc.NextAsync();
                 }
 
@@ -263,6 +232,16 @@ namespace EmailSkill.Dialogs
 
                 if (!string.IsNullOrWhiteSpace(state.Content))
                 {
+                    return await sc.NextAsync();
+                }
+
+                bool? isSkipByDefault = false;
+                isSkipByDefault = Settings.DefaultValue?.SendEmail?.First(item => item.Name == "EmailMessage")?.IsSkipByDefault;
+                if (isSkipByDefault.GetValueOrDefault())
+                {
+                    var defaultValue = Settings.DefaultValue?.SendEmail?.First(item => item.Name == "EmailMessage")?.DefaultValue;
+                    state.Subject = string.IsNullOrEmpty(defaultValue) ? EmailCommonStrings.EmptyContent : defaultValue;
+
                     return await sc.NextAsync();
                 }
 
