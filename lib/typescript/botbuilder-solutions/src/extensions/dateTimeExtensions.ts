@@ -7,14 +7,21 @@ import * as dayjs from 'dayjs';
 import i18next from 'i18next';
 
 export namespace DateTimeExtensions {
+    let currentLocale: string;
+
+    function importLocale(locale: string): void {
+        const localeImport: string = locale === 'zh' ?
+        `../resources/customizeLocale/zh` :
+        `dayjs/locale/${locale}`;
+        import(localeImport);
+    }
 
     export function toSpeechDateString(date: Date, includePrefix: boolean = false): string {
-        const localeImport: string = i18next.language === 'zh' ?
-        `../resources/customizeLocale/zh` :
-        `dayjs/locale/${i18next.language}`;
-
-        import(localeImport);
         const locale: string = i18next.language;
+        if (currentLocale !== locale) {
+            currentLocale = locale;
+            importLocale(locale);
+        }
         const utcDate: Date = new Date();
         utcDate.setHours(date.getHours());
         utcDate.setMinutes(date.getMinutes());
