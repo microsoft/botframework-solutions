@@ -312,6 +312,7 @@ public class SpeechService extends Service {
 
     private void initializeSpeechSdk(boolean haveRecordAudioPermission){
         if (speechSdk != null) {
+            Log.d(TAG_FOREGROUND_SERVICE, "resetting SpeechSDK");
             speechSdk.reset();
         }
         speechSdk = new SpeechSdk();
