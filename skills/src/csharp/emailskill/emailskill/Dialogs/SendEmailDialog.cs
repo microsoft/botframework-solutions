@@ -40,7 +40,6 @@ namespace EmailSkill.Dialogs
                 GetAuthToken,
                 AfterGetAuthToken,
                 CollectRecipient,
-                //ByPassOptionalField,
                 CollectSubject,
                 CollectText,
                 ConfirmBeforeSending,
