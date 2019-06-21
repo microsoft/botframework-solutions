@@ -10,10 +10,14 @@ export namespace DateTimeExtensions {
     let currentLocale: string;
 
     function importLocale(locale: string): void {
-        const localeImport: string = locale === 'zh' ?
-        `../resources/customizeLocale/zh` :
-        `dayjs/locale/${locale}`;
-        import(localeImport);
+        try {
+            const localeImport: string = locale === 'zh' ?
+            `../resources/customizeLocale/zh` :
+            `dayjs/locale/${locale}`;
+            import(localeImport);
+        } catch (err) {
+            throw new Error(`There was an error during the import of the locale:${locale}, Error:${err}`);
+        }
     }
 
     export function toSpeechDateString(date: Date, includePrefix: boolean = false): string {
