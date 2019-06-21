@@ -20,6 +20,14 @@
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/suggestedactions"
+            android:background="@color/color_card_background"/>
+
+        <!-- Suggested Actions -->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/suggestedactions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_above="@+id/container_buttons"
             android:background="@color/color_card_background"/>
 
