@@ -113,6 +113,7 @@ if ($parametersFile) {
 		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`""
 
 	if ($validation) {
+		$validation_orig_json = $validation
 		$validation = $validation | ConvertFrom-Json
 	
 		if (-not $validation.error) {
@@ -126,7 +127,7 @@ if ($parametersFile) {
 		}
 		else {
 			Write-Host "! Template is not valid with provided parameters." -ForegroundColor DarkRed
-			Write-Host "! Error: $($validation.error.message)"  -ForegroundColor DarkRed
+			Write-Host "! Error: $($validation_orig_json)"  -ForegroundColor DarkRed
 			Write-Host "+ To delete this resource group, run 'az group delete -g $($resourceGroup) --no-wait'" -ForegroundColor Magenta
 			Break
 		}
@@ -140,6 +141,7 @@ else {
 		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`""
 
 	if ($validation) {
+		$validation_orig_json = $validation
 		$validation = $validation | ConvertFrom-Json
 
 		if (-not $validation.error) {
@@ -152,7 +154,7 @@ else {
 		}
 		else {
 			Write-Host "! Template is not valid with provided parameters." -ForegroundColor DarkRed
-			Write-Host "! Error: $($validation.error.message)" -ForegroundColor DarkRed
+			Write-Host "! Error: $($validation_orig_json)" -ForegroundColor DarkRed
 			Write-Host "+ To delete this resource group, run 'az group delete -g $($resourceGroup) --no-wait'" -ForegroundColor Magenta
 			Break
 		}
