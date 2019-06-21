@@ -24,7 +24,6 @@ import android.widget.Toast;
 
 import com.microsoft.bot.builder.solutions.virtualassistant.ISpeechService;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
-import com.microsoft.bot.builder.solutions.virtualassistant.service.ServiceBinder;
 
 /**
  * This base class provides functionality that is reusable in Activities of this app
