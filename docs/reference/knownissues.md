@@ -13,6 +13,10 @@ It's key to ensure that under Domains and permissions in the Manifest Editor tha
 
 >You cannot click the link in the Channel Page of the Bot Framework to start a conversation with your Bot through Teams.
 
+## WebChat doesn't work with your Virtual Assistant / Skills
+
+Update your `Bot.Builder.Skills` and `Bot.Builder.Solutions` to the latest versions (4.4.41 or higher) along with the Bot Framework SDK to 4.4.5 or higher. Then apply the change in the item below.
+
 ## When invoking a Skill you may experience the initial message being sent twice
 
 We made a change to the behaviour when invoking Skills which removed the need for an additional `SkillBegin` event. This change enabled simplification of the SkillDialog logic which the latest Virtual Assistant template has incorporated. However existing assistants created using an earlier version of the template who have updated to the latest `Bot.Builder.Skills/Bot.Builder.Solutions` packages may experience a situation, whereby, when invoking a Skill the initial message is sent twice. 
