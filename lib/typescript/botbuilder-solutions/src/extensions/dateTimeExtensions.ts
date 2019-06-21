@@ -4,18 +4,16 @@
  */
 
 import * as dayjs from 'dayjs';
-// tslint:disable
-import 'dayjs/locale/de';
-import 'dayjs/locale/es';
-import 'dayjs/locale/it';
-import 'dayjs/locale/fr';
-import '../resources/customizeLocale/zh';
 import i18next from 'i18next';
-// tslint:enable
 
 export namespace DateTimeExtensions {
 
     export function toSpeechDateString(date: Date, includePrefix: boolean = false): string {
+        const localeImport: string = i18next.language === 'zh' ?
+        `../resources/customizeLocale/zh` :
+        `dayjs/locale/${i18next.language}`;
+
+        import(localeImport);
         const locale: string = i18next.language;
         const utcDate: Date = new Date();
         utcDate.setHours(date.getHours());
