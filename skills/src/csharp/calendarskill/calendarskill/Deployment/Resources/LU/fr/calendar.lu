@@ -15,7 +15,7 @@
 - accepter le rendez-vous {FromDate=le 18 janvier} dans la {MeetingRoom=salle de réunion du palais}.
 - accepter l'événement d'{FromDate=aujourd'hui} à {FromTime=15h}.
 - accepter l'événement envoyé par yolanda wong.
-- accepter l'événement le {FromDate=18 février} à {Location=pékin}.
+- accepter l'événement le {FromDate=18 février} à {Location=Beijing}.
 - accepter l'événement pour {FromTime=ce soir}.
 - accepter l'événement.
 - accepter ma réunion à {FromTime=19h} {FromDate=aujourd'hui}.
@@ -31,10 +31,12 @@
 
 
 ## ChangeCalendarEntry
+- avancer de 2 heures ma réunion de {MoveEarlierTimeSpan={FromTime=douze heures} pm} .
 - avancer de {MoveEarlierTimeSpan=2h} mon rendez-vous de {FromTime=4h}.
 - avancer de {MoveEarlierTimeSpan=trente minutes} mon rendez-vous de {FromTime=douze heures} .
 - cette réunion devrait être changée pour {ToDate=demain}.
 - changement de rendez-vous.
+- changement de réunion de 14h-{FromTime={FromTime=15h}} à {ToTime=16h}-{ToTime=17h} {ToDate=aujourd'hui}.
 - changement de réunion de {FromTime=2}-{FromTime=15h} à {ToTime=16h}-{FromTime=17h} {ToDate=aujourd'hui}.
 - changement {Subject=rasage} {ToDate=demain} {ToTime=8h30}.
 - changer à {FromTime=16h} {Subject=rendez-vous déjeuner}.
@@ -44,6 +46,7 @@
 - changer la réunion d'{FromDate=aujourd'hui} de {FromTime=18h} à {ToDate=demain} {ToTime=21h}.
 - changer la réunion d'{FromDate=aujourd'hui} de {FromTime=18h} à {ToDate=demain} {ToTime=9h}.
 - changer la réunion de {FromTime=10 h} pour commencer {MoveLaterTimeSpan=20 minutes} plus tard.
+- changer la réunion de {FromTime=12 h} pour commencer {MoveEarlierTimeSpan={MoveLaterTimeSpan=10 minutes}} plus tard.
 - changer la {Subject=réunion d'équipe} de {FromDate=jeudi}
 - changer le {Subject=programme de développement pour le déjeuner} {FromDate=demain}.
 - changer le {Subject=récital} pour commencer {MoveEarlierTimeSpan=une demi-heure plus tôt}.
@@ -58,31 +61,40 @@
 - changer l'{SlotAttribute=emplacement} de mon rendez-vous de {ToTime=23 h} à {Location=cal anderson park}.
 - changer l'{SlotAttribute=emplacement} de mon {Subject=rendez-vous de chant}
 - changer l'{SlotAttribute=heure} à {ToTime=11h30}.
+- changer {SlotAttribute=l'heure de fin} de ma réunion de 3 heures à {ToTime={FromTime=15h30}}.
 - changer l'{SlotAttribute=heure}.
 - changer ma {OrderReference=prochaine} réunion.
 - changer ma réunion de {FromTime=nuit} à {ToDate=demain}.
 - changer mes {Subject=vacances} se terminant du {FromDate=vendredi} au {ToDate=lundi}.
 - changer mon emploi du temps.
 - changer mon événement {FromTime=19h} à {ToTime=18h}.
+- changer mon événement de 15h à {ToTime={FromTime=16h}}.
+- changer mon événement de 18h à {ToTime={FromTime=19h}}.
 - changer mon rendez-vous de {FromTime=19h30} à {ToTime=20 h}.
 - changer mon rendez-vous de {FromTime=8h} {FromTime=à 9h} pour {ToTime=11h} à {ToTime=12h}.
+- changer mon rendez-vous de {ToTime=9h30} à {FromTime={FromTime=10h30}} en 9h30 à {ToTime=17h00}.
 - changer mon rendez-vous de {FromTime=dix heures}.
 - changer {Subject=mon rendez-vous dentiste} de {FromTime=3:30} à {ToTime=4}.
 - changer mon {Subject=rendez-vous dentiste}.
 - changer {Subject=rendez-vous dentiste}.
+- changer {Subject=réunion de marketing} de {ToDate={FromDate=chaque mardi}} à chaque mercredi.
 - changez-le à {ToTime=17h}.
+- déplacer la réunion de 15h à {ToTime={FromTime=16h}}.
+- déplacer la {Subject=réunion de planification} de fête du {FromDate={FromTime=samedi}} au {ToDate=vendredi} à {ToTime=13h}.
 - déplacer le rendez-vous de {FromTime=21h}-{FromTime=22h} à {ToTime=20h}-{ToTime=21h} {ToDate=aujourd'hui}.
 - déplacer le {Subject=rendez-vous pour les chaussures} au {ToDate=mardi} à {ToTime=13 h}.
 - déplacer ma {OrderReference=prochaine} réunion de {MoveEarlierTimeSpan=10 minutes}.
 - déplacer ma {OrderReference=prochaine} réunion de {MoveEarlierTimeSpan=30 minutes}.
 - déplacer ma {OrderReference=prochaine} réunion de {MoveLaterTimeSpan=trente minutes}.
 - déplacer ma {OrderReference=prochaine} réunion.
+- déplacer ma réunion à 18h à partir de {FromTime={ToTime=19h}}.
 - déplacer ma réunion de {FromTime=12h} à {ToTime=2h}.
 - déplacer ma réunion de {FromTime=21h} à {ToTime=20h}.
 - déplacer ma réunion de {FromTime=22h} à {ToTime=21h}.
 - déplacer ma réunion de retour d'{MoveLaterTimeSpan=une heure}.
 - déplacer ma {Subject=réunion de texte}.
 - déplacer ma réunion d'{MoveEarlierTimeSpan=une demi-heure}.
+- déplacer mes {ToTime={FromTime=16 h}} à 17 h {ToDate=aujourd'hui}.
 - déplacer mon {Subject=rendez-vous chez le médecin} de {FromTime=10h10} à {ToTime=10}.
 - déplacer mon rendez-vous de {FromTime=13h} de {MoveEarlierTimeSpan=30 minutes}.
 - déplacer mon {Subject=rendez-vous médecin} de {ToTime=9 heures} à {ToTime=10 heures}.
@@ -91,6 +103,7 @@
 - faire commencer la {OrderReference=prochaine} réunion {MoveLaterTimeSpan=1 heure} plus tard.
 - faire commencer la réunion {MoveLaterTimeSpan=1 heure} plus tard.
 - faire commencer la réunion {MoveEarlierTimeSpan=40 minutes} plus tôt.
+- faire en sorte que la réunion se terminant à {ToTime={FromTime=10 heures}} aille jusqu'à 11 heures.
 - faire en sorte que le rendez-vous se terminant à {FromTime=14 heures} aille jusqu'à {ToTime=16 heures}.
 - laisser la {OrderReference=prochaine} réunion commencer à 10h.
 - laisser la réunion de {FromTime=17 h} commencer à {ToTime=15 h}.
@@ -98,7 +111,9 @@
 - mettre à jour la réunion de {FromTime=8h}-{FromTime=12h} à {ToTime=7h}-{ToTime=11h} {ToDate=aujourd'hui}.
 - mettre à jour le calendrier.
 - mettre à jour {Subject=le déjeuner}.
+- mettre à jour mon calendrier de {FromTime={ToTime=11}} à {ToTime=12h30} {ToDate=aujourd'hui}.
 - mettre à jour mon calendrier de {FromTime=14h} à {ToTime=16h} {ToDate=aujourd'hui}.
+- mettre à jour mon calendrier de 18h à {ToTime={FromTime=19h}}.
 - mettre à jour mon {Subject=calendrier}.
 - mettre à jour mon {OrderReference=prochain} rendez-vous.
 - mettre à jour mon {Subject=rendez-vous camping}.
@@ -169,6 +184,8 @@
 - suis-je libre le {FromDate=lundi} à {FromTime=21 h} ?
 - suis-je libre le {FromDate=samedi} ?
 - suis-je libre {FromDate=mardi} à {FromTime=7h} ?
+- suis-je libre pour la {Subject=randonnée} le {FromTime={FromDate=samedi} à 8h} ?
+- suis-je libre pour les {Subject=boissons} {FromTime={FromDate=lundi} à 17h} ?
 - suis-je libre pour les {Subject=boissons} {FromDate=lundi} à {FromTime=5} ?
 - suis-je occupé {FromDate=ce week-end} ?
 - suis-je occupé le {FromDate=6 février}?
@@ -258,6 +275,7 @@
 - rejoignez la conférence téléphonique.
 - rejoignez la conférence.
 - rejoignez la {OrderReference=prochaine} {Subject=réunion} lync.
+- rejoignez {Subject=la {OrderReference=prochaine} réunion lynk}.
 - rejoignez la {OrderReference=prochaine} réunion sur le lien.
 - rejoignez la réunion {FromTime=maintenant}.
 - rejoindre la conférence.
@@ -292,6 +310,7 @@
 - envoyer un rappel de la réunion de {ToTime=9 h} à tous les participants {Message=15 minutes plus tard}.
 - envoyer un texte aux personnes qui vont à la réunion que {Message=l'emplacement a changé}.
 - fournir le {Message=changement d'heure de la réunion} à tous les participants.
+- informer les gens de {Message=réunion {ToDate=de mardi} qu'il commencera 15-30 min plus tard}.
 - informer tous les participants sur le changement.
 - informer tous les participants.
 - la réunion commencera bientôt rappeler à tous les impliqués.
@@ -324,6 +343,7 @@
 
 
 ## CreateCalendarEntry
+- 15 mars {Subject=dîner} au {Location=réfectoire} à {FromTime={FromDate=18h}}.
 - {Duration=2 heures} de réunion avec la padilla de ladawn à {FromTime=5} le {FromDate=mardi}
 - ajouter aller {Subject=faire du shopping} avec sam meng au calendrier.
 - ajouter appt avec mickey li pour le {Subject=dîner} le {FromDate=5 mars} à {FromTime=17 h} à {Location=dennys}
@@ -341,6 +361,8 @@
 - ajouter du {Subject=travail} au calendrier {FromDate=jeudi} {FromTime=8h30} am.
 - ajouter du {Subject=travail} au calendrier {FromDate=vendredi} de {FromTime=8h} pour {Duration=une heure}.
 - ajouter {Subject=fête de bureau} le {FromDate=8 mars} de {FromTime=18h} à {ToTime=21h}.
+- ajouter {Subject=frisbee ultimate} le {FromTime={FromDate=dimanche} à 14h} pendant {Duration=2 heures}.
+- ajouter {Subject=jour photo} à l'{Location=école} à mon calendrier pour le {FromDate=vendredi 8 novembre de {FromTime=8h}} à {ToTime=9h30}.
 - ajouter la {Subject=carte de crédit de paiement} au calendrier {FromDate=le 20 mai}.
 - ajouter la {Subject=coupe} de cheveux à mon calendrier {DestinationCalendar=google} {FromDate=demain} à {FromTime=2h30}.
 - ajouter la {Subject=danse} {FromDate=mardi} à {FromTime=quatre heures}.
@@ -360,6 +382,7 @@
 - ajouter {Subject=rendez-vous dentiste} à mon calendrier {FromTime=à 3:30} pour le {FromDate=8 mai}.
 - ajouter {Subject=rendez-vous dentiste} à mon calendrier {FromDate=demain} de {FromTime=3} à {ToTime=4h30}.
 - ajouter {Subject=rendez-vous dentiste} le {FromDate=mardi juin} à la {Location=1ère clinique}.
+- ajouter {Subject=rendez-vous médecins} le {FromDate=13 mars à {FromTime=14h}} à la clinique {Location=tricare virginia beach}.
 - ajouter {Subject=réunion de groupe} {FromDate=lundi prochain} à {FromTime=11h} pour {Duration=une heure}.
 - ajouter {Subject=réunion d'équipe} à mon calendrier à {FromTime=22h} avec xiaoming wang.
 - ajouter un {Subject=concert solo} à {Location=lincombe hall} le {FromDate=7 mars} à {FromTime=20h}.
@@ -368,6 +391,7 @@
 - ajouter une {Subject=chorégraphie} à mon calendrier {DestinationCalendar=familial}.
 - ajouter une rencontre avec herman à mon calendrier.
 - calendrier {DestinationCalendar=personnel} {FromDate=le 5/1/2013} {Subject=rencontrer maman pour yard sale}.
+- créer calendrier: {FromTime={FromDate=demain} matin} de {FromTime=9h} à {ToTime=11h} en {MeetingRoom=salle 1103} {Subject=pour réunion interne}.
 - créer un événement avec eden roth à {FromTime=16h} {FromDate=aujourd'hui} pour {Duration=30 minutes}.
 - créer un rendez-vous calendrier {FromTime=à 3:30} {FromDate=demain} pour {Duration=une demi-heure}.
 - créer un rendez-vous du {FromDate=mardi} au {ToDate=mercredi}.
@@ -383,7 +407,9 @@
 - fixer un {Subject=rendez-vous thérapeutique} à {FromTime=8 heures}.
 - le {FromDate=samedi} à {FromTime=19h30}.
 - me faire un événement de calendrier.
+- me prendre un rendez-vous {FromTime={FromDate=demain} à 14h31}.
 - me prendre un {Subject=rendez-vous dentiste} {FromDate=mercredi} à {FromTime=2h45}.
+- me prendre un rendez-vous pour {FromDate={FromTime=10h40} lundi prochain}.
 - me prendre un rendez-vous pour {FromDate=jeudi de la semaine prochaine} .
 - me prendre un rendez-vous pour le {FromDate=week-end prochain}.
 - me prendre un rendez-vous sur le calendrier.
@@ -414,7 +440,6 @@
 - mettre le {Subject=travail} sur mon calendrier {FromDate=demain} de {FromTime=8h30} à {ToTime=5h30}.
 - mettre les {Subject=capitaines} dans mon calendrier pour {FromDate=samedi} {FromTime=soir}.
 - mettre {Subject=rendez-vous cheveux} sur le calendrier.
-- mettre {Subject=rendez-vous chienne} {FromDate=demain} {FromTime=matin}.
 - mettre {Subject=rendez-vous dentaire} sur mon calendrier {FromDate=samedi 22 mars} à {FromTime=12h}.
 - mettre {Subject=rendez-vous dentiste} dans mon calendrier {FromDate=mardi} {FromTime=14h45}.
 - mettre {Subject=rendez-vous dentiste} dans mon calendrier pour {FromDate=demain} à {FromTime=13h}.
@@ -433,9 +458,11 @@
 - nouvel élément de calendrier.
 - nouvel événement de calendrier.
 - nouvelle entrée de calendrier.
+- organiser une réunion le {FromDate={FromTime=3} novembre} de 15-{ToTime=16h}.
 - placer un rendez-vous dans mon calendrier.
 - planifier le {Subject=déjeuner} avec madden le {FromDate=mardi}.
 - planifier le {Subject=déjeuner} avec madden pour {FromTime=11h30} am le {FromDate=mercredi}.
+- planifier un rendez-vous à {FromTime=8 h {FromDate=demain}}.
 - planifier un rendez-vous avec madden {FromDate=demain} à {FromTime=17 heures}.
 - planifier un {Subject=rendez-vous médecins} avec madden le {FromDate=12 mars} à {FromTime=16h}.
 - planifier un rendez-vous pour {FromTime=une heure} {FromDate=aujourd'hui}.
@@ -450,6 +477,7 @@
 - planifiez des {Subject=vacances} pour le {FromDate=31 juillet}.
 - planifiez {Subject=dîner} avec madden à {FromTime=18h} le {FromDate=4 juin} à {Location=buffalo wild wings}.
 - planifiez {Subject=dîner} avec madden {FromDate=tous les vendredis} à {FromTime=17 heures}.
+- planifiez {Subject=dîner} {FromTime=le {FromDate=8} à 18h30}.
 - planifiez {Subject=examen mécanique} à {FromTime=12 h} le {FromDate=vendredi}.
 - planifiez la {Subject=remise de diplôme de miranda} de {FromTime=11h} à {ToTime=15h} le {FromDate=28 mai}.
 - planifiez la {Subject=remise des diplômes} de wanda pour {FromDate=samedi} à {FromTime=11 heures}.
@@ -463,6 +491,7 @@
 - planifiez un rendez-vous avec madden à {FromTime=22 h}.
 - planifiez un rendez-vous avec madden.
 - planifiez un rendez-vous avec maman.
+- planifiez un {Subject=rendez-vous dentaire} {FromTime={FromDate=demain} après-midi à 17h30}.
 - planifiez un {Subject=rendez-vous dentiste} pour {FromDate=demain} {FromTime=soir à 19h}.
 - planifiez un rendez-vous du {FromDate=18 juin} au {ToDate=20 juin}.
 - planifiez un {Subject=rendez-vous du bureau du médecin} pour le {FromDate=12 mars}.
@@ -476,10 +505,12 @@
 - planifiez un rendez-vous pour {Subject=toiletter mes chiens} à {Location=petco} {FromDate=vendredi} à {FromTime=18 heures}.
 - planifiez un rendez-vous sur mon calendrier.
 - planifiez un rendez-vous.
+- planifiez {Subject=un voyage shopping} avec shawntia le {FromTime={FromDate=vendredi} à 17 heures}.
 - planifiez une {Subject=course} au {Location=lac} avec madden.
 - planifiez une réunion avec ryan de {FromTime=15h} à {ToTime=16h} le {FromDate=25 octobre}.
 - planifiez une {Subject=réunion de petit déjeuner} à {FromTime=8h} {FromDate=demain}.
 - planifiez une réunion {FromDate=demain}.
+- planifiez une réunion pour {FromTime={FromDate=demain} à 17 h}.
 - planifiez une {Subject=séance} d'entraînement avec madden à mon calendrier.
 - prendre rendez-vous avec tom roth.
 - prendre rendez-vous le {FromDate=lundi}.
@@ -490,6 +521,7 @@
 - prendre rendez-vous pour moi.
 - prendre rendez-vous pour {Subject=voir le médecin culver} le {FromDate=22 août 2013} à {FromTime=13h}.
 - prendre rendez-vous sur le calendrier {DestinationCalendar=personnel}.
+- prévoir un {Subject=déjeuner d'affaires pour mon {Location=département} à chang} {FromDate=mercredi} à {FromTime=11h30}.
 - programmer le {Subject=camping} du {FromDate=vendredi} au {ToDate=dimanche}.
 - programmer le {Subject=ramassage au pressing} à {FromTime=15h30} {FromDate=aujourd'hui}.
 - programmer l'{Subject=exposition d'art} sur le calendrier pour {FromTime=midi} le {FromDate=6 mars}.
@@ -506,6 +538,7 @@
 - programmer {Subject=un match de foot} pour {FromDate=vendredi prochain}.
 - programmer un rendez-vous avec madden {FromDate=aujourd'hui} à {FromTime=2 heures}.
 - programmer un rendez-vous avec madden pour {FromDate=mercredi 24} à {FromTime=9h30} am.
+- programmer un {Subject=rendez-vous chiropracteur} le {FromTime={FromDate=7 juillet} à 4 heures}.
 - programmer {Subject=un rendez-vous de médecins} à {FromTime=15h30}.
 - programmer un rendez-vous pour {Subject=appeler meredith} à {FromTime=12}.
 - programmer un rendez-vous pour ma mère.
@@ -515,6 +548,7 @@
 - programmer un rendez-vous pour {FromDate=samedi} à {FromTime=13h30} pour mesurer la {Subject=maison}.
 - programmer un rendez-vous pour {Subject=voir cj} {FromDate=jeudi}.
 - programmer un {Subject=rendez-vous vétérinaire} à {FromTime=9h} {FromDate=samedi}.
+- programmer une réunion pour {FromDate=ce {FromTime=vendredi} 11h}.
 - rencontre avec morrison sun à {FromTime=14h} {FromDate=samedi}.
 - rencontre avec morrison yang à {FromTime=4h}.
 - rencontrer a.j. lee {FromDate=samedi} à {FromTime=15 heures}.
@@ -770,6 +804,7 @@
 - quand est ma {OrderReference=prochaine} réunion avec mme lawrence ?
 - quand est ma rencontre avec kenneth ?
 - quand est ma rencontre avec martha et deborah ?
+- quand est mon {Subject={PositionReference=cinquième} coup de pied-off} ?
 - quand est {Subject=mon déjeuner pique-nique} {FromDate=aujourd'hui} ?
 - quand est mon {Subject=lever quotidien} avec ethan ?
 - quand est mon {Subject=physio} ?
@@ -783,7 +818,6 @@
 - quand est mon {OrderReference=prochain} {Subject=voyage} à kew {Location=garde} ?
 - quand est mon rendez-vous avec willie ?
 - quand est-ce que je {Subject=quitte} {Location=l'école} ?
-- quand est-ce que {Subject=je regarde l'angleterre} ?
 - quel jour est prévu {Subject=legoland} ?
 - quel {FromDate=week-end} je fais du {Subject=shopping} avec sarah ?
 
@@ -862,6 +896,7 @@
 - est-ce que johnny sera à la {Subject=réunion de bureau} {FromDate=aujourd'hui} ?
 - est-ce que mark s'est inscrit à la réunion de {FromDate=demain} ?
 - est-ce que martin est venu à la réunion d'{FromDate=aujourd'hui} ?
+- est-ce que nancy sera à la {Subject=réunion du {FromTime=matin} briefing} ?
 - est-ce que nicholas assistera à la {Subject=réunion de la direction} ?
 - est-ce que paul ira à la réunion {FromDate=vendredi} ?
 - est-ce que roy sera à notre {Subject=réunion d'équipe hebdomadaire} ?

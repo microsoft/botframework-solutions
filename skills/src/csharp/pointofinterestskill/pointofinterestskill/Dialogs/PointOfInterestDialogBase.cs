@@ -433,7 +433,7 @@ namespace PointOfInterestSkill.Dialogs
                         var promptReplacements = new StringDictionary
                         {
                             { "Name", pointOfInterestList[i].Name },
-                            { "Address", pointOfInterestList[i].Address },
+                            { "Address", pointOfInterestList[i].AddressForSpeak },
                         };
                         pointOfInterestList[i].Speak = ResponseManager.GetResponse(promptTemplate, promptReplacements).Text;
                     }

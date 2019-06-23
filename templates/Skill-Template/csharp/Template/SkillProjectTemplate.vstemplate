@@ -120,6 +120,9 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$Luis.cs">SkillLuis.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="GeneralLuis.cs">GeneralLuis.cs</ProjectItem>
       </Folder>
+      <Folder Name="Skill\Pipeline" TargetFolderName="Pipeline">
+        <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.yml">SkillTemplate.yml</ProjectItem>
+      </Folder>
       <ProjectItem ReplaceParameters="true" TargetFileName=".filenesting.json">Skill\.filenesting.json</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.json">Skill\appsettings.json</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="cognitivemodels.json">Skill\cognitivemodels.json</ProjectItem>

@@ -1,0 +1,13 @@
+{
+    "skills": [
+        {
+            "id": "testSkill"
+        },
+        {
+            "id": "testDispatch"
+        },
+        {
+            "id": "connectableSkill"
+        }
+    ]
+}
