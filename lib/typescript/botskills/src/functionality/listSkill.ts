@@ -22,7 +22,6 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
                 return false;
             }
             // Take VA Skills configurations
-            //tslint:disable-next-line:non-literal-require
             const assistantSkillsFile: ISkillFile = JSON.parse(readFileSync(configuration.skillsFile, 'UTF8'));
             if (!assistantSkillsFile.skills) {
                 this.logger.message('There are no Skills connected to the assistant.');

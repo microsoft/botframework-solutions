@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { writeFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import { ILogger } from '../logger';
 import {
     IAppSettingOauthConnection,
@@ -148,8 +148,7 @@ export class AuthenticationUtils {
 
                 // update appsettings.json
                 logger.message('Updating appsettings.json ...');
-                // tslint:disable-next-line:non-literal-require
-                const appSettings: IAppSettingOauthConnection = require(configuration.appSettingsFile);
+                const appSettings: IAppSettingOauthConnection = JSON.parse(readFileSync(configuration.appSettingsFile, 'UTF8'));
 
                 // check for and remove existing aad connections
                 if (appSettings.oauthConnections) {
