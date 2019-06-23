@@ -197,7 +197,6 @@ export class ConnectSkill {
             // End of manifest schema validation
 
             // Take VA Skills configurations
-            //tslint:disable-next-line: no-var-requires non-literal-require
             const assistantSkillsFile: ISkillFile = JSON.parse(readFileSync(configuration.skillsFile, 'UTF8'));
             const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills || [];
 
