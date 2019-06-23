@@ -49,7 +49,6 @@
 | [How-To: Customize Azure Resource Deployment](/docs/howto/assistant/customizedeployment.md) | How to customise the provided ARM template for different deployment scenarios. |
 | [How-To: Update your deployment scripts](/docs/howto/assistant/updatedeploymentscripts.md) | How to update the deployment scripts for Virtal Assistant and Skill projects that you have already created. |
 
-
 ## Skills
 
 | Name | Description |
