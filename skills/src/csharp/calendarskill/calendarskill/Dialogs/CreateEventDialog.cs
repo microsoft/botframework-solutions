@@ -251,6 +251,10 @@ namespace CalendarSkill.Dialogs
                         }
                     }
                 }
+                else if (state.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault())
+                {
+                    state.Content = CalendarCommonStrings.DefaultContent;
+                }
 
                 if (!state.StartDate.Any())
                 {
@@ -363,6 +367,10 @@ namespace CalendarSkill.Dialogs
                     {
                         state.Location = userInput;
                     }
+                }
+                else if (state.CreateHasDetail && isLocationSkipByDefault.GetValueOrDefault())
+                {
+                    state.Location = CalendarCommonStrings.DefaultLocation;
                 }
 
                 var source = state.EventSource;
