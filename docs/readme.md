@@ -34,7 +34,6 @@
 |2. Customize your Virtual Assistant <br/><br/><p align="center">[![Customize your Virtual Assistant with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeassistant.md) [![Customize your Assistant with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/customizeassistant.md)</p>|A tutorial covering common initial assistant personalization steps. (e.g. name, branding, QnA),|
 |3. Adding pre-existing Skills <br/><br/><p align="center">[![C#](./media/csharp_icon.png)](/docs/tutorials/csharp/addingprebuiltskills.md) [![TypeScript](./media/typescript_icon.png)](/docs/tutorials/csharp/addingprebuiltskills.md)</p>|A tutorial introducing how to add one of the provided Skills to your Assistant,|
 |4. Create a new Skill <br/><br/><p align="center">[![Create and deploy a new Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/skill.md) [![Create and deploy a new Skill with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/skill.md)</p>|A tutorial introducting how you can create your own Skill using the Skill template and add this to your Assistant.|
-|5. Adding Speech capabilities to your Virtual Assistant. <br/><br/><p align="center">[![Create and deploy a new Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/speechenablement.md)|A tutorial on how to enable Speech for your Virtual Assistant and creation of a simple application to demonstrate Speech capabilities of your Assistant. |
 
 # How-To
 
@@ -44,6 +43,7 @@
 
 | Name | Description |
 | ---- | ----------- |
+| [Adding Speech capabilities to your Virtual Assistant](/docs/howto/assistant/csharp/speechenablement.md) | A tutorial on how to enable Speech for your Virtual Assistant and creation of a simple application to demonstrate Speech capabilities of your Assistant. |
 | [Parent-Child pattern of Virtual Assistants and Skills](/docs/howto/assistant/parentchildpattern.md) | How the Virtual Assistant template and Skills can enable a Parent-Child pattern enabling you to democratise creation of assistant capabilities throughout your organisation. |
 | [How-To: Enable Linked Accounts](/docs/howto/assistant/linkedaccounts.md) | Enable users to link third party accounts (e.g. Office 365) to your Assistant |
 | How-To: Migrate from the Enterprise Template <br/><br/><p align="center">[![Migrating from the Enterprise Template with C#](./media/csharp_icon.png)](/docs/howto/assistant/csharp/ettovamigration.md)</p> | Guidance on how to move from an Enterprise Template based Bot to the new Template|
