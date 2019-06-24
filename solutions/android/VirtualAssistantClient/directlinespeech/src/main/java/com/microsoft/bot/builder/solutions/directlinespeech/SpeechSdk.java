@@ -1,6 +1,7 @@
 package com.microsoft.bot.builder.solutions.directlinespeech;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -80,7 +81,7 @@ public class SpeechSdk {
         this.localLogDirectory = localLogFileDirectory;
         intializeAppLogFile();
         initializeSpeech(configuration, haveRecordAudioPermission);
-        handler = new Handler();
+        handler = new Handler(Looper.getMainLooper());
     }
 
     private void intializeAppLogFile() {
@@ -307,7 +308,7 @@ public class SpeechSdk {
 
     private void cancelResponseTimeoutTimer(){
         LogInfo("cancelResponseTimeoutTimer");
-        if (timeoutResponseRunnable != null){
+        if (timeoutResponseRunnable != null && handler != null){
             handler.removeCallbacks(timeoutResponseRunnable);
         }
     }
