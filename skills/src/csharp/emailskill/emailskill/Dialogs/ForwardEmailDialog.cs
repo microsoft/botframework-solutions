@@ -107,7 +107,7 @@ namespace EmailSkill.Dialogs
                         { "Subject", state.Subject },
                     };
 
-                    var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
+                    var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? GetDivergedCardName(sc.Context, "ConfirmCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "ConfirmCard_RecipientLessThanFive");
                     var reply = ResponseManager.GetCardResponse(
                         EmailSharedResponses.SentSuccessfully,
                         new Card("EmailWithOutButtonCard", emailCard),

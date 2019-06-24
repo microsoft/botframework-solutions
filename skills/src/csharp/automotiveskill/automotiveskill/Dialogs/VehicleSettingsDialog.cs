@@ -18,7 +18,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
 
@@ -170,12 +172,19 @@ namespace AutomotiveSkill.Dialogs
                             ImageUrl = GetSettingCardImageUri(FallbackSettingImageFileName)
                         };
 
-                        var card = new Card("AutomotiveCard", cardModel);
+                        var card = new Card(GetDivergedCardName(sc.Context, "AutomotiveCard"), cardModel);
 
                         options.Prompt = ResponseManager.GetCardResponse(VehicleSettingsResponses.VehicleSettingsSettingNameSelection, card, tokens: null);
 
                         // Default Text property is clumsy for speech
                         options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options);
+
+                        // Workaround. In teams, prompt will be changed to HeroCard and adaptive card could not be shown. So send them separatly
+                        if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
+                        {
+                            await sc.Context.SendActivityAsync(options.Prompt);
+                            options.Prompt = null;
+                        }
 
                         return await sc.PromptAsync(Actions.SettingNameSelectionPrompt, options);
                     }
@@ -291,12 +300,19 @@ namespace AutomotiveSkill.Dialogs
                             ImageUrl = GetSettingCardImageUri(imageName)
                         };
 
-                        var card = new Card("AutomotiveCard", cardModel);
+                        var card = new Card(GetDivergedCardName(sc.Context, "AutomotiveCard"), cardModel);
 
                         options.Prompt = ResponseManager.GetCardResponse(VehicleSettingsResponses.VehicleSettingsSettingValueSelection, card, promptReplacements);
 
                         // Default Text property is clumsy for speech
                         options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options.Prompt);
+
+                        // Workaround. In teams, prompt will be changed to HeroCard and adaptive card could not be shown. So send them separatly
+                        if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
+                        {
+                            await sc.Context.SendActivityAsync(options.Prompt);
+                            options.Prompt = null;
+                        }
 
                         return await sc.PromptAsync(Actions.SettingValueSelectionPrompt, options);
                     }
@@ -518,6 +534,12 @@ namespace AutomotiveSkill.Dialogs
         /// <returns>A Task.</returns>
         private async Task SendActionToDevice(WaterfallStepContext sc, SettingChange change)
         {
+            // workaround. if connect skill directly to teams, the following reply does not work.
+            if (!(sc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter) && Channel.GetChannelId(sc.Context) == Channels.Msteams)
+            {
+                return;
+            }
+
             var actionEvent = sc.Context.Activity.CreateReply();
             actionEvent.Type = ActivityTypes.Event;
 

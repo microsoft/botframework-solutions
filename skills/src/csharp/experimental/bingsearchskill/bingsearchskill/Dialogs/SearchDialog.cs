@@ -109,7 +109,7 @@ namespace BingSearchSkill.Dialogs
 
                     prompt = ResponseManager.GetCardResponse(
                                 SearchResponses.EntityKnowledge,
-                                new Card("MovieCard", movieData),
+                                new Card(GetDivergedCardName(stepContext.Context, "MovieCard"), movieData),
                                 tokens);
                 }
                 else if (entitiesResult[0].Type == SearchResultModel.EntityType.Person)
@@ -127,7 +127,7 @@ namespace BingSearchSkill.Dialogs
 
                     prompt = ResponseManager.GetCardResponse(
                                 SearchResponses.EntityKnowledge,
-                                new Card("PersonCard", celebrityData),
+                                new Card(GetDivergedCardName(stepContext.Context, "PersonCard"), celebrityData),
                                 tokens);
                 }
                 else

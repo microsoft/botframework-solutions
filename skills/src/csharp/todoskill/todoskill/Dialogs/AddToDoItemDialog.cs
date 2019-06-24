@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
@@ -27,8 +28,9 @@ namespace ToDoSkill.Dialogs
             UserState userState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
-            MicrosoftAppCredentials appCredentials)
-            : base(nameof(AddToDoItemDialog), settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient, appCredentials)
+            MicrosoftAppCredentials appCredentials,
+            IHttpContextAccessor httpContext)
+            : base(nameof(AddToDoItemDialog), settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient, appCredentials, httpContext)
         {
             TelemetryClient = telemetryClient;
 
@@ -117,6 +119,7 @@ namespace ToDoSkill.Dialogs
                     var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
                     state.Tasks = state.AllTasks.GetRange(0, rangeCount);
                     var toDoListCard = ToAdaptiveCardForTaskAddedFlow(
+                        sc.Context,
                         state.Tasks,
                         state.TaskContent,
                         state.AllTasks.Count,

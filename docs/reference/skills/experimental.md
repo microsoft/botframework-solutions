@@ -18,6 +18,10 @@ The [News skill](https://github.com/microsoft/AI/tree/master/skills/src/csharp/e
 
 The Weather skill provides a basic Skill that integrates with [AccuWeather](https://developer.accuweather.com) to demonstrate how a weather experience can be integrated into a Virtual Assistant. Provide an API key from [AccuWeather Getting Started](https://developer.accuweather.com/getting-started) in the appsettings to configure the Skill.
 
+## Bing Search Skill
+
+The [Bing Search Skill](https://github.com/microsoft/botframework-solutions/tree/master/skills/src/csharp/experimental/bingsearchskill/bingsearchskill) provides a simple Skill that integrates with the Bing Cognitive Service to demonstrate how a search experience can be integrated into a Virtual Assistant. Provide [BingSearchKey](https://azure.microsoft.com/en-us/services/cognitive-services/bing-web-search-api/) and [BingAnswerSearchKey](https://labs.cognitive.microsoft.com/en-us/project-answer-search) in the appsettings to configure the Skill.
+
 ## Experimental Skill Deployment
 
 The Experimental Skills require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.

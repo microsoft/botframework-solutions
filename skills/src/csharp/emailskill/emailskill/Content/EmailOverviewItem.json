@@ -40,7 +40,7 @@
                           "type": "TextBlock",
                           "size": "Medium",
                           "weight": "Bolder",
-                          "color": "Dark",
+                          "color": "Default",
                           "text": "{Subject}"
                         }
                       ],
@@ -85,7 +85,7 @@
                       "items": [
                         {
                           "type": "TextBlock",
-                          "color": "Dark",
+                          "color": "Default",
                           "text": "{Sender}"
                         }
                       ],
@@ -97,7 +97,7 @@
                         {
                           "type": "TextBlock",
                           "horizontalAlignment": "Right",
-                          "color": "Dark",
+                          "color": "Default",
                           "text": "{ReceivedDateTime}"
                         }
                       ],
