@@ -44,7 +44,7 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [Parent-Child pattern for more advanced assistants](/docs/howto/assistant/parentchildpattern.md) | How the Virtual Assistant template and Skills can enable a Parent-Child pattern enabling you to democratise creation of assistant capabilities throughout your organisation. |
+| [Parent-Child pattern of Virtual Assistants and Skills](/docs/howto/assistant/parentchildpattern.md) | How the Virtual Assistant template and Skills can enable a Parent-Child pattern enabling you to democratise creation of assistant capabilities throughout your organisation. |
 | [How-To: Enable Linked Accounts](/docs/howto/assistant/linkedaccounts.md) | Enable users to link third party accounts (e.g. Office 365) to your Assistant |
 | How-To: Migrate from the Enterprise Template <br/><br/><p align="center">[![Migrating from the Enterprise Template with C#](./media/csharp_icon.png)](/docs/howto/assistant/csharp/ettovamigration.md)</p> | Guidance on how to move from an Enterprise Template based Bot to the new Template|
 | How-to: Migrate the Virtual Assistant (Beta Release 0.3) solution to the Virtual Assistant Template <br/><br/> <p align="center">[![Migrating from the beta Virtual Assistant solution with C#](./media/csharp_icon.png)](/docs/howto/assistant/csharp/oldvatovamigration.md)</p> |Guidance on how to move from the original Virtual Assistant solution to the new Template |
