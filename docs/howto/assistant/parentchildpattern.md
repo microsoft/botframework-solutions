@@ -1,31 +1,31 @@
-# Parent-Child pattern for more advanced assistants
+# Parent-Child pattern of Virtual Assistants and Skills
 
 ## Overview
 
-As customers progress on the journey of developing conversational experiences either for internal or external use, the ability to split out functionality into discrete conversational components (*domains*) and aggregate these together into one *parent* assistant quickly becomes attractive for a number of reasons:
+As you develop your Virtual Assistant, you will find that the ability to manage individual domains of a conversation (Skills) and aggregate them into a singular *parent* Assistant becomes attractive for a number of reasons:
 
-1. **End user fatigue**: As excitment grows around the potential, new bots appear owned by disparate teams which increase the cognitive load on end users who then have to remember the right Bot to use for a given question and may not even discover the full breadth of bots available.
-2. **Monolithic Architecture**: As new capabilities are added to a Bot they are all housed within one project. This is fine to start but as complexity increases this becomes unsustainable.
-3. **Centralised changes**: Related to number 2, changes to language models, qna and dialogs are typically performed by one central team which quickly becomes a bottleneck across the organisation and generates change-management issues.
+* **End user fatigue**: As customer adoption for this technology grows, new Bots appear owned by disparate teams, increasing the cognitive load on your end users. It becomes up to them to remember the right Bot to use for a given function and they may not discover the full breadth of Bots available.
+* **Monolithic Architecture**: As a Bot increases it's complexity it becomes unsustainable to house them within a single project.
+* **Centralized changes**: On the cognitive-side, changes to language models, QnA knowledge bases, and dialogs are usually performed by a central team. This quickly becomes a bottleneck across an organization and highlights change-management issues over time.
 
-## Parent-Child
+## Parent-Child pattern
 
-Adopting a Parent-Child pattern enables you to address these issues and provide the following benefits:
+Adopting a Parent-Child pattern enables you to address the above issues and provides the following benefits:
 
-- Establish one *front door* assistant experience for your users to use. This assistant experience identifies the skill(s) best suited for a given question and hand-off processing to a seperate conversational component (skill).
-- Enable different teams to *own* their own capabilities packaged up in a conversational component (skill) which is added to the *parent* assistant. These skills can combine any combination of dialogs and QnA.
-- Mix programming languages between your Assistant and Skills, for example a C# Assistant could call a Typescript Skill and vice-versa.
-- Leverage conversational components (skills) from 3rd parties including Microsoft to quickly extend your assistant capabilities.
+* Establish a front-facing Assistant experience that your users grow familiar with. This Assistant identifies the intent best suited for a given utterance and hands off processing to a remote-hosted Skill.
+* Enable different teams to own their own capabilities packaged up in a Skill which is added to the **parent** Assistant.
+* Mix programming languages between your Assistant and Skills, for example a C# Assistant could call a Typescript Skill and vice-versa.
+* Leverage Skills from third parties including Microsoft to quickly extend your Assistant's capabilities.
 
-## An Example
+### Example: Enterprise Assistant
 
-Consider the Enterprise Assistant example shown below, in this scenario an Enterprise establishes their global assistant brand and personality which all end-users interact with across a broad range of Channels (Teams, WebChat, Speech and Mobile Applications.).
+In the Enterprise Assistant example shown below, an enterprise customer establishes their global Assistant's brand and personality that  all end users interact with across a broad range of [Bot Framework Channels](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0).
 
 ![Enterprise Assistant Example](/docs/media/parentchildpattern-enterpriseassistant.png)
 
-The Enterprise Assistant itself provides basic conversational capabilities and QnA and surfaces capabilities from seperate HR and IT Bots align with integrating a Calendar Skill capability.
+On it's own, the Enterprise Assistant provides basic conversational capabilities and QnA responses. It surfaces capabilities from separate HR and IT Bots & integrates a Calendar Skill capability.
 
-## Capabilities required 
+## What's required 
 
 ### Dispatcher
 
