@@ -50,8 +50,7 @@
             const skillManifest: ISkillManifest = configuration.localManifest
             ? this.getLocalManifest(configuration.localManifest)
             : await this.getRemoteManifest(configuration.remoteManifest);
-            //tslint:disable-next-line: no-var-requires non-literal-require
-            const assistantSkillsFile: ISkillFile = require(configuration.skillsFile);
+            const assistantSkillsFile: ISkillFile = JSON.parse(readFileSync(configuration.skillsFile, 'UTF8'));
             const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills || [];
             // Check if the skill is already connected to the assistant
             if (assistantSkills.find((assistantSkill: ISkillManifest) => assistantSkill.id === skillManifest.id)) {
