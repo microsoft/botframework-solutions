@@ -43,6 +43,7 @@ import client.model.BotConnectorActivity;
 import events.ActivityReceived;
 import events.Recognized;
 import events.RecognizedIntermediateResult;
+import events.RequestTimeout;
 
 /**
  * The SpeechService is the connection between bot and activities and widgets
@@ -155,7 +156,14 @@ public class SpeechService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
+        Log.d(TAG_FOREGROUND_SERVICE, "onBind()");
         return binder;
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        Log.d(TAG_FOREGROUND_SERVICE, "onUnbind()");
+        return super.onUnbind(intent);
     }
 
     @Override
@@ -321,52 +329,36 @@ public class SpeechService extends Service {
         speechSdk.initialize(configuration, haveRecordAudioPermission, directory.getPath());
     }
 
-//    /**
-//     * Initialize the speech SDK.
-//     * Note: This can be called repeatedly without negative consequences, i.e. device rotation
-//     * @param haveRecordAudioPermission true or false
-//     */
-//    public void initializeSpeechSdk(boolean haveRecordAudioPermission){
-//        if (speechSdk != null) {
-//            speechSdk.reset();
-//        }
-//        speechSdk = new SpeechSdk();
-//        File directory = this.getFilesDir();
-//        Configuration configuration = configurationManager.getConfiguration();
-//        speechSdk.initialize(configuration, haveRecordAudioPermission, directory.getPath());
-//    }
-
-//    public SpeechSdk getSpeechSdk(){
-//        if (speechSdk == null)
-//            throw new IllegalStateException("initializeSpeechSdk() hasn't been called");
-//        else
-//            return speechSdk;
-//    }
-
+    // EventBus: the previous request timed out
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventRequestTimeout(RequestTimeout event) {
+        broadcastTimeout(event);
+    }
 
     // EventBus: the user spoke and the app recognized intermediate speech
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onRecognizedIntermediateResultEvent(RecognizedIntermediateResult event) {
+    public void onEventRecognizedIntermediateResult(RecognizedIntermediateResult event) {
         updateBotRequestWidget(event.recognized_speech);
     }
 
     // EventBus: the user spoke and the app recognized the speech. Disconnect mic.
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onRecognizedEvent(Recognized event) {
+    public void onEventRecognized(Recognized event) {
         updateBotRequestWidget(event.recognized_speech);
     }
 
     // EventBus: received a response from Bot
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onActivityReceivedEvent(ActivityReceived activityReceived) throws IOException {
+    public void onEventActivityReceived(ActivityReceived activityReceived) throws IOException {
         if (activityReceived.botConnectorActivity != null) {
             BotConnectorActivity botConnectorActivity = activityReceived.botConnectorActivity;
 
-            String amount;
-
             switch (botConnectorActivity.getType()) {
                 case "message":
+                    // update Response widget
                     updateBotResponseWidget(botConnectorActivity.getText());
+                    // update client apps
+                    broadcastActivity(botConnectorActivity);
                     break;
                 case "dialogState":
                     Log.i(TAG_FOREGROUND_SERVICE, "Activity with DialogState");
@@ -392,6 +384,24 @@ public class SpeechService extends Service {
             Log.e(TAG_FOREGROUND_SERVICE, "IOexception " + e.getMessage());
         }
 
+    }
+
+    private void broadcastActivity(BotConnectorActivity botConnectorActivity){
+        final String json = gson.toJson(botConnectorActivity);
+
+        final Intent intent=new Intent();
+        intent.setAction("com.microsoft.broadcast");
+        intent.putExtra("BotConnectorActivity",json);
+        sendBroadcast(intent);
+    }
+
+    private void broadcastTimeout(RequestTimeout event){
+        final String json = gson.toJson(event);
+
+        final Intent intent=new Intent();
+        intent.setAction("com.microsoft.broadcast");
+        intent.putExtra("RequestTimeout",json);
+        sendBroadcast(intent);
     }
 
     private void updateBotResponseWidget(String text){
