@@ -179,6 +179,7 @@
       "properties": {
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
         "siteConfig": {
+          "webSocketsEnabled": true,
           "appSettings": [
             {
               "name": "MicrosoftAppId",

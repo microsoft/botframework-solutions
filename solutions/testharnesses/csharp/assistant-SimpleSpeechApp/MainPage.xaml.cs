@@ -198,9 +198,9 @@ namespace assistant_SimpleSpeechApp
                 // Start sending audio to your speech-enabled bot
                 var listenTask = botConnector.ListenOnceAsync();
 
-                // You can also send activities to your bot as JSON strings -- Microsoft.Bot.Schema can simplify this
-                string speakActivity = @"{""type"":""message"",""text"":""Greeting Message"", ""speak"":""Hello there!""}";
-                await botConnector.SendActivityAsync(speakActivity);
+                //// You can also send activities to your bot as JSON strings -- Microsoft.Bot.Schema can simplify this
+                //string speakActivity = @"{""type"":""message"",""text"":""Greeting Message"", ""speak"":""Hello there!""}";
+                //await botConnector.SendActivityAsync(speakActivity);
 
             }
             catch (Exception ex)

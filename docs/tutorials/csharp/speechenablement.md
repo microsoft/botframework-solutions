@@ -33,7 +33,7 @@ This tutorial covers the steps required to connect the [Direct Line Speech chann
 
 ### Scenario
 
-Create a simple application that enables you to Speak to your newly created Virtual Assistant.
+Create a simple application that enables you to speak to your newly created Virtual Assistant.
 
 ## Create a Microsoft Speech instance
 
@@ -41,7 +41,7 @@ The first step is to create a Microsoft Speech instance to perform the Speech-To
 
 - Create a Microsoft Speech Cognitive Service instance in your Azure Subscription using the [Azure Portal](https://ms.portal.azure.com/#create/Microsoft.CognitiveServicesSpeechServices)
 - At this time the Direct Line Speech Channel is currently [only available](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-connect-directlinespeech?view=azure-bot-service-4.0#known-issues) in `westus2` so we recommend you use this region to reduce latency.
-- Once created, retrieve one of the keys and and store this ready for later in this tutorial. 
+- Once created, retrieve one of the speech **subscription keys** and store this ready for later in this tutorial. 
 
 ## Add the Speech Channel to your Assistant
 
@@ -50,13 +50,13 @@ The first step is to add the Direct-Line Speech Channel to your deployed Assista
 1. Go to the Azure Portal and locate the Web App Bot created for your Assistant which is most easily found by opening the Resource Group.
 2. Click `Channels` on the left-hand navigation and select `Direct Line Speech`
 3. Review the Channel introduction page and when ready, click `Save` to add the Channel to your Assistant.
-4. Retrieve the Channel secret key which will be used by your application to connect to your Bot through the Direct Line Speech Channel and store this ready for later in this tutorial.
+4. Retrieve the **Channel secret** key which will be used by your application to connect to your Bot through the Direct Line Speech Channel and store this ready for later in this tutorial.
 
 ## Integrating with the Speech Channel
 
 For this tutorial we'll take a pre-built C# sample to get you up and running quickly.
 
-1. Locate the example application found in the repo and open in Visual Studio / VSCode.
+1. Locate the [assistant-SimpleSpeechApp](https://github.com/microsoft/botframework-solutions/tree/master/solutions/testharnesses/csharp/assistant-simplespeechapp) example application found in the [botframework-solutions github repo](https://github.com/microsoft/botframework-solutions/) and open in Visual Studio / VSCode.
 2. Open `MainPage.xaml.cs` which you can find in your Solution by expanding `MainPage.xaml` in Solution Explorer.
 3. At the top of the file you will find the following configuration properties. Update these, using the `Channel Secret` and `Speech Subscription key` that you retrieved in the previous steps. The region provided is for Direct Line Speech which should be left as `westus2` at this time.
 
@@ -72,6 +72,8 @@ private const string speechSubscriptionKey = "YourSpeechSubscriptionKey";
 2. Click `Enable Microphone` to ensure the Application has permission to access.
 2. Click `Talk to your Bot` and say `Hello`, your should here a spoken Response from your Virtual Assistant.
 3. You can now interact with your Assistant (including Skills) through Speech. *Note that follow-up questions asked by the Assistant will require you to click the Button each time as this sample application doesn't automatically open the microphone for questions*.
+
+    ![Simple Speech App](/docs/media/simplespeechapp.png)
 
 ## Changing the Voice
 
@@ -93,13 +95,13 @@ Now let's change the default voice (`Jessa24kRUS`) configured within your Virtua
 
 ## Next Steps
 
-This tutorial is based on example applications provided by the Speech SDK which you can refer to for more information:
+This tutorial is based on example applications provided by the Speech SDK which you can refer to for more information along with other programming languages.
 
 - [C# UWP](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstart-virtual-assistant-csharp-uwp)
 - [Java (Windows, macOS, Linux)](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstart-virtual-assistant-java-jre)
 - [Java (Android)](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstart-virtual-assistant-java-android)
 
-In addition, we provide an example [Android based Virtual Assistant Client](/solutions/android/virtualassistantclient) which provides an example client application that interfaces with the Virtual Assistant through the Speech Channel and renders Adaptive Cards.
+In addition, we provide an example [Android based Virtual Assistant Client](/solutions/android/virtualassistantclient/readme.md) which provides an example client application that interfaces with the Virtual Assistant through the Speech Channel and renders Adaptive Cards.
 
 
 
