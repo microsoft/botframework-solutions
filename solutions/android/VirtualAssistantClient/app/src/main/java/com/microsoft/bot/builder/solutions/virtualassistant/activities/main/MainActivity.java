@@ -319,7 +319,7 @@ public class MainActivity extends BaseActivity
 
             // clear out suggested actions
             String json = speechServiceBinder.getSuggestedActions();
-            List<CardAction> list = gson.fromJson(json, new TypeToken<List<Configuration>>(){}.getType());
+            List<CardAction> list = gson.fromJson(json, new TypeToken<List<CardAction>>(){}.getType());
             if (list != null && list.size() > 0){
                 list = null;
                 speechServiceBinder.clearSuggestedActions();
