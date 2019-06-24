@@ -1,8 +1,8 @@
-# Manual Authentication Configuration steps for Productivity Skills in local-mode only
+# Manual Authentication Configuration steps for Productivity Skills (local-mode only or if automatic creation failed)
 
 If you wish to make use of the Calendar, Email and Task Skills standalone to the Virtual Assistant (local mode) you need to configure an Authentication Connection enabling use of your Assistant to authenticate against services such as Office 365 and securely store a token which can be retrieved by your assistant when a user asks a question such as *"What does my day look like today"* to then use against an API like Microsoft Graph.
 
-> These steps are not required if you plan to use the productivity skills as part of the Virtual Assistant, these steps are performed automatically when you add a Skill to your assistant.
+> These steps are not required if you plan to use the productivity skills as part of the Virtual Assistant, these steps are performed automatically when you add a Skill to your assistant. However, in some envrionments automatic creation isn't possible hence you'll be directed to these manual steps.
 
 The [Add Authentication to your bot](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=aadv1%2Ccsharp%2Cbot-oauth) section in the Azure Bot Service documentation covers more detail on how to configure Authentication. However in this scenario, the automated deployment step for the Skill has already created the **Azure AD v2 Application** for your Bot and you instead only need to follow these instructions:
 

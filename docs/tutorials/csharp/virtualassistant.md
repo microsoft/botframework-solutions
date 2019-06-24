@@ -39,7 +39,7 @@ A Virtual Assistant app (in C#) that greets a new user.
 
 1. Download and install Visual Studio (2017 or 2019) for PC or Mac
 1. Download and install the [Virtual Assistant Template](https://marketplace.visualstudio.com/items?itemName=BotBuilder.VirtualAssistantTemplate). *Note that Visual Studio on Mac doesn't support VSIX packages, instead [clone the Skill Template sample from our repository](https://github.com/microsoft/botframework-solutions/tree/master/templates/Skill-Template/csharp/Sample).*
-2. Download and install [.NET Core SDK](https://www.microsoft.com/net/download).  
+2. Ensure you have updated [.NET Core](https://www.microsoft.com/net/download) to the **latest** version.  
 3. Download and install [Node Package manager](https://nodejs.org/en/).
 4. Download and install PowerShell Core version 6 (required for cross platform deployment support):
    * [Download PowerShell Core on Windows](https://aka.ms/getps6-windows)
@@ -100,11 +100,6 @@ The Virtual Assistant requires the following Azure dependencies to run correctly
 You can find more detailed deployment steps including customization in the [Virtual Assistant and Skill Template deployment](/docs/tutorials/assistantandskilldeploymentsteps.md) page.
 
 ## Run your assistant
-
-Currently VA supports both regular channels such as Directline, Facebook etc, as well as the Directline Speech channel which is currently in preview. To enable the Directline Speech channel, please add a separate Nuget feed in your Visual Studio Tools -> Nuget Package Manager -> Package Manager Settings, under 'Package Sources', add a new source:
-https://botbuilder.myget.org/F/experimental/api/v3/index.json
-
-With this source added, you will be able to build and run your VirtualAssistantSample project.
 
 When deployment is complete, you can run your Virtual Assistant debugging through the following steps:
 

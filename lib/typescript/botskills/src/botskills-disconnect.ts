@@ -4,7 +4,7 @@
  */
 
 import * as program from 'commander';
-import { existsSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { extname, isAbsolute, join, resolve } from 'path';
 import { DisconnectSkill } from './functionality';
 import { ConsoleLogger, ILogger} from './logger';
@@ -124,7 +124,7 @@ configuration.lgOutFolder = args.lgOutFolder || join(configuration.outFolder, (a
 if (!args.dispatchName) {
     // try get the dispatch name from the cognitiveModels file
     // tslint:disable-next-line
-    const cognitiveModelsFile: ICognitiveModelFile = require(cognitiveModelsFilePath);
+    const cognitiveModelsFile: ICognitiveModelFile = JSON.parse(readFileSync(cognitiveModelsFilePath, 'UTF8'));
     configuration.dispatchName = cognitiveModelsFile.cognitiveModels[languageCode].dispatchModel.name;
 }
 

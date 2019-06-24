@@ -22,8 +22,7 @@ import {
     InterruptionAction,
     RouterDialog,
     TokenEvents } from 'botbuilder-solutions';
-// tslint:disable-next-line:no-submodule-imports
-import { TokenStatus } from 'botframework-connector/lib/tokenApi/models';
+import { TokenStatus } from 'botframework-connector';
 import {
     Activity,
     ActivityTypes } from 'botframework-schema';

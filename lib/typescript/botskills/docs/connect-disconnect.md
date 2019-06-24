@@ -2,7 +2,7 @@
 
 The `connect` command allows you to connect a Skill, be it local or remote, to your assistant bot. The Skill and assistant can be in different coding languages without problem, this is, you can connect a  Skill coded in C# into an assistant coded in TypeScript, but be sure to specify your assistants coding language using `--cs` or `--ts`.
 
-> **Tip:** It's highly advisable to execute this command from the root folder of your assistant bot, so if you are using the suggested folder structure from the Templates, you may ommit most of the optional arguments, as they default to the expected values from the Templates' folder structure.
+> **Tip:** It's highly advisable to execute this command from the **root folder of your assistant bot**, so if you are using the suggested folder structure from the Templates, you may ommit most of the optional arguments, as they default to the expected values from the Templates' folder structure.
 
 The basic command to connect a Skill to your assistant:
 
