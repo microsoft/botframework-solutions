@@ -16,6 +16,8 @@ namespace CalendarSkill.Services
                 public string Name { get; set; }
 
                 public bool IsSkipByDefault { get; set; }
+
+                public string DefaultValue { get; set; }
             }
         }
     }

@@ -568,6 +568,12 @@ namespace CalendarSkill.Dialogs
                 if (state.CreateHasDetail && isStartDateSkipByDefault.GetValueOrDefault() && state.RecreateState != RecreateEventState.Time)
                 {
                     var datetime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
+                    var defaultValue = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventStartDate")?.DefaultValue;
+                    if (int.TryParse(defaultValue, out var startDateOffset))
+                    {
+                        datetime = datetime.AddDays(startDateOffset);
+                    }
+
                     state.StartDate.Add(datetime);
                 }
                 else
@@ -790,7 +796,15 @@ namespace CalendarSkill.Dialogs
 
                 if (state.Duration <= 0 && state.CreateHasDetail && isDurationSkipByDefault.GetValueOrDefault() && state.RecreateState != RecreateEventState.Time && state.RecreateState != RecreateEventState.Duration)
                 {
-                    state.Duration = 1800;
+                    var defaultValue = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventDuration")?.DefaultValue;
+                    if (int.TryParse(defaultValue, out var durationMinutes))
+                    {
+                        state.Duration = durationMinutes * 60;
+                    }
+                    else
+                    {
+                        state.Duration = 1800;
+                    }
                 }
 
                 if (state.Duration <= 0 && sc.Result != null)
