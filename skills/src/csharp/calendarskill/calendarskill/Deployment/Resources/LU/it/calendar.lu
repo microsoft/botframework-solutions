@@ -38,6 +38,7 @@
 - aggiorna il mio appuntamento
 - aggiorna il mio {Subject=appuntamento campeggio}
 - aggiorna il mio {Subject=calendario}
+- aggiorna il mio calendario dalle {FromTime={ToTime=11}} alle {ToTime=12:30} {ToDate=oggi}
 - aggiorna il mio calendario dalle {FromTime=14} alle {ToTime=16} {ToDate=oggi}
 - aggiorna il mio calendario dalle {FromTime=18} alle {ToTime=19}
 - aggiorna il mio {OrderReference=prossimo} appuntamento
@@ -84,6 +85,7 @@
 - cambia {Subject=rasare} {ToDate=domani} alle {ToTime=8:30}
 - cambia riunione dalle {FromTime=14}-{FromTime=15} alle {ToTime=16}-{ToTime=17} {ToDate=oggi}
 - cambia riunione delle {FromTime=10} per farla iniziare {MoveLaterTimeSpan=20 minuti} dopo
+- cambia riunione delle {FromTime=12} per farla iniziare {MoveEarlierTimeSpan={MoveLaterTimeSpan=10 minuti}} prima
 - cambia {Subject=riunione di gruppo} del {FromDate=giovedì}
 - cambia {Subject=riunione di marketing} da {FromDate=ogni martedì} ad {ToDate=ogni mercoledì}
 - cambia riunione di {FromDate=oggi} dalle {FromTime=18} a {ToDate=domani} alle {ToTime=21}
@@ -136,6 +138,7 @@
 - sposta la mia {Subject=visita medica} delle {FromTime=10:10} alle {ToTime=10}
 - sposta la riunione delle {FromTime=15} alle {ToTime=16}
 - sposta riunione delle {FromTime=21}-{FromTime=22} alle {ToTime=20}-{ToTime=21} {ToDate=oggi}
+- sposta {Subject=riunione organizzazione festa} da {FromDate={FromTime=sabato}} a {ToDate=venerdì} all'{ToTime=13}
 
 
 ## CheckAvailability
@@ -802,7 +805,6 @@
 - quando è la {OrderReference=prossima} {Subject=visita dal dentista}?
 - quando è programmato {Subject=legoland}?
 - quando {Subject=finisce} la {Location=scuola}?
-- quando {Subject=guarderò l'inghilterra}?
 - quando ho l'{Subject=esame}?
 - quando ho tempo libero {FromDate=oggi}?
 - quando {Subject=lavoro} {FromDate=domani}?

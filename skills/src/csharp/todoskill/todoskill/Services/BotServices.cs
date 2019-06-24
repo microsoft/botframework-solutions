@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Solutions;
@@ -11,7 +12,7 @@ namespace ToDoSkill.Services
         {
         }
 
-        public BotServices(BotSettings settings)
+        public BotServices(BotSettings settings, IBotTelemetryClient client)
         {
             foreach (var pair in settings.CognitiveModels)
             {
@@ -19,10 +20,17 @@ namespace ToDoSkill.Services
                 var language = pair.Key;
                 var config = pair.Value;
 
+                var telemetryClient = client;
+                var luisOptions = new LuisPredictionOptions()
+                {
+                    TelemetryClient = telemetryClient,
+                    LogPersonalInformation = true,
+                };
+
                 if (config.DispatchModel != null)
                 {
                     var dispatchApp = new LuisApplication(config.DispatchModel.AppId, config.DispatchModel.SubscriptionKey, config.DispatchModel.GetEndpoint());
-                    set.DispatchService = new LuisRecognizer(dispatchApp);
+                    set.DispatchService = new LuisRecognizer(dispatchApp, luisOptions);
                 }
 
                 if (config.LanguageModels != null)
@@ -30,7 +38,7 @@ namespace ToDoSkill.Services
                     foreach (var model in config.LanguageModels)
                     {
                         var luisApp = new LuisApplication(model.AppId, model.SubscriptionKey, model.GetEndpoint());
-                        set.LuisServices.Add(model.Id, new LuisRecognizer(luisApp));
+                        set.LuisServices.Add(model.Id, new LuisRecognizer(luisApp, luisOptions));
                     }
                 }
 

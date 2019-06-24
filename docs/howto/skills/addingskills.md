@@ -33,7 +33,7 @@ See the [Skills Overview](/docs/README.md#skills) section for details on the Ski
 
 ## Adding Skills to your Virtual Assistant
 
-Run the following command to add each Skill to your Virtual Assistant. This assumes you are running the CLI within the project directory and have created your Bot through the template and therefore have a `skills.json` file present in the working folder.
+Run the following command to add each Skill to your Virtual Assistant. This assumes you are running the CLI within the **assistant project directory** and have created your Bot through the template and therefore have a `skills.json` file present in the working folder.
 
 The `--luisFolder` parameter can be used to point the Skill CLI at the source LU files for trigger utterances. For Skills provided within this repo these can be found in the `Deployment\Resources\LU` folder of each Skill. The CLI will automatically traverse locale folder hierarchies.  This can be omitted for any of the skills we provide as the LU files are provided locally. Also, you have to specify the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration.
 
@@ -56,14 +56,14 @@ Could not configure scopes automatically. You must configure the following scope
 In this situation for Microsoft Graph based skills follow the instructions below:
 
 1. Find the Azure AD Application for your Bot within the [Azure Portal](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredAppsPreview)
-2. In the Authentication section ensure the Redirect Uri is set to `https://token.botframework.com/.auth/web/redirect`
+2. In the Authentication section ensure the Redirect Uri is set to `https://token.botframework.com/.auth/web/redirect` and Supported Account Types is set to `Accounts in any organizational directory`.
 3. In the API permissions section click Add Permission, then Microsoft Graph and Delegated Permissions. Find each scope provided in the message shown during Skill registration and add.
 
 For Skills that require other Authentication connection configuration please follow the skill specific configuration information.
 
 ## Remove a Skill from your Virtual Assistant
 
-To disconnect a skill from your Virtual Assistant use the following command, passing the id of the Skill as per the manifest (e.g. calendarSkill). You can use the `botskills list` to view the registered skills.
+To disconnect a skill from your Virtual Assistant use the following command, passing the id of the Skill as per the manifest (e.g. calendarSkill). You can use the `botskills list` to view the registered skills. **Ensure your run this with the assistant project folder.**
 
 botskills:
 
@@ -86,7 +86,7 @@ botskills update --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MA
 ```
 
 ## Refresh Connected Skills
-To refresh the dispatch model with any changes made to connected skills use the following command, specifying the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration. 
+To refresh the dispatch model with any changes made to connected skills use the following command, specifying the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration. **Ensure your run this with the assistant project folder.**
 
 botskills:
 
