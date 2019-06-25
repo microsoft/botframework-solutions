@@ -115,4 +115,9 @@ This is a known issue with node-gyp: [nodejs/node-gyp#1663](https://github.com/n
 
 There is a known issue in the `Botskills` CLI tool during the command's execution when any of the arguments contains a **trailing backslash** using the `Command Prompt` as terminal. This is due to a parsing issue in the shell.
 
+Example of the `connect` command with a trailing backslash in the `luisFolder` argument:
+``` bash
+botskills connect --botName "<YOUR_VA_NAME>" --localManifest "<YOUR_LOCAL_MANIFEST_FILE>" --luisFolder "<YOUR_LUIS_FOLDER_PATH>\" --ts
+```
+
 So, to avoid this, it's highly recommended to use `PowerShell 6` to execute the CLI tool commands. Also, you can remove the trailing backslash of the argument.
