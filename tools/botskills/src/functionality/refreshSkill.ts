@@ -86,7 +86,8 @@ Make sure to use the argument '--dispatchName' for your Assistant's Dispatch fil
 
             await this.updateDispatch(configuration);
             await this.runLuisGen(configuration);
-            this.logger.success('Successfully refreshed Dispatch model');
+            this.logger.warning(
+                'You need to re-publish your Virtual Assistant in order to have these changes available for Azure based testing');
 
             return true;
         } catch (err) {
