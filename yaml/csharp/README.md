@@ -59,8 +59,8 @@ trigger:
     include:
     - 'templates/Virtual-Assistant-Template/csharp/Sample/*'
 
-  # By default will disable PR builds
-  pr: none  
+# By default will disable PR builds
+pr: none
 
 pool:
    name: Hosted VS2017
