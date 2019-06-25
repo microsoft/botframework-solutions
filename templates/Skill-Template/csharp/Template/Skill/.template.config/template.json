@@ -100,7 +100,8 @@
       {
         "modifiers": [
           {"exclude": [ "**/NuGet.Config", "**/.DS_Store" ]}
-        ]
+        ],
+        "rename": ["Skill.csproj", "$safeprojectname$.csproj"]
       }
     ],
     "postActions": [
