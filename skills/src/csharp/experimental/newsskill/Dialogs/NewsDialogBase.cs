@@ -20,17 +20,21 @@ namespace NewsSkill.Dialogs
             string dialogId,
             BotServices services,
             ConversationState conversationState,
+            UserState userState,
             IBotTelemetryClient telemetryClient)
             : base(dialogId)
         {
             Services = services;
-            Accessor = conversationState.CreateProperty<NewsSkillState>(nameof(NewsSkillState));
+            ConvAccessor = conversationState.CreateProperty<NewsSkillState>(nameof(NewsSkillState));
+            UserAccessor = userState.CreateProperty<NewsSkillUserState>(nameof(NewsSkillUserState));
             TelemetryClient = telemetryClient;
         }
 
         protected BotServices Services { get; set; }
 
-        protected IStatePropertyAccessor<NewsSkillState> Accessor { get; set; }
+        protected IStatePropertyAccessor<NewsSkillState> ConvAccessor { get; set; }
+
+        protected IStatePropertyAccessor<NewsSkillUserState> UserAccessor { get; set; }
 
         // This method is called by any waterfall step that throws an exception to ensure consistency
         public async Task<Exception> HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
@@ -44,14 +48,14 @@ namespace NewsSkill.Dialogs
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(dc.Context);
+            var state = await ConvAccessor.GetAsync(dc.Context);
 
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await Accessor.GetAsync(dc.Context);
+            var state = await ConvAccessor.GetAsync(dc.Context);
 
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }

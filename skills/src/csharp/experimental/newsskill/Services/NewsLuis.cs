@@ -16,6 +16,9 @@ namespace Luis
         public string AlteredText;
         public enum Intent {
             FindArticles, 
+            TrendingArticles,
+            SetFavoriteTopics,
+            ShowFavoriteTopics,
             None
         };
         public Dictionary<Intent, IntentScore> Intents;
@@ -24,11 +27,13 @@ namespace Luis
         {
             // Simple entities
             public string[] topic;
+            public string[] site;
 
             // Instance
             public class _Instance
             {
                 public InstanceData[] topic;
+                public InstanceData[] site;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;

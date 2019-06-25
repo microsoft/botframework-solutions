@@ -1,30 +1,32 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using NewsSkill.Models;
-using NewsSkill.Responses.FindArticles;
+using NewsSkill.Responses.FavoriteTopics;
 using NewsSkill.Services;
 
 namespace NewsSkill.Dialogs
 {
-    public class FindArticlesDialog : NewsDialogBase
+    public class FavoriteTopicsDialog : NewsDialogBase
     {
         private NewsClient _client;
-        private FindArticlesResponses _responder = new FindArticlesResponses();
+        private FavoriteTopicsResponses _responder = new FavoriteTopicsResponses();
         private AzureMapsService _mapsService;
 
-        public FindArticlesDialog(
+        public FavoriteTopicsDialog(
             BotSettings settings,
             BotServices services,
             ConversationState conversationState,
             UserState userState,
             AzureMapsService mapsService,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(FindArticlesDialog), services, conversationState, userState, telemetryClient)
+            : base(nameof(FavoriteTopicsDialog), services, conversationState, userState, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -35,17 +37,17 @@ namespace NewsSkill.Dialogs
             _mapsService = mapsService;
             _mapsService.InitKeyAsync(mapsKey);
 
-            var findArticles = new WaterfallStep[]
+            var favoriteTopics = new WaterfallStep[]
             {
                 GetMarket,
                 SetMarket,
-                GetQuery,
-                GetSite,
+                SetFavorites,
                 ShowArticles,
             };
 
-            AddDialog(new WaterfallDialog(nameof(FindArticlesDialog), findArticles));
+            AddDialog(new WaterfallDialog(nameof(FavoriteTopicsDialog), favoriteTopics));
             AddDialog(new TextPrompt(nameof(TextPrompt)));
+            AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
         }
 
         private async Task<DialogTurnResult> GetMarket(WaterfallStepContext sc, CancellationToken cancellationToken)
@@ -64,7 +66,7 @@ namespace NewsSkill.Dialogs
             // Prompt user for location
             return await sc.PromptAsync(nameof(TextPrompt), new PromptOptions()
             {
-                Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, FindArticlesResponses.MarketPrompt)
+                Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, FavoriteTopicsResponses.MarketPrompt)
             });
         }
 
@@ -77,59 +79,52 @@ namespace NewsSkill.Dialogs
                 string country = (string)sc.Result;
 
                 // use AzureMaps API to get country code from country input by user
-               userState.Market = await _mapsService.GetCountryCodeAsync(country);
+                userState.Market = await _mapsService.GetCountryCodeAsync(country);
             }
 
             return await sc.NextAsync();
         }
 
-        private async Task<DialogTurnResult> GetQuery(WaterfallStepContext sc, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> SetFavorites(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             var convState = await ConvAccessor.GetAsync(sc.Context, () => new NewsSkillState());
+            var userState = await UserAccessor.GetAsync(sc.Context, () => new NewsSkillUserState());
 
-            // Let's see if we have a topic
-            if (convState.LuisResult.Entities.topic != null)
+            // if intent is SetFavorites or not set in state yet
+            if (convState.LuisResult.TopIntent().intent == Luis.NewsLuis.Intent.SetFavoriteTopics || userState.Category == null)
             {
-                // If we have a topic let's skip the topic prompt
-                if (convState.LuisResult.Entities.topic.Length > 0)
+                // show card with categories the user can choose
+                var categories = new PromptOptions()
                 {
-                    return await sc.NextAsync(convState.LuisResult.Entities.topic[0]);
-                }
+                    Choices = new List<Choice>(),
+                };
+
+                categories.Choices.Add(new Choice("Business"));
+                categories.Choices.Add(new Choice("Entertainment"));
+                categories.Choices.Add(new Choice("Health"));
+                categories.Choices.Add(new Choice("Politics"));
+                categories.Choices.Add(new Choice("World"));
+                categories.Choices.Add(new Choice("Sports"));
+
+                return await sc.PromptAsync(nameof(ChoicePrompt), new PromptOptions()
+                {
+                    Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, FavoriteTopicsResponses.FavoriteTopicPrompt),
+                    Choices = categories.Choices
+                });
             }
 
-            return await sc.PromptAsync(nameof(TextPrompt), new PromptOptions()
-            {
-                Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, FindArticlesResponses.TopicPrompt)
-            });
-        }
-
-        private async Task<DialogTurnResult> GetSite(WaterfallStepContext sc, CancellationToken cancellationToken)
-        {
-            var convState = await ConvAccessor.GetAsync(sc.Context, () => new NewsSkillState());
-
-            string query = (string)sc.Result;
-
-            // if site specified in luis, add to query
-            if (convState.LuisResult.Entities.site != null)
-            {
-                if (convState.LuisResult.Entities.site.Length > 0)
-                {
-                    string site = convState.LuisResult.Entities.site[0].Replace(" ", string.Empty);
-                    query = string.Concat(query, $" site:{site}");
-                }
-            }
-
-            return await sc.NextAsync(query);
+            return await sc.NextAsync(userState.Category);
         }
 
         private async Task<DialogTurnResult> ShowArticles(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             var userState = await UserAccessor.GetAsync(sc.Context, () => new NewsSkillUserState());
 
-            var query = (string)sc.Result;
+            userState.Category = (FoundChoice)sc.Result;
 
-            var articles = await _client.GetNewsForTopic(query, userState.Market);
-            await _responder.ReplyWith(sc.Context, FindArticlesResponses.ShowArticles, articles);
+            // show favorite articles
+            var articles = await _client.GetNewsByCategory(userState.Category.Value, userState.Market);
+            await _responder.ReplyWith(sc.Context, FavoriteTopicsResponses.ShowArticles, articles);
 
             return await sc.EndDialogAsync();
         }

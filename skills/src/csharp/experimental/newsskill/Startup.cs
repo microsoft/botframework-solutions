@@ -86,12 +86,17 @@ namespace NewsSkill
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddHostedService<QueuedHostedService>();
 
+            // Configure Azure maps services
+            services.AddSingleton<AzureMapsService>();
+
             // Configure HttpContext required for path resolution
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // register dialogs
             services.AddTransient<MainDialog>();
             services.AddTransient<FindArticlesDialog>();
+            services.AddTransient<TrendingArticlesDialog>();
+            services.AddTransient<FavoriteTopicsDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
