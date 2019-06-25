@@ -12,26 +12,26 @@
     <Icon>__TemplateIcon.ico</Icon>
   </TemplateData>
   <TemplateContent>
-    <Project TargetFileName="VA.csproj" File="VA.csproj" ReplaceParameters="true">
-      <Folder Name="Connected Services" TargetFolderName="Connected Services">
+    <Project TargetFileName="VA.csproj" File="VA\VA.csproj" ReplaceParameters="true">
+      <Folder Name="VA\Connected Services" TargetFolderName="Connected Services">
         <Folder Name="Application Insights" TargetFolderName="Application Insights">
           <ProjectItem ReplaceParameters="true" TargetFileName="ConnectedService.json">ConnectedService.json</ProjectItem>
         </Folder>
       </Folder>
-      <Folder Name="Properties" TargetFolderName="Properties">
+      <Folder Name="VA\Properties" TargetFolderName="Properties">
         <ProjectItem ReplaceParameters="true" TargetFileName="launchSettings.json">launchSettings.json</ProjectItem>
       </Folder>
-      <Folder Name="wwwroot" TargetFolderName="wwwroot">
+      <Folder Name="VA\wwwroot" TargetFolderName="wwwroot">
         <ProjectItem ReplaceParameters="true" TargetFileName="default.htm">default.htm</ProjectItem>
       </Folder>
-      <Folder Name="Adapters" TargetFolderName="Adapters">
+      <Folder Name="VA\Adapters" TargetFolderName="Adapters">
         <ProjectItem ReplaceParameters="true" TargetFileName="DefaultAdapter.cs">DefaultAdapter.cs</ProjectItem>
 	      <ProjectItem ReplaceParameters="true" TargetFileName="DefaultWebSocketAdapter.cs">DefaultWebSocketAdapter.cs</ProjectItem>
       </Folder>
-      <Folder Name="Bots" TargetFolderName="Bots">
+      <Folder Name="VA\Bots" TargetFolderName="Bots">
         <ProjectItem ReplaceParameters="true" TargetFileName="DialogBot.cs">DialogBot.cs</ProjectItem>
       </Folder>
-      <Folder Name="Content" TargetFolderName="Content">
+      <Folder Name="VA\Content" TargetFolderName="Content">
         <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.json">NewUserGreeting.json</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.de.json">NewUserGreeting.de.json</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="NewUserGreeting.es.json">NewUserGreeting.es.json</ProjectItem>
@@ -45,10 +45,10 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.it.json">ReturningUserGreeting.it.json</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="ReturningUserGreeting.zh.json">ReturningUserGreeting.zh.json</ProjectItem>
       </Folder>
-      <Folder Name="Controllers" TargetFolderName="Controllers">
+      <Folder Name="VA\Controllers" TargetFolderName="Controllers">
         <ProjectItem ReplaceParameters="true" TargetFileName="BotController.cs">BotController.cs</ProjectItem>
       </Folder>
-      <Folder Name="Deployment" TargetFolderName="Deployment">
+      <Folder Name="VA\Deployment" TargetFolderName="Deployment">
         <Folder Name="Resources" TargetFolderName="Resources">
           <Folder Name="LU" TargetFolderName="LU">
             <Folder Name="de" TargetFolderName="de">
@@ -122,16 +122,16 @@
           <ProjectItem ReplaceParameters="false" TargetFileName="update_cognitive_models.ps1">update_cognitive_models.ps1</ProjectItem>
         </Folder>
       </Folder>
-      <Folder Name="Dialogs" TargetFolderName="Dialogs">
+      <Folder Name="VA\Dialogs" TargetFolderName="Dialogs">
         <ProjectItem ReplaceParameters="true" TargetFileName="CancelDialog.cs">CancelDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="EscalateDialog.cs">EscalateDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="MainDialog.cs">MainDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingDialog.cs">OnboardingDialog.cs</ProjectItem>
       </Folder>
-      <Folder Name="Models" TargetFolderName="Models">
+      <Folder Name="VA\Models" TargetFolderName="Models">
         <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingState.cs">OnboardingState.cs</ProjectItem>
       </Folder>
-      <Folder Name="Responses" TargetFolderName="Responses">
+      <Folder Name="VA\Responses" TargetFolderName="Responses">
         <Folder Name="Cancel" TargetFolderName="Cancel">
           <ProjectItem ReplaceParameters="true" TargetFileName="CancelResponses.cs">CancelResponses.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="CancelStrings.resx">CancelStrings.resx</ProjectItem>
@@ -173,22 +173,22 @@
           <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingStrings.zh.resx">OnboardingStrings.zh.resx</ProjectItem>
         </Folder>
       </Folder>
-      <Folder Name="Services" TargetFolderName="Services">
+      <Folder Name="VA\Services" TargetFolderName="Services">
         <ProjectItem ReplaceParameters="true" TargetFileName="BotServices.cs">BotServices.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="BotSettings.cs">BotSettings.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="DispatchLuis.cs">DispatchLuis.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="GeneralLuis.cs">GeneralLuis.cs</ProjectItem>
       </Folder>
-      <Folder Name="Pipeline" TargetFolderName="Pipeline">
+      <Folder Name="VA\Pipeline" TargetFolderName="Pipeline">
         <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.yml">VirtualAssistantTemplate.yml</ProjectItem>
       </Folder>
-      <ProjectItem ReplaceParameters="true" TargetFileName=".filenesting.json">.filenesting.json</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.json">appsettings.json</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="cognitivemodels.json">cognitivemodels.json</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
-      <ProjectItem ReplaceParameters="false" TargetFileName="readme.md">readme.md</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="skills.json">skills.json</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="Startup.cs">Startup.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName=".filenesting.json">VA\.filenesting.json</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.json">VA\appsettings.json</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="cognitivemodels.json">VA\cognitivemodels.json</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">VA\Program.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="readme.md">VA\readme.md</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="skills.json">VA\skills.json</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Startup.cs">VA\Startup.cs</ProjectItem>
     </Project>
   </TemplateContent>
 </VSTemplate>
