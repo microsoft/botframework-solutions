@@ -101,6 +101,7 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
 
         after(function() {
             rimraf(join(__dirname, `tmp`, `**`), function () {});
+            process.chdir(join(__dirname, `..`));
         });
 
         describe(`the base`, function() {
@@ -257,6 +258,7 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
 
         after(function() {
             rimraf(join(__dirname, `tmp`, `**`), function () {});
+            process.chdir(join(__dirname, `..`));
         });
 
         describe(`the base`, function() {
