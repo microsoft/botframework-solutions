@@ -59,6 +59,9 @@ trigger:
     include:
     - 'templates/Virtual-Assistant-Template/csharp/Sample/*'
 
+  # By default will disable PR builds
+  pr: none  
+
 pool:
    name: Hosted VS2017
    demands:
@@ -109,6 +112,16 @@ steps:
     summaryFileLocation: '$(Build.SourcesDirectory)\templates\Virtual-Assistant-Template\csharp\Sample\VirtualAssistantSample.Tests\coverage.cobertura.xml'
     reportDirectory: '$(Build.SourcesDirectory)\templates\Virtual-Assistant-Template\csharp\Sample\VirtualAssistantSample.Tests'
 ```
+By default, the *Pipeline* automatically triggers a build for each new pull-request. This *Pipeline's* behavior can be disabled using the following configuration:
+```
+pr: none
+```
+In case that you want to activate this, you can use the following configuration:
+```
+pr: 
+- master
+```
+
 ## Configure build step by step in Pipelines
 
 1. With the `YAML` file configurated you can go to *Azure DevOps* site and proceed to add the new Pipeline. Selecting the *Pipelines* option, will appear the builds like the following screenshot: 
