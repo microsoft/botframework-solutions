@@ -1,9 +1,15 @@
 # ToDo Skill (Productivity)
 
-The ToDo Skill provides ToDo related capabilities to a Virtual Assistant.
-The most common scenarios have been implemented in this beta release, with additional scenarios in development.
+The ToDo Skill provides ToDo related capabilities to a Virtual Assistant. The most common scenarios have been implemented in this initial release, with additional scenarios in development.
 
-### Supported Sources
+## Table of Contents
+
+- [Supported Sources](#supported-sources)
+- [Supported Scenarios](#supported-scenarios)
+- [Skill Deployment](#skill-deployment)
+- [Language Model](#language-model)
+
+## Supported Sources
 
 > Office 365 and Outlook.com through the Microsoft Graph is supported at this time. Additional sources will be coming in a future release.
 
@@ -48,6 +54,7 @@ If you plan to use the skill as part of a Virtual Assistant the process of regis
 - `Notes.ReadWrite` 
 - `User.ReadBasic.All`
 - `Tasks.ReadWrite`
+- `Mail.Send`
 
 **However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
 

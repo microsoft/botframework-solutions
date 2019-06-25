@@ -122,6 +122,7 @@ public class Synthesizer {
                         //audioTrack.write(buffer, 0, readSize);
                     }
                     audioTrack.stop();
+                    audioTrack.release();
                     try {
                         in.close();
                         callback.run();
