@@ -28,6 +28,22 @@ If there is an utterance that you expect would be applied to multiple Skills, ta
 * Previous
 * Restart
 
+### Update LUIS model
+You can update you LUIS model in LUIS portal. Or modify the .lu file then convert it to .json and upload to LUIS portal manually, or use `update_cognitive_models.ps1`
+
+How to convert .json to .lu:
+```bash
+ludown refresh -i YOUR_BOT_NAME.json
+```
+How to convert .lu to .json:
+```bash
+ludown parse toluis --in YOUR_BOT_NAME.lu
+```
+
+### Test LUIS model
+
+The unit test use a mock LUIS model. So if you need to test your LUIS model, you can implement a test tool by [LUIS API](https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c2f) to test it automatically.
+
 ## Conversational design
 
 Read [Design and control conversation flow](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-design-conversation-flow?view=azure-bot-service-4.0) to get started on crafting your Skill's conversations.
@@ -73,6 +89,10 @@ Speech & Text responses are stored in [`Responses.json`](https://github.com/Micr
 Vary your responses. By providing additional utterances to the `replies` array, your Skill will sound more natural and provide a dynamic conversation.
 
 Write how people speak. A skill should only provide relevant context when read aloud. Use visual aids to offer more data to a user.
+
+#### Common string
+
+Some common strings shouldn't save in response file. Suggest you to save them in `.resx` file. It is easy to be localized.
 
 #### Visual
 
@@ -202,6 +222,80 @@ In the Point of Interest Skill, a route state model is passed to a Microsoft.Bot
     var replyMessage = ResponseManager.GetCardResponse(POISharedResponses.SingleRouteFound, card);
 ```
 
+When you need to show some elements in card dynamically, use `Activity GetCardResponse(string templateId, Card card, StringDictionary tokens, string containerName, IEnumerable<Card> containerItems)` to add a list of cards into a container of main card. For example, Calendar Skill adds a list of meeting cards into the meetings summary card.
+
+```csharp
+// generate a list of meeting cards
+private async Task<List<Card>> GetMeetingCardListAsync(DialogContext dc, List<EventModel> events)
+{
+    var state = await Accessor.GetAsync(dc.Context);
+
+    var eventItemList = new List<Card>();
+
+    DateTime? currentAddedDateUser = null;
+    foreach (var item in events)
+    {
+        var itemDateUser = TimeConverter.ConvertUtcToUserTime(item.StartTime, state.GetUserTimeZone());
+        if (currentAddedDateUser == null || !currentAddedDateUser.Value.Date.Equals(itemDateUser.Date))
+        {
+            currentAddedDateUser = itemDateUser;
+            eventItemList.Add(new Card()
+            {
+                Name = "CalendarDate",
+                Data = new CalendarDateCardData()
+                {
+                    Date = currentAddedDateUser.Value.ToString("dddd, MMMM d").ToUpper()
+                }
+            });
+        }
+
+        eventItemList.Add(new Card()
+        {
+            Name = "CalendarItem",
+            Data = item.ToAdaptiveCardData(state.GetUserTimeZone())
+        });
+    }
+
+    return eventItemList;
+}
+
+// add the list of cards into EventItemContainer of CalendarOverview card
+protected async Task<Activity> GetOverviewMeetingListResponseAsync(
+    DialogContext dc,
+    List<EventModel> events,
+    int firstIndex,
+    int lastIndex,
+    int totalCount,
+    int overlapEventCount,
+    string templateId,
+    StringDictionary tokens = null)
+{
+    var state = await Accessor.GetAsync(dc.Context);
+
+    var overviewCard = new Card()
+    {
+        Name = "CalendarOverview",
+        Data = new CalendarMeetingListCardData()
+        {
+            ListTitle = CalendarCommonStrings.OverviewTitle,
+            TotalEventCount = totalCount.ToString(),
+            OverlapEventCount = overlapEventCount.ToString(),
+            TotalEventCountUnit = string.Format(
+                totalCount == 1 ? CalendarCommonStrings.OverviewTotalMeetingOne : CalendarCommonStrings.OverviewTotalMeetingPlural,
+                state.StartDateString ?? CalendarCommonStrings.TodayLower),
+            OverlapEventCountUnit = CalendarCommonStrings.OverviewOverlapMeeting,
+            Provider = string.Format(CalendarCommonStrings.OverviewEventSource, events[0].SourceString()),
+            UserPhoto = await GetMyPhotoUrlAsync(dc.Context),
+            Indicator = string.Format(CalendarCommonStrings.ShowMeetingsIndicator, (firstIndex + 1).ToString(), lastIndex.ToString(), totalCount.ToString())
+        }
+    };
+
+    var eventItemList = await GetMeetingCardListAsync(dc, events);
+
+    return ResponseManager.GetCardResponse(templateId, overviewCard, tokens, "EventItemContainer", eventItemList);
+}
+```
+
 ### Use prompts to enable smart option matching
 
 When a Skill needs to gather information with users, it should use the prompts available in the SDK library.
@@ -259,6 +353,42 @@ protected PromptOptions GetPointOfInterestChoicePromptOptions(List<PointOfIntere
 
 Learn more on how you can [gather user input using a dialog prompt](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-prompts?view=azure-bot-service-4.0&tabs=csharp).
 
+#### Custom prompt dialog
+
+One of approach to create a custom prompt dialog is add a validator. In Calendar Skill, there is a choice validator to handle next/previous page intent.
+
+```csharp
+protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> pc, CancellationToken cancellationToken)
+{
+    var state = await Accessor.GetAsync(pc.Context);
+    var generalLuisResult = state.GeneralLuisResult;
+    var generalTopIntent = generalLuisResult?.TopIntent().intent;
+    var calendarLuisResult = state.LuisResult;
+    var calendarTopIntent = calendarLuisResult?.TopIntent().intent;
+
+    // If user want to show more recipient end current choice dialog and return the intent to next step.
+    if (generalTopIntent == Luis.General.Intent.ShowNext || generalTopIntent == Luis.General.Intent.ShowPrevious || calendarTopIntent == CalendarLuis.Intent.ShowNextCalendar || calendarTopIntent == CalendarLuis.Intent.ShowPreviousCalendar)
+    {
+        return true;
+    }
+    else
+    {
+        if (!pc.Recognized.Succeeded || pc.Recognized == null)
+        {
+            // do nothing when not recognized.
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+```
+
+If you need a more complex prmopt you can implement it by inheriting `Microsoft.Bot.Builder.Dialogs.Prompt<T>`. Or read [Create your own prompts to gather user input](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-primitive-prompts?view=azure-bot-service-4.0&tabs=csharp) to learn more about custom prompt.
+
 ### Enable long running tasks
 
 [Proactive scenarios](../../virtual-assistant/csharp/proactivemessaging.md) are a key part of ensuring a Skill Assistant can provide more intelligent and helpful capabilities to end users.
@@ -286,3 +416,13 @@ protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception e
     state.Clear();
 }
 ```
+
+### Manage the states
+
+Save your data in different scope of states. Read [Save user and conversation data](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-state?view=azure-bot-service-4.0&tabs=csharp) to learn about user and conversation state.
+
+For dialog state, you can save your data in `stepContext.State.Dialog[YOUR_DIALOG_STATE_KEY]`.
+
+### Manage the dialogs
+
+Use dialog options to transfer data among dialogs. Read [Create advanced conversation flow using branches and loops](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-dialog-manage-complex-conversation-flow?view=azure-bot-service-4.0&tabs=csharp) to learn more about dialog management.
