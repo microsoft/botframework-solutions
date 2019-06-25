@@ -27,6 +27,7 @@
         "botbuilder-skills": "^1.0.0-preview64",
         "botbuilder-solutions": "^4.4.6",
         "botframework-config": "^4.4.0",
+        "botframework-connector": "^4.4.0",
         "botframework-schema": "^4.4.0",
         "dotenv": "^6.0.0",
         "i18next": "^15.0.6",
