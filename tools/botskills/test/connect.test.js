@@ -412,8 +412,7 @@ Error: There was an error while refreshing the Dispatch model.`);
             await this.connector.connectSkill(config);
             const warningList = this.logger.getWarning();
 
-            strictEqual(warningList[warningList.length - 1], `Appending 'Test Skill' manifest to your assistant's skills configuration file.`);
-            strictEqual(warningList[warningList.length - 2], `Run 'botskills refresh --${config.lgLanguage}' command to refresh your connected skills`);
+            strictEqual(warningList[warningList.length - 1], `Run 'botskills refresh --${config.lgLanguage}' command to refresh your connected skills`);
         });
     });
 
