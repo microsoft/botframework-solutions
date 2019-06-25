@@ -105,8 +105,7 @@ namespace EmailSkill.Dialogs
                 isSkipByDefault = Settings.DefaultValue?.SendEmail?.First(item => item.Name == "EmailSubject")?.IsSkipByDefault;
                 if (isSkipByDefault.GetValueOrDefault())
                 {
-                    var defaultValue = Settings.DefaultValue?.SendEmail?.First(item => item.Name == "EmailSubject")?.DefaultValue;
-                    state.Subject = string.IsNullOrEmpty(defaultValue) ? EmailCommonStrings.EmptySubject : defaultValue;
+                    state.Subject = string.IsNullOrEmpty(EmailCommonStrings.DefaultSubject) ? EmailCommonStrings.EmptySubject : EmailCommonStrings.DefaultSubject;
 
                     return await sc.NextAsync();
                 }
@@ -238,8 +237,7 @@ namespace EmailSkill.Dialogs
                 isSkipByDefault = Settings.DefaultValue?.SendEmail?.First(item => item.Name == "EmailMessage")?.IsSkipByDefault;
                 if (isSkipByDefault.GetValueOrDefault())
                 {
-                    var defaultValue = Settings.DefaultValue?.SendEmail?.First(item => item.Name == "EmailMessage")?.DefaultValue;
-                    state.Subject = string.IsNullOrEmpty(defaultValue) ? EmailCommonStrings.EmptyContent : defaultValue;
+                    state.Subject = string.IsNullOrEmpty(EmailCommonStrings.DefaultContent) ? EmailCommonStrings.EmptyContent : EmailCommonStrings.DefaultContent;
 
                     return await sc.NextAsync();
                 }

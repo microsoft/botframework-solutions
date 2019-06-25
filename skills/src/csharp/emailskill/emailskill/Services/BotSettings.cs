@@ -15,8 +15,6 @@ namespace EmailSkill.Services
             {
                 public string Name { get; set; }
 
-                public string DefaultValue { get; set; }
-
                 public bool IsSkipByDefault { get; set; }
             }
         }
