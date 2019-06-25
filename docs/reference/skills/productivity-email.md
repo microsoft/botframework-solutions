@@ -5,9 +5,10 @@ The most common scenarios have been implemented in this beta release, with addit
 
 ## Table of Contents
 
+- [Supported Sources](#supported-sources)
 - [Supported Scenarios](#supported-scenarios)
+- [Skill Deployment](#skill-deployment)
 - [Language Model](#language-model)
-- [Configuration](#configuration)
 
 ## Supported Sources
 
@@ -126,9 +127,3 @@ LUIS models for the Skill are provided in .LU file format as part of the Skill. 
 |datetimeV2| Prebuilt entity|
 |number| Prebuilt entity|
 |ordinal| Prebuilt entity|
-
-### Example Skill Manifest
-
-```
-TBC
-```
