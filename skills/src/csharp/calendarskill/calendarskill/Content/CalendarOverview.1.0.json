@@ -1,0 +1,158 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "height": "stretch",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "height": "stretch",
+                      "items": [
+                        {
+                          "type": "ColumnSet",
+                          "height": "stretch",
+                          "columns": [
+                            {
+                              "type": "Column",
+                              "verticalContentAlignment": "Center",
+                              "items": [
+                                {
+                                  "type": "TextBlock",
+                                  "size": "Large",
+                                  "weight": "Bolder",
+                                  "color": "Default",
+                                  "text": "{ListTitle}"
+                                }
+                              ],
+                              "width": "stretch"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "ColumnSet",
+                          "height": "stretch",
+                          "columns": [
+                            {
+                              "type": "Column",
+                              "height": "stretch",
+                              "items": [
+                                {
+                                  "type": "TextBlock",
+                                  "horizontalAlignment": "Right",
+                                  "size": "Medium",
+                                  "color": "Default",
+                                  "text": "{TotalEventCount}"
+                                },
+                                {
+                                  "type": "TextBlock",
+                                  "horizontalAlignment": "Right",
+                                  "size": "Medium",
+                                  "color": "Default",
+                                  "text": "{OverlapEventCount}"
+                                }
+                              ],
+                              "width": "auto"
+                            },
+                            {
+                              "type": "Column",
+                              "items": [
+                                {
+                                  "type": "TextBlock",
+                                  "size": "Medium",
+                                  "weight": "Bolder",
+                                  "color": "Default",
+                                  "text": "{TotalEventCountUnit}"
+                                },
+                                {
+                                  "type": "TextBlock",
+                                  "size": "Medium",
+                                  "weight": "Bolder",
+                                  "color": "Default",
+                                  "text": "{OverlapEventCountUnit}"
+                                }
+                              ],
+                              "width": "stretch"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "ColumnSet",
+                          "height": "stretch",
+                          "columns": [
+                            {
+                              "type": "Column",
+                              "spacing": "Small",
+                              "verticalContentAlignment": "Center",
+                              "items": [
+                                {
+                                  "type": "TextBlock",
+                                  "horizontalAlignment": "Center",
+                                  "size": "Medium",
+                                  "color": "Default",
+                                  "text": "{Indicator}"
+                                }
+                              ],
+                              "width": "auto"
+                            }
+                          ]
+                        }
+                      ],
+                      "width": 60
+                    },
+                    {
+                      "type": "Column",
+                      "height": "stretch",
+                      "verticalContentAlignment": "Center",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "horizontalAlignment": "Center",
+                          "style": "Person",
+                          "url": "{UserPhoto}",
+                          "size": "Medium"
+                        }
+                      ],
+                      "width": 40
+                    }
+                  ]
+                }
+              ],
+              "width": "stretch"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EventItemContainer",
+      "type": "Container",
+      "items": [
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "items": [
+        {
+          "type": "TextBlock",
+          "horizontalAlignment": "Right",
+          "size": "Small",
+          "color": "Default",
+          "text": "{Provider}"
+        }
+      ]
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
+}

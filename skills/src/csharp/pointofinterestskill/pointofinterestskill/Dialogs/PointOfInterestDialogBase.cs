@@ -14,6 +14,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using PointOfInterestSkill.Models;
 using PointOfInterestSkill.Responses.Shared;
@@ -50,7 +51,7 @@ namespace PointOfInterestSkill.Dialogs
             AddDialog(new TextPrompt(Actions.CurrentLocationPrompt));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.ConfirmPrompt) { Style = ListStyle.Auto, });
-            AddDialog(new ChoicePrompt(Actions.SelectPointOfInterestPrompt) { Style = ListStyle.SuggestedAction, ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
+            AddDialog(new ChoicePrompt(Actions.SelectPointOfInterestPrompt) { ChoiceOptions = new ChoiceFactoryOptions { InlineSeparator = string.Empty, InlineOr = string.Empty, InlineOrMore = string.Empty, IncludeNumbers = true } });
         }
 
         protected BotSettings Settings { get; set; }
@@ -104,11 +105,30 @@ namespace PointOfInterestSkill.Dialogs
                 }
                 else if (cards.Count == 1)
                 {
-                    return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetCardResponse(POISharedResponses.CurrentLocationSingleSelection, cards) });
+                    var options = new PromptOptions
+                    {
+                        Prompt = ResponseManager.GetCardResponse(POISharedResponses.CurrentLocationSingleSelection, cards)
+                    };
+
+                    // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
+                    if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
+                    {
+                        await sc.Context.SendActivityAsync(options.Prompt);
+                        options.Prompt = null;
+                    }
+
+                    return await sc.PromptAsync(Actions.ConfirmPrompt, options);
                 }
                 else
                 {
                     var options = GetPointOfInterestPrompt(POISharedResponses.CurrentLocationMultipleSelection, pointOfInterestList, cards);
+
+                    // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
+                    if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
+                    {
+                        await sc.Context.SendActivityAsync(options.Prompt);
+                        options.Prompt = null;
+                    }
 
                     return await sc.PromptAsync(Actions.SelectPointOfInterestPrompt, options);
                 }
@@ -241,11 +261,30 @@ namespace PointOfInterestSkill.Dialogs
                 }
                 else if (cards.Count == 1)
                 {
-                    return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetCardResponse(POISharedResponses.PromptToGetRoute, cards) });
+                    var options = new PromptOptions
+                    {
+                        Prompt = ResponseManager.GetCardResponse(POISharedResponses.PromptToGetRoute, cards)
+                    };
+
+                    // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
+                    if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
+                    {
+                        await sc.Context.SendActivityAsync(options.Prompt);
+                        options.Prompt = null;
+                    }
+
+                    return await sc.PromptAsync(Actions.ConfirmPrompt, options);
                 }
                 else
                 {
                     var options = GetPointOfInterestPrompt(POISharedResponses.MultipleLocationsFound, pointOfInterestList, cards);
+
+                    // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
+                    if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
+                    {
+                        await sc.Context.SendActivityAsync(options.Prompt);
+                        options.Prompt = null;
+                    }
 
                     return await sc.PromptAsync(Actions.SelectPointOfInterestPrompt, options);
                 }
@@ -447,7 +486,7 @@ namespace PointOfInterestSkill.Dialogs
 
                 foreach (var pointOfInterest in pointOfInterestList)
                 {
-                    cards.Add(new Card("PointOfInterestDetails", pointOfInterest));
+                    cards.Add(new Card(GetDivergedCardName(sc.Context, "PointOfInterestDetails"), pointOfInterest));
                 }
             }
 
@@ -601,7 +640,7 @@ namespace PointOfInterestSkill.Dialogs
 
                 foreach (var data in cardData)
                 {
-                    cards.Add(new Card("PointOfInterestDetailsWithRoute", data));
+                    cards.Add(new Card(GetDivergedCardName(sc.Context, "PointOfInterestDetailsWithRoute"), data));
                 }
             }
 
@@ -683,6 +722,19 @@ namespace PointOfInterestSkill.Dialogs
             state.Clear();
             await Accessor.SetAsync(sc.Context, state);
             await sc.CancelAllDialogsAsync();
+        }
+
+        // Workaround until adaptive card renderer in teams is upgraded to v1.2
+        protected string GetDivergedCardName(ITurnContext turnContext, string card)
+        {
+            if (Channel.GetChannelId(turnContext) == Channels.Msteams)
+            {
+                return card + ".1.0";
+            }
+            else
+            {
+                return card;
+            }
         }
 
         private string GetCardImageUri(string imagePath)

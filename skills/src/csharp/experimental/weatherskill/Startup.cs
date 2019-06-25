@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
@@ -102,6 +103,9 @@ namespace WeatherSkill
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<SkillWebSocketBotAdapter, CustomSkillAdapter>();
             services.AddTransient<SkillWebSocketAdapter>();
+
+            // Configure HttpContext required for path resolution
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // Configure bot
             services.AddTransient<MainDialog>();
