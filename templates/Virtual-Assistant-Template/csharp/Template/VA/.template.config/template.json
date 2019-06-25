@@ -96,14 +96,12 @@
       "isRequired": false
     }
   },
-    "sources": [
-      {
-        "modifiers": [
-          { "exclude": [ "**/NuGet.Config", "**/.DS_Store" ] }
-        ],
-        "rename": { [ "VA.csproj", "$safeprojectname$.csproj" ] }
-      }
-    ],
+  "sources": [{
+			"modifiers": [{
+				"exclude": ["**/NuGet.Config", "**/.DS_Store"]
+			}],
+			"rename": ["VA.csproj", "$safeprojectname$.csproj"]
+	}],
     "postActions": [
       {
         "condition": "(!SkipRestore)",
