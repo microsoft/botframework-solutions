@@ -12,6 +12,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Connector;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using RestaurantBooking.Content;
 using RestaurantBooking.Data;
@@ -415,6 +416,13 @@ namespace RestaurantBooking.Dialogs
                 RestaurantBookingSharedResponses.BookRestaurantConfirmationPrompt,
                 new Card("ReservationConfirmCard", cardData),
                 tokens);
+
+            // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
+            if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
+            {
+                await sc.Context.SendActivityAsync(replyMessage);
+                replyMessage = null;
+            }
 
             return await sc.PromptAsync(Actions.ConfirmSelectionBeforeBookingStep, new PromptOptions { Prompt = replyMessage }, cancellationToken);
         }

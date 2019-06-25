@@ -320,7 +320,7 @@ namespace EmailSkill.Dialogs
 
                         var replyMessage = ResponseManager.GetCardResponse(
                             SendEmailResponses.PlayBackMessage,
-                            new Card("EmailContentPreview", emailCard),
+                            new Card(GetDivergedCardName(sc.Context, "EmailContentPreview"), emailCard),
                             stringToken);
 
                         await sc.Context.SendActivityAsync(replyMessage);
@@ -399,7 +399,7 @@ namespace EmailSkill.Dialogs
                         { "Subject", state.Subject },
                     };
 
-                    var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
+                    var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? GetDivergedCardName(sc.Context, "ConfirmCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "ConfirmCard_RecipientLessThanFive");
                     var replyMessage = ResponseManager.GetCardResponse(
                         EmailSharedResponses.SentSuccessfully,
                         new Card("EmailWithOutButtonCard", emailCard),
