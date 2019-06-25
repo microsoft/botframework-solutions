@@ -5,9 +5,10 @@ The most common scenarios have been implemented in this beta release, with addit
 
 ## Table of Contents
 
+- [Supported Sources](#supported-sources)
 - [Supported Scenarios](#supported-scenarios)
+- [Skill Deployment](#skill-deployment)
 - [Language Model](#language-model)
-- [Configuration](#configuration)
 
 ## Supported Sources
 
