@@ -100,45 +100,45 @@ namespace EmailSkill.Dialogs
                 // switch on general intents
                 switch (intent)
                 {
-                    case EmailLuis.Intent.SendEmail:
+                    case emailLuis.Intent.SendEmail:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(SendEmailDialog), skillOptions);
                             break;
                         }
 
-                    case EmailLuis.Intent.Forward:
+                    case emailLuis.Intent.Forward:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(ForwardEmailDialog), skillOptions);
                             break;
                         }
 
-                    case EmailLuis.Intent.Reply:
+                    case emailLuis.Intent.Reply:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(ReplyEmailDialog), skillOptions);
                             break;
                         }
 
-                    case EmailLuis.Intent.SearchMessages:
-                    case EmailLuis.Intent.CheckMessages:
-                    case EmailLuis.Intent.ReadAloud:
-                    case EmailLuis.Intent.QueryLastText:
+                    case emailLuis.Intent.SearchMessages:
+                    case emailLuis.Intent.CheckMessages:
+                    case emailLuis.Intent.ReadAloud:
+                    case emailLuis.Intent.QueryLastText:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
                             break;
                         }
 
-                    case EmailLuis.Intent.Delete:
+                    case emailLuis.Intent.Delete:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(DeleteEmailDialog), skillOptions);
                             break;
                         }
 
-                    case EmailLuis.Intent.ShowNext:
-                    case EmailLuis.Intent.ShowPrevious:
-                    case EmailLuis.Intent.None:
+                    case emailLuis.Intent.ShowNext:
+                    case emailLuis.Intent.ShowPrevious:
+                    case emailLuis.Intent.None:
                         {
-                            if (intent == EmailLuis.Intent.ShowNext
-                                || intent == EmailLuis.Intent.ShowPrevious
+                            if (intent == emailLuis.Intent.ShowNext
+                                || intent == emailLuis.Intent.ShowPrevious
                                 || generalTopIntent == General.Intent.ShowNext
                                 || generalTopIntent == General.Intent.ShowPrevious)
                             {
@@ -234,7 +234,7 @@ namespace EmailSkill.Dialogs
                 var localeConfig = _services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities
-                var emailLuisResult = await localeConfig.LuisServices["email"].RecognizeAsync<EmailLuis>(dc.Context, cancellationToken);
+                var emailLuisResult = await localeConfig.LuisServices["email"].RecognizeAsync<emailLuis>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
                 state.LuisResult = emailLuisResult;
 

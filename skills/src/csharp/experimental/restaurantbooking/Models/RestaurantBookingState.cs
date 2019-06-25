@@ -13,7 +13,7 @@ namespace RestaurantBooking.Models
 
         public string Name { get; set; }
 
-        public Luis.ReservationLuis LuisResult { get; set; }
+        public Luis.restaurantLuis LuisResult { get; set; }
 
         public ReservationBooking Booking { get; set; }
 

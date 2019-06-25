@@ -124,11 +124,11 @@ namespace AutomotiveSkill.Dialogs
 
             switch (topIntent.Value)
             {
-                case VehicleSettingsLuis.Intent.VEHICLE_SETTINGS_CHANGE:
-                case VehicleSettingsLuis.Intent.VEHICLE_SETTINGS_DECLARATIVE:
+                case settingsLuis.Intent.VEHICLE_SETTINGS_CHANGE:
+                case settingsLuis.Intent.VEHICLE_SETTINGS_DECLARATIVE:
 
                     // Perform post-processing on the entities, if it's declarative we indicate for special processing (opposite of the condition they've expressed)
-                    settingFilter.PostProcessSettingName(state, topIntent.Value == VehicleSettingsLuis.Intent.VEHICLE_SETTINGS_DECLARATIVE ? true : false);
+                    settingFilter.PostProcessSettingName(state, topIntent.Value == settingsLuis.Intent.VEHICLE_SETTINGS_DECLARATIVE ? true : false);
 
                     // Perform content logic and remove entities that don't make sense
                     settingFilter.ApplyContentLogic(state);
@@ -185,7 +185,7 @@ namespace AutomotiveSkill.Dialogs
                         return await sc.NextAsync();
                     }
 
-                case VehicleSettingsLuis.Intent.VEHICLE_SETTINGS_CHECK:
+                case settingsLuis.Intent.VEHICLE_SETTINGS_CHECK:
                     await sc.Context.SendActivityAsync(sc.Context.Activity.CreateReply("The skill doesn't support checking vehicle settings quite yet!"));
                     return await sc.EndDialogAsync(true, cancellationToken);
 
@@ -206,7 +206,7 @@ namespace AutomotiveSkill.Dialogs
             var state = await Accessor.GetAsync(promptContext.Context);
 
             // Use the name selection LUIS model to perform validation of the user's entered setting name
-            var nameSelectionResult = await vehicleSettingNameSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsNameSelectionLuis>(promptContext.Context, CancellationToken.None);
+            var nameSelectionResult = await vehicleSettingNameSelectionLuisRecognizer.RecognizeAsync<settings_nameLuis>(promptContext.Context, CancellationToken.None);
             state.AddRecognizerResult(nameSelectionResult);
 
             var selectedSettingNames = new List<string>();
@@ -326,7 +326,7 @@ namespace AutomotiveSkill.Dialogs
             var state = await Accessor.GetAsync(promptContext.Context);
 
             // Use the value selection LUIS model to perform validation of the users entered setting value
-            var valueSelectionResult = await vehicleSettingValueSelectionLuisRecognizer.RecognizeAsync<VehicleSettingsValueSelectionLuis>(promptContext.Context, CancellationToken.None);
+            var valueSelectionResult = await vehicleSettingValueSelectionLuisRecognizer.RecognizeAsync<settings_valueLuis>(promptContext.Context, CancellationToken.None);
             state.AddRecognizerResult(valueSelectionResult);
 
             var valueEntities = new List<string>();

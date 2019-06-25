@@ -163,12 +163,12 @@ namespace EmailSkill.Dialogs
                 var generalLuisResult = state.GeneralLuisResult;
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
-                if (skillLuisResult == EmailLuis.Intent.ShowNext || generalTopIntent == General.Intent.ShowNext)
+                if (skillLuisResult == emailLuis.Intent.ShowNext || generalTopIntent == General.Intent.ShowNext)
                 {
                     state.ShowEmailIndex++;
                     state.ReadEmailIndex = 0;
                 }
-                else if ((skillLuisResult == EmailLuis.Intent.ShowPrevious || generalTopIntent == General.Intent.ShowPrevious) && state.ShowEmailIndex >= 0)
+                else if ((skillLuisResult == emailLuis.Intent.ShowPrevious || generalTopIntent == General.Intent.ShowPrevious) && state.ShowEmailIndex >= 0)
                 {
                     state.ShowEmailIndex--;
                     state.ReadEmailIndex = 0;
@@ -1270,7 +1270,7 @@ namespace EmailSkill.Dialogs
             }
         }
 
-        protected async Task DigestEmailLuisResult(DialogContext dc, EmailLuis luisResult, bool isBeginDialog)
+        protected async Task DigestEmailLuisResult(DialogContext dc, emailLuis luisResult, bool isBeginDialog)
         {
             try
             {
@@ -1325,11 +1325,11 @@ namespace EmailSkill.Dialogs
 
                     switch (intent)
                     {
-                        case EmailLuis.Intent.CheckMessages:
-                        case EmailLuis.Intent.SearchMessages:
-                        case EmailLuis.Intent.ReadAloud:
-                        case EmailLuis.Intent.ShowNext:
-                        case EmailLuis.Intent.ShowPrevious:
+                        case emailLuis.Intent.CheckMessages:
+                        case emailLuis.Intent.SearchMessages:
+                        case emailLuis.Intent.ReadAloud:
+                        case emailLuis.Intent.ShowNext:
+                        case emailLuis.Intent.ShowPrevious:
                             {
                                 // Get email search type
                                 if (dc.Context.Activity.Text != null)
@@ -1400,9 +1400,9 @@ namespace EmailSkill.Dialogs
                                 break;
                             }
 
-                        case EmailLuis.Intent.SendEmail:
-                        case EmailLuis.Intent.Forward:
-                        case EmailLuis.Intent.Reply:
+                        case emailLuis.Intent.SendEmail:
+                        case emailLuis.Intent.Forward:
+                        case emailLuis.Intent.Reply:
                             {
                                 if (entity.EmailSubject != null)
                                 {

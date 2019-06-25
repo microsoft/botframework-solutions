@@ -608,7 +608,7 @@ namespace PointOfInterestSkill.Dialogs
             return cards;
         }
 
-        protected async Task DigestLuisResult(DialogContext dc, PointOfInterestLuis luisResult)
+        protected async Task DigestLuisResult(DialogContext dc, pointofinterestLuis luisResult)
         {
             try
             {

@@ -120,7 +120,7 @@ namespace ToDoSkill.Dialogs
                 state.LastListType = state.ListType;
                 var service = await InitListTypeIds(sc);
                 var topIntent = state.LuisResult?.TopIntent().intent;
-                if (topIntent == ToDoLuis.Intent.ShowToDo || state.GoBackToStart)
+                if (topIntent == todoLuis.Intent.ShowToDo || state.GoBackToStart)
                 {
                     state.AllTasks = await service.GetTasksAsync(state.ListType);
                 }
@@ -138,7 +138,7 @@ namespace ToDoSkill.Dialogs
                 {
                     var cardReply = sc.Context.Activity.CreateReply();
 
-                    if (topIntent == ToDoLuis.Intent.ShowToDo || state.GoBackToStart)
+                    if (topIntent == todoLuis.Intent.ShowToDo || state.GoBackToStart)
                     {
                         var toDoListCard = ToAdaptiveCardForShowToDos(
                             state.Tasks,
@@ -153,7 +153,7 @@ namespace ToDoSkill.Dialogs
                             await sc.Context.SendActivityAsync(response);
                         }
                     }
-                    else if (topIntent == ToDoLuis.Intent.ShowNextPage || generalTopIntent == General.Intent.ShowNext)
+                    else if (topIntent == todoLuis.Intent.ShowNextPage || generalTopIntent == General.Intent.ShowNext)
                     {
                         if (state.IsLastPage)
                         {
@@ -174,7 +174,7 @@ namespace ToDoSkill.Dialogs
                             }
                         }
                     }
-                    else if (topIntent == ToDoLuis.Intent.ShowPreviousPage || generalTopIntent == General.Intent.ShowPrevious)
+                    else if (topIntent == todoLuis.Intent.ShowPreviousPage || generalTopIntent == General.Intent.ShowPrevious)
                     {
                         if (state.IsFirstPage)
                         {
@@ -193,7 +193,7 @@ namespace ToDoSkill.Dialogs
                         }
                     }
 
-                    if ((topIntent == ToDoLuis.Intent.ShowToDo || state.GoBackToStart) && allTasksCount > state.Tasks.Count)
+                    if ((topIntent == todoLuis.Intent.ShowToDo || state.GoBackToStart) && allTasksCount > state.Tasks.Count)
                     {
                         state.GoBackToStart = false;
                         return await sc.NextAsync();

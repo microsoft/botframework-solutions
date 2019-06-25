@@ -53,6 +53,7 @@ namespace WeatherSkill
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            var provider = services.BuildServiceProvider();
 
             // Load settings
             var settings = new BotSettings();
@@ -62,6 +63,7 @@ namespace WeatherSkill
 
             // Configure credentials
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
+            services.AddSingleton(new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
 
             // Configure storage
             services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));

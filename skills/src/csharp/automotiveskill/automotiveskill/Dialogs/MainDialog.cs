@@ -71,7 +71,7 @@ namespace AutomotiveSkill.Dialogs
             else
             {
                 var turnResult = EndOfTurn;
-                var result = await luisService.RecognizeAsync<Luis.VehicleSettingsLuis>(dc.Context, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<Luis.settingsLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
                 // Update state with vehiclesettings luis result and entities
@@ -80,15 +80,15 @@ namespace AutomotiveSkill.Dialogs
                 // switch on general intents
                 switch (intent)
                 {
-                    case VehicleSettingsLuis.Intent.VEHICLE_SETTINGS_CHANGE:
-                    case VehicleSettingsLuis.Intent.VEHICLE_SETTINGS_DECLARATIVE:
-                    case VehicleSettingsLuis.Intent.VEHICLE_SETTINGS_CHECK:
+                    case settingsLuis.Intent.VEHICLE_SETTINGS_CHANGE:
+                    case settingsLuis.Intent.VEHICLE_SETTINGS_DECLARATIVE:
+                    case settingsLuis.Intent.VEHICLE_SETTINGS_CHECK:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(VehicleSettingsDialog));
                             break;
                         }
 
-                    case VehicleSettingsLuis.Intent.None:
+                    case settingsLuis.Intent.None:
                         {
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(AutomotiveSkillSharedResponses.DidntUnderstandMessage));
                             turnResult = new DialogTurnResult(DialogTurnStatus.Complete);

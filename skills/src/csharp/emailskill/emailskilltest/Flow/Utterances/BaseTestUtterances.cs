@@ -2,11 +2,11 @@
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
-using static Luis.EmailLuis;
+using static Luis.emailLuis;
 
 namespace EmailSkillTest.Flow.Utterances
 {
-    public class BaseTestUtterances : Dictionary<string, EmailLuis>
+    public class BaseTestUtterances : Dictionary<string, emailLuis>
     {
         public BaseTestUtterances()
         {
@@ -41,9 +41,9 @@ namespace EmailSkillTest.Flow.Utterances
             }
         }
 
-        public EmailLuis GetBaseNoneIntent()
+        public emailLuis GetBaseNoneIntent()
         {
-            var emailIntent = new EmailLuis
+            var emailIntent = new emailLuis
             {
                 Intents = new Dictionary<Intent, IntentScore>()
             };
@@ -52,7 +52,7 @@ namespace EmailSkillTest.Flow.Utterances
             return emailIntent;
         }
 
-        protected EmailLuis CreateIntent(
+        protected emailLuis CreateIntent(
             string userInput,
             Intent intent = Intent.None,
             double[] ordinal = null,
@@ -62,7 +62,7 @@ namespace EmailSkillTest.Flow.Utterances
             string[] subject = null,
             string[] message = null)
         {
-            var emailIntent = new EmailLuis
+            var emailIntent = new emailLuis
             {
                 Text = userInput,
 
