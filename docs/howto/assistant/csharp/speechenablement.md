@@ -20,7 +20,8 @@ This tutorial covers the steps required to connect the [Direct Line Speech chann
 
 ### Prerequisites
 
-- Complete the [Virtual Assistant tutorial](/docs/readme.md#tutorials) and have deployed your own Virtual Assistant.
+- [Create a Virtual Assistant](/docs/tutorials/csharp/virtualassistant.md) to setup your environment.
+
 - Make sure the `Universal Windows Platform development` workload is available on your machine. Choose **Tools > Get Tools** and Features from the Visual Studio menu bar to open the Visual Studio installer. If this workload is already enabled, close the dialog box.
 
     ![UWP Enablement](/docs/media/vs-enable-uwp-workload.png)

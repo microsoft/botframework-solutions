@@ -17,7 +17,7 @@ Install Bot Framework development prerequisites and add one of the Skills provid
 
 ### Prerequisites
 
-If you haven't [created a Virtual Assistant](./virtualassistant.md), [download and install](#download-and-install) the Bot Framework development prerequisites.
+- [Create a Virtual Assistant](/docs/tutorials/csharp/virtualassistant.md) to setup your environment.
 
 ### Time to Complete
 
