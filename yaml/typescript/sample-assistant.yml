@@ -9,6 +9,9 @@ trigger:
     include:
     - 'templates/Virtual-Assistant-Template/typescript/samples/sample-assistant/*'
 
+  # By default will disable PR builds
+  pr: none  
+
 pool:
   name: Hosted VS2017
 steps:
