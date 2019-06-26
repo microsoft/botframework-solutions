@@ -13,14 +13,14 @@ export class BotServices {
 
     public cognitiveModelSets: Map<string, ICognitiveModelSet> = new Map();
 
-    constructor(settings: Partial<IBotSettings>, telemetryClient: BotTelemetryClient) {
+    public constructor(settings: Partial<IBotSettings>, telemetryClient: BotTelemetryClient) {
         const luisPredictionOptions: LuisPredictionOptions = {
             telemetryClient: telemetryClient,
             logPersonalInformation: true
         };
 
         if (settings.cognitiveModels !== undefined) {
-            settings.cognitiveModels.forEach((value: ICognitiveModelConfiguration, key: string) => {
+            settings.cognitiveModels.forEach((value: ICognitiveModelConfiguration, key: string): void => {
 
                 const language: string = key;
                 const config: ICognitiveModelConfiguration = value;
@@ -39,7 +39,7 @@ export class BotServices {
                 };
 
                 if (config.languageModels !== undefined) {
-                    config.languageModels.forEach((model: LuisService) => {
+                    config.languageModels.forEach((model: LuisService): void => {
                         const luisService: LuisService = new LuisService(model);
                         const luisApp: LuisApplication  = {
                             applicationId: luisService.appId,
@@ -50,7 +50,7 @@ export class BotServices {
                     });
                 }
 
-                config.knowledgeBases.forEach((kb: QnaMakerService) => {
+                config.knowledgeBases.forEach((kb: QnaMakerService): void => {
                     const qnaEndpoint: QnAMakerEndpoint = {
                         knowledgeBaseId: kb.kbId,
                         endpointKey: kb.endpointKey,
