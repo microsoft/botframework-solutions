@@ -41,6 +41,8 @@ The `--luisFolder` parameter can be used to point the Skill CLI at the source LU
 botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder [path] --cs
 ```
 
+*Remember to re-publish your Assistant to Azure after you've added a Skill unless you plan on testing locally only**
+
 See the [Skill CLI documentation](/lib/typescript/botskills/docs/connect-disconnect.md) for detailed CLI documentation.
 
 ## Manual Authentication Connection configuration

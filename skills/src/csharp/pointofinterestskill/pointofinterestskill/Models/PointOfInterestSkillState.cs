@@ -40,7 +40,7 @@ namespace PointOfInterestSkill.Models
 
         public string RouteType { get; set; }
 
-        public PointOfInterestLuis LuisResult { get; set; }
+        public pointofinterestLuis LuisResult { get; set; }
 
         public DialogState ConversationDialogState { get; set; }
 

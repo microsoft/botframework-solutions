@@ -179,6 +179,7 @@
       "properties": {
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
         "siteConfig": {
+          "webSocketsEnabled": true,
           "appSettings": [
             {
               "name": "MicrosoftAppId",
@@ -219,6 +220,7 @@
       "properties": {
         "displayName": "[parameters('botServiceName')]",
         "endpoint": "[variables('botEndpoint')]",
+        "isStreamingSupported": true,
         "msaAppId": "[parameters('microsoftAppId')]",
         "developerAppInsightKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]",
         "developerAppInsightsApplicationId": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).ApplicationId]"

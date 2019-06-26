@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
@@ -53,6 +54,7 @@ namespace ToDoSkill
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
+            var provider = services.BuildServiceProvider();
 
             // Load settings
             var settings = new BotSettings();
@@ -114,6 +116,9 @@ namespace ToDoSkill
             services.AddTransient<SkillWebSocketAdapter>();
             services.AddTransient<SkillHttpBotAdapter, ToDoSkillHttpBotAdapter>();
             services.AddTransient<SkillHttpAdapter>();
+
+            // Configure HttpContext required for path resolution
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // Configure bot
             services.AddTransient<MainDialog>();
