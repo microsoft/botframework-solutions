@@ -6,9 +6,6 @@
     <PackageVersion Condition=" '$(PackageVersion)' == '' ">4.0.0-local</PackageVersion>
     <PackageVersion Condition=" '$(PackageVersion)' != '' ">$(PackageVersion)</PackageVersion>
     <Configurations>Debug;Release;Documentation;Debug - NuGet Packages;</Configurations>
-    <RestoreAdditionalProjectSources>
-      https://botbuilder.myget.org/F/experimental/api/v3/index.json;
-    </RestoreAdditionalProjectSources>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -18,6 +15,9 @@
     <Company>Microsoft</Company>
     <Authors>Microsoft</Authors>
     <Description>Shared library for building Bot Framework Skills.</Description>
+    <RestoreAdditionalProjectSources>
+      https://botbuilder.myget.org/F/experimental/api/v3/index.json;
+    </RestoreAdditionalProjectSources>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
