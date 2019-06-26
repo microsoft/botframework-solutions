@@ -5,27 +5,25 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
 
-namespace NewsSkill.Responses.FindArticles
+namespace NewsSkill.Responses.FavoriteTopics
 {
-    public class FindArticlesResponses : TemplateManager
+    public class FavoriteTopicsResponses : TemplateManager
     {
-        public const string TopicPrompt = "topicPrompt";
-        public const string MarketPrompt = "marketPrompt";
+        public const string FavoriteTopicPrompt = "favoriteTopicPrompt";
         public const string ShowArticles = "showArticles";
 
         private static LanguageTemplateDictionary _responseTemplates = new LanguageTemplateDictionary
         {
             ["default"] = new TemplateIdMap
             {
-                { TopicPrompt, (context, data) => "What topic are you interested in?" },
-                { MarketPrompt, (context, data) => "What country do you want to search in?" },
+                { FavoriteTopicPrompt, (context, data) => "What's your favorite news topic?" },
                 { ShowArticles, (context, data) => ShowArticleCards(context, data) }
             },
             ["en"] = new TemplateIdMap { },
             ["fr"] = new TemplateIdMap { },
         };
 
-        public FindArticlesResponses()
+        public FavoriteTopicsResponses()
         {
             Register(new DictionaryRenderer(_responseTemplates));
         }
@@ -37,7 +35,7 @@ namespace NewsSkill.Responses.FindArticles
 
             if (articles.Any())
             {
-                response.Text = "Here's what I found:";
+                response.Text = "Here's what I found on your favorite topic:";
 
                 if (articles.Count > 1)
                 {
