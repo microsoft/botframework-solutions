@@ -9,6 +9,9 @@ trigger:
     include:
     - 'lib/typescript/botbuilder-solutions/*'
 
+# By default will disable PR builds
+pr: none
+
 pool:
   vmImage: 'vs2017-win2016'
 steps:

@@ -27,6 +27,7 @@ A personalized *Pipeline* in *Azure DevOps* usign a `YAML` file.
 In first place, you need to create a `YAML` file with the configuration that the *Pipeline* will use. This is according to the needs of the user.
 
 This is an example to configure the `YAML` file. You are able to create or add this file in the root of your project or in any location, this doesn't affect or change the functionality of the `YAML`.
+
 ```
 # specific branch build
 trigger:
@@ -38,6 +39,9 @@ trigger:
   paths:
     include:
     - 'templates/Virtual-Assistant-Template/typescript/samples/sample-assistant/*'
+
+# By default will disable PR builds
+pr: none
 
 pool:
   name: Hosted VS2017
@@ -83,6 +87,17 @@ steps:
     summaryFileLocation: 'templates/Virtual-Assistant-Template/typescript/samples/sample-assistant/coverage/cobertura-coverage.xml'
     reportDirectory: 'templates/Virtual-Assistant-Template/typescript/samples/sample-assistant/coverage/'
 ```
+
+By default, the *Pipeline* automatically triggers a buid for each new pull-request. This *Pipeline's* behavior can be disabled using the following configuration:
+```
+pr: none
+```
+In case that you want to activate this, you can use the following configuration:
+```
+pr: 
+- master
+```
+
 ## Configure build step by step in Pipelines
 
 1. With the `YAML` file configurated you can go to *Azure DevOps* site and proceed to add the new Pipeline. Selecting the *Pipelines* option, will appear the builds like the following screenshot: 
