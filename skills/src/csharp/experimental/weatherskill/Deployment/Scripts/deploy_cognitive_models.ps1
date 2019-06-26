@@ -90,7 +90,8 @@ foreach ($language in $languageArr)
 				region = $luisAuthoringRegion
 			}
 
-			RunLuisGen $lu "$($lu.BaseName)" $(Join-Path $outFolder Services)
+			# Disable this due to https://github.com/Microsoft/botbuilder-tools/issues/1008
+			#RunLuisGen $lu "$($lu.BaseName)" $(Join-Path $outFolder Services)
 		}
 		else {
 			Write-Host "! Deployment failed for LUIS app: $($lu.BaseName)" -ForegroundColor Cyan

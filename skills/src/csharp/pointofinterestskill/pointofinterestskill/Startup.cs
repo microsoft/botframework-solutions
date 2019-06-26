@@ -55,6 +55,7 @@ namespace PointOfInterestSkill
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+            var provider = services.BuildServiceProvider();
 
             // Load settings
             var settings = new BotSettings();
@@ -64,6 +65,7 @@ namespace PointOfInterestSkill
 
             // Configure credentials
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
+            services.AddSingleton(new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
 
             // Configure bot state
             services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));

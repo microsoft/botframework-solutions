@@ -11,9 +11,9 @@ namespace CalendarSkillTest.Flow.Utterances
 
         public static string BaseConnectToMeeting { get; } = "i need to join conference call";
 
-        private CalendarLuis GetBaseConnectToMeetingIntent(
+        private calendarLuis GetBaseConnectToMeetingIntent(
             string userInput,
-            CalendarLuis.Intent intents = CalendarLuis.Intent.ConnectToMeeting,
+            calendarLuis.Intent intents = calendarLuis.Intent.ConnectToMeeting,
             string[] subject = null,
             string[] fromDate = null,
             string[] toDate = null,
