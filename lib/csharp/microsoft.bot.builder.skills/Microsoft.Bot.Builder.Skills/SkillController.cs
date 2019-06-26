@@ -21,7 +21,6 @@ namespace Microsoft.Bot.Builder.Skills
     {
         private readonly IBot _bot;
         private readonly IBotFrameworkHttpAdapter _botFrameworkHttpAdapter;
-        private readonly SkillHttpAdapter _skillHttpAdapter;
         private readonly SkillWebSocketAdapter _skillWebSocketAdapter;
         private readonly BotSettingsBase _botSettings;
         private readonly JsonSerializer _jsonSerializer = JsonSerializer.Create(Serialization.Settings);
@@ -30,14 +29,12 @@ namespace Microsoft.Bot.Builder.Skills
             IBot bot,
             BotSettingsBase botSettings,
 			IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
-			SkillWebSocketAdapter skillWebSocketAdapter,
-			SkillHttpAdapter skillHttpAdapter = null)
+			SkillWebSocketAdapter skillWebSocketAdapter)
 		{
 			_bot = bot ?? throw new ArgumentNullException(nameof(IBot));
 			_botSettings = botSettings ?? throw new ArgumentNullException(nameof(botSettings));
 			_botFrameworkHttpAdapter = botFrameworkHttpAdapter ?? throw new ArgumentNullException(nameof(IBotFrameworkHttpAdapter));
 			_skillWebSocketAdapter = skillWebSocketAdapter;
-			_skillHttpAdapter = skillHttpAdapter;
         }
 
 		// Each skill provides a template manifest file which we use to fill in the dynamic elements.
@@ -68,24 +65,6 @@ namespace Microsoft.Bot.Builder.Skills
             if (_skillWebSocketAdapter != null)
             {
                 await _skillWebSocketAdapter.ProcessAsync(Request, Response, _bot);
-            }
-            else
-            {
-                Response.StatusCode = (int)HttpStatusCode.MethodNotAllowed;
-            }
-        }
-
-        /// <summary>
-        /// This API is the endpoint the bot exposes as skill.
-        /// </summary>
-        /// <returns>Task.</returns>
-        [Route("api/skill/messages")]
-        [HttpPost]
-        public async Task SkillMessage()
-        {
-            if (_skillHttpAdapter != null)
-            {
-                await _skillHttpAdapter.ProcessAsync(Request, Response, _bot);
             }
             else
             {
