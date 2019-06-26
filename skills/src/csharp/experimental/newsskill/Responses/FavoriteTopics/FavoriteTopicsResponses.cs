@@ -10,7 +10,6 @@ namespace NewsSkill.Responses.FavoriteTopics
     public class FavoriteTopicsResponses : TemplateManager
     {
         public const string FavoriteTopicPrompt = "favoriteTopicPrompt";
-        public const string MarketPrompt = "marketPrompt";
         public const string ShowArticles = "showArticles";
 
         private static LanguageTemplateDictionary _responseTemplates = new LanguageTemplateDictionary
@@ -18,7 +17,6 @@ namespace NewsSkill.Responses.FavoriteTopics
             ["default"] = new TemplateIdMap
             {
                 { FavoriteTopicPrompt, (context, data) => "What's your favorite news topic?" },
-                { MarketPrompt, (context, data) => "What country do you want to search in?" },
                 { ShowArticles, (context, data) => ShowArticleCards(context, data) }
             },
             ["en"] = new TemplateIdMap { },

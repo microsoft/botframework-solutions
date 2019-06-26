@@ -17,7 +17,6 @@ namespace NewsSkill.Dialogs
     {
         private NewsClient _client;
         private FavoriteTopicsResponses _responder = new FavoriteTopicsResponses();
-        private AzureMapsService _mapsService;
 
         public FavoriteTopicsDialog(
             BotSettings settings,
@@ -26,16 +25,13 @@ namespace NewsSkill.Dialogs
             UserState userState,
             AzureMapsService mapsService,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(FavoriteTopicsDialog), services, conversationState, userState, telemetryClient)
+            : base(nameof(FavoriteTopicsDialog), settings, services, conversationState, userState, mapsService, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
             var newsKey = settings.Properties["BingNewsKey"] ?? throw new Exception("The BingNewsKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
-            var mapsKey = settings.Properties["AzureMapsKey"] ?? throw new Exception("The AzureMapsKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
 
             _client = new NewsClient(newsKey);
-            _mapsService = mapsService;
-            _mapsService.InitKeyAsync(mapsKey);
 
             var favoriteTopics = new WaterfallStep[]
             {
@@ -46,43 +42,8 @@ namespace NewsSkill.Dialogs
             };
 
             AddDialog(new WaterfallDialog(nameof(FavoriteTopicsDialog), favoriteTopics));
-            AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
-        }
-
-        private async Task<DialogTurnResult> GetMarket(WaterfallStepContext sc, CancellationToken cancellationToken)
-        {
-            var userState = await UserAccessor.GetAsync(sc.Context, () => new NewsSkillUserState());
-
-            // Check if there's already a location
-            if (userState.Market != null)
-            {
-                if (userState.Market.Length > 0)
-                {
-                    return await sc.NextAsync(userState.Market);
-                }
-            }
-
-            // Prompt user for location
-            return await sc.PromptAsync(nameof(TextPrompt), new PromptOptions()
-            {
-                Prompt = await _responder.RenderTemplate(sc.Context, sc.Context.Activity.Locale, FavoriteTopicsResponses.MarketPrompt)
-            });
-        }
-
-        private async Task<DialogTurnResult> SetMarket(WaterfallStepContext sc, CancellationToken cancellationToken)
-        {
-            var userState = await UserAccessor.GetAsync(sc.Context, () => new NewsSkillUserState());
-
-            if (userState.Market == null)
-            {
-                string country = (string)sc.Result;
-
-                // use AzureMaps API to get country code from country input by user
-                userState.Market = await _mapsService.GetCountryCodeAsync(country);
-            }
-
-            return await sc.NextAsync();
+            AddDialog(new TextPrompt(nameof(TextPrompt), MarketPromptValidatorAsync));
         }
 
         private async Task<DialogTurnResult> SetFavorites(WaterfallStepContext sc, CancellationToken cancellationToken)

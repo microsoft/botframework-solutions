@@ -9,7 +9,7 @@ namespace NewsSkill.Services
 {
     public sealed class AzureMapsService
     {
-        private static readonly string FuzzyQueryApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&query={{0}}";
+        private const string FuzzyQueryApiUrl = "https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&query={0}";
         private static string apiKey;
         private static HttpClient httpClient = new HttpClient();
 
@@ -34,7 +34,13 @@ namespace NewsSkill.Services
             var response = await httpClient.GetStringAsync(url);
             var apiResponse = JsonConvert.DeserializeObject<SearchResultSet>(response);
 
-            return apiResponse.Results[0].Address.CountryCode;
+            // check there is a valid response
+            if (apiResponse != null && apiResponse.Results.Count > 0)
+            {
+                return apiResponse.Results[0]?.Address?.CountryCode;
+            }
+
+            return null;
         }
     }
 }
