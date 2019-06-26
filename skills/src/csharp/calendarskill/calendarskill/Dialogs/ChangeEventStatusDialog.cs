@@ -162,7 +162,7 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.LuisResult?.TopIntent().intent.ToString() == CalendarLuis.Intent.DeleteCalendarEntry.ToString())
+                if (state.LuisResult?.TopIntent().intent.ToString() == calendarLuis.Intent.DeleteCalendarEntry.ToString())
                 {
                     state.NewEventStatus = EventStatus.Cancelled;
                 }

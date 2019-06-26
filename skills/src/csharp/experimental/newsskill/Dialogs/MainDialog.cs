@@ -64,7 +64,7 @@ namespace NewsSkill.Dialogs
             else
             {
                 var turnResult = EndOfTurn;
-                var result = await luisService.RecognizeAsync<NewsLuis>(dc.Context, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<newsLuis>(dc.Context, CancellationToken.None);
                 state.LuisResult = result;
 
                 var intent = result?.TopIntent().intent;
@@ -72,14 +72,14 @@ namespace NewsSkill.Dialogs
                 // switch on general intents
                 switch (intent)
                 {
-                    case NewsLuis.Intent.FindArticles:
+                    case newsLuis.Intent.FindArticles:
                         {
                             // send greeting response
                             turnResult = await dc.BeginDialogAsync(nameof(FindArticlesDialog));
                             break;
                         }
 
-                    case NewsLuis.Intent.None:
+                    case newsLuis.Intent.None:
                         {
                             // No intent was identified, send confused message
                             await _responder.ReplyWith(dc.Context, MainResponses.Confused);

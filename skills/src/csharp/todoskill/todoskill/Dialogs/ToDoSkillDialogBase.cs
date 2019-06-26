@@ -144,7 +144,7 @@ namespace ToDoSkill.Dialogs
                 var topIntent = state.LuisResult?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
-                if (topIntent == ToDoLuis.Intent.ShowToDo)
+                if (topIntent == todoLuis.Intent.ShowToDo)
                 {
                     state.ShowTaskPageIndex = 0;
                     state.Tasks = new List<TaskItem>();
@@ -153,7 +153,7 @@ namespace ToDoSkill.Dialogs
                     state.GoBackToStart = false;
                     await DigestToDoLuisResult(sc);
                 }
-                else if (topIntent == ToDoLuis.Intent.ShowNextPage || generalTopIntent == General.Intent.ShowNext)
+                else if (topIntent == todoLuis.Intent.ShowNextPage || generalTopIntent == General.Intent.ShowNext)
                 {
                     state.IsLastPage = false;
                     if ((state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
@@ -165,7 +165,7 @@ namespace ToDoSkill.Dialogs
                         state.IsLastPage = true;
                     }
                 }
-                else if (topIntent == ToDoLuis.Intent.ShowPreviousPage || generalTopIntent == General.Intent.ShowPrevious)
+                else if (topIntent == todoLuis.Intent.ShowPreviousPage || generalTopIntent == General.Intent.ShowPrevious)
                 {
                     state.IsFirstPage = false;
                     if (state.ShowTaskPageIndex > 0)
@@ -177,7 +177,7 @@ namespace ToDoSkill.Dialogs
                         state.IsFirstPage = true;
                     }
                 }
-                else if (topIntent == ToDoLuis.Intent.AddToDo)
+                else if (topIntent == todoLuis.Intent.AddToDo)
                 {
                     state.TaskContentPattern = null;
                     state.TaskContentML = null;
@@ -188,7 +188,7 @@ namespace ToDoSkill.Dialogs
                     state.ListType = null;
                     await DigestToDoLuisResult(sc);
                 }
-                else if (topIntent == ToDoLuis.Intent.MarkToDo || topIntent == ToDoLuis.Intent.DeleteToDo)
+                else if (topIntent == todoLuis.Intent.MarkToDo || topIntent == todoLuis.Intent.DeleteToDo)
                 {
                     state.TaskIndexes = new List<int>();
                     state.MarkOrDeleteAllTasksFlag = false;
@@ -340,19 +340,19 @@ namespace ToDoSkill.Dialogs
                     state.FoodOfGrocery = entities.FoodOfGrocery[0][0];
                 }
 
-                if (entities.ShopVerb != null && (entities.ShopContent != null || entities.FoodOfGrocery != null))
+                if (entities.ShopVerb != null && (entities.TaskContent != null || entities.FoodOfGrocery != null))
                 {
                     state.HasShopVerb = true;
                 }
 
-                if (entities.ShopContent != null)
+                if (entities.TaskContent != null)
                 {
-                    state.ShopContent = entities.ShopContent[0];
+                    state.ShopContent = entities.TaskContent[0];
                 }
 
-                if (entities.TaskContentPattern != null)
+                if (entities.TaskContent_Any != null)
                 {
-                    state.TaskContentPattern = entities.TaskContentPattern[0];
+                    state.TaskContentPattern = entities.TaskContent_Any[0];
                 }
 
                 if (entities.TaskContent != null)
