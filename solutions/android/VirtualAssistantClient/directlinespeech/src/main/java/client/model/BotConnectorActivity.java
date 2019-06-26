@@ -83,6 +83,9 @@ public class BotConnectorActivity {
     @SerializedName("seat")
     @Expose
     private String seat;
+    @SerializedName("suggestedActions")
+    @Expose
+    public SuggestedActions suggestedActions;
 
     public List<Object> getAttachments() {
         return attachments;
@@ -243,4 +246,12 @@ public class BotConnectorActivity {
     public void setSeat(String seat) { this.seat = seat;}
 
     public String getSeat() { return seat;}
+
+    public SuggestedActions getSuggestedActions() {
+        return suggestedActions;
+    }
+
+    public void setSuggestedActions(SuggestedActions suggestedActions) {
+        this.suggestedActions = suggestedActions;
+    }
 }

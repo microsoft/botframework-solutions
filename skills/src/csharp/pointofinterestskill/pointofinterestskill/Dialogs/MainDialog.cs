@@ -9,9 +9,12 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using PointOfInterestSkill.Models;
 using PointOfInterestSkill.Responses.Main;
@@ -81,37 +84,37 @@ namespace PointOfInterestSkill.Dialogs
             else
             {
                 var turnResult = EndOfTurn;
-                var result = await luisService.RecognizeAsync<PointOfInterestLuis>(dc.Context, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<pointofinterestLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
                 // switch on general intents
                 switch (intent)
                 {
-                    case PointOfInterestLuis.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y:
+                    case pointofinterestLuis.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(RouteDialog));
                             break;
                         }
 
-                    case PointOfInterestLuis.Intent.NAVIGATION_CANCEL_ROUTE:
+                    case pointofinterestLuis.Intent.NAVIGATION_CANCEL_ROUTE:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(CancelRouteDialog));
                             break;
                         }
 
-                    case PointOfInterestLuis.Intent.NAVIGATION_FIND_POINTOFINTEREST:
+                    case pointofinterestLuis.Intent.NAVIGATION_FIND_POINTOFINTEREST:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(FindPointOfInterestDialog));
                             break;
                         }
 
-                    case PointOfInterestLuis.Intent.NAVIGATION_FIND_PARKING:
+                    case pointofinterestLuis.Intent.NAVIGATION_FIND_PARKING:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(FindParkingDialog));
                             break;
                         }
 
-                    case PointOfInterestLuis.Intent.None:
+                    case pointofinterestLuis.Intent.None:
                         {
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POISharedResponses.DidntUnderstandMessage));
                             turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
@@ -137,10 +140,14 @@ namespace PointOfInterestSkill.Dialogs
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response = dc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.EndOfConversation;
+            // workaround. if connect skill directly to teams, the following response does not work.
+            if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
+            {
+                var response = dc.Context.Activity.CreateReply();
+                response.Type = ActivityTypes.EndOfConversation;
 
-            await dc.Context.SendActivityAsync(response);
+                await dc.Context.SendActivityAsync(response);
+            }
 
             // End active dialog
             await dc.EndDialogAsync(result);
@@ -235,7 +242,7 @@ namespace PointOfInterestSkill.Dialogs
                 var localeConfig = _services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities
-                var poiLuisResult = await localeConfig.LuisServices["pointofinterest"].RecognizeAsync<PointOfInterestLuis>(dc.Context, cancellationToken);
+                var poiLuisResult = await localeConfig.LuisServices["pointofinterest"].RecognizeAsync<pointofinterestLuis>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
                 state.LuisResult = poiLuisResult;
 

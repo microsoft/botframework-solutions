@@ -5,15 +5,16 @@ The most common scenarios have been implemented in this beta release, with addit
 
 ## Table of Contents
 
+- [Supported Sources](#supported-sources)
 - [Supported Scenarios](#supported-scenarios)
+- [Skill Deployment](#skill-deployment)
 - [Language Model](#language-model)
-- [Configuration](#configuration)
 
 ## Supported Sources
 
 > Office 365 and Outlook.com through the Microsoft Graph is supported along with support for Google accounts.
 
-To use Google account skill you need follow these steps:
+To use Google account in skill you need to follow these steps:
 1. Create your calendar API credential in [Google developers console](https://console.developers.google.com). 
 2. Create an OAuth connection setting in your Web App Bot.
     - Connection name: `googleapi`

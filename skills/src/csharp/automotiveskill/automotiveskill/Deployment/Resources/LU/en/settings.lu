@@ -1,4 +1,8 @@
-﻿# VEHICLE_SETTINGS_CHANGE
+﻿> # Intent definitions
+## None
+
+
+# VEHICLE_SETTINGS_CHANGE
 - {AMOUNT=1} {UNIT=degree celsius} {VALUE=higher} please
 - {AMOUNT=1} {UNIT=fahrenheit degrees} {VALUE=higher} please
 - 2 {AMOUNT=min} stage

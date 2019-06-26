@@ -2,9 +2,20 @@
 
 ## The Teams channel doesn't render OAuth cards.
 
-Prior versions of the BF SDK and VA template experienced issues when using Teams whereby Authentication cards (OAuthPrompt generated) did not function as expected. This required manual changes to work around the issue which are now incorporated into the BF SDK and Virtual Assistant template. If you experience these problems please update to Bot Framework SDK 4.4.5 or higher and update your `Microsoft.Bot.Builder.Solutions` and `Microsoft.Bot.Builder.Skills` nuget packages to 4.4.4.1 or higher.
+Prior versions of the BF SDK and VA template experienced issues when using Teams whereby Authentication cards (OAuthPrompt generated) did not function as expected. This required manual changes to work around the issue which are now incorporated into the BF SDK and Virtual Assistant template. If you experience these problems please:
 
-Please be aware that you *must* use [App Studio](https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-app-studio) to create an Application Manifest when using Teams. Otherwise you won't be able to click any login buttons within Teams. It's key to ensure that under Domains and permissions in the Manifest Editor that you enter the domain `token.botframework.com` to enable clicking of the login button. You cannot click the link in the Channel Page of the Bot Framework to start a conversation with your Bot.
+1. Update to Bot Framework SDK 4.4.5 or higher
+2. Update your `Microsoft.Bot.Builder.Solutions` and `Microsoft.Bot.Builder.Skills` nuget packages to 4.4.4.1 or higher.
+
+Please be aware that you **must** use [App Studio](https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-app-studio) to create an Application Manifest when using Teams. Otherwise you won't be able to click any login buttons within Teams. 
+
+It's key to ensure that under Domains and permissions in the Manifest Editor that you enter the domain `token.botframework.com` to enable clicking of the login button. 
+
+>You cannot click the link in the Channel Page of the Bot Framework to start a conversation with your Bot through Teams.
+
+## WebChat doesn't work with your Virtual Assistant / Skills
+
+Virtual Assistant's created using an earlier version of the template reference an older version of the nuget packages. Update your `Bot.Builder.Skills` and `Bot.Builder.Solutions` to the latest versions (4.4.41 or higher) along with the Bot Framework SDK to 4.4.5 or higher. Then apply the change in the item below.
 
 ## When invoking a Skill you may experience the initial message being sent twice
 
@@ -27,6 +38,40 @@ Ensure you have also updated to the latest `Bot.Builder.Skills/Bot.Builder.Solut
 ## QnAMaker can't be entirely deployed in a region other than westus.
 
 QnAMaker has a central Cognitive Service resource that must be deployed in `westus`, the dependent Web App, Azure Search and AppInsights resources can be installed in a broader range of regions. We have therefore fixed this QnAMaker resource to be `westus` in the ARM template (template.json) which can be found in the `deployment\resources` folder of your Virtual Assistant. When deploying in a region such as westeurope all dependent resources will be created in the requested region. This script will be updated as new regions are available.
+
+## Telemetry Gaps / FlowAggregate errors in the PowerBI Template
+
+If you try to use the PowerBI analytics dashboard with your Virtual Assistant / Skills and experience a `Errors in FlowAggregates` issue or experience some telemetry not being collected this likely relates to a bug experienced in the initial version of the Virtual Assistant template and Skills which has now been addressed.
+
+1. Change `appInsights` in appSettings.config to `ApplicationInsights`
+
+```
+"ApplicationInsights": {
+    "InstrumentationKey": ""
+  }
+```
+
+2. Update your `BotServices.cs` file with the changes [here](https://github.com/microsoft/botframework-solutions/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Services/BotServices.cs).
+
+3. Update your `Startup.cs` file with the changes [here](https://github.com/microsoft/botframework-solutions/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Startup.cs)
+
+4. Existing data in your Application Insights may cause the error to persist. You can either drop and re-create your Application insights resource updating the appSettings.config file with the new Instrumentation key or follow these [purge instructions](https://docs.microsoft.com/en-us/rest/api/application-insights/components/purge).
+
+
+## Deployment doesn't assign the newly created LUIS subscription key to the created LUIS models / LUIS Forbidden Error.
+
+Due to a limitation with the LUIS authoring APIs the deployment script isn't able to assign the newly created LUIS subscription-key to the deployed and published LUIS models. Instead, the current workaround is to rely on the Starter Key meaning the Virtual Assistant and Skills work with no manual steps. We are working on changes to the LUIS authoring APIs to enable this to be assigned automatically.
+
+This may cause you to also experience `Forbidden` LUIS errors when testing your Bot as you may have exhausted the quota for your starter LUIS key, changing from your starter LUIS subscription key will resolve this.
+
+In the meantime, you'll have to manually perform the following steps:
+
+1. As shown below go through **each LUIS model including Dispatch**, click Assign Resoucre and locate the appropriate subscription key and then re-publish. 
+
+![Assign Resource](/docs/media/luis-assignresource.png)
+
+2. Update the `subscriptionKey` for each LUIS model (includign Dispatch) in `cognitiveModels.json` with your new subscription key. 
+
 
 ## The introduction card isn't displayed when a locale is missing
 

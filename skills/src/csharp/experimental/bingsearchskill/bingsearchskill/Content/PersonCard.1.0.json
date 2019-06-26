@@ -1,0 +1,43 @@
+{
+  "type": "AdaptiveCard",
+  "id": "PersonCard",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "Image",
+          "horizontalAlignment": "Center",
+          "url": "{IconPath}",
+          "size": "Large"
+        },
+        {
+          "type": "TextBlock",
+          "size": "ExtraLarge",
+          "weight": "Bolder",
+          "color": "Default",
+          "text": "{Name}"
+        },
+        {
+          "type": "TextBlock",
+          "size": "Large",
+          "weight": "Bolder",
+          "text": "{EntityTypeDisplayHint}",
+          "isSubtle": true,
+          "color": "Default"
+        },
+        {
+          "type": "TextBlock",
+          "size": "Medium",
+          "color": "Default",
+          "text": "{Description}",
+          "wrap": true,
+          "maxLines": 8
+        }
+      ]
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0",
+  "speak": "{Speak}"
+}

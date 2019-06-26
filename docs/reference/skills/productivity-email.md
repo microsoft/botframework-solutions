@@ -5,13 +5,23 @@ The most common scenarios have been implemented in this beta release, with addit
 
 ## Table of Contents
 
+- [Supported Sources](#supported-sources)
 - [Supported Scenarios](#supported-scenarios)
+- [Skill Deployment](#skill-deployment)
 - [Language Model](#language-model)
-- [Configuration](#configuration)
 
 ## Supported Sources
 
 > Office 365 and Outlook.com through the Microsoft Graph is supported along with support for Google accounts.
+
+To use Google account in skill you need to follow these steps:
+1. Create your Gmail API credential in [Google developers console](https://console.developers.google.com). 
+2. Create an OAuth connection setting in your Web App Bot.
+    - Connection name: `googleapi`
+    - Service Provider: `Google`
+    - Client id and secret are generated in step 1
+    - Scopes: `"https://mail.google.com/ https://www.googleapis.com/auth/contacts"`.
+3. Add the connection name, client id, secret and scopes in appsetting.json file.
 
 ## Supported Scenarios
 
@@ -126,9 +136,3 @@ LUIS models for the Skill are provided in .LU file format as part of the Skill. 
 |datetimeV2| Prebuilt entity|
 |number| Prebuilt entity|
 |ordinal| Prebuilt entity|
-
-### Example Skill Manifest
-
-```
-TBC
-```

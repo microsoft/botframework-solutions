@@ -107,7 +107,9 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         }
 
         const adapter: BotFrameworkAdapter = <BotFrameworkAdapter> stepContext.context.adapter;
-        const tokenStatusCollection: TokenStatus[] = await adapter.getTokenStatus(stepContext.context, stepContext.context.activity.from.id);
+        const tokenStatusCollection: TokenStatus[] = await adapter.getTokenStatus(
+            stepContext.context,
+            stepContext.context.activity.from.id);
 
         const matchingProviders: TokenStatus[] = tokenStatusCollection.filter((p: TokenStatus) => {
             return (p.hasToken || false) && this.authenticationConnections.some((t: IOAuthConnection) => {

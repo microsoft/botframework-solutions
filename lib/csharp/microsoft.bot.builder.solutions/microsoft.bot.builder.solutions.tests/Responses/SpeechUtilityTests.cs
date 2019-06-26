@@ -37,7 +37,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests
 
             var response = SpeechUtility.ListToSpeechReadyString(_promptOptions);
 
-            Assert.AreEqual(response, string.Format($"{parentSpeakProperty}{listItemSpeakProperty}"));
+            Assert.AreEqual(response, string.Format($"{parentSpeakProperty} {listItemSpeakProperty}"));
         }
 
         [TestMethod]
@@ -53,7 +53,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests
 
             var item1 = string.Format(CommonStrings.LatestItem, listItemSpeakProperty);
             var item2 = string.Format(CommonStrings.LastItem, listItemSpeakProperty);
-            Assert.AreEqual(response, string.Format($"{parentSpeakProperty}{item1} {CommonStrings.And} {item2}"));
+            Assert.AreEqual(response, string.Format($"{parentSpeakProperty} {item1} {CommonStrings.And} {item2}"));
         }
 
         [TestMethod]
@@ -66,7 +66,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests
 
             var response = SpeechUtility.ListToSpeechReadyString(_activity);
 
-            Assert.AreEqual(response, string.Format($"{parentSpeakProperty}{listItemSpeakProperty}"));
+            Assert.AreEqual(response, string.Format($"{parentSpeakProperty} {listItemSpeakProperty}"));
         }
 
         [TestMethod]
@@ -82,7 +82,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests
 
             var item1 = string.Format(CommonStrings.FirstItem, listItemSpeakProperty);
             var item2 = string.Format(CommonStrings.LastItem, listItemSpeakProperty);
-            Assert.AreEqual(response, string.Format($"{parentSpeakProperty}{item1} {CommonStrings.And} {item2}"));
+            Assert.AreEqual(response, string.Format($"{parentSpeakProperty} {item1} {CommonStrings.And} {item2}"));
         }
 
         [TestMethod]
@@ -100,7 +100,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests
             var item1 = string.Format(CommonStrings.FirstItem, listItemSpeakProperty);
             var item2 = string.Format(CommonStrings.SecondItem, listItemSpeakProperty);
             var item3 = string.Format(CommonStrings.LastItem, listItemSpeakProperty);
-            Assert.AreEqual(response, string.Format($"{parentSpeakProperty}{item1}, {item2} {CommonStrings.And} {item3}"));
+            Assert.AreEqual(response, string.Format($"{parentSpeakProperty} {item1}, {item2} {CommonStrings.And} {item3}"));
         }
 
         [TestMethod]
@@ -120,7 +120,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests
             var item2 = string.Format(CommonStrings.SecondItem, listItemSpeakProperty);
             var item3 = string.Format(CommonStrings.ThirdItem, listItemSpeakProperty);
             var item4 = string.Format(CommonStrings.LastItem, listItemSpeakProperty);
-            Assert.AreEqual(response, string.Format($"{parentSpeakProperty}{item1}, {item2}, {item3} {CommonStrings.And} {item4}"));
+            Assert.AreEqual(response, string.Format($"{parentSpeakProperty} {item1}, {item2}, {item3} {CommonStrings.And} {item4}"));
         }
     }
 }
