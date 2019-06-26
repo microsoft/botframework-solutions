@@ -5,27 +5,25 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.TemplateManager;
 using Microsoft.Bot.Schema;
 
-namespace NewsSkill.Responses.FindArticles
+namespace NewsSkill.Responses.TrendingArticles
 {
-    public class FindArticlesResponses : TemplateManager
+    public class TrendingArticlesResponses : TemplateManager
     {
-        public const string TopicPrompt = "topicPrompt";
-        public const string MarketPrompt = "marketPrompt";
         public const string ShowArticles = "showArticles";
+        public const string MarketPrompt = "marketPrompt";
 
         private static LanguageTemplateDictionary _responseTemplates = new LanguageTemplateDictionary
         {
             ["default"] = new TemplateIdMap
             {
-                { TopicPrompt, (context, data) => "What topic are you interested in?" },
-                { MarketPrompt, (context, data) => "What country do you want to search in?" },
+                { MarketPrompt, (context, data) => "What country are you in?" },
                 { ShowArticles, (context, data) => ShowArticleCards(context, data) }
             },
             ["en"] = new TemplateIdMap { },
             ["fr"] = new TemplateIdMap { },
         };
 
-        public FindArticlesResponses()
+        public TrendingArticlesResponses()
         {
             Register(new DictionaryRenderer(_responseTemplates));
         }
@@ -33,15 +31,15 @@ namespace NewsSkill.Responses.FindArticles
         private static object ShowArticleCards(ITurnContext context, dynamic data)
         {
             var response = context.Activity.CreateReply();
-            var articles = data as List<NewsArticle>;
+            var articles = data as List<NewsTopic>;
 
             if (articles.Any())
             {
-                response.Text = "Here's what I found:";
+                response.Text = "Here's what's trending:";
 
                 if (articles.Count > 1)
                 {
-                    response.Speak = $"I found a few news stories, here's a summary of the first: {articles[0].Description}";
+                    response.Speak = $"I found a few news stories, here's the title of the first: {articles[0].Name}";
                 }
                 else
                 {
@@ -53,19 +51,17 @@ namespace NewsSkill.Responses.FindArticles
 
                 foreach (var item in articles)
                 {
-                    var card = new ThumbnailCard()
+                    var card = new HeroCard()
                     {
                         Title = item.Name,
-                        Subtitle = item.DatePublished,
-                        Text = item.Description,
-                        Images = item?.Image?.Thumbnail?.ContentUrl != null ? new List<CardImage>()
+                        Images = item?.Image?.Url != null ? new List<CardImage>()
                         {
-                            new CardImage(item.Image.Thumbnail.ContentUrl),
+                            new CardImage(item.Image.Url),
                         }
                         : null,
                         Buttons = new List<CardAction>()
                         {
-                            new CardAction(ActionTypes.OpenUrl, title: "Read more", value: item.Url)
+                            new CardAction(ActionTypes.OpenUrl, title: "Read more", value: item.WebSearchUrl)
                         },
                     }.ToAttachment();
 
@@ -74,8 +70,8 @@ namespace NewsSkill.Responses.FindArticles
             }
             else
             {
-                response.Text = "Sorry, I couldn't find any articles on that topic.";
-                response.Speak = "Sorry, I couldn't find any articles on that topic.";
+                response.Text = "Sorry, I couldn't find any trending articles.";
+                response.Speak = "Sorry, I couldn't find any trending articles.";
             }
 
             return response;
