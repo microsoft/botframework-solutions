@@ -121,7 +121,7 @@ if (!args.skillsFile) {
     const skillsFilePath: string = isAbsolute(args.skillsFile) ? args.skillsFile : join(resolve('./'), args.skillsFile);
     if (!existsSync(skillsFilePath)) {
         logger.error(`The 'skillsFile' argument leads to a non-existing file.
-            Please make sure to provide a valid path to your Assistant Skills configuration file.`);
+            Please make sure to provide a valid path to your Assistant Skills configuration file using the '--skillsFile' argument.`);
         process.exit(1);
     }
     configuration.skillsFile = skillsFilePath;

@@ -57,8 +57,8 @@ export class ConnectSkill {
         const skillManifestPath: string = isAbsolute(manifestPath) ? manifestPath : join(resolve('./'), manifestPath);
 
         if (!existsSync(skillManifestPath)) {
-            throw new Error(
-            `The 'localManifest' argument leads to a non-existing file. Please make sure to provide a valid path to your Skill manifest.`);
+            throw new Error(`The 'localManifest' argument leads to a non-existing file.
+Please make sure to provide a valid path to your Skill manifest using the '--localManifest' argument.`);
         }
 
         return JSON.parse(readFileSync(skillManifestPath, 'UTF8'));

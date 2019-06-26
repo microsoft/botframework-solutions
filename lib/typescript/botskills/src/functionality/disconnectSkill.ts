@@ -72,7 +72,7 @@ Run 'botskills list --assistantSkills "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in or
             // Validate configuration.skillsFile
             if (!existsSync(configuration.skillsFile)) {
                 this.logger.error(`The 'skillsFile' argument is absent or leads to a non-existing file.
-Please make sure to provide a valid path to your Assistant Skills configuration file.`);
+Please make sure to provide a valid path to your Assistant Skills configuration file using the '--skillsFile' argument.`);
 
                 return false;
             }
@@ -93,12 +93,12 @@ Run 'botskills list --assistantSkills "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in or
                 return false;
             } else if (!configuration.lgLanguage || !(['cs', 'ts'].includes(configuration.lgLanguage))) {
                 this.logger.error(`The 'lgLanguage' argument is incorrect.
-It should be either 'cs' or 'ts' depending on your assistant's language.`);
+It should be either 'cs' or 'ts' depending on your assistant's language. Please provide either the argument '--cs' or '--ts'.`);
 
                 return false;
             } else if (!configuration.lgOutFolder || !existsSync(configuration.lgOutFolder)) {
                 this.logger.error(`The 'lgOutFolder' argument is absent or leads to a non-existing folder.
-Please make sure to provide a valid path to your LUISGen output folder.`);
+Please make sure to provide a valid path to your LUISGen output folder using the '--lgOutFolder' argument.`);
 
                 return false;
             } else {

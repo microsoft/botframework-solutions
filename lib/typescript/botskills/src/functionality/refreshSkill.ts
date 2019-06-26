@@ -34,10 +34,10 @@ export class RefreshSkill {
     }
 
     private async updateDispatch(configuration: IRefreshConfiguration): Promise<void> {
+        const dispatchRefreshCommand: string[] = ['dispatch', 'refresh'];
         try {
             this.logger.message('Running dispatch refresh...');
 
-            const dispatchRefreshCommand: string[] = ['dispatch', 'refresh'];
             dispatchRefreshCommand.push(...['--dispatch', this.dispatchFilePath]);
             dispatchRefreshCommand.push(...['--dataFolder', configuration.dispatchFolder]);
 
@@ -47,25 +47,25 @@ export class RefreshSkill {
 
             if (!existsSync(this.dispatchJsonFilePath)) {
                 // tslint:disable-next-line: max-line-length
-                throw new Error(`Path to ${this.dispatchJsonFile} (${this.dispatchJsonFilePath}) leads to a nonexistent file. Make sure the dispatch refresh command is being executed successfully`);
+                throw new Error(`Path to ${this.dispatchJsonFile} (${this.dispatchJsonFilePath}) leads to a nonexistent file. This may be due to a problem with the 'dispatch refresh' command.`);
             }
         } catch (err) {
-            throw new Error(`There was an error in the dispatch refresh command:\n${err}`);
+            throw new Error(`There was an error in the dispatch refresh command:\nCommand:${dispatchRefreshCommand}\n${err}`);
         }
     }
 
     private async runLuisGen(configuration: IRefreshConfiguration): Promise<void> {
+        const luisgenCommand: string[] = ['luisgen'];
         try {
             this.logger.message('Running LuisGen...');
 
-            const luisgenCommand: string[] = ['luisgen'];
             luisgenCommand.push(this.dispatchJsonFilePath);
             luisgenCommand.push(...[`-${configuration.lgLanguage} "DispatchLuis"`]);
             luisgenCommand.push(...[`-o "${configuration.lgOutFolder}"`]);
 
             await this.runCommand(luisgenCommand, `Executing luisgen for the ${configuration.dispatchName} file`);
         } catch (err) {
-            throw new Error(`There was an error in the luisgen command:\n${err}`);
+            throw new Error(`There was an error in the luisgen command:\nCommand: ${luisgenCommand.join(' ')}\n${err}`);
         }
     }
 
