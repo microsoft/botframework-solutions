@@ -33,12 +33,24 @@ if (Test-Path $zipPath) {
 	Remove-Item $zipPath -Force | Out-Null
 }
 
-# Compress source code
-Get-ChildItem -Path "$($projFolder)" | Compress-Archive -DestinationPath "$($zipPath)" -Force | Out-Null
+# Perform dotnet publish step ahead of zipping up
+$publishFolder = $(Join-Path $projFolder 'bin\Release\netcoreapp2.2')
+dotnet publish -c release -o $publishFolder -v q > $logFile
 
-# Publish zip to Azure
-Write-Host "> Publishing to Azure ..."
-(az webapp deployment source config-zip `
-	--resource-group $resourceGroup `
-	--name $name `
-	--src $zipPath) 2>> $logFile | Out-Null
+if($?) 
+{     
+	# Compress source code
+	Get-ChildItem -Path "$($publishFolder)" | Compress-Archive -DestinationPath "$($zipPath)" -Force | Out-Null
+
+	# Publish zip to Azure
+	Write-Host "> Publishing to Azure ..." -ForegroundColor Green
+	(az webapp deployment source config-zip `
+		--resource-group $resourceGroup `
+		--name $name `
+		--src $zipPath) 2>> $logFile | Out-Null
+} 
+else 
+{       
+	Write-Host "! Could not deploy automatically to Azure. Review the log for more information." -ForegroundColor DarkRed
+	Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed    
+}       
