@@ -52,7 +52,7 @@ namespace NewsSkill.Dialogs
             var userState = await UserAccessor.GetAsync(sc.Context, () => new NewsSkillUserState());
 
             // if intent is SetFavorites or not set in state yet
-            if (convState.LuisResult.TopIntent().intent == Luis.NewsLuis.Intent.SetFavoriteTopics || userState.Category == null)
+            if (convState.LuisResult.TopIntent().intent == Luis.newsLuis.Intent.SetFavoriteTopics || userState.Category == null)
             {
                 // show card with categories the user can choose
                 var categories = new PromptOptions()
