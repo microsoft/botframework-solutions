@@ -76,18 +76,18 @@ namespace RestaurantBooking.Dialogs
             else
             {
                 var turnResult = EndOfTurn;
-                var result = await luisService.RecognizeAsync<restaurantLuis>(dc.Context, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<ReservationLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
                 switch (intent)
                 {
-                    case restaurantLuis.Intent.Reservation:
+                    case ReservationLuis.Intent.Reservation:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(BookingDialog));
                             break;
                         }
 
-                    case restaurantLuis.Intent.None:
+                    case ReservationLuis.Intent.None:
                         {
                             // No intent was identified, send confused message
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingSharedResponses.DidntUnderstandMessage));

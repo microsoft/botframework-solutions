@@ -76,7 +76,7 @@ namespace RestaurantBooking.Dialogs
                     var luisService = localeConfig.LuisServices["restaurant"];
 
                     // Get intent and entities for activity
-                    var result = await luisService.RecognizeAsync<restaurantLuis>(dc.Context, CancellationToken.None);
+                    var result = await luisService.RecognizeAsync<ReservationLuis>(dc.Context, CancellationToken.None);
                     state.LuisResult = result;
 
                     // Extract key data out into state ready for use
@@ -103,7 +103,7 @@ namespace RestaurantBooking.Dialogs
             state.Clear();
         }
 
-        protected async Task DigestLuisResult(DialogContext dc, restaurantLuis luisResult)
+        protected async Task DigestLuisResult(DialogContext dc, ReservationLuis luisResult)
         {
             try
             {
@@ -195,25 +195,25 @@ namespace RestaurantBooking.Dialogs
                         }
                     }
 
-                    if (entities.geography != null)
+                    if (entities.geographyV2_City != null)
                     {
-                        state.Booking.Location = entities.geography.First<string>();
+                        state.Booking.Location = entities.geographyV2_City.First<string>();
                     }
 
-                    //// Establishing attendee count can be problematic as the number entity can be picked up for poorly qualified
-                    //// times, e.g. book a restaurant tomorrow at 2 for 4 people so we rely on a composite entity
-                    //if (entities.attendees != null)
-                    //{
-                    //    var attendeesComposite = entities.attendees.First();
-                    //    if (attendeesComposite != null)
-                    //    {
-                    //        int.TryParse(attendeesComposite.number.First().ToString(), out var attendeeCount);
-                    //        if (attendeeCount > 0)
-                    //        {
-                    //            state.Booking.AttendeeCount = attendeeCount;
-                    //        }
-                    //    }
-                    //}
+                    // Establishing attendee count can be problematic as the number entity can be picked up for poorly qualified
+                    // times, e.g. book a restaurant tomorrow at 2 for 4 people so we rely on a composite entity
+                    if (entities.attendees != null)
+                    {
+                        var attendeesComposite = entities.attendees.First();
+                        if (attendeesComposite != null)
+                        {
+                            int.TryParse(attendeesComposite.number.First().ToString(), out var attendeeCount);
+                            if (attendeeCount > 0)
+                            {
+                                state.Booking.AttendeeCount = attendeeCount;
+                            }
+                        }
+                    }
                 }
             }
             catch
