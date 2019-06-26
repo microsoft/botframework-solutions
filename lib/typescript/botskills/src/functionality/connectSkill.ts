@@ -123,16 +123,20 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
 
                 // Validate 'ludown' arguments
                 if (!existsSync(configuration.luisFolder)) {
-                    throw(new Error(`Path to the LUIS folder (${configuration.luisFolder}) leads to a nonexistent folder.`));
+                    throw new Error(`Path to the LUIS folder (${configuration.luisFolder}) leads to a nonexistent folder.
+Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
                 } else if (!existsSync(luFilePath)) {
-                    throw(new Error(`Path to the ${luisApp}.lu file leads to a nonexistent file.`));
+                    throw new Error(`Path to the ${luisApp}.lu file leads to a nonexistent file.
+Make sure your Skill's .lu file's name matches your Skill's manifest id`);
                 }
 
                 // Validate 'dispatch add' arguments
                 if (!existsSync(configuration.dispatchFolder)) {
-                    throw(new Error(`Path to the Dispatch folder (${configuration.dispatchFolder}) leads to a nonexistent folder.`));
+                    throw new Error(`Path to the Dispatch folder (${configuration.dispatchFolder}) leads to a nonexistent folder.
+Remember to use the argument '--dispatchFOlder' for your Assistant's Dispatch folder.`);
                 } else if (!existsSync(dispatchFilePath)) {
-                    throw(new Error(`Path to the ${dispatchFile} file leads to a nonexistent file.`));
+                    throw new Error(`Path to the ${dispatchFile} file leads to a nonexistent file.
+Make sure to use the argument '--dispatchName' for your Assistant's Dispatch file name.`);
                 }
 
                 // Parse LU file
@@ -147,7 +151,8 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
 
                 if (!existsSync(luisFilePath)) {
                     // tslint:disable-next-line: max-line-length
-                    throw(new Error(`Path to ${luisFile} (${luisFilePath}) leads to a nonexistent file. Make sure the ludown command is being executed successfully`));
+                    throw new Error(`Path to ${luisFile} (${luisFilePath}) leads to a nonexistent file. Make sure the ludown command is being executed successfully.
+Command: ${ludownParseCommand.join(' ')}`);
                 }
                 // Update Dispatch file
                 const dispatchAddCommand: string[] = ['dispatch', 'add'];
