@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using EmailSkill;
 using EmailSkill.Dialogs;
 using EmailSkill.Models;
 using EmailSkill.Services;

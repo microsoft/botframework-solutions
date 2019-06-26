@@ -26,7 +26,6 @@ namespace EmailSkill.Models
             IsImportant = false;
             ShowEmailIndex = 0;
             Token = null;
-            ReadEmailIndex = 0;
             DirectlyToMe = false;
             StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
             EndDateTime = DateTime.UtcNow;
@@ -79,9 +78,8 @@ namespace EmailSkill.Models
 
         public int ShowEmailIndex { get; set; }
 
-        public int ReadEmailIndex { get; set; }
 
-        public EmailLuis LuisResult { get; set; }
+        public emailLuis LuisResult { get; set; }
 
         public General GeneralLuisResult { get; set; }
 
@@ -137,7 +135,6 @@ namespace EmailSkill.Models
             Subject = null;
             SenderName = null;
             LuisResultPassedFromSkill = null;
-            ReadEmailIndex = 0;
             SearchTexts = null;
             GeneralSenderName = null;
             GeneralSearchTexts = null;
@@ -151,7 +148,6 @@ namespace EmailSkill.Models
             Subject = null;
             SenderName = null;
             LuisResultPassedFromSkill = null;
-            ReadEmailIndex = 0;
             SearchTexts = null;
             GeneralSenderName = null;
             GeneralSearchTexts = null;

@@ -5,9 +5,9 @@
 
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
+import { RefreshSkill } from '../functionality';
 import { ConsoleLogger, ILogger } from '../logger';
-import { IDisconnectConfiguration, IDispatchFile, IDispatchService, IRefreshConfiguration, ISkillFIle, ISkillManifest } from '../models/';
-import { RefreshSkill } from './refreshSkill';
+import { IDisconnectConfiguration, IDispatchFile, IDispatchService, IRefreshConfiguration, ISkillFile, ISkillManifest } from '../models';
 
 export class DisconnectSkill {
     public logger: ILogger;
@@ -32,7 +32,6 @@ export class DisconnectSkill {
 
                 return false;
             }
-            // tslint:disable-next-line:no-var-require non-literal-require
             const dispatchData: IDispatchFile = JSON.parse(
                 readFileSync(dispatchFilePath)
                 .toString());
@@ -79,8 +78,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
             }
 
             // Take VA Skills configurations
-            //tslint:disable-next-line: no-var-requires non-literal-require
-            const assistantSkillsFile: ISkillFIle = require(configuration.skillsFile);
+            const assistantSkillsFile: ISkillFile = JSON.parse(readFileSync(configuration.skillsFile, 'UTF8'));
             const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills || [];
 
             // Check if the skill is present in the assistant

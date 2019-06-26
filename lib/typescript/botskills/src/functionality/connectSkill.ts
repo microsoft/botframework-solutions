@@ -7,7 +7,7 @@ import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { isAbsolute, join, resolve } from 'path';
 import { get } from 'request-promise-native';
 import { ConsoleLogger, ILogger} from '../logger';
-import { IAction, IConnectConfiguration, IRefreshConfiguration, ISkillFIle, ISkillManifest, IUtteranceSource } from '../models';
+import { IAction, IConnectConfiguration, IRefreshConfiguration, ISkillFile, ISkillManifest, IUtteranceSource } from '../models';
 import { AuthenticationUtils, ChildProcessUtils } from '../utils';
 import { RefreshSkill } from './refreshSkill';
 
@@ -197,8 +197,7 @@ export class ConnectSkill {
             // End of manifest schema validation
 
             // Take VA Skills configurations
-            //tslint:disable-next-line: no-var-requires non-literal-require
-            const assistantSkillsFile: ISkillFIle = JSON.parse(readFileSync(configuration.skillsFile, 'UTF8'));
+            const assistantSkillsFile: ISkillFile = JSON.parse(readFileSync(configuration.skillsFile, 'UTF8'));
             const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills || [];
 
             // Check if the skill is already connected to the assistant

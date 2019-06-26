@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
@@ -14,6 +16,8 @@ using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
 using ToDoSkill.Dialogs.Shared.Resources;
@@ -30,6 +34,10 @@ namespace ToDoSkill.Dialogs
 {
     public class ToDoSkillDialogBase : ComponentDialog
     {
+        private const string Synonym = "Synonym";
+        private IHttpContextAccessor _httpContext;
+        private BotSettings _settings;
+
         public ToDoSkillDialogBase(
             string dialogId,
             BotSettings settings,
@@ -38,9 +46,13 @@ namespace ToDoSkill.Dialogs
             ConversationState conversationState,
             UserState userState,
             IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            MicrosoftAppCredentials appCredentials,
+            IHttpContextAccessor httpContext)
             : base(dialogId)
         {
+            _httpContext = httpContext;
+            _settings = settings;
             Services = services;
             ResponseManager = responseManager;
 
@@ -51,7 +63,7 @@ namespace ToDoSkill.Dialogs
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
 
-            AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections));
+            AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections, appCredentials));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.ConfirmPrompt, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }
@@ -132,7 +144,7 @@ namespace ToDoSkill.Dialogs
                 var topIntent = state.LuisResult?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
-                if (topIntent == ToDoLuis.Intent.ShowToDo)
+                if (topIntent == todoLuis.Intent.ShowToDo)
                 {
                     state.ShowTaskPageIndex = 0;
                     state.Tasks = new List<TaskItem>();
@@ -141,7 +153,7 @@ namespace ToDoSkill.Dialogs
                     state.GoBackToStart = false;
                     await DigestToDoLuisResult(sc);
                 }
-                else if (topIntent == ToDoLuis.Intent.ShowNextPage || generalTopIntent == General.Intent.ShowNext)
+                else if (topIntent == todoLuis.Intent.ShowNextPage || generalTopIntent == General.Intent.ShowNext)
                 {
                     state.IsLastPage = false;
                     if ((state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
@@ -153,7 +165,7 @@ namespace ToDoSkill.Dialogs
                         state.IsLastPage = true;
                     }
                 }
-                else if (topIntent == ToDoLuis.Intent.ShowPreviousPage || generalTopIntent == General.Intent.ShowPrevious)
+                else if (topIntent == todoLuis.Intent.ShowPreviousPage || generalTopIntent == General.Intent.ShowPrevious)
                 {
                     state.IsFirstPage = false;
                     if (state.ShowTaskPageIndex > 0)
@@ -165,7 +177,7 @@ namespace ToDoSkill.Dialogs
                         state.IsFirstPage = true;
                     }
                 }
-                else if (topIntent == ToDoLuis.Intent.AddToDo)
+                else if (topIntent == todoLuis.Intent.AddToDo)
                 {
                     state.TaskContentPattern = null;
                     state.TaskContentML = null;
@@ -176,7 +188,7 @@ namespace ToDoSkill.Dialogs
                     state.ListType = null;
                     await DigestToDoLuisResult(sc);
                 }
-                else if (topIntent == ToDoLuis.Intent.MarkToDo || topIntent == ToDoLuis.Intent.DeleteToDo)
+                else if (topIntent == todoLuis.Intent.MarkToDo || topIntent == todoLuis.Intent.DeleteToDo)
                 {
                     state.TaskIndexes = new List<int>();
                     state.MarkOrDeleteAllTasksFlag = false;
@@ -305,17 +317,21 @@ namespace ToDoSkill.Dialogs
 
                 if (entities.ListType != null)
                 {
-                    if (ToDoStrings.GrocerySynonym.Contains(entities.ListType[0], StringComparison.InvariantCultureIgnoreCase))
+                    var topListType = entities.ListType[0];
+
+                    var toDoStringProperties = typeof(ToDoStrings).GetProperties();
+                    foreach (PropertyInfo toDoStringProperty in toDoStringProperties)
                     {
-                        state.ListType = ToDoStrings.Grocery;
-                    }
-                    else if (ToDoStrings.ShoppingSynonym.Contains(entities.ListType[0], StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        state.ListType = ToDoStrings.Shopping;
-                    }
-                    else
-                    {
-                        state.ListType = ToDoStrings.ToDo;
+                        var listTypeSynonymKey = toDoStringProperty.Name;
+                        if (listTypeSynonymKey.Contains(Synonym))
+                        {
+                            string listTypeSynonymValue = toDoStringProperty.GetValue(null).ToString();
+                            if (listTypeSynonymValue.Contains(topListType, StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                string listTypeKey = listTypeSynonymKey.Substring(0, listTypeSynonymKey.Length - Synonym.Length);
+                                state.ListType = toDoStringProperties.Where(x => x.Name == listTypeKey).First().GetValue(null).ToString();
+                            }
+                        }
                     }
                 }
 
@@ -324,19 +340,19 @@ namespace ToDoSkill.Dialogs
                     state.FoodOfGrocery = entities.FoodOfGrocery[0][0];
                 }
 
-                if (entities.ShopVerb != null && (entities.ShopContent != null || entities.FoodOfGrocery != null))
+                if (entities.ShopVerb != null && (entities.TaskContent != null || entities.FoodOfGrocery != null))
                 {
                     state.HasShopVerb = true;
                 }
 
-                if (entities.ShopContent != null)
+                if (entities.TaskContent != null)
                 {
-                    state.ShopContent = entities.ShopContent[0];
+                    state.ShopContent = entities.TaskContent[0];
                 }
 
-                if (entities.TaskContentPattern != null)
+                if (entities.TaskContent_Any != null)
                 {
-                    state.TaskContentPattern = entities.TaskContentPattern[0];
+                    state.TaskContentPattern = entities.TaskContent_Any[0];
                 }
 
                 if (entities.TaskContent != null)
@@ -351,11 +367,12 @@ namespace ToDoSkill.Dialogs
         }
 
         protected Activity ToAdaptiveCardForShowToDos(
+           ITurnContext turnContext,
            List<TaskItem> todos,
            int allTasksCount,
            string listType)
         {
-            var cardReply = BuildTodoCard(null, todos, allTasksCount, listType);
+            var cardReply = BuildTodoCard(turnContext, null, todos, allTasksCount, listType);
 
             ResponseTemplate response;
             var speakText = string.Empty;
@@ -401,11 +418,12 @@ namespace ToDoSkill.Dialogs
         }
 
         protected Activity ToAdaptiveCardForReadMore(
+           ITurnContext turnContext,
            List<TaskItem> todos,
            int allTasksCount,
            string listType)
         {
-            var cardReply = BuildTodoCard(null, todos, allTasksCount, listType);
+            var cardReply = BuildTodoCard(turnContext, null, todos, allTasksCount, listType);
 
             // Build up speach
             var speakText = string.Empty;
@@ -429,12 +447,13 @@ namespace ToDoSkill.Dialogs
         }
 
         protected Activity ToAdaptiveCardForPreviousPage(
+           ITurnContext turnContext,
            List<TaskItem> todos,
            int allTasksCount,
            bool isFirstPage,
            string listType)
         {
-            var cardReply = BuildTodoCard(ToDoSharedResponses.CardSummaryMessageForMultipleTasks, todos, allTasksCount, listType);
+            var cardReply = BuildTodoCard(turnContext, ToDoSharedResponses.CardSummaryMessageForMultipleTasks, todos, allTasksCount, listType);
 
             var response = ResponseManager.GetResponseTemplate(ShowToDoResponses.PreviousTasks);
             var speakText = response.Reply.Speak;
@@ -459,12 +478,13 @@ namespace ToDoSkill.Dialogs
         }
 
         protected Activity ToAdaptiveCardForTaskAddedFlow(
+           ITurnContext turnContext,
            List<TaskItem> todos,
            string taskContent,
            int allTasksCount,
            string listType)
         {
-            var cardReply = BuildTodoCard(null, todos, allTasksCount, listType);
+            var cardReply = BuildTodoCard(turnContext, null, todos, allTasksCount, listType);
 
             var response = ResponseManager.GetResponseTemplate(AddToDoResponses.AfterTaskAdded);
             cardReply.Text = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskContent", taskContent }, { "listType", listType } });
@@ -474,13 +494,14 @@ namespace ToDoSkill.Dialogs
         }
 
         protected Activity ToAdaptiveCardForTaskCompletedFlow(
+            ITurnContext turnContext,
             List<TaskItem> todos,
             int allTasksCount,
             string taskContent,
             string listType,
             bool isCompleteAll)
         {
-            var cardReply = BuildTodoCard(null, todos, allTasksCount, listType);
+            var cardReply = BuildTodoCard(turnContext, null, todos, allTasksCount, listType);
 
             var response = new ResponseTemplate();
             if (isCompleteAll)
@@ -510,13 +531,14 @@ namespace ToDoSkill.Dialogs
         }
 
         protected Activity ToAdaptiveCardForTaskDeletedFlow(
+            ITurnContext turnContext,
             List<TaskItem> todos,
             int allTasksCount,
             string taskContent,
             string listType,
             bool isDeleteAll)
         {
-            var cardReply = BuildTodoCard(null, todos, allTasksCount, listType);
+            var cardReply = BuildTodoCard(turnContext, null, todos, allTasksCount, listType);
 
             var response = new ResponseTemplate();
             if (isDeleteAll)
@@ -535,11 +557,12 @@ namespace ToDoSkill.Dialogs
         }
 
         protected Activity ToAdaptiveCardForDeletionRefusedFlow(
+            ITurnContext turnContext,
             List<TaskItem> todos,
             int allTasksCount,
             string listType)
         {
-            var cardReply = BuildTodoCard(null, todos, allTasksCount, listType);
+            var cardReply = BuildTodoCard(turnContext, null, todos, allTasksCount, listType);
 
             var response = ResponseManager.GetResponseTemplate(DeleteToDoResponses.DeletionAllConfirmationRefused);
             cardReply.Speak = ResponseManager.Format(response.Reply.Speak, new StringDictionary() { { "taskCount", allTasksCount.ToString() }, { "listType", listType } });
@@ -548,6 +571,7 @@ namespace ToDoSkill.Dialogs
         }
 
         protected Activity BuildTodoCard(
+            ITurnContext turnContext,
             string tempId,
             List<TaskItem> todos,
             int allTasksCount,
@@ -568,11 +592,12 @@ namespace ToDoSkill.Dialogs
             List<Card> todoItems = new List<Card>();
 
             int index = 0;
+            bool useFile = Channel.GetChannelId(turnContext) == Channels.Msteams;
             foreach (var todo in todos)
             {
-                todoItems.Add(new Card("ShowTodoItem", new TodoItemData
+                todoItems.Add(new Card(GetDivergedCardName(turnContext, "ShowTodoItem"), new TodoItemData
                 {
-                    CheckIconUrl = todo.IsCompleted ? IconImageSource.CheckIconSource : IconImageSource.UncheckIconSource,
+                    CheckIconUrl = todo.IsCompleted ? (useFile ? GetImageUri(IconImageSource.CheckIconFile) : IconImageSource.CheckIconSource) : (useFile ? GetImageUri(IconImageSource.UncheckIconFile) : IconImageSource.UncheckIconSource),
                     Topic = todo.Topic
                 }));
 
@@ -581,7 +606,7 @@ namespace ToDoSkill.Dialogs
 
             var cardReply = ResponseManager.GetCardResponse(
                 tempId,
-                new Card("ShowTodoCard", showTodoListData),
+                new Card(GetDivergedCardName(turnContext, "ShowTodoCard"), showTodoListData),
                 tokens,
                 "items",
                 todoItems);
@@ -676,6 +701,19 @@ namespace ToDoSkill.Dialogs
             return taskService;
         }
 
+        // Workaround until adaptive card renderer in teams is upgraded to v1.2
+        protected string GetDivergedCardName(ITurnContext turnContext, string card)
+        {
+            if (Channel.GetChannelId(turnContext) == Channels.Msteams)
+            {
+                return card + ".1.0";
+            }
+            else
+            {
+                return card;
+            }
+        }
+
         private async Task<bool> RecoverListTypeIdsAsync(DialogContext dc)
         {
             var userState = await UserStateAccessor.GetAsync(dc.Context, () => new ToDoSkillUserState());
@@ -721,6 +759,31 @@ namespace ToDoSkill.Dialogs
                     {
                         userState.ListTypeIds[senderMailAddress].Add(listType.Key, listType.Value);
                     }
+                }
+            }
+        }
+
+        private string GetImageUri(string imagePath)
+        {
+            // If we are in local mode we leverage the HttpContext to get the current path to the image assets
+            if (_httpContext != null)
+            {
+                var serverUrl = _httpContext.HttpContext.Request.Scheme + "://" + _httpContext.HttpContext.Request.Host.Value;
+                return $"{serverUrl}/images/{imagePath}";
+            }
+            else
+            {
+                // In skill-mode we don't have HttpContext and require skills to provide their own storage for assets
+                _settings.Properties.TryGetValue("ImageAssetLocation", out var imageUri);
+
+                var imageUriStr = imageUri;
+                if (string.IsNullOrWhiteSpace(imageUriStr))
+                {
+                    throw new Exception("ImageAssetLocation Uri not configured on the skill.");
+                }
+                else
+                {
+                    return $"{imageUriStr}/{imagePath}";
                 }
             }
         }

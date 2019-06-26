@@ -87,8 +87,9 @@
         <service
             android:name=".service.SpeechService"
             android:enabled="true"
-            android:exported="true" /> <!-- ASSISTANT -->
+            android:exported="true" />
 
+        <!-- ASSISTANT -->
         <service
             android:name=".assistant.AssistantService"
             android:permission="android.permission.BIND_VOICE_INTERACTION">

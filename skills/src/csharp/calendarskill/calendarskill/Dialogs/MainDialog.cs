@@ -14,12 +14,14 @@ using CalendarSkill.Utilities;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 
 namespace CalendarSkill.Dialogs
@@ -84,7 +86,7 @@ namespace CalendarSkill.Dialogs
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.CognitiveModelSets[locale];
 
-            await PopulateStateFromSkillContext(dc.Context);
+            await PopulateStateFromSemanticAction(dc.Context);
 
             // Initialize the PageSize parameters in state from configuration
             InitializeConfig(state);
@@ -105,57 +107,57 @@ namespace CalendarSkill.Dialogs
                 // switch on general intents
                 switch (intent)
                 {
-                    case CalendarLuis.Intent.FindMeetingRoom:
-                    case CalendarLuis.Intent.CreateCalendarEntry:
+                    case calendarLuis.Intent.FindMeetingRoom:
+                    case calendarLuis.Intent.CreateCalendarEntry:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(CreateEventDialog));
                             break;
                         }
 
-                    case CalendarLuis.Intent.AcceptEventEntry:
-                    case CalendarLuis.Intent.DeleteCalendarEntry:
+                    case calendarLuis.Intent.AcceptEventEntry:
+                    case calendarLuis.Intent.DeleteCalendarEntry:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog));
                             break;
                         }
 
-                    case CalendarLuis.Intent.ChangeCalendarEntry:
+                    case calendarLuis.Intent.ChangeCalendarEntry:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(UpdateEventDialog));
                             break;
                         }
 
-                    case CalendarLuis.Intent.ConnectToMeeting:
+                    case calendarLuis.Intent.ConnectToMeeting:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(ConnectToMeetingDialog));
                             break;
                         }
 
-                    case CalendarLuis.Intent.FindCalendarEntry:
-                    case CalendarLuis.Intent.FindCalendarDetail:
-                    case CalendarLuis.Intent.FindCalendarWhen:
-                    case CalendarLuis.Intent.FindCalendarWhere:
-                    case CalendarLuis.Intent.FindCalendarWho:
-                    case CalendarLuis.Intent.FindDuration:
+                    case calendarLuis.Intent.FindCalendarEntry:
+                    case calendarLuis.Intent.FindCalendarDetail:
+                    case calendarLuis.Intent.FindCalendarWhen:
+                    case calendarLuis.Intent.FindCalendarWhere:
+                    case calendarLuis.Intent.FindCalendarWho:
+                    case calendarLuis.Intent.FindDuration:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
                             break;
                         }
 
-                    case CalendarLuis.Intent.TimeRemaining:
+                    case calendarLuis.Intent.TimeRemaining:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(TimeRemainingDialog));
                             break;
                         }
 
-                    case CalendarLuis.Intent.ShowNextCalendar:
-                    case CalendarLuis.Intent.ShowPreviousCalendar:
+                    case calendarLuis.Intent.ShowNextCalendar:
+                    case calendarLuis.Intent.ShowPreviousCalendar:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
                             break;
                         }
 
-                    case CalendarLuis.Intent.None:
+                    case calendarLuis.Intent.None:
                         {
                             if (generalTopIntent == General.Intent.ShowNext || generalTopIntent == General.Intent.ShowPrevious)
                             {
@@ -186,32 +188,32 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        private async Task PopulateStateFromSkillContext(ITurnContext context)
+        private async Task PopulateStateFromSemanticAction(ITurnContext context)
         {
-            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
-            // and make available in local state as appropriate.
-            var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
-            var skillContext = await accessor.GetAsync(context, () => new SkillContext());
-            if (skillContext != null)
+            var activity = context.Activity;
+            var semanticAction = activity.SemanticAction;
+            if (semanticAction != null && semanticAction.Entities.ContainsKey("timezone"))
             {
-                if (skillContext.ContainsKey("timezone"))
-                {
-                    var timezone = skillContext["timezone"];
-                    var state = await _stateAccessor.GetAsync(context, () => new CalendarSkillState());
-                    var timezoneJson = timezone as Newtonsoft.Json.Linq.JObject;
+                var timezone = semanticAction.Entities["timezone"];
+                var timezoneObj = timezone.Properties["timezone"].ToObject<TimeZoneInfo>();
 
-                    // we have a timezone
-                    state.UserInfo.Timezone = timezoneJson.ToObject<TimeZoneInfo>();
-                }
+                var state = await _stateAccessor.GetAsync(context, () => new CalendarSkillState());
+
+                // we have a timezone
+                state.UserInfo.Timezone = timezoneObj;
             }
         }
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response = dc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.EndOfConversation;
+            // workaround. if connect skill directly to teams, the following response does not work.
+            if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
+            {
+                var response = dc.Context.Activity.CreateReply();
+                response.Type = ActivityTypes.EndOfConversation;
 
-            await dc.Context.SendActivityAsync(response);
+                await dc.Context.SendActivityAsync(response);
+            }
 
             // End active dialog
             await dc.EndDialogAsync(result);
@@ -257,7 +259,7 @@ namespace CalendarSkill.Dialogs
                 var localeConfig = _services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities
-                var calendarLuisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<CalendarLuis>(dc.Context, cancellationToken);
+                var calendarLuisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<calendarLuis>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
                 state.LuisResult = calendarLuisResult;
 

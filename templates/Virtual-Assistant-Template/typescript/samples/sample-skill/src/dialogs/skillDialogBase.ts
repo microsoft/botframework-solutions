@@ -35,7 +35,7 @@ enum DialogIds {
 }
 
 export class SkillDialogBase extends ComponentDialog {
-    private readonly solutionName: string = 'sample-skill';
+    private readonly solutionName: string = 'sampleSkill';
     protected settings: Partial<IBotSettings>;
     protected services: BotServices;
     protected stateAccessor: StatePropertyAccessor<SkillState>;

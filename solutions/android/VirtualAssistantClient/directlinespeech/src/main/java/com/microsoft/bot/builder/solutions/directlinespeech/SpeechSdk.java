@@ -1,5 +1,7 @@
 package com.microsoft.bot.builder.solutions.directlinespeech;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -19,6 +21,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -26,12 +30,14 @@ import java.util.concurrent.Future;
 
 import client.model.Activity;
 import client.model.ActivityTypes;
+import client.model.CardAction;
 import client.model.ChannelAccount;
 import events.ActivityReceived;
 import events.Connected;
 import events.Disconnected;
 import events.Recognized;
 import events.RecognizedIntermediateResult;
+import events.RequestTimeout;
 
 public class SpeechSdk {
 
@@ -39,6 +45,7 @@ public class SpeechSdk {
     private static final String LOGTAG = "SpeechSdk";
     public static final String CARBONLOGFILENAME = "carbon.log";
     public static final String APPLOGFILENAME = "app.log";
+    private final int RESPONSE_TIMEOUT_PERIOD_MS = 15 * 1000;
 
     // STATE
     private MicrophoneStream microphoneStream;
@@ -52,12 +59,16 @@ public class SpeechSdk {
     private boolean isConnected;
     private byte[] audioBuffer;
     private Configuration configuration;
+    private Handler handler;
+    private Runnable timeoutResponseRunnable;
+    private ArrayList<CardAction> suggestedActions;
 
     private File localAppLogFile;
     private FileWriter streamWriter;
 
     public void initialize(Configuration configuration, boolean haveRecordAudioPermission, String localLogFileDirectory){
         audioBuffer = new byte[1024 * 2];
+        suggestedActions = new ArrayList<>();
         gson = new Gson();
         this.configuration = configuration;
         synthesizer = new Synthesizer();
@@ -70,6 +81,7 @@ public class SpeechSdk {
         this.localLogDirectory = localLogFileDirectory;
         intializeAppLogFile();
         initializeSpeech(configuration, haveRecordAudioPermission);
+        handler = new Handler(Looper.getMainLooper());
     }
 
     private void intializeAppLogFile() {
@@ -108,6 +120,20 @@ public class SpeechSdk {
         }
     }
 
+    private void logLongInfoMessage(String tag, String message){
+        // Split by line, then ensure each line can fit into Log's maximum length.
+        final int MAX_LOG_LENGTH = 4000;
+        for (int i = 0, length = message.length(); i < length; i++) {
+            int newline = message.indexOf('\n', i);
+            newline = newline != -1 ? newline : length;
+            do {
+                int end = Math.min(newline, i + MAX_LOG_LENGTH);
+                Log.i(tag, message.substring(i, end));
+                i = end;
+            } while (i < newline);
+        }
+    }
+
     private void initializeSpeech(Configuration configuration, boolean haveRecordAudioPermission){
         AudioConfig audioInput = null;
         if (haveRecordAudioPermission) audioInput = AudioConfig.fromDefaultMicrophoneInput();//AudioConfig.fromStreamInput(createMicrophoneStream());
@@ -140,6 +166,8 @@ public class SpeechSdk {
 
             // trigger callback to expose result in 3rd party app
             EventBus.getDefault().post(new Recognized(recognizedSpeech));
+
+            startResponseTimeoutTimer();
         });
 
         botConnector.sessionStarted.addEventListener((o, sessionEventArgs) -> {
@@ -151,6 +179,9 @@ public class SpeechSdk {
         });
 
         botConnector.canceled.addEventListener((Object o, SpeechRecognitionCanceledEventArgs canceledEventArgs) -> {
+            // cancel reponse timeout timer ASAP
+            cancelResponseTimeoutTimer();
+
             final int errCode = canceledEventArgs.getErrorCode().getValue().swigValue();
             LogInfo("canceled with error code: "+ errCode +" ,also: "+ canceledEventArgs.getErrorDetails());
 
@@ -166,9 +197,14 @@ public class SpeechSdk {
 
         botConnector.activityReceived.addEventListener((o, activityEventArgs) -> {
             final String json = activityEventArgs.getActivity().serialize();
-            LogInfo("received activity: " + json);
+            logLongInfoMessage(LOGTAG, "received activity: " + json);
 
             if (activityEventArgs.hasAudio()) {
+                // cancel response timeout timer
+                // note: located here because a lot of activity events are received,
+                //       by putting it here, only one event (with speech) cancels the timer.
+                cancelResponseTimeoutTimer();
+
                 LogInfo("Activity Has Audio");
                 PullAudioOutputStream outputStream = activityEventArgs.getAudio();
                 synthesizer.playStream(outputStream);
@@ -188,6 +224,12 @@ public class SpeechSdk {
         // trigger callback to expose result in 3rd party app
 
         client.model.BotConnectorActivity botConnectorActivity = gson.fromJson(activityJson, client.model.BotConnectorActivity.class);
+
+        if (botConnectorActivity.getSuggestedActions() != null && botConnectorActivity.getSuggestedActions().getActions() != null) {
+            List<CardAction> actionList = botConnectorActivity.getSuggestedActions().getActions();
+            suggestedActions.clear();
+            suggestedActions.addAll(actionList);
+        }
         EventBus.getDefault().post(new ActivityReceived(botConnectorActivity));
     }
 
@@ -252,6 +294,25 @@ public class SpeechSdk {
         });
     }
 
+    private void startResponseTimeoutTimer(){
+        LogInfo("startResponseTimeoutTimer");
+        if (timeoutResponseRunnable == null) {
+            timeoutResponseRunnable = () -> {
+                // reset state as if the previous request was received to let user make new request
+                EventBus.getDefault().post(new RequestTimeout());
+            };
+        }
+
+        handler.postDelayed(timeoutResponseRunnable, RESPONSE_TIMEOUT_PERIOD_MS);
+    }
+
+    private void cancelResponseTimeoutTimer(){
+        LogInfo("cancelResponseTimeoutTimer");
+        if (timeoutResponseRunnable != null && handler != null){
+            handler.removeCallbacks(timeoutResponseRunnable);
+        }
+    }
+
     public void sendActivityMessageAsync(CharSequence chars) {
         LogInfo("sendActivityMessageAsync\n" + chars);
         if (botConnector != null) {
@@ -267,16 +328,17 @@ public class SpeechSdk {
             final Future<Void> task = botConnector.sendActivityAsync(activity);
             setOnTaskCompletedListener(task, result -> {
                 LogInfo("sendActivityAsync done");
+                startResponseTimeoutTimer();
             });
         }
     }
 
     /*
-     * Send the IPA.Location event to the bot
+     * Send the VA.Location event to the bot
      */
     public void sendLocationEvent(String latitude, String longitude) {
         String coordinates = latitude + "," + longitude;
-        Activity activityTemplate = createEventActivity("IPA.Location", null, coordinates);
+        Activity activityTemplate = createEventActivity("VA.Location", null, coordinates);
         if (from_user != null) activityTemplate.setFrom(from_user);
 
         final String activityJson = gson.toJson(activityTemplate);
@@ -289,11 +351,11 @@ public class SpeechSdk {
     }
 
     /*
-     * Send the IPA.TimeZone event to the bot
+     * Send the VA.TimeZone event to the bot
      */
     public void sendTimeZoneEvent() {
         TimeZone tz = TimeZone.getDefault();
-        Activity activityTemplate = createEventActivity("IPA.Timezone", null, tz.getDisplayName());
+        Activity activityTemplate = createEventActivity("VA.Timezone", null, tz.getDisplayName());
 
         final String activityJson = gson.toJson(activityTemplate);
         BotConnectorActivity activity = BotConnectorActivity.fromSerializedActivity(activityJson);
@@ -305,6 +367,7 @@ public class SpeechSdk {
     }
 
     public void reset() {
+        cancelResponseTimeoutTimer();
         isConnected = false;
         stopKeywordListening();
         final Future<Void> task = botConnector.disconnectAsync();
@@ -317,6 +380,14 @@ public class SpeechSdk {
             Log.d(LOGTAG,"disconnected");
             connectAsync();
         });
+    }
+
+    public ArrayList<CardAction> getSuggestedActions() {
+        return suggestedActions;
+    }
+
+    public void clearSuggestedActions() {
+        suggestedActions.clear();
     }
 
     public void requestWelcomeCard() {

@@ -62,8 +62,9 @@
     ]
   },
   "scripts": {
-    "test": "mocha test/",
-    "coverage": "nyc npm run test",
+    "test": "mocha",
+    "coverage": "nyc mocha",
+    "test-coverage-ci": "nyc --reporter=cobertura mocha --reporter mocha-junit-reporter",
     "pretest": "npm run lint",
     "lint": "eslint .",
     "lint-fix": "eslint --fix ."

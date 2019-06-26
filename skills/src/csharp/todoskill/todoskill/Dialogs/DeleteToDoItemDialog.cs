@@ -4,11 +4,13 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using ToDoSkill.Models;
 using ToDoSkill.Responses.DeleteToDo;
@@ -27,8 +29,10 @@ namespace ToDoSkill.Dialogs
             ConversationState conversationState,
             UserState userState,
             IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient)
-            : base(nameof(DeleteToDoItemDialog), settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            MicrosoftAppCredentials appCredentials,
+            IHttpContextAccessor httpContext)
+            : base(nameof(DeleteToDoItemDialog), settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient, appCredentials, httpContext)
         {
             TelemetryClient = telemetryClient;
 
@@ -127,6 +131,7 @@ namespace ToDoSkill.Dialogs
                     state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
 
                     cardReply = ToAdaptiveCardForTaskDeletedFlow(
+                        sc.Context,
                         state.Tasks,
                         state.AllTasks.Count,
                         taskTopicToBeDeleted,
@@ -147,6 +152,7 @@ namespace ToDoSkill.Dialogs
                         state.TaskIndexes = new List<int>();
 
                         cardReply = ToAdaptiveCardForTaskDeletedFlow(
+                        sc.Context,
                         state.Tasks,
                         state.AllTasks.Count,
                         null,
@@ -156,6 +162,7 @@ namespace ToDoSkill.Dialogs
                     else
                     {
                         cardReply = ToAdaptiveCardForDeletionRefusedFlow(
+                        sc.Context,
                         state.Tasks,
                         state.AllTasks.Count,
                         state.ListType);

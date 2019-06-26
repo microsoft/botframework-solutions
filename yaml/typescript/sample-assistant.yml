@@ -2,7 +2,8 @@
 trigger:
   branches:  
     include:
-    - southworks/*
+    - master
+    - feature/*
 
   paths:
     include:
@@ -36,7 +37,7 @@ steps:
     command: custom
     workingDir: 'templates/Virtual-Assistant-Template/typescript/samples/sample-assistant'
     verbose: false
-    customCommand: 'run coverage'
+    customCommand: 'run test-coverage-ci'
 
 - task: PublishTestResults@2
   displayName: 'publish test results'
