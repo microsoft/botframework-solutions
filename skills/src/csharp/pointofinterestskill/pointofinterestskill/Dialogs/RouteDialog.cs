@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using PointOfInterestSkill.Models;
 using PointOfInterestSkill.Responses.Route;
@@ -242,7 +244,19 @@ namespace PointOfInterestSkill.Dialogs
                 }
                 else if (cards.Count() == 1)
                 {
-                    return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetCardResponse(POISharedResponses.SingleRouteFound, cards) });
+                    var options = new PromptOptions
+                    {
+                        Prompt = ResponseManager.GetCardResponse(POISharedResponses.SingleRouteFound, cards)
+                    };
+
+                    // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
+                    if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
+                    {
+                        await sc.Context.SendActivityAsync(options.Prompt);
+                        options.Prompt = null;
+                    }
+
+                    return await sc.PromptAsync(Actions.ConfirmPrompt, options);
                 }
 
                 state.ClearLuisResults();

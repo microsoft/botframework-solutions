@@ -1389,7 +1389,11 @@ $Subject:simple
 
 > # PREBUILT Entity definitions
 
+$PREBUILT:datetimeV2
+
 $PREBUILT:personName
+
+$PREBUILT:ordinal
 
 
 > # Phrase list definitions

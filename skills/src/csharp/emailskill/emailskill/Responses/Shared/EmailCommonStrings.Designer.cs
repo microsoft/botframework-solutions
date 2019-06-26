@@ -124,6 +124,24 @@ namespace EmailSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string DefaultContent {
+            get {
+                return ResourceManager.GetString("DefaultContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string DefaultSubject {
+            get {
+                return ResourceManager.GetString("DefaultSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ddd MM/dd hh:mm tt.
         /// </summary>
         public static string DisplayDetailDateFormat {

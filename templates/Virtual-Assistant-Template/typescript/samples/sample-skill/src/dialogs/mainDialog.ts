@@ -24,8 +24,7 @@ import {
     InterruptionAction,
     ResponseManager,
     RouterDialog } from 'botbuilder-solutions';
-// tslint:disable-next-line:no-implicit-dependencies no-submodule-imports
-import { TokenStatus } from 'botframework-connector/lib/tokenApi/models';
+import { TokenStatus } from 'botframework-connector';
 import i18next from 'i18next';
 import { SkillState } from '../models/skillState';
 import { MainResponses } from '../responses/main/mainResponses';

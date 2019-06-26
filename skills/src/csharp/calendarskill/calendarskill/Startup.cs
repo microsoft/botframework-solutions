@@ -59,6 +59,7 @@ namespace CalendarSkill
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
+            var provider = services.BuildServiceProvider();
 
             // Load settings
             var settings = new BotSettings();
