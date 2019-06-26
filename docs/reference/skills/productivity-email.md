@@ -81,7 +81,7 @@ If you plan to use the skill as part of a Virtual Assistant the process of regis
 - `People.Read`
 - `Contacts.Read`
 
-**However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
+**However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Email Skill. This is **not** required when using the Skill with a Virtual Assistant.
 
 Follow the general instructions [here](/docs/reference/skills/manualauthsteps.md) to configure this using the scopes shown above.
 
