@@ -167,24 +167,14 @@ namespace EmailSkill.Dialogs
                 if (skillLuisResult == emailLuis.Intent.ShowNext || generalTopIntent == General.Intent.ShowNext)
                 {
                     state.ShowEmailIndex++;
-                    state.ReadEmailIndex = 0;
                 }
                 else if ((skillLuisResult == emailLuis.Intent.ShowPrevious || generalTopIntent == General.Intent.ShowPrevious) && state.ShowEmailIndex >= 0)
                 {
                     state.ShowEmailIndex--;
-                    state.ReadEmailIndex = 0;
                 }
                 else if (IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
                 {
-                    if (state.MessageList.Count <= ConfigData.GetInstance().MaxReadSize)
-                    {
-                        state.ShowEmailIndex++;
-                        state.ReadEmailIndex = 0;
-                    }
-                    else
-                    {
-                        state.ReadEmailIndex++;
-                    }
+                    state.ShowEmailIndex++;
                 }
 
                 await DigestFocusEmailAsync(sc);
@@ -645,7 +635,7 @@ namespace EmailSkill.Dialogs
 
                 // Get display messages
                 var displayMessages = new List<Message>();
-                var startIndex = ConfigData.GetInstance().MaxReadSize * state.ReadEmailIndex;
+                var startIndex = 0;
                 for (var i = startIndex; i < messages.Count(); i++)
                 {
                     displayMessages.Add(messages[i]);
