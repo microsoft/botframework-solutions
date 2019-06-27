@@ -16,7 +16,7 @@
     <Authors>Microsoft</Authors>
     <Description>Shared library for building Bot Framework Skills.</Description>
     <RestoreAdditionalProjectSources>
-      https://botbuilder.myget.org/F/experimental/api/v3/index.json;
+      https://botbuilder.myget.org/F/experimental/api/v3/index.json; 
     </RestoreAdditionalProjectSources>
   </PropertyGroup>
 
