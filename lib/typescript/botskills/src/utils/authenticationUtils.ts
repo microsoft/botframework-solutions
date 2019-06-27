@@ -94,144 +94,166 @@ export class AuthenticationUtils {
     }
 
     // tslint:disable-next-line:max-func-body-length export-name
-    public async authenticate(configuration: IConnectConfiguration, manifest: ISkillManifest, logger: ILogger): Promise<void> {
-        // configuring bot auth settings
-        logger.message('Checking for authentication settings ...');
-        if (manifest.authenticationConnections) {
-            const aadConfig: IAuthenticationConnection | undefined = manifest.authenticationConnections.find(
-                (connection: IAuthenticationConnection) => connection.serviceProviderId === 'Azure Active Directory v2');
-            if (aadConfig) {
-                logger.message('Configuring Azure AD connection ...');
+    public async authenticate(configuration: IConnectConfiguration, manifest: ISkillManifest, logger: ILogger): Promise<boolean> {
+        let currentCommand: string[] = [];
+        try {
+            // configuring bot auth settings
+            logger.message('Checking for authentication settings ...');
+            if (manifest.authenticationConnections) {
+                const aadConfig: IAuthenticationConnection | undefined = manifest.authenticationConnections.find(
+                    (connection: IAuthenticationConnection) => connection.serviceProviderId === 'Azure Active Directory v2');
+                if (aadConfig) {
+                    logger.message('Configuring Azure AD connection ...');
 
-                let connectionName: string = aadConfig.id;
-                const newScopes: string[] = aadConfig.scopes.split(', ');
-                let scopes: string[] = newScopes.slice(0);
+                    let connectionName: string = aadConfig.id;
+                    const newScopes: string[] = aadConfig.scopes.split(', ');
+                    let scopes: string[] = newScopes.slice(0);
 
-                // check for existing aad connection
-                const listAuthSettingsCommand: string[] = ['az', 'bot', 'authsetting', 'list'];
-                listAuthSettingsCommand.push(...['-n', configuration.botName]);
-                listAuthSettingsCommand.push(...['-g', configuration.resourceGroup]);
+                    // check for existing aad connection
+                    const listAuthSettingsCommand: string[] = ['az', 'bot', 'authsetting', 'list'];
+                    listAuthSettingsCommand.push(...['-n', configuration.botName]);
+                    listAuthSettingsCommand.push(...['-g', configuration.resourceGroup]);
 
-                logger.command('Checking for existing aad connections', listAuthSettingsCommand.join(' '));
+                    logger.command('Checking for existing aad connections', listAuthSettingsCommand.join(' '));
+                    currentCommand = listAuthSettingsCommand;
 
-                const connectionsResult: string = await this.childProcessUtils.tryExecute(listAuthSettingsCommand);
-                const connections: IAzureAuthSetting[] = JSON.parse(connectionsResult);
-                const aadConnection: IAzureAuthSetting | undefined = connections.find(
-                    (connection: IAzureAuthSetting) => connection.properties.serviceProviderDisplayName === 'Azure Active Directory v2');
-                if (aadConnection) {
-                    const settingName: string = aadConnection.name.split('/')[1];
+                    const connectionsResult: string = await this.childProcessUtils.tryExecute(listAuthSettingsCommand);
+                    const connections: IAzureAuthSetting[] = JSON.parse(connectionsResult);
+                    const aadConnection: IAzureAuthSetting | undefined = connections.find(
+                        (connection: IAzureAuthSetting) =>
+                            connection.properties.serviceProviderDisplayName === 'Azure Active Directory v2');
+                    if (aadConnection) {
+                        const settingName: string = aadConnection.name.split('/')[1];
 
-                    // Get current aad auth setting
-                    const showAuthSettingsCommand: string[] = ['az', 'bot', 'authsetting', 'show'];
-                    showAuthSettingsCommand.push(...['-n', configuration.botName]);
-                    showAuthSettingsCommand.push(...['-g', configuration.resourceGroup]);
-                    showAuthSettingsCommand.push(...['-c', settingName]);
+                        // Get current aad auth setting
+                        const showAuthSettingsCommand: string[] = ['az', 'bot', 'authsetting', 'show'];
+                        showAuthSettingsCommand.push(...['-n', configuration.botName]);
+                        showAuthSettingsCommand.push(...['-g', configuration.resourceGroup]);
+                        showAuthSettingsCommand.push(...['-c', settingName]);
 
-                    logger.command('Getting current aad auth settings', showAuthSettingsCommand.join(' '));
+                        logger.command('Getting current aad auth settings', showAuthSettingsCommand.join(' '));
+                        currentCommand = showAuthSettingsCommand;
 
-                    const botAuthSettingResult: string = await this.childProcessUtils.tryExecute(showAuthSettingsCommand);
-                    const botAuthSetting: IAzureAuthSetting = JSON.parse(botAuthSettingResult);
-                    const existingScopes: string[] = botAuthSetting.properties.scopes.split(' ');
-                    scopes = scopes.concat(existingScopes);
-                    connectionName = settingName;
+                        const botAuthSettingResult: string = await this.childProcessUtils.tryExecute(showAuthSettingsCommand);
+                        const botAuthSetting: IAzureAuthSetting = JSON.parse(botAuthSettingResult);
+                        const existingScopes: string[] = botAuthSetting.properties.scopes.split(' ');
+                        scopes = scopes.concat(existingScopes);
+                        connectionName = settingName;
 
-                    // delete current aad auth connection
-                    const deleteAuthSettingCommand: string[] = ['az', 'bot', 'authsetting', 'delete'];
-                    deleteAuthSettingCommand.push(...['-n', configuration.botName]);
-                    deleteAuthSettingCommand.push(...['-g', configuration.resourceGroup]);
-                    deleteAuthSettingCommand.push(...['-c', settingName]);
+                        // delete current aad auth connection
+                        const deleteAuthSettingCommand: string[] = ['az', 'bot', 'authsetting', 'delete'];
+                        deleteAuthSettingCommand.push(...['-n', configuration.botName]);
+                        deleteAuthSettingCommand.push(...['-g', configuration.resourceGroup]);
+                        deleteAuthSettingCommand.push(...['-c', settingName]);
 
-                    logger.command('Deleting current bot authentication setting', deleteAuthSettingCommand.join(' '));
+                        logger.command('Deleting current bot authentication setting', deleteAuthSettingCommand.join(' '));
+                        currentCommand = deleteAuthSettingCommand;
 
-                    const deleteResult: string = await this.childProcessUtils.tryExecute(deleteAuthSettingCommand);
-                }
+                        const deleteResult: string = await this.childProcessUtils.tryExecute(deleteAuthSettingCommand);
+                    }
 
-                // update appsettings.json
-                logger.message('Updating appsettings.json ...');
-                const appSettings: IAppSettingOauthConnection = JSON.parse(readFileSync(configuration.appSettingsFile, 'UTF8'));
+                    // update appsettings.json
+                    logger.message('Updating appsettings.json ...');
+                    const appSettings: IAppSettingOauthConnection = JSON.parse(readFileSync(configuration.appSettingsFile, 'UTF8'));
 
-                // check for and remove existing aad connections
-                if (appSettings.oauthConnections) {
-                    appSettings.oauthConnections = appSettings.oauthConnections.filter(
-                        (connection: IOauthConnection) => connection.provider !== 'Azure Active Directory v2');
-                }
+                    // check for and remove existing aad connections
+                    if (appSettings.oauthConnections) {
+                        appSettings.oauthConnections = appSettings.oauthConnections.filter(
+                            (connection: IOauthConnection) => connection.provider !== 'Azure Active Directory v2');
+                    }
 
-                // set or add new oauth setting
-                const oauthSetting: IOauthConnection = { name: connectionName, provider: 'Azure Active Directory v2' };
-                if (!appSettings.oauthConnections) {
-                    appSettings.oauthConnections = [oauthSetting];
+                    // set or add new oauth setting
+                    const oauthSetting: IOauthConnection = { name: connectionName, provider: 'Azure Active Directory v2' };
+                    if (!appSettings.oauthConnections) {
+                        appSettings.oauthConnections = [oauthSetting];
+                    } else {
+                        appSettings.oauthConnections.push(oauthSetting);
+                    }
+
+                    // update appsettings.json
+                    writeFileSync(configuration.appSettingsFile, JSON.stringify(appSettings, undefined, 4));
+
+                    // Remove duplicate scopes
+                    scopes = [...new Set(scopes)];
+                    const scopeManifest: IScopeManifest[] = this.createScopeManifest(scopes);
+
+                    // get the information of the app
+                    const azureAppShowCommand: string[] = ['az', 'ad', 'app', 'show'];
+                    azureAppShowCommand.push(...['--id', appSettings.microsoftAppId]);
+
+                    logger.command('Getting the app information', azureAppShowCommand.join(' '));
+                    currentCommand = azureAppShowCommand;
+
+                    const azureAppShowResult: string = await this.childProcessUtils.tryExecute(azureAppShowCommand);
+                    const azureAppReplyUrls: IAppShowReplyUrl = JSON.parse(azureAppShowResult);
+
+                    // get the Reply Urls from the app
+                    const replyUrlsSet: Set<string> = new Set(azureAppReplyUrls.replyUrls);
+                    // append the necessary Url if it's not already present
+                    replyUrlsSet.add('https://token.botframework.com/.auth/web/redirect');
+                    const replyUrls: string[] = [...replyUrlsSet];
+
+                    // Update MSA scopes
+                    logger.message('Configuring MSA app scopes ...');
+                    const azureAppUpdateCommand: string[] = ['az', 'ad', 'app', 'update'];
+                    azureAppUpdateCommand.push(...['--id', appSettings.microsoftAppId]);
+                    azureAppUpdateCommand.push(...['--reply-urls', replyUrls.join(' ')]);
+                    const scopeManifestText: string = JSON.stringify(scopeManifest)
+                        .replace(/\"/g, '\'');
+                    azureAppUpdateCommand.push(...['--required-resource-accesses', `"${scopeManifestText}"`]);
+
+                    logger.command('Updating the app information', azureAppUpdateCommand.join(' '));
+                    currentCommand = azureAppUpdateCommand;
+
+                    const errorResult: string = await this.childProcessUtils.tryExecute(azureAppUpdateCommand);
+                    //  Catch error: Updates to converged applications are not allowed in this version.
+                    if (errorResult) {
+                        logger.warning('Could not configure scopes automatically.');
+                        // manualScopesRequired = true
+                    }
+
+                    logger.message('Updating bot oauth settings ...');
+                    const authSettingCommand: string[] = ['az', 'bot', 'authsetting', 'create'];
+                    authSettingCommand.push(...['--name', configuration.botName]);
+                    authSettingCommand.push(...['--resource-group', configuration.resourceGroup]);
+                    authSettingCommand.push(...['--setting-name', connectionName]);
+                    authSettingCommand.push(...['--client-id', `"${appSettings.microsoftAppId}"`]);
+                    authSettingCommand.push(...['--client-secret', `"${appSettings.microsoftAppPassword}"`]);
+                    authSettingCommand.push(...['--service', 'Aadv2']);
+                    authSettingCommand.push(...['--parameters', `clientId="${appSettings.microsoftAppId}"`]);
+                    authSettingCommand.push(...[`clientSecret="${appSettings.microsoftAppPassword}"`, 'tenantId=common']);
+                    authSettingCommand.push(...['--provider-scope-string', `"${scopes.join(' ')}"`]);
+
+                    logger.command('Creating the updated bot authentication setting', authSettingCommand.join(' '));
+                    currentCommand = authSettingCommand;
+
+                    await this.childProcessUtils.tryExecute(authSettingCommand);
+
+                    logger.message('Authentication process finished successfully.');
+
+                    return true;
                 } else {
-                    appSettings.oauthConnections.push(oauthSetting);
+                    throw new Error(`There's no Azure Active Directory v2 authentication connection in your Skills manifest.`);
                 }
-
-                // update appsettings.json
-                writeFileSync(configuration.appSettingsFile, JSON.stringify(appSettings, undefined, 4));
-
-                // Remove duplicate scopes
-                scopes = [...new Set(scopes)];
-                const scopeManifest: IScopeManifest[] = this.createScopeManifest(scopes);
-
-                // get the information of the app
-                const azureAppShowCommand: string[] = ['az', 'ad', 'app', 'show'];
-                azureAppShowCommand.push(...['--id', appSettings.microsoftAppId]);
-
-                logger.command('Getting the app information', azureAppShowCommand.join(' '));
-
-                const azureAppShowResult: string = await this.childProcessUtils.tryExecute(azureAppShowCommand);
-                const azureAppReplyUrls: IAppShowReplyUrl = JSON.parse(azureAppShowResult);
-
-                // get the Reply Urls from the app
-                const replyUrlsSet: Set<string> = new Set(azureAppReplyUrls.replyUrls);
-                // append the necessary Url if it's not already present
-                replyUrlsSet.add('https://token.botframework.com/.auth/web/redirect');
-                const replyUrls: string[] = [...replyUrlsSet];
-
-                // Update MSA scopes
-                logger.message('Configuring MSA app scopes ...');
-                const azureAppUpdateCommand: string[] = ['az', 'ad', 'app', 'update'];
-                azureAppUpdateCommand.push(...['--id', appSettings.microsoftAppId]);
-                azureAppUpdateCommand.push(...['--reply-urls', replyUrls.join(' ')]);
-                const scopeManifestText: string = JSON.stringify(scopeManifest)
-                    .replace(/\"/g, '\'');
-                azureAppUpdateCommand.push(...['--required-resource-accesses', `"${scopeManifestText}"`]);
-
-                logger.command('Updating the app information', azureAppUpdateCommand.join(' '));
-
-                const errorResult: string = await this.childProcessUtils.tryExecute(azureAppUpdateCommand);
-                //  Catch error: Updates to converged applications are not allowed in this version.
-                if (errorResult) {
-                    logger.warning('Could not configure scopes automatically.');
-                    // manualScopesRequired = true
-                }
-
-                logger.message('Updating bot oauth settings ...');
-                const authSettingCommand: string[] = ['az', 'bot', 'authsetting', 'create'];
-                authSettingCommand.push(...['--name', configuration.botName]);
-                authSettingCommand.push(...['--resource-group', configuration.resourceGroup]);
-                authSettingCommand.push(...['--setting-name', connectionName]);
-                authSettingCommand.push(...['--client-id', `"${appSettings.microsoftAppId}"`]);
-                authSettingCommand.push(...['--client-secret', `"${appSettings.microsoftAppPassword}"`]);
-                authSettingCommand.push(...['--service', 'Aadv2']);
-                authSettingCommand.push(...['--parameters', `clientId="${appSettings.microsoftAppId}"`]);
-                authSettingCommand.push(...[`clientSecret="${appSettings.microsoftAppPassword}"`, 'tenantId=common']);
-                authSettingCommand.push(...['--provider-scope-string', `"${scopes.join(' ')}"`]);
-
-                logger.command('Creating the updated bot authentication setting', authSettingCommand.join(' '));
-
-                await this.childProcessUtils.tryExecute(authSettingCommand);
-
-                logger.message('Authentication process finished successfully.');
             } else {
-                if (manifest.authenticationConnections.length > 0) {
-                    logger.warning(`Could not configure authentication connection automatically.`);
-                    logger.warning(`You must configure one of the following connection types manually in the Azure Portal:
-    ${manifest.authenticationConnections.map((authConn: IAuthenticationConnection) => authConn.serviceProviderId)
-        .join(', ')}`);
-                } else {
-                    logger.warning('There\'s no authentication connection in your Skill\'s manifest.');
-                }
-                // $manualAuthRequired = $true
+                throw new Error(`There are no authentication connections in your Skills manifest.`);
             }
+        } catch (err) {
+            logger.warning(`Could not configure authentication connection automatically.`);
+            if (currentCommand.length > 0) {
+                logger.warning(`There was an error while executing the following command:\n\t${currentCommand.join(' ')}\${err}`);
+                logger.warning(`You must configure one of the following connection types MANUALLY in the Azure Portal:
+        ${manifest.authenticationConnections.map((authConn: IAuthenticationConnection) => authConn.serviceProviderId)
+                    .join(', ')}`);
+            } else if (manifest.authenticationConnections && manifest.authenticationConnections.length > 0) {
+                logger.warning(`${err} You must configure one of the following connection types MANUALLY in the Azure Portal:
+        ${manifest.authenticationConnections.map((authConn: IAuthenticationConnection) => authConn.serviceProviderId)
+                    .join(', ')}`);
+            } else {
+                logger.warning(err);
+            }
+
+            return false;
         }
     }
 }
