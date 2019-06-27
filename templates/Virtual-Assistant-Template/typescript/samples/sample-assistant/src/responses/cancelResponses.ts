@@ -36,7 +36,7 @@ export class CancelResponses extends TemplateManager {
     ]);
 
     // Initialize the responses class properties
-    constructor() {
+    public constructor() {
         super();
         this.register(new DictionaryRenderer(CancelResponses.responseTemplates));
     }

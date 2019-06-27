@@ -22,7 +22,7 @@ export class CancelDialog extends ComponentDialog {
     private readonly responder: CancelResponses = new CancelResponses();
 
     // Constructor
-    constructor() {
+    public constructor() {
         super(CancelDialog.name);
         this.initialDialogId = CancelDialog.name;
 

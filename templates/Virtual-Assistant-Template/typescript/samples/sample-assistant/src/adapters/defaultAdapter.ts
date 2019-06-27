@@ -32,7 +32,7 @@ export class DefaultAdapter extends BotFrameworkAdapter {
     public readonly skills: ISkillManifest[] = [];
     public readonly userState: UserState;
 
-    constructor(
+    public constructor(
         settings: Partial<IBotSettings>,
         adapterSettings: Partial<BotFrameworkAdapterSettings>,
         telemetryClient: BotTelemetryClient

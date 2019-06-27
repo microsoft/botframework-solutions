@@ -70,6 +70,10 @@
     "bingServiceName": {
       "type": "string",
       "defaultValue": "[concat(parameters('name'), '-bing')]"
+    },
+    "azureMapsServiceName": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('name'), '-maps')]"
     }
   },
   "variables": {
@@ -202,6 +206,16 @@
       "sku": {
         "name": "S1"
       }
+    },
+    {
+      "type": "Microsoft.Maps/accounts",
+      "apiVersion": "2018-05-01",
+      "name": "[parameters('azureMapsServiceName')]",
+      "location": "global",
+      "sku": {
+        "name": "s1",
+        "tier": "Standard"
+      }
     }
   ],
   "outputs": {
@@ -236,6 +250,10 @@
     "bingSearch": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('bingServiceName')),'2017-04-18').key1]"
+    },
+    "azureMaps": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Maps/accounts', parameters('azureMapsServiceName')),'2018-05-01').primaryKey]"
     }
   }
 }
