@@ -77,9 +77,11 @@ export class RefreshSkill {
             this.dispatchJsonFilePath = join(configuration.dispatchFolder, this.dispatchJsonFile);
 
             if (!existsSync(configuration.dispatchFolder)) {
-                throw(new Error(`Path to the Dispatch folder (${configuration.dispatchFolder}) leads to a nonexistent folder.`));
+                throw new Error(`Path to the Dispatch folder (${configuration.dispatchFolder}) leads to a nonexistent folder.
+Remember to use the argument '--dispatchFOlder' for your Assistant's Dispatch folder.`);
             } else if (!existsSync(this.dispatchFilePath)) {
-                throw(new Error(`Path to the ${this.dispatchFile} file leads to a nonexistent file.`));
+                throw new Error(`Path to the ${this.dispatchFile} file leads to a nonexistent file.
+Make sure to use the argument '--dispatchName' for your Assistant's Dispatch file name.`);
             }
 
             await this.updateDispatch(configuration);

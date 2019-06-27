@@ -28,7 +28,7 @@ export class DisconnectSkill {
             // dispatch remove(?)
             if (!existsSync(dispatchFilePath)) {
                 this.logger.error(
-                    `Could not find file ${dispatchFile}. Please provide the 'dispatchName' and 'dispatchFolder' parameters.`);
+                    `Could not find file ${dispatchFile}. Please provide the '--dispatchName' and '--dispatchFolder' arguments.`);
 
                 return false;
             }
@@ -39,7 +39,7 @@ export class DisconnectSkill {
                 service.name === configuration.skillId);
             if (!serviceToRemove) {
                 this.logger.warning(`The skill ${configuration.skillId} is not present in the Dispatch model.
-Run 'botskills list --assistantSkills "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
+Run 'botskills list --skillsFile "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
 
                 return false;
             }
@@ -88,7 +88,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
 
             if (!skillToRemove) {
                 this.logger.warning(`The skill '${configuration.skillId}' is not present in the assistant Skills configuration file.
-Run 'botskills list --assistantSkills "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
+Run 'botskills list --skillsFile "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
 
                 return false;
             } else if (!configuration.lgLanguage || !(['cs', 'ts'].includes(configuration.lgLanguage))) {

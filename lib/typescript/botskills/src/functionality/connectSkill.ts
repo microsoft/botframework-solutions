@@ -151,7 +151,7 @@ Make sure to use the argument '--dispatchName' for your Assistant's Dispatch fil
 
                 if (!existsSync(luisFilePath)) {
                     // tslint:disable-next-line: max-line-length
-                    throw new Error(`Path to ${luisFile} (${luisFilePath}) leads to a nonexistent file. Make sure the ludown command is being executed successfully.
+                    throw new Error(`Path to ${luisFile} (${luisFilePath}) leads to a nonexistent file. This may be due to a problem with the 'ludown' command.
 Command: ${ludownParseCommand.join(' ')}`);
                 }
                 // Update Dispatch file
