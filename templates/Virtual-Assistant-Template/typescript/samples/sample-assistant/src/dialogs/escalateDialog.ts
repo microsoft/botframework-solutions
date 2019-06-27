@@ -17,7 +17,7 @@ export class EscalateDialog extends ComponentDialog {
     private readonly responder: EscalateResponses = new EscalateResponses();
 
     // Constructor
-    constructor(botServices: BotServices, telemetryClient: BotTelemetryClient) {
+    public constructor(botServices: BotServices, telemetryClient: BotTelemetryClient) {
         super(EscalateDialog.name);
         this.initialDialogId = EscalateDialog.name;
         const escalate: ((sc: WaterfallStepContext) => Promise<DialogTurnResult>)[] = [

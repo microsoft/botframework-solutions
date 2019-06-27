@@ -9,10 +9,12 @@ trigger:
     include:
     - 'templates/Virtual-Assistant-Template/typescript/samples/sample-skill/*'
 
+# By default will disable PR builds
+pr: none
+
 pool:
   name: Hosted VS2017
   demands: npm
-
 steps:
 - task: NodeTool@0
   displayName: 'Use Node 10.x'
