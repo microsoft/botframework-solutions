@@ -18,6 +18,8 @@ import { ChildProcessUtils } from './';
 
 export class AuthenticationUtils {
     public childProcessUtils: ChildProcessUtils;
+    // tslint:disable-next-line: max-line-length
+    private docLink: string = 'https://github.com/microsoft/botframework-solutions/blob/master/docs/howto/assistant/linkedaccounts.md#authentication-configuration';
 
     private scopeMap: Map<string, string> = new Map([
         ['Files.Read.Selected', '5447fe39-cb82-4c1a-b977-520e67e724eb'],
@@ -245,10 +247,12 @@ export class AuthenticationUtils {
                 logger.warning(`You must configure one of the following connection types MANUALLY in the Azure Portal:
         ${manifest.authenticationConnections.map((authConn: IAuthenticationConnection) => authConn.serviceProviderId)
                     .join(', ')}`);
+                logger.warning(`For more information on setting up the authentication configuration manually go to:\n${this.docLink}`);
             } else if (manifest.authenticationConnections && manifest.authenticationConnections.length > 0) {
                 logger.warning(`${err} You must configure one of the following connection types MANUALLY in the Azure Portal:
         ${manifest.authenticationConnections.map((authConn: IAuthenticationConnection) => authConn.serviceProviderId)
                     .join(', ')}`);
+                logger.warning(`For more information on setting up the authentication configuration manually go to:\n${this.docLink}`);
             } else {
                 logger.warning(err);
             }
