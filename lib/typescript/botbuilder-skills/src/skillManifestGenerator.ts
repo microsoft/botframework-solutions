@@ -134,6 +134,10 @@ export class SkillManifestGenerator {
                             });
                         });
 
+                        if (action.definition.triggers.utterances === undefined) {
+                            action.definition.triggers.utterances = [];
+                        }
+
                         action.definition.triggers.utterances.push({
                             locale: utteranceSource.locale,
                             text: utterancesToAdd
