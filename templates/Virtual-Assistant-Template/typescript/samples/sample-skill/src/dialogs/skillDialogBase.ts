@@ -30,10 +30,6 @@ import { SharedResponses } from '../responses/shared/sharedResponses';
 import { BotServices} from '../services/botServices';
 import { IBotSettings } from '../services/botSettings';
 
-enum DialogIds {
-    skillModeAuth = 'SkillAuth'
-}
-
 export class SkillDialogBase extends ComponentDialog {
     private readonly solutionName: string = 'sampleSkill';
     protected settings: Partial<IBotSettings>;
@@ -41,13 +37,14 @@ export class SkillDialogBase extends ComponentDialog {
     protected stateAccessor: StatePropertyAccessor<SkillState>;
     protected responseManager: ResponseManager;
 
-    constructor(
+    public constructor(
         dialogId: string,
         settings: Partial<IBotSettings>,
         services: BotServices,
         responseManager: ResponseManager,
         stateAccessor: StatePropertyAccessor<SkillState>,
-        telemetryClient: BotTelemetryClient) {
+        telemetryClient: BotTelemetryClient
+    ) {
         super(dialogId);
         this.services = services;
         this.responseManager = responseManager;
@@ -97,9 +94,9 @@ export class SkillDialogBase extends ComponentDialog {
             const providerTokenResponse: IProviderTokenResponse | undefined = <IProviderTokenResponse>sc.result;
 
             if (providerTokenResponse !== undefined) {
-                // tslint:disable-next-line:no-any
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
                 const state: any = await this.stateAccessor.get(sc.context);
-                // tslint:disable-next-line: no-unsafe-any
+                // tslint:disable-next-line: no-any no-unsafe-any
                 state.token = providerTokenResponse.tokenResponse.token;
             }
 
@@ -175,7 +172,7 @@ export class SkillDialogBase extends ComponentDialog {
         await sc.context.sendActivity(this.responseManager.getResponse(SharedResponses.errorMessage));
 
         // clear state
-        // tslint:disable-next-line:no-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
         const state: any = await this.stateAccessor.get(sc.context);
         // tslint:disable-next-line: no-unsafe-any
         state.clear();
