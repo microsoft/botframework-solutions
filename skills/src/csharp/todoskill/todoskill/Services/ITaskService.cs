@@ -3,6 +3,7 @@
 
 namespace ToDoSkill.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Threading.Tasks;
@@ -37,13 +38,22 @@ namespace ToDoSkill.Services
         /// <returns>Ture if succeed.</returns>
         Task<bool> AddTaskAsync(string listType, string taskText);
 
-        /// <summary>
-        /// Mark tasks as completed.
-        /// </summary>
-        /// <param name="listType">Task list type.</param>
-        /// <param name="taskItems">Task items.</param>
-        /// <returns>True if succeed.</returns>
-        Task<bool> MarkTasksCompletedAsync(string listType, List<TaskItem> taskItems);
+		/// <summary>
+		/// Add a task to list.
+		/// </summary>
+		/// <param name="listType">Task list type.</param>
+		/// <param name="taskText">Task text.</param>
+		/// <param name="taskReminderTime">Tasks's reminder time.</param>
+		/// <returns>Ture if succeed.</returns>
+		Task<bool> AddTaskAsync(string listType, string taskText, DateTime taskReminderTime);
+
+		/// <summary>
+		/// Mark tasks as completed.
+		/// </summary>
+		/// <param name="listType">Task list type.</param>
+		/// <param name="taskItems">Task items.</param>
+		/// <returns>True if succeed.</returns>
+		Task<bool> MarkTasksCompletedAsync(string listType, List<TaskItem> taskItems);
 
         /// <summary>
         /// Delete tasks.

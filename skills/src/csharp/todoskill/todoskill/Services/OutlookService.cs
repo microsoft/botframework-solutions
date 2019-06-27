@@ -128,15 +128,35 @@ namespace ToDoSkill.Services
             {
                 throw ServiceHelper.HandleGraphAPIException(ex);
             }
-        }
+		}
 
-        /// <summary>
-        /// Mark tasks as completed.
-        /// </summary>
-        /// <param name="listType">Task list type.</param>
-        /// <param name="taskItems">Task items.</param>
-        /// <returns>True if succeed.</returns>
-        public async Task<bool> MarkTasksCompletedAsync(string listType, List<TaskItem> taskItems)
+		/// <summary>
+		/// Add a task.
+		/// </summary>
+		/// <param name="listType">Task list type.</param>
+		/// <param name="taskText">The task text.</param>
+		/// <param name="reminderTime">The task's reminder time.</param>
+		/// <returns>Ture if succeed.</returns>
+		public async Task<bool> AddTaskAsync(string listType, string taskText, DateTime reminderTime)
+		{
+			try
+			{
+				var requestUrl = GraphBaseUrl + "taskFolders/" + taskFolderIds[listType] + "/tasks";
+				return await this.ExecuteTaskAddAsync(requestUrl, taskText, reminderTime);
+			}
+			catch (ServiceException ex)
+			{
+				throw ServiceHelper.HandleGraphAPIException(ex);
+			}
+		}
+
+		/// <summary>
+		/// Mark tasks as completed.
+		/// </summary>
+		/// <param name="listType">Task list type.</param>
+		/// <param name="taskItems">Task items.</param>
+		/// <returns>True if succeed.</returns>
+		public async Task<bool> MarkTasksCompletedAsync(string listType, List<TaskItem> taskItems)
         {
             try
             {
@@ -277,12 +297,13 @@ namespace ToDoSkill.Services
                 {
                     if (task["status"] != "completed")
                     {
-                        toDoTasks.Add(new TaskItem()
-                        {
-                            Topic = task["subject"],
-                            Id = task["id"],
-                            IsCompleted = false,
-                        });
+						toDoTasks.Add(new TaskItem()
+						{
+							Topic = task["subject"],
+							Id = task["id"],
+							IsCompleted = false,
+							ReminderDateTime = task.reminderDateTime != null ? task.reminderDateTime.dateTime : DateTime.MinValue
+						});
                     }
                 }
 
@@ -306,9 +327,25 @@ namespace ToDoSkill.Services
                 ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
                 throw serviceException;
             }
-        }
+		}
 
-        private async Task<bool> ExecuteTasksMarkAsync(string url, List<TaskItem> taskItems)
+		private async Task<bool> ExecuteTaskAddAsync(string url, string taskText, DateTime reminderTime)
+		{
+			var httpRequestMessage = ServiceHelper.GenerateAddOutlookTaskHttpRequest(url, taskText, reminderTime);
+			var result = await this.httpClient.SendAsync(httpRequestMessage);
+			if (result.IsSuccessStatusCode)
+			{
+				return true;
+			}
+			else
+			{
+				dynamic responseContent = JObject.Parse(await result.Content.ReadAsStringAsync());
+				ServiceException serviceException = ServiceHelper.GenerateServiceException(responseContent);
+				throw serviceException;
+			}
+		}
+
+		private async Task<bool> ExecuteTasksMarkAsync(string url, List<TaskItem> taskItems)
         {
             foreach (var taskItem in taskItems)
             {

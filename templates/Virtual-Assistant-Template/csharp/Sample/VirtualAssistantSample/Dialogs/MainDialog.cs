@@ -22,375 +22,385 @@ using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Dialogs
 {
-    public class MainDialog : RouterDialog
-    {
-        private const string Location = "location";
-        private const string TimeZone = "timezone";
-        private BotSettings _settings;
-        private BotServices _services;
-        private MainResponses _responder = new MainResponses();
-        private IStatePropertyAccessor<OnboardingState> _onboardingState;
-        private IStatePropertyAccessor<SkillContext> _skillContextAccessor;
 
-        public MainDialog(
-            BotSettings settings,
-            BotServices services,
-            OnboardingDialog onboardingDialog,
-            EscalateDialog escalateDialog,
-            CancelDialog cancelDialog,
-            List<SkillDialog> skillDialogs,
-            IBotTelemetryClient telemetryClient,
-            UserState userState)
-            : base(nameof(MainDialog), telemetryClient)
-        {
-            _settings = settings;
-            _services = services;
-            TelemetryClient = telemetryClient;
-            _onboardingState = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
-            _skillContextAccessor = userState.CreateProperty<SkillContext>(nameof(SkillContext));
+	public class MainDialog : RouterDialog
+	{
+		private const string Location = "location";
+		private const string TimeZone = "timezone";
+		private BotSettings _settings;
+		private BotServices _services;
+		private MainResponses _responder = new MainResponses();
+		private IStatePropertyAccessor<OnboardingState> _onboardingState;
+		private IStatePropertyAccessor<SkillContext> _skillContextAccessor;
 
-            AddDialog(onboardingDialog);
-            AddDialog(escalateDialog);
-            AddDialog(cancelDialog);
+		public MainDialog(
+			BotSettings settings,
+			BotServices services,
+			OnboardingDialog onboardingDialog,
+			EscalateDialog escalateDialog,
+			CancelDialog cancelDialog,
+			DeviceStartDialog deviceStartDialog,
+			List<SkillDialog> skillDialogs,
+			IBotTelemetryClient telemetryClient,
+			UserState userState)
+			: base(nameof(MainDialog), telemetryClient)
+		{
+			_settings = settings;
+			_services = services;
+			TelemetryClient = telemetryClient;
+			_onboardingState = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
+			_skillContextAccessor = userState.CreateProperty<SkillContext>(nameof(SkillContext));
 
-            foreach (var skillDialog in skillDialogs)
-            {
-                AddDialog(skillDialog);
-            }
-        }
+			AddDialog(onboardingDialog);
+			AddDialog(escalateDialog);
+			AddDialog(cancelDialog);
+			AddDialog(deviceStartDialog);
 
-        protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var view = new MainResponses();
-            var onboardingState = await _onboardingState.GetAsync(dc.Context, () => new OnboardingState());
+			foreach (var skillDialog in skillDialogs)
+			{
+				AddDialog(skillDialog);
+			}
+		}
 
-            if (string.IsNullOrEmpty(onboardingState.Name))
-            {
-                await view.ReplyWith(dc.Context, MainResponses.ResponseIds.NewUserGreeting);
-            }
-            else
-            {
-                await view.ReplyWith(dc.Context, MainResponses.ResponseIds.ReturningUserGreeting);
-            }
-        }
+		protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+		{
+			var view = new MainResponses();
+			var onboardingState = await _onboardingState.GetAsync(dc.Context, () => new OnboardingState());
 
-        protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            // Get cognitive models for locale
-            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            var cognitiveModels = _services.CognitiveModelSets[locale];
+			if (string.IsNullOrEmpty(onboardingState.Name))
+			{
+				await view.ReplyWith(dc.Context, MainResponses.ResponseIds.NewUserGreeting);
+			}
+			else
+			{
+				await view.ReplyWith(dc.Context, MainResponses.ResponseIds.ReturningUserGreeting);
+			}
+		}
 
-            // Check dispatch result
-            var dispatchResult = await cognitiveModels.DispatchService.RecognizeAsync<DispatchLuis>(dc.Context, CancellationToken.None);
-            var intent = dispatchResult.TopIntent().intent;
+		protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+		{
+			// Get cognitive models for locale
+			var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+			var cognitiveModels = _services.CognitiveModelSets[locale];
 
-            // Identify if the dispatch intent matches any Action within a Skill if so, we pass to the appropriate SkillDialog to hand-off
-            var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, intent.ToString());
+			// Check dispatch result
+			var dispatchResult = await cognitiveModels.DispatchService.RecognizeAsync<DispatchLuis>(dc.Context, CancellationToken.None);
+			var intent = dispatchResult.TopIntent().intent;
 
-            if (identifiedSkill != null)
-            {
-                // We have identiifed a skill so initialize the skill connection with the target skill
-                var result = await dc.BeginDialogAsync(identifiedSkill.Id);
+			// Identify if the dispatch intent matches any Action within a Skill if so, we pass to the appropriate SkillDialog to hand-off
+			var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, intent.ToString());
 
-                if (result.Status == DialogTurnStatus.Complete)
-                {
-                    await CompleteAsync(dc);
-                }
-            }
-            else if (intent == DispatchLuis.Intent.l_general)
-            {
-                // If dispatch result is general luis model
-                cognitiveModels.LuisServices.TryGetValue("general", out var luisService);
+			if (identifiedSkill != null)
+			{
+				// We have identiifed a skill so initialize the skill connection with the target skill
+				var result = await dc.BeginDialogAsync(identifiedSkill.Id);
 
-                if (luisService == null)
-                {
-                    throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
-                }
-                else
-                {
-                    var result = await luisService.RecognizeAsync<GeneralLuis>(dc.Context, CancellationToken.None);
+				// Pass the activity we have
+				//var result = await dc.ContinueDialogAsync();
 
-                    var generalIntent = result?.TopIntent().intent;
+				if (result.Status == DialogTurnStatus.Complete)
+				{
+					await CompleteAsync(dc);
+				}
+			}
+			else if (intent == DispatchLuis.Intent.l_general)
+			{
+				// If dispatch result is general luis model
+				cognitiveModels.LuisServices.TryGetValue("general", out var luisService);
 
-                    // switch on general intents
-                    switch (generalIntent)
-                    {
-                        case GeneralLuis.Intent.Escalate:
-                            {
-                                // start escalate dialog
-                                await dc.BeginDialogAsync(nameof(EscalateDialog));
-                                break;
-                            }
+				if (luisService == null)
+				{
+					throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
+				}
+				else
+				{
+					var result = await luisService.RecognizeAsync<GeneralLuis>(dc.Context, CancellationToken.None);
 
-                        case GeneralLuis.Intent.None:
-                        default:
-                            {
-                                // No intent was identified, send confused message
-                                await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
-                                break;
-                            }
-                    }
-                }
-            }
-            else if (intent == DispatchLuis.Intent.q_faq)
-            {
-                cognitiveModels.QnAServices.TryGetValue("faq", out var qnaService);
+					var generalIntent = result?.TopIntent().intent;
 
-                if (qnaService == null)
-                {
-                    throw new Exception("The specified QnA Maker Service could not be found in your Bot Services configuration.");
-                }
-                else
-                {
-                    var answers = await qnaService.GetAnswersAsync(dc.Context, null, null);
+					// switch on general intents
+					switch (generalIntent)
+					{
+						case GeneralLuis.Intent.Escalate:
+							{
+								// start escalate dialog
+								await dc.BeginDialogAsync(nameof(EscalateDialog));
+								break;
+							}
 
-                    if (answers != null && answers.Count() > 0)
-                    {
-                        await dc.Context.SendActivityAsync(answers[0].Answer, speak: answers[0].Answer);
-                    }
-                    else
-                    {
-                        await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
-                    }
-                }
-            }
-            else if (intent == DispatchLuis.Intent.q_chitchat)
-            {
-                cognitiveModels.QnAServices.TryGetValue("chitchat", out var qnaService);
+						case GeneralLuis.Intent.None:
+						default:
+							{
+								// No intent was identified, send confused message
+								await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
+								break;
+							}
+					}
+				}
+			}
+			else if (intent == DispatchLuis.Intent.q_faq)
+			{
+				cognitiveModels.QnAServices.TryGetValue("faq", out var qnaService);
 
-                if (qnaService == null)
-                {
-                    throw new Exception("The specified QnA Maker Service could not be found in your Bot Services configuration.");
-                }
-                else
-                {
-                    var answers = await qnaService.GetAnswersAsync(dc.Context, null, null);
+				if (qnaService == null)
+				{
+					throw new Exception("The specified QnA Maker Service could not be found in your Bot Services configuration.");
+				}
+				else
+				{
+					var answers = await qnaService.GetAnswersAsync(dc.Context, null, null);
 
-                    if (answers != null && answers.Count() > 0)
-                    {
-                        await dc.Context.SendActivityAsync(answers[0].Answer, speak: answers[0].Answer);
-                    }
-                    else
-                    {
-                        await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
-                    }
-                }
-            }
-            else
-            {
-                // If dispatch intent does not map to configured models, send "confused" response.
-                // Alternatively as a form of backup you can try QnAMaker for anything not understood by dispatch.
-                await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
-            }
-        }
+					if (answers != null && answers.Count() > 0)
+					{
+						await dc.Context.SendActivityAsync(answers[0].Answer, speak: answers[0].Answer);
+					}
+					else
+					{
+						await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
+					}
+				}
+			}
+			else if (intent == DispatchLuis.Intent.q_chitchat)
+			{
+				cognitiveModels.QnAServices.TryGetValue("chitchat", out var qnaService);
 
-        protected override async Task OnEventAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            // Check if there was an action submitted from intro card
-            var value = dc.Context.Activity.Value;
+				if (qnaService == null)
+				{
+					throw new Exception("The specified QnA Maker Service could not be found in your Bot Services configuration.");
+				}
+				else
+				{
+					var answers = await qnaService.GetAnswersAsync(dc.Context, null, null);
 
-            if (value.GetType() == typeof(JObject))
-            {
-                var submit = JObject.Parse(value.ToString());
-                if (value != null && (string)submit["action"] == "startOnboarding")
-                {
-                    await dc.BeginDialogAsync(nameof(OnboardingDialog));
-                    return;
-                }
-            }
+					if (answers != null && answers.Count() > 0)
+					{
+						await dc.Context.SendActivityAsync(answers[0].Answer, speak: answers[0].Answer);
+					}
+					else
+					{
+						await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
+					}
+				}
+			}
+			else
+			{
+				// If dispatch intent does not map to configured models, send "confused" response.
+				await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
+			}
+		}
 
-            var forward = true;
-            var ev = dc.Context.Activity.AsEventActivity();
-            if (!string.IsNullOrWhiteSpace(ev.Name))
-            {
-                switch (ev.Name)
-                {
-                    case Events.TimezoneEvent:
-                        {
-                            try
-                            {
-                                var timezone = ev.Value.ToString();
-                                var tz = TimeZoneInfo.FindSystemTimeZoneById(timezone);
-                                var timeZoneObj = new JObject();
-                                timeZoneObj.Add(TimeZone, JToken.FromObject(tz));
+		protected override async Task OnEventAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+		{
+			// Check if there was an action submitted from intro card
+			var value = dc.Context.Activity.Value;
 
-                                var skillContext = await _skillContextAccessor.GetAsync(dc.Context, () => new SkillContext());
-                                if (skillContext.ContainsKey(TimeZone))
-                                {
-                                    skillContext[TimeZone] = timeZoneObj;
-                                }
-                                else
-                                {
-                                    skillContext.Add(TimeZone, timeZoneObj);
-                                }
+			if (value.GetType() == typeof(JObject))
+			{
+				var submit = JObject.Parse(value.ToString());
+				if (value != null && (string)submit["action"] == "startOnboarding")
+				{
+					await dc.BeginDialogAsync(nameof(OnboardingDialog));
+					return;
+				}
+			}
 
-                                await _skillContextAccessor.SetAsync(dc.Context, skillContext);
-                            }
-                            catch
-                            {
-                                await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Timezone passed could not be mapped to a valid Timezone. Property not set."));
-                            }
+			var forward = true;
+			var ev = dc.Context.Activity.AsEventActivity();
+			if (!string.IsNullOrWhiteSpace(ev.Name))
+			{
+				switch (ev.Name)
+				{
+					case Events.DeviceStart:
+						{
+							forward = false;
+							await dc.BeginDialogAsync(nameof(DeviceStartDialog));
+							break;
+						}
 
-                            forward = false;
-                            break;
-                        }
+					case Events.TimezoneEvent:
+						{
+							try
+							{
+								var timezone = ev.Value.ToString();
+								var tz = TimeZoneInfo.FindSystemTimeZoneById(timezone);
 
-                    case Events.LocationEvent:
-                        {
-                            var location = ev.Value.ToString();
-                            var locationObj = new JObject();
-                            locationObj.Add(Location, JToken.FromObject(location));
+								var skillContext = await _skillContextAccessor.GetAsync(dc.Context, () => new SkillContext());
+								if (skillContext.ContainsKey(TimeZone))
+								{
+									skillContext[TimeZone] = tz;
+								}
+								else
+								{
+									skillContext.Add(TimeZone, tz);
+								}
 
-                            var skillContext = await _skillContextAccessor.GetAsync(dc.Context, () => new SkillContext());
-                            if (skillContext.ContainsKey(Location))
-                            {
-                                skillContext[Location] = locationObj;
-                            }
-                            else
-                            {
-                                skillContext.Add(Location, locationObj);
-                            }
+								await _skillContextAccessor.SetAsync(dc.Context, skillContext);
+							}
+							catch
+							{
+								await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Timezone passed could not be mapped to a valid Timezone. Property not set."));
+							}
 
-                            await _skillContextAccessor.SetAsync(dc.Context, skillContext);
+							forward = false;
+							break;
+						}
 
-                            forward = false;
-                            break;
-                        }
+					case Events.LocationEvent:
+						{
+							var location = ev.Value.ToString();
 
-                    case TokenEvents.TokenResponseEventName:
-                        {
-                            forward = true;
-                            break;
-                        }
+							var skillContext = await _skillContextAccessor.GetAsync(dc.Context, () => new SkillContext());
+							if (skillContext.ContainsKey(Location))
+							{
+								skillContext[Location] = location;
+							}
+							else
+							{
+								skillContext.Add(Location, location);
+							}
 
-                    default:
-                        {
-                            await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event {ev.Name} was received but not processed."));
-                            forward = false;
-                            break;
-                        }
-                }
-            }
+							await _skillContextAccessor.SetAsync(dc.Context, skillContext);
 
-            if (forward)
-            {
-                var result = await dc.ContinueDialogAsync();
+							forward = false;
+							break;
+						}
 
-                if (result.Status == DialogTurnStatus.Complete)
-                {
-                    await CompleteAsync(dc);
-                }
-            }
-        }
+					case TokenEvents.TokenResponseEventName:
+						{
+							forward = true;
+							break;
+						}
 
-        protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            // The active dialog's stack ended with a complete status
-            await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Completed);
-        }
+					default:
+						{
+							await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event {ev.Name} was received but not processed."));
+							forward = false;
+							break;
+						}
+				}
+			}
 
-        protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)
-        {
-            if (dc.Context.Activity.Type == ActivityTypes.Message && !string.IsNullOrWhiteSpace(dc.Context.Activity.Text))
-            {
-                // get current activity locale
-                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                var cognitiveModels = _services.CognitiveModelSets[locale];
+			if (forward)
+			{
+				var result = await dc.ContinueDialogAsync();
 
-                // check luis intent
-                cognitiveModels.LuisServices.TryGetValue("general", out var luisService);
-                if (luisService == null)
-                {
-                    throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
-                }
-                else
-                {
-                    var luisResult = await luisService.RecognizeAsync<GeneralLuis>(dc.Context, cancellationToken);
-                    var intent = luisResult.TopIntent().intent;
+				if (result.Status == DialogTurnStatus.Complete)
+				{
+					await CompleteAsync(dc);
+				}
+			}
+		}
 
-                    if (luisResult.TopIntent().score > 0.5)
-                    {
-                        switch (intent)
-                        {
-                            case GeneralLuis.Intent.Cancel:
-                                {
-                                    return await OnCancel(dc);
-                                }
+		protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
+		{
+			// The active dialog's stack ended with a complete status
+			await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Completed);
+		}
 
-                            case GeneralLuis.Intent.Help:
-                                {
-                                    return await OnHelp(dc);
-                                }
+		protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)
+		{
+			if (dc.Context.Activity.Type == ActivityTypes.Message && !string.IsNullOrWhiteSpace(dc.Context.Activity.Text))
+			{
+				// get current activity locale
+				var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+				var cognitiveModels = _services.CognitiveModelSets[locale];
 
-                            case GeneralLuis.Intent.Logout:
-                                {
-                                    return await OnLogout(dc);
-                                }
-                        }
-                    }
-                }
-            }
+				// check luis intent
+				cognitiveModels.LuisServices.TryGetValue("general", out var luisService);
+				if (luisService == null)
+				{
+					throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
+				}
+				else
+				{
+					var luisResult = await luisService.RecognizeAsync<GeneralLuis>(dc.Context, cancellationToken);
+					var intent = luisResult.TopIntent().intent;
 
-            return InterruptionAction.NoAction;
-        }
+					if (luisResult.TopIntent().score > 0.5)
+					{
+						switch (intent)
+						{
+							case GeneralLuis.Intent.Cancel:
+								{
+									return await OnCancel(dc);
+								}
 
-        private async Task<InterruptionAction> OnCancel(DialogContext dc)
-        {
-            if (dc.ActiveDialog != null && dc.ActiveDialog.Id != nameof(CancelDialog))
-            {
-                // Don't start restart cancel dialog
-                await dc.BeginDialogAsync(nameof(CancelDialog));
+							case GeneralLuis.Intent.Help:
+								{
+									return await OnHelp(dc);
+								}
 
-                // Signal that the dialog is waiting on user response
-                return InterruptionAction.StartedDialog;
-            }
+							case GeneralLuis.Intent.Logout:
+								{
+									return await OnLogout(dc);
+								}
+						}
+					}
+				}
+			}
 
-            var view = new CancelResponses();
-            await view.ReplyWith(dc.Context, CancelResponses.ResponseIds.NothingToCancelMessage);
+			return InterruptionAction.NoAction;
+		}
 
-            return InterruptionAction.StartedDialog;
-        }
+		private async Task<InterruptionAction> OnCancel(DialogContext dc)
+		{
+			if (dc.ActiveDialog != null && dc.ActiveDialog.Id != nameof(CancelDialog))
+			{
+				// Don't start restart cancel dialog
+				await dc.BeginDialogAsync(nameof(CancelDialog));
 
-        private async Task<InterruptionAction> OnHelp(DialogContext dc)
-        {
-            var view = new MainResponses();
-            await view.ReplyWith(dc.Context, MainResponses.ResponseIds.Help);
+				// Signal that the dialog is waiting on user response
+				return InterruptionAction.StartedDialog;
+			}
 
-            // Signal the conversation was interrupted and should immediately continue
-            return InterruptionAction.MessageSentToUser;
-        }
+			var view = new CancelResponses();
+			await view.ReplyWith(dc.Context, CancelResponses.ResponseIds.NothingToCancelMessage);
 
-        private async Task<InterruptionAction> OnLogout(DialogContext dc)
-        {
-            IUserTokenProvider tokenProvider;
-            var supported = dc.Context.Adapter is IUserTokenProvider;
-            if (!supported)
-            {
-                throw new InvalidOperationException("OAuthPrompt.SignOutUser(): not supported by the current adapter");
-            }
-            else
-            {
-                tokenProvider = (IUserTokenProvider)dc.Context.Adapter;
-            }
+			return InterruptionAction.StartedDialog;
+		}
 
-            await dc.CancelAllDialogsAsync();
+		private async Task<InterruptionAction> OnHelp(DialogContext dc)
+		{
+			var view = new MainResponses();
+			await view.ReplyWith(dc.Context, MainResponses.ResponseIds.Help);
 
-            // Sign out user
-            var tokens = await tokenProvider.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
-            foreach (var token in tokens)
-            {
-                await tokenProvider.SignOutUserAsync(dc.Context, token.ConnectionName);
-            }
+			// Signal the conversation was interrupted and should immediately continue
+			return InterruptionAction.MessageSentToUser;
+		}
 
-            await dc.Context.SendActivityAsync(MainStrings.LOGOUT);
+		private async Task<InterruptionAction> OnLogout(DialogContext dc)
+		{
+			IUserTokenProvider tokenProvider;
+			var supported = dc.Context.Adapter is IUserTokenProvider;
+			if (!supported)
+			{
+				throw new InvalidOperationException("OAuthPrompt.SignOutUser(): not supported by the current adapter");
+			}
+			else
+			{
+				tokenProvider = (IUserTokenProvider)dc.Context.Adapter;
+			}
 
-            return InterruptionAction.StartedDialog;
-        }
+			await dc.CancelAllDialogsAsync();
 
-        private class Events
-        {
-            public const string TimezoneEvent = "VA.Timezone";
-            public const string LocationEvent = "VA.Location";
-        }
-    }
+			// Sign out user
+			var tokens = await tokenProvider.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
+			foreach (var token in tokens)
+			{
+				await tokenProvider.SignOutUserAsync(dc.Context, token.ConnectionName);
+			}
+
+			await dc.Context.SendActivityAsync(MainStrings.LOGOUT);
+
+			return InterruptionAction.StartedDialog;
+		}
+
+		private class Events
+		{
+			public const string TimezoneEvent = "VA.Timezone";
+			public const string LocationEvent = "VA.Location";
+			public const string DeviceStart = "VA.DeviceStart";
+		}
+	}
+
 }

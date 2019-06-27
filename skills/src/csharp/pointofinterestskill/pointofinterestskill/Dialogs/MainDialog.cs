@@ -158,12 +158,30 @@ namespace PointOfInterestSkill.Dialogs
             var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
 
             switch (dc.Context.Activity.Name)
-            {
-                case Events.Location:
+			{
+				case Events.DeviceStart:
+					{
+						var activity = dc.Context.Activity;
+						if (activity.SemanticAction != null && activity.SemanticAction.Entities != null && activity.SemanticAction.Entities.Count > 0)
+						{
+							state.Keyword = activity.SemanticAction.Entities["keyword"].Properties["Keyword"].ToString();
+							state.CurrentCoordinates = new LatLng
+							{
+								Latitude = double.Parse(activity.SemanticAction.Entities["location"].Properties["Latitude"].ToString()),
+								Longitude = double.Parse(activity.SemanticAction.Entities["location"].Properties["Longitude"].ToString())
+							};
+						}
+
+						await dc.BeginDialogAsync(nameof(FindPointOfInterestDialog));
+
+						break;
+					}
+
+				case Events.Location:
                     {
-                        // Test trigger with
-                        // /event:{ "Name": "Location", "Value": "34.05222222222222,-118.2427777777777" }
-                        var value = dc.Context.Activity.Value.ToString();
+						// Test trigger with
+						// /event:{ "Name": "Location", "Value": "34.05222222222222,-118.2427777777777" }
+						var value = dc.Context.Activity.Value.ToString();
 
                         if (!string.IsNullOrEmpty(value))
                         {
@@ -357,6 +375,7 @@ namespace PointOfInterestSkill.Dialogs
             public const string ActiveLocation = "ActiveLocation";
             public const string ActiveRoute = "ActiveRoute";
             public const string Location = "Location";
-        }
+			public const string DeviceStart = "VA.DeviceStart";
+		}
     }
 }

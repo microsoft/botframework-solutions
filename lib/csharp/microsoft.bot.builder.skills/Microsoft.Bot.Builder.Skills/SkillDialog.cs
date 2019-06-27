@@ -27,6 +27,7 @@ namespace Microsoft.Bot.Builder.Skills
         private ISkillTransport _skillTransport;
 
         private Queue<Activity> _queuedResponses = new Queue<Activity>();
+		private List<Activity> _apiResponses = new List<Activity>();
         private object _lockObject = new object();
 
 		/// <summary>
@@ -131,16 +132,45 @@ namespace Microsoft.Bot.Builder.Skills
             await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Handing off to the {_skillManifest.Name} skill."));
 
             var activity = innerDc.Context.Activity;
-			var semanticAction = new SemanticAction { Entities = new Dictionary<string, Entity>() };
 
-			foreach (var slot in slots)
-			{
-				semanticAction.Entities.Add(slot.Key, new Entity { Properties = slot.Value });
-			}
+            var entities = new Dictionary<string, Entity>();
+            foreach (var value in slots)
+            {
+              entities.Add(value.Key, new Entity { Properties = JObject.FromObject(value.Value) });
+            }
 
-			activity.SemanticAction = semanticAction;
+            var semanticAction = new SemanticAction { Entities = new Dictionary<string, Entity>() };
 
-            return await ForwardToSkillAsync(innerDc, activity);
+            foreach (var slot in slots)
+            {
+              semanticAction.Entities.Add(slot.Key, new Entity { Properties = slot.Value });
+            }
+
+            activity.SemanticAction = semanticAction;
+
+            // Send skillBegin event to Skill/Bot
+            var dialogResult = await ForwardToSkillAsync(innerDc, activity);
+
+            // return APIResponse if any
+            if (_apiResponses != null && _apiResponses.Count > 0)
+            {
+              dialogResult.Result = _apiResponses;
+
+              _skillTransport.Disconnect();
+
+              return await innerDc.EndDialogAsync(_apiResponses);
+            }
+
+            // if there's any response we need to send to the skill queued
+            // forward to skill and start a new turn
+            while (_queuedResponses.Count > 0)
+            {
+              await ForwardToSkillAsync(innerDc, _queuedResponses.Dequeue());
+            }
+
+          _skillTransport.Disconnect();
+
+          return dialogResult;
         }
 
         /// <summary>
@@ -173,10 +203,22 @@ namespace Microsoft.Bot.Builder.Skills
 
             var dialogResult = await ForwardToSkillAsync(innerDc, activity);
 
-            // comment out for now to accomodate for
-            // scenarios where skillTransport can't be transient
-            // will uncomment once the fix from StreamingExtensions is in
-            // _skillTransport.Disconnect();
+            // return APIResponse if any
+            if (_apiResponses != null && _apiResponses.Count > 0)
+            {
+              dialogResult.Result = _apiResponses;
+              return dialogResult;
+            }
+
+            // if there's any response we need to send to the skill queued
+            // forward to skill and start a new turn
+            while (_queuedResponses.Count > 0)
+            {
+                await ForwardToSkillAsync(innerDc, _queuedResponses.Dequeue());
+            }
+
+            _skillTransport.Disconnect();
+
             return dialogResult;
         }
 
@@ -218,7 +260,7 @@ namespace Microsoft.Bot.Builder.Skills
         {
             try
             {
-                var endOfConversation = await _skillTransport.ForwardToSkillAsync(innerDc.Context, activity, GetTokenRequestCallback(innerDc));
+                var endOfConversation = await _skillTransport.ForwardToSkillAsync(innerDc.Context, activity, GetTokenRequestCallback(innerDc), GetAPIResponseCallback);
 
 				if (endOfConversation)
                 {
@@ -271,5 +313,10 @@ namespace Microsoft.Bot.Builder.Skills
                 }
             };
         }
+
+		private void GetAPIResponseCallback(Activity activity)
+		{
+			_apiResponses.Add(activity);
+		}
     }
 }

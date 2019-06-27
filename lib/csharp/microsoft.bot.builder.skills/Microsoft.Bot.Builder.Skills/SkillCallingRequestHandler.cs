@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Builder.Skills
         private readonly Action<Activity> _tokenRequestHandler;
         private readonly Action<Activity> _handoffActivityHandler;
 
-        public SkillCallingRequestHandler(ITurnContext turnContext, IBotTelemetryClient botTelemetryClient, Action<Activity> tokenRequestHandler = null, Action<Activity> handoffActivityHandler = null)
+        public SkillCallingRequestHandler(ITurnContext turnContext, IBotTelemetryClient botTelemetryClient, Action<Activity> tokenRequestHandler = null, Action<Activity> handoffActivityHandler = null, Action<Activity> apiResponseHandler = null)
         {
             _turnContext = turnContext ?? throw new ArgumentNullException(nameof(turnContext));
             _botTelemetryClient = botTelemetryClient;
@@ -38,39 +38,52 @@ namespace Microsoft.Bot.Builder.Skills
                             async (request, routeData) =>
                             {
                                 var activity = await request.ReadBodyAsJson<Activity>().ConfigureAwait(false);
-                                if (activity != null)
-                                {
-                                    if (activity.Type == ActivityTypes.Event && activity.Name == TokenEvents.TokenRequestEventName)
-                                    {
-                                        if (_tokenRequestHandler != null)
-                                        {
-                                            _tokenRequestHandler(activity);
+								if (activity != null)
+								{
+									if (activity.Type == ActivityTypes.Event && activity.Name == TokenEvents.TokenRequestEventName)
+									{
+										if (_tokenRequestHandler != null)
+										{
+											_tokenRequestHandler(activity);
 
-                                            return new ResourceResponse();
-                                        }
-                                        else
-                                        {
-                                            throw new ArgumentNullException("TokenRequestHandler", "Skill is requesting for token but there's no handler on the calling side!");
-                                        }
-                                    }
-                                    else if (activity.Type == ActivityTypes.EndOfConversation)
-                                    {
-                                        if (_handoffActivityHandler != null)
-                                        {
-                                            _handoffActivityHandler(activity);
+											return new ResourceResponse();
+										}
+										else
+										{
+											throw new ArgumentNullException("TokenRequestHandler", "Skill is requesting for token but there's no handler on the calling side!");
+										}
+									}
+									else if (activity.SemanticAction != null && activity.SemanticAction.Entities != null && activity.SemanticAction.Entities.Count > 0)
+									{
+										if (apiResponseHandler != null)
+										{
+											apiResponseHandler(activity);
 
-                                            return new ResourceResponse();
-                                        }
-                                        else
-                                        {
-                                            throw new ArgumentNullException("HandoffActivityHandler", "Skill is sending handoff activity but there's no handler on the calling side!");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        var result = await _turnContext.SendActivityAsync(activity).ConfigureAwait(false);
-                                        return result;
-                                    }
+											return new ResourceResponse();
+										}
+										else
+										{
+											throw new ArgumentNullException("apiResponseHandler", "Skill is sending APIResponse but there's no handler on the calling side!");
+										}
+									}
+									else if (activity.Type == ActivityTypes.EndOfConversation)
+									{
+										if (_handoffActivityHandler != null)
+										{
+											_handoffActivityHandler(activity);
+
+											return new ResourceResponse();
+										}
+										else
+										{
+											throw new ArgumentNullException("HandoffActivityHandler", "Skill is sending handoff activity but there's no handler on the calling side!");
+										}
+									}
+									else
+									{
+										var result = await _turnContext.SendActivityAsync(activity).ConfigureAwait(false);
+										return result;
+									}
                                 }
                                 else
                                 {

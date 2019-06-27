@@ -113,7 +113,22 @@ namespace ToDoSkill.Dialogs
                     var currentAllTasks = await service.GetTasksAsync(state.ListType);
                     var duplicatedTaskIndex = currentAllTasks.FindIndex(t => t.Topic.Equals(state.TaskContent, StringComparison.InvariantCultureIgnoreCase));
 
-                    await service.AddTaskAsync(state.ListType, state.TaskContent);
+					//if (state.TaskContentPattern.ToLower().Contains("on my way home"))
+					//{
+						var dateTime = new DateTime(
+							DateTime.Now.Year,
+							DateTime.Now.Month,
+							DateTime.Now.Day,
+							17,
+							0,
+							0);
+						await service.AddTaskAsync(state.ListType, state.TaskContent, dateTime);
+					//}
+					//else
+					//{
+					//	await service.AddTaskAsync(state.ListType, state.TaskContent);
+					//}
+
                     state.AllTasks = await service.GetTasksAsync(state.ListType);
                     state.ShowTaskPageIndex = 0;
                     var rangeCount = Math.Min(state.PageSize, state.AllTasks.Count);
@@ -413,7 +428,7 @@ namespace ToDoSkill.Dialogs
 
         private void ExtractListTypeAndTaskContent(ToDoSkillState state)
         {
-            if (state.HasShopVerb && !string.IsNullOrEmpty(state.FoodOfGrocery))
+            if (!string.IsNullOrEmpty(state.FoodOfGrocery))
             {
                 if (state.ListType != ToDoStrings.Grocery)
                 {
@@ -434,7 +449,8 @@ namespace ToDoSkill.Dialogs
 
             if (state.ListType == ToDoStrings.Grocery || state.ListType == ToDoStrings.Shopping)
             {
-                state.TaskContent = string.IsNullOrEmpty(state.ShopContent) ? state.TaskContentML ?? state.TaskContentPattern : state.ShopContent;
+				state.TaskContent = state.FoodOfGrocery;
+                //state.TaskContent = string.IsNullOrEmpty(state.ShopContent) ? state.TaskContentML ?? state.TaskContentPattern : state.ShopContent;
             }
             else
             {

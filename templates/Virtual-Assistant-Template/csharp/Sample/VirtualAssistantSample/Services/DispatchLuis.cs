@@ -16,6 +16,8 @@ namespace Luis
         public string AlteredText;
         public enum Intent
         {
+			pointOfInterestSkill,
+			toDoSkill,
             l_general,
             q_chitchat,
             q_faq,

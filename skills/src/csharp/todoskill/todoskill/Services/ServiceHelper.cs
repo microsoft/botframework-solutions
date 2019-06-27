@@ -253,15 +253,40 @@ namespace ToDoSkill.Services
             {
                 Content = new StringContent(JsonConvert.SerializeObject(taskObject), Encoding.UTF8, "application/json"),
             };
-        }
+		}
 
-        /// <summary>
-        /// Generate add Outlook task http request.
-        /// </summary>
-        /// <param name="url">url.</param>
-        /// <param name="taskItem">Task item.</param>
-        /// <returns>Generated page html.</returns>
-        public static HttpRequestMessage GenerateDeleteOutlookTaskHttpRequest(string url, TaskItem taskItem)
+		/// <summary>
+		/// Generate add Outlook task http request.
+		/// </summary>
+		/// <param name="url">url.</param>
+		/// <param name="taskSubject">page title.</param>
+		/// <param name="reminderTime">Task's reminder time.</param>
+		/// <returns>Generated page html.</returns>
+		public static HttpRequestMessage GenerateAddOutlookTaskHttpRequest(string url, string taskSubject, DateTime reminderTime)
+		{
+			var taskObject = new
+			{
+				subject = taskSubject,
+				reminderDateTime = new
+				{
+					dateTime = reminderTime.ToString(),
+					timeZone = "Pacific Standard Time"
+				}
+			};
+
+			return new HttpRequestMessage(new HttpMethod("POST"), url)
+			{
+				Content = new StringContent(JsonConvert.SerializeObject(taskObject), Encoding.UTF8, "application/json"),
+			};
+		}
+
+		/// <summary>
+		/// Generate add Outlook task http request.
+		/// </summary>
+		/// <param name="url">url.</param>
+		/// <param name="taskItem">Task item.</param>
+		/// <returns>Generated page html.</returns>
+		public static HttpRequestMessage GenerateDeleteOutlookTaskHttpRequest(string url, TaskItem taskItem)
         {
             return new HttpRequestMessage(new HttpMethod("DELETE"), url + "/" + taskItem.Id);
         }
