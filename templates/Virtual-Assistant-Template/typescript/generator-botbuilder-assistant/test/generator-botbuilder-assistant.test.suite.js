@@ -27,8 +27,10 @@ describe(`The generator-botbuilder-assistant tests`, function() {
 
     const templatesFiles = [
         `package.json`,
+        `.eslintrc.js`,
         `.gitignore`,
         `.npmrc`,
+        `.nycrc`,
         dialogBotPath
     ];
     const commonDirectories = [

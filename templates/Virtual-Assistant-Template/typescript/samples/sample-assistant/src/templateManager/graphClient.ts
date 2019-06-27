@@ -12,21 +12,25 @@ import { User } from '@microsoft/microsoft-graph-types';
 export class GraphClient {
     private readonly token: string;
 
-    constructor(token: string) {
+    public constructor(token: string) {
         this.token = token;
     }
 
-    public getMe(): Promise<User> {
-        // tslint:disable-next-line:no-any
-        return new Promise((resolve: (value?: User | PromiseLike<User> | undefined) => any, reject: (reason?: any) => void): void => {
+    public async getMe(): Promise<User> {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+        return new Promise((resolve, reject): Promise<any> => {
             const client: Client = this.getAuthenticatedClient();
-            client.api('/me')
-                  .select('displayName')
-            .get((err: GraphError, res: User) => {
-                if (err) { return reject(err); }
 
-                return resolve(res);
-            });
+            return client
+                .api('/me')
+                .select('displayName')
+                .get((err: GraphError, res: User): void => {
+                    if (err !== undefined) {
+                        reject(err);
+                    }
+
+                    resolve(res);
+                });
         });
     }
 

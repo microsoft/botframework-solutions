@@ -32,8 +32,10 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
 
     const templatesFiles = [
         `package.json`,
+        `.eslintrc.js`,
         `.gitignore`,
         `.npmrc`,
+        `.nycrc`,
         manifestTemplatePath,
         dialogBotPath,
         mainDialogPath,

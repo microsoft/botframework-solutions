@@ -17,6 +17,6 @@ export interface ITemplateRenderer {
      * @param templateId - template to render
      * @param data - data object to use to render
      */
-    // tslint:disable-next-line:no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
     renderTemplate(turnContext: TurnContext, language: string, templateId: string, data: any): Promise<any>;
 }
