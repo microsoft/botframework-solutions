@@ -1,0 +1,370 @@
+[
+    {
+        "scope": "http://127.0.0.1:3980",
+        "method": "GET",
+        "path": "/api/manifest",
+        "body": "",
+        "status": 200,
+        "response": {
+            "id": "calendarSkill",
+            "name": "Calendar Skill",
+            "description": "The Calendar skill provides calendaring related capabilities and supports Office and Google calendars.",
+            "iconUrl": "http://127.0.0.1:3980/calendarSkill.png",
+            "authenticationConnections": [
+                {
+                    "id": "Outlook",
+                    "serviceProviderId": "Azure Active Directory v2",
+                    "scopes": "User.Read, User.ReadBasic.All, Calendars.ReadWrite, People.Read"
+                },
+                {
+                    "id": "Google",
+                    "serviceProviderId": "Google",
+                    "scopes": "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts"
+                }
+            ],
+            "actions": [
+                {
+                    "id": "calendarSkill/createEvent",
+                    "definition": {
+                        "description": "Create a new event",
+                        "slots": [
+                            {
+                                "name": "title",
+                                "types": [
+                                    "string"
+                                ]
+                            },
+                            {
+                                "name": "content",
+                                "types": [
+                                    "string"
+                                ]
+                            },
+                            {
+                                "name": "attendees",
+                                "types": [
+                                    "string"
+                                ]
+                            },
+                            {
+                                "name": "startDate",
+                                "types": [
+                                    "string"
+                                ]
+                            },
+                            {
+                                "name": "startTime",
+                                "types": [
+                                    "string"
+                                ]
+                            },
+                            {
+                                "name": "duration",
+                                "types": [
+                                    "string"
+                                ]
+                            },
+                            {
+                                "name": "location",
+                                "types": [
+                                    "string"
+                                ]
+                            }
+                        ],
+                        "triggers": {
+                            "utteranceSources": [
+                                {
+                                    "locale": "en",
+                                    "source": [
+                                        "Calendar#CreateCalendarEntry",
+                                        "Calendar#FindMeetingRoom"
+                                    ]
+                                },
+                                {
+                                    "locale": "de",
+                                    "source": [
+                                        "Calendar#CreateCalendarEntry",
+                                        "Calendar#FindMeetingRoom"
+                                    ]
+                                },
+                                {
+                                    "locale": "fr",
+                                    "source": [
+                                        "Calendar#CreateCalendarEntry",
+                                        "Calendar#FindMeetingRoom"
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "id": "calendarSkill/changeEventStatus",
+                    "definition": {
+                        "description": "Change the status of an event (accept/decline).",
+                        "slots": [
+                            {
+                                "name": "startDate",
+                                "types": [
+                                    "string"
+                                ]
+                            },
+                            {
+                                "name": "startTime",
+                                "types": [
+                                    "string"
+                                ]
+                            }
+                        ],
+                        "triggers": {
+                            "utteranceSources": [
+                                {
+                                    "locale": "en",
+                                    "source": [
+                                        "Calendar#AcceptEventEntry",
+                                        "Calendar#DeleteCalendarEntry"
+                                    ]
+                                },
+                                {
+                                    "locale": "de",
+                                    "source": [
+                                        "Calendar#AcceptEventEntry",
+                                        "Calendar#DeleteCalendarEntry"
+                                    ]
+                                },
+                                {
+                                    "locale": "fr",
+                                    "source": [
+                                        "Calendar#AcceptEventEntry",
+                                        "Calendar#DeleteCalendarEntry"
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "id": "calendarSkill/joinEvent",
+                    "definition": {
+                        "description": "Join the upcoming meeting",
+                        "slots": [],
+                        "triggers": {
+                            "utteranceSources": [
+                                {
+                                    "locale": "en",
+                                    "source": [
+                                        "Calendar#ConnectToMeeting"
+                                    ]
+                                },
+                                {
+                                    "locale": "de",
+                                    "source": [
+                                        "Calendar#ConnectToMeeting"
+                                    ]
+                                },
+                                {
+                                    "locale": "fr",
+                                    "source": [
+                                        "Calendar#ConnectToMeeting"
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "id": "https://calendarskill.microsoft.com/summary",
+                    "definition": {
+                        "description": "Retrieve a summary of meetings through an event invocation.",
+                        "slots": [],
+                        "triggers": {
+                            "events": [
+                                {
+                                    "Name": "summaryEvent"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "id": "calendarSkill/timeRemaining",
+                    "definition": {
+                        "description": "Find out how long until the next event",
+                        "slots": [],
+                        "triggers": {
+                            "utteranceSources": [
+                                {
+                                    "locale": "en",
+                                    "source": [
+                                        "Calendar#TimeRemaining"
+                                    ]
+                                },
+                                {
+                                    "locale": "de",
+                                    "source": [
+                                        "Calendar#TimeRemaining"
+                                    ]
+                                },
+                                {
+                                    "locale": "fr",
+                                    "source": [
+                                        "Calendar#TimeRemaining"
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "id": "calendarSkill/summary",
+                    "definition": {
+                        "description": "Find an upcoming event",
+                        "slots": [
+                            {
+                                "name": "startDate",
+                                "types": [
+                                    "string"
+                                ]
+                            },
+                            {
+                                "name": "startTime",
+                                "types": [
+                                    "string"
+                                ]
+                            },
+                            {
+                                "name": "endDate",
+                                "types": [
+                                    "string"
+                                ]
+                            },
+                            {
+                                "name": "endTime",
+                                "types": [
+                                    "string"
+                                ]
+                            }
+                        ],
+                        "triggers": {
+                            "utteranceSources": [
+                                {
+                                    "locale": "en",
+                                    "source": [
+                                        "Calendar#FindCalendarDetail",
+                                        "Calendar#FindCalendarEntry",
+                                        "Calendar#FindCalendarWhen",
+                                        "Calendar#FindCalendarWhere",
+                                        "Calendar#FindCalendarWho",
+                                        "Calendar#FindDuration"
+                                    ]
+                                },
+                                {
+                                    "locale": "de",
+                                    "source": [
+                                        "Calendar#FindCalendarDetail",
+                                        "Calendar#FindCalendarEntry",
+                                        "Calendar#FindCalendarWhen",
+                                        "Calendar#FindCalendarWhere",
+                                        "Calendar#FindCalendarWho",
+                                        "Calendar#FindDuration"
+                                    ]
+                                },
+                                {
+                                    "locale": "fr",
+                                    "source": [
+                                        "Calendar#FindCalendarDetail",
+                                        "Calendar#FindCalendarEntry",
+                                        "Calendar#FindCalendarWhen",
+                                        "Calendar#FindCalendarWhere",
+                                        "Calendar#FindCalendarWho",
+                                        "Calendar#FindDuration"
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "id": "calendarSkill/updateEvent",
+                    "definition": {
+                        "description": "Update an existing event.",
+                        "slots": [
+                            {
+                                "name": "startDate",
+                                "types": [
+                                    "string"
+                                ]
+                            },
+                            {
+                                "name": "startTime",
+                                "types": [
+                                    "string"
+                                ]
+                            },
+                            {
+                                "name": "endDate",
+                                "types": [
+                                    "string"
+                                ]
+                            },
+                            {
+                                "name": "endTime",
+                                "types": [
+                                    "string"
+                                ]
+                            },
+                            {
+                                "name": "newStartDate",
+                                "types": [
+                                    "string"
+                                ]
+                            },
+                            {
+                                "name": "newStartTime",
+                                "types": [
+                                    "string"
+                                ]
+                            }
+                        ],
+                        "triggers": {
+                            "utteranceSources": [
+                                {
+                                    "locale": "en",
+                                    "source": [
+                                        "Calendar#ChangeCalendarEntry"
+                                    ]
+                                },
+                                {
+                                    "locale": "de",
+                                    "source": [
+                                        "Calendar#ChangeCalendarEntry"
+                                    ]
+                                },
+                                {
+                                    "locale": "fr",
+                                    "source": [
+                                        "Calendar#ChangeCalendarEntry"
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "msAppId": "9afc4045-b3f3-4106-80be-d152d8821879",
+            "endpoint": "http://127.0.0.1:3980/api/skill/messages"
+        },
+        "rawHeaders": [
+            "Server",
+            "restify",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "4028",
+            "Date",
+            "Tue, 04 Jun 2019 14:04:00 GMT",
+            "Connection",
+            "close"
+        ]
+    }
+]

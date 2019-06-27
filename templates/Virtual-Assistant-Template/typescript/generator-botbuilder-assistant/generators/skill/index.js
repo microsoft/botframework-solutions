@@ -11,13 +11,11 @@ const path = require(`path`);
 const pkg = require(`../../package.json`);
 const _pick = require(`lodash/pick`);
 const _kebabCase = require(`lodash/kebabCase`);
-const templateName = "customSkill";
+const _camelCase = require(`lodash/camelCase`);
+const templateName = "sample-skill";
 const languages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
-let skillName;
-let skillDesc;
 let skillGenerationPath = process.cwd();
 let isAlreadyCreated = false;
-let copier;
 
 const languagesChoice = [
   {
@@ -86,7 +84,7 @@ module.exports = class extends Generator {
     this.option(`skillName`, {
       description: `The name you want to give to your skill.`,
       type: String,
-      default: `customSkill`,
+      default: `sample-skill`,
       alias: `n`
     });
 
@@ -117,7 +115,7 @@ module.exports = class extends Generator {
     });
 
     // Instantiate the copier
-    copier = new Copier(this);
+    this.copier = new Copier(this);
   }
 
   prompting() {
@@ -153,7 +151,9 @@ module.exports = class extends Generator {
         type: `input`,
         name: `skillName`,
         message: `What's the name of your skill?`,
-        default: this.options.skillName ? this.options.skillName : `customSkill`
+        default: this.options.skillName
+          ? this.options.skillName
+          : `sample-skill`
       },
       // Description of the skill
       {
@@ -240,12 +240,15 @@ module.exports = class extends Generator {
       return;
     }
 
-    skillDesc = this.props.skillDesc;
+    const skillDesc = this.props.skillDesc;
     if (!this.props.skillName.replace(/\s/g, ``).length) {
       this.props.skillName = templateName;
     }
 
-    skillName = _kebabCase(this.props.skillName).replace(/([^a-z0-9-]+)/gi, ``);
+    const skillName = _kebabCase(this.props.skillName).replace(
+      /([^a-z0-9-]+)/gi,
+      ``
+    );
     skillGenerationPath = path.join(skillGenerationPath, skillName);
     if (this.props.skillGenerationPath !== undefined) {
       skillGenerationPath = path.join(
@@ -253,6 +256,11 @@ module.exports = class extends Generator {
         skillName
       );
     }
+
+    const skillNameCamelCase = _camelCase(this.props.skillName).replace(
+      /([^a-z0-9-]+)/gi,
+      ``
+    );
 
     if (fs.existsSync(skillGenerationPath)) {
       isAlreadyCreated = true;
@@ -268,13 +276,14 @@ module.exports = class extends Generator {
     // Create new skill obj
     const newSkill = {
       skillName: skillName,
+      skillNameCamelCase: skillNameCamelCase,
       skillDescription: skillDesc
     };
 
     // Start the copy of the template
-    copier.selectLanguages(skillLang);
-    copier.copyIgnoringTemplateFiles(templateName, skillGenerationPath);
-    copier.copyTemplateFiles(templateName, skillGenerationPath, newSkill);
+    this.copier.selectLanguages(skillLang);
+    this.copier.copyIgnoringTemplateFiles(templateName, skillGenerationPath);
+    this.copier.copyTemplateFiles(templateName, skillGenerationPath, newSkill);
   }
 
   install() {
@@ -310,6 +319,7 @@ module.exports = class extends Generator {
           )
         );
       } else {
+        this.spawnCommandSync("npm run build", []);
         this.log(chalk.green(`------------------------ `));
         this.log(chalk.green(` Your new skill is ready!  `));
         this.log(chalk.green(`------------------------ `));
@@ -318,6 +328,16 @@ module.exports = class extends Generator {
             chalk.green.bold(`README.md`) +
             ` to learn how to run your skill. `
         );
+        this.log(
+          chalk.blue(
+            `\nNext step - being in the root of your generated skill, to deploy it execute the following command:`
+          )
+        );
+        this.log(
+          chalk.blue(
+            `pwsh.exe -ExecutionPolicy Bypass -File deployment\\scripts\\deploy.ps1 -name "<SKILL_NAME>" -location "<LOCATION>" -appId "<APP_ID>" -appPassword "<APP_PASSWORD>" -luisAuthoringKey "<LUIS_AUTHORING_KEY>" -luisAuthoringRegion "<LUIS_AUTHORING_REGION>"`
+          )
+        );
       }
     } else {
       this.log(chalk.red.bold(`-------------------------------- `));
@@ -325,7 +345,7 @@ module.exports = class extends Generator {
       this.log(chalk.red.bold(`-------------------------------- `));
     }
 
-    this.log(`Thank you for using the Microsoft Bot Framework. `);
-    this.log(`\n` + tinyBot + `The Bot Framework Team`);
+    this.log(`\nThank you for using the Microsoft Bot Framework. `);
+    this.log(`\n${tinyBot} The Bot Framework Team`);
   }
 };

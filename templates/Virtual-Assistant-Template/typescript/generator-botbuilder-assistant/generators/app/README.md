@@ -14,7 +14,7 @@
 ### Generate the assistant using prompts
 
 - The generator will start prompting for some information that is needed for generating the sample:
-    - `What's the name of your assistant? (customAssistant)`
+    - `What's the name of your assistant? (sample-assistant)`
         > The name of your assistant (used also as your project's name and for the root folder's name).
     - `What will your assistant do? ()`
         > The description of your assistant.
@@ -36,7 +36,7 @@
 
 | Option                            | Description                                                                                                  |
 |-----------------------------------|--------------------------------------------------------------------------------------------------------------|
-| -n, --assistantName [name]              | name of new assistant (by default takes `customAssistant`)                                                          |
+| -n, --assistantName [name]              | name of new assistant (by default takes `sample-assistant`)                                                          |
 | -d, --assistantDesc [description]       | description of the new assistant (by default takes ``) |
 | -l, --assistantLang [languages]| languages for the new assistant. Possible values are `de`, `en`, `es`, `fr`, `it`, `zh` (by default takes all the languages)| 
 | -p, --assistantGenerationPath [path]    | destination path for the new assistant (by default takes the path where you are runnning the generator)            |

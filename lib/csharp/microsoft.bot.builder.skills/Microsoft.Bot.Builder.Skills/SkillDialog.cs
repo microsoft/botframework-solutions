@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills.Auth;
-using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
@@ -51,12 +50,12 @@ namespace Microsoft.Bot.Builder.Skills
             : base(skillManifest.Id)
         {
             _skillManifest = skillManifest ?? throw new ArgumentNullException(nameof(SkillManifest));
-			_serviceClientCredentials = serviceClientCredentials ?? throw new ArgumentNullException(nameof(serviceClientCredentials));
+            _serviceClientCredentials = serviceClientCredentials ?? throw new ArgumentNullException(nameof(serviceClientCredentials));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
             _userState = userState;
-			_skillTransport = skillTransport ?? new SkillWebSocketTransport(_skillManifest, _serviceClientCredentials);
+            _skillTransport = skillTransport ?? new SkillWebSocketTransport(_skillManifest, _serviceClientCredentials, telemetryClient);
 
-			if (authDialog != null)
+            if (authDialog != null)
             {
                 _authDialog = authDialog;
                 AddDialog(authDialog);
@@ -87,7 +86,7 @@ namespace Microsoft.Bot.Builder.Skills
         /// <returns>dialog turn result.</returns>
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            SkillContext slots = new SkillContext();
+            var slots = new Dictionary<string, JObject>();
 
             // Retrieve the SkillContext state object to identify slots (parameters) that can be used to slot-fill when invoking the skill
             var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
@@ -133,38 +132,46 @@ namespace Microsoft.Bot.Builder.Skills
             await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Handing off to the {_skillManifest.Name} skill."));
 
             var activity = innerDc.Context.Activity;
-			var entities = new Dictionary<string, Entity>();
-			foreach (var value in slots)
-			{
-				entities.Add(value.Key, new Entity { Properties = JObject.FromObject(value.Value) });
-			}
 
-			activity.SemanticAction = new SemanticAction("test", entities);
+            var entities = new Dictionary<string, Entity>();
+            foreach (var value in slots)
+            {
+              entities.Add(value.Key, new Entity { Properties = JObject.FromObject(value.Value) });
+            }
 
-			// Send skillBegin event to Skill/Bot
-			var dialogResult = await ForwardToSkillAsync(innerDc, activity);
+            var semanticAction = new SemanticAction { Entities = new Dictionary<string, Entity>() };
 
-			// return APIResponse if any
-			if (_apiResponses != null && _apiResponses.Count > 0)
-			{
-				dialogResult.Result = _apiResponses;
+            foreach (var slot in slots)
+            {
+              semanticAction.Entities.Add(slot.Key, new Entity { Properties = slot.Value });
+            }
 
-				_skillTransport.Disconnect();
+            activity.SemanticAction = semanticAction;
 
-				return await innerDc.EndDialogAsync(_apiResponses);
-			}
+            // Send skillBegin event to Skill/Bot
+            var dialogResult = await ForwardToSkillAsync(innerDc, activity);
 
-			// if there's any response we need to send to the skill queued
-			// forward to skill and start a new turn
-			while (_queuedResponses.Count > 0)
-			{
-				await ForwardToSkillAsync(innerDc, _queuedResponses.Dequeue());
-			}
+            // return APIResponse if any
+            if (_apiResponses != null && _apiResponses.Count > 0)
+            {
+              dialogResult.Result = _apiResponses;
 
-			_skillTransport.Disconnect();
+              _skillTransport.Disconnect();
 
-			return dialogResult;
-		}
+              return await innerDc.EndDialogAsync(_apiResponses);
+            }
+
+            // if there's any response we need to send to the skill queued
+            // forward to skill and start a new turn
+            while (_queuedResponses.Count > 0)
+            {
+              await ForwardToSkillAsync(innerDc, _queuedResponses.Dequeue());
+            }
+
+          _skillTransport.Disconnect();
+
+          return dialogResult;
+        }
 
         /// <summary>
         /// All subsequent messages are forwarded on to the skill.
@@ -196,16 +203,16 @@ namespace Microsoft.Bot.Builder.Skills
 
             var dialogResult = await ForwardToSkillAsync(innerDc, activity);
 
-			// return APIResponse if any
-			if (_apiResponses != null && _apiResponses.Count > 0)
-			{
-				dialogResult.Result = _apiResponses;
-				return dialogResult;
-			}
+            // return APIResponse if any
+            if (_apiResponses != null && _apiResponses.Count > 0)
+            {
+              dialogResult.Result = _apiResponses;
+              return dialogResult;
+            }
 
-			// if there's any response we need to send to the skill queued
-			// forward to skill and start a new turn
-			while (_queuedResponses.Count > 0)
+            // if there's any response we need to send to the skill queued
+            // forward to skill and start a new turn
+            while (_queuedResponses.Count > 0)
             {
                 await ForwardToSkillAsync(innerDc, _queuedResponses.Dequeue());
             }
@@ -230,7 +237,7 @@ namespace Microsoft.Bot.Builder.Skills
                 foreach (Slot slot in actionSlots)
                 {
                     // For each slot we check to see if there is an exact match, if so we pass this slot across to the skill
-                    if (skillContext.TryGetValue(slot.Name, out object slotValue))
+                    if (skillContext.TryGetValue(slot.Name, out JObject slotValue))
                     {
                         slots.Add(slot.Name, slotValue);
 
@@ -255,14 +262,23 @@ namespace Microsoft.Bot.Builder.Skills
             {
                 var endOfConversation = await _skillTransport.ForwardToSkillAsync(innerDc.Context, activity, GetTokenRequestCallback(innerDc), GetAPIResponseCallback);
 
-                if (endOfConversation)
+				if (endOfConversation)
                 {
                     await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot."));
                     return await innerDc.EndDialogAsync();
                 }
                 else
-                {
-                    return EndOfTurn;
+				{
+					var dialogResult = new DialogTurnResult(DialogTurnStatus.Waiting);
+
+					// if there's any response we need to send to the skill queued
+					// forward to skill and start a new turn
+					while (_queuedResponses.Count > 0 && dialogResult.Status != DialogTurnStatus.Complete && dialogResult.Status != DialogTurnStatus.Cancelled)
+					{
+						dialogResult = await ForwardToSkillAsync(innerDc, _queuedResponses.Dequeue());
+					}
+
+					return dialogResult;
                 }
             }
             catch

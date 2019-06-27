@@ -22,6 +22,7 @@ using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Dialogs
 {
+
 	public class MainDialog : RouterDialog
 	{
 		private const string Location = "location";
@@ -401,4 +402,5 @@ namespace VirtualAssistantSample.Dialogs
 			public const string DeviceStart = "VA.DeviceStart";
 		}
 	}
+
 }

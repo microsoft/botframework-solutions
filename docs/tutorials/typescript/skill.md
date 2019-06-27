@@ -48,16 +48,22 @@ A Bot Framework Skill app (in TypeScript) that greets a new user.
 3. Install  Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions as we make use of the latest capabilities: 
    
    ```
-   npm install -g botdispatch ludown@1.2.0 luis-apis qnamaker luisgen@2.0.2 botskills
+   npm install -g botdispatch ludown@1.2.0 luis-apis qnamaker luisgen@2.0.2
    ```
 
-4. Install [Yeoman](http://yeoman.io)
+4. Install Botskills (CLI) tool:
+   
+   ```
+   npm install -g botskills
+   ```
+
+5. Install [Yeoman](http://yeoman.io)
 
    ```
    npm install -g yo
    ```
 
-5. Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest).
+6. Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest).
 
 ## Create your Skill
 
@@ -188,10 +194,6 @@ You can now publish your Skill to Azure using the usual deployment tools and ena
 ## Adding your Skill to an assistant
 
 To add your new Skill to your assistant/Bot, run the following command from a command prompt **within the directory of your assistant/Bot**. At this time we have a powershell script and a preview botskills CLI.
-
-```bash
-.\Deployment\scripts\add_remote_skill.ps1 -botName "YOUR_BOT_NAME" -manifestUrl https://YOUR_SKILL.azurewebsites.net/api/skill/manifest
-```
 
 ```bash
 botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder "<YOUR-SKILL_PATH>\deployment\resources\LU\en" --ts

@@ -7,6 +7,7 @@ namespace ToDoSkill.Services
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Graph;
     using Newtonsoft.Json.Linq;
     using ToDoSkill.Models;
@@ -21,6 +22,17 @@ namespace ToDoSkill.Services
         private const string OutlookTaskUrl = "https://outlook.live.com/owa/?path=/tasks";
         private HttpClient httpClient;
         private Dictionary<string, string> taskFolderIds;
+
+        public OutlookService()
+        {
+        }
+
+        public OutlookService(IConfiguration configuration)
+        {
+            this.Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the task folder is created or not.
@@ -53,42 +65,23 @@ namespace ToDoSkill.Services
                     this.httpClient = client;
                 }
 
-                if (!taskFolderIds.ContainsKey(ToDoStrings.ToDo))
+                List<string> customizedListTypes = ServiceHelper.GetListTypes(this.Configuration);
+                foreach (string customizedListType in customizedListTypes)
                 {
-                    var taskFolderId = await GetOrCreateTaskFolderAsync(ToDoStrings.ToDo);
-                    taskFolderIds.Add(ToDoStrings.ToDo, taskFolderId.Item1);
-                    IsListCreated = IsListCreated && taskFolderId.Item2;
-                }
-                else
-                {
-                    // This is used for the scenario of task folder being deleted.
-                    // If a task folder is deleted, will create a new one.
-                    var taskFolderId = await GetOrCreateTaskFolderByIdAsync(taskFolderIds[ToDoStrings.ToDo], ToDoStrings.ToDo);
-                    taskFolderIds[ToDoStrings.ToDo] = taskFolderId;
-                }
-
-                if (!taskFolderIds.ContainsKey(ToDoStrings.Grocery))
-                {
-                    var taskFolderId = await GetOrCreateTaskFolderAsync(ToDoStrings.Grocery);
-                    taskFolderIds.Add(ToDoStrings.Grocery, taskFolderId.Item1);
-                    IsListCreated = IsListCreated && taskFolderId.Item2;
-                }
-                else
-                {
-                    var taskFolderId = await GetOrCreateTaskFolderByIdAsync(taskFolderIds[ToDoStrings.Grocery], ToDoStrings.Grocery);
-                    taskFolderIds[ToDoStrings.Grocery] = taskFolderId;
-                }
-
-                if (!taskFolderIds.ContainsKey(ToDoStrings.Shopping))
-                {
-                    var taskFolderId = await GetOrCreateTaskFolderAsync(ToDoStrings.Shopping);
-                    taskFolderIds.Add(ToDoStrings.Shopping, taskFolderId.Item1);
-                    IsListCreated = IsListCreated && taskFolderId.Item2;
-                }
-                else
-                {
-                    var taskFolderId = await GetOrCreateTaskFolderByIdAsync(taskFolderIds[ToDoStrings.Shopping], ToDoStrings.Shopping);
-                    taskFolderIds[ToDoStrings.Shopping] = taskFolderId;
+                    string taskFolderName = customizedListType;
+                    if (!taskFolderIds.ContainsKey(taskFolderName))
+                    {
+                        var taskFolderId = await GetOrCreateTaskFolderAsync(taskFolderName);
+                        taskFolderIds.Add(taskFolderName, taskFolderId.Item1);
+                        IsListCreated = IsListCreated && taskFolderId.Item2;
+                    }
+                    else
+                    {
+                        // This is used for the scenario of task folder being deleted.
+                        // If a task folder is deleted, will create a new one.
+                        var taskFolderId = await GetOrCreateTaskFolderByIdAsync(taskFolderIds[taskFolderName], taskFolderName);
+                        taskFolderIds[taskFolderName] = taskFolderId;
+                    }
                 }
 
                 this.taskFolderIds = taskFolderIds;

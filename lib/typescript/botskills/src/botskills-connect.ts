@@ -4,9 +4,9 @@
  */
 
 import * as program from 'commander';
-import { existsSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { extname, isAbsolute, join, resolve } from 'path';
-import { connectSkill } from './functionality';
+import { ConnectSkill } from './functionality';
 import { ConsoleLogger, ILogger } from './logger';
 import { ICognitiveModelFile, IConnectConfiguration } from './models';
 import { validatePairOfArgs } from './utils';
@@ -36,6 +36,7 @@ program
     .option('-r, --remoteManifest <url>', 'URL to remote Skill Manifest')
     .option('--cs', 'Determine your assistant project structure to be a CSharp-like structure')
     .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
+    .option('--noRefresh', '[OPTIONAL] Determine whether the model of your skills connected are not going to be refreshed (by default they are refreshed)')
     .option('--dispatchName [name]', '[OPTIONAL] Name of your assistant\'s \'.dispatch\' file (defaults to the name displayed in your Cognitive Models file)')
     .option('--language [language]', '[OPTIONAL] Locale used for LUIS culture (defaults to \'en-us\')')
     .option('--luisFolder [path]', '[OPTIONAL] Path to the folder containing your Skills\' .lu files (defaults to \'./deployment/resources/skills/en\' inside your assistant folder)')
@@ -57,8 +58,9 @@ if (process.argv.length < 3) {
 }
 
 logger.isVerbose = args.verbose;
-let projectLanguage: string = '';
+let noRefresh: boolean = false;
 
+// Validation of arguments
 // cs and ts validation
 const csAndTsValidationResult: string = validatePairOfArgs(args.cs, args.ts);
 if (csAndTsValidationResult) {
@@ -68,9 +70,14 @@ if (csAndTsValidationResult) {
     );
     process.exit(1);
 }
-projectLanguage = args.cs ? 'cs' : 'ts';
 
-// Validation of arguments
+const projectLanguage: string = args.cs ? 'cs' : 'ts';
+
+// noRefresh validation
+if (args.noRefresh) {
+    noRefresh = true;
+}
+
 // botName validation
 if (!args.botName) {
     logger.error(`The 'botName' argument should be provided.`);
@@ -96,6 +103,7 @@ const configuration: Partial<IConnectConfiguration> = {
     botName: args.botName,
     localManifest: args.localManifest,
     remoteManifest: args.remoteManifest,
+    noRefresh: noRefresh,
     lgLanguage: projectLanguage
 };
 
@@ -147,7 +155,7 @@ configuration.lgOutFolder = args.lgOutFolder || join(configuration.outFolder, (a
 if (!args.dispatchName) {
     // try get the dispatch name from the cognitiveModels file
     // tslint:disable-next-line
-    const cognitiveModelsFile: ICognitiveModelFile = require(cognitiveModelsFilePath);
+    const cognitiveModelsFile: ICognitiveModelFile = JSON.parse(readFileSync(cognitiveModelsFilePath, 'UTF8'));
     configuration.dispatchName = cognitiveModelsFile.cognitiveModels[languageCode].dispatchModel.name;
 }
 
@@ -155,4 +163,4 @@ configuration.logger = logger;
 
 // End of arguments validation
 
-connectSkill(<IConnectConfiguration> configuration);
+new ConnectSkill(logger).connectSkill(<IConnectConfiguration> configuration);

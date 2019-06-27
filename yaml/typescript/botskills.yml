@@ -1,0 +1,56 @@
+# specific branch build
+trigger:
+  branches:  
+    include:
+    - master
+    - feature/*
+
+  paths:
+    include:
+    - lib/typescript/botskills/*
+
+# By default will disable PR builds
+pr: none 
+
+pool:
+  name: Hosted VS2017
+  demands:
+  - npm
+  - npm
+steps:
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    workingDir: lib/typescript/botskills
+    verbose: false
+
+- task: Npm@1
+  displayName: 'npm run build'
+  inputs:
+    command: custom
+    workingDir: lib/typescript/botskills
+    verbose: false
+    customCommand: 'run build'
+
+- task: Npm@1
+  displayName: 'npm test - coverage'
+  inputs:
+    command: custom
+    workingDir: lib/typescript/botskills
+    verbose: false
+    customCommand: 'run test-coverage-ci'
+    
+- task: PublishTestResults@2
+  displayName: 'publish test results'
+  inputs:
+    testResultsFiles: 'test-results.xml'
+    searchFolder: 'lib/typescript/botskills'
+    failTaskOnFailedTests: true    
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'publish code coverage'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: 'lib/typescript/botskills/coverage/cobertura-coverage.xml'
+    reportDirectory: 'lib/typescript/botskills/coverage/'
+

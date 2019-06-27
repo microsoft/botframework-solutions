@@ -68,6 +68,23 @@ namespace ToDoSkillTest.Flow
         }
 
         [TestMethod]
+        public async Task Test_ShowCustomizedListTypeItems()
+        {
+            ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
+            await this.GetTestFlow()
+                .Send(ShowToDoFlowTestUtterances.ShowCustomizedListTypeList)
+                .AssertReply(this.ShowAuth())
+                .Send(this.GetAuthResponse())
+                .AssertReplyOneOf(this.SettingUpOneNote())
+                .AssertReplyOneOf(this.AfterSettingUpOneNote())
+                .AssertReply(this.ShowCustomizedListTypeCard())
+                .AssertReplyOneOf(this.ReadMoreTasksPrompt())
+                .Send(MockData.ConfirmNo)
+                .AssertReplyOneOf(this.FirstReadMoreRefused())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
         public async Task Test_ReadMoreItems()
         {
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
@@ -136,6 +153,19 @@ namespace ToDoSkillTest.Flow
 
                 var latestFourTasks = MockData.MockShoppingItems[0].Topic + ", " + MockData.MockShoppingItems[1].Topic + ", " + MockData.MockShoppingItems[2].Topic + " and " + MockData.MockShoppingItems[3].Topic;
                 var expectedMessage = string.Format(MockData.FirstTaskDetailMessage, MockData.MockShoppingItems.Count, MockData.Shopping, MockData.PageSize, latestFourTasks);
+                Assert.AreEqual(expectedMessage, messageActivity.Speak);
+            };
+        }
+
+        private Action<IActivity> ShowCustomizedListTypeCard()
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+                Assert.AreEqual(messageActivity.Attachments.Count, 1);
+
+                var latestFourTasks = MockData.MockCustomizedListTypeItems[0].Topic + ", " + MockData.MockCustomizedListTypeItems[1].Topic + ", " + MockData.MockCustomizedListTypeItems[2].Topic + " and " + MockData.MockCustomizedListTypeItems[3].Topic;
+                var expectedMessage = string.Format(MockData.FirstTaskDetailMessage, MockData.MockCustomizedListTypeItems.Count, MockData.CustomizedListType, MockData.PageSize, latestFourTasks);
                 Assert.AreEqual(expectedMessage, messageActivity.Speak);
             };
         }

@@ -1,0 +1,26 @@
+{
+  "id": "sampleSkill",
+  "name": "sampleSkill",
+  "description": "This is the description of the sampleSkill",
+  "iconUrl": "",
+  "authenticationConnections": [],
+  "actions": [
+    {
+      "id": "sampleSkill_Sample",
+      "definition": {
+        "description": "Trigger sampleSkill",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "sampleSkill#Sample"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

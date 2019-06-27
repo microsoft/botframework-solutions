@@ -5,11 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Builder.Skills.Tests
 {
@@ -45,127 +47,30 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         }
 
         [TestMethod]
-        public async Task SkillMiddlewarePopulatesSkillContext()
+        public async Task SkillMiddlewareTestCancelAllSkillDialogsEvent()
         {
-            string jsonSkillBeginActivity = await File.ReadAllTextAsync(@".\TestData\skillBeginEvent.json");
-            var skillBeginEvent = JsonConvert.DeserializeObject<Activity>(jsonSkillBeginActivity);
-
-            var skillContextData = new SkillContext();
-            skillContextData.Add("PARAM1", "TEST1");
-            skillContextData.Add("PARAM2", "TEST2");
-
-			// Ensure we have a copy
-			skillBeginEvent.Value = JsonConvert.SerializeObject(skillContextData);
+			var cancelAllSkillDialogsEvent = new Activity
+			{
+				Type = ActivityTypes.Event,
+		        Name = SkillEvents.CancelAllSkillDialogsEventName,
+			};
 
             TestAdapter adapter = new TestAdapter()
                 .Use(new SkillMiddleware(_userState, _conversationState, _dialogStateAccessor));
 
             var testFlow = new TestFlow(adapter, async (context, cancellationToken) =>
             {
-                // Validate that SkillContext has been populated by the SKillMiddleware correctly
-                await ValidateSkillContextData(context, skillContextData);
-            });
+				Assert.AreEqual(context.Activity.Type, ActivityTypes.Event);
+				Assert.AreEqual(context.Activity.Name, SkillEvents.CancelAllSkillDialogsEventName);
 
-            await testFlow.Test(new Activity[] { skillBeginEvent }).StartTestAsync();
+				var conversationState = await _dialogStateAccessor.GetAsync(context, () => new DialogState());
+				Assert.AreEqual(conversationState.DialogStack.Count, 0);
+			});
+
+            await testFlow.Test(new Activity[] { cancelAllSkillDialogsEvent }).StartTestAsync();
         }
 
-        [TestMethod]
-        public async Task SkillMiddlewarePopulatesSkillContextDifferentDatatypes()
-        {
-            string jsonSkillBeginActivity = await File.ReadAllTextAsync(@".\TestData\skillBeginEvent.json");
-            var skillBeginEvent = JsonConvert.DeserializeObject<Activity>(jsonSkillBeginActivity);
-
-            var skillContextData = new SkillContext();
-            skillContextData.Add("PARAM1", DateTime.Now);
-
-			// using long 3 because it'll be how 3 is deserialized to after being serialized
-            skillContextData.Add("PARAM2", 3L);
-            skillContextData.Add("PARAM3", null);
-
-			// Ensure we have a copy
-			skillBeginEvent.Value = JsonConvert.SerializeObject(skillContextData);
-
-            TestAdapter adapter = new TestAdapter()
-                .Use(new SkillMiddleware(_userState, _conversationState, _dialogStateAccessor));
-
-            var testFlow = new TestFlow(adapter, async (context, cancellationToken) =>
-            {
-                // Validate that SkillContext has been populated by the SKillMiddleware correctly
-                await ValidateSkillContextData(context, skillContextData);
-            });
-
-            await testFlow.Test(new Activity[] { skillBeginEvent }).StartTestAsync();
-        }
-
-        [TestMethod]
-        public async Task SkillMiddlewareEmptySkillContext()
-        {
-            string jsonSkillBeginActivity = await File.ReadAllTextAsync(@".\TestData\skillBeginEvent.json");
-            var skillBeginEvent = JsonConvert.DeserializeObject<Activity>(jsonSkillBeginActivity);
-
-            TestAdapter adapter = new TestAdapter()
-                .Use(new SkillMiddleware(_userState, _conversationState, _dialogStateAccessor));
-
-            var testFlow = new TestFlow(adapter, async (context, cancellationToken) =>
-            {
-                // Validate that SkillContext has been populated by the SKillMiddleware correctly
-                await ValidateSkillContextData(context, new SkillContext());
-            });
-
-            await testFlow.Test(new Activity[] { skillBeginEvent }).StartTestAsync();
-        }
-
-        [TestMethod]
-        public async Task SkillMiddlewareNullSlotData()
-        {
-            string jsonSkillBeginActivity = await File.ReadAllTextAsync(@".\TestData\skillBeginEvent.json");
-            var skillBeginEvent = JsonConvert.DeserializeObject<Activity>(jsonSkillBeginActivity);
-
-            skillBeginEvent.Value = null;
-
-            TestAdapter adapter = new TestAdapter()
-                .Use(new SkillMiddleware(_userState, _conversationState, _dialogStateAccessor));
-
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-            var testFlow = new TestFlow(adapter, async (context, cancellationToken) =>
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
-            {
-            });
-
-            await testFlow.Test(new Activity[] { skillBeginEvent }).StartTestAsync();
-        }
-
-        [TestMethod]
-        public async Task SkillMiddlewareNullEventName()
-        {
-            string jsonSkillBeginActivity = await File.ReadAllTextAsync(@".\TestData\skillBeginEvent.json");
-            var skillBeginEvent = JsonConvert.DeserializeObject<Activity>(jsonSkillBeginActivity);
-
-            skillBeginEvent.Name = null;
-
-            TestAdapter adapter = new TestAdapter()
-                .Use(new SkillMiddleware(_userState, _conversationState, _dialogStateAccessor));
-
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-            var testFlow = new TestFlow(adapter, async (context, cancellationToken) =>
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
-            {
-            });
-
-            await testFlow.Test(new Activity[] { skillBeginEvent }).StartTestAsync();
-        }
-
-        private async Task ValidateSkillContextData(ITurnContext context, Dictionary<string, object> skillTestDataToValidate)
-        {
-            var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
-            var skillContext = await _skillContextAccessor.GetAsync(context, () => new SkillContext());
-
-            Assert.IsTrue(
-                skillContext.SequenceEqual(skillTestDataToValidate),
-                $"SkillContext didn't contain the expected data after Skill middleware processing: {CreateCollectionMismatchMessage(skillContext, skillTestDataToValidate)} ");
-        }
-
-        private string CreateCollectionMismatchMessage(SkillContext context, Dictionary<string, object> test)
+        private string CreateCollectionMismatchMessage(SkillContext context, SkillContext test)
         {
             var contextData = string.Join(",", context.Select(x => x.Key + "=" + x.Value));
             var testData = string.Join(",", test.Select(x => x.Key + "=" + x.Value));

@@ -24,8 +24,7 @@ import {
     InterruptionAction,
     ResponseManager,
     RouterDialog } from 'botbuilder-solutions';
-// tslint:disable-next-line:no-implicit-dependencies no-submodule-imports
-import { TokenStatus } from 'botframework-connector/lib/tokenApi/models';
+import { TokenStatus } from 'botframework-connector';
 import i18next from 'i18next';
 import { SkillState } from '../models/skillState';
 import { MainResponses } from '../responses/main/mainResponses';
@@ -42,7 +41,7 @@ enum Events {
 export class MainDialog extends RouterDialog {
 
     // Fields
-    private readonly solutionName: string = 'sample-skill';
+    private readonly solutionName: string = 'sampleSkill';
     private readonly luisServiceGeneral: string = 'general';
     private readonly settings: Partial<IBotSettings>;
     private readonly services: BotServices;
@@ -51,7 +50,7 @@ export class MainDialog extends RouterDialog {
     private readonly contextAccessor: StatePropertyAccessor<SkillContext>;
 
     // Constructor
-    constructor(
+    public constructor(
         settings: Partial<IBotSettings>,
         services: BotServices,
         responseManager: ResponseManager,
@@ -75,13 +74,12 @@ export class MainDialog extends RouterDialog {
     }
 
     protected async onStart(dc: DialogContext): Promise<void> {
-        const locale: string = i18next.language;
         await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.welcomeMessage));
     }
 
     protected async route(dc: DialogContext): Promise<void> {
         // get current activity locale
-        const locale: string =  i18next.language;
+        const locale: string = i18next.language.substring(0, 2);
         const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.cognitiveModelSets.get(locale);
 
         // Populate state from SkillContext slots as required
@@ -139,8 +137,6 @@ export class MainDialog extends RouterDialog {
     protected async onEvent(dc: DialogContext): Promise<void> {
         switch (dc.context.activity.name) {
             case Events.skillBeginEvent: {
-                // tslint:disable-next-line: no-any
-                const state: any = await this.stateAccessor.get(dc.context);
                 const userData: Map<string, Object> = <Map<string, Object>>dc.context.activity.value;
                 if (userData === undefined) {
                     throw new Error('userData is not an instance of Map<string, Object>');
@@ -172,7 +168,7 @@ export class MainDialog extends RouterDialog {
 
         if (dc.context.activity.type === ActivityTypes.Message) {
             // get current activity locale
-            const locale: string =  i18next.language;
+            const locale: string = i18next.language.substring(0, 2);
             const localeConfig: Partial<ICognitiveModelSet> | undefined = this.services.cognitiveModelSets.get(locale);
             if (localeConfig === undefined) {
                 throw new Error('There is no cognitiveModels for the locale');
@@ -237,7 +233,7 @@ export class MainDialog extends RouterDialog {
         // Sign out user
         // PENDING check adapter.getTokenStatusAsync
         const tokens: TokenStatus[] = [];
-        tokens.forEach(async (token: TokenStatus) => {
+        tokens.forEach(async (token: TokenStatus): Promise<void> => {
             if (token.connectionName !== undefined) {
                 await adapter.signOutUser(dc.context, token.connectionName);
             }

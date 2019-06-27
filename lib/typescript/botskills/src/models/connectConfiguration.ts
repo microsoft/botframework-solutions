@@ -9,6 +9,7 @@ export interface IConnectConfiguration {
     botName: string;
     localManifest: string;
     remoteManifest: string;
+    noRefresh: boolean;
     dispatchName: string;
     language: string;
     luisFolder: string;

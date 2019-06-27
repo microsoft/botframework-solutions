@@ -32,10 +32,13 @@ Create a Virtual Assistant or a Bot Framework Skill
     `appId` | The appId of an existing MSA App Registration. If left blank, a new app will be provisioned automatically. | No
     `parametersFile` | A .json file that can overwrite the default values of the Azure Resource Manager template. | No
     `outFolder` | Output directory for created appsettings.json and cognitivemodels.json files. Default value is current directory. | No
+    `languages` | Specifies which languages to deploy cognitive models (Dispatch,LUIS/QNA) in a comma separated string (e.g. `en-us,de-de,es-es,zh-zh`). Defaults to `en-us`.| No
 
 ### Customize deployment using the parameters file
 
-See the [Customizing deployment](/docs/howto/assistant/customizedeployment.md) section for more information.
+If you wish to deploy your Virtual Assistant to a region that doesn't have all of the supporting resources (e.g. Azure Search, QnAMaker, Application Insights) available in the region you need to customize deployment using the provided parameters file to override region for those services that aren't available. See the [Customizing deployment](/docs/howto/assistant/customizedeployment.md) section for more information.
+
+Additionallly you can use the same parameters file to control the pricing tiers for each service. The default configuration doesn't use free tiers (where available) as the numbers of these are limited per Azure subscription resulting in frequent deployment failures.
 
 ### Create your own ARM template
 

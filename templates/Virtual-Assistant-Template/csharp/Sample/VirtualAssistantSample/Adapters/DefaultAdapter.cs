@@ -10,7 +10,7 @@ using Microsoft.Bot.Schema;
 using VirtualAssistantSample.Responses.Main;
 using VirtualAssistantSample.Services;
 
-namespace VirtualAssistantSample.Bots
+namespace VirtualAssistantSample.Adapters
 {
     public class DefaultAdapter : BotFrameworkHttpAdapter
     {

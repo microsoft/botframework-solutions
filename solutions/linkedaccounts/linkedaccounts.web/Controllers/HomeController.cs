@@ -27,16 +27,17 @@ namespace LinkedAccounts.Web.Controllers
             this.Configuration = configuration;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(bool companionApp = false)
         {
-            return this.View();
+            return RedirectToAction("LinkedAccounts", new { companionApp = companionApp });
         }
 
         /// <summary>
-        /// Initialisation work for the LinkedAccounts feature
+        /// Initialisation work for the Linked Accounts feature.
         /// </summary>
-        /// <returns></returns>
-        public async Task<IActionResult> LinkedAccounts()
+        /// <param name="companionApp">Flag used to show a sample deep link to a companion application.</param>
+        /// <returns>IActionResult.</returns>
+        public async Task<IActionResult> LinkedAccounts(bool companionApp = false)
         {
             this.ViewData["Message"] = "Your application description page.";
 
@@ -47,22 +48,22 @@ namespace LinkedAccounts.Web.Controllers
             HttpClient client = new HttpClient();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, $"{endpoint}/tokens/generate");
             request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", secret);
-           
+
             // In order to avoid magic code prompts we need to set a TrustedOrigin, therefore requests using the token can be validated
             // as coming from this web-site and protecting against scenarios where a URL is shared with someone else
             string trustedOrigin = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
 
-            request.Content = new StringContent(JsonConvert.SerializeObject(new { TrustedOrigins = new string[] { trustedOrigin } }),
+            request.Content = new StringContent(
+                JsonConvert.SerializeObject(new { TrustedOrigins = new string[] { trustedOrigin } }),
                     Encoding.UTF8,
                     "application/json");
 
             var response = await client.SendAsync(request);
-            string token = String.Empty;
+            string token = string.Empty;
 
             if (response.IsSuccessStatusCode)
             {
                 // We have a Directline Token
-
                 var body = await response.Content.ReadAsStringAsync();
                 token = JsonConvert.DeserializeObject<DirectLineToken>(body).token;
 
@@ -77,7 +78,8 @@ namespace LinkedAccounts.Web.Controllers
                     UserId = userId,
                     DirectLineToken = token,
                     Endpoint = endpoint,
-                    Status = tokenStatuses
+                    Status = tokenStatuses,
+                    CompanionApp = companionApp,
                 });
             }
             else
@@ -87,10 +89,10 @@ namespace LinkedAccounts.Web.Controllers
         }
 
         /// <summary>
-        /// Retrieve a URL for the user to link a given connection name to their Bot
+        /// Retrieve a URL for the user to link a given connection name to their Bot.
         /// </summary>
-        /// <param name="account"></param>
-        /// <returns></returns>
+        /// <param name="account">TokenStatus information.</param>
+        /// <returns>IActionResult.</returns>
         public async Task<IActionResult> SignIn(TokenStatus account)
         {
             var userId = UserId.GetUserId(HttpContext, this.User);
@@ -101,10 +103,10 @@ namespace LinkedAccounts.Web.Controllers
         }
 
         /// <summary>
-        /// Sign a user out of a given connection name previously linked to their Bot
+        /// Sign a user out of a given connection name previously linked to their Bot.
         /// </summary>
-        /// <param name="account"></param>
-        /// <returns></returns>
+        /// <param name="account">TokenStatus information.</param>
+        /// <returns>IActionResult.</returns>
         public async Task<IActionResult> SignOut(TokenStatus account)
         {
             var userId = UserId.GetUserId(HttpContext, this.User);
@@ -125,7 +127,9 @@ namespace LinkedAccounts.Web.Controllers
 
         
         [HttpPost]
+#pragma warning disable CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
         public async Task<IActionResult> ChangeUserId(LinkedAccountsViewModel model)
+#pragma warning restore CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
         {
             if (ModelState.IsValid)
             {                               

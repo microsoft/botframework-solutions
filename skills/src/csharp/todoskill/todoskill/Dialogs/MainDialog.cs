@@ -9,10 +9,12 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json.Linq;
 using ToDoSkill.Models;
@@ -89,33 +91,33 @@ namespace ToDoSkill.Dialogs
                 // switch on general intents
                 switch (intent)
                 {
-                    case ToDoLuis.Intent.AddToDo:
+                    case todoLuis.Intent.AddToDo:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(AddToDoItemDialog));
                             break;
                         }
 
-                    case ToDoLuis.Intent.MarkToDo:
+                    case todoLuis.Intent.MarkToDo:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(MarkToDoItemDialog));
                             break;
                         }
 
-                    case ToDoLuis.Intent.DeleteToDo:
+                    case todoLuis.Intent.DeleteToDo:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(DeleteToDoItemDialog));
                             break;
                         }
 
-                    case ToDoLuis.Intent.ShowNextPage:
-                    case ToDoLuis.Intent.ShowPreviousPage:
-                    case ToDoLuis.Intent.ShowToDo:
+                    case todoLuis.Intent.ShowNextPage:
+                    case todoLuis.Intent.ShowPreviousPage:
+                    case todoLuis.Intent.ShowToDo:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(ShowToDoItemDialog));
                             break;
                         }
 
-                    case ToDoLuis.Intent.None:
+                    case todoLuis.Intent.None:
                         {
                             if (generalTopIntent == General.Intent.ShowNext
                                 || generalTopIntent == General.Intent.ShowPrevious)
@@ -151,10 +153,14 @@ namespace ToDoSkill.Dialogs
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response = dc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.EndOfConversation;
+            // workaround. if connect skill directly to teams, the following response does not work.
+            if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
+            {
+                var response = dc.Context.Activity.CreateReply();
+                response.Type = ActivityTypes.EndOfConversation;
 
-            await dc.Context.SendActivityAsync(response);
+                await dc.Context.SendActivityAsync(response);
+            }
 
             // End active dialog
             await dc.EndDialogAsync(result);
@@ -164,32 +170,33 @@ namespace ToDoSkill.Dialogs
         {
             switch (dc.Context.Activity.Name)
             {
-				case Events.DeviceStart:
-					{
-						var state = await _toDoStateAccessor.GetAsync(dc.Context);
-						var taskService = _serviceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
-						var currentAllTasks = await taskService.GetTasksAsync(state.ListType);
 
-						var results = new List<TaskItem>();
-						foreach (var task in currentAllTasks)
-						{
-							if (task.ReminderDateTime != DateTime.MinValue)
-							{
-								results.Add(task);
-							}
-						}
+              case Events.DeviceStart:
+                {
+                  var state = await _toDoStateAccessor.GetAsync(dc.Context);
+                  var taskService = _serviceManager.InitTaskService(state.MsGraphToken, state.ListTypeIds, state.TaskServiceType);
+                  var currentAllTasks = await taskService.GetTasksAsync(state.ListType);
 
-						var response = dc.Context.Activity.CreateReply();
-						var entities = new Dictionary<string, Entity>();
-						entities.Add("reminders", new Entity { Properties = JObject.FromObject(new { reminder = results[0].Topic }) });
-						response.SemanticAction = new SemanticAction("entity", entities);
-						response.Type = ActivityTypes.EndOfConversation;
+                  var results = new List<TaskItem>();
+                  foreach (var task in currentAllTasks)
+                  {
+                    if (task.ReminderDateTime != DateTime.MinValue)
+                    {
+                      results.Add(task);
+                    }
+                  }
 
-						await dc.Context.SendActivityAsync(response);
-						await dc.EndDialogAsync();
+                  var response = dc.Context.Activity.CreateReply();
+                  var entities = new Dictionary<string, Entity>();
+                  entities.Add("reminders", new Entity { Properties = JObject.FromObject(new { reminder = results[0].Topic }) });
+                  response.SemanticAction = new SemanticAction("entity", entities);
+                  response.Type = ActivityTypes.EndOfConversation;
 
-						break;
-					}
+                  await dc.Context.SendActivityAsync(response);
+                  await dc.EndDialogAsync();
+
+                  break;
+                }
 
                 case SkillEvents.SkillBeginEventName:
                     {
@@ -202,6 +209,7 @@ namespace ToDoSkill.Dialogs
 
                         break;
                     }
+
 
                 case TokenEvents.TokenResponseEventName:
                     {
@@ -233,7 +241,7 @@ namespace ToDoSkill.Dialogs
                 var cognitiveModels = _services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities
-                var toDoLuisResult = await cognitiveModels.LuisServices["todo"].RecognizeAsync<ToDoLuis>(dc.Context, cancellationToken);
+                var toDoLuisResult = await cognitiveModels.LuisServices["todo"].RecognizeAsync<todoLuis>(dc.Context, cancellationToken);
                 var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
                 state.LuisResult = toDoLuisResult;
 

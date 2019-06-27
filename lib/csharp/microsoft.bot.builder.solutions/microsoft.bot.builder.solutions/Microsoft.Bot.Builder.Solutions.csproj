@@ -64,6 +64,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Authentication\AuthenticationResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AuthenticationResponses.tt</DependentUpon>
+    </Compile>
     <Compile Update="Resources\CommonStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -76,6 +81,18 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Authentication\AuthenticationResponses.tt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AuthenticationResponses.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
   
 </Project>

@@ -40,6 +40,10 @@ namespace PointOfInterestSkill.Models
             Address = !string.IsNullOrEmpty(azureMapsPoi.Address?.FreeformAddress)
                 ? azureMapsPoi.Address?.FreeformAddress
                 : Address;
+
+            // Set if to be the same as Address for now
+            // Change it to proper handling when using AzureMaps again
+            AddressForSpeak = Address;
             Geolocation = azureMapsPoi.Position
                 ?? Geolocation;
             Category = (azureMapsPoi.Poi?.Classifications != null)
@@ -73,6 +77,9 @@ namespace PointOfInterestSkill.Models
                 : Name;
             Address = foursquarePoi.Location?.FormattedAddress != null
                 ? string.Join(", ", foursquarePoi.Location.FormattedAddress.Take(foursquarePoi.Location.FormattedAddress.Length - 1))
+                : Address;
+            AddressForSpeak = foursquarePoi.Location?.FormattedAddress != null
+                ? foursquarePoi.Location.FormattedAddress[0]
                 : Address;
             Geolocation = (foursquarePoi.Location != null)
                 ? new LatLng() { Latitude = foursquarePoi.Location.Lat, Longitude = foursquarePoi.Location.Lng }
@@ -137,6 +144,17 @@ namespace PointOfInterestSkill.Models
         /// The formatted address of this point of interest.
         /// </value>
         public string Address { get; set; }
+
+        /// <summary>
+        /// Gets or sets the formatted address of the point of interest
+        /// that we put in the Speak property of the Activity to support
+        /// speech scenarios
+        /// Availability: Azure Maps, Foursquare.
+        /// </summary>
+        /// <value>
+        /// The formatted address of this point of interest for speech.
+        /// </value>
+        public string AddressForSpeak { get; set; }
 
         /// <summary>
         /// Gets or sets the geolocation of the point of interest.

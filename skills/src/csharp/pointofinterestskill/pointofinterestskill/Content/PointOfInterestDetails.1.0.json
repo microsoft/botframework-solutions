@@ -1,0 +1,111 @@
+﻿{
+  "type": "AdaptiveCard",
+  "id": "PointOfInterestDetailsCard",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "verticalContentAlignment": "Center",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "CardTitle",
+                          "horizontalAlignment": "Left",
+                          "spacing": "None",
+                          "size": "Large",
+                          "weight": "Bolder",
+                          "color": "Default",
+                          "text": "Location services"
+                        }
+                      ],
+                      "width": "stretch"
+                    }
+                  ]
+
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "id": "Name",
+          "horizontalAlignment": "Left",
+          "spacing": "None",
+          "size": "Medium",
+          "weight": "Bolder",
+          "color": "Accent",
+          "text": "{Name}"
+        },
+        {
+          "type": "TextBlock",
+          "id": "AvailableDetails",
+          "spacing": "None",
+          "color": "default",
+          "text": "{AvailableDetails}"
+        },
+        {
+          "type": "TextBlock",
+          "id": "Address",
+          "spacing": "None",
+          "color": "default",
+          "text": "{Address}",
+          "wrap": true,
+          "maxLines": 2
+        },
+        {
+          "type": "TextBlock",
+          "id": "Hours",
+          "spacing": "None",
+          "color": "default",
+          "text": "{Hours}",
+          "wrap": true
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "items": [
+        {
+          "type": "Image",
+          "size": "auto",
+          "horizontalAlignment": "center",
+          "url": "{PointOfInterestImageUrl}"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "items": [
+        {
+          "type": "TextBlock",
+          "horizontalAlignment": "Right",
+          "size": "Small",
+          "color": "default",
+          "text": "{ProviderDisplayText}"
+        }
+      ]
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0",
+  "speak": "{Speak}"
+}

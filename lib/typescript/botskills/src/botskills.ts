@@ -6,14 +6,15 @@
 
 // tslint:disable:no-object-literal-type-assertion
 import * as program from 'commander';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import * as process from 'process';
 import * as semver from 'semver';
 import { ConsoleLogger, ILogger} from './logger/logger';
 
 const logger: ILogger = new ConsoleLogger();
 
-// tslint:disable-next-line:no-var-requires no-require-imports
-const pkg: IPackage = require('../package.json');
+const pkg: IPackage = JSON.parse(readFileSync(join(__dirname, '..', 'package.json'), 'UTF8'));
 
 const requiredVersion: string = pkg.engines.node;
 if (!semver.satisfies(process.version, requiredVersion)) {
@@ -32,12 +33,14 @@ program.Command.prototype.unknownOption = (flag: string): void => {
 };
 
 program
-    .version(pkg.version, '-v, --Version')
+    .version(pkg.version, '-v, --version')
     .description(`The skill program makes it easy to manipulate skills for Microsoft Bot Framework tools.`);
 
 program
     .command('connect', 'connect any skill to your assistant bot')
     .command('disconnect', 'disconnect a specific skill from your assitant bot')
+    .command('update', 'update a specific skill from your assistant bot')
+    .command('refresh', 'refresh the connected skills')
     .command('list', 'list the connected skills in the assistant');
 
 const args: program.Command = program.parse(process.argv);

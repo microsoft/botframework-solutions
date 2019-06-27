@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using System.Threading;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
@@ -12,6 +13,7 @@ using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Testing;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -78,6 +80,7 @@ namespace ToDoSkillTest.Flow
             Services.AddSingleton(new UserState(new MemoryStorage()));
             Services.AddSingleton(new ConversationState(new MemoryStorage()));
             Services.AddSingleton(new ProactiveState(new MemoryStorage()));
+            Services.AddSingleton(new MicrosoftAppCredentials(string.Empty, string.Empty));
             Services.AddSingleton(sp =>
             {
                 var userState = sp.GetService<UserState>();
@@ -99,6 +102,7 @@ namespace ToDoSkillTest.Flow
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             Services.AddSingleton<IServiceManager>(ServiceManager);
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
+            Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             Services.AddTransient<MainDialog>();
 			Services.AddTransient<AddToDoItemDialog>();
 			Services.AddTransient<DeleteToDoItemDialog>();

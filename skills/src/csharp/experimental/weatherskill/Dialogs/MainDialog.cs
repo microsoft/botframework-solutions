@@ -7,11 +7,15 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using WeatherSkill.Models;
 using WeatherSkill.Responses.Main;
@@ -35,7 +39,8 @@ namespace WeatherSkill.Dialogs
             UserState userState,
             ConversationState conversationState,
             SampleDialog sampleDialog,
-            IBotTelemetryClient telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            IHttpContextAccessor httpContext)
             : base(nameof(MainDialog), telemetryClient)
         {
             _settings = settings;
@@ -49,7 +54,7 @@ namespace WeatherSkill.Dialogs
 
             // Register dialogs
             AddDialog(sampleDialog);
-            AddDialog(new ForecastDialog(_settings, _services, _responseManager, conversationState, TelemetryClient));
+            AddDialog(new ForecastDialog(_settings, _services, _responseManager, conversationState, TelemetryClient, httpContext));
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -114,9 +119,15 @@ namespace WeatherSkill.Dialogs
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response = dc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.EndOfConversation;
-            await dc.Context.SendActivityAsync(response);
+            // workaround. if connect skill directly to teams, the following response does not work.
+            if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
+            {
+                var response = dc.Context.Activity.CreateReply();
+                response.Type = ActivityTypes.EndOfConversation;
+
+                await dc.Context.SendActivityAsync(response);
+            }
+
             await dc.EndDialogAsync(result);
         }
 

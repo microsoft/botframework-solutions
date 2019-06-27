@@ -2,7 +2,7 @@
 
 The `connect` command allows you to connect a Skill, be it local or remote, to your assistant bot. The Skill and assistant can be in different coding languages without problem, this is, you can connect a  Skill coded in C# into an assistant coded in TypeScript, but be sure to specify your assistants coding language using `--cs` or `--ts`.
 
-> **Tip:** It's highly advisable to execute this command from the root folder of your assistant bot, so if you are using the suggested folder structure from the Templates, you may ommit most of the optional arguments, as they default to the expected values from the Templates' folder structure.
+> **Tip:** It's highly advisable to execute this command from the **root folder of your assistant bot**, so if you are using the suggested folder structure from the Templates, you may ommit most of the optional arguments, as they default to the expected values from the Templates' folder structure.
 
 The basic command to connect a Skill to your assistant:
 
@@ -19,6 +19,7 @@ botskills connect [options]
 | -r, --remoteManifest \<url>   | URL to remote Skill Manifest                                                                                                                                |
 | --cs                          | Determine your assistant project structure to be a csharp-like structure                                                                                    |
 | --ts                          | Determine your assistant project structure to be a TypeScript-like structure                                                                                |
+| --noRefresh                   | (OPTIONAL) Determine whether the model of your skills connected are not going to be refreshed (by default they are refreshed)                               |
 | --dispatchName [name]         | (OPTIONAL) Name of your assistant's '.dispatch' file (defaults to the name displayed in your Cognitive Models file)                                         |
 | --language [language]         | (OPTIONAL) Locale used for LUIS culture (defaults to 'en-us')                                                                                               |
 | --luisFolder [path]           | (OPTIONAL) Path to the folder containing your Skills' '.lu' files (defaults to './deployment/resources/skills/en' inside your assistant folder)             |
@@ -65,7 +66,9 @@ botskills disconnect [option]
 | -i, --skillId \<id>           | Id of the skill to remove from your assistant (case sensitive)                                                                                              |
 | --cs                          | Determine your assistant project structure to be a csharp-like structure                                                                                    |
 | --ts                          | Determine your assistant project structure to be a TypeScript-like structure                                                                                |
+| --noRefresh                   | (OPTIONAL) Determine whether the model of your skills connected are not going to be refreshed (by default they are refreshed)                               |
 | --dispatchName [name]         | (OPTIONAL) Name of your assistant's '.dispatch' file (defaults to the name displayed in your Cognitive Models file)                                         |
+| --language [language]         | (OPTIONAL) Locale used for LUIS culture (defaults to 'en-us')                                                                                               |
 | --dispatchFolder [path]       | (OPTIONAL) Path to the folder containing your assistant's '.dispatch' file (defaults to './deployment/resources/dispatch/en' inside your assistant folder)  |
 | --outFolder [path]            | (OPTIONAL) Path for any output file that may be generated (defaults to your assistant's root folder)                                                        |
 | --lgOutFolder [path]          | (OPTIONAL) Path for the LuisGen output (defaults to a 'service' folder inside your assistant's folder)                                                      |
