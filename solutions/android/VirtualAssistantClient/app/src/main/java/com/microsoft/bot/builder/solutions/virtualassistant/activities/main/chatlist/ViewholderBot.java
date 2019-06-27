@@ -27,13 +27,13 @@ import io.adaptivecards.objectmodel.ParseResult;
 import io.adaptivecards.renderer.AdaptiveCardRenderer;
 import io.adaptivecards.renderer.RenderedAdaptiveCard;
 
-public class ChatViewholder extends RecyclerView.ViewHolder {
+public class ViewholderBot extends RecyclerView.ViewHolder {
 
     // CONSTANTS
     private static final String LOGTAG = "ChatViewholder";
 
     // VIEWS
-    @BindView(R.id.tv_bot_chat) TextView textMessage;
+    @BindView(R.id.tv_chat) TextView textMessage;
     @BindView(R.id.adaptive_card_container) LinearLayout adaptiveCardLayout;
 
     // STATE
@@ -44,7 +44,7 @@ public class ChatViewholder extends RecyclerView.ViewHolder {
         void adaptiveCardClick(int position, String speak);
     }
 
-    public ChatViewholder(@NonNull View itemView) {
+    public ViewholderBot(@NonNull View itemView) {
         super(itemView);
         view = itemView;
         ButterKnife.bind(this, view);
@@ -53,13 +53,14 @@ public class ChatViewholder extends RecyclerView.ViewHolder {
 
     /**
      * bind the layout with the data
-     * @param botConnectorActivity data
+     * @param ChatModel chatModel
      */
-    void bind(@NonNull BotConnectorActivity botConnectorActivity, AppCompatActivity parentActivity, @NonNull OnClickListener onClickListener) {
+    void bind(@NonNull ChatModel chatModel, AppCompatActivity parentActivity, @NonNull OnClickListener onClickListener) {
+        BotConnectorActivity botConnectorActivity = chatModel.botConnectorActivity;
         textMessage.setText(botConnectorActivity.getText());
 
-        if (botConnectorActivity.getAttachmentLayout() != null && botConnectorActivity.getAttachments().size() > 0){
-            if (botConnectorActivity.getAttachmentLayout().equals("carousel") || botConnectorActivity.getAttachmentLayout().equals("list")){
+        if (botConnectorActivity.getAttachmentLayout() != null && botConnectorActivity.getAttachments().size() > 0) {
+            if (botConnectorActivity.getAttachmentLayout().equals("carousel") || botConnectorActivity.getAttachmentLayout().equals("list")) {
                 Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
                 adaptiveCardLayout.setVisibility(View.VISIBLE);
@@ -99,10 +100,9 @@ public class ChatViewholder extends RecyclerView.ViewHolder {
                         // add the cards to the existing layout to make them visible
                         adaptiveCardLayout.addView(itemAdaptiveCard);
 
-                        Log.d(LOGTAG, "renderedAdaptiveCard warnings: "+renderedCard.getWarnings().size() + " " + renderedCard.getWarnings().toString());
-                    }
-                    catch (Exception ex) {
-                        Log.e(LOGTAG,"Error in json: " + ex.getMessage());
+                        Log.d(LOGTAG, "renderedAdaptiveCard warnings: " + renderedCard.getWarnings().size() + " " + renderedCard.getWarnings().toString());
+                    } catch (Exception ex) {
+                        Log.e(LOGTAG, "Error in json: " + ex.getMessage());
                     }
                 }
             }
