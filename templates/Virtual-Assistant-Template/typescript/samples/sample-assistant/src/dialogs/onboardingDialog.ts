@@ -30,7 +30,7 @@ export class OnboardingDialog extends ComponentDialog {
     private state!: IOnboardingState;
 
     // Constructor
-    constructor(botServices: BotServices, accessor: StatePropertyAccessor<IOnboardingState>, telemetryClient: BotTelemetryClient) {
+    public constructor(botServices: BotServices, accessor: StatePropertyAccessor<IOnboardingState>, telemetryClient: BotTelemetryClient) {
         super(OnboardingDialog.name);
         this.accessor = accessor;
         this.initialDialogId = OnboardingDialog.name;
@@ -91,4 +91,4 @@ export class OnboardingDialog extends ComponentDialog {
 
         return state;
     }
- }
+}

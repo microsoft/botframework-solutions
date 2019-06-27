@@ -1,7 +1,0 @@
-Thank you for raising a pull request. Please ensure you have have completed the following:
-
-- [ ] I have commented my code, particularly in hard-to-understand areas	
-- [ ] I have added or updated the appropriate tests	
-- [ ] I have updated related documentation
-- [ ] I have validated that new and updated responses use appropriate [Speak](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-text-to-speech?view=azure-bot-service-3.0) and [InputHint](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-add-input-hints?view=azure-bot-service-3.0) properties to ensure a high-quality speech-first experience
-- [ ] I have replicated language model changes across the English, French, Italian, German, Spanish, and Chinese `.lu` files and validated that deployment is successful

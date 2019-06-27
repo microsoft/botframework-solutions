@@ -30,6 +30,8 @@ namespace NewsSkill.Dialogs
             BotServices services,
             ConversationState conversationState,
             FindArticlesDialog findArticlesDialog,
+            TrendingArticlesDialog trendingArticlesDialog,
+            FavoriteTopicsDialog favoriteTopicsDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -42,6 +44,8 @@ namespace NewsSkill.Dialogs
             _stateAccessor = _conversationState.CreateProperty<NewsSkillState>(nameof(NewsSkillState));
 
             AddDialog(findArticlesDialog ?? throw new ArgumentNullException(nameof(findArticlesDialog)));
+            AddDialog(trendingArticlesDialog ?? throw new ArgumentNullException(nameof(trendingArticlesDialog)));
+            AddDialog(favoriteTopicsDialog ?? throw new ArgumentNullException(nameof(favoriteTopicsDialog)));
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -72,6 +76,21 @@ namespace NewsSkill.Dialogs
                 // switch on general intents
                 switch (intent)
                 {
+                    case newsLuis.Intent.TrendingArticles:
+                        {
+                            // send articles in response
+                            turnResult = await dc.BeginDialogAsync(nameof(TrendingArticlesDialog));
+                            break;
+                        }
+
+                    case newsLuis.Intent.SetFavoriteTopics:
+                    case newsLuis.Intent.ShowFavoriteTopics:
+                        {
+                            // send favorite news categories
+                            turnResult = await dc.BeginDialogAsync(nameof(FavoriteTopicsDialog));
+                            break;
+                        }
+                        
                     case newsLuis.Intent.FindArticles:
                         {
                             // send greeting response
