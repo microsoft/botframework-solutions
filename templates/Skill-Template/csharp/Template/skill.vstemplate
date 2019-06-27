@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" Type="ProjectGroup" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
   <TemplateData>
     <Name>Skill Template</Name>
-    <Description>Project template for an advanced conversational skill using the Bot Builder SDK V4.</Description>
+    <Description>Project template for an advanced conversational skills using the Bot Builder SDK V4.</Description>
     <Icon>__TemplateIcon.ico</Icon>
     <ProjectType>CSharp</ProjectType>
     <DefaultName>MySkill</DefaultName>
@@ -9,10 +9,10 @@
   <TemplateContent>
     <ProjectCollection>
       <ProjectTemplateLink ProjectName="$safeprojectname$" CopyParameters="true">
-        Skill\MyTemplate.vstemplate
+        SkillProjectTemplate.vstemplate
       </ProjectTemplateLink>
       <ProjectTemplateLink ProjectName="$safeprojectname$.Tests" CopyParameters="true">
-        Skill.Tests\MyTemplate.vstemplate
+        SkillTestTemplate.vstemplate
       </ProjectTemplateLink>
     </ProjectCollection>
   </TemplateContent>

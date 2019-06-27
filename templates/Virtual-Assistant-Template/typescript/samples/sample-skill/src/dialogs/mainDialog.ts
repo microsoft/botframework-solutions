@@ -24,8 +24,7 @@ import {
     InterruptionAction,
     ResponseManager,
     RouterDialog } from 'botbuilder-solutions';
-// tslint:disable-next-line:no-implicit-dependencies no-submodule-imports
-import { TokenStatus } from 'botframework-connector/lib/tokenApi/models';
+import { TokenStatus } from 'botframework-connector';
 import i18next from 'i18next';
 import { SkillState } from '../models/skillState';
 import { MainResponses } from '../responses/main/mainResponses';
@@ -51,7 +50,7 @@ export class MainDialog extends RouterDialog {
     private readonly contextAccessor: StatePropertyAccessor<SkillContext>;
 
     // Constructor
-    constructor(
+    public constructor(
         settings: Partial<IBotSettings>,
         services: BotServices,
         responseManager: ResponseManager,
@@ -75,7 +74,6 @@ export class MainDialog extends RouterDialog {
     }
 
     protected async onStart(dc: DialogContext): Promise<void> {
-        const locale: string = i18next.language;
         await dc.context.sendActivity(this.responseManager.getResponse(MainResponses.welcomeMessage));
     }
 
@@ -139,8 +137,6 @@ export class MainDialog extends RouterDialog {
     protected async onEvent(dc: DialogContext): Promise<void> {
         switch (dc.context.activity.name) {
             case Events.skillBeginEvent: {
-                // tslint:disable-next-line: no-any
-                const state: any = await this.stateAccessor.get(dc.context);
                 const userData: Map<string, Object> = <Map<string, Object>>dc.context.activity.value;
                 if (userData === undefined) {
                     throw new Error('userData is not an instance of Map<string, Object>');
@@ -237,7 +233,7 @@ export class MainDialog extends RouterDialog {
         // Sign out user
         // PENDING check adapter.getTokenStatusAsync
         const tokens: TokenStatus[] = [];
-        tokens.forEach(async (token: TokenStatus) => {
+        tokens.forEach(async (token: TokenStatus): Promise<void> => {
             if (token.connectionName !== undefined) {
                 await adapter.signOutUser(dc.context, token.connectionName);
             }

@@ -32,7 +32,6 @@ export class DisconnectSkill {
 
                 return false;
             }
-            // tslint:disable-next-line:no-var-require non-literal-require
             const dispatchData: IDispatchFile = JSON.parse(
                 readFileSync(dispatchFilePath)
                 .toString());
@@ -79,8 +78,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
             }
 
             // Take VA Skills configurations
-            //tslint:disable-next-line: no-var-requires non-literal-require
-            const assistantSkillsFile: ISkillFile = require(configuration.skillsFile);
+            const assistantSkillsFile: ISkillFile = JSON.parse(readFileSync(configuration.skillsFile, 'UTF8'));
             const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills || [];
 
             // Check if the skill is present in the assistant

@@ -30,9 +30,10 @@
 
 |Name|Description|
 |------------|-----------|
-|1. Quickstart: Create your first Virtual Assistant<br/><br/> <p align="center">[![Quickstart: Create a Virtual Assistant with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/virtualassistant.md)[![Quickstart: Create a Virtual Assistant with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/virtualassistant.md)</p>|Deploying your own assistant using the Virtual Assistant template|
-|2. Customize your Virtual Assistant <br/><br/><p align="center">[![Customize your Virtual Assistant with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeassistant.md) [![Customize your Assistant with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/customizeassistant.md)</p>|Personalize your assistant, change the name, branding, QnA|
-|3. Create a new Skill <br/><br/><p align="center">[![Create and deploy a new Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/skill.md) [![Create and deploy a new Skill with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/skill.md)</p>|Creating a new Skill using the template|
+|1. Quickstart: Create your first Virtual Assistant<br/><br/> <p align="center">[![Quickstart: Create a Virtual Assistant with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/virtualassistant.md)[![Quickstart: Create a Virtual Assistant with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/virtualassistant.md)</p>|A tutorial covering how to create and deploy your own assistant using the Virtual Assistant template,|
+|2. Customize your Virtual Assistant <br/><br/><p align="center">[![Customize your Virtual Assistant with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/customizeassistant.md) [![Customize your Assistant with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/customizeassistant.md)</p>|A tutorial covering common initial assistant personalization steps. (e.g. name, branding, QnA),|
+|3. Adding pre-existing Skills <br/><br/><p align="center">[![C#](./media/csharp_icon.png)](/docs/tutorials/csharp/addingprebuiltskills.md) [![TypeScript](./media/typescript_icon.png)](/docs/tutorials/csharp/addingprebuiltskills.md)</p>|A tutorial introducing how to add one of the provided Skills to your Assistant,|
+|4. Create a new Skill <br/><br/><p align="center">[![Create and deploy a new Skill with C#](./media/csharp_icon.png)](/docs/tutorials/csharp/skill.md) [![Create and deploy a new Skill with TypeScript](./media/typescript_icon.png)](/docs/tutorials/typescript/skill.md)</p>|A tutorial introducting how you can create your own Skill using the Skill template and add this to your Assistant.|
 
 # How-To
 
@@ -42,12 +43,14 @@
 
 | Name | Description |
 | ---- | ----------- |
+| [Adding Speech capabilities to your Virtual Assistant](/docs/howto/assistant/csharp/speechenablement.md) | A tutorial on how to enable Speech for your Virtual Assistant and creation of a simple application to demonstrate Speech capabilities of your Assistant. |
+| [Parent-Child pattern of Virtual Assistants and Skills](/docs/howto/assistant/parentchildpattern.md) | How the Virtual Assistant template and Skills can enable a Parent-Child pattern enabling you to democratise creation of assistant capabilities throughout your organisation. |
 | [How-To: Enable Linked Accounts](/docs/howto/assistant/linkedaccounts.md) | Enable users to link third party accounts (e.g. Office 365) to your Assistant |
 | How-To: Migrate from the Enterprise Template <br/><br/><p align="center">[![Migrating from the Enterprise Template with C#](./media/csharp_icon.png)](/docs/howto/assistant/csharp/ettovamigration.md)</p> | Guidance on how to move from an Enterprise Template based Bot to the new Template|
 | How-to: Migrate the Virtual Assistant (Beta Release 0.3) solution to the Virtual Assistant Template <br/><br/> <p align="center">[![Migrating from the beta Virtual Assistant solution with C#](./media/csharp_icon.png)](/docs/howto/assistant/csharp/oldvatovamigration.md)</p> |Guidance on how to move from the original Virtual Assistant solution to the new Template |
 | [How-To: Send activities from your assistant to users proactively](/docs/howto/assistant/csharp/proactivemessaging.md) | Adding proactive experiences to your assistant |
 | [How-To: Customize Azure Resource Deployment](/docs/howto/assistant/customizedeployment.md) | How to customise the provided ARM template for different deployment scenarios. |
-| [How-To: Update your deployment scripts](/docs/howto/assistant/updatedeploymentscripts.md) | How to update the deployment scripts for Virtal Assistant and Skill projects that you have already created. |
+| [How-To: Update your deployment scripts to the latest version.](/docs/howto/assistant/updatedeploymentscripts.md) | How to update the deployment scripts for Virtal Assistant and Skill projects that you have already created and ensure you have the latest updates. |
 
 
 ## Skills
@@ -87,7 +90,7 @@
 |[To Do Skill](/docs/reference/skills/productivity-todo.md)|Add task management capabilities to your assistant. Powered by Microsoft Graph.|
 |[Point of Interest Skill](/docs/reference/skills/pointofinterest.md)|Find points of interest and directions. Powered by Azure Maps and FourSquare.|
 |[Automotive Skill](/docs/reference/skills/automotive.md)|Industry-vertical Skill for showcasing enabling car feature control.|
-|[Experimental Skills](/docs/reference/skills/experimental.md)|News, Restaurant Booking and Weather.|
+|[Experimental Skills](/docs/reference/skills/experimental.md)|News, Search, Restaurant Booking and Weather.|
 
 ## Analytics
 

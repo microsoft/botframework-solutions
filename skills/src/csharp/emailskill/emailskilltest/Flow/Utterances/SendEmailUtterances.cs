@@ -7,37 +7,37 @@ namespace EmailSkillTest.Flow.Utterances
     {
         public SendEmailUtterances()
         {
-            this.Add(SendEmails, CreateIntent(SendEmails, intent: EmailLuis.Intent.SendEmail));
+            this.Add(SendEmails, CreateIntent(SendEmails, intent: emailLuis.Intent.SendEmail));
             this.Add(SendEmailToEmailAdress, CreateIntent(
                 SendEmailToEmailAdress,
-                intent: EmailLuis.Intent.SendEmail,
+                intent: emailLuis.Intent.SendEmail,
                 emailAdress: new string[] { ContextStrings.TestEmailAdress }));
             this.Add(SendEmailToNobody, CreateIntent(
                 SendEmailToNobody,
-                intent: EmailLuis.Intent.SendEmail,
+                intent: emailLuis.Intent.SendEmail,
                 contactName: new string[] { ContextStrings.Nobody }));
             this.Add(SendEmailToRecipient, CreateIntent(
                 SendEmailToRecipient,
-                intent: EmailLuis.Intent.SendEmail,
+                intent: emailLuis.Intent.SendEmail,
                 contactName: new string[] { ContextStrings.TestRecipient }));
             this.Add(SendEmailToRecipientWithSubject, CreateIntent(
                 SendEmailToRecipientWithSubject,
-                intent: EmailLuis.Intent.SendEmail,
+                intent: emailLuis.Intent.SendEmail,
                 contactName: new string[] { ContextStrings.TestRecipient },
                 subject: new string[] { ContextStrings.TestSubject }));
             this.Add(SendEmailToRecipientWithSubjectAndContext, CreateIntent(
                 SendEmailToRecipientWithSubjectAndContext,
-                intent: EmailLuis.Intent.SendEmail,
+                intent: emailLuis.Intent.SendEmail,
                 contactName: new string[] { ContextStrings.TestRecipient },
                 subject: new string[] { ContextStrings.TestSubject },
                 message: new string[] { ContextStrings.TestContent }));
             this.Add(SendEmailToMultiRecipient, CreateIntent(
                 SendEmailToMultiRecipient,
-                intent: EmailLuis.Intent.SendEmail,
+                intent: emailLuis.Intent.SendEmail,
                 contactName: new string[] { ContextStrings.TestRecipient, ContextStrings.TestRecipientWithDup }));
             this.Add(SendEmailToDupRecipient, CreateIntent(
                 SendEmailToDupRecipient,
-                intent: EmailLuis.Intent.SendEmail,
+                intent: emailLuis.Intent.SendEmail,
                 contactName: new string[] { ContextStrings.TestRecipientWithDup }));
         }
 

@@ -4,7 +4,7 @@ using Microsoft.Bot.Builder;
 
 namespace ToDoSkillTest.Flow.Utterances
 {
-    public class BaseTestUtterances : Dictionary<string, ToDoLuis>
+    public class BaseTestUtterances : Dictionary<string, todoLuis>
     {
         public BaseTestUtterances()
         {
@@ -12,19 +12,19 @@ namespace ToDoSkillTest.Flow.Utterances
 
         public static double TopIntentScore { get; } = 0.9;
 
-        public ToDoLuis GetBaseNoneIntent()
+        public todoLuis GetBaseNoneIntent()
         {
             return GetToDoIntent();
         }
 
-        public ToDoLuis GetNoneIntent(string[] listType = null)
+        public todoLuis GetNoneIntent(string[] listType = null)
         {
             return GetToDoIntent(listType: listType);
         }
 
-        protected ToDoLuis GetToDoIntent(
+        protected todoLuis GetToDoIntent(
             string userInput = null,
-            ToDoLuis.Intent intents = ToDoLuis.Intent.None,
+            todoLuis.Intent intents = todoLuis.Intent.None,
             double[] ordinal = null,
             double[] number = null,
             string[] containsAll = null,
@@ -35,18 +35,17 @@ namespace ToDoSkillTest.Flow.Utterances
             string[][] foodOfGrocery = null,
             string[][] shopVerb = null)
         {
-            var intent = new ToDoLuis();
+            var intent = new todoLuis();
             intent.Text = userInput;
-            intent.Intents = new Dictionary<ToDoLuis.Intent, IntentScore>();
+            intent.Intents = new Dictionary<todoLuis.Intent, IntentScore>();
             intent.Intents.Add(intents, new IntentScore() { Score = TopIntentScore });
-            intent.Entities = new ToDoLuis._Entities();
-            intent.Entities._instance = new ToDoLuis._Entities._Instance();
+            intent.Entities = new todoLuis._Entities();
+            intent.Entities._instance = new todoLuis._Entities._Instance();
             intent.Entities.ordinal = ordinal;
             intent.Entities.ContainsAll = containsAll;
             intent.Entities.ListType = listType;
             intent.Entities.TaskContent = taskContentML;
-            intent.Entities.ShopContent = shopContent;
-            intent.Entities.TaskContentPattern = taskContentPattern;
+            intent.Entities.TaskContent_Any = taskContentPattern;
             intent.Entities.FoodOfGrocery = foodOfGrocery;
             intent.Entities.ShopVerb = shopVerb;
 

@@ -138,10 +138,10 @@ export class ConnectSkill {
                 // Parse LU file
                 this.logger.message(`Parsing ${luisApp} LU file...`);
                 const ludownParseCommand: string[] = ['ludown', 'parse', 'toluis'];
-                ludownParseCommand.push(...['--in', luFilePath]);
-                ludownParseCommand.push(...['--luis_culture', configuration.language]);
-                ludownParseCommand.push(...['--out_folder', configuration.luisFolder]);
-                ludownParseCommand.push(...['--out', `"${luisFile}"`]);
+                ludownParseCommand.push(...[`--in "${luFilePath}"`]);
+                ludownParseCommand.push(...[`--luis_culture "${configuration.language}"`]);
+                ludownParseCommand.push(...[`--out_folder "${configuration.luisFolder}"`]);
+                ludownParseCommand.push(...[`--out "${luisFile}"`]);
 
                 await this.runCommand(ludownParseCommand, `Parsing ${luisApp} LU file`);
 
@@ -197,7 +197,6 @@ export class ConnectSkill {
             // End of manifest schema validation
 
             // Take VA Skills configurations
-            //tslint:disable-next-line: no-var-requires non-literal-require
             const assistantSkillsFile: ISkillFile = JSON.parse(readFileSync(configuration.skillsFile, 'UTF8'));
             const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills || [];
 

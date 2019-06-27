@@ -27,8 +27,10 @@ describe(`The generator-botbuilder-assistant tests`, function() {
 
     const templatesFiles = [
         `package.json`,
+        `.eslintrc.js`,
         `.gitignore`,
         `.npmrc`,
+        `.nycrc`,
         dialogBotPath
     ];
     const commonDirectories = [
@@ -91,6 +93,7 @@ describe(`The generator-botbuilder-assistant tests`, function() {
 
         after(function() {
             rimraf(join(__dirname, `tmp`, `**`), function () {});
+            process.chdir(join(__dirname, `..`));
         });
 
         describe(`the base`, function() {
@@ -177,6 +180,7 @@ describe(`The generator-botbuilder-assistant tests`, function() {
 
         after(function() {
             rimraf(join(__dirname, `tmp`, `**`), function () {});
+            process.chdir(join(__dirname, `..`));
         });
 
         describe(`the base`, function() {

@@ -19,6 +19,7 @@ using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Graph;
@@ -163,27 +164,17 @@ namespace EmailSkill.Dialogs
                 var generalLuisResult = state.GeneralLuisResult;
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
-                if (skillLuisResult == EmailLuis.Intent.ShowNext || generalTopIntent == General.Intent.ShowNext)
+                if (skillLuisResult == emailLuis.Intent.ShowNext || generalTopIntent == General.Intent.ShowNext)
                 {
                     state.ShowEmailIndex++;
-                    state.ReadEmailIndex = 0;
                 }
-                else if ((skillLuisResult == EmailLuis.Intent.ShowPrevious || generalTopIntent == General.Intent.ShowPrevious) && state.ShowEmailIndex >= 0)
+                else if ((skillLuisResult == emailLuis.Intent.ShowPrevious || generalTopIntent == General.Intent.ShowPrevious) && state.ShowEmailIndex >= 0)
                 {
                     state.ShowEmailIndex--;
-                    state.ReadEmailIndex = 0;
                 }
                 else if (IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
                 {
-                    if (state.MessageList.Count <= ConfigData.GetInstance().MaxReadSize)
-                    {
-                        state.ShowEmailIndex++;
-                        state.ReadEmailIndex = 0;
-                    }
-                    else
-                    {
-                        state.ReadEmailIndex++;
-                    }
+                    state.ShowEmailIndex++;
                 }
 
                 await DigestFocusEmailAsync(sc);
@@ -409,7 +400,7 @@ namespace EmailSkill.Dialogs
                     { "EmailDetails", speech },
                 };
 
-                var recipientCard = state.FindContactInfor.Contacts.Count() > DisplayHelper.MaxReadoutNumber ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
+                var recipientCard = state.FindContactInfor.Contacts.Count() > DisplayHelper.MaxReadoutNumber ? GetDivergedCardName(sc.Context, "ConfirmCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "ConfirmCard_RecipientLessThanFive");
 
                 if (state.FindContactInfor.Contacts.Count > DisplayHelper.MaxReadoutNumber && (action == Actions.Send || action == Actions.Forward))
                 {
@@ -644,7 +635,7 @@ namespace EmailSkill.Dialogs
 
                 // Get display messages
                 var displayMessages = new List<Message>();
-                var startIndex = ConfigData.GetInstance().MaxReadSize * state.ReadEmailIndex;
+                var startIndex = 0;
                 for (var i = startIndex; i < messages.Count(); i++)
                 {
                     displayMessages.Add(messages[i]);
@@ -1052,16 +1043,16 @@ namespace EmailSkill.Dialogs
                     totalCount.ToString())
             };
 
-            var overviewCard = "EmailOverviewCard";
+            var overviewCard = GetDivergedCardName(sc.Context, "EmailOverviewCard");
             if ((state.SenderName != null) || (state.GeneralSenderName != null))
             {
                 overviewData.Description = string.Format(EmailCommonStrings.SearchBySender, state.SenderName ?? state.GeneralSenderName);
-                overviewCard = "EmailOverviewByCondition";
+                overviewCard = GetDivergedCardName(sc.Context, "EmailOverviewByCondition");
             }
             else if ((state.SearchTexts != null) || (state.GeneralSearchTexts != null))
             {
                 overviewData.Description = string.Format(EmailCommonStrings.SearchBySubject, state.SearchTexts ?? state.GeneralSearchTexts);
-                overviewCard = "EmailOverviewByCondition";
+                overviewCard = GetDivergedCardName(sc.Context, "EmailOverviewByCondition");
             }
 
             var reply = ResponseManager.GetCardResponse(
@@ -1208,7 +1199,8 @@ namespace EmailSkill.Dialogs
 
                 if (recipients.Count() > AdaptiveCardHelper.MaxDisplayRecipientNum)
                 {
-                    var additionalNumber = recipients.Count() - AdaptiveCardHelper.MaxDisplayRecipientNum - 1;
+                    // the last recipient turns into number
+                    var additionalNumber = recipients.Count() - AdaptiveCardHelper.MaxDisplayRecipientNum + 1;
                     data.AdditionalRecipientNumber = additionalNumber.ToString();
                 }
 
@@ -1270,7 +1262,7 @@ namespace EmailSkill.Dialogs
             }
         }
 
-        protected async Task DigestEmailLuisResult(DialogContext dc, EmailLuis luisResult, bool isBeginDialog)
+        protected async Task DigestEmailLuisResult(DialogContext dc, emailLuis luisResult, bool isBeginDialog)
         {
             try
             {
@@ -1325,11 +1317,11 @@ namespace EmailSkill.Dialogs
 
                     switch (intent)
                     {
-                        case EmailLuis.Intent.CheckMessages:
-                        case EmailLuis.Intent.SearchMessages:
-                        case EmailLuis.Intent.ReadAloud:
-                        case EmailLuis.Intent.ShowNext:
-                        case EmailLuis.Intent.ShowPrevious:
+                        case emailLuis.Intent.CheckMessages:
+                        case emailLuis.Intent.SearchMessages:
+                        case emailLuis.Intent.ReadAloud:
+                        case emailLuis.Intent.ShowNext:
+                        case emailLuis.Intent.ShowPrevious:
                             {
                                 // Get email search type
                                 if (dc.Context.Activity.Text != null)
@@ -1400,9 +1392,9 @@ namespace EmailSkill.Dialogs
                                 break;
                             }
 
-                        case EmailLuis.Intent.SendEmail:
-                        case EmailLuis.Intent.Forward:
-                        case EmailLuis.Intent.Reply:
+                        case emailLuis.Intent.SendEmail:
+                        case emailLuis.Intent.Forward:
+                        case emailLuis.Intent.Reply:
                             {
                                 if (entity.EmailSubject != null)
                                 {
@@ -1512,6 +1504,19 @@ namespace EmailSkill.Dialogs
 
             // clear state
             await ClearAllState(sc);
+        }
+
+        // Workaround until adaptive card renderer in teams is upgraded to v1.2
+        protected string GetDivergedCardName(ITurnContext turnContext, string card)
+        {
+            if (Microsoft.Bot.Builder.Dialogs.Choices.Channel.GetChannelId(turnContext) == Channels.Msteams)
+            {
+                return card + ".1.0";
+            }
+            else
+            {
+                return card;
+            }
         }
 
         [Serializable]

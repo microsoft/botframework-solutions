@@ -116,30 +116,6 @@ namespace EmailSkillTest.Flow
         }
 
         [TestMethod]
-        public async Task Test_SendEmailToRecipientWithSubject()
-        {
-            string testRecipient = ContextStrings.TestRecipient;
-            string testEmailAddress = ContextStrings.TestEmailAdress;
-
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
-            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipient + ": " + testEmailAddress } };
-
-            await this.GetTestFlow()
-                .Send(SendEmailUtterances.SendEmailToRecipientWithSubject)
-                .AssertReply(this.ShowAuth())
-                .Send(this.GetAuthResponse())
-                .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
-                .Send(GeneralTestUtterances.Yes)
-                .AssertReplyOneOf(this.AddMoreContacts(recipientList))
-                .Send(GeneralTestUtterances.No)
-                .AssertReply(this.AssertComfirmBeforeSendingPrompt())
-                .Send(GeneralTestUtterances.Yes)
-                .AssertReply(this.AfterSendingMessage(ContextStrings.TestSubject))
-                .AssertReply(this.ActionEndMessage())
-                .StartTestAsync();
-        }
-
-        [TestMethod]
         public async Task Test_SendEmailToRecipientWithSubjectAndContext()
         {
             string testRecipient = ContextStrings.TestRecipient;

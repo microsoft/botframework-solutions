@@ -59,15 +59,13 @@ namespace CalendarSkill
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
+            var provider = services.BuildServiceProvider();
 
             // Load settings
             var settings = new BotSettings();
             Configuration.Bind(settings);
             services.AddSingleton<BotSettings>(settings);
             services.AddSingleton<BotSettingsBase>(settings);
-
-            // Configure bot services
-            services.AddSingleton<BotServices>();
 
             // Configure credentials
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
@@ -87,9 +85,13 @@ namespace CalendarSkill
             });
 
             // Configure telemetry
-            var telemetryClient = new BotTelemetryClient(new TelemetryClient(settings.AppInsights));
+            services.AddApplicationInsightsTelemetry();
+            var telemetryClient = new BotTelemetryClient(new TelemetryClient());
             services.AddSingleton<IBotTelemetryClient>(telemetryClient);
             services.AddBotApplicationInsights(telemetryClient);
+
+            // Configure bot services
+            services.AddSingleton<BotServices>();
 
             // Configure proactive
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();

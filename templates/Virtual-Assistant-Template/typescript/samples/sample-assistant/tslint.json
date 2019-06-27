@@ -17,20 +17,26 @@
         "static-method-regex": "^[a-z][\\w\\d]+$"
       }
     ],
-    "linebreak-style": [
-      false
+    "strict-boolean-expressions": [
+      true,
+      "allow-undefined-union",
+      "allow-null-union",
+      "allow-mix",
+      "allow-string",
+      "ignore-rhs"
     ],
-    "member-ordering": [
-      false
-    ],
-    "no-relative-imports": [
-      false
-    ],
-    "completed-docs": [
-      false
-    ]
+    "linebreak-style": false,
+    "completed-docs": false,
+    "no-relative-imports": false,
+    "export-name": false,
+    "member-ordering": false,
+    "no-use-before-declare": false,
+    "no-function-constructor-with-string-args": false,
+    "no-reserved-keywords": false,
+    "no-increment-decrement": false,
+    "no-unnecessary-bind": false
   },
   "rulesDirectory": [
-    "node_modules/tslint-microsoft-contrib"
+    "tslint-microsoft-contrib"
   ]
 }
