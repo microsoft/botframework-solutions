@@ -6,7 +6,7 @@ if (-not $version) {
     Write-Host "Version for botskills CLI tool required!.  Please use the param -version" -ForegroundColor DarkRed
 }
 
-pushd .\lib\typescript\botskills
+pushd .\tools\botskills
 
 npm install
 npm version $($version) --allow-same-version
@@ -21,6 +21,6 @@ if (-not(test-path ".\outputpackages"))
 
 pushd .\outputpackages
 
-npm pack ..\lib\typescript\botskills
+npm pack ..\tools\botskills
 
 popd
