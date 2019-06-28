@@ -13,6 +13,6 @@ botskills list [options]
 
 | Option                   | Description                                                             |
 |--------------------------|-------------------------------------------------------------------------|
-| -f, --skillsFile [path]  | (OPTIONAL) Path to the Virtual Assistant Skills configuration file              |
+| -f, --skillsFile [path]  | (OPTIONAL) Path to the Virtual Assistant Skills configuration file      |
 | --verbose                | (OPTIONAL) Output detailed information about the processing of the tool |
 | -h, --help               | Output usage information                                                |
