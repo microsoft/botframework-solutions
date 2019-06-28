@@ -54,7 +54,7 @@ if (!args.skillsFile) {
         args.skillsFile = 'skills.json';
         if (!checkSkillsFile(args.skillsFile)) {
             logger.error(`The 'skillsFile' argument is absent or leads to a non-existing file.
-Please make sure to provide a valid path to your Assistant Skills configuration file.`);
+Please make sure to provide a valid path to your Assistant Skills configuration file using the '--skillsFile' argument.`);
             process.exit(1);
         }
     }
@@ -64,7 +64,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
 } else {
     if (!checkSkillsFile(args.skillsFile)) {
         logger.error(`The 'skillsFile' argument is absent or leads to a non-existing file.
-Please make sure to provide a valid path to your Assistant Skills configuration file.`);
+Please make sure to provide a valid path to your Assistant Skills configuration file using the '--skillsFile' argument.`);
         process.exit(1);
     }
 }
