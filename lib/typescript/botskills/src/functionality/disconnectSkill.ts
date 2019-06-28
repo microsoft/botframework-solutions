@@ -28,7 +28,7 @@ export class DisconnectSkill {
             // dispatch remove(?)
             if (!existsSync(dispatchFilePath)) {
                 this.logger.error(
-                    `Could not find file ${dispatchFile}. Please provide the 'dispatchName' and 'dispatchFolder' parameters.`);
+                    `Could not find file ${dispatchFile}. Please provide the '--dispatchName' and '--dispatchFolder' arguments.`);
 
                 return false;
             }
@@ -39,7 +39,7 @@ export class DisconnectSkill {
                 service.name === configuration.skillId);
             if (!serviceToRemove) {
                 this.logger.warning(`The skill ${configuration.skillId} is not present in the Dispatch model.
-Run 'botskills list --assistantSkills "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
+Run 'botskills list --skillsFile "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
 
                 return false;
             }
@@ -72,7 +72,7 @@ Run 'botskills list --assistantSkills "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in or
             // Validate configuration.skillsFile
             if (!existsSync(configuration.skillsFile)) {
                 this.logger.error(`The 'skillsFile' argument is absent or leads to a non-existing file.
-Please make sure to provide a valid path to your Assistant Skills configuration file.`);
+Please make sure to provide a valid path to your Assistant Skills configuration file using the '--skillsFile' argument.`);
 
                 return false;
             }
@@ -88,17 +88,17 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
 
             if (!skillToRemove) {
                 this.logger.warning(`The skill '${configuration.skillId}' is not present in the assistant Skills configuration file.
-Run 'botskills list --assistantSkills "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
+Run 'botskills list --skillsFile "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
 
                 return false;
             } else if (!configuration.lgLanguage || !(['cs', 'ts'].includes(configuration.lgLanguage))) {
                 this.logger.error(`The 'lgLanguage' argument is incorrect.
-It should be either 'cs' or 'ts' depending on your assistant's language.`);
+It should be either 'cs' or 'ts' depending on your assistant's language. Please provide either the argument '--cs' or '--ts'.`);
 
                 return false;
             } else if (!configuration.lgOutFolder || !existsSync(configuration.lgOutFolder)) {
                 this.logger.error(`The 'lgOutFolder' argument is absent or leads to a non-existing folder.
-Please make sure to provide a valid path to your LUISGen output folder.`);
+Please make sure to provide a valid path to your LUISGen output folder using the '--lgOutFolder' argument.`);
 
                 return false;
             } else {
