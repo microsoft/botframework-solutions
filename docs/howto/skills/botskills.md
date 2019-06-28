@@ -13,7 +13,7 @@
     - [List Connected Skills](#List-Connected-Skills)
 
 ## Overview
-Botskills command line tool allows you to automate the connection between the **Virtual Assistant** and your **Skills**, which includes the process of update your dispatch models and create authentication connections where needed.
+Botskills command line tool allows you to automate the connection between the **Virtual Assistant** and your **Skills**, which includes the process of updating your dispatch models and create authentication connections where needed.
 The CLI performs the following operations on your behalf:
 1. Retrieve the **Skill Manifest** from the local/remote Skill through the `/api/skill/manifest` endpoint.
 2. Identify which **Language Models** are used by the Skill and resolve the triggering utterances either through local LU file resolution or through inline trigger utterances if requested.
@@ -39,11 +39,11 @@ The CLI performs the following operations on your behalf:
 For all of this commands, the tool assumes that you are running the CLI within the **Virtual Assistant project directory** and have created your Bot through the template, and therefore have a `skills.json` file present in the working folder which contains the connected skills.
 
 ### Connect Skills
-The `connect` command allows you to connect a Skill, be it local or remote, to your Virtual Assistant bot. The Skill and Virtual Assistant can be in different coding languages without problem, this is, you can connect a Skill coded in C# into an Virtual Assistant coded in TypeScript, but be sure to specify your Virtual Assistant's coding language using `--cs` or `--ts`.
+The `connect` command allows you to connect a Skill, be it local or remote, to your Virtual Assistant bot. The Skill and Virtual Assistant can be in different coding languages without problem, this is, you can connect a Skill coded in C# into a Virtual Assistant coded in TypeScript, but be sure to specify your Virtual Assistant's coding language using `--cs` or `--ts`.
 
 Here is an example:
 ```bash
-botskills connect --botName YOUR_VA_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder [path] --cs
+botskills connect --botName <YOUR_VA_NAME> --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder <YOUR_LUIS_FOLDER_PATH> --cs
 ```
 
 *Remember to re-publish your Assistant to Azure after you've added a Skill unless you plan on testing locally only*
@@ -55,7 +55,7 @@ The `disconnect` command allows you to disconnect a Skill from your Virtual Assi
 
 Here is an example:
 ```bash
-botskills disconnect --skillId SKILL_ID --cs
+botskills disconnect --skillId <YOUR_SKILL_ID> --cs
 ```
 
 For further information, see the [Disconnect command documentation](/tools/botskills/docs/disconnect.md).
@@ -63,11 +63,11 @@ For further information, see the [Disconnect command documentation](/tools/botsk
 > Note: The id of the Skill can also be aquired using the `botskills list` command. You can check the [List command documentation](/tools/botskills/docs/list.md).
 
 ### Update a Connected Skill
-The `update` command allows you to update a Skill, be it local or remote, to your Virtual Assistant bot. The Skill and Virtual Assistant can be in different coding languages without problem, this is, you can update a Skill coded in C# into an Virtual Assistant coded in TypeScript, but be sure to specify your Virtual Assistant's coding language using `--cs` or `--ts`.
+The `update` command allows you to update a Skill, be it local or remote, to your Virtual Assistant bot. The Skill and Virtual Assistant can be in different coding languages without problem, this is, you can update a Skill coded in C# into a Virtual Assistant coded in TypeScript, but be sure to specify your Virtual Assistant's coding language using `--cs` or `--ts`.
 
 Here is an example:
 ```bash
-botskills update --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder [path] --cs
+botskills update --botName <YOUR_BOT_NAME> --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder <YOUR_LUIS_FOLDER_PATH> --cs
 ```
 
 For further information, see the [Update command documentation](/tools/botskills/docs/update.md).
