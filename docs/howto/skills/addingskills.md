@@ -43,7 +43,7 @@ botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_M
 
 *Remember to re-publish your Assistant to Azure after you've added a Skill unless you plan on testing locally only**
 
-See the [Skill CLI documentation](/lib/typescript/botskills/docs/connect-disconnect.md) for detailed CLI documentation.
+See the [Skill CLI documentation](/tools/botskills/docs/connect-disconnect.md) for detailed CLI documentation.
 
 ## Manual Authentication Connection configuration
 
@@ -73,7 +73,7 @@ botskills:
 botskills disconnect --skillId SKILL_ID
 ```
 
-> Note: The id of the Skill can also be aquired using the `botskills list` command. You can check the [Skill CLI documentation](/lib/typescript/botskills/docs/list.md) on this command.
+> Note: The id of the Skill can also be aquired using the `botskills list` command. You can check the [Skill CLI documentation](/tools/botskills/docs/list.md) on this command.
 
 ## Updating an existing Skill to reflect changes to Actions or LUIS model
 
