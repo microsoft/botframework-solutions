@@ -232,6 +232,17 @@ namespace Microsoft.Bot.Builder.Skills
             await SendActivitiesAsync(turnContext, new Activity[] { response }, cancellationToken).ConfigureAwait(false);
         }
 
+        public async Task SendRemoteFallbackEventAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            // We trigger a Fallback Request from the Parent Bot by sending a "FallbackRequest" event
+            var response = turnContext.Activity.CreateReply();
+            response.Type = ActivityTypes.Event;
+            response.Name = FallbackEvents.FallbackEventName;
+
+            // Send the fallback Event
+            await SendActivitiesAsync(turnContext, new Activity[] { response }, cancellationToken).ConfigureAwait(false);
+        }
+
         private async Task<T> SendRequestAsync<T>(Request request, CancellationToken cancellation = default(CancellationToken))
         {
             try

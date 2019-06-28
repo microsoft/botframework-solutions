@@ -218,7 +218,7 @@ namespace Microsoft.Bot.Builder.Skills
         {
             try
             {
-                var endOfConversation = await _skillTransport.ForwardToSkillAsync(innerDc.Context, activity, GetTokenRequestCallback(innerDc));
+                var endOfConversation = await _skillTransport.ForwardToSkillAsync(innerDc.Context, activity, GetTokenRequestCallback(innerDc), GetFallbackCallback(innerDc));
 
 				if (endOfConversation)
                 {
@@ -233,7 +233,16 @@ namespace Microsoft.Bot.Builder.Skills
 					// forward to skill and start a new turn
 					while (_queuedResponses.Count > 0 && dialogResult.Status != DialogTurnStatus.Complete && dialogResult.Status != DialogTurnStatus.Cancelled)
 					{
-						dialogResult = await ForwardToSkillAsync(innerDc, _queuedResponses.Dequeue());
+                        if (_queuedResponses.Last().Name == FallbackEvents.FallbackHandleEventName)
+                        {
+                            var lastEvent = _queuedResponses.Dequeue();
+                            dialogResult = await ForwardToSkillAsync(innerDc, lastEvent);
+                            return await innerDc.EndDialogAsync(lastEvent);
+                        }
+                        else
+                        {
+                            dialogResult = await ForwardToSkillAsync(innerDc, _queuedResponses.Dequeue());
+                        }
 					}
 
 					return dialogResult;
@@ -268,6 +277,24 @@ namespace Microsoft.Bot.Builder.Skills
                     {
                         _queuedResponses.Enqueue(tokenEvent);
                     }
+                }
+            };
+        }
+
+        private Action<Activity> GetFallbackCallback(DialogContext dialogContext)
+        {
+            return (activity) =>
+            {
+                // Send trace to emulator
+                dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Received a fallback request from a skill")).GetAwaiter().GetResult();
+
+                var fallbackHandleEvent = activity.CreateReply();
+                fallbackHandleEvent.Type = ActivityTypes.Event;
+                fallbackHandleEvent.Name = FallbackEvents.FallbackHandleEventName;
+
+                lock (_lockObject)
+                {
+                    _queuedResponses.Enqueue(fallbackHandleEvent);
                 }
             };
         }

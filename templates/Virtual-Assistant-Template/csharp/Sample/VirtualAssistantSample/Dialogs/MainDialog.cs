@@ -184,6 +184,15 @@ namespace VirtualAssistantSample.Dialogs
             }
         }
 
+        protected override async Task ReDispatchAsync(DialogContext innerDc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            await innerDc.Parent.CancelAllDialogsAsync();
+
+            await RouteAsync(innerDc);
+
+            await base.ReDispatchAsync(innerDc, result, cancellationToken);
+        }
+
         protected override async Task OnEventAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Check if there was an action submitted from intro card

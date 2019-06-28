@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29009.5
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.539
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VSIX", "VSIX", "{4FA953A9-9057-41A2-820D-6D07CA1206AE}"
 EndProject
@@ -18,6 +18,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VA", "Template\VA\VA.csproj", "{297864F0-08EB-4F6D-A107-AFB1745E7E63}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VA.Tests", "Template\VA.Tests\VA.Tests.csproj", "{EA75012E-CAAB-476B-84D5-B0F907DA0738}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Skills", "..\..\..\lib\csharp\microsoft.bot.builder.skills\Microsoft.Bot.Builder.Skills\Microsoft.Bot.Builder.Skills.csproj", "{5D0DC6F6-BC68-4E61-AA83-6E001370A3D1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Solutions", "..\..\..\lib\csharp\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj", "{98A635C4-3E05-4175-9CFA-2A726864A53F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +69,22 @@ Global
 		{EA75012E-CAAB-476B-84D5-B0F907DA0738}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{EA75012E-CAAB-476B-84D5-B0F907DA0738}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA75012E-CAAB-476B-84D5-B0F907DA0738}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D0DC6F6-BC68-4E61-AA83-6E001370A3D1}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
+		{5D0DC6F6-BC68-4E61-AA83-6E001370A3D1}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
+		{5D0DC6F6-BC68-4E61-AA83-6E001370A3D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D0DC6F6-BC68-4E61-AA83-6E001370A3D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D0DC6F6-BC68-4E61-AA83-6E001370A3D1}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
+		{5D0DC6F6-BC68-4E61-AA83-6E001370A3D1}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
+		{5D0DC6F6-BC68-4E61-AA83-6E001370A3D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D0DC6F6-BC68-4E61-AA83-6E001370A3D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98A635C4-3E05-4175-9CFA-2A726864A53F}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
+		{98A635C4-3E05-4175-9CFA-2A726864A53F}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
+		{98A635C4-3E05-4175-9CFA-2A726864A53F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98A635C4-3E05-4175-9CFA-2A726864A53F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98A635C4-3E05-4175-9CFA-2A726864A53F}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
+		{98A635C4-3E05-4175-9CFA-2A726864A53F}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
+		{98A635C4-3E05-4175-9CFA-2A726864A53F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98A635C4-3E05-4175-9CFA-2A726864A53F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

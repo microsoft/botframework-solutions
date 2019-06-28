@@ -35,7 +35,7 @@ namespace Microsoft.Bot.Builder.Skills
             _streamingTransportClient = streamingTransportClient;
         }
 
-        public async Task<bool> ForwardToSkillAsync(ITurnContext turnContext, Activity activity, Action<Activity> tokenRequestHandler = null)
+        public async Task<bool> ForwardToSkillAsync(ITurnContext turnContext, Activity activity, Action<Activity> tokenRequestHandler = null, Action<Activity> fallbackHandler = null)
         {
             if (_streamingTransportClient == null)
             {
@@ -54,6 +54,7 @@ namespace Microsoft.Bot.Builder.Skills
                         turnContext,
                         _botTelemetryClient,
                         GetTokenCallback(turnContext, tokenRequestHandler),
+                        GetFallbackCallback(turnContext, fallbackHandler),
                         GetHandoffActivityCallback()),
                     headers);
 
@@ -99,6 +100,14 @@ namespace Microsoft.Bot.Builder.Skills
             return (activity) =>
             {
                 tokenRequestHandler?.Invoke(activity);
+            };
+        }
+
+        private Action<Activity> GetFallbackCallback(ITurnContext turnContext, Action<Activity> fallbackEventHandler)
+        {
+            return (activity) =>
+            {
+                fallbackEventHandler?.Invoke(activity);
             };
         }
 

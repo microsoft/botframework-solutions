@@ -45,5 +45,7 @@
         public const string Help = "help";
 
         public const string GetRecreateInfoPrompt = "GetRecreateInfoPrompt";
+
+        public const string FallbackEventPrompt = "FallbackEventPrompt";
     }
 }
