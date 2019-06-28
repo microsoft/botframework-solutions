@@ -51,7 +51,7 @@ botskills connect --botName YOUR_VA_NAME --remoteManifest "http://<YOUR_SKILL_MA
 For further information, see the [Connect command documentation](/tools/botskills/docs/connect.md).
 
 ### Disconnect Skills
-The `disconnect` command allows you to disconnect a Skill from your Virtual Assistant. You can always check the Skills already connected to your Virtual Assistant using the [`list` command](./list.md). Remember to specify the coding language of your Virtual Assistant using `--cs` or `--ts`.
+The `disconnect` command allows you to disconnect a Skill from your Virtual Assistant. You can always check the Skills already connected to your Virtual Assistant using the [`list` command](#List-Connected-Skills). Remember to specify the coding language of your Virtual Assistant using `--cs` or `--ts`.
 
 Here is an example:
 ```bash
