@@ -1,7 +1,7 @@
-# Botskills
+# Botskills Command Line tool
 
 ## In this document
-- [Botskills](#Botskills)
+- [Botskills Command Line tool](#Botskills-Command-Line-tool)
   - [In this document](#In-this-document)
   - [Overview](#Overview)
   - [Prerequisites](#Prerequisites)
