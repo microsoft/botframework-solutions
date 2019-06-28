@@ -92,7 +92,6 @@ configuration.lgOutFolder = args.lgOutFolder || join(configuration.outFolder, (a
 // dispatchName validation
 if (!args.dispatchName) {
     // try get the dispatch name from the cognitiveModels file
-    // tslint:disable-next-line
     const cognitiveModelsFile: ICognitiveModelFile = JSON.parse(readFileSync(cognitiveModelsFilePath, 'UTF8'));
     configuration.dispatchName = cognitiveModelsFile.cognitiveModels[languageCode].dispatchModel.name;
 }

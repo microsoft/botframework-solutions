@@ -15,9 +15,9 @@ export class OnboardingResponses extends TemplateManager {
 
     // Declare here the type of properties and the prompts
     public static responseIds: {
-        emailPrompt : string;
-        haveEmailMessage : string;
-        haveNameMessage : string;
+        emailPrompt: string;
+        haveEmailMessage: string;
+        haveNameMessage: string;
         haveLocationMessage: string;
         locationPrompt: string;
         namePrompt: string;
@@ -34,23 +34,23 @@ export class OnboardingResponses extends TemplateManager {
     private static readonly responseTemplates: LanguageTemplateDictionary = new Map([
         ['default', new Map([
             [OnboardingResponses.responseIds.emailPrompt, OnboardingResponses.fromResources('onboarding.emailPrompt')],
-            // tslint:disable-next-line: no-any
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
             [OnboardingResponses.responseIds.haveEmailMessage, async (context: TurnContext, data: any): Promise<string> => {
                 const value: string = i18next.t('onboarding.haveEmail');
 
                 // tslint:disable-next-line: no-unsafe-any
                 return value.replace('{0}', data.email);
             }],
-            // tslint:disable-next-line: no-any
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
             [OnboardingResponses.responseIds.haveLocationMessage, async (context: TurnContext, data: any): Promise<string> => {
                 const value: string = i18next.t('onboarding.haveLocation');
 
                 // tslint:disable-next-line: no-unsafe-any
                 return value.replace('{0}', data.name)
-                // tslint:disable-next-line: no-unsafe-any
-                .replace('{1}', data.location);
+                    // tslint:disable-next-line: no-unsafe-any
+                    .replace('{1}', data.location);
             }],
-            //tslint:disable-next-line: no-any
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
             [OnboardingResponses.responseIds.haveNameMessage, async (context: TurnContext, data: any): Promise<string> => {
                 const value: string = i18next.t('onboarding.haveName');
 
@@ -63,7 +63,7 @@ export class OnboardingResponses extends TemplateManager {
     ]);
 
     // Initialize the responses class properties
-    constructor() {
+    public constructor() {
         super();
         this.register(new DictionaryRenderer(OnboardingResponses.responseTemplates));
     }

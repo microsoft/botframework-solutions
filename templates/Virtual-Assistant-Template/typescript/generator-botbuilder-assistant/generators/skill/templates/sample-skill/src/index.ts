@@ -19,18 +19,15 @@ import {
     Dialog,
     DialogState } from 'botbuilder-dialogs';
 import {
-    IAuthenticationConnection,
-    ISkillManifest,
     manifestGenerator,
     SkillContext,
     SkillHttpAdapter } from 'botbuilder-skills';
 import {
     ICognitiveModelConfiguration,
-    IOAuthConnection,
     Locales,
-    MultiProviderAuthDialog,
     ResponseManager} from 'botbuilder-solutions';
 import i18next from 'i18next';
+// tslint:disable-next-line: match-default-export-name
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
 import { join } from 'path';
 import * as restify from 'restify';
@@ -49,19 +46,20 @@ import { BotServices } from './services/botServices';
 import { IBotSettings } from './services/botSettings';
 
 // Configure internationalization and default locale
+// tslint:disable-next-line: no-floating-promises
 i18next.use(i18nextNodeFsBackend)
-.init({
-    fallbackLng: 'en',
-    preload: [ 'de', 'en', 'es', 'fr', 'it', 'zh' ]
-})
-.then(async () => {
-    await Locales.addResourcesFromPath(i18next, 'common');
-});
+    .init({
+        fallbackLng: 'en',
+        preload: [ 'de', 'en', 'es', 'fr', 'it', 'zh' ]
+    })
+    .then(async (): Promise<void> => {
+        await Locales.addResourcesFromPath(i18next, 'common');
+    });
 
 const cognitiveModels: Map<string, ICognitiveModelConfiguration> = new Map();
 const cognitiveModelDictionary: { [key: string]: Object } = cognitiveModelsRaw.cognitiveModels;
 const cognitiveModelMap: Map<string, Object>  = new Map(Object.entries(cognitiveModelDictionary));
-cognitiveModelMap.forEach((value: Object, key: string) => {
+cognitiveModelMap.forEach((value: Object, key: string): void => {
     cognitiveModels.set(key, <ICognitiveModelConfiguration> value);
 });
 
@@ -79,7 +77,7 @@ if (botSettings.appInsights === undefined) {
 }
 
 function getTelemetryClient(settings: Partial<IBotSettings>): BotTelemetryClient {
-    if (settings && settings.appInsights && settings.appInsights.instrumentationKey) {
+    if (settings !== undefined && settings.appInsights !== undefined && settings.appInsights.instrumentationKey !== undefined) {
         const instrumentationKey: string = settings.appInsights.instrumentationKey;
 
         return new ApplicationInsightsTelemetryClient(instrumentationKey);
@@ -166,6 +164,7 @@ const server: restify.Server = restify.createServer();
 // Enable the Application Insights middleware, which helps correlate all activity
 // based on the incoming request.
 server.use(restify.plugins.bodyParser());
+// tslint:disable-next-line:no-unsafe-any
 server.use(ApplicationInsightsWebserverMiddleware);
 
 server.listen(process.env.port || process.env.PORT || '3980', (): void => {
@@ -178,18 +177,18 @@ server.listen(process.env.port || process.env.PORT || '3980', (): void => {
 });
 
 // Listen for incoming requests
-server.post('/api/messages', (req: restify.Request, res: restify.Response) => {
+server.post('/api/messages', async (req: restify.Request, res: restify.Response): Promise<void> => {
     // Route received a request to adapter for processing
-    botAdapter.processActivity(req, res, async (turnContext: TurnContext) => {
+    await botAdapter.processActivity(req, res, async (turnContext: TurnContext): Promise<void> => {
         // route to bot activity handler.
         await bot.run(turnContext);
     });
 });
 
 // Listen for incoming assistant requests
-server.post('/api/skill/messages', (req: restify.Request, res: restify.Response) => {
+server.post('/api/skill/messages', async (req: restify.Request, res: restify.Response): Promise<void> => {
     // Route received a request to adapter for processing
-    adapter.processActivity(req, res, async (turnContext: TurnContext) => {
+    await adapter.processActivity(req, res, async (turnContext: TurnContext): Promise<void> => {
         // route to bot activity handler.
         await bot.run(turnContext);
     });
@@ -198,24 +197,3 @@ server.post('/api/skill/messages', (req: restify.Request, res: restify.Response)
 const manifestPath: string = join(__dirname, 'manifestTemplate.json');
 server.use(restify.plugins.queryParser());
 server.get('/api/skill/manifest', manifestGenerator(manifestPath, botSettings));
-
-// This method creates a MultiProviderAuthDialog based on a skill manifest.
-function buildAuthDialog(skill: ISkillManifest, settings: Partial<IBotSettings>): MultiProviderAuthDialog|undefined {
-    if (skill.authenticationConnections !== undefined && skill.authenticationConnections.length > 0) {
-        if (settings.oauthConnections !== undefined) {
-            const oauthConnections: IOAuthConnection[] | undefined = settings.oauthConnections.filter(
-                (oauthConnection: IOAuthConnection) => {
-                return skill.authenticationConnections.some((authenticationConnection: IAuthenticationConnection) => {
-                    return authenticationConnection.serviceProviderId === oauthConnection.provider;
-                });
-            });
-            if (oauthConnections !== undefined) {
-                return new MultiProviderAuthDialog(oauthConnections);
-            }
-        } else {
-            throw new Error(`You must configure at least one supported OAuth connection to use this skill: ${skill.name}.`);
-        }
-    }
-
-    return undefined;
-}

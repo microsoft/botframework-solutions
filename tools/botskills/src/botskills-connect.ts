@@ -121,7 +121,7 @@ if (!args.skillsFile) {
     const skillsFilePath: string = isAbsolute(args.skillsFile) ? args.skillsFile : join(resolve('./'), args.skillsFile);
     if (!existsSync(skillsFilePath)) {
         logger.error(`The 'skillsFile' argument leads to a non-existing file.
-            Please make sure to provide a valid path to your Assistant Skills configuration file.`);
+            Please make sure to provide a valid path to your Assistant Skills configuration file using the '--skillsFile' argument.`);
         process.exit(1);
     }
     configuration.skillsFile = skillsFilePath;
@@ -154,7 +154,6 @@ configuration.lgOutFolder = args.lgOutFolder || join(configuration.outFolder, (a
 // dispatchName validation
 if (!args.dispatchName) {
     // try get the dispatch name from the cognitiveModels file
-    // tslint:disable-next-line
     const cognitiveModelsFile: ICognitiveModelFile = JSON.parse(readFileSync(cognitiveModelsFilePath, 'UTF8'));
     configuration.dispatchName = cognitiveModelsFile.cognitiveModels[languageCode].dispatchModel.name;
 }

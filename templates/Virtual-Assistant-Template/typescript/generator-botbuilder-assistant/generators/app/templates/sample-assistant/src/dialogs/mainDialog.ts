@@ -47,7 +47,7 @@ export class MainDialog extends RouterDialog {
     private readonly responder: MainResponses = new MainResponses();
 
     // Constructor
-    constructor(
+    public constructor(
         settings: Partial<IBotSettings>,
         services: BotServices,
         onboardingDialog: OnboardingDialog,
@@ -67,7 +67,7 @@ export class MainDialog extends RouterDialog {
         this.addDialog(escalateDialog);
         this.addDialog(cancelDialog);
 
-        skillDialogs.forEach((skillDialog: SkillDialog) => {
+        skillDialogs.forEach((skillDialog: SkillDialog): void => {
             this.addDialog(skillDialog);
         });
     }
@@ -228,7 +228,7 @@ export class MainDialog extends RouterDialog {
                 const intent: string = LuisRecognizer.topIntent(luisResult);
 
                 // Only triggers interruption if confidence level is high
-                if (luisResult.intents[intent] && luisResult.intents[intent].score > 0.5) {
+                if (luisResult.intents[intent] !== undefined && luisResult.intents[intent].score > 0.5) {
                     switch (intent) {
                         case 'Cancel': {
                             return this.onCancel(dc);
@@ -284,7 +284,7 @@ export class MainDialog extends RouterDialog {
         // Sign out user
         // PENDING check adapter.getTokenStatusAsync
         const tokens: TokenStatus[] = [];
-        tokens.forEach(async (token: TokenStatus) => {
+        tokens.forEach(async (token: TokenStatus): Promise<void> => {
             if (token.connectionName !== undefined) {
                 await adapter.signOutUser(dc.context, token.connectionName);
             }

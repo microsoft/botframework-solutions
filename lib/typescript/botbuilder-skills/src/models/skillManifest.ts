@@ -45,9 +45,9 @@ export interface IActionDefinition {
  * Definition of the triggers for a given action within a Skill.
  */
 export interface ITriggers {
-    utterances: IUtterance[];
+    utterances?: IUtterance[];
     utteranceSources: IUtteranceSources[];
-    events: IEvent[];
+    events?: IEvent[];
 }
 
 /**

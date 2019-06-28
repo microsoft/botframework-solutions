@@ -80,7 +80,8 @@ Error: The Skill doesn't exist in the Assistant, run 'botskills connect --botNam
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `There was an error while updating the Skill from the Assistant:
-Error: The 'localManifest' argument leads to a non-existing file. Please make sure to provide a valid path to your Skill manifest.`);
+Error: The 'localManifest' argument leads to a non-existing file.
+Please make sure to provide a valid path to your Skill manifest using the '--localManifest' argument.`);
         });
 
         it("when the remoteManifest points to a nonexisting Skill manifest URL", async function() {

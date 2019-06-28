@@ -9,12 +9,14 @@ trigger:
     include:
     - tools/botskills/*
 
+# By default will disable PR builds
+pr: none 
+
 pool:
   name: Hosted VS2017
   demands:
   - npm
   - npm
-
 steps:
 - task: Npm@1
   displayName: 'npm install'
