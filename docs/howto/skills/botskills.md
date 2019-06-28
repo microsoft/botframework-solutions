@@ -13,7 +13,7 @@
     - [List Connected Skills](#List-Connected-Skills)
 
 ## Overview
-`Botskills` command line tool allows you to automate the connection between the **Virtual Assistant** and your **Skills**, which includes the process of update your dispatch models and create authentication connections where needed.
+Botskills command line tool allows you to automate the connection between the **Virtual Assistant** and your **Skills**, which includes the process of update your dispatch models and create authentication connections where needed.
 The CLI performs the following operations on your behalf:
 1. Retrieve the **Skill Manifest** from the local/remote Skill through the `/api/skill/manifest` endpoint.
 2. Identify which **Language Models** are used by the Skill and resolve the triggering utterances either through local LU file resolution or through inline trigger utterances if requested.
