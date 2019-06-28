@@ -108,7 +108,7 @@ Please make sure to provide a valid path to your LUISGen output folder using the
                 }
 
                 // Removing the skill manifest from the assistant skills array
-                this.logger.warning(`Removing the '${configuration.skillId}' skill from your assistant's skills configuration file.`);
+                this.logger.message(`Removing the '${configuration.skillId}' skill from your assistant's skills configuration file.`);
                 assistantSkills.splice(assistantSkills.indexOf(skillToRemove), 1);
 
                 // Updating the assistant skills file's skills property with the assistant skills array

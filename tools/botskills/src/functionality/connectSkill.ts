@@ -175,7 +175,6 @@ Command: ${ludownParseCommand.join(' ')}`);
             } else {
                 this.logger.warning(`Run 'botskills refresh --${configuration.lgLanguage}' command to refresh your connected skills`);
             }
-            this.logger.success('Successfully updated Dispatch model');
         } catch (err) {
             throw new Error(`An error ocurred while updating the Dispatch model:\n${err}`);
         }
@@ -217,7 +216,7 @@ Command: ${ludownParseCommand.join(' ')}`);
             await this.updateDispatch(configuration, skillManifest);
 
             // Adding the skill manifest to the assistant skills array
-            this.logger.warning(`Appending '${skillManifest.name}' manifest to your assistant's skills configuration file.`);
+            this.logger.message(`Appending '${skillManifest.name}' manifest to your assistant's skills configuration file.`);
             assistantSkills.push(skillManifest);
 
             // Updating the assistant skills file's skills property with the assistant skills array
