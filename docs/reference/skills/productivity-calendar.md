@@ -5,9 +5,11 @@ The most common scenarios have been implemented in this beta release, with addit
 
 ## Table of Contents
 
+- [Supported Sources](#supported-sources)
 - [Supported Scenarios](#supported-scenarios)
+- [Scenario Configurations](#scenario-configurations)
+- [Skill Deployment](#skill-deployment)
 - [Language Model](#language-model)
-- [Configuration](#configuration)
 
 ## Supported Sources
 
@@ -59,6 +61,42 @@ The following scenarios are currently supported by the Skill:
 - Time Remaining
   - *How long until my next meeting?*
   - *How many days are there until Thanksgiving?*
+
+## Scenario Configurations
+In flow like create meeting flow, user need to input information like title and content before able to create meeting. You can config whether to skip these slot filling steps in `appsettings.json` by setting `isSkipByDefault` to true, and modify `EventTitle`, `EventContent` and `EventLocation` default value in `CalendarCommonStrings.resx` to set default value of different locales.
+
+The `EventStartDate` default value should be a integer that means date difference with today. For example, if you want to set default start date as next day of meeting created date, the default value should be `1`.
+
+The `EventDuration` default value should be a integer that means count of mintues.
+ 
+```json
+"defaultValue": {
+    "createMeeting": [
+        {
+            "name": "EventTitle",
+            "isSkipByDefault": false
+        },
+        {
+            "name": "EventContent",
+            "isSkipByDefault": false
+        },
+        {
+            "name": "EventStartDate",
+            "isSkipByDefault": false,
+            "defaultValue": ""
+        },
+        {
+            "name": "EventDuration",
+            "isSkipByDefault": false,
+            "defaultValue": ""
+        },
+        {
+            "name": "EventLocation",
+            "isSkipByDefault": false
+        }
+    ]
+}
+```
   
 ## Skill Deployment
 

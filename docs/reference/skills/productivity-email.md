@@ -5,9 +5,11 @@ The most common scenarios have been implemented in this beta release, with addit
 
 ## Table of Contents
 
+- [Supported Sources](#supported-sources)
 - [Supported Scenarios](#supported-scenarios)
-- [Language Model](#language-model)
-- [Configuration](#configuration)
+- [Scenario Configurations](#scenario-configurations)
+- [Skill Deployment](#skill-deployment)
+- [Language Model](#language-model))
 
 ## Supported Sources
 
@@ -47,6 +49,24 @@ The following scenarios are currently supported by the Skill:
 - Select an Email
   - *The third search result please*
   - *Open this one*
+
+## Scenario Configurations
+In flow like send email flow, user need to input information like subject and content before able to send email. You can config whether to skip these slot filling steps in `appsettings.json` by setting `isSkipByDefault` to true, and modify default value in `EmailCommonStrings.resx` to set default value of different locales.
+ 
+```json
+"defaultValue": {
+    "sendEmail": [
+        {
+            "name": "EmailSubject",
+            "isSkipByDefault": false
+        },
+        {
+            "name": "EmailMessage",
+            "isSkipByDefault": false
+        }
+    ]
+ }
+```
 
 ## Skill Deployment
 
