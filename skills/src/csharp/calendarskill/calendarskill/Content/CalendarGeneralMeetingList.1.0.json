@@ -1,0 +1,86 @@
+{
+  "type": "AdaptiveCard",
+  "id": "MeetingsFromUserCard",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "height": "stretch",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "height": "stretch",
+                      "items": [
+                        {
+                          "type": "ColumnSet",
+                          "height": "stretch",
+                          "columns": [
+                            {
+                              "type": "Column",
+                              "height": "stretch",
+                              "verticalContentAlignment": "Center",
+                              "items": [
+                                {
+                                  "type": "TextBlock",
+                                  "size": "Large",
+                                  "weight": "Bolder",
+                                  "color": "Default",
+                                  "text": "{ListTitle}",
+                                  "wrap": true
+                                }
+                              ],
+                              "width": "stretch"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "ColumnSet",
+                          "height": "stretch",
+                          "columns": [
+                            {
+                              "type": "Column",
+                              "spacing": "Small",
+                              "verticalContentAlignment": "Center",
+                              "items": [
+                                {
+                                  "type": "TextBlock",
+                                  "horizontalAlignment": "Center",
+                                  "size": "Medium",
+                                  "color": "Default",
+                                  "text": "{Indicator}"
+                                }
+                              ],
+                              "width": "auto"
+                            }
+                          ]
+                        }
+                      ],
+                      "width": 60
+                    }
+                  ]
+                }
+              ],
+              "width": "stretch"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "EventItemContainer",
+      "type": "Container",
+      "items": [
+      ]
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
+}

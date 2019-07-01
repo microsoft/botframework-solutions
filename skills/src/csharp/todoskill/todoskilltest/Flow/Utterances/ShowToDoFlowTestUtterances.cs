@@ -28,9 +28,9 @@ namespace ToDoSkillTest.Flow.Utterances
 
         public static string ShowCustomizedListTypeList { get; } = "Show my homework list";
 
-        private ToDoLuis GetBaseShowTasksIntent(
+        private todoLuis GetBaseShowTasksIntent(
             string userInput,
-            ToDoLuis.Intent intents = ToDoLuis.Intent.ShowToDo,
+            todoLuis.Intent intents = todoLuis.Intent.ShowToDo,
             string[] listType = null)
         {
             return GetToDoIntent(

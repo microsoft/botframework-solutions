@@ -1,9 +1,15 @@
 # ToDo Skill (Productivity)
 
-The ToDo Skill provides ToDo related capabilities to a Virtual Assistant.
-The most common scenarios have been implemented in this beta release, with additional scenarios in development.
+The ToDo Skill provides ToDo related capabilities to a Virtual Assistant. The most common scenarios have been implemented in this initial release, with additional scenarios in development.
 
-### Supported Sources
+## Table of Contents
+
+- [Supported Sources](#supported-sources)
+- [Supported Scenarios](#supported-scenarios)
+- [Skill Deployment](#skill-deployment)
+- [Language Model](#language-model)
+
+## Supported Sources
 
 > Office 365 and Outlook.com through the Microsoft Graph is supported at this time. Additional sources will be coming in a future release.
 

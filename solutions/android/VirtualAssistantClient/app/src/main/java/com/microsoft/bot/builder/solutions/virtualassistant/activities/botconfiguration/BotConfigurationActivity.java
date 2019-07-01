@@ -3,10 +3,14 @@ package com.microsoft.bot.builder.solutions.virtualassistant.activities.botconfi
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.design.widget.TextInputEditText;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.BaseActivity;
@@ -37,6 +41,7 @@ public class BotConfigurationActivity extends BaseActivity {
 
     // STATE
     private Configuration configuration;
+    private Gson gson;
 
     public static Intent getNewIntent(Context context) {
         return new Intent(context, BotConfigurationActivity.class);
@@ -47,6 +52,7 @@ public class BotConfigurationActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(CONTENT_VIEW);
         ButterKnife.bind(this);
+        gson = new Gson();
     }
 
     @Override
@@ -94,27 +100,37 @@ public class BotConfigurationActivity extends BaseActivity {
     }
 
     private void showConfiguration(){
-        configuration = speechServiceBinder.getConfiguration();
-        serviceKey.setText(configuration.serviceKey);
-        serviceRegion.setText(configuration.serviceRegion);
-        botId.setText(configuration.botId);
-        voiceName.setText(configuration.voiceName);
-        userId.setText(configuration.userId);
-        locale.setText(configuration.locale);
-        locationLat.setText(configuration.geolat);
-        locationLon.setText(configuration.geolon);
+        try {
+            final String json = speechServiceBinder.getConfiguration();
+            configuration = gson.fromJson(json, new TypeToken<Configuration>(){}.getType());
+            serviceKey.setText(configuration.serviceKey);
+            serviceRegion.setText(configuration.serviceRegion);
+            botId.setText(configuration.botId);
+            voiceName.setText(configuration.voiceName);
+            userId.setText(configuration.userId);
+            locale.setText(configuration.locale);
+            locationLat.setText(configuration.geolat);
+            locationLon.setText(configuration.geolon);
+        } catch (RemoteException exception){
+            Log.e(LOGTAG, exception.getMessage());
+        }
     }
 
     private void saveConfiguration(){
-        configuration.serviceKey = serviceKey.getText().toString();
-        configuration.serviceRegion = serviceRegion.getText().toString();
-        configuration.botId = botId.getText().toString();
-        configuration.voiceName = voiceName.getText().toString();
-        configuration.userId = userId.getText().toString();
-        configuration.locale = locale.getText().toString();
-        configuration.geolat = locationLat.getText().toString();
-        configuration.geolon = locationLon.getText().toString();
-        speechServiceBinder.setConfiguration(configuration);
+        try {
+            configuration.serviceKey = serviceKey.getText().toString();
+            configuration.serviceRegion = serviceRegion.getText().toString();
+            configuration.botId = botId.getText().toString();
+            configuration.voiceName = voiceName.getText().toString();
+            configuration.userId = userId.getText().toString();
+            configuration.locale = locale.getText().toString();
+            configuration.geolat = locationLat.getText().toString();
+            configuration.geolon = locationLon.getText().toString();
+            String json = gson.toJson(configuration);
+            speechServiceBinder.setConfiguration(json);
+        } catch (RemoteException exception){
+            Log.e(LOGTAG, exception.getMessage());
+        }
     }
 
 }

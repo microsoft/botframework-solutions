@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "group": {
+              "kind": "build",
+              "isDefault": true
+            },
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/$safeprojectname$.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}

@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
@@ -29,8 +30,9 @@ namespace ToDoSkill.Dialogs
             UserState userState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
-            MicrosoftAppCredentials appCredentials)
-            : base(nameof(DeleteToDoItemDialog), settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient, appCredentials)
+            MicrosoftAppCredentials appCredentials,
+            IHttpContextAccessor httpContext)
+            : base(nameof(DeleteToDoItemDialog), settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient, appCredentials, httpContext)
         {
             TelemetryClient = telemetryClient;
 
@@ -129,6 +131,7 @@ namespace ToDoSkill.Dialogs
                     state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
 
                     cardReply = ToAdaptiveCardForTaskDeletedFlow(
+                        sc.Context,
                         state.Tasks,
                         state.AllTasks.Count,
                         taskTopicToBeDeleted,
@@ -149,6 +152,7 @@ namespace ToDoSkill.Dialogs
                         state.TaskIndexes = new List<int>();
 
                         cardReply = ToAdaptiveCardForTaskDeletedFlow(
+                        sc.Context,
                         state.Tasks,
                         state.AllTasks.Count,
                         null,
@@ -158,6 +162,7 @@ namespace ToDoSkill.Dialogs
                     else
                     {
                         cardReply = ToAdaptiveCardForDeletionRefusedFlow(
+                        sc.Context,
                         state.Tasks,
                         state.AllTasks.Count,
                         state.ListType);

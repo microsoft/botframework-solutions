@@ -1,3 +1,7 @@
+> # Intent definitions
+## None
+
+
 ## SETTING_VALUE_SELECTION
 - {AMOUNT=1} {UNIT=celsius}
 - {AMOUNT=11}

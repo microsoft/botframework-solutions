@@ -1,0 +1,157 @@
+﻿{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "height": "stretch",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "height": "stretch",
+                      "items": [
+                        {
+                          "type": "ColumnSet",
+                          "height": "stretch",
+                          "columns": [
+                            {
+                              "type": "Column",
+                              "height": "stretch",
+                              "verticalContentAlignment": "Center",
+                              "items": [
+                                {
+                                  "type": "TextBlock",
+                                  "size": "Large",
+                                  "weight": "Bolder",
+                                  "color": "Default",
+                                  "text": "{Description}"
+                                }
+                              ],
+                              "width": "stretch"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "ColumnSet",
+                          "height": "stretch",
+                          "columns": [
+                            {
+                              "type": "Column",
+                              "items": [
+                                {
+                                  "type": "TextBlock",
+                                  "horizontalAlignment": "Right",
+                                  "height": "stretch",
+                                  "size": "Medium",
+                                  "color": "Default",
+                                  "text": "{TotalMessageNumber}"
+                                },
+                                {
+                                  "type": "TextBlock",
+                                  "horizontalAlignment": "Right",
+                                  "size": "Medium",
+                                  "color": "Default",
+                                  "text": "{HighPriorityMessagesNumber}"
+                                }
+                              ],
+                              "width": "auto"
+                            },
+                            {
+                              "type": "Column",
+                              "items": [
+                                {
+                                  "type": "TextBlock",
+                                  "height": "stretch",
+                                  "size": "Medium",
+                                  "weight": "Bolder",
+                                  "color": "Default",
+                                  "text": "{MessagesDescription}"
+                                },
+                                {
+                                  "type": "TextBlock",
+                                  "size": "Medium",
+                                  "weight": "Bolder",
+                                  "color": "Default",
+                                  "text": "{ImportantMessagesDescription}"
+                                }
+                              ],
+                              "width": "stretch"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "ColumnSet",
+                          "columns": [
+                            {
+                              "type": "Column",
+                              "spacing": "Small",
+                              "verticalContentAlignment": "Center",
+                              "items": [
+                                {
+                                  "type": "TextBlock",
+                                  "horizontalAlignment": "Center",
+                                  "size": "Medium",
+                                  "color": "Default",
+                                  "text": "{EmailIndexer}"
+                                }
+                              ],
+                              "width": "auto"
+                            }
+                          ]
+                        }
+                      ],
+                      "width": 60
+                    },
+                    {
+                      "type": "Column",
+                      "verticalContentAlignment": "Center",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "horizontalAlignment": "Center",
+                          "style": "Person",
+                          "url": "{AvatorIcon}",
+                          "size": "Medium"
+                        }
+                      ],
+                      "width": 40
+                    }
+                  ]
+                }
+              ],
+              "width": "stretch"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "id": "items",
+      "items": []
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "items": [
+        {
+          "type": "TextBlock",
+          "horizontalAlignment": "Right",
+          "size": "Small",
+          "color": "Default",
+          "text": "{MailSourceType}"
+        }
+      ]
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
+}
