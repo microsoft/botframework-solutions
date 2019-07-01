@@ -15,12 +15,14 @@ namespace Microsoft.Bot.Builder.Skills
     {
         private readonly Router _router;
         private readonly ITurnContext _turnContext;
+        private readonly IBotTelemetryClient _botTelemetryClient;
         private readonly Action<Activity> _tokenRequestHandler;
         private readonly Action<Activity> _handoffActivityHandler;
 
-        public SkillCallingRequestHandler(ITurnContext turnContext, Action<Activity> tokenRequestHandler = null, Action<Activity> handoffActivityHandler = null)
+        public SkillCallingRequestHandler(ITurnContext turnContext, IBotTelemetryClient botTelemetryClient, Action<Activity> tokenRequestHandler = null, Action<Activity> handoffActivityHandler = null)
         {
             _turnContext = turnContext ?? throw new ArgumentNullException(nameof(turnContext));
+            _botTelemetryClient = botTelemetryClient;
             _tokenRequestHandler = tokenRequestHandler;
             _handoffActivityHandler = handoffActivityHandler;
 
@@ -121,8 +123,9 @@ namespace Microsoft.Bot.Builder.Skills
                     var responseBody = await routeContext.Action.Action(request, routeContext.RouteData).ConfigureAwait(false);
                     return Response.OK(new StringContent(JsonConvert.SerializeObject(responseBody, SerializationSettings.DefaultSerializationSettings), Encoding.UTF8, SerializationSettings.ApplicationJson));
                 }
-                catch
+                catch (Exception ex)
                 {
+                    _botTelemetryClient.TrackException(ex);
                     return Response.InternalServerError();
                 }
             }

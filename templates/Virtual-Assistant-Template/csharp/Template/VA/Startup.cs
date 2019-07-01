@@ -19,9 +19,11 @@ using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Protocol.StreamingExtensions.NetCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using $safeprojectname$.Adapters;
 using $safeprojectname$.Bots;
 using $safeprojectname$.Dialogs;
 using $safeprojectname$.Services;
@@ -59,17 +61,20 @@ namespace $safeprojectname$
             Configuration.Bind(settings);
             services.AddSingleton(settings);
 
-            // Configure bot services
-            services.AddSingleton<BotServices>();
-
             // Configure credentials
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
-            services.AddSingleton(new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
+
+            var appCredentials = new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword);
+            services.AddSingleton(appCredentials);
 
             // Configure telemetry
-            var telemetryClient = new BotTelemetryClient(new TelemetryClient(settings.AppInsights));
+            services.AddApplicationInsightsTelemetry();
+            var telemetryClient = new BotTelemetryClient(new TelemetryClient());
             services.AddSingleton<IBotTelemetryClient>(telemetryClient);
             services.AddBotApplicationInsights(telemetryClient);
+
+            // Configure bot services
+            services.AddSingleton<BotServices>();
 
             // Configure storage
             services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
@@ -96,16 +101,23 @@ namespace $safeprojectname$
 
                 foreach (var skill in settings.Skills)
                 {
-                    var authDialog = BuildAuthDialog(skill, settings);
+                    var authDialog = BuildAuthDialog(skill, settings, appCredentials);
                     var credentials = new MicrosoftAppCredentialsEx(settings.MicrosoftAppId, settings.MicrosoftAppPassword, skill.MSAappId);
-					skillDialogs.Add(new SkillDialog(skill, credentials, telemetryClient, userState, authDialog));
+                    skillDialogs.Add(new SkillDialog(skill, credentials, telemetryClient, userState, authDialog));
                 }
 
                 return skillDialogs;
             });
 
             // Configure adapters
+            // DefaultAdapter is for all regular channels that use Http transport
             services.AddSingleton<IBotFrameworkHttpAdapter, DefaultAdapter>();
+
+            // DefaultWebSocketAdapter is for directline speech channel
+            // This adapter implementation is currently a workaround as
+            // later on we'll have a WebSocketEnabledHttpAdapter implementation that handles
+            // both Http for regular channels and websocket for directline speech channel
+            services.AddSingleton<WebSocketEnabledHttpAdapter, DefaultWebSocketAdapter>();
 
             // Configure bot
             services.AddTransient<IBot, DialogBot<MainDialog>>();
@@ -122,18 +134,19 @@ namespace $safeprojectname$
             app.UseBotApplicationInsights()
                 .UseDefaultFiles()
                 .UseStaticFiles()
+                .UseWebSockets()
                 .UseMvc();
         }
 
         // This method creates a MultiProviderAuthDialog based on a skill manifest.
-        private MultiProviderAuthDialog BuildAuthDialog(SkillManifest skill, BotSettings settings)
+        private MultiProviderAuthDialog BuildAuthDialog(SkillManifest skill, BotSettings settings, MicrosoftAppCredentials appCredentials)
         {
             if (skill.AuthenticationConnections?.Count() > 0)
             {
                 if (settings.OAuthConnections.Any() && settings.OAuthConnections.Any(o => skill.AuthenticationConnections.Any(s => s.ServiceProviderId == o.Provider)))
                 {
                     var oauthConnections = settings.OAuthConnections.Where(o => skill.AuthenticationConnections.Any(s => s.ServiceProviderId == o.Provider)).ToList();
-                    return new MultiProviderAuthDialog(oauthConnections);
+                    return new MultiProviderAuthDialog(oauthConnections, appCredentials);
                 }
                 else
                 {

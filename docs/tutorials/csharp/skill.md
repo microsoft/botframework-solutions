@@ -41,8 +41,8 @@ A Bot Framework Skill app (in C#) that greets a new user.
 
 > It's important to ensure all of the following pre-requisites are installed on your machine prior to attempting deployment otherwise you may run into deployment issues.
 
-1. Install the [Skill Template](https://marketplace.visualstudio.com/items?itemName=BotBuilder.BotSkillTemplate)
-2. Ensure you have updated [.NET Core](https://www.microsoft.com/net/download) to the latest version.  
+1. Install the [Skill Template](https://marketplace.visualstudio.com/items?itemName=BotBuilder.BotSkillTemplate). *Note that Visual Studio on Mac doesn't support VSIX packages, instead [clone the Skill Template sample from our repository](https://github.com/microsoft/botframework-solutions/tree/master/templates/Skill-Template/csharp/Sample).*
+2. Ensure you have updated [.NET Core](https://www.microsoft.com/net/download) to the **latest** version.  
 3. Ensure the [Node Package manager](https://nodejs.org/en/) is installed.
 4. PowerShell Core version 6 (Required for cross platform deployment support)
    * [Download PowerShell Core on Windows](https://aka.ms/getps6-windows)
@@ -114,11 +114,7 @@ Once deployment is complete, you can start debugging through the following steps
 
 ## Update your Skill manifest
 
-Your newly created Skill has a basic Skill manifest file provided in the root directory (`manifestTemplate.json`), this has been pre-populated with the Skill ID and name and a sample action which you can modify at this stage if required.
-
-## Publish your Skill
-
-You can now publish your Skill to Azure using the usual deployment tools and enable easier invocation of the Skill from your assistant project.
+Your newly created Skill has a basic Skill manifest file provided in the root directory (`manifestTemplate.json`), this has been pre-populated with the Skill ID and name and a sample action which you can modify at this stage if required. Remember to re-publish your Skill to Azure if you do modify it.
 
 ## Validate the Skill manifest endpoint
 

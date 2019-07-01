@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using ToDoSkill.Models;
 using ToDoSkill.Responses.MarkToDo;
@@ -26,8 +28,10 @@ namespace ToDoSkill.Dialogs
             ConversationState conversationState,
             UserState userState,
             IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient)
-            : base(nameof(MarkToDoItemDialog), settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            MicrosoftAppCredentials appCredentials,
+            IHttpContextAccessor httpContext)
+            : base(nameof(MarkToDoItemDialog), settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient, appCredentials, httpContext)
         {
             TelemetryClient = telemetryClient;
 
@@ -118,6 +122,7 @@ namespace ToDoSkill.Dialogs
                 var currentTaskIndex = state.ShowTaskPageIndex * state.PageSize;
                 state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
                 var markToDoCard = ToAdaptiveCardForTaskCompletedFlow(
+                    sc.Context,
                     state.Tasks,
                     state.AllTasks.Count,
                     taskTopicToBeMarked,

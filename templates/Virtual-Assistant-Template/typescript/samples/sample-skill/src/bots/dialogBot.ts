@@ -14,19 +14,19 @@ import {
     Dialog,
     DialogContext,
     DialogSet,
-    DialogState,
-    DialogTurnResult } from 'botbuilder-dialogs';
+    DialogState } from 'botbuilder-dialogs';
 
 export class DialogBot<T extends Dialog> extends ActivityHandler {
     private readonly telemetryClient: BotTelemetryClient;
-    private readonly solutionName: string = 'sample-skill';
+    private readonly solutionName: string = 'sampleSkill';
     private readonly rootDialogId: string;
-    private dialogs: DialogSet;
+    private readonly dialogs: DialogSet;
 
-    constructor(
+    public constructor(
         conversationState: ConversationState,
         telemetryClient: BotTelemetryClient,
-        dialog: T) {
+        dialog: T
+    ) {
         super();
 
         this.rootDialogId = dialog.id;
@@ -36,7 +36,7 @@ export class DialogBot<T extends Dialog> extends ActivityHandler {
         this.onTurn(this.turn.bind(this));
     }
 
-    //tslint:disable-next-line: no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
     public async turn(turnContext: TurnContext, next: () => Promise<void>): Promise<any> {
         // Client notifying this bot took to long to respond (timed out)
         if (turnContext.activity.code === EndOfConversationCodes.BotTimedOut) {
@@ -51,7 +51,7 @@ export class DialogBot<T extends Dialog> extends ActivityHandler {
         const dc: DialogContext = await this.dialogs.createContext(turnContext);
 
         if (dc.activeDialog !== undefined) {
-            const result: DialogTurnResult = await dc.continueDialog();
+            await dc.continueDialog();
         } else {
             await dc.beginDialog(this.rootDialogId);
         }

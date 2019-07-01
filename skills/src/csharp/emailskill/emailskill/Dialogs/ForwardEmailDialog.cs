@@ -12,20 +12,22 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector.Authentication;
 
 namespace EmailSkill.Dialogs
 {
     public class ForwardEmailDialog : EmailSkillDialogBase
     {
         public ForwardEmailDialog(
-           BotSettings settings,
-           BotServices services,
-           ResponseManager responseManager,
-           ConversationState conversationState,
-           FindContactDialog findContactDialog,
-           IServiceManager serviceManager,
-           IBotTelemetryClient telemetryClient)
-           : base(nameof(ForwardEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
+            BotSettings settings,
+            BotServices services,
+            ResponseManager responseManager,
+            ConversationState conversationState,
+            FindContactDialog findContactDialog,
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient,
+            MicrosoftAppCredentials appCredentials)
+            : base(nameof(ForwardEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
@@ -105,7 +107,7 @@ namespace EmailSkill.Dialogs
                         { "Subject", state.Subject },
                     };
 
-                    var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
+                    var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? GetDivergedCardName(sc.Context, "ConfirmCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "ConfirmCard_RecipientLessThanFive");
                     var reply = ResponseManager.GetCardResponse(
                         EmailSharedResponses.SentSuccessfully,
                         new Card("EmailWithOutButtonCard", emailCard),

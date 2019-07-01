@@ -12,7 +12,7 @@ namespace AutomotiveSkill.Models
         {
         }
 
-        public VehicleSettingsLuis VehicleSettingsLuisResult { get; set; }
+        public settingsLuis VehicleSettingsLuisResult { get; set; }
 
         public IDictionary<string, IList<string>> Entities { get; set; } = new Dictionary<string, IList<string>>();
 
@@ -20,7 +20,7 @@ namespace AutomotiveSkill.Models
 
         public IList<SettingStatus> Statuses { get; set; } = new List<SettingStatus>();
 
-        public void AddRecognizerResult(VehicleSettingsLuis luisResult)
+        public void AddRecognizerResult(settingsLuis luisResult)
         {
             Clear();
 
@@ -52,7 +52,7 @@ namespace AutomotiveSkill.Models
             }
         }
 
-        public void AddRecognizerResult(VehicleSettingsNameSelectionLuis luisResult)
+        public void AddRecognizerResult(settings_nameLuis luisResult)
         {
             // Remove transient entity types.
             Entities.Remove("INDEX");
@@ -68,7 +68,7 @@ namespace AutomotiveSkill.Models
             }
         }
 
-        public void AddRecognizerResult(VehicleSettingsValueSelectionLuis luisResult)
+        public void AddRecognizerResult(settings_valueLuis luisResult)
         {
             // Remove transient entity types.
             Entities.Remove("INDEX");

@@ -13,12 +13,14 @@ using EmailSkill.Services;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 
 namespace EmailSkill.Dialogs
@@ -100,45 +102,45 @@ namespace EmailSkill.Dialogs
                 // switch on general intents
                 switch (intent)
                 {
-                    case EmailLuis.Intent.SendEmail:
+                    case emailLuis.Intent.SendEmail:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(SendEmailDialog), skillOptions);
                             break;
                         }
 
-                    case EmailLuis.Intent.Forward:
+                    case emailLuis.Intent.Forward:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(ForwardEmailDialog), skillOptions);
                             break;
                         }
 
-                    case EmailLuis.Intent.Reply:
+                    case emailLuis.Intent.Reply:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(ReplyEmailDialog), skillOptions);
                             break;
                         }
 
-                    case EmailLuis.Intent.SearchMessages:
-                    case EmailLuis.Intent.CheckMessages:
-                    case EmailLuis.Intent.ReadAloud:
-                    case EmailLuis.Intent.QueryLastText:
+                    case emailLuis.Intent.SearchMessages:
+                    case emailLuis.Intent.CheckMessages:
+                    case emailLuis.Intent.ReadAloud:
+                    case emailLuis.Intent.QueryLastText:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
                             break;
                         }
 
-                    case EmailLuis.Intent.Delete:
+                    case emailLuis.Intent.Delete:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(DeleteEmailDialog), skillOptions);
                             break;
                         }
 
-                    case EmailLuis.Intent.ShowNext:
-                    case EmailLuis.Intent.ShowPrevious:
-                    case EmailLuis.Intent.None:
+                    case emailLuis.Intent.ShowNext:
+                    case emailLuis.Intent.ShowPrevious:
+                    case emailLuis.Intent.None:
                         {
-                            if (intent == EmailLuis.Intent.ShowNext
-                                || intent == EmailLuis.Intent.ShowPrevious
+                            if (intent == emailLuis.Intent.ShowNext
+                                || intent == emailLuis.Intent.ShowPrevious
                                 || generalTopIntent == General.Intent.ShowNext
                                 || generalTopIntent == General.Intent.ShowPrevious)
                             {
@@ -191,10 +193,14 @@ namespace EmailSkill.Dialogs
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response = dc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.EndOfConversation;
+            // workaround. if connect skill directly to teams, the following response does not work.
+            if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
+            {
+                var response = dc.Context.Activity.CreateReply();
+                response.Type = ActivityTypes.EndOfConversation;
 
-            await dc.Context.SendActivityAsync(response);
+                await dc.Context.SendActivityAsync(response);
+            }
 
             // End active dialog
             await dc.EndDialogAsync(result);
@@ -234,7 +240,7 @@ namespace EmailSkill.Dialogs
                 var localeConfig = _services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities
-                var emailLuisResult = await localeConfig.LuisServices["email"].RecognizeAsync<EmailLuis>(dc.Context, cancellationToken);
+                var emailLuisResult = await localeConfig.LuisServices["email"].RecognizeAsync<emailLuis>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
                 state.LuisResult = emailLuisResult;
 
@@ -321,16 +327,10 @@ namespace EmailSkill.Dialogs
         private void GetReadingDisplayConfig()
         {
             _settings.Properties.TryGetValue("displaySize", out var maxDisplaySize);
-            _settings.Properties.TryGetValue("readSize", out var maxReadSize);
 
             if (maxDisplaySize != null)
             {
                 ConfigData.GetInstance().MaxDisplaySize = int.Parse(maxDisplaySize as string);
-            }
-
-            if (maxReadSize != null)
-            {
-                ConfigData.GetInstance().MaxReadSize = int.Parse(maxReadSize as string);
             }
         }
     }

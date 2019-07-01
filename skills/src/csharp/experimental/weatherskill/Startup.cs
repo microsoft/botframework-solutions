@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
@@ -53,6 +54,7 @@ namespace WeatherSkill
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            var provider = services.BuildServiceProvider();
 
             // Load settings
             var settings = new BotSettings();
@@ -60,11 +62,9 @@ namespace WeatherSkill
             services.AddSingleton(settings);
             services.AddSingleton<BotSettingsBase>(settings);
 
-            // Configure bot services
-            services.AddSingleton<BotServices>();
-
             // Configure credentials
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
+            services.AddSingleton(new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
 
             // Configure storage
             services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
@@ -78,9 +78,13 @@ namespace WeatherSkill
             });
 
             // Configure telemetry
-            var telemetryClient = new BotTelemetryClient(new TelemetryClient(settings.AppInsights));
+            services.AddApplicationInsightsTelemetry();
+            var telemetryClient = new BotTelemetryClient(new TelemetryClient());
             services.AddSingleton<IBotTelemetryClient>(telemetryClient);
             services.AddBotApplicationInsights(telemetryClient);
+
+            // Configure bot services
+            services.AddSingleton<BotServices>();
 
             // Configure proactive
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
@@ -101,6 +105,9 @@ namespace WeatherSkill
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<SkillWebSocketBotAdapter, CustomSkillAdapter>();
             services.AddTransient<SkillWebSocketAdapter>();
+
+            // Configure HttpContext required for path resolution
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // Configure bot
             services.AddTransient<MainDialog>();

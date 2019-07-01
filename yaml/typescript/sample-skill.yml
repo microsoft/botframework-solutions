@@ -2,16 +2,19 @@
 trigger:
   branches:  
     include:
-    - southworks/*
+    - master
+    - feature/*
 
   paths:
     include:
     - 'templates/Virtual-Assistant-Template/typescript/samples/sample-skill/*'
 
+# By default will disable PR builds
+pr: none
+
 pool:
   name: Hosted VS2017
   demands: npm
-
 steps:
 - task: NodeTool@0
   displayName: 'Use Node 10.x'
@@ -38,7 +41,7 @@ steps:
     command: custom
     workingDir: 'templates/Virtual-Assistant-Template/typescript/samples/sample-skill'
     verbose: false
-    customCommand: 'run coverage'
+    customCommand: 'run test-coverage-ci'
 
 - task: PublishTestResults@2
   displayName: 'publish test results'

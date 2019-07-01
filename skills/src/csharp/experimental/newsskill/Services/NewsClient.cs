@@ -14,15 +14,25 @@ namespace NewsSkill.Services
             _client = new NewsSearchClient(new ApiKeyServiceClientCredentials(key));
         }
 
-        public async Task<IList<NewsArticle>> GetNewsForTopic(string query)
+        public async Task<IList<NewsArticle>> GetNewsForTopic(string query, string mkt)
         {
-            var results = await _client.News.SearchAsync(query, market: "en-us", count: 10);
+            // general search by topic
+            var results = await _client.News.SearchAsync(query, countryCode: mkt, count: 10);
             return results.Value;
         }
 
-        public async Task<IList<NewsTopic>> GetTrendingNews()
+        public async Task<IList<NewsTopic>> GetTrendingNews(string mkt)
         {
-            var results = await _client.News.TrendingAsync(market: "en-us", count: 10);
+            // get articles trending on social media
+            var results = await _client.News.TrendingAsync(countryCode: mkt, count: 10);
+            return results.Value;
+        }
+
+        // see for valid categories: https://docs.microsoft.com/en-us/rest/api/cognitiveservices-bingsearch/bing-news-api-v7-reference#news-categories-by-market
+        public async Task<IList<NewsArticle>> GetNewsByCategory(string topic, string mkt)
+        {
+            // general search by category
+            var results = await _client.News.CategoryAsync(category: topic, market: mkt, count: 10);
             return results.Value;
         }
     }

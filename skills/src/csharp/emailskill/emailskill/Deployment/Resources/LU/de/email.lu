@@ -439,7 +439,7 @@
 
 
 ## SearchMessages
-- e-mail gesendet von {SenderName=tisa}
+- e-mail gesendet von {SenderName=Emma}
 - e-mails, die {SearchTexts=bank} enthalten
 - erzähle mir die e-mail mit dem betreff {EmailSubject=wöchentlichen bericht}
 - erzähle mir die e-mail von {SenderName=lucas wong}
@@ -673,8 +673,6 @@ $Time:simple
 > # PREBUILT Entity definitions
 
 $PREBUILT:email
-
-$PREBUILT:number
 
 $PREBUILT:ordinal
 

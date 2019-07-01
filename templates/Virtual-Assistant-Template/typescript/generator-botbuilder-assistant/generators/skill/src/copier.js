@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 "use strict";
-const path = require(`path`);
+const { join } = require(`path`);
 const templateFiles = new Map();
 const allLanguages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
 let ignoredLanguages = [];
@@ -54,8 +54,8 @@ class Copier {
     // Add the paths of the deployment languages
     selectedLanguages.forEach(language => {
       templateFiles.set(
-        path.join(`deployment`, `resources`, `LU`, language, `general.lu`),
-        path.join(`deployment`, `resources`, `LU`, language, `general.lu`)
+        join(`deployment`, `resources`, `LU`, language, `general.lu`),
+        join(`deployment`, `resources`, `LU`, language, `general.lu`)
       );
     });
   }
@@ -63,46 +63,51 @@ class Copier {
   // Here you have to add the paths of your templates files
   loadTemplatesFiles(newSkill) {
     templateFiles.set(`_package.json`, `package.json`);
+    templateFiles.set(`_.eslintrc.js`, `.eslintrc.js`);
     templateFiles.set(`_.gitignore`, `.gitignore`);
     templateFiles.set(`_.npmrc`, `.npmrc`);
     templateFiles.set(`_.nycrc`, `.nycrc`);
     templateFiles.set(
-      path.join(`src`, `bots`, `_dialogBot.ts`),
-      path.join(`src`, `bots`, `dialogBot.ts`)
+      join(`pipeline`, `_sample-skill.yml`),
+      join(`pipeline`, `${newSkill.skillName}.yml`)
     );
     templateFiles.set(
-      path.join(`src`, `_manifestTemplate.json`),
-      path.join(`src`, `manifestTemplate.json`)
+      join(`src`, `bots`, `_dialogBot.ts`),
+      join(`src`, `bots`, `dialogBot.ts`)
     );
     templateFiles.set(
-      path.join(`src`, `dialogs`, `_mainDialog.ts`),
-      path.join(`src`, `dialogs`, `mainDialog.ts`)
+      join(`src`, `_manifestTemplate.json`),
+      join(`src`, `manifestTemplate.json`)
     );
     templateFiles.set(
-      path.join(`src`, `dialogs`, `_skillDialogBase.ts`),
-      path.join(`src`, `dialogs`, `skillDialogBase.ts`)
+      join(`src`, `dialogs`, `_mainDialog.ts`),
+      join(`src`, `dialogs`, `mainDialog.ts`)
     );
     templateFiles.set(
-      path.join(`test`, `mocks`, `resources`, `_cognitiveModels.json`),
-      path.join(`test`, `mocks`, `resources`, `cognitiveModels.json`)
+      join(`src`, `dialogs`, `_skillDialogBase.ts`),
+      join(`src`, `dialogs`, `skillDialogBase.ts`)
+    );
+    templateFiles.set(
+      join(`test`, `mocks`, `resources`, `_cognitiveModels.json`),
+      join(`test`, `mocks`, `resources`, `cognitiveModels.json`)
     );
     selectedLanguages.forEach(language => {
       templateFiles.set(
-        path.join(`deployment`, `resources`, `LU`, language, `_skill.lu`),
-        path.join(
+        join(`deployment`, `resources`, `LU`, language, `_skill.lu`),
+        join(
           `deployment`,
           `resources`,
           `LU`,
           language,
-          `${newSkill.skillName}.lu`
+          `${newSkill.skillNameCamelCase}.lu`
         )
       );
     });
   }
 
   pathToLUFolder(language) {
-    // Return path.join(`**`,`LU`, language, `*`);
-    return path.join(`**`, language, `*.*`);
+    // Return join(`**`,`LU`, language, `*`);
+    return join(`**`, language, `*.*`);
   }
 }
 

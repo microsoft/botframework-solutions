@@ -141,6 +141,12 @@
   <data name="GrocerySynonym" xml:space="preserve">
     <value>grocery, groceries, grocer</value>
   </data>
+  <data name="Homework" xml:space="preserve">
+    <value>Homework</value>
+  </data>
+  <data name="HomeworkSynonym" xml:space="preserve">
+    <value>homework</value>
+  </data>
   <data name="OneNoteBookName" xml:space="preserve">
     <value>Task Notebook</value>
   </data>

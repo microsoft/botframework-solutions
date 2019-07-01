@@ -2,11 +2,15 @@
 trigger:
   branches:  
     include:
-    - southworks/*
+    - master
+    - feature/*
 
   paths:
     include:
     - 'lib/csharp/microsoft.bot.builder.skills/*'
+
+# By default will disable PR builds
+pr: none
 
 pool:
    name: Hosted VS2017

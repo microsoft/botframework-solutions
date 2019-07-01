@@ -47,6 +47,7 @@ namespace Microsoft.Bot.Builder.Skills
             if (string.IsNullOrEmpty(body) || request.Streams?.Count == 0)
             {
                 response.StatusCode = (int)HttpStatusCode.BadRequest;
+                response.SetBody("Empty request body.");
                 return response;
             }
 
@@ -56,19 +57,32 @@ namespace Microsoft.Bot.Builder.Skills
                 return response;
             }
 
+            Activity activity = null;
+
             try
             {
-                var activity = JsonConvert.DeserializeObject<Activity>(body, Serialization.Settings);
+                activity = JsonConvert.DeserializeObject<Activity>(body, Serialization.Settings);
+            }
+            catch (Exception ex)
+            {
+                _botTelemetryClient.TrackException(ex);
+
+                response.StatusCode = (int)HttpStatusCode.BadRequest;
+                response.SetBody("Request body is not an Activity instance.");
+                return response;
+            }
+
+            try
+            {
                 var cancellationTokenSource = new CancellationTokenSource();
-
-				_stopWatch.Start();
+                _stopWatch.Start();
                 var invokeResponse = await this.SkillWebSocketBotAdapter.ProcessActivityAsync(activity, new BotCallbackHandler(this.Bot.OnTurnAsync), cancellationTokenSource.Token).ConfigureAwait(false);
-				_stopWatch.Stop();
+                _stopWatch.Stop();
 
-				_botTelemetryClient.TrackEvent("SkillWebSocketProcessRequestLatency", null, new Dictionary<string, double>
-				{
-					{ "Latency", _stopWatch.ElapsedMilliseconds },
-				});
+                _botTelemetryClient.TrackEvent("SkillWebSocketProcessRequestLatency", null, new Dictionary<string, double>
+                {
+                    { "Latency", _stopWatch.ElapsedMilliseconds },
+                });
 
                 // trigger cancel token after activity is handled. this will stop the typing indicator
                 cancellationTokenSource.Cancel();
@@ -86,9 +100,18 @@ namespace Microsoft.Bot.Builder.Skills
                     }
                 }
             }
+            catch (SkillWebSocketCallbackException ex)
+            {
+                _botTelemetryClient.TrackException(ex);
+
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                response.SetBody(ex.Message);
+
+                return response;
+            }
             catch (Exception ex)
             {
-				_botTelemetryClient.TrackException(ex);
+                _botTelemetryClient.TrackException(ex);
 
                 response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }

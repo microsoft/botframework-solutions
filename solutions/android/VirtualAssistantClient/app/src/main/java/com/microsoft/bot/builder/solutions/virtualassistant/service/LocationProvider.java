@@ -76,7 +76,7 @@ public class LocationProvider {
                 }
             };
 
-            fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+            fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
         } else {
             //this will trigger the first time the app is run - just retry after getting permission
             Log.e(LOGTAG, "Missing ACCESS_FINE_LOCATION permission");

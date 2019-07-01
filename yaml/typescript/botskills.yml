@@ -2,30 +2,33 @@
 trigger:
   branches:  
     include:
-    - southworks/*
+    - master
+    - feature/*
 
   paths:
     include:
-    - lib/typescript/botskills/*
+    - tools/botskills/*
+
+# By default will disable PR builds
+pr: none 
 
 pool:
   name: Hosted VS2017
   demands:
   - npm
   - npm
-
 steps:
 - task: Npm@1
   displayName: 'npm install'
   inputs:
-    workingDir: lib/typescript/botskills
+    workingDir: tools/botskills
     verbose: false
 
 - task: Npm@1
   displayName: 'npm run build'
   inputs:
     command: custom
-    workingDir: lib/typescript/botskills
+    workingDir: tools/botskills
     verbose: false
     customCommand: 'run build'
 
@@ -33,21 +36,21 @@ steps:
   displayName: 'npm test - coverage'
   inputs:
     command: custom
-    workingDir: lib/typescript/botskills
+    workingDir: tools/botskills
     verbose: false
-    customCommand: 'run coverage'
+    customCommand: 'run test-coverage-ci'
     
 - task: PublishTestResults@2
   displayName: 'publish test results'
   inputs:
     testResultsFiles: 'test-results.xml'
-    searchFolder: 'lib/typescript/botskills'
+    searchFolder: 'tools/botskills'
     failTaskOnFailedTests: true    
 
 - task: PublishCodeCoverageResults@1
   displayName: 'publish code coverage'
   inputs:
     codeCoverageTool: Cobertura
-    summaryFileLocation: 'lib/typescript/botskills/coverage/cobertura-coverage.xml'
-    reportDirectory: 'lib/typescript/botskills/coverage/'
+    summaryFileLocation: 'tools/botskills/coverage/cobertura-coverage.xml'
+    reportDirectory: 'tools/botskills/coverage/'
 
