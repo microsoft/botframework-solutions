@@ -27,7 +27,6 @@ else {
 # Get mandatory parameters
 if (-not $name) {
     $name = Read-Host "? Base name for Cognitive Models"
-    $resourceGroup = $name
 }
 
 if (-not $luisAuthoringRegion) {
@@ -59,12 +58,38 @@ if (-not $luisAuthoringKey) {
 	}
 }
 
+if (-not $luisAccountName) {
+    $luisAccountName = Read-Host "? LUIS Service Name (exising service in Azure required)"
+}
+
+if (-not $resourceGroup) {
+	$resourceGroup = $name
+
+	$rgExists = az group exists -n $resourceGroup
+	if ($rgExists -eq "false")
+	{
+	    $resourceGroup = Read-Host "? Luis Service Resource Group (exising service in Azure required)"
+	}
+}
+
+if (-not $luisSubscriptionKey) {
+	$keys = az cognitiveservices account keys list --name $luisAccountName --resource-group $resourceGroup | ConvertFrom-Json
+
+	if ($keys) {
+		$luisSubscriptionKey = $keys.key1
+	}
+	else {
+		Write-Host "! Could not retrieve LUIS Subscription Key." -ForgroundColor DarkRed
+		Write-Host "+ Verify the -luisAccountName and -resourceGroup parameters are correct." -ForegroundColor Magenta
+	}
+}
+
 if (-not $qnaSubscriptionKey) {
     $qnaSubscriptionKey = Read-Host "? QnA Maker Subscription Key"
 }
 
 $azAccount = az account show | ConvertFrom-Json
-$azAccessToken = az account get-access-token | ConvertFrom-Json
+$azAccessToken = $(Invoke-Expression "az account get-access-token") | ConvertFrom-Json
 
 # Get languages
 $languageArr = $languages -split ","
@@ -107,16 +132,24 @@ foreach ($language in $languageArr)
 			-language $language `
 			-log $logFile
         
+		Write-Host "> Setting LUIS subscription key ..."
 		if ($luisApp) {
 			# Setting subscription key
-			luis add appazureaccount `
+			$addKeyResult = luis add appazureaccount `
 				--appId $luisApp.id `
-				--accountName $luisAccountName `
 				--authoringKey $luisAuthoringKey `
 				--region $luisAuthoringRegion `
-				--armToken $azAccessToken.accessToken `
+				--accountName $luisAccountName `
 				--azureSubscriptionId $azAccount.id `
-				--resourceGroup $resourceGroup
+				--resourceGroup $resourceGroup `
+				--armToken "$($azAccessToken.accessToken)" 2>> $logFile
+
+			if (-not $addKeyResult) {
+				$luisKeySet = $false
+				Write-Host "! Could not assign subscription key automatically. Review the log for more information. " -ForegroundColor DarkRed
+				Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
+				Write-Host "+ Please assign your subscription key manually in the LUIS portal." -ForegroundColor Magenta
+			}
 
 			 # Add luis app to dispatch
 			Write-Host "> Adding $($lu.BaseName) app to dispatch model ..."
@@ -194,14 +227,22 @@ foreach ($language in $languageArr)
 		$dispatchApp  = $dispatch | ConvertFrom-Json
 
 		# Setting subscription key
-		luis add appazureaccount `
-			--appId dispatchApp.appId `
+		Write-Host "> Setting LUIS subscription key ..."
+		$addKeyResult = luis add appazureaccount `
+			--appId $dispatchApp.appId `
 			--accountName $luisAccountName `
 			--authoringKey $luisAuthoringKey `
 			--region $luisAuthoringRegion `
-			--armToken $azAccessToken.accessToken `
 			--azureSubscriptionId $azAccount.id `
-			--resourceGroup $resourceGroup
+			--resourceGroup $resourceGroup `
+			--armToken $azAccessToken.accessToken 2>> $logFile
+
+		if (-not $addKeyResult) {
+			$luisKeySet = $false
+			Write-Host "! Could not assign subscription key automatically. Review the log for more information. " -ForegroundColor DarkRed
+			Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
+			Write-Host "+ Please assign your subscription key manually in the LUIS portal." -ForegroundColor Magenta
+		}
 
 	    # Add to config
 		$config.dispatchModel = @{
