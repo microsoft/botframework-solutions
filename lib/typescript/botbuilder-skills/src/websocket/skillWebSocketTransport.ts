@@ -15,7 +15,7 @@ export class SkillWebSocketTransport implements ISkillTransport {
     private streamingTransportClient!: IStreamingTransportClient;
     private endOfConversation: boolean;
 
-    constructor(
+    public constructor(
         skillManifest: ISkillManifest,
         appCredentials: MicrosoftAppCredentials,
         streamingTransportClient?: IStreamingTransportClient
@@ -35,11 +35,9 @@ export class SkillWebSocketTransport implements ISkillTransport {
         activity: Partial<Activity>,
         tokenRequestHandler?: TokenRequestHandler|undefined
     ): Promise<boolean> {
-        if (!this.streamingTransportClient) {
+        if (this.streamingTransportClient === undefined) {
             // acquire AAD token
             MicrosoftAppCredentials.trustServiceUrl(this.skillManifest.endpoint);
-            const token: string = await this.appCredentials.getToken();
-
             // put AAD token in the header
             // MISSING Client doesn't has ctor with headers
 
@@ -73,7 +71,7 @@ export class SkillWebSocketTransport implements ISkillTransport {
     }
 
     public disconnect(): void {
-        if (this.streamingTransportClient) {
+        if (this.streamingTransportClient !== undefined) {
             this.streamingTransportClient.disconnect();
         }
     }
