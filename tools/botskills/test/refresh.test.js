@@ -35,7 +35,7 @@ describe("The refresh command", function () {
 
             strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:
 Error: Path to the Dispatch folder (${config.dispatchFolder}) leads to a nonexistent folder.
-Remember to use the argument '--dispatchFOlder' for your Assistant's Dispatch folder.`);
+Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch folder.`);
         });
 
         it("when the dispatchName points to a nonexistent file", async function () {

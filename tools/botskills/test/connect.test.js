@@ -258,7 +258,7 @@ Make sure your Skill's .lu file's name matches your Skill's manifest id`);
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
 Error: An error ocurred while updating the Dispatch model:
 Error: Path to the Dispatch folder (${config.dispatchFolder}) leads to a nonexistent folder.
-Remember to use the argument '--dispatchFOlder' for your Assistant's Dispatch folder.`);
+Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch folder.`);
         });
 
         it("when the .dispatch file path leads to a nonexistent file", async function () {
