@@ -18,7 +18,7 @@
     <RestoreAdditionalProjectSources>
       https://botbuilder.myget.org/F/experimental/api/v3/index.json;
     </RestoreAdditionalProjectSources>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies> 
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
