@@ -13,12 +13,12 @@ export class EventPrompt extends ActivityPrompt {
     /**
      * EventPrompt
      */
-    constructor(dialogId: string, eventName: string, validator: PromptValidator<Activity>) {
+    public constructor(dialogId: string, eventName: string, validator: PromptValidator<Activity>) {
         super(dialogId, validator);
         this.eventName = eventName;
     }
 
-    protected onRecognize(context: TurnContext, state: object, options: PromptOptions): Promise<PromptRecognizerResult<Activity>> {
+    protected async onRecognize(context: TurnContext, state: object, options: PromptOptions): Promise<PromptRecognizerResult<Activity>> {
         const result: PromptRecognizerResult<Activity> = { succeeded: false };
         const activity: Activity = context.activity;
 

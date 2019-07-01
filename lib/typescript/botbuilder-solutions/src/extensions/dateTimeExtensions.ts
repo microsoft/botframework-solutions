@@ -9,22 +9,22 @@ import i18next from 'i18next';
 export namespace DateTimeExtensions {
     let currentLocale: string;
 
-    function importLocale(locale: string): void {
+    async function importLocale(locale: string): Promise<void> {
         try {
             const localeImport: string = locale === 'zh' ?
-            `../resources/customizeLocale/zh` :
-            `dayjs/locale/${locale}`;
-            import(localeImport);
+                `../resources/customizeLocale/zh` :
+                `dayjs/locale/${locale}`;
+            await import(localeImport);
         } catch (err) {
             throw new Error(`There was an error during the import of the locale:${locale}, Error:${err}`);
         }
     }
 
-    export function toSpeechDateString(date: Date, includePrefix: boolean = false): string {
+    export async function toSpeechDateString(date: Date, includePrefix: boolean = false): Promise<string> {
         const locale: string = i18next.language;
         if (currentLocale !== locale) {
             currentLocale = locale;
-            importLocale(locale);
+            await importLocale(locale);
         }
         const utcDate: Date = new Date();
         utcDate.setHours(date.getHours());
