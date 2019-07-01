@@ -372,6 +372,10 @@ public class SpeechService extends Service {
                     Log.i(TAG_FOREGROUND_SERVICE, "OpenDefaultApp");
                     openDefaultApp(botConnectorActivity);
                     break;
+                case "SeatHeaterOn":
+                case "SeatHeaterOff":
+                    broadcastWidgetUpdate(botConnectorActivity);
+                    break;
                 default:
                     break;
             }
@@ -411,7 +415,6 @@ public class SpeechService extends Service {
 
     private void broadcastActivity(BotConnectorActivity botConnectorActivity){
         final String json = gson.toJson(botConnectorActivity);
-
         final Intent intent=new Intent();
         intent.setAction("com.microsoft.broadcast");
         intent.putExtra("BotConnectorActivity",json);
@@ -420,10 +423,17 @@ public class SpeechService extends Service {
 
     private void broadcastTimeout(RequestTimeout event){
         final String json = gson.toJson(event);
-
         final Intent intent=new Intent();
         intent.setAction("com.microsoft.broadcast");
         intent.putExtra("RequestTimeout",json);
+        sendBroadcast(intent);
+    }
+
+    private void broadcastWidgetUpdate(BotConnectorActivity botConnectorActivity){
+        final String json = gson.toJson(botConnectorActivity);
+        final Intent intent=new Intent();
+        intent.setAction("com.microsoft.broadcast");
+        intent.putExtra("WidgetUpdate",json);
         sendBroadcast(intent);
     }
 
