@@ -18,7 +18,7 @@ export class SkillMiddleware implements Middleware {
     private readonly skillContextAccessor: StatePropertyAccessor<SkillContext>;
     private readonly dialogStateAccessor: StatePropertyAccessor<DialogState>;
 
-    constructor(
+    public constructor(
         conversationState: ConversationState,
         skillContextAccessor: StatePropertyAccessor<SkillContext>,
         dialogStateAccessor: StatePropertyAccessor<DialogState>
@@ -35,9 +35,10 @@ export class SkillMiddleware implements Middleware {
         if (activity !== undefined && activity.type === ActivityTypes.Event) {
             if (activity.name === SkillEvents.skillBeginEventName && activity.value !== undefined) {
                 const activityValue: string = JSON.stringify(activity.value);
+                // eslint-disable-next-line @typescript-eslint/tslint/config
                 const skillContext: SkillContext = JSON.parse(activityValue);
                 //Check for parsing
-                if (skillContext) {
+                if (skillContext !== undefined) {
                     await this.skillContextAccessor.set(turnContext, skillContext);
                 }
             } else if (activity.name === SkillEvents.cancelAllSkillDialogsEventName) {

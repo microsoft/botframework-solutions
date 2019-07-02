@@ -8,7 +8,7 @@ export class SkillHttpBotAdapter extends BotAdapter implements IActivityHandler,
     private readonly telemetryClient: BotTelemetryClient;
     private readonly queuedActivities: Partial<Activity>[];
 
-    constructor(telemetryClient: BotTelemetryClient) {
+    public constructor(telemetryClient: BotTelemetryClient) {
         super();
         this.telemetryClient = telemetryClient;
         this.queuedActivities = [];
@@ -17,7 +17,7 @@ export class SkillHttpBotAdapter extends BotAdapter implements IActivityHandler,
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses: ResourceResponse[] = [];
 
-        activities.forEach(async (activity: Partial<Activity>) => {
+        activities.forEach(async (activity: Partial<Activity>): Promise<void> => {
             if (!activity.id) {
                 activity.id = uuid();
             }
@@ -31,6 +31,7 @@ export class SkillHttpBotAdapter extends BotAdapter implements IActivityHandler,
                 // hack directly in the POST method. Replicating that here
                 // to keep the behavior as close as possible to facilitate
                 // more realistic tests.
+                // eslint-disable-next-line @typescript-eslint/tslint/config
                 const delayMs: number = activity.value;
                 await sleep(delayMs);
             } else if (activity.type === ActivityTypes.Trace && activity.channelId !== 'emulator') {
@@ -48,15 +49,15 @@ export class SkillHttpBotAdapter extends BotAdapter implements IActivityHandler,
         return responses;
     }
 
-    public deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
+    public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
         throw new Error('Http Request/Response model doesn\'t support DeleteActivityAsync call!');
     }
 
-    public updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
+    public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
         throw new Error('Http Request/Response model doesn\'t support UpdateActivityAsync call!');
     }
 
-    public continueConversation(reference: Partial<ConversationReference>, logic: BotCallbackHandler): Promise<void> {
+    public async continueConversation(reference: Partial<ConversationReference>, logic: BotCallbackHandler): Promise<void> {
         throw new Error('Http Request/Response model doesn\'t support ContinueConversationAsync call!');
     }
 
@@ -96,7 +97,7 @@ export class SkillHttpBotAdapter extends BotAdapter implements IActivityHandler,
     }
 }
 
-function sleep(delay: number): Promise<void> {
+async function sleep(delay: number): Promise<void> {
     return new Promise<void>((resolve: (value: void) => void): void => {
         setTimeout(resolve, delay);
     });

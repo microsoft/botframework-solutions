@@ -60,7 +60,7 @@ export namespace ActivityExtensions {
             case 'msteams': {
                 if (activity.type === ActivityTypes.ConversationUpdate) {
                     if (activity.membersAdded !== undefined &&
-                        activity.membersAdded.some((m: ChannelAccount) => m.id === activity.recipient.id)) {
+                        activity.membersAdded.some((m: ChannelAccount): boolean => m.id === activity.recipient.id)) {
                         // When bot is added to the conversation (triggers start only once per conversation)
                         return true;
                     }

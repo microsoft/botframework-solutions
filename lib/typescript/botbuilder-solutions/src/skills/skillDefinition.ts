@@ -19,7 +19,7 @@ export class SkillDefinition extends ConnectedService {
 
     public configuration: Map<string, string> = new Map();
 
-    constructor() {
+    public constructor() {
         super(undefined, ServiceTypes.Generic);
     }
 }

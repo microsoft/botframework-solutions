@@ -16,14 +16,14 @@ export namespace SkillRouter {
      * @returns Whether the intent matches a Skill.
      */
     export function isSkill(skillConfiguration: ISkillManifest[], dispatchIntent: string): ISkillManifest|undefined {
-        const manifest: ISkillManifest|undefined = skillConfiguration.find((skillManifest: ISkillManifest) => {
-            return skillManifest.actions.some((action: IAction) => {
+        const manifest: ISkillManifest|undefined = skillConfiguration.find((skillManifest: ISkillManifest): boolean => {
+            return skillManifest.actions.some((action: IAction): boolean => {
                 return action.id === dispatchIntent;
             });
         });
 
         if (manifest === undefined) {
-            return skillConfiguration.find((s: ISkillManifest) => s.id === dispatchIntent);
+            return skillConfiguration.find((s: ISkillManifest): boolean => s.id === dispatchIntent);
         }
 
         return manifest;
