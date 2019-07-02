@@ -7,8 +7,9 @@ The most common scenarios have been implemented in this beta release, with addit
 
 - [Supported Sources](#supported-sources)
 - [Supported Scenarios](#supported-scenarios)
+- [Scenario Configurations](#scenario-configurations)
 - [Skill Deployment](#skill-deployment)
-- [Language Model](#language-model)
+- [Language Model](#language-model))
 
 ## Supported Sources
 
@@ -57,6 +58,27 @@ The following scenarios are currently supported by the Skill:
 - Select an Email
   - *The third search result please*
   - *Open this one*
+
+## Scenario Configurationsn
+
+In dialogs such as `Send Email`, the user needs to provide information such as sibject and  content before able to send an email. Depending on the user context (e.g. Speech driven and whilst driving) you can configure default slot-filling to minimise the number of questions - e.g. `Send an email to alex about the exec review saying can you send me the deck from last week` would send email with no further prompts beyond confirmation.
+
+This behaviour can be configured in the Skill `appsettings.json` by setting `isSkipByDefault` to true, and modify `EmailSubject` and `EmailMessage` default values in `EmailCommonStrings.resx` to set default value of different locales.
+
+```json
+"defaultValue": {
+    "sendEmail": [
+        {
+            "name": "EmailSubject",
+            "isSkipByDefault": false
+        },
+        {
+            "name": "EmailMessage",
+            "isSkipByDefault": false
+        }
+    ]
+ }
+```
 
 ## Skill Deployment
 

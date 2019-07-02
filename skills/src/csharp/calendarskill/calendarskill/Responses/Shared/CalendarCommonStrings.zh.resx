@@ -291,4 +291,10 @@
   <data name="ShowMeetingsIndicator" xml:space="preserve">
     <value>**{0}-{1}**，共{2}</value>
   </data>
+  <data name="DefaultContent" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DefaultLocation" xml:space="preserve">
+    <value />
+  </data>
 </root>
