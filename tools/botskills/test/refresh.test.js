@@ -20,12 +20,12 @@ describe("The refresh command", function () {
         it("when the dispatchFolder points to a nonexistent folder", async function () {
             const config = {
                 dispatchName : "",
-                dispatchFolder : resolve(__dirname, "..", "nonexistentDispatchFolder"),
+                dispatchFolder : resolve(__dirname, "mocks", "fail", "nonexistentDispatch"),
                 language: "ts",
                 luisFolder: "",
                 lgLanguage: "cs",
                 outFolder: "",
-                lgOutFolder: resolve(__dirname, "..", "mocks", "resources"),
+                lgOutFolder: resolve(__dirname, "mocks", "success", "luis"),
                 cognitiveModelsFile: "",
                 logger: this.logger
             };
@@ -40,13 +40,13 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
 
         it("when the dispatchName points to a nonexistent file", async function () {
             const config = {
-                dispatchName : "filledDispatchNoJson",
-                dispatchFolder : resolve(__dirname, join("mocks", "resources", "dispatchFolder")),
+                dispatchName : "nonexistentDispatch",
+                dispatchFolder : resolve(__dirname, join("mocks", "success", "dispatch")),
                 language: "ts",
                 luisFolder: "",
                 lgLanguage: "cs",
                 outFolder: "",
-                lgOutFolder: resolve(__dirname, "..", "mocks", "resources"),
+                lgOutFolder: resolve(__dirname, "mocks", "success", "luis"),
                 cognitiveModelsFile: "",
                 logger: this.logger
             };
@@ -68,7 +68,7 @@ Make sure to use the argument '--dispatchName' for your Assistant's Dispatch fil
             });
             const config = {
                 dispatchName:  "connectableSkill",
-                dispatchFolder : resolve(__dirname, join("mocks", "resources", "dispatchFolder")),
+                dispatchFolder : resolve(__dirname, join("mocks", "success", "dispatch")),
                 language: "ts",
                 luisFolder: "",
                 lgLanguage: "cs",
@@ -95,12 +95,12 @@ Error: Mocked function throws an Error`);
             });
             const config = {
                 dispatchName : "connectableSkill",
-                dispatchFolder : resolve(__dirname, join("mocks", "resources", "successfulConnectFiles")),
+                dispatchFolder : resolve(__dirname, join("mocks", "success", "dispatch")),
                 language: "ts",
                 luisFolder: "",
                 lgLanguage: "cs",
                 outFolder: "",
-                lgOutFolder: resolve(__dirname, "mocks", "resources"),
+                lgOutFolder: resolve(__dirname, "mocks", "success", "luis"),
                 cognitiveModelsFile: "",
                 logger: this.logger
             };

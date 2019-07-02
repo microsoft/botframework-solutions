@@ -9,7 +9,7 @@ const { join, resolve } = require("path");
 const sandbox = require("sinon").createSandbox();
 const testLogger = require("./helpers/testLogger");
 const botskills = require("../lib/index");
-const filledSkillsArray = JSON.stringify(
+const filledSkills = JSON.stringify(
     {
         "skills": [
             {
@@ -25,16 +25,14 @@ const filledSkillsArray = JSON.stringify(
 describe("The connect command", function () {
     
     beforeEach(function () {
-        writeFileSync(resolve(__dirname, join("mocks", "resources", "filledSkillsArray.json")), filledSkillsArray);
-        writeFileSync(resolve(__dirname, join("mocks", "resources", "successfulConnectFiles", "filledSkillsArray.json")), filledSkillsArray);
+        writeFileSync(resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")), filledSkills);
 
         this.logger = new testLogger.TestLogger();
         this.connector = new botskills.ConnectSkill(this.logger);
     })
 
     after(function () {
-        writeFileSync(resolve(__dirname, join("mocks", "resources", "filledSkillsArray.json")), filledSkillsArray);
-        writeFileSync(resolve(__dirname, join("mocks", "resources", "successfulConnectFiles", "filledSkillsArray.json")), filledSkillsArray);  
+        writeFileSync(resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")), filledSkills);
     })
 
 	describe("should show an error", function () {
@@ -67,7 +65,7 @@ Error: Either the 'localManifest' or 'remoteManifest' argument should be passed.
         it("when the localManifest points to a nonexisting Skill manifest file", async function () {
             const config = {
                 botName: "",
-                localManifest: resolve(__dirname, join("mocks", "resources", "nonexistentSkill.json")),
+                localManifest: resolve(__dirname, join("mocks", "skills", "nonexistentSkill.json")),
                 remoteManifest: "",
                 dispatchName: "",
                 language: "",
@@ -94,7 +92,7 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
         it("when the Skill is missing all mandatory fields", async function () {
             const config = {
                 botName: "",
-                localManifest: resolve(__dirname, join("mocks", "resources", "invalidSkill.json")),
+                localManifest: resolve(__dirname, join("mocks", "skills", "invalidManifest.json")),
                 remoteManifest: "",
                 dispatchName: "",
                 language: "",
@@ -129,7 +127,7 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
         it("when the Skill has an invalid id field", async function () {
             const config = {
                 botName: "",
-                localManifest: resolve(__dirname, join("mocks", "resources", "invalidSkillid.json")),
+                localManifest: resolve(__dirname, join("mocks", "skills", "invalidIdManifest.json")),
                 remoteManifest: "",
                 dispatchName: "",
                 language: "",
@@ -180,15 +178,15 @@ RequestError: Error: getaddrinfo ENOTFOUND nonexistentskill.azurewebsites.net no
         it("when the luisFolder leads to a nonexistent folder", async function () {
             const config = {
                 botName: "",
-                localManifest: resolve(__dirname, join("mocks", "resources", "connectableSkill.json")),
+                localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifest.json")),
                 remoteManifest: "",
                 dispatchName: "",
                 language: "",
-                luisFolder: resolve(__dirname, join("mocks", "resources", "nonexistentLuisFolder")),
+                luisFolder: resolve(__dirname, join("mocks", "fail", "nonexistentLuis")),
                 dispatchFolder: "",
                 outFolder: "",
                 lgOutFolder: "",
-                skillsFile: resolve(__dirname, join("mocks", "resources", "filledSkillsArray.json")),
+                skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
                 resourceGroup: "",
                 appSettingsFile: "",
                 cognitiveModelsFile: "",
@@ -208,15 +206,15 @@ Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
         it("when the .lu file path leads to a nonexistent file", async function () {
             const config = {
                 botName: "",
-                localManifest: resolve(__dirname, join("mocks", "resources", "connectableSkill.json")),
+                localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifest.json")),
                 remoteManifest: "",
                 dispatchName: "",
                 language: "",
-                luisFolder: resolve(__dirname, join("mocks", "resources")),
+                luisFolder: resolve(__dirname, join("mocks", "success")),
                 dispatchFolder: "",
                 outFolder: "",
                 lgOutFolder: "",
-                skillsFile: resolve(__dirname, join("mocks", "resources", "filledSkillsArray.json")),
+                skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
                 resourceGroup: "",
                 appSettingsFile: "",
                 cognitiveModelsFile: "",
@@ -236,15 +234,15 @@ Make sure your Skill's .lu file's name matches your Skill's manifest id`);
         it("when the dispatch folder path leads to a nonexistent folder", async function () {
             const config = {
                 botName: "",
-                localManifest: resolve(__dirname, join("mocks", "resources", "connectableSkill.json")),
+                localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifest.json")),
                 remoteManifest: "",
                 dispatchName: "",
                 language: "",
-                luisFolder: resolve(__dirname, join("mocks", "resources", "luisFolder")),
-                dispatchFolder: resolve(__dirname, join("mocks", "resources", "nonexistentDispatchFolder")),
+                luisFolder: resolve(__dirname, join("mocks", "success", "luis")),
+                dispatchFolder: resolve(__dirname, join("mocks", "fail", "nonexistentDispatch")),
                 outFolder: "",
                 lgOutFolder: "",
-                skillsFile: resolve(__dirname, join("mocks", "resources", "filledSkillsArray.json")),
+                skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
                 resourceGroup: "",
                 appSettingsFile: "",
                 cognitiveModelsFile: "",
@@ -264,15 +262,15 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
         it("when the .dispatch file path leads to a nonexistent file", async function () {
             const config = {
                 botName: "",
-                localManifest: resolve(__dirname, join("mocks", "resources", "connectableSkill.json")),
+                localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifest.json")),
                 remoteManifest: "",
-                dispatchName: "nonexistentDispatchFile",
+                dispatchName: "nonexistentDispatch",
                 language: "",
-                luisFolder: resolve(__dirname, join("mocks", "resources", "luisFolder")),
-                dispatchFolder: resolve(__dirname, join("mocks", "resources", "dispatchFolder")),
+                luisFolder: resolve(__dirname, join("mocks", "success", "luis")),
+                dispatchFolder: resolve(__dirname, join("mocks", "success", "dispatch")),
                 outFolder: "",
                 lgOutFolder: "",
-                skillsFile: resolve(__dirname, join("mocks", "resources", "filledSkillsArray.json")),
+                skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
                 resourceGroup: "",
                 appSettingsFile: "",
                 cognitiveModelsFile: "",
@@ -295,15 +293,15 @@ Make sure to use the argument '--dispatchName' for your Assistant's Dispatch fil
             });
             const config = {
                 botName: "",
-                localManifest: resolve(__dirname, join("mocks", "resources", "connectableSkill.json")),
+                localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifest.json")),
                 remoteManifest: "",
                 dispatchName: "connectableSkill",
                 language: "en",
-                luisFolder: resolve(__dirname, join("mocks", "resources", "luFolder")),
-                dispatchFolder: resolve(__dirname, join("mocks", "resources", "dispatchFolder")),
+                luisFolder: resolve(__dirname, join("mocks", "success", "lu")),
+                dispatchFolder: resolve(__dirname, join("mocks", "success", "dispatch")),
                 outFolder: "",
                 lgOutFolder: "",
-                skillsFile: resolve(__dirname, join("mocks", "resources", "filledSkillsArray.json")),
+                skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
                 resourceGroup: "",
                 appSettingsFile: "",
                 cognitiveModelsFile: "",
@@ -329,15 +327,15 @@ Command: ludown parse toluis --in ${join(config.luisFolder, config.dispatchName)
             });
             const config = {
                 botName: "",
-                localManifest: resolve(__dirname, join("mocks", "resources", "connectableSkill.json")),
+                localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifest.json")),
                 remoteManifest: "",
                 dispatchName: "connectableSkill",
                 language: "",
-                luisFolder: resolve(__dirname, join("mocks", "resources", "luisFolder")),
-                dispatchFolder: resolve(__dirname, join("mocks", "resources", "dispatchFolder")),
+                luisFolder: resolve(__dirname, join("mocks", "success", "luis")),
+                dispatchFolder: resolve(__dirname, join("mocks", "success", "dispatch")),
                 outFolder: "",
                 lgOutFolder: "",
-                skillsFile: resolve(__dirname, join("mocks", "resources", "filledSkillsArray.json")),
+                skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
                 resourceGroup: "",
                 appSettingsFile: "",
                 cognitiveModelsFile: "",
@@ -358,7 +356,7 @@ Error: There was an error while refreshing the Dispatch model.`);
         it("when the Skill is already connected", async function () {
             const config = {
                 botName: "",
-                localManifest: resolve(__dirname, join("mocks", "resources", "testSkill.json")),
+                localManifest: resolve(__dirname, join("mocks", "skills", "repeatedManifest.json")),
                 remoteManifest: "",
                 dispatchName: "",
                 language: "",
@@ -366,7 +364,7 @@ Error: There was an error while refreshing the Dispatch model.`);
                 dispatchFolder: "",
                 outFolder: "",
                 lgOutFolder: "",
-                skillsFile: resolve(__dirname, join("mocks", "resources", "filledSkillsArray.json")),
+                skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
                 resourceGroup: "",
                 appSettingsFile: "",
                 cognitiveModelsFile: "",
@@ -392,16 +390,16 @@ Error: There was an error while refreshing the Dispatch model.`);
             });
             const config = {
                 botName: "",
-                localManifest: resolve(__dirname, join("mocks", "resources", "connectableSkill.json")),
+                localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifest.json")),
                 remoteManifest: "",
                 noRefresh: true,
                 dispatchName: "connectableSkill",
                 language: "",
-                luisFolder: resolve(__dirname, join("mocks", "resources", "successfulConnectFiles")),
-                dispatchFolder: resolve(__dirname, join("mocks", "resources", "successfulConnectFiles")),
+                luisFolder: resolve(__dirname, join("mocks", "success", "luis")),
+                dispatchFolder: resolve(__dirname, join("mocks", "success", "dispatch")),
                 outFolder: "",
                 lgOutFolder: "",
-                skillsFile: resolve(__dirname, join("mocks", "resources", "filledSkillsArray.json")),
+                skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
                 resourceGroup: "",
                 appSettingsFile: "",
                 cognitiveModelsFile: "",
@@ -429,15 +427,15 @@ Error: There was an error while refreshing the Dispatch model.`);
             });
             const config = {
                 botName: "",
-                localManifest: resolve(__dirname, join("mocks", "resources", "successfulConnectFiles", "connectableSkill.json")),
+                localManifest: resolve(__dirname, join("mocks", "skills", "connectableManifest.json")),
                 remoteManifest: "",
                 dispatchName: "connectableSkill",
                 language: "",
-                luisFolder: resolve(__dirname, join("mocks", "resources", "successfulConnectFiles")),
-                dispatchFolder: resolve(__dirname, join("mocks", "resources", "successfulConnectFiles")),
+                luisFolder: resolve(__dirname, join("mocks", "success", "luis")),
+                dispatchFolder: resolve(__dirname, join("mocks", "success", "dispatch")),
                 outFolder: "",
                 lgOutFolder: "",
-                skillsFile: resolve(__dirname, join("mocks", "resources", "successfulConnectFiles", "filledSkillsArray.json")),
+                skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
                 resourceGroup: "",
                 appSettingsFile: "",
                 cognitiveModelsFile: "",
