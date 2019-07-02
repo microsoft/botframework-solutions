@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -367,6 +368,10 @@ public class SpeechService extends Service {
                     Log.i(TAG_FOREGROUND_SERVICE, "Activity with PlayLocalFile");
                     playMediaStream(botConnectorActivity.getFile());
                     break;
+                case "OpenDefaultApp":
+                    Log.i(TAG_FOREGROUND_SERVICE, "OpenDefaultApp");
+                    openDefaultApp(botConnectorActivity);
+                    break;
                 default:
                     break;
             }
@@ -383,7 +388,25 @@ public class SpeechService extends Service {
         catch(IOException e) {
             Log.e(TAG_FOREGROUND_SERVICE, "IOexception " + e.getMessage());
         }
+    }
 
+    private void openDefaultApp(BotConnectorActivity botConnectorActivity){
+        String intentStr = botConnectorActivity.getText();
+        if (intentStr.startsWith("geo")){
+            Uri intentUri = Uri.parse(intentStr);
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, intentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                startActivity(mapIntent);
+            }
+        }
+        if (intentStr.startsWith("tel")){
+            Uri intentUri = Uri.parse(intentStr);
+            Intent dialerIntent = new Intent(Intent.ACTION_DIAL, intentUri);
+            if (dialerIntent.resolveActivity(getPackageManager()) != null) {
+                startActivity(dialerIntent);
+            }
+        }
     }
 
     private void broadcastActivity(BotConnectorActivity botConnectorActivity){
