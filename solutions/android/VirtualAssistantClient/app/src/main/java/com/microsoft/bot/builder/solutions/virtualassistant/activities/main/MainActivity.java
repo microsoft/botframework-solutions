@@ -42,7 +42,7 @@ import com.microsoft.bot.builder.solutions.virtualassistant.activities.configura
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.actionslist.ActionsAdapter;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.actionslist.ActionsViewholder;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ChatAdapter;
-import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ChatViewholder;
+import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ViewholderBot;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ItemOffsetDecoration;
 import com.microsoft.bot.builder.solutions.virtualassistant.assistant.VoiceInteractionActivity;
 
@@ -69,7 +69,7 @@ import events.RecognizedIntermediateResult;
 import events.RequestTimeout;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ChatViewholder.OnClickListener, ActionsViewholder.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ViewholderBot.OnClickListener, ActionsViewholder.OnClickListener {
 
     // VIEWS
     @BindView(R.id.root_container) RelativeLayout uiContainer;
@@ -80,6 +80,7 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.switch_show_textinput) SwitchCompat switchShowTextInput;
+    @BindView(R.id.switch_show_full_conversation) SwitchCompat switchShowFullConversation;
     @BindView(R.id.speech_detection) TextView detectedSpeechToText;
     @BindView(R.id.agent_image) ImageView agentImage;
 
@@ -91,6 +92,7 @@ public class MainActivity extends BaseActivity
     private ChatAdapter chatAdapter;
     private ActionsAdapter suggActionsAdapter;
     private boolean alwaysShowTextInput;
+    private boolean showFullConversation;
     private Handler handler;
     private boolean launchedAsAssistant;
     private Gson gson;
@@ -104,9 +106,14 @@ public class MainActivity extends BaseActivity
         handler = new Handler(Looper.getMainLooper());
         gson = new Gson();
 
+        setupChatRecyclerView();
+        setupSuggestedActionsRecyclerView();
+
         // Options hidden in the nav-drawer
         alwaysShowTextInput = getBooleanSharedPref(SHARED_PREF_SHOW_TEXTINPUT);
         switchShowTextInput.setChecked(alwaysShowTextInput);
+        showFullConversation = getBooleanSharedPref(SHARED_PREF_SHOW_FULL_CONVERSATION);
+        switchShowFullConversation.setChecked(showFullConversation);
 
         // NAV DRAWER
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle( this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -125,9 +132,6 @@ public class MainActivity extends BaseActivity
 
         // make media volume the default
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
-        setupChatRecyclerView();
-        setupSuggestedActionsRecyclerView();
 
         // check if this activity was launched as an assistant
         Intent intent = getIntent();
@@ -300,6 +304,13 @@ public class MainActivity extends BaseActivity
             textInputLayout.setVisibility(View.GONE);
     }
 
+    @OnCheckedChanged(R.id.switch_show_full_conversation)
+    public void OnShowFullConversation(CompoundButton button, boolean checked){
+        showFullConversation = checked;
+        putBooleanSharedPref(SHARED_PREF_SHOW_FULL_CONVERSATION, checked);
+        chatAdapter.setShowFullConversation(showFullConversation);
+    }
+
     @OnEditorAction(R.id.textinput)
     boolean onEditorAction(int actionId, KeyEvent key){
         boolean handled = false;
@@ -314,7 +325,15 @@ public class MainActivity extends BaseActivity
 
     // send text message
     private void sendTextMessage(String msg){
+        if (msg == null || msg.length() == 0) return;
+
         try {
+            // add the users' request to the chat
+            chatAdapter.addUserRequest(msg);
+            // make the chat list scroll automatically after adding a bot response
+            chatRecyclerView.getLayoutManager().scrollToPosition(chatAdapter.getItemCount() - 1);
+
+            // send request to Bot
             speechServiceBinder.sendActivityMessageAsync(msg);
 
             // clear out suggested actions
@@ -379,7 +398,7 @@ public class MainActivity extends BaseActivity
                         }
                     }
 
-                    chatAdapter.addChat(botConnectorActivity, this, this);
+                    chatAdapter.addBotResponse(botConnectorActivity, this, this);
                     // make the chat list scroll automatically after adding a bot response
                     chatRecyclerView.getLayoutManager().scrollToPosition(chatAdapter.getItemCount() - 1);
 

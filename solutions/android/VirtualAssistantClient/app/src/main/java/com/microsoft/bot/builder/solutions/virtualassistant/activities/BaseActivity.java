@@ -36,6 +36,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final Integer PERMISSION_REQUEST_FINE_LOCATION = 102;
     private static final String SHARED_PREFS_NAME = "my_shared_prefs";
     protected static final String SHARED_PREF_SHOW_TEXTINPUT = "SHARED_PREF_SHOW_TEXTINPUT";
+    protected static final String SHARED_PREF_SHOW_FULL_CONVERSATION = "SHARED_PREF_SHOW_FULL_CONVERSATION";
 
     // State
     private SharedPreferences sharedPreferences;

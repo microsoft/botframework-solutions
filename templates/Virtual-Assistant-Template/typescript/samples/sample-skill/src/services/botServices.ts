@@ -15,7 +15,7 @@ export class BotServices {
 
     public cognitiveModelSets: Map<string, Partial<ICognitiveModelSet>> = new Map();
 
-    constructor(settings: Partial<IBotSettings>, telemetryClient: BotTelemetryClient) {
+    public constructor(settings: Partial<IBotSettings>, telemetryClient: BotTelemetryClient) {
         const luisPredictionOptions: LuisPredictionOptions = {
             telemetryClient: telemetryClient,
             logPersonalInformation: true
@@ -24,14 +24,14 @@ export class BotServices {
         try {
             if (settings.cognitiveModels !== undefined) {
 
-                settings.cognitiveModels.forEach((value: ICognitiveModelConfiguration, key: string) => {
+                settings.cognitiveModels.forEach((value: ICognitiveModelConfiguration, key: string): void => {
                     const language: string = key;
                     const config: ICognitiveModelConfiguration = value;
                     const cognitiveModelSet: Partial<ICognitiveModelSet> = {
                         luisServices: new Map()
                     };
 
-                    config.languageModels.forEach((model: LuisService) => {
+                    config.languageModels.forEach((model: LuisService): void => {
                         const luisService: LuisService = new LuisService(model);
                         const luisApp: LuisApplication  = {
                             applicationId: luisService.appId,
@@ -47,7 +47,7 @@ export class BotServices {
                 });
             }
         } catch (err) {
-            throw new Error(err);
+            throw err;
         }
     }
 }

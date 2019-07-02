@@ -11,34 +11,59 @@ import android.view.ViewGroup;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import client.model.BotConnectorActivity;
 
-public class ChatAdapter extends RecyclerView.Adapter<ChatViewholder> {
+public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     // CONSTANTS
-    private final int CONTENT_VIEW = R.layout.item_chat;
     private static final String LOGTAG = "ChatAdapter";
+    private static final int MSG_TYPE_BOT = 1;
+    private static final int MSG_TYPE_USER = 2;
 
     // STATE
-    private ArrayList<BotConnectorActivity> chatList = new ArrayList<>();
+    private ArrayList<ChatModel> chatList = new ArrayList<>();
     private AppCompatActivity parentActivity;
-    private ChatViewholder.OnClickListener clickListener;
-    private static int MAX_CHAT_ITEMS = 1;
+    private ViewholderBot.OnClickListener clickListener;
+    private static int MAX_CHAT_ITEMS = 2;
+    private boolean showFullConversation;
 
 
     @NonNull
     @Override
-    public ChatViewholder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(CONTENT_VIEW, parent, false);
-        return new ChatViewholder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder viewHolder = null;
+
+        if (viewType == MSG_TYPE_BOT) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_bot, parent, false);
+            viewHolder = new ViewholderBot(view);
+        }
+        if (viewType == MSG_TYPE_USER) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_user, parent, false);
+            viewHolder = new ViewholderUser(view);
+        }
+
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChatViewholder chatViewholder, int position) {
-        BotConnectorActivity botConnectorActivity = chatList.get(position);
-        chatViewholder.bind(botConnectorActivity, parentActivity, clickListener);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        ChatModel chatModel = chatList.get(position);
+        if (getItemViewType(position) == MSG_TYPE_BOT) {
+            ((ViewholderBot)viewHolder).bind(chatModel, parentActivity, clickListener);
+        }
+        if (getItemViewType(position) == MSG_TYPE_USER) {
+            ((ViewholderUser)viewHolder).bind(chatModel, parentActivity);
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        ChatModel chatModel = chatList.get(position);
+        if (chatModel.userRequest != null)
+            return MSG_TYPE_USER;
+        else
+            return MSG_TYPE_BOT;
     }
 
     @Override
@@ -47,15 +72,33 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatViewholder> {
         return chatList.size();
     }
 
-    public void addChat(BotConnectorActivity botConnectorActivity, AppCompatActivity parentActivity, ChatViewholder.OnClickListener clickListener) {
+    public void setShowFullConversation(boolean showFullConversation){
+        this.showFullConversation = showFullConversation;
+        chatList.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addBotResponse(BotConnectorActivity botConnectorActivity, AppCompatActivity parentActivity, ViewholderBot.OnClickListener clickListener) {
         Log.v(LOGTAG, "showing row id "+ botConnectorActivity.getId());
         this.parentActivity = parentActivity;
         this.clickListener = clickListener;
-        chatList.add(botConnectorActivity);
+        ChatModel chatModel = new ChatModel(botConnectorActivity);
+        chatList.add(chatModel);
         if (chatList.size() > MAX_CHAT_ITEMS) {
             chatList.remove(0);
         }
         notifyDataSetChanged();
+    }
+
+    public void addUserRequest(String request) {
+        if (showFullConversation) {
+            ChatModel chatModel = new ChatModel(request);
+            chatList.add(chatModel);
+            if (chatList.size() > MAX_CHAT_ITEMS) {
+                chatList.remove(0);
+            }
+            notifyDataSetChanged();
+        }
     }
 
     public void setChatItemHistoryCount(int count){
@@ -63,12 +106,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatViewholder> {
         while (chatList.size() > MAX_CHAT_ITEMS) {
             chatList.remove(0);
         }
-        notifyDataSetChanged();
-    }
-
-    public void swapChatList(List<BotConnectorActivity> newChatList) {
-        chatList.clear();
-        chatList.addAll(newChatList);
         notifyDataSetChanged();
     }
 }
