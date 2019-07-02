@@ -17,7 +17,11 @@ namespace Microsoft.Bot.Builder.Skills.Tests.Mocks
 		{
 		}
 
-		public Task<bool> ForwardToSkillAsync(ITurnContext dialogContext, Activity activity, Action<Activity> tokenRequestHandler = null)
+		public Task<bool> ForwardToSkillAsync(
+            ITurnContext dialogContext,
+            Activity activity,
+            Action<Activity> tokenRequestHandler = null,
+            Action<Activity> fallbackHandler = null)
 		{
 			_activityForwarded = activity;
 
