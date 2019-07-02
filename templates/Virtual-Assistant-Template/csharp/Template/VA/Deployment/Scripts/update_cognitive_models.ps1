@@ -52,6 +52,7 @@ foreach ($langCode in $languageMap.Keys) {
 				--type "luis" `
 				--name $luisApp.name `
 				--id $luisApp.appid  `
+				--region $luisApp.region `
 				--intentName "l_$($luisApp.id)" `
                 --dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
                 --dataFolder $(Join-Path $dispatchFolder $langCode))  2>> $logFile | Out-Null
@@ -92,6 +93,7 @@ foreach ($langCode in $languageMap.Keys) {
 				-lu_file $lu `
 				-appId $luisApp.appid `
 				-version $luisApp.version `
+				-region $luisApp.region `
 				-authoringKey $luisApp.authoringKey `
 				-subscriptionKey $app.subscriptionKey
 		}

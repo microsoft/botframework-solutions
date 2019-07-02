@@ -321,6 +321,10 @@
     }
   ],
   "outputs": {
+    "botWebAppName": {
+      "type": "string",
+      "value": "[parameters('botWebAppName')]"
+    },
     "ApplicationInsights": {
       "type": "object",
       "value": {
