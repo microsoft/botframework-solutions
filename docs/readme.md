@@ -57,7 +57,7 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [How-To: Add a new Skill to your Assistant](/docs/howto/skills/addingskills.md) | Adding a Skill |
+| [How-To: Add a new Skill to your Assistant](/docs/howto/skills/botskills.md#Connect-Skills) | Adding a Skill |
 | How-To: Add Skills to an existing SDK v4 bot<br/><br/><p align="center">[![Adding Skill support to a v4 SDK Bot with C#](./media/csharp_icon.png)](/docs/howto/skills/csharp/addskillsupportforv4bot.md) [![Adding Skill support to a v4 SDK Bot with TypeScript](./media/typescript_icon.png)](/docs/howto/skills/typescript/addskillsupportforv4bot.md)</p>|How to add Skills to an existing bot (not Virtual Assistant template). | 
 |How-To: Convert an existing v4 SDK Bot to a Skill <br/><br/><p align="center">[![Enable Skills on an existing v4 SDK Bot with C#](./media/csharp_icon.png)](/docs/howto/skills/csharp/skillenablingav4bot.md) [![Enable Skills on an existing v4 SDK Bot with TypeScript](./media/typescript_icon.png)](/docs/howto/skills/typescript/skillenablingav4bot.md)</p> | Steps required to take an existing and make it available as a skill. |
 | [How-To: Develop a Skill](/docs/howto/skills/bestpractices.md) | Best practices for developing your Bot Framework Skill |
