@@ -4,7 +4,10 @@ Param(
 	[string] $name,
 	[string] $luisAuthoringRegion,
     [string] $luisAuthoringKey,
+	[string] $luisAccountName,
+	[string] $luisSubscriptionKey,
     [string] $qnaSubscriptionKey,
+	[string] $resourceGroup,
     [string] $languages = "en-us",
     [string] $outFolder = $(Get-Location),
 	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_cognitive_models_log.txt")
@@ -24,7 +27,6 @@ else {
 # Get mandatory parameters
 if (-not $name) {
     $name = Read-Host "? Base name for Cognitive Models"
-    $resourceGroup = $name
 }
 
 if (-not $luisAuthoringRegion) {
@@ -56,9 +58,38 @@ if (-not $luisAuthoringKey) {
 	}
 }
 
+if (-not $luisAccountName) {
+    $luisAccountName = Read-Host "? LUIS Service Name (exising service in Azure required)"
+}
+
+if (-not $resourceGroup) {
+	$resourceGroup = $name
+
+	$rgExists = az group exists -n $resourceGroup
+	if ($rgExists -eq "false")
+	{
+	    $resourceGroup = Read-Host "? Luis Service Resource Group (exising service in Azure required)"
+	}
+}
+
+if (-not $luisSubscriptionKey) {
+	$keys = az cognitiveservices account keys list --name $luisAccountName --resource-group $resourceGroup | ConvertFrom-Json
+
+	if ($keys) {
+		$luisSubscriptionKey = $keys.key1
+	}
+	else {
+		Write-Host "! Could not retrieve LUIS Subscription Key." -ForgroundColor DarkRed
+		Write-Host "+ Verify the -luisAccountName and -resourceGroup parameters are correct." -ForegroundColor Magenta
+	}
+}
+
 if (-not $qnaSubscriptionKey) {
     $qnaSubscriptionKey = Read-Host "? QnA Maker Subscription Key"
 }
+
+$azAccount = az account show | ConvertFrom-Json
+$azAccessToken = $(Invoke-Expression "az account get-access-token") | ConvertFrom-Json
 
 # Get languages
 $languageArr = $languages -split ","
@@ -93,9 +124,33 @@ foreach ($language in $languageArr)
     foreach ($lu in $luisFiles)
     {
         # Deploy LUIS model
-        $luisApp = DeployLUIS -name $name -lu_file $lu -region $luisAuthoringRegion -luisAuthoringKey $luisAuthoringKey -language $language -log $logFile
+        $luisApp = DeployLUIS `
+			-name $name `
+			-lu_file $lu `
+			-region $luisAuthoringRegion `
+			-luisAuthoringKey $luisAuthoringKey `
+			-language $language `
+			-log $logFile
         
+		Write-Host "> Setting LUIS subscription key ..."
 		if ($luisApp) {
+			# Setting subscription key
+			$addKeyResult = luis add appazureaccount `
+				--appId $luisApp.id `
+				--authoringKey $luisAuthoringKey `
+				--region $luisAuthoringRegion `
+				--accountName $luisAccountName `
+				--azureSubscriptionId $azAccount.id `
+				--resourceGroup $resourceGroup `
+				--armToken "$($azAccessToken.accessToken)" 2>> $logFile
+
+			if (-not $addKeyResult) {
+				$luisKeySet = $false
+				Write-Host "! Could not assign subscription key automatically. Review the log for more information. " -ForegroundColor DarkRed
+				Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
+				Write-Host "+ Please assign your subscription key manually in the LUIS portal." -ForegroundColor Magenta
+			}
+
 			 # Add luis app to dispatch
 			Write-Host "> Adding $($lu.BaseName) app to dispatch model ..."
 			(dispatch add `
@@ -111,8 +166,8 @@ foreach ($language in $languageArr)
 				id = $lu.BaseName
 				name = $luisApp.name
 				appid = $luisApp.id
-				authoringkey = $luisauthoringkey
-				subscriptionkey = $luisauthoringkey
+				authoringkey = $luisAuthoringKey
+				subscriptionkey = $luisSubscriptionKey
 				version = $luisApp.activeVersion
 				region = $luisAuthoringRegion
 			}
@@ -171,13 +226,31 @@ foreach ($language in $languageArr)
 	else {
 		$dispatchApp  = $dispatch | ConvertFrom-Json
 
+		# Setting subscription key
+		Write-Host "> Setting LUIS subscription key ..."
+		$addKeyResult = luis add appazureaccount `
+			--appId $dispatchApp.appId `
+			--accountName $luisAccountName `
+			--authoringKey $luisAuthoringKey `
+			--region $luisAuthoringRegion `
+			--azureSubscriptionId $azAccount.id `
+			--resourceGroup $resourceGroup `
+			--armToken $azAccessToken.accessToken 2>> $logFile
+
+		if (-not $addKeyResult) {
+			$luisKeySet = $false
+			Write-Host "! Could not assign subscription key automatically. Review the log for more information. " -ForegroundColor DarkRed
+			Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
+			Write-Host "+ Please assign your subscription key manually in the LUIS portal." -ForegroundColor Magenta
+		}
+
 	    # Add to config
 		$config.dispatchModel = @{
 			type = "dispatch"
 			name = $dispatchApp.name
 			appid = $dispatchApp.appId
 			authoringkey = $luisauthoringkey
-			subscriptionkey = $luisauthoringkey
+			subscriptionkey = $luisSubscriptionKey
 			region = $luisAuthoringRegion
 		}
 	}
