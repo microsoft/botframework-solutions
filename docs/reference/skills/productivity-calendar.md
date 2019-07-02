@@ -63,11 +63,13 @@ The following scenarios are currently supported by the Skill:
   - *How many days are there until Thanksgiving?*
 
 ## Scenario Configurations
-In flow like create meeting flow, user need to input information like title and content before able to create meeting. You can config whether to skip these slot filling steps in `appsettings.json` by setting `isSkipByDefault` to true, and modify `EventTitle`, `EventContent` and `EventLocation` default value in `CalendarCommonStrings.resx` to set default value of different locales.
+In dialogs such as `Create Meeting`, the user needs to provide information such as title and meeting content before able to create a meeting. Depending on the user context (e.g. Speech driven and whilst driving) you can configure default slot-filling to minimise the number of questions - e.g. `Schedule a project review meeting with alex tomorrow at 8pm` would create the meeting with a default length of 30 minutes and no meeting contents.
+
+This behaviour can be configured in the Skill `appsettings.json` by setting `isSkipByDefault` to true, and modify `EventTitle`, `EventContent` and `EventLocation` default values in `CalendarCommonStrings.resx` to set default value of different locales.
 
 The `EventStartDate` default value should be a integer that means date difference with today. For example, if you want to set default start date as next day of meeting created date, the default value should be `1`.
 
-The `EventDuration` default value should be a integer that means count of mintues.
+The `EventDuration` default value is the default duration expressed in minutes (number).
  
 ```json
 "defaultValue": {
