@@ -201,7 +201,7 @@ if ($outputs)
 	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisSubscriptionKey $($outputs.luis.value.key) -resourceGroup $($resourceGroup) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -outFolder '$($projDir)' -languages '$($languages)'"
 	
 	# Publish bot
-	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'publish.ps1')' -name $($name) -resourceGroup $($resourceGroup) -projFolder '$($projDir)'"
+	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'publish.ps1')' -name $($outputs.botWebAppName.value) -resourceGroup $($resourceGroup) -projFolder '$($projDir)'"
 
 	Write-Host "> Done."
 }
