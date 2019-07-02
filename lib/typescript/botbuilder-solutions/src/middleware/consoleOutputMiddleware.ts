@@ -18,10 +18,11 @@ export class ConsoleOutputMiddleware implements Middleware {
         return messageActivity.text === undefined ? <string>messageActivity.speak : messageActivity.text;
     }
 
-    private async onSendActivities(context: TurnContext,
-                                   activities: Partial<Activity>[],
-                                   next: () => Promise<ResourceResponse[]>): Promise<ResourceResponse[]> {
-        activities.forEach((response: Partial<Activity>) => {
+    private async onSendActivities(
+        context: TurnContext,
+        activities: Partial<Activity>[],
+        next: () => Promise<ResourceResponse[]>): Promise<ResourceResponse[]> {
+        activities.forEach((response: Partial<Activity>): void => {
             this.logActivity('', response);
         });
 

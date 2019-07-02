@@ -21,14 +21,14 @@ export class ResponseManager {
     private static readonly simpleTokensRegex: RegExp = /\{(\w+)\}/g;
     private static readonly complexTokensRegex: RegExp = /\{[^{\}]+(?=})\}/g;
 
-    constructor(locales: string[], responseTemplates: IResponseIdCollection[]) {
+    public constructor(locales: string[], responseTemplates: IResponseIdCollection[]) {
         this.jsonResponses = new Map();
 
-        responseTemplates.forEach((responseTemplate: IResponseIdCollection) => {
+        responseTemplates.forEach((responseTemplate: IResponseIdCollection): void => {
             const resourceName: string = responseTemplate.name;
             const resource: string = responseTemplate.pathToResource || join(__dirname, '..', 'resources');
             this.loadResponses(resourceName, resource);
-            locales.forEach((locale: string) => {
+            locales.forEach((locale: string): void => {
                 try {
                     this.loadResponses(resourceName, resource, locale);
                 } catch {
@@ -71,7 +71,7 @@ export class ResponseManager {
         } else {
             const attachments: Attachment[] = [];
 
-            cards.forEach((card: Card) => {
+            cards.forEach((card: Card): void => {
                 const json: string = this.loadCardJson(card.name, locale, resourcePath);
                 attachments.push(this.buildCardAttachment(json, card.data));
             });
@@ -99,7 +99,7 @@ export class ResponseManager {
         } else {
             const attachments: Attachment[] = [];
 
-            cards.forEach((card: Card) => {
+            cards.forEach((card: Card): void => {
                 const json: string = this.loadCardJson(card.name, locale, resourcePath);
                 attachments.push(this.buildCardAttachment(json, card.data));
             });
@@ -117,26 +117,28 @@ export class ResponseManager {
      * @param containerItems Card list which will be injected to target container.
      * @returns An Activity.
      */
-    public getCardResponseWithContainer(templateId: string,
-                                        card: Card,
-                                        tokens?: Map<string, string>,
-                                        containerName?: string,
-                                        containerItems?: Card[]): Partial<Activity> {
+    public getCardResponseWithContainer(
+        templateId: string,
+        card: Card,
+        tokens?: Map<string, string>,
+        containerName?: string,
+        containerItems?: Card[]): Partial<Activity> {
         const locale: string = i18next.language;
         const resourcePath: string = join(__dirname, '..', 'resources', 'cards');
         const json: string = this.loadCardJson(card.name, locale, resourcePath);
 
         const emailOverviewCard: IAdaptiveCard = this.buildCard(json, card.data);
         if (containerName && emailOverviewCard.body) {
-            const itemContainer: ICardElement|undefined = emailOverviewCard.body.find((item: ICardElement) => {
+            const itemContainer: ICardElement|undefined = emailOverviewCard.body.find((item: ICardElement): boolean => {
                 return item.type === 'Container' && item.id === containerName;
             });
 
             if (itemContainer && containerItems) {
-                containerItems.forEach((cardItem: Card) => {
+                containerItems.forEach((cardItem: Card): void => {
                     const itemJson: string = this.loadCardJson(cardItem.name, locale, resourcePath);
                     const itemCard: IAdaptiveCard = this.buildCard(itemJson, cardItem.data);
                     if (itemCard.body && itemCard.body[0]) {
+                        // eslint-disable-next-line @typescript-eslint/tslint/config
                         const items: ICardElement[] = itemCard.body[0].items;
                         items.push(itemContainer);
                     }
@@ -234,17 +236,18 @@ export class ResponseManager {
         }
 
         try {
+            // eslint-disable-next-line @typescript-eslint/tslint/config
             const content: { [key: string]: Object } = JSON.parse(this.jsonFromFile(jsonPath));
 
             const localeResponses: Map<string, ResponseTemplate> = this.jsonResponses.get(localeKey) || new Map<string, ResponseTemplate>();
 
             Object.entries(content)
-            .forEach((val: [string, Object]) => {
-                const key: string = val[0];
-                const value: ITemplate = <ITemplate>val[1];
-                const template: ResponseTemplate = Object.assign(new ResponseTemplate(), value);
-                localeResponses.set(key, template);
-            });
+                .forEach((val: [string, Object]): void => {
+                    const key: string = val[0];
+                    const value: ITemplate = <ITemplate>val[1];
+                    const template: ResponseTemplate = Object.assign(new ResponseTemplate(), value);
+                    localeResponses.set(key, template);
+                });
 
             this.jsonResponses.set(localeKey, localeResponses);
         } catch (err) {
@@ -284,13 +287,13 @@ export class ResponseManager {
             inputHint: template.inputHint
         };
 
-        if (template.suggestedActions && template.suggestedActions.length > 0) {
+        if (template.suggestedActions !== undefined && template.suggestedActions.length > 0) {
             activity.suggestedActions = {
                 actions: [],
                 to: []
             };
 
-            template.suggestedActions.forEach((action: string) => {
+            template.suggestedActions.forEach((action: string): void => {
                 if (activity.suggestedActions) {
                     activity.suggestedActions.actions.push({
                         type: ActionTypes.ImBack,
@@ -337,7 +340,7 @@ export class ResponseManager {
             const tokens: Map<string, string> = new Map<string, string>();
             // get property names from cardData
             Object.entries(data)
-                .forEach((entry: [string, string]) => {
+                .forEach((entry: [string, string]): void => {
                     if (!tokens.has(entry[0])) {
                         tokens.set(entry[0], entry[1]);
                     }
@@ -356,6 +359,7 @@ export class ResponseManager {
         }
 
         // Deserialize/Serialize logic is needed to prevent JSON exception in prompts
+        // eslint-disable-next-line @typescript-eslint/tslint/config
         return JSON.parse(jsonOut);
     }
 
