@@ -6,9 +6,9 @@
 import * as program from 'commander';
 import { existsSync, readFileSync } from 'fs';
 import { extname, isAbsolute, join, resolve } from 'path';
-import { ConnectSkill } from './functionality';
+import { UpdateSkill } from './functionality';
 import { ConsoleLogger, ILogger } from './logger';
-import { ICognitiveModelFile, IConnectConfiguration } from './models';
+import { ICognitiveModelFile, IConnectConfiguration, IUpdateConfiguration } from './models';
 import { validatePairOfArgs } from './utils';
 
 function showErrorHelp(): void {
@@ -29,14 +29,14 @@ program.Command.prototype.unknownOption = (flag: string): void => {
 
 // tslint:disable: max-line-length
 program
-    .name('botskills connect')
-    .description('Connect a skill to your assistant bot. Only one of both path or URL to Skill is needed.')
+    .name('botskills update')
+    .description('Update a specific skill from your assistant bot.')
     .option('-b, --botName <name>', 'Name of your assistant bot')
     .option('-l, --localManifest <path>', 'Path to local Skill Manifest file')
     .option('-r, --remoteManifest <url>', 'URL to remote Skill Manifest')
     .option('--cs', 'Determine your assistant project structure to be a CSharp-like structure')
     .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
-    .option('--noRefresh', '[OPTIONAL] Determine whether the model of your skills connected are not going to be refreshed (by default they are refreshed)')
+    .option('--noRefresh', '[OPTIONAL] Determine whether the model of your skills connected are not going to be trained (by default they are trained)')
     .option('--dispatchName [name]', '[OPTIONAL] Name of your assistant\'s \'.dispatch\' file (defaults to the name displayed in your Cognitive Models file)')
     .option('--language [language]', '[OPTIONAL] Locale used for LUIS culture (defaults to \'en-us\')')
     .option('--luisFolder [path]', '[OPTIONAL] Path to the folder containing your Skills\' .lu files (defaults to \'./deployment/resources/skills/en\' inside your assistant folder)')
@@ -78,12 +78,6 @@ if (args.noRefresh) {
     noRefresh = true;
 }
 
-// botName validation
-if (!args.botName) {
-    logger.error(`The 'botName' argument should be provided.`);
-    process.exit(1);
-}
-
 // localManifest && remoteManifest validation
 const manifestValidationResult: string = validatePairOfArgs(args.localManifest, args.remoteManifest);
 if (manifestValidationResult) {
@@ -98,12 +92,13 @@ if (args.localManifest && extname(args.localManifest) !== '.json') {
     process.exit(1);
 }
 
-// Initialize an instance of IConnectConfiguration to send the needed arguments to the connectSkill function
-const configuration: Partial<IConnectConfiguration> = {
+// Initialize an instance of IUpdateConfiguration to send the needed arguments to the updateSkill function
+const configuration: Partial<IUpdateConfiguration> = {
     botName: args.botName,
     localManifest: args.localManifest,
     remoteManifest: args.remoteManifest,
     noRefresh: noRefresh,
+    logger: logger,
     lgLanguage: projectLanguage
 };
 
@@ -121,7 +116,7 @@ if (!args.skillsFile) {
     const skillsFilePath: string = isAbsolute(args.skillsFile) ? args.skillsFile : join(resolve('./'), args.skillsFile);
     if (!existsSync(skillsFilePath)) {
         logger.error(`The 'skillsFile' argument leads to a non-existing file.
-            Please make sure to provide a valid path to your Assistant Skills configuration file.`);
+            Please make sure to provide a valid path to your Assistant Skills configuration file using the '--skillsFile' argument.`);
         process.exit(1);
     }
     configuration.skillsFile = skillsFilePath;
@@ -154,7 +149,6 @@ configuration.lgOutFolder = args.lgOutFolder || join(configuration.outFolder, (a
 // dispatchName validation
 if (!args.dispatchName) {
     // try get the dispatch name from the cognitiveModels file
-    // tslint:disable-next-line
     const cognitiveModelsFile: ICognitiveModelFile = JSON.parse(readFileSync(cognitiveModelsFilePath, 'UTF8'));
     configuration.dispatchName = cognitiveModelsFile.cognitiveModels[languageCode].dispatchModel.name;
 }
@@ -163,4 +157,4 @@ configuration.logger = logger;
 
 // End of arguments validation
 
-new ConnectSkill(logger).connectSkill(<IConnectConfiguration> configuration);
+new UpdateSkill(logger).updateSkill(<IUpdateConfiguration> configuration);

@@ -81,7 +81,7 @@ describe("The disconnect command", function () {
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `The 'skillsFile' argument is absent or leads to a non-existing file.
-Please make sure to provide a valid path to your Assistant Skills configuration file.`);
+Please make sure to provide a valid path to your Assistant Skills configuration file using the '--skillsFile' argument.`);
         });
 
         it("when the skillsFile points to a bad formatted Assistant Skills configuration file", async function () {
@@ -124,7 +124,7 @@ SyntaxError: Unexpected token N in JSON at position 0`);
             await this.disconnector.disconnectSkill(config);
             const errorList = this.logger.getError();
 
-			strictEqual(errorList[errorList.length - 1], `Could not find file ${config.dispatchName}.dispatch. Please provide the 'dispatchName' and 'dispatchFolder' parameters.`);
+			strictEqual(errorList[errorList.length - 1], `Could not find file ${config.dispatchName}.dispatch. Please provide the '--dispatchName' and '--dispatchFolder' arguments.`);
         });
 
         it("when the refreshSkill fails", async function () {
@@ -172,7 +172,7 @@ Error: There was an error while refreshing the Dispatch model.`);
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `The 'lgOutFolder' argument is absent or leads to a non-existing folder.
-Please make sure to provide a valid path to your LUISGen output folder.`);
+Please make sure to provide a valid path to your LUISGen output folder using the '--lgOutFolder' argument.`);
         });
 
         it("when the lgLanguage argument is invalid", async function () {
@@ -194,7 +194,7 @@ Please make sure to provide a valid path to your LUISGen output folder.`);
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `The 'lgLanguage' argument is incorrect.
-It should be either 'cs' or 'ts' depending on your assistant's language.`);
+It should be either 'cs' or 'ts' depending on your assistant's language. Please provide either the argument '--cs' or '--ts'.`);
         });
 
         it("when the execution of a command fails", async function () {
@@ -242,7 +242,7 @@ Error: Mocked function throws an Error`);
             const warningList = this.logger.getWarning();
 
             strictEqual(warningList[warningList.length - 1], `The skill 'testSkill' is not present in the assistant Skills configuration file.
-Run 'botskills list --assistantSkills "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
+Run 'botskills list --skillsFile "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
         });
 
         it("when the dispatchName is not contained in the Dispatch file", async function () {
@@ -264,7 +264,7 @@ Run 'botskills list --assistantSkills "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in or
             const warningList = this.logger.getWarning();
 
             strictEqual(warningList[warningList.length - 1], `The skill ${config.skillId} is not present in the Dispatch model.
-Run 'botskills list --assistantSkills "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
+Run 'botskills list --skillsFile "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
 		});
     });
 
