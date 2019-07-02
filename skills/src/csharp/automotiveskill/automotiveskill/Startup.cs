@@ -109,8 +109,6 @@ namespace AutomotiveSkill
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<SkillWebSocketBotAdapter, AutomotiveSkillWebSocketBotAdapter>();
             services.AddTransient<SkillWebSocketAdapter>();
-            services.AddTransient<SkillHttpBotAdapter, AutomotiveSkillHttpBotAdapter>();
-            services.AddTransient<SkillHttpAdapter>();
 
             // Configure bot
             services.AddTransient<MainDialog>();

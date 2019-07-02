@@ -114,8 +114,6 @@ namespace ToDoSkill
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<SkillWebSocketBotAdapter, ToDoSkillWebSocketBotAdapter>();
             services.AddTransient<SkillWebSocketAdapter>();
-            services.AddTransient<SkillHttpBotAdapter, ToDoSkillHttpBotAdapter>();
-            services.AddTransient<SkillHttpAdapter>();
 
             // Configure HttpContext required for path resolution
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

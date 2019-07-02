@@ -121,8 +121,6 @@ namespace EmailSkill
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<SkillWebSocketBotAdapter, EmailSkillWebSocketBotAdapter>();
             services.AddTransient<SkillWebSocketAdapter>();
-            services.AddTransient<SkillHttpBotAdapter, EmailSkillHttpBotAdapter>();
-            services.AddTransient<SkillHttpAdapter>();
 
             // Configure bot
             services.AddTransient<MainDialog>();
