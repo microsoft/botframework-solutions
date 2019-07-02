@@ -157,6 +157,7 @@ foreach ($language in $languageArr)
 				--type "luis" `
 				--name $luisApp.name `
 				--id $luisApp.id  `
+				--region $luisApp.region `
 				--intentName "l_$($lu.BaseName)" `
 				--dataFolder $dataFolder `
 				--dispatch "$(Join-Path $dataFolder "$($dispatchName).dispatch")") 2>> $logFile | Out-Null
