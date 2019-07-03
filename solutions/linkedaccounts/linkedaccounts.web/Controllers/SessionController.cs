@@ -16,13 +16,13 @@ namespace LinkedAccounts.Web.Controllers
     public class SessionController : Controller
     {
         public static Dictionary<string, string> Sessions = new Dictionary<string, string>();
-        
+
         // POST api/values
         [HttpPost]
         public void Post([FromQuery]string id)
         {
             // Passed the SessionID from the View which we store against the UserId for later use.
-            var userId = UserId.GetUserId(HttpContext, this.User);
+            var userId = UserId.GetUserId(this.HttpContext, this.User);
             Sessions[userId] = id;
         }
     }
