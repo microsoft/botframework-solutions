@@ -25,9 +25,10 @@ export enum ReadPreference {
 export namespace SpeechUtility {
     export const breakString: string = '<break/>';
 
-    export function listToSpeechReadyString(toProcess: PromptOptions|Activity,
-                                            readOrder: ReadPreference = ReadPreference.Enumeration,
-                                            maxSize: number = 4): string {
+    export function listToSpeechReadyString(
+        toProcess: PromptOptions|Activity,
+        readOrder: ReadPreference = ReadPreference.Enumeration,
+        maxSize: number = 4): string {
 
         let speakStrings: string[] = [];
         let parent: string = '';
@@ -35,14 +36,15 @@ export namespace SpeechUtility {
         if ((<PromptOptions>toProcess).choices !== undefined) {
             const selectOption: PromptOptions = <PromptOptions>toProcess;
             const choices: (string|Choice)[] = selectOption.choices || [];
-            speakStrings = choices.map((value: string|Choice) => typeof(value) === 'string' ? value : value.value);
+            speakStrings = choices.map((value: string|Choice): string => typeof(value) === 'string' ? value : value.value);
             parent = typeof(selectOption.prompt) === 'string'
                 ? (selectOption.prompt || '')
                 : (selectOption.prompt ? (selectOption.prompt.text || '') : '');
         } else {
             const activity: Activity = <Activity>toProcess;
             const attachments: Attachment[] = activity.attachments || [];
-            speakStrings = attachments.map((value: Attachment) => value.content.speak);
+            // eslint-disable-next-line @typescript-eslint/tslint/config
+            speakStrings = attachments.map((value: Attachment): string => <string> value.content.speak);
             parent = activity.speak || '';
         }
 

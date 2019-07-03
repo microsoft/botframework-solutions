@@ -23,12 +23,12 @@ export class MultiProviderAuthDialog extends ComponentDialog {
     private readonly responseManager: ResponseManager;
     private selectedAuthType!: string;
 
-    constructor(authenticationConnections: IOAuthConnection[]) {
+    public constructor(authenticationConnections: IOAuthConnection[]) {
         super(MultiProviderAuthDialog.name);
         this.authenticationConnections = authenticationConnections;
         this.responseManager = new ResponseManager(['en', 'de', 'es', 'fr', 'it', 'zh'], [new AuthenticationResponses()]);
 
-        if (!this.authenticationConnections) {
+        if (this.authenticationConnections === undefined) {
             throw new Error('You must configure an authentication connection in your bot file before using this component.');
         }
 
@@ -57,7 +57,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         prompt.style = ListStyle.suggestedAction;
         this.addDialog(prompt);
 
-        this.authenticationConnections.forEach((connection: IOAuthConnection) => {
+        this.authenticationConnections.forEach((connection: IOAuthConnection): void => {
             const oauthPrompt: OAuthPrompt = new OAuthPrompt(
                 connection.name,
                 {
@@ -70,7 +70,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         });
     }
 
-    private firstStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
+    private async firstStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         const dialogToActivate: string = isRemoteUserTokenProvider(stepContext.context.adapter)
             ? DialogIds.remoteAuthPrompt
             : DialogIds.localAuthPrompt;
@@ -90,7 +90,8 @@ export class MultiProviderAuthDialog extends ComponentDialog {
     }
 
     private async receiveRemoteEvent(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
-        if (stepContext.context.activity && stepContext.context.activity.value !== undefined) {
+        if (stepContext.context.activity !== undefined && stepContext.context.activity.value !== undefined) {
+            // eslint-disable-next-line @typescript-eslint/tslint/config
             const tokenResponse: IProviderTokenResponse = JSON.parse(stepContext.context.activity.value);
 
             return stepContext.endDialog(tokenResponse);
@@ -111,8 +112,8 @@ export class MultiProviderAuthDialog extends ComponentDialog {
             stepContext.context,
             stepContext.context.activity.from.id);
 
-        const matchingProviders: TokenStatus[] = tokenStatusCollection.filter((p: TokenStatus) => {
-            return (p.hasToken || false) && this.authenticationConnections.some((t: IOAuthConnection) => {
+        const matchingProviders: TokenStatus[] = tokenStatusCollection.filter((p: TokenStatus): boolean => {
+            return (p.hasToken || false) && this.authenticationConnections.some((t: IOAuthConnection): boolean => {
 
                 return t.name === p.connectionName;
             });
@@ -123,7 +124,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
             return stepContext.next(authType);
         } else if (matchingProviders.length > 1) {
-            const choices: Choice[] = matchingProviders.map((connection: TokenStatus) => {
+            const choices: Choice[] = matchingProviders.map((connection: TokenStatus): Choice => {
                 return {
                     action: {
                         type: ActionTypes.ImBack,
@@ -139,7 +140,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                 choices: choices
             });
         } else {
-            const choices: Choice[] = this.authenticationConnections.map((connection: IOAuthConnection) => {
+            const choices: Choice[] = this.authenticationConnections.map((connection: IOAuthConnection): Choice => {
                 return {
                     action: {
                         type: ActionTypes.ImBack,
@@ -157,12 +158,12 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         }
     }
 
-    private promptForAuth(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
+    private async promptForAuth(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         if (typeof stepContext.result === 'string') {
             this.selectedAuthType = stepContext.result;
         } else {
             const choice: FoundChoice = <FoundChoice> stepContext.result;
-            if (choice && choice.value) {
+            if (choice !== undefined && choice.value !== undefined) {
                 this.selectedAuthType = choice.value;
             }
         }
@@ -173,7 +174,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
     private async handleTokenResponse(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         const tokenResponse: TokenResponse = <TokenResponse> stepContext.result;
 
-        if (tokenResponse && tokenResponse.token) {
+        if (tokenResponse !== undefined && tokenResponse.token !== undefined) {
             const result: IProviderTokenResponse = await this.createProviderTokenResponse(stepContext.context, tokenResponse);
 
             return stepContext.endDialog(result);
@@ -187,7 +188,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
     private async createProviderTokenResponse(context: TurnContext, tokenResponse: TokenResponse): Promise<IProviderTokenResponse> {
         const adapter: BotFrameworkAdapter = <BotFrameworkAdapter> context.adapter;
         const tokens: TokenStatus[] = await adapter.getTokenStatus(context, context.activity.from.id);
-        const match: TokenStatus|undefined = tokens.find((t: TokenStatus) => t.connectionName === tokenResponse.connectionName);
+        const match: TokenStatus|undefined = tokens.find((t: TokenStatus): boolean => t.connectionName === tokenResponse.connectionName);
 
         if (!match) {
             throw new Error('Token not found');
@@ -202,14 +203,14 @@ export class MultiProviderAuthDialog extends ComponentDialog {
     }
 }
 
-function tokenResponseValidator(promptContext: PromptValidatorContext<Activity>): Promise<boolean> {
+async function tokenResponseValidator(promptContext: PromptValidatorContext<Activity>): Promise<boolean> {
     const activity: Activity|undefined = promptContext.recognized.value;
     const result: boolean = activity !== undefined && activity.type === ActivityTypes.Event;
 
     return Promise.resolve(result);
 }
 
-function authPromptValidator(promptContext: PromptValidatorContext<TokenResponse>): Promise<boolean> {
+async function authPromptValidator(promptContext: PromptValidatorContext<TokenResponse>): Promise<boolean> {
     const token: TokenResponse|undefined = promptContext.recognized.value;
     const result: boolean = !!token && !!token.token;
 

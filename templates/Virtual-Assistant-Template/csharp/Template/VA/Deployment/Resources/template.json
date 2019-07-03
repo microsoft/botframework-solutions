@@ -321,6 +321,10 @@
     }
   ],
   "outputs": {
+    "botWebAppName": {
+      "type": "string",
+      "value": "[parameters('botWebAppName')]"
+    },
     "ApplicationInsights": {
       "type": "object",
       "value": {
@@ -346,6 +350,7 @@
     "luis": {
       "type": "object",
       "value": {
+        "accountName": "[parameters('luisServiceName')]",
         "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisServiceName')),'2017-04-18').key1]"
       }
     },

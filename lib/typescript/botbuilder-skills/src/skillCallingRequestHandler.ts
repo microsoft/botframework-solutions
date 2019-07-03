@@ -5,7 +5,7 @@
 
 import { TurnContext } from 'botbuilder';
 import { TokenEvents } from 'botbuilder-solutions';
-import { Activity, ActivityTypes, ResourceResponse } from 'botframework-schema';
+import { Activity, ActivityTypes } from 'botframework-schema';
 import { ContentStream, ReceiveRequest, RequestHandler, Response } from 'microsoft-bot-protocol';
 import { IRouteContext, IRouteTemplate, Router } from './protocol';
 
@@ -17,7 +17,7 @@ export class SkillCallingRequestHandler extends RequestHandler {
     private readonly tokenRequestHandler?: ActivityAction;
     private readonly handoffActivityHandler?: ActivityAction;
 
-    constructor(
+    public constructor(
         turnContext: TurnContext,
         tokenRequestHandler?: ActivityAction,
         handoffActivityHandler?: ActivityAction
@@ -33,22 +33,24 @@ export class SkillCallingRequestHandler extends RequestHandler {
             action: {
                 action: async (request: ReceiveRequest, routeData: Object): Promise<Object|undefined> => {
                     // MISSING Check response converter
-                    const bodyParts: string[] = await Promise.all(request.Streams.map((s: ContentStream) => s.readAsJson()));
+                    const bodyParts: string[] = await Promise.all(request.Streams.map
+                    ((s: ContentStream): Promise<string> => s.readAsJson()));
                     const body: string = bodyParts.join();
+                    // eslint-disable-next-line @typescript-eslint/tslint/config
                     const activity: Activity = JSON.parse(body);
-                    if (!activity) {
+                    if (activity === undefined) {
                         throw new Error('Error deserializing activity response!');
                     }
 
                     if (activity.type === ActivityTypes.Event && activity.name === TokenEvents.tokenRequestEventName) {
                         if (this.tokenRequestHandler) {
-                            this.tokenRequestHandler(activity);
+                            await this.tokenRequestHandler(activity);
                         } else {
                             throw new Error('Skill is requesting for token but there\'s no handler on the calling side!');
                         }
                     } else if (activity.type === ActivityTypes.EndOfConversation) {
                         if (this.handoffActivityHandler) {
-                            this.handoffActivityHandler(activity);
+                            await this.handoffActivityHandler(activity);
                         } else {
                             throw new Error('Skill is sending handoff activity but there\'s no handler on the calling side!');
                         }
@@ -65,8 +67,10 @@ export class SkillCallingRequestHandler extends RequestHandler {
             action: {
                 action: async (request: ReceiveRequest, routeData: Object): Promise<Object|undefined> => {
                     // MISSING Check response converter
-                    const bodyParts: string[] = await Promise.all(request.Streams.map((s: ContentStream) => s.readAsJson()));
+                    const bodyParts: string[] = await Promise.all(
+                        request.Streams.map((s: ContentStream): Promise<string> => s.readAsJson()));
                     const body: string = bodyParts.join();
+                    // eslint-disable-next-line @typescript-eslint/tslint/config
                     const activity: Activity = JSON.parse(body);
                     await this.turnContext.updateActivity(activity);
 
@@ -82,7 +86,7 @@ export class SkillCallingRequestHandler extends RequestHandler {
                 action: async (request: ReceiveRequest, routeData: Object): Promise<Object|undefined> => {
                     // MISSING Check response converter
                     const activityIdProp: [string, string]|undefined = Object.entries(routeData)
-                        .find((e: [string, string]) => e[0] === 'activityId');
+                        .find((e: [string, string]): boolean => e[0] === 'activityId');
                     const activityId: string = activityIdProp ? activityIdProp[1] : '';
                     await this.turnContext.deleteActivity(activityId);
 
@@ -95,7 +99,7 @@ export class SkillCallingRequestHandler extends RequestHandler {
         this.router = new Router(routes);
     }
 
-    // tslint:disable-next-line:no-any
+    // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
     public async processRequestAsync(request: ReceiveRequest, logger?: any): Promise<Response> {
         const routeContext: IRouteContext|undefined = this.router.route(request);
         if (routeContext) {
