@@ -15,8 +15,6 @@ import com.microsoft.cognitiveservices.speech.dialog.BotConnectorConfig;
 import com.microsoft.cognitiveservices.speech.dialog.SpeechBotConnector;
 
 import org.greenrobot.eventbus.EventBus;
-import org.threeten.bp.Instant;
-import org.threeten.bp.OffsetDateTime;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -427,7 +425,6 @@ public class SpeechSdk {
         activity.setChannelData(channelData);
         activity.setName(eventname);
         activity.setValue(value);
-        activity.setTimestamp(OffsetDateTime.parse(Instant.now().toString()));
 
         return activity;
     }
