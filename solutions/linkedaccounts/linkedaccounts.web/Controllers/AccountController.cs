@@ -8,6 +8,7 @@ namespace LinkedAccounts.Web.Controllers
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authentication.AzureAD.UI;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Authentication.OpenIdConnect;
     using Microsoft.AspNetCore.Mvc;
@@ -21,38 +22,42 @@ namespace LinkedAccounts.Web.Controllers
         [HttpGet]
         public IActionResult SignIn()
         {
-            var redirectUrl = Url.Action(nameof(HomeController.Index), "Home");
+            var redirectUrl = this.Url.Action(nameof(HomeController.Index), "Home");
+            var authenticationProperties = new AuthenticationProperties
+            {
+                RedirectUri = redirectUrl
+            };
+
             return this.Challenge(
-                new AuthenticationProperties { RedirectUri = redirectUrl },
+                authenticationProperties,
                 OpenIdConnectDefaults.AuthenticationScheme);
         }
 
         [HttpGet]
         public IActionResult SignOut()
         {
-            var callbackUrl = Url.Action(nameof(SignedOut), "Account", values: null, protocol: Request.Scheme);
+            var callbackUrl = this.Url.Action(nameof(this.SignedOut), "Account", values: null, protocol: this.Request.Scheme);
             return this.SignOut(
                 new AuthenticationProperties { RedirectUri = callbackUrl },
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                OpenIdConnectDefaults.AuthenticationScheme);
+                CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
         [HttpGet]
         public IActionResult SignedOut()
         {
-            if (User.Identity.IsAuthenticated)
+            if (this.User.Identity.IsAuthenticated)
             {
                 // Redirect to home page if the user is authenticated.
                 return this.RedirectToAction(nameof(HomeController.Index), "Home");
             }
 
-            return View();
+            return this.View();
         }
 
         [HttpGet]
         public IActionResult AccessDenied()
         {
-            return View();
+            return this.View();
         }
     }
 }
