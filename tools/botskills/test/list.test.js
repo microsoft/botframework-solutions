@@ -12,7 +12,7 @@ const botskills = require("../lib/index");
 describe("The list command", function () {
 
     beforeEach(function () {
-        writeFileSync(resolve(__dirname, join("mocks", "resources", "filledSkillsArray.json")),
+        writeFileSync(resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
         JSON.stringify(
             {
                     "skills": [
@@ -46,7 +46,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
 
         it("when the skillsFile points to a bad formatted Assistant Skills configuration file", async function () {
             const config = {
-                skillsFile: resolve(__dirname, "mocks", "resources", "badSkillsArray.jso"),
+                skillsFile: resolve(__dirname, "mocks", "virtualAssistant", "badSkills.jso"),
                 logger: this.logger
             };
 
@@ -61,7 +61,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
     describe("should show a message", function () {
         it("when there is no skills connected to the assistant", async function () {
             const config = {
-                skillsFile: resolve(__dirname, "mocks", "resources", "emptySkillsArray.json"),
+                skillsFile: resolve(__dirname, "mocks", "virtualAssistant", "emptySkills.json"),
                 logger: this.logger
             };
 
@@ -73,7 +73,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
 
         it("when there is no skills array defined in the Assistant Skills configuration file", async function () {
             const config = {
-                skillsFile: resolve(__dirname, "mocks", "resources", "undefinedSkillsArray.json"),
+                skillsFile: resolve(__dirname, "mocks", "virtualAssistant", "undefinedSkills.json"),
                 logger: this.logger
             };
 
@@ -85,7 +85,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
 
         it("when there is a skill in the Assistant Skills configuration file", async function () {
             const config = {
-                skillsFile: resolve(__dirname, "mocks", "resources", "filledSkillsArray.json"),
+                skillsFile: resolve(__dirname, "mocks", "virtualAssistant", "filledSkills.json"),
                 logger: this.logger
             };
 

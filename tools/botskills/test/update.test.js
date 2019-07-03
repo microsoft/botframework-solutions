@@ -12,7 +12,7 @@ const botskills = require("../lib/index");
 
 describe("The update command", function () {
     beforeEach(function () {
-        writeFileSync(resolve(__dirname, join("mocks", "resources", "filledSkillsArray.json")),
+        writeFileSync(resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
         JSON.stringify(
             {
                     "skills": [
@@ -34,15 +34,15 @@ describe("The update command", function () {
         it("when the skill to update is not present in the assistant manifest", async function() {
             const config = {
                 botName: "mock-assistant",
-                localManifest: resolve(__dirname, join("mocks", "resources", "absentSkill.json")),
+                localManifest: resolve(__dirname, join("mocks", "skills", "absentManifest.json")),
                 remoteManifest: "",
                 dispatchName: "",
                 language: "",
-                luisFolder: resolve(__dirname, join("mocks", "resources")),
+                luisFolder: resolve(__dirname, join("mocks", "success", "luis")),
                 dispatchFolder: "",
                 outFolder: "",
                 lgOutFolder: "",
-                skillsFile: resolve(__dirname, join("mocks", "resources", "filledSkillsArray.json")),
+                skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
                 resourceGroup: "",
                 appSettingsFile: "",
                 cognitiveModelsFile: "",
@@ -60,7 +60,7 @@ Error: The Skill doesn't exist in the Assistant, run 'botskills connect --botNam
         it("when the localManifest points to a nonexisting Skill manifest file", async function () {
             const config = {
                 botName: "",
-                localManifest: resolve(__dirname, join("mocks", "resources", "nonexistentSkill.json")),
+                localManifest: resolve(__dirname, join("mocks", "skills", "nonexistentSkill.json")),
                 remoteManifest: "",
                 dispatchName: "",
                 language: "",
@@ -122,15 +122,15 @@ RequestError: Error: getaddrinfo ENOTFOUND nonexistentskill.azurewebsites.net no
             const config = {
                 skillId: "testSkill",
                 botName: "",
-                localManifest: resolve(__dirname, join("mocks", "resources", "testSkill.json")),
+                localManifest: resolve(__dirname, join("mocks", "skills", "repeatedManifest.json")),
                 remoteManifest: "",
                 dispatchName: "testSkill",
                 language: "",
-                luisFolder: resolve(__dirname, join("mocks", "resources", "successfulConnectFiles")),
-                dispatchFolder: resolve(__dirname, join("mocks", "resources", "successfulConnectFiles")),
+                luisFolder: resolve(__dirname, join("mocks", "success", "luis")),
+                dispatchFolder: resolve(__dirname, join("mocks", "success", "dispatch")),
                 outFolder: "",
                 lgOutFolder: "",
-                skillsFile: resolve(__dirname, join("mocks", "resources", "filledSkillsArray.json")),
+                skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
                 resourceGroup: "",
                 appSettingsFile: "",
                 cognitiveModelsFile: "",

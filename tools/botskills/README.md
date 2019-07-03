@@ -21,8 +21,8 @@ npm uninstall -g botskills
 ```
 
 ## Botskills functionality
-- [Connect](./docs/connect-disconnect.md#connect-a-skill-to-your-assistant) a Skill to your assistant
-- [Disconnect](./docs/connect-disconnect.md#disconnect-a-skill-to-your-assistant) a Skill from your assistant
+- [Connect](./docs/connect.md) a Skill to your assistant
+- [Disconnect](./docs/disconnect.md) a Skill from your assistant
 - [Update](./docs/update.md) a Skill from your assistant 
 - [Refresh](./docs/refresh.md) connected skills
 - [List](./docs/list.md) all Skills connected to your assistant
