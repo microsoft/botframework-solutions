@@ -6,7 +6,7 @@
 import { BotState, Storage } from 'botbuilder';
 
 export class ProactiveState extends BotState {
-    constructor(storage: Storage) {
-        super(storage, () => Promise.resolve('ProactiveState'));
+    public constructor(storage: Storage) {
+        super(storage, (): Promise<string> => Promise.resolve('ProactiveState'));
     }
 }

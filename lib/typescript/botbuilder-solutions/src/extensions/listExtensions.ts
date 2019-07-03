@@ -21,7 +21,7 @@ export namespace ListExtensions {
         let separator: string = '';
 
         const listCount: number = list.length;
-        list.forEach((listItem: T, index: number) => {
+        list.forEach((listItem: T, index: number): void => {
             if (typeof listItem === 'string') {
                 speech = speech.concat(listItem);
             } else {
@@ -30,7 +30,7 @@ export namespace ListExtensions {
             if (listCount > 1) {
                 if (index === listCount - 2) {
                     separator = i18next.t('common:separatorFormat')
-                    .replace('{0}', finalSeparator);
+                        .replace('{0}', finalSeparator);
                 } else {
                     separator = index !== listCount - 1 ? ', ' : '';
                 }

@@ -13,16 +13,16 @@ export interface IBackgroundTaskQueue {
 export class BackgroundTaskQueue implements IBackgroundTaskQueue {
     private readonly queueExecutor: PQueue;
 
-    constructor() {
+    public constructor() {
         this.queueExecutor = new PQueue({
             concurrency: 1,
             autoStart: true
         });
     }
 
-    public queueBackgroundWorkItem(workItem: WorkItemFunc): void {
-        if (!workItem) { throw new Error('Missing parameter.  workItem is required'); }
+    public async queueBackgroundWorkItem(workItem: WorkItemFunc): Promise<void> {
+        if (workItem === undefined) { throw new Error('Missing parameter.  workItem is required'); }
 
-        this.queueExecutor.add(workItem);
+        await this.queueExecutor.add(workItem);
     }
 }
