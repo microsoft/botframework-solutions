@@ -113,6 +113,7 @@ if ($parametersFile) {
 		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`""
 
 	if ($validation) {
+		$validation >> $logFile
 		$validation = $validation | ConvertFrom-Json
 	
 		if (-not $validation.error) {
@@ -125,8 +126,9 @@ if ($parametersFile) {
 				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`""
 		}
 		else {
-			Write-Host "! Template is not valid with provided parameters." -ForegroundColor DarkRed
+			Write-Host "! Template is not valid with provided parameters. Review the log for more information." -ForegroundColor DarkRed
 			Write-Host "! Error: $($validation.error.message)"  -ForegroundColor DarkRed
+			Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
 			Write-Host "+ To delete this resource group, run 'az group delete -g $($resourceGroup) --no-wait'" -ForegroundColor Magenta
 			Break
 		}
@@ -140,6 +142,7 @@ else {
 		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`""
 
 	if ($validation) {
+		$validation >> $logFile
 		$validation = $validation | ConvertFrom-Json
 
 		if (-not $validation.error) {
@@ -151,8 +154,9 @@ else {
 				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`""
 		}
 		else {
-			Write-Host "! Template is not valid with provided parameters." -ForegroundColor DarkRed
-			Write-Host "! Error: $($validation.error.message)" -ForegroundColor DarkRed
+			Write-Host "! Template is not valid with provided parameters. Review the log for more information." -ForegroundColor DarkRed
+			Write-Host "! Error: $($validation.error.message)"  -ForegroundColor DarkRed
+			Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
 			Write-Host "+ To delete this resource group, run 'az group delete -g $($resourceGroup) --no-wait'" -ForegroundColor Magenta
 			Break
 		}
@@ -187,6 +191,7 @@ if ($outputs)
 	if ($outputs.storage) { $settings | Add-Member -Type NoteProperty -Force -Name 'blobStorage' -Value $outputs.storage.value }
 	if ($outputs.cosmosDb) { $settings | Add-Member -Type NoteProperty -Force -Name 'cosmosDb' -Value $outputs.cosmosDb.value }
 	if ($outputs.contentModerator) { $settings | Add-Member -Type NoteProperty -Force -Name 'contentModerator' -Value $outputs.contentModerator.value }
+	if ($outputs.qnaMaker.value.key) { $qnaSubscriptionKey = $outputs.qnaMaker.value.key }
 
 	$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $projDir appsettings.json)
 
@@ -194,10 +199,10 @@ if ($outputs)
 	Start-Sleep -s 30
 
 	# Deploy cognitive models
-	Invoke-Expression "$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1') -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -outFolder `"$($projDir)`" -languages `"$($languages)`""
+	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisSubscriptionKey $($outputs.luis.value.key) -resourceGroup $($resourceGroup) -qnaSubscriptionKey '$($qnaSubscriptionKey)' -outFolder '$($projDir)' -languages '$($languages)'"
 	
 	# Publish bot
-	Invoke-Expression "$(Join-Path $PSScriptRoot 'publish.ps1') -name $($name) -resourceGroup $($resourceGroup) -projFolder `"$($projDir)`""
+	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'publish.ps1')' -name $($outputs.botWebAppName.value) -resourceGroup $($resourceGroup) -projFolder '$($projDir)'"
 
 	Write-Host "> Done."
 }
