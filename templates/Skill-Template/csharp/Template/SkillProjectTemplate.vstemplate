@@ -69,8 +69,9 @@
           <ProjectItem ReplaceParameters="false" TargetFileName="deploy.ps1">deploy.ps1</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="publish.ps1">publish.ps1</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="deploy_cognitive_models.ps1">deploy_cognitive_models.ps1</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="luis_functions.ps1">luis_functions.ps1</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="update_cognitive_models.ps1">update_cognitive_models.ps1</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="luis_functions.ps1">luis_functions.ps1</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="qna_functions.ps1">luis_functions.ps1</ProjectItem>
         </Folder>
       </Folder>
       <Folder Name="Skill\Dialogs" TargetFolderName="Dialogs">
