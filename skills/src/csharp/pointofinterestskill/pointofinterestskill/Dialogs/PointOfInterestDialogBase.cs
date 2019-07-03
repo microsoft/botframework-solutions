@@ -748,9 +748,7 @@ namespace PointOfInterestSkill.Dialogs
             else
             {
                 // In skill-mode we don't have HttpContext and require skills to provide their own storage for assets
-                Settings.Properties.TryGetValue("imageAssetLocation", out var imageUri);
-
-                var imageUriStr = imageUri;
+                var imageUriStr = Settings.ImageAssetLocation;
                 if (string.IsNullOrWhiteSpace(imageUriStr))
                 {
                     throw new Exception("ImageAssetLocation Uri not configured on the skill.");

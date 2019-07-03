@@ -74,8 +74,8 @@ namespace PointOfInterestSkill.Dialogs
 
             await PopulateStateFromSemanticAction(dc.Context);
 
-            // If dispatch result is general luis model
-            localeConfig.LuisServices.TryGetValue("pointofinterest", out var luisService);
+            // If dispatch result is General luis model
+            localeConfig.LuisServices.TryGetValue("PointOfInterest", out var luisService);
 
             if (luisService == null)
             {
@@ -87,7 +87,7 @@ namespace PointOfInterestSkill.Dialogs
                 var result = await luisService.RecognizeAsync<pointofinterestLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
-                // switch on general intents
+                // switch on General intents
                 switch (intent)
                 {
                     case pointofinterestLuis.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y:
@@ -242,12 +242,12 @@ namespace PointOfInterestSkill.Dialogs
                 var localeConfig = _services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities
-                var poiLuisResult = await localeConfig.LuisServices["pointofinterest"].RecognizeAsync<pointofinterestLuis>(dc.Context, cancellationToken);
+                var poiLuisResult = await localeConfig.LuisServices["PointOfInterest"].RecognizeAsync<pointofinterestLuis>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
                 state.LuisResult = poiLuisResult;
 
                 // check luis intent
-                localeConfig.LuisServices.TryGetValue("general", out var luisService);
+                localeConfig.LuisServices.TryGetValue("General", out var luisService);
 
                 if (luisService == null)
                 {
