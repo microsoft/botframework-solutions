@@ -191,6 +191,7 @@ if ($outputs)
 	if ($outputs.storage) { $settings | Add-Member -Type NoteProperty -Force -Name 'blobStorage' -Value $outputs.storage.value }
 	if ($outputs.cosmosDb) { $settings | Add-Member -Type NoteProperty -Force -Name 'cosmosDb' -Value $outputs.cosmosDb.value }
 	if ($outputs.contentModerator) { $settings | Add-Member -Type NoteProperty -Force -Name 'contentModerator' -Value $outputs.contentModerator.value }
+	if ($outputs.qnaMaker.value.key) { $qnaSubscriptionKey = $outputs.qnaMaker.value.key }
 
 	$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $projDir appsettings.json)
 
@@ -198,7 +199,7 @@ if ($outputs)
 	Start-Sleep -s 30
 
 	# Deploy cognitive models
-	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisSubscriptionKey $($outputs.luis.value.key) -resourceGroup $($resourceGroup) -qnaSubscriptionKey $($outputs.qnaMaker.value.key) -outFolder '$($projDir)' -languages '$($languages)'"
+	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisSubscriptionKey $($outputs.luis.value.key) -resourceGroup $($resourceGroup) -qnaSubscriptionKey '$($qnaSubscriptionKey)' -outFolder '$($projDir)' -languages '$($languages)'"
 	
 	# Publish bot
 	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'publish.ps1')' -name $($outputs.botWebAppName.value) -resourceGroup $($resourceGroup) -projFolder '$($projDir)'"
