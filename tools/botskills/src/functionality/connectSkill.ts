@@ -133,7 +133,7 @@ Make sure your Skill's .lu file's name matches your Skill's manifest id`);
                 // Validate 'dispatch add' arguments
                 if (!existsSync(configuration.dispatchFolder)) {
                     throw new Error(`Path to the Dispatch folder (${configuration.dispatchFolder}) leads to a nonexistent folder.
-Remember to use the argument '--dispatchFOlder' for your Assistant's Dispatch folder.`);
+Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch folder.`);
                 } else if (!existsSync(dispatchFilePath)) {
                     throw new Error(`Path to the ${dispatchFile} file leads to a nonexistent file.
 Make sure to use the argument '--dispatchName' for your Assistant's Dispatch file name.`);
