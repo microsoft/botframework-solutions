@@ -140,6 +140,8 @@ namespace PointOfInterestSkill.Dialogs
                 }
                 else if (cards.Count == 1)
                 {
+                    pointOfInterestList[0].SubmitText = GetConfirmPromptTrue();
+
                     var options = new PromptOptions
                     {
                         Prompt = ResponseManager.GetCardResponse(POISharedResponses.PromptToGetRoute, cards)

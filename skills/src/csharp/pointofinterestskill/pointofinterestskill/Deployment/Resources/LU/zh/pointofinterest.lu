@@ -51,6 +51,8 @@ $KEYWORD:simple
 
 $PREBUILT:number
 
+$PREBUILT:geographyV2
+
 
 > # Phrase list definitions
 

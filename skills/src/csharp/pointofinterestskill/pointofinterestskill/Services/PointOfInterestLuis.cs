@@ -31,6 +31,9 @@ namespace Luis
 
             // Built-in entities
             public double[] number;
+            // Workaround. Remove them when combined to geographV2[] in 4.5
+            public string[] geographyV2_poi;
+            public string[] geographyV2_city;
 
             // Lists
             public string[][] ROUTE_TYPE;
@@ -41,6 +44,8 @@ namespace Luis
                 public InstanceData[] KEYWORD;
                 public InstanceData[] ADDRESS;
                 public InstanceData[] number;
+                public InstanceData[] geographyV2_poi;
+                public InstanceData[] geographyV2_city;
                 public InstanceData[] ROUTE_TYPE;
             }
             [JsonProperty("$instance")]

@@ -8,7 +8,6 @@ namespace PointOfInterestSkill.Models
     {
         public PointOfInterestSkillState()
         {
-            CurrentCoordinates = null;
             Destination = null;
             DialogName = string.Empty;
             Keyword = string.Empty;
@@ -50,11 +49,8 @@ namespace PointOfInterestSkill.Models
         {
             Destination = null;
             DialogName = string.Empty;
-            Keyword = string.Empty;
-            Address = string.Empty;
-            RouteType = string.Empty;
             LastFoundPointOfInterests = null;
-            UserSelectIndex = -1;
+            ClearLuisResults();
         }
 
         /// <summary>
