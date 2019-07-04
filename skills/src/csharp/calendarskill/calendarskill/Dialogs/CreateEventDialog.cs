@@ -15,7 +15,11 @@ using CalendarSkill.Services;
 using CalendarSkill.Utilities;
 using Luis;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
@@ -34,11 +38,36 @@ namespace CalendarSkill.Dialogs
                ResponseManager responseManager,
                ConversationState conversationState,
                FindContactDialog findContactDialog,
+               SummaryDialog summaryDialog,
                IServiceManager serviceManager,
                IBotTelemetryClient telemetryClient)
                : base(nameof(CreateEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
+
+            var skillOptions = new CalendarSkillDialogOptions
+            {
+                SubFlowMode = true
+            };
+
+            var rootDialog = new AdaptiveDialog("CreateMeetingRootDialog")
+            {
+                Recognizer = CreateRecognizer(),
+                Rules = new List<IRule>()
+                {
+                    new IntentRule("FindCalendarEntry")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new BeginDialog(nameof(SummaryDialog), options: skillOptions)
+                        }
+                    }
+                },
+                Steps = new List<IDialog>()
+                {
+                    new BeginDialog(Actions.CreateEvent)
+                }
+            };
 
             var createEvent = new WaterfallStep[]
             {
@@ -92,21 +121,38 @@ namespace CalendarSkill.Dialogs
                 ShowRestParticipants,
             };
 
-            // Define the conversation flow using a waterfall model.
-            AddDialog(new CalendarWaterfallDialog(Actions.CreateEvent, createEvent, CalendarStateAccessor) { TelemetryClient = telemetryClient });
-            AddDialog(new CalendarWaterfallDialog(Actions.UpdateStartDateForCreate, updateStartDate, CalendarStateAccessor) { TelemetryClient = telemetryClient });
-            AddDialog(new CalendarWaterfallDialog(Actions.UpdateStartTimeForCreate, updateStartTime, CalendarStateAccessor) { TelemetryClient = telemetryClient });
-            AddDialog(new CalendarWaterfallDialog(Actions.UpdateDurationForCreate, updateDuration, CalendarStateAccessor) { TelemetryClient = telemetryClient });
-            AddDialog(new CalendarWaterfallDialog(Actions.GetRecreateInfo, getRecreateInfo, CalendarStateAccessor) { TelemetryClient = telemetryClient });
-            AddDialog(new CalendarWaterfallDialog(Actions.ShowRestParticipants, showRestParticipants, CalendarStateAccessor) { TelemetryClient = telemetryClient });
-            AddDialog(new DatePrompt(Actions.DatePromptForCreate));
-            AddDialog(new TimePrompt(Actions.TimePromptForCreate));
-            AddDialog(new DurationPrompt(Actions.DurationPromptForCreate));
-            AddDialog(new GetRecreateInfoPrompt(Actions.GetRecreateInfoPrompt));
-            AddDialog(findContactDialog ?? throw new ArgumentNullException(nameof(findContactDialog)));
+            var createEventDialog = new CalendarWaterfallDialog(Actions.CreateEvent, createEvent, CalendarStateAccessor) { TelemetryClient = telemetryClient };
+            var updateStartDateDialog = new CalendarWaterfallDialog(Actions.UpdateStartDateForCreate, updateStartDate, CalendarStateAccessor) { TelemetryClient = telemetryClient };
+            var updateStartTimeDialog = new CalendarWaterfallDialog(Actions.UpdateStartTimeForCreate, updateStartTime, CalendarStateAccessor) { TelemetryClient = telemetryClient };
+            var updateDurationDialog = new CalendarWaterfallDialog(Actions.UpdateDurationForCreate, updateDuration, CalendarStateAccessor) { TelemetryClient = telemetryClient };
+            var getRecreateInfoDialog = new CalendarWaterfallDialog(Actions.GetRecreateInfo, getRecreateInfo, CalendarStateAccessor) { TelemetryClient = telemetryClient };
+            var showRestParticipantsDialog = new CalendarWaterfallDialog(Actions.ShowRestParticipants, showRestParticipants, CalendarStateAccessor) { TelemetryClient = telemetryClient };
+            var datePromptDialog = new DatePrompt(Actions.DatePromptForCreate);
+            var timePromptDialog = new TimePrompt(Actions.TimePromptForCreate);
+            var durationPromptDialog = new DurationPrompt(Actions.DurationPromptForCreate);
+            var getRecreateInfoPromptDialog = new GetRecreateInfoPrompt(Actions.GetRecreateInfoPrompt);
+            var promptDialog = new TextPrompt(Actions.Prompt);
 
             // Set starting dialog for component
-            InitialDialogId = Actions.CreateEvent;
+
+            AddDialog(rootDialog);
+            rootDialog.AddDialog(new List<IDialog>()
+            {
+                createEventDialog,
+                updateStartDateDialog,
+                updateStartTimeDialog,
+                updateDurationDialog,
+                getRecreateInfoDialog,
+                showRestParticipantsDialog,
+                datePromptDialog,
+                timePromptDialog,
+                durationPromptDialog,
+                getRecreateInfoPromptDialog,
+                findContactDialog ?? throw new ArgumentNullException(nameof(findContactDialog)),
+                summaryDialog ?? throw new ArgumentNullException(nameof(summaryDialog)),
+                promptDialog
+            });
+            InitialDialogId = "CreateMeetingRootDialog";
         }
 
         // Create Event waterfall steps
@@ -1207,6 +1253,16 @@ namespace CalendarSkill.Dialogs
                 await dc.CancelAllDialogsAsync();
                 throw;
             }
+        }
+
+        private static IRecognizer CreateRecognizer()
+        {
+            return new LuisRecognizer(new LuisApplication()
+            {
+                Endpoint = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/807cd523-34cb-4911-b149-cdcb58f661cc?verbose=true&timezoneOffset=-360&subscription-key=80d731206676475bb03d30e3bc2ee07e&q=",//Configuration["LuisAPIHostName"],
+                EndpointKey = "80d731206676475bb03d30e3bc2ee07e", //Configuration["LuisAPIKey"],
+                ApplicationId = "807cd523-34cb-4911-b149-cdcb58f661cc",// Configuration["LuisAppId"]
+            });
         }
     }
 }

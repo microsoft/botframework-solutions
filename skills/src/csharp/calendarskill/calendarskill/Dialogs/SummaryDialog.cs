@@ -120,14 +120,6 @@ namespace CalendarSkill.Dialogs
             var readDialog = new CalendarWaterfallDialog(Actions.Read, readEvent, CalendarStateAccessor) { TelemetryClient = telemetryClient };
             var promptDialog = new TextPrompt(Actions.Prompt);
 
-            // Define the conversation flow using a waterfall model.
-            AddDialog(initDialog);
-            AddDialog(showNextDialog);
-            AddDialog(showEventsSummaryDialog);
-            AddDialog(readDialog);
-            AddDialog(updateEventDialog ?? throw new ArgumentNullException(nameof(updateEventDialog)));
-            AddDialog(changeEventStatusDialog ?? throw new ArgumentNullException(nameof(changeEventStatusDialog)));
-
             // Set starting dialog for component
             //InitialDialogId = Actions.GetEventsInit;
             AddDialog(rootDialog);
@@ -159,12 +151,14 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var dialogState = (ShowMeetingsDialogState)sc.State.Dialog[CalendarStateKey];
+                var skillOptions = (CalendarSkillDialogOptions)sc.Options;
+                skillOptions.DialogState = dialogState;
                 if (dialogState.OrderReference != null && dialogState.OrderReference.ToLower().Contains(CalendarCommonStrings.Next))
                 {
-                    return await sc.BeginDialogAsync(Actions.ShowNextEvent, options: sc.Options);
+                    return await sc.BeginDialogAsync(Actions.ShowNextEvent, skillOptions);
                 }
 
-                return await sc.BeginDialogAsync(Actions.ShowEventsSummary, options: sc.Options);
+                return await sc.BeginDialogAsync(Actions.ShowEventsSummary, skillOptions);
             }
             catch (Exception ex)
             {
@@ -427,7 +421,12 @@ namespace CalendarSkill.Dialogs
                 var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
                 if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
-                    await ClearAllState(sc.Context);
+                    //await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.ActionEnded), cancellationToken);
+                    if (!skillOptions.SubFlowMode)
+                    {
+                        await ClearAllState(sc.Context);
+                    }
+
                     return await sc.EndDialogAsync(true);
                 }
                 else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)

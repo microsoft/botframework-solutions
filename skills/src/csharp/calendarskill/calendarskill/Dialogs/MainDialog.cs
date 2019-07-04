@@ -244,78 +244,78 @@ namespace CalendarSkill.Dialogs
                 // switch on general intents
                 //switch (intent)
                 //{
-                    //case CalendarLuis.Intent.FindMeetingRoom:
-                    //case CalendarLuis.Intent.CreateCalendarEntry:
-                    //    {
-                    //        turnResult = await dc.BeginDialogAsync(nameof(CreateEventDialog));
-                    //        break;
-                    //    }
+                //case CalendarLuis.Intent.FindMeetingRoom:
+                //case CalendarLuis.Intent.CreateCalendarEntry:
+                //    {
+                //        turnResult = await dc.BeginDialogAsync(nameof(CreateEventDialog));
+                //        break;
+                //    }
 
-                    //case CalendarLuis.Intent.AcceptEventEntry:
-                    //case CalendarLuis.Intent.DeleteCalendarEntry:
-                    //    {
-                    //        turnResult = await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog));
-                    //        break;
-                    //    }
+                //case CalendarLuis.Intent.AcceptEventEntry:
+                //case CalendarLuis.Intent.DeleteCalendarEntry:
+                //    {
+                //        turnResult = await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog));
+                //        break;
+                //    }
 
-                    //case CalendarLuis.Intent.ChangeCalendarEntry:
-                    //    {
-                    //        turnResult = await dc.BeginDialogAsync(nameof(UpdateEventDialog));
-                    //        break;
-                    //    }
+                //case CalendarLuis.Intent.ChangeCalendarEntry:
+                //    {
+                //        turnResult = await dc.BeginDialogAsync(nameof(UpdateEventDialog));
+                //        break;
+                //    }
 
-                    //case CalendarLuis.Intent.ConnectToMeeting:
-                    //    {
-                    //        turnResult = await dc.BeginDialogAsync(nameof(ConnectToMeetingDialog));
-                    //        break;
-                    //    }
+                //case CalendarLuis.Intent.ConnectToMeeting:
+                //    {
+                //        turnResult = await dc.BeginDialogAsync(nameof(ConnectToMeetingDialog));
+                //        break;
+                //    }
 
-                    //case CalendarLuis.Intent.FindCalendarEntry:
-                    //case CalendarLuis.Intent.FindCalendarDetail:
-                    //case CalendarLuis.Intent.FindCalendarWhen:
-                    //case CalendarLuis.Intent.FindCalendarWhere:
-                    //case CalendarLuis.Intent.FindCalendarWho:
-                    //case CalendarLuis.Intent.FindDuration:
-                    //    {
-                    //        turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
-                    //        break;
-                    //    }
+                //case CalendarLuis.Intent.FindCalendarEntry:
+                //case CalendarLuis.Intent.FindCalendarDetail:
+                //case CalendarLuis.Intent.FindCalendarWhen:
+                //case CalendarLuis.Intent.FindCalendarWhere:
+                //case CalendarLuis.Intent.FindCalendarWho:
+                //case CalendarLuis.Intent.FindDuration:
+                //    {
+                //        turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
+                //        break;
+                //    }
 
-                    //case CalendarLuis.Intent.TimeRemaining:
-                    //    {
-                    //        turnResult = await dc.BeginDialogAsync(nameof(TimeRemainingDialog));
-                    //        break;
-                    //    }
+                //case CalendarLuis.Intent.TimeRemaining:
+                //    {
+                //        turnResult = await dc.BeginDialogAsync(nameof(TimeRemainingDialog));
+                //        break;
+                //    }
 
-                    //case CalendarLuis.Intent.ShowNextCalendar:
-                    //case CalendarLuis.Intent.ShowPreviousCalendar:
-                    //    {
-                    //        turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
-                    //        break;
-                    //    }
+                //case CalendarLuis.Intent.ShowNextCalendar:
+                //case CalendarLuis.Intent.ShowPreviousCalendar:
+                //    {
+                //        turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
+                //        break;
+                //    }
 
-                    //case CalendarLuis.Intent.None:
-                    //    {
-                    //        if (generalTopIntent == General.Intent.ShowNext || generalTopIntent == General.Intent.ShowPrevious)
-                    //        {
-                    //            turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
-                    //        }
-                    //        else
-                    //        {
-                    //            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage));
-                    //            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-                    //        }
+                //case CalendarLuis.Intent.None:
+                //    {
+                //        if (generalTopIntent == General.Intent.ShowNext || generalTopIntent == General.Intent.ShowPrevious)
+                //        {
+                //            turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
+                //        }
+                //        else
+                //        {
+                //            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage));
+                //            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
+                //        }
 
-                    //        break;
-                    //    }
+                //        break;
+                //    }
 
-                    //default:
-                    //    {
-                    //        await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.FeatureNotAvailable));
-                    //        turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
+                //default:
+                //    {
+                //        await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.FeatureNotAvailable));
+                //        turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
 
-                    //        break;
-                    //    }
+                //        break;
+                //    }
 
                 //}
 
@@ -324,9 +324,14 @@ namespace CalendarSkill.Dialogs
                 //    await CompleteAsync(dc);
                 //}
 
+                var skillOptions = new CalendarSkillDialogOptions
+                {
+                    SubFlowMode = false
+                };
+
                 if (dc.ActiveDialog == null)
                 {
-                    await dc.BeginDialogAsync(nameof(AdaptiveDialog));
+                    await dc.BeginDialogAsync(nameof(AdaptiveDialog), skillOptions);
                 }
                 else
                 {
