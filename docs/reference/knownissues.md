@@ -15,7 +15,7 @@ It's key to ensure that under Domains and permissions in the Manifest Editor tha
 
 ## WebChat doesn't work with your Virtual Assistant / Skills
 
-Virtual Assistant's created using an earlier version of the template reference an older version of the nuget packages. Update your `Bot.Builder.Skills` and `Bot.Builder.Solutions` to the latest versions (4.4.41 or higher) along with the Bot Framework SDK to 4.4.5 or higher. Then apply the change in the item below.
+Virtual Assistant's created using an earlier version of the template reference an older version of the nuget packages. Update your `Bot.Builder.Skills` and `Bot.Builder.Solutions` to the latest versions (4.4.4.1) along with the Bot Framework SDK to 4.4.5 or higher. Then apply the change in the item below.
 
 ## When invoking a Skill you may experience the initial message being sent twice
 
