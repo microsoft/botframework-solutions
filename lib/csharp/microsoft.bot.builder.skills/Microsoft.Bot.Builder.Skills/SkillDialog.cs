@@ -43,14 +43,15 @@ namespace Microsoft.Bot.Builder.Skills
         /// <param name="telemetryClient">Telemetry Client.</param>
         /// <param name="userState">User State.</param>
         /// <param name="authDialog">Auth Dialog.</param>
+        /// <param name="skillIntentRecognizer">Skill Intent Recognizer.</param>
         /// <param name="skillTransport">Transport used for skill invocation.</param>
         public SkillDialog(
 			SkillManifest skillManifest,
 			IServiceClientCredentials serviceClientCredentials,
 			IBotTelemetryClient telemetryClient,
 			UserState userState,
-            ISkillIntentRecognizer skillIntentRecognizer,
             MultiProviderAuthDialog authDialog = null,
+            ISkillIntentRecognizer skillIntentRecognizer = null,
 			ISkillTransport skillTransport = null)
             : base(skillManifest.Id)
         {
