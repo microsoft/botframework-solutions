@@ -70,6 +70,7 @@ class Copier {
   loadTemplatesFiles(newAssistant) {
     templateFiles.set(`_package.json`, `package.json`);
     templateFiles.set(`_.eslintrc.js`, `.eslintrc.js`);
+    templateFiles.set(`_.eslintignore`, `.eslintignore`);
     templateFiles.set(`_.gitignore`, `.gitignore`);
     templateFiles.set(`_.npmrc`, `.npmrc`);
     templateFiles.set(`_.nycrc`, `.nycrc`);
