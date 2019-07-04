@@ -1,10 +1,7 @@
-﻿using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Skills.Models.Manifest;
-using Microsoft.Bot.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Skills.Models.Manifest;
 
 namespace Microsoft.Bot.Builder.Skills
 {

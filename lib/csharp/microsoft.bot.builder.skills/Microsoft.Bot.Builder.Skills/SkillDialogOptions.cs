@@ -1,9 +1,9 @@
-﻿using Microsoft.Bot.Builder.Dialogs;
-using System;
-using System.Threading.Tasks;
-
-namespace Microsoft.Bot.Builder.Skills
+﻿namespace Microsoft.Bot.Builder.Skills
 {
+    using System;
+    using System.Threading.Tasks;
+    using Microsoft.Bot.Builder.Dialogs;
+
     public class SkillDialogOptions
     {
         public string ActionName { get; set; }

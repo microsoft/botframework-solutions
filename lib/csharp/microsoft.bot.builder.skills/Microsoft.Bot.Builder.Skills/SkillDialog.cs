@@ -314,7 +314,7 @@ namespace Microsoft.Bot.Builder.Skills
                                 // If the intent can be handled by other skill
                                 if (recognizedSkillManifestRecognized != null && recognizedSkillManifestRecognized.Id != this.Id)
                                 {
-                                    if(_skillIntentRecognizer.ConfirmIntentSwitch)
+                                    if (_skillIntentRecognizer.ConfirmIntentSwitch)
                                     {
                                         var options = new SkillSwitchConfirmOption()
                                         {
