@@ -100,6 +100,14 @@
         public Dictionary<string, string> Properties { get; set; } = new Dictionary<string, string>();
 
         /// <summary>
+        /// Gets or sets whether to prompt a confirm dialog when do intent switch.
+        /// </summary>
+        /// <value>
+        /// The confirm intent switch setting.
+        /// </value>
+        public bool ConfirmIntentSwitch { get; set; }
+
+        /// <summary>
         /// Class representing configuration for an Azure Blob Storage service.
         /// </summary>
         public class BlobStorageConfiguration

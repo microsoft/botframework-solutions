@@ -66,10 +66,10 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
 
                                     case DialogTurnStatus.Complete:
                                         {
-                                            if (result.Result is Activity returnValue && returnValue.Name == FallbackEvents.FallbackHandleEventName)
+                                            if (result.Result is string)
                                             {
                                                 // Redispatch
-                                                await ReDispatchAsync(innerDc).ConfigureAwait(false);
+                                                await RedispatchAsync(innerDc, result).ConfigureAwait(false);
                                             }
                                             else
                                             {
@@ -154,7 +154,7 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
         /// <param name="result">The dialog result when inner dialog completed.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected virtual Task ReDispatchAsync(DialogContext innerDc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
+        protected virtual Task RedispatchAsync(DialogContext innerDc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             return Task.CompletedTask;
         }
