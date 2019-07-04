@@ -300,6 +300,7 @@ namespace Microsoft.Bot.Builder.Skills
                 else
                 {
                     var dialogResult = new DialogTurnResult(DialogTurnStatus.Waiting);
+
                     // if there's any response we need to send to the skill queued
                     // forward to skill and start a new turn
                     while (_queuedResponses.Count > 0 && dialogResult.Status != DialogTurnStatus.Complete && dialogResult.Status != DialogTurnStatus.Cancelled)
@@ -320,7 +321,7 @@ namespace Microsoft.Bot.Builder.Skills
                                         {
                                             LastActivity = lastEvent,
                                             TargetIntent = recognizedSkillManifestRecognized.Id,
-                                            UserInputActivity = innerDc.Context.Activity
+                                            UserInputActivity = innerDc.Context.Activity,
                                         };
 
                                         return await innerDc.BeginDialogAsync(DialogIds.ConfirmFlow, options);
