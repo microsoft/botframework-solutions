@@ -9,7 +9,7 @@ import { extname, isAbsolute, join, resolve } from 'path';
 import { DisconnectSkill } from './functionality';
 import { ConsoleLogger, ILogger} from './logger';
 import { ICognitiveModelFile, IDisconnectConfiguration } from './models';
-import { validatePairOfArgs } from './utils';
+import { sanitizePath, validatePairOfArgs } from './utils';
 
 function showErrorHelp(): void {
     program.outputHelp((str: string) => {
@@ -85,7 +85,7 @@ const configuration: Partial<IDisconnectConfiguration> = {
 };
 
 // outFolder validation -- the const is needed for reassuring 'configuration.outFolder' is not undefined
-const outFolder: string = args.outFolder || resolve('./');
+const outFolder: string = args.outFolder ? sanitizePath(args.outFolder) : resolve('./');
 configuration.outFolder = outFolder;
 
 // skillsFile validation
@@ -115,10 +115,12 @@ configuration.language = language;
 const languageCode: string = (language.split('-'))[0];
 
 // dispatchFolder validation
-configuration.dispatchFolder = args.dispatchFolder || join(configuration.outFolder, 'Deployment', 'Resources', 'Dispatch', languageCode);
+configuration.dispatchFolder = args.dispatchFolder ?
+    sanitizePath(args.dispatchFolder) : join(configuration.outFolder, 'Deployment', 'Resources', 'Dispatch', languageCode);
 
 // lgOutFolder validation
-configuration.lgOutFolder = args.lgOutFolder || join(configuration.outFolder, (args.ts ? join('src', 'Services') : 'Services'));
+configuration.lgOutFolder = args.lgOutFolder ?
+    sanitizePath(args.lgOutFolder) : join(configuration.outFolder, (args.ts ? join('src', 'Services') : 'Services'));
 
 // dispatchName validation
 if (!args.dispatchName) {
