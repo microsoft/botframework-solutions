@@ -72,7 +72,7 @@ namespace ToDoSkill.Dialogs
             InitializeConfig(state);
 
             // If dispatch result is general luis model
-            localeConfig.LuisServices.TryGetValue("todo", out var luisService);
+            localeConfig.LuisServices.TryGetValue("ToDo", out var luisService);
 
             if (luisService == null)
             {
@@ -87,33 +87,33 @@ namespace ToDoSkill.Dialogs
                 // switch on general intents
                 switch (intent)
                 {
-                    case todoLuis.Intent.AddToDo:
+                    case ToDoLuis.Intent.AddToDo:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(AddToDoItemDialog));
                             break;
                         }
 
-                    case todoLuis.Intent.MarkToDo:
+                    case ToDoLuis.Intent.MarkToDo:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(MarkToDoItemDialog));
                             break;
                         }
 
-                    case todoLuis.Intent.DeleteToDo:
+                    case ToDoLuis.Intent.DeleteToDo:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(DeleteToDoItemDialog));
                             break;
                         }
 
-                    case todoLuis.Intent.ShowNextPage:
-                    case todoLuis.Intent.ShowPreviousPage:
-                    case todoLuis.Intent.ShowToDo:
+                    case ToDoLuis.Intent.ShowNextPage:
+                    case ToDoLuis.Intent.ShowPreviousPage:
+                    case ToDoLuis.Intent.ShowToDo:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(ShowToDoItemDialog));
                             break;
                         }
 
-                    case todoLuis.Intent.None:
+                    case ToDoLuis.Intent.None:
                         {
                             if (generalTopIntent == General.Intent.ShowNext
                                 || generalTopIntent == General.Intent.ShowPrevious)
@@ -196,12 +196,12 @@ namespace ToDoSkill.Dialogs
                 var cognitiveModels = _services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities
-                var toDoLuisResult = await cognitiveModels.LuisServices["todo"].RecognizeAsync<todoLuis>(dc.Context, cancellationToken);
+                var toDoLuisResult = await cognitiveModels.LuisServices["ToDo"].RecognizeAsync<ToDoLuis>(dc.Context, cancellationToken);
                 var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
                 state.LuisResult = toDoLuisResult;
 
                 // check luis intent
-                cognitiveModels.LuisServices.TryGetValue("general", out var luisService);
+                cognitiveModels.LuisServices.TryGetValue("General", out var luisService);
 
                 if (luisService == null)
                 {
