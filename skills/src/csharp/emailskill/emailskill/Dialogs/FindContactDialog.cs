@@ -1061,7 +1061,7 @@ namespace EmailSkill.Dialogs
 
             // TODO: The signature for validators has changed to return bool -- Need new way to handle this logic
             // If user want to show more recipient end current choice dialog and return the intent to next step.
-            if (generalTopIntent == Luis.General.Intent.ShowNext || generalTopIntent == Luis.General.Intent.ShowPrevious || emailTopIntent == EmailLuis.Intent.ShowNext || emailTopIntent == EmailLuis.Intent.ShowPrevious)
+            if (generalTopIntent == Luis.General.Intent.ShowNext || generalTopIntent == Luis.General.Intent.ShowPrevious || emailTopIntent == emailLuis.Intent.ShowNext || emailTopIntent == emailLuis.Intent.ShowPrevious)
             {
                 // pc.End(topIntent);
                 return true;

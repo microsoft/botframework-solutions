@@ -74,7 +74,7 @@
   "resources": [
     {
       "apiVersion": "2018-02-01",
-      "name": "99ea37e6-a3e6-4102-a249-71c880607386",
+      "name": "a7b459f7-4d3e-441a-a181-9d8546a632df",
       "type": "Microsoft.Resources/deployments",
       "properties": {
         "mode": "Incremental",
@@ -190,11 +190,10 @@
     }
   ],
   "outputs": {
-    "appInsights": {
+    "ApplicationInsights": {
       "type": "object",
       "value": {
-        "appId": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).AppId]",
-        "instrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]"
+        "InstrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]"
       }
     },
     "storage": {

@@ -17,6 +17,8 @@ namespace NewsSkill.Responses.Main
         public const string Greeting = "greeting";
         public const string Help = "help";
         public const string Intro = "intro";
+        public const string MarketPrompt = "marketPrompt";
+        public const string MarketRetryPrompt = "marketRetryPrompt";
 
         private static LanguageTemplateDictionary _responseTemplates = new LanguageTemplateDictionary
         {
@@ -28,6 +30,8 @@ namespace NewsSkill.Responses.Main
                 { Greeting, (context, data) => MainStrings.GREETING },
                 { Help, (context, data) => SendHelpCard(context, data) },
                 { Intro, (context, data) => SendIntroCard(context, data) },
+                { MarketPrompt, (context, data) => "What country do you want to search in?" },
+                { MarketRetryPrompt, (context, data) => "Couldn't find that country. What country do you want to search in?" }
             },
             ["en"] = new TemplateIdMap { },
             ["fr"] = new TemplateIdMap { },

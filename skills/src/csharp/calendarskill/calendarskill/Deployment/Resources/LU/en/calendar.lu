@@ -105,6 +105,7 @@
 - can you change it to {ToTime=5 pm}
 - can you move this appointment to {ToTime=5pm}
 - change {FromTime=10 am} meeting to start {MoveLaterTimeSpan=20 minutes} later
+- change {FromTime=12am} meeting to start {MoveEarlierTimeSpan=10 minutes} earlier
 - change {FromTime=4pm} {Subject=lunch appointment}
 - change {FromTime=5pm} appointment {MoveEarlierTimeSpan=1 hour} earlier
 - change an appointment
@@ -189,6 +190,7 @@
 - move my {Subject=text meeting}
 - move my {FromTime=twelve p . m .} meeting forward {MoveEarlierTimeSpan=two hours}
 - move my {FromTime=twelve p. m.} {MoveEarlierTimeSpan=thirty minutes} up
+- move {Subject=party planning meeting} from {FromDate={FromTime=saturday}} to {ToDate=friday} at {ToTime=1pm}
 - move {Subject=shoe appointment} to {ToDate=tuesday} at {ToTime=one}
 - please move this to {ToTime=3 pm}
 - postpone my {FromTime=4 pm} meeting {FromDate=today} until {ToTime=5 pm}
@@ -208,6 +210,7 @@
 - update meeting from {FromTime=8am}-{FromTime=12pm} to {ToTime=7am}-{ToTime=11am} {ToDate=today}
 - update my appointment
 - update my {Subject=calendar}
+- update my calendar from {FromTime={ToTime=11}} to {ToTime=12:30} {ToDate=today}
 - update my calendar from {FromTime=2 pm} to {ToTime=4 pm} {ToDate=today}
 - update my calendar from {FromTime=6pm} to {ToTime=7pm}
 - update my {Subject=camping appointment}
@@ -478,7 +481,7 @@
 - add {Subject=pay pearl fees} on my calendar {FromDate=tomorrow}
 - add {Subject=picture day} at {Location=school} to my calendar for {FromDate=friday, november the 8th} from {FromTime=8 am} to {ToTime=9:30} am
 - add {Subject=solo gig} at {Location=civic hall} on the {FromDate=7th of march} at {FromTime=8 pm}
-- add {Subject=team meeting} to my calendar at {FromTime=10pm} with xiaoming wang
+- add {Subject=team meeting} to my calendar at {FromTime=10pm} with xiaoming yang
 - add the {Subject=enviomential protection meeting} from {FromTime=9 am} to {ToTime=11 am}
 - add the {Subject=lunch} with my colleague naomi from {FromTime=12} to {ToTime=2} in my {DestinationCalendar=personal} calendar
 - add {Subject=ultimate frisbee} on {FromDate=sunday} at {FromTime=2 pm} for {Duration=2 hours}
@@ -526,7 +529,7 @@
 - make me an appointment on the calendar
 - make me an appointment {FromDate=tomorrow} at {FromTime=2 30 pm}
 - {FromDate=march 15} {Subject=dinner} at {Location=refectory} at {FromTime=6 pm}
-- meet ming wang for {Subject=lunch} on {FromDate=tuesday} at {FromTime=noon}
+- meet ming yang for {Subject=lunch} on {FromDate=tuesday} at {FromTime=noon}
 - meet with a.j. lee {FromDate=saturday} at {FromTime=3 pm}
 - meet with carol lee at {Location=home} on {FromDate=march 10th} at {FromTime=4 pm}
 - meeting with ben randie {FromDate=tomorrow} at {FromTime=noon}
@@ -538,7 +541,6 @@
 - new appointment in calendar
 - new appointment in my calendar
 - new appointment {FromDate=next wednesday}
-- new appointment {FromDate=today} {FromTime=6 pm} see dead people
 - new appointment {FromDate=tomorrow} at {FromTime=3 pm} at {Location=sunken}
 - new calendar appointment
 - new calendar entry
@@ -1387,7 +1389,11 @@ $Subject:simple
 
 > # PREBUILT Entity definitions
 
+$PREBUILT:datetimeV2
+
 $PREBUILT:personName
+
+$PREBUILT:ordinal
 
 
 > # Phrase list definitions

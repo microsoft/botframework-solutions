@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector;
 using PointOfInterestSkill.Models;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
@@ -138,11 +140,30 @@ namespace PointOfInterestSkill.Dialogs
                 }
                 else if (cards.Count == 1)
                 {
-                    return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetCardResponse(POISharedResponses.PromptToGetRoute, cards) });
+                    var options = new PromptOptions
+                    {
+                        Prompt = ResponseManager.GetCardResponse(POISharedResponses.PromptToGetRoute, cards)
+                    };
+
+                    // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
+                    if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
+                    {
+                        await sc.Context.SendActivityAsync(options.Prompt);
+                        options.Prompt = null;
+                    }
+
+                    return await sc.PromptAsync(Actions.ConfirmPrompt, options);
                 }
                 else
                 {
                     var options = GetPointOfInterestPrompt(POISharedResponses.MultipleLocationsFound, pointOfInterestList, cards);
+
+                    // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
+                    if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
+                    {
+                        await sc.Context.SendActivityAsync(options.Prompt);
+                        options.Prompt = null;
+                    }
 
                     return await sc.PromptAsync(Actions.SelectPointOfInterestPrompt, options);
                 }

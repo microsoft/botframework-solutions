@@ -1,0 +1,119 @@
+{
+  "type": "AdaptiveCard",
+  "id": "MovieCard",
+  "body": [
+    {
+      "type": "Container",
+      "backgroundImage": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMzEyIDExMCI+PGRlZnM+PHN0eWxlPi5he2ZpbGw6IzY1YWZlMjt9LmJ7b3BhY2l0eTowLjI7ZmlsbDp1cmwoI2EpO30uY3tmaWxsOiMwMDU4YTg7b3BhY2l0eTowLjI1O308L3N0eWxlPjxsaW5lYXJHcmFkaWVudCBpZD0iYSIgeDE9IjIyOC44NyIgeTE9IjU1IiB4Mj0iNDQ5LjM0IiB5Mj0iNTUiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmZmYiIHN0b3Atb3BhY2l0eT0iMC41Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmZmIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHRpdGxlPnBsYXRmb3Jtc0Fzc2V0IDQ4cXVlc2l0b25zPC90aXRsZT48cGF0aCBjbGFzcz0iYSIgZD0iTTIzMC43NCw1NS4wNywyODUuODIsMEgwVjExMEgyNzYuNjFMMjMwLjc0LDY0LjEzQTYuNDMsNi40MywwLDAsMSwyMzAuNzQsNTUuMDdaIi8+PHBhdGggY2xhc3M9ImEiIGQ9Ik0zMTIsMEgyODUuODJMMjMwLjc0LDU1LjA3YTYuNDMsNi40MywwLDAsMCwwLDkuMDZMMjc2LjYxLDExMEgzMTJaIi8+PHBhdGggY2xhc3M9ImIiIGQ9Ik0zMTIsMEgyODUuODJMMjMwLjc0LDU1LjA3YTYuNDMsNi40MywwLDAsMCwwLDkuMDZMMjc2LjYxLDExMEgzMTJaIi8+PHBhdGggY2xhc3M9ImMiIGQ9Ik0yNDIuNiwyMi4zMiwzMTIsOTEuNzJWMEgyNTUuODdMMjQyLjYsMTMuMjdBNi40Miw2LjQyLDAsMCwwLDI0Mi42LDIyLjMyWiIvPjwvc3ZnPg==",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "verticalContentAlignment": "Center",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "title",
+                          "size": "ExtraLarge",
+                          "weight": "Bolder",
+                          "color": "Light",
+                          "text": "{Name}",
+                          "wrap": true
+                        }
+                      ],
+                      "width": "stretch"
+                    }
+                  ]
+                }
+              ],
+              "width": "stretch"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "verticalContentAlignment": "Center",
+              "items": [
+                {
+                  "type": "Image",
+                  "horizontalAlignment": "Left",
+                  "url": "{Image}",
+                  "size": "Large"
+                }
+              ],
+              "width": "auto"
+            },
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "size": "Large",
+                  "weight": "Bolder",
+                  "text": "{ContentRating}",
+                  "isSubtle": true
+                },
+                {
+                  "type": "TextBlock",
+                  "size": "Large",
+                  "text": "{Year}",
+                  "isSubtle": true
+                },
+                {
+                  "type": "TextBlock",
+                  "size": "Large",
+                  "text": "{GenreArray}",
+                  "isSubtle": true,
+                  "wrap": true,
+                  "maxLines": 2
+                },
+                {
+                  "type": "TextBlock",
+                  "size": "Large",
+                  "text": "{Duration}",
+                  "isSubtle": true
+                },
+                {
+                  "type": "TextBlock",
+                  "size": "Large",
+                  "weight": "Bolder",
+                  "text": "{Rating}",
+                  "isSubtle": true
+                }
+              ],
+              "width": "stretch"
+            }
+          ]
+        },
+        {
+          "type": "TextBlock",
+          "id": "messageBody",
+          "size": "Medium",
+          "color": "default",
+          "text": "{Description}",
+          "wrap": true,
+          "maxLines": 3
+        }
+      ]
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0",
+  "speak": "{Speak}"
+}

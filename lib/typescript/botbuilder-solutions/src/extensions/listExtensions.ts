@@ -21,11 +21,16 @@ export namespace ListExtensions {
         let separator: string = '';
 
         const listCount: number = list.length;
-        list.forEach((listItem: T, index: number) => {
-            speech = speech + itemAccessor(listItem);
+        list.forEach((listItem: T, index: number): void => {
+            if (typeof listItem === 'string') {
+                speech = speech.concat(listItem);
+            } else {
+                speech = speech.concat(itemAccessor(listItem));
+            }
             if (listCount > 1) {
                 if (index === listCount - 2) {
-                    separator = i18next.t('common:separatorFormat', finalSeparator);
+                    separator = i18next.t('common:separatorFormat')
+                        .replace('{0}', finalSeparator);
                 } else {
                     separator = index !== listCount - 1 ? ', ' : '';
                 }

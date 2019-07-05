@@ -1,0 +1,6 @@
+lib/**
+bin/**
+typings/**
+export/**
+coverage
+.nyc_output

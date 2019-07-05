@@ -22,6 +22,7 @@ using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 
 namespace EmailSkill.Dialogs
@@ -31,6 +32,7 @@ namespace EmailSkill.Dialogs
         private BotSettings _settings;
         private BotServices _services;
         private ResponseManager _responseManager;
+        private UserState _userState;
         private ConversationState _conversationState;
         private IStatePropertyAccessor<EmailSkillState> _stateAccessor;
 
@@ -39,6 +41,7 @@ namespace EmailSkill.Dialogs
             BotServices services,
             ResponseManager responseManager,
             ConversationState conversationState,
+            UserState userState,
             ForwardEmailDialog forwardEmailDialog,
             SendEmailDialog sendEmailDialog,
             ShowEmailDialog showEmailDialog,
@@ -49,6 +52,7 @@ namespace EmailSkill.Dialogs
         {
             _settings = settings;
             _services = services;
+            _userState = userState;
             _responseManager = responseManager;
             _conversationState = conversationState;
             TelemetryClient = telemetryClient;
@@ -154,6 +158,8 @@ namespace EmailSkill.Dialogs
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.CognitiveModelSets[locale];
 
+            await PopulateStateFromSkillContext(dc.Context);
+
             // If dispatch result is general luis model
             localeConfig.LuisServices.TryGetValue("email", out var luisService);
 
@@ -179,12 +185,36 @@ namespace EmailSkill.Dialogs
             }
         }
 
+        private async Task PopulateStateFromSkillContext(ITurnContext context)
+        {
+            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
+            // and make available in local state as appropriate.
+            var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
+            var skillContext = await accessor.GetAsync(context, () => new SkillContext());
+            if (skillContext != null)
+            {
+                if (skillContext.ContainsKey("timezone"))
+                {
+                    var timezone = skillContext["timezone"];
+                    var state = await _stateAccessor.GetAsync(context, () => new EmailSkillState());
+                    var timezoneJson = timezone as Newtonsoft.Json.Linq.JObject;
+
+                    // we have a timezone
+                    state.UserInfo.Timezone = timezoneJson.ToObject<TimeZoneInfo>();
+                }
+            }
+        }
+
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response = dc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.EndOfConversation;
+            // workaround. if connect skill directly to teams, the following response does not work.
+            if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
+            {
+                var response = dc.Context.Activity.CreateReply();
+                response.Type = ActivityTypes.EndOfConversation;
 
-            await dc.Context.SendActivityAsync(response);
+                await dc.Context.SendActivityAsync(response);
+            }
 
             // End active dialog
             await dc.EndDialogAsync(result);
@@ -194,22 +224,6 @@ namespace EmailSkill.Dialogs
         {
             switch (dc.Context.Activity.Name)
             {
-                case SkillEvents.SkillBeginEventName:
-                    {
-                        var state = await _stateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
-
-                        if (dc.Context.Activity.Value is Dictionary<string, object> userData)
-                        {
-                            if (userData.TryGetValue("IPA.Timezone", out var timezone))
-                            {
-                                // we have a timezone
-                                state.UserInfo.Timezone = (TimeZoneInfo)timezone;
-                            }
-                        }
-
-                        break;
-                    }
-
                 case TokenEvents.TokenResponseEventName:
                     {
                         // Auth dialog completion
@@ -332,16 +346,10 @@ namespace EmailSkill.Dialogs
         private void GetReadingDisplayConfig()
         {
             _settings.Properties.TryGetValue("displaySize", out var maxDisplaySize);
-            _settings.Properties.TryGetValue("readSize", out var maxReadSize);
 
             if (maxDisplaySize != null)
             {
                 ConfigData.GetInstance().MaxDisplaySize = int.Parse(maxDisplaySize as string);
-            }
-
-            if (maxReadSize != null)
-            {
-                ConfigData.GetInstance().MaxReadSize = int.Parse(maxReadSize as string);
             }
         }
     }

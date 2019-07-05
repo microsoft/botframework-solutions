@@ -1,0 +1,17 @@
+{
+  "extension": [
+    ".ts"
+  ],
+  "exclude": [
+    "node_modules/**",
+    "test/**",
+    "coverage/**",
+    "**/*.d.ts"
+  ],
+  "reporter": [
+    "html",
+    "text"
+  ],
+  "all": true,
+  "cache": true
+}

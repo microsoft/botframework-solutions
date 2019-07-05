@@ -17,7 +17,7 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
     private readonly telemetryClient: BotTelemetryClient;
     public server!: Server;
 
-    constructor(middleware?: Middleware, telemetryClient?: BotTelemetryClient) {
+    public constructor(middleware?: Middleware, telemetryClient?: BotTelemetryClient) {
         super();
         this.telemetryClient = telemetryClient || new NullTelemetryClient();
         if (middleware) {
@@ -61,7 +61,7 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses: ResourceResponse[] = [];
 
-        activities.forEach(async (activity: Partial<Activity>, index: number) => {
+        activities.forEach(async (activity: Partial<Activity>, index: number): Promise<void> => {
             if (!activity.id) {
                 activity.id = uuid();
             }
@@ -71,7 +71,7 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
             if (activity.type === 'delay') {
                 // The Activity Schema doesn't have a delay type build in, so it's simulated
                 // here in the Bot. This matches the behavior in the Node connector.
-                const delayMs: number = activity.value;
+                const delayMs: number = <number> activity.value;
                 await sleep(delayMs);
                 // No need to create a response. One will be created below.
             }
@@ -183,13 +183,16 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
 
             if (serverResponse.StatusCode === 200) {
                 // MISSING: await request.ReadBodyAsJson();
-                const bodyParts: string[] = await Promise.all(serverResponse.Streams.map((s: ContentStream) => s.readAsString()));
+                const bodyParts: string[] = await Promise.all(serverResponse.Streams.map
+                ((s: ContentStream): Promise<string> => s.readAsString()));
                 const body: string = bodyParts.join();
 
+                // eslint-disable-next-line @typescript-eslint/tslint/config
                 return JSON.parse(body);
             }
         } catch (error) {
             this.telemetryClient.trackException({
+                // eslint-disable-next-line @typescript-eslint/tslint/config
                 exception: error,
                 handledAt: SkillWebSocketBotAdapter.name
             });
@@ -201,7 +204,7 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
     }
 }
 
-function sleep(delay: number): Promise<void> {
+async function sleep(delay: number): Promise<void> {
     return new Promise<void>((resolve: (value: void) => void): void => {
         setTimeout(resolve, delay);
     });

@@ -57,9 +57,9 @@ namespace ToDoSkillTest.Flow.Utterances
 
         public static string ConfirmListType { get; } = "To Do list";
 
-        private ToDoLuis GetBaseDeleteToDoIntent(
+        private todoLuis GetBaseDeleteToDoIntent(
             string userInput,
-            ToDoLuis.Intent intents = ToDoLuis.Intent.DeleteToDo,
+            todoLuis.Intent intents = todoLuis.Intent.DeleteToDo,
             double[] ordinal = null,
             double[] number = null,
             string[] listType = null,

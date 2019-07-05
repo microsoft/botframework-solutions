@@ -6,6 +6,6 @@
         {
         }
 
-        public Luis.NewsLuis LuisResult { get; set; }
+        public Luis.newsLuis LuisResult { get; set; }
     }
 }

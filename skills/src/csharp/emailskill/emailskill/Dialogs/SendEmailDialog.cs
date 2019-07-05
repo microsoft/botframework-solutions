@@ -18,6 +18,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector.Authentication;
 
 namespace EmailSkill.Dialogs
 {
@@ -30,8 +31,9 @@ namespace EmailSkill.Dialogs
             ConversationState conversationState,
             FindContactDialog findContactDialog,
             IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient)
-            : base(nameof(SendEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            MicrosoftAppCredentials appCredentials)
+            : base(nameof(SendEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
@@ -41,7 +43,6 @@ namespace EmailSkill.Dialogs
                 GetAuthToken,
                 AfterGetAuthToken,
                 CollectRecipient,
-                ByPassOptionalField,
                 CollectSubject,
                 AfterCollection,
                 CollectText,
@@ -135,10 +136,6 @@ namespace EmailSkill.Dialogs
             {
                 await HandleDialogExceptions(sc, ex);
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
         public async Task<DialogTurnResult> CollectSubject(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -153,6 +150,15 @@ namespace EmailSkill.Dialogs
 
                 if (!string.IsNullOrWhiteSpace(state.Subject))
                 {
+                    return await sc.NextAsync();
+                }
+
+                bool? isSkipByDefault = false;
+                isSkipByDefault = Settings.DefaultValue?.SendEmail?.First(item => item.Name == "EmailSubject")?.IsSkipByDefault;
+                if (isSkipByDefault.GetValueOrDefault())
+                {
+                    state.Subject = string.IsNullOrEmpty(EmailCommonStrings.DefaultSubject) ? EmailCommonStrings.EmptySubject : EmailCommonStrings.DefaultSubject;
+
                     return await sc.NextAsync();
                 }
 
@@ -303,10 +309,20 @@ namespace EmailSkill.Dialogs
                     return await sc.NextAsync();
                 }
 
-                var options = (EmailSkillDialogOptions)sc.Options;
-                options.SubFlowMode = true;
-                options.DialogState = state;
-                return await sc.BeginDialogAsync(Actions.UpdateContent, options);
+                bool? isSkipByDefault = false;
+                isSkipByDefault = Settings.DefaultValue?.SendEmail?.First(item => item.Name == "EmailMessage")?.IsSkipByDefault;
+                if (isSkipByDefault.GetValueOrDefault())
+                {
+                    state.Subject = string.IsNullOrEmpty(EmailCommonStrings.DefaultContent) ? EmailCommonStrings.EmptyContent : EmailCommonStrings.DefaultContent;
+
+                    return await sc.NextAsync();
+                }
+
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
+                skillOptions.SubFlowMode = true;
+                skillOptions.DialogState = state;
+                return await sc.BeginDialogAsync(Actions.UpdateContent, skillOptions);
+
             }
             catch (Exception ex)
             {
@@ -358,7 +374,7 @@ namespace EmailSkill.Dialogs
 
                         var replyMessage = ResponseManager.GetCardResponse(
                             SendEmailResponses.PlayBackMessage,
-                            new Card("EmailContentPreview", emailCard),
+                            new Card(GetDivergedCardName(sc.Context, "EmailContentPreview"), emailCard),
                             stringToken);
 
                         await sc.Context.SendActivityAsync(replyMessage);
@@ -441,7 +457,7 @@ namespace EmailSkill.Dialogs
                         { "Subject", state.Subject },
                     };
 
-                    var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
+                    var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? GetDivergedCardName(sc.Context, "ConfirmCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "ConfirmCard_RecipientLessThanFive");
                     var replyMessage = ResponseManager.GetCardResponse(
                         EmailSharedResponses.SentSuccessfully,
                         new Card("EmailWithOutButtonCard", emailCard),

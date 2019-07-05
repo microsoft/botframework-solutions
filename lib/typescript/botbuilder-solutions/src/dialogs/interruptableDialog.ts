@@ -12,7 +12,7 @@ export abstract class InterruptableDialog extends ComponentDialog {
     public primaryDialogName: string;
 
     // Constructor
-    constructor(dialogId: string, telemetryClient: BotTelemetryClient) {
+    public constructor(dialogId: string, telemetryClient: BotTelemetryClient) {
         super(dialogId);
         this.primaryDialogName = dialogId;
         this.telemetryClient = telemetryClient;

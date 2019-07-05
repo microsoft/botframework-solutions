@@ -22,6 +22,7 @@ using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Builder.Solutions.Testing;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -56,6 +57,7 @@ namespace CalendarSkillTest.Flow
             Services.AddSingleton(new UserState(new MemoryStorage()));
             Services.AddSingleton(new ConversationState(new MemoryStorage()));
             Services.AddSingleton(new ProactiveState(new MemoryStorage()));
+            Services.AddSingleton(new MicrosoftAppCredentials(string.Empty, string.Empty));
             Services.AddSingleton(sp =>
             {
                 var userState = sp.GetService<UserState>();

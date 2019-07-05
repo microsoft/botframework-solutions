@@ -13,7 +13,7 @@ export class ConfigData {
 
     public static instance: ConfigData = new ConfigData();
 
-    constructor() {
+    public constructor() {
         this.maxReadSize = CommonUtil.maxReadSize;
         this.maxDisplaySize = CommonUtil.maxDisplaySize;
     }
@@ -33,4 +33,4 @@ export class ConfigData {
     public set maxDisplaySize(value: number) {
         this._maxDisplaySize = Math.min(value, CommonUtil.maxDisplaySize);
     }
- }
+}

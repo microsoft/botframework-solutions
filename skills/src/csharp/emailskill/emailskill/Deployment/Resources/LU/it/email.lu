@@ -30,64 +30,64 @@
 - aggiungi al corpo della e-mail
 - aggiungi alcune righe a questo messaggio
 - aggiungi altro messaggio
-- aggiungi di più
-- aggiungi di più al corpo del messaggio
-- aggiungi di più al messaggio
-- aggiungi di più al testo
-- aggiungi di più alla e-mail
-- aggiungi di più alla posta elettronica di {ContactName=roy}
-- aggiungi di più all'{OrderReference=ultima} e-mail
+- aggiungi di piï¿½
+- aggiungi di piï¿½ al corpo del messaggio
+- aggiungi di piï¿½ al messaggio
+- aggiungi di piï¿½ al testo
+- aggiungi di piï¿½ alla e-mail
+- aggiungi di piï¿½ alla posta elettronica di {ContactName=roy}
+- aggiungi di piï¿½ all'{OrderReference=ultima} e-mail
 - aggiungi e modifica il messaggio
 - aggiungi {Message=non dimenticare di portare la birra}
 - aggiungi per favore
-- aggiungi più testo
-- aggiungi più testo per favore
+- aggiungi piï¿½ testo
+- aggiungi piï¿½ testo per favore
 - aggiungi qualcosa
-- aggiungi {Message=ti è piaciuto l'intero programma}
+- aggiungi {Message=ti ï¿½ piaciuto l'intero programma}
 - aggiungi ulteriori dettagli
 - aggiungi un {Attachment=allegato} a questa e-mail
 - aggiungi un oggetto
-- aggiungi un po' di più
+- aggiungi un po' di piï¿½
 - aggiungi un'altra riga al messaggio
-- aggiungi, a proposito, qual'è il piano del passo successivo?
+- aggiungi, a proposito, qual'ï¿½ il piano del passo successivo?
 - aggiungi: {Message=chiamami stasera dopo il lavoro}
 - allega {Attachment=file}
 - allega {Attachment=file} alla e-mail
 - allega {Attachment=foto}
 - allega un {Attachment=file} alla e-mail
 - allega una {Attachment=foto}
-- aspetta, ho bisogno di scrivere di più
+- aspetta, ho bisogno di scrivere di piï¿½
 - bisogna aggiungere informazioni alla e-mail {OrderReference=precedente}
-- ho bisogno di aggiungere di più al messaggio e-mail che sto inviando a {ContactName=vincent}
-- ho bisogno di aggiungere di più alla e-mail
-- ho bisogno di aggiungere più messaggio
-- ho bisogno di aggiungere più testo
+- ho bisogno di aggiungere di piï¿½ al messaggio e-mail che sto inviando a {ContactName=vincent}
+- ho bisogno di aggiungere di piï¿½ alla e-mail
+- ho bisogno di aggiungere piï¿½ messaggio
+- ho bisogno di aggiungere piï¿½ testo
 - ho bisogno di aggiungere qualcos'altro a quella e-mail per {ContactName=donna} prima che venga inviato
 - ho bisogno di aggiungere qualcos'altro alla mia e-mail a {ContactName=cheryl}
 - ho bisogno di aggiungere ulteriore contenuti
 - ho bisogno di aggiungere ulteriori righe
 - ho dimenticato di aggiungere una parte importante a quell'email per {ContactName=james}. per favore configurala per modificarla.
-- inserisci più righe per me per favore
-- inserisci più testo nella mia email
+- inserisci piï¿½ righe per me per favore
+- inserisci piï¿½ testo nella mia email
 - mi piacerebbe aprire una nuova riga
 - modifica e-mail in modo che io possa digitare un messaggio aggiuntivo
-- non è completo, c'è bisogno di più contenuti
+- non ï¿½ completo, c'ï¿½ bisogno di piï¿½ contenuti
 - non ho ancora finito. ho bisogno di aggiungere ulteriori dettagli
 - ok, ho bisogno di aggiungere un paio di cose a quello
-- per favore aggiungi {Message=è stato terribile}
-- per favore aggiungi più
+- per favore aggiungi {Message=ï¿½ stato terribile}
+- per favore aggiungi piï¿½
 - per favore aggiungi, {Message=per favore fatemi sapere cosa posso portare. sarei felice di fare un contorno o dessert}
-- più testo
-- posso aggiungere di più al messaggio?
-- posso aggiungere di più alla e-mail?
-- scrivi di più
-- va bene se aggiungo di più alla e-mail?
-- voglio aggiungere più e-mail
-- vorrei aggiungere di più al messaggio
-- vorrei aggiungere di più al messaggio di posta elettronica
-- vorrei aggiungere di più alla e-mail
-- vorrei aggiungere un po' di più al messaggio
-- vorrei aggiungere un po' di più alla e-mail.
+- piï¿½ testo
+- posso aggiungere di piï¿½ al messaggio?
+- posso aggiungere di piï¿½ alla e-mail?
+- scrivi di piï¿½
+- va bene se aggiungo di piï¿½ alla e-mail?
+- voglio aggiungere piï¿½ e-mail
+- vorrei aggiungere di piï¿½ al messaggio
+- vorrei aggiungere di piï¿½ al messaggio di posta elettronica
+- vorrei aggiungere di piï¿½ alla e-mail
+- vorrei aggiungere un po' di piï¿½ al messaggio
+- vorrei aggiungere un po' di piï¿½ alla e-mail.
 
 
 ## CancelMessages
@@ -139,10 +139,10 @@
 
 
 ## CheckMessages
-- c'è qualche {Category=nuova} e-mail disponibile?
-- c'è qualche {Category=nuova} e-mail {Time=ora}?
-- c'è qualche {Category=nuovo} messaggio {Time=ora}?
-- c'è una nuova email?
+- c'ï¿½ qualche {Category=nuova} e-mail disponibile?
+- c'ï¿½ qualche {Category=nuova} e-mail {Time=ora}?
+- c'ï¿½ qualche {Category=nuovo} messaggio {Time=ora}?
+- c'ï¿½ una nuova email?
 - controlla e-mail
 - controlla e-mail per favore
 - controlla i messaggi
@@ -162,7 +162,7 @@
 - ho una {Category=nuova} e-mail {Time=ora}?
 - ho una {Category=nuova} e-mail?
 - il mio {Line=outlook} ha delle {Category=nuove} e-mail?
-- mostra le e-mail {OrderReference=più recenti}
+- mostra le e-mail {OrderReference=piï¿½ recenti}
 - mostra le mie e-mail
 - per favore controlla la mia {Line=outlook}
 - per favore controlla la mia posta in arrivo
@@ -184,7 +184,7 @@
 
 ## ConfirmMessages
 - "certo, procedi"
-- "sì, è possibile"
+- "sï¿½, ï¿½ possibile"
 - "va bene, mandalo"
 - certo, elimina semplicimente l'e-mail
 - conferma
@@ -198,9 +198,9 @@
 - ok, bene, invialo
 - ok, va bene per me, invialo per favore
 - perfetto grazie
-- sì corretto, manda ad {ContactName=alex}
-- sì è corretto
-- sì, mandala
+- sï¿½ corretto, manda ad {ContactName=alex}
+- sï¿½ ï¿½ corretto
+- sï¿½, mandala
 - va bene invialo e basta
 - va bene, invia il messaggio
 - va bene, mandalo ora
@@ -238,7 +238,7 @@
 - inoltra a {ContactName=brian potter} {Time=stasera}
 - inoltra a {ContactName=deborah} con un messaggio dicendo che {Message=non lo voglio}
 - inoltra a {ContactName=dorothy} digitando {Message=sono d'accordo}
-- inoltra a partoneparttwo@gmail.com {Date=lunedì prossimo}
+- inoltra a partoneparttwo@gmail.com {Date=lunedï¿½ prossimo}
 - inoltra a {ContactName=thomas} per favore
 - inoltra ad {ContactName=alan} {Time=stasera}
 - inoltra al mio {RelationshipName=capo} e allega il {Attachment=file degli orari}
@@ -249,7 +249,7 @@
 - inoltra e-mail a {ContactName=gabriel}
 - inoltra e-mail alla {RelationshipName=fidanzata}
 - inoltra il messaggio alla {RelationshipName=fidanzata}
-- inoltra l'e-mail a {RelationshipName=papà}
+- inoltra l'e-mail a {RelationshipName=papï¿½}
 - inoltra l'e-mail da {SenderName=john smith} a {ContactName=michelle} dicendo {Message=fyi}
 - inoltra l'e-mail da {SenderName=melissa} a {ContactName=peter}
 - inoltra l'{OrderReference=ultima} e-mail a {ContactName=susan}
@@ -279,7 +279,7 @@
 
 
 ## QueryLastText
-- apri l'e-mail {OrderReference=più recente} che ho ricevuto
+- apri l'e-mail {OrderReference=piï¿½ recente} che ho ricevuto
 - apri l'{OrderReference=ultima} e-mail
 - chi di recente mi ha inviato l'e-mail?
 - chi mi ha inviato l'e-mail {Date=ieri}?
@@ -292,19 +292,19 @@
 - cosa ha appena detto {ContactName=eric watson}?
 - cosa ha appena detto {ContactName=henry}?
 - cosa ha appena detto la {RelationshipName=mamma}?
-- di chi è l'e-mail appena ricevuta?
-- di chi è l'e-mail {Time=ora}?
+- di chi ï¿½ l'e-mail appena ricevuta?
+- di chi ï¿½ l'e-mail {Time=ora}?
 - l'{OrderReference=ultima} e-mail
 - mi puoi dire l'{OrderReference=ultima} e-mail che ho ricevuto?
 - mostra l'{OrderReference=ultima} e-mail
 - mostrami la {OrderReference=nuova} e-mail
-- mostrami l'e-mail {OrderReference=più recente}
+- mostrami l'e-mail {OrderReference=piï¿½ recente}
 - per favore dimmi chi mi ha mandato l'{OrderReference=ultima} e-mail
-- qual è l'{OrderReference=ultima} e-mail che ho ricevuto da {FromRelationshipName=papà}?
-- qual è l'{OrderReference=ultima} e-mail che ho ricevuto {Date=oggi}?
-- qual è stata l'{OrderReference=ultima} e-mail che ho ricevuto da {SenderName=helen edwards}?
-- qual è stata l'{OrderReference=ultima} e-mail che ho ricevuto da {FromRelationshipName=papà}?
-- qual è stata l'{OrderReference=ultima} e-mail?
+- qual ï¿½ l'{OrderReference=ultima} e-mail che ho ricevuto da {FromRelationshipName=papï¿½}?
+- qual ï¿½ l'{OrderReference=ultima} e-mail che ho ricevuto {Date=oggi}?
+- qual ï¿½ stata l'{OrderReference=ultima} e-mail che ho ricevuto da {SenderName=helen edwards}?
+- qual ï¿½ stata l'{OrderReference=ultima} e-mail che ho ricevuto da {FromRelationshipName=papï¿½}?
+- qual ï¿½ stata l'{OrderReference=ultima} e-mail?
 - vai all'{OrderReference=ultima}
 - vai all'{OrderReference=ultimo}
 - voglio vedere l'{OrderReference=ultima} e-mail
@@ -335,7 +335,7 @@
 - leggi la mia e-mail da {SenderName=tyler moffett}
 - leggi la mia e-mail di {Line=outlook}
 - leggi la mia e-mail per favore
-- leggi la mia e-mail {OrderReference=più recente}
+- leggi la mia e-mail {OrderReference=piï¿½ recente}
 - leggi la mia e-mail {OrderReference=recente}
 - leggi la mia notifica
 - leggi la mia {Category=nuova} e-mail
@@ -356,8 +356,8 @@
 - leggi l'e-mail
 - leggi l'e-mail di {SenderName=darren} circa {EmailSubject=il film}
 - leggi l'e-mail di {SenderName=mary grace verduguez}
-- leggi l'email {OrderReference=più recente}
-- leggi l'e-mail più {OrderReference=recente}
+- leggi l'email {OrderReference=piï¿½ recente}
+- leggi l'e-mail piï¿½ {OrderReference=recente}
 - leggi l'e-mail sulla {EmailSubject=riparazione auto}
 - leggi l'{OrderReference=ultima} e-mail
 - leggi l'{OrderReference=ultima} e-mail che ho inviato
@@ -384,7 +384,7 @@
 - leggimi l'e-mail di {SenderName=dylan} inviata {Date=ieri}
 - leggimi l'e-mail di {SenderName=jessica} sul {EmailSubject=codice di abbigliamento per la festa}
 - leggimi l'e-mail inviata il {Date=giorno del ringraziamento}
-- leggimi l'e-mail {OrderReference=più recente}
+- leggimi l'e-mail {OrderReference=piï¿½ recente}
 - leggimi l'e-mail su {EmailSubject=apple}
 - leggimi l'{OrderReference=ultima} e-mail inviata da {SenderName=claude}
 - per favore leggi la mia {OrderReference=ultima} e-mail
@@ -396,7 +396,7 @@
 ## Reply
 - come rispondere a un'email
 - crea una risposta alla e-mail dicendo {Message=per favore, mandami l'immagine di nuovo}
-- invia la risposta con {Message=lo so già}
+- invia la risposta con {Message=lo so giï¿½}
 - rimanda l'e-mail
 - rispondi
 - rispondi a {ContactName=barbara} sul {Line=cellulare}
@@ -410,15 +410,15 @@
 - rispondi alla mia {OrderReference=ultima} email
 - rispondi alla {PositionReference=prima}
 - rispondi che {Message=sono occupato}
-- rispondi {Message=ci vediamo più tardi}
+- rispondi {Message=ci vediamo piï¿½ tardi}
 - rispondi con {Message=ciao}
 - rispondi con {Message=grazie mille}
-- rispondi dicendo {Message=sì}
+- rispondi dicendo {Message=sï¿½}
 - rispondi dicendo {Message=ti amo}
 - rispondi digitando {Message=ciao}
 - rispondi {Message=ok}
-- rispondi {Message=sarò in ritardo}
-- rispondi {Message=sì capo.}
+- rispondi {Message=sarï¿½ in ritardo}
+- rispondi {Message=sï¿½ capo.}
 - rispondi {Message=sono malato non posso farlo}
 - rispondi {Message=ti richiamo}
 - rispondi via e-mail {Message=ti ringrazio molto cordiali saluti jun}
@@ -486,9 +486,9 @@
 - crea nuova e-mail intitolata {EmailSubject=informazioni urgenti sulla riunione} a {ContactName=jonathan}
 - ho bisogno di inviare una e-mail sulle {EmailSubject=parole di una canzone}
 - imposta una e-mail {Date=oggi}
-- invia a {ContactName=angela} una e-mail contrassegnata come {Category=priorità alta}
+- invia a {ContactName=angela} una e-mail contrassegnata come {Category=prioritï¿½ alta}
 - invia a {ContactName=billy} una e-mail {Category=contrassegnata in rosso}
-- invia a {ContactName=jacqueline} una e-mail con {Category=priorità bassa}
+- invia a {ContactName=jacqueline} una e-mail con {Category=prioritï¿½ bassa}
 - invia dei {Attachment=file di grandi dimensioni} tramite e-mail
 - invia e-mail a {ContactName=hannah} dicendo {Message=test}
 - invia e-mail a {ContactName=heather} circa l'{EmailSubject=auto}
@@ -497,7 +497,7 @@
 - invia e-mail a {ContactName=louis} e segnala come {Category=importante}
 - invia e-mail a partone.parttwo@outlook.com
 - invia e-mail ad {ContactName=a} e {ContactName=tian}
-- invia e-mail contrassegnata {Category=priorità} alta a {ContactName=yun-sim} e {ContactName=yi}
+- invia e-mail contrassegnata {Category=prioritï¿½} alta a {ContactName=yun-sim} e {ContactName=yi}
 - invia e-mail {Category=importante} a {ContactName=evelyn} e {ContactName=gary}
 - invia e-mail sul {EmailSubject=piano per i compiti} a {ContactName=raymond} e {ContactName=philip}
 - invia il {Attachment=file} a {ContactName=henry mathew}
@@ -513,12 +513,12 @@
 - invia una e-mail a {ContactName=a. j. ron} contrassegnata come {Category=importante}
 - invia una e-mail a {ContactName=christopher carpenter} circa l'{EmailSubject=escursione}
 - invia una e-mail a {ContactName=daniel}
-- invia una e-mail a {ContactName=harold} e {ContactName=paul kappus} sul {EmailSubject=pranzo di gruppo} dicendo {Message=stesso pranzo di gruppo questo martedì}
+- invia una e-mail a {ContactName=harold} e {ContactName=paul kappus} sul {EmailSubject=pranzo di gruppo} dicendo {Message=stesso pranzo di gruppo questo martedï¿½}
 - invia una e-mail a {ContactName=harry potter}
 - invia una e-mail a {ContactName=jacqueline} e {ContactName=tianyu} sul {EmailSubject=risultato del test}
-- invia una e-mail a {ContactName=jesse klein} dicendo che {Message=questo è il messaggio sui piani del fine settimana}
+- invia una e-mail a {ContactName=jesse klein} dicendo che {Message=questo ï¿½ il messaggio sui piani del fine settimana}
 - invia una e-mail a {ContactName=larry}, {ContactName=joseph} e {ContactName=billy larkson}
-- invia una e-mail a {ContactName=leehom wong} del {EmailSubject=concerto di pianoforte} dicendo che {Message=è meraviglioso}
+- invia una e-mail a {ContactName=leehom wong} del {EmailSubject=concerto di pianoforte} dicendo che {Message=ï¿½ meraviglioso}
 - invia una e-mail a {ContactName=lily roth} e abc123@microsoft.com
 - invia una e-mail a lily@gmail.com
 - invia una e-mail a {ContactName=lu}, {ContactName=yue} e {ContactName=qiong} sul {EmailSubject=finanziamento}
@@ -544,7 +544,7 @@
 - invia una e-mail {Category=urgente} dal mio {Line=account di lavoro} a {ContactName=christian}
 - invia una e-mail {Category=urgente} dalla mia e-mail di {Line=lavoro} a {ContactName=jack}
 - invia una mail ad abc@gmail.com
-- invia una nuova e-mail a {ContactName=christian} e segnala {Category=priorità alta}
+- invia una nuova e-mail a {ContactName=christian} e segnala {Category=prioritï¿½ alta}
 - invia una nuova e-mail a {ContactName=larry} con un {Attachment=file} allegato
 - invia una nuova e-mail a {ContactName=nicholas} e {ContactName=jesse} inerente i {EmailSubject=buoni sconto}
 - invia una nuova email a partonepartwopartthree@yahoo.com
@@ -553,24 +553,24 @@
 - invia una nuova e-mail sul {EmailSubject=torneo di hockey} a {ContactName=marie jane}, {ContactName=joseph} e {ContactName=john}
 - invia una nuova e-mail sulla {EmailSubject=risoluzione dei problemi} ad {ContactName=andrea}, {ContactName=angela} e {ContactName=ron}
 - invia una {Category=ricevuta di lettura} della e-mail a {ContactName=samuel}
-- la nuova e-mail che viene inviata a {ContactName=jacob} è di {Category=alta priorità}
+- la nuova e-mail che viene inviata a {ContactName=jacob} ï¿½ di {Category=alta prioritï¿½}
 - nuova e-mail a {ContactName=kimberly} sul {EmailSubject=gregario}
 - nuova e-mail a {ContactName=michelle} riguardo la {EmailSubject=bella chiacchierata}
 - nuova e-mail sulla {EmailSubject=scrittura di documenti}
 - puoi mandare una e-mail marcata {Category=non urgente} a {ContactName=james}?
 - scrivi a {ContactName=alex cooper} riguardo {EmailSubject=haha} dicendo {Message=ciao}
-- scrivi a {ContactName=cynthia} e {ContactName=mike}, {Message=quella cena la {OrderReference=scorsa} settimana è stata splendida}
+- scrivi a {ContactName=cynthia} e {ContactName=mike}, {Message=quella cena la {OrderReference=scorsa} settimana ï¿½ stata splendida}
 - scrivi a {ContactName=harry potter} e {ContactName=hermione granger}
 - scrivi a {ContactName=kim white} riguardo {EmailSubject=quel fiore} dicendo {Message=bellissimo}
 - scrivi a {ContactName=lawrence} sul {EmailSubject=problema di apertura}
-- scrivi a {ContactName=mike waters}: {Message=mike, quella cena la settimana scorsa è stata splendida.}
+- scrivi a {ContactName=mike waters}: {Message=mike, quella cena la settimana scorsa ï¿½ stata splendida.}
 - scrivi a mio {RelationshipName=fratello}
 - scrivi a partoneparttwo@gmail.com
 - scrivi e-mail
-- scrivi e-mail a {RelationshipName=mamma} oggetto è {EmailSubject=fare da babysitter}
+- scrivi e-mail a {RelationshipName=mamma} oggetto ï¿½ {EmailSubject=fare da babysitter}
 - scrivi un nuovo soggetto di posta del {EmailSubject=principe nigeriano}
 - scrivi una e-mail a {ContactName=jason} sul {EmailSubject=discorso}
-- scrivi una e-mail con il titolo {EmailSubject=ciao} e il testo è {Message=vediamoci}
+- scrivi una e-mail con il titolo {EmailSubject=ciao} e il testo ï¿½ {Message=vediamoci}
 - scrivi una e-mail sulla {EmailSubject=raccolta fondi}
 - scrivi una e-mail {Category=urgente} a {ContactName=bobby}
 - scrivi una nuova e-mail a {ContactName=michelle} per {EmailSubject=guardare il baseball}
@@ -602,8 +602,8 @@
 - mostrami la {OrderReference=prossima} da {FromRelationshipName={SenderName=mary}}
 - mostrami le {OrderReference=prossime} cinque e-mail
 - passa alle e-mail {ContactName={OrderReference=successive}}
-- procedi, mostrami più mail
-- qual è la prossima
+- procedi, mostrami piï¿½ mail
+- qual ï¿½ la prossima
 - vai alla e-mail {OrderReference=successiva} di jason
 - vai alla mail {OrderReference=successiva}
 - vai alla pagina {OrderReference=successiva}
@@ -622,8 +622,8 @@
 - mostrami le {OrderReference=ultime} tre e-mail
 - mostrami l'e-mail {OrderReference=precedente}
 - mostrami l'e-mail {OrderReference=precedente} di {SenderName=jack}
-- qual è la {OrderReference=precedente}
-- qual è l'e-mail {OrderReference=precedente}?
+- qual ï¿½ la {OrderReference=precedente}
+- qual ï¿½ l'e-mail {OrderReference=precedente}?
 - torna a quello {OrderReference=precedente}, voglio leggerlo di nuovo
 - torna alle {ContactName={OrderReference=ultime}} mail
 - torna all'{OrderReference=ultimo} dalla {SenderName=apple}
@@ -664,8 +664,6 @@ $Time:simple
 > # PREBUILT Entity definitions
 
 $PREBUILT:email
-
-$PREBUILT:number
 
 $PREBUILT:ordinal
 

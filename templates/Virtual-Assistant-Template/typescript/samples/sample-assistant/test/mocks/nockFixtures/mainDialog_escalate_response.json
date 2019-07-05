@@ -1,0 +1,90 @@
+[
+    {
+        "scope": "https://westus.api.cognitive.microsoft.com:443",
+        "method": "POST",
+        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
+        "body": "I want to talk to a human",
+        "status": 200,
+        "response": {
+            "query": "I want to talk to a human",
+            "topScoringIntent": {
+                "intent": "Escalate",
+                "score": 0.9575523
+            },
+            "entities": []
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-store, proxy-revalidate, no-cache, max-age=0, private",
+            "Pragma",
+            "no-cache",
+            "Content-Length",
+            "145",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Apim-Request-Id",
+            "9f6a65a5-a281-4e8b-b544-7acd58eb3fe9",
+            "Request-Id",
+            "9f6a65a5-a281-4e8b-b544-7acd58eb3fe9",
+            "Strict-Transport-Security",
+            "max-age=31536000; includeSubDomains; preload",
+            "X-Content-Type-Options",
+            "nosniff",
+            "X-Frame-Options",
+            "SAMEORIGIN",
+            "Date",
+            "Wed, 15 May 2019 12:55:30 GMT",
+            "Connection",
+            "close"
+        ]
+    },
+    {
+        "scope": "https://westus.api.cognitive.microsoft.com:443",
+        "method": "POST",
+        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
+        "body": "I want to talk to a human",
+        "status": 200,
+        "response": {
+            "query": "I want to talk to a human",
+            "topScoringIntent": {
+                "intent": "l_general",
+                "score": 0.822269142
+            },
+            "entities": [],
+            "connectedServiceResult": {
+                "query": "I want to talk to a human",
+                "topScoringIntent": {
+                    "intent": "Escalate",
+                    "score": 0.9575523
+                },
+                "entities": []
+            }
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-store, proxy-revalidate, no-cache, max-age=0, private",
+            "Pragma",
+            "no-cache",
+            "Content-Length",
+            "338",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Apim-Request-Id",
+            "9045f4b6-0521-461e-81a8-49831baa10e1",
+            "Request-Id",
+            "9045f4b6-0521-461e-81a8-49831baa10e1",
+            "CSP-Billing-Usage",
+            "CognitiveServices.LUIS.Transaction|2",
+            "Strict-Transport-Security",
+            "max-age=31536000; includeSubDomains; preload",
+            "X-Content-Type-Options",
+            "nosniff",
+            "X-Frame-Options",
+            "SAMEORIGIN",
+            "Date",
+            "Wed, 15 May 2019 12:55:31 GMT",
+            "Connection",
+            "close"
+        ]
+    }
+]

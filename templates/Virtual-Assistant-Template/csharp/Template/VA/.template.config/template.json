@@ -1,0 +1,116 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "Microsoft",
+    "classifications": [ "Virtual Assistant", "Assistant", "VA", "Bot", "Custom Assistant" ],
+    "defaultName": "VirtualAssistant",
+    "groupIdentity": "Microsoft.Bot.Builder.Solutions.VirtualAssistantTemplate",
+    "identity": "Microsoft.Bot.Builder.Solutions.VirtualAssistantTemplate",
+    "name": "Virtual Assistant Template (v1.0.0)",
+    "preferNameDirectory": true,
+    "sourceName": "Microsoft.Bot.Builder.Solutions.VirtualAssistantTemplate",
+    "shortName": "virtualassistant",
+    "tags": {
+      "language": "C#",
+      "type": "project"
+    },
+    "description": "Creation of a high quality conversational experience requires a foundational set of capabilities. To help you succeed with building more complex, assistant-like conversational experiences, we have created an Virtual Assistant Template. This template brings together all of the best practices and supporting components we've identified through building of conversational experiences.",
+  "symbols": {
+    "currentBuildVersion": {
+      "type": "generated",
+      "generator": "constant",
+      "parameters": {
+        "value": "v1.0.0"
+      },
+      "replaces": "__vX.X.X__"
+    },
+    "name": {
+      "type": "parameter",
+      "replaces": "$safeprojectname$",
+      "defaultValue": "VirtualAssistant"
+    },
+    "output": {
+      "type": "parameter",
+      "replaces": "{OUTPUT_PATH}",
+      "defaultValue": "VirtualAssistant"
+    },
+    "Framework": {
+      "type": "parameter",
+      "description": "The target framework for the project.",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "netcoreapp2.2",
+          "description": "Target netcoreapp2.2"
+        },
+        {
+          "choice": "netcoreapp2.1",
+          "description": "Target netcoreapp2.1"
+        }
+      ],
+      "replaces": "$NETCOREAPP_VERSION$",
+      "defaultValue": "netcoreapp2.2"
+    },
+    "AspCoreAssemblyVersion": {
+      "type": "generated",
+      "generator": "switch",
+      "dataType": "string",
+      "replaces": "$MICROSOFT_ASPNETCORE_VERSION$",
+      "parameters": {
+        "evaluator": "C++",
+        "cases": [
+          {
+            "condition": "(Framework==\"netcoreapp2.2\")",
+            "value": "'Microsoft.AspNetCore' Version='2.2.0'"
+          },
+          {
+            "condition": "(Framework==\"netcoreapp2.1\")",
+            "value": "'Microsoft.AspNetCore' Version='2.1.6'"
+          }
+        ]
+      }
+    },
+    "ReadmeNetCorePrereqVersion": {
+      "type": "generated",
+      "generator": "switch",
+      "dataType": "string",
+      "replaces": "$NETCORE_VERSION$",
+      "parameters": {
+        "evaluator": "C++",
+        "cases": [
+          {
+            "condition": "(Framework==\"netcoreapp2.2\")",
+            "value": "2.2"
+          },
+          {
+            "condition": "(Framework==\"netcoreapp2.1\")",
+            "value": "2.1"
+          }
+        ]
+      }
+    },
+    "SkipRestore": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false",
+      "description": "If specified, skips the automatic NuGet restore of the project on create.",
+      "isRequired": false
+    }
+  },
+  "sources": [{
+			"modifiers": [{
+				"exclude": ["**/NuGet.Config", "**/.DS_Store"]
+			}],
+			"rename": ["VA.csproj", "$safeprojectname$.csproj"]
+	}],
+    "postActions": [
+      {
+        "condition": "(!SkipRestore)",
+        "description": "Restore NuGet packages required by this project.",
+        "manualInstructions": [
+          { "text": "Run 'dotnet restore'" }
+        ],
+        "actionId": "210D431B-A78B-4D2F-B762-4ED3E3EA9025",
+        "continueOnError": true
+      }
+    ]
+  }

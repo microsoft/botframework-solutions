@@ -1,0 +1,21 @@
+{
+  "extension": [
+    ".js"
+  ],
+  "include": [
+    "generators/"
+  ],
+  "exclude": [
+    "node_modules/**",
+    "test/**",
+    "coverage/**",
+    "generators/**/templates/**/deployment/",
+    "generators/**/templates/**/test/"
+  ],
+  "reporter": [
+    "html",
+    "text"
+  ],
+  "all": true,
+  "cache": true
+}

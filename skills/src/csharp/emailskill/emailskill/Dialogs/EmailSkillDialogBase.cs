@@ -21,6 +21,8 @@ using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Graph;
 using Microsoft.Recognizers.Text;
@@ -39,7 +41,8 @@ namespace EmailSkill.Dialogs
              ResponseManager responseManager,
              ConversationState conversationState,
              IServiceManager serviceManager,
-             IBotTelemetryClient telemetryClient)
+             IBotTelemetryClient telemetryClient,
+             MicrosoftAppCredentials appCredentials)
              : base(dialogId)
         {
             Settings = settings;
@@ -50,12 +53,7 @@ namespace EmailSkill.Dialogs
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
 
-            if (!Settings.OAuthConnections.Any())
-            {
-                throw new Exception("You must configure an authentication connection in your bot file before using this component.");
-            }
-
-            AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections));
+            AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections, appCredentials));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }
@@ -223,11 +221,11 @@ namespace EmailSkill.Dialogs
                 var generalLuisResult = userState.GeneralLuisResult;
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
-                if (skillLuisResult == EmailLuis.Intent.ShowNext || generalTopIntent == General.Intent.ShowNext)
+                if (skillLuisResult == emailLuis.Intent.ShowNext || generalTopIntent == General.Intent.ShowNext)
                 {
                     state.ShowEmailIndex++;
                 }
-                else if ((skillLuisResult == EmailLuis.Intent.ShowPrevious || generalTopIntent == General.Intent.ShowPrevious) && state.ShowEmailIndex >= 0)
+                else if ((skillLuisResult == emailLuis.Intent.ShowPrevious || generalTopIntent == General.Intent.ShowPrevious) && state.ShowEmailIndex >= 0)
                 {
                     state.ShowEmailIndex--;
                 }
@@ -458,7 +456,7 @@ namespace EmailSkill.Dialogs
                     { "EmailDetails", speech },
                 };
 
-                var recipientCard = state.FindContactInfor.Contacts.Count() > DisplayHelper.MaxReadoutNumber ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
+                var recipientCard = state.FindContactInfor.Contacts.Count() > DisplayHelper.MaxReadoutNumber ? GetDivergedCardName(sc.Context, "ConfirmCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "ConfirmCard_RecipientLessThanFive");
 
                 if (state.FindContactInfor.Contacts.Count > DisplayHelper.MaxReadoutNumber && (action == Actions.Send || action == Actions.Forward))
                 {
@@ -703,7 +701,7 @@ namespace EmailSkill.Dialogs
 
                 // Get display messages
                 var displayMessages = new List<Message>();
-                var startIndex = 0;//ConfigData.GetInstance().MaxReadSize * state.ReadEmailIndex;
+                var startIndex = 0;
                 for (var i = startIndex; i < messages.Count(); i++)
                 {
                     displayMessages.Add(messages[i]);
@@ -1081,16 +1079,16 @@ namespace EmailSkill.Dialogs
                     totalCount.ToString())
             };
 
-            var overviewCard = "EmailOverviewCard";
-            if ((state.SenderName != null) /*|| (userState.GeneralSenderName != null)*/)
+            var overviewCard = GetDivergedCardName(sc.Context, "EmailOverviewCard");
+            if ((state.SenderName != null) || (state.GeneralSenderName != null))
             {
-                overviewData.Description = string.Format(EmailCommonStrings.SearchBySender, state.SenderName /*?? userState.GeneralSenderName*/);
-                overviewCard = "EmailOverviewByCondition";
+                overviewData.Description = string.Format(EmailCommonStrings.SearchBySender, state.SenderName ?? state.GeneralSenderName);
+                overviewCard = GetDivergedCardName(sc.Context, "EmailOverviewByCondition");
             }
             else if ((state.SearchTexts != null) /*|| (userState.GeneralSearchTexts != null)*/)
             {
-                overviewData.Description = string.Format(EmailCommonStrings.SearchBySubject, state.SearchTexts /*?? userState.GeneralSearchTexts*/);
-                overviewCard = "EmailOverviewByCondition";
+                overviewData.Description = string.Format(EmailCommonStrings.SearchBySubject, state.SearchTexts ?? state.GeneralSearchTexts);
+                overviewCard = GetDivergedCardName(sc.Context, "EmailOverviewByCondition");
             }
 
             var reply = ResponseManager.GetCardResponse(
@@ -1235,7 +1233,8 @@ namespace EmailSkill.Dialogs
 
                 if (recipients.Count() > AdaptiveCardHelper.MaxDisplayRecipientNum)
                 {
-                    var additionalNumber = recipients.Count() - AdaptiveCardHelper.MaxDisplayRecipientNum - 1;
+                    // the last recipient turns into number
+                    var additionalNumber = recipients.Count() - AdaptiveCardHelper.MaxDisplayRecipientNum + 1;
                     data.AdditionalRecipientNumber = additionalNumber.ToString();
                 }
 
@@ -1551,6 +1550,19 @@ namespace EmailSkill.Dialogs
 
             // clear state
             await ClearAllState(sc);
+        }
+
+        // Workaround until adaptive card renderer in teams is upgraded to v1.2
+        protected string GetDivergedCardName(ITurnContext turnContext, string card)
+        {
+            if (Microsoft.Bot.Builder.Dialogs.Choices.Channel.GetChannelId(turnContext) == Channels.Msteams)
+            {
+                return card + ".1.0";
+            }
+            else
+            {
+                return card;
+            }
         }
 
         [Serializable]

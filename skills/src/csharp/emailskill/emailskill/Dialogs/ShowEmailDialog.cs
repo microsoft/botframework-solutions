@@ -23,6 +23,7 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Graph;
 
 namespace EmailSkill.Dialogs
@@ -38,8 +39,9 @@ namespace EmailSkill.Dialogs
             ReplyEmailDialog replyEmailDialog,
             ForwardEmailDialog forwardEmailDialog,
             IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient)
-            : base(nameof(ShowEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            MicrosoftAppCredentials appCredentials)
+            : base(nameof(ShowEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
@@ -305,9 +307,9 @@ namespace EmailSkill.Dialogs
 
                 var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
 
-                if ((topIntent == EmailLuis.Intent.None
-                    || topIntent == EmailLuis.Intent.SearchMessages
-                    || (topIntent == EmailLuis.Intent.ReadAloud && !IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
+                if ((topIntent == emailLuis.Intent.None
+                    || topIntent == emailLuis.Intent.SearchMessages
+                    || (topIntent == emailLuis.Intent.ReadAloud && !IsReadMoreIntent(generalTopIntent, sc.Context.Activity.Text))
                     || (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true))
                     && message != null)
                 {
@@ -333,7 +335,7 @@ namespace EmailSkill.Dialogs
                         { "EmailDetailsWithContent", SpeakHelper.ToSpeechEmailDetailString(message, userState.GetUserTimeZone(), true) },
                     };
 
-                    var recipientCard = message.ToRecipients.Count() > 5 ? "DetailCard_RecipientMoreThanFive" : "DetailCard_RecipientLessThanFive";
+                    var recipientCard = message.ToRecipients.Count() > 5 ? GetDivergedCardName(sc.Context, "DetailCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "DetailCard_RecipientLessThanFive");
                     var replyMessage = ResponseManager.GetCardResponse(
                         ShowEmailResponses.ReadOutMessage,
                         new Card("EmailDetailCard", emailCard),

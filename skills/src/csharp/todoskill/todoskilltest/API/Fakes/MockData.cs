@@ -11,6 +11,8 @@ namespace ToDoSkillTest.API.Fakes
 
         public const string Grocery = "Grocery";
 
+        public const string Homework = "Homework";
+
         public const string Token = "MockToken";
 
         public const string TaskContent = "MockTaskContent";

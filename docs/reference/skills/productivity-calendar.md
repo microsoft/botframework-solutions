@@ -5,9 +5,24 @@ The most common scenarios have been implemented in this beta release, with addit
 
 ## Table of Contents
 
+- [Supported Sources](#supported-sources)
 - [Supported Scenarios](#supported-scenarios)
+- [Scenario Configurations](#scenario-configurations)
+- [Skill Deployment](#skill-deployment)
 - [Language Model](#language-model)
-- [Configuration](#configuration)
+
+## Supported Sources
+
+> Office 365 and Outlook.com through the Microsoft Graph is supported along with support for Google accounts.
+
+To use Google account in skill you need to follow these steps:
+1. Create your calendar API credential in [Google developers console](https://console.developers.google.com). 
+2. Create an OAuth connection setting in your Web App Bot.
+    - Connection name: `googleapi`
+    - Service Provider: `Google`
+    - Client id and secret are generated in step 1
+    - Scopes: `https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts`.
+3. Add the connection name, client id, secret and scopes in appsetting.json file.
 
 ## Supported Scenarios
 
@@ -18,26 +33,19 @@ The following scenarios are currently supported by the Skill:
   - *Accept the event sent by Yolanda Wong*
 - Change an Event
   - *Bring forward my 4:00 appointment two hours*
-  - *Change my vacation from ending on Friday to Monday*
-- Check Availability
-  - *Is Debra available on Saturday?*
-  - *Am I busy this weekend?*
+  - *Reschedule my interview on monday to 1 pm*
 - Connect to a Meeting
-- Contact Attendees
-  - Notify Noah that our meeting is pushed back 30 minutes
-  - Tell Jennifer that I'm running late
+  - *Connect me to conference call*
+  - *Connect me with my 2 o'clock meeting*
 - Create a Meeting
-  - Create a meeting tomorrow at 9 AM with Lucy Chen
-  - Put anniversary on my calendar
+  - *Create a meeting tomorrow at 9 AM with Lucy Chen*
+  - *Put anniversary on my calendar*
 - Delete a Meeting
-  - Cancel my meeting with Abigail at 3 PM today
-  - Clear all my appointments
-- Get Meeting Details
-  - *Tell me about my meeting today*
-  - *What are the plans for the dinner date with Stephanie?*
+  - *Cancel my meeting at 3 PM today*
+  - *Drop my appointment for monday*
 - Find a Meeting
   - *Do I have any appointments today?*
-  - *Search for the "employee orientation" meeting*
+  - *Get to my next event*
 - Find an Event by Time
   - *What day is Lego Land scheduled for?*
   - *What time is my next appointment?*
@@ -45,17 +53,79 @@ The following scenarios are currently supported by the Skill:
   - *Where is my meeting with Kayla?*
   - *Where do I need to be next?*
 - Find an Event by Attendee
-  - Who am I meeting at 10 AM tomorrow?
-  - Who is in my next meeting?
+  - *Who am I meeting at 10 AM tomorrow?*
+  - *Who is in my next meeting?*
 - Find an Event's Duration
-  - How long will the next meeting last?
-  - What's the duration of my 4 PM meeting?
-- Calendar Navigation
-  - *Show me the next meeting please*
-  - *What was my previous appointment?*
+  - *How long will the next meeting last?*
+  - *What's the duration of my 4 PM meeting?*
 - Time Remaining
   - *How long until my next meeting?*
   - *How many days are there until Thanksgiving?*
+
+## Scenario Configurations
+In dialogs such as `Create Meeting`, the user needs to provide information such as title and meeting content before able to create a meeting. Depending on the user context (e.g. Speech driven and whilst driving) you can configure default slot-filling to minimise the number of questions - e.g. `Schedule a project review meeting with alex tomorrow at 8pm` would create the meeting with a default length of 30 minutes and no meeting contents.
+
+This behaviour can be configured in the Skill `appsettings.json` by setting `isSkipByDefault` to true, and modify `EventTitle`, `EventContent` and `EventLocation` default values in `CalendarCommonStrings.resx` to set default value of different locales.
+
+The `EventStartDate` default value should be a integer that means date difference with today. For example, if you want to set default start date as next day of meeting created date, the default value should be `1`.
+
+The `EventDuration` default value is the default duration expressed in minutes (number).
+ 
+```json
+"defaultValue": {
+    "createMeeting": [
+        {
+            "name": "EventTitle",
+            "isSkipByDefault": false
+        },
+        {
+            "name": "EventContent",
+            "isSkipByDefault": false
+        },
+        {
+            "name": "EventStartDate",
+            "isSkipByDefault": false,
+            "defaultValue": ""
+        },
+        {
+            "name": "EventDuration",
+            "isSkipByDefault": false,
+            "defaultValue": ""
+        },
+        {
+            "name": "EventLocation",
+            "isSkipByDefault": false
+        }
+    ]
+}
+```
+  
+## Skill Deployment
+
+The Calendar Skill require the following dependencies for end to end operation which are created through an ARM deployment script which you can modify as required.
+
+- Azure Web App
+- Azure Storage Account (Transcripts)
+- Azure Application Insights (Telemetry)
+- Azure CosmosDb (State)
+- Azure Cognitive Services - Language Understanding
+
+> Review the pricing and terms for the services and adjust to suit your scenario.
+
+**To deploy your services using the default configuration, follow the steps in this common [deployment documentation page](/docs/tutorials/assistantandskilldeploymentsteps.md) from the folder where your have cloned the GitHub repo.**
+
+### Authentication Connection Settings
+
+If you plan to use the skill as part of a Virtual Assistant the process of registering a skill with your Virtual Assistant will create the supporting authentication connection information automatically for your Virtual Assistant. This skill uses the following authentication scopes which are registered automatically:
+
+- `User.ReadBasic.All`  
+- `Calendars.ReadWrite`
+- `People.Read`    
+- `Contacts.Read`
+
+**However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
+
+Follow the general instructions [here](/docs/reference/skills/manualauthsteps.md) to configure this using the scopes shown above.
 
 ## Language Model
 
@@ -116,37 +186,3 @@ LUIS models for the Skill are provided in .LU file format as part of the Skill. 
 |datetimeV2| Prebuilt entity|
 |number| Prebuilt entity|
 |ordinal| Prebuilt entity|
-
-## Configuration
-
-### Supported Sources
-
-> Office 365 and Outlook.com through the Microsoft Graph is supported along with support for Google accounts.
-
-### Skill Deployment
-
-The Calendar Skill require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
-
-- Azure Web App
-- Azure Storage Account (Transcripts)
-- Azure Application Insights (Telemetry)
-- Azure CosmosDb (State)
-- Azure Cognitive Services - Language Understanding
-
-> Review the pricing and terms for the services and adjust to suit your scenario.
-
-To deploy your services using the default configuration, follow the steps in this common [deployment documentation page](/docs/tutorials/assistantandskilldeploymentsteps.md) from the folder where your have cloned the GitHub repo.
-
-### Authentication Connection Settings
-
-Your Authentication Connection and corresponding Application Registration should have the following Scopes added, these will be added automatically as part of Skill configuration where possible.
-
-- `User.Read`
-- `Calendars.ReadWrite`
-- `People.Read`
-
-### Example Skill Manifest
-
-```
-TBC
-```

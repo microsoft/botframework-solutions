@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Adapters;
@@ -9,6 +8,7 @@ using Microsoft.Bot.Builder.Skills.Tests.Mocks;
 using Microsoft.Bot.Builder.Skills.Tests.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Builder.Skills.Tests
 {
@@ -35,7 +35,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 
             // Simple skill, with one slot (param1)
             var slots = new List<Slot>();
-            slots.Add(new Slot("param1", new List<string>() { "string" }));
+            slots.Add(new Slot { Name = "param1", Types = new List<string>() { "string" } });
             _skillManifests.Add(ManifestUtilities.CreateSkill(
                 "testskillwithslots",
                 "testskillwithslots",
@@ -45,9 +45,9 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 
             // Simple skill, with two actions and multiple slots
             var multiParamSlots = new List<Slot>();
-            multiParamSlots.Add(new Slot("param1", new List<string>() { "string" }));
-            multiParamSlots.Add(new Slot("param2", new List<string>() { "string" }));
-            multiParamSlots.Add(new Slot("param3", new List<string>() { "string" }));
+            multiParamSlots.Add(new Slot { Name = "param1", Types = new List<string>() { "string" } });
+            multiParamSlots.Add(new Slot { Name = "param2", Types = new List<string>() { "string" } });
+            multiParamSlots.Add(new Slot { Name = "param3", Types = new List<string>() { "string" } });
 
             var multiActionSkill = ManifestUtilities.CreateSkill(
                 "testskillwithmultipleactionsandslots",
@@ -68,108 +68,84 @@ namespace Microsoft.Bot.Builder.Skills.Tests
         }
 
         /// <summary>
-        /// Ensure the SkillBegin event activity is sent to the Skill when starting a skill conversation.
+        /// Ensure the activity received on the skill side includes the slots that were configured in the manifest.
         /// </summary>
         /// <returns>Task.</returns>
         [TestMethod]
-        public async Task SkilllBeginEventTest()
+        public async Task SkillInvocationWithSlotsTest()
         {
-            string eventToMatch = await File.ReadAllTextAsync(@".\TestData\skillBeginEvent.json");
-
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
 
-            await this.GetTestFlow(_skillManifests.Single(s => s.Name == "testskill"), "testSkill/testAction", null)
+			var slots = new SkillContext();
+			dynamic entity = new { key1 = "TEST1", key2 = "TEST2" };
+			slots.Add("param1", JObject.FromObject(entity));
+
+			await this.GetTestFlow(_skillManifests.Single(s => s.Name == "testskillwithslots"), "testSkill/testActionWithSlots", slots)
                   .Send("hello")
                   .StartTestAsync();
 
-			_mockSkillTransport.VerifyActivityForwardedCorrectly(activity => ValidateActivity(activity, eventToMatch));
-        }
-
-        /// <summary>
-        /// Ensure the skillBegin event is sent and includes the slots that were configured in the manifest
-        /// and present in State.
-        /// </summary>
-        /// <returns>Task.</returns>
-        [TestMethod]
-        public async Task SkilllBeginEventWithSlotsTest()
-        {
-            string eventToMatch = await File.ReadAllTextAsync(@".\TestData\skillBeginEventWithOneParam.json");
-
-            var sp = Services.BuildServiceProvider();
-            var adapter = sp.GetService<TestAdapter>();
-
-            // Data to add to the UserState managed SkillContext made available for slot filling
-            // within SkillDialog
-            Dictionary<string, object> slots = new Dictionary<string, object>();
-            slots.Add("param1", "TEST");
-
-            await this.GetTestFlow(_skillManifests.Single(s => s.Name == "testskillwithslots"), "testSkill/testActionWithSlots", slots)
-                  .Send("hello")
-                  .StartTestAsync();
-
-			_mockSkillTransport.VerifyActivityForwardedCorrectly(activity => ValidateActivity(activity, eventToMatch));
+			_mockSkillTransport.VerifyActivityForwardedCorrectly(activity =>
+			{
+				var semanticAction = activity.SemanticAction;
+				Assert.AreEqual(semanticAction.Entities["param1"].Properties["key1"], "TEST1");
+				Assert.AreEqual(semanticAction.Entities["param1"].Properties["key2"], "TEST2");
+			});
 		}
 
 		/// <summary>
-		/// Ensure the skillBegin event is sent and includes the slots that were configured in the manifest
-		/// This test has extra data in the SkillContext "memory" which should not be sent across
-		/// and present in State.
+		/// Ensure the activity received on the skill side includes the slots that were configured in the manifest
+		/// This test has extra data in the SkillContext "memory" which should not be sent across.
 		/// </summary>
 		/// <returns>Task.</returns>
 		[TestMethod]
-        public async Task SkilllBeginEventWithSlotsTestExtraItems()
+        public async Task SkillInvocationWithSlotsTestExtraItems()
         {
-            string eventToMatch = await File.ReadAllTextAsync(@".\TestData\skillBeginEventWithOneParam.json");
-
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
 
-            // Data to add to the UserState managed SkillContext made available for slot filling
-            // within SkillDialog
-            Dictionary<string, object> slots = new Dictionary<string, object>();
-            slots.Add("param1", "TEST");
-            slots.Add("param2", "TEST");
-            slots.Add("param3", "TEST");
-            slots.Add("param4", "TEST");
+			var slots = new SkillContext();
+			dynamic entity = new { key1 = "TEST1", key2 = "TEST2" };
+			slots.Add("param1", JObject.FromObject(entity));
 
-            await this.GetTestFlow(_skillManifests.Single(s => s.Name == "testskillwithslots"), "testSkill/testActionWithSlots", slots)
+			await this.GetTestFlow(_skillManifests.Single(s => s.Name == "testskillwithslots"), "testSkill/testActionWithSlots", slots)
                   .Send("hello")
                   .StartTestAsync();
 
-			_mockSkillTransport.VerifyActivityForwardedCorrectly(activity => ValidateActivity(activity, eventToMatch));
+			_mockSkillTransport.VerifyActivityForwardedCorrectly(activity =>
+			{
+				var semanticAction = activity.SemanticAction;
+				Assert.AreEqual(semanticAction.Entities["param1"].Properties["key1"], "TEST1");
+				Assert.AreEqual(semanticAction.Entities["param1"].Properties["key2"], "TEST2");
+			});
 		}
 
-        /// <summary>
-        /// Ensure the skillBegin event is sent and includes the slots that were configured in the manifest
-        /// and present in State. This doesn't pass an action so "global" slot filling is used
-        /// </summary>
-        /// <returns>Task.</returns>
-        [TestMethod]
-        public async Task SkilllBeginEventNoActionPassed()
+		/// <summary>
+		/// Ensure the activity received on the skill side includes the slots that were configured in the manifest
+		/// This doesn't pass an action so "global" slot filling is used.
+		/// </summary>
+		/// <returns>Task.</returns>
+		[TestMethod]
+        public async Task SkillInvocationNoActionPassed()
         {
-            string eventToMatch = await File.ReadAllTextAsync(@".\TestData\skillBeginEventWithTwoParams.json");
-
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
 
-            // Data to add to the UserState managed SkillContext made available for slot filling
-            // within SkillDialog
-            Dictionary<string, object> slots = new Dictionary<string, object>();
-            slots.Add("param1", "TEST");
-            slots.Add("param2", "TEST2");
+			var slots = new SkillContext();
+			dynamic entity = new { key1 = "TEST1", key2 = "TEST2" };
+			slots.Add("param1", JObject.FromObject(entity));
 
             // Not passing action to test the "global" slot filling behaviour
             await this.GetTestFlow(_skillManifests.Single(s => s.Name == "testskillwithmultipleactionsandslots"), null, slots)
                   .Send("hello")
                   .StartTestAsync();
 
-            _mockSkillTransport.VerifyActivityForwardedCorrectly(activity => ValidateActivity(activity, eventToMatch));
-        }
-
-        private bool ValidateActivity(string activitySent, string activityToMatch)
-        {
-            return string.Equals(activitySent, activityToMatch);
+            _mockSkillTransport.VerifyActivityForwardedCorrectly(activity =>
+			{
+				var semanticAction = activity.SemanticAction;
+				Assert.AreEqual(semanticAction.Entities["param1"].Properties["key1"], "TEST1");
+				Assert.AreEqual(semanticAction.Entities["param1"].Properties["key2"], "TEST2");
+			});
         }
     }
 }

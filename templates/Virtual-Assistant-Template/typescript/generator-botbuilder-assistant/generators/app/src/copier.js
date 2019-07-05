@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 "use strict";
-const path = require(`path`);
+const { join } = require(`path`);
 const templateFiles = new Map();
 const allLanguages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
 let ignoredLanguages = [];
@@ -29,7 +29,7 @@ class Copier {
 
   // Copy the templates files passing the attributes of the new assistant
   copyTemplateFiles(srcFolder, dstFolder, newAssistant) {
-    this.loadTemplatesFiles();
+    this.loadTemplatesFiles(newAssistant);
     templateFiles.forEach((dstFile, srcFile) => {
       this.generator.fs.copyTpl(
         this.generator.templatePath(srcFolder, srcFile),
@@ -52,34 +52,40 @@ class Copier {
     // Add the paths of the deployment languages
     languages.forEach(language => {
       templateFiles.set(
-        path.join(`deployment`, `resources`, `LU`, language),
-        path.join(`deployment`, `resources`, `LU`, language)
+        join(`deployment`, `resources`, `LU`, language),
+        join(`deployment`, `resources`, `LU`, language)
       );
       templateFiles.set(
-        path.join(`deployment`, `resources`, `QnA`, language),
-        path.join(`deployment`, `resources`, `QnA`, language)
+        join(`deployment`, `resources`, `QnA`, language),
+        join(`deployment`, `resources`, `QnA`, language)
       );
       templateFiles.set(
-        path.join(`deployment`, `resources`, `QnA`, language),
-        path.join(`deployment`, `resources`, `QnA`, language)
+        join(`deployment`, `resources`, `QnA`, language),
+        join(`deployment`, `resources`, `QnA`, language)
       );
     });
   }
 
   // Here you have to add the paths of your templates files
-  loadTemplatesFiles() {
+  loadTemplatesFiles(newAssistant) {
     templateFiles.set(`_package.json`, `package.json`);
+    templateFiles.set(`_.eslintrc.js`, `.eslintrc.js`);
     templateFiles.set(`_.gitignore`, `.gitignore`);
     templateFiles.set(`_.npmrc`, `.npmrc`);
+    templateFiles.set(`_.nycrc`, `.nycrc`);
     templateFiles.set(
-      path.join(`src`, `bots`, `_dialogBot.ts`),
-      path.join(`src`, `bots`, `dialogBot.ts`)
+      join(`src`, `bots`, `_dialogBot.ts`),
+      join(`src`, `bots`, `dialogBot.ts`)
+    );
+    templateFiles.set(
+      join(`pipeline`, `_sample-assistant.yml`),
+      join(`pipeline`, `${newAssistant.assistantName}.yml`)
     );
   }
 
   pathToLUFolder(language) {
-    // Return path.join(`**`,`LU`, language, `*`);
-    return path.join(`**`, language, `*.*`);
+    // Return join(`**`,`LU`, language, `*`);
+    return join(`**`, language, `*.*`);
   }
 }
 

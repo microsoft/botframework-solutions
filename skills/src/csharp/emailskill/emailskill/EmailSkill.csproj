@@ -7,36 +7,55 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Content\ConfirmCard_RecipientLessThanFive.1.0.json" />
     <Content Remove="Content\ConfirmCard_RecipientLessThanFive.json" />
+    <Content Remove="Content\ConfirmCard_RecipientMoreThanFive.1.0.json" />
     <Content Remove="Content\ConfirmCard_RecipientMoreThanFive.json" />
+    <Content Remove="Content\DetailCard_RecipientLessThanFive.1.0.json" />
     <Content Remove="Content\DetailCard_RecipientLessThanFive.json" />
+    <Content Remove="Content\DetailCard_RecipientMoreThanFive.1.0.json" />
     <Content Remove="Content\DetailCard_RecipientMoreThanFive.json" />
     <Content Remove="Content\EmailCard.json" />
+    <Content Remove="Content\EmailContentPreview.1.0.json" />
     <Content Remove="Content\EmailContentPreview.json" />
     <Content Remove="Content\EmailDetailCard.json" />
+    <Content Remove="Content\EmailOverviewByCondition.1.0.json" />
     <Content Remove="Content\EmailOverviewByCondition.json" />
+    <Content Remove="Content\EmailOverviewCard.1.0.json" />
     <Content Remove="Content\EmailOverviewCard.json" />
     <Content Remove="Content\EmailOverviewItem.json" />
     <Content Remove="Content\EmailWithOutButtonCard.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Apis" Version="1.36.1" />
-    <PackageReference Include="Google.Apis.Gmail.v1" Version="1.36.1.1342" />
+    <PackageReference Include="Google.Apis" Version="1.40.2" />
+    <PackageReference Include="Google.Apis.Gmail.v1" Version="1.40.2.1613" />
     <PackageReference Include="Google.Apis.People.v1" Version="1.25.0.830" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="1.2.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.5.0-Preview-2019-05-13-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.6.0-Daily-2019-05-13-02" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Debugging" Version="4.5.0-Preview-2019-05-13-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.5.0-Preview-2019-05-13-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.5.0-Preview-2019-05-13-01" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration.Renderer" Version="4.5.0-Preview-2019-05-13-01" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="2.0.0" />
     <PackageReference Include="Microsoft.Graph" Version="1.10.0" />
     <PackageReference Include="MimeKit" Version="2.0.6" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.5.0-Preview-2019-05-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration.Renderer" Version="4.5.0-Preview-2019-05-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.4.5" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.4.5" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.4.5" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.5.0-Preview-2019-05-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.4.5" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.4.5" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.4.5" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.5.0-Preview-2019-05-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.4.4.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.4.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.4.5" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.4.5" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.4.5" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.4.5" />
+    <PackageReference Include="Microsoft.Graph" Version="1.15.0" />
+    <PackageReference Include="MimeKit" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -97,11 +116,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Content\ConfirmCard_RecipientLessThanFive.1.0.json" />
     <EmbeddedResource Include="Content\ConfirmCard_RecipientLessThanFive.json" />
+    <EmbeddedResource Include="Content\ConfirmCard_RecipientMoreThanFive.1.0.json" />
     <EmbeddedResource Include="Content\ConfirmCard_RecipientMoreThanFive.json" />
+    <EmbeddedResource Include="Content\DetailCard_RecipientLessThanFive.1.0.json" />
     <EmbeddedResource Include="Content\DetailCard_RecipientLessThanFive.json" />
+    <EmbeddedResource Include="Content\DetailCard_RecipientMoreThanFive.1.0.json" />
     <EmbeddedResource Include="Content\DetailCard_RecipientMoreThanFive.json" />
+    <EmbeddedResource Include="Content\EmailContentPreview.1.0.json" />
+    <EmbeddedResource Include="Content\EmailOverviewByCondition.1.0.json" />
     <EmbeddedResource Include="Content\EmailOverviewByCondition.json" />
+    <EmbeddedResource Include="Content\EmailOverviewCard.1.0.json" />
     <EmbeddedResource Include="Content\EmailOverviewCard.json" />
     <EmbeddedResource Include="Content\EmailOverviewItem.json" />
     <EmbeddedResource Include="Responses\DeleteEmail\DeleteEmailResponses.de.json" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -186,7 +187,10 @@ namespace PointOfInterestSkillTests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                CollectionAssert.Contains(ParseReplies(POISharedResponses.MultipleLocationsFound, new StringDictionary()), messageActivity.Text);
+                Assert.IsTrue(ParseReplies(POISharedResponses.MultipleLocationsFound, new StringDictionary()).Any((reply) =>
+                {
+                    return messageActivity.Text.StartsWith(reply);
+                }));
             };
         }
 
