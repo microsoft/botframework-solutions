@@ -93,48 +93,51 @@ namespace EmailSkill.Dialogs
             InitialDialogId = Actions.Send;
         }
 
-        public async Task<DialogTurnResult> ByPassOptionalField(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                if (sc.Result != null && sc.Result is FindContactDialogOptions)
-                {
-                    var result = (FindContactDialogOptions)sc.Result;
-                    sc.State.Dialog[EmailStateKey] = result.DialogState;
-                }
+        //public async Task<DialogTurnResult> ByPassOptionalField(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        //{
+        //    try
+        //    {
+        //        if (sc.Result != null && sc.Result is FindContactDialogOptions)
+        //        {
+        //            var result = (FindContactDialogOptions)sc.Result;
+        //            sc.State.Dialog[EmailStateKey] = result.DialogState;
+        //        }
 
-                var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
-                var skillOptions = (EmailSkillDialogOptions)sc.Options;
+        //        var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
+        //        var skillOptions = (EmailSkillDialogOptions)sc.Options;
 
-                if (!skillOptions.SubFlowMode)
-                {
-                    if ((state.FindContactInfor.Contacts != null) && (state.FindContactInfor.Contacts.Count > 0))
-                    {
-                        // Bypass logic: Send an email to Michelle saying I will be late today ->  Use “I will be late today” as subject. No need to ask for subject/content
-                        // If information is detected as content, move to subject.
-                        if (string.IsNullOrEmpty(state.Subject))
-                        {
-                            if (!string.IsNullOrEmpty(state.Content))
-                            {
-                                state.Subject = state.Content;
-                                state.Content = EmailCommonStrings.EmptyContent;
-                            }
-                        }
-                        else
-                        {
-                            if (string.IsNullOrEmpty(state.Content))
-                            {
-                                state.Content = EmailCommonStrings.EmptyContent;
-                            }
-                        }
-                    }
-                }
+        //        if (!skillOptions.SubFlowMode)
+        //        {
+        //            if ((state.FindContactInfor.Contacts != null) && (state.FindContactInfor.Contacts.Count > 0))
+        //            {
+        //                // Bypass logic: Send an email to Michelle saying I will be late today ->  Use “I will be late today” as subject. No need to ask for subject/content
+        //                // If information is detected as content, move to subject.
+        //                if (string.IsNullOrEmpty(state.Subject))
+        //                {
+        //                    if (!string.IsNullOrEmpty(state.Content))
+        //                    {
+        //                        state.Subject = state.Content;
+        //                        state.Content = EmailCommonStrings.EmptyContent;
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    if (string.IsNullOrEmpty(state.Content))
+        //                    {
+        //                        state.Content = EmailCommonStrings.EmptyContent;
+        //                    }
+        //                }
+        //            }
+        //        }
 
-                return await sc.NextAsync();
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
+        //        return await sc.NextAsync();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        await HandleDialogExceptions(sc, ex);
+        //        return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+        //    }
+        //}
 
         public async Task<DialogTurnResult> CollectSubject(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {

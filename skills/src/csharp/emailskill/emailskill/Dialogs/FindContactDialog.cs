@@ -163,7 +163,7 @@ namespace EmailSkill.Dialogs
                 var localeConfig = Services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities --- todo: use luis result in adaptive dialog
-                var luisResult = await localeConfig.LuisServices["email"].RecognizeAsync<EmailLuis>(sc.Context);
+                var luisResult = await localeConfig.LuisServices["email"].RecognizeAsync<emailLuis>(sc.Context);
                 userState.LuisResult = luisResult;
                 localeConfig.LuisServices.TryGetValue("general", out var luisService);
                 var generalLuisResult = await luisService.RecognizeAsync<General>(sc.Context);
@@ -201,7 +201,7 @@ namespace EmailSkill.Dialogs
             var localeConfig = Services.CognitiveModelSets[locale];
 
             // Update state with email luis result and entities --- todo: use luis result in adaptive dialog
-            var emailLuisResult = await localeConfig.LuisServices["email"].RecognizeAsync<EmailLuis>(sc.Context);
+            var emailLuisResult = await localeConfig.LuisServices["email"].RecognizeAsync<emailLuis>(sc.Context);
             state.LuisResult = emailLuisResult;
             localeConfig.LuisServices.TryGetValue("general", out var luisService);
             var luisResult = await luisService.RecognizeAsync<General>(sc.Context);
@@ -1250,7 +1250,7 @@ namespace EmailSkill.Dialogs
             return nameString;
         }
 
-        protected EmailStateBase DigestLuisResult(DialogContext dc, EmailLuis luisResult, General generalLuisResult, SendEmailDialogState state, bool isBeginDialog)
+        protected EmailStateBase DigestLuisResult(DialogContext dc, emailLuis luisResult, General generalLuisResult, SendEmailDialogState state, bool isBeginDialog)
         {
             try
             {
@@ -1301,9 +1301,9 @@ namespace EmailSkill.Dialogs
 
                     switch (intent)
                     {
-                        case EmailLuis.Intent.SendEmail:
-                        case EmailLuis.Intent.Forward:
-                        case EmailLuis.Intent.Reply:
+                        case emailLuis.Intent.SendEmail:
+                        case emailLuis.Intent.Forward:
+                        case emailLuis.Intent.Reply:
                             {
                                 if (entity.EmailSubject != null)
                                 {

@@ -17,6 +17,8 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
+using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
@@ -135,9 +137,9 @@ namespace EmailSkill.Dialogs
         {
             return new LuisRecognizer(new LuisApplication()
             {
-                Endpoint = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/91ab2b7e-9336-4f86-8ab6-668e16c26dd9?verbose=true&timezoneOffset=-360&subscription-key=8df4af4708f540d0887a765be9999791&q=",//Configuration["LuisAPIHostName"],
-                EndpointKey = "8df4af4708f540d0887a765be9999791", //Configuration["LuisAPIKey"],
-                ApplicationId = "91ab2b7e-9336-4f86-8ab6-668e16c26dd9",// Configuration["LuisAppId"]
+                Endpoint = "https://westus.api.cognitive.microsoft.com/",//Configuration["LuisAPIHostName"],
+                EndpointKey = "fa24469556fe41caa1a0119741cbf280", //Configuration["LuisAPIKey"],
+                ApplicationId = "b63d15d6-213f-46f5-adf5-da60d8b6d835",// Configuration["LuisAppId"]
             });
         }
 
@@ -256,7 +258,7 @@ namespace EmailSkill.Dialogs
                 // Update state with email luis result and entities
                 //var emailLuisResult = await localeConfig.LuisServices["email"].RecognizeAsync<EmailLuis>(dc.Context, cancellationToken);
 
-                EmailLuis emailLuisResult = new EmailLuis();
+                emailLuis emailLuisResult = new emailLuis();
                 var emailResult = await localeConfig.LuisServices["email"].RecognizeAsync(dc.Context, cancellationToken);
                 emailLuisResult.Convert(emailResult);
 

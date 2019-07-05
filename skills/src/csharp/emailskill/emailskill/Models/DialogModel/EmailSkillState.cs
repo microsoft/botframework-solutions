@@ -30,7 +30,7 @@ namespace EmailSkill.Models
 
         public string Token { get; set; }
 
-        public EmailLuis LuisResult { get; set; }
+        public emailLuis LuisResult { get; set; }
 
         public General GeneralLuisResult { get; set; }
 

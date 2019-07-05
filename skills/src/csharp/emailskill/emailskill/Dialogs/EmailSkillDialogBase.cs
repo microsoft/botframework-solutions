@@ -113,7 +113,7 @@ namespace EmailSkill.Dialogs
                 var localeConfig = Services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities --- todo: use luis result in adaptive dialog
-                var luisResult = await localeConfig.LuisServices["email"].RecognizeAsync<EmailLuis>(sc.Context);
+                var luisResult = await localeConfig.LuisServices["email"].RecognizeAsync<emailLuis>(sc.Context);
                 userState.LuisResult = luisResult;
                 localeConfig.LuisServices.TryGetValue("general", out var luisService);
                 var generalLuisResult = await luisService.RecognizeAsync<General>(sc.Context);
@@ -164,7 +164,7 @@ namespace EmailSkill.Dialogs
                 var localeConfig = Services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities --- todo: use luis result in adaptive dialog
-                var luisResult = await localeConfig.LuisServices["email"].RecognizeAsync<EmailLuis>(sc.Context);
+                var luisResult = await localeConfig.LuisServices["email"].RecognizeAsync<emailLuis>(sc.Context);
                 userState.LuisResult = luisResult;
                 localeConfig.LuisServices.TryGetValue("general", out var luisService);
                 var generalLuisResult = await luisService.RecognizeAsync<General>(sc.Context);
@@ -1080,14 +1080,14 @@ namespace EmailSkill.Dialogs
             };
 
             var overviewCard = GetDivergedCardName(sc.Context, "EmailOverviewCard");
-            if ((state.SenderName != null) || (state.GeneralSenderName != null))
+            if (state.SenderName != null)
             {
-                overviewData.Description = string.Format(EmailCommonStrings.SearchBySender, state.SenderName ?? state.GeneralSenderName);
+                overviewData.Description = string.Format(EmailCommonStrings.SearchBySender, state.SenderName);
                 overviewCard = GetDivergedCardName(sc.Context, "EmailOverviewByCondition");
             }
             else if ((state.SearchTexts != null) /*|| (userState.GeneralSearchTexts != null)*/)
             {
-                overviewData.Description = string.Format(EmailCommonStrings.SearchBySubject, state.SearchTexts ?? state.GeneralSearchTexts);
+                overviewData.Description = string.Format(EmailCommonStrings.SearchBySubject, state.SearchTexts);
                 overviewCard = GetDivergedCardName(sc.Context, "EmailOverviewByCondition");
             }
 
@@ -1273,7 +1273,7 @@ namespace EmailSkill.Dialogs
             }
         }
 
-        protected EmailStateBase DigestSendEmailLuisResult(DialogContext dc, EmailLuis luisResult, General generalLuisResult, SendEmailDialogState state, bool isBeginDialog)
+        protected EmailStateBase DigestSendEmailLuisResult(DialogContext dc, emailLuis luisResult, General generalLuisResult, SendEmailDialogState state, bool isBeginDialog)
         {
             try
             {
@@ -1324,9 +1324,9 @@ namespace EmailSkill.Dialogs
 
                     switch (intent)
                     {
-                        case EmailLuis.Intent.SendEmail:
-                        case EmailLuis.Intent.Forward:
-                        case EmailLuis.Intent.Reply:
+                        case emailLuis.Intent.SendEmail:
+                        case emailLuis.Intent.Forward:
+                        case emailLuis.Intent.Reply:
                             {
                                 if (entity.EmailSubject != null)
                                 {
@@ -1389,7 +1389,7 @@ namespace EmailSkill.Dialogs
             }
         }
 
-        protected EmailStateBase DigestLuisResult(DialogContext dc, EmailLuis luisResult, General generalLuisResult, EmailStateBase state, bool isBeginDialog)
+        protected EmailStateBase DigestLuisResult(DialogContext dc, emailLuis luisResult, General generalLuisResult, EmailStateBase state, bool isBeginDialog)
         {
             try
             {
@@ -1440,11 +1440,11 @@ namespace EmailSkill.Dialogs
 
                     switch (intent)
                     {
-                        case EmailLuis.Intent.CheckMessages:
-                        case EmailLuis.Intent.SearchMessages:
-                        case EmailLuis.Intent.ReadAloud:
-                        case EmailLuis.Intent.ShowNext:
-                        case EmailLuis.Intent.ShowPrevious:
+                        case emailLuis.Intent.CheckMessages:
+                        case emailLuis.Intent.SearchMessages:
+                        case emailLuis.Intent.ReadAloud:
+                        case emailLuis.Intent.ShowNext:
+                        case emailLuis.Intent.ShowPrevious:
                             {
                                 // Get email search type
                                 if (dc.Context.Activity.Text != null)

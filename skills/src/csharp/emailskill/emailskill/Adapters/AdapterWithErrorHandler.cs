@@ -23,7 +23,7 @@ namespace EmailSkill.Adapters
             this.UseStorage(storage);
             this.UseState(userState, conversationState);
             this.UseLanguageGenerator(new LGLanguageGenerator(resourceExplorer));
-            this.UseDebugger(configuration.GetValue<int>("debugport", 4712));
+            //this.UseDebugger(configuration.GetValue<int>("debugport", 4712));
 
             OnTurnError = async (turnContext, exception) =>
             {

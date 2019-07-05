@@ -119,9 +119,9 @@ namespace EmailSkill.Dialogs
         {
             return new LuisRecognizer(new LuisApplication()
             {
-                Endpoint = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/1a441c29-5a3f-4615-9e6c-7473ffaa815c?verbose=true&timezoneOffset=-360&subscription-key=d5435d1a9181476cb1e4b192a1d4efec&q=",
-                EndpointKey = "d5435d1a9181476cb1e4b192a1d4efec",
-                ApplicationId = "1a441c29-5a3f-4615-9e6c-7473ffaa815c",
+                Endpoint = "https://westus.api.cognitive.microsoft.com/",
+                EndpointKey = "fa24469556fe41caa1a0119741cbf280",
+                ApplicationId = "b63d15d6-213f-46f5-adf5-da60d8b6d835",
             });
         }
 
@@ -136,7 +136,7 @@ namespace EmailSkill.Dialogs
             var localeConfig = Services.CognitiveModelSets[locale];
 
             // Update state with email luis result and entities --- todo: use luis result in adaptive dialog
-            var emailLuisResult = await localeConfig.LuisServices["email"].RecognizeAsync<EmailLuis>(sc.Context);
+            var emailLuisResult = await localeConfig.LuisServices["email"].RecognizeAsync<emailLuis>(sc.Context);
             state.LuisResult = emailLuisResult;
             localeConfig.LuisServices.TryGetValue("general", out var luisService);
             var luisResult = await luisService.RecognizeAsync<General>(sc.Context);
