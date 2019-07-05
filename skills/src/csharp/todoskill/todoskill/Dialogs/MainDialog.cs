@@ -286,9 +286,10 @@ namespace ToDoSkill.Dialogs
             if (state.PageSize <= 0)
             {
                 var pageSize = 0;
-                if (_settings.Properties.TryGetValue("DisplaySize", out var displaySizeObj))
+
+                if (_settings.DisplaySize != null)
                 {
-                    int.TryParse(displaySizeObj.ToString(), out pageSize);
+                    pageSize = _settings.DisplaySize;
                 }
 
                 state.PageSize = pageSize <= 0 ? ToDoCommonUtil.DefaultDisplaySize : pageSize;
@@ -297,9 +298,9 @@ namespace ToDoSkill.Dialogs
             if (state.TaskServiceType == ServiceProviderType.Other)
             {
                 state.TaskServiceType = ServiceProviderType.Outlook;
-                if (_settings.Properties.TryGetValue("TaskServiceProvider", out var taskServiceProvider))
+                if (!string.IsNullOrEmpty(_settings.TaskServiceProvider))
                 {
-                    if (taskServiceProvider.ToString().Equals(ServiceProviderType.OneNote.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                    if (_settings.TaskServiceProvider.Equals(ServiceProviderType.OneNote.ToString(), StringComparison.InvariantCultureIgnoreCase))
                     {
                         state.TaskServiceType = ServiceProviderType.OneNote;
                     }

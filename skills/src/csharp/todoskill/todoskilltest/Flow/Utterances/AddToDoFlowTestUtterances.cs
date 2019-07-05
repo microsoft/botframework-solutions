@@ -72,9 +72,9 @@ namespace ToDoSkillTest.Flow.Utterances
 
         public static string AddTaskWithContentAndCustomizeListType { get; } = "add history to my homework list";
 
-        private todoLuis GetBaseAddTaskIntent(
+        private ToDoLuis GetBaseAddTaskIntent(
             string userInput,
-            todoLuis.Intent intents = todoLuis.Intent.AddToDo,
+            ToDoLuis.Intent intents = ToDoLuis.Intent.AddToDo,
             string[] listType = null,
             string[] taskContentML = null,
             string[] shopContent = null,
