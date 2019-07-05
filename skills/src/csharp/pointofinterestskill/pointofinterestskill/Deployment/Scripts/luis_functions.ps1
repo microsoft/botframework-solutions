@@ -37,13 +37,13 @@ function DeployLUIS ($name, $lu_file, $region, $luisAuthoringKey, $language, $lo
 	}
 }
 
-function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscriptionKey, $log)
+function UpdateLUIS ($lu_file, $appId, $version, $authoringKey, $subscriptionKey, $log)
 {
     $id = $lu_file.BaseName
     $outFile = "$($id).luis"
     $outFolder = $lu_file.DirectoryName
 
-    $luisApp = luis get application --appId $appId --region $region --authoringKey $authoringKey | ConvertFrom-Json
+    $luisApp = luis get application --appId $appId --authoringKey $authoringKey | ConvertFrom-Json
 
     # Parse LU file
     Write-Host "> Parsing $($id) LU file ..."
@@ -53,11 +53,10 @@ function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscr
         --out_folder $outFolder `
         --out $outFile
     
-    Write-Host "> Getting current versions ..."
+    Write-Host "? Getting current versions ..."
     # Get list of current versions
 	$versions = luis list versions `
         --appId $appId `
-        --region $region `
         --authoringKey $authoringKey | ConvertFrom-Json
     
     # If the current version exists
@@ -70,7 +69,6 @@ function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscr
             luis delete version `
                 --appId $appId `
                 --versionId "backup" `
-                --region $region `
                 --authoringKey $authoringKey `
                 --force --wait | Out-Null
         }
@@ -80,7 +78,6 @@ function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscr
 	    luis rename version `
             --appId $appId `
             --versionId $version `
-            --region $region `
             --newVersionId backup `
             --authoringKey $authoringKey `
             --subscriptionKey $subscriptionKey `
@@ -92,15 +89,14 @@ function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscr
     luis import version `
         --appId $appId `
         --versionId $version `
-        --region $region `
         --authoringKey $authoringKey `
         --subscriptionKey $subscriptionKey `
         --in "$(Join-Path $outFolder $outFile)" `
         --wait | ConvertFrom-Json
     
     # train and publish luis app
-    $(luis train version --appId $appId --region $region --authoringKey $authoringKey --versionId $version --wait 
-    & luis publish version --appId $appId --region $region --authoringKey $authoringKey --versionId $version --wait) 2>&1 | Out-Null
+    $(luis train version --appId $appId --authoringKey $authoringKey --versionId $version --wait 
+    & luis publish version --appId $appId --authoringKey $authoringKey --versionId $version --wait) 2>&1 | Out-Null
 }
 
 function RunLuisGen($lu_file, $outName, $outFolder) {
