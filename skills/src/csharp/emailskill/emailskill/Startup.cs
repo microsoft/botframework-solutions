@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.IO;
 using System.Linq;
 using EmailSkill.Adapters;
 using EmailSkill.Bots;
@@ -22,6 +23,7 @@ using Microsoft.Bot.Builder.ApplicationInsights;
 //using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 //using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
@@ -105,6 +107,9 @@ namespace EmailSkill
                 new SendEmailResponses(),
                 new EmailSharedResponses(),
                 new ShowEmailResponses()));
+
+            var resourceExplorer = ResourceExplorer.LoadProject(Directory.GetCurrentDirectory());
+            services.AddSingleton(resourceExplorer);
 
             // register dialogs
             services.AddSingleton<MainDialog>();
