@@ -23,8 +23,8 @@ namespace EmailSkill.Services
                 var telemetryClient = client;
                 var luisOptions = new LuisPredictionOptions()
                 {
-                    TelemetryClient = telemetryClient,
-                    LogPersonalInformation = true,
+                    //TelemetryClient = telemetryClient,
+                    //LogPersonalInformation = true,
                 };
 
                 if (config.DispatchModel != null)
@@ -53,7 +53,7 @@ namespace EmailSkill.Services
                             Host = kb.Hostname,
                         };
                         var qnaMaker = new QnAMaker(qnaEndpoint);
-                        set.QnAServices.Add(kb.Id, qnaMaker);
+                        //set.QnAServices.Add(kb.Id, qnaMaker);
                     }
                 }
 

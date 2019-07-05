@@ -1,18 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Extensions;
 using EmailSkill.Models;
+using EmailSkill.Models.DialogModel;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Responses.ShowEmail;
 using EmailSkill.Services;
 using EmailSkill.Utilities;
 using Luis;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -39,9 +45,34 @@ namespace EmailSkill.Dialogs
         {
             TelemetryClient = telemetryClient;
 
+            var skillOptions = new EmailSkillDialogOptions
+            {
+                SubFlowMode = true
+            };
+
+            var rootDialog = new AdaptiveDialog("ShowEmailRootDialog")
+            {
+                Recognizer = CreateRecognizer(),
+                Rules = new List<IRule>()
+                {
+                    new IntentRule("Forward") { Steps = new List<IDialog>() { new BeginDialog(nameof(ForwardEmailDialog), options: skillOptions) } },
+                    new IntentRule("Delete") { Steps = new List<IDialog>() { new BeginDialog(nameof(DeleteEmailDialog), options: skillOptions) } },
+                    new IntentRule("Reply") { Steps = new List<IDialog>() { new BeginDialog(nameof(ReplyEmailDialog), options: skillOptions) } },
+                    new IntentRule("CheckMessages") { Steps = new List<IDialog>() { new BeginDialog(Actions.DisplayFiltered, options: skillOptions) } },
+                    new IntentRule("SearchMessages") { Steps = new List<IDialog>() { new BeginDialog(Actions.DisplayFiltered, options: skillOptions) } },
+                    new IntentRule("ShowNext") { Steps = new List<IDialog>() { new ReplaceDialog(Actions.Show, options: skillOptions) } },
+                    new IntentRule("ShowPrevious") { Steps = new List<IDialog>() { new ReplaceDialog(Actions.Show, options: skillOptions) } },
+                },
+
+                Steps = new List<IDialog>()
+                {
+                    new BeginDialog(Actions.Show, options: skillOptions),
+                },
+            };
+
             var showEmail = new WaterfallStep[]
             {
-                IfClearContextStep,
+                SaveDialogState,
                 GetAuthToken,
                 AfterGetAuthToken,
                 Display
@@ -49,73 +80,79 @@ namespace EmailSkill.Dialogs
 
             var readEmail = new WaterfallStep[]
             {
+                SaveDialogState,
                 ReadEmail,
-                Reshow
-            };
-
-            var deleteEmail = new WaterfallStep[]
-            {
-                DeleteEmail,
-                Reshow
-            };
-
-            var forwardEmail = new WaterfallStep[]
-            {
-                ForwardEmail,
-                Reshow
-            };
-
-            var replyEmail = new WaterfallStep[]
-            {
-                ReplyEmail,
-                Reshow
             };
 
             var displayEmail = new WaterfallStep[]
             {
+                SaveDialogState,
                 IfClearPagingConditionStep,
                 PagingStep,
                 ShowEmails,
                 PromptToHandle,
                 CheckRead,
-                HandleMore
+                PromptToReshow,
+                HandleReshow
             };
 
             var displayFilteredEmail = new WaterfallStep[]
             {
+                SaveDialogState,
+                FilterEmail,
                 ShowFilteredEmails,
-                PromptToHandle,
-                CheckRead,
-                HandleMore
-            };
-
-            var redisplayEmail = new WaterfallStep[]
-            {
-                PromptToReshow,
-                CheckReshow,
-                HandleMore,
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.Show, showEmail) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.Read, readEmail) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.Delete, deleteEmail) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.Forward, forwardEmail) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.Reply, replyEmail) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.Display, displayEmail) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.DisplayFiltered, displayFilteredEmail) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.ReDisplay, redisplayEmail) { TelemetryClient = telemetryClient });
-            AddDialog(deleteEmailDialog ?? throw new ArgumentNullException(nameof(deleteEmailDialog)));
-            AddDialog(replyEmailDialog ?? throw new ArgumentNullException(nameof(replyEmailDialog)));
-            AddDialog(forwardEmailDialog ?? throw new ArgumentNullException(nameof(forwardEmailDialog)));
-            InitialDialogId = Actions.Show;
+            var showEmailDialog = new EmailWaterfallDialog(Actions.Show, showEmail, EmailStateAccessor) { TelemetryClient = telemetryClient };
+            var readEmailDialog = new EmailWaterfallDialog(Actions.Read, readEmail, EmailStateAccessor) { TelemetryClient = telemetryClient };
+            var displayDialog = new EmailWaterfallDialog(Actions.Display, displayEmail, EmailStateAccessor) { TelemetryClient = telemetryClient };
+            var displayFilteredDialog = new EmailWaterfallDialog(Actions.DisplayFiltered, displayFilteredEmail, EmailStateAccessor) { TelemetryClient = telemetryClient };
+            var promptDialog = new TextPrompt(Actions.Prompt);
+
+            AddDialog(rootDialog);
+            rootDialog.AddDialog(new List<IDialog>() { showEmailDialog, readEmailDialog, displayDialog, displayFilteredDialog, deleteEmailDialog, replyEmailDialog, forwardEmailDialog, promptDialog });
+            InitialDialogId = "ShowEmailRootDialog";
+        }
+
+        private static IRecognizer CreateRecognizer()
+        {
+            return new LuisRecognizer(new LuisApplication()
+            {
+                Endpoint = "https://westus.api.cognitive.microsoft.com/",
+                EndpointKey = "fa24469556fe41caa1a0119741cbf280",
+                ApplicationId = "b63d15d6-213f-46f5-adf5-da60d8b6d835",
+            });
+        }
+
+        private async Task<DialogTurnResult> SaveDialogState(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var skillOptions = (EmailSkillDialogOptions)sc.Options;
+            var dialogState = skillOptions?.DialogState != null ? skillOptions?.DialogState : new EmailStateBase();
+
+            var state = await EmailStateAccessor.GetAsync(sc.Context);
+
+            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var localeConfig = Services.CognitiveModelSets[locale];
+
+            // Update state with email luis result and entities --- todo: use luis result in adaptive dialog
+            var emailLuisResult = await localeConfig.LuisServices["email"].RecognizeAsync<emailLuis>(sc.Context);
+            state.LuisResult = emailLuisResult;
+            localeConfig.LuisServices.TryGetValue("general", out var luisService);
+            var luisResult = await luisService.RecognizeAsync<General>(sc.Context);
+            state.GeneralLuisResult = luisResult;
+
+            var newState = DigestLuisResult(sc, state.LuisResult, state.GeneralLuisResult, dialogState, true);
+            sc.State.Dialog.Add(EmailStateKey, newState);
+
+            return await sc.NextAsync();
         }
 
         protected async Task<DialogTurnResult> IfClearPagingConditionStep(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = (EmailStateBase)sc.State.Dialog[EmailStateKey];
 
                 // Clear focus item
                 state.UserSelectIndex = 0;
@@ -138,7 +175,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = (EmailStateBase)sc.State.Dialog[EmailStateKey];
 
                 if (state.MessageList.Count == 1)
                 {
@@ -171,15 +208,45 @@ namespace EmailSkill.Dialogs
             }
         }
 
+        protected async Task<DialogTurnResult> HandleReshow(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = (EmailStateBase)sc.State.Dialog[EmailStateKey];
+                var userState = await EmailStateAccessor.GetAsync(sc.Context);
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
+                skillOptions.DialogState = state;
+
+                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
+                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
+
+                var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
+                if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
+                {
+                    return await sc.BeginDialogAsync(Actions.Display, skillOptions);
+                }
+
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.CancellingMessage));
+                return await sc.EndDialogAsync(false);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
         protected async Task<DialogTurnResult> CheckRead(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 skillOptions.SubFlowMode = true;
+                skillOptions.DialogState = (EmailStateBase)sc.State.Dialog[EmailStateKey];
 
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
+                var userState = await EmailStateAccessor.GetAsync(sc.Context);
+                var luisResult = userState.LuisResult;
 
                 var topIntent = luisResult?.TopIntent().intent;
                 if (topIntent == null)
@@ -195,12 +262,10 @@ namespace EmailSkill.Dialogs
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.CancellingMessage));
                     return await sc.EndDialogAsync(false);
                 }
-                else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
+                else
                 {
-                    return await sc.ReplaceDialogAsync(Actions.Read, skillOptions);
+                    return await sc.BeginDialogAsync(Actions.Read, skillOptions);
                 }
-
-                return await sc.NextAsync();
             }
             catch (Exception ex)
             {
@@ -214,15 +279,16 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = (EmailStateBase)sc.State.Dialog[EmailStateKey];
+                var userState = await EmailStateAccessor.GetAsync(sc.Context);
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
 
                 sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                 var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
 
-                var luisResult = state.LuisResult;
+                var luisResult = userState.LuisResult;
                 var topIntent = luisResult?.TopIntent().intent;
-                var generalLuisResult = state.GeneralLuisResult;
+                var generalLuisResult = userState.GeneralLuisResult;
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
                 if (topIntent == null)
@@ -256,8 +322,8 @@ namespace EmailSkill.Dialogs
                         EmailLink = message.WebLink,
                         ReceivedDateTime = message?.ReceivedDateTime == null
                             ? CommonStrings.NotAvailable
-                            : message.ReceivedDateTime.Value.UtcDateTime.ToDetailRelativeString(state.GetUserTimeZone()),
-                        Speak = SpeakHelper.ToSpeechEmailDetailOverallString(message, state.GetUserTimeZone()),
+                            : message.ReceivedDateTime.Value.UtcDateTime.ToDetailRelativeString(userState.GetUserTimeZone()),
+                        Speak = SpeakHelper.ToSpeechEmailDetailOverallString(message, userState.GetUserTimeZone()),
                         SenderIcon = senderIcon
                     };
 
@@ -265,8 +331,8 @@ namespace EmailSkill.Dialogs
 
                     var tokens = new StringDictionary()
                     {
-                        { "EmailDetails", SpeakHelper.ToSpeechEmailDetailString(message, state.GetUserTimeZone()) },
-                        { "EmailDetailsWithContent", SpeakHelper.ToSpeechEmailDetailString(message, state.GetUserTimeZone(), true) },
+                        { "EmailDetails", SpeakHelper.ToSpeechEmailDetailString(message, userState.GetUserTimeZone()) },
+                        { "EmailDetailsWithContent", SpeakHelper.ToSpeechEmailDetailString(message, userState.GetUserTimeZone(), true) },
                     };
 
                     var recipientCard = message.ToRecipients.Count() > 5 ? GetDivergedCardName(sc.Context, "DetailCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "DetailCard_RecipientLessThanFive");
@@ -278,7 +344,7 @@ namespace EmailSkill.Dialogs
                         new List<Card>().Append(new Card(recipientCard, emailCard)));
 
                     // Set email as read.
-                    var service = ServiceManager.InitMailService(state.Token, state.GetUserTimeZone(), state.MailSourceType);
+                    var service = ServiceManager.InitMailService(userState.Token, userState.GetUserTimeZone(), userState.MailSourceType);
                     await service.MarkMessageAsReadAsync(message.Id);
 
                     await sc.Context.SendActivityAsync(replyMessage);
@@ -300,155 +366,12 @@ namespace EmailSkill.Dialogs
             }
         }
 
-        protected async Task<DialogTurnResult> CheckReshow(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var skillOptions = (EmailSkillDialogOptions)sc.Options;
-                skillOptions.SubFlowMode = true;
-
-                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-                var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
-                if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
-                {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.CancellingMessage));
-                    return await sc.EndDialogAsync(true);
-                }
-                else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
-                {
-                    return await sc.ReplaceDialogAsync(Actions.Display, skillOptions);
-                }
-
-                return await sc.NextAsync();
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        protected async Task<DialogTurnResult> HandleMore(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var luisResult = state.LuisResult;
-
-                var topIntent = luisResult?.TopIntent().intent;
-                var topGeneralIntent = state.GeneralLuisResult?.TopIntent().intent;
-                if (topIntent == null)
-                {
-                    return await sc.EndDialogAsync(true);
-                }
-
-                sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
-
-                await DigestFocusEmailAsync(sc);
-
-                var skillOptions = (EmailSkillDialogOptions)sc.Options;
-                skillOptions.SubFlowMode = true;
-
-                if (topIntent == emailLuis.Intent.Delete)
-                {
-                    return await sc.BeginDialogAsync(Actions.Delete, skillOptions);
-                }
-                else if (topIntent == emailLuis.Intent.Forward)
-                {
-                    return await sc.BeginDialogAsync(Actions.Forward, skillOptions);
-                }
-                else if (topIntent == emailLuis.Intent.Reply)
-                {
-                    return await sc.BeginDialogAsync(Actions.Reply, skillOptions);
-                }
-                else if (IsReadMoreIntent(topGeneralIntent, userInput)
-                    || (topIntent == emailLuis.Intent.ShowNext || topIntent == emailLuis.Intent.ShowPrevious || topGeneralIntent == General.Intent.ShowPrevious || topGeneralIntent == General.Intent.ShowNext))
-                {
-                    return await sc.ReplaceDialogAsync(Actions.Display, skillOptions);
-                }
-                else
-                {
-                    await DigestEmailLuisResult(sc, state.LuisResult, true);
-                    await SearchEmailsFromList(sc, cancellationToken);
-
-                    if (state.MessageList.Count > 0)
-                    {
-                        return await sc.ReplaceDialogAsync(Actions.DisplayFiltered, skillOptions);
-                    }
-
-                    // return a signal for main flow need to start a new ComponentDialog.
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.DidntUnderstandMessage));
-                    return await sc.EndDialogAsync(true);
-                }
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        protected async Task<DialogTurnResult> DeleteEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var skillOptions = (EmailSkillDialogOptions)sc.Options;
-                skillOptions.SubFlowMode = true;
-
-                return await sc.BeginDialogAsync(nameof(DeleteEmailDialog), skillOptions);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        protected async Task<DialogTurnResult> ForwardEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var skillOptions = (EmailSkillDialogOptions)sc.Options;
-                skillOptions.SubFlowMode = true;
-
-                return await sc.BeginDialogAsync(nameof(ForwardEmailDialog), skillOptions);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        protected async Task<DialogTurnResult> ReplyEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var skillOptions = (EmailSkillDialogOptions)sc.Options;
-                skillOptions.SubFlowMode = true;
-
-                return await sc.BeginDialogAsync(nameof(ReplyEmailDialog), skillOptions);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
         protected async Task<DialogTurnResult> Display(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
+                skillOptions.DialogState = (EmailStateBase)sc.State.Dialog[EmailStateKey];
                 return await sc.ReplaceDialogAsync(Actions.Display, skillOptions);
             }
             catch (Exception ex)
@@ -459,12 +382,13 @@ namespace EmailSkill.Dialogs
             }
         }
 
-        protected async Task<DialogTurnResult> Reshow(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> FilterEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var skillOptions = (EmailSkillDialogOptions)sc.Options;
-                return await sc.ReplaceDialogAsync(Actions.ReDisplay, skillOptions);
+                await SearchEmailsFromList(sc, cancellationToken);
+
+                return await sc.NextAsync();
             }
             catch (Exception ex)
             {
@@ -478,14 +402,13 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = (EmailStateBase)sc.State.Dialog[EmailStateKey];
 
                 if (state.MessageList.Count > 0)
                 {
                     if (state.Message.Count == 0)
                     {
                         state.Message.Add(state.MessageList[0]);
-
                         if (state.MessageList.Count > 1)
                         {
                             var importCount = 0;

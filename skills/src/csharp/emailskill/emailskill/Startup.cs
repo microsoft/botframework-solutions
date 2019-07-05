@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.IO;
 using System.Linq;
 using EmailSkill.Adapters;
 using EmailSkill.Bots;
@@ -19,9 +20,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
+//using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
-using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
+//using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
@@ -84,7 +87,7 @@ namespace EmailSkill
             services.AddApplicationInsightsTelemetry();
             var telemetryClient = new BotTelemetryClient(new TelemetryClient());
             services.AddSingleton<IBotTelemetryClient>(telemetryClient);
-            services.AddBotApplicationInsights(telemetryClient);
+            //services.AddApplicationInsightsTelemetry(telemetryClient);
 
             // Configure bot services
             services.AddSingleton<BotServices>();
@@ -108,8 +111,11 @@ namespace EmailSkill
                 new EmailSharedResponses(),
                 new ShowEmailResponses()));
 
+            var resourceExplorer = ResourceExplorer.LoadProject(Directory.GetCurrentDirectory());
+            services.AddSingleton(resourceExplorer);
+
             // register dialogs
-            services.AddTransient<MainDialog>();
+            services.AddSingleton<MainDialog>();
             services.AddTransient<DeleteEmailDialog>();
             services.AddTransient<FindContactDialog>();
             services.AddTransient<ForwardEmailDialog>();
@@ -123,8 +129,8 @@ namespace EmailSkill
             services.AddTransient<SkillWebSocketAdapter>();
 
             // Configure bot
-            services.AddTransient<MainDialog>();
-            services.AddTransient<IBot, DialogBot<MainDialog>>();
+            //services.AddSingleton<MainDialog>();
+            services.AddSingleton<IBot, DialogBot<MainDialog>>();
         }
 
         /// <summary>
@@ -134,12 +140,27 @@ namespace EmailSkill
         /// <param name="env">Hosting Environment.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            _isProduction = env.IsProduction();
-            app.UseBotApplicationInsights()
-                .UseDefaultFiles()
-                .UseStaticFiles()
-                .UseWebSockets()
-                .UseMvc();
+            //_isProduction = env.IsProduction();
+            //app.UseBotApplicationInsights()
+            //    .UseDefaultFiles()
+            //    .UseStaticFiles()
+            //    .UseWebSockets()
+            //    .UseMvc();
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseHsts();
+            }
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            app.UseWebSockets();
+
+            app.UseMvc();
         }
     }
 }
