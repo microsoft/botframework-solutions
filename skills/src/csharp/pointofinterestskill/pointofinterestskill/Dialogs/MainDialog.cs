@@ -84,37 +84,37 @@ namespace PointOfInterestSkill.Dialogs
             else
             {
                 var turnResult = EndOfTurn;
-                var result = await luisService.RecognizeAsync<pointofinterestLuis>(dc.Context, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<PointOfInterestLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
                 // switch on General intents
                 switch (intent)
                 {
-                    case pointofinterestLuis.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y:
+                    case PointOfInterestLuis.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(RouteDialog));
                             break;
                         }
 
-                    case pointofinterestLuis.Intent.NAVIGATION_CANCEL_ROUTE:
+                    case PointOfInterestLuis.Intent.NAVIGATION_CANCEL_ROUTE:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(CancelRouteDialog));
                             break;
                         }
 
-                    case pointofinterestLuis.Intent.NAVIGATION_FIND_POINTOFINTEREST:
+                    case PointOfInterestLuis.Intent.NAVIGATION_FIND_POINTOFINTEREST:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(FindPointOfInterestDialog));
                             break;
                         }
 
-                    case pointofinterestLuis.Intent.NAVIGATION_FIND_PARKING:
+                    case PointOfInterestLuis.Intent.NAVIGATION_FIND_PARKING:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(FindParkingDialog));
                             break;
                         }
 
-                    case pointofinterestLuis.Intent.None:
+                    case PointOfInterestLuis.Intent.None:
                         {
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POISharedResponses.DidntUnderstandMessage));
                             turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
@@ -242,7 +242,7 @@ namespace PointOfInterestSkill.Dialogs
                 var localeConfig = _services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities
-                var poiLuisResult = await localeConfig.LuisServices["PointOfInterest"].RecognizeAsync<pointofinterestLuis>(dc.Context, cancellationToken);
+                var poiLuisResult = await localeConfig.LuisServices["PointOfInterest"].RecognizeAsync<PointOfInterestLuis>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
                 state.LuisResult = poiLuisResult;
 
