@@ -181,7 +181,6 @@ foreach ($language in $languageArr)
 					subscriptionkey = $luisSubscriptionKey
 					version = $luisApp.activeVersion
 					region = $luisAuthoringRegion
-					culture = $language
 				}
 			}
 			else {
@@ -282,7 +281,6 @@ foreach ($language in $languageArr)
 				authoringkey = $luisauthoringkey
 				subscriptionkey = $luisSubscriptionKey
 				region = $luisAuthoringRegion
-				culture = $language
 			}
 		}
 	}
