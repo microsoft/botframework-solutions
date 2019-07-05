@@ -3,7 +3,7 @@
     "en": {
       "languageModels": [
         {
-          "id": "general",
+          "id": "General",
           "name": "",
           "appId": "",
           "authoringKey": "",
@@ -12,7 +12,7 @@
           "region": ""
         },
         {
-          "id": "todo",
+          "id": "ToDo",
           "name": "",
           "appId": "",
           "authoringKey": "",
