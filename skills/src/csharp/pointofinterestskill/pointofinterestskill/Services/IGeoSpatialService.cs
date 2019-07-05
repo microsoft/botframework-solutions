@@ -25,6 +25,14 @@ namespace PointOfInterestSkill.Services
         Task<RouteDirections> GetRouteDirectionsToDestinationAsync(double currentLatitude, double currentLongitude, double destinationLatitude, double destinationLongitude, string routeType = null);
 
         /// <summary>
+        /// Get image for route to destination
+        /// </summary>
+        /// <param name="destination">The destination</param>
+        /// <param name="route">The route</param>
+        /// <returns>The image url</returns>
+        Task<string> GetRouteImageAsync(PointOfInterestModel destination, RouteDirections.Route route);
+
+        /// <summary>
         /// Gets the points of interest by a fuzzy search.
         /// </summary>
         /// <param name="latitude">The point latitude.</param>

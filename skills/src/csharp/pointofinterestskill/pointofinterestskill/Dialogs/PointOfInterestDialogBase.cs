@@ -605,7 +605,7 @@ namespace PointOfInterestSkill.Dialogs
             return timeString.ToString();
         }
 
-        protected async Task<List<Card>> GetRouteDirectionsViewCards(DialogContext sc, RouteDirections routeDirections)
+        protected async Task<List<Card>> GetRouteDirectionsViewCards(DialogContext sc, RouteDirections routeDirections, IGeoSpatialService service)
         {
             var routes = routeDirections.Routes;
             var state = await Accessor.GetAsync(sc.Context);
@@ -633,7 +633,7 @@ namespace PointOfInterestSkill.Dialogs
                         Address = destination.Address,
                         AvailableDetails = destination.AvailableDetails,
                         Hours = destination.Hours,
-                        PointOfInterestImageUrl = destination.PointOfInterestImageUrl,
+                        PointOfInterestImageUrl = await service.GetRouteImageAsync(destination, route),
                         TravelTime = GetShortTravelTimespanString(travelTimeSpan),
                         DelayStatus = GetFormattedTrafficDelayString(trafficTimeSpan),
                         Distance = $"{(route.Summary.LengthInMeters / 1609.344).ToString("N1")} {PointOfInterestSharedStrings.MILES_ABBREVIATION}",
