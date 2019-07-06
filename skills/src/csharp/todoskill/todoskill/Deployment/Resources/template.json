@@ -212,7 +212,7 @@
       "type": "object",
       "value": {
         "cosmosDBEndpoint": "[reference(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName'))).documentEndpoint]",
-        "authkey": "[listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName')), '2015-04-08').primaryMasterKey]",
+        "authKey": "[listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName')), '2015-04-08').primaryMasterKey]",
         "databaseId": "botstate-db",
         "collectionId": "botstate-collection"
       }
