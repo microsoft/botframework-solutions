@@ -282,7 +282,7 @@ namespace CalendarSkill.Dialogs
                 // when replaced by itself, the reason will be Confirm No.
                 var options = (FindContactDialogOptions)sc.Options;
 
-                // set the ConfirmPerson to null as defaut.
+                // set the ConfirmPerson to null as default.
                 state.ConfirmedPerson = null;
                 return await sc.BeginDialogAsync(Actions.UpdateName, options: options, cancellationToken: cancellationToken);
             }

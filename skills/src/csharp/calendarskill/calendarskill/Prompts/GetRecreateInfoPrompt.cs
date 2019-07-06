@@ -72,7 +72,7 @@ namespace CalendarSkill.Prompts
             RecreateEventState? result = null;
             message = message.ToLower();
 
-            // useregex and  exactly match for now. We may discuss about to use white list or Luis in future.
+            // use regex and exactly match for now. We may discuss about to use white list or Luis in future.
             // check is no or cancel
             var regex = new Regex(CalendarCommonStrings.CancelAdjust);
             if (regex.IsMatch(message))

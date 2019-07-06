@@ -34,7 +34,7 @@ namespace AutomotiveSkill.Models
         public IList<AvailableSettingValue> Values { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether whether a numeric amount makes sense for this setting.
+        /// Gets or sets a value indicating whether a numeric amount makes sense for this setting.
         /// If an amount is allowed for this setting, the unit "%" (percent) is
         /// always considered supported with a min of 0 and a max of 100.
         /// </summary>

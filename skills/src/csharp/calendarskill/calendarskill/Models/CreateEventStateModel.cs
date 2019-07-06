@@ -10,32 +10,32 @@
             Cancel = 0,
 
             /// <summary>
-            /// Change the time and recerate.
+            /// Change the time and recreate.
             /// </summary>
             Time = 1,
 
             /// <summary>
-            /// Change the duration and recerate.
+            /// Change the duration and recreate.
             /// </summary>
             Duration = 2,
 
             /// <summary>
-            /// Change the location and recerate.
+            /// Change the location and recreate.
             /// </summary>
             Location = 3,
 
             /// <summary>
-            /// Change the participants and recerate.
+            /// Change the participants and recreate.
             /// </summary>
             Participants = 4,
 
             /// <summary>
-            /// Change the subject and recerate.
+            /// Change the subject and recreate.
             /// </summary>
             Subject = 5,
 
             /// <summary>
-            /// Change the content and recerate.
+            /// Change the content and recreate.
             /// </summary>
             Content = 6
         }

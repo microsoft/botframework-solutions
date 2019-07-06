@@ -67,7 +67,7 @@ namespace AutomotiveSkill.Dialogs
             vehicleSettingNameSelectionLuisRecognizer = services.CognitiveModelSets["en"].LuisServices["settings_name"];
             vehicleSettingValueSelectionLuisRecognizer = services.CognitiveModelSets["en"].LuisServices["settings_value"];
 
-            // Supporting setting files are stored as embeddded resources
+            // Supporting setting files are stored as embedded resources
             var resourceAssembly = typeof(VehicleSettingsDialog).Assembly;
 
             var settingFile = resourceAssembly
