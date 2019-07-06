@@ -4,7 +4,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public class emailLuis: IRecognizerConvert
+    public class EmailLuis: IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
@@ -87,7 +87,7 @@ namespace Luis
 
         public void Convert(dynamic result)
         {
-            var app = JsonConvert.DeserializeObject<emailLuis>(JsonConvert.SerializeObject(result));
+            var app = JsonConvert.DeserializeObject<EmailLuis>(JsonConvert.SerializeObject(result));
             Text = app.Text;
             AlteredText = app.AlteredText;
             Intents = app.Intents;

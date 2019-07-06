@@ -82,7 +82,7 @@ namespace EmailSkill.Dialogs
             await PopulateStateFromSkillContext(dc.Context);
 
             // If dispatch result is general luis model
-            localeConfig.LuisServices.TryGetValue("email", out var luisService);
+            localeConfig.LuisServices.TryGetValue("Email", out var luisService);
 
             if (luisService == null)
             {
@@ -102,45 +102,45 @@ namespace EmailSkill.Dialogs
                 // switch on general intents
                 switch (intent)
                 {
-                    case emailLuis.Intent.SendEmail:
+                    case EmailLuis.Intent.SendEmail:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(SendEmailDialog), skillOptions);
                             break;
                         }
 
-                    case emailLuis.Intent.Forward:
+                    case EmailLuis.Intent.Forward:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(ForwardEmailDialog), skillOptions);
                             break;
                         }
 
-                    case emailLuis.Intent.Reply:
+                    case EmailLuis.Intent.Reply:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(ReplyEmailDialog), skillOptions);
                             break;
                         }
 
-                    case emailLuis.Intent.SearchMessages:
-                    case emailLuis.Intent.CheckMessages:
-                    case emailLuis.Intent.ReadAloud:
-                    case emailLuis.Intent.QueryLastText:
+                    case EmailLuis.Intent.SearchMessages:
+                    case EmailLuis.Intent.CheckMessages:
+                    case EmailLuis.Intent.ReadAloud:
+                    case EmailLuis.Intent.QueryLastText:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
                             break;
                         }
 
-                    case emailLuis.Intent.Delete:
+                    case EmailLuis.Intent.Delete:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(DeleteEmailDialog), skillOptions);
                             break;
                         }
 
-                    case emailLuis.Intent.ShowNext:
-                    case emailLuis.Intent.ShowPrevious:
-                    case emailLuis.Intent.None:
+                    case EmailLuis.Intent.ShowNext:
+                    case EmailLuis.Intent.ShowPrevious:
+                    case EmailLuis.Intent.None:
                         {
-                            if (intent == emailLuis.Intent.ShowNext
-                                || intent == emailLuis.Intent.ShowPrevious
+                            if (intent == EmailLuis.Intent.ShowNext
+                                || intent == EmailLuis.Intent.ShowPrevious
                                 || generalTopIntent == General.Intent.ShowNext
                                 || generalTopIntent == General.Intent.ShowPrevious)
                             {
@@ -240,12 +240,12 @@ namespace EmailSkill.Dialogs
                 var localeConfig = _services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities
-                var emailLuisResult = await localeConfig.LuisServices["email"].RecognizeAsync<emailLuis>(dc.Context, cancellationToken);
+                var emailLuisResult = await localeConfig.LuisServices["Email"].RecognizeAsync<EmailLuis>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
                 state.LuisResult = emailLuisResult;
 
                 // check luis intent
-                localeConfig.LuisServices.TryGetValue("general", out var luisService);
+                localeConfig.LuisServices.TryGetValue("General", out var luisService);
 
                 if (luisService == null)
                 {
