@@ -211,7 +211,7 @@
         "InstrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]"
       }
     },
-    "storage": {
+    "blobStorage": {
       "type": "object",
       "value": {
         "connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('cleanStorageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('cleanStorageAccountName')), '2018-07-01').keys[0].value, ';EndpointSuffix=core.windows.net')]",
