@@ -5,7 +5,7 @@ using Microsoft.Bot.Builder;
 
 namespace PointOfInterestSkillTests.Flow.Fakes
 {
-    public class MockPointOfInterestIntent : pointofinterestLuis
+    public class MockPointOfInterestIntent : PointOfInterestLuis
     {
         private Intent intent;
         private double score;
