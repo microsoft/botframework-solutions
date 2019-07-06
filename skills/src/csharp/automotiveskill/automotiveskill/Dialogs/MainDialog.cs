@@ -77,7 +77,7 @@ namespace AutomotiveSkill.Dialogs
                 var result = await luisService.RecognizeAsync<Luis.settingsLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
-                // Update state with vehiclesettings luis result and entities
+                // Update state with vehicle settings luis result and entities
                 state.AddRecognizerResult(result);
 
                 // switch on general intents
