@@ -319,7 +319,7 @@ namespace CalendarSkill.Dialogs
                     return await sc.CancelAllDialogsAsync();
                 }
 
-                if ((generalTopIntent == General.Intent.ShowNext || topIntent == calendarLuis.Intent.ShowNextCalendar) && state.SummaryEvents != null)
+                if ((generalTopIntent == General.Intent.ShowNext || topIntent == CalendarLuis.Intent.ShowNextCalendar) && state.SummaryEvents != null)
                 {
                     if ((state.ShowEventIndex + 1) * state.PageSize < state.SummaryEvents.Count)
                     {
@@ -332,7 +332,7 @@ namespace CalendarSkill.Dialogs
 
                     return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, sc.Options);
                 }
-                else if ((generalTopIntent == General.Intent.ShowPrevious || topIntent == calendarLuis.Intent.ShowPreviousCalendar) && state.SummaryEvents != null)
+                else if ((generalTopIntent == General.Intent.ShowPrevious || topIntent == CalendarLuis.Intent.ShowPreviousCalendar) && state.SummaryEvents != null)
                 {
                     if (state.ShowEventIndex > 0)
                     {
@@ -514,7 +514,7 @@ namespace CalendarSkill.Dialogs
 
                 var eventItem = state.ReadOutEvents.FirstOrDefault();
 
-                if (eventItem != null && topIntent != Luis.calendarLuis.Intent.ChangeCalendarEntry && topIntent != Luis.calendarLuis.Intent.DeleteCalendarEntry)
+                if (eventItem != null && topIntent != Luis.CalendarLuis.Intent.ChangeCalendarEntry && topIntent != Luis.CalendarLuis.Intent.DeleteCalendarEntry)
                 {
                     var tokens = new StringDictionary()
                     {
@@ -588,14 +588,14 @@ namespace CalendarSkill.Dialogs
                     state.SummaryEvents = null;
                     if (readoutEvent.IsOrganizer)
                     {
-                        if (topIntent == calendarLuis.Intent.ChangeCalendarEntry)
+                        if (topIntent == CalendarLuis.Intent.ChangeCalendarEntry)
                         {
                             state.Events.Add(readoutEvent);
                             state.IsActionFromSummary = true;
                             return await sc.BeginDialogAsync(nameof(UpdateEventDialog), sc.Options);
                         }
 
-                        if (topIntent == calendarLuis.Intent.DeleteCalendarEntry)
+                        if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry)
                         {
                             state.Events.Add(readoutEvent);
                             state.IsActionFromSummary = true;
@@ -607,7 +607,7 @@ namespace CalendarSkill.Dialogs
                     }
                     else if (readoutEvent.IsAccepted)
                     {
-                        if (topIntent == calendarLuis.Intent.DeleteCalendarEntry)
+                        if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry)
                         {
                             state.Events.Add(readoutEvent);
                             state.IsActionFromSummary = true;
@@ -619,7 +619,7 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        if (topIntent == calendarLuis.Intent.DeleteCalendarEntry || topIntent == calendarLuis.Intent.AcceptEventEntry)
+                        if (topIntent == CalendarLuis.Intent.DeleteCalendarEntry || topIntent == CalendarLuis.Intent.AcceptEventEntry)
                         {
                             state.Events.Add(readoutEvent);
                             state.IsActionFromSummary = true;
