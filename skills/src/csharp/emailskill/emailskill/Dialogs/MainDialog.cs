@@ -326,12 +326,7 @@ namespace EmailSkill.Dialogs
 
         private void GetReadingDisplayConfig()
         {
-            _settings.Properties.TryGetValue("displaySize", out var maxDisplaySize);
-
-            if (maxDisplaySize != null)
-            {
-                ConfigData.GetInstance().MaxDisplaySize = int.Parse(maxDisplaySize as string);
-            }
+            ConfigData.GetInstance().MaxDisplaySize = _settings.DisplaySize;
         }
     }
 }
