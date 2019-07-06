@@ -113,7 +113,7 @@ namespace CalendarSkill.Models
                         gmailPersonData = value;
                         break;
                     case EventSource.Other:
-                        throw new Exception("Get defaut type, please check");
+                        throw new Exception("Get default type, please check");
                     default:
                         throw new Exception("Event Type not Defined");
                 }
