@@ -1,0 +1,21 @@
+{
+  "ConfirmCheckOut": {
+    "replies": [
+      {
+        "text": "Would you like me to check you out now?",
+        "speak": "Would you like me to check you out now?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "RetryConfirmCheckOut": {
+    "replies": [
+      {
+        "text": "Sorry I didn't get that. Would you like me to check you out?",
+        "speak": "Sorry I didn't get that. Would you like me to check you out?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}
+
