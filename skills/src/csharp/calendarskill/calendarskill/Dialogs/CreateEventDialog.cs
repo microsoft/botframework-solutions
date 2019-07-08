@@ -60,8 +60,17 @@ namespace CalendarSkill.Dialogs
                         Steps = new List<IDialog>()
                         {
                             new BeginDialog(nameof(SummaryDialog), options: skillOptions)
-                        }
-                    }
+                        },
+                        Constraint = "turn.dialogEvent.value.intents.FindCalendarEntry.score > 0.4"
+                    },
+                    //new IntentRule("AddContact")
+                    //{
+                    //    Steps = new List<IDialog>()
+                    //    {
+                    //        new BeginDialog(nameof(FindContactDialog), options: new FindContactDialogOptions(skillOptions))
+                    //    },
+                    //    Constraint = "turn.dialogEvent.value.intents.AddContact.score > 0.4"
+                    //}
                 },
                 Steps = new List<IDialog>()
                 {

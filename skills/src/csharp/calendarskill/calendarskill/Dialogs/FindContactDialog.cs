@@ -175,6 +175,15 @@ namespace CalendarSkill.Dialogs
                 var userState = await CalendarStateAccessor.GetAsync(sc.Context);
                 var dialogState = (CreateEventDialogState)sc.State.Dialog[CalendarStateKey];
                 var skillOptions = (FindContactDialogOptions)sc.Options;
+                //FindContactDialogOptions skillOptions = null;
+                //if (sc.Options is FindContactDialogOptions)
+                //{
+                //    skillOptions = (FindContactDialogOptions)sc.Options;
+                //}
+                //else if (sc.Options is CalendarSkillDialogOptions)
+                //{
+                //    skillOptions = new FindContactDialogOptions(sc.Options);
+                //}
 
                 // get name list from sc.result
                 if (sc.Result != null)
@@ -216,16 +225,15 @@ namespace CalendarSkill.Dialogs
                     dialogState.FindContactInfor.ConfirmContactsNameIndex = 0;
 
                     skillOptions.DialogState = dialogState;
-                    return await sc.ReplaceDialogAsync(Actions.LoopNameList, sc.Options, cancellationToken);
+                    return await sc.ReplaceDialogAsync(Actions.LoopNameList, skillOptions, cancellationToken);
                 }
 
                 dialogState.FindContactInfor.ContactsNameList = new List<string>();
                 dialogState.FindContactInfor.CurrentContactName = string.Empty;
                 dialogState.FindContactInfor.ConfirmContactsNameIndex = 0;
 
-                var returnOptions = sc.Options as FindContactDialogOptions;
-                returnOptions.DialogState = dialogState;
-                return await sc.EndDialogAsync(returnOptions);
+                skillOptions.DialogState = dialogState;
+                return await sc.EndDialogAsync(skillOptions);
             }
             catch (Exception ex)
             {
@@ -332,6 +340,12 @@ namespace CalendarSkill.Dialogs
 
         public async Task<DialogTurnResult> ConfirmEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (sc.Result != null)
+            {
+                var resultOption = sc.Result as FindContactDialogOptions;
+                sc.State.Dialog[CalendarStateKey] = resultOption.DialogState;
+            }
+
             var dialogState = (CreateEventDialogState)sc.State.Dialog[CalendarStateKey];
             var options = (FindContactDialogOptions)sc.Options;
 
@@ -684,7 +698,9 @@ namespace CalendarSkill.Dialogs
                     dialogState.FindContactInfor.ConfirmedContact = confirmedPerson;
                 }
 
-                return await sc.EndDialogAsync();
+                skillOptions.DialogState = dialogState;
+
+                return await sc.EndDialogAsync(skillOptions);
             }
             catch (Exception ex)
             {
@@ -1085,6 +1101,17 @@ namespace CalendarSkill.Dialogs
                 if (!isBeginDialog)
                 {
                     return state;
+                }
+
+                switch (intent)
+                {
+                    //case CalendarLuis.Intent.AddContact:
+                    //    if (entity.personName != null)
+                    //    {
+                    //        state.FindContactInfor.ContactsNameList = GetAttendeesFromEntity(entity, luisResult.Text, state.FindContactInfor.ContactsNameList);
+                    //    }
+
+                    //    break;
                 }
 
                 return state;
