@@ -420,7 +420,6 @@ public class SpeechSdk {
         activity.setType(ActivityTypes.EVENT);
         activity.setLocale(configuration.locale);
         if (from_user != null) activity.setFrom(from_user);
-        activity.setChannelId(configuration.directlineConstant);
         activity.setChannelData(channelData);
         activity.setName(eventname);
         activity.setValue(value);

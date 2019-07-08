@@ -190,7 +190,6 @@ public class SpeechService extends Service {
             configuration.botId = DefaultConfiguration.BOT_ID;
             configuration.serviceRegion = DefaultConfiguration.SPEECH_REGION;
             configuration.voiceName = DefaultConfiguration.VOICE_NAME;
-            configuration.directlineConstant = DefaultConfiguration.DIRECT_LINE_CONSTANT;
             configuration.userName = DefaultConfiguration.USER_NAME;
             configuration.userId = DefaultConfiguration.USER_ID;
             configuration.locale = DefaultConfiguration.LOCALE;

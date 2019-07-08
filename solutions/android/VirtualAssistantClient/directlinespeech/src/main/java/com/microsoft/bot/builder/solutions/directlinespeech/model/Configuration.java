@@ -41,10 +41,6 @@ public class Configuration {
     @Expose
     public String userName;
 
-    @SerializedName("directline_constant")
-    @Expose
-    public String directlineConstant;
-
     @SerializedName("history_linecount")
     @Expose
     public Integer historyLinecount;
@@ -64,7 +60,6 @@ public class Configuration {
                 geolat==null&&
                 geolon==null&&
                 userName==null&&
-                directlineConstant==null&&
                 historyLinecount==null&&
                 currentTimezone==null;
     }
