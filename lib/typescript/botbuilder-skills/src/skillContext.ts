@@ -9,7 +9,7 @@
 export class SkillContext {
     private readonly contextStorage: { [key: string]: Object };
 
-    constructor(contextStorage?: { [key: string]: Object }) {
+    public constructor(contextStorage?: { [key: string]: Object }) {
         this.contextStorage = contextStorage || {};
     }
 

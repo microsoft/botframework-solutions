@@ -53,6 +53,7 @@ namespace BingSearchSkill
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            var provider = services.BuildServiceProvider();
 
             // Load settings
             var settings = new BotSettings();
@@ -60,11 +61,9 @@ namespace BingSearchSkill
             services.AddSingleton(settings);
             services.AddSingleton<BotSettingsBase>(settings);
 
-            // Configure bot services
-            services.AddSingleton<BotServices>();
-
             // Configure credentials
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
+            services.AddSingleton(new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
 
             // Configure storage
             services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
@@ -78,9 +77,13 @@ namespace BingSearchSkill
             });
 
             // Configure telemetry
-            var telemetryClient = new BotTelemetryClient(new TelemetryClient(settings.AppInsights));
+            services.AddApplicationInsightsTelemetry();
+            var telemetryClient = new BotTelemetryClient(new TelemetryClient());
             services.AddSingleton<IBotTelemetryClient>(telemetryClient);
             services.AddBotApplicationInsights(telemetryClient);
+
+            // Configure bot services
+            services.AddSingleton<BotServices>();
 
             // Configure proactive
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();

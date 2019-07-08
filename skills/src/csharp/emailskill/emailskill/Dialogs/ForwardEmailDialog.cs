@@ -1,37 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Models;
+using EmailSkill.Models.DialogModel;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Services;
 using EmailSkill.Utilities;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector.Authentication;
 
 namespace EmailSkill.Dialogs
 {
     public class ForwardEmailDialog : EmailSkillDialogBase
     {
         public ForwardEmailDialog(
-           BotSettings settings,
-           BotServices services,
-           ResponseManager responseManager,
-           ConversationState conversationState,
-           FindContactDialog findContactDialog,
-           IServiceManager serviceManager,
-           IBotTelemetryClient telemetryClient)
-           : base(nameof(ForwardEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
+            BotSettings settings,
+            BotServices services,
+            ResponseManager responseManager,
+            ConversationState conversationState,
+            FindContactDialog findContactDialog,
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient,
+            MicrosoftAppCredentials appCredentials)
+            : base(nameof(ForwardEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
             var forwardEmail = new WaterfallStep[]
             {
-                IfClearContextStep,
+                InitEmailSendDialogState,
                 GetAuthToken,
                 AfterGetAuthToken,
                 SetDisplayConfig,
@@ -47,31 +52,36 @@ namespace EmailSkill.Dialogs
 
             var showEmail = new WaterfallStep[]
             {
+                SaveEmailSendDialogState,
                 PagingStep,
                 ShowEmails,
             };
 
             var collectRecipients = new WaterfallStep[]
             {
-                PromptRecipientCollection,
+                SaveEmailSendDialogState,
+                //PromptRecipientCollection,
                 GetRecipients,
             };
 
             var updateSelectMessage = new WaterfallStep[]
             {
+                SaveEmailSendDialogState,
                 UpdateMessage,
                 PromptUpdateMessage,
                 AfterUpdateMessage,
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.Forward, forwardEmail) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.Show, showEmail) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage) { TelemetryClient = telemetryClient });
+            AddDialog(new EmailWaterfallDialog(Actions.Forward, forwardEmail, EmailStateAccessor) { TelemetryClient = telemetryClient });
+            AddDialog(new EmailWaterfallDialog(Actions.Show, showEmail, EmailStateAccessor) { TelemetryClient = telemetryClient });
+            AddDialog(new EmailWaterfallDialog(Actions.CollectRecipient, collectRecipients, EmailStateAccessor) { TelemetryClient = telemetryClient });
+            AddDialog(new EmailWaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage, EmailStateAccessor) { TelemetryClient = telemetryClient });
             AddDialog(new FindContactDialog(settings, services, responseManager, conversationState, serviceManager, telemetryClient));
             InitialDialogId = Actions.Forward;
         }
+
+        
 
         public async Task<DialogTurnResult> ForwardEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -80,14 +90,15 @@ namespace EmailSkill.Dialogs
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
-                    var state = await EmailStateAccessor.GetAsync(sc.Context);
+                    var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
+                    var userState = await EmailStateAccessor.GetAsync(sc.Context);
 
-                    var token = state.Token;
+                    var token = userState.Token;
                     var message = state.Message;
                     var id = message.FirstOrDefault()?.Id;
                     var recipients = state.FindContactInfor.Contacts;
 
-                    var service = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
+                    var service = ServiceManager.InitMailService(token, userState.GetUserTimeZone(), userState.MailSourceType);
 
                     // send user message.
                     var content = state.Content.Equals(EmailCommonStrings.EmptyContent) ? string.Empty : state.Content;
@@ -105,7 +116,7 @@ namespace EmailSkill.Dialogs
                         { "Subject", state.Subject },
                     };
 
-                    var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
+                    var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? GetDivergedCardName(sc.Context, "ConfirmCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "ConfirmCard_RecipientLessThanFive");
                     var reply = ResponseManager.GetCardResponse(
                         EmailSharedResponses.SentSuccessfully,
                         new Card("EmailWithOutButtonCard", emailCard),
@@ -127,7 +138,7 @@ namespace EmailSkill.Dialogs
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
 
-            await ClearConversationState(sc);
+            //await ClearConversationState(sc);
             return await sc.EndDialogAsync(true);
         }
     }

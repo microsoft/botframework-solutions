@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Connector;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Rest.Serialization;
 
@@ -16,11 +19,15 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
         private string _selectedAuthType = string.Empty;
         private List<OAuthConnection> _authenticationConnections;
         private ResponseManager _responseManager;
+        private bool localAuthConfigured = false;
+        private MicrosoftAppCredentials _appCredentials;
 
-        public MultiProviderAuthDialog(List<OAuthConnection> authenticationConnections)
+        public MultiProviderAuthDialog(List<OAuthConnection> authenticationConnections, MicrosoftAppCredentials appCredentials = null)
             : base(nameof(MultiProviderAuthDialog))
         {
             _authenticationConnections = authenticationConnections;
+            _appCredentials = appCredentials;
+
             _responseManager = new ResponseManager(
                 new string[] { "en", "de", "es", "fr", "it", "zh" },
                 new AuthenticationResponses());
@@ -50,7 +57,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             AddDialog(new EventPrompt(DialogIds.RemoteAuthEventPrompt, TokenEvents.TokenResponseEventName, TokenResponseValidatorAsync));
 
             // If authentication connections are provided locally then we enable "local auth" otherwise we only enable remote auth where the calling Bot handles this for us.
-            if (_authenticationConnections.Any())
+            if (_authenticationConnections != null && _authenticationConnections.Any())
             {
                 bool authDialogAdded = false;
 
@@ -64,8 +71,8 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                             new OAuthPromptSettings
                             {
                                 ConnectionName = connection.Name,
-                                Title = "login",
-                                Text = string.Format("login with {0}", connection.Name),
+                                Title = "Login",
+                                Text = string.Format("Login with {0}", connection.Name),
                             },
                             AuthPromptValidatorAsync));
 
@@ -73,12 +80,18 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                     }
                 }
 
-                // Only add Auth supporting local auth dialogs if we found valid authentication connections to use
+                // Only add Auth supporting local auth dialogs if we found valid authentication connections to use otherwise it will just work in remote mode.
                 if (authDialogAdded)
                 {
                     AddDialog(new WaterfallDialog(DialogIds.LocalAuthPrompt, localAuth));
                     AddDialog(new ChoicePrompt(DialogIds.ProviderPrompt) { Style = ListStyle.SuggestedAction });
+
+                    localAuthConfigured = true;
                 }
+            }
+            else
+            {
+                throw new ArgumentNullException(nameof(authenticationConnections));
             }
         }
 
@@ -90,22 +103,84 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             {
                 return Task.FromResult(true);
             }
-            else
-            {
-                return Task.FromResult(false);
-            }
+
+            return Task.FromResult(false);
         }
 
-        private async Task<DialogTurnResult> FirstStepAsync(WaterfallStepContext stepContext, CancellationToken canellationToken)
+        private async Task<DialogTurnResult> FirstStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             if (stepContext.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter)
             {
-                return await stepContext.BeginDialogAsync(DialogIds.RemoteAuthPrompt).ConfigureAwait(false);
+                return await stepContext.BeginDialogAsync(DialogIds.RemoteAuthPrompt, null, cancellationToken).ConfigureAwait(false);
             }
-            else
+
+            if (!string.IsNullOrEmpty(stepContext.Context.Activity.ChannelId) && stepContext.Context.Activity.ChannelId == "directlinespeech")
+            {
+                // Speech channel doesn't support OAuthPrompt./OAuthCards so we rely on tokens being set by the Linked Accounts technique
+                // Therefore we don't use OAuthPrompt and instead attempt to directly retrieve the token from the store.
+                if (stepContext.Context.Activity.From == null || string.IsNullOrWhiteSpace(stepContext.Context.Activity.From.Id))
+                {
+                    throw new ArgumentNullException("Missing From or From.Id which is required for token retrieval.");
+                }
+
+                if (_appCredentials == null)
+                {
+                    throw new ArgumentNullException("AppCredentials were not passed which are required for speech enabled authentication scenarios.");
+                }
+
+                var client = new OAuthClient(new Uri(OAuthClientConfig.OAuthEndpoint), _appCredentials);
+                var connectionName = _authenticationConnections.First().Name;
+
+                try
+                {
+                    // Attempt to retrieve the token directly, we can't prompt the user for which Token to use so go with the first
+                    // Moving forward we expect to have a "default" choice as part of Linked Accounts,.
+                    var tokenResponse = await client.UserToken.GetTokenWithHttpMessagesAsync(
+                        stepContext.Context.Activity.From.Id,
+                        connectionName,
+                        stepContext.Context.Activity.ChannelId,
+                        null,
+                        null,
+                        cancellationToken).ConfigureAwait(false);
+
+                    if (tokenResponse?.Body != null && !string.IsNullOrEmpty(tokenResponse.Body.Token))
+                    {
+                        var providerTokenResponse = await CreateProviderTokenResponseAsync(stepContext.Context, tokenResponse.Body).ConfigureAwait(false);
+                        return await stepContext.EndDialogAsync(providerTokenResponse, cancellationToken).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        throw new Exception($"Empty token response for user: {stepContext.Context.Activity.From.Id}, connectionName: {connectionName}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TelemetryClient.TrackEvent("DirectLineSpeechTokenRetrievalFailure", new Dictionary<string, string> { { "Exception", ex.Message } });
+                }
+
+                var noLinkedAccountResponse = _responseManager.GetResponse(
+                    AuthenticationResponses.NoLinkedAccount,
+                    new StringDictionary() { { "authType", connectionName } });
+
+                await stepContext.Context.SendActivityAsync(noLinkedAccountResponse).ConfigureAwait(false);
+
+                // Enable Direct Line Speech clients to receive an event that will tell them
+                // to trigger a sign-in flow when a token isn't present
+                var requestOAuthFlowEvent = stepContext.Context.Activity.CreateReply();
+                requestOAuthFlowEvent.Type = ActivityTypes.Event;
+                requestOAuthFlowEvent.Name = "RequestOAuthFlow";
+
+                await stepContext.Context.SendActivityAsync(requestOAuthFlowEvent).ConfigureAwait(false);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled);
+            }
+
+            if (localAuthConfigured)
             {
                 return await stepContext.BeginDialogAsync(DialogIds.LocalAuthPrompt).ConfigureAwait(false);
             }
+
+            throw new Exception("Local authentication is not configured, please check the authentication connection section in your configuration file.");
         }
 
         private async Task<DialogTurnResult> SendRemoteEventAsync(WaterfallStepContext stepContext, CancellationToken canellationToken)
@@ -117,10 +192,8 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                 // Wait for the tokens/response event
                 return await stepContext.PromptAsync(DialogIds.RemoteAuthEventPrompt, new PromptOptions()).ConfigureAwait(false);
             }
-            else
-            {
-                throw new Exception("The adapter does not support RemoteTokenRequest!");
-            }
+
+            throw new Exception("The adapter does not support RemoteTokenRequest.");
         }
 
         private async Task<DialogTurnResult> ReceiveRemoteEventAsync(WaterfallStepContext stepContext, CancellationToken canellationToken)
@@ -130,49 +203,51 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                 var tokenResponse = SafeJsonConvert.DeserializeObject<ProviderTokenResponse>(stepContext.Context.Activity.Value.ToString(), Serialization.Settings);
                 return await stepContext.EndDialogAsync(tokenResponse).ConfigureAwait(false);
             }
-            else
-            {
-                throw new Exception("something wrong with the token response");
-            }
+
+            throw new Exception("Token Response is invalid.");
         }
 
         private async Task<DialogTurnResult> PromptForProviderAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            if (_authenticationConnections.Count() == 1)
+            if (_authenticationConnections.Count == 1)
             {
-                var result = _authenticationConnections.ElementAt(0).Name;
+                var result = _authenticationConnections.First().Name;
                 return await stepContext.NextAsync(result).ConfigureAwait(false);
             }
-            else
+
+            if (stepContext.Context.Adapter is IUserTokenProvider adapter)
             {
-                var adapter = stepContext.Context.Adapter as BotFrameworkAdapter;
-                var tokenStatusCollection = await adapter.GetTokenStatusAsync(stepContext.Context, stepContext.Context.Activity.From.Id).ConfigureAwait(false);
+                var tokenStatusCollection = await adapter.GetTokenStatusAsync(stepContext.Context, stepContext.Context.Activity.From.Id, null, cancellationToken).ConfigureAwait(false);
 
                 var matchingProviders = tokenStatusCollection.Where(p => (bool)p.HasToken && _authenticationConnections.Any(t => t.Name == p.ConnectionName)).ToList();
 
-                if (matchingProviders.Count() == 1)
+                if (matchingProviders.Count == 1)
                 {
                     var authType = matchingProviders[0].ConnectionName;
-                    return await stepContext.NextAsync(authType).ConfigureAwait(false);
+                    return await stepContext.NextAsync(authType, cancellationToken).ConfigureAwait(false);
                 }
-                else if (matchingProviders.Count() > 1)
+
+                if (matchingProviders.Count > 1)
                 {
                     var choices = new List<Choice>();
 
                     foreach (var connection in matchingProviders)
                     {
-                        choices.Add(new Choice()
+                        choices.Add(new Choice
                         {
                             Action = new CardAction(ActionTypes.ImBack, connection.ConnectionName, value: connection.ConnectionName),
                             Value = connection.ConnectionName,
                         });
                     }
 
-                    return await stepContext.PromptAsync(DialogIds.ProviderPrompt, new PromptOptions
-                    {
-                        Prompt = _responseManager.GetResponse(AuthenticationResponses.ConfiguredAuthProvidersPrompt),
-                        Choices = choices,
-                    }).ConfigureAwait(false);
+                    return await stepContext.PromptAsync(
+                        DialogIds.ProviderPrompt,
+                        new PromptOptions
+                        {
+                            Prompt = _responseManager.GetResponse(AuthenticationResponses.ConfiguredAuthProvidersPrompt),
+                            Choices = choices,
+                        },
+                        cancellationToken).ConfigureAwait(false);
                 }
                 else
                 {
@@ -180,35 +255,39 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
 
                     foreach (var connection in _authenticationConnections)
                     {
-                        choices.Add(new Choice()
+                        choices.Add(new Choice
                         {
                             Action = new CardAction(ActionTypes.ImBack, connection.Name, value: connection.Name),
                             Value = connection.Name,
                         });
                     }
 
-                    return await stepContext.PromptAsync(DialogIds.ProviderPrompt, new PromptOptions
-                    {
-                        Prompt = _responseManager.GetResponse(AuthenticationResponses.AuthProvidersPrompt),
-                        Choices = choices,
-                    }).ConfigureAwait(false);
+                    return await stepContext.PromptAsync(
+                        DialogIds.ProviderPrompt,
+                        new PromptOptions
+                        {
+                            Prompt = _responseManager.GetResponse(AuthenticationResponses.AuthProvidersPrompt),
+                            Choices = choices,
+                        },
+                        cancellationToken).ConfigureAwait(false);
                 }
             }
+
+            throw new Exception("The adapter doesn't support Token Handling.");
         }
 
         private async Task<DialogTurnResult> PromptForAuthAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            if (stepContext.Result is string)
+            if (stepContext.Result is string selectedAuthType)
             {
-                _selectedAuthType = stepContext.Result as string;
+                _selectedAuthType = selectedAuthType;
             }
-            else if (stepContext.Result is FoundChoice)
+            else if (stepContext.Result is FoundChoice choice)
             {
-                var choice = stepContext.Result as FoundChoice;
                 _selectedAuthType = choice.Value;
             }
 
-            return await stepContext.PromptAsync(_selectedAuthType, new PromptOptions()).ConfigureAwait(false);
+            return await stepContext.PromptAsync(_selectedAuthType, new PromptOptions(), cancellationToken).ConfigureAwait(false);
         }
 
         private async Task<DialogTurnResult> HandleTokenResponseAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -217,19 +296,16 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             {
                 var result = await CreateProviderTokenResponseAsync(stepContext.Context, tokenResponse).ConfigureAwait(false);
 
-                return await stepContext.EndDialogAsync(result).ConfigureAwait(false);
+                return await stepContext.EndDialogAsync(result, cancellationToken).ConfigureAwait(false);
             }
-            else
-            {
-                TelemetryClient.TrackEvent("TokenRetrievalFailure");
-                return new DialogTurnResult(DialogTurnStatus.Cancelled);
-            }
+
+            TelemetryClient.TrackEvent("TokenRetrievalFailure");
+            return new DialogTurnResult(DialogTurnStatus.Cancelled);
         }
 
         private async Task<ProviderTokenResponse> CreateProviderTokenResponseAsync(ITurnContext context, TokenResponse tokenResponse)
         {
-            var adapter = context.Adapter as BotFrameworkAdapter;
-            var tokens = await adapter.GetTokenStatusAsync(context, context.Activity.From.Id).ConfigureAwait(false);
+            var tokens = await GetTokenStatusAsync(context, context.Activity.From.Id).ConfigureAwait(false);
             var match = Array.Find(tokens, t => t.ConnectionName == tokenResponse.ConnectionName);
 
             return new ProviderTokenResponse
@@ -239,6 +315,39 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             };
         }
 
+        private async Task<TokenStatus[]> GetTokenStatusAsync(ITurnContext context, string userId, string includeFilter = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            BotAssert.ContextNotNull(context);
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
+
+            if (!string.IsNullOrEmpty(context.Activity.ChannelId) && context.Activity.ChannelId == "directlinespeech")
+            {
+                if (_appCredentials == null)
+                {
+                    throw new ArgumentNullException("AppCredentials were not passed which are required for speech enabled authentication scenarios.");
+                }
+
+                var client = new OAuthClient(new Uri(OAuthClientConfig.OAuthEndpoint), _appCredentials);
+                var result = await client.UserToken.GetTokenStatusAsync(userId, context.Activity?.ChannelId, includeFilter, cancellationToken).ConfigureAwait(false);
+                return result?.ToArray();
+            }
+            else
+            {
+                var tokenProvider = context.Adapter as IUserTokenProvider;
+                if (tokenProvider != null)
+                {
+                    return await tokenProvider.GetTokenStatusAsync(context, userId, includeFilter, cancellationToken).ConfigureAwait(false);
+                }
+                else
+                {
+                    throw new Exception("Adapter does not support IUserTokenProvider");
+                }
+            }
+        }
+
         private Task<bool> AuthPromptValidatorAsync(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)
         {
             var token = promptContext.Recognized.Value;
@@ -246,15 +355,16 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
             {
                 return Task.FromResult(true);
             }
-            else if (promptContext.Context.Activity.AsEventActivity().Name == "tokens/response")
+
+            var eventActivity = promptContext.Context.Activity.AsEventActivity();
+            if (eventActivity != null && eventActivity.Name == "tokens/response")
             {
-                promptContext.Recognized.Value = promptContext.Context.Activity.AsEventActivity().Value as TokenResponse;
+                promptContext.Recognized.Value = eventActivity.Value as TokenResponse;
                 return Task.FromResult(true);
             }
-            else
-            {
-                return Task.FromResult(false);
-            }
+
+            TelemetryClient.TrackEvent("AuthPromptValidatorAsyncFailure");
+            return Task.FromResult(false);
         }
 
         private class DialogIds

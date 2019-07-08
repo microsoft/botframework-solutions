@@ -1,10 +1,10 @@
 #Requires -Version 6
 
 Param(
-    [string] $configFile = $(Join-Path (Get-Location) 'cognitivemodels.json'),
     [switch] $RemoteToLocal,
+    [string] $configFile = $(Join-Path (Get-Location) 'cognitivemodels.json'),
     [string] $dispatchFolder = $(Join-Path $PSScriptRoot '..' 'Resources' 'Dispatch'),
-	[string] $luisFolder = $(Join-Path $PSScriptRoot '..' 'Resources' 'LU'),
+    [string] $luisFolder = $(Join-Path $PSScriptRoot '..' 'Resources' 'LU'),
     [string] $qnaFolder = $(Join-Path $PSScriptRoot '..' 'Resources' 'QnA'),
     [string] $lgOutFolder = $(Join-Path (Get-Location) 'Services'),
     [string] $logFile = $(Join-Path $PSScriptRoot .. "update_cognitive_models_log.txt")
@@ -28,8 +28,9 @@ $config.cognitiveModels.PSObject.Properties | Foreach-Object { $languageMap[$_.N
 
 foreach ($langCode in $languageMap.Keys) {
     $models = $languageMap[$langCode]
-
-    if($RemoteToLocal)
+    $dispatch = $models.dispatchModel
+    
+    if ($RemoteToLocal)
     {
         # Update local LU files based on hosted models
         foreach ($luisApp in $models.languageModels)
@@ -38,10 +39,42 @@ foreach ($langCode in $languageMap.Keys) {
             luis export version `
                 --appId $luisApp.appid `
                 --versionId $luisApp.version `
+				--region $luisApp.region `
                 --authoringKey $luisApp.authoringKey | ludown refresh `
                 --stdin `
                 -n "$($luisApp.id).lu" `
                 -o $(Join-Path $luisFolder $langCode)
+
+			# Parse LU file
+			$id = $luisApp.id
+			$outFile = "$($id).luis"
+			$outFolder = $(Join-Path $luisFolder $langCode)
+			$appName = "$($name)$($langCode)_$($id)"
+
+			Write-Host "> Parsing $($luisApp.id) LU file ..."
+			ludown parse toluis `
+				--in $(Join-Path $outFolder "$($luisApp.id).lu") `
+				--luis_culture $luisApp.culture `
+				--out_folder $(Join-Path $luisFolder $langCode) `
+				--out "$($luisApp.id).luis"
+
+			Write-Host "> Running LuisGen for $($luisApp.id) app ..."
+			$luPath = $(Join-Path $luisFolder $langCode "$($luisApp.id).lu")
+			RunLuisGen -lu_file $(Get-Item $luPath) -outName "$($luisApp.id)" -outFolder $lgOutFolder
+
+            # Add the LUIS application to the dispatch model. 
+            # If the LUIS application id already exists within the model no action will be taken
+			if ($dispatch) {
+				Write-Host "> Adding $($luisApp.id) app to dispatch model ... "
+				(dispatch add `
+					--type "luis" `
+					--name $luisApp.name `
+					--id $luisApp.appid  `
+					--region $luisApp.region `
+					--intentName "l_$($luisApp.id)" `
+					--dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
+					--dataFolder $(Join-Path $dispatchFolder $langCode))  2>> $logFile | Out-Null
+			}          
         }
 
         # Update local LU files based on hosted QnA KBs
@@ -55,6 +88,20 @@ foreach ($langCode in $languageMap.Keys) {
                 --stdin `
                 -n "$($kb.id).lu" `
                 -o $(Join-Path $qnaFolder $langCode)
+		
+            # Add the knowledge base to the dispatch model. 
+            # If the knowledge base id already exists within the model no action will be taken
+			if ($dispatch) {
+				Write-Host "> Adding $($kb.id) kb to dispatch model ..."   
+				(dispatch add `
+					--type "qna" `
+					--name $kb.name `
+					--id $kb.kbId  `
+					--key $kb.subscriptionKey  `
+					--intentName "q_$($kb.id)" `
+					--dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
+					--dataFolder $(Join-Path $dispatchFolder $langCode))  2>> $logFile | Out-Null
+			}
         }
     }
     else
@@ -67,6 +114,7 @@ foreach ($langCode in $languageMap.Keys) {
 				-lu_file $lu `
 				-appId $luisApp.appid `
 				-version $luisApp.version `
+				-region $luisApp.region `
 				-authoringKey $luisApp.authoringKey `
 				-subscriptionKey $app.subscriptionKey
 		}
@@ -81,17 +129,18 @@ foreach ($langCode in $languageMap.Keys) {
 				-qnaSubscriptionKey $kb.subscriptionKey
         }
 	}
+
+	if ($dispatch) {
+		# Update dispatch model
+		Write-Host "> Updating dispatch model ..."
+		dispatch refresh `
+			--dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
+			--dataFolder $(Join-Path $dispatchFolder $langCode) 2>> $logFile | Out-Null
+
+		# Update dispatch.cs file
+		Write-Host "> Running LuisGen for Dispatch app..."
+		luisgen $(Join-Path $dispatchFolder $langCode "$($dispatch.name).json") -cs "DispatchLuis" -o $lgOutFolder 2>> $logFile | Out-Null
+	}
 }
-
-# Update dispatch model
-Write-Host "> Updating dispatch model ..."
-$dispatch = $models.dispatchModel
-dispatch refresh `
-    --dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
-    --dataFolder $dispatchFolder 2>> $logFile | Out-Null
-
-# Update dispatch.cs file
-Write-Host "> Running LuisGen ..."
-luisgen $(Join-Path $dispatchFolder $langCode "$($dispatch.name).json") -cs "DispatchLuis" -o $lgOutFolder 2>> $logFile | Out-Null
 
 Write-Host "> Done."

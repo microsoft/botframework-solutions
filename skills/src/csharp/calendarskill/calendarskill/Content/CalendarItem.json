@@ -42,7 +42,7 @@
                   "separator": true,
                   "size": "Medium",
                   "weight": "Bolder",
-                  "color": "Dark",
+                  "color": "Default",
                   "text": "{Title}",
                   "isSubtle": "{IsSubtle}"
                 },

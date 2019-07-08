@@ -9,9 +9,12 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using PointOfInterestSkill.Models;
 using PointOfInterestSkill.Responses.Main;
@@ -34,10 +37,10 @@ namespace PointOfInterestSkill.Dialogs
             ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
-			RouteDialog routeDialog,
-			CancelRouteDialog cancelRouteDialog,
-			FindPointOfInterestDialog findPointOfInterestDialog,
-			FindParkingDialog findParkingDialog,
+            RouteDialog routeDialog,
+            CancelRouteDialog cancelRouteDialog,
+            FindPointOfInterestDialog findPointOfInterestDialog,
+            FindParkingDialog findParkingDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -50,14 +53,14 @@ namespace PointOfInterestSkill.Dialogs
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<PointOfInterestSkillState>(nameof(PointOfInterestSkillState));
 
-			// Register dialogs
-			AddDialog(routeDialog ?? throw new ArgumentNullException(nameof(routeDialog)));
-			AddDialog(cancelRouteDialog ?? throw new ArgumentNullException(nameof(cancelRouteDialog)));
-			AddDialog(findPointOfInterestDialog ?? throw new ArgumentNullException(nameof(findPointOfInterestDialog)));
-			AddDialog(findParkingDialog ?? throw new ArgumentNullException(nameof(findParkingDialog)));
-		}
+            // Register dialogs
+            AddDialog(routeDialog ?? throw new ArgumentNullException(nameof(routeDialog)));
+            AddDialog(cancelRouteDialog ?? throw new ArgumentNullException(nameof(cancelRouteDialog)));
+            AddDialog(findPointOfInterestDialog ?? throw new ArgumentNullException(nameof(findPointOfInterestDialog)));
+            AddDialog(findParkingDialog ?? throw new ArgumentNullException(nameof(findParkingDialog)));
+        }
 
-		protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // send a greeting if we're in local mode
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.PointOfInterestWelcomeMessage));
@@ -69,7 +72,7 @@ namespace PointOfInterestSkill.Dialogs
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.CognitiveModelSets[locale];
 
-            await PopulateStateFromSkillContext(dc.Context);
+            await PopulateStateFromSemanticAction(dc.Context);
 
             // If dispatch result is general luis model
             localeConfig.LuisServices.TryGetValue("pointofinterest", out var luisService);
@@ -81,37 +84,37 @@ namespace PointOfInterestSkill.Dialogs
             else
             {
                 var turnResult = EndOfTurn;
-                var result = await luisService.RecognizeAsync<PointOfInterestLuis>(dc.Context, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<pointofinterestLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
                 // switch on general intents
                 switch (intent)
                 {
-                    case PointOfInterestLuis.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y:
+                    case pointofinterestLuis.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(RouteDialog));
                             break;
                         }
 
-                    case PointOfInterestLuis.Intent.NAVIGATION_CANCEL_ROUTE:
+                    case pointofinterestLuis.Intent.NAVIGATION_CANCEL_ROUTE:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(CancelRouteDialog));
                             break;
                         }
 
-                    case PointOfInterestLuis.Intent.NAVIGATION_FIND_POINTOFINTEREST:
+                    case pointofinterestLuis.Intent.NAVIGATION_FIND_POINTOFINTEREST:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(FindPointOfInterestDialog));
                             break;
                         }
 
-                    case PointOfInterestLuis.Intent.NAVIGATION_FIND_PARKING:
+                    case pointofinterestLuis.Intent.NAVIGATION_FIND_PARKING:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(FindParkingDialog));
                             break;
                         }
 
-                    case PointOfInterestLuis.Intent.None:
+                    case pointofinterestLuis.Intent.None:
                         {
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POISharedResponses.DidntUnderstandMessage));
                             turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
@@ -137,10 +140,14 @@ namespace PointOfInterestSkill.Dialogs
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response = dc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.EndOfConversation;
+            // workaround. if connect skill directly to teams, the following response does not work.
+            if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
+            {
+                var response = dc.Context.Activity.CreateReply();
+                response.Type = ActivityTypes.EndOfConversation;
 
-            await dc.Context.SendActivityAsync(response);
+                await dc.Context.SendActivityAsync(response);
+            }
 
             // End active dialog
             await dc.EndDialogAsync(result);
@@ -235,7 +242,7 @@ namespace PointOfInterestSkill.Dialogs
                 var localeConfig = _services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities
-                var poiLuisResult = await localeConfig.LuisServices["pointofinterest"].RecognizeAsync<PointOfInterestLuis>(dc.Context, cancellationToken);
+                var poiLuisResult = await localeConfig.LuisServices["pointofinterest"].RecognizeAsync<pointofinterestLuis>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
                 state.LuisResult = poiLuisResult;
 
@@ -275,39 +282,36 @@ namespace PointOfInterestSkill.Dialogs
             }
 
             return result;
-		}
+        }
 
-		private async Task PopulateStateFromSkillContext(ITurnContext context)
-		{
-			// If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
-			// and make available in local state as appropriate.
-			var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
-			var skillContext = await accessor.GetAsync(context, () => new SkillContext());
-			if (skillContext != null)
-			{
-				if (skillContext.ContainsKey("Location"))
-				{
-					var location = skillContext["Location"];
-					var coords = ((string)location).Split(',');
-					if (coords.Length == 2)
-					{
-						if (double.TryParse(coords[0], out var lat) && double.TryParse(coords[1], out var lng))
-						{
-							var coordinates = new LatLng
-							{
-								Latitude = lat,
-								Longitude = lng,
-							};
+        private async Task PopulateStateFromSemanticAction(ITurnContext context)
+        {
+            var activity = context.Activity;
+            var semanticAction = activity.SemanticAction;
+            if (semanticAction != null && semanticAction.Entities.ContainsKey("location"))
+            {
+                var location = semanticAction.Entities["location"];
+                var locationObj = location.Properties["location"].ToString();
 
-							var state = await _stateAccessor.GetAsync(context, () => new PointOfInterestSkillState());
-							state.CurrentCoordinates = coordinates;
-						}
-					}
-				}
-			}
-		}
+                var coords = locationObj.Split(',');
+                if (coords.Length == 2)
+                {
+                    if (double.TryParse(coords[0], out var lat) && double.TryParse(coords[1], out var lng))
+                    {
+                        var coordinates = new LatLng
+                        {
+                            Latitude = lat,
+                            Longitude = lng,
+                        };
 
-		private async Task<InterruptionAction> OnCancel(DialogContext dc)
+                        var state = await _stateAccessor.GetAsync(context, () => new PointOfInterestSkillState());
+                        state.CurrentCoordinates = coordinates;
+                    }
+                }
+            }
+        }
+
+        private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.CancelMessage));
             await CompleteAsync(dc);

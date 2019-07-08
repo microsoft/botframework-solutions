@@ -22,6 +22,7 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using static CalendarSkill.Models.ShowMeetingsDialogOptions;
@@ -32,15 +33,16 @@ namespace CalendarSkill.Dialogs
     public class SummaryDialog : CalendarSkillDialogBase
     {
         public SummaryDialog(
-           BotSettings settings,
-           BotServices services,
-           ResponseManager responseManager,
-           ConversationState conversationState,
-           UpdateEventDialog updateEventDialog,
-           ChangeEventStatusDialog changeEventStatusDialog,
-           IServiceManager serviceManager,
-           IBotTelemetryClient telemetryClient)
-           : base(nameof(SummaryDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
+            BotSettings settings,
+            BotServices services,
+            ResponseManager responseManager,
+            ConversationState conversationState,
+            UpdateEventDialog updateEventDialog,
+            ChangeEventStatusDialog changeEventStatusDialog,
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient,
+            MicrosoftAppCredentials appCredentials)
+            : base(nameof(SummaryDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
@@ -386,7 +388,7 @@ namespace CalendarSkill.Dialogs
                     return await sc.CancelAllDialogsAsync();
                 }
 
-                if ((generalTopIntent == General.Intent.ShowNext || topIntent == CalendarLuis.Intent.ShowNextCalendar) && dialogState.SummaryEvents != null)
+                if ((generalTopIntent == General.Intent.ShowNext || topIntent == calendarLuis.Intent.ShowNextCalendar) && state.SummaryEvents != null)
                 {
                     if ((dialogState.ShowEventIndex + 1) * userState.PageSize < dialogState.SummaryEvents.Count)
                     {
@@ -400,7 +402,7 @@ namespace CalendarSkill.Dialogs
                     skillOptions.DialogState = dialogState;
                     return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, sc.Options);
                 }
-                else if ((generalTopIntent == General.Intent.ShowPrevious || topIntent == CalendarLuis.Intent.ShowPreviousCalendar) && dialogState.SummaryEvents != null)
+                else if ((generalTopIntent == General.Intent.ShowPrevious || topIntent == calendarLuis.Intent.ShowPreviousCalendar) && state.SummaryEvents != null)
                 {
                     if (dialogState.ShowEventIndex > 0)
                     {
@@ -595,7 +597,7 @@ namespace CalendarSkill.Dialogs
 
                 var eventItem = dialogState.ReadOutEvents.FirstOrDefault();
 
-                if (eventItem != null && topIntent != Luis.CalendarLuis.Intent.ChangeCalendarEntry && topIntent != Luis.CalendarLuis.Intent.DeleteCalendarEntry)
+                if (eventItem != null && topIntent != Luis.calendarLuis.Intent.ChangeCalendarEntry && topIntent != Luis.calendarLuis.Intent.DeleteCalendarEntry)
                 {
                     var tokens = new StringDictionary()
                     {

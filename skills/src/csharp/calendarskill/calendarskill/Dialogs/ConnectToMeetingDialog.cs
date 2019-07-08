@@ -19,6 +19,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using static CalendarSkill.Models.ShowMeetingsDialogOptions;
@@ -29,13 +30,14 @@ namespace CalendarSkill.Dialogs
     public class ConnectToMeetingDialog : CalendarSkillDialogBase
     {
         public ConnectToMeetingDialog(
-         BotSettings settings,
-         BotServices services,
-         ResponseManager responseManager,
-         ConversationState conversationState,
-         IServiceManager serviceManager,
-         IBotTelemetryClient telemetryClient)
-         : base(nameof(ConnectToMeetingDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
+            BotSettings settings,
+            BotServices services,
+            ResponseManager responseManager,
+            ConversationState conversationState,
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient,
+            MicrosoftAppCredentials appCredentials)
+            : base(nameof(ConnectToMeetingDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
@@ -271,9 +273,9 @@ namespace CalendarSkill.Dialogs
                         }
                     }
 
-                    if (filteredMeetingList.Count <= 0 && luisResult.Entities.number != null && (luisResult.Entities.ordinal == null || luisResult.Entities.ordinal.Length == 0))
+                    if (filteredMeetingList.Count <= 0 && generalLuisResult.Entities.number != null && (luisResult.Entities.ordinal == null || luisResult.Entities.ordinal.Length == 0))
                     {
-                        var value = luisResult.Entities.number[0];
+                        var value = generalLuisResult.Entities.number[0];
                         var num = int.Parse(value.ToString());
                         var currentList = GetCurrentPageMeetings(dialogState.SummaryEvents, dialogState, userState);
                         if (num > 0 && num <= currentList.Count)

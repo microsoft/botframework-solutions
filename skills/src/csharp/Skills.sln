@@ -35,6 +35,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoSkillTest", "todoskill\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherSkill", "experimental\weatherskill\WeatherSkill.csproj", "{4A057581-2435-4E19-BA1B-30CE1E8AD504}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Skills", "..\..\..\lib\csharp\microsoft.bot.builder.skills\Microsoft.Bot.Builder.Skills\Microsoft.Bot.Builder.Skills.csproj", "{04B15B29-FF74-4198-B454-E129107F1DFD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Solutions", "..\..\..\lib\csharp\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj", "{DD6A4D6E-DB2A-4642-845D-1B3308B067C3}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BingSearchSkill", "experimental\bingsearchskill\bingsearchskill\BingSearchSkill.csproj", "{8CB101FA-B496-4507-80A2-151FAB7E8ED1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Skills", "..\..\..\lib\csharp\microsoft.bot.builder.skills\Microsoft.Bot.Builder.Skills\Microsoft.Bot.Builder.Skills.csproj", "{4E1AAB0C-F4E6-4192-A624-577E6108B4E7}"
@@ -153,6 +157,22 @@ Global
 		{4A057581-2435-4E19-BA1B-30CE1E8AD504}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{4A057581-2435-4E19-BA1B-30CE1E8AD504}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A057581-2435-4E19-BA1B-30CE1E8AD504}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04B15B29-FF74-4198-B454-E129107F1DFD}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
+		{04B15B29-FF74-4198-B454-E129107F1DFD}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
+		{04B15B29-FF74-4198-B454-E129107F1DFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04B15B29-FF74-4198-B454-E129107F1DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04B15B29-FF74-4198-B454-E129107F1DFD}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
+		{04B15B29-FF74-4198-B454-E129107F1DFD}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
+		{04B15B29-FF74-4198-B454-E129107F1DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04B15B29-FF74-4198-B454-E129107F1DFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD6A4D6E-DB2A-4642-845D-1B3308B067C3}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
+		{DD6A4D6E-DB2A-4642-845D-1B3308B067C3}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
+		{DD6A4D6E-DB2A-4642-845D-1B3308B067C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD6A4D6E-DB2A-4642-845D-1B3308B067C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD6A4D6E-DB2A-4642-845D-1B3308B067C3}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
+		{DD6A4D6E-DB2A-4642-845D-1B3308B067C3}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
+		{DD6A4D6E-DB2A-4642-845D-1B3308B067C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD6A4D6E-DB2A-4642-845D-1B3308B067C3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
 		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
 		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

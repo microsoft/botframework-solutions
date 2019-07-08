@@ -23,16 +23,6 @@
     <AssemblyOriginatorKeyFile>..\..\build\35MSSharedLib1024.snk</AssemblyOriginatorKeyFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
-  
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-  </PropertyGroup>
-  
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug - NuGet Packages|AnyCPU'">
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-  </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Authentication\AuthenticationResponses.de.json" />
@@ -59,6 +49,8 @@
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.5.0-Preview-2019-05-13-01" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.5.0-Preview-2019-05-13-01" />
     <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.5.0-Preview-2019-05-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.5.0-Preview-2019-05-13-01" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.5.0-Preview-2019-05-13-01" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.5.0-Preview-2019-05-13-01" />
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.5.0-Preview-2019-05-13-01" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.0.2" />
@@ -72,6 +64,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Authentication\AuthenticationResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AuthenticationResponses.tt</DependentUpon>
+    </Compile>
     <Compile Update="Resources\CommonStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -84,6 +81,18 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Authentication\AuthenticationResponses.tt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AuthenticationResponses.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
   
 </Project>

@@ -23,6 +23,8 @@ using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
 using Microsoft.Recognizers.Text.DateTime;
@@ -41,7 +43,8 @@ namespace CalendarSkill.Dialogs
             ResponseManager responseManager,
             ConversationState conversationState,
             IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            MicrosoftAppCredentials appCredentials)
             : base(dialogId)
         {
             Settings = settings;
@@ -52,7 +55,7 @@ namespace CalendarSkill.Dialogs
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
 
-            AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections));
+            AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections, appCredentials));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
             AddDialog(new DateTimePrompt(Actions.DateTimePrompt, DateTimeValidator, Culture.English));
@@ -182,7 +185,7 @@ namespace CalendarSkill.Dialogs
 
             // TODO: The signature for validators has changed to return bool -- Need new way to handle this logic
             // If user want to show more recipient end current choice dialog and return the intent to next step.
-            if (generalTopIntent == Luis.General.Intent.ShowNext || generalTopIntent == Luis.General.Intent.ShowPrevious || calendarTopIntent == CalendarLuis.Intent.ShowNextCalendar || calendarTopIntent == CalendarLuis.Intent.ShowPreviousCalendar)
+            if (generalTopIntent == Luis.General.Intent.ShowNext || generalTopIntent == Luis.General.Intent.ShowPrevious || calendarTopIntent == calendarLuis.Intent.ShowNextCalendar || calendarTopIntent == calendarLuis.Intent.ShowPreviousCalendar)
             {
                 // pc.End(topIntent);
                 return true;
@@ -203,24 +206,24 @@ namespace CalendarSkill.Dialogs
             return false;
         }
 
-        protected General.Intent? MergeShowIntent(General.Intent? generalIntent, CalendarLuis.Intent? calendarIntent, CalendarLuis calendarLuisResult)
+        protected General.Intent? MergeShowIntent(General.Intent? generalIntent, calendarLuis.Intent? calendarIntent, calendarLuis calendarLuisResult)
         {
             if (generalIntent == General.Intent.ShowNext || generalIntent == General.Intent.ShowPrevious)
             {
                 return generalIntent;
             }
 
-            if (calendarIntent == CalendarLuis.Intent.ShowNextCalendar)
+            if (calendarIntent == calendarLuis.Intent.ShowNextCalendar)
             {
                 return General.Intent.ShowNext;
             }
 
-            if (calendarIntent == CalendarLuis.Intent.ShowPreviousCalendar)
+            if (calendarIntent == calendarLuis.Intent.ShowPreviousCalendar)
             {
                 return General.Intent.ShowPrevious;
             }
 
-            if (calendarIntent == CalendarLuis.Intent.FindCalendarEntry)
+            if (calendarIntent == calendarLuis.Intent.FindCalendarEntry)
             {
                 if (calendarLuisResult.Entities.OrderReference != null)
                 {
@@ -256,7 +259,7 @@ namespace CalendarSkill.Dialogs
 
             var overviewCard = new Card()
             {
-                Name = "CalendarOverview",
+                Name = GetDivergedCardName(dc.Context, "CalendarOverview"),
                 Data = new CalendarMeetingListCardData()
                 {
                     ListTitle = CalendarCommonStrings.OverviewTitle,
@@ -298,7 +301,7 @@ namespace CalendarSkill.Dialogs
 
             var overviewCard = new Card()
             {
-                Name = "CalendarGeneralMeetingList",
+                Name = GetDivergedCardName(dc.Context, "CalendarGeneralMeetingList"),
                 Data = new CalendarMeetingListCardData()
                 {
                     ListTitle = listTitle,
@@ -334,8 +337,8 @@ namespace CalendarSkill.Dialogs
 
             var participantContainerCard = new Card()
             {
-                Name = eventItem.Attendees.Count == 0 ? "CalendarDetailContainerNoParticipants" :
-                    eventItem.Attendees.Count > 5 ? "CalendarDetailContainerParticipantsMore" : "CalendarDetailContainerParticipantsLess",
+                Name = eventItem.Attendees.Count == 0 ? GetDivergedCardName(dc.Context, "CalendarDetailContainerNoParticipants") :
+                    eventItem.Attendees.Count > 5 ? GetDivergedCardName(dc.Context, "CalendarDetailContainerParticipantsMore") : GetDivergedCardName(dc.Context, "CalendarDetailContainerParticipantsLess"),
                 Data = new CalendarDetailContainerCardData()
                 {
                     Title = eventItem.Title,
@@ -895,12 +898,12 @@ namespace CalendarSkill.Dialogs
             return options;
         }
 
-        protected string GetSubjectFromEntity(CalendarLuis._Entities entity)
+        protected string GetSubjectFromEntity(calendarLuis._Entities entity)
         {
             return entity.Subject[0];
         }
 
-        protected List<string> GetAttendeesFromEntity(CalendarLuis._Entities entity, string inputString, List<string> attendees = null)
+        protected List<string> GetAttendeesFromEntity(calendarLuis._Entities entity, string inputString, List<string> attendees = null)
         {
             if (attendees == null)
             {
@@ -921,6 +924,19 @@ namespace CalendarSkill.Dialogs
             }
 
             return attendees;
+        }
+
+        // Workaround until adaptive card renderer in teams is upgraded to v1.2
+        protected string GetDivergedCardName(ITurnContext turnContext, string card)
+        {
+            if (Channel.GetChannelId(turnContext) == Channels.Msteams)
+            {
+                return card + ".1.0";
+            }
+            else
+            {
+                return card;
+            }
         }
 
         private async Task<string> GetPhotoByIndexAsync(ITurnContext context, List<EventModel.Attendee> attendees, int index)

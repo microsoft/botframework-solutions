@@ -1,0 +1,18 @@
+# node.js dependencies folder
+node_modules/
+
+# Generated folder by build process
+lib/
+
+# Environment variables
+.env.*
+
+# Bot Files
+*.bot
+
+# Test report
+test-results.xml
+
+# Coverage report
+coverage
+.nyc_output

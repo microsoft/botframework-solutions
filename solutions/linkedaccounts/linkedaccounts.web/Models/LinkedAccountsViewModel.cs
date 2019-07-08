@@ -12,10 +12,13 @@ namespace LinkedAccounts.Web.Models
     public class LinkedAccountsViewModel
     {
         public string UserId { get; set; }
+
         public TokenStatus[] Status { get; set; }
 
         public string DirectLineToken { get; set; }
-        
+
         public string Endpoint { get; set; }
+
+        public bool CompanionApp { get; set; }
     }
 }

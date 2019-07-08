@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Extensions;
 using EmailSkill.Models;
+using EmailSkill.Models.DialogModel;
 using EmailSkill.Responses.DeleteEmail;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Services;
@@ -15,6 +16,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector.Authentication;
 
 namespace EmailSkill.Dialogs
 {
@@ -26,14 +28,15 @@ namespace EmailSkill.Dialogs
             ResponseManager responseManager,
             ConversationState conversationState,
             IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient)
-            : base(nameof(DeleteEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            MicrosoftAppCredentials appCredentials)
+            : base(nameof(DeleteEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
             var deleteEmail = new WaterfallStep[]
             {
-                IfClearContextStep,
+                InitEmailSendDialogState,
                 GetAuthToken,
                 AfterGetAuthToken,
                 SetDisplayConfig,
@@ -45,21 +48,23 @@ namespace EmailSkill.Dialogs
 
             var showEmail = new WaterfallStep[]
             {
+                SaveEmailSendDialogState,
                 PagingStep,
                 ShowEmails,
             };
 
             var updateSelectMessage = new WaterfallStep[]
             {
+                SaveEmailSendDialogState,
                 UpdateMessage,
                 PromptUpdateMessage,
                 AfterUpdateMessage,
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.Delete, deleteEmail) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.Show, showEmail) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage) { TelemetryClient = telemetryClient });
+            AddDialog(new EmailWaterfallDialog(Actions.Delete, deleteEmail) { TelemetryClient = telemetryClient });
+            AddDialog(new EmailWaterfallDialog(Actions.Show, showEmail) { TelemetryClient = telemetryClient });
+            AddDialog(new EmailWaterfallDialog(Actions.UpdateSelectMessage, updateSelectMessage) { TelemetryClient = telemetryClient });
             InitialDialogId = Actions.Delete;
         }
 
@@ -67,7 +72,8 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
+                var userState = await EmailStateAccessor.GetAsync(sc.Context);
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
 
                 var message = state.Message?.FirstOrDefault();
@@ -83,8 +89,8 @@ namespace EmailSkill.Dialogs
                         EmailLink = message.WebLink,
                         ReceivedDateTime = message?.ReceivedDateTime == null
                             ? CommonStrings.NotAvailable
-                            : message.ReceivedDateTime.Value.UtcDateTime.ToDetailRelativeString(state.GetUserTimeZone()),
-                        Speak = SpeakHelper.ToSpeechEmailDetailOverallString(message, state.GetUserTimeZone()),
+                            : message.ReceivedDateTime.Value.UtcDateTime.ToDetailRelativeString(userState.GetUserTimeZone()),
+                        Speak = SpeakHelper.ToSpeechEmailDetailOverallString(message, userState.GetUserTimeZone()),
                         SenderIcon = senderIcon
                     };
                     emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, message.ToRecipients);
@@ -95,7 +101,7 @@ namespace EmailSkill.Dialogs
                         { "EmailDetails", speech },
                     };
 
-                    var recipientCard = message.ToRecipients.Count() > 5 ? "DetailCard_RecipientMoreThanFive" : "DetailCard_RecipientLessThanFive";
+                    var recipientCard = message.ToRecipients.Count() > 5 ? GetDivergedCardName(sc.Context, "DetailCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "DetailCard_RecipientLessThanFive");
                     var prompt = ResponseManager.GetCardResponse(
                         DeleteEmailResponses.DeleteConfirm,
                         new Card("EmailDetailCard", emailCard),
@@ -109,6 +115,7 @@ namespace EmailSkill.Dialogs
                 }
 
                 skillOptions.SubFlowMode = true;
+                skillOptions.DialogState = state;
                 return await sc.BeginDialogAsync(Actions.UpdateSelectMessage, skillOptions);
             }
             catch (Exception ex)
@@ -126,8 +133,9 @@ namespace EmailSkill.Dialogs
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult == true)
                 {
-                    var state = await EmailStateAccessor.GetAsync(sc.Context);
-                    var mailService = this.ServiceManager.InitMailService(state.Token, state.GetUserTimeZone(), state.MailSourceType);
+                    var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
+                    var userState = await EmailStateAccessor.GetAsync(sc.Context);
+                    var mailService = this.ServiceManager.InitMailService(userState.Token, userState.GetUserTimeZone(), userState.MailSourceType);
                     var focusMessage = state.Message.FirstOrDefault();
                     await mailService.DeleteMessageAsync(focusMessage.Id);
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(DeleteEmailResponses.DeleteSuccessfully));

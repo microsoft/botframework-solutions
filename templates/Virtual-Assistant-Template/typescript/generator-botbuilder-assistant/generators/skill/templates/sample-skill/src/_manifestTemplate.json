@@ -1,0 +1,26 @@
+{
+  "id": "<%= skillNameCamelCase %>",
+  "name": "<%= skillNameCamelCase %>",
+  "description": "This is the description of the <%= skillNameCamelCase %>",
+  "iconUrl": "",
+  "authenticationConnections": [],
+  "actions": [
+    {
+      "id": "<%= skillNameCamelCase %>_Sample",
+      "definition": {
+        "description": "Trigger <%= skillNameCamelCase %>",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "<%= skillNameCamelCase %>#Sample"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

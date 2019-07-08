@@ -14,10 +14,10 @@
 - nimm das treffen mit tom chen an.
 - nimm das treffen, das {FromDate=morgen} im {MeetingRoom=raum 301} stattfindet, an
 - nimm das von jack lauren organisierte treffen an.
+- nimm den termin von 15 bis {ToTime={FromTime=17 uhr}} an.
 - nimm den von lucas verschickten termin an
 - nimm die {FromDate=heutige} veranstaltung um {FromTime=15 uhr} an.
 - nimm die verabredung am {FromDate=18. januar} im {MeetingRoom=palast besprechungsraum} an.
-- nimm die veranstaltung am {FromDate=18. feb.} 18 in {Location=peking} an.
 - nimm die veranstaltung an
 - nimm die veranstaltung für {FromTime=heute abend} an.
 - nimm die von yolanda wong gesendete veranstaltung an.
@@ -31,9 +31,11 @@
 
 ## ChangeCalendarEntry
 - aktualisiere kalender
+- aktualisiere meeting von {FromTime=8} -{FromTime=24 uhr} auf {ToTime={ToTime=7-11 uhr}} {ToDate=heute}
 - aktualisiere mein {FromTime=morgiges} {FromTime=18 uhr} meeting auf {ToTime=19 uhr}
 - aktualisiere meinen {Subject=camping-termin}
 - aktualisiere meinen {Subject=kalender}
+- aktualisiere meinen kalender von {FromTime={ToTime=11}} auf {ToTime=12:30} {ToDate=heute}
 - aktualisiere meinen kalender von {FromTime=14 uhr} auf {ToTime=16 uhr} {ToDate=heute}
 - aktualisiere meinen kalender von {FromTime=18} auf {ToTime=19 uhr}
 - aktualisiere meinen {OrderReference=nächsten} termin
@@ -75,11 +77,14 @@
 - schiebe meine {Subject=reise} am {FromDate=16. juli} {MoveLaterTimeSpan=5 tage} weiter
 - verlängere sitzung von {FromTime=9} auf {ToTime=12 uhr}
 - verschiebe {FromTime=10 uhr} meeting, so dass es {MoveLaterTimeSpan=20 minuten} später beginnt
+- verschiebe {FromTime=12 uhr} meeting, so dass es {MoveEarlierTimeSpan={MoveLaterTimeSpan=10 minuten}} früher beginnt
 - verschiebe {FromTime=16 uhr} {Subject=mittagessen verabredung}
 - verschiebe {FromTime=17 uhr} termin {MoveEarlierTimeSpan=1 stunde} früher
 - verschiebe das {FromTime=15 uhr} meeting auf {ToTime=16 uhr}
 - verschiebe das {SlotAttribute=enddatum} {Subject=meiner reise} vom {FromDate=3.} auf den {ToDate=4.}
 - verschiebe das {Subject=marathon-training} von {FromTime=8:00 uhr} auf {ToTime=13:00 uhr}
+- verschiebe das meeting von {FromTime=14-{FromTime=15 uhr}} auf {ToTime={ToTime=16-17 uhr}} {ToDate=heute}
+- verschiebe das meeting von 21 bis {FromTime=22 uhr} auf {ToTime=20 bis {ToTime={FromTime=21 uhr}}} {ToDate=heute}
 - verschiebe das {OrderReference=nächste} meeting um {MoveLaterTimeSpan=30 minuten}
 - verschiebe das {Subject=terminende} von {FromTime=4} auf {ToTime=5} stattdessen
 - verschiebe den {SlotAttribute=standort} meines {ToTime=23 uhr} termins in den {Location=cal anderson park}
@@ -87,6 +92,8 @@
 - verschiebe den {Subject=vortrag} so, dass er {MoveEarlierTimeSpan=eine halbe stunde} früher beginnt
 - verschiebe die {SlotAttribute=endzeit} meines {FromTime=15 uhr} meetings auf {ToTime=15:30 uhr}
 - verschiebe die meeting-veranstaltung um {MoveLaterTimeSpan=1 stunde}
+- verschiebe die {Subject=mittagsessen verabredung} von {FromTime=11} - {FromTime=12} auf {ToTime={ToTime=12} - 1 30}
+- verschiebe die {Subject=partyplanungsbesprechung} von {FromDate={FromTime=samstag}} auf {ToDate=freitag} um {ToTime=13 uhr}
 - verschiebe einen termin
 - verschiebe {Subject=entwicklungsagenda für mittagessen} {FromDate=morgen}
 - verschiebe es auf {ToTime=17 uhr}
@@ -160,10 +167,12 @@
 - bin ich von {FromTime=15 uhr} - {ToTime=22 uhr} frei
 - habe ich irgendwelche freizeit an {FromDate=diesem wochenende}
 - ich würde gerne wissen, ob meine mutter {FromDate=heute} verfügbar ist
+- ist carolyn am {FromTime={FromDate=dienstagnachmittag}} verfügbar
 - ist debra am {FromDate=samstag} verfügbar
 - ist gerald {FromDate=dieses wochenende} beschäftigt
 - ist madison beschäftigt
 - ist nicholas {FromDate=freitag} verfügbar
+- ist raymond frei am {FromTime={FromDate=montagabend}}
 - ist rebecca am {FromDate=donnerstag} um {FromTime=4} uhr beschäftigt
 - ist russell am {FromDate=freitag} um {FromTime=16 uhr} frei
 - ist {FromDate=samstag} frei
@@ -345,6 +354,7 @@
 - erstelle ein meeting um {FromTime=8 uhr}
 - erstelle eine veranstaltung mit eden roth um {FromTime=16 uhr} {FromDate=heute} für {Duration=30 minuten}
 - erstelle einen kalendertermin {FromDate=morgen} um {FromTime=3:30} für {Duration=eine halbe stunde}
+- erstelle kalender: {FromTime={FromDate=morgen}} früh von {FromTime=9} bis {ToTime=11} uhr im {MeetingRoom=raum 1103} für {Subject=interne besprechung}
 - erstelle mir am {FromDate=mittwoch} einen {Subject=zahnarzttermin} um {FromTime=zwei uhr fünfundvierzig}
 - erstelle mir ein kalenderereignis
 - erstelle termin für {Duration=30 minuten}
@@ -419,6 +429,7 @@
 - plane am {FromDate=mittwoch} um {FromTime=11:30 uhr} ein {Subject=business-mittagessen für meine abteilung} in {Location=pf chang}
 - plane {Subject=arbeit} am {FromDate=donnerstag, den einunddreißigsten} von {FromTime=drei} bis {ToTime=sieben uhr dreißig}
 - plane {Subject=arbeit} für {FromDate=morgen} früh {FromTime=7 uhr}
+- plane {Subject=ben baig} für {FromTime={FromDate=samstagabend}}
 - plane {Subject=camping} für {FromDate=freitag} bis {ToDate=sonntag}
 - plane {Subject=college} für {FromDate=morgen} um {FromTime=5 uhr}
 - plane ein {Subject=abendessen} für {FromTime=heute abend} um {FromTime=20 uhr}
@@ -429,6 +440,7 @@
 - plane ein {Subject=frühstückstreffen} {FromDate=morgen} um {FromTime=8 uhr}
 - plane ein {Subject=fußballspiel} für {FromDate=nächsten freitag}
 - plane ein kalenderereignis für meine schwester
+- plane ein {Subject=mittagessen-treffen} mit mama {FromDate=jeden {FromTime=dienstagmittag}} um 12 uhr für die {FromDate=nächsten 5 wochen}
 - plane ein {Subject=mittagessen-treffen} mit meiner führung
 - plane ein treffen für {FromDate=nächsten donnerstag}
 - plane eine besprechung
@@ -443,11 +455,14 @@
 - plane einen termin für {FromDate=morgen} um {FromTime=17 uhr}
 - plane {Subject=gruppentreffen} mit madden am {FromDate=3. märz} um {FromTime=16:00 uhr}
 - plane {Subject=haar-termin} am {FromDate=montag} um {FromTime=14 uhr}
+- plane {Subject=hochzeitstag} am {FromTime={FromDate=freitagabend}}
 - plane {Subject=kunstausstellung} im kalender für {FromTime=mittag} am {FromDate=6. märz}
 - plane {Subject=mechanikerprüfung} am {FromDate=freitag} um {FromTime=12 uhr}
+- plane meinen urlaub von {FromDate=heute} {ToTime={FromTime=17 uhr}} bis {ToDate=morgen} 17 uhr
 - plane {Subject=mirandas graduierung} von {FromTime=11} bis {ToTime=3} am {FromDate=28. mai}
 - plane {Subject=mittagessen} mit madden am {FromDate=dienstag}
 - plane {Subject=mittagessen} mit madden für {FromTime=11:30 uhr} am {FromDate=mittwoch}
+- plane {FromTime={Subject=mittagessen}} mit pura am {FromDate=mittwochmittag, darf} {Duration=20 minuten}
 - plane {Subject=therapietermin} um {FromTime=8 uhr}
 - plane {Subject=trockenreinigung abholung} um {FromTime=15:30 uhr} {FromDate=heute}
 - plane {Subject=urlaub} am {FromDate=31. juli}
@@ -463,6 +478,7 @@
 - setze {Subject=jahrestag} in meinen kalender
 - setze {Subject=jason arbeit} auf meinen kalender {FromDate=donnerstag} {FromTime=9 uhr} bis {ToTime=17 uhr}
 - setze {Subject=julie camil} in meinen kalender für {FromDate=morgen}
+- setze {Subject=kapitäne} in meinen kalender für {FromTime={FromDate=samstagabend}}
 - setze {Subject=mathematikpapier eins} auf {FromDate=dienstag 13}
 - setze {Subject=schwimmen} in meinen kalender {FromDate=morgen}
 - setze {Subject=schwimmen} {FromDate=morgen}
@@ -484,11 +500,14 @@
 - treffen mit jia li {FromDate=montag} {FromTime=3:30}
 - treffen mit morrison sun um {FromTime=14 uhr} {FromDate=samstag}
 - treffen mit morrison yang um {FromTime=4}
+- triff ming wang zum {Subject=mittagessen} am {FromTime={FromDate=dienstagmittag}}
 - triff mit a. j. lee {FromDate=samstag} um {FromTime=15 uhr}
 - triff mit carol lee {Location=zu hause} am {FromDate=10. märz} um {FromTime=16 uhr}
 - vereinbare ein {Subject=training} mit madden in meinem kalender
+- vereinbare ein treffen am {FromDate={FromTime=3.} november} von 15-{ToTime=16 uhr}
 - vereinbare ein treffen für {FromDate=diesen freitag} {FromTime=11 uhr}
 - vereinbare ein treffen mit andy
+- vereinbare ein treffen mit ryan von {ToTime={FromTime=15}-16 uhr} am {FromDate=25. oktober}
 - vereinbare einen {Subject=arzttermin} mit madden am {FromDate=12. märz} um {FromTime=16 uhr}
 - vereinbare einen {Subject=chiropraktiker-termin} am {FromDate=7. juli} um {FromTime=4 uhr}
 - vereinbare einen {Subject=einkaufsbummel} mit shawntia am {FromDate=freitag} um {FromTime=17 uhr}
@@ -518,6 +537,9 @@
 - vereinbare einen termin mit mama
 - vereinbare einen termin mit pura
 - vereinbare einen termin vom {FromDate=18. juni} bis {ToDate=20. juni}
+- vereinbare einen termin, um {Subject=cj am {FromDate=donnerstag} zu sehen}
+- vereinbare einen termin, um {Subject=meine hunde am {FromDate=freitag} um {FromTime=18 uhr} bei {Location=petco} zu pflegen}
+- vereinbare einen termin, um {Subject=meredith um {FromTime=12} uhr anzurufen}
 - vereinbare einen {Subject=tierarzttermin} um {FromTime=9 uhr} am {FromDate=samstag}
 - vereinbare einen {Subject=zahnarzttermin} für {FromDate=morgen} {FromTime=nacht um 19 uhr}
 - vereinbare mir einen termin
@@ -716,6 +738,7 @@
 - was mache ich {FromDate=dieses wochenende}
 - was mache ich {FromTime=heute abend}
 - was mache ich {FromDate=nächste woche}
+- was macht henry am {FromTime={FromDate=montagmittag}}
 - was muss ich {FromDate=morgen} machen
 - was passiert {FromDate=heute}
 - was passiert in meinem kalender
@@ -771,6 +794,7 @@
 - um wie viel uhr ist oshwins {Subject=interview}
 - um wie viel uhr muss ich {FromDate=morgen} {Subject=arbeiten}
 - wann {Subject=arbeite} ich {FromDate=morgen}
+- wann {Subject=breche ich die {Location=schule} ab}
 - wann habe ich {FromDate=heute} freie zeit
 - wann habe ich {Subject=prüfung}
 - wann ist das {Subject=soziale}
@@ -803,7 +827,6 @@
 - wann ist meine {Subject=physio}
 - wann ist {Subject=mittagessen} mit frank
 - wann ist {Subject=sporttag für die mädchen}
-- wann {Subject=sehe ich england}
 - wann treffe ich mich mit charles
 - welcher tag ist {Subject=legoland} geplant
 - welches {FromDate=wochenende} bin ich mit sarah {Subject=einkaufen}
@@ -923,6 +946,7 @@
 - wird paul am {FromDate=freitag} zum treffen gehen
 - wird roy bei unserem {Subject=wöchentlichen team-meeting} sein
 - wird teresa bei meinem {OrderReference=nächsten} treffen sein
+- wird thomas in der {Subject=versicherungsbesprechung} am {FromTime={FromDate=montagmittag}} sein
 - wird timothy zum treffen kommen
 - wird virginia an meinem {OrderReference=nächsten} treffen teilnehmen
 - wird zachary in der {Subject=finanzsitzung} sein
@@ -1212,6 +1236,12 @@ $Subject:simple
 
 
 > # PREBUILT Entity definitions
+
+$PREBUILT:datetimeV2
+
+$PREBUILT:personName
+
+$PREBUILT:ordinal
 
 
 > # Phrase list definitions

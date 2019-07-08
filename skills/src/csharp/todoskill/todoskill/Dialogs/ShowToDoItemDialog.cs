@@ -3,11 +3,13 @@ using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Responses.ShowToDo;
@@ -25,8 +27,10 @@ namespace ToDoSkill.Dialogs
             ConversationState conversationState,
             UserState userState,
             IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient)
-            : base(nameof(ShowToDoItemDialog), settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            MicrosoftAppCredentials appCredentials,
+            IHttpContextAccessor httpContext)
+            : base(nameof(ShowToDoItemDialog), settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient, appCredentials, httpContext)
         {
             TelemetryClient = telemetryClient;
 
@@ -118,7 +122,7 @@ namespace ToDoSkill.Dialogs
                 state.LastListType = state.ListType;
                 var service = await InitListTypeIds(sc);
                 var topIntent = state.LuisResult?.TopIntent().intent;
-                if (topIntent == ToDoLuis.Intent.ShowToDo || state.GoBackToStart)
+                if (topIntent == todoLuis.Intent.ShowToDo || state.GoBackToStart)
                 {
                     state.AllTasks = await service.GetTasksAsync(state.ListType);
                 }
@@ -136,9 +140,10 @@ namespace ToDoSkill.Dialogs
                 {
                     var cardReply = sc.Context.Activity.CreateReply();
 
-                    if (topIntent == ToDoLuis.Intent.ShowToDo || state.GoBackToStart)
+                    if (topIntent == todoLuis.Intent.ShowToDo || state.GoBackToStart)
                     {
                         var toDoListCard = ToAdaptiveCardForShowToDos(
+                            sc.Context,
                             state.Tasks,
                             state.AllTasks.Count,
                             state.ListType);
@@ -151,7 +156,7 @@ namespace ToDoSkill.Dialogs
                             await sc.Context.SendActivityAsync(response);
                         }
                     }
-                    else if (topIntent == ToDoLuis.Intent.ShowNextPage || generalTopIntent == General.Intent.ShowNext)
+                    else if (topIntent == todoLuis.Intent.ShowNextPage || generalTopIntent == General.Intent.ShowNext)
                     {
                         if (state.IsLastPage)
                         {
@@ -161,6 +166,7 @@ namespace ToDoSkill.Dialogs
                         else
                         {
                             var toDoListCard = ToAdaptiveCardForReadMore(
+                                sc.Context,
                                 state.Tasks,
                                 state.AllTasks.Count,
                                 state.ListType);
@@ -172,7 +178,7 @@ namespace ToDoSkill.Dialogs
                             }
                         }
                     }
-                    else if (topIntent == ToDoLuis.Intent.ShowPreviousPage || generalTopIntent == General.Intent.ShowPrevious)
+                    else if (topIntent == todoLuis.Intent.ShowPreviousPage || generalTopIntent == General.Intent.ShowPrevious)
                     {
                         if (state.IsFirstPage)
                         {
@@ -182,6 +188,7 @@ namespace ToDoSkill.Dialogs
                         else
                         {
                             var toDoListCard = ToAdaptiveCardForPreviousPage(
+                                sc.Context,
                                 state.Tasks,
                                 state.AllTasks.Count,
                                 state.ShowTaskPageIndex == 0,
@@ -191,7 +198,7 @@ namespace ToDoSkill.Dialogs
                         }
                     }
 
-                    if ((topIntent == ToDoLuis.Intent.ShowToDo || state.GoBackToStart) && allTasksCount > state.Tasks.Count)
+                    if ((topIntent == todoLuis.Intent.ShowToDo || state.GoBackToStart) && allTasksCount > state.Tasks.Count)
                     {
                         state.GoBackToStart = false;
                         return await sc.NextAsync();
@@ -287,6 +294,7 @@ namespace ToDoSkill.Dialogs
             var currentTaskIndex = state.ShowTaskPageIndex * state.PageSize;
             state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
             var toDoListCard = ToAdaptiveCardForReadMore(
+                    sc.Context,
                     state.Tasks,
                     allTasksCount,
                     state.ListType);
@@ -378,6 +386,7 @@ namespace ToDoSkill.Dialogs
             state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
 
             var cardReply = ToAdaptiveCardForReadMore(
+                    sc.Context,
                     state.Tasks,
                     allTasksCount,
                     state.ListType);

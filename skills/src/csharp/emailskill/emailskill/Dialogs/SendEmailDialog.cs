@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Models;
+using EmailSkill.Models.DialogModel;
 using EmailSkill.Prompts;
 using EmailSkill.Responses.SendEmail;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Services;
 using EmailSkill.Utilities;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector.Authentication;
 
 namespace EmailSkill.Dialogs
 {
@@ -27,20 +31,22 @@ namespace EmailSkill.Dialogs
             ConversationState conversationState,
             FindContactDialog findContactDialog,
             IServiceManager serviceManager,
-            IBotTelemetryClient telemetryClient)
-            : base(nameof(SendEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            MicrosoftAppCredentials appCredentials)
+            : base(nameof(SendEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
             var sendEmail = new WaterfallStep[]
             {
-                IfClearContextStep,
+                InitEmailSendDialogState,
                 GetAuthToken,
                 AfterGetAuthToken,
                 CollectRecipient,
-                ByPassOptionalField,
                 CollectSubject,
+                AfterCollection,
                 CollectText,
+                AfterCollection,
                 ConfirmBeforeSending,
                 ConfirmAllRecipient,
                 SendEmail,
@@ -48,12 +54,14 @@ namespace EmailSkill.Dialogs
 
             var collectRecipients = new WaterfallStep[]
             {
-                PromptRecipientCollection,
+                SaveEmailSendDialogState,
+                //PromptRecipientCollection,
                 GetRecipients,
             };
 
             var updateSubject = new WaterfallStep[]
             {
+                SaveEmailSendDialogState,
                 UpdateSubject,
                 RetryCollectSubject,
                 AfterUpdateSubject,
@@ -61,6 +69,7 @@ namespace EmailSkill.Dialogs
 
             var updateContent = new WaterfallStep[]
             {
+                SaveEmailSendDialogState,
                 UpdateContent,
                 PlayBackContent,
                 AfterCollectContent,
@@ -68,67 +77,73 @@ namespace EmailSkill.Dialogs
 
             var getRecreateInfo = new WaterfallStep[]
             {
+                SaveEmailSendDialogState,
                 GetRecreateInfo,
                 AfterGetRecreateInfo,
             };
 
             // Define the conversation flow using a waterfall model.
-            AddDialog(new WaterfallDialog(Actions.Send, sendEmail) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.CollectRecipient, collectRecipients) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.UpdateSubject, updateSubject) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.UpdateContent, updateContent) { TelemetryClient = telemetryClient });
+            AddDialog(new EmailWaterfallDialog(Actions.Send, sendEmail, EmailStateAccessor) { TelemetryClient = telemetryClient });
+            AddDialog(new EmailWaterfallDialog(Actions.CollectRecipient, collectRecipients, EmailStateAccessor) { TelemetryClient = telemetryClient });
+            AddDialog(new EmailWaterfallDialog(Actions.UpdateSubject, updateSubject, EmailStateAccessor) { TelemetryClient = telemetryClient });
+            AddDialog(new EmailWaterfallDialog(Actions.UpdateContent, updateContent, EmailStateAccessor) { TelemetryClient = telemetryClient });
             AddDialog(new FindContactDialog(settings, services, responseManager, conversationState, serviceManager, telemetryClient));
-            AddDialog(new WaterfallDialog(Actions.GetRecreateInfo, getRecreateInfo) { TelemetryClient = telemetryClient });
+            AddDialog(new EmailWaterfallDialog(Actions.GetRecreateInfo, getRecreateInfo, EmailStateAccessor) { TelemetryClient = telemetryClient });
             AddDialog(new GetRecreateInfoPrompt(Actions.GetRecreateInfoPrompt));
             InitialDialogId = Actions.Send;
         }
 
-        public async Task<DialogTurnResult> ByPassOptionalField(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
-                var skillOptions = (EmailSkillDialogOptions)sc.Options;
+        //public async Task<DialogTurnResult> ByPassOptionalField(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        //{
+        //    try
+        //    {
+        //        if (sc.Result != null && sc.Result is FindContactDialogOptions)
+        //        {
+        //            var result = (FindContactDialogOptions)sc.Result;
+        //            sc.State.Dialog[EmailStateKey] = result.DialogState;
+        //        }
 
-                if (!skillOptions.SubFlowMode)
-                {
-                    if ((state.FindContactInfor.Contacts != null) && (state.FindContactInfor.Contacts.Count > 0))
-                    {
-                        // Bypass logic: Send an email to Michelle saying I will be late today ->  Use “I will be late today” as subject. No need to ask for subject/content
-                        // If information is detected as content, move to subject.
-                        if (string.IsNullOrEmpty(state.Subject))
-                        {
-                            if (!string.IsNullOrEmpty(state.Content))
-                            {
-                                state.Subject = state.Content;
-                                state.Content = EmailCommonStrings.EmptyContent;
-                            }
-                        }
-                        else
-                        {
-                            if (string.IsNullOrEmpty(state.Content))
-                            {
-                                state.Content = EmailCommonStrings.EmptyContent;
-                            }
-                        }
-                    }
-                }
+        //        var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
+        //        var skillOptions = (EmailSkillDialogOptions)sc.Options;
 
-                return await sc.NextAsync();
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
+        //        if (!skillOptions.SubFlowMode)
+        //        {
+        //            if ((state.FindContactInfor.Contacts != null) && (state.FindContactInfor.Contacts.Count > 0))
+        //            {
+        //                // Bypass logic: Send an email to Michelle saying I will be late today ->  Use “I will be late today” as subject. No need to ask for subject/content
+        //                // If information is detected as content, move to subject.
+        //                if (string.IsNullOrEmpty(state.Subject))
+        //                {
+        //                    if (!string.IsNullOrEmpty(state.Content))
+        //                    {
+        //                        state.Subject = state.Content;
+        //                        state.Content = EmailCommonStrings.EmptyContent;
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    if (string.IsNullOrEmpty(state.Content))
+        //                    {
+        //                        state.Content = EmailCommonStrings.EmptyContent;
+        //                    }
+        //                }
+        //            }
+        //        }
 
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
+        //        return await sc.NextAsync();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        await HandleDialogExceptions(sc, ex);
+        //        return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+        //    }
+        //}
 
         public async Task<DialogTurnResult> CollectSubject(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
 
                 if (state.FindContactInfor.Contacts == null || state.FindContactInfor.Contacts.Count == 0)
                 {
@@ -141,9 +156,39 @@ namespace EmailSkill.Dialogs
                     return await sc.NextAsync();
                 }
 
+                bool? isSkipByDefault = false;
+                isSkipByDefault = Settings.DefaultValue?.SendEmail?.First(item => item.Name == "EmailSubject")?.IsSkipByDefault;
+                if (isSkipByDefault.GetValueOrDefault())
+                {
+                    state.Subject = string.IsNullOrEmpty(EmailCommonStrings.DefaultSubject) ? EmailCommonStrings.EmptySubject : EmailCommonStrings.DefaultSubject;
+
+                    return await sc.NextAsync();
+                }
+
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 skillOptions.SubFlowMode = true;
+                skillOptions.DialogState = state;
                 return await sc.BeginDialogAsync(Actions.UpdateSubject, skillOptions);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        public async Task<DialogTurnResult> AfterCollection(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                // save state to dialog state.
+                if (sc.Result is EmailSkillDialogOptions skillOptions)
+                {
+                    sc.State.Dialog[EmailStateKey] = skillOptions.DialogState;
+                }
+
+                return await sc.NextAsync();
             }
             catch (Exception ex)
             {
@@ -157,7 +202,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
 
                 if (state.FindContactInfor.Contacts == null || state.FindContactInfor.Contacts.Count == 0)
                 {
@@ -184,7 +229,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
                 if (sc.Result != null)
                 {
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var subject);
@@ -215,11 +260,13 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
 
                 if (!string.IsNullOrWhiteSpace(state.Subject))
                 {
-                    return await sc.EndDialogAsync(cancellationToken: cancellationToken);
+                    skillOptions.DialogState = state;
+                    return await sc.EndDialogAsync(skillOptions, cancellationToken: cancellationToken);
                 }
 
                 if (sc.Result != null)
@@ -237,7 +284,8 @@ namespace EmailSkill.Dialogs
                     }
                 }
 
-                return await sc.EndDialogAsync(cancellationToken: cancellationToken);
+                skillOptions.DialogState = state;
+                return await sc.EndDialogAsync(skillOptions, cancellationToken: cancellationToken);
             }
             catch (Exception ex)
             {
@@ -251,7 +299,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
 
                 if (state.FindContactInfor.Contacts == null || state.FindContactInfor.Contacts.Count == 0)
                 {
@@ -264,9 +312,20 @@ namespace EmailSkill.Dialogs
                     return await sc.NextAsync();
                 }
 
+                bool? isSkipByDefault = false;
+                isSkipByDefault = Settings.DefaultValue?.SendEmail?.First(item => item.Name == "EmailMessage")?.IsSkipByDefault;
+                if (isSkipByDefault.GetValueOrDefault())
+                {
+                    state.Subject = string.IsNullOrEmpty(EmailCommonStrings.DefaultContent) ? EmailCommonStrings.EmptyContent : EmailCommonStrings.DefaultContent;
+
+                    return await sc.NextAsync();
+                }
+
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 skillOptions.SubFlowMode = true;
+                skillOptions.DialogState = state;
                 return await sc.BeginDialogAsync(Actions.UpdateContent, skillOptions);
+
             }
             catch (Exception ex)
             {
@@ -280,7 +339,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SendEmailResponses.NoMessageBody) });
             }
             catch (Exception ex)
@@ -295,7 +354,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
                 if (sc.Result != null)
                 {
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
@@ -318,7 +377,7 @@ namespace EmailSkill.Dialogs
 
                         var replyMessage = ResponseManager.GetCardResponse(
                             SendEmailResponses.PlayBackMessage,
-                            new Card("EmailContentPreview", emailCard),
+                            new Card(GetDivergedCardName(sc.Context, "EmailContentPreview"), emailCard),
                             stringToken);
 
                         await sc.Context.SendActivityAsync(replyMessage);
@@ -350,15 +409,18 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
+                var skillOptions = (EmailSkillDialogOptions)sc.Options;
+                skillOptions.DialogState = state;
+
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
-                    return await sc.EndDialogAsync(true);
+                    return await sc.EndDialogAsync(skillOptions);
                 }
 
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SendEmailResponses.RetryContent));
-                return await sc.ReplaceDialogAsync(Actions.GetRecreateInfo, options: sc.Options, cancellationToken: cancellationToken);
+                return await sc.ReplaceDialogAsync(Actions.GetRecreateInfo, options: skillOptions, cancellationToken: cancellationToken);
             }
             catch (Exception ex)
             {
@@ -373,12 +435,13 @@ namespace EmailSkill.Dialogs
             try
             {
                 var confirmResult = (bool)sc.Result;
+                var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
                 if (confirmResult)
                 {
-                    var state = await EmailStateAccessor.GetAsync(sc.Context);
-                    var token = state.Token;
+                    var userState = await EmailStateAccessor.GetAsync(sc.Context);
+                    var token = userState.Token;
 
-                    var service = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
+                    var service = ServiceManager.InitMailService(token, userState.GetUserTimeZone(), userState.MailSourceType);
 
                     // send user message.
                     var subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? string.Empty : state.Subject;
@@ -397,7 +460,7 @@ namespace EmailSkill.Dialogs
                         { "Subject", state.Subject },
                     };
 
-                    var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? "ConfirmCard_RecipientMoreThanFive" : "ConfirmCard_RecipientLessThanFive";
+                    var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? GetDivergedCardName(sc.Context, "ConfirmCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "ConfirmCard_RecipientLessThanFive");
                     var replyMessage = ResponseManager.GetCardResponse(
                         EmailSharedResponses.SentSuccessfully,
                         new Card("EmailWithOutButtonCard", emailCard),
@@ -409,7 +472,9 @@ namespace EmailSkill.Dialogs
                 }
                 else
                 {
-                    return await sc.ReplaceDialogAsync(Actions.GetRecreateInfo, options: sc.Options, cancellationToken: cancellationToken);
+                    var skillOptions = (EmailSkillDialogOptions)sc.Options;
+                    skillOptions.DialogState = state;
+                    return await sc.ReplaceDialogAsync(Actions.GetRecreateInfo, options: skillOptions, cancellationToken: cancellationToken);
                 }
             }
             catch (SkillException ex)
@@ -425,7 +490,7 @@ namespace EmailSkill.Dialogs
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
 
-            await ClearConversationState(sc);
+            //await ClearConversationState(sc);
             return await sc.EndDialogAsync(true);
         }
 
@@ -450,7 +515,7 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var state = await EmailStateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                var state = (SendEmailDialogState)sc.State.Dialog[EmailStateKey];
                 var skillOptions = (EmailSkillDialogOptions)sc.Options;
                 skillOptions.SubFlowMode = true;
                 if (sc.Result != null)
@@ -460,16 +525,19 @@ namespace EmailSkill.Dialogs
                     {
                         case ResendEmailState.Cancel:
                             await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.CancellingMessage));
-                            await ClearConversationState(sc);
+                            //await ClearConversationState(sc);
                             return await sc.EndDialogAsync(false, cancellationToken);
                         case ResendEmailState.Participants:
                             state.ClearParticipants();
+                            skillOptions.DialogState = state;
                             return await sc.ReplaceDialogAsync(Actions.Send, options: skillOptions, cancellationToken: cancellationToken);
                         case ResendEmailState.Subject:
                             state.ClearSubject();
+                            skillOptions.DialogState = state;
                             return await sc.ReplaceDialogAsync(Actions.Send, options: skillOptions, cancellationToken: cancellationToken);
                         case ResendEmailState.Content:
                             state.ClearContent();
+                            skillOptions.DialogState = state;
                             return await sc.ReplaceDialogAsync(Actions.Send, options: skillOptions, cancellationToken: cancellationToken);
                         default:
                             // should not go to this part. place an error handling for save.

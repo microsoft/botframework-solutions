@@ -9,11 +9,13 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using RestaurantBooking.Models;
 using RestaurantBooking.Responses.Main;
@@ -115,10 +117,14 @@ namespace RestaurantBooking.Dialogs
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response = dc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.EndOfConversation;
+            // workaround. if connect skill directly to teams, the following response does not work.
+            if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
+            {
+                var response = dc.Context.Activity.CreateReply();
+                response.Type = ActivityTypes.EndOfConversation;
 
-            await dc.Context.SendActivityAsync(response);
+                await dc.Context.SendActivityAsync(response);
+            }
             await dc.EndDialogAsync(result);
         }
 
@@ -126,18 +132,6 @@ namespace RestaurantBooking.Dialogs
         {
             switch (dc.Context.Activity.Name)
             {
-                case SkillEvents.SkillBeginEventName:
-                    {
-                        var state = await _conversationStateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
-
-                        if (dc.Context.Activity.Value is Dictionary<string, object> userData)
-                        {
-                            // Capture user data from event if needed
-                        }
-
-                        break;
-                    }
-
                 case TokenEvents.TokenResponseEventName:
                     {
                         // Auth dialog completion
@@ -207,22 +201,6 @@ namespace RestaurantBooking.Dialogs
             }
 
             return result;
-        }
-
-        private async Task PopulateStateFromSkillContext(ITurnContext context)
-        {
-            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
-            // and make available in local state as appropriate.
-            var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
-            var skillContext = await accessor.GetAsync(context, () => new SkillContext());
-            if (skillContext != null)
-            {
-                if (skillContext.ContainsKey("Name"))
-                {
-                    var state = await _conversationStateAccessor.GetAsync(context, () => new RestaurantBookingState());
-                    state.Name = skillContext["Name"] as string;
-                }
-            }
         }
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)

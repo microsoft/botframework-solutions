@@ -11,13 +11,11 @@ const path = require(`path`);
 const pkg = require(`../../package.json`);
 const _pick = require(`lodash/pick`);
 const _kebabCase = require(`lodash/kebabCase`);
-const templateName = "customAssistant";
+const _camelCase = require(`lodash/camelCase`);
+const templateName = "sample-assistant";
 const languages = [`zh`, `de`, `en`, `fr`, `it`, `es`];
-let assistantName;
-let assistantDesc;
 let assistantGenerationPath = process.cwd();
 let isAlreadyCreated = false;
-let copier;
 
 const languagesChoice = [
   {
@@ -86,7 +84,7 @@ module.exports = class extends Generator {
     this.option(`assistantName`, {
       description: `The name you want to give to your assistant.`,
       type: String,
-      default: `customAssistant`,
+      default: `sample-assistant`,
       alias: `n`
     });
 
@@ -117,7 +115,7 @@ module.exports = class extends Generator {
     });
 
     // Instantiate the copier
-    copier = new Copier(this);
+    this.copier = new Copier(this);
   }
 
   prompting() {
@@ -155,7 +153,7 @@ module.exports = class extends Generator {
         message: `What's the name of your assistant?`,
         default: this.options.assistantName
           ? this.options.assistantName
-          : `customAssistant`
+          : `sample-assistant`
       },
       // Description of the assistant
       {
@@ -242,12 +240,17 @@ module.exports = class extends Generator {
       return;
     }
 
-    assistantDesc = this.props.assistantDesc;
+    const assistantDesc = this.props.assistantDesc;
     if (!this.props.assistantName.replace(/\s/g, ``).length) {
       this.props.assistantName = templateName;
     }
 
-    assistantName = _kebabCase(this.props.assistantName).replace(
+    const assistantName = _kebabCase(this.props.assistantName).replace(
+      /([^a-z0-9-]+)/gi,
+      ``
+    );
+
+    const assistantNameCamelCase = _camelCase(this.props.assistantName).replace(
       /([^a-z0-9-]+)/gi,
       ``
     );
@@ -274,13 +277,17 @@ module.exports = class extends Generator {
     // Create new assistant obj
     const newAssistant = {
       assistantName: assistantName,
+      assistantNameCamelCase: assistantNameCamelCase,
       assistantDescription: assistantDesc
     };
 
     // Start the copy of the template
-    copier.selectLanguages(assistantLang);
-    copier.copyIgnoringTemplateFiles(templateName, assistantGenerationPath);
-    copier.copyTemplateFiles(
+    this.copier.selectLanguages(assistantLang);
+    this.copier.copyIgnoringTemplateFiles(
+      templateName,
+      assistantGenerationPath
+    );
+    this.copier.copyTemplateFiles(
       templateName,
       assistantGenerationPath,
       newAssistant
@@ -320,6 +327,7 @@ module.exports = class extends Generator {
           )
         );
       } else {
+        this.spawnCommandSync("npm run build", []);
         this.log(chalk.green(`------------------------ `));
         this.log(chalk.green(` Your new assistant is ready!  `));
         this.log(chalk.green(`------------------------ `));
@@ -328,6 +336,16 @@ module.exports = class extends Generator {
             chalk.green.bold(`README.md`) +
             ` to learn how to run your assistant. `
         );
+        this.log(
+          chalk.blue(
+            `\nNext step - being in the root of your generated assistant, to deploy it execute the following command:`
+          )
+        );
+        this.log(
+          chalk.blue(
+            `pwsh.exe -ExecutionPolicy Bypass -File deployment\\scripts\\deploy.ps1 -name "<VA_NAME>" -location "<LOCATION>" -appId "<APP_ID>" -appPassword "<APP_PASSWORD>" -luisAuthoringKey "<LUIS_AUTHORING_KEY>" -luisAuthoringRegion "<LUIS_AUTHORING_REGION>"`
+          )
+        );
       }
     } else {
       this.log(chalk.red.bold(`-------------------------------- `));
@@ -335,7 +353,7 @@ module.exports = class extends Generator {
       this.log(chalk.red.bold(`-------------------------------- `));
     }
 
-    this.log(`Thank you for using the Microsoft Bot Framework. `);
-    this.log(`\n` + tinyBot + `The Bot Framework Team`);
+    this.log(`\nThank you for using the Microsoft Bot Framework. `);
+    this.log(`\n${tinyBot} The Bot Framework Team`);
   }
 };

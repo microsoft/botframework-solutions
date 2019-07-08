@@ -9,7 +9,6 @@
     "**/*.d.ts"
   ],
   "reporter": [
-    "cobertura",
     "html",
     "text"
   ],

@@ -17,6 +17,7 @@ export * from './skillCallingRequestHandler';
 export * from './skillContext';
 export * from './skillDialog';
 export * from './skillException';
+export * from './skillManifestGenerator';
 export * from './skillMiddleware';
 export * from './skillRouter';
 export * from './skillTransport';

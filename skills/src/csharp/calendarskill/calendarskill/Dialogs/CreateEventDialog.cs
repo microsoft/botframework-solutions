@@ -25,6 +25,7 @@ using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Recognizers.Text.DateTime;
 using static CalendarSkill.Models.CreateEventStateModel;
 
@@ -40,7 +41,8 @@ namespace CalendarSkill.Dialogs
                FindContactDialog findContactDialog,
                SummaryDialog summaryDialog,
                IServiceManager serviceManager,
-               IBotTelemetryClient telemetryClient)
+               IBotTelemetryClient telemetryClient),
+               MicrosoftAppCredentials appCredentials)
                : base(nameof(CreateEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
             TelemetryClient = telemetryClient;
@@ -169,6 +171,9 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                bool? isTitleSkipByDefault = false;
+                isTitleSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventTitle")?.IsSkipByDefault;
+
                 if (sc.Result != null && sc.Result is FindContactDialogOptions)
                 {
                     var result = (FindContactDialogOptions)sc.Result;
@@ -183,10 +188,13 @@ namespace CalendarSkill.Dialogs
                 {
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CreateEventResponses.NoTitleShort) }, cancellationToken);
                 }
-                else
-                if (string.IsNullOrEmpty(dialogState.Title))
+                else if (dialogState.CreateHasDetail && isTitleSkipByDefault.GetValueOrDefault())
                 {
-                    if (dialogState.FindContactInfor.Contacts.Count == 0 || dialogState.FindContactInfor.Contacts == null)
+                    return await sc.NextAsync(cancellationToken: cancellationToken);
+                }
+                else if (string.IsNullOrEmpty(state.Title))
+                {
+                    if (dialogState.Attendees.Count == 0 || dialogState.Attendees == null)
                     {
                         dialogState.FindContactInfor.FirstRetryInFindContact = true;
                         return await sc.EndDialogAsync();
@@ -214,15 +222,21 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                bool? isTitleSkipByDefault = false;
+                isTitleSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventTitle")?.IsSkipByDefault;
+
+                bool? isContentSkipByDefault = false;
+                isContentSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventContent")?.IsSkipByDefault;
+
                 var skillOptions = (CalendarSkillDialogOptions)sc.Options;
                 var userState = await CalendarStateAccessor.GetAsync(sc.Context);
                 var dialogState = (CreateEventDialogState)sc.State.Dialog[CalendarStateKey];
 
-                if (sc.Result != null || dialogState.CreateHasDetail || dialogState.RecreateState == RecreateEventState.Subject)
+                if (sc.Result != null || (dialogState.CreateHasDetail && isTitleSkipByDefault.GetValueOrDefault()) || dialogState.RecreateState == RecreateEventState.Subject)
                 {
                     if (string.IsNullOrEmpty(dialogState.Title))
                     {
-                        if (dialogState.CreateHasDetail && dialogState.RecreateState != RecreateEventState.Subject)
+                        if (dialogState.CreateHasDetail && isTitleSkipByDefault.GetValueOrDefault() && dialogState.RecreateState != RecreateEventState.Subject)
                         {
                             dialogState.Title = CreateEventWhiteList.GetDefaultTitle();
                         }
@@ -242,7 +256,7 @@ namespace CalendarSkill.Dialogs
                     }
                 }
 
-                if (string.IsNullOrEmpty(dialogState.Content) && (!dialogState.CreateHasDetail || dialogState.RecreateState == RecreateEventState.Content))
+                if (string.IsNullOrEmpty(dialogState.Content) && (!(dialogState.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault()) || dialogState.RecreateState == RecreateEventState.Content))
                 {
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CreateEventResponses.NoContent) }, cancellationToken);
                 }
@@ -299,11 +313,14 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                bool? isContentSkipByDefault = false;
+                isContentSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventContent")?.IsSkipByDefault;
+
                 var skillOptions = (CalendarSkillDialogOptions)sc.Options;
                 var userState = await CalendarStateAccessor.GetAsync(sc.Context);
                 var dialogState = (CreateEventDialogState)sc.State.Dialog[CalendarStateKey];
 
-                if (sc.Result != null && (!dialogState.CreateHasDetail || dialogState.RecreateState == RecreateEventState.Content))
+                if (sc.Result != null && (!(dialogState.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault()) || dialogState.RecreateState == RecreateEventState.Content))
                 {
                     if (string.IsNullOrEmpty(dialogState.Content))
                     {
@@ -314,6 +331,10 @@ namespace CalendarSkill.Dialogs
                             dialogState.Content = merged_content;
                         }
                     }
+                }
+                else if (state.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault())
+                {
+                    state.Content = CalendarCommonStrings.DefaultContent;
                 }
 
                 if (!dialogState.StartDate.Any())
@@ -404,12 +425,14 @@ namespace CalendarSkill.Dialogs
                     var result = (CalendarSkillDialogOptions)sc.Result;
                     sc.State.Dialog[CalendarStateKey] = result.DialogState;
                 }
-
+                bool? isLocationSkipByDefault = false;
+                isLocationSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventLocation")?.IsSkipByDefault;
+        
                 var skillOptions = (CalendarSkillDialogOptions)sc.Options;
                 var userState = await CalendarStateAccessor.GetAsync(sc.Context);
                 var dialogState = (CreateEventDialogState)sc.State.Dialog[CalendarStateKey];
 
-                if (dialogState.Location == null && (!dialogState.CreateHasDetail || dialogState.RecreateState == RecreateEventState.Location))
+                 if (dialogState.Location == null && (!(dialogState.CreateHasDetail && isLocationSkipByDefault.GetValueOrDefault()) || dialogState.RecreateState == RecreateEventState.Location))
                 {
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CreateEventResponses.NoLocation) }, cancellationToken);
                 }
@@ -435,11 +458,14 @@ namespace CalendarSkill.Dialogs
                     sc.State.Dialog[CalendarStateKey] = result.DialogState;
                 }
 
+                bool? isLocationSkipByDefault = false;
+                isLocationSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventLocation")?.IsSkipByDefault;
+
                 var skillOptions = (CalendarSkillDialogOptions)sc.Options;
                 var userState = await CalendarStateAccessor.GetAsync(sc.Context);
                 var dialogState = (CreateEventDialogState)sc.State.Dialog[CalendarStateKey];
 
-                if (dialogState.Location == null && sc.Result != null && (!dialogState.CreateHasDetail || dialogState.RecreateState == RecreateEventState.Location))
+                if (dialogState.Location == null && sc.Result != null && (!(dialogState.CreateHasDetail && isLocationSkipByDefault.GetValueOrDefault()) || dialogState.RecreateState == RecreateEventState.Location))
                 {
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                     var luisResult = userState.LuisResult;
@@ -458,6 +484,10 @@ namespace CalendarSkill.Dialogs
                     {
                         dialogState.Location = userInput;
                     }
+                }
+                else if (state.CreateHasDetail && isLocationSkipByDefault.GetValueOrDefault())
+                {
+                    state.Location = CalendarCommonStrings.DefaultLocation;
                 }
 
                 var source = userState.EventSource;
@@ -639,7 +669,10 @@ namespace CalendarSkill.Dialogs
                 var userState = await CalendarStateAccessor.GetAsync(sc.Context);
                 var dialogState = (CreateEventDialogState)sc.State.Dialog[CalendarStateKey];
 
-                if (dialogState.CreateHasDetail && dialogState.RecreateState != RecreateEventState.Time)
+                bool? isStartDateSkipByDefault = false;
+                isStartDateSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventStartDate")?.IsSkipByDefault;
+
+                if (dialogState.CreateHasDetail && isStartDateSkipByDefault.GetValueOrDefault() && dialogState.RecreateState != RecreateEventState.Time)
                 {
                     return await sc.NextAsync(cancellationToken: cancellationToken);
                 }
@@ -665,9 +698,18 @@ namespace CalendarSkill.Dialogs
                 var userState = await CalendarStateAccessor.GetAsync(sc.Context);
                 var dialogState = (CreateEventDialogState)sc.State.Dialog[CalendarStateKey];
 
-                if (dialogState.CreateHasDetail && dialogState.RecreateState != RecreateEventState.Time)
+                bool? isStartDateSkipByDefault = false;
+                isStartDateSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventStartDate")?.IsSkipByDefault;
+
+                if (dialogState.CreateHasDetail && isStartDateSkipByDefault.GetValueOrDefault() && dialogState.RecreateState != RecreateEventState.Time)
                 {
-                    var datetime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, userState.GetUserTimeZone());
+                    var datetime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
+                    var defaultValue = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventStartDate")?.DefaultValue;
+                    if (int.TryParse(defaultValue, out var startDateOffset))
+                    {
+                        datetime = datetime.AddDays(startDateOffset);
+                    }
+
                     dialogState.StartDate.Add(datetime);
                 }
                 else
@@ -834,7 +876,10 @@ namespace CalendarSkill.Dialogs
                 var userState = await CalendarStateAccessor.GetAsync(sc.Context);
                 var dialogState = (CreateEventDialogState)sc.State.Dialog[CalendarStateKey];
 
-                if (dialogState.Duration > 0 || dialogState.EndTime.Any() || dialogState.EndDate.Any() || (dialogState.CreateHasDetail && dialogState.RecreateState != RecreateEventState.Time && dialogState.RecreateState != RecreateEventState.Duration))
+                bool? isDurationSkipByDefault = false;
+                isDurationSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventDuration")?.IsSkipByDefault;
+
+                if (dialogState.Duration > 0 || dialogState.EndTime.Any() || dialogState.EndDate.Any() || (dialogState.CreateHasDetail && isDurationSkipByDefault.GetValueOrDefault() && dialogState.RecreateState != RecreateEventState.Time && dialogState.RecreateState != RecreateEventState.Duration))
                 {
                     return await sc.NextAsync(cancellationToken: cancellationToken);
                 }
@@ -859,6 +904,9 @@ namespace CalendarSkill.Dialogs
                 var skillOptions = (CalendarSkillDialogOptions)sc.Options;
                 var userState = await CalendarStateAccessor.GetAsync(sc.Context);
                 var dialogState = (CreateEventDialogState)sc.State.Dialog[CalendarStateKey];
+
+                bool? isDurationSkipByDefault = false;
+                isDurationSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventDuration")?.IsSkipByDefault;
 
                 if (dialogState.EndDate.Any() || dialogState.EndTime.Any())
                 {
@@ -897,9 +945,17 @@ namespace CalendarSkill.Dialogs
                     dialogState.Duration = (int)ts.TotalSeconds;
                 }
 
-                if (dialogState.Duration <= 0 && dialogState.CreateHasDetail && dialogState.RecreateState != RecreateEventState.Time && dialogState.RecreateState != RecreateEventState.Duration)
+                if (dialogState.Duration <= 0 && dialogState.CreateHasDetail && isDurationSkipByDefault.GetValueOrDefault() && dialogState.RecreateState != RecreateEventState.Time && dialogState.RecreateState != RecreateEventState.Duration)
                 {
-                    dialogState.Duration = 1800;
+                    var defaultValue = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventDuration")?.DefaultValue;
+                    if (int.TryParse(defaultValue, out var durationMinutes))
+                    {
+                        dialogState.Duration = durationMinutes * 60;
+                    }
+                    else
+                    {
+                        dialogState.Duration = 1800;
+                    }
                 }
 
                 if (dialogState.Duration <= 0 && sc.Result != null)

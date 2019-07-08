@@ -277,6 +277,24 @@ namespace CalendarSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string DefaultContent {
+            get {
+                return ResourceManager.GetString("DefaultContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string DefaultLocation {
+            get {
+                return ResourceManager.GetString("DefaultLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Meeting.
         /// </summary>
         public static string DefaultTitle {

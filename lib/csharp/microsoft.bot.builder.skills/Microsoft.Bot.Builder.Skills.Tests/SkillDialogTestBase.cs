@@ -6,6 +6,7 @@ using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Builder.Skills.Tests
 {
@@ -47,7 +48,7 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 			Services.AddSingleton<ISkillTransport, SkillWebSocketTransport>();
         }
 
-        public TestFlow GetTestFlow(SkillManifest skillManifest, string actionId, Dictionary<string, object> slots)
+        public TestFlow GetTestFlow(SkillManifest skillManifest, string actionId, Dictionary<string, JObject> slots)
         {
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();

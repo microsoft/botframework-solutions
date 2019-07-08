@@ -252,4 +252,10 @@
   <data name="PageIndexerFormat" xml:space="preserve">
     <value>**{0}-{1}** von {2}</value>
   </data>
+  <data name="DefaultContent" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DefaultSubject" xml:space="preserve">
+    <value />
+  </data>
 </root>

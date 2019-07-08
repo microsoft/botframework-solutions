@@ -5,7 +5,10 @@ node_modules/
 *.bot
 
 #generator tests
-test/
+./test/
+
+# Test report
+test-results.xml
 
 #coverage
 coverage

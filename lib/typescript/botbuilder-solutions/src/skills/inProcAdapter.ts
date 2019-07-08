@@ -13,7 +13,7 @@ export class InProcAdapter extends BotAdapter {
     private readonly queuedActivities: Partial<Activity>[];
     private messageReceivedHandler?: (activities: Partial<Activity>[]) => Promise<void>;
 
-    private lastId: number = 0;
+    private readonly lastId: number = 0;
 
     private get nextId(): string {
         return (this.lastId + 1).toString();
@@ -21,14 +21,15 @@ export class InProcAdapter extends BotAdapter {
 
     public backgroundTaskQueue?: IBackgroundTaskQueue;
 
-    constructor() {
+    public constructor() {
         super();
         this.queuedActivities = [];
     }
 
-    public async processActivity(activity: Partial<Activity>,
-                                 callback: (revocableContext: TurnContext) => Promise<void>,
-                                 messageReceivedHandler?: (activities: Partial<Activity>[]) => Promise<void>): Promise<void> {
+    public async processActivity(
+        activity: Partial<Activity>,
+        callback: (revocableContext: TurnContext) => Promise<void>,
+        messageReceivedHandler?: (activities: Partial<Activity>[]) => Promise<void>): Promise<void> {
         this.messageReceivedHandler = messageReceivedHandler;
         const context: TurnContext = new TurnContext(this, activity);
         await this.runMiddleware(context, callback);
@@ -40,13 +41,14 @@ export class InProcAdapter extends BotAdapter {
         return this;
     }
 
-    public async continueConversation(reference: Partial<ConversationReference>,
-                                      logic: (revocableContext: TurnContext) => Promise<void>): Promise<void> {
-        if (!reference) {
+    public async continueConversation(
+        reference: Partial<ConversationReference>,
+        logic: (revocableContext: TurnContext) => Promise<void>): Promise<void> {
+        if (reference === undefined) {
             throw new Error('Missing parameter.  reference is required');
         }
 
-        if (!logic) {
+        if (logic === undefined) {
             throw new Error('Missing parameter.  logic is required');
         }
 
@@ -68,7 +70,7 @@ export class InProcAdapter extends BotAdapter {
         const responses: ResourceResponse[] = [];
         const proactiveActivities: Partial<Activity>[] = [];
 
-        activities.forEach(async(activity: Partial<Activity>) => {
+        activities.forEach(async(activity: Partial<Activity>): Promise<void> => {
             if (!activity.id) {
                 activity.id = this.nextId;
             }
@@ -82,6 +84,7 @@ export class InProcAdapter extends BotAdapter {
                 // hack directly in the POST method. Replicating that here
                 // to keep the behavior as close as possible to facilitate
                 // more realistic tests.
+                // eslint-disable-next-line @typescript-eslint/tslint/config
                 const delayMs: number = activity.value;
                 await this.sleep(delayMs);
             } else {
@@ -96,7 +99,7 @@ export class InProcAdapter extends BotAdapter {
         });
 
         if (proactiveActivities.length > 0 && this.backgroundTaskQueue !== undefined && this.messageReceivedHandler !== undefined) {
-            this.backgroundTaskQueue.queueBackgroundWorkItem(async () => {
+            this.backgroundTaskQueue.queueBackgroundWorkItem(async (): Promise<void> => {
                 if (this.messageReceivedHandler !== undefined) {
                     await this.messageReceivedHandler(proactiveActivities);
                 }
@@ -106,17 +109,17 @@ export class InProcAdapter extends BotAdapter {
         return responses;
     }
 
-    private sleep(delay: number): Promise<void> {
+    private async sleep(delay: number): Promise<void> {
         return new Promise<void>((resolve: (value: void) => void): void => {
             setTimeout(resolve, delay);
         });
     }
 
-    public updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
+    public async updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
         throw new Error('Method not used.');
     }
 
-    public deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
+    public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
         throw new Error('Method not used.');
     }
 }

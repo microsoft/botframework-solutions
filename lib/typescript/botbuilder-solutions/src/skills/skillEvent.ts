@@ -13,7 +13,7 @@ export class SkillEvent extends ConnectedService {
 
     public parameters: Map<string, string> = new Map();
 
-    constructor() {
+    public constructor() {
         super(undefined, ServiceTypes.Generic);
     }
 }

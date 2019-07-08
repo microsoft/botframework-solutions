@@ -53,6 +53,7 @@ namespace NewsSkill
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+            var provider = services.BuildServiceProvider();
 
             // Load settings
             var settings = new BotSettings();
@@ -60,11 +61,9 @@ namespace NewsSkill
             services.AddSingleton<BotSettings>(settings);
             services.AddSingleton<BotSettingsBase>(settings);
 
-            // Configure bot services
-            services.AddSingleton<BotServices>();
-
             // Configure credentials
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
+            services.AddSingleton(new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
 
             // Configure bot state
             services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
@@ -78,13 +77,20 @@ namespace NewsSkill
             });
 
             // Configure telemetry
-            var telemetryClient = new BotTelemetryClient(new TelemetryClient(settings.AppInsights));
+            services.AddApplicationInsightsTelemetry();
+            var telemetryClient = new BotTelemetryClient(new TelemetryClient());
             services.AddSingleton<IBotTelemetryClient>(telemetryClient);
             services.AddBotApplicationInsights(telemetryClient);
+
+            // Configure bot services
+            services.AddSingleton<BotServices>();
 
             // Configure proactive
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddHostedService<QueuedHostedService>();
+
+            // Configure Azure maps services
+            services.AddSingleton<AzureMapsService>();
 
             // Configure HttpContext required for path resolution
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -92,13 +98,13 @@ namespace NewsSkill
             // register dialogs
             services.AddTransient<MainDialog>();
             services.AddTransient<FindArticlesDialog>();
+            services.AddTransient<TrendingArticlesDialog>();
+            services.AddTransient<FavoriteTopicsDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddTransient<SkillWebSocketBotAdapter, NewsSkillWebSocketBotAdapter>();
             services.AddTransient<SkillWebSocketAdapter>();
-            services.AddTransient<SkillHttpBotAdapter, NewsSkillHttpBotAdapter>();
-            services.AddTransient<SkillHttpAdapter>();
 
             // Configure bot
             services.AddTransient<MainDialog>();

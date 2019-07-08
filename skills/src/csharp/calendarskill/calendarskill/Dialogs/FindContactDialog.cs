@@ -21,6 +21,7 @@ using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Graph;
 using static CalendarSkill.Models.CalendarDialogStateBase;
 
@@ -29,13 +30,14 @@ namespace CalendarSkill.Dialogs
     public class FindContactDialog : CalendarSkillDialogBase
     {
         public FindContactDialog(
-           BotSettings settings,
-           BotServices services,
-           ResponseManager responseManager,
-           ConversationState conversationState,
-           IServiceManager serviceManager,
-           IBotTelemetryClient telemetryClient)
-          : base(nameof(FindContactDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
+            BotSettings settings,
+            BotServices services,
+            ResponseManager responseManager,
+            ConversationState conversationState,
+            IServiceManager serviceManager,
+            IBotTelemetryClient telemetryClient,
+            MicrosoftAppCredentials appCredentials)
+            : base(nameof(FindContactDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
