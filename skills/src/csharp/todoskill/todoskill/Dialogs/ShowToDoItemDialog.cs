@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using ToDoSkill.Models;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Responses.ShowToDo;
 using ToDoSkill.Services;
@@ -20,6 +23,8 @@ namespace ToDoSkill.Dialogs
 {
     public class ShowToDoItemDialog : ToDoSkillDialogBase
     {
+        private const string Synonym = "Synonym";
+
         public ShowToDoItemDialog(
             BotSettings settings,
             BotServices services,
@@ -32,6 +37,10 @@ namespace ToDoSkill.Dialogs
             IHttpContextAccessor httpContext)
             : base(nameof(ShowToDoItemDialog), settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient, appCredentials, httpContext)
         {
+            string[] paths = { ".", "Resources", "ShowToDoCard.LG" };
+            string fullPath = Path.Combine(paths);
+            LgEngine.AddFile(fullPath);
+
             TelemetryClient = telemetryClient;
 
             var showTasks = new WaterfallStep[]
@@ -64,24 +73,28 @@ namespace ToDoSkill.Dialogs
 
             var collectFirstReadMoreConfirmation = new WaterfallStep[]
             {
+                SaveShowToDoState,
                 AskFirstReadMoreConfirmation,
                 AfterAskFirstReadMoreConfirmation,
             };
 
             var collectSecondReadMoreConfirmation = new WaterfallStep[]
             {
+                SaveShowToDoState,
                 AskSecondReadMoreConfirmation,
                 AfterAskSecondReadMoreConfirmation,
             };
 
             var collectGoBackToStartConfirmation = new WaterfallStep[]
             {
+                SaveShowToDoState,
                 AskGoBackToStartConfirmation,
                 AfterAskGoBackToStartConfirmation,
             };
 
             var collectRepeatFirstPageConfirmation = new WaterfallStep[]
             {
+                SaveShowToDoState,
                 AskRepeatFirstPageConfirmation,
                 AfterAskRepeatFirstPageConfirmation,
             };
@@ -98,6 +111,24 @@ namespace ToDoSkill.Dialogs
 
             // Set starting dialog for component
             InitialDialogId = Actions.ShowTasks;
+        }
+
+        private TemplateEngine LgEngine { get; set; } = new TemplateEngine();
+
+        public async Task<DialogTurnResult> SaveShowToDoState(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var state = await ToDoStateAccessor.GetAsync(sc.Context);
+            var tempState = ToDoCommonUtil.CloneToDoSkillStatus(state);
+            sc.State.Dialog.Add(ToDoStateKey, tempState);
+            return await sc.NextAsync();
+        }
+
+        public async Task<ToDoSkillState> RecoverShowToDoState(WaterfallStepContext sc)
+        {
+            var tempState = (ToDoSkillState)sc.State.Dialog[ToDoStateKey];
+            var state = ToDoCommonUtil.CloneToDoSkillStatus(tempState);
+            await ToDoStateAccessor.SetAsync(sc.Context, state);
+            return state;
         }
 
         public async Task<DialogTurnResult> DoShowTasks(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -118,6 +149,7 @@ namespace ToDoSkill.Dialogs
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
+
                 state.ListType = state.ListType ?? ToDoStrings.ToDo;
                 state.LastListType = state.ListType;
                 var service = await InitListTypeIds(sc);
@@ -133,7 +165,8 @@ namespace ToDoSkill.Dialogs
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
                 if (state.Tasks.Count <= 0)
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ShowToDoResponses.NoTasksMessage, new StringDictionary() { { "listType", state.ListType } }));
+                    //await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ShowToDoResponses.NoTasksMessage, new StringDictionary() { { "listType", state.ListType } }));
+
                     return await sc.EndDialogAsync(true);
                 }
                 else
@@ -142,11 +175,11 @@ namespace ToDoSkill.Dialogs
 
                     if (topIntent == todoLuis.Intent.ShowToDo || state.GoBackToStart)
                     {
-                        var toDoListCard = ToAdaptiveCardForShowToDos(
-                            sc.Context,
-                            state.Tasks,
-                            state.AllTasks.Count,
-                            state.ListType);
+                        var toDoListCard = ToAdaptiveCardForShowToDosByLG(
+                           LgEngine,
+                           state.Tasks,
+                           state.AllTasks.Count,
+                           state.ListType);
 
                         await sc.Context.SendActivityAsync(toDoListCard);
 
@@ -165,8 +198,13 @@ namespace ToDoSkill.Dialogs
                         }
                         else
                         {
-                            var toDoListCard = ToAdaptiveCardForReadMore(
-                                sc.Context,
+                            //var toDoListCard = ToAdaptiveCardForReadMore(
+                            //    state.Tasks,
+                            //    state.AllTasks.Count,
+                            //    state.ListType);
+
+                            var toDoListCard = ToAdaptiveCardForReadMoreByLG(
+                                LgEngine,
                                 state.Tasks,
                                 state.AllTasks.Count,
                                 state.ListType);
@@ -187,8 +225,15 @@ namespace ToDoSkill.Dialogs
                         }
                         else
                         {
-                            var toDoListCard = ToAdaptiveCardForPreviousPage(
-                                sc.Context,
+
+                            //var toDoListCard = ToAdaptiveCardForPreviousPage(
+                            //    state.Tasks,
+                            //    state.AllTasks.Count,
+                            //    state.ShowTaskPageIndex == 0,
+                            //    state.ListType);
+
+                            var toDoListCard = ToAdaptiveCardForPreviousPageByLG(
+                                LgEngine,
                                 state.Tasks,
                                 state.AllTasks.Count,
                                 state.ShowTaskPageIndex == 0,
@@ -267,7 +312,8 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                var state = await ToDoStateAccessor.GetAsync(sc.Context);
+                var state = await RecoverShowToDoState(sc);
+
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
@@ -290,14 +336,22 @@ namespace ToDoSkill.Dialogs
         public async Task<DialogTurnResult> FirstReadMore(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await ToDoStateAccessor.GetAsync(sc.Context);
+
             var allTasksCount = state.AllTasks.Count;
             var currentTaskIndex = state.ShowTaskPageIndex * state.PageSize;
             state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
-            var toDoListCard = ToAdaptiveCardForReadMore(
-                    sc.Context,
-                    state.Tasks,
-                    allTasksCount,
-                    state.ListType);
+
+            //var toDoListCard = ToAdaptiveCardForReadMore(
+            //        state.Tasks,
+            //        allTasksCount,
+            //        state.ListType);
+
+            var toDoListCard = ToAdaptiveCardForReadMoreByLG(
+                             LgEngine,
+                             state.Tasks,
+                             state.AllTasks.Count,
+                             state.ListType);
+
             toDoListCard.InputHint = InputHints.IgnoringInput;
 
             if ((state.ShowTaskPageIndex + 1) * state.PageSize < state.AllTasks.Count)
@@ -358,7 +412,8 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                var state = await ToDoStateAccessor.GetAsync(sc.Context);
+                var state = await RecoverShowToDoState(sc);
+
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
@@ -385,11 +440,17 @@ namespace ToDoSkill.Dialogs
             var currentTaskIndex = state.ShowTaskPageIndex * state.PageSize;
             state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
 
-            var cardReply = ToAdaptiveCardForReadMore(
-                    sc.Context,
-                    state.Tasks,
-                    allTasksCount,
-                    state.ListType);
+            //var cardReply = ToAdaptiveCardForReadMore(
+            //        state.Tasks,
+            //        allTasksCount,
+            //        state.ListType);
+
+            var cardReply = ToAdaptiveCardForReadMoreByLG(
+                       LgEngine,
+                       state.Tasks,
+                       state.AllTasks.Count,
+                       state.ListType);
+
 
             if ((state.ShowTaskPageIndex + 1) * state.PageSize < allTasksCount)
             {
@@ -450,7 +511,8 @@ namespace ToDoSkill.Dialogs
 
         public async Task<DialogTurnResult> AfterAskGoBackToStartConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await ToDoStateAccessor.GetAsync(sc.Context);
+            var state = await RecoverShowToDoState(sc);
+
             var confirmResult = (bool)sc.Result;
             if (confirmResult)
             {
@@ -486,7 +548,8 @@ namespace ToDoSkill.Dialogs
 
         public async Task<DialogTurnResult> AfterAskRepeatFirstPageConfirmation(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var state = await ToDoStateAccessor.GetAsync(sc.Context);
+            var state = await RecoverShowToDoState(sc);
+
             var confirmResult = (bool)sc.Result;
             if (confirmResult)
             {

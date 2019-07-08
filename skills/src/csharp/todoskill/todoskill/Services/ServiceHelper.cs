@@ -41,7 +41,7 @@ namespace ToDoSkill.Services
             List<string> customizedListTypeKeys = new List<string>();
             if (configuration != null)
             {
-                customizedListTypeKeys = configuration.GetSection("customizeListTypes").Get<List<string>>()??customizedListTypeKeys;
+                customizedListTypeKeys = configuration.GetSection("customizeListTypes").Get<List<string>>();
             }
 
             List<string> customizedListTypes = new List<string>();

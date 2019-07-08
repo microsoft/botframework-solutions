@@ -10,7 +10,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
-using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
+// using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
@@ -53,8 +53,7 @@ namespace ToDoSkill
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
-            var provider = services.BuildServiceProvider();
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
 
             // Load settings
             var settings = new BotSettings();
@@ -81,7 +80,7 @@ namespace ToDoSkill
             services.AddApplicationInsightsTelemetry();
             var telemetryClient = new BotTelemetryClient(new TelemetryClient());
             services.AddSingleton<IBotTelemetryClient>(telemetryClient);
-            services.AddBotApplicationInsights(telemetryClient);
+            //services.AddBotApplicationInsights(telemetryClient);
 
             // Configure bot services
             services.AddSingleton<BotServices>();
@@ -104,7 +103,7 @@ namespace ToDoSkill
                 new ShowToDoResponses()));
 
             // register dialogs
-            services.AddTransient<MainDialog>();
+            services.AddSingleton<MainDialog>();
             services.AddTransient<AddToDoItemDialog>();
             services.AddTransient<DeleteToDoItemDialog>();
             services.AddTransient<MarkToDoItemDialog>();
@@ -119,8 +118,8 @@ namespace ToDoSkill
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // Configure bot
-            services.AddTransient<MainDialog>();
-            services.AddTransient<IBot, DialogBot<MainDialog>>();
+            // services.AddTransient<MainDialog>();
+            services.AddSingleton<IBot, DialogBot<MainDialog>>();
         }
 
         /// <summary>
@@ -135,8 +134,8 @@ namespace ToDoSkill
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseBotApplicationInsights()
-                .UseDefaultFiles()
+            // app.UseBotApplicationInsights()
+            app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseWebSockets()
                 .UseMvc();
