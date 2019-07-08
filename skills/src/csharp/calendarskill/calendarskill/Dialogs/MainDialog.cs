@@ -351,12 +351,7 @@ namespace CalendarSkill.Dialogs
             // Initialize PageSize when the first input comes.
             if (state.PageSize <= 0)
             {
-                var pageSize = 0;
-                if (_settings.Properties.TryGetValue("DisplaySize", out var displaySizeObj))
-                {
-                    int.TryParse(displaySizeObj.ToString(), out pageSize);
-                }
-
+                var pageSize = _settings.DisplaySize;
                 state.PageSize = pageSize <= 0 || pageSize > CalendarCommonUtil.MaxDisplaySize ? CalendarCommonUtil.MaxDisplaySize : pageSize;
             }
         }
