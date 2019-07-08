@@ -3,14 +3,10 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Debugging;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.LanguageGeneration.Renderer;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EmailSkill.Adapters
 {
@@ -22,7 +18,7 @@ namespace EmailSkill.Adapters
         {
             this.UseStorage(storage);
             this.UseState(userState, conversationState);
-            this.UseLanguageGenerator(new LGLanguageGenerator(resourceExplorer));
+            //this.UseLanguageGenerator(new LGLanguageGenerator(resourceExplorer));
             //this.UseDebugger(configuration.GetValue<int>("debugport", 4712));
 
             OnTurnError = async (turnContext, exception) =>
