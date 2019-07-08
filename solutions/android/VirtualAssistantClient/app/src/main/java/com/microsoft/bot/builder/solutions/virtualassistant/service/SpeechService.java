@@ -39,6 +39,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.TimeZone;
 
 import client.model.BotConnectorActivity;
 import events.ActivityReceived;
@@ -115,6 +116,11 @@ public class SpeechService extends Service {
             @Override
             public void sendLocationEvent(String lat, String lon){
                 speechSdk.sendLocationEvent(lat, lon);
+            }
+
+            @Override
+            public void sendTimeZoneEvent(String tzId) {
+                speechSdk.sendTimeZoneEvent(TimeZone.getTimeZone(tzId));
             }
 
             @Override

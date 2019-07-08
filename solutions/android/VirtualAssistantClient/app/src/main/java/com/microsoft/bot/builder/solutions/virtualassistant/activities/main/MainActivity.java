@@ -168,7 +168,6 @@ public class MainActivity extends BaseActivity
     // Unregister EventBus messages and SpeechService
     @Override
     public void onStop() {
-        Log.v("BaseActivity","onStop() finished");
         EventBus.getDefault().unregister(this);
         if (speechServiceBinder != null) {
             unbindService(myConnection);

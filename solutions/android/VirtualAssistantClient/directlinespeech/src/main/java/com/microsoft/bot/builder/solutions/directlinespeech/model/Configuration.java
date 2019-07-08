@@ -49,6 +49,10 @@ public class Configuration {
     @Expose
     public Integer historyLinecount;
 
+    @SerializedName("current_timezone")
+    @Expose
+    public String currentTimezone;//stores the TZ ID
+
 
     public boolean isEmpty(){
         return serviceKey==null&&
@@ -61,6 +65,7 @@ public class Configuration {
                 geolon==null&&
                 userName==null&&
                 directlineConstant==null&&
-                historyLinecount==null;
+                historyLinecount==null&&
+                currentTimezone==null;
     }
 }

@@ -44,6 +44,9 @@
     <string name="configuration_geolocation_lat_hint">Lat</string>
     <string name="configuration_geolocation_lon_hint">Lon</string>
     <string name="configuration_chat_history_line_count">Chat history line-count</string>
+    <string name="configuration_timezone">Timezone</string>
+    <string name="configuration_timezone_send">Send TZ Event</string>
+
 
     <!-- Widgets -->
     <string name="widget_push_to_talk">Talk</string>

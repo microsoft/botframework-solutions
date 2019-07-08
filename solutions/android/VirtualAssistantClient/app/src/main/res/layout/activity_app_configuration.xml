@@ -36,6 +36,33 @@
                     android:imeOptions="actionDone"/>
             </android.support.design.widget.TextInputLayout>
 
+            <!-- TIMEZONE -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/configuration_timezone"/>
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/spinner_timezone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/send_timezone_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/configuration_timezone_send"/>
+
+            </LinearLayout>
+
+
+
         </LinearLayout>
 
     </ScrollView>
