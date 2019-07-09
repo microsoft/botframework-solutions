@@ -24,6 +24,7 @@ namespace EmailSkill.Adapters
             ResourceExplorer resourceExplorer)
             : base(credentialProvider)
         {
+
             OnTurnError = async (context, exception) =>
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);

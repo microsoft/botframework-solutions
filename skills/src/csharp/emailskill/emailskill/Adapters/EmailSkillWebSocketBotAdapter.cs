@@ -4,6 +4,7 @@ using EmailSkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -19,7 +20,8 @@ namespace EmailSkill.Adapters
             ConversationState conversationState,
             BotStateSet botStateSet,
             ResponseManager responseManager,
-            IBotTelemetryClient telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            ResourceExplorer resourceExplorer)
         {
             OnTurnError = async (context, exception) =>
             {
