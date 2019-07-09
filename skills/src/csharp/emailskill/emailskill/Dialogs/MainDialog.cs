@@ -41,6 +41,7 @@ namespace EmailSkill.Dialogs
         private IStatePropertyAccessor<EmailSkillState> _stateAccessor;
 
         private TemplateEngine _lgEngine;
+        private ResourceMultiLanguageGenerator _lgMultiLangEngine;
 
         public MainDialog(
             BotSettings settings,
@@ -64,13 +65,8 @@ namespace EmailSkill.Dialogs
             TelemetryClient = telemetryClient;
             _stateAccessor = _conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
 
-
             // combine path for cross platform support
-            string[] paths = { ".", "Responses//Main", "MainDialog.lg" };
-            string fullPath = Path.Combine(paths);
-            var templateEngine = new TemplateEngine();
-            _lgEngine = templateEngine.AddFile(fullPath);
-
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("MainDialog.lg");
 
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.CognitiveModelSets[locale];
@@ -83,7 +79,7 @@ namespace EmailSkill.Dialogs
 
             var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
-                Generator = new ResourceMultiLanguageGenerator("MainDialog.lg"),
+                //Generator = new ResourceMultiLanguageGenerator("MainDialog.lg"),
 
                 // Create a LUIS recognizer.
                 // The recognizer is built using the intents, utterances, patterns and entities defined in ./RootDialog.lu file
@@ -160,16 +156,14 @@ namespace EmailSkill.Dialogs
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // send a greeting if we're in local mode
-            //await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailMainResponses.EmailWelcomeMessage));
+            if (dc.Context.TurnState.Get<ILanguageGenerator>() == null)
+            {
+                dc.Context.TurnState.Add<ILanguageGenerator>(_lgMultiLangEngine);
+            }
 
-            //var emailWelcomeMessage = new ActivityTemplate("[EmailWelcomeMessage]");
-            //await dc.Context.SendActivityAsync(emailWelcomeMessage.Template);
-
-            //var lg = new ResourceMultiLanguageGenerator("MainDialog.lg");
-
-            //var result = await lg.Generate(dc.);
-
-            await dc.Context.SendActivityAsync(MessageFactory.Text(_lgEngine.EvaluateTemplate("EmailWelcomeMessage", null)));
+            var result = _lgMultiLangEngine.Generate(dc.Context, "[EmailWelcomeMessage]", null);
+            var activity = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, result.Result, null);
+            await dc.Context.SendActivityAsync(activity);
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
