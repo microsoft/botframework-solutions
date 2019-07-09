@@ -2,8 +2,8 @@
     "ConfirmDelete": {
         "replies": [
             {
-                "text": "Are you sure you want to delete the following from your calendar?",
-                "speak": "Are you sure you want to delete the following from your calendar?"
+                "text": "Are you sure you want to delete this from your calendar?",
+                "speak": "Are you sure you want to delete this from your calendar?"
             }
         ],
         "inputHint": "expectingInput"
@@ -11,8 +11,8 @@
     "ConfirmDeleteFailed": {
         "replies": [
             {
-                "text": "Are you sure you want to delete the following from your calendar? Please say 'yes' or 'no' or something like that.",
-                "speak": "Are you sure you want to delete the following from your calendar? Please say 'yes' or 'no' or something like that."
+                "text": "Are you sure you want to delete this from your calendar? You can say 'yes' or 'no'",
+                "speak": "Are you sure you want to delete this from your calendar? You can say yes or no"
             }
         ],
         "inputHint": "expectingInput"
@@ -20,8 +20,8 @@
     "ConfirmAccept": {
         "replies": [
             {
-                "text": "Are you sure you want to accept the following from your calendar?",
-                "speak": "Are you sure you want to accept the following from your calendar?"
+                "text": "Are you sure you want to accept the following event?",
+                "speak": "Are you sure you want to accept the following event?"
             }
         ],
         "inputHint": "expectingInput"
@@ -29,8 +29,8 @@
     "ConfirmAcceptFailed": {
         "replies": [
             {
-                "text": "Are you sure you want to accept the following from your calendar? Please say 'yes' or 'no' or something like that.",
-                "speak": "Are you sure you want to accept the following from your calendar? Please say 'yes' or 'no' or something like that."
+                "text": "Are you sure you want to accept the following from your calendar? You can say 'yes' or 'no'",
+                "speak": "Are you sure you want to accept the following from your calendar? You can say yes or no"
             }
         ],
         "inputHint": "expectingInput"
@@ -57,12 +57,12 @@
         "replies": [
 
             {
-                "text": "No event start at this time or with that title, please try again.",
-                "speak": "No event start at this time or with that title, please try again."
+                "text": "No event was found at this time or with that title, please try again.",
+                "speak": "No event was found at this time or with that title, please try again."
             },
             {
-                "text": "I could not find an event you mentioned, please try again.",
-                "speak": "I could not find an event you mentioned, please try again."
+                "text": "I could not find the event you asked for, please try again.",
+                "speak": "I could not find the event you asked for, please try again."
             },
             {
                 "text": "No event can be found with the event time or title, can you try again?",
@@ -75,8 +75,8 @@
         "replies": [
 
             {
-                "text": "What event would you like to delete? By communicating the start time or title I can retrieve your event.",
-                "speak": "What event would you like to delete? By communicating the start time or title I can retrieve your event."
+                "text": "Which event would you like to delete? By providing the start time or title I can retrieve your event.",
+                "speak": "Which event would you like to delete? By providing the start time or title I can retrieve your event."
             }
         ],
         "inputHint": "expectingInput"
@@ -85,8 +85,8 @@
         "replies": [
 
             {
-                "text": "What event would you like to accept? By communicating the start time or title I can retrieve your event.",
-                "speak": "What event would you like to accept? By communicating the start time or title I can retrieve your event."
+                "text": "What event would you like to accept? By providing the start time or title I can retrieve your event.",
+                "speak": "What event would you like to accept? By providing the start time or title I can retrieve your event."
             }
         ],
         "inputHint": "expectingInput"

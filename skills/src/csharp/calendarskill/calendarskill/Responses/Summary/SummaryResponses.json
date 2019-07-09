@@ -29,8 +29,8 @@
   "ShowOneMeetingSummaryMessage": {
     "replies": [
       {
-        "text": "You have 1 event planned for {DateTime}, it is with {Participants1} {EventTime1} titled {EventName1}. Want to know the content of this event?",
-        "speak": "You have 1 event planned for {DateTime}, it is with {Participants1} {EventTime1} titled {EventName1}. Want to know the content of this event?"
+        "text": "You have 1 event planned for {DateTime}, it is with {Participants1} {EventTime1} titled {EventName1}. Do you want to know more information?",
+        "speak": "You have 1 event planned for {DateTime}, it is with {Participants1} {EventTime1} titled {EventName1}. Do you want to know more information?"
       }
     ],
     "inputHint": "acceptingInput"
@@ -47,8 +47,8 @@
   "ShowOneMeetingSummaryAgainMessage": {
     "replies": [
       {
-        "text": "You have 1 event planned for {DateTime}. Want to know the content of this event?",
-        "speak": "You have 1 event planned for {DateTime}. Want to know the content of this event?"
+        "text": "You have 1 event planned for {DateTime}. Do you want more information?",
+        "speak": "You have 1 event planned for {DateTime}. Do you want more information?"
       }
     ],
     "inputHint": "acceptingInput"
@@ -74,8 +74,8 @@
   "ShowMultipleFilteredMeetings": {
     "replies": [
       {
-        "text": "I found {Count} events with your key word.",
-        "speak": "I found {Count} events with your key word."
+        "text": "I found {Count} events with your keyword.",
+        "speak": "I found {Count} events with your keyword."
       }
     ],
     "inputHint": "acceptingInput"
@@ -124,8 +124,8 @@
   "ReadOutMorePrompt": {
     "replies": [
       {
-        "text": "Do you want to hear the content of the first event? I can read out any event for you, just let me know by providing the subject, time or attendees..",
-        "speak": "Do you want to hear the content of the first event? I can read out any event for you, just let me know by providing the subject, time or attendees.."
+        "text": "Do you want to hear the content of the first event? I can read out any event for you, just let me know by providing the subject, time or attendees.",
+        "speak": "Do you want to hear the content of the first event? I can read out any event for you, just let me know by providing the subject, time or attendees."
       }
     ],
     "inputHint": "expectingInput"
