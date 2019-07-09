@@ -17,25 +17,43 @@
     ],
     "inputHint": "expectingInput"
   },
-  "CheckOutMessage": {
+  "EmailPrompt": {
     "replies": [
       {
-        "text": "Ok! I've checked you out. There is a box in the lobby where you can drop off your keys.",
-        "speak": "Ok! I've checked you out. There is a box in the lobby where you can drop off your keys."
+        "text": "What email should I send your receipt to?",
+        "speak": "What email should I send your receipt to?"
       }
     ],
-    "inputHint": "ignoringInput"
+    "inputHint": "expectingInput"
   },
-  "ThankYou": {
+  "InvalidEmailPrompt": {
     "replies": [
       {
-        "text": "Thank you for staying with us!",
-        "speak": "Thank you for staying with us!"
+        "text": "Please try an email address in the format email@domain.com.",
+        "speak": "Please try an email address in the format email@domain.com."
       }
     ],
-    "inputHint": "ignoringInput"
+    "inputHint": "expectingInput"
   },
-  "HelpOtherwise": {
+  "SendEmailMessage": {
+    "replies": [
+      {
+        "text": "Ok, I'll send the receipt to {Email}.",
+        "speak": "Ok, I'll send the receipt to {Email}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "CheckOutSuccess": {
+    "replies": [
+      {
+        "text": "You're all checked out! We look forward to seeing you again.",
+        "speak": "You're all checked out! We look forward to seeing you again."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "CheckOutError": {
     "replies": [
       {
         "text": "It seems like you don't want to check out. Is there something else I can help you with?",
