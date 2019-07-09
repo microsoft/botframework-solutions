@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
+using CalendarSkill.Models.DialogModel;
 using CalendarSkill.Prompts.Options;
 using CalendarSkill.Responses.ChangeEventStatus;
 using CalendarSkill.Responses.Shared;
@@ -35,6 +37,7 @@ namespace CalendarSkill.Dialogs
 
             var changeEventStatus = new WaterfallStep[]
             {
+                InitChangeEventStatusDialogState,
                 GetAuthToken,
                 AfterGetAuthToken,
                 FromTokenToStartTime,
@@ -44,12 +47,13 @@ namespace CalendarSkill.Dialogs
 
             var updateStartTime = new WaterfallStep[]
             {
+                SaveChangeEventStatusDialogState,
                 UpdateStartTime,
                 AfterUpdateStartTime,
             };
 
-            AddDialog(new WaterfallDialog(Actions.ChangeEventStatus, changeEventStatus) { TelemetryClient = telemetryClient });
-            AddDialog(new WaterfallDialog(Actions.UpdateStartTime, updateStartTime) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.ChangeEventStatus, changeEventStatus, CalendarStateAccessor) { TelemetryClient = telemetryClient });
+            AddDialog(new CalendarWaterfallDialog(Actions.UpdateStartTime, updateStartTime, CalendarStateAccessor) { TelemetryClient = telemetryClient });
 
             // Set starting dialog for component
             InitialDialogId = Actions.ChangeEventStatus;
@@ -59,20 +63,23 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
-                if (sc.Result != null && state.Events.Count > 1)
+                var skillOptions = (CalendarSkillDialogOptions)sc.Options;
+                var userState = await CalendarStateAccessor.GetAsync(sc.Context);
+                var dialogState = (ChangeEventStatusDialogState)sc.State.Dialog[CalendarStateKey];
+
+                if (sc.Result != null && dialogState.Events.Count > 1)
                 {
-                    var events = state.Events;
-                    state.Events = new List<EventModel>
+                    var events = dialogState.Events;
+                    dialogState.Events = new List<EventModel>
                     {
                         events[(sc.Result as FoundChoice).Index],
                     };
                 }
 
-                var deleteEvent = state.Events[0];
+                var deleteEvent = dialogState.Events[0];
                 string replyResponse;
                 string retryResponse;
-                if (state.NewEventStatus == EventStatus.Cancelled)
+                if (dialogState.NewEventStatus == EventStatus.Cancelled)
                 {
                     replyResponse = ChangeEventStatusResponses.ConfirmDelete;
                     retryResponse = ChangeEventStatusResponses.ConfirmDeleteFailed;
@@ -104,13 +111,16 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
-                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                var skillOptions = (CalendarSkillDialogOptions)sc.Options;
+                var userState = await CalendarStateAccessor.GetAsync(sc.Context);
+                var dialogState = (ChangeEventStatusDialogState)sc.State.Dialog[CalendarStateKey];
+
+                var calendarService = ServiceManager.InitCalendarService(userState.APIToken, userState.EventSource);
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
-                    var deleteEvent = state.Events[0];
-                    if (state.NewEventStatus == EventStatus.Cancelled)
+                    var deleteEvent = dialogState.Events[0];
+                    if (dialogState.NewEventStatus == EventStatus.Cancelled)
                     {
                         if (deleteEvent.IsOrganizer)
                         {
@@ -134,13 +144,9 @@ namespace CalendarSkill.Dialogs
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.ActionEnded));
                 }
 
-                if (state.IsActionFromSummary)
+                if (!skillOptions.SubFlowMode)
                 {
-                    state.ClearChangeStautsInfo();
-                }
-                else
-                {
-                    state.Clear();
+                    await ClearAllState(sc.Context);
                 }
 
                 return await sc.EndDialogAsync(true);
@@ -161,25 +167,29 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
-                if (state.LuisResult?.TopIntent().intent.ToString() == calendarLuis.Intent.DeleteCalendarEntry.ToString())
+                var skillOptions = (CalendarSkillDialogOptions)sc.Options;
+                var userState = await CalendarStateAccessor.GetAsync(sc.Context);
+                var dialogState = (ChangeEventStatusDialogState)sc.State.Dialog[CalendarStateKey];
+
+                if (userState.LuisResult?.TopIntent().intent.ToString() == calendarLuis.Intent.DeleteCalendarEntry.ToString())
                 {
-                    state.NewEventStatus = EventStatus.Cancelled;
+                    dialogState.NewEventStatus = EventStatus.Cancelled;
                 }
                 else
                 {
-                    state.NewEventStatus = EventStatus.Accepted;
+                    dialogState.NewEventStatus = EventStatus.Accepted;
                 }
 
-                if (string.IsNullOrEmpty(state.APIToken))
+                if (string.IsNullOrEmpty(userState.APIToken))
                 {
                     return await sc.EndDialogAsync(true);
                 }
 
-                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
-                if (state.StartDateTime == null)
+                var calendarService = ServiceManager.InitCalendarService(userState.APIToken, userState.EventSource);
+                if (dialogState.StartDateTime == null)
                 {
-                    return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound));
+                    skillOptions.DialogState = dialogState;
+                    return await sc.BeginDialogAsync(Actions.UpdateStartTime, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound, skillOptions));
                 }
                 else
                 {
@@ -202,41 +212,43 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var skillOptions = (CalendarSkillDialogOptions)sc.Options;
+                var userState = await CalendarStateAccessor.GetAsync(sc.Context);
+                var dialogState = (ChangeEventStatusDialogState)sc.State.Dialog[CalendarStateKey];
 
-                if (state.Events.Count > 0)
+                if (dialogState.Events.Count > 0)
                 {
                     return await sc.NextAsync();
                 }
 
-                var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
+                var calendarService = ServiceManager.InitCalendarService(userState.APIToken, userState.EventSource);
 
-                if (state.StartDate.Any() || state.StartTime.Any())
+                if (dialogState.StartDate.Any() || dialogState.StartTime.Any())
                 {
-                    state.Events = await GetEventsByTime(state.StartDate, state.StartTime, state.EndDate, state.EndTime, state.GetUserTimeZone(), calendarService);
-                    state.StartDate = new List<DateTime>();
-                    state.StartTime = new List<DateTime>();
-                    state.EndDate = new List<DateTime>();
-                    state.EndTime = new List<DateTime>();
-                    if (state.Events.Count > 0)
+                    dialogState.Events = await GetEventsByTime(dialogState.StartDate, dialogState.StartTime, dialogState.EndDate, dialogState.EndTime, userState.GetUserTimeZone(), calendarService);
+                    dialogState.StartDate = new List<DateTime>();
+                    dialogState.StartTime = new List<DateTime>();
+                    dialogState.EndDate = new List<DateTime>();
+                    dialogState.EndTime = new List<DateTime>();
+                    if (dialogState.Events.Count > 0)
                     {
                         return await sc.NextAsync();
                     }
                 }
 
-                if (state.Title != null)
+                if (dialogState.Title != null)
                 {
-                    state.Events = await calendarService.GetEventsByTitle(state.Title);
-                    state.Title = null;
-                    if (state.Events.Count > 0)
+                    dialogState.Events = await calendarService.GetEventsByTitle(dialogState.Title);
+                    dialogState.Title = null;
+                    if (dialogState.Events.Count > 0)
                     {
                         return await sc.NextAsync();
                     }
                 }
 
-                if (state.NewEventStatus == EventStatus.Cancelled)
+                if (dialogState.NewEventStatus == EventStatus.Cancelled)
                 {
-                    return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
+                    return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, userState.GetUserTimeZone())
                     {
                         Prompt = ResponseManager.GetResponse(ChangeEventStatusResponses.NoDeleteStartTime),
                         RetryPrompt = ResponseManager.GetResponse(ChangeEventStatusResponses.EventWithStartTimeNotFound)
@@ -244,7 +256,7 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
+                    return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, userState.GetUserTimeZone())
                     {
                         Prompt = ResponseManager.GetResponse(ChangeEventStatusResponses.NoAcceptStartTime),
                         RetryPrompt = ResponseManager.GetResponse(ChangeEventStatusResponses.EventWithStartTimeNotFound)
@@ -262,30 +274,32 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var state = await Accessor.GetAsync(sc.Context);
+                var skillOptions = (CalendarSkillDialogOptions)sc.Options;
+                var userState = await CalendarStateAccessor.GetAsync(sc.Context);
+                var dialogState = (ChangeEventStatusDialogState)sc.State.Dialog[CalendarStateKey];
 
                 if (sc.Result != null)
                 {
-                    state.Events = sc.Result as List<EventModel>;
+                    dialogState.Events = sc.Result as List<EventModel>;
                 }
 
-                if (state.Events.Count == 0)
+                if (dialogState.Events.Count == 0)
                 {
                     // should not doto this part. add log here for safe
                     await HandleDialogExceptions(sc, new Exception("Unexpect zero events count"));
                     return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
                 }
                 else
-                if (state.Events.Count > 1)
+                if (dialogState.Events.Count > 1)
                 {
                     var options = new PromptOptions()
                     {
                         Choices = new List<Choice>(),
                     };
 
-                    for (var i = 0; i < state.Events.Count; i++)
+                    for (var i = 0; i < dialogState.Events.Count; i++)
                     {
-                        var item = state.Events[i];
+                        var item = dialogState.Events[i];
                         var choice = new Choice()
                         {
                             Value = string.Empty,
@@ -294,7 +308,7 @@ namespace CalendarSkill.Dialogs
                         options.Choices.Add(choice);
                     }
 
-                    var prompt = await GetGeneralMeetingListResponseAsync(sc, CalendarCommonStrings.MeetingsToChoose, state.Events, ChangeEventStatusResponses.MultipleEventsStartAtSameTime, null);
+                    var prompt = await GetGeneralMeetingListResponseAsync(sc, CalendarCommonStrings.MeetingsToChoose, dialogState.Events, ChangeEventStatusResponses.MultipleEventsStartAtSameTime, null);
 
                     options.Prompt = prompt;
 
@@ -314,6 +328,163 @@ namespace CalendarSkill.Dialogs
             {
                 await HandleDialogExceptions(sc, ex);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        private async Task<DialogTurnResult> InitChangeEventStatusDialogState(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var skillOptions = (CalendarSkillDialogOptions)sc.Options;
+                var userState = await CalendarStateAccessor.GetAsync(sc.Context);
+                var dialogState = new ChangeEventStatusDialogState();
+
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var localeConfig = Services.CognitiveModelSets[locale];
+
+                // Update state with email luis result and entities --- todo: use luis result in adaptive dialog
+                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<calendarLuis>(sc.Context);
+                userState.LuisResult = luisResult;
+                localeConfig.LuisServices.TryGetValue("general", out var luisService);
+                var generalLuisResult = await luisService.RecognizeAsync<General>(sc.Context);
+                userState.GeneralLuisResult = generalLuisResult;
+
+                var skillLuisResult = luisResult?.TopIntent().intent;
+                var generalTopIntent = generalLuisResult?.TopIntent().intent;
+
+                if (skillOptions != null && skillOptions.SubFlowMode)
+                {
+                    dialogState = userState?.CacheModel != null ? new ChangeEventStatusDialogState(userState?.CacheModel) : dialogState;
+                }
+
+                var newState = await DigestChangeEventStatusLuisResult(sc, userState.LuisResult, userState.GeneralLuisResult, dialogState, true);
+                sc.State.Dialog.Add(CalendarStateKey, newState);
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        private async Task<DialogTurnResult> SaveChangeEventStatusDialogState(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var skillOptions = (CalendarSkillDialogOptions)sc.Options;
+                var dialogState = skillOptions?.DialogState != null ? skillOptions?.DialogState : new ChangeEventStatusDialogState();
+
+                if (skillOptions != null && skillOptions.DialogState != null)
+                {
+                    if (skillOptions.DialogState is ChangeEventStatusDialogState)
+                    {
+                        dialogState = (ChangeEventStatusDialogState)skillOptions.DialogState;
+                    }
+                    else
+                    {
+                        dialogState = skillOptions.DialogState != null ? new ChangeEventStatusDialogState(skillOptions.DialogState) : dialogState;
+                    }
+                }
+
+                var userState = await CalendarStateAccessor.GetAsync(sc.Context);
+
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var localeConfig = Services.CognitiveModelSets[locale];
+
+                // Update state with email luis result and entities --- todo: use luis result in adaptive dialog
+                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<calendarLuis>(sc.Context);
+                userState.LuisResult = luisResult;
+                localeConfig.LuisServices.TryGetValue("general", out var luisService);
+                var generalLuisResult = await luisService.RecognizeAsync<General>(sc.Context);
+                userState.GeneralLuisResult = generalLuisResult;
+
+                var skillLuisResult = luisResult?.TopIntent().intent;
+                var generalTopIntent = generalLuisResult?.TopIntent().intent;
+
+                var newState = await DigestChangeEventStatusLuisResult(sc, userState.LuisResult, userState.GeneralLuisResult, dialogState as ChangeEventStatusDialogState, false);
+                sc.State.Dialog.Add(CalendarStateKey, newState);
+
+                return await sc.NextAsync();
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        private async Task<ChangeEventStatusDialogState> DigestChangeEventStatusLuisResult(DialogContext dc, calendarLuis luisResult, General generalLuisResult, ChangeEventStatusDialogState state, bool isBeginDialog)
+        {
+            try
+            {
+                var userState = await CalendarStateAccessor.GetAsync(dc.Context);
+
+                var intent = luisResult.TopIntent().intent;
+
+                var entity = luisResult.Entities;
+
+                if (!isBeginDialog)
+                {
+                    return state;
+                }
+
+                switch (intent)
+                {
+                    case calendarLuis.Intent.AcceptEventEntry:
+                    case calendarLuis.Intent.DeleteCalendarEntry:
+                        {
+                            if (entity.Subject != null)
+                            {
+                                state.Title = GetSubjectFromEntity(entity);
+                            }
+
+                            if (entity.FromDate != null)
+                            {
+                                var dateString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromDate[0]);
+                                var date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, userState.GetUserTimeZone(), true);
+                                if (date != null)
+                                {
+                                    state.StartDate = date;
+                                }
+
+                                date = GetDateFromDateTimeString(dateString, dc.Context.Activity.Locale, userState.GetUserTimeZone(), false);
+                                if (date != null)
+                                {
+                                    state.EndDate = date;
+                                }
+                            }
+
+                            if (entity.FromTime != null)
+                            {
+                                var timeString = GetDateTimeStringFromInstanceData(luisResult.Text, entity._instance.FromTime[0]);
+                                var time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, userState.GetUserTimeZone(), true);
+                                if (time != null)
+                                {
+                                    state.StartTime = time;
+                                }
+
+                                time = GetTimeFromDateTimeString(timeString, dc.Context.Activity.Locale, userState.GetUserTimeZone(), false);
+                                if (time != null)
+                                {
+                                    state.EndTime = time;
+                                }
+                            }
+
+                            break;
+                        }
+                }
+
+                return state;
+            }
+            catch
+            {
+                await ClearAllState(dc.Context);
+                await dc.CancelAllDialogsAsync();
+                throw;
             }
         }
     }

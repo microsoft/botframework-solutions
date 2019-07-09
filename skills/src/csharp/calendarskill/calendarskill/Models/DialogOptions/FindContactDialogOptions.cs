@@ -12,6 +12,7 @@
             FindContactReasonType findContactReason = FindContactReasonType.FirstFindContact,
             UpdateUserNameReasonType updateUserNameReason = UpdateUserNameReasonType.NotFound,
             bool promptMoreContact = true)
+            : base(options)
         {
             var calendarOptions = options as CalendarSkillDialogOptions;
             FindContactReason = findContactReason;

@@ -8,8 +8,8 @@
         }
 
         public ShowMeetingsDialogOptions(ShowMeetingReason reason, object options)
+            : base(options)
         {
-            var calendarOptions = options as CalendarSkillDialogOptions;
             Reason = reason;
         }
 

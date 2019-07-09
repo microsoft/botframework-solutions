@@ -22,7 +22,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
-using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
+//using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
@@ -88,7 +88,7 @@ namespace CalendarSkill
             services.AddApplicationInsightsTelemetry();
             var telemetryClient = new BotTelemetryClient(new TelemetryClient());
             services.AddSingleton<IBotTelemetryClient>(telemetryClient);
-            services.AddBotApplicationInsights(telemetryClient);
+            //services.AddBotApplicationInsights(telemetryClient);
 
             // Configure bot services
             services.AddSingleton<BotServices>();
@@ -114,7 +114,7 @@ namespace CalendarSkill
                 new UpdateEventResponses()));
 
             // register dialogs
-            services.AddTransient<MainDialog>();
+            //services.AddTransient<MainDialog>();
             services.AddTransient<ChangeEventStatusDialog>();
             services.AddTransient<ConnectToMeetingDialog>();
             services.AddTransient<CreateEventDialog>();
@@ -131,7 +131,8 @@ namespace CalendarSkill
             services.AddTransient<SkillWebSocketAdapter>();
 
             // Configure bot
-            services.AddTransient<IBot, DialogBot<MainDialog>>();
+            services.AddSingleton<MainDialog>();
+            services.AddSingleton<IBot, DialogBot<MainDialog>>();
         }
 
         /// <summary>
@@ -141,12 +142,27 @@ namespace CalendarSkill
         /// <param name="env">Hosting Environment.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            _isProduction = env.IsProduction();
-            app.UseBotApplicationInsights()
-                .UseDefaultFiles()
-                .UseStaticFiles()
-                .UseWebSockets()
-                .UseMvc();
+            //_isProduction = env.IsProduction();
+            //app.UseBotApplicationInsights()
+            //    .UseDefaultFiles()
+            //    .UseStaticFiles()
+            //    .UseWebSockets()
+            //    .UseMvc();
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseHsts();
+            }
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            app.UseWebSockets();
+
+            app.UseMvc();
         }
     }
 }

@@ -13,7 +13,11 @@ using CalendarSkill.Services;
 using CalendarSkill.Utilities;
 using Luis;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Models;
@@ -62,14 +66,149 @@ namespace CalendarSkill.Dialogs
             // Initialize state accessor
             _stateAccessor = _conversationState.CreateProperty<CalendarSkillState>(nameof(CalendarSkillState));
 
-            // Register dialogs
-            AddDialog(createEventDialog ?? throw new ArgumentNullException(nameof(createEventDialog)));
-            AddDialog(changeEventStatusDialog ?? throw new ArgumentNullException(nameof(changeEventStatusDialog)));
-            AddDialog(timeRemainingDialog ?? throw new ArgumentNullException(nameof(timeRemainingDialog)));
-            AddDialog(summaryDialog ?? throw new ArgumentNullException(nameof(summaryDialog)));
-            AddDialog(updateEventDialog ?? throw new ArgumentNullException(nameof(updateEventDialog)));
-            AddDialog(connectToMeetingDialog ?? throw new ArgumentNullException(nameof(connectToMeetingDialog)));
-            AddDialog(upcomingEventDialog ?? throw new ArgumentNullException(nameof(upcomingEventDialog)));
+            var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var localeConfig = _services.CognitiveModelSets[locale];
+            localeConfig.LuisServices.TryGetValue("calendar", out var luisService);
+
+            var skillOptions = new CalendarSkillDialogOptions
+            {
+                SubFlowMode = false
+            };
+
+            var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
+            {
+                // Create a LUIS recognizer.
+                // The recognizer is built using the intents, utterances, patterns and entities defined in ./RootDialog.lu file
+                Recognizer = CreateRecognizer(),
+                Rules = new List<IRule>()
+                {
+                    // Intent rules for the LUIS model. Each intent here corresponds to an intent defined in ./Dialogs/Resources/ToDoBot.lu file
+                    new IntentRule("CreateCalendarEntry")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(CreateEventDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.CreateCalendarEntry.score > 0.4"
+                    },
+                    new IntentRule("FindMeetingRoom")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(CreateEventDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.FindMeetingRoom.score > 0.4"
+                    },
+                    new IntentRule("AcceptEventEntry")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(ChangeEventStatusDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.AcceptEventEntry.score > 0.4"
+                    },
+                    new IntentRule("DeleteCalendarEntry")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(ChangeEventStatusDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.DeleteCalendarEntry.score > 0.4"
+                    },
+                    new IntentRule("ChangeCalendarEntry")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(UpdateEventDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.ChangeCalendarEntry.score > 0.4"
+                    },
+                    new IntentRule("ConnectToMeeting")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(ConnectToMeetingDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.ConnectToMeeting.score > 0.4"
+                    },
+                    new IntentRule("FindCalendarEntry")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(SummaryDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.FindCalendarEntry.score > 0.4"
+                    },
+                    new IntentRule("FindCalendarWhen")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(SummaryDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.FindCalendarWhen.score > 0.4"
+                    },
+                    new IntentRule("FindCalendarDetail")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(SummaryDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.FindCalendarDetail.score > 0.4"
+                    },
+                    new IntentRule("FindCalendarWhere")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(SummaryDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.FindCalendarWhere.score > 0.4"
+                    },
+                    new IntentRule("FindCalendarWho")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(SummaryDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.FindCalendarWho.score > 0.4"
+                    },
+                    new IntentRule("FindDuration")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(SummaryDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.FindDuration.score > 0.4"
+                    },
+                    new IntentRule("ShowNextCalendar")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(SummaryDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.ShowNextCalendar.score > 0.4"
+                    },
+                    new IntentRule("ShowPreviousCalendar")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(SummaryDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.ShowPreviousCalendar.score > 0.4"
+                    },
+                    new IntentRule("TimeRemaining")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(TimeRemainingDialog), options: skillOptions) },
+                        Constraint = "turn.dialogEvent.value.intents.TimeRemaining.score > 0.4"
+                    },
+                    new IntentRule("None")
+                    {
+                        Steps = new List<IDialog>() { new SendActivity("This is none intent") },
+                        Constraint = "turn.dialogEvent.value.intents.None.score > 0.4"
+                    },
+                    //new UnknownIntentRule() { Steps = new List<IDialog>() { new SendActivity("This is unknown intent") } }
+                    //new IntentRule("AddToDoDialog")    { Steps = new List<IDialog>() { new BeginDialog(nameof(AddToDoDialog)) } },
+                    //new IntentRule("DeleteToDoDialog") { Steps = new List<IDialog>() { new BeginDialog(nameof(DeleteToDoDialog)) } },
+                    //new IntentRule("ViewToDoDialog")   { Steps = new List<IDialog>() { new BeginDialog(nameof(ViewToDoDialog)) } },
+                    //// Come back with LG template based readback for global help
+                    //new IntentRule("Help")             { Steps = new List<IDialog>() { new SendActivity("[Help-Root-Dialog]") } },
+                    //new IntentRule("Cancel")           { Steps = new List<IDialog>() {
+                    //}
+                }
+            };
+
+            // Add named dialogs to the DialogSet. These names are saved in the dialog state.
+            AddDialog(rootDialog);
+
+            rootDialog.AddDialog(new List<IDialog>()
+            {
+                createEventDialog,
+                changeEventStatusDialog,
+                summaryDialog,
+                timeRemainingDialog,
+                updateEventDialog,
+                upcomingEventDialog,
+                connectToMeetingDialog
+            });
+
+
+            //// Register dialogs
+            //AddDialog(createEventDialog ?? throw new ArgumentNullException(nameof(createEventDialog)));
+            //AddDialog(changeEventStatusDialog ?? throw new ArgumentNullException(nameof(changeEventStatusDialog)));
+            //AddDialog(timeRemainingDialog ?? throw new ArgumentNullException(nameof(timeRemainingDialog)));
+            ////AddDialog(summaryDialog ?? throw new ArgumentNullException(nameof(summaryDialog)));
+            //AddDialog(updateEventDialog ?? throw new ArgumentNullException(nameof(updateEventDialog)));
+            //AddDialog(connectToMeetingDialog ?? throw new ArgumentNullException(nameof(connectToMeetingDialog)));
+            //AddDialog(upcomingEventDialog ?? throw new ArgumentNullException(nameof(upcomingEventDialog)));
+
+            InitialDialogId = nameof(AdaptiveDialog);
+        }
+
+        public static IRecognizer CreateRecognizer()
+        {
+            return new LuisRecognizer(new LuisApplication()
+            {
+                Endpoint = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/807cd523-34cb-4911-b149-cdcb58f661cc?verbose=true&timezoneOffset=-360&subscription-key=80d731206676475bb03d30e3bc2ee07e&q=",//Configuration["LuisAPIHostName"],
+                EndpointKey = "80d731206676475bb03d30e3bc2ee07e", //Configuration["LuisAPIKey"],
+                ApplicationId = "807cd523-34cb-4911-b149-cdcb58f661cc",// Configuration["LuisAppId"]
+            });
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -105,85 +244,100 @@ namespace CalendarSkill.Dialogs
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 
                 // switch on general intents
-                switch (intent)
+                //switch (intent)
+                //{
+                //case CalendarLuis.Intent.FindMeetingRoom:
+                //case CalendarLuis.Intent.CreateCalendarEntry:
+                //    {
+                //        turnResult = await dc.BeginDialogAsync(nameof(CreateEventDialog));
+                //        break;
+                //    }
+
+                //case CalendarLuis.Intent.AcceptEventEntry:
+                //case CalendarLuis.Intent.DeleteCalendarEntry:
+                //    {
+                //        turnResult = await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog));
+                //        break;
+                //    }
+
+                //case CalendarLuis.Intent.ChangeCalendarEntry:
+                //    {
+                //        turnResult = await dc.BeginDialogAsync(nameof(UpdateEventDialog));
+                //        break;
+                //    }
+
+                //case CalendarLuis.Intent.ConnectToMeeting:
+                //    {
+                //        turnResult = await dc.BeginDialogAsync(nameof(ConnectToMeetingDialog));
+                //        break;
+                //    }
+
+                //case CalendarLuis.Intent.FindCalendarEntry:
+                //case CalendarLuis.Intent.FindCalendarDetail:
+                //case CalendarLuis.Intent.FindCalendarWhen:
+                //case CalendarLuis.Intent.FindCalendarWhere:
+                //case CalendarLuis.Intent.FindCalendarWho:
+                //case CalendarLuis.Intent.FindDuration:
+                //    {
+                //        turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
+                //        break;
+                //    }
+
+                //case CalendarLuis.Intent.TimeRemaining:
+                //    {
+                //        turnResult = await dc.BeginDialogAsync(nameof(TimeRemainingDialog));
+                //        break;
+                //    }
+
+                //case CalendarLuis.Intent.ShowNextCalendar:
+                //case CalendarLuis.Intent.ShowPreviousCalendar:
+                //    {
+                //        turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
+                //        break;
+                //    }
+
+                //case CalendarLuis.Intent.None:
+                //    {
+                //        if (generalTopIntent == General.Intent.ShowNext || generalTopIntent == General.Intent.ShowPrevious)
+                //        {
+                //            turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
+                //        }
+                //        else
+                //        {
+                //            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage));
+                //            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
+                //        }
+
+                //        break;
+                //    }
+
+                //default:
+                //    {
+                //        await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.FeatureNotAvailable));
+                //        turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
+
+                //        break;
+                //    }
+
+                //}
+
+                //if (turnResult != EndOfTurn)
+                //{
+                //    await CompleteAsync(dc);
+                //}
+
+                var skillOptions = new CalendarSkillDialogOptions
                 {
-                    case calendarLuis.Intent.FindMeetingRoom:
-                    case calendarLuis.Intent.CreateCalendarEntry:
-                        {
-                            turnResult = await dc.BeginDialogAsync(nameof(CreateEventDialog));
-                            break;
-                        }
+                    SubFlowMode = false
+                };
 
-                    case calendarLuis.Intent.AcceptEventEntry:
-                    case calendarLuis.Intent.DeleteCalendarEntry:
-                        {
-                            turnResult = await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog));
-                            break;
-                        }
-
-                    case calendarLuis.Intent.ChangeCalendarEntry:
-                        {
-                            turnResult = await dc.BeginDialogAsync(nameof(UpdateEventDialog));
-                            break;
-                        }
-
-                    case calendarLuis.Intent.ConnectToMeeting:
-                        {
-                            turnResult = await dc.BeginDialogAsync(nameof(ConnectToMeetingDialog));
-                            break;
-                        }
-
-                    case calendarLuis.Intent.FindCalendarEntry:
-                    case calendarLuis.Intent.FindCalendarDetail:
-                    case calendarLuis.Intent.FindCalendarWhen:
-                    case calendarLuis.Intent.FindCalendarWhere:
-                    case calendarLuis.Intent.FindCalendarWho:
-                    case calendarLuis.Intent.FindDuration:
-                        {
-                            turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
-                            break;
-                        }
-
-                    case calendarLuis.Intent.TimeRemaining:
-                        {
-                            turnResult = await dc.BeginDialogAsync(nameof(TimeRemainingDialog));
-                            break;
-                        }
-
-                    case calendarLuis.Intent.ShowNextCalendar:
-                    case calendarLuis.Intent.ShowPreviousCalendar:
-                        {
-                            turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
-                            break;
-                        }
-
-                    case calendarLuis.Intent.None:
-                        {
-                            if (generalTopIntent == General.Intent.ShowNext || generalTopIntent == General.Intent.ShowPrevious)
-                            {
-                                turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
-                            }
-                            else
-                            {
-                                await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarSharedResponses.DidntUnderstandMessage));
-                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-                            }
-
-                            break;
-                        }
-
-                    default:
-                        {
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.FeatureNotAvailable));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-
-                            break;
-                        }
+                if (dc.ActiveDialog == null)
+                {
+                    await dc.BeginDialogAsync(nameof(AdaptiveDialog), skillOptions);
                 }
-
-                if (turnResult != EndOfTurn)
+                else
                 {
-                    await CompleteAsync(dc);
+                    var result = await dc.ContinueDialogAsync();
                 }
             }
         }
