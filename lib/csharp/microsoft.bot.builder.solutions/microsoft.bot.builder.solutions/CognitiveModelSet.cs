@@ -10,6 +10,6 @@ namespace Microsoft.Bot.Builder.Solutions
 
         public Dictionary<string, ITelemetryRecognizer> LuisServices { get; set; } = new Dictionary<string, ITelemetryRecognizer>();
 
-        //public Dictionary<string, IQnAMaker> QnAServices { get; set; } = new Dictionary<string, ITelemetryQnAMaker>();
+        public Dictionary<string, QnAMaker> QnAServices { get; set; } = new Dictionary<string, QnAMaker>();
     }
 }

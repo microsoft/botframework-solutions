@@ -41,10 +41,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Solut
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BingSearchSkill", "experimental\bingsearchskill\bingsearchskill\BingSearchSkill.csproj", "{8CB101FA-B496-4507-80A2-151FAB7E8ED1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Solutions", "..\..\..\lib\csharp\microsoft.bot.builder.solutions\microsoft.bot.builder.solutions\Microsoft.Bot.Builder.Solutions.csproj", "{99A55897-E953-4F13-9B7D-AC3B149062A4}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Skills", "..\..\..\lib\csharp\microsoft.bot.builder.skills\Microsoft.Bot.Builder.Skills\Microsoft.Bot.Builder.Skills.csproj", "{1BA97B29-A75F-46E1-BEDC-44FEBF1C2AE5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug - NuGet Packages|Any CPU = Debug - NuGet Packages|Any CPU
@@ -181,22 +177,6 @@ Global
 		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CB101FA-B496-4507-80A2-151FAB7E8ED1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{99A55897-E953-4F13-9B7D-AC3B149062A4}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
-		{99A55897-E953-4F13-9B7D-AC3B149062A4}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
-		{99A55897-E953-4F13-9B7D-AC3B149062A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{99A55897-E953-4F13-9B7D-AC3B149062A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{99A55897-E953-4F13-9B7D-AC3B149062A4}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
-		{99A55897-E953-4F13-9B7D-AC3B149062A4}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
-		{99A55897-E953-4F13-9B7D-AC3B149062A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{99A55897-E953-4F13-9B7D-AC3B149062A4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1BA97B29-A75F-46E1-BEDC-44FEBF1C2AE5}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
-		{1BA97B29-A75F-46E1-BEDC-44FEBF1C2AE5}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
-		{1BA97B29-A75F-46E1-BEDC-44FEBF1C2AE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1BA97B29-A75F-46E1-BEDC-44FEBF1C2AE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1BA97B29-A75F-46E1-BEDC-44FEBF1C2AE5}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
-		{1BA97B29-A75F-46E1-BEDC-44FEBF1C2AE5}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
-		{1BA97B29-A75F-46E1-BEDC-44FEBF1C2AE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1BA97B29-A75F-46E1-BEDC-44FEBF1C2AE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

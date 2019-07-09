@@ -23,8 +23,8 @@ namespace ToDoSkill.Services
                 var telemetryClient = client;
                 var luisOptions = new LuisPredictionOptions()
                 {
-                    TelemetryClient = telemetryClient,
-                    LogPersonalInformation = true,
+                    //TelemetryClient = telemetryClient,
+                    //LogPersonalInformation = true,
                 };
 
                 if (config.DispatchModel != null)

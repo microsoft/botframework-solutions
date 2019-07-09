@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
+using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
@@ -82,6 +84,10 @@ namespace ToDoSkill.Dialogs
         protected IServiceManager ServiceManager { get; set; }
 
         protected ResponseManager ResponseManager { get; set; }
+
+        protected IHttpContextAccessor _httpContext { get; set; }
+
+        protected BotSettings _settings { get; set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -290,7 +296,7 @@ namespace ToDoSkill.Dialogs
                 var cognitiveModels = Services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities
-                var toDoLuisResult = await cognitiveModels.LuisServices["todo"].RecognizeAsync<ToDoLuis>(dc.Context);
+                var toDoLuisResult = await cognitiveModels.LuisServices["todo"].RecognizeAsync<todoLuis>(dc.Context);
                 state.LuisResult = toDoLuisResult;
 
                 cognitiveModels.LuisServices.TryGetValue("general", out var luisService);
