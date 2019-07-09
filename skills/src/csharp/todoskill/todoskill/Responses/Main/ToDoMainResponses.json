@@ -43,8 +43,8 @@
   "ToDoWelcomeMessage": {
     "replies": [
       {
-        "text": "Hi. I'm To Do bot. I can help you manage your To Do, Shopping or Grocery list.",
-        "speak": "Hi. I'm To Do bot. I can help you manage your To Do, Shopping or Grocery list."
+        "text": "Hi. I'm To Do bot. I can help you manage your To Do, Shopping or Grocery lists.",
+        "speak": "Hi. I'm To Do bot. I can help you manage your To Do, Shopping or Grocery lists."
       }
     ],
     "suggestedActions": [
