@@ -41,9 +41,9 @@ namespace CalendarSkill.Dialogs
                FindContactDialog findContactDialog,
                SummaryDialog summaryDialog,
                IServiceManager serviceManager,
-               IBotTelemetryClient telemetryClient),
+               IBotTelemetryClient telemetryClient,
                MicrosoftAppCredentials appCredentials)
-               : base(nameof(CreateEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
+               : base(nameof(CreateEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
@@ -192,9 +192,9 @@ namespace CalendarSkill.Dialogs
                 {
                     return await sc.NextAsync(cancellationToken: cancellationToken);
                 }
-                else if (string.IsNullOrEmpty(state.Title))
+                else if (string.IsNullOrEmpty(dialogState.Title))
                 {
-                    if (dialogState.Attendees.Count == 0 || dialogState.Attendees == null)
+                    if (dialogState.FindContactInfor.Contacts.Count == 0 || dialogState.FindContactInfor.Contacts == null)
                     {
                         dialogState.FindContactInfor.FirstRetryInFindContact = true;
                         return await sc.EndDialogAsync();
@@ -332,9 +332,9 @@ namespace CalendarSkill.Dialogs
                         }
                     }
                 }
-                else if (state.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault())
+                else if (dialogState.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault())
                 {
-                    state.Content = CalendarCommonStrings.DefaultContent;
+                    dialogState.Content = CalendarCommonStrings.DefaultContent;
                 }
 
                 if (!dialogState.StartDate.Any())
@@ -485,9 +485,9 @@ namespace CalendarSkill.Dialogs
                         dialogState.Location = userInput;
                     }
                 }
-                else if (state.CreateHasDetail && isLocationSkipByDefault.GetValueOrDefault())
+                else if (dialogState.CreateHasDetail && isLocationSkipByDefault.GetValueOrDefault())
                 {
-                    state.Location = CalendarCommonStrings.DefaultLocation;
+                    dialogState.Location = CalendarCommonStrings.DefaultLocation;
                 }
 
                 var source = userState.EventSource;
@@ -703,7 +703,7 @@ namespace CalendarSkill.Dialogs
 
                 if (dialogState.CreateHasDetail && isStartDateSkipByDefault.GetValueOrDefault() && dialogState.RecreateState != RecreateEventState.Time)
                 {
-                    var datetime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
+                    var datetime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, userState.GetUserTimeZone());
                     var defaultValue = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventStartDate")?.DefaultValue;
                     if (int.TryParse(defaultValue, out var startDateOffset))
                     {
@@ -1118,7 +1118,7 @@ namespace CalendarSkill.Dialogs
                 var localeConfig = Services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities --- todo: use luis result in adaptive dialog
-                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<CalendarLuis>(sc.Context);
+                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<calendarLuis>(sc.Context);
                 userState.LuisResult = luisResult;
                 localeConfig.LuisServices.TryGetValue("general", out var luisService);
                 var generalLuisResult = await luisService.RecognizeAsync<General>(sc.Context);
@@ -1170,7 +1170,7 @@ namespace CalendarSkill.Dialogs
                 var localeConfig = Services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities --- todo: use luis result in adaptive dialog
-                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<CalendarLuis>(sc.Context);
+                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<calendarLuis>(sc.Context);
                 userState.LuisResult = luisResult;
                 localeConfig.LuisServices.TryGetValue("general", out var luisService);
                 var generalLuisResult = await luisService.RecognizeAsync<General>(sc.Context);
@@ -1192,7 +1192,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        private async Task<CreateEventDialogState> DigestCreateEventLuisResult(DialogContext dc, CalendarLuis luisResult, General generalLuisResult, CreateEventDialogState state, bool isBeginDialog)
+        private async Task<CreateEventDialogState> DigestCreateEventLuisResult(DialogContext dc, calendarLuis luisResult, General generalLuisResult, CreateEventDialogState state, bool isBeginDialog)
         {
             try
             {
@@ -1209,8 +1209,8 @@ namespace CalendarSkill.Dialogs
 
                 switch (intent)
                 {
-                    case CalendarLuis.Intent.FindMeetingRoom:
-                    case CalendarLuis.Intent.CreateCalendarEntry:
+                    case calendarLuis.Intent.FindMeetingRoom:
+                    case calendarLuis.Intent.CreateCalendarEntry:
                         {
                             state.CreateHasDetail = false;
                             if (entity.Subject != null)

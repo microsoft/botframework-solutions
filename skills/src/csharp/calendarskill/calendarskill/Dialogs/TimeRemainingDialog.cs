@@ -223,7 +223,7 @@ namespace CalendarSkill.Dialogs
                 var localeConfig = Services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities --- todo: use luis result in adaptive dialog
-                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<CalendarLuis>(sc.Context);
+                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<calendarLuis>(sc.Context);
                 userState.LuisResult = luisResult;
                 localeConfig.LuisServices.TryGetValue("general", out var luisService);
                 var generalLuisResult = await luisService.RecognizeAsync<General>(sc.Context);
@@ -275,7 +275,7 @@ namespace CalendarSkill.Dialogs
                 var localeConfig = Services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities --- todo: use luis result in adaptive dialog
-                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<CalendarLuis>(sc.Context);
+                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<calendarLuis>(sc.Context);
                 userState.LuisResult = luisResult;
                 localeConfig.LuisServices.TryGetValue("general", out var luisService);
                 var generalLuisResult = await luisService.RecognizeAsync<General>(sc.Context);
@@ -297,7 +297,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        private async Task<CalendarDialogStateBase> DigestTimeRemainingLuisResult(DialogContext dc, CalendarLuis luisResult, General generalLuisResult, CalendarDialogStateBase state, bool isBeginDialog)
+        private async Task<CalendarDialogStateBase> DigestTimeRemainingLuisResult(DialogContext dc, calendarLuis luisResult, General generalLuisResult, CalendarDialogStateBase state, bool isBeginDialog)
         {
             try
             {
@@ -314,7 +314,7 @@ namespace CalendarSkill.Dialogs
 
                 switch (intent)
                 {
-                    case CalendarLuis.Intent.TimeRemaining:
+                    case calendarLuis.Intent.TimeRemaining:
                         {
                             if (entity.FromDate != null)
                             {

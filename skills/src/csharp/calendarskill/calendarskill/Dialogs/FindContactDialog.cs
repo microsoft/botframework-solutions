@@ -1016,7 +1016,7 @@ namespace CalendarSkill.Dialogs
                 var localeConfig = Services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities --- todo: use luis result in adaptive dialog
-                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<CalendarLuis>(sc.Context);
+                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<calendarLuis>(sc.Context);
                 userState.LuisResult = luisResult;
                 localeConfig.LuisServices.TryGetValue("general", out var luisService);
                 var generalLuisResult = await luisService.RecognizeAsync<General>(sc.Context);
@@ -1068,7 +1068,7 @@ namespace CalendarSkill.Dialogs
                 var localeConfig = Services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities --- todo: use luis result in adaptive dialog
-                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<CalendarLuis>(sc.Context);
+                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<calendarLuis>(sc.Context);
                 userState.LuisResult = luisResult;
                 localeConfig.LuisServices.TryGetValue("general", out var luisService);
                 var generalLuisResult = await luisService.RecognizeAsync<General>(sc.Context);
@@ -1090,7 +1090,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        private async Task<CreateEventDialogState> DigestFindContactLuisResult(DialogContext dc, CalendarLuis luisResult, General generalLuisResult, CreateEventDialogState state, bool isBeginDialog)
+        private async Task<CreateEventDialogState> DigestFindContactLuisResult(DialogContext dc, calendarLuis luisResult, General generalLuisResult, CreateEventDialogState state, bool isBeginDialog)
         {
             try
             {

@@ -527,7 +527,7 @@ namespace CalendarSkill.Dialogs
                 var localeConfig = Services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities --- todo: use luis result in adaptive dialog
-                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<CalendarLuis>(sc.Context);
+                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<calendarLuis>(sc.Context);
                 userState.LuisResult = luisResult;
                 localeConfig.LuisServices.TryGetValue("general", out var luisService);
                 var generalLuisResult = await luisService.RecognizeAsync<General>(sc.Context);
@@ -579,7 +579,7 @@ namespace CalendarSkill.Dialogs
                 var localeConfig = Services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities --- todo: use luis result in adaptive dialog
-                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<CalendarLuis>(sc.Context);
+                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<calendarLuis>(sc.Context);
                 userState.LuisResult = luisResult;
                 localeConfig.LuisServices.TryGetValue("general", out var luisService);
                 var generalLuisResult = await luisService.RecognizeAsync<General>(sc.Context);
@@ -601,7 +601,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        private async Task<UpdateEventDialogState> DigestUpdateEventLuisResult(DialogContext dc, CalendarLuis luisResult, General generalLuisResult, UpdateEventDialogState state, bool isBeginDialog)
+        private async Task<UpdateEventDialogState> DigestUpdateEventLuisResult(DialogContext dc, calendarLuis luisResult, General generalLuisResult, UpdateEventDialogState state, bool isBeginDialog)
         {
             try
             {
@@ -618,7 +618,7 @@ namespace CalendarSkill.Dialogs
 
                 switch (intent)
                 {
-                    case CalendarLuis.Intent.ChangeCalendarEntry:
+                    case calendarLuis.Intent.ChangeCalendarEntry:
                         {
                             if (entity.Subject != null)
                             {

@@ -80,7 +80,7 @@ namespace CalendarSkill.Dialogs
                 },
                 Steps = new List<IDialog>()
                 {
-                    new BeginDialog(Actions.GetEventsInit)
+                    new BeginDialog(Actions.GetEventsInit, options: skillOptions)
                 }
             };
 
@@ -388,7 +388,7 @@ namespace CalendarSkill.Dialogs
                     return await sc.CancelAllDialogsAsync();
                 }
 
-                if ((generalTopIntent == General.Intent.ShowNext || topIntent == calendarLuis.Intent.ShowNextCalendar) && state.SummaryEvents != null)
+                if ((generalTopIntent == General.Intent.ShowNext || topIntent == calendarLuis.Intent.ShowNextCalendar) && dialogState.SummaryEvents != null)
                 {
                     if ((dialogState.ShowEventIndex + 1) * userState.PageSize < dialogState.SummaryEvents.Count)
                     {
@@ -402,7 +402,7 @@ namespace CalendarSkill.Dialogs
                     skillOptions.DialogState = dialogState;
                     return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, sc.Options);
                 }
-                else if ((generalTopIntent == General.Intent.ShowPrevious || topIntent == calendarLuis.Intent.ShowPreviousCalendar) && state.SummaryEvents != null)
+                else if ((generalTopIntent == General.Intent.ShowPrevious || topIntent == calendarLuis.Intent.ShowPreviousCalendar) && dialogState.SummaryEvents != null)
                 {
                     if (dialogState.ShowEventIndex > 0)
                     {
@@ -879,7 +879,7 @@ namespace CalendarSkill.Dialogs
                 var localeConfig = Services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities --- todo: use luis result in adaptive dialog
-                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<CalendarLuis>(sc.Context);
+                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<calendarLuis>(sc.Context);
                 userState.LuisResult = luisResult;
                 localeConfig.LuisServices.TryGetValue("general", out var luisService);
                 var generalLuisResult = await luisService.RecognizeAsync<General>(sc.Context);
@@ -931,7 +931,7 @@ namespace CalendarSkill.Dialogs
                 var localeConfig = Services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities --- todo: use luis result in adaptive dialog
-                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<CalendarLuis>(sc.Context);
+                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<calendarLuis>(sc.Context);
                 userState.LuisResult = luisResult;
                 localeConfig.LuisServices.TryGetValue("general", out var luisService);
                 var generalLuisResult = await luisService.RecognizeAsync<General>(sc.Context);
@@ -953,7 +953,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        private async Task<ShowMeetingsDialogState> DigestShowMeetingsLuisResult(DialogContext dc, CalendarLuis luisResult, General generalLuisResult, ShowMeetingsDialogState state, bool isBeginDialog)
+        private async Task<ShowMeetingsDialogState> DigestShowMeetingsLuisResult(DialogContext dc, calendarLuis luisResult, General generalLuisResult, ShowMeetingsDialogState state, bool isBeginDialog)
         {
             try
             {
@@ -970,12 +970,12 @@ namespace CalendarSkill.Dialogs
 
                 switch (intent)
                 {
-                    case CalendarLuis.Intent.FindCalendarEntry:
-                    case CalendarLuis.Intent.FindCalendarDetail:
-                    case CalendarLuis.Intent.FindCalendarWhen:
-                    case CalendarLuis.Intent.FindCalendarWhere:
-                    case CalendarLuis.Intent.FindCalendarWho:
-                    case CalendarLuis.Intent.FindDuration:
+                    case calendarLuis.Intent.FindCalendarEntry:
+                    case calendarLuis.Intent.FindCalendarDetail:
+                    case calendarLuis.Intent.FindCalendarWhen:
+                    case calendarLuis.Intent.FindCalendarWhere:
+                    case calendarLuis.Intent.FindCalendarWho:
+                    case calendarLuis.Intent.FindDuration:
                         {
                             if (entity.OrderReference != null)
                             {

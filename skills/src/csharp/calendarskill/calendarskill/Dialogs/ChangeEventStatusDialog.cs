@@ -171,7 +171,7 @@ namespace CalendarSkill.Dialogs
                 var userState = await CalendarStateAccessor.GetAsync(sc.Context);
                 var dialogState = (ChangeEventStatusDialogState)sc.State.Dialog[CalendarStateKey];
 
-                if (userState.LuisResult?.TopIntent().intent.ToString() == CalendarLuis.Intent.DeleteCalendarEntry.ToString())
+                if (userState.LuisResult?.TopIntent().intent.ToString() == calendarLuis.Intent.DeleteCalendarEntry.ToString())
                 {
                     dialogState.NewEventStatus = EventStatus.Cancelled;
                 }
@@ -343,7 +343,7 @@ namespace CalendarSkill.Dialogs
                 var localeConfig = Services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities --- todo: use luis result in adaptive dialog
-                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<CalendarLuis>(sc.Context);
+                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<calendarLuis>(sc.Context);
                 userState.LuisResult = luisResult;
                 localeConfig.LuisServices.TryGetValue("general", out var luisService);
                 var generalLuisResult = await luisService.RecognizeAsync<General>(sc.Context);
@@ -395,7 +395,7 @@ namespace CalendarSkill.Dialogs
                 var localeConfig = Services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities --- todo: use luis result in adaptive dialog
-                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<CalendarLuis>(sc.Context);
+                var luisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<calendarLuis>(sc.Context);
                 userState.LuisResult = luisResult;
                 localeConfig.LuisServices.TryGetValue("general", out var luisService);
                 var generalLuisResult = await luisService.RecognizeAsync<General>(sc.Context);
@@ -417,7 +417,7 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        private async Task<ChangeEventStatusDialogState> DigestChangeEventStatusLuisResult(DialogContext dc, CalendarLuis luisResult, General generalLuisResult, ChangeEventStatusDialogState state, bool isBeginDialog)
+        private async Task<ChangeEventStatusDialogState> DigestChangeEventStatusLuisResult(DialogContext dc, calendarLuis luisResult, General generalLuisResult, ChangeEventStatusDialogState state, bool isBeginDialog)
         {
             try
             {
@@ -434,8 +434,8 @@ namespace CalendarSkill.Dialogs
 
                 switch (intent)
                 {
-                    case CalendarLuis.Intent.AcceptEventEntry:
-                    case CalendarLuis.Intent.DeleteCalendarEntry:
+                    case calendarLuis.Intent.AcceptEventEntry:
+                    case calendarLuis.Intent.DeleteCalendarEntry:
                         {
                             if (entity.Subject != null)
                             {

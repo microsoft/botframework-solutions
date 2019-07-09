@@ -982,7 +982,7 @@ namespace CalendarSkill.Dialogs
             return eventItemList;
         }
 
-        protected int GetDurationFromEntity(CalendarLuis._Entities entity, string local)
+        protected int GetDurationFromEntity(calendarLuis._Entities entity, string local)
         {
             var culture = local ?? English;
             var result = RecognizeDateTime(entity.Duration[0], culture);
@@ -1019,12 +1019,12 @@ namespace CalendarSkill.Dialogs
             return 0;
         }
 
-        protected string GetMeetingRoomFromEntity(CalendarLuis._Entities entity)
+        protected string GetMeetingRoomFromEntity(calendarLuis._Entities entity)
         {
             return entity.MeetingRoom[0];
         }
 
-        protected string GetLocationFromEntity(CalendarLuis._Entities entity)
+        protected string GetLocationFromEntity(calendarLuis._Entities entity)
         {
             return entity.Location[0];
         }
@@ -1122,7 +1122,7 @@ namespace CalendarSkill.Dialogs
             return dateTimeResults;
         }
 
-        protected string GetOrderReferenceFromEntity(CalendarLuis._Entities entity)
+        protected string GetOrderReferenceFromEntity(calendarLuis._Entities entity)
         {
             return entity.OrderReference[0];
         }
