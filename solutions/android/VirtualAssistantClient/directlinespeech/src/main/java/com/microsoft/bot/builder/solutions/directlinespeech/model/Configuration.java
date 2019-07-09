@@ -17,10 +17,6 @@ public class Configuration {
     @Expose
     public String botId;
 
-    @SerializedName("voice_name")
-    @Expose
-    public String voiceName;
-
     @SerializedName("user_id")
     @Expose
     public String userId;
@@ -41,26 +37,25 @@ public class Configuration {
     @Expose
     public String userName;
 
-    @SerializedName("directline_constant")
-    @Expose
-    public String directlineConstant;
-
     @SerializedName("history_linecount")
     @Expose
     public Integer historyLinecount;
+
+    @SerializedName("current_timezone")
+    @Expose
+    public String currentTimezone;//stores the TZ ID
 
 
     public boolean isEmpty(){
         return serviceKey==null&&
                 serviceRegion==null&&
                 botId==null&&
-                voiceName==null&&
                 userId==null&&
                 locale==null&&
                 geolat==null&&
                 geolon==null&&
                 userName==null&&
-                directlineConstant==null&&
-                historyLinecount==null;
+                historyLinecount==null&&
+                currentTimezone==null;
     }
 }

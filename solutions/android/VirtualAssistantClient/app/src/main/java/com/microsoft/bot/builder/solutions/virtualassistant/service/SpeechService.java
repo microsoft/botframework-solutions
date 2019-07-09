@@ -41,10 +41,12 @@ import java.io.File;
 import java.io.IOException;
 
 import client.model.BotConnectorActivity;
+import client.model.InputHints;
 import events.ActivityReceived;
 import events.Recognized;
 import events.RecognizedIntermediateResult;
 import events.RequestTimeout;
+import events.SynthesizerStopped;
 
 /**
  * The SpeechService is the connection between bot and activities and widgets
@@ -68,6 +70,7 @@ public class SpeechService extends Service {
     private ConfigurationManager configurationManager;
     private LocationProvider locationProvider;
     private Gson gson;
+    private boolean shouldListenAgain;
 
     // CONSTRUCTOR
     public SpeechService() {
@@ -104,7 +107,8 @@ public class SpeechService extends Service {
 
             @Override
             public void resetBot(){
-                speechSdk.resetBot();
+                shouldListenAgain = false;
+                speechSdk.resetBot(configurationManager.getConfiguration());
             }
 
             @Override
@@ -180,13 +184,11 @@ public class SpeechService extends Service {
         Configuration configuration = configurationManager.getConfiguration();
         if (configuration.isEmpty()){
             // set up defaults
-            configuration.serviceKey = DefaultConfiguration.COGNITIVE_SERVICES_SUBSCRIPTION_KEY;
-            configuration.botId = DefaultConfiguration.BOT_ID;
-            configuration.serviceRegion = DefaultConfiguration.SPEECH_REGION;
-            configuration.voiceName = DefaultConfiguration.VOICE_NAME;
-            configuration.directlineConstant = DefaultConfiguration.DIRECT_LINE_CONSTANT;
+            configuration.serviceKey = DefaultConfiguration.SPEECH_SERVICE_SUBSCRIPTION_KEY;
+            configuration.botId = DefaultConfiguration.DIRECT_LINE_SPEECH_SECRET_KEY;
+            configuration.serviceRegion = DefaultConfiguration.SPEECH_SERVICE_SUBSCRIPTION_KEY_REGION;
             configuration.userName = DefaultConfiguration.USER_NAME;
-            configuration.userId = DefaultConfiguration.USER_ID;
+            configuration.userId = DefaultConfiguration.USER_FROM_ID;
             configuration.locale = DefaultConfiguration.LOCALE;
             configuration.geolat = DefaultConfiguration.GEOLOCATION_LAT;
             configuration.geolon = DefaultConfiguration.GEOLOCATION_LON;
@@ -330,6 +332,17 @@ public class SpeechService extends Service {
         speechSdk.initialize(configuration, haveRecordAudioPermission, directory.getPath());
     }
 
+    // EventBus: the synthesizer has stopped playing
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventSynthesizerStopped(SynthesizerStopped event) {
+
+        if(shouldListenAgain){
+            shouldListenAgain = false;
+            speechSdk.listenOnceAsync();
+        }
+
+    }
+
     // EventBus: the previous request timed out
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventRequestTimeout(RequestTimeout event) {
@@ -373,7 +386,15 @@ public class SpeechService extends Service {
                     openDefaultApp(botConnectorActivity);
                     break;
                 default:
+                    broadcastWidgetUpdate(botConnectorActivity);
                     break;
+            }
+
+            // make the bot automatically listen again
+            if(botConnectorActivity.getInputHint() != null){
+                if(botConnectorActivity.getInputHint().equals(InputHints.EXPECTINGINPUT)){
+                    shouldListenAgain = true;
+                }
             }
         }
     }
@@ -411,7 +432,6 @@ public class SpeechService extends Service {
 
     private void broadcastActivity(BotConnectorActivity botConnectorActivity){
         final String json = gson.toJson(botConnectorActivity);
-
         final Intent intent=new Intent();
         intent.setAction("com.microsoft.broadcast");
         intent.putExtra("BotConnectorActivity",json);
@@ -420,10 +440,17 @@ public class SpeechService extends Service {
 
     private void broadcastTimeout(RequestTimeout event){
         final String json = gson.toJson(event);
-
         final Intent intent=new Intent();
         intent.setAction("com.microsoft.broadcast");
         intent.putExtra("RequestTimeout",json);
+        sendBroadcast(intent);
+    }
+
+    private void broadcastWidgetUpdate(BotConnectorActivity botConnectorActivity){
+        final String json = gson.toJson(botConnectorActivity);
+        final Intent intent=new Intent();
+        intent.setAction("com.microsoft.broadcast");
+        intent.putExtra("WidgetUpdate",json);
         sendBroadcast(intent);
     }
 
