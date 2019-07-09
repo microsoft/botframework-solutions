@@ -82,6 +82,7 @@ public class SpeechSdk {
         intializeAppLogFile();
         initializeSpeech(configuration, haveRecordAudioPermission);
         handler = new Handler(Looper.getMainLooper());
+        if (configuration.currentTimezone != null) sendTimeZoneEvent(TimeZone.getTimeZone(configuration.currentTimezone));//only do this once per session
     }
 
     private void intializeAppLogFile() {
@@ -353,8 +354,7 @@ public class SpeechSdk {
     /*
      * Send the VA.TimeZone event to the bot
      */
-    public void sendTimeZoneEvent() {
-        TimeZone tz = TimeZone.getDefault();
+    private void sendTimeZoneEvent(TimeZone tz) {
         Activity activityTemplate = createEventActivity("VA.Timezone", null, tz.getDisplayName());
 
         final String activityJson = gson.toJson(activityTemplate);
@@ -373,12 +373,13 @@ public class SpeechSdk {
         final Future<Void> task = botConnector.disconnectAsync();
     }
 
-    public void resetBot() {
+    public void resetBot(Configuration configuration) {
         isConnected = false;
         final Future<Void> task = botConnector.disconnectAsync();
         setOnTaskCompletedListener(task, result -> {
             Log.d(LOGTAG,"disconnected");
             connectAsync();
+            sendTimeZoneEvent(TimeZone.getTimeZone(configuration.currentTimezone));//only do this once per session
         });
     }
 
@@ -421,7 +422,6 @@ public class SpeechSdk {
         activity.setType(ActivityTypes.EVENT);
         activity.setLocale(configuration.locale);
         if (from_user != null) activity.setFrom(from_user);
-        activity.setChannelId(configuration.directlineConstant);
         activity.setChannelData(channelData);
         activity.setName(eventname);
         activity.setValue(value);
