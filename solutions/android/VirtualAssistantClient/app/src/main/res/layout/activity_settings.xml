@@ -171,12 +171,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/send_timezone_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/configuration_timezone_send"/>
-
             </LinearLayout>
 
         </LinearLayout>

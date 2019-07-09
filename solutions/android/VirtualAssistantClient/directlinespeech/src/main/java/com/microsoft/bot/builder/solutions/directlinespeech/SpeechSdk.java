@@ -82,7 +82,7 @@ public class SpeechSdk {
         intializeAppLogFile();
         initializeSpeech(configuration, haveRecordAudioPermission);
         handler = new Handler(Looper.getMainLooper());
-        sendTimeZoneEvent(TimeZone.getTimeZone(configuration.currentTimezone));//only do this once per session
+        if (configuration.currentTimezone != null) sendTimeZoneEvent(TimeZone.getTimeZone(configuration.currentTimezone));//only do this once per session
     }
 
     private void intializeAppLogFile() {
