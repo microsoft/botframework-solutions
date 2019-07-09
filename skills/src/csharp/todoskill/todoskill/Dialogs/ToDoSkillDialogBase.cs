@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Reflection;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
@@ -10,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Extensions;
@@ -20,6 +20,8 @@ using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Models;
 using ToDoSkill.Responses.AddToDo;
@@ -34,9 +36,9 @@ namespace ToDoSkill.Dialogs
 {
     public class ToDoSkillDialogBase : ComponentDialog
     {
+        protected const string ToDoStateKey = "ToDoState";
+
         private const string Synonym = "Synonym";
-        private IHttpContextAccessor _httpContext;
-        private BotSettings _settings;
 
         public ToDoSkillDialogBase(
             string dialogId,
@@ -59,6 +61,7 @@ namespace ToDoSkill.Dialogs
             // Initialize state accessor
             ToDoStateAccessor = conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
             UserStateAccessor = userState.CreateProperty<ToDoSkillUserState>(nameof(ToDoSkillUserState));
+            DialogStateAccessor = conversationState.CreateProperty<DialogState>(nameof(DialogState));
 
             ServiceManager = serviceManager;
             TelemetryClient = telemetryClient;
@@ -73,6 +76,8 @@ namespace ToDoSkill.Dialogs
         protected IStatePropertyAccessor<ToDoSkillState> ToDoStateAccessor { get; set; }
 
         protected IStatePropertyAccessor<ToDoSkillUserState> UserStateAccessor { get; set; }
+
+        protected IStatePropertyAccessor<DialogState> DialogStateAccessor { get; set; }
 
         protected IServiceManager ServiceManager { get; set; }
 
@@ -280,6 +285,18 @@ namespace ToDoSkill.Dialogs
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(dc.Context);
+
+                var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                var cognitiveModels = Services.CognitiveModelSets[locale];
+
+                // Update state with email luis result and entities
+                var toDoLuisResult = await cognitiveModels.LuisServices["todo"].RecognizeAsync<ToDoLuis>(dc.Context);
+                state.LuisResult = toDoLuisResult;
+
+                cognitiveModels.LuisServices.TryGetValue("general", out var luisService);
+                var toDoGeneralLuisResult = await luisService.RecognizeAsync<General>(dc.Context);
+                state.GeneralLuisResult = toDoGeneralLuisResult;
+
                 var luisResult = state.LuisResult;
                 var entities = luisResult.Entities;
                 var generalEntities = state.GeneralLuisResult.Entities;
@@ -315,6 +332,7 @@ namespace ToDoSkill.Dialogs
                     }
                 }
 
+                // user mentioned listType.
                 if (entities.ListType != null)
                 {
                     var topListType = entities.ListType[0];
@@ -417,6 +435,18 @@ namespace ToDoSkill.Dialogs
             return cardReply;
         }
 
+        protected Activity ToAdaptiveCardForShowToDosByLG(
+            TemplateEngine lgEngine,
+            List<TaskItem> todos,
+            int allTasksCount,
+            string listType)
+        {
+            var activity = BuildTodoCardByLG(lgEngine, todos, allTasksCount, listType);
+            activity.Speak = "speakText";
+            activity.Text = "showText";
+            return activity;
+        }
+
         protected Activity ToAdaptiveCardForReadMore(
            ITurnContext turnContext,
            List<TaskItem> todos,
@@ -444,6 +474,18 @@ namespace ToDoSkill.Dialogs
             cardReply.Speak = speakText;
 
             return cardReply;
+        }
+
+        protected Activity ToAdaptiveCardForReadMoreByLG(
+           TemplateEngine lgEngine,
+           List<TaskItem> todos,
+           int allTasksCount,
+           string listType)
+        {
+            var activity = BuildTodoCardByLG(lgEngine, todos, allTasksCount, listType);
+            activity.Speak = "speakText";
+            activity.Text = "showText";
+            return activity;
         }
 
         protected Activity ToAdaptiveCardForPreviousPage(
@@ -475,6 +517,19 @@ namespace ToDoSkill.Dialogs
             cardReply.Speak = speakText;
 
             return cardReply;
+        }
+
+        protected Activity ToAdaptiveCardForPreviousPageByLG(
+           TemplateEngine lgEngine,
+           List<TaskItem> todos,
+           int allTasksCount,
+           bool isFirstPage,
+           string listType)
+        {
+            var activity = BuildTodoCardByLG(lgEngine, todos, allTasksCount, listType);
+            activity.Speak = "speakText";
+            activity.Text = "showText";
+            return activity;
         }
 
         protected Activity ToAdaptiveCardForTaskAddedFlow(
@@ -612,6 +667,34 @@ namespace ToDoSkill.Dialogs
                 todoItems);
 
             return cardReply;
+        }
+
+        protected Activity BuildTodoCardByLG(
+           TemplateEngine lgEngine,
+           List<TaskItem> todos,
+           int allTasksCount,
+           string listType)
+        {
+            var contentShowToDoTitle = lgEngine.EvaluateTemplate("ShowToDoTitle", new
+            {
+                ListType = listType,
+                AllTasksCount = allTasksCount.ToString()
+            });
+
+            var contentShowToDoList = lgEngine.EvaluateTemplate("ShowToDoList", new
+            {
+                ToDos = todos
+            });
+
+            var contentShowToDoPageFooter = lgEngine.EvaluateTemplate("ShowToDoPageFooter", null);
+            var content = string.Format("{0}{1}{2}", contentShowToDoTitle, contentShowToDoList, contentShowToDoPageFooter);
+            var reply = new Attachment()
+            {
+                ContentType = "application/vnd.microsoft.card.adaptive",
+                Content = JsonConvert.DeserializeObject(content)
+            };
+
+            return MessageFactory.Attachment(reply) as Activity;
         }
 
         // This method is called by any waterfall step that throws an exception to ensure consistency
