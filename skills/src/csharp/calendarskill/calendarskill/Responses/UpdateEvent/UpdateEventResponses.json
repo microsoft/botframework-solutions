@@ -77,8 +77,8 @@
     "replies": [
 
       {
-        "text": "What event would you like to delete? By communicating the start time or title I can retrieve your event.",
-        "speak": "What event would you like to delete? By communicating the start time or title I can retrieve your event."
+        "text": "What event would you like to delete? By providing the start time or title I can retrieve your event.",
+        "speak": "What event would you like to delete? By providing the start time or title I can retrieve your event."
       }
     ],
     "inputHint": "expectingInput"
@@ -87,8 +87,8 @@
     "replies": [
 
       {
-        "text": "What event would you like to adjust? By communicating the start time or title I can retrieve your event.",
-        "speak": "What event would you like to adjust? By communicating the start time or title I can retrieve your event."
+        "text": "What event would you like to adjust? By providing the start time or title I can retrieve your event.",
+        "speak": "What event would you like to adjust? By providing the start time or title I can retrieve your event."
       }
     ],
     "inputHint": "expectingInput"

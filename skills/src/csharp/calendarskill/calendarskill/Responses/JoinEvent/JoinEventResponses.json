@@ -2,8 +2,8 @@
   "MeetingNotFound": {
     "replies": [
       {
-        "text": "It seems you have no upcoming call within the next hour.",
-        "speak": "It seems you have no upcoming call within the next hour."
+        "text": "It seems you have no upcoming events within the next hour.",
+        "speak": "It seems you have no upcoming events within the next hour."
       }
     ],
     "inputHint": "acceptingInput"
@@ -11,8 +11,8 @@
   "SelectMeeting": {
     "replies": [
       {
-        "text": "I found multiple meetings for you to join. The first option is with {Participants1} {EventTime1} titled {EventName1}. Do you want to join this meeting? If you want to hear the next meeting, please say next or name one out of the list.",
-        "speak": "I found multiple meetings for you to join. The first option is with {Participants1} {EventTime1} titled {EventName1}. Do you want to join this meeting? If you want to hear the next meeting, please say next or name one out of the list."
+        "text": "I found multiple events for you to join. The first option is with {Participants1} {EventTime1} titled {EventName1}. Do you want to join this meeting? If you want to hear the next meeting, please say next or name one out of the list.",
+        "speak": "I found multiple events for you to join. The first option is with {Participants1} {EventTime1} titled {EventName1}. Do you want to join this meeting? If you want to hear the next meeting, please say next or name one out of the list."
       }
     ],
     "inputHint": "acceptingInput"
@@ -20,8 +20,8 @@
   "NotJoinMeeting": {
     "replies": [
       {
-        "text": "Okay, I will not dial you into an upcoming meeting.",
-        "speak": "Okay, I will not dial you into an upcoming meeting."
+        "text": "Okay, I will not dial you into the upcoming event.",
+        "speak": "Okay, I will not dial you into the upcoming event."
       }
     ],
     "inputHint": "acceptingInput"
@@ -29,8 +29,8 @@
   "ConfirmPhoneNumber": {
     "replies": [
       {
-        "text": "Here is the number I am about to call: {PhoneNumber}. Please be aware that tolls may apply. Do you want to proceed?",
-        "speak": "Here is the number I am about to call: {PhoneNumber}. Please be aware that tolls may apply. Do you want to proceed?"
+        "text": "Here is the number I am about to call: {PhoneNumber}. Please be aware that charges may apply. Do you want to proceed?",
+        "speak": "Here is the number I am about to call: {PhoneNumber}. Please be aware that charges may apply. Do you want to proceed?"
       }
     ],
     "inputHint": "acceptingInput"
@@ -38,8 +38,8 @@
   "JoinMeeting": {
     "replies": [
       {
-        "text": "Sure, I'm dialing you into the call.",
-        "speak": "Sure, I'm dialing you into the call."
+        "text": "Sure, I'm dialing you into the event.",
+        "speak": "Sure, I'm dialing you into the event."
       }
     ],
     "inputHint": "acceptingInput"
