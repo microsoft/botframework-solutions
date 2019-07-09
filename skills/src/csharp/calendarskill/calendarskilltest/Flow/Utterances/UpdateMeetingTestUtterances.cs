@@ -22,9 +22,9 @@ namespace CalendarSkillTest.Flow.Utterances
 
         public static string UpdateMeetingWithTitle { get; } = $"delete {Strings.Strings.DefaultEventName} meeting";
 
-        public static calendarLuis GetBaseUpdateMeetingIntent(
+        public static CalendarLuis GetBaseUpdateMeetingIntent(
             string userInput,
-            calendarLuis.Intent intents = calendarLuis.Intent.ChangeCalendarEntry,
+            CalendarLuis.Intent intents = CalendarLuis.Intent.ChangeCalendarEntry,
             string[] subject = null,
             string[] fromDate = null,
             string[] toDate = null,

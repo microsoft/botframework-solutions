@@ -92,7 +92,7 @@ namespace CalendarSkill.Dialogs
             InitializeConfig(state);
 
             // If dispatch result is general luis model
-            localeConfig.LuisServices.TryGetValue("calendar", out var luisService);
+            localeConfig.LuisServices.TryGetValue("Calendar", out var luisService);
 
             if (luisService == null)
             {
@@ -107,57 +107,57 @@ namespace CalendarSkill.Dialogs
                 // switch on general intents
                 switch (intent)
                 {
-                    case calendarLuis.Intent.FindMeetingRoom:
-                    case calendarLuis.Intent.CreateCalendarEntry:
+                    case CalendarLuis.Intent.FindMeetingRoom:
+                    case CalendarLuis.Intent.CreateCalendarEntry:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(CreateEventDialog));
                             break;
                         }
 
-                    case calendarLuis.Intent.AcceptEventEntry:
-                    case calendarLuis.Intent.DeleteCalendarEntry:
+                    case CalendarLuis.Intent.AcceptEventEntry:
+                    case CalendarLuis.Intent.DeleteCalendarEntry:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog));
                             break;
                         }
 
-                    case calendarLuis.Intent.ChangeCalendarEntry:
+                    case CalendarLuis.Intent.ChangeCalendarEntry:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(UpdateEventDialog));
                             break;
                         }
 
-                    case calendarLuis.Intent.ConnectToMeeting:
+                    case CalendarLuis.Intent.ConnectToMeeting:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(ConnectToMeetingDialog));
                             break;
                         }
 
-                    case calendarLuis.Intent.FindCalendarEntry:
-                    case calendarLuis.Intent.FindCalendarDetail:
-                    case calendarLuis.Intent.FindCalendarWhen:
-                    case calendarLuis.Intent.FindCalendarWhere:
-                    case calendarLuis.Intent.FindCalendarWho:
-                    case calendarLuis.Intent.FindDuration:
+                    case CalendarLuis.Intent.FindCalendarEntry:
+                    case CalendarLuis.Intent.FindCalendarDetail:
+                    case CalendarLuis.Intent.FindCalendarWhen:
+                    case CalendarLuis.Intent.FindCalendarWhere:
+                    case CalendarLuis.Intent.FindCalendarWho:
+                    case CalendarLuis.Intent.FindDuration:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
                             break;
                         }
 
-                    case calendarLuis.Intent.TimeRemaining:
+                    case CalendarLuis.Intent.TimeRemaining:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(TimeRemainingDialog));
                             break;
                         }
 
-                    case calendarLuis.Intent.ShowNextCalendar:
-                    case calendarLuis.Intent.ShowPreviousCalendar:
+                    case CalendarLuis.Intent.ShowNextCalendar:
+                    case CalendarLuis.Intent.ShowPreviousCalendar:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
                             break;
                         }
 
-                    case calendarLuis.Intent.None:
+                    case CalendarLuis.Intent.None:
                         {
                             if (generalTopIntent == General.Intent.ShowNext || generalTopIntent == General.Intent.ShowPrevious)
                             {
@@ -259,12 +259,12 @@ namespace CalendarSkill.Dialogs
                 var localeConfig = _services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities
-                var calendarLuisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<calendarLuis>(dc.Context, cancellationToken);
+                var calendarLuisResult = await localeConfig.LuisServices["Calendar"].RecognizeAsync<CalendarLuis>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
                 state.LuisResult = calendarLuisResult;
 
                 // check luis intent
-                localeConfig.LuisServices.TryGetValue("general", out var luisService);
+                localeConfig.LuisServices.TryGetValue("General", out var luisService);
 
                 if (luisService == null)
                 {
@@ -351,12 +351,7 @@ namespace CalendarSkill.Dialogs
             // Initialize PageSize when the first input comes.
             if (state.PageSize <= 0)
             {
-                var pageSize = 0;
-                if (_settings.Properties.TryGetValue("DisplaySize", out var displaySizeObj))
-                {
-                    int.TryParse(displaySizeObj.ToString(), out pageSize);
-                }
-
+                var pageSize = _settings.DisplaySize;
                 state.PageSize = pageSize <= 0 || pageSize > CalendarCommonUtil.MaxDisplaySize ? CalendarCommonUtil.MaxDisplaySize : pageSize;
             }
         }

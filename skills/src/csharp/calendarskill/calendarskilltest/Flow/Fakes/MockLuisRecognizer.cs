@@ -54,9 +54,9 @@ namespace CalendarSkillTest.Flow.Fakes
 
             var t = typeof(T);
             var text = turnContext.Activity.Text;
-            if (t.Name.Equals(typeof(calendarLuis).Name))
+            if (t.Name.Equals(typeof(CalendarLuis).Name))
             {
-                calendarLuis mockCalendar = utterancesManager.GetValueOrDefault(text, utterancesManager.GetBaseNoneIntent());
+                CalendarLuis mockCalendar = utterancesManager.GetValueOrDefault(text, utterancesManager.GetBaseNoneIntent());
 
                 var test = mockCalendar as object;
                 mockResult = (T)test;
