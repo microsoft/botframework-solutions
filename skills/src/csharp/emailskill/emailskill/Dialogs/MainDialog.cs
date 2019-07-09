@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Models;
@@ -18,6 +19,7 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
@@ -37,6 +39,8 @@ namespace EmailSkill.Dialogs
         private UserState _userState;
         private ConversationState _conversationState;
         private IStatePropertyAccessor<EmailSkillState> _stateAccessor;
+
+        private TemplateEngine _lgEngine;
 
         public MainDialog(
             BotSettings settings,
@@ -60,6 +64,14 @@ namespace EmailSkill.Dialogs
             TelemetryClient = telemetryClient;
             _stateAccessor = _conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
 
+
+            // combine path for cross platform support
+            string[] paths = { ".", "Responses//Main", "MainDialog.lg" };
+            string fullPath = Path.Combine(paths);
+            var templateEngine = new TemplateEngine();
+            _lgEngine = templateEngine.AddFile(fullPath);
+
+
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.CognitiveModelSets[locale];
             localeConfig.LuisServices.TryGetValue("email", out var luisService);
@@ -71,6 +83,8 @@ namespace EmailSkill.Dialogs
 
             var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
+                Generator = new ResourceMultiLanguageGenerator("MainDialog.lg"),
+
                 // Create a LUIS recognizer.
                 // The recognizer is built using the intents, utterances, patterns and entities defined in ./RootDialog.lu file
                 Recognizer = CreateRecognizer(),
@@ -146,10 +160,16 @@ namespace EmailSkill.Dialogs
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // send a greeting if we're in local mode
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailMainResponses.EmailWelcomeMessage));
+            //await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailMainResponses.EmailWelcomeMessage));
 
             //var emailWelcomeMessage = new ActivityTemplate("[EmailWelcomeMessage]");
             //await dc.Context.SendActivityAsync(emailWelcomeMessage.Template);
+
+            //var lg = new ResourceMultiLanguageGenerator("MainDialog.lg");
+
+            //var result = await lg.Generate(dc.);
+
+            await dc.Context.SendActivityAsync(MessageFactory.Text(_lgEngine.EvaluateTemplate("EmailWelcomeMessage", null)));
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))

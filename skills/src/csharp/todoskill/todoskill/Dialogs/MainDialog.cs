@@ -8,7 +8,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
@@ -48,11 +52,78 @@ namespace ToDoSkill.Dialogs
             TelemetryClient = telemetryClient;
             _toDoStateAccessor = conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
 
+            var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
+            {
+                Recognizer = CreateRecognizer(),
+                Rules = new List<IRule>()
+                {
+                    new IntentRule("AddToDo")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(AddToDoItemDialog)) },
+                        Constraint = "turn.dialogEvent.value.intents.AddToDo.score > 0.4",
+                    },
+                    new IntentRule("MarkToDo")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(MarkToDoItemDialog)) },
+                        Constraint = "turn.dialogEvent.value.intents.MarkToDo.score > 0.4",
+                    },
+                    new IntentRule("DeleteToDo")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(DeleteToDoItemDialog)) },
+                        Constraint = "turn.dialogEvent.value.intents.DeleteToDo.score > 0.4",
+                    },
+                    new IntentRule("ShowNextPage")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(ShowToDoItemDialog)) },
+                        Constraint = "turn.dialogEvent.value.intents.ShowNextPage.score > 0.4",
+                    },
+                    new IntentRule("ShowPreviousPage")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(ShowToDoItemDialog)) },
+                        Constraint = "turn.dialogEvent.value.intents.ShowPreviousPage.score > 0.4",
+                    },
+                    new IntentRule("ShowToDo")
+                    {
+                        Steps = new List<IDialog>() { new BeginDialog(nameof(ShowToDoItemDialog)) },
+                        Constraint = "turn.dialogEvent.value.intents.ShowToDo.score > 0.4",
+                    },
+                    new IntentRule("None")
+                    {
+                        Steps = new List<IDialog>() { new SendActivity("Sorry, I don't understand.") },
+                        Constraint = "turn.dialogEvent.value.intents.None.score > 0.4",
+                    },
+                    new UnknownIntentRule()
+                    {
+                        Steps = new List<IDialog>() { new SendActivity("FeatureNotAvailable") }
+                    }
+                }
+            };
+            rootDialog.AddDialog(new List<IDialog>()
+            {
+                addToDoItemDialog,
+                markToDoItemDialog,
+                deleteToDoItemDialog,
+                showToDoItemDialog
+            });
+
             // RegisterDialogs
+            AddDialog(rootDialog);
             AddDialog(addToDoItemDialog ?? throw new ArgumentNullException(nameof(addToDoItemDialog)));
             AddDialog(markToDoItemDialog ?? throw new ArgumentNullException(nameof(markToDoItemDialog)));
             AddDialog(deleteToDoItemDialog ?? throw new ArgumentNullException(nameof(deleteToDoItemDialog)));
             AddDialog(showToDoItemDialog ?? throw new ArgumentNullException(nameof(showToDoItemDialog)));
+
+            InitialDialogId = nameof(AdaptiveDialog);
+        }
+
+        public static IRecognizer CreateRecognizer()
+        {
+            return new LuisRecognizer(new LuisApplication()
+            {
+                Endpoint = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/e022ca2a-9429-49a3-a81f-5dbcd1fcce0e?verbose=true&timezoneOffset=-360&subscription-key=377adaff46bf4db6ac8815f2d2747738&q=",
+                EndpointKey = "377adaff46bf4db6ac8815f2d2747738",
+                ApplicationId = "e022ca2a-9429-49a3-a81f-5dbcd1fcce0e",
+            });
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -80,69 +151,14 @@ namespace ToDoSkill.Dialogs
             }
             else
             {
-                var turnResult = EndOfTurn;
-                var intent = state.LuisResult?.TopIntent().intent;
-                var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
-
-                // switch on general intents
-                switch (intent)
+                if (dc.ActiveDialog == null)
                 {
-                    case todoLuis.Intent.AddToDo:
-                        {
-                            turnResult = await dc.BeginDialogAsync(nameof(AddToDoItemDialog));
-                            break;
-                        }
+                    await dc.BeginDialogAsync(nameof(AdaptiveDialog));
 
-                    case todoLuis.Intent.MarkToDo:
-                        {
-                            turnResult = await dc.BeginDialogAsync(nameof(MarkToDoItemDialog));
-                            break;
-                        }
-
-                    case todoLuis.Intent.DeleteToDo:
-                        {
-                            turnResult = await dc.BeginDialogAsync(nameof(DeleteToDoItemDialog));
-                            break;
-                        }
-
-                    case todoLuis.Intent.ShowNextPage:
-                    case todoLuis.Intent.ShowPreviousPage:
-                    case todoLuis.Intent.ShowToDo:
-                        {
-                            turnResult = await dc.BeginDialogAsync(nameof(ShowToDoItemDialog));
-                            break;
-                        }
-
-                    case todoLuis.Intent.None:
-                        {
-                            if (generalTopIntent == General.Intent.ShowNext
-                                || generalTopIntent == General.Intent.ShowPrevious)
-                            {
-                                turnResult = await dc.BeginDialogAsync(nameof(ShowToDoItemDialog));
-                            }
-                            else
-                            {
-                                // No intent was identified, send confused message
-                                await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.DidntUnderstandMessage));
-                                turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-                            }
-
-                            break;
-                        }
-
-                    default:
-                        {
-                            // intent was identified but not yet implemented
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.FeatureNotAvailable));
-                            turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
-
-                            break;
-                        }
                 }
-
-                if (turnResult != EndOfTurn)
+                else
                 {
-                    await CompleteAsync(dc);
+                    await dc.ContinueDialogAsync();
                 }
             }
         }
@@ -241,6 +257,9 @@ namespace ToDoSkill.Dialogs
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
+            var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
+            state.Clear();
+
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.CancelMessage));
             await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();

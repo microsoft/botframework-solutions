@@ -36,8 +36,6 @@
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Graph" Version="1.10.0" />
-    <PackageReference Include="MimeKit" Version="2.0.6" />
     <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.6.0-Daily-2019-07-05-01" />
     <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration.Renderer" Version="4.6.0-Daily-2019-07-05-01" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.6.0-Daily-2019-07-05-01" />

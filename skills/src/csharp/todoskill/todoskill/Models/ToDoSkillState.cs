@@ -266,6 +266,15 @@ namespace ToDoSkill.Models
         public bool CollectIndexRetry { get; set; }
 
         /// <summary>
+        /// Create a shallow copy.
+        /// </summary>
+        /// <returns>A shallow copy of this ToDoSkillState.</returns>
+        public ToDoSkillState Clone()
+        {
+            return (ToDoSkillState)this.MemberwiseClone();
+        }
+
+        /// <summary>
         /// Clear state.
         /// </summary>
         public void Clear()

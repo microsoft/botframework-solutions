@@ -3,25 +3,24 @@
     "en": {
       "languageModels": [
         {
+          "region": "westus",
           "id": "general",
-          "name": "",
-          "appId": "",
-          "authoringKey": "",
-          "subscriptionKey": "",
-          "version": "",
-          "region": ""
+          "appid": "46fea98a-9beb-4baf-a4f0-f927ef7367d1",
+          "version": "0.1",
+          "name": "shzhenTodoen_general",
+          "subscriptionkey": "377adaff46bf4db6ac8815f2d2747738",
+          "authoringkey": "377adaff46bf4db6ac8815f2d2747738"
         },
         {
+          "region": "westus",
           "id": "todo",
-          "name": "",
-          "appId": "",
-          "authoringKey": "",
-          "subscriptionKey": "",
-          "version": "",
-          "region": ""
+          "appid": "e022ca2a-9429-49a3-a81f-5dbcd1fcce0e",
+          "version": "0.1",
+          "name": "shzhenTodoen_todo",
+          "subscriptionkey": "377adaff46bf4db6ac8815f2d2747738",
+          "authoringkey": "377adaff46bf4db6ac8815f2d2747738"
         }
       ]
     }
-  },
-  "defaultLocale": "en-us"
+  }
 }
