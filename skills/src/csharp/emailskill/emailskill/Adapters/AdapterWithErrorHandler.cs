@@ -19,7 +19,6 @@ namespace EmailSkill.Adapters
         {
             this.UseStorage(storage);
             this.UseState(userState, conversationState);
-            //this.UseLanguageGeneration(resourceExplorer);
 
             OnTurnError = async (turnContext, exception) =>
             {

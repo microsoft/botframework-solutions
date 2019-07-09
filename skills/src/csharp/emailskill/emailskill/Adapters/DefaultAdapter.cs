@@ -24,7 +24,6 @@ namespace EmailSkill.Adapters
             ResourceExplorer resourceExplorer)
             : base(credentialProvider)
         {
-            //this.UseLanguageGeneration(resourceExplorer);
 
             OnTurnError = async (context, exception) =>
             {

@@ -55,6 +55,7 @@ namespace CalendarSkill.Prompts
                 var message = turnContext.Activity.AsMessageActivity();
                 var culture = turnContext.Activity.Locale ?? DefaultLocale ?? English;
                 IList<DateTimeResolution> date = GetTimeFromMessage(message.Text, culture);
+                //if (date.Count > 0 && date[0].Timex.Contains("T"))
                 if (date.Count > 0)
                 {
                     result.Succeeded = true;
