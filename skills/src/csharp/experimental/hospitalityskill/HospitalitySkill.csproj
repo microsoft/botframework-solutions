@@ -13,12 +13,12 @@
     <Content Remove="Responses\Main\MainResponses.it.json" />
     <Content Remove="Responses\Main\MainResponses.json" />
     <Content Remove="Responses\Main\MainResponses.zh.json" />
-    <Content Remove="Responses\Reservation\ReservationResponses.json" />
-    <Content Remove="Responses\Reservation\SampleResponses.de.json" />
-    <Content Remove="Responses\Reservation\SampleResponses.es.json" />
-    <Content Remove="Responses\Reservation\SampleResponses.fr.json" />
-    <Content Remove="Responses\Reservation\SampleResponses.it.json" />
-    <Content Remove="Responses\Reservation\SampleResponses.zh.json" />
+    <Content Remove="Responses\CheckOut\ReservationResponses.json" />
+    <Content Remove="Responses\CheckOut\SampleResponses.de.json" />
+    <Content Remove="Responses\CheckOut\SampleResponses.es.json" />
+    <Content Remove="Responses\CheckOut\SampleResponses.fr.json" />
+    <Content Remove="Responses\CheckOut\SampleResponses.it.json" />
+    <Content Remove="Responses\CheckOut\SampleResponses.zh.json" />
     <Content Remove="Responses\Sample\SampleResponses.de.json" />
     <Content Remove="Responses\Sample\SampleResponses.es.json" />
     <Content Remove="Responses\Sample\SampleResponses.fr.json" />
@@ -40,7 +40,7 @@
     <EmbeddedResource Include="Responses\Main\MainResponses.it.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.zh.json" />
-    <EmbeddedResource Include="Responses\Reservation\ReservationResponses.json" />
+    <EmbeddedResource Include="Responses\CheckOut\CheckOutResponses.json" />
     <EmbeddedResource Include="Responses\Sample\SampleResponses.de.json" />
     <EmbeddedResource Include="Responses\Sample\SampleResponses.es.json" />
     <EmbeddedResource Include="Responses\Sample\SampleResponses.fr.json" />
@@ -95,9 +95,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MainResponses.cs</LastGenOutput>
     </None>
-    <None Update="Responses\Reservation\ReservationResponses.tt">
+    <None Update="Responses\CheckOut\CheckOutResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ReservationResponses.cs</LastGenOutput>
+      <LastGenOutput>CheckOutResponses.cs</LastGenOutput>
     </None>
     <None Update="Responses\Sample\SampleResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -174,10 +174,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>MainResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Responses\Reservation\ReservationResponses.cs">
+    <Compile Update="Responses\CheckOut\CheckOutResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>ReservationResponses.tt</DependentUpon>
+      <DependentUpon>CheckOutResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Responses\Sample\SampleResponses.cs">
       <DesignTime>True</DesignTime>

@@ -2,6 +2,14 @@
 // Licensed under the MIT License.
 
 using System.Linq;
+using HospitalitySkill.Adapters;
+using HospitalitySkill.Bots;
+using HospitalitySkill.Dialogs;
+using HospitalitySkill.Responses.CheckOut;
+using HospitalitySkill.Responses.Main;
+using HospitalitySkill.Responses.Sample;
+using HospitalitySkill.Responses.Shared;
+using HospitalitySkill.Services;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,14 +28,6 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using HospitalitySkill.Adapters;
-using HospitalitySkill.Bots;
-using HospitalitySkill.Dialogs;
-using HospitalitySkill.Responses.Main;
-using HospitalitySkill.Responses.Sample;
-using HospitalitySkill.Responses.Shared;
-using HospitalitySkill.Responses.Reservation;
-using HospitalitySkill.Services;
 
 namespace HospitalitySkill
 {
@@ -96,10 +96,10 @@ namespace HospitalitySkill
                 settings.CognitiveModels.Select(l => l.Key).ToArray(),
                 new MainResponses(),
                 new SharedResponses(),
-                new ReservationResponses()));
+                new CheckOutResponses()));
 
             // Register dialogs
-            services.AddTransient<ReservationDialog>();
+            services.AddTransient<CheckOutDialog>();
             services.AddTransient<MainDialog>();
 
             // Configure adapters

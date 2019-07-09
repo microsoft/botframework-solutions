@@ -6,6 +6,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using HospitalitySkill.Models;
+using HospitalitySkill.Responses.Main;
+using HospitalitySkill.Responses.Shared;
+using HospitalitySkill.Services;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -15,10 +19,6 @@ using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
-using HospitalitySkill.Models;
-using HospitalitySkill.Responses.Main;
-using HospitalitySkill.Responses.Shared;
-using HospitalitySkill.Services;
 
 namespace HospitalitySkill.Dialogs
 {
@@ -36,7 +36,7 @@ namespace HospitalitySkill.Dialogs
             ResponseManager responseManager,
             UserState userState,
             ConversationState conversationState,
-            ReservationDialog reservationDialog,
+            CheckOutDialog checkOutDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -50,7 +50,7 @@ namespace HospitalitySkill.Dialogs
             _contextAccessor = userState.CreateProperty<SkillContext>(nameof(SkillContext));
 
             // Register dialogs
-            AddDialog(reservationDialog ?? throw new ArgumentNullException(nameof(reservationDialog)));
+            AddDialog(checkOutDialog ?? throw new ArgumentNullException(nameof(checkOutDialog)));
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -81,18 +81,22 @@ namespace HospitalitySkill.Dialogs
             {
                 var turnResult = EndOfTurn;
                 var result = await luisService.RecognizeAsync<HospitalitySkillLuis>(dc.Context, CancellationToken.None);
-                state.LuisResult = result;
                 var intent = result?.TopIntent().intent;
 
                 switch (intent)
                 {
                     case HospitalitySkillLuis.Intent.CheckOut:
-                    case HospitalitySkillLuis.Intent.ExtendStay:
-                    case HospitalitySkillLuis.Intent.LateCheckOut:
                         {
-                            turnResult = await dc.BeginDialogAsync(nameof(ReservationDialog));
+                            // handle checking out
+                            turnResult = await dc.BeginDialogAsync(nameof(CheckOutDialog));
                             break;
                         }
+
+                    //case HospitalitySkillLuis.Intent.ExtendStay:
+                    //case HospitalitySkillLuis.Intent.LateCheckOut:
+                    //    {
+                    //        break;
+                    //    }
 
                     case HospitalitySkillLuis.Intent.None:
                         {

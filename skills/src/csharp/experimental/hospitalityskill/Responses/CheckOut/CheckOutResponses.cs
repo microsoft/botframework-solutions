@@ -4,13 +4,18 @@
 
 using Microsoft.Bot.Builder.Solutions.Responses;
 
-namespace HospitalitySkill.Responses.Reservation
+namespace HospitalitySkill.Responses.CheckOut
 {
-
-    public class ReservationResponses : IResponseIdCollection
+    /// <summary>
+    /// Contains bot responses.
+    /// </summary>
+    public class CheckOutResponses : IResponseIdCollection
     {
         // Generated accessors
         public const string ConfirmCheckOut = "ConfirmCheckOut";
         public const string RetryConfirmCheckOut = "RetryConfirmCheckOut";
+        public const string CheckOutMessage = "CheckOutMessage";
+        public const string ThankYou = "ThankYou";
+        public const string HelpOtherwise = "HelpOtherwise";
     }
 }

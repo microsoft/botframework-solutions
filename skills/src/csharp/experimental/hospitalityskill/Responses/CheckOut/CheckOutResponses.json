@@ -1,0 +1,48 @@
+{
+  "ConfirmCheckOut": {
+    "replies": [
+      {
+        "text": "Would you like me to check you out now?",
+        "speak": "Would you like me to check you out now?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "RetryConfirmCheckOut": {
+    "replies": [
+      {
+        "text": "Sorry I didn't get that. Would you like me to check you out?",
+        "speak": "Sorry I didn't get that. Would you like me to check you out?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "CheckOutMessage": {
+    "replies": [
+      {
+        "text": "Ok! I've checked you out. There is a box in the lobby where you can drop off your keys.",
+        "speak": "Ok! I've checked you out. There is a box in the lobby where you can drop off your keys."
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "ThankYou": {
+    "replies": [
+      {
+        "text": "Thank you for staying with us!",
+        "speak": "Thank you for staying with us!"
+      }
+    ],
+    "inputHint": "ignoringInput"
+  },
+  "HelpOtherwise": {
+    "replies": [
+      {
+        "text": "It seems like you don't want to check out. Is there something else I can help you with?",
+        "speak": "It seems like you don't want to check out. Is there something else I can help you with?"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}
+

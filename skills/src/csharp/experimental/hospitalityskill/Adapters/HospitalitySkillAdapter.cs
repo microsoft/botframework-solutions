@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 using System.Globalization;
+using HospitalitySkill.Responses.Shared;
+using HospitalitySkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
@@ -9,8 +11,6 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Schema;
-using HospitalitySkill.Responses.Shared;
-using HospitalitySkill.Services;
 
 namespace HospitalitySkill.Adapters
 {
