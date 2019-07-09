@@ -11,7 +11,6 @@ const _kebabCase = require(`lodash/kebabCase`);
 const _camelCase = require(`lodash/camelCase`);
 const semver = require('semver');
 const someLanguages = [`zh`, `de`, `en`];
-const nonexistentLanguages = [`br`, `pt`];
 const sinon = require(`sinon`);
 
 describe(`The generator-botbuilder-assistant tests`, function() {
@@ -28,6 +27,7 @@ describe(`The generator-botbuilder-assistant tests`, function() {
     const templatesFiles = [
         `package.json`,
         `.eslintrc.js`,
+        `.eslintignore`,
         `.gitignore`,
         `.npmrc`,
         `.nycrc`,

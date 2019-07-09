@@ -42,7 +42,7 @@ namespace AutomotiveSkill.Utilities
             this.settingMatcher = new SettingMatcher(this.settingList);
             this.numberNormalizer = new NumberNormalizer();
 
-            // Supporting setting files are stored as embeddded resources
+            // Supporting setting files are stored as embedded resources
             Assembly resourceAssembly = typeof(SettingFilter).Assembly;
 
             var amountNormalizerFile = resourceAssembly

@@ -69,4 +69,4 @@ Productivity scenarios are a great example where each organization would need to
 This is then further complicated by the need to support multiple languages and results in a large amount of work required for any organization building their own assistant.
 Our Virtual Assistant solution includes a new Skill capability enabling new capabilities to be plugged into an existing Virtual Assistant through configuration only.
 
-All aspects of each Skill are completely customizable by developers as the full source code is provided on GitHub along with the Virtual Assistant.
+All aspects of each Skill are completely customizable by developers as the full source code is provided on GitHub along with the Virtual Assistant.  At this time Productivity (Calendar, Email, ToDo) and Point of Interest Skills are offered along with experimental versions of Automotive, Bing Search, Weather, Restaurant Booking and News.

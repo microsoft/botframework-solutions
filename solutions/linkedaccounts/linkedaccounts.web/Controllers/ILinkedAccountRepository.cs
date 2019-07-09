@@ -10,7 +10,9 @@ namespace LinkedAccounts.Web.Controllers
     public interface ILinkedAccountRepository
     {
         Task<string> GetSignInLinkAsync(string userId, ICredentialProvider credentialProvider, string connectionName, string finalRedirect);
+
         Task<TokenStatus[]> GetTokenStatusAsync(string userId, ICredentialProvider credentialProvider);
+
         Task SignOutAsync(string userId, ICredentialProvider credentialProvider, string connectionName = null);
     }
 }
