@@ -11,7 +11,6 @@ interface ISpeechService {
     String getConfiguration();// the String is "Configuration" as JSON
     void setConfiguration(String json);// the String is "Configuration" as JSON
     void sendLocationEvent(String lat, String lon);
-    void sendTimeZoneEvent(String tzId);
     void requestWelcomeCard();
     void injectReceivedActivity(String json);
     void listenOnceAsync();

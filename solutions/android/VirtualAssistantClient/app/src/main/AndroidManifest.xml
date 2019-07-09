@@ -44,12 +44,7 @@
         </activity>
 
         <activity
-            android:name=".activities.botconfiguration.BotConfigurationActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
-        <activity
-            android:name=".activities.configuration.AppConfigurationActivity"
+            android:name=".activities.settings.SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
 

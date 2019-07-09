@@ -37,8 +37,7 @@ import com.microsoft.bot.builder.solutions.directlinespeech.ConfigurationManager
 import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.BaseActivity;
-import com.microsoft.bot.builder.solutions.virtualassistant.activities.botconfiguration.BotConfigurationActivity;
-import com.microsoft.bot.builder.solutions.virtualassistant.activities.configuration.AppConfigurationActivity;
+import com.microsoft.bot.builder.solutions.virtualassistant.activities.settings.SettingsActivity;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.actionslist.ActionsAdapter;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.actionslist.ActionsViewholder;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ChatAdapter;
@@ -250,10 +249,7 @@ public class MainActivity extends BaseActivity
 
             switch (id) {
                 case R.id.nav_menu_configuration:
-                    startActivity(BotConfigurationActivity.getNewIntent(this));
-                    break;
-                case R.id.nav_menu_app_configuration:
-                    startActivity(AppConfigurationActivity.getNewIntent(this));
+                    startActivity(SettingsActivity.getNewIntent(this));
                     break;
                 case R.id.nav_menu_reset_bot:
                     speechServiceBinder.resetBot();

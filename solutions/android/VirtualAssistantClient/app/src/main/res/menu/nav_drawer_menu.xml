@@ -5,10 +5,6 @@
         android:icon="@drawable/ic_debug"
         android:title="@string/nav_menu_configuration"/>
     <item
-        android:id="@+id/nav_menu_app_configuration"
-        android:icon="@drawable/ic_debug"
-        android:title="@string/nav_menu_app_configuration"/>
-    <item
         android:id="@+id/nav_menu_reset_bot"
         android:icon="@drawable/ic_debug"
         android:title="@string/nav_menu_reset_bot"/>

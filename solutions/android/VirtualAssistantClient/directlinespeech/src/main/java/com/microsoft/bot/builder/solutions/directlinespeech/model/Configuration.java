@@ -17,10 +17,6 @@ public class Configuration {
     @Expose
     public String botId;
 
-    @SerializedName("voice_name")
-    @Expose
-    public String voiceName;
-
     @SerializedName("user_id")
     @Expose
     public String userId;
@@ -54,7 +50,6 @@ public class Configuration {
         return serviceKey==null&&
                 serviceRegion==null&&
                 botId==null&&
-                voiceName==null&&
                 userId==null&&
                 locale==null&&
                 geolat==null&&
