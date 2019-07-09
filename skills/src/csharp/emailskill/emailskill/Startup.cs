@@ -53,9 +53,13 @@ namespace EmailSkill
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
+
+            HostingEnvironment = env;
         }
 
         public IConfiguration Configuration { get; }
+
+        IHostingEnvironment HostingEnvironment { get; set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -82,6 +86,11 @@ namespace EmailSkill
                 var conversationState = sp.GetService<ConversationState>();
                 return new BotStateSet(userState, conversationState);
             });
+
+            // Config LG
+            var path = this.HostingEnvironment.ContentRootPath;
+            var resourceExplorer = ResourceExplorer.LoadProject(this.HostingEnvironment.ContentRootPath);
+            services.AddSingleton(resourceExplorer);
 
             // Configure telemetry
             services.AddApplicationInsightsTelemetry();
@@ -110,9 +119,6 @@ namespace EmailSkill
                 new SendEmailResponses(),
                 new EmailSharedResponses(),
                 new ShowEmailResponses()));
-
-            var resourceExplorer = ResourceExplorer.LoadProject(Directory.GetCurrentDirectory());
-            services.AddSingleton(resourceExplorer);
 
             // register dialogs
             services.AddSingleton<MainDialog>();

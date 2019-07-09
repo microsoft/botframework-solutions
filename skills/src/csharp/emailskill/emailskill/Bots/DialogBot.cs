@@ -19,7 +19,6 @@ namespace EmailSkill.Bots
         private DialogManager _dialogManager;
         private IStorage _storage;
 
-
         public DialogBot(IServiceProvider serviceProvider, T dialog, IStorage storage)
         {
             var conversationState = serviceProvider.GetService<ConversationState>() ?? throw new ArgumentNullException(nameof(ConversationState));
