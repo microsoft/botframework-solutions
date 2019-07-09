@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace LinkedAccounts.Web.Helpers
 {
@@ -13,7 +11,7 @@ namespace LinkedAccounts.Web.Helpers
 
         public static string GetUserId(HttpContext httpContext, ClaimsPrincipal user)
         {
-            // If the user has overriden (to work around emulator blocker) then we use a provided UserId inside of the logged in user.            
+            // If the user has overriden (to work around emulator blocker) then we use a provided UserId inside of the logged in user.
             if (!string.IsNullOrEmpty(httpContext.Session.GetString("ChangedUserId")))
             {
                 return httpContext.Session.GetString("ChangedUserId");

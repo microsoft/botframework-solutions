@@ -11,8 +11,8 @@
   "ReadOutMorePrompt": {
     "replies": [
       {
-        "text": "Would you like to go back to your email overview again? Or you can ask me to complete an action on this email.",
-        "speak": "Would you like to go back to your email overview again? Or you can ask me to complete an action on this email."
+        "text": "Would you like to go back to your email overview? Alternatively you can ask me to complete an action on this email.",
+        "speak": "Would you like to go back to your email overview? Alternatively you can ask me to complete an action on this email."
       }
     ],
     "inputHint": "expectingInput"

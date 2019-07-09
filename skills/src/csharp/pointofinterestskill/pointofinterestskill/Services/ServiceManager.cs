@@ -12,10 +12,10 @@ namespace PointOfInterestSkill.Services
 
         public IGeoSpatialService InitMapsService(BotSettings settings, string locale = "en")
         {
-            settings.Properties.TryGetValue("foursquareClientId", out var clientId);
-            settings.Properties.TryGetValue("foursquareClientSecret", out var clientSecret);
-            settings.Properties.TryGetValue("radius", out var radius);
-            settings.Properties.TryGetValue("limitSize", out var limitSize);
+            var clientId = settings.FoursquareClientId;
+            var clientSecret = settings.FoursquareClientSecret;
+            var radius = settings.Radius;
+            var limitSize = settings.LimitSize;
 
             var clientIdStr = clientId;
             var clientSecretStr = clientSecret;
@@ -43,8 +43,8 @@ namespace PointOfInterestSkill.Services
         /// <returns>IGeoSpatialService.</returns>
         public IGeoSpatialService InitRoutingMapsService(BotSettings settings, string locale = "en")
         {
-            settings.Properties.TryGetValue("radius", out var radius);
-            settings.Properties.TryGetValue("limitSize", out var limitSize);
+            var radius = settings.Radius;
+            var limitSize = settings.LimitSize;
             radiusInt = (radius != null) ? Convert.ToInt32(radius) : radiusInt;
             limitSizeInt = (limitSize != null) ? Convert.ToInt32(limitSize) : limitSizeInt;
 
@@ -62,7 +62,7 @@ namespace PointOfInterestSkill.Services
         /// <returns>IGeoSpatialService.</returns>
         public IGeoSpatialService InitAddressMapsService(BotSettings settings, string locale = "en-us")
         {
-            settings.Properties.TryGetValue("radius", out var radius);
+            var radius = settings.Radius;
             radiusInt = (radius != null) ? Convert.ToInt32(radius) : radiusInt;
 
             var key = GetAzureMapsKey(settings);
@@ -77,16 +77,14 @@ namespace PointOfInterestSkill.Services
         /// <returns>Azure Maps key string.</returns>
         protected string GetAzureMapsKey(BotSettings settings)
         {
-            settings.Properties.TryGetValue("azureMapsKey", out var key);
-
-            var keyStr = key;
-            if (string.IsNullOrWhiteSpace(keyStr))
+            var key = settings.AzureMapsKey;
+            if (string.IsNullOrWhiteSpace(key))
             {
                 throw new Exception("Could not get the required Azure Maps key. Please make sure your settings are correctly configured.");
             }
             else
             {
-                return keyStr;
+                return key;
             }
         }
     }

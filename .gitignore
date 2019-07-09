@@ -354,6 +354,7 @@ ASALocalRun/
 **/Deployment/**/*.qna
 **/deploy_log.txt
 **/deploy_cognitive_models_log.txt
+**/update_cognitive_models_log.txt
 **/add_remote_skill_log.txt
 **/remove_skill_log.txt
 **/publish_log.txt

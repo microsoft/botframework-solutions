@@ -6,7 +6,7 @@ using Microsoft.Bot.Builder.AI.Luis;
 
 namespace CalendarSkillTest.Flow.Utterances
 {
-    public class BaseTestUtterances : Dictionary<string, calendarLuis>
+    public class BaseTestUtterances : Dictionary<string, CalendarLuis>
     {
         public BaseTestUtterances()
         {
@@ -14,14 +14,14 @@ namespace CalendarSkillTest.Flow.Utterances
 
         public static double TopIntentScore { get; } = 0.9;
 
-        public calendarLuis GetBaseNoneIntent()
+        public CalendarLuis GetBaseNoneIntent()
         {
             return GetCalendarIntent();
         }
 
-        protected static calendarLuis GetCalendarIntent(
+        protected static CalendarLuis GetCalendarIntent(
             string userInput = null,
-            calendarLuis.Intent intents = calendarLuis.Intent.None,
+            CalendarLuis.Intent intents = CalendarLuis.Intent.None,
             double[] ordinal = null,
             double[] number = null,
             string[] subject = null,
@@ -38,15 +38,15 @@ namespace CalendarSkillTest.Flow.Utterances
             string[] orderReference = null,
             string[] askParameter = null)
         {
-            var intent = new calendarLuis
+            var intent = new CalendarLuis
             {
                 Text = userInput,
-                Intents = new Dictionary<calendarLuis.Intent, IntentScore>()
+                Intents = new Dictionary<CalendarLuis.Intent, IntentScore>()
             };
             intent.Intents.Add(intents, new IntentScore() { Score = TopIntentScore });
-            intent.Entities = new calendarLuis._Entities
+            intent.Entities = new CalendarLuis._Entities
             {
-                _instance = new calendarLuis._Entities._Instance(),
+                _instance = new CalendarLuis._Entities._Instance(),
                 ordinal = ordinal,
                 Subject = subject,
                 personName = contactName
