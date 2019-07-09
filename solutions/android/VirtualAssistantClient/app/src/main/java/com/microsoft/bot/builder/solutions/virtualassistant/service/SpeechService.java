@@ -385,11 +385,8 @@ public class SpeechService extends Service {
                     Log.i(TAG_FOREGROUND_SERVICE, "OpenDefaultApp");
                     openDefaultApp(botConnectorActivity);
                     break;
-                case "SeatHeaterOn":
-                case "SeatHeaterOff":
-                    broadcastWidgetUpdate(botConnectorActivity);
-                    break;
                 default:
+                    broadcastWidgetUpdate(botConnectorActivity);
                     break;
             }
 
