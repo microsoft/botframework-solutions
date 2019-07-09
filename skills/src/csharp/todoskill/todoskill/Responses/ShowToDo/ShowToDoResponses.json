@@ -119,8 +119,8 @@
   "NoTasksMessage": {
     "replies": [
       {
-        "text": "It seems you have no tasks in your {listType} list. Just let me know if you want to create a new task.",
-        "speak": "It seems you have no tasks in your {listType} list. Just let me know if you want to create a new task."
+        "text": "It seems you have no tasks in your {listType} list. Let me know if you want to create a new task.",
+        "speak": "It seems you have no tasks in your {listType} list. Let me know if you want to create a new task."
       }
     ],
     "inputHint": "acceptingInput"
