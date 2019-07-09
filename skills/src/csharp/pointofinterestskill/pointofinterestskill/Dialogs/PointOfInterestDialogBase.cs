@@ -3,7 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,6 +28,14 @@ namespace PointOfInterestSkill.Dialogs
     public class PointOfInterestDialogBase : ComponentDialog
     {
         // Constants
+        // TODO consider other languages
+        private static readonly Dictionary<string, string> SpeakDefaults = new Dictionary<string, string>()
+        {
+            { "en-US", "en-US-JessaNeural" },
+            { "de-DE", "de-DE-KatjaNeural" },
+            { "it-IT", "it-IT-ElsaNeural" },
+            { "zh-CN", "zh-CN-XiaoxiaoNeural" }
+        };
         private const string FallbackPointOfInterestImageFileName = "default_pointofinterest.png";
         private IHttpContextAccessor _httpContext;
 
@@ -411,7 +421,7 @@ namespace PointOfInterestSkill.Dialogs
             }
 
             options.Prompt = cards == null ? ResponseManager.GetResponse(prompt) : ResponseManager.GetCardResponse(prompt, cards);
-            options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options.Prompt);
+            options.Prompt.Speak = DecorateSpeak(SpeechUtility.ListToSpeechReadyString(options.Prompt, ReadPreference.Enumeration, 5));
 
             return options;
         }
@@ -471,14 +481,14 @@ namespace PointOfInterestSkill.Dialogs
                         var promptTemplate = POISharedResponses.PointOfInterestSuggestedActionName;
                         var promptReplacements = new StringDictionary
                         {
-                            { "Name", pointOfInterestList[i].Name },
-                            { "Address", pointOfInterestList[i].AddressForSpeak },
+                            { "Name", WebUtility.HtmlEncode(pointOfInterestList[i].Name) },
+                            { "Address", $"<say-as interpret-as='address'>{WebUtility.HtmlEncode(pointOfInterestList[i].AddressForSpeak)}</say-as>" },
                         };
-                        pointOfInterestList[i].Speak = ResponseManager.GetResponse(promptTemplate, promptReplacements).Text;
+                        pointOfInterestList[i].Speak = ResponseManager.GetResponse(promptTemplate, promptReplacements).Speak;
                     }
                     else
                     {
-                        pointOfInterestList[i].Speak = pointOfInterestList[i].Name;
+                        pointOfInterestList[i].Speak = WebUtility.HtmlEncode(pointOfInterestList[i].Name);
                     }
                 }
 
@@ -735,6 +745,22 @@ namespace PointOfInterestSkill.Dialogs
             {
                 return card;
             }
+        }
+
+        /// <summary>
+        /// Decorate speak for speech-synthesis-markup-language.
+        /// </summary>
+        /// <param name="speak">Speak text that has been converted for html.</param>
+        /// <returns>Speak text surrounded by speak voice elements.</returns>
+        protected string DecorateSpeak(string speak)
+        {
+            var culture = CultureInfo.CurrentUICulture.Name;
+            if (!SpeakDefaults.ContainsKey(culture))
+            {
+                culture = "en-US";
+            }
+
+            return $"<speak version='1.0' xmlns='https://www.w3.org/2001/10/synthesis' xml:lang='{culture}'><voice name='{SpeakDefaults[culture]}'>{speak}</voice></speak>";
         }
 
         private string GetCardImageUri(string imagePath)
