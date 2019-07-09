@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using CalendarSkill.Models;
 using CalendarSkill.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,13 +13,12 @@ namespace CalendarSkillTest.API
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            var mockConfig = new BotSettings();
-            mockConfig.Properties = new Dictionary<string, string>
+            var mockConfig = new BotSettings
             {
-                { "googleAppName", "testAppName" },
-                { "googleClientId", "testClientId" },
-                { "googleClientSecret", "testClientSecret" },
-                { "googleScopes", "testScopes" }
+                GoogleAppName = "testAppName",
+                GoogleClientId = "testClientId",
+                GoogleClientSecret = "testClientSecret",
+                GoogleScopes = "testScopes"
             };
 
             serviceManager = new ServiceManager(mockConfig);
@@ -44,28 +42,28 @@ namespace CalendarSkillTest.API
         [TestMethod]
         public void GetMSUserServiceTest()
         {
-            IUserService userService = serviceManager.InitUserService("test token", EventSource.Microsoft);
+            var userService = serviceManager.InitUserService("test token", EventSource.Microsoft);
             Assert.IsTrue(userService is UserService);
         }
 
         [TestMethod]
         public void GetMSCalendarServiceTest()
         {
-            ICalendarService calendarService = serviceManager.InitCalendarService("test token", EventSource.Microsoft);
+            var calendarService = serviceManager.InitCalendarService("test token", EventSource.Microsoft);
             Assert.IsTrue(calendarService is CalendarService);
         }
 
         [TestMethod]
         public void GetGoogleUserServiceTest()
         {
-            IUserService userService = serviceManager.InitUserService("test token", EventSource.Google);
+            var userService = serviceManager.InitUserService("test token", EventSource.Google);
             Assert.IsTrue(userService is UserService);
         }
 
         [TestMethod]
         public void GetGoogleCalendarServiceTest()
         {
-            ICalendarService calendarService = serviceManager.InitCalendarService("test token", EventSource.Google);
+            var calendarService = serviceManager.InitCalendarService("test token", EventSource.Google);
             Assert.IsTrue(calendarService is CalendarService);
         }
 
@@ -74,7 +72,7 @@ namespace CalendarSkillTest.API
         {
             try
             {
-                IUserService userService = serviceManager.InitUserService("test token", EventSource.Other);
+                var userService = serviceManager.InitUserService("test token", EventSource.Other);
             }
             catch (Exception e)
             {
@@ -90,7 +88,7 @@ namespace CalendarSkillTest.API
         {
             try
             {
-                ICalendarService calendarService = serviceManager.InitCalendarService("test token", EventSource.Other);
+                var calendarService = serviceManager.InitCalendarService("test token", EventSource.Other);
             }
             catch (Exception e)
             {

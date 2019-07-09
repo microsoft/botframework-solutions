@@ -23,7 +23,7 @@ namespace CalendarSkill.Services
         /// <summary>
         /// Get the meetings that start time after now. Order by start time.
         /// </summary>
-        /// <param name="timeSpan">Timespan to get upcoming event whthin.</param>
+        /// <param name="timeSpan">Timespan to get upcoming event within.</param>
         /// <returns>the meetings list.</returns>
         Task<List<EventModel>> GetUpcomingEvents(TimeSpan? timeSpan = null);
 

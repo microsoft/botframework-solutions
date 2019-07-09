@@ -2,8 +2,8 @@
   "PointOfInterestWelcomeMessage": {
     "replies": [
       {
-        "text": "Welcome to Point of Interest bot! I can find points of interest, show a route to your destination, or find fun things nearby.",
-        "speak": "Welcome to Point of Interest bot! I can find points of interest, show a route to your destination, or find fun things nearby."
+        "text": "Welcome to the Point of Interest skill! I can find points of interest, show a route to your destination, or find fun things nearby.",
+        "speak": "Welcome to the Point of Interest skill! I can find points of interest, show a route to your destination, or find fun things nearby."
       }
     ],
     "suggestedActions": [

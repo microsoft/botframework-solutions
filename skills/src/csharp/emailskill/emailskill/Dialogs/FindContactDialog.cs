@@ -293,7 +293,7 @@ namespace EmailSkill.Dialogs
                 // when replaced by itself, the reason will be Confirm No.
                 var options = (FindContactDialogOptions)sc.Options;
 
-                // set the ConfirmPerson to null as defaut.
+                // set the ConfirmPerson to null as default.
                 state.FindContactInfor.ConfirmedContact = null;
                 return await sc.BeginDialogAsync(FindContactAction.UpdateName, options: options, cancellationToken: cancellationToken);
             }
