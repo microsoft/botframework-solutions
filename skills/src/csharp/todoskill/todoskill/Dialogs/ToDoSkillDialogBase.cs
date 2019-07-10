@@ -73,6 +73,10 @@ namespace ToDoSkill.Dialogs
             AddDialog(new ConfirmPrompt(Actions.ConfirmPrompt, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }
 
+        protected TemplateEngine LGEngine { get; set; } = new TemplateEngine();
+
+        protected ResourceMultiLanguageGenerator LGMultiLangEngine { get; set; }
+
         protected BotServices Services { get; set; }
 
         protected IStatePropertyAccessor<ToDoSkillState> ToDoStateAccessor { get; set; }
@@ -91,6 +95,11 @@ namespace ToDoSkill.Dialogs
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (dc.Context.TurnState.Get<ILanguageGenerator>() == null)
+            {
+                dc.Context.TurnState.Add<ILanguageGenerator>(LGMultiLangEngine);
+            }
+
             await DigestToDoLuisResult(dc);
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
@@ -681,19 +690,13 @@ namespace ToDoSkill.Dialogs
            int allTasksCount,
            string listType)
         {
-            var contentShowToDoTitle = lgEngine.EvaluateTemplate("ShowToDoTitle", new
+            var content = lgEngine.EvaluateTemplate("ShowToDoCard", new
             {
                 ListType = listType,
-                AllTasksCount = allTasksCount.ToString()
-            });
-
-            var contentShowToDoList = lgEngine.EvaluateTemplate("ShowToDoList", new
-            {
+                AllTasksCount = allTasksCount.ToString(),
                 ToDos = todos
             });
 
-            var contentShowToDoPageFooter = lgEngine.EvaluateTemplate("ShowToDoPageFooter", null);
-            var content = string.Format("{0}{1}{2}", contentShowToDoTitle, contentShowToDoList, contentShowToDoPageFooter);
             var reply = new Attachment()
             {
                 ContentType = "application/vnd.microsoft.card.adaptive",
