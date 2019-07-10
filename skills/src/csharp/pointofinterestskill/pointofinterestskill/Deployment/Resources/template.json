@@ -66,10 +66,6 @@
     "luisServiceLocation": {
       "type": "string",
       "defaultValue": "[resourceGroup().location]"
-    },
-    "azureMapsServiceName": {
-      "type": "string",
-      "defaultValue": "[concat(parameters('name'), '-maps')]"
     }
   },
   "variables": {
@@ -79,7 +75,7 @@
   "resources": [
     {
       "apiVersion": "2018-02-01",
-      "name": "b2246b83-1e89-47f1-9bd0-938bea197889",
+      "name": "02170180-24c4-499e-81e4-68ec3e59163f",
       "type": "Microsoft.Resources/deployments",
       "properties": {
         "mode": "Incremental",
@@ -192,19 +188,13 @@
       "sku": {
         "name": "[parameters('luisServiceSku')]"
       }
-    },
-    {
-      "type": "Microsoft.Maps/accounts",
-      "apiVersion": "2018-05-01",
-      "name": "[parameters('azureMapsServiceName')]",
-      "location": "global",
-      "sku": {
-        "name": "s1",
-        "tier": "Standard"
-      }
     }
   ],
   "outputs": {
+    "botWebAppName": {
+      "type": "string",
+      "value": "[parameters('botWebAppName')]"
+    },
     "ApplicationInsights": {
       "type": "object",
       "value": {
@@ -230,12 +220,9 @@
     "luis": {
       "type": "object",
       "value": {
+        "accountName": "[parameters('luisServiceName')]",
         "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisServiceName')),'2017-04-18').key1]"
       }
-    },
-    "azureMaps": {
-      "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.Maps/accounts', parameters('azureMapsServiceName')),'2018-05-01').primaryKey]"
     }
   }
 }
