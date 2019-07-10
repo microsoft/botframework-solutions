@@ -14,6 +14,7 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
@@ -33,6 +34,7 @@ namespace ToDoSkill.Dialogs
         private BotServices _services;
         private ResponseManager _responseManager;
         private IStatePropertyAccessor<ToDoSkillState> _toDoStateAccessor;
+        private ResourceMultiLanguageGenerator _lgMultiLangEngine;
 
         public MainDialog(
             BotSettings settings,
@@ -51,6 +53,8 @@ namespace ToDoSkill.Dialogs
             _responseManager = responseManager;
             TelemetryClient = telemetryClient;
             _toDoStateAccessor = conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
+
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("ToDoMainResponses.lg");
 
             var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
@@ -112,7 +116,6 @@ namespace ToDoSkill.Dialogs
             AddDialog(markToDoItemDialog ?? throw new ArgumentNullException(nameof(markToDoItemDialog)));
             AddDialog(deleteToDoItemDialog ?? throw new ArgumentNullException(nameof(deleteToDoItemDialog)));
             AddDialog(showToDoItemDialog ?? throw new ArgumentNullException(nameof(showToDoItemDialog)));
-
             InitialDialogId = nameof(AdaptiveDialog);
         }
 
@@ -120,14 +123,24 @@ namespace ToDoSkill.Dialogs
         {
             return new LuisRecognizer(new LuisApplication()
             {
-                Endpoint = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/e022ca2a-9429-49a3-a81f-5dbcd1fcce0e?verbose=true&timezoneOffset=-360&subscription-key=377adaff46bf4db6ac8815f2d2747738&q=",
-                EndpointKey = "377adaff46bf4db6ac8815f2d2747738",
-                ApplicationId = "e022ca2a-9429-49a3-a81f-5dbcd1fcce0e",
+                Endpoint = "https://westus.api.cognitive.microsoft.com/", // Configuration["LuisAPIHostName"],
+                EndpointKey = "897fdde0609d49918e4cc56b684daf26", // Configuration["LuisAPIKey"],
+                ApplicationId = "e022ca2a-9429-49a3-a81f-5dbcd1fcce0e", // Configuration["LuisAppId"]
             });
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
+            var a = CultureInfo.CurrentCulture.Name;
+            if (dc.Context.TurnState.Get<ILanguageGenerator>() == null)
+            {
+                dc.Context.TurnState.Add<ILanguageGenerator>(_lgMultiLangEngine);
+            }
+
+            //var result = await _lgMultiLangEngine.Generate(dc.Context, "[ToDoWelcomeMessage]", null);
+
+            //await dc.Context.SendActivityAsync(result);
+
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.ToDoWelcomeMessage));
         }
 
@@ -154,7 +167,6 @@ namespace ToDoSkill.Dialogs
                 if (dc.ActiveDialog == null)
                 {
                     await dc.BeginDialogAsync(nameof(AdaptiveDialog));
-
                 }
                 else
                 {

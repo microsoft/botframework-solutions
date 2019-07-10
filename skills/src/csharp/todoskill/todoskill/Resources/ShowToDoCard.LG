@@ -1,4 +1,4 @@
-﻿# ShowToDoTitle
+﻿# ShowToDoTitle(ListType, AllTasksCount)
 - ```
 {
     "body": [
@@ -175,5 +175,8 @@
 }
 ```
 
-# ShowToDoList
+# ShowToDoList(ToDos)
 - {join(foreach(ToDos, x , lgTemplate('ShowToDoItem', x)), ',')} 
+
+# ShowToDoCard
+- {join(createArray(lgTemplate('ShowToDoTitle', ListType, AllTasksCount), lgTemplate('ShowToDoList', ToDos), lgTemplate('ShowToDoPageFooter')), ' ')}
