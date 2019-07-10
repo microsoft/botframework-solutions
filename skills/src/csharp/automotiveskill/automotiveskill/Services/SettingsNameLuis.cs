@@ -10,7 +10,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public class settings_nameLuis: IRecognizerConvert
+    public class SettingsNameLuis: IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
@@ -42,7 +42,7 @@ namespace Luis
 
         public void Convert(dynamic result)
         {
-            var app = JsonConvert.DeserializeObject<settings_nameLuis>(JsonConvert.SerializeObject(result));
+            var app = JsonConvert.DeserializeObject<SettingsNameLuis>(JsonConvert.SerializeObject(result));
             Text = app.Text;
             AlteredText = app.AlteredText;
             Intents = app.Intents;

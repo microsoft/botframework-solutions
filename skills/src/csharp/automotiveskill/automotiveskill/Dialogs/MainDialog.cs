@@ -65,7 +65,7 @@ namespace AutomotiveSkill.Dialogs
             var localeConfig = _services.CognitiveModelSets[locale];
 
             // If dispatch result is general luis model
-            localeConfig.LuisServices.TryGetValue("settings", out var luisService);
+            localeConfig.LuisServices.TryGetValue("Settings", out var luisService);
 
             if (luisService == null)
             {
@@ -74,7 +74,7 @@ namespace AutomotiveSkill.Dialogs
             else
             {
                 var turnResult = EndOfTurn;
-                var result = await luisService.RecognizeAsync<Luis.settingsLuis>(dc.Context, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<Luis.SettingsLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
                 // Update state with vehicle settings luis result and entities
@@ -83,15 +83,15 @@ namespace AutomotiveSkill.Dialogs
                 // switch on general intents
                 switch (intent)
                 {
-                    case settingsLuis.Intent.VEHICLE_SETTINGS_CHANGE:
-                    case settingsLuis.Intent.VEHICLE_SETTINGS_DECLARATIVE:
-                    case settingsLuis.Intent.VEHICLE_SETTINGS_CHECK:
+                    case SettingsLuis.Intent.VEHICLE_SETTINGS_CHANGE:
+                    case SettingsLuis.Intent.VEHICLE_SETTINGS_DECLARATIVE:
+                    case SettingsLuis.Intent.VEHICLE_SETTINGS_CHECK:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(VehicleSettingsDialog));
                             break;
                         }
 
-                    case settingsLuis.Intent.None:
+                    case SettingsLuis.Intent.None:
                         {
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(AutomotiveSkillSharedResponses.DidntUnderstandMessage));
                             turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
@@ -140,7 +140,7 @@ namespace AutomotiveSkill.Dialogs
                 var localeConfig = _services.CognitiveModelSets[locale];
 
                 // check general luis intent
-                localeConfig.LuisServices.TryGetValue("general", out var luisService);
+                localeConfig.LuisServices.TryGetValue("General", out var luisService);
 
                 if (luisService == null)
                 {
