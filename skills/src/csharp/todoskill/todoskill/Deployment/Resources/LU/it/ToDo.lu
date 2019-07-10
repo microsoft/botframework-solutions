@@ -6,8 +6,8 @@
 - aggiungere {TaskContent=latte} nella mia lista della {ListType=spesa}
 - aggiungere l'{TaskContent=escursioni} nella mia lista di cose {ListType=da fare}
 - aggiungere {TaskContent=popcorn al caramello e formaggio} nella mia lista della {ListType=spesa}
-- aggiungere un'attivit‡ di finire l'{TaskContent=esame di guida} questa settimana
-- aggiungere un'attivit‡ di {TaskContent=prendere mary} dopo il lavoro
+- aggiungere un'attivit√† di finire l'{TaskContent=esame di guida} questa settimana
+- aggiungere un'attivit√† di {TaskContent=prendere mary} dopo il lavoro
 - aggiungeresti la {TaskContent=panna} alla lista di cose {ListType=da fare}?
 - aggiungi a {ListType=cosa fare} di acquistare un bel {TaskContent=maglione}
 - aggiungi a {ListType=cosa fare} di comprare {TaskContent=scarpe}
@@ -31,7 +31,7 @@
 - aggiungi comprare {TaskContent=gomma} da masticare
 - aggiungi comprare {TaskContent=latte} alla mia lista della {ListType=spesa}
 - aggiungi {TaskContent=correre} alla mia lista di cose {ListType=da fare}
-- aggiungi di pi˘ alla lista della {ListType=spesa}
+- aggiungi di pi√π alla lista della {ListType=spesa}
 - aggiungi i {TaskContent=brownies} alla lista della {ListType=spesa}
 - aggiungi l'acquisto di {TaskContent=cibo e bevande} alla mia lista della {ListType=spesa}
 - aggiungi {TaskContent=latte} alla lista della {ListType=spesa}
@@ -50,7 +50,7 @@
 - aggiungi {TaskContent=scarpe} alle mie liste della {ListType=spesa}
 - aggiungi {ListType=spesa} aggiungi {TaskContent=spinaci} alla mia lista della {ListType=spesa}
 - aggiungi {TaskContent=spremiagrumi} alla lista della {ListType=spesa}
-- aggiungi tagliati i {TaskContent=capelli} alle mie attivit‡
+- aggiungi tagliati i {TaskContent=capelli} alle mie attivit√†
 - aggiungi un articolo di {ListType=shopping} per acquistare {TaskContent=succo d'arancia}
 - aggiungi un articolo di {ListType=shopping} per comprare {TaskContent=abiti da ballo}
 - aggiungi un compito per khalifa di preparare il mio {TaskContent=materiale scolastico} nella mia lista
@@ -62,24 +62,24 @@
 - aggiungi una {TaskContent=lettura estiva} alla mia lista
 - aggiungi una nota alla lista della {ListType=spesa}
 - aggiungi una nuova lista della {ListType=spesa}
-- aggiungi un'attivit‡ acquista {TaskContent=frutta e verdura}
-- aggiungi un'{TaskContent=attivit‡} di apparecchiare la tavola da pranzo
-- aggiungi un'attivit‡ di comprare un {TaskContent=cappotto}
-- aggiungi un'{TaskContent=attivit‡} di fare acquisti a gnc dopo il lavoro
-- aggiungi un'attivit‡ di fare le {TaskContent=faccende casalinghe}
-- aggiungi un'attivit‡ di {TaskContent=ospiti} da invitare alla festa
-- aggiungi un'attivit‡ {TaskContent=pasta} domenica 3 marzo
-- aggiungi un'attivit‡ per anna west porta il mio {TaskContent=costume da bagno} per la mia vacanza
-- aggiungi un'{TaskContent=attivit‡} per jimmy di giocare ai videogiochi xbox con me dopo il lavoro
-- aggiungi un'attivit‡ per li lei di portare il mio {TaskContent=cappotto} da casa
-- aggiungi un'attivit‡ per raghu di portare i miei {TaskContent=cioccolatini} dalla germania
+- aggiungi un'attivit√† acquista {TaskContent=frutta e verdura}
+- aggiungi un'{TaskContent=attivit√†} di apparecchiare la tavola da pranzo
+- aggiungi un'attivit√† di comprare un {TaskContent=cappotto}
+- aggiungi un'{TaskContent=attivit√†} di fare acquisti a gnc dopo il lavoro
+- aggiungi un'attivit√† di fare le {TaskContent=faccende casalinghe}
+- aggiungi un'attivit√† di {TaskContent=ospiti} da invitare alla festa
+- aggiungi un'attivit√† {TaskContent=pasta} domenica 3 marzo
+- aggiungi un'attivit√† per anna west porta il mio {TaskContent=costume da bagno} per la mia vacanza
+- aggiungi un'{TaskContent=attivit√†} per jimmy di giocare ai videogiochi xbox con me dopo il lavoro
+- aggiungi un'attivit√† per li lei di portare il mio {TaskContent=cappotto} da casa
+- aggiungi un'attivit√† per raghu di portare i miei {TaskContent=cioccolatini} dalla germania
 - chiedi un incarico a kim di portare il mio {TaskContent=cappotto} da casa
 - crea da fare di andare a {TaskContent=correre} nel parco
 - crea da fare di {TaskContent=leggere} un libro stasera
-- crea un'attivit‡ di andare al {TaskContent=centro commerciale}
-- crea un'attivit‡ di cyber {TaskContent=shopping} l'11 di novembre
-- crea un'attivit‡ di {TaskContent=incontrare} i miei amici
-- crea un'attivit‡ di {TaskContent=incontrare} john dopo le 17
+- crea un'attivit√† di andare al {TaskContent=centro commerciale}
+- crea un'attivit√† di cyber {TaskContent=shopping} l'11 di novembre
+- crea un'attivit√† di {TaskContent=incontrare} i miei amici
+- crea un'attivit√† di {TaskContent=incontrare} john dopo le 17
 - mettere il {TaskContent=prosciutto} nella mia lista della {ListType=spesa}
 - posso aggiungere {TaskContent=camicie} alla lista di cose {ListType=da fare}?
 - posso aggiungere la {TaskContent=medicina} alla lista di cose {ListType=da fare}?
@@ -103,7 +103,7 @@
 - no grazie
 - no lascia perdere
 - no non farlo
-- non c'Ë bisogno grazie
+- non c'√® bisogno grazie
 - non ne ho bisogno
 - scusa cancella quello
 - scusa no
@@ -117,19 +117,19 @@
 - certo aggiungilo
 - confermali {ContainsAll=tutti}
 - confermalo
-- Ë bello
-- Ë tutto
+- √® bello
+- √® tutto
 - naturalmente
-- naturalmente sÏ
+- naturalmente s√¨
 - ok
 - sembra bello
-- sÏ
-- sÏ fai solo quello
-- sÏ per favore
-- sÏ procedi
-- sÏ, conferma
-- sÏ, voglio farlo
-- sono sicuro che voglio aggiungere questa attivit‡
+- s√¨
+- s√¨ fai solo quello
+- s√¨ per favore
+- s√¨ procedi
+- s√¨, conferma
+- s√¨, voglio farlo
+- sono sicuro che voglio aggiungere questa attivit√†
 
 
 ## DeleteToDo
@@ -140,13 +140,13 @@
 - elimina di andare a fare {TaskContent=escursione} domani
 - elimina il da fare {TaskContent=esercizio} giornaliero pianoforte
 - elimina il da fare {TaskContent=incontrare} i miei amici domani
-- elimina il da fare {TaskContent=incontrare} john quando viene qui il venerdÏ prossimo
+- elimina il da fare {TaskContent=incontrare} john quando viene qui il venerd√¨ prossimo
 - elimina il preparato di {TaskContent=pancake} dalla lista della {ListType=spesa}
-- elimina la seconda attivit‡ nella mia lista della {ListType=spesa}
-- elimina l'attivit‡ di andare a {TaskContent=pesca}
-- elimina l'attivit‡ di andare al {TaskContent=cinema} stasera
-- elimina l'attivit‡ di andare in {TaskContent=palestra} ogni mattina
-- elimina l'attivit‡ di {TaskContent=pulizie} di casa questo weekend
+- elimina la seconda attivit√† nella mia lista della {ListType=spesa}
+- elimina l'attivit√† di andare a {TaskContent=pesca}
+- elimina l'attivit√† di andare al {TaskContent=cinema} stasera
+- elimina l'attivit√† di andare in {TaskContent=palestra} ogni mattina
+- elimina l'attivit√† di {TaskContent=pulizie} di casa questo weekend
 - elimina le {TaskContent=arachidi} nella lista della {ListType=spesa}
 - elimina le {TaskContent=banane} dalla lista della {ListType=spesa}
 - elimina le {TaskContent=camicie} dalla lista
@@ -158,9 +158,9 @@
 - lista della {ListType=spesa} cancella il {TaskContent=latte}
 - lista della {ListType=spesa} cancella le {TaskContent=uova}
 - lista della {TaskContent={ListType=spesa}} cancella un
-- non c'Ë bisogno di comprare il {TaskContent=latte} nella lista della {ListType=spesa}
+- non c'√® bisogno di comprare il {TaskContent=latte} nella lista della {ListType=spesa}
 - omettere il {TaskContent=latte} nella lista della {ListType=spesa}
-- puoi aiutare a rimuovere {ContainsAll=tutte} le attivit‡?
+- puoi aiutare a rimuovere {ContainsAll=tutte} le attivit√†?
 - puoi eliminare {TaskContent=da fare} 1?
 - puoi eliminare l'{TaskContent=oggetto} xxx?
 - rimuovi il da fare andare in {TaskContent=palestra}
@@ -170,41 +170,41 @@
 - rimuovi la {TaskContent=classe} dalla lista di cose {ListType=da fare}
 - rimuovi la voce {TaskContent=parigi} dalla mia lista
 - rimuovi l'{TaskContent=aspirina} dalla lista della {ListType=spesa}
-- rimuovi l'attivit‡ di andare in {TaskContent=biblioteca} dopo lavoro
-- rimuovi l'attivit‡ di comprare cibo per {TaskContent=cani}
-- rimuovi l'attivit‡ di fare {TaskContent=escursione} questo fine settimana
-- rimuovi l'attivit‡ di fare {TaskContent=shopping}
-- rimuovi l'attivit‡ di fare {ListType={TaskContent=shopping}} con john questo sabato
-- rimuovi l'attivit‡ di tagliare il {TaskContent=prato}
+- rimuovi l'attivit√† di andare in {TaskContent=biblioteca} dopo lavoro
+- rimuovi l'attivit√† di comprare cibo per {TaskContent=cani}
+- rimuovi l'attivit√† di fare {TaskContent=escursione} questo fine settimana
+- rimuovi l'attivit√† di fare {TaskContent=shopping}
+- rimuovi l'attivit√† di fare {ListType={TaskContent=shopping}} con john questo sabato
+- rimuovi l'attivit√† di tagliare il {TaskContent=prato}
 - rimuovi le {TaskContent=scarpe nere} dalla lista della {ListType=spesa}
-- rimuovi {ContainsAll=tutte} le attivit‡
+- rimuovi {ContainsAll=tutte} le attivit√†
 - rimuovi {ContainsAll=tutti}
 - rimuovi {TaskContent=verdure da insalata} dalla lista della {ListType=spesa}
 - togli {TaskContent=calzini e scarpe} dalla mia lista della {ListType=spesa}
-- togli il {TaskContent=caffË} dalla mia lista della {ListType=spesa}
+- togli il {TaskContent=caff√®} dalla mia lista della {ListType=spesa}
 - togli {TaskContent=latte} dalla lista della {ListType=spesa}
 - togli {TaskContent=limoni e cipolle} dalla mia lista della {ListType=spesa}
 
 
 ## MarkToDo
-- completa l'attivit‡ di {TaskContent=fare shopping}
+- completa l'attivit√† di {TaskContent=fare shopping}
 - completa ritirare le {TaskContent=scarpe nere} nella mia lista di cose {ListType=da fare}
 - completa {ContainsAll=tutti}
 - contrassegna acquista il {TaskContent=latte} nella mia lista di cose {ListType=da fare}
-- contrassegna come completata la prima attivit‡
+- contrassegna come completata la prima attivit√†
 - contrassegna come completato compra il {TaskContent=pesce}
-- contrassegna come completato l'attivit‡ di visitare mia {TaskContent=nonna}
+- contrassegna come completato l'attivit√† di visitare mia {TaskContent=nonna}
 - contrassegna come completo il {TaskContent=pesce}
-- contrassegna come completo l'attivit‡ di comprare un po' di {TaskContent=cibo}
-- contrassegna come fatto l'attivit‡ di comprare {TaskContent=latte}
-- contrassegna come fatto l'attivit‡ di {TaskContent=leggere} un libro
+- contrassegna come completo l'attivit√† di comprare un po' di {TaskContent=cibo}
+- contrassegna come fatto l'attivit√† di comprare {TaskContent=latte}
+- contrassegna come fatto l'attivit√† di {TaskContent=leggere} un libro
 - contrassegna come fatto le {TaskContent=arachidi} nella mia lista della {ListType=spesa}
 - contrassegna come finito {TaskContent=andare a prendere} mary
 - contrassegna come finito {TaskContent=giocare} a badminton con tom
-- contrassegna come finito l'attivit‡ compra una bottiglia di {TaskContent=aceto}
-- contrassegna come finito l'attivit‡ di andare a {TaskContent=correre}
-- contrassegna come finito l'attivit‡ di andare a fare {ListType=shopping}
-- contrassegna come finito l'attivit‡ di prenotare un {TaskContent=ristorante} per la cena di domani
+- contrassegna come finito l'attivit√† compra una bottiglia di {TaskContent=aceto}
+- contrassegna come finito l'attivit√† di andare a {TaskContent=correre}
+- contrassegna come finito l'attivit√† di andare a fare {ListType=shopping}
+- contrassegna come finito l'attivit√† di prenotare un {TaskContent=ristorante} per la cena di domani
 - contrassegna {TaskContent=felice} nella lista di cose {ListType=da fare}
 - contrassegna il preparato di {TaskContent=pancake} nella mia lista della {ListType=spesa}
 - contrassegna {TaskContent=insalata} nella lista della {ListType=spesa}
@@ -214,12 +214,12 @@
 - contrassegna l'oggetto {TaskContent=spazzatura} dalla lista del {ListType=droghiere}
 - fammi spuntare la lista della {ListType=spesa}
 - finire le {TaskContent=arachidi} sulla lista della {ListType=spesa}
-- gi‡ completati gli articoli della {ListType=spesa} nella lista
+- gi√† completati gli articoli della {ListType=spesa} nella lista
 - imposta come finito la lista della {ListType=spesa}
 - imposta come finito l'elemento
-- la terza attivit‡ Ë finita
-- l'attivit‡ {TaskContent=abx-d} Ë stata fatta
-- l'attivit‡ di comprare {TaskContent=gomma da masticare} Ë stata completata
+- la terza attivit√† √® finita
+- l'attivit√† {TaskContent=abx-d} √® stata fatta
+- l'attivit√† di comprare {TaskContent=gomma da masticare} √® stata completata
 - lista della {ListType=spesa} appena fatto
 - lista della {ListType=spesa} completata
 - spunta come fatto lo {TaskContent=shampoo} dalla lista della {ListType=spesa}
@@ -228,9 +228,9 @@
 - spunta le {TaskContent=banane} dalla mia lista della {ListType=spesa}
 - spunta le {TaskContent=mele} dalla lista
 - spunta l'{TaskContent=incontro} con john alle 8 dalla lista di cose {ListType=da fare}
-- svolta l'{TaskContent=attivit‡ abc} nella nostra lista della {ListType=spesa}
-- svolta l'attivit‡ amido {TaskContent=tapioca} nella nostra lista della {ListType=spesa}
-- svolta l'attivit‡ di {TaskContent=shopping}-a
+- svolta l'{TaskContent=attivit√† abc} nella nostra lista della {ListType=spesa}
+- svolta l'attivit√† amido {TaskContent=tapioca} nella nostra lista della {ListType=spesa}
+- svolta l'attivit√† di {TaskContent=shopping}-a
 - termina le {TaskContent=escursioni} sulla mia lista di cose {ListType=da fare}
 - {ContainsAll=tutti} sono stati completati
 - {ContainsAll=tutti} sono stati comprati dalla lista della {ListType=spesa}
@@ -241,28 +241,28 @@
 
 ## ShowNextPage
 - ci sono altri compiti?
-- cosa c'Ë di pi˘?
-- cosa c'Ë nel prossimo?
-- cos'Ë il prossimo?
-- dimmi di pi˘
-- dimmi pi˘ attivit‡
-- mostra di pi˘
+- cosa c'√® di pi√π?
+- cosa c'√® nel prossimo?
+- cos'√® il prossimo?
+- dimmi di pi√π
+- dimmi pi√π attivit√†
+- mostra di pi√π
 - mostra il foglio successivo
 - mostra il maggiore
 - mostra il prossimo sito web
 - mostra il successivo
 - mostra la pagina successiva
-- mostra pi˘ attivit‡
-- mostra pi˘ lavoro
+- mostra pi√π attivit√†
+- mostra pi√π lavoro
 - prossimo
 - puoi mostrare la pagina successiva nella mia lista della {ListType=spesa}?
-- visualizza di pi˘
+- visualizza di pi√π
 - visualizza il successivo
 - visualizza la pagina successiva
 
 
 ## ShowPreviousPage
-- ho bisogno di controllare le attivit‡ precedenti
+- ho bisogno di controllare le attivit√† precedenti
 - mostra il precedente
 - mostra indietro
 - mostra la pagina precedente
@@ -279,17 +279,17 @@
 - accedi alla mia lista di cose {ListType=da fare}
 - aiuto per accedere alla mia lista personale
 - aiuto per mostrare la mia lista di cose {ListType=da fare}
-- c'Ë qualcosa nella mia lista di cose {ListType=da fare}?
-- controlla la mia lista di attivit‡
+- c'√® qualcosa nella mia lista di cose {ListType=da fare}?
+- controlla la mia lista di attivit√†
 - controlla la mia lista di cose {ListType=da fare}
-- cosa c'Ë nella mia lista della {ListType=spesa}?
+- cosa c'√® nella mia lista della {ListType=spesa}?
 - cosa devo comprare sulla lista della {ListType=spesa}?
 - cosa ho bisogno di acquistare nella lista della {ListType=spesa}?
 - devo vedere i miei compiti
 - devo vedere la lista della {ListType=spesa} che ho creato oggi
 - dove sono le note di {ListType=spesa} su cui ho lavorato la scorsa notte?
 - e la lista della {ListType=spesa}?
-- fammi vedere {ContainsAll=tutte} le attivit‡
+- fammi vedere {ContainsAll=tutte} le attivit√†
 - ho qualche lista?
 - ho una lista che si chiama lista della {ListType=spesa}?
 - leggi ad alta voce i miei compiti
@@ -308,7 +308,7 @@
 - trova i miei articoli {ListType=alimentari} che ho salvato sabato
 - trova la lista che ho creato per lo {ListType=shopping}
 - trova la {ListType=lista} degli acquisti
-- trova la lista delle attivit‡ su {ListType=shopping}
+- trova la lista delle attivit√† su {ListType=shopping}
 - trova la {ListType=lista} di cose da far per me
 - trova la mia lista della {ListType=spesa}
 - trova la {ListType=nota} etichettata alimenti
@@ -321,7 +321,7 @@
 - visualizza la lista di cose {ListType=da fare}
 - visualizza la mia lista della {ListType=spesa}
 - visualizza la nota di {ListType=spesa}
-- visualizza le attivit‡ nota
+- visualizza le attivit√† nota
 - visualizza le mie note di {ListType=spesa}
 - visualizza le note con prodotti {ListType=alimentari}
 - visualizza {ContainsAll=tutte} le note del mese scorso
@@ -407,7 +407,7 @@ $FoodOfGrocery:costolette di=
 
 $FoodOfGrocery:chiodi di garofano=
 
-$FoodOfGrocery:caffË=
+$FoodOfGrocery:caff√®=
 
 $FoodOfGrocery:mais=
 
