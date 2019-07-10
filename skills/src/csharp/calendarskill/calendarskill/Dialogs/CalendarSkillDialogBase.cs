@@ -21,6 +21,7 @@ using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
@@ -267,7 +268,7 @@ namespace CalendarSkill.Dialogs
 
             var overviewCard = new Card()
             {
-                Name = "CalendarOverview",
+                Name = GetDivergedCardName(dc.Context, "CalendarOverview"),
                 Data = new CalendarMeetingListCardData()
                 {
                     ListTitle = CalendarCommonStrings.OverviewTitle,
@@ -309,7 +310,7 @@ namespace CalendarSkill.Dialogs
 
             var overviewCard = new Card()
             {
-                Name = "CalendarGeneralMeetingList",
+                Name = GetDivergedCardName(dc.Context, "CalendarGeneralMeetingList"),
                 Data = new CalendarMeetingListCardData()
                 {
                     ListTitle = listTitle,
@@ -345,8 +346,8 @@ namespace CalendarSkill.Dialogs
 
             var participantContainerCard = new Card()
             {
-                Name = eventItem.Attendees.Count == 0 ? "CalendarDetailContainerNoParticipants" :
-                    eventItem.Attendees.Count > 5 ? "CalendarDetailContainerParticipantsMore" : "CalendarDetailContainerParticipantsLess",
+                Name = eventItem.Attendees.Count == 0 ? GetDivergedCardName(dc.Context, "CalendarDetailContainerNoParticipants") :
+                    eventItem.Attendees.Count > 5 ? GetDivergedCardName(dc.Context, "CalendarDetailContainerParticipantsMore") : GetDivergedCardName(dc.Context, "CalendarDetailContainerParticipantsLess"),
                 Data = new CalendarDetailContainerCardData()
                 {
                     Title = eventItem.Title,
@@ -1340,6 +1341,19 @@ namespace CalendarSkill.Dialogs
             }
 
             return attendees;
+        }
+
+        // Workaround until adaptive card renderer in teams is upgraded to v1.2
+        protected string GetDivergedCardName(ITurnContext turnContext, string card)
+        {
+            if (Channel.GetChannelId(turnContext) == Channels.Msteams)
+            {
+                return card + ".1.0";
+            }
+            else
+            {
+                return card;
+            }
         }
 
         private async Task<string> GetPhotoByIndexAsync(ITurnContext context, List<EventModel.Attendee> attendees, int index)

@@ -107,14 +107,20 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                bool? isTitleSkipByDefault = false;
+                isTitleSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventTitle")?.IsSkipByDefault;
+
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
                 if (state.RecreateState == RecreateEventState.Subject)
                 {
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CreateEventResponses.NoTitleShort) }, cancellationToken);
                 }
-                else
-                if (string.IsNullOrEmpty(state.Title))
+                else if (state.CreateHasDetail && isTitleSkipByDefault.GetValueOrDefault())
+                {
+                    return await sc.NextAsync(cancellationToken: cancellationToken);
+                }
+                else if (string.IsNullOrEmpty(state.Title))
                 {
                     if (state.Attendees.Count == 0 || state.Attendees == null)
                     {
@@ -145,12 +151,18 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                bool? isTitleSkipByDefault = false;
+                isTitleSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventTitle")?.IsSkipByDefault;
+
+                bool? isContentSkipByDefault = false;
+                isContentSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventContent")?.IsSkipByDefault;
+
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (sc.Result != null || state.CreateHasDetail || state.RecreateState == RecreateEventState.Subject)
+                if (sc.Result != null || (state.CreateHasDetail && isTitleSkipByDefault.GetValueOrDefault()) || state.RecreateState == RecreateEventState.Subject)
                 {
                     if (string.IsNullOrEmpty(state.Title))
                     {
-                        if (state.CreateHasDetail && state.RecreateState != RecreateEventState.Subject)
+                        if (state.CreateHasDetail && isTitleSkipByDefault.GetValueOrDefault() && state.RecreateState != RecreateEventState.Subject)
                         {
                             state.Title = CreateEventWhiteList.GetDefaultTitle();
                         }
@@ -170,7 +182,7 @@ namespace CalendarSkill.Dialogs
                     }
                 }
 
-                if (string.IsNullOrEmpty(state.Content) && (!state.CreateHasDetail || state.RecreateState == RecreateEventState.Content))
+                if (string.IsNullOrEmpty(state.Content) && (!(state.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault()) || state.RecreateState == RecreateEventState.Content))
                 {
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CreateEventResponses.NoContent) }, cancellationToken);
                 }
@@ -223,8 +235,11 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                bool? isContentSkipByDefault = false;
+                isContentSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventContent")?.IsSkipByDefault;
+
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (sc.Result != null && (!state.CreateHasDetail || state.RecreateState == RecreateEventState.Content))
+                if (sc.Result != null && (!(state.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault()) || state.RecreateState == RecreateEventState.Content))
                 {
                     if (string.IsNullOrEmpty(state.Content))
                     {
@@ -235,6 +250,10 @@ namespace CalendarSkill.Dialogs
                             state.Content = merged_content;
                         }
                     }
+                }
+                else if (state.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault())
+                {
+                    state.Content = CalendarCommonStrings.DefaultContent;
                 }
 
                 if (!state.StartDate.Any())
@@ -300,9 +319,12 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                bool? isLocationSkipByDefault = false;
+                isLocationSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventLocation")?.IsSkipByDefault;
+
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
-                if (state.Location == null && (!state.CreateHasDetail || state.RecreateState == RecreateEventState.Location))
+                if (state.Location == null && (!(state.CreateHasDetail && isLocationSkipByDefault.GetValueOrDefault()) || state.RecreateState == RecreateEventState.Location))
                 {
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CreateEventResponses.NoLocation) }, cancellationToken);
                 }
@@ -322,8 +344,11 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                bool? isLocationSkipByDefault = false;
+                isLocationSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventLocation")?.IsSkipByDefault;
+
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.Location == null && sc.Result != null && (!state.CreateHasDetail || state.RecreateState == RecreateEventState.Location))
+                if (state.Location == null && sc.Result != null && (!(state.CreateHasDetail && isLocationSkipByDefault.GetValueOrDefault()) || state.RecreateState == RecreateEventState.Location))
                 {
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                     var luisResult = state.LuisResult;
@@ -342,6 +367,10 @@ namespace CalendarSkill.Dialogs
                     {
                         state.Location = userInput;
                     }
+                }
+                else if (state.CreateHasDetail && isLocationSkipByDefault.GetValueOrDefault())
+                {
+                    state.Location = CalendarCommonStrings.DefaultLocation;
                 }
 
                 var source = state.EventSource;
@@ -514,8 +543,11 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                bool? isStartDateSkipByDefault = false;
+                isStartDateSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventStartDate")?.IsSkipByDefault;
+
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.CreateHasDetail && state.RecreateState != RecreateEventState.Time)
+                if (state.CreateHasDetail && isStartDateSkipByDefault.GetValueOrDefault() && state.RecreateState != RecreateEventState.Time)
                 {
                     return await sc.NextAsync(cancellationToken: cancellationToken);
                 }
@@ -537,10 +569,19 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                bool? isStartDateSkipByDefault = false;
+                isStartDateSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventStartDate")?.IsSkipByDefault;
+
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.CreateHasDetail && state.RecreateState != RecreateEventState.Time)
+                if (state.CreateHasDetail && isStartDateSkipByDefault.GetValueOrDefault() && state.RecreateState != RecreateEventState.Time)
                 {
                     var datetime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
+                    var defaultValue = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventStartDate")?.DefaultValue;
+                    if (int.TryParse(defaultValue, out var startDateOffset))
+                    {
+                        datetime = datetime.AddDays(startDateOffset);
+                    }
+
                     state.StartDate.Add(datetime);
                 }
                 else
@@ -694,8 +735,11 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                bool? isDurationSkipByDefault = false;
+                isDurationSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventDuration")?.IsSkipByDefault;
+
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.Duration > 0 || state.EndTime.Any() || state.EndDate.Any() || (state.CreateHasDetail && state.RecreateState != RecreateEventState.Time && state.RecreateState != RecreateEventState.Duration))
+                if (state.Duration > 0 || state.EndTime.Any() || state.EndDate.Any() || (state.CreateHasDetail && isDurationSkipByDefault.GetValueOrDefault() && state.RecreateState != RecreateEventState.Time && state.RecreateState != RecreateEventState.Duration))
                 {
                     return await sc.NextAsync(cancellationToken: cancellationToken);
                 }
@@ -717,6 +761,9 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                bool? isDurationSkipByDefault = false;
+                isDurationSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventDuration")?.IsSkipByDefault;
+
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 if (state.EndDate.Any() || state.EndTime.Any())
                 {
@@ -755,9 +802,17 @@ namespace CalendarSkill.Dialogs
                     state.Duration = (int)ts.TotalSeconds;
                 }
 
-                if (state.Duration <= 0 && state.CreateHasDetail && state.RecreateState != RecreateEventState.Time && state.RecreateState != RecreateEventState.Duration)
+                if (state.Duration <= 0 && state.CreateHasDetail && isDurationSkipByDefault.GetValueOrDefault() && state.RecreateState != RecreateEventState.Time && state.RecreateState != RecreateEventState.Duration)
                 {
-                    state.Duration = 1800;
+                    var defaultValue = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventDuration")?.DefaultValue;
+                    if (int.TryParse(defaultValue, out var durationMinutes))
+                    {
+                        state.Duration = durationMinutes * 60;
+                    }
+                    else
+                    {
+                        state.Duration = 1800;
+                    }
                 }
 
                 if (state.Duration <= 0 && sc.Result != null)

@@ -19,7 +19,7 @@ export namespace ConfirmRecognizerHelper {
 
             if (results.length > 0) {
                 const first: ModelResult = results[0];
-                const value: boolean = <boolean>first.resolution[valueKey].toString();
+                const value: boolean = <boolean>first.resolution[valueKey];
                 if (value !== undefined) {
                     result = {
                         succeeded: true,

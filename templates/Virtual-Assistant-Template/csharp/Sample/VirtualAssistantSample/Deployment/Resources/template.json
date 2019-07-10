@@ -179,6 +179,7 @@
       "properties": {
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
         "siteConfig": {
+          "webSocketsEnabled": true,
           "appSettings": [
             {
               "name": "MicrosoftAppId",
@@ -208,6 +209,7 @@
       "properties": {
         "displayName": "[parameters('botServiceName')]",
         "endpoint": "[variables('botEndpoint')]",
+        "isStreamingSupported": true,
         "msaAppId": "[parameters('microsoftAppId')]",
         "developerAppInsightKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]",
         "developerAppInsightsApplicationId": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).ApplicationId]"
@@ -319,6 +321,10 @@
     }
   ],
   "outputs": {
+    "botWebAppName": {
+      "type": "string",
+      "value": "[parameters('botWebAppName')]"
+    },
     "ApplicationInsights": {
       "type": "object",
       "value": {
@@ -344,6 +350,7 @@
     "luis": {
       "type": "object",
       "value": {
+        "accountName": "[parameters('luisServiceName')]",
         "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisServiceName')),'2017-04-18').key1]"
       }
     },

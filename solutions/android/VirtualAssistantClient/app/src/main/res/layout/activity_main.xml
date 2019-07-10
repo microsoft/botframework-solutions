@@ -20,6 +20,14 @@
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/suggestedactions"
+            android:background="@color/color_card_background"/>
+
+        <!-- Suggested Actions -->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/suggestedactions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_above="@+id/container_buttons"
             android:background="@color/color_card_background"/>
 
@@ -94,6 +102,13 @@
             android:layout_gravity="bottom"
             android:layout_marginLeft="14dp"
             android:orientation="vertical">
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switch_show_full_conversation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/nav_menu_show_full_conversation"/>
 
             <android.support.v7.widget.SwitchCompat
                 android:id="@+id/switch_show_textinput"

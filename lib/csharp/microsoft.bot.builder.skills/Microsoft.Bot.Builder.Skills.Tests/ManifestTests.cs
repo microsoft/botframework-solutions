@@ -53,8 +53,6 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 
             _services = new ServiceCollection();
 
-            _services.AddSingleton<SkillHttpAdapter, MockSkillHttpAdapter>();
-			_services.AddSingleton<SkillHttpBotAdapter>();
             _services.AddSingleton<SkillWebSocketAdapter, MockSkillWebSocketAdapter>();
 			_services.AddSingleton<SkillWebSocketBotAdapter>();
             _services.AddSingleton<IBotFrameworkHttpAdapter, MockBotFrameworkHttpAdapter>();
@@ -291,7 +289,6 @@ namespace Microsoft.Bot.Builder.Skills.Tests
 		{
 			var sp = _services.BuildServiceProvider();
 			var botFrameworkHttpAdapter = sp.GetService<IBotFrameworkHttpAdapter>();
-			var skillHttpAdapter = sp.GetService<SkillHttpAdapter>();
 			var skillWebSocketAdapter = sp.GetService<SkillWebSocketAdapter>();
 			var bot = sp.GetService<IBot>();
 			var controller = new MockSkillController(bot, _botSettings, botFrameworkHttpAdapter, skillWebSocketAdapter, _mockHttp.ToHttpClient(), manifestFileOverride);

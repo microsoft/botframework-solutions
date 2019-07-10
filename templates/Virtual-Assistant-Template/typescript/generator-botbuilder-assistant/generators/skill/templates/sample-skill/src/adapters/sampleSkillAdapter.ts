@@ -24,7 +24,7 @@ import { IBotSettings } from '../services/botSettings';
 
 export class SampleSkillAdapter extends SkillHttpBotAdapter {
 
-    constructor(
+    public constructor(
         settings: Partial<IBotSettings>,
         userState: UserState,
         conversationState: ConversationState,

@@ -259,9 +259,9 @@ namespace CalendarSkill.Dialogs
                         }
                     }
 
-                    if (filteredMeetingList.Count <= 0 && luisResult.Entities.number != null && (luisResult.Entities.ordinal == null || luisResult.Entities.ordinal.Length == 0))
+                    if (filteredMeetingList.Count <= 0 && generalLuisResult.Entities.number != null && (luisResult.Entities.ordinal == null || luisResult.Entities.ordinal.Length == 0))
                     {
-                        var value = luisResult.Entities.number[0];
+                        var value = generalLuisResult.Entities.number[0];
                         var num = int.Parse(value.ToString());
                         var currentList = GetCurrentPageMeetings(state.SummaryEvents, state);
                         if (num > 0 && num <= currentList.Count)
@@ -290,7 +290,7 @@ namespace CalendarSkill.Dialogs
                                         if (meeting.StartTime.TimeOfDay == utcStartTime.TimeOfDay)
                                         {
                                             showMeetingReason = ShowMeetingReason.ShowFilteredByTimeMeetings;
-                                            filterKeyWord = string.Format("H:mm", dateTime);
+                                            filterKeyWord = dateTime.ToString("H:mm");
                                             filteredMeetingList.Add(meeting);
                                         }
                                     }

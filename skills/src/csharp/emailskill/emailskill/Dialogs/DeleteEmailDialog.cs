@@ -97,7 +97,7 @@ namespace EmailSkill.Dialogs
                         { "EmailDetails", speech },
                     };
 
-                    var recipientCard = message.ToRecipients.Count() > 5 ? "DetailCard_RecipientMoreThanFive" : "DetailCard_RecipientLessThanFive";
+                    var recipientCard = message.ToRecipients.Count() > 5 ? GetDivergedCardName(sc.Context, "DetailCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "DetailCard_RecipientLessThanFive");
                     var prompt = ResponseManager.GetCardResponse(
                         DeleteEmailResponses.DeleteConfirm,
                         new Card("EmailDetailCard", emailCard),

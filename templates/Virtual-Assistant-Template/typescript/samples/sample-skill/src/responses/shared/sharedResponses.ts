@@ -13,10 +13,10 @@ export class SharedResponses implements IResponseIdCollection {
     // Generated accessors
     public name: string = SharedResponses.name;
     public static pathToResource?: string = join(__dirname, 'resources');
-    public static readonly didntUnderstandMessage   : string = 'DidntUnderstandMessage';
-    public static readonly cancellingMessage : string = 'CancellingMessage';
-    public static readonly noAuth : string = 'NoAuth';
-    public static readonly authFailed : string = 'AuthFailed';
-    public static readonly actionEnded : string = 'ActionEnded';
-    public static readonly errorMessage : string = 'ErrorMessage';
+    public static readonly didntUnderstandMessage: string = 'DidntUnderstandMessage';
+    public static readonly cancellingMessage: string = 'CancellingMessage';
+    public static readonly noAuth: string = 'NoAuth';
+    public static readonly authFailed: string = 'AuthFailed';
+    public static readonly actionEnded: string = 'ActionEnded';
+    public static readonly errorMessage: string = 'ErrorMessage';
 }

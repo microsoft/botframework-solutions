@@ -10,7 +10,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public class PointOfInterestLuis: IRecognizerConvert
+    public partial class PointOfInterestLuis: IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
@@ -31,6 +31,9 @@ namespace Luis
 
             // Built-in entities
             public double[] number;
+            // Workaround. Remove them when combined to geographV2[] in 4.5
+            public string[] geographyV2_poi;
+            public string[] geographyV2_city;
 
             // Lists
             public string[][] ROUTE_TYPE;
@@ -41,6 +44,8 @@ namespace Luis
                 public InstanceData[] KEYWORD;
                 public InstanceData[] ADDRESS;
                 public InstanceData[] number;
+                public InstanceData[] geographyV2_poi;
+                public InstanceData[] geographyV2_city;
                 public InstanceData[] ROUTE_TYPE;
             }
             [JsonProperty("$instance")]
@@ -53,7 +58,7 @@ namespace Luis
 
         public void Convert(dynamic result)
         {
-            var app = JsonConvert.DeserializeObject<PointOfInterestLuis>(JsonConvert.SerializeObject(result));
+            var app = JsonConvert.DeserializeObject<PointOfInterestLuis>(JsonConvert.SerializeObject(result, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
             Text = app.Text;
             AlteredText = app.AlteredText;
             Intents = app.Intents;

@@ -12,7 +12,6 @@ import { SkillHttpTransport } from './http';
 import { IAction, ISkillManifest, ISlot, SkillEvents } from './models';
 import { SkillContext } from './skillContext';
 import { ISkillTransport, TokenRequestHandler } from './skillTransport';
-import { SkillWebSocketTransport } from './websocket';
 
 /**
  * The SkillDialog class provides the ability for a Bot to send/receive messages to a remote Skill (itself a Bot).
@@ -27,20 +26,22 @@ export class SkillDialog extends ComponentDialog {
 
     private readonly queuedResponses: Activity[];
 
-    constructor(skillManifest: ISkillManifest,
-                appCredentials: MicrosoftAppCredentials,
-                telemetryClient: BotTelemetryClient,
-                skillContextAccessor: StatePropertyAccessor<SkillContext>,
-                authDialog?: MultiProviderAuthDialog,
-                skillTransport?: ISkillTransport) {
+    public constructor(
+        skillManifest: ISkillManifest,
+        appCredentials: MicrosoftAppCredentials,
+        telemetryClient: BotTelemetryClient,
+        skillContextAccessor: StatePropertyAccessor<SkillContext>,
+        authDialog?: MultiProviderAuthDialog,
+        skillTransport?: ISkillTransport
+    ) {
         super(skillManifest.id);
-        if (!skillManifest) { throw new Error('skillManifest has no value'); }
+        if (skillManifest === undefined) { throw new Error('skillManifest has no value'); }
         this.skillManifest = skillManifest;
 
-        if (!appCredentials) { throw new Error('appCredentials has no value'); }
+        if (appCredentials === undefined) { throw new Error('appCredentials has no value'); }
         this.appCredentials = appCredentials;
 
-        if (!telemetryClient) { throw new Error('telemetryClient has no value'); }
+        if (telemetryClient === undefined) { throw new Error('telemetryClient has no value'); }
         this.telemetryClient = telemetryClient;
 
         this.queuedResponses = [];
@@ -58,7 +59,7 @@ export class SkillDialog extends ComponentDialog {
         if (reason === DialogReason.cancelCalled) {
             // when dialog is being ended/cancelled, send an activity to skill
             // to cancel all dialogs on the skill side
-            if (this.skillTransport) {
+            if (this.skillTransport !== undefined) {
                 await this.skillTransport.cancelRemoteDialogs(context);
             }
         }
@@ -87,10 +88,10 @@ export class SkillDialog extends ComponentDialog {
         const actionName: string = <string>(options || '');
         if (actionName) {
             // Find the specified within the selected Skill for slot filling evaluation
-            const action: IAction|undefined = this.skillManifest.actions.find((item: IAction) => item.id === actionName);
+            const action: IAction|undefined = this.skillManifest.actions.find((item: IAction): boolean => item.id === actionName);
             if (action !== undefined) {
                 // If the action doesn't define any Slots or SkillContext is empty then we skip slot evaluation
-                if (action.definition.slots && action.definition.slots.length > 0) {
+                if (action.definition.slots !== undefined && action.definition.slots.length > 0) {
                     // Match Slots to Skill Context
                     slots = await this.matchSkillContextToSlots(innerDC, action.definition.slots, skillContext);
                 }
@@ -110,16 +111,16 @@ export class SkillDialog extends ComponentDialog {
             // Retrieve a distinct list of all slots,
             // some actions may use the same slot so we use distinct to ensure we only get 1 instance.
             const skillSlots: ISlot[] = this.skillManifest.actions.reduce(
-                (acc: ISlot[], curr: IAction) => {
+                (acc: ISlot[], curr: IAction): ISlot[] => {
                     const currDistinct: ISlot[] = curr.definition.slots.filter(
-                        (slot: ISlot) => !acc.find((item: ISlot) => item.name === slot.name)
+                        (slot: ISlot): boolean => !acc.find((item: ISlot): boolean => item.name === slot.name)
                     );
 
                     return acc.concat(currDistinct);
                 },
                 []);
 
-            if (skillSlots) {
+            if (skillSlots !== undefined) {
                 // Match Slots to Skill Context
                 slots = await this.matchSkillContextToSlots(innerDC, skillSlots, skillContext);
             }
@@ -159,6 +160,7 @@ export class SkillDialog extends ComponentDialog {
             const result: DialogTurnResult = await innerDC.continueDialog();
 
             // forward the token response to the skill
+            // eslint-disable-next-line @typescript-eslint/tslint/config
             if (result.status === DialogTurnStatus.complete && isProviderTokenResponse(result.result)) {
                 activity.type = ActivityTypes.Event;
                 activity.name = TokenEvents.tokenResponseEventName;
@@ -186,8 +188,8 @@ export class SkillDialog extends ComponentDialog {
     public async matchSkillContextToSlots(innerDc: DialogContext, actionSlots: ISlot[], skillContext: SkillContext): Promise<SkillContext> {
         const slots: SkillContext = new SkillContext();
 
-        if (actionSlots && actionSlots.length > 0) {
-            actionSlots.forEach(async (slot: ISlot) => {
+        if (actionSlots !== undefined && actionSlots.length > 0) {
+            actionSlots.forEach(async (slot: ISlot): Promise<void> => {
                 // For each slot we check to see if there is an exact match, if so we pass this slot across to the skill
                 const value: Object|undefined = skillContext.getObj(slot.name);
                 if (value) {
@@ -251,6 +253,7 @@ export class SkillDialog extends ComponentDialog {
 
             if (this.authDialog) {
                 const authResult: DialogTurnResult = await dialogContext.beginDialog(this.authDialog.id);
+                // eslint-disable-next-line @typescript-eslint/tslint/config
                 if (isProviderTokenResponse(authResult.result)) {
                     const tokenEvent: Activity = ActivityExtensions.createReply(activity);
                     tokenEvent.type = ActivityTypes.Event;

@@ -13,16 +13,21 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.microsoft.bot.builder.solutions.directlinespeech.ConfigurationManager;
 import com.microsoft.bot.builder.solutions.directlinespeech.SpeechSdk;
 import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
+import com.microsoft.bot.builder.solutions.virtualassistant.ISpeechService;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.configuration.DefaultConfiguration;
 import com.microsoft.bot.builder.solutions.virtualassistant.widgets.WidgetBotRequest;
@@ -36,9 +41,12 @@ import java.io.File;
 import java.io.IOException;
 
 import client.model.BotConnectorActivity;
+import client.model.InputHints;
 import events.ActivityReceived;
 import events.Recognized;
 import events.RecognizedIntermediateResult;
+import events.RequestTimeout;
+import events.SynthesizerStopped;
 
 /**
  * The SpeechService is the connection between bot and activities and widgets
@@ -57,19 +65,110 @@ public class SpeechService extends Service {
     public static final String ACTION_START_LISTENING = "ACTION_START_LISTENING";
 
     // STATE
-    private IBinder binder;
+    private ISpeechService.Stub binder;
     private SpeechSdk speechSdk;
     private ConfigurationManager configurationManager;
     private LocationProvider locationProvider;
+    private Gson gson;
+    private boolean shouldListenAgain;
 
     // CONSTRUCTOR
     public SpeechService() {
-        binder = new ServiceBinder(this);
+        binder = new ISpeechService.Stub() {
+            @Override
+            public boolean isSpeechSdkRunning() throws RemoteException {
+                return speechSdk != null;
+            }
+
+            @Override
+            public void sendTextMessage(String msg) {
+                if (speechSdk != null) speechSdk.sendActivityMessageAsync(msg);
+            }
+
+            /**
+             * Initialize the speech SDK.
+             * Note: This can be called repeatedly without negative consequences, i.e. device rotation
+             * @param haveRecordAudioPermission true or false
+             */
+            @Override
+            public void initializeSpeechSdk(boolean haveRecordAudioPermission){
+                SpeechService.this.initializeSpeechSdk(haveRecordAudioPermission);
+            }
+
+            @Override
+            public void connectAsync(){
+                speechSdk.connectAsync();
+            }
+
+            @Override
+            public void startLocationUpdates() {
+                SpeechService.this.startLocationUpdates();
+            }
+
+            @Override
+            public void resetBot(){
+                shouldListenAgain = false;
+                speechSdk.resetBot(configurationManager.getConfiguration());
+            }
+
+            @Override
+            public String getConfiguration(){
+                return gson.toJson(configurationManager.getConfiguration());
+            }
+
+            @Override
+            public void sendLocationEvent(String lat, String lon){
+                speechSdk.sendLocationEvent(lat, lon);
+            }
+
+            @Override
+            public void requestWelcomeCard(){
+                speechSdk.requestWelcomeCard();
+            }
+
+            @Override
+            public void injectReceivedActivity(String json){
+                speechSdk.activityReceived(json);
+            }
+
+            @Override
+            public void listenOnceAsync(){
+                speechSdk.listenOnceAsync();
+            }
+
+            @Override
+            public void sendActivityMessageAsync(String msg){
+                speechSdk.sendActivityMessageAsync(msg);
+            }
+
+            @Override
+            public String getSuggestedActions(){
+                return gson.toJson(speechSdk.getSuggestedActions());
+            }
+
+            @Override
+            public void clearSuggestedActions(){
+                speechSdk.clearSuggestedActions();
+            }
+
+            @Override
+            public void setConfiguration(String json) {
+                Configuration configuration = gson.fromJson(json, new TypeToken<Configuration>(){}.getType());
+                configurationManager.setConfiguration(configuration);
+            }
+        };
     }
 
     @Override
     public IBinder onBind(Intent intent) {
+        Log.d(TAG_FOREGROUND_SERVICE, "onBind()");
         return binder;
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        Log.d(TAG_FOREGROUND_SERVICE, "onUnbind()");
+        return super.onUnbind(intent);
     }
 
     @Override
@@ -77,6 +176,7 @@ public class SpeechService extends Service {
         super.onCreate();
         Log.d(TAG_FOREGROUND_SERVICE, "onCreate()");
         EventBus.getDefault().register(this);
+        gson = new Gson();
 
         // set up configuration for SpeechSdk
         configurationManager = new ConfigurationManager(this);
@@ -84,13 +184,11 @@ public class SpeechService extends Service {
         Configuration configuration = configurationManager.getConfiguration();
         if (configuration.isEmpty()){
             // set up defaults
-            configuration.serviceKey = DefaultConfiguration.COGNITIVE_SERVICES_SUBSCRIPTION_KEY;
-            configuration.botId = DefaultConfiguration.BOT_ID;
-            configuration.serviceRegion = DefaultConfiguration.SPEECH_REGION;
-            configuration.voiceName = DefaultConfiguration.VOICE_NAME;
-            configuration.directlineConstant = DefaultConfiguration.DIRECT_LINE_CONSTANT;
+            configuration.serviceKey = DefaultConfiguration.SPEECH_SERVICE_SUBSCRIPTION_KEY;
+            configuration.botId = DefaultConfiguration.DIRECT_LINE_SPEECH_SECRET_KEY;
+            configuration.serviceRegion = DefaultConfiguration.SPEECH_SERVICE_SUBSCRIPTION_KEY_REGION;
             configuration.userName = DefaultConfiguration.USER_NAME;
-            configuration.userId = DefaultConfiguration.USER_ID;
+            configuration.userId = DefaultConfiguration.USER_FROM_ID;
             configuration.locale = DefaultConfiguration.LOCALE;
             configuration.geolat = DefaultConfiguration.GEOLOCATION_LAT;
             configuration.geolon = DefaultConfiguration.GEOLOCATION_LON;
@@ -101,7 +199,9 @@ public class SpeechService extends Service {
         locationProvider = new LocationProvider(this, location -> {
             final String locLat = String.valueOf(location.getLatitude());
             final String locLon = String.valueOf(location.getLongitude());
-            speechSdk.sendLocationEvent(locLat, locLon);
+            if (speechSdk != null) {
+                speechSdk.sendLocationEvent(locLat, locLon);
+            }
         });
     }
 
@@ -139,7 +239,7 @@ public class SpeechService extends Service {
     }
 
     private void startForegroundService() {
-        Log.d(TAG_FOREGROUND_SERVICE, "startForegroundService()");
+        Log.d(TAG_FOREGROUND_SERVICE, "startForegroundService() starting");
 
         // Create notification default intent
         Intent intent = new Intent();
@@ -198,9 +298,11 @@ public class SpeechService extends Service {
         Notification notification = builder.build();
 
         // Start foreground service
-        startForeground(1, notification);
+        startForeground(STOP_FOREGROUND_REMOVE, notification);
 
         startLocationUpdates();
+
+        Log.d(TAG_FOREGROUND_SERVICE, "startForegroundService() complete");
     }
 
     private void stopForegroundService() {
@@ -219,52 +321,58 @@ public class SpeechService extends Service {
         locationProvider.startLocationUpdates();
     }
 
-    /**
-     * Initialize the speech SDK.
-     * Note: This can be called repeatedly without negative consequences, i.e. device rotation
-     * @param haveRecordAudioPermission true or false
-     */
-    public void initializeSpeechSdk(boolean haveRecordAudioPermission){
+    private void initializeSpeechSdk(boolean haveRecordAudioPermission){
         if (speechSdk != null) {
+            Log.d(TAG_FOREGROUND_SERVICE, "resetting SpeechSDK");
             speechSdk.reset();
         }
         speechSdk = new SpeechSdk();
-        File directory = this.getFilesDir();
+        File directory = getFilesDir();
         Configuration configuration = configurationManager.getConfiguration();
         speechSdk.initialize(configuration, haveRecordAudioPermission, directory.getPath());
     }
 
-    public SpeechSdk getSpeechSdk(){
-        if (speechSdk == null)
-            throw new IllegalStateException("initializeSpeechSdk() hasn't been called");
-        else
-            return speechSdk;
+    // EventBus: the synthesizer has stopped playing
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventSynthesizerStopped(SynthesizerStopped event) {
+
+        if(shouldListenAgain){
+            shouldListenAgain = false;
+            speechSdk.listenOnceAsync();
+        }
+
     }
 
+    // EventBus: the previous request timed out
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventRequestTimeout(RequestTimeout event) {
+        broadcastTimeout(event);
+    }
 
     // EventBus: the user spoke and the app recognized intermediate speech
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onRecognizedIntermediateResultEvent(RecognizedIntermediateResult event) {
+    public void onEventRecognizedIntermediateResult(RecognizedIntermediateResult event) {
         updateBotRequestWidget(event.recognized_speech);
     }
 
     // EventBus: the user spoke and the app recognized the speech. Disconnect mic.
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onRecognizedEvent(Recognized event) {
+    public void onEventRecognized(Recognized event) {
         updateBotRequestWidget(event.recognized_speech);
     }
 
     // EventBus: received a response from Bot
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onActivityReceivedEvent(ActivityReceived activityReceived) throws IOException {
+    public void onEventActivityReceived(ActivityReceived activityReceived) throws IOException {
         if (activityReceived.botConnectorActivity != null) {
             BotConnectorActivity botConnectorActivity = activityReceived.botConnectorActivity;
 
-            String amount;
-
             switch (botConnectorActivity.getType()) {
                 case "message":
+                    // update Response widget
                     updateBotResponseWidget(botConnectorActivity.getText());
+                    // update client apps
+                    broadcastActivity(botConnectorActivity);
                     break;
                 case "dialogState":
                     Log.i(TAG_FOREGROUND_SERVICE, "Activity with DialogState");
@@ -273,8 +381,20 @@ public class SpeechService extends Service {
                     Log.i(TAG_FOREGROUND_SERVICE, "Activity with PlayLocalFile");
                     playMediaStream(botConnectorActivity.getFile());
                     break;
-                default:
+                case "OpenDefaultApp":
+                    Log.i(TAG_FOREGROUND_SERVICE, "OpenDefaultApp");
+                    openDefaultApp(botConnectorActivity);
                     break;
+                default:
+                    broadcastWidgetUpdate(botConnectorActivity);
+                    break;
+            }
+
+            // make the bot automatically listen again
+            if(botConnectorActivity.getInputHint() != null){
+                if(botConnectorActivity.getInputHint().equals(InputHints.EXPECTINGINPUT)){
+                    shouldListenAgain = true;
+                }
             }
         }
     }
@@ -289,7 +409,49 @@ public class SpeechService extends Service {
         catch(IOException e) {
             Log.e(TAG_FOREGROUND_SERVICE, "IOexception " + e.getMessage());
         }
+    }
 
+    private void openDefaultApp(BotConnectorActivity botConnectorActivity){
+        String intentStr = botConnectorActivity.getText();
+        if (intentStr.startsWith("geo")){
+            Uri intentUri = Uri.parse(intentStr);
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, intentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                startActivity(mapIntent);
+            }
+        }
+        if (intentStr.startsWith("tel")){
+            Uri intentUri = Uri.parse(intentStr);
+            Intent dialerIntent = new Intent(Intent.ACTION_DIAL, intentUri);
+            if (dialerIntent.resolveActivity(getPackageManager()) != null) {
+                startActivity(dialerIntent);
+            }
+        }
+    }
+
+    private void broadcastActivity(BotConnectorActivity botConnectorActivity){
+        final String json = gson.toJson(botConnectorActivity);
+        final Intent intent=new Intent();
+        intent.setAction("com.microsoft.broadcast");
+        intent.putExtra("BotConnectorActivity",json);
+        sendBroadcast(intent);
+    }
+
+    private void broadcastTimeout(RequestTimeout event){
+        final String json = gson.toJson(event);
+        final Intent intent=new Intent();
+        intent.setAction("com.microsoft.broadcast");
+        intent.putExtra("RequestTimeout",json);
+        sendBroadcast(intent);
+    }
+
+    private void broadcastWidgetUpdate(BotConnectorActivity botConnectorActivity){
+        final String json = gson.toJson(botConnectorActivity);
+        final Intent intent=new Intent();
+        intent.setAction("com.microsoft.broadcast");
+        intent.putExtra("WidgetUpdate",json);
+        sendBroadcast(intent);
     }
 
     private void updateBotResponseWidget(String text){
@@ -310,13 +472,5 @@ public class SpeechService extends Service {
         ComponentName thisWidget = new ComponentName(context, WidgetBotRequest.class);
         remoteViews.setTextViewText(R.id.appwidget_text, text);
         appWidgetManager.updateAppWidget(thisWidget, remoteViews);
-    }
-
-    public Configuration getConfiguration(){
-        return configurationManager.getConfiguration();
-    }
-
-    public void setConfiguration(Configuration configuration){
-        configurationManager.setConfiguration(configuration);
     }
 }

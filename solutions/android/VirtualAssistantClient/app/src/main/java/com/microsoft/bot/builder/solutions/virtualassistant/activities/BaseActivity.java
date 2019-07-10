@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -21,9 +22,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.microsoft.bot.builder.solutions.virtualassistant.ISpeechService;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
-import com.microsoft.bot.builder.solutions.virtualassistant.service.ServiceBinder;
-import com.microsoft.bot.builder.solutions.virtualassistant.service.SpeechService;
 
 /**
  * This base class provides functionality that is reusable in Activities of this app
@@ -31,14 +31,16 @@ import com.microsoft.bot.builder.solutions.virtualassistant.service.SpeechServic
 public abstract class BaseActivity extends AppCompatActivity {
 
     // Constants
+    public static final String LOGTAG = "BaseActivity";
     private static final Integer PERMISSION_REQUEST_RECORD_AUDIO = 101;
     private static final Integer PERMISSION_REQUEST_FINE_LOCATION = 102;
     private static final String SHARED_PREFS_NAME = "my_shared_prefs";
     protected static final String SHARED_PREF_SHOW_TEXTINPUT = "SHARED_PREF_SHOW_TEXTINPUT";
+    protected static final String SHARED_PREF_SHOW_FULL_CONVERSATION = "SHARED_PREF_SHOW_FULL_CONVERSATION";
 
     // State
     private SharedPreferences sharedPreferences;
-    protected SpeechService speechServiceBinder;
+    protected ISpeechService speechServiceBinder;
 
     // Override these
     protected void permissionDenied(String manifestPermission){};
@@ -188,32 +190,37 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void doBindService() {
-        Intent intent = null;
-        intent = new Intent(this, SpeechService.class);
-        bindService(intent, myConnection, Context.BIND_AUTO_CREATE);
+        Intent intent = new Intent();
+        intent.setClassName("com.microsoft.bot.builder.solutions.virtualassistant","com.microsoft.bot.builder.solutions.virtualassistant.service.SpeechService");
+        boolean success = bindService(intent, myConnection, Context.BIND_AUTO_CREATE);
+        Log.d(LOGTAG,"success = "+success);
     }
 
     public ServiceConnection myConnection = new ServiceConnection() {
 
         public void onServiceConnected(ComponentName className, IBinder binder) {
-            speechServiceBinder = ((ServiceBinder) binder).getSpeechService();
-            Log.d("ServiceConnection","connected");
+            speechServiceBinder = ISpeechService.Stub.asInterface(binder);
+            Log.d(LOGTAG,"connected");
             // now use speechServiceBinder to execute methods in the service
             serviceConnected();
         }
 
         public void onServiceDisconnected(ComponentName className) {
-            Log.d("ServiceConnection","disconnected");
+            Log.d(LOGTAG,"disconnected");
             speechServiceBinder = null;
         }
     };
 
     protected void initializeAndConnect(){
         if (speechServiceBinder != null) {
-            speechServiceBinder.initializeSpeechSdk(true);
-            speechServiceBinder.getSpeechSdk().connectAsync();
+            try {
+                speechServiceBinder.initializeSpeechSdk(true);
+                speechServiceBinder.connectAsync();
+            } catch (RemoteException exception){
+                Log.e(LOGTAG, exception.getMessage());
+            }
         } else {
-            Log.e("ServiceConnection", "do not have a binding to the service");
+            Log.e(LOGTAG, "do not have a binding to the service");
         }
     }
 

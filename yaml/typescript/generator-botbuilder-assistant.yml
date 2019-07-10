@@ -1,0 +1,49 @@
+# specific branch build
+trigger:
+  branches:  
+    include:
+    - master
+    - feature/*
+
+  paths:
+    include:
+    - 'templates/Virtual-Assistant-Template/typescript/generator-botbuilder-assistant/*'
+
+# By default will disable PR builds
+pr: none 
+
+pool:
+  name: Hosted VS2017
+steps:
+- task: NodeTool@0
+  displayName: 'Use Node 10.8.0'
+  inputs:
+    versionSpec: 10.8.0
+
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    workingDir: 'templates/Virtual-Assistant-Template/typescript/generator-botbuilder-assistant'
+    verbose: false
+
+- task: Npm@1
+  displayName: 'npm test - coverage'
+  inputs:
+    command: custom
+    workingDir: 'templates/Virtual-Assistant-Template/typescript/generator-botbuilder-assistant'
+    verbose: false
+    customCommand: 'run test-coverage-ci'
+
+- task: PublishTestResults@2
+  displayName: 'publish test results'
+  inputs:
+    testResultsFiles: 'test-results.xml'
+    searchFolder: 'templates/Virtual-Assistant-Template/typescript/generator-botbuilder-assistant'
+    failTaskOnFailedTests: true
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'publish code coverage'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: 'templates/Virtual-Assistant-Template/typescript/generator-botbuilder-assistant/coverage/cobertura-coverage.xml'
+    reportDirectory: 'templates/Virtual-Assistant-Template/typescript/generator-botbuilder-assistant/coverage/'

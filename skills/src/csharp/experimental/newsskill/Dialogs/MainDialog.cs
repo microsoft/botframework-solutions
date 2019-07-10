@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using NewsSkill.Models;
 using NewsSkill.Responses.Main;
@@ -27,6 +30,8 @@ namespace NewsSkill.Dialogs
             BotServices services,
             ConversationState conversationState,
             FindArticlesDialog findArticlesDialog,
+            TrendingArticlesDialog trendingArticlesDialog,
+            FavoriteTopicsDialog favoriteTopicsDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -39,6 +44,8 @@ namespace NewsSkill.Dialogs
             _stateAccessor = _conversationState.CreateProperty<NewsSkillState>(nameof(NewsSkillState));
 
             AddDialog(findArticlesDialog ?? throw new ArgumentNullException(nameof(findArticlesDialog)));
+            AddDialog(trendingArticlesDialog ?? throw new ArgumentNullException(nameof(trendingArticlesDialog)));
+            AddDialog(favoriteTopicsDialog ?? throw new ArgumentNullException(nameof(favoriteTopicsDialog)));
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -61,7 +68,7 @@ namespace NewsSkill.Dialogs
             else
             {
                 var turnResult = EndOfTurn;
-                var result = await luisService.RecognizeAsync<NewsLuis>(dc.Context, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<newsLuis>(dc.Context, CancellationToken.None);
                 state.LuisResult = result;
 
                 var intent = result?.TopIntent().intent;
@@ -69,14 +76,29 @@ namespace NewsSkill.Dialogs
                 // switch on general intents
                 switch (intent)
                 {
-                    case NewsLuis.Intent.FindArticles:
+                    case newsLuis.Intent.TrendingArticles:
+                        {
+                            // send articles in response
+                            turnResult = await dc.BeginDialogAsync(nameof(TrendingArticlesDialog));
+                            break;
+                        }
+
+                    case newsLuis.Intent.SetFavoriteTopics:
+                    case newsLuis.Intent.ShowFavoriteTopics:
+                        {
+                            // send favorite news categories
+                            turnResult = await dc.BeginDialogAsync(nameof(FavoriteTopicsDialog));
+                            break;
+                        }
+                        
+                    case newsLuis.Intent.FindArticles:
                         {
                             // send greeting response
                             turnResult = await dc.BeginDialogAsync(nameof(FindArticlesDialog));
                             break;
                         }
 
-                    case NewsLuis.Intent.None:
+                    case newsLuis.Intent.None:
                         {
                             // No intent was identified, send confused message
                             await _responder.ReplyWith(dc.Context, MainResponses.Confused);
@@ -104,10 +126,14 @@ namespace NewsSkill.Dialogs
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response = dc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.EndOfConversation;
+            // workaround. if connect skill directly to teams, the following response does not work.
+            if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
+            {
+                var response = dc.Context.Activity.CreateReply();
+                response.Type = ActivityTypes.EndOfConversation;
 
-            await dc.Context.SendActivityAsync(response);
+                await dc.Context.SendActivityAsync(response);
+            }
 
             // End active dialog
             await dc.EndDialogAsync(result);

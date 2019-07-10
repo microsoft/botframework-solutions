@@ -17,24 +17,24 @@ namespace CalendarSkill.Services.GoogleAPI
 
         public string[] Scopes { get; set; }
 
-        public static GoogleClient GetGoogleClient(Dictionary<string, string> properties)
+        public static GoogleClient GetGoogleClient(BotSettings settings)
         {
-            if (properties == null)
+            if (settings == null)
             {
-                throw new ArgumentNullException(nameof(properties));
+                throw new ArgumentNullException(nameof(settings));
             }
 
-            properties.TryGetValue("googleAppName", out var appName);
-            properties.TryGetValue("googleClientId", out var clientId);
-            properties.TryGetValue("googleClientSecret", out var clientSecret);
-            properties.TryGetValue("googleScopes", out var scopes);
+            var appName = settings.GoogleAppName;
+            var clientId = settings.GoogleClientId;
+            var clientSecret = settings.GoogleClientSecret;
+            var scopes = settings.GoogleScopes;
 
             var googleClient = new GoogleClient
             {
-                ApplicationName = appName as string,
-                ClientId = clientId as string,
-                ClientSecret = clientSecret as string,
-                Scopes = (scopes as string).Split(" "),
+                ApplicationName = appName,
+                ClientId = clientId,
+                ClientSecret = clientSecret,
+                Scopes = scopes.Split(" "),
             };
 
             return googleClient;

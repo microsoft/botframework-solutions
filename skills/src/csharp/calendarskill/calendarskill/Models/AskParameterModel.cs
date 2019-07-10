@@ -5,7 +5,7 @@ namespace CalendarSkill.Models
     public enum AskParameterType
     {
         /// <summary>
-        /// defaut type, ask for details about event
+        /// default type, ask for details about event
         /// </summary>
         AskForDetail = 0,
 
@@ -35,7 +35,7 @@ namespace CalendarSkill.Models
         AskForLocation = 5,
 
         /// <summary>
-        /// ask for attenddees
+        /// ask for attendees
         /// </summary>
         AskForAttendee = 6,
 
@@ -67,7 +67,7 @@ namespace CalendarSkill.Models
                 {
                     case AskParameterType.AskForDetail:
                         {
-                            // can set defuat here if needed
+                            // can set default here if needed
                             break;
                         }
 

@@ -1,21 +1,21 @@
 {
-  "id": "sample-skill",
-  "name": "sample-skill",
-  "description": "This is the description of the sample-skill",
+  "id": "sampleSkill",
+  "name": "sampleSkill",
+  "description": "This is the description of the sampleSkill",
   "iconUrl": "",
   "authenticationConnections": [],
   "actions": [
     {
-      "id": "sample-skill_Sample",
+      "id": "sampleSkill_Sample",
       "definition": {
-        "description": "Trigger sample-skill",
+        "description": "Trigger sampleSkill",
         "slots": [],
         "triggers": {
           "utteranceSources": [
             {
               "locale": "en",
               "source": [
-                "sample-skill#Sample"
+                "sampleSkill#Sample"
               ]
             }
           ]

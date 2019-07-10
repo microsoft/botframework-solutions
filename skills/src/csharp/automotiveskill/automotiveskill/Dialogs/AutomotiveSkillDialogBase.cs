@@ -10,7 +10,9 @@ using AutomotiveSkill.Responses.Shared;
 using AutomotiveSkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 
 namespace AutomotiveSkill.Dialogs
@@ -75,6 +77,19 @@ namespace AutomotiveSkill.Dialogs
             // clear state
             var state = await Accessor.GetAsync(sc.Context);
             state.Clear();
+        }
+
+        // Workaround until adaptive card renderer in teams is upgraded to v1.2
+        protected string GetDivergedCardName(ITurnContext turnContext, string card)
+        {
+            if (Channel.GetChannelId(turnContext) == Channels.Msteams)
+            {
+                return card + ".1.0";
+            }
+            else
+            {
+                return card;
+            }
         }
     }
 }

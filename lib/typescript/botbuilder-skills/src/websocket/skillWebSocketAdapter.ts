@@ -18,7 +18,7 @@ export class SkillWebSocketAdapter extends BotFrameworkAdapter {
     private readonly telemetryClient: BotTelemetryClient;
     private readonly botAdapter: SkillWebSocketBotAdapter;
 
-    constructor(
+    public constructor(
         botAdapter: SkillWebSocketBotAdapter,
         authenticationProvider?: IAuthenticationProvider,
         telemetryClient?: BotTelemetryClient,
@@ -30,14 +30,15 @@ export class SkillWebSocketAdapter extends BotFrameworkAdapter {
         this.telemetryClient = telemetryClient || new NullTelemetryClient();
     }
 
-    // tslint:disable-next-line:no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
     public async processActivity(req: WebRequest, res: WebResponse, logic: (context: TurnContext) => Promise<any>): Promise<void> {
         await this.createWebSocketConnection(req, logic);
     }
 
-    // tslint:disable-next-line:no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
     private async createWebSocketConnection(req: any, bot: BotCallbackHandler): Promise<void> {
         // MISSING found an equivalent to websocket in TypeScript
+        // eslint-disable-next-line @typescript-eslint/tslint/config
         const socket: Socket = req.socket;
         const handler: SkillWebSocketRequestHandler = new SkillWebSocketRequestHandler(this.telemetryClient);
         const server: Server = new Server(socket, handler);

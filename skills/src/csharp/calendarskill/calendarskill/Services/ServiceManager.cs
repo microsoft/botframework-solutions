@@ -27,7 +27,7 @@ namespace CalendarSkill.Services
                     userService = new MSGraphUserService(serviceClient);
                     break;
                 case EventSource.Google:
-                    var googleClient = GoogleClient.GetGoogleClient(_settings.Properties);
+                    var googleClient = GoogleClient.GetGoogleClient(_settings);
                     var googlePeopleClient = GooglePeopleService.GetServiceClient(googleClient, token);
                     userService = new GooglePeopleService(googlePeopleClient);
                     break;
@@ -48,7 +48,7 @@ namespace CalendarSkill.Services
                     calendarAPI = new MSGraphCalendarAPI(serviceClient);
                     break;
                 case EventSource.Google:
-                    var googleClient = GoogleClient.GetGoogleClient(_settings.Properties);
+                    var googleClient = GoogleClient.GetGoogleClient(_settings);
                     var googlePeopleClient = GoogleCalendarAPI.GetServiceClient(googleClient, token);
                     calendarAPI = new GoogleCalendarAPI(googlePeopleClient);
                     break;
