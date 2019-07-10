@@ -19,12 +19,6 @@
     <Content Remove="Responses\CheckOut\SampleResponses.fr.json" />
     <Content Remove="Responses\CheckOut\SampleResponses.it.json" />
     <Content Remove="Responses\CheckOut\SampleResponses.zh.json" />
-    <Content Remove="Responses\Sample\SampleResponses.de.json" />
-    <Content Remove="Responses\Sample\SampleResponses.es.json" />
-    <Content Remove="Responses\Sample\SampleResponses.fr.json" />
-    <Content Remove="Responses\Sample\SampleResponses.it.json" />
-    <Content Remove="Responses\Sample\SampleResponses.json" />
-    <Content Remove="Responses\Sample\SampleResponses.zh.json" />
     <Content Remove="Responses\Shared\SharedResponses.de.json" />
     <Content Remove="Responses\Shared\SharedResponses.es.json" />
     <Content Remove="Responses\Shared\SharedResponses.fr.json" />
@@ -41,12 +35,6 @@
     <EmbeddedResource Include="Responses\Main\MainResponses.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.zh.json" />
     <EmbeddedResource Include="Responses\CheckOut\CheckOutResponses.json" />
-    <EmbeddedResource Include="Responses\Sample\SampleResponses.de.json" />
-    <EmbeddedResource Include="Responses\Sample\SampleResponses.es.json" />
-    <EmbeddedResource Include="Responses\Sample\SampleResponses.fr.json" />
-    <EmbeddedResource Include="Responses\Sample\SampleResponses.it.json" />
-    <EmbeddedResource Include="Responses\Sample\SampleResponses.json" />
-    <EmbeddedResource Include="Responses\Sample\SampleResponses.zh.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.de.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.es.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.fr.json" />
@@ -98,10 +86,6 @@
     <None Update="Responses\CheckOut\CheckOutResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CheckOutResponses.cs</LastGenOutput>
-    </None>
-    <None Update="Responses\Sample\SampleResponses.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SampleResponses.cs</LastGenOutput>
     </None>
     <None Update="Responses\Shared\SharedResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -178,11 +162,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>CheckOutResponses.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Responses\Sample\SampleResponses.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>SampleResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Responses\Shared\ResponseIdCollection.cs">
       <DesignTime>True</DesignTime>
