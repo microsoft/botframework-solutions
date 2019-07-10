@@ -27,7 +27,6 @@ namespace PointOfInterestSkillTests.Flow
                 .AssertReply(MultipleLocationsFound())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
                 .AssertReply(CompleteDialog())
@@ -47,7 +46,6 @@ namespace PointOfInterestSkillTests.Flow
                 .AssertReply(MultipleLocationsFound())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
                 .AssertReply(CompleteDialog())
@@ -67,7 +65,6 @@ namespace PointOfInterestSkillTests.Flow
                 .AssertReply(MultipleLocationsFound())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
                 .AssertReply(CompleteDialog())
@@ -87,31 +84,8 @@ namespace PointOfInterestSkillTests.Flow
                 .AssertReply(MultipleLocationsFound())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
-                .AssertReply(CompleteDialog())
-                .StartTestAsync();
-        }
-
-        /// <summary>
-        /// Find points of interest nearby, attempt to cancel a route but fail because there is no active route.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
-        [TestMethod]
-        public async Task CancelRouteFailureTest()
-        {
-            await GetTestFlow()
-                .Send(PointOfInterestDialogUtterances.LocationEvent)
-                .Send(PointOfInterestDialogUtterances.WhatsNearby)
-                .AssertReply(MultipleLocationsFound())
-                .Send(GeneralUtterances.OptionOne)
-                .AssertReply(SingleRouteFound())
-                .Send(GeneralUtterances.No)
-                .AssertReply(AskAboutRouteLater())
-                .AssertReply(CompleteDialog())
-                .Send(PointOfInterestDialogUtterances.CancelRoute)
-                .AssertReply(CannotCancelActiveRoute())
                 .AssertReply(CompleteDialog())
                 .StartTestAsync();
         }
@@ -129,7 +103,6 @@ namespace PointOfInterestSkillTests.Flow
                 .AssertReply(MultipleLocationsFound())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
                 .Send(PointOfInterestDialogUtterances.CancelRoute)
@@ -150,7 +123,6 @@ namespace PointOfInterestSkillTests.Flow
                 .AssertReply(MultipleLocationsFound())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
                 .AssertReply(CompleteDialog())
@@ -170,7 +142,6 @@ namespace PointOfInterestSkillTests.Flow
                 .AssertReply(MultipleLocationsFound())
                 .Send(GeneralUtterances.OptionOne)
                 .AssertReply(SingleRouteFound())
-                .Send(GeneralUtterances.Yes)
                 .AssertReply(SendingRouteDetails())
                 .AssertReply(CheckForEvent())
                 .AssertReply(CompleteDialog())
@@ -237,9 +208,8 @@ namespace PointOfInterestSkillTests.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var textRemovedPrompt = messageActivity.Text.Replace(" (1) Yes or (2) No", string.Empty);
 
-                CollectionAssert.Contains(ParseReplies(POISharedResponses.SingleRouteFound, new StringDictionary()), textRemovedPrompt);
+                CollectionAssert.Contains(ParseReplies(POISharedResponses.SingleRouteFound, new StringDictionary()), messageActivity.Text);
             };
         }
 

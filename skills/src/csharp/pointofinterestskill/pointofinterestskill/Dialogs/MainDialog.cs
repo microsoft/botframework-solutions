@@ -94,6 +94,7 @@ namespace PointOfInterestSkill.Dialogs
                     state.LuisResult = result;
                     await DigestLuisResult(dc, state.LuisResult);
                 }
+
                 // switch on General intents
                 switch (intent)
                 {
@@ -242,7 +243,7 @@ namespace PointOfInterestSkill.Dialogs
         {
             var result = InterruptionAction.NoAction;
 
-            if (dc.Context.Activity.Type == ActivityTypes.Message)
+            if (dc.Context.Activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(dc.Context.Activity.Text))
             {
                 // get current activity locale
                 var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
