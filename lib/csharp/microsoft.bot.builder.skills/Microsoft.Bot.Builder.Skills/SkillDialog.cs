@@ -47,13 +47,13 @@ namespace Microsoft.Bot.Builder.Skills
         /// <param name="skillIntentRecognizer">Skill Intent Recognizer.</param>
         /// <param name="skillTransport">Transport used for skill invocation.</param>
         public SkillDialog(
-			SkillManifest skillManifest,
-			IServiceClientCredentials serviceClientCredentials,
-			IBotTelemetryClient telemetryClient,
-			UserState userState,
+            SkillManifest skillManifest,
+            IServiceClientCredentials serviceClientCredentials,
+            IBotTelemetryClient telemetryClient,
+            UserState userState,
             MultiProviderAuthDialog authDialog = null,
             ISkillIntentRecognizer skillIntentRecognizer = null,
-			ISkillTransport skillTransport = null)
+            ISkillTransport skillTransport = null)
             : base(skillManifest.Id)
         {
             _skillManifest = skillManifest ?? throw new ArgumentNullException(nameof(SkillManifest));
@@ -187,14 +187,14 @@ namespace Microsoft.Bot.Builder.Skills
             await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Handing off to the {_skillManifest.Name} skill."));
 
             var activity = innerDc.Context.Activity;
-			var semanticAction = new SemanticAction { Entities = new Dictionary<string, Entity>() };
+            var semanticAction = new SemanticAction { Entities = new Dictionary<string, Entity>() };
 
-			foreach (var slot in slots)
-			{
-				semanticAction.Entities.Add(slot.Key, new Entity { Properties = slot.Value });
-			}
+            foreach (var slot in slots)
+            {
+                semanticAction.Entities.Add(slot.Key, new Entity { Properties = slot.Value });
+            }
 
-			activity.SemanticAction = semanticAction;
+            activity.SemanticAction = semanticAction;
 
             return await ForwardToSkillAsync(innerDc, activity);
         }
