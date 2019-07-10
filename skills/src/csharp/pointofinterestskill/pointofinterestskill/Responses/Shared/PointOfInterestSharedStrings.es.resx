@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="END" xml:space="preserve">
+    <value>Final</value>
+  </data>
   <data name="HOUR" xml:space="preserve">
     <value>hora</value>
   </data>
@@ -152,5 +155,8 @@
   </data>
   <data name="POWERED_BY" xml:space="preserve">
     <value>Funciona con</value>
+  </data>
+  <data name="START" xml:space="preserve">
+    <value>Empezar</value>
   </data>
 </root>

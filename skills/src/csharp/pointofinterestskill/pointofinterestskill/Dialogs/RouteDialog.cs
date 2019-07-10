@@ -230,13 +230,13 @@ namespace PointOfInterestSkill.Dialogs
                 {
                     routeDirections = await service.GetRouteDirectionsToDestinationAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Destination.Geolocation.Latitude, state.Destination.Geolocation.Longitude, state.RouteType);
 
-                    cards = await GetRouteDirectionsViewCards(sc, routeDirections);
+                    cards = await GetRouteDirectionsViewCards(sc, routeDirections, service);
                 }
                 else
                 {
                     routeDirections = await service.GetRouteDirectionsToDestinationAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Destination.Geolocation.Latitude, state.Destination.Geolocation.Longitude);
 
-                    cards = await GetRouteDirectionsViewCards(sc, routeDirections);
+                    cards = await GetRouteDirectionsViewCards(sc, routeDirections, service);
                 }
 
                 if (cards.Count() == 0)
