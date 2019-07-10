@@ -311,7 +311,7 @@ namespace Microsoft.Bot.Builder.Skills
                         if (lastEvent.Name == SkillEvents.FallbackHandleEventName)
                         {
                             // if skillIntentRecognizer specified, run the recognizer
-                            if (_skillIntentRecognizer!= null && _skillIntentRecognizer.RecognizeSkillIntentAsync != null)
+                            if (_skillIntentRecognizer != null && _skillIntentRecognizer.RecognizeSkillIntentAsync != null)
                             {
                                 var recognizedSkillManifestRecognized = await _skillIntentRecognizer.RecognizeSkillIntentAsync(innerDc);
 
