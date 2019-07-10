@@ -6,12 +6,12 @@ namespace EmailSkillTest.Flow.Utterances
     {
         public DeleteEmailUtterances()
         {
-            this.Add(DeleteEmails, CreateIntent(DeleteEmails, intent: emailLuis.Intent.Delete));
+            this.Add(DeleteEmails, CreateIntent(DeleteEmails, intent: EmailLuis.Intent.Delete));
             this.Add(DeleteEmailsWithSelection, CreateIntent(
                DeleteEmailsWithSelection,
-               intent: emailLuis.Intent.Delete,
+               intent: EmailLuis.Intent.Delete,
                ordinal: new double[] { 2 }));
-            this.Add(DeleteCurrentEmail, CreateIntent(DeleteCurrentEmail, intent: emailLuis.Intent.Delete));
+            this.Add(DeleteCurrentEmail, CreateIntent(DeleteCurrentEmail, intent: EmailLuis.Intent.Delete));
         }
 
         public static string DeleteEmails { get; } = "Delete an Email";
