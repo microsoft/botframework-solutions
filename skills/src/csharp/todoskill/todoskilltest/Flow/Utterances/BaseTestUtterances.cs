@@ -45,7 +45,6 @@ namespace ToDoSkillTest.Flow.Utterances
             intent.Entities.ContainsAll = containsAll;
             intent.Entities.ListType = listType;
             intent.Entities.TaskContent = taskContentML;
-            intent.Entities.TaskContent_Any = taskContentPattern;
             intent.Entities.FoodOfGrocery = foodOfGrocery;
             intent.Entities.ShopVerb = shopVerb;
 

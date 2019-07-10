@@ -350,11 +350,6 @@ namespace ToDoSkill.Dialogs
                     state.ShopContent = entities.TaskContent[0];
                 }
 
-                if (entities.TaskContent_Any != null)
-                {
-                    state.TaskContentPattern = entities.TaskContent_Any[0];
-                }
-
                 if (entities.TaskContent != null)
                 {
                     state.TaskContentML = entities.TaskContent[0];
