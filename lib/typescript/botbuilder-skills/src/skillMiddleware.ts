@@ -29,30 +29,21 @@ export class SkillMiddleware implements Middleware {
     }
 
     public async onTurn(turnContext: TurnContext, next: () => Promise<void>): Promise<void> {
-        // The skillBegin event signals the start of a skill conversation to a Bot.
         const activity: Activity = turnContext.activity;
 
         if (activity !== undefined && activity.type === ActivityTypes.Event) {
-            if (activity.name === SkillEvents.skillBeginEventName && activity.value !== undefined) {
-                const activityValue: string = JSON.stringify(activity.value);
-                // eslint-disable-next-line @typescript-eslint/tslint/config
-                const skillContext: SkillContext = JSON.parse(activityValue);
-                //Check for parsing
-                if (skillContext !== undefined) {
-                    await this.skillContextAccessor.set(turnContext, skillContext);
-                }
-            } else if (activity.name === SkillEvents.cancelAllSkillDialogsEventName) {
+            if (activity.name === SkillEvents.cancelAllSkillDialogsEventName) {
+
                 // when skill receives a CancelAllSkillDialogsEvent, clear the dialog stack and short-circuit
                 const currentConversation: DialogState|undefined = await this.dialogStateAccessor.get(turnContext);
-                if (currentConversation) {
+                if (currentConversation !== undefined) {
                     currentConversation.dialogStack = [];
                     await this.dialogStateAccessor.set(turnContext, currentConversation);
                     await this.conversationState.saveChanges(turnContext, true);
-
-                    return;
                 }
-            }
 
+                return;
+            }
         }
 
         await next();

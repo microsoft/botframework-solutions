@@ -66,6 +66,10 @@ export abstract class RouterDialog extends InterruptableDialog {
                     await this.onEvent(innerDc);
                     break;
                 }
+                case ActivityTypes.Invoke: {
+                    await innerDc.continueDialog();
+                    break;
+                }
                 default: {
                     await this.onSystemMessage(innerDc);
                 }

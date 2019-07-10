@@ -26,6 +26,11 @@ export interface IBotSettingsBase {
     defaultLocale: string;
 
     /**
+     * Gets or sets the voiceFont for the bot.
+     */
+    voiceFont: string;
+
+    /**
      * Gets or sets the OAuth Connections for the bot.
      */
     oauthConnections: IOAuthConnection[];

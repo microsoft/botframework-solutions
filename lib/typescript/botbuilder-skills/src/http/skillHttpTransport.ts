@@ -10,17 +10,22 @@ import { MicrosoftAppCredentials } from 'botframework-connector';
 import { Activity, ActivityTypes } from 'botframework-schema';
 import { ISkillManifest, SkillEvents } from '../models';
 import { ISkillTransport, TokenRequestHandler } from '../skillTransport';
+import { IServiceClientCredentials } from '../auth';
 
 export class SkillHttpTransport implements ISkillTransport {
     private readonly httpClient: HttpClient;
     private readonly skillManifest: ISkillManifest;
-    private readonly appCredentials: MicrosoftAppCredentials;
+    private readonly appCredentials: IServiceClientCredentials;
 
     /**
      * Http SkillTransport implementation
      */
-    public constructor(skillManifest: ISkillManifest, appCredentials: MicrosoftAppCredentials, httpClient?: HttpClient) {
-        if (skillManifest === undefined) { throw new Error('skillManifest has no value'); }
+    constructor(
+        skillManifest: ISkillManifest,
+        appCredentials: IServiceClientCredentials,
+        httpClient?: HttpClient
+    ) {
+        if (!skillManifest) { throw new Error('skillManifest has no value'); }
         this.skillManifest = skillManifest;
 
         if (appCredentials === undefined) { throw new Error('appCredentials has no value'); }
@@ -48,7 +53,7 @@ export class SkillHttpTransport implements ISkillTransport {
         //   of @azure/ms-rest-js being used by botframework-connector. This is just a build issue and
         //   shouldn't effect production bots.
         // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
-        await this.appCredentials.signRequest(<any>request);
+        await this.appCredentials.processHttpRequest(<any>request);
 
         const response: HttpOperationResponse = await this.httpClient.sendRequest(request);
 

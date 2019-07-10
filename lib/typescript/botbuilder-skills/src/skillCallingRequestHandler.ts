@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { TurnContext } from 'botbuilder';
+import { BotTelemetryClient, TurnContext } from 'botbuilder';
 import { TokenEvents } from 'botbuilder-solutions';
 import { Activity, ActivityTypes } from 'botframework-schema';
 import { ContentStream, ReceiveRequest, RequestHandler, Response } from 'microsoft-bot-protocol';
@@ -14,18 +14,21 @@ export declare type ActivityAction = (activity: Activity) => Promise<void>;
 export class SkillCallingRequestHandler extends RequestHandler {
     private readonly router: Router;
     private readonly turnContext: TurnContext;
+    private readonly telemetryClient: BotTelemetryClient;
     private readonly tokenRequestHandler?: ActivityAction;
     private readonly handoffActivityHandler?: ActivityAction;
 
     public constructor(
         turnContext: TurnContext,
+        telemetryClient: BotTelemetryClient,
         tokenRequestHandler?: ActivityAction,
-        handoffActivityHandler?: ActivityAction
+        handoffActivityHandler?: ActivityAction,
     ) {
         super();
         this.turnContext = turnContext;
         this.tokenRequestHandler = tokenRequestHandler;
         this.handoffActivityHandler = handoffActivityHandler;
+        this.telemetryClient = telemetryClient;
 
         const postRoute: IRouteTemplate = {
             method: 'POST',
@@ -100,9 +103,9 @@ export class SkillCallingRequestHandler extends RequestHandler {
     }
 
     // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
-    public async processRequestAsync(request: ReceiveRequest, logger?: any): Promise<Response> {
+    public async processRequestAsync(request: ReceiveRequest, context: Object, logger?: any): Promise<Response> {
         const routeContext: IRouteContext|undefined = this.router.route(request);
-        if (routeContext) {
+        if (routeContext !== undefined) {
             try {
                 const responseBody: Object|undefined = await routeContext.action.action(request, routeContext.routerData);
                 // MISSING Response.OK(new StringContent(JsonConvert.SerializeObject(responseBody...
@@ -111,6 +114,8 @@ export class SkillCallingRequestHandler extends RequestHandler {
 
                 return response;
             } catch (error) {
+                this.telemetryClient.trackException({ exception: error });
+
                 return Response.create(500);
             }
         } else {
