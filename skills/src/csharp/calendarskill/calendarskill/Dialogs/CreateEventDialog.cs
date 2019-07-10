@@ -65,18 +65,18 @@ namespace CalendarSkill.Dialogs
                         },
                         Constraint = "turn.dialogEvent.value.intents.FindCalendarEntry.score > 0.4"
                     },
-                    //new IntentRule("AddContact")
-                    //{
-                    //    Steps = new List<IDialog>()
-                    //    {
-                    //        new BeginDialog(nameof(FindContactDialog), options: new FindContactDialogOptions(skillOptions))
-                    //    },
-                    //    Constraint = "turn.dialogEvent.value.intents.AddContact.score > 0.4"
-                    //}
+                    new IntentRule("AddContact")
+                    {
+                        Steps = new List<IDialog>()
+                        {
+                            new BeginDialog(nameof(FindContactDialog), options: new FindContactDialogOptions(skillOptions))
+                        },
+                        Constraint = "turn.dialogEvent.value.intents.AddContact.score > 0.4"
+                    }
                 },
                 Steps = new List<IDialog>()
                 {
-                    new BeginDialog(Actions.CreateEvent)
+                    new BeginDialog(Actions.CreateEvent, options: skillOptions)
                 }
             };
 
@@ -464,6 +464,17 @@ namespace CalendarSkill.Dialogs
                 var skillOptions = (CalendarSkillDialogOptions)sc.Options;
                 var userState = await CalendarStateAccessor.GetAsync(sc.Context);
                 var dialogState = (CreateEventDialogState)sc.State.Dialog[CalendarStateKey];
+
+                // workaroud for getting new added contacts
+                foreach (var item in userState.CacheAttendees)
+                {
+                    if (!dialogState.FindContactInfor.Contacts.Contains(item))
+                    {
+                        dialogState.FindContactInfor.Contacts.Add(item);
+                    }
+
+                    sc.State.Dialog[CalendarStateKey] = dialogState;
+                }
 
                 if (dialogState.Location == null && sc.Result != null && (!(dialogState.CreateHasDetail && isLocationSkipByDefault.GetValueOrDefault()) || dialogState.RecreateState == RecreateEventState.Location))
                 {

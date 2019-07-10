@@ -30,6 +30,9 @@ namespace CalendarSkill.Models
 
         public CalendarDialogStateBase CacheModel { get; set; }
 
+        // workaroud
+        public List<EventModel.Attendee> CacheAttendees { get; set; }
+
         public TimeZoneInfo GetUserTimeZone()
         {
             if ((UserInfo != null) && (UserInfo.Timezone != null))
