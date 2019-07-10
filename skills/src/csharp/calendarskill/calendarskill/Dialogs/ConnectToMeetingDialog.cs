@@ -351,7 +351,7 @@ namespace CalendarSkill.Dialogs
 
                     if (filteredMeetingList.Count == 1)
                     {
-                        state.ReadOutEvents = filteredMeetingList;
+                        state.FocusEvents = filteredMeetingList;
                         return await sc.BeginDialogAsync(Actions.ConfirmNumber, sc.Options);
                     }
                     else if (filteredMeetingList.Count > 1)
