@@ -7,7 +7,6 @@ using HospitalitySkill.Bots;
 using HospitalitySkill.Dialogs;
 using HospitalitySkill.Responses.CheckOut;
 using HospitalitySkill.Responses.Main;
-using HospitalitySkill.Responses.Sample;
 using HospitalitySkill.Responses.Shared;
 using HospitalitySkill.Services;
 using Microsoft.ApplicationInsights;
