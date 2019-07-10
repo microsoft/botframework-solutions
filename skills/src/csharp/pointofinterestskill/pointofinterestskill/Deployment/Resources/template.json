@@ -66,6 +66,10 @@
     "luisServiceLocation": {
       "type": "string",
       "defaultValue": "[resourceGroup().location]"
+    },
+    "azureMapsServiceName": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('name'), '-maps')]"
     }
   },
   "variables": {
@@ -188,12 +192,22 @@
       "sku": {
         "name": "[parameters('luisServiceSku')]"
       }
+    },
+    {
+      "type": "Microsoft.Maps/accounts",
+      "apiVersion": "2018-05-01",
+      "name": "[parameters('azureMapsServiceName')]",
+      "location": "global",
+      "sku": {
+        "name": "s1",
+        "tier": "Standard"
+      }
     }
   ],
   "outputs": {
     "botWebAppName": {
       "type": "string",
-      "value": "[parameters('botWebAppName')]"
+      "value":  "[parameters('botWebAppName')]"
     },
     "ApplicationInsights": {
       "type": "object",
@@ -212,7 +226,7 @@
       "type": "object",
       "value": {
         "cosmosDBEndpoint": "[reference(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName'))).documentEndpoint]",
-        "authKey": "[listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName')), '2015-04-08').primaryMasterKey]",
+        "authkey": "[listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName')), '2015-04-08').primaryMasterKey]",
         "databaseId": "botstate-db",
         "collectionId": "botstate-collection"
       }
@@ -223,6 +237,10 @@
         "accountName": "[parameters('luisServiceName')]",
         "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisServiceName')),'2017-04-18').key1]"
       }
+    },
+    "azureMapsKey": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Maps/accounts', parameters('azureMapsServiceName')),'2018-05-01').primaryKey]"
     }
   }
 }
