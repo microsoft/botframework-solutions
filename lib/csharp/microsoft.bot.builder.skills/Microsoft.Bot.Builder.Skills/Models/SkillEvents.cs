@@ -3,5 +3,7 @@
     public class SkillEvents
     {
         public const string CancelAllSkillDialogsEventName = "skill/cancelallskilldialogs";
+        public const string FallbackEventName = "skill/fallbackRequest";
+        public const string FallbackHandleEventName = "skill/fallbackHandle";
     }
 }

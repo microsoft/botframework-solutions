@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills.Auth;
+using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
@@ -97,7 +98,7 @@ namespace Microsoft.Bot.Builder.Skills
         {
             if (sc.Options != null && sc.Options is SkillSwitchConfirmOption skillSwitchConfirmOption)
             {
-                if (sc.Result is bool result && result == true)
+                if (sc.Result is bool result && result)
                 {
                     await _skillTransport.CancelRemoteDialogsAsync(sc.Context);
 
@@ -306,22 +307,26 @@ namespace Microsoft.Bot.Builder.Skills
                     // forward to skill and start a new turn
                     while (_queuedResponses.Count > 0 && dialogResult.Status != DialogTurnStatus.Complete && dialogResult.Status != DialogTurnStatus.Cancelled)
                     {
-                        if (_queuedResponses.Last().Name == FallbackEvents.FallbackHandleEventName)
+                        var lastEvent = _queuedResponses.Dequeue();
+                        if (lastEvent.Name == SkillEvents.FallbackHandleEventName)
                         {
-                            var lastEvent = _queuedResponses.Dequeue();
-                            if (_skillIntentRecognizer.RecognizeSkillIntentAsync != null)
+                            // if skillIntentRecognizer specified, run the recognizer
+                            if (_skillIntentRecognizer!= null && _skillIntentRecognizer.RecognizeSkillIntentAsync != null)
                             {
                                 var recognizedSkillManifestRecognized = await _skillIntentRecognizer.RecognizeSkillIntentAsync(innerDc);
 
-                                // If the intent can be handled by other skill
-                                if (recognizedSkillManifestRecognized != null && recognizedSkillManifestRecognized.Id != this.Id)
+                                // if the result is an actual intent other than the current skill, launch the confirm dialog (if configured) to eventually switch to a different skill
+                                // if the result is the same as the current intent, re-send it to the current skill
+                                // if the result is empty which means no intent, re-send it to the current skill
+                                if (recognizedSkillManifestRecognized != null
+                                    && !string.Equals(recognizedSkillManifestRecognized, this.Id))
                                 {
                                     if (_skillIntentRecognizer.ConfirmIntentSwitch)
                                     {
                                         var options = new SkillSwitchConfirmOption()
                                         {
                                             LastActivity = lastEvent,
-                                            TargetIntent = recognizedSkillManifestRecognized.Id,
+                                            TargetIntent = recognizedSkillManifestRecognized,
                                             UserInputActivity = innerDc.Context.Activity,
                                         };
 
@@ -329,16 +334,12 @@ namespace Microsoft.Bot.Builder.Skills
                                     }
 
                                     await _skillTransport.CancelRemoteDialogsAsync(innerDc.Context);
-                                    return await innerDc.EndDialogAsync(recognizedSkillManifestRecognized.Id);
+                                    return await innerDc.EndDialogAsync(recognizedSkillManifestRecognized);
                                 }
                             }
+                        }
 
-                            dialogResult = await ForwardToSkillAsync(innerDc, lastEvent);
-                        }
-                        else
-                        {
-                            dialogResult = await ForwardToSkillAsync(innerDc, _queuedResponses.Dequeue());
-                        }
+                        dialogResult = await ForwardToSkillAsync(innerDc, lastEvent);
                     }
 
                     return dialogResult;
@@ -386,7 +387,7 @@ namespace Microsoft.Bot.Builder.Skills
 
                 var fallbackHandleEvent = activity.CreateReply();
                 fallbackHandleEvent.Type = ActivityTypes.Event;
-                fallbackHandleEvent.Name = FallbackEvents.FallbackHandleEventName;
+                fallbackHandleEvent.Name = SkillEvents.FallbackHandleEventName;
 
                 lock (_lockObject)
                 {

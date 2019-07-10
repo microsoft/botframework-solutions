@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Protocol;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Protocol;
@@ -60,7 +61,7 @@ namespace Microsoft.Bot.Builder.Skills
                                             throw new ArgumentNullException("TokenRequestHandler", "Skill is requesting for token but there's no handler on the calling side!");
                                         }
                                     }
-                                    else if (activity.Type == ActivityTypes.Event && activity.Name == FallbackEvents.FallbackEventName)
+                                    else if (activity.Type == ActivityTypes.Event && activity.Name == SkillEvents.FallbackEventName)
                                     {
                                         if (_fallbackRequestHandler != null)
                                         {

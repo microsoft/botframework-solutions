@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Protocol;
 using Microsoft.Bot.Protocol.WebSockets;
@@ -237,7 +238,7 @@ namespace Microsoft.Bot.Builder.Skills
             // We trigger a Fallback Request from the Parent Bot by sending a "FallbackRequest" event
             var response = turnContext.Activity.CreateReply();
             response.Type = ActivityTypes.Event;
-            response.Name = FallbackEvents.FallbackEventName;
+            response.Name = SkillEvents.FallbackEventName;
 
             // Send the fallback Event
             await SendActivitiesAsync(turnContext, new Activity[] { response }, cancellationToken).ConfigureAwait(false);
