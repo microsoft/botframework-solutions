@@ -2,16 +2,16 @@
   "AskTaskContentText": {
     "replies": [
       {
-        "text": "Sure. What do you want to put on the list?",
-        "speak": "Sure. What do you want to put on the list?"
+        "text": "Sure. What do you want to add to the list?",
+        "speak": "Sure. What do you want to add to the list?"
       },
       {
-        "text": "Alright, what do you want to put on the list?",
-        "speak": "Alright, what do you want to put on the list?"
+        "text": "OK, what do you want to add to the list?",
+        "speak": "OK, what do you want to add to the list?"
       },
       {
-        "text": "What do you want to put on the list?",
-        "speak": "What do you want to put on the list?"
+        "text": "What do you want to add to the list?",
+        "speak": "What do you want to add to the list?"
       }
     ],
     "inputHint": "expectingInput"
@@ -28,8 +28,8 @@
   "SwitchListType": {
     "replies": [
       {
-        "text": "Alright, this looks like a task for your {listType} list. Would you like me to add this to your {listType} list?",
-        "speak": "Alright, this looks like a task for your {listType} list. Would you like me to add this to your {listType} list?"
+        "text": "OK, this looks like a task for your {listType} list. Would you like me to add this to your {listType} list?",
+        "speak": "OK, this looks like a task for your {listType} list. Would you like me to add this to your {listType} list?"
       }
     ],
     "inputHint": "expectingInput"
@@ -64,8 +64,8 @@
   "AskAddDupTaskPrompt": {
     "replies": [
       {
-        "text": "I believe you already have {taskContent} on your list, still want to add this task?",
-        "speak": "I believe you already have {taskContent} on your list, still want to add this task?"
+        "text": "Looks like you already have {taskContent} on your list, do you still want to add this task?",
+        "speak": "Looks like you already have {taskContent} on your list, do you still want to add this task?"
       }
     ],
     "inputHint": "expectingInput"

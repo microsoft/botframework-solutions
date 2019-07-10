@@ -10,7 +10,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public class calendarLuis: IRecognizerConvert
+    public class CalendarLuis: IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
@@ -100,7 +100,7 @@ namespace Luis
 
         public void Convert(dynamic result)
         {
-            var app = JsonConvert.DeserializeObject<calendarLuis>(JsonConvert.SerializeObject(result));
+            var app = JsonConvert.DeserializeObject<CalendarLuis>(JsonConvert.SerializeObject(result));
             Text = app.Text;
             AlteredText = app.AlteredText;
             Intents = app.Intents;

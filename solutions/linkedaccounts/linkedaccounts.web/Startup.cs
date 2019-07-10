@@ -33,7 +33,7 @@ namespace LinkedAccounts.Web
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
-            Configuration = builder.Build();
+            this.Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -41,9 +41,9 @@ namespace LinkedAccounts.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAzureAdV2Authentication(Configuration);
+            services.AddAzureAdV2Authentication(this.Configuration);
 
-            services.AddSingleton<ICredentialProvider>(new ConfigurationCredentialProvider(Configuration));
+            services.AddSingleton<ICredentialProvider>(new ConfigurationCredentialProvider(this.Configuration));
 
             services.AddDistributedMemoryCache();
 
@@ -59,7 +59,7 @@ namespace LinkedAccounts.Web
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {            
+        {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -82,7 +82,6 @@ namespace LinkedAccounts.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
         }
     }
 }

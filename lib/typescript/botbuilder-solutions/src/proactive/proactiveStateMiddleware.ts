@@ -17,7 +17,7 @@ export class ProactiveStateMiddleware implements Middleware {
     private readonly proactiveState: ProactiveState;
     private readonly proactiveStateAccessor: StatePropertyAccessor<ProactiveModel>;
 
-    constructor(proactiveState: ProactiveState) {
+    public constructor(proactiveState: ProactiveState) {
         this.proactiveState = proactiveState;
         this.proactiveStateAccessor = this.proactiveState.createProperty<ProactiveModel>(ProactiveModel.name);
     }
@@ -32,7 +32,6 @@ export class ProactiveStateMiddleware implements Middleware {
 
             const hashedUserId: string = MD5Util.computeHash(activity.from.id);
             const conversationReference: Partial<ConversationReference> = TurnContext.getConversationReference(activity);
-            const proactiveData: ProactiveData = { conversation: conversationReference };
 
             if (proactiveState[hashedUserId] !== undefined) {
                 data = { conversation: conversationReference };

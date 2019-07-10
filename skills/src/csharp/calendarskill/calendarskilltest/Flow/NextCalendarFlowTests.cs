@@ -25,8 +25,8 @@ namespace CalendarSkillTest.Flow
             {
                 LuisServices = new Dictionary<string, ITelemetryRecognizer>()
                 {
-                    { "general", new MockLuisRecognizer() },
-                    { "calendar", new MockLuisRecognizer(new FindMeetingTestUtterances()) }
+                    { "General", new MockLuisRecognizer() },
+                    { "Calendar", new MockLuisRecognizer(new FindMeetingTestUtterances()) }
                 }
             });
         }

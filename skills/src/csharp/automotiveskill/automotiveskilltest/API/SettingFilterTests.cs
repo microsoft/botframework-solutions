@@ -19,7 +19,7 @@ namespace AutomotiveSkillTest.API
         {
             base.Initialize();
 
-            // Supporting setting files are stored as embeddded resources
+            // Supporting setting files are stored as embedded resources
             var resourceAssembly = typeof(VehicleSettingsDialog).Assembly;
 
             var settingFile = resourceAssembly

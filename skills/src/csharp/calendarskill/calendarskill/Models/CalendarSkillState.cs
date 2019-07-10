@@ -65,7 +65,7 @@ namespace CalendarSkill.Models
 
         public UserInformation UserInfo { get; set; } = new UserInformation();
 
-        public Luis.calendarLuis LuisResult { get; set; }
+        public Luis.CalendarLuis LuisResult { get; set; }
 
         public Luis.General GeneralLuisResult { get; set; }
 

@@ -199,7 +199,7 @@ To add your new Skill to your assistant/Bot, run the following command from a co
 botskills connect --botName YOUR_BOT_NAME --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder "<YOUR-SKILL_PATH>\deployment\resources\LU\en" --ts
 ```
 
-See the [Adding Skills](/docs/howto/skills/addingskills.md) for more detail on how to add skills.
+See the [Adding Skills](/docs/howto/skills/botskills.md#Connect-Skills) for more detail on how to add skills.
 
 ## Testing your Skill
 

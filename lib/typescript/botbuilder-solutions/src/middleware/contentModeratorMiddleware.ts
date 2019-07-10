@@ -32,7 +32,7 @@ export class ContentModeratorMiddleware implements Middleware {
      * @param subscriptionKey Azure Service Key.
      * @param region Azure Service Region.
      */
-    constructor(subscriptionKey: string, region: string) {
+    public constructor(subscriptionKey: string, region: string) {
         this.subscriptionKey = subscriptionKey;
         this.region = region;
     }

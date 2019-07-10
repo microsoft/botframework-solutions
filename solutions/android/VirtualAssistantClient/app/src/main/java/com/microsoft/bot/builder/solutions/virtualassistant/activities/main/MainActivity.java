@@ -37,8 +37,7 @@ import com.microsoft.bot.builder.solutions.directlinespeech.ConfigurationManager
 import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.BaseActivity;
-import com.microsoft.bot.builder.solutions.virtualassistant.activities.botconfiguration.BotConfigurationActivity;
-import com.microsoft.bot.builder.solutions.virtualassistant.activities.configuration.AppConfigurationActivity;
+import com.microsoft.bot.builder.solutions.virtualassistant.activities.settings.SettingsActivity;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.actionslist.ActionsAdapter;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.actionslist.ActionsViewholder;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ChatAdapter;
@@ -96,6 +95,7 @@ public class MainActivity extends BaseActivity
     private Handler handler;
     private boolean launchedAsAssistant;
     private Gson gson;
+    private SfxManager sfxManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +142,8 @@ public class MainActivity extends BaseActivity
             }
         }
 
+        sfxManager = new SfxManager();
+        sfxManager.initialize(this);
     }
 
     // Register for EventBus messages and SpeechService
@@ -165,7 +167,6 @@ public class MainActivity extends BaseActivity
     // Unregister EventBus messages and SpeechService
     @Override
     public void onStop() {
-        Log.v("BaseActivity","onStop() finished");
         EventBus.getDefault().unregister(this);
         if (speechServiceBinder != null) {
             unbindService(myConnection);
@@ -248,10 +249,7 @@ public class MainActivity extends BaseActivity
 
             switch (id) {
                 case R.id.nav_menu_configuration:
-                    startActivity(BotConfigurationActivity.getNewIntent(this));
-                    break;
-                case R.id.nav_menu_app_configuration:
-                    startActivity(AppConfigurationActivity.getNewIntent(this));
+                    startActivity(SettingsActivity.getNewIntent(this));
                     break;
                 case R.id.nav_menu_reset_bot:
                     speechServiceBinder.resetBot();
@@ -288,6 +286,7 @@ public class MainActivity extends BaseActivity
     public void onAssistantClick() {
         try {
             showSnackbar(uiContainer, getString(R.string.msg_listening));
+            sfxManager.playEarconListening();
             speechServiceBinder.listenOnceAsync();
         } catch (RemoteException exception){
             Log.e(LOGTAG, exception.getMessage());
@@ -336,6 +335,8 @@ public class MainActivity extends BaseActivity
             // send request to Bot
             speechServiceBinder.sendActivityMessageAsync(msg);
 
+            sfxManager.playEarconProcessing();
+
             // clear out suggested actions
             String json = speechServiceBinder.getSuggestedActions();
             List<CardAction> list = gson.fromJson(json, new TypeToken<List<CardAction>>(){}.getType());
@@ -374,6 +375,7 @@ public class MainActivity extends BaseActivity
     // EventBus: the user spoke and the app recognized the speech. Disconnect mic.
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventRecognized(Recognized event) {
+        sfxManager.playEarconDoneListening();
         detectedSpeechToText.setText(event.recognized_speech);
         // in 2 seconds clear the text (at this point the bot should be giving its' response)
         handler.postDelayed(() -> detectedSpeechToText.setText(""), 2000);
@@ -384,6 +386,7 @@ public class MainActivity extends BaseActivity
     public void onEventActivityReceived(ActivityReceived activityReceived) throws IOException {
         if (activityReceived.botConnectorActivity != null) {
             BotConnectorActivity botConnectorActivity = activityReceived.botConnectorActivity;
+            sfxManager.playEarconResults();
 
             switch (botConnectorActivity.getType()) {
                 case "message":
@@ -420,6 +423,7 @@ public class MainActivity extends BaseActivity
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventRequestTimeout(RequestTimeout event) {
         // here you can notify the user to repeat the request
+        sfxManager.playEarconDisambigError();
     }
 
     private void playMediaStream(String mediaStream) {
@@ -443,7 +447,7 @@ public class MainActivity extends BaseActivity
         try {
             String json = speechServiceBinder.getSuggestedActions();
             List<CardAction> list = gson.fromJson(json, new TypeToken<List<CardAction>>(){}.getType());
-            if (list != null){
+            if (list != null && list.size() > position){
                 cardAction = list.get(position);
             }
         } catch (RemoteException exception){
@@ -457,6 +461,8 @@ public class MainActivity extends BaseActivity
         } else {
             sendTextMessage(speak);
         }
+
+        sfxManager.playEarconProcessing();
     }
 
     // concrete implementation of ActionsViewholder.OnClickListener
@@ -477,6 +483,7 @@ public class MainActivity extends BaseActivity
         if (cardAction != null) {
             String value = (String) cardAction.getValue();
             sendTextMessage(value);
+            sfxManager.playEarconProcessing();
         }
     }
 

@@ -12,7 +12,7 @@ export class Router {
     private readonly routes: IRouteTemplate[];
     private readonly root: TrieNode;
 
-    constructor(routes: IRouteTemplate[]) {
+    public constructor(routes: IRouteTemplate[]) {
         this.routes = routes;
         this.root = new TrieNode('root');
         this.compile();
@@ -31,7 +31,7 @@ export class Router {
         if (initial) {
             let current: TrieNode = initial;
             const routeData: Map<string, Object> = new Map();
-            parts.forEach((part: string) => {
+            parts.forEach((part: string): void => {
                 const next: TrieNode|undefined = current.tryGetNext(part);
                 if (next) {
                     // found an exact match, keep going
@@ -61,7 +61,7 @@ export class Router {
     }
 
     private compile(): void {
-        this.routes.forEach((route: IRouteTemplate) => {
+        this.routes.forEach((route: IRouteTemplate): void => {
             let path: string = route.path;
             if (path.startsWith('/')) {
                 path = path.substr(1);
@@ -71,7 +71,7 @@ export class Router {
 
             const methodName: TrieNode = this.root.add(route.method);
             let current: TrieNode = methodName;
-            parts.forEach((part: string) => {
+            parts.forEach((part: string): void => {
                 current = current.add(part);
             });
 
@@ -92,7 +92,7 @@ class TrieNode {
     public action?: IRouteAction;
     public next: Map<string, TrieNode>;
 
-    constructor(value: string) {
+    public constructor(value: string) {
         this.value = value;
         this.isVariable = value.startsWith('{') && value.endsWith('}');
         this.next = new Map();
@@ -118,6 +118,6 @@ class TrieNode {
 
     public getVariables(): TrieNode[] {
         return Array.from(this.next.values())
-            .filter((x: TrieNode) => x.isVariable);
+            .filter((x: TrieNode): boolean => x.isVariable);
     }
 }

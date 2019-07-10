@@ -25,10 +25,11 @@ export class SkillManifestGenerator {
     ): Promise<ISkillManifest> {
         if (!manifestFile) { throw new Error('manifestFile has no value'); }
         if (!appId) { throw new Error('appId has no value'); }
-        if (!cognitiveModels) { throw new Error('cognitiveModels has no value'); }
+        if (cognitiveModels === undefined) { throw new Error('cognitiveModels has no value'); }
         if (!uriBase) { throw new Error('uriBase has no value'); }
 
         // Each skill has a manifest template in the root directory and is used as foundation for the generated manifest
+        // eslint-disable-next-line @typescript-eslint/tslint/config
         const skillManifest: ISkillManifest = JSON.parse(readFileSync(manifestFile, 'UTF8'));
         if (!skillManifest.id) { throw new Error('Skill manifest ID property was not present in the template manifest file.'); }
         if (!skillManifest.name) { throw new Error('Skill manifest Name property was not present in the template manifest file.'); }
@@ -48,23 +49,23 @@ export class SkillManifestGenerator {
             await this.getLocaleLuisModelsEntries(cognitiveModels);
 
             const localeLuisModels: LuisModelMap = new Map();
-            localeLuisModelsEntries.filter((entry: ILangEntry<Models.VersionsExportMethodResponse>) => entry.language)
-            .forEach((entry: ILangEntry<Models.VersionsExportMethodResponse>) => {
-                localeLuisModels.set(entry.language, entry.item);
-            });
+            localeLuisModelsEntries.filter((entry: ILangEntry<Models.VersionsExportMethodResponse>): string => entry.language)
+                .forEach((entry: ILangEntry<Models.VersionsExportMethodResponse>): void => {
+                    localeLuisModels.set(entry.language, entry.item);
+                });
 
-            skillManifest.actions.forEach((action: IAction) => {
+            skillManifest.actions.forEach((action: IAction): void => {
                 // Is this Action triggered by LUIS utterances rather than events?
-                if (action.definition.triggers.utteranceSources) {
+                if (action.definition.triggers.utteranceSources !== undefined) {
                     // We will retrieve all utterances from the referenced source
                     // and aggregate into one new aggregated list of utterances per action
                     action.definition.triggers.utterances = [];
                     const utterancesToAdd: string[] = [];
 
                     // Iterate through each utterance source, one per locale.
-                    action.definition.triggers.utteranceSources.forEach((utteranceSource: IUtteranceSources) => {
+                    action.definition.triggers.utteranceSources.forEach((utteranceSource: IUtteranceSources): void => {
                         // There may be multiple intents linked to this
-                        utteranceSource.source.forEach((source: string) => {
+                        utteranceSource.source.forEach((source: string): void => {
                             // Retrieve the intent mapped to this action trigger
                             const intentIndex: number = source.indexOf('#');
                             if (intentIndex === -1) {
@@ -95,7 +96,7 @@ export class SkillManifestGenerator {
                             // Validate that the intent in the manifest exists in this LUIS model
                             const intents: Models.HierarchicalModel[] = model.intents || [];
 
-                            const hasMatch: boolean = intents.some((intent: Models.HierarchicalModel) => {
+                            const hasMatch: boolean = intents.some((intent: Models.HierarchicalModel): boolean => {
                                 const intentName: string = (intent.name || '').toLowerCase();
 
                                 return intentName === intentToMatch.toLowerCase();
@@ -113,13 +114,13 @@ export class SkillManifestGenerator {
 
                             // Retrieve the utterances that match this intent
                             const utterancesList: Models.JSONUtterance[] = model.utterances || [];
-                            const utterances: Models.JSONUtterance[] = utterancesList.filter((s: Models.JSONUtterance) => {
+                            const utterances: Models.JSONUtterance[] = utterancesList.filter((s: Models.JSONUtterance): boolean => {
                                 const sIntent: string = (s.intent || '').toLowerCase();
 
                                 return sIntent === intentToMatch.toLowerCase();
                             });
 
-                            if (!utterances) {
+                            if (utterances === undefined) {
                                 throw new Error(`Utterance source for action: '${
                                     action.id
                                 }' references the '${
@@ -129,7 +130,7 @@ export class SkillManifestGenerator {
                                 }' intent which has no utterances.`);
                             }
 
-                            utterances.forEach((utterance: Models.JSONUtterance) => {
+                            utterances.forEach((utterance: Models.JSONUtterance): void => {
                                 utterancesToAdd.push(utterance.text || '');
                             });
                         });
@@ -166,7 +167,8 @@ export class SkillManifestGenerator {
         models: Map<string, ICognitiveModelConfiguration>
     ): Promise<ILangEntry<Models.VersionsExportMethodResponse>[]> {
         const entries: [string, ICognitiveModelConfiguration][] = Array.from(models.entries());
-        const langLuisEntries: ILangEntry<ILuisService[]>[] = entries.map((entry: [string, ICognitiveModelConfiguration]) => {
+        const langLuisEntries: ILangEntry<ILuisService[]>[] = entries.map((
+            entry: [string, ICognitiveModelConfiguration]): ILangEntry<ILuisService[]> => {
             return {
                 language: entry[0],
                 item: entry[1].languageModels
@@ -174,21 +176,21 @@ export class SkillManifestGenerator {
         });
 
         const flatLangLuisService: ILangEntry<ILuisService>[] = langLuisEntries
-        .reduce(
-            (acc: ILangEntry<ILuisService>[], curr: ILangEntry<ILuisService[]>) => {
-                const flat: ILangEntry<ILuisService>[] = curr.item.map((luisService: ILuisService) => {
-                    return {
-                        language: curr.language,
-                        item: luisService
-                    };
-                });
+            .reduce(
+                (acc: ILangEntry<ILuisService>[], curr: ILangEntry<ILuisService[]>): ILangEntry<ILuisService>[] => {
+                    const flat: ILangEntry<ILuisService>[] = curr.item.map((luisService: ILuisService): ILangEntry<ILuisService> => {
+                        return {
+                            language: curr.language,
+                            item: luisService
+                        };
+                    });
 
-                return acc.concat(flat);
-            },
-            []);
+                    return acc.concat(flat);
+                },
+                []);
 
         return Promise.all(
-            flatLangLuisService.map(async (entry: ILangEntry<ILuisService>) => {
+            flatLangLuisService.map(async (entry: ILangEntry<ILuisService>): Promise<ILangEntry<Models.VersionsExportMethodResponse>> => {
                 try {
                     const luisModel: Models.VersionsExportMethodResponse = await this.fetchLuisModelContent(entry.item);
 
@@ -199,7 +201,7 @@ export class SkillManifestGenerator {
                 } catch (error) {
                     return {
                         language: '',
-                        //tslint:disable-next-line: no-any
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
                         item: <any>{}
                     };
                 }
@@ -209,15 +211,20 @@ export class SkillManifestGenerator {
 }
 
 //tslint:disable-next-line: no-any
-export function manifestGenerator(manifestFile: string, botSettings: Partial<IBotSettingsBase>): (req: any, res: any, next: any) => any {
+export function manifestGenerator(manifestFile: string, botSettings: Partial<IBotSettingsBase>):
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+(req: any, res: any, next: any) => any {
     //tslint:disable-next-line: no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
     return async (req: any, res: any, next: any): Promise<any> => {
         if (manifestFile === undefined) { throw new Error('manifestFile has no value'); }
         if (botSettings.microsoftAppId === undefined) { throw new Error('botSettings.microsoftAppId has no value'); }
         if (botSettings.cognitiveModels === undefined) { throw new Error('botSettings.cognitiveModels has no value'); }
 
+        // eslint-disable-next-line @typescript-eslint/tslint/config
         const inline: boolean = (req.query.inlineTriggerUtterances || '').toLowerCase() === 'true';
         const scheme: string = req.isSecure() ? 'https' : 'http';
+        // eslint-disable-next-line @typescript-eslint/tslint/config
         const host: string = req.headers.host || '';
         const skillUriBase: string = `${scheme}://${host}`;
         const appId: string = botSettings.microsoftAppId;
@@ -225,8 +232,10 @@ export function manifestGenerator(manifestFile: string, botSettings: Partial<IBo
 
         const generator: SkillManifestGenerator = new SkillManifestGenerator();
         const manifest: ISkillManifest = await generator.generateManifest(manifestFile, appId, cognitiveModels, skillUriBase, inline);
+        // eslint-disable-next-line @typescript-eslint/tslint/config
         res.send(200, manifest);
 
+        // eslint-disable-next-line @typescript-eslint/tslint/config
         return next();
     };
 }

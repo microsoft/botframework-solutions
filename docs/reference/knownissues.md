@@ -15,7 +15,7 @@ It's key to ensure that under Domains and permissions in the Manifest Editor tha
 
 ## WebChat doesn't work with your Virtual Assistant / Skills
 
-Virtual Assistant's created using an earlier version of the template reference an older version of the nuget packages. Update your `Bot.Builder.Skills` and `Bot.Builder.Solutions` to the latest versions (4.4.41 or higher) along with the Bot Framework SDK to 4.4.5 or higher. Then apply the change in the item below.
+Virtual Assistant's created using an earlier version of the template reference an older version of the nuget packages. Update your `Bot.Builder.Skills` and `Bot.Builder.Solutions` to the latest versions (4.4.4.1) along with the Bot Framework SDK to 4.4.5 or higher. Then apply the change in the item below.
 
 ## When invoking a Skill you may experience the initial message being sent twice
 
@@ -60,11 +60,11 @@ If you try to use the PowerBI analytics dashboard with your Virtual Assistant / 
 
 ## Deployment doesn't assign the newly created LUIS subscription key to the created LUIS models / LUIS Forbidden Error.
 
-Due to a limitation with the LUIS authoring APIs the deployment script isn't able to assign the newly created LUIS subscription-key to the deployed and published LUIS models. Instead, the current workaround is to rely on the Starter Key meaning the Virtual Assistant and Skills work with no manual steps. We are working on changes to the LUIS authoring APIs to enable this to be assigned automatically.
+Due to a limitation with the LUIS authoring APIs the original deployment scripts weren't able to assign the newly created LUIS subscription-key to the deployed and published LUIS models. Instead, the workaround was to rely on the Starter Key meaning the Virtual Assistant and Skills work with no manual steps. 
 
 This may cause you to also experience `Forbidden` LUIS errors when testing your Bot as you may have exhausted the quota for your starter LUIS key, changing from your starter LUIS subscription key will resolve this.
 
-In the meantime, you'll have to manually perform the following steps:
+This has now been resolved in the latest deployment scripts which you can update to following [these instructions](https://github.com/microsoft/botframework-solutions/blob/master/docs/howto/assistant/updatedeploymentscripts.md). If you have an existing deployment you'll have to manually perform the following steps:
 
 1. As shown below go through **each LUIS model including Dispatch**, click Assign Resoucre and locate the appropriate subscription key and then re-publish. 
 

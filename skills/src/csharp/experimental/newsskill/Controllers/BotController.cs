@@ -13,9 +13,8 @@ namespace NewsSkill.Controllers
 			IBot bot,
 			BotSettingsBase botSettings,
 			IBotFrameworkHttpAdapter botFrameworkHttpAdapter,
-			SkillWebSocketAdapter skillWebSocketAdapter,
-			SkillHttpAdapter skillHttpAdapter)
-            : base(bot, botSettings, botFrameworkHttpAdapter, skillWebSocketAdapter, skillHttpAdapter)
+			SkillWebSocketAdapter skillWebSocketAdapter)
+            : base(bot, botSettings, botFrameworkHttpAdapter, skillWebSocketAdapter)
         {
         }
     }

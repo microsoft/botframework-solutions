@@ -22,7 +22,7 @@ export class SkillException extends Error {
     public exceptionType: SkillExceptionType;
     public innerException: Error;
 
-    constructor(exceptionType: SkillExceptionType, message: string, innerException: Error) {
+    public constructor(exceptionType: SkillExceptionType, message: string, innerException: Error) {
         super(message);
         this.exceptionType = exceptionType;
         this.innerException = innerException;

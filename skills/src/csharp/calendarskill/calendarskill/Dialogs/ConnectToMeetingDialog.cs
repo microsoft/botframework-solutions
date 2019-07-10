@@ -290,7 +290,7 @@ namespace CalendarSkill.Dialogs
                                         if (meeting.StartTime.TimeOfDay == utcStartTime.TimeOfDay)
                                         {
                                             showMeetingReason = ShowMeetingReason.ShowFilteredByTimeMeetings;
-                                            filterKeyWord = string.Format("H:mm", dateTime);
+                                            filterKeyWord = dateTime.ToString("H:mm");
                                             filteredMeetingList.Add(meeting);
                                         }
                                     }

@@ -4,6 +4,7 @@
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
@@ -74,8 +75,8 @@ namespace PointOfInterestSkill.Dialogs
 
             await PopulateStateFromSemanticAction(dc.Context);
 
-            // If dispatch result is general luis model
-            localeConfig.LuisServices.TryGetValue("pointofinterest", out var luisService);
+            // If dispatch result is General luis model
+            localeConfig.LuisServices.TryGetValue("PointOfInterest", out var luisService);
 
             if (luisService == null)
             {
@@ -84,37 +85,43 @@ namespace PointOfInterestSkill.Dialogs
             else
             {
                 var turnResult = EndOfTurn;
-                var result = await luisService.RecognizeAsync<pointofinterestLuis>(dc.Context, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<PointOfInterestLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
-                // switch on general intents
+                if (intent != PointOfInterestLuis.Intent.None)
+                {
+                    var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
+                    state.LuisResult = result;
+                    await DigestLuisResult(dc, state.LuisResult);
+                }
+                // switch on General intents
                 switch (intent)
                 {
-                    case pointofinterestLuis.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y:
+                    case PointOfInterestLuis.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(RouteDialog));
                             break;
                         }
 
-                    case pointofinterestLuis.Intent.NAVIGATION_CANCEL_ROUTE:
+                    case PointOfInterestLuis.Intent.NAVIGATION_CANCEL_ROUTE:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(CancelRouteDialog));
                             break;
                         }
 
-                    case pointofinterestLuis.Intent.NAVIGATION_FIND_POINTOFINTEREST:
+                    case PointOfInterestLuis.Intent.NAVIGATION_FIND_POINTOFINTEREST:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(FindPointOfInterestDialog));
                             break;
                         }
 
-                    case pointofinterestLuis.Intent.NAVIGATION_FIND_PARKING:
+                    case PointOfInterestLuis.Intent.NAVIGATION_FIND_PARKING:
                         {
                             turnResult = await dc.BeginDialogAsync(nameof(FindParkingDialog));
                             break;
                         }
 
-                    case pointofinterestLuis.Intent.None:
+                    case PointOfInterestLuis.Intent.None:
                         {
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POISharedResponses.DidntUnderstandMessage));
                             turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
@@ -241,13 +248,8 @@ namespace PointOfInterestSkill.Dialogs
                 var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
                 var localeConfig = _services.CognitiveModelSets[locale];
 
-                // Update state with email luis result and entities
-                var poiLuisResult = await localeConfig.LuisServices["pointofinterest"].RecognizeAsync<pointofinterestLuis>(dc.Context, cancellationToken);
-                var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
-                state.LuisResult = poiLuisResult;
-
                 // check luis intent
-                localeConfig.LuisServices.TryGetValue("general", out var luisService);
+                localeConfig.LuisServices.TryGetValue("General", out var luisService);
 
                 if (luisService == null)
                 {
@@ -350,6 +352,76 @@ namespace PointOfInterestSkill.Dialogs
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.LogOut));
 
             return InterruptionAction.StartedDialog;
+        }
+
+        private async Task DigestLuisResult(DialogContext dc, PointOfInterestLuis luisResult)
+        {
+            try
+            {
+                var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
+
+                if (luisResult != null)
+                {
+                    state.ClearLuisResults();
+
+                    var entities = luisResult.Entities;
+
+                    if (entities.KEYWORD != null)
+                    {
+                        state.Keyword = string.Join(" ", entities.KEYWORD);
+                    }
+
+                    if (entities.ADDRESS != null)
+                    {
+                        state.Address = string.Join(" ", entities.ADDRESS);
+                    }
+                    else
+                    {
+                        // ADDRESS overwrites geographyV2
+                        var sb = new StringBuilder();
+
+                        if (entities.geographyV2_poi != null)
+                        {
+                            sb.AppendJoin(" ", entities.geographyV2_poi);
+                        }
+
+                        if (entities.geographyV2_city != null)
+                        {
+                            sb.AppendJoin(" ", entities.geographyV2_city);
+                        }
+
+                        if (sb.Length > 0)
+                        {
+                            state.Address = sb.ToString();
+                        }
+                    }
+
+                    if (entities.ROUTE_TYPE != null)
+                    {
+                        state.RouteType = entities.ROUTE_TYPE[0][0];
+                    }
+
+                    if (entities.number != null)
+                    {
+                        try
+                        {
+                            var value = entities.number[0];
+                            if (Math.Abs(value - (int)value) < double.Epsilon)
+                            {
+                                state.UserSelectIndex = (int)value - 1;
+                            }
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // put log here
+            }
         }
 
         public class Events

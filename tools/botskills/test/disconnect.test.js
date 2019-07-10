@@ -13,7 +13,7 @@ const botskills = require("../lib/index");
 describe("The disconnect command", function () {
     
     beforeEach(function () {
-        writeFileSync(resolve(__dirname, join("mocks", "resources", "filledDispatch.dispatch")),
+        writeFileSync(resolve(__dirname, join("mocks", "success", "dispatch", "filledDispatch.dispatch")),
             JSON.stringify(
                 {
                     "services": [
@@ -27,7 +27,7 @@ describe("The disconnect command", function () {
                     ]
                 }
                 , null, 4));
-        writeFileSync(resolve(__dirname, join("mocks", "resources", "filledDispatchNoJson.dispatch")),
+        writeFileSync(resolve(__dirname, join("mocks", "success", "dispatch", "filledDispatchNoJson.dispatch")),
             JSON.stringify(
                 {
                     "services": [
@@ -41,7 +41,7 @@ describe("The disconnect command", function () {
                     ]
                 }
                 , null, 4));
-        writeFileSync(resolve(__dirname, join("mocks", "resources", "filledSkillsArray.json")),
+        writeFileSync(resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
             JSON.stringify(
                 {
                     "skills": [
@@ -71,7 +71,7 @@ describe("The disconnect command", function () {
                 language : "",
                 luisFolder : "",
                 dispatchFolder : "",
-                lgOutFolder: resolve(__dirname, "..", "mocks", "resources"),
+                lgOutFolder: resolve(__dirname, "mocks", "success", "luis"),
                 dispatchName : "",
                 lgLanguage : "cs",
                 logger : this.logger
@@ -87,13 +87,13 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
         it("when the skillsFile points to a bad formatted Assistant Skills configuration file", async function () {
             const config = {
                 skillId : "testSkill",
-                skillsFile: resolve(__dirname, "mocks", "resources", "badSkillsArray.jso"),
+                skillsFile: resolve(__dirname, "mocks", "virtualAssistant", "badSkills.jso"),
                 outFolder : "",
                 cognitiveModelsFile : "",
                 language : "",
                 luisFolder : "",
                 dispatchFolder : "",
-                lgOutFolder: resolve(__dirname, ".." , "mocks", "resources"),
+                lgOutFolder: resolve(__dirname, "mocks", "success", "luis"),
                 dispatchName : "",
                 lgLanguage : "cs",
                 logger : this.logger
@@ -109,13 +109,13 @@ SyntaxError: Unexpected token N in JSON at position 0`);
         it("when the dispatchName and dispatchFolder point to a nonexistent file", async function () {
             const config = {
                 skillId : "testSkill",
-                skillsFile: resolve(__dirname, "mocks", "resources", "filledSkillsArray.json"),
+                skillsFile: resolve(__dirname, "mocks", "virtualAssistant", "filledSkills.json"),
                 outFolder : "",
                 cognitiveModelsFile : "",
                 language : "",
                 luisFolder : "",
-                dispatchFolder : resolve(__dirname, "mocks", "resources"),
-                lgOutFolder: resolve(__dirname, "mocks", "resources"),
+                dispatchFolder : resolve(__dirname, "mocks", "success", "nonexistentDispatch"),
+                lgOutFolder: resolve(__dirname, "mocks", "success", "luis"),
                 dispatchName : "missingDispatch",
                 lgLanguage : "cs",
                 logger : this.logger
@@ -133,13 +133,13 @@ SyntaxError: Unexpected token N in JSON at position 0`);
             });
             const config = {
                 skillId : "testDispatch",
-                skillsFile: resolve(__dirname, "mocks", "resources", "filledSkillsArray.json"),
+                skillsFile: resolve(__dirname, "mocks", "virtualAssistant", "filledSkills.json"),
                 outFolder : "",
                 cognitiveModelsFile : "",
                 language : "",
                 luisFolder : "",
-                dispatchFolder : resolve(__dirname, "mocks", "resources"),
-                lgOutFolder: resolve(__dirname, "mocks", "resources"),
+                dispatchFolder : resolve(__dirname, "mocks", "success", "dispatch"),
+                lgOutFolder: resolve(__dirname, "mocks", "success", "luis"),
                 dispatchName : "filledDispatchNoJson",
                 lgLanguage : "cs",
                 logger : this.logger
@@ -156,13 +156,13 @@ Error: There was an error while refreshing the Dispatch model.`);
         it("when the lgOutFolder argument is invalid ", async function () {
             const config = {
                 skillId : "testDispatch",
-                skillsFile: resolve(__dirname, "mocks", "resources", "filledSkillsArray.json"),
+                skillsFile: resolve(__dirname, "mocks", "virtualAssistant", "filledSkills.json"),
                 outFolder : "",
                 cognitiveModelsFile : "",
                 language : "",
                 luisFolder : "",
-                dispatchFolder : resolve(__dirname, "mocks", "resources"),
-                lgOutFolder : resolve(__dirname, "misleadingMockedFiles"),
+                dispatchFolder : resolve(__dirname, "mocks", "success", "dispatch"),
+                lgOutFolder: resolve(__dirname, "mocks", "success", "nonexistentLuis"),
                 dispatchName : "filledDispatch",
                 lgLanguage : "cs",
                 logger : this.logger
@@ -178,13 +178,13 @@ Please make sure to provide a valid path to your LUISGen output folder using the
         it("when the lgLanguage argument is invalid", async function () {
             const config = {
                 skillId : "testDispatch",
-                skillsFile: resolve(__dirname, "mocks", "resources", "filledSkillsArray.json"),
+                skillsFile: resolve(__dirname, "mocks", "virtualAssistant", "filledSkills.json"),
                 outFolder : "",
                 cognitiveModelsFile : "",
                 language : "",
                 luisFolder : "",
-                dispatchFolder : resolve(__dirname, "..", "mocks", "resources"),
-                lgOutFolder : resolve(__dirname, "..", "mocks", "resources"),
+                dispatchFolder : resolve(__dirname, "mocks", "success", "dispatch"),
+                lgOutFolder : resolve(__dirname, "mocks", "success", "luis"),
                 dispatchName : "filledDispatch",
                 lgLanguage : "",
                 logger : this.logger
@@ -201,13 +201,13 @@ It should be either 'cs' or 'ts' depending on your assistant's language. Please 
             this.refreshSkillStub.returns(Promise.reject(new Error("Mocked function throws an Error")));
             const config = {
                 skillId : "testDispatch",
-                skillsFile: resolve(__dirname, "mocks", "resources", "filledSkillsArray.json"),
+                skillsFile: resolve(__dirname, "mocks", "virtualAssistant", "filledSkills.json"),
                 outFolder : "",
                 cognitiveModelsFile : "",
                 language : "",
                 luisFolder : "",
-                dispatchFolder : resolve(__dirname, "mocks", "resources"),
-                lgOutFolder : resolve(__dirname, "mocks", "resources"),
+                dispatchFolder : resolve(__dirname, "mocks", "success", "dispatch"),
+                lgOutFolder : resolve(__dirname, "mocks", "success", "luis"),
                 dispatchName : "filledDispatch",
                 lgLanguage : "cs",
                 logger : this.logger
@@ -226,13 +226,13 @@ Error: Mocked function throws an Error`);
         it("when the skillsFile points to a bad formatted Assistant Skills configuration file", async function () {
             const config = {
                 skillId : "testSkill",
-                skillsFile: resolve(__dirname, "mocks", "resources", "emptySkillsArray.json"),
+                skillsFile: resolve(__dirname, "mocks", "virtualAssistant", "emptySkills.json"),
                 outFolder : "",
                 cognitiveModelsFile : "",
                 language : "",
                 luisFolder : "",
                 dispatchFolder : "",
-                lgOutFolder: resolve(__dirname, "mocks", "resources"),
+                lgOutFolder : resolve(__dirname, "mocks", "success", "luis"),
                 dispatchName : "",
                 lgLanguage : "cs",
                 logger : this.logger
@@ -248,13 +248,13 @@ Run 'botskills list --skillsFile "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in order t
         it("when the dispatchName is not contained in the Dispatch file", async function () {
             const config = {
                 skillId : "testSkill",
-                skillsFile: resolve(__dirname, "mocks", "resources", "filledSkillsArray.json"),
+                skillsFile: resolve(__dirname, "mocks", "virtualAssistant", "filledSkills.json"),
                 outFolder : "",
                 cognitiveModelsFile : "",
                 language : "",
                 luisFolder : "",
-                dispatchFolder : resolve(__dirname, "mocks", "resources"),
-                lgOutFolder: resolve(__dirname, "mocks", "resources"),
+                dispatchFolder : resolve(__dirname, "mocks", "success", "dispatch"),
+                lgOutFolder : resolve(__dirname, "mocks", "success", "luis"),
                 dispatchName : "filledDispatch",
                 lgLanguage : "cs",
                 logger : this.logger
@@ -272,13 +272,13 @@ Run 'botskills list --skillsFile "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in order t
         it("when the skill is successfully disconnected", async function () {
             const config = {
                 skillId : "testDispatch",
-                skillsFile: resolve(__dirname, "mocks", "resources", "filledSkillsArray.json"),
+                skillsFile: resolve(__dirname, "mocks", "virtualAssistant", "filledSkills.json"),
                 outFolder : "",
                 cognitiveModelsFile : "",
                 language : "",
                 luisFolder : "",
-                dispatchFolder : resolve(__dirname, "mocks", "resources"),
-                lgOutFolder : resolve(__dirname, "mocks", "resources"),
+                dispatchFolder : resolve(__dirname, "mocks", "success", "dispatch"),
+                lgOutFolder : resolve(__dirname, "mocks", "success", "luis"),
                 dispatchName : "filledDispatch",
                 lgLanguage : "cs",
                 logger : this.logger

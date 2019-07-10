@@ -1,27 +1,25 @@
-﻿﻿$PREBUILT:datetimeV2
-$PREBUILT:number
-$PREBUILT:geographyV2
-
 > # Intent definitions
 
+## None
+
+
 ## Reservation
-- lunch meeting
 - book a pasta place tomorrow
 - book a tabe on sunday
-- book a table at giordano's for tomorrow for 4 people at 2 pm
-- book a table at pizza hut for two in redmond at 7
-- book a table at pizza hut for two in redmond at seven
-- book a table for tomorrow for 2 people in chicago
-- book a table for tomorrow for 4 people at 2 pm
-- book a table for two in redmond tomorrow at 7:00 pm
-- book a table for two tomorrow at 7 pm
+- book a table at giordano's for tomorrow for {attendees=4} {attendees={people=people}} at 2 pm
+- book a table at pizza hut for {attendees=two} in redmond at 7
+- book a table at pizza hut for {attendees=two} in redmond at seven
+- book a table for tomorrow for {attendees=2} {attendees={people=people}} in chicago
+- book a table for tomorrow for {attendees=4} {attendees={people=people}} at 2 pm
+- book a table for {attendees=two} in redmond tomorrow at 7:00 pm
+- book a table for {attendees=two} tomorrow at 7 pm
 - can you help me out where to have dinner tomorrow night
 - can you help me plan dinner for tomorrow
 - could you make a reservation for me for tonight
 - could you reserve italian tonight
 - find food
-- get pizza for tomorrow at 10 pm for 4 people
-- get taco for tomorrow at 10 pm for 4 people
+- get pizza for tomorrow at 10 pm for {attendees=4} {attendees={people=people}}
+- get taco for tomorrow at 10 pm for {attendees=4} {attendees={people=people}}
 - i am hungry
 - i feel like having italian
 - i want pasta at 5pm today
@@ -29,12 +27,29 @@ $PREBUILT:geographyV2
 - i want to eat indian
 - i want to eat pizza
 - i want to make a reservation
+- lunch meeting
 - make a dinner reservation for tomorrow at 6:30 pm
 - reserve a restaurant tomorrow at 7 pm
-- reserve a table for four
+- reserve a table for {attendees=four}
 - reserve a table tomorrow
 
-## None
+
+> # Entity definitions
+
+$people:simple
+
+
+> # PREBUILT Entity definitions
+
+$PREBUILT:datetimeV2
+
+$PREBUILT:geographyV2
+
+$PREBUILT:number
+
+
+> # Phrase list definitions
+
 
 > # List entities
 
@@ -69,3 +84,12 @@ $cuisine:american=
 - burger
 - bacon
 - scrambled eggs
+
+
+
+> # RegEx entities
+
+
+> # Composite entities
+
+$attendees:[number, people]
