@@ -261,6 +261,14 @@ namespace PointOfInterestSkill.Models
         public string Speak { get; set; }
 
         /// <summary>
+        /// Gets or sets the text to submit.
+        /// </summary>
+        /// <value>
+        /// The text to submit.
+        /// </value>
+        public string SubmitText { get; set; }
+
+        /// <summary>
         /// Gets the formatted string for available details.
         /// </summary>
         /// <value>
