@@ -39,8 +39,6 @@ namespace EmailSkill.Dialogs
         private UserState _userState;
         private ConversationState _conversationState;
         private IStatePropertyAccessor<EmailSkillState> _stateAccessor;
-
-        private TemplateEngine _lgEngine;
         private ResourceMultiLanguageGenerator _lgMultiLangEngine;
 
         public MainDialog(
@@ -66,7 +64,7 @@ namespace EmailSkill.Dialogs
             _stateAccessor = _conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
 
             // combine path for cross platform support
-            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("MainDialog.lg");
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator();
 
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.CognitiveModelSets[locale];
@@ -79,8 +77,6 @@ namespace EmailSkill.Dialogs
 
             var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
-                //Generator = new ResourceMultiLanguageGenerator("MainDialog.lg"),
-
                 // Create a LUIS recognizer.
                 // The recognizer is built using the intents, utterances, patterns and entities defined in ./RootDialog.lu file
                 Recognizer = CreateRecognizer(),
@@ -148,7 +144,7 @@ namespace EmailSkill.Dialogs
             return new LuisRecognizer(new LuisApplication()
             {
                 Endpoint = "https://westus.api.cognitive.microsoft.com/",//Configuration["LuisAPIHostName"],
-                EndpointKey = "fa24469556fe41caa1a0119741cbf280", //Configuration["LuisAPIKey"],
+                EndpointKey = "21c62c8c1a864552b4396511023e7fe3", //Configuration["LuisAPIKey"],
                 ApplicationId = "b63d15d6-213f-46f5-adf5-da60d8b6d835",// Configuration["LuisAppId"]
             });
         }
@@ -156,10 +152,10 @@ namespace EmailSkill.Dialogs
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // send a greeting if we're in local mode
-            if (dc.Context.TurnState.Get<ILanguageGenerator>() == null)
-            {
-                dc.Context.TurnState.Add<ILanguageGenerator>(_lgMultiLangEngine);
-            }
+            //if (dc.Context.TurnState.Get<ILanguageGenerator>() == null)
+            //{
+            //    dc.Context.TurnState.Add<ILanguageGenerator>(_lgMultiLangEngine);
+            //}
 
             var result = _lgMultiLangEngine.Generate(dc.Context, "[EmailWelcomeMessage]", null);
             var activity = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, result.Result, null);
