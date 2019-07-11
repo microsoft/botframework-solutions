@@ -28,54 +28,43 @@ namespace HospitalitySkill.Dialogs
             IBotTelemetryClient telemetryClient)
             : base(nameof(CheckOutDialog), settings, services, responseManager, conversationState, userState, telemetryClient)
         {
-            var checkout = new WaterfallStep[]
+            var checkOut = new WaterfallStep[]
             {
                 CheckOutPrompt,
                 EmailPrompt,
-                CheckOutConfirmed
+                EndDialog
             };
 
-            AddDialog(new WaterfallDialog(nameof(CheckOutDialog), checkout));
-            AddDialog(new ChoicePrompt(DialogIds.CheckOutPrompt, ValidateCheckOutAsync));
+            AddDialog(new WaterfallDialog(nameof(CheckOutDialog), checkOut));
+            AddDialog(new ConfirmPrompt(DialogIds.CheckOutPrompt, ValidateCheckOutAsync));
             AddDialog(new TextPrompt(DialogIds.EmailPrompt, ValidateEmailAsync));
         }
 
         private async Task<DialogTurnResult> CheckOutPrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var state = await StateAccessor.GetAsync(sc.Context, () => new HospitalitySkillState());
-
-            var options = new PromptOptions()
-            {
-                Choices = new List<Choice>(),
-            };
-
-            options.Choices.Add(new Choice("Yes"));
-            options.Choices.Add(new Choice("No"));
-
             // confirm user wants to check out
             return await sc.PromptAsync(DialogIds.CheckOutPrompt, new PromptOptions()
             {
                 Prompt = ResponseManager.GetResponse(CheckOutResponses.ConfirmCheckOut),
                 RetryPrompt = ResponseManager.GetResponse(CheckOutResponses.RetryConfirmCheckOut),
-                Choices = options.Choices
             });
         }
 
-        private async Task<bool> ValidateCheckOutAsync(PromptValidatorContext<FoundChoice> promptContext, CancellationToken cancellationToken)
+        private async Task<bool> ValidateCheckOutAsync(PromptValidatorContext<bool> promptContext, CancellationToken cancellationToken)
         {
             var userState = await UserStateAccessor.GetAsync(promptContext.Context, () => new HospitalityUserSkillState());
 
-            if (promptContext.Recognized.Succeeded && promptContext.Recognized.Value != null)
+            if (promptContext.Recognized.Succeeded)
             {
-                string response = promptContext.Recognized.Value.Value;
-                if (response.Equals("Yes"))
+                bool response = promptContext.Recognized.Value;
+                if (response)
                 {
                     // TODO process check out request here
                     // set checkout value
                     userState.CheckedOut = true;
                     return await Task.FromResult(true);
                 }
-                else if (response.Equals("No"))
+                else
                 {
                     // if no just don't set state
                     return await Task.FromResult(true);
@@ -103,29 +92,21 @@ namespace HospitalitySkill.Dialogs
 
         private async Task<bool> ValidateEmailAsync(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
         {
-            var userState = await UserStateAccessor.GetAsync(promptContext.Context, () => new HospitalityUserSkillState());
+            // check for valid email input
+            string response = promptContext.Recognized?.Value;
 
-            if (userState.CheckedOut == true)
+            if (promptContext.Recognized.Succeeded && !string.IsNullOrWhiteSpace(response) && new EmailAddressAttribute().IsValid(response))
             {
-                // check for valid email input
-                string response = promptContext.Recognized?.Value;
-
-                if (promptContext.Recognized.Succeeded && !string.IsNullOrWhiteSpace(response) && new EmailAddressAttribute().IsValid(response))
-                {
-                    _email = response;
-                    return await Task.FromResult(true);
-                }
-
-                return await Task.FromResult(false);
+                _email = response;
+                return await Task.FromResult(true);
             }
 
-            return await Task.FromResult(true);
+            return await Task.FromResult(false);
         }
 
-        private async Task<DialogTurnResult> CheckOutConfirmed(WaterfallStepContext sc, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> EndDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState());
-            var state = await StateAccessor.GetAsync(sc.Context, () => new HospitalitySkillState());
 
             if (userState.CheckedOut == true)
             {
@@ -134,6 +115,7 @@ namespace HospitalitySkill.Dialogs
                 { "Email", _email },
             };
 
+                // TODO process request to send email receipt
                 // checked out confirmation message
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CheckOutResponses.SendEmailMessage, tokens));
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CheckOutResponses.CheckOutSuccess));
