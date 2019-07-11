@@ -13,7 +13,4 @@ public class DefaultConfiguration {
     public static final String USER_FROM_ID = "YOUR_USER_FROM_ID_HERE";//TODO
 
     public static final String LOCALE = "en-us";
-
-    public static final String GEOLOCATION_LAT = "47.617305";
-    public static final String GEOLOCATION_LON = "-122.192217";
 }

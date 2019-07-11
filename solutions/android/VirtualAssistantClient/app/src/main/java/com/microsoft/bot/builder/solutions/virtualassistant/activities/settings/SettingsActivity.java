@@ -3,8 +3,6 @@ package com.microsoft.bot.builder.solutions.virtualassistant.activities.settings
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -16,7 +14,6 @@ import android.widget.Spinner;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.microsoft.bot.builder.solutions.directlinespeech.ConfigurationManager;
 import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.BaseActivity;
@@ -40,11 +37,6 @@ public class SettingsActivity extends BaseActivity {
     @BindView(R.id.bot_id) TextInputEditText botId;
     @BindView(R.id.user_id) TextInputEditText userId;
     @BindView(R.id.locale) TextInputEditText locale;
-<<<<<<< HEAD:solutions/android/VirtualAssistantClient/app/src/main/java/com/microsoft/bot/builder/solutions/virtualassistant/activities/settings/SettingsActivity.java
-=======
-    @BindView(R.id.geolocation_lat) TextInputEditText locationLat;
-    @BindView(R.id.geolocation_lon) TextInputEditText locationLon;
->>>>>>> upstream/master:solutions/android/VirtualAssistantClient/app/src/main/java/com/microsoft/bot/builder/solutions/virtualassistant/activities/settings/SettingsActivity.java
     @BindView(R.id.history_linecount) TextInputEditText historyLinecount;
     @BindView(R.id.spinner_timezone) Spinner spinnerTimezone;
 
@@ -91,11 +83,7 @@ public class SettingsActivity extends BaseActivity {
         showConfiguration();
     }
 
-<<<<<<< HEAD:solutions/android/VirtualAssistantClient/app/src/main/java/com/microsoft/bot/builder/solutions/virtualassistant/activities/settings/SettingsActivity.java
     @OnEditorAction({R.id.history_linecount, R.id.service_key, R.id.service_region, R.id.bot_id, R.id.user_id, R.id.locale})
-=======
-    @OnEditorAction({R.id.history_linecount, R.id.service_key, R.id.service_region, R.id.bot_id, R.id.user_id, R.id.locale, R.id.geolocation_lat, R.id.geolocation_lon})
->>>>>>> upstream/master:solutions/android/VirtualAssistantClient/app/src/main/java/com/microsoft/bot/builder/solutions/virtualassistant/activities/settings/SettingsActivity.java
     boolean onEditorAction(int actionId, KeyEvent key){
         boolean handled = false;
         if (actionId == EditorInfo.IME_ACTION_SEND || (key != null && key.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
@@ -147,11 +135,6 @@ public class SettingsActivity extends BaseActivity {
             botId.setText(configuration.botId);
             userId.setText(configuration.userId);
             locale.setText(configuration.locale);
-<<<<<<< HEAD:solutions/android/VirtualAssistantClient/app/src/main/java/com/microsoft/bot/builder/solutions/virtualassistant/activities/settings/SettingsActivity.java
-=======
-            locationLat.setText(configuration.geolat);
-            locationLon.setText(configuration.geolon);
->>>>>>> upstream/master:solutions/android/VirtualAssistantClient/app/src/main/java/com/microsoft/bot/builder/solutions/virtualassistant/activities/settings/SettingsActivity.java
 
             int iHistoryLinecount = configuration.historyLinecount==null?1:configuration.historyLinecount;
             String historyLineCount = String.valueOf(iHistoryLinecount);
@@ -170,11 +153,6 @@ public class SettingsActivity extends BaseActivity {
             configuration.botId = botId.getText().toString();
             configuration.userId = userId.getText().toString();
             configuration.locale = locale.getText().toString();
-<<<<<<< HEAD:solutions/android/VirtualAssistantClient/app/src/main/java/com/microsoft/bot/builder/solutions/virtualassistant/activities/settings/SettingsActivity.java
-=======
-            configuration.geolat = locationLat.getText().toString();
-            configuration.geolon = locationLon.getText().toString();
->>>>>>> upstream/master:solutions/android/VirtualAssistantClient/app/src/main/java/com/microsoft/bot/builder/solutions/virtualassistant/activities/settings/SettingsActivity.java
 
             // history linecount
             configuration.historyLinecount = Integer.valueOf(historyLinecount.getText().toString());
