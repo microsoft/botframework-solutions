@@ -216,8 +216,12 @@
   "SingleRouteFound": {
     "replies": [
       {
-        "text": "我找到到达目的地的一条线路。",
-        "speak": "我找到到达目的地的一条线路。"
+        "text": "我找到了一条路线让我们开始吧!",
+        "speak": "我找到了一条路线让我们开始吧!"
+      },
+      {
+        "text": "我找到了一条路线我们开始吧!",
+        "speak": "我找到了一条路线我们开始吧!"
       }
     ],
     "inputHint": "expectingInput"
