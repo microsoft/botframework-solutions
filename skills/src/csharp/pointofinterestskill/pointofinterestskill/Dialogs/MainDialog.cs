@@ -94,10 +94,7 @@ namespace PointOfInterestSkill.Dialogs
                     state.LuisResult = result;
                     await DigestLuisResult(dc, state.LuisResult);
                 }
-<<<<<<< HEAD
-=======
 
->>>>>>> upstream/master
                 // switch on General intents
                 switch (intent)
                 {
