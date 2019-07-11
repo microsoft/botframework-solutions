@@ -6,5 +6,6 @@ namespace WeatherSkill.Services
 {
     public class BotSettings : BotSettingsBase
     {
+        public string WeatherApiKey { get; set; }
     }
 }
