@@ -33,7 +33,7 @@ namespace NewsSkill.Dialogs
             UserAccessor = userState.CreateProperty<NewsSkillUserState>(nameof(NewsSkillUserState));
             TelemetryClient = telemetryClient;
 
-            var mapsKey = settings.Properties["AzureMapsKey"] ?? throw new Exception("The AzureMapsKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
+            var mapsKey = settings.AzureMapsKey ?? throw new Exception("The AzureMapsKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
             _mapsService = mapsService;
             _mapsService.InitKeyAsync(mapsKey);
         }

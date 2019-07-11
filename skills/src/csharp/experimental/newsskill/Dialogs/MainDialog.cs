@@ -59,7 +59,7 @@ namespace NewsSkill.Dialogs
             var state = await _stateAccessor.GetAsync(dc.Context, () => new NewsSkillState());
 
             // If dispatch result is general luis model
-            _services.CognitiveModelSets["en"].LuisServices.TryGetValue("news", out var luisService);
+            _services.CognitiveModelSets["en"].LuisServices.TryGetValue("News", out var luisService);
 
             if (luisService == null)
             {
@@ -68,7 +68,7 @@ namespace NewsSkill.Dialogs
             else
             {
                 var turnResult = EndOfTurn;
-                var result = await luisService.RecognizeAsync<newsLuis>(dc.Context, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<NewsLuis>(dc.Context, CancellationToken.None);
                 state.LuisResult = result;
 
                 var intent = result?.TopIntent().intent;
@@ -76,29 +76,29 @@ namespace NewsSkill.Dialogs
                 // switch on general intents
                 switch (intent)
                 {
-                    case newsLuis.Intent.TrendingArticles:
+                    case NewsLuis.Intent.TrendingArticles:
                         {
                             // send articles in response
                             turnResult = await dc.BeginDialogAsync(nameof(TrendingArticlesDialog));
                             break;
                         }
 
-                    case newsLuis.Intent.SetFavoriteTopics:
-                    case newsLuis.Intent.ShowFavoriteTopics:
+                    case NewsLuis.Intent.SetFavoriteTopics:
+                    case NewsLuis.Intent.ShowFavoriteTopics:
                         {
                             // send favorite news categories
                             turnResult = await dc.BeginDialogAsync(nameof(FavoriteTopicsDialog));
                             break;
                         }
                         
-                    case newsLuis.Intent.FindArticles:
+                    case NewsLuis.Intent.FindArticles:
                         {
                             // send greeting response
                             turnResult = await dc.BeginDialogAsync(nameof(FindArticlesDialog));
                             break;
                         }
 
-                    case newsLuis.Intent.None:
+                    case NewsLuis.Intent.None:
                         {
                             // No intent was identified, send confused message
                             await _responder.ReplyWith(dc.Context, MainResponses.Confused);
@@ -146,7 +146,7 @@ namespace NewsSkill.Dialogs
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // check luis intent
-                _services.CognitiveModelSets["en"].LuisServices.TryGetValue("general", out var luisService);
+                _services.CognitiveModelSets["en"].LuisServices.TryGetValue("General", out var luisService);
 
                 if (luisService == null)
                 {
