@@ -300,8 +300,6 @@ public class SpeechService extends Service {
         // Start foreground service
         startForeground(STOP_FOREGROUND_REMOVE, notification);
 
-        startLocationUpdates();
-
         Log.d(TAG_FOREGROUND_SERVICE, "startForegroundService() complete");
     }
 

@@ -235,9 +235,17 @@ public class MainActivity extends BaseActivity
 
     @Override
     protected void serviceConnected() {
-        // this code is triggered when a user launches the app a second+ time and the app has permission
+        // At this point, speechServiceBinder should not be null.
+        // this code is triggered after the service is bound.
+        // Binding is started in onStart(), so expect this callback to trigger after onStart()
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
             initializeAndConnect();
+        }
+
+        try {
+            speechServiceBinder.startLocationUpdates();
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
     }
 
