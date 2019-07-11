@@ -41,7 +41,7 @@
     },
     "appInsightsLocation": {
       "type": "string",
-      "defaultValue": "westus2"
+      "defaultValue": "[resourceGroup().location]"
     },
     "botWebAppName": {
       "type": "string",
@@ -243,7 +243,7 @@
       "kind": "QnAMaker",
       "apiVersion": "2017-04-18",
       "name": "[parameters('qnaMakerServiceName')]",
-      "location": "westus",
+      "location": "[parameters('qnaServiceLocation')]",
       "sku": {
         "name": "[parameters('qnaMakerServiceSku')]"
       },
