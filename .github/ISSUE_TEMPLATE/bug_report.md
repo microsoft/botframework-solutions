@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-#### What project does this affect?
+#### What project is affected?
 
 #### What language is this in?
 
