@@ -34,5 +34,14 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "RouteSuggestedActionName": {
+    "replies": [
+      {
+        "text": "路线 {Id}",
+        "speak": "路线 {Id}"
+      }
+    ],
+    "inputHint": "ignoringInput"
   }
 }

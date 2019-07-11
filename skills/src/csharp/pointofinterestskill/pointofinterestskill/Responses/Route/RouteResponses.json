@@ -50,5 +50,14 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "RouteSuggestedActionName": {
+    "replies": [
+      {
+        "text": "Route {Id}",
+        "speak": "Route {Id}"
+      }
+    ],
+    "inputHint": "ignoringInput"
   }
 }

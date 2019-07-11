@@ -2,20 +2,17 @@
 
 * @darrenj @lauren-mills @lzc850612 @ryanlengel 
 
-# Deployment scripts
-*.ps1 @lauren-mills
-
 # Docs
-/docs/ @ryanlengel
+/docs/ @ryanlengel @darrenj
 
 # Lib
-/lib/ @lzc850612
+/lib/ @lzc850612 @darrenj
 
 # Skills
 /skills/ @lauren-mills @lzc850612 @ryanlengel 
 
 # Solutions
-/solutions/ @ryanlengel
+/solutions/ @ryanlengel @darrenj
 
 # Templates
-/templates/ @lauren-mills
+/templates/ @lauren-mills @darrenj
