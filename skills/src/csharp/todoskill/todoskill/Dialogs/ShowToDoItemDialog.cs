@@ -39,7 +39,9 @@ namespace ToDoSkill.Dialogs
         {
             string[] paths = { ".", "Resources", "ShowToDoCard.LG" };
             string fullPath = Path.Combine(paths);
-            LgEngine.AddFile(fullPath);
+            LGEngine.AddFile(fullPath);
+
+            LGMultiLangEngine = new ResourceMultiLanguageGenerator("ShowTodoResponses.lg");
 
             TelemetryClient = telemetryClient;
 
@@ -113,8 +115,6 @@ namespace ToDoSkill.Dialogs
             InitialDialogId = Actions.ShowTasks;
         }
 
-        private TemplateEngine LgEngine { get; set; } = new TemplateEngine();
-
         public async Task<DialogTurnResult> SaveShowToDoState(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await ToDoStateAccessor.GetAsync(sc.Context);
@@ -166,6 +166,9 @@ namespace ToDoSkill.Dialogs
                 if (state.Tasks.Count <= 0)
                 {
                     //await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ShowToDoResponses.NoTasksMessage, new StringDictionary() { { "listType", state.ListType } }));
+                  
+                    var content = await LGMultiLangEngine.Generate(sc.Context, "[NoTasksMessage]", null);
+                    await sc.Context.SendActivityAsync(content);
 
                     return await sc.EndDialogAsync(true);
                 }
@@ -176,7 +179,7 @@ namespace ToDoSkill.Dialogs
                     if (topIntent == todoLuis.Intent.ShowToDo || state.GoBackToStart)
                     {
                         var toDoListCard = ToAdaptiveCardForShowToDosByLG(
-                           LgEngine,
+                           LGEngine,
                            state.Tasks,
                            state.AllTasks.Count,
                            state.ListType);
@@ -204,7 +207,7 @@ namespace ToDoSkill.Dialogs
                             //    state.ListType);
 
                             var toDoListCard = ToAdaptiveCardForReadMoreByLG(
-                                LgEngine,
+                                LGEngine,
                                 state.Tasks,
                                 state.AllTasks.Count,
                                 state.ListType);
@@ -225,7 +228,6 @@ namespace ToDoSkill.Dialogs
                         }
                         else
                         {
-
                             //var toDoListCard = ToAdaptiveCardForPreviousPage(
                             //    state.Tasks,
                             //    state.AllTasks.Count,
@@ -233,7 +235,7 @@ namespace ToDoSkill.Dialogs
                             //    state.ListType);
 
                             var toDoListCard = ToAdaptiveCardForPreviousPageByLG(
-                                LgEngine,
+                                LGEngine,
                                 state.Tasks,
                                 state.AllTasks.Count,
                                 state.ShowTaskPageIndex == 0,
@@ -347,7 +349,7 @@ namespace ToDoSkill.Dialogs
             //        state.ListType);
 
             var toDoListCard = ToAdaptiveCardForReadMoreByLG(
-                             LgEngine,
+                             LGEngine,
                              state.Tasks,
                              state.AllTasks.Count,
                              state.ListType);
@@ -446,7 +448,7 @@ namespace ToDoSkill.Dialogs
             //        state.ListType);
 
             var cardReply = ToAdaptiveCardForReadMoreByLG(
-                       LgEngine,
+                       LGEngine,
                        state.Tasks,
                        state.AllTasks.Count,
                        state.ListType);
