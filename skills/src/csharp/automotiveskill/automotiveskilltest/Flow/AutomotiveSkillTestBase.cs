@@ -50,10 +50,10 @@ namespace AutomotiveSkillTest.Flow
                         {
                             LuisServices = new Dictionary<string, ITelemetryRecognizer>
                             {
-                                { "general", new MockLuisRecognizer() },
-                                { "settings", new MockLuisRecognizer() },
-                                { "settings_name", new MockLuisRecognizer() },
-                                { "settings_value", new MockLuisRecognizer() }
+                                { "General", new MockLuisRecognizer() },
+                                { "Settings", new MockLuisRecognizer() },
+                                { "SettingsName", new MockLuisRecognizer() },
+                                { "SettingsValue", new MockLuisRecognizer() }
                             }
                         }
                     }
