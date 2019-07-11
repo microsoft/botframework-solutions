@@ -9,18 +9,6 @@
         android:icon="@drawable/ic_debug"
         android:title="@string/nav_menu_reset_bot"/>
     <item
-        android:id="@+id/nav_menu_location"
-        android:icon="@drawable/ic_gps"
-        android:title="@string/nav_menu_location" />
-    <item
-        android:id="@+id/nav_menu_welcome_req"
-        android:icon="@drawable/ic_welcome"
-        android:title="@string/nav_menu_welcome" />
-    <item
-        android:id="@+id/nav_menu_emulate_activity_msg"
-        android:icon="@drawable/ic_debug"
-        android:title="@string/nav_menu_emulate_activity_msg" />
-    <item
         android:id="@+id/nav_menu_show_assistant_settings"
         android:icon="@drawable/ic_debug"
         android:title="@string/nav_menu_show_assistant_settings_msg" />
