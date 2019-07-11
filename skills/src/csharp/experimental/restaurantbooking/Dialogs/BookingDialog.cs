@@ -70,7 +70,7 @@ namespace RestaurantBooking.Dialogs
             InitialDialogId = Actions.BookRestaurant;
 
             // Used to help resolve image locations in both local deployment and remote
-            _urlResolver = new UrlResolver(httpContext, settings.Properties);
+            _urlResolver = new UrlResolver(httpContext, settings);
         }
 
         /// <summary>
