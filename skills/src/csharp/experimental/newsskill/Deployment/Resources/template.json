@@ -252,11 +252,11 @@
         "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisServiceName')),'2017-04-18').key1]"
       }
     },
-    "bingSearch": {
+    "BingNewsKey": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('bingServiceName')),'2017-04-18').key1]"
     },
-    "azureMaps": {
+    "AzureMapsKey": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.Maps/accounts', parameters('azureMapsServiceName')),'2018-05-01').primaryKey]"
     }
