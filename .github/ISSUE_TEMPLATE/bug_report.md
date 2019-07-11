@@ -2,27 +2,21 @@
 name: Bug report
 about: Report bugs for this project
 title: ''
-labels: 'Type: Bug'
+labels: 'Needs Triage, Type: Bug'
 assignees: ''
 
 ---
-## Project
 
-**Name**: <!--Virtual Assistant, Skills, Enterprise Bot Template, or Customer Support Template-->
+#### What project is affected?
 
-**Language**: <!-- C#, TypeScript -->
+#### What language is this in?
 
-## Description
-<!--A clear and concise description of what the bug is.-->
+#### What happens?
 
-## To Reproduce
-<!--Steps to reproduce the behavior:-->
+#### What are the steps to reproduce this issue?
 
-## Expected behavior
-<!--A clear and concise description of what you expected to happen.-->
+#### What were you expecting to happen?
 
-## Screenshots
-<!--If applicable, add screenshots to help explain your problem.-->
+#### Can you share any logs, error output, etc.?
 
-## Additional context
-<!--Add any other context about the problem here.-->
+#### Any screenshots or additional context?

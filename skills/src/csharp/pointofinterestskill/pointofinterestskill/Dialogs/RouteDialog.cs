@@ -246,12 +246,22 @@ namespace PointOfInterestSkill.Dialogs
                 }
                 else if (cards.Count() == 1)
                 {
+<<<<<<< HEAD
                     (cards[0].Data as RouteDirectionsModel).SubmitText = GetConfirmPromptTrue();
 
                     var options = new PromptOptions
                     {
                         Prompt = ResponseManager.GetCardResponse(POISharedResponses.SingleRouteFound, cards)
                     };
+=======
+                    await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(POISharedResponses.SingleRouteFound, cards));
+
+                    return await sc.NextAsync(true);
+                }
+                else
+                {
+                    var options = GetRoutesPrompt(POISharedResponses.MultipleRoutesFound, cards);
+>>>>>>> upstream/master
 
                     // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
                     if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
@@ -260,7 +270,7 @@ namespace PointOfInterestSkill.Dialogs
                         options.Prompt = null;
                     }
 
-                    return await sc.PromptAsync(Actions.ConfirmPrompt, options);
+                    return await sc.PromptAsync(Actions.SelectPointOfInterestPrompt, options);
                 }
                 else
                 {

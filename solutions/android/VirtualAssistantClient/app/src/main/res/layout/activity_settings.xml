@@ -68,6 +68,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <!-- USER ID -->
+<<<<<<< HEAD:solutions/android/VirtualAssistantClient/app/src/main/res/layout/activity_settings.xml
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/user_id_layout"
                 android:layout_width="match_parent"
@@ -84,6 +85,8 @@
             </android.support.design.widget.TextInputLayout>
 
             <!-- LOCALE -->
+=======
+>>>>>>> upstream/master:solutions/android/VirtualAssistantClient/app/src/main/res/layout/activity_settings.xml
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/locale_layout"
                 android:layout_width="match_parent"
@@ -98,6 +101,48 @@
                     android:inputType="text"
                     android:imeOptions="actionDone"/>
             </android.support.design.widget.TextInputLayout>
+
+<<<<<<< HEAD:solutions/android/VirtualAssistantClient/app/src/main/res/layout/activity_settings.xml
+            <!-- CHAT HISTORY LINE COUNT-->
+=======
+            <!-- LOCALE -->
+>>>>>>> upstream/master:solutions/android/VirtualAssistantClient/app/src/main/res/layout/activity_settings.xml
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/history_linecount_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/configuration_chat_history_line_count">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/history_linecount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:imeOptions="actionDone"/>
+            </android.support.design.widget.TextInputLayout>
+
+<<<<<<< HEAD:solutions/android/VirtualAssistantClient/app/src/main/res/layout/activity_settings.xml
+            <!-- TIMEZONE -->
+=======
+            <!-- GEO LOCATION -->
+>>>>>>> upstream/master:solutions/android/VirtualAssistantClient/app/src/main/res/layout/activity_settings.xml
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/configuration_timezone"/>
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/spinner_timezone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
 
             <!-- CHAT HISTORY LINE COUNT-->
             <android.support.design.widget.TextInputLayout
