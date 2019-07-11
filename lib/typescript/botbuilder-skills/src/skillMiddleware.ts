@@ -7,7 +7,6 @@ import { ConversationState, Middleware, StatePropertyAccessor, TurnContext } fro
 import { DialogState } from 'botbuilder-dialogs';
 import { Activity, ActivityTypes } from 'botframework-schema';
 import { SkillEvents } from './models';
-import { SkillContext } from './skillContext';
 
 /**
  * The Skill middleware is responsible for processing Skill mode specifics,
@@ -15,16 +14,13 @@ import { SkillContext } from './skillContext';
  */
 export class SkillMiddleware implements Middleware {
     private readonly conversationState: ConversationState;
-    private readonly skillContextAccessor: StatePropertyAccessor<SkillContext>;
     private readonly dialogStateAccessor: StatePropertyAccessor<DialogState>;
 
     public constructor(
         conversationState: ConversationState,
-        skillContextAccessor: StatePropertyAccessor<SkillContext>,
         dialogStateAccessor: StatePropertyAccessor<DialogState>
     ) {
         this.conversationState = conversationState;
-        this.skillContextAccessor = skillContextAccessor;
         this.dialogStateAccessor = dialogStateAccessor;
     }
 
@@ -35,7 +31,7 @@ export class SkillMiddleware implements Middleware {
             if (activity.name === SkillEvents.cancelAllSkillDialogsEventName) {
 
                 // when skill receives a CancelAllSkillDialogsEvent, clear the dialog stack and short-circuit
-                const currentConversation: DialogState|undefined = await this.dialogStateAccessor.get(turnContext);
+                const currentConversation: DialogState|undefined = await this.dialogStateAccessor.get(turnContext, { dialogStack: [] });
                 if (currentConversation !== undefined) {
                     currentConversation.dialogStack = [];
                     await this.dialogStateAccessor.set(turnContext, currentConversation);

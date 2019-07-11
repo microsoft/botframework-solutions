@@ -34,13 +34,10 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         super(MultiProviderAuthDialog.name);
         this.authenticationConnections = authenticationConnections;
         this.appCredentials = appCredentials;
+
         this.responseManager = new ResponseManager(
             ['en', 'de', 'es', 'fr', 'it', 'zh'],
             [new AuthenticationResponses()]);
-
-        if (this.authenticationConnections === undefined) {
-            throw new Error('You must configure an authentication connection in your bot file before using this component.');
-        }
 
         const firstStep: WaterfallStep[] = [
             this.firstStep.bind(this)
@@ -119,7 +116,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                 throw new Error('AppCredentials were not passed which are required for speech enabled authentication scenarios.');
             }
 
-            // TODO OAuthClient in botbuilder-connector // DELTA
+            // TODO OAuthClient in botbuilder-connector // NOT IMPLEMENTED
             const connectionName: string = this.authenticationConnections[0].name;
 
             try {
@@ -144,9 +141,8 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
             // Enable Direct Line Speech clients to receive an event that will tell them
             // to trigger a sign-in flow when a token isn't present
-
             const requestOAuthFlowEvent = ActivityExtensions.createReply(stepContext.context.activity);
-            requestOAuthFlowEvent.type = 'event'; // DELTA
+            requestOAuthFlowEvent.type = ActivityTypes.Event;
             requestOAuthFlowEvent.name = 'RequestOAuthFlow';
 
             await stepContext.context.sendActivity(requestOAuthFlowEvent);
@@ -165,7 +161,8 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
     private async sendRemoteEvent(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         if (isRemoteUserTokenProvider(stepContext.context.adapter)) {
-            await (<IRemoteUserTokenProvider><unknown>stepContext.context.adapter).sendRemoteTokenRequestEvent(stepContext.context);
+            const tokenProvider: IRemoteUserTokenProvider = <any>stepContext.context.adapter;
+            await tokenProvider.sendRemoteTokenRequestEvent(stepContext.context);
 
             // Wait for the tokens/response event
             return stepContext.prompt(DialogIds.remoteAuthEventPrompt, {});
@@ -192,7 +189,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
             return stepContext.next(result);
         }
 
-        // DELTA inconsistences between IUserTokenProvider
+        // DELTA inconsistences between IUserTokenProvider and BotFrameworkAdapter implementation
         const adapter: BotFrameworkAdapter = <BotFrameworkAdapter> stepContext.context.adapter;
 
         if (adapter !== undefined) {

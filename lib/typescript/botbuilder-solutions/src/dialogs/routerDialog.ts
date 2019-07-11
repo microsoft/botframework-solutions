@@ -67,6 +67,7 @@ export abstract class RouterDialog extends InterruptableDialog {
                     break;
                 }
                 case ActivityTypes.Invoke: {
+                    // Used by Teams for Authentication scenarios.
                     await innerDc.continueDialog();
                     break;
                 }

@@ -72,11 +72,20 @@ export interface ITelemetryConfiguration {
 }
 
 export interface IBlobStorageConfiguration {
+    /**
+     * Gets or sets the connection string for the Azure Blob Storage service.
+     */
     connectionString: string;
+    /**
+     * Gets or sets the blob container for the Azure Blob Storage service.
+     */
     container: string;
 }
 
 export interface IContentModeratorConfiguration {
+    /**
+     * Gets or sets the subscription key for the Content Moderator service.
+     */
     key: string;
 }
 
@@ -88,7 +97,16 @@ export interface ICosmosDbConfiguration {
 }
 
 export interface ICognitiveModelConfiguration {
+    /**
+     * Gets or sets the Dispatch service for the set of cognitive models.
+     */
     dispatchModel: DispatchService;
+    /**
+     * Gets or sets the collection of LUIS models.
+     */
     languageModels: LuisService[];
+    /**
+     * Gets or sets the collection of QnA Maker knowledge bases.
+     */
     knowledgeBases: QnaMakerService[];
 }

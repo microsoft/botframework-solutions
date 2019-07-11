@@ -140,6 +140,7 @@ export class SkillDialog extends ComponentDialog {
         const entities: { [key: string]: Entity } = {};
 
         // PENDING: Review Entity values
+        // PENDING: Entity class does not have the prop 'Properties'
         slots.forEachObj((value: Object, key: string) => {
             entities[key] = {
                 type: '',
@@ -168,7 +169,6 @@ export class SkillDialog extends ComponentDialog {
             const result: DialogTurnResult = await innerDC.continueDialog();
 
             // forward the token response to the skill
-            // eslint-disable-next-line @typescript-eslint/tslint/config
             if (result.status === DialogTurnStatus.complete && isProviderTokenResponse(result.result)) {
                 activity.type = ActivityTypes.Event;
                 activity.name = TokenEvents.tokenResponseEventName;
@@ -179,10 +179,7 @@ export class SkillDialog extends ComponentDialog {
         }
 
         const dialogResult: DialogTurnResult = await this.forwardToSkill(innerDC, activity);
-        // comment out for now to accommodate for
-        // scenarios where skillTransport can't be transient
-        // will uncomment once the fix from StreamingExtensions is in
-        // this.skillTransport.disconnect();
+        this.skillTransport.disconnect();
 
         return dialogResult;
     }
@@ -276,7 +273,6 @@ export class SkillDialog extends ComponentDialog {
 
             if (this.authDialog) {
                 const authResult: DialogTurnResult = await dialogContext.beginDialog(this.authDialog.id);
-                // eslint-disable-next-line @typescript-eslint/tslint/config
                 if (isProviderTokenResponse(authResult.result)) {
                     const tokenEvent: Activity = ActivityExtensions.createReply(activity);
                     tokenEvent.type = ActivityTypes.Event;
