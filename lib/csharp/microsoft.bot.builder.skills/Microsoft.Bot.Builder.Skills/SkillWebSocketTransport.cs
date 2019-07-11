@@ -35,7 +35,11 @@ namespace Microsoft.Bot.Builder.Skills
             _streamingTransportClient = streamingTransportClient;
         }
 
-        public async Task<bool> ForwardToSkillAsync(ITurnContext turnContext, Activity activity, Action<Activity> tokenRequestHandler = null, Action<Activity> fallbackHandler = null)
+        public async Task<bool> ForwardToSkillAsync(
+            ITurnContext turnContext,
+            Activity activity,
+            Action<Activity> tokenRequestHandler = null,
+            Action<Activity> fallbackHandler = null)
         {
             if (_streamingTransportClient == null)
             {

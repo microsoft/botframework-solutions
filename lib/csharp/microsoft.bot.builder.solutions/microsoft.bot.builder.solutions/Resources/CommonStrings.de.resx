@@ -231,4 +231,7 @@
   <data name="LatestItem" xml:space="preserve">
     <value>das jüngste ist {0};</value>
   </data>
+  <data name="ConfirmSkillSwitch" xml:space="preserve">
+    <value>Möchten Sie wirklich zu {0} wechseln?</value>
+  </data>
 </root>

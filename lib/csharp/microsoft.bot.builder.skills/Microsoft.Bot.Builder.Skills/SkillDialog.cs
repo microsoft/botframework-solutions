@@ -4,11 +4,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills.Auth;
+using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
+using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Schema;
+using Microsoft.Recognizers.Text;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Builder.Skills
@@ -29,23 +33,27 @@ namespace Microsoft.Bot.Builder.Skills
         private Queue<Activity> _queuedResponses = new Queue<Activity>();
         private object _lockObject = new object();
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="SkillDialog"/> class.
-		/// SkillDialog constructor that accepts the manifest description of a Skill along with TelemetryClient for end to end telemetry.
-		/// </summary>
-		/// <param name="skillManifest">Skill manifest.</param>
-		/// <param name="serviceClientCredentials">Service client credentials.</param>
-		/// <param name="telemetryClient">Telemetry Client.</param>
-		/// <param name="userState">User State.</param>
-		/// <param name="authDialog">Auth Dialog.</param>
-		/// <param name="skillTransport">Transport used for skill invocation.</param>
-		public SkillDialog(
-			SkillManifest skillManifest,
-			IServiceClientCredentials serviceClientCredentials,
-			IBotTelemetryClient telemetryClient,
-			UserState userState,
-			MultiProviderAuthDialog authDialog = null,
-			ISkillTransport skillTransport = null)
+        private ISkillIntentRecognizer _skillIntentRecognizer;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SkillDialog"/> class.
+        /// SkillDialog constructor that accepts the manifest description of a Skill along with TelemetryClient for end to end telemetry.
+        /// </summary>
+        /// <param name="skillManifest">Skill manifest.</param>
+        /// <param name="serviceClientCredentials">Service client credentials.</param>
+        /// <param name="telemetryClient">Telemetry Client.</param>
+        /// <param name="userState">User State.</param>
+        /// <param name="authDialog">Auth Dialog.</param>
+        /// <param name="skillIntentRecognizer">Skill Intent Recognizer.</param>
+        /// <param name="skillTransport">Transport used for skill invocation.</param>
+        public SkillDialog(
+            SkillManifest skillManifest,
+            IServiceClientCredentials serviceClientCredentials,
+            IBotTelemetryClient telemetryClient,
+            UserState userState,
+            MultiProviderAuthDialog authDialog = null,
+            ISkillIntentRecognizer skillIntentRecognizer = null,
+            ISkillTransport skillTransport = null)
             : base(skillManifest.Id)
         {
             _skillManifest = skillManifest ?? throw new ArgumentNullException(nameof(SkillManifest));
@@ -53,12 +61,60 @@ namespace Microsoft.Bot.Builder.Skills
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
             _userState = userState;
             _skillTransport = skillTransport ?? new SkillWebSocketTransport(_skillManifest, _serviceClientCredentials, telemetryClient);
+            _skillIntentRecognizer = skillIntentRecognizer;
+
+            var intentSwitching = new WaterfallStep[]
+            {
+                ConfirmIntentSwitch,
+                FinishIntentSwitch,
+            };
 
             if (authDialog != null)
             {
                 _authDialog = authDialog;
                 AddDialog(authDialog);
             }
+
+            AddDialog(new WaterfallDialog(DialogIds.ConfirmFlow, intentSwitching));
+            AddDialog(new ConfirmPrompt(DialogIds.CancelPrompt));
+        }
+
+        public async Task<DialogTurnResult> ConfirmIntentSwitch(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
+            if (sc.Options != null && sc.Options is SkillSwitchConfirmOption skillSwitchConfirmOption)
+            {
+                var newIntentName = skillSwitchConfirmOption.TargetIntent;
+                var intentResponse = string.Format(CommonStrings.ConfirmSkillSwitch, newIntentName);
+                return await sc.PromptAsync(DialogIds.CancelPrompt, new PromptOptions()
+                {
+                    Prompt = new Activity(type: ActivityTypes.Message, text: intentResponse, speak: intentResponse),
+                });
+            }
+
+            return await sc.NextAsync();
+        }
+
+        public async Task<DialogTurnResult> FinishIntentSwitch(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
+            if (sc.Options != null && sc.Options is SkillSwitchConfirmOption skillSwitchConfirmOption)
+            {
+                if (sc.Result is bool result && result)
+                {
+                    await _skillTransport.CancelRemoteDialogsAsync(sc.Context);
+
+                    // Reset user input
+                    sc.Context.Activity.Text = skillSwitchConfirmOption.UserInputActivity.Text;
+                    sc.Context.Activity.Speak = skillSwitchConfirmOption.UserInputActivity.Speak;
+
+                    return await sc.EndDialogAsync(skillSwitchConfirmOption.TargetIntent);
+                }
+                else
+                {
+                    return await sc.EndDialogAsync(skillSwitchConfirmOption.LastActivity);
+                }
+            }
+
+            return await sc.EndDialogAsync();
         }
 
         public override async Task EndDialogAsync(ITurnContext turnContext, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken)
@@ -131,14 +187,14 @@ namespace Microsoft.Bot.Builder.Skills
             await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Handing off to the {_skillManifest.Name} skill."));
 
             var activity = innerDc.Context.Activity;
-			var semanticAction = new SemanticAction { Entities = new Dictionary<string, Entity>() };
+            var semanticAction = new SemanticAction { Entities = new Dictionary<string, Entity>() };
 
-			foreach (var slot in slots)
-			{
-				semanticAction.Entities.Add(slot.Key, new Entity { Properties = slot.Value });
-			}
+            foreach (var slot in slots)
+            {
+                semanticAction.Entities.Add(slot.Key, new Entity { Properties = slot.Value });
+            }
 
-			activity.SemanticAction = semanticAction;
+            activity.SemanticAction = semanticAction;
 
             return await ForwardToSkillAsync(innerDc, activity);
         }
@@ -168,6 +224,27 @@ namespace Microsoft.Bot.Builder.Skills
                 else
                 {
                     return result;
+                }
+            }
+
+            if (innerDc.ActiveDialog != null)
+            {
+                var result = await base.OnContinueDialogAsync(innerDc, cancellationToken);
+
+                if (result.Status != DialogTurnStatus.Complete)
+                {
+                    return result;
+                }
+                else
+                {
+                    if (result.Result is Activity returnActivity)
+                    {
+                        activity = returnActivity;
+                    }
+                    else
+                    {
+                        return result;
+                    }
                 }
             }
 
@@ -217,32 +294,55 @@ namespace Microsoft.Bot.Builder.Skills
             {
                 var endOfConversation = await _skillTransport.ForwardToSkillAsync(innerDc.Context, activity, GetTokenRequestCallback(innerDc), GetFallbackCallback(innerDc));
 
-				if (endOfConversation)
+                if (endOfConversation)
                 {
                     await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot."));
                     return await innerDc.EndDialogAsync();
                 }
                 else
-				{
-					var dialogResult = new DialogTurnResult(DialogTurnStatus.Waiting);
+                {
+                    var dialogResult = new DialogTurnResult(DialogTurnStatus.Waiting);
 
-					// if there's any response we need to send to the skill queued
-					// forward to skill and start a new turn
-					while (_queuedResponses.Count > 0 && dialogResult.Status != DialogTurnStatus.Complete && dialogResult.Status != DialogTurnStatus.Cancelled)
-					{
-                        if (_queuedResponses.Last().Name == FallbackEvents.FallbackHandleEventName)
+                    // if there's any response we need to send to the skill queued
+                    // forward to skill and start a new turn
+                    while (_queuedResponses.Count > 0 && dialogResult.Status != DialogTurnStatus.Complete && dialogResult.Status != DialogTurnStatus.Cancelled)
+                    {
+                        var lastEvent = _queuedResponses.Dequeue();
+                        if (lastEvent.Name == SkillEvents.FallbackHandleEventName)
                         {
-                            var lastEvent = _queuedResponses.Dequeue();
-                            dialogResult = await ForwardToSkillAsync(innerDc, lastEvent);
-                            return await innerDc.EndDialogAsync(lastEvent);
-                        }
-                        else
-                        {
-                            dialogResult = await ForwardToSkillAsync(innerDc, _queuedResponses.Dequeue());
-                        }
-					}
+                            // if skillIntentRecognizer specified, run the recognizer
+                            if (_skillIntentRecognizer != null && _skillIntentRecognizer.RecognizeSkillIntentAsync != null)
+                            {
+                                var recognizedSkillManifestRecognized = await _skillIntentRecognizer.RecognizeSkillIntentAsync(innerDc);
 
-					return dialogResult;
+                                // if the result is an actual intent other than the current skill, launch the confirm dialog (if configured) to eventually switch to a different skill
+                                // if the result is the same as the current intent, re-send it to the current skill
+                                // if the result is empty which means no intent, re-send it to the current skill
+                                if (recognizedSkillManifestRecognized != null
+                                    && !string.Equals(recognizedSkillManifestRecognized, this.Id))
+                                {
+                                    if (_skillIntentRecognizer.ConfirmIntentSwitch)
+                                    {
+                                        var options = new SkillSwitchConfirmOption()
+                                        {
+                                            LastActivity = lastEvent,
+                                            TargetIntent = recognizedSkillManifestRecognized,
+                                            UserInputActivity = innerDc.Context.Activity,
+                                        };
+
+                                        return await innerDc.BeginDialogAsync(DialogIds.ConfirmFlow, options);
+                                    }
+
+                                    await _skillTransport.CancelRemoteDialogsAsync(innerDc.Context);
+                                    return await innerDc.EndDialogAsync(recognizedSkillManifestRecognized);
+                                }
+                            }
+                        }
+
+                        dialogResult = await ForwardToSkillAsync(innerDc, lastEvent);
+                    }
+
+                    return dialogResult;
                 }
             }
             catch
@@ -287,13 +387,19 @@ namespace Microsoft.Bot.Builder.Skills
 
                 var fallbackHandleEvent = activity.CreateReply();
                 fallbackHandleEvent.Type = ActivityTypes.Event;
-                fallbackHandleEvent.Name = FallbackEvents.FallbackHandleEventName;
+                fallbackHandleEvent.Name = SkillEvents.FallbackHandleEventName;
 
                 lock (_lockObject)
                 {
                     _queuedResponses.Enqueue(fallbackHandleEvent);
                 }
             };
+        }
+
+        private class DialogIds
+        {
+            public const string CancelPrompt = "cancelPrompt";
+            public const string ConfirmFlow = "confirmFlow";
         }
     }
 }

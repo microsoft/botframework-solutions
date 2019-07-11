@@ -211,7 +211,7 @@ namespace EmailSkill.Dialogs
             switch (dc.Context.Activity.Name)
             {
                 case TokenEvents.TokenResponseEventName:
-                case FallbackEvents.FallbackHandleEventName:
+                case SkillEvents.FallbackHandleEventName:
                     {
                         // Auth dialog completion
                         var result = await dc.ContinueDialogAsync();

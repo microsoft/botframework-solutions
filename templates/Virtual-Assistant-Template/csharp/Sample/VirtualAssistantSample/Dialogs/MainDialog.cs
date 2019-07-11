@@ -184,13 +184,25 @@ namespace VirtualAssistantSample.Dialogs
             }
         }
 
-        protected override async Task ReDispatchAsync(DialogContext innerDc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task RedispatchAsync(DialogContext innerDc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await innerDc.Parent.CancelAllDialogsAsync();
+            var intent = result.Result as string;
 
-            await RouteAsync(innerDc);
+            // Identify if the dispatch intent matches any Action within a Skill if so, we pass to the appropriate SkillDialog to hand-off
+            var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, intent.ToString());
 
-            await base.ReDispatchAsync(innerDc, result, cancellationToken);
+            if (identifiedSkill != null)
+            {
+                // We have identiifed a skill so initialize the skill connection with the target skill
+                var dialogResult = await innerDc.BeginDialogAsync(identifiedSkill.Id);
+
+                if (dialogResult.Status == DialogTurnStatus.Complete)
+                {
+                    await CompleteAsync(innerDc);
+                }
+            }
+
+            await base.RedispatchAsync(innerDc, result, cancellationToken);
         }
 
         protected override async Task OnEventAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
