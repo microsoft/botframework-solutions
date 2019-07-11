@@ -69,7 +69,8 @@
     }
   },
   "variables": {
-    "botEndpoint": "[concat('https://', toLower(parameters('botWebAppName')), '.azurewebsites.net/api/messages')]"
+    "botEndpoint": "[concat('https://', toLower(parameters('botWebAppName')), '.azurewebsites.net/api/messages')]",
+    "cleanStorageAccountName": "[toLower(take(replace(replace(parameters('storageAccountName'), '-', ''), '_', ''), 24))]"
   },
   "resources": [
     {
@@ -107,7 +108,7 @@
       "type": "Microsoft.Storage/storageAccounts",
       "kind": "StorageV2",
       "apiVersion": "2018-07-01",
-      "name": "[parameters('storageAccountName')]",
+      "name": "[variables('cleanStorageAccountName')]",
       "location": "[parameters('location')]",
       "sku": {
         "name": "Standard_LRS"
@@ -190,17 +191,20 @@
     }
   ],
   "outputs": {
+    "botWebAppName": {
+      "type": "string",
+      "value": "[parameters('botWebAppName')]"
+    },
     "ApplicationInsights": {
       "type": "object",
       "value": {
-        "appId": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).AppId]",
         "InstrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]"
       }
     },
-    "storage": {
+    "blobStorage": {
       "type": "object",
       "value": {
-        "connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2018-07-01').keys[0].value, ';EndpointSuffix=core.windows.net')]",
+        "connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('cleanStorageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('cleanStorageAccountName')), '2018-07-01').keys[0].value, ';EndpointSuffix=core.windows.net')]",
         "container": "transcripts"
       }
     },
@@ -208,7 +212,7 @@
       "type": "object",
       "value": {
         "cosmosDBEndpoint": "[reference(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName'))).documentEndpoint]",
-        "authkey": "[listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName')), '2015-04-08').primaryMasterKey]",
+        "authKey": "[listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName')), '2015-04-08').primaryMasterKey]",
         "databaseId": "botstate-db",
         "collectionId": "botstate-collection"
       }
@@ -216,6 +220,7 @@
     "luis": {
       "type": "object",
       "value": {
+        "accountName": "[parameters('luisServiceName')]",
         "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisServiceName')),'2017-04-18').key1]"
       }
     }
