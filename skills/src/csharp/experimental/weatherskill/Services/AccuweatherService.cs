@@ -52,13 +52,7 @@ namespace WeatherSkill.Services
 
         private void GetApiKey(BotSettings settings)
         {
-            settings.Properties.TryGetValue("apiKey", out var key);
-
-            _apiKey = key;
-            if (string.IsNullOrWhiteSpace(_apiKey))
-            {
-                throw new Exception("Could not get the required AccuWeather API key. Please make sure your settings are correctly configured.");
-            }
+            _apiKey = settings.WeatherApiKey ?? throw new Exception("Could not get the required AccuWeather API key. Please make sure your settings are correctly configured.");
         }
 
         private async Task<Location> GetLocationResponseAsync(string url)

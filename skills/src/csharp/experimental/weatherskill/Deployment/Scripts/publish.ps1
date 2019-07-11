@@ -4,7 +4,7 @@ Param(
 	[string] $name,
 	[string] $resourceGroup,
     [string] $projFolder = $(Get-Location),
-	[string] $logFile = $(Join-Path $PSScriptRoot .. "publish.txt")
+	[string] $logFile = $(Join-Path $PSScriptRoot .. "publish_log.txt")
 )
 
 # Reset log file
