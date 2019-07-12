@@ -88,7 +88,7 @@ export class SkillDialog extends ComponentDialog {
         // In other scenarios (aggregated skill dispatch) we evaluate all possible slots against context and pass across
         // enabling the Skill to perform it's own action identification.
 
-        const actionName: string = <string>(options || '');
+        const actionName: string|undefined = <any> options;
         if (actionName !== undefined) {
             // Find the specified within the selected Skill for slot filling evaluation
             const action: IAction|undefined = this.skillManifest.actions.find((item: IAction): boolean => item.id === actionName);
