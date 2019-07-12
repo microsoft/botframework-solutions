@@ -37,6 +37,7 @@ namespace HospitalitySkill.Dialogs
             UserState userState,
             ConversationState conversationState,
             CheckOutDialog checkOutDialog,
+            LateCheckOutDialog lateCheckOutDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -51,6 +52,7 @@ namespace HospitalitySkill.Dialogs
 
             // Register dialogs
             AddDialog(checkOutDialog ?? throw new ArgumentNullException(nameof(checkOutDialog)));
+            AddDialog(lateCheckOutDialog ?? throw new ArgumentNullException(nameof(lateCheckOutDialog)));
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -93,10 +95,11 @@ namespace HospitalitySkill.Dialogs
                         }
 
                     //case HospitalitySkillLuis.Intent.ExtendStay:
-                    //case HospitalitySkillLuis.Intent.LateCheckOut:
-                    //    {
-                    //        break;
-                    //    }
+                    case HospitalitySkillLuis.Intent.LateCheckOut:
+                        {
+                            turnResult = await dc.BeginDialogAsync(nameof(LateCheckOutDialog));
+                            break;
+                        }
 
                     case HospitalitySkillLuis.Intent.None:
                         {

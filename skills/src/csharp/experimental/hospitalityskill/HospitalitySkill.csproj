@@ -7,18 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Content\ConfirmReservationUpdate.json" />
     <Content Remove="Responses\Main\MainResponses.de.json" />
     <Content Remove="Responses\Main\MainResponses.es.json" />
     <Content Remove="Responses\Main\MainResponses.fr.json" />
     <Content Remove="Responses\Main\MainResponses.it.json" />
     <Content Remove="Responses\Main\MainResponses.json" />
     <Content Remove="Responses\Main\MainResponses.zh.json" />
-    <Content Remove="Responses\CheckOut\ReservationResponses.json" />
-    <Content Remove="Responses\CheckOut\SampleResponses.de.json" />
-    <Content Remove="Responses\CheckOut\SampleResponses.es.json" />
-    <Content Remove="Responses\CheckOut\SampleResponses.fr.json" />
-    <Content Remove="Responses\CheckOut\SampleResponses.it.json" />
-    <Content Remove="Responses\CheckOut\SampleResponses.zh.json" />
     <Content Remove="Responses\Shared\SharedResponses.de.json" />
     <Content Remove="Responses\Shared\SharedResponses.es.json" />
     <Content Remove="Responses\Shared\SharedResponses.fr.json" />
@@ -28,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Content\ConfirmReservationUpdate.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.de.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.es.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.fr.json" />
@@ -35,6 +31,7 @@
     <EmbeddedResource Include="Responses\Main\MainResponses.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.zh.json" />
     <EmbeddedResource Include="Responses\CheckOut\CheckOutResponses.json" />
+    <EmbeddedResource Include="Responses\LateCheckOut\LateCheckOutResponses.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.de.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.es.json" />
     <EmbeddedResource Include="Responses\Shared\SharedResponses.fr.json" />
@@ -79,6 +76,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Responses\LateCheckOut\LateCheckOutResponses.tt">
+      <LastGenOutput>LateCheckOutResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
     <None Update="Responses\Main\MainResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MainResponses.cs</LastGenOutput>
@@ -152,6 +153,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>readme.md</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\LateCheckOut\LateCheckOutResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LateCheckOutResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Responses\Main\MainResponses.cs">
       <DesignTime>True</DesignTime>

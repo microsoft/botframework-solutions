@@ -20,8 +20,11 @@ using Microsoft.Bot.Schema;
 
 namespace HospitalitySkill.Dialogs
 {
+
     public class HospitalityDialogBase : ComponentDialog
     {
+        private HotelService _hotelService;
+
         public HospitalityDialogBase(
              string dialogId,
              BotSettings settings,
@@ -29,6 +32,7 @@ namespace HospitalitySkill.Dialogs
              ResponseManager responseManager,
              ConversationState conversationState,
              UserState userState,
+             HotelService hotelService,
              IBotTelemetryClient telemetryClient)
              : base(dialogId)
         {
@@ -37,6 +41,7 @@ namespace HospitalitySkill.Dialogs
             StateAccessor = conversationState.CreateProperty<HospitalitySkillState>(nameof(HospitalitySkillState));
             UserStateAccessor = userState.CreateProperty<HospitalityUserSkillState>(nameof(HospitalityUserSkillState));
             TelemetryClient = telemetryClient;
+            _hotelService = hotelService;
 
             // NOTE: Uncomment the following if your skill requires authentication
             // if (!Settings.OAuthConnections.Any())
@@ -59,6 +64,9 @@ namespace HospitalitySkill.Dialogs
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
+            var userState = await UserStateAccessor.GetAsync(dc.Context, () => new HospitalityUserSkillState());
+            userState.UserReservation = await _hotelService.GetReservationDetailsAsync();
+
             await GetLuisResult(dc);
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }

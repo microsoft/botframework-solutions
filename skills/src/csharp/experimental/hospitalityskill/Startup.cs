@@ -6,6 +6,7 @@ using HospitalitySkill.Adapters;
 using HospitalitySkill.Bots;
 using HospitalitySkill.Dialogs;
 using HospitalitySkill.Responses.CheckOut;
+using HospitalitySkill.Responses.LateCheckOut;
 using HospitalitySkill.Responses.Main;
 using HospitalitySkill.Responses.Shared;
 using HospitalitySkill.Services;
@@ -90,15 +91,20 @@ namespace HospitalitySkill
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddHostedService<QueuedHostedService>();
 
+            // Configure services
+            services.AddSingleton<HotelService>();
+
             // Configure responses
             services.AddSingleton(sp => new ResponseManager(
                 settings.CognitiveModels.Select(l => l.Key).ToArray(),
                 new MainResponses(),
                 new SharedResponses(),
-                new CheckOutResponses()));
+                new CheckOutResponses(),
+                new LateCheckOutResponses()));
 
             // Register dialogs
             services.AddTransient<CheckOutDialog>();
+            services.AddTransient<LateCheckOutDialog>();
             services.AddTransient<MainDialog>();
 
             // Configure adapters

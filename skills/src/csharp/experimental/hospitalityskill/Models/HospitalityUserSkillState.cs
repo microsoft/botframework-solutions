@@ -10,9 +10,16 @@ namespace HospitalitySkill.Models
         public HospitalityUserSkillState()
         {
             CheckedOut = false;
+            LateCheckOut = false;
         }
 
         public bool CheckedOut { get; set; }
+
+        public bool LateCheckOut { get; set; }
+
+        public ReservationData UserReservation { get; set; }
+
+        public string Email { get; set; }
 
         public void Clear()
         {

@@ -17,16 +17,15 @@ namespace HospitalitySkill.Dialogs
 {
     public class CheckOutDialog : HospitalityDialogBase
     {
-        private string _email;
-
         public CheckOutDialog(
             BotSettings settings,
             BotServices services,
             ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
+            HotelService hotelService,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(CheckOutDialog), settings, services, responseManager, conversationState, userState, telemetryClient)
+            : base(nameof(CheckOutDialog), settings, services, responseManager, conversationState, userState, hotelService, telemetryClient)
         {
             var checkOut = new WaterfallStep[]
             {
@@ -77,7 +76,7 @@ namespace HospitalitySkill.Dialogs
         private async Task<DialogTurnResult> EmailPrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState());
-            if (userState.CheckedOut == true)
+            if (userState.CheckedOut && string.IsNullOrWhiteSpace(userState.Email))
             {
                 // prompt for email to send receipt to
                 return await sc.PromptAsync(DialogIds.EmailPrompt, new PromptOptions()
@@ -92,12 +91,14 @@ namespace HospitalitySkill.Dialogs
 
         private async Task<bool> ValidateEmailAsync(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
         {
+            var userState = await UserStateAccessor.GetAsync(promptContext.Context, () => new HospitalityUserSkillState());
+
             // check for valid email input
             string response = promptContext.Recognized?.Value;
 
             if (promptContext.Recognized.Succeeded && !string.IsNullOrWhiteSpace(response) && new EmailAddressAttribute().IsValid(response))
             {
-                _email = response;
+                userState.Email = response;
                 return await Task.FromResult(true);
             }
 
@@ -108,11 +109,11 @@ namespace HospitalitySkill.Dialogs
         {
             var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState());
 
-            if (userState.CheckedOut == true)
+            if (userState.CheckedOut)
             {
                 var tokens = new StringDictionary
             {
-                { "Email", _email },
+                { "Email", userState.Email },
             };
 
                 // TODO process request to send email receipt
