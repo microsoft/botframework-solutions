@@ -41,7 +41,7 @@
     },
     "appInsightsLocation": {
       "type": "string",
-      "defaultValue": "westus2"
+      "defaultValue": "[resourceGroup().location]"
     },
     "botWebAppName": {
       "type": "string",
