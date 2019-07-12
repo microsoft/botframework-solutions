@@ -6,6 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,8 +20,9 @@ namespace CalendarSkill.Bots
         private DialogSet _dialogs;
         private DialogManager _dialogManager;
         private IStorage _storage;
+        private ResourceExplorer _resourceExplorer;
 
-        public DialogBot(IServiceProvider serviceProvider, T dialog, IStorage storage)
+        public DialogBot(IServiceProvider serviceProvider, T dialog, IStorage storage, ResourceExplorer resourceExplorer)
         {
             var conversationState = serviceProvider.GetService<ConversationState>() ?? throw new ArgumentNullException(nameof(ConversationState));
             _telemetryClient = serviceProvider.GetService<IBotTelemetryClient>() ?? throw new ArgumentNullException(nameof(IBotTelemetryClient));
@@ -30,6 +33,8 @@ namespace CalendarSkill.Bots
 
             _dialogManager = new DialogManager(dialog);
             _storage = storage;
+
+            _resourceExplorer = resourceExplorer;
         }
 
         public override Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
@@ -44,6 +49,11 @@ namespace CalendarSkill.Bots
             if (turnContext.TurnState.Get<IStorage>() == null)
             {
                 turnContext.TurnState.Add<IStorage>(_storage);
+            }
+
+            if (turnContext.TurnState.Get<LanguageGeneratorManager>() == null)
+            {
+                turnContext.TurnState.Add<LanguageGeneratorManager>(new LanguageGeneratorManager(_resourceExplorer));
             }
 
             return _dialogManager.OnTurnAsync(turnContext, cancellationToken: cancellationToken);

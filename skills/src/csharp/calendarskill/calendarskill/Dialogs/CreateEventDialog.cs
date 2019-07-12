@@ -20,6 +20,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
@@ -33,6 +34,9 @@ namespace CalendarSkill.Dialogs
 {
     public class CreateEventDialog : CalendarSkillDialogBase
     {
+        private TemplateEngine _lgEngine;
+        private ResourceMultiLanguageGenerator _lgMultiLangEngine;
+
         public CreateEventDialog(
                BotSettings settings,
                BotServices services,
@@ -46,6 +50,7 @@ namespace CalendarSkill.Dialogs
                : base(nameof(CreateEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("CreateEventDialog.lg");
 
             var skillOptions = new CalendarSkillDialogOptions
             {
