@@ -13,63 +13,41 @@
 
 ```markdown
 ![Virtual Assistant](https://aka.ms/virtualassistantlogo)
-We have seen significant need from our customers and partners to deliver a conversational assistant tailored to their brand, personalized to their customers and made available across a broad range of conversational canvases and devices. Continuing Microsoft open-sourced approach toward Bot Framework SDK, the open source Virtual Assistant solution provides full control over the end user experience built on a set of foundational capabilities. Additionally, the experience can be infused with intelligence about the end-user and any device/ecosystem information for a truly integrated and intelligent experience.
-Find out more [here](https://aka.ms/virtualassistant).
+I'm a Virtual Assistant with the ability to be customized to a customer's brand and made available across a broad range of devices. 
+I can help you be more productive, find points of interest, and answer questions.
+Learn more by visiting [here](https://aka.ms/virtualassistant).
 ```
 
 > Source: custom editorial
 ## ? What is a Skill
 
 ```markdown
-A broad set of common capabilities exist which today, which require each developer to build themselves. Our Virtual Assistant solution includes a new Skill capability enabling new capabilities to be plugged into an Virtual Assistant through configuration only and provide an authentication mechanism for Skills to request tokens for down-stream activities.
-Find out more [here](https://aka.ms/virtualassistant).
+Bot Framework Skills are capabilities that can be integrated with a Virtual Assistant.
+Learn more by visiting [here](https://aka.ms/virtualassistant).
 ```
 
 > Source: custom editorial
 ## ? What can the Calendar Skill do
 
 ```markdown
-## Overview
-The Calendar Skill provides Calendar related capabilities to a Virtual Assistant. The most common scenarios have been implemented in this first release with additional scenarios in development.
-## Supported Scenarios
-The following scenarios are currently supported by the Skill:
-- Show meeting summary - e.g **What's in my calendar**
-- Next Meeting - e.g. **what's my next meeting**
-- Create a meeting - e.g. Book a meeting
-- Update a meeting - e.g. Update meeting
-- Delete a meeting - e.g. Delete a meeting
+The Calendar Skill assists with managing the events on your calendar.
+Try saying thigs like "do I have any appointments today", "how long until my next meeting", or "put anniversary on my calendar."
 ```
 
 > Source: custom editorial
 ## ? What can the Email Skill do
 
 ```markdown
-# Overview
-The Email Skill provides Email related capabilities to a Virtual Assistant. The most common scenarios have been implemented in this first release with additional scenarios in development.
-## Supported Scenarios
-The following scenarios are currently supported by the Skill:
-- Send an Email
-- Send an email to John Smith
-- Send an email
-- Find Email
-- Find email from John Smith
-- What email do I have
+The Email Skill assists with reading and sending your messages to contacts.
+Try saying things like "do I have any new mail", "add a flag to this email", or "respond to my last email." 
 ```
 
 > Source: custom editorial
 ## ? What can the Point of Interest Skill do
 
 ```markdown
-## Overview
-The Point of Interest Skill provides PoI related capabilities to a Virtual Assistant. The most common scenarios have been implemented in this first release with additional scenarios in development.
-## Supported Scenarios
-The following scenarios are currently supported by the Skill:
-- What's the fastest way to get to 221B Baker Street?
-- How do I get to the grocery store?
-- I need directions to a cafe
-- What's nearby?
-- Are there any pharmacies in town?
-- Can you recommend an affordable restaurant in Seattle?
+The Point of Interest Skill finds nearby points of interest and assists with navigation. 
+You can say things like "what's nearby", "I need directions to a cafe", or "where can I get coffee?"
 ```
 
 > Source: custom editorial
@@ -77,21 +55,17 @@ The following scenarios are currently supported by the Skill:
 
 ```markdown
 ## Overview
-The Task Skill provides Task related capabilities to a Virtual Assistant. The most common scenarios have been implemented in this first release with additional scenarios in development.
-## Supported Scenarios
-The following scenarios are currently supported by the Skill:
-- Add a Task
-- Remind me to pickup milk
-- Add task
-- Find Tasks
-- What tasks do I have
+The ToDo Skill provides task related capabilities for managing to-do lists.
+You can say things like "what tasks do I have", "add some items to my shopping list", or "check off bananas on my grocery list."
 ```
 
 > Source: custom editorial
 ## ? What's New
 
 ```markdown
-The Virtual Assistant recently released new localisation for the Virtual Assistant and Skills enabling usage in English, French, Italian, German, Spanish and Chinese Simplified.
+The Virtual Assistant is available as a template, allowing users to easily spin up and deploy their own personalized Assistant.
+Skills are now run as independent applications that a Virtual Assistant can integrate with remotely.
+New Virtual Assistants are ready to support both Microsoft Teams and speech-related scenarios.
 ```
 
 > Source: custom editorial
