@@ -66,18 +66,10 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
 
                                     case DialogTurnStatus.Complete:
                                         {
-                                            if (result.Result is string)
-                                            {
-                                                // Redispatch
-                                                await RedispatchAsync(innerDc, result).ConfigureAwait(false);
-                                            }
-                                            else
-                                            {
-                                                await CompleteAsync(innerDc).ConfigureAwait(false);
+                                            await CompleteAsync(innerDc).ConfigureAwait(false);
 
-                                                // End active dialog
-                                                await innerDc.EndDialogAsync().ConfigureAwait(false);
-                                            }
+                                            // End active dialog
+                                            await innerDc.EndDialogAsync().ConfigureAwait(false);
 
                                             break;
                                         }

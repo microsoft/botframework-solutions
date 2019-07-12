@@ -112,10 +112,9 @@ namespace Microsoft.Bot.Builder.Skills
                     return await sc.EndDialogAsync(skillSwitchConfirmOption.TargetIntent);
                 }
 
-                // Cancel skill switching, resend previous activity
+                // Cancel skill switching
                 else
                 {
-                    // Resend the activity back to skill
                     var dialogResult = await ForwardToSkillAsync(sc, skillSwitchConfirmOption.LastActivity);
                     return await sc.EndDialogAsync(dialogResult);
                 }
@@ -316,8 +315,12 @@ namespace Microsoft.Bot.Builder.Skills
                     while (_queuedResponses.Count > 0 && dialogResult.Status != DialogTurnStatus.Complete && dialogResult.Status != DialogTurnStatus.Cancelled)
                     {
                         var lastEvent = _queuedResponses.Dequeue();
-                        if (lastEvent.Name == SkillEvents.FallbackHandleEventName)
+
+                        if (lastEvent.Name == SkillEvents.FallbackEventName)
                         {
+                            // Set fallback event to fallback handled event
+                            lastEvent.Name = SkillEvents.FallbackHandledEventName;
+
                             // if skillIntentRecognizer specified, run the recognizer
                             if (_skillIntentRecognizer != null && _skillIntentRecognizer.RecognizeSkillIntentAsync != null)
                             {
@@ -395,7 +398,7 @@ namespace Microsoft.Bot.Builder.Skills
 
                 var fallbackHandleEvent = activity.CreateReply();
                 fallbackHandleEvent.Type = ActivityTypes.Event;
-                fallbackHandleEvent.Name = SkillEvents.FallbackHandleEventName;
+                fallbackHandleEvent.Name = SkillEvents.FallbackEventName;
 
                 lock (_lockObject)
                 {
