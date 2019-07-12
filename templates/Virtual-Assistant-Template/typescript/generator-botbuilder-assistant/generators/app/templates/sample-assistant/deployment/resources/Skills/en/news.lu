@@ -1,0 +1,27 @@
+﻿> # Intent definitions
+
+## FindArticles
+- find me news about {topic=xbox}
+- find me news on {topic=microsoft}
+- find news about {topic}
+- latest news
+- news about {topic=microsoft}
+- news about {topic=the stock market}
+- {topic=sports} news
+- tell me the news
+- whats the latest news
+- whats the latest news on {topic=brexit}
+- whats the latest on {topic=microsoft}
+- what's the latest on {topic=usa}
+- whats the news
+- what's the latest on {topic}
+- whats the latest news on {topic}
+- find me news on {topic}
+- find news on {topic}
+- news about {topic}
+
+## None
+
+> # Entity definitions
+
+$topic:simple
