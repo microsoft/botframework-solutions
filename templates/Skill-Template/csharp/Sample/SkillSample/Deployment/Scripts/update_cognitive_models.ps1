@@ -35,6 +35,12 @@ foreach ($langCode in $languageMap.Keys) {
         # Update local LU files based on hosted models
         foreach ($luisApp in $models.languageModels)
         {
+			$culture = (luis get application `
+				--appId $luisApp.appId `
+				--authoringKey $luisApp.authoringKey `
+				--subscriptionKey $luisApp.subscriptionKey `
+				--region $luisApp.region | ConvertFrom-Json).culture
+
             Write-Host "> Updating local $($luisApp.id).lu file ..."
             luis export version `
                 --appId $luisApp.appid `
@@ -54,7 +60,7 @@ foreach ($langCode in $languageMap.Keys) {
 			Write-Host "> Parsing $($luisApp.id) LU file ..."
 			ludown parse toluis `
 				--in $(Join-Path $outFolder "$($luisApp.id).lu") `
-				--luis_culture $luisApp.culture `
+				--luis_culture $culture `
 				--out_folder $(Join-Path $luisFolder $langCode) `
 				--out "$($luisApp.id).luis"
 
