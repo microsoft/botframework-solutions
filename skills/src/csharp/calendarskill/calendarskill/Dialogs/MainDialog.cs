@@ -92,7 +92,7 @@ namespace CalendarSkill.Dialogs
             InitializeConfig(state);
 
             // If dispatch result is general luis model
-            localeConfig.LuisServices.TryGetValue("Calendar", out var luisService);
+            localeConfig.LuisServices.TryGetValue("calendar", out var luisService);
 
             if (luisService == null)
             {
@@ -259,12 +259,12 @@ namespace CalendarSkill.Dialogs
                 var localeConfig = _services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities
-                var calendarLuisResult = await localeConfig.LuisServices["Calendar"].RecognizeAsync<CalendarLuis>(dc.Context, cancellationToken);
+                var calendarLuisResult = await localeConfig.LuisServices["calendar"].RecognizeAsync<CalendarLuis>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
                 state.LuisResult = calendarLuisResult;
 
                 // check luis intent
-                localeConfig.LuisServices.TryGetValue("General", out var luisService);
+                localeConfig.LuisServices.TryGetValue("general", out var luisService);
 
                 if (luisService == null)
                 {

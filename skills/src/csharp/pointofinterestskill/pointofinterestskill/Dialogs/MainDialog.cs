@@ -76,7 +76,7 @@ namespace PointOfInterestSkill.Dialogs
             await PopulateStateFromSemanticAction(dc.Context);
 
             // If dispatch result is General luis model
-            localeConfig.LuisServices.TryGetValue("PointOfInterest", out var luisService);
+            localeConfig.LuisServices.TryGetValue("pointofinterest", out var luisService);
 
             if (luisService == null)
             {
@@ -249,7 +249,7 @@ namespace PointOfInterestSkill.Dialogs
                 var localeConfig = _services.CognitiveModelSets[locale];
 
                 // check luis intent
-                localeConfig.LuisServices.TryGetValue("General", out var luisService);
+                localeConfig.LuisServices.TryGetValue("general", out var luisService);
 
                 if (luisService == null)
                 {
