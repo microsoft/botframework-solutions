@@ -98,22 +98,30 @@ namespace Microsoft.Bot.Builder.Skills
         {
             if (sc.Options != null && sc.Options is SkillSwitchConfirmOption skillSwitchConfirmOption)
             {
+                // Do skill switching
                 if (sc.Result is bool result && result)
                 {
+                    // 1) End remote skill dialog
                     await _skillTransport.CancelRemoteDialogsAsync(sc.Context);
 
-                    // Reset user input
+                    // 2) Reset user input
                     sc.Context.Activity.Text = skillSwitchConfirmOption.UserInputActivity.Text;
                     sc.Context.Activity.Speak = skillSwitchConfirmOption.UserInputActivity.Speak;
 
+                    // 3) End dialog with target intent
                     return await sc.EndDialogAsync(skillSwitchConfirmOption.TargetIntent);
                 }
+
+                // Cancel skill switching, resend previous activity
                 else
                 {
-                    return await sc.EndDialogAsync(skillSwitchConfirmOption.LastActivity);
+                    // Resend the activity back to skill
+                    var dialogResult = await ForwardToSkillAsync(sc, skillSwitchConfirmOption.LastActivity);
+                    return await sc.EndDialogAsync(dialogResult);
                 }
             }
 
+            // We should never go here
             return await sc.EndDialogAsync();
         }
 
@@ -237,14 +245,14 @@ namespace Microsoft.Bot.Builder.Skills
                 }
                 else
                 {
-                    if (result.Result is Activity returnActivity)
+                    // SkillDialog only truely end when confirm skill switch.
+                    // If confirm dialog is ended without skill switch, means previous activity has been resent and SkillDialog can continue to work
+                    if (!(result.Result is string))
                     {
-                        activity = returnActivity;
+                        result.Status = DialogTurnStatus.Waiting;
                     }
-                    else
-                    {
-                        return result;
-                    }
+
+                    return result;
                 }
             }
 
