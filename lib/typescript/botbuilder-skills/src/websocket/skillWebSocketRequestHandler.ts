@@ -44,9 +44,10 @@ export class SkillWebSocketRequestHandler extends RequestHandler {
         let activity: Activity;
 
         try {
-            activity = JSON.parse(body);
+            activity = <Activity> JSON.parse(body);
 
         } catch (error) {
+            // tslint:disable-next-line:no-unsafe-any
             this.telemetryClient.trackException({ exception: error });
             response.statusCode = 400;
             response.setBody('Request body is not an Activity instance.');

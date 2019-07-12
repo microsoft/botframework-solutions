@@ -8,9 +8,9 @@ import { TurnContext } from 'botbuilder';
 import { ActivityExtensions, TokenEvents } from 'botbuilder-solutions';
 import { MicrosoftAppCredentials } from 'botframework-connector';
 import { Activity, ActivityTypes } from 'botframework-schema';
+import { IServiceClientCredentials } from '../auth';
 import { ISkillManifest, SkillEvents } from '../models';
 import { ISkillTransport, TokenRequestHandler } from '../skillTransport';
-import { IServiceClientCredentials } from '../auth';
 
 export class SkillHttpTransport implements ISkillTransport {
     private readonly httpClient: HttpClient;
@@ -20,12 +20,12 @@ export class SkillHttpTransport implements ISkillTransport {
     /**
      * Http SkillTransport implementation
      */
-    constructor(
+    public constructor(
         skillManifest: ISkillManifest,
         appCredentials: IServiceClientCredentials,
         httpClient?: HttpClient
     ) {
-        if (!skillManifest) { throw new Error('skillManifest has no value'); }
+        if (skillManifest === undefined) { throw new Error('skillManifest has no value'); }
         this.skillManifest = skillManifest;
 
         if (appCredentials === undefined) { throw new Error('appCredentials has no value'); }

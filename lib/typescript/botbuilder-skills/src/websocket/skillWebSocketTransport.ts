@@ -1,7 +1,7 @@
 import { BotTelemetryClient, TurnContext } from 'botbuilder';
 import { ActivityExtensions } from 'botbuilder-solutions';
 import { MicrosoftAppCredentials } from 'botframework-connector';
-import { Activity, ActivityTypes, ChannelAccount } from 'botframework-schema';
+import { Activity, ActivityTypes } from 'botframework-schema';
 import { CancellationToken, IStreamingTransportClient, Request, RequestHandler } from 'microsoft-bot-protocol';
 import { Client } from 'microsoft-bot-protocol-websocket';
 import { ISkillManifest, SkillEvents } from '../models';
@@ -60,7 +60,7 @@ export class SkillWebSocketTransport implements ISkillTransport {
         }
 
         // set recipient to the skill
-        if(activity !== undefined && activity.recipient !== undefined) {
+        if (activity !== undefined && activity.recipient !== undefined) {
             const recipientId: string = activity.recipient.id;
             activity.recipient.id = this.skillManifest.msAppId;
 

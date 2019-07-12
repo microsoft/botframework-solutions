@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { Middleware, TurnContext } from 'botbuilder';
+import { Middleware, SendActivitiesHandler, TurnContext } from 'botbuilder';
 import { Activity, ActivityTypes, ResourceResponse } from 'botframework-schema';
 import { Element, js2xml, xml2js } from 'xml-js';
 
@@ -15,7 +15,7 @@ export class SetSpeakMiddleware implements Middleware {
     private readonly voiceFont: string;
     private readonly namespaceURI: string = 'https://www.w3.org/2001/10/synthesis';
 
-    constructor(locale: string = DEFAULT_LOCALE, voiceName: string = DEFAULT_VOICE_FONT) {
+    public constructor(locale: string = DEFAULT_LOCALE, voiceName: string = DEFAULT_VOICE_FONT) {
         this.locale = locale;
         this.voiceFont = voiceName;
     }
@@ -27,15 +27,17 @@ export class SetSpeakMiddleware implements Middleware {
      * @param next The next middleware component to run.
      */
     public async onTurn(context: TurnContext, next: () => Promise<void>): Promise<void> {
-        context.onSendActivities(async (ctx: TurnContext, activities: Partial<Activity>[], nextSend: () => Promise<ResourceResponse[]>): Promise<ResourceResponse[]> => {
-            activities.forEach((activity: Partial<Activity>) => {
+        const handler: SendActivitiesHandler = async (
+            ctx: TurnContext, activities: Partial<Activity>[], nextSend: () => Promise<ResourceResponse[]>
+        ): Promise<ResourceResponse[]> => {
+            activities.forEach((activity: Partial<Activity>): void => {
                 switch (activity.type) {
                     case ActivityTypes.Message: {
                         if (activity.speak === undefined) {
                             activity.speak = activity.text;
                         }
 
-                        // TODO: Use Microsoft.Bot.Connector.Channels comparison when "directlinespeech" is available
+                        // PENDING: Use Microsoft.Bot.Connector.Channels comparison when "directlinespeech" is available
                         if (activity.channelId === 'directlinespeech') {
                             activity.speak = this.decodeSSML(activity);
                         }
@@ -45,8 +47,11 @@ export class SetSpeakMiddleware implements Middleware {
                     default:
                 }
             });
+
             return nextSend();
-        });
+        };
+
+        context.onSendActivities(handler);
 
         return next();
     }
@@ -69,8 +74,10 @@ export class SetSpeakMiddleware implements Middleware {
 
         // Fix issue with 'number_digit' interpreter
         if (rootElement.elements !== undefined && rootElement.elements[0].elements !== undefined) {
-            const sayAsElements: Element[] = rootElement.elements[0].elements.filter((e: Element) => e.name === 'say-as');
-            sayAsElements.forEach((e: Element) => this.updateAttributeIfPresent(e, 'interpret-as', 'digits', 'number_digit'));
+            const sayAsElements: Element[] = rootElement.elements[0].elements.filter((e: Element): boolean => e.name === 'say-as');
+            sayAsElements.forEach((e: Element): void => {
+                this.updateAttributeIfPresent(e, 'interpret-as', 'digits', 'number_digit');
+            });
         }
 
         // add voice element if absent
@@ -83,7 +90,7 @@ export class SetSpeakMiddleware implements Middleware {
         try {
             return <Element> xml2js(value, { compact: false });
         } catch (error) {
-            return undefined
+            return undefined;
         }
     }
 
@@ -107,18 +114,17 @@ export class SetSpeakMiddleware implements Middleware {
         };
         // adding attributes
         result.attributes = {
-            'xmlns': this.namespaceURI
-        }
-        if (result.attributes) {
-            result.attributes['foo'] = 'number';
-        }
+            xmlns: this.namespaceURI
+        };
+
         // adding sub-node
         result.elements = [
             {
                 type: 'text',
                 text: value
             }
-        ]
+        ];
+
         return result;
     }
 
@@ -147,28 +153,31 @@ export class SetSpeakMiddleware implements Middleware {
             if (element.elements === undefined || element.elements[0].elements === undefined) {
                 throw new Error('rootElement undefined');
             }
-            const existingVoiceElement: Element|undefined = element.elements[0].elements.find((e: Element) => e.name === 'voice');
+            const existingVoiceElement: Element|undefined = element.elements[0].elements.find((e: Element): boolean => e.name === 'voice');
 
             // If an existing voice element is undefined (absent), then add it. Otherwise, assume the author has set it correctly.
             if (existingVoiceElement === undefined) {
+                // tslint:disable-next-line:no-unsafe-any
                 const oldElements: Element[] = JSON.parse(JSON.stringify(element.elements[0].elements));
                 element.elements[0].elements = [
                     {
                         type: 'element',
                         name: 'voice',
                         attributes: {
-                            'name': attValue
+                            name: attValue
                         },
                         elements: oldElements
                     }
                 ];
             } else {
                 if (existingVoiceElement.attributes !== undefined) {
+                    // tslint:disable-next-line:no-string-literal
                     existingVoiceElement.attributes['name'] = attValue;
                 }
             }
         } catch (error) {
-            throw new Error(`Could not add voice element to speak property: ${error.message}`)
+            // tslint:disable-next-line:no-unsafe-any
+            throw new Error(`Could not add voice element to speak property: ${error.message}`);
         }
     }
 }

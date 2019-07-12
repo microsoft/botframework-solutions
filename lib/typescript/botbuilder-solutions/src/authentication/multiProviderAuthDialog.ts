@@ -13,12 +13,12 @@ import { ActionTypes, Activity, ActivityTypes, TokenResponse } from 'botframewor
 import i18next from 'i18next';
 import { IOAuthConnection } from '../authentication';
 import { EventPrompt } from '../dialogs/eventPrompt';
+import { ActivityExtensions } from '../extensions';
 import { IRemoteUserTokenProvider, isRemoteUserTokenProvider } from '../remoteUserTokenProvider';
 import { ResponseManager } from '../responses';
 import { TokenEvents } from '../tokenEvents';
 import { AuthenticationResponses } from './authenticationResponses';
 import { getAuthenticationProvider, IProviderTokenResponse } from './providerTokenResponse';
-import { ActivityExtensions } from '../extensions';
 
 export class MultiProviderAuthDialog extends ComponentDialog {
     private selectedAuthType: string = '';
@@ -27,7 +27,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
     private readonly localAuthConfigured: boolean = false;
     private readonly appCredentials: MicrosoftAppCredentials;
 
-    constructor(
+    public constructor(
         authenticationConnections: IOAuthConnection[],
         appCredentials: MicrosoftAppCredentials
     ) {
@@ -65,10 +65,10 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
         // If authentication connections are provided locally then we enable "local auth"
         // otherwise we only enable remote auth where the calling Bot handles this for us.
-        if (this.authenticationConnections != undefined && this.authenticationConnections.length > 0) {
+        if (this.authenticationConnections !== undefined && this.authenticationConnections.length > 0) {
 
             let authDialogAdded: boolean = false;
-            this.authenticationConnections.forEach((connection: IOAuthConnection) => {
+            this.authenticationConnections.forEach((connection: IOAuthConnection): void => {
                 // We ignore placeholder connections in config that don't have a Name
                 if (connection.name !== '') {
                     const oauthPrompt: OAuthPrompt = new OAuthPrompt(
@@ -116,32 +116,36 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                 throw new Error('AppCredentials were not passed which are required for speech enabled authentication scenarios.');
             }
 
-            // TODO OAuthClient in botbuilder-connector // NOT IMPLEMENTED
+            // PENDING OAuthClient in botbuilder-connector // NOT IMPLEMENTED
             const connectionName: string = this.authenticationConnections[0].name;
 
             try {
                 // Attempt to retrieve the token directly, we can't prompt the user for which Token to use so go with the first
                 // Moving forward we expect to have a "default" choice as part of Linked Accounts.
-                // TODO get tokenResponse from OAuthClient
+                // PENDING get tokenResponse from OAuthClient
                 throw new Error('Not implemented');
             } catch (error) {
                 this.telemetryClient.trackEvent({
                     name: 'DirectLineSpeechTokenRetrievalFailure',
                     properties: {
-                        'Exception': error.message
+                        // tslint:disable-next-line:no-unsafe-any
+                        Exception: error.message
                     }
                 });
             }
 
-            const responseTokens: Map<string, string> = new Map();
-            responseTokens.set('authType', connectionName);
-            const noLinkedAccountResponse: Partial<Activity> = this.responseManager.getResponse(AuthenticationResponses.noLinkedAccount, responseTokens);
+            const responseTokens: Map<string, string> = new Map([
+                ['authType', connectionName]
+            ]);
+
+            const noLinkedAccountResponse: Partial<Activity> = this.responseManager.getResponse(
+                AuthenticationResponses.noLinkedAccount, responseTokens);
 
             await stepContext.context.sendActivity(noLinkedAccountResponse);
 
             // Enable Direct Line Speech clients to receive an event that will tell them
             // to trigger a sign-in flow when a token isn't present
-            const requestOAuthFlowEvent = ActivityExtensions.createReply(stepContext.context.activity);
+            const requestOAuthFlowEvent: Activity = ActivityExtensions.createReply(stepContext.context.activity);
             requestOAuthFlowEvent.type = ActivityTypes.Event;
             requestOAuthFlowEvent.name = 'RequestOAuthFlow';
 
@@ -156,11 +160,12 @@ export class MultiProviderAuthDialog extends ComponentDialog {
             return stepContext.beginDialog(DialogIds.localAuthPrompt);
         }
 
-        throw new Error('Local authentication is not configured, please check the authentication connection section in your configuration file.');
+        throw new Error('Local authentication is not configured, please check the auth connection section in your configuration file.');
     }
 
     private async sendRemoteEvent(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         if (isRemoteUserTokenProvider(stepContext.context.adapter)) {
+            // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
             const tokenProvider: IRemoteUserTokenProvider = <any>stepContext.context.adapter;
             await tokenProvider.sendRemoteTokenRequestEvent(stepContext.context);
 
@@ -197,9 +202,8 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                 stepContext.context,
                 stepContext.context.activity.from.id);
 
-            const matchingProviders: TokenStatus[] = tokenStatusCollection.filter((p: TokenStatus) => {
-                return (p.hasToken || false) && this.authenticationConnections.some((t: IOAuthConnection) => {
-
+            const matchingProviders: TokenStatus[] = tokenStatusCollection.filter((p: TokenStatus): boolean => {
+                return (p.hasToken || false) && this.authenticationConnections.some((t: IOAuthConnection): boolean => {
                     return t.name === p.connectionName;
                 });
             });
@@ -211,7 +215,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
             }
 
             if (matchingProviders.length > 1) {
-                const choices: Choice[] = matchingProviders.map((connection: TokenStatus) => {
+                const choices: Choice[] = matchingProviders.map((connection: TokenStatus): Choice => {
                     const value: string = connection.connectionName || '';
 
                     return {
@@ -229,7 +233,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                     choices: choices
                 });
             } else {
-                const choices: Choice[] = this.authenticationConnections.map((connection: IOAuthConnection) => {
+                const choices: Choice[] = this.authenticationConnections.map((connection: IOAuthConnection): Choice => {
                     return {
                         action: {
                             type: ActionTypes.ImBack,
@@ -308,8 +312,8 @@ export class MultiProviderAuthDialog extends ComponentDialog {
             if (this.appCredentials === undefined) {
                 throw new Error('AppCredentials were not passed which are required for speech enabled authentication scenarios.');
             }
-            
-            // TODO OAuthClient // DELTA
+
+            // PENDING OAuthClient // DELTA
             return [];
         } else {
             const tokenProvider: BotFrameworkAdapter = <BotFrameworkAdapter> context.adapter;
@@ -335,7 +339,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
             return Promise.resolve(true);
         }
 
-        const eventActivity = promptContext.context.activity;
+        const eventActivity: Activity = promptContext.context.activity;
 
         if (eventActivity !== undefined && eventActivity.name === 'token/response') {
             promptContext.recognized.value = <TokenResponse> eventActivity.value;
@@ -345,7 +349,8 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
         this.telemetryClient.trackEvent({
             name: 'AuthPromptValidatorAsyncFailure'
-        })
+        });
+
         return Promise.resolve(false);
     }
 }

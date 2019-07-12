@@ -3,14 +3,13 @@
  * Licensed under the MIT License.
  */
 
-import { Activity, ActivityTypes, BotTelemetryClient, SemanticAction, Entity, StatePropertyAccessor, TurnContext, UserState } from 'botbuilder';
-import { ComponentDialog, Dialog, DialogContext, DialogInstance, DialogReason, DialogTurnResult,
+import { Activity, ActivityTypes, BotTelemetryClient, Entity, StatePropertyAccessor, TurnContext } from 'botbuilder';
+import { ComponentDialog, DialogContext, DialogInstance, DialogReason, DialogTurnResult,
     DialogTurnStatus } from 'botbuilder-dialogs';
 import { ActivityExtensions, isProviderTokenResponse, MultiProviderAuthDialog, TokenEvents } from 'botbuilder-solutions';
-import { MicrosoftAppCredentials } from 'botframework-connector';
 import { IServiceClientCredentials } from './auth';
 import { SkillHttpTransport } from './http';
-import { IAction, ISkillManifest, ISlot, SkillEvents } from './models';
+import { IAction, ISkillManifest, ISlot } from './models';
 import { SkillContext } from './skillContext';
 import { ISkillTransport, TokenRequestHandler } from './skillTransport';
 
@@ -28,25 +27,24 @@ export class SkillDialog extends ComponentDialog {
 
     private readonly queuedResponses: Partial<Activity>[];
 
-    constructor(
+    public constructor(
         skillManifest: ISkillManifest,
         serviceClientCredentials: IServiceClientCredentials,
         telemetryClient: BotTelemetryClient,
         skillContextAccessor: StatePropertyAccessor<SkillContext>,
         authDialog?: MultiProviderAuthDialog,
-        skillTransport?: ISkillTransport,
+        skillTransport?: ISkillTransport
     ) {
         super(skillManifest.id);
         if (skillManifest === undefined) { throw new Error('skillManifest has no value'); }
         this.skillManifest = skillManifest;
 
-        if(!serviceClientCredentials){ throw new Error('serviceClientCredentials has no value'); }
+        if (serviceClientCredentials === undefined) { throw new Error('serviceClientCredentials has no value'); }
         this.serviceClientCredentials = serviceClientCredentials;
 
         if (telemetryClient === undefined) { throw new Error('telemetryClient has no value'); }
         this.telemetryClient = telemetryClient;
 
-        if (!skillTransport) { throw new Error('skillTransport has no value'); }
         this.skillTransport = skillTransport || new SkillHttpTransport(skillManifest, this.serviceClientCredentials);
 
         this.queuedResponses = [];
@@ -87,7 +85,7 @@ export class SkillDialog extends ComponentDialog {
         // In instances where the caller is able to identify/specify the action we process the Action specific slots
         // In other scenarios (aggregated skill dispatch) we evaluate all possible slots against context and pass across
         // enabling the Skill to perform it's own action identification.
-
+        // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
         const actionName: string|undefined = <any> options;
         if (actionName !== undefined) {
             // Find the specified within the selected Skill for slot filling evaluation
@@ -141,17 +139,18 @@ export class SkillDialog extends ComponentDialog {
 
         // PENDING: Review Entity values
         // PENDING: Entity class does not have the prop 'Properties'
-        slots.forEachObj((value: Object, key: string) => {
-            entities[key] = {
+        slots.forEachObj((value: Object, key: string): void => {
+            // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
+            entities[key] = <any> {
                 type: '',
                 properties: value
-            } as any
+            };
         });
 
         activity.semanticAction = {
             id: '',
             entities: entities
-        }
+        };
 
         // Send event to Skill/Bot
         return this.forwardToSkill(innerDC, activity);
@@ -166,7 +165,7 @@ export class SkillDialog extends ComponentDialog {
         const activity: Activity = innerDC.context.activity;
         if (this.authDialog && innerDC.activeDialog && innerDC.activeDialog.id === this.authDialog.id) {
             // Handle magic code auth
-            const result: DialogTurnResult = await innerDC.continueDialog();
+            const result: DialogTurnResult<Object> = await innerDC.continueDialog();
 
             // forward the token response to the skill
             if (result.status === DialogTurnStatus.complete && isProviderTokenResponse(result.result)) {
@@ -241,8 +240,8 @@ export class SkillDialog extends ComponentDialog {
                     status: DialogTurnStatus.waiting
                 };
 
-                    // if there's any response we need to send to the skill queued
-                    // forward to skill and start a new turn
+                // if there's any response we need to send to the skill queued
+                // forward to skill and start a new turn
                 while (this.queuedResponses.length > 0 &&
                      dialogResult.status !== DialogTurnStatus.complete &&
                      dialogResult.status !== DialogTurnStatus.cancelled) {
@@ -272,7 +271,7 @@ export class SkillDialog extends ComponentDialog {
             });
 
             if (this.authDialog) {
-                const authResult: DialogTurnResult = await dialogContext.beginDialog(this.authDialog.id);
+                const authResult: DialogTurnResult<Object> = await dialogContext.beginDialog(this.authDialog.id);
                 if (isProviderTokenResponse(authResult.result)) {
                     const tokenEvent: Activity = ActivityExtensions.createReply(activity);
                     tokenEvent.type = ActivityTypes.Event;

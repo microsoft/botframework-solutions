@@ -5,7 +5,7 @@
 
 import { BotTelemetryClient, TurnContext } from 'botbuilder';
 import { TokenEvents } from 'botbuilder-solutions';
-import { Activity, ActivityTypes, ResourceResponse } from 'botframework-schema';
+import { Activity, ActivityTypes } from 'botframework-schema';
 import { ContentStream, ReceiveRequest, RequestHandler, Response } from 'microsoft-bot-protocol';
 import { IRouteContext, IRouteTemplate, Router } from './protocol';
 
@@ -22,7 +22,7 @@ export class SkillCallingRequestHandler extends RequestHandler {
         turnContext: TurnContext,
         telemetryClient: BotTelemetryClient,
         tokenRequestHandler?: ActivityAction,
-        handoffActivityHandler?: ActivityAction,
+        handoffActivityHandler?: ActivityAction
     ) {
         super();
         this.turnContext = turnContext;
@@ -120,6 +120,7 @@ export class SkillCallingRequestHandler extends RequestHandler {
 
                 return response;
             } catch (error) {
+                // tslint:disable-next-line:no-unsafe-any
                 this.telemetryClient.trackException({ exception: error });
 
                 return Response.create(500);
