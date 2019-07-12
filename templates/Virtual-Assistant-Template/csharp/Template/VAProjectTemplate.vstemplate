@@ -95,18 +95,7 @@
               <ProjectItem ReplaceParameters="false" TargetFileName="chitchat.lu">chitchat.lu</ProjectItem>
               <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">faq.lu</ProjectItem>
             </Folder>
-          </Folder>
-          <Folder Name="Skills" TargetFolderName="Skills">
-            <Folder Name="en" TargetFolderName="en">
-              <ProjectItem ReplaceParameters="false" TargetFileName="automotive.lu">automotive.lu</ProjectItem>
-              <ProjectItem ReplaceParameters="false" TargetFileName="calendar.lu">calendar.lu</ProjectItem>
-              <ProjectItem ReplaceParameters="false" TargetFileName="email.lu">email.lu</ProjectItem>
-              <ProjectItem ReplaceParameters="false" TargetFileName="news.lu">news.lu</ProjectItem>
-              <ProjectItem ReplaceParameters="false" TargetFileName="pointofinterest.lu">pointofinterest.lu</ProjectItem>
-              <ProjectItem ReplaceParameters="false" TargetFileName="restaurant.lu">restaurant.lu</ProjectItem>
-              <ProjectItem ReplaceParameters="false" TargetFileName="todo.lu">todo.lu</ProjectItem>
-            </Folder>
-          </Folder>
+          </Folder>     
           <ProjectItem ReplaceParameters="true" TargetFileName="parameters.template.json">parameters.template.json</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="template.json">template.json</ProjectItem>
         </Folder>
