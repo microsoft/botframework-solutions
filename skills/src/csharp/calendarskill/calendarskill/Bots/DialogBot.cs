@@ -6,6 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,8 +18,10 @@ namespace CalendarSkill.Bots
     {
         private readonly IBotTelemetryClient _telemetryClient;
         private DialogSet _dialogs;
+        private ResourceExplorer _resourceExplorer;
 
-        public DialogBot(IServiceProvider serviceProvider, T dialog)
+
+        public DialogBot(IServiceProvider serviceProvider, T dialog, ResourceExplorer resourceExplorer)
         {
             var conversationState = serviceProvider.GetService<ConversationState>() ?? throw new ArgumentNullException(nameof(ConversationState));
             _telemetryClient = serviceProvider.GetService<IBotTelemetryClient>() ?? throw new ArgumentNullException(nameof(IBotTelemetryClient));
@@ -25,6 +29,8 @@ namespace CalendarSkill.Bots
             var dialogState = conversationState.CreateProperty<DialogState>(nameof(CalendarSkill));
             _dialogs = new DialogSet(dialogState);
             _dialogs.Add(dialog);
+
+            _resourceExplorer = resourceExplorer;
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
@@ -46,6 +52,8 @@ namespace CalendarSkill.Bots
             {
                 await dc.BeginDialogAsync(typeof(T).Name);
             }
+
+            return _dialogManager.OnTurnAsync(turnContext, cancellationToken: cancellationToken);
         }
     }
 }

@@ -267,6 +267,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ChangeEventStatusResponses.cs</LastGenOutput>
     </None>
+    <None Update="Responses\CreateEvent\CreateEventDialog.en-us.lg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Responses\CreateEvent\CreateEventResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CreateEventResponses.cs</LastGenOutput>
@@ -283,6 +286,9 @@
     <None Update="Responses\Main\CalendarMainResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CalendarMainResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\Main\MainDialog.en-us.lg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Responses\Shared\CalendarSharedResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
