@@ -46,8 +46,8 @@ namespace PointOfInterestSkillTests.Flow
                         {
                             LuisServices = new Dictionary<string, ITelemetryRecognizer>
                             {
-                                { "General", new Fakes.MockLuisRecognizer() },
-                                { "PointOfInterest", new Fakes.MockLuisRecognizer() }
+                                { "general", new Fakes.MockLuisRecognizer() },
+                                { "pointofinterest", new Fakes.MockLuisRecognizer() }
                             }
                         }
                     }
