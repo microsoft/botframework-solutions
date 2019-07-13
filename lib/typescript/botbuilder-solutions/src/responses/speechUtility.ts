@@ -23,12 +23,12 @@ export enum ReadPreference {
 }
 
 export namespace SpeechUtility {
-    export const breakString: string = '<break/>';
 
     export function listToSpeechReadyString(
         toProcess: PromptOptions|Activity,
         readOrder: ReadPreference = ReadPreference.Enumeration,
-        maxSize: number = 4): string {
+        maxSize: number = 4
+    ): string {
 
         let speakStrings: string[] = [];
         let parent: string = '';
@@ -52,11 +52,8 @@ export namespace SpeechUtility {
     }
 
     function listToSpeech(parent: string, selectionStrings: string[], readOrder: ReadPreference, maxSize: number): string {
-        let result: string = '';
 
-        if (parent) {
-            result = parent + breakString;
-        }
+        const result: string = `${parent} ` || '';
 
         const itemDetails: string[] = [];
         const readSize: number = Math.min(selectionStrings.length, maxSize);

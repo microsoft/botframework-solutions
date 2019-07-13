@@ -1,4 +1,4 @@
-import { TurnContext } from 'botbuilder';
+import { BotTelemetryClient, TurnContext } from 'botbuilder';
 import { ActivityExtensions } from 'botbuilder-solutions';
 import { MicrosoftAppCredentials } from 'botframework-connector';
 import { Activity, ActivityTypes } from 'botframework-schema';
@@ -12,16 +12,20 @@ export class SkillWebSocketTransport implements ISkillTransport {
     private readonly cToken: CancellationToken;
     private readonly skillManifest: ISkillManifest;
     private readonly appCredentials: MicrosoftAppCredentials;
+    private readonly telemetryClient: BotTelemetryClient;
     private streamingTransportClient!: IStreamingTransportClient;
     private endOfConversation: boolean;
 
     public constructor(
         skillManifest: ISkillManifest,
         appCredentials: MicrosoftAppCredentials,
+        telemetryClient: BotTelemetryClient,
         streamingTransportClient?: IStreamingTransportClient
     ) {
         this.skillManifest = skillManifest;
         this.appCredentials = appCredentials;
+        this.telemetryClient = telemetryClient;
+
         if (streamingTransportClient) {
             this.streamingTransportClient = streamingTransportClient;
         }
@@ -42,9 +46,11 @@ export class SkillWebSocketTransport implements ISkillTransport {
             // MISSING Client doesn't has ctor with headers
 
             // establish websocket connection
+
             const url: string = ensureWebSocketUrl(this.skillManifest.endpoint);
             const requestHandler: RequestHandler = new SkillCallingRequestHandler(
                 turnContext,
+                this.telemetryClient,
                 tokenRequestHandler,
                 this.handoffActivity
             );
@@ -53,11 +59,19 @@ export class SkillWebSocketTransport implements ISkillTransport {
             await this.streamingTransportClient.connectAsync();
         }
 
-        // Serialize the activity and POST to the Skill endpoint
-        const request: Request = Request.create('POST', '');
-        request.setBody(JSON.stringify(activity));
+        // set recipient to the skill
+        if (activity !== undefined && activity.recipient !== undefined) {
+            const recipientId: string = activity.recipient.id;
+            activity.recipient.id = this.skillManifest.msAppId;
 
-        await this.streamingTransportClient.sendAsync(request, this.cToken);
+            // Serialize the activity and POST to the Skill endpoint
+            const request: Request = Request.create('POST', '');
+            request.setBody(JSON.stringify(activity));
+
+            // set back recipient id to make things consistent
+            activity.recipient.id = recipientId;
+            await this.streamingTransportClient.sendAsync(request, this.cToken);
+        }
 
         return this.endOfConversation;
     }
