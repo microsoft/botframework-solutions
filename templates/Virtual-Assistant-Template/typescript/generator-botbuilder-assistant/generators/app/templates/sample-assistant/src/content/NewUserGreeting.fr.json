@@ -54,13 +54,8 @@
     },
     {
       "type": "Action.OpenUrl",
-      "title": "Comptes liés",
-      "url": "https://aka.ms/linkedaccountsdocs"
-    },
-    {
-      "type": "Action.OpenUrl",
       "title": "Compétences",
-      "url": "https://aka.ms/ConversationalAISkills"
+      "url": "https://aka.ms/botframeworkskills"
     }
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
