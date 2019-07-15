@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { TurnContext } from 'botbuilder';
+import { BotTelemetryClient, TurnContext } from 'botbuilder';
 import { TokenEvents } from 'botbuilder-solutions';
 import { Activity, ActivityTypes } from 'botframework-schema';
 import { ContentStream, ReceiveRequest, RequestHandler, Response } from 'microsoft-bot-protocol';
@@ -14,11 +14,13 @@ export declare type ActivityAction = (activity: Activity) => Promise<void>;
 export class SkillCallingRequestHandler extends RequestHandler {
     private readonly router: Router;
     private readonly turnContext: TurnContext;
+    private readonly telemetryClient: BotTelemetryClient;
     private readonly tokenRequestHandler?: ActivityAction;
     private readonly handoffActivityHandler?: ActivityAction;
 
     public constructor(
         turnContext: TurnContext,
+        telemetryClient: BotTelemetryClient,
         tokenRequestHandler?: ActivityAction,
         handoffActivityHandler?: ActivityAction
     ) {
@@ -26,6 +28,7 @@ export class SkillCallingRequestHandler extends RequestHandler {
         this.turnContext = turnContext;
         this.tokenRequestHandler = tokenRequestHandler;
         this.handoffActivityHandler = handoffActivityHandler;
+        this.telemetryClient = telemetryClient;
 
         const postRoute: IRouteTemplate = {
             method: 'POST',
@@ -43,14 +46,18 @@ export class SkillCallingRequestHandler extends RequestHandler {
                     }
 
                     if (activity.type === ActivityTypes.Event && activity.name === TokenEvents.tokenRequestEventName) {
-                        if (this.tokenRequestHandler) {
+                        if (this.tokenRequestHandler !== undefined) {
                             await this.tokenRequestHandler(activity);
+
+                            return { id: '' };
                         } else {
                             throw new Error('Skill is requesting for token but there\'s no handler on the calling side!');
                         }
                     } else if (activity.type === ActivityTypes.EndOfConversation) {
-                        if (this.handoffActivityHandler) {
+                        if (this.handoffActivityHandler !== undefined) {
                             await this.handoffActivityHandler(activity);
+
+                            return { id: '' };
                         } else {
                             throw new Error('Skill is sending handoff activity but there\'s no handler on the calling side!');
                         }
@@ -74,6 +81,7 @@ export class SkillCallingRequestHandler extends RequestHandler {
                     const activity: Activity = JSON.parse(body);
                     await this.turnContext.updateActivity(activity);
 
+                    // MISSING this method should return the result of updateActivity
                     return undefined;
                 }
             }
@@ -90,6 +98,7 @@ export class SkillCallingRequestHandler extends RequestHandler {
                     const activityId: string = activityIdProp ? activityIdProp[1] : '';
                     await this.turnContext.deleteActivity(activityId);
 
+                    // MISSING this method should return the result of updateActivity
                     return undefined;
                 }
             }
@@ -100,9 +109,9 @@ export class SkillCallingRequestHandler extends RequestHandler {
     }
 
     // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
-    public async processRequestAsync(request: ReceiveRequest, logger?: any): Promise<Response> {
+    public async processRequestAsync(request: ReceiveRequest, context: Object, logger?: any): Promise<Response> {
         const routeContext: IRouteContext|undefined = this.router.route(request);
-        if (routeContext) {
+        if (routeContext !== undefined) {
             try {
                 const responseBody: Object|undefined = await routeContext.action.action(request, routeContext.routerData);
                 // MISSING Response.OK(new StringContent(JsonConvert.SerializeObject(responseBody...
@@ -111,6 +120,9 @@ export class SkillCallingRequestHandler extends RequestHandler {
 
                 return response;
             } catch (error) {
+                // tslint:disable-next-line:no-unsafe-any
+                this.telemetryClient.trackException({ exception: error });
+
                 return Response.create(500);
             }
         } else {

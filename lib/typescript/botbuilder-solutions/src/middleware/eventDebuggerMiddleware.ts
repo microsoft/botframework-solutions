@@ -20,8 +20,9 @@ export class EventDebuggerMiddleware implements Middleware {
                 const body: Activity = JSON.parse(json);
 
                 turnContext.activity.type = ActivityTypes.Event;
-                turnContext.activity.name = body.name;
-                turnContext.activity.value = body.value;
+                turnContext.activity.name = body.name || turnContext.activity.name;
+                turnContext.activity.text = body.text || turnContext.activity.text;
+                turnContext.activity.value = body.value || turnContext.activity.value;
             }
 
             if (value && value.includes('event')) {

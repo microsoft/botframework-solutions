@@ -79,7 +79,7 @@ if (-not $appId) {
 	# Create app registration
 	$app = (az ad app create `
 		--display-name $name `
-		--password $appPassword `
+		--password `"$($appPassword)`" `
 		--available-to-other-tenants `
 		--reply-urls 'https://token.botframework.com/.auth/web/redirect')
 
@@ -175,6 +175,8 @@ if ($outputs)
 	# Log and convert to JSON
 	$outputs >> $logFile
 	$outputs = $outputs | ConvertFrom-Json
+	$outputMap = @{}
+	$outputs.PSObject.Properties | Foreach-Object { $outputMap[$_.Name] = $_.Value }
 
 	# Update appsettings.json
 	Write-Host "> Updating appsettings.json ..."
@@ -187,19 +189,16 @@ if ($outputs)
 
 	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppId' -Value $appId
 	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppPassword' -Value $appPassword
-	if ($outputs.ApplicationInsights) { $settings | Add-Member -Type NoteProperty -Force -Name 'ApplicationInsights' -Value $outputs.ApplicationInsights.value }
-	if ($outputs.storage) { $settings | Add-Member -Type NoteProperty -Force -Name 'blobStorage' -Value $outputs.storage.value }
-	if ($outputs.cosmosDb) { $settings | Add-Member -Type NoteProperty -Force -Name 'cosmosDb' -Value $outputs.cosmosDb.value }
-	if ($outputs.contentModerator) { $settings | Add-Member -Type NoteProperty -Force -Name 'contentModerator' -Value $outputs.contentModerator.value }
-	if ($outputs.qnaMaker.value.key) { $qnaSubscriptionKey = $outputs.qnaMaker.value.key }
-
+	foreach ($key in $outputMap.Keys) { $settings | Add-Member -Type NoteProperty -Force -Name $key -Value $outputMap[$key].value }
 	$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $projDir appsettings.json)
+	
+	if ($outputs.qnaMaker.value.key) { $qnaSubscriptionKey = $outputs.qnaMaker.value.key }
 
 	# Delay to let QnA Maker finish setting up
 	Start-Sleep -s 30
 
 	# Deploy cognitive models
-	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisSubscriptionKey $($outputs.luis.value.key) -resourceGroup $($resourceGroup) -qnaSubscriptionKey '$($qnaSubscriptionKey)' -outFolder '$($projDir)' -languages '$($languages)'"
+	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -resourceGroup $($resourceGroup) -qnaSubscriptionKey '$($qnaSubscriptionKey)' -outFolder '$($projDir)' -languages '$($languages)'"
 	
 	# Publish bot
 	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'publish.ps1')' -name $($outputs.botWebAppName.value) -resourceGroup $($resourceGroup) -projFolder '$($projDir)'"

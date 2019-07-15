@@ -223,6 +223,7 @@ export function manifestGenerator(manifestFile: string, botSettings: Partial<IBo
 
         // eslint-disable-next-line @typescript-eslint/tslint/config
         const inline: boolean = (req.query.inlineTriggerUtterances || '').toLowerCase() === 'true';
+        // tslint:disable-next-line:no-unsafe-any
         const scheme: string = req.isSecure() ? 'https' : 'http';
         // eslint-disable-next-line @typescript-eslint/tslint/config
         const host: string = req.headers.host || '';

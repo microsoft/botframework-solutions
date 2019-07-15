@@ -5,6 +5,7 @@ Param(
 	[string] $luisAuthoringRegion,
     [string] $luisAuthoringKey,
 	[string] $luisAccountName,
+    [string] $luisAccountRegion,
 	[string] $luisSubscriptionKey,
     [string] $qnaSubscriptionKey,
 	[string] $resourceGroup,
@@ -84,6 +85,10 @@ if (-not $luisSubscriptionKey) {
 		Write-Host "+ Verify the -luisAccountName and -resourceGroup parameters are correct." -ForegroundColor Magenta
 		Break
 	}
+}
+
+if (-not $luisAccountRegion) {
+	$luisAccountRegion = Read-Host "? LUIS Service Location"
 }
 
 if (-not $qnaSubscriptionKey) {	
@@ -178,10 +183,10 @@ foreach ($language in $languageArr)
 					name = $luisApp.name
 					appid = $luisApp.id
 					authoringkey = $luisAuthoringKey
+                    authoringRegion = $luisAuthoringRegion
 					subscriptionkey = $luisSubscriptionKey
 					version = $luisApp.activeVersion
-					region = $luisAuthoringRegion
-					culture = $language
+					region = $luisAccountRegion
 				}
 			}
 			else {
@@ -280,9 +285,9 @@ foreach ($language in $languageArr)
 				name = $dispatchApp.name
 				appid = $dispatchApp.appId
 				authoringkey = $luisauthoringkey
+                authoringRegion = $luisAuthoringRegion
 				subscriptionkey = $luisSubscriptionKey
-				region = $luisAuthoringRegion
-				culture = $language
+				region = $luisAccountRegion
 			}
 		}
 	}

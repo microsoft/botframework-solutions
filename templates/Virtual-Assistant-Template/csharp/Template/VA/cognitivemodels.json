@@ -6,7 +6,8 @@
         "appid": "",
         "name": "",
         "subscriptionkey": "",
-        "region": ""
+        "region": "",
+        "authoringRegion": ""
       },
       "languageModels": [
         {
@@ -16,7 +17,8 @@
           "version": "",
           "region": "",
           "name": "",
-          "authoringkey": ""
+          "authoringkey": "",
+          "authoringRegion": ""
         }
       ],
       "knowledgebases": [
