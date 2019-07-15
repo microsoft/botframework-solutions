@@ -161,7 +161,7 @@ namespace HospitalitySkill.Dialogs
                 var luisService = localeConfig.LuisServices["Hospitality"];
 
                 // Get intent and entities for activity
-                var result = await luisService.RecognizeAsync<HospitalitySkillLuis>(dc.Context, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<HospitalityLuis>(dc.Context, CancellationToken.None);
                 state.LuisResult = result;
             }
         }

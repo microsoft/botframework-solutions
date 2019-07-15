@@ -38,6 +38,7 @@ namespace HospitalitySkill.Dialogs
             ConversationState conversationState,
             CheckOutDialog checkOutDialog,
             LateCheckOutDialog lateCheckOutDialog,
+            ExtendStayDialog extendStayDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -53,6 +54,7 @@ namespace HospitalitySkill.Dialogs
             // Register dialogs
             AddDialog(checkOutDialog ?? throw new ArgumentNullException(nameof(checkOutDialog)));
             AddDialog(lateCheckOutDialog ?? throw new ArgumentNullException(nameof(lateCheckOutDialog)));
+            AddDialog(extendStayDialog ?? throw new ArgumentNullException(nameof(extendStayDialog)));
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -82,26 +84,33 @@ namespace HospitalitySkill.Dialogs
             else
             {
                 var turnResult = EndOfTurn;
-                var result = await luisService.RecognizeAsync<HospitalitySkillLuis>(dc.Context, CancellationToken.None);
+                var result = await luisService.RecognizeAsync<HospitalityLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
                 switch (intent)
                 {
-                    case HospitalitySkillLuis.Intent.CheckOut:
+                    case HospitalityLuis.Intent.CheckOut:
                         {
                             // handle checking out
                             turnResult = await dc.BeginDialogAsync(nameof(CheckOutDialog));
                             break;
                         }
 
-                    //case HospitalitySkillLuis.Intent.ExtendStay:
-                    case HospitalitySkillLuis.Intent.LateCheckOut:
+                    case HospitalityLuis.Intent.ExtendStay:
                         {
+                            // extend reservation dates
+                            turnResult = await dc.BeginDialogAsync(nameof(ExtendStayDialog));
+                            break;
+                        }
+
+                    case HospitalityLuis.Intent.LateCheckOut:
+                        {
+                            // set a late check out time
                             turnResult = await dc.BeginDialogAsync(nameof(LateCheckOutDialog));
                             break;
                         }
 
-                    case HospitalitySkillLuis.Intent.None:
+                    case HospitalityLuis.Intent.None:
                         {
                             // No intent was identified, send confused message
                             await dc.Context.SendActivityAsync(_responseManager.GetResponse(SharedResponses.DidntUnderstandMessage));

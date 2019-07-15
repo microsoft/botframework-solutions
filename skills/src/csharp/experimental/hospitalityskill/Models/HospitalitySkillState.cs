@@ -9,7 +9,7 @@ namespace HospitalitySkill.Models
     {
         public string Token { get; internal set; }
 
-        public HospitalitySkillLuis LuisResult { get; internal set; }
+        public HospitalityLuis LuisResult { get; internal set; }
 
         public void Clear()
         {
