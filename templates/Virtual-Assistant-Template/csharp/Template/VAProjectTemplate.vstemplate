@@ -52,48 +52,48 @@
         <Folder Name="Resources" TargetFolderName="Resources">
           <Folder Name="LU" TargetFolderName="LU">
             <Folder Name="de" TargetFolderName="de">
-              <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">General.lu</ProjectItem>
             </Folder>
             <Folder Name="en" TargetFolderName="en">
-              <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">General.lu</ProjectItem>
             </Folder>
             <Folder Name="es" TargetFolderName="es">
-              <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">General.lu</ProjectItem>
             </Folder>
             <Folder Name="fr" TargetFolderName="fr">
-              <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">General.lu</ProjectItem>
             </Folder>
             <Folder Name="it" TargetFolderName="it">
-              <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">General.lu</ProjectItem>
             </Folder>
             <Folder Name="zh" TargetFolderName="zh">
-              <ProjectItem ReplaceParameters="false" TargetFileName="general.lu">general.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">General.lu</ProjectItem>
             </Folder>
           </Folder>
           <Folder Name="QnA" TargetFolderName="QnA">
             <Folder Name="de" TargetFolderName="de">
-              <ProjectItem ReplaceParameters="false" TargetFileName="chitchat.lu">chitchat.lu</ProjectItem>
-              <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">faq.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.lu">Chitchat.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.lu">Faq.lu</ProjectItem>
             </Folder>
             <Folder Name="en" TargetFolderName="en">
-              <ProjectItem ReplaceParameters="false" TargetFileName="chitchat.lu">chitchat.lu</ProjectItem>
-              <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">faq.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.lu">Chitchat.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.lu">Faq.lu</ProjectItem>
             </Folder>
             <Folder Name="es" TargetFolderName="es">
-              <ProjectItem ReplaceParameters="false" TargetFileName="chitchat.lu">chitchat.lu</ProjectItem>
-              <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">faq.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.lu">Chitchat.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.lu">Faq.lu</ProjectItem>
             </Folder>
             <Folder Name="fr" TargetFolderName="fr">
-              <ProjectItem ReplaceParameters="false" TargetFileName="chitchat.lu">chitchat.lu</ProjectItem>
-              <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">faq.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.lu">Chitchat.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.lu">Faq.lu</ProjectItem>
             </Folder>
             <Folder Name="it" TargetFolderName="it">
-              <ProjectItem ReplaceParameters="false" TargetFileName="chitchat.lu">chitchat.lu</ProjectItem>
-              <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">faq.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.lu">Chitchat.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.lu">Faq.lu</ProjectItem>
             </Folder>
             <Folder Name="zh" TargetFolderName="zh">
-              <ProjectItem ReplaceParameters="false" TargetFileName="chitchat.lu">chitchat.lu</ProjectItem>
-              <ProjectItem ReplaceParameters="false" TargetFileName="faq.lu">faq.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.lu">Chitchat.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.lu">Faq.lu</ProjectItem>
             </Folder>
           </Folder>     
           <ProjectItem ReplaceParameters="true" TargetFileName="parameters.template.json">parameters.template.json</ProjectItem>
