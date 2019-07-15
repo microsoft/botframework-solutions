@@ -13,7 +13,7 @@ using $safeprojectname$.Services;
 
 namespace $safeprojectname$.Adapters
 {
-	public class DefaultWebSocketAdapter : WebSocketEnabledHttpAdapter
+    public class DefaultWebSocketAdapter : WebSocketEnabledHttpAdapter
     {
         public DefaultWebSocketAdapter(
             IConfiguration config,
@@ -31,7 +31,8 @@ namespace $safeprojectname$.Adapters
                 telemetryClient.TrackException(exception);
             };
 
-            Use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));
+            // Uncomment the following line for local development without Azure Storage
+            // Use(new TranscriptLoggerMiddleware(new MemoryTranscriptStore()));            Use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));
             Use(new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true));
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
