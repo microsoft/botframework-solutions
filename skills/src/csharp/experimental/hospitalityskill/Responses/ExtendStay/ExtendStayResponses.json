@@ -1,0 +1,29 @@
+{
+  "ExtendDatePrompt": {
+    "replies": [
+      {
+        "text": "What day would you like to stay until?",
+        "speak": "What day would you like to stay until?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "RetryExtendDate": {
+    "replies": [
+      {
+        "text": "Please specify the month and date you would like to stay until.",
+        "speak": "Please specify the month and date you would like to stay until."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfirmExtendStay": {
+    "replies": [
+      {
+        "text": "Ok. Should I go ahead and extend your stay until {Date}?",
+        "speak": "Ok. Should I go ahead and extend your stay until {Date}?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  }
+}

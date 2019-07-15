@@ -6,6 +6,7 @@ using HospitalitySkill.Adapters;
 using HospitalitySkill.Bots;
 using HospitalitySkill.Dialogs;
 using HospitalitySkill.Responses.CheckOut;
+using HospitalitySkill.Responses.ExtendStay;
 using HospitalitySkill.Responses.LateCheckOut;
 using HospitalitySkill.Responses.Main;
 using HospitalitySkill.Responses.Shared;
@@ -100,11 +101,13 @@ namespace HospitalitySkill
                 new MainResponses(),
                 new SharedResponses(),
                 new CheckOutResponses(),
-                new LateCheckOutResponses()));
+                new LateCheckOutResponses(),
+                new ExtendStayResponses()));
 
             // Register dialogs
             services.AddTransient<CheckOutDialog>();
             services.AddTransient<LateCheckOutDialog>();
+            services.AddTransient<ExtendStayDialog>();
             services.AddTransient<MainDialog>();
 
             // Configure adapters

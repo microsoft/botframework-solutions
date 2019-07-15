@@ -8,6 +8,9 @@
 
   <ItemGroup>
     <Content Remove="Content\ConfirmReservationUpdate.json" />
+    <Content Remove="Responses\CheckOut\CheckOutResponses.json" />
+    <Content Remove="Responses\ExtendStay\ExtendStayResponses.json" />
+    <Content Remove="Responses\LateCheckOut\LateCheckOutResponses.json" />
     <Content Remove="Responses\Main\MainResponses.de.json" />
     <Content Remove="Responses\Main\MainResponses.es.json" />
     <Content Remove="Responses\Main\MainResponses.fr.json" />
@@ -24,6 +27,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Content\ConfirmReservationUpdate.json" />
+    <EmbeddedResource Include="Responses\ExtendStay\ExtendStayResponses.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.de.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.es.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.fr.json" />
@@ -76,6 +80,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Responses\ExtendStay\ExtendStayResponses.tt">
+      <LastGenOutput>ExtendStayResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
     <None Update="Responses\LateCheckOut\LateCheckOutResponses.tt">
       <LastGenOutput>LateCheckOutResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -153,6 +161,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>readme.md</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\ExtendStay\ExtendStayResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ExtendStayResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Responses\LateCheckOut\LateCheckOutResponses.cs">
       <DesignTime>True</DesignTime>
