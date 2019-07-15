@@ -18,7 +18,7 @@ namespace Microsoft.Bot.Builder.Skills
     /// 1. Process the incoming activity by calling into pipeline.
     /// 2. Implement BotAdapter protocol. Each method will send the activity back to calling bot using websocket.
     /// </summary>
-    public class SkillWebSocketBotAdapter : BotAdapter, IActivityHandler, IRemoteUserTokenProvider
+    public class SkillWebSocketBotAdapter : BotAdapter, IActivityHandler, IRemoteUserTokenProvider, IFallbackRequestProvider
     {
         private readonly IBotTelemetryClient _botTelemetryClient;
 
@@ -235,7 +235,7 @@ namespace Microsoft.Bot.Builder.Skills
 
         public async Task SendRemoteFallbackEventAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            // We trigger a Fallback Request from the Parent Bot by sending a "FallbackRequest" event
+            // We trigger a Fallback Request from the Parent Bot by sending a "skill/fallbackRequest" event
             var response = turnContext.Activity.CreateReply();
             response.Type = ActivityTypes.Event;
             response.Name = SkillEvents.FallbackEventName;

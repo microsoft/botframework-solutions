@@ -140,18 +140,6 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
         }
 
         /// <summary>
-        /// Called when fallbackhandler event is recieved.
-        /// </summary>
-        /// <param name="innerDc">The dialog context for the component.</param>
-        /// <param name="result">The dialog result when inner dialog completed.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected virtual Task RedispatchAsync(DialogContext innerDc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            return Task.CompletedTask;
-        }
-
-        /// <summary>
         /// Called when an event activity is received.
         /// </summary>
         /// <param name="innerDc">The dialog context for the component.</param>

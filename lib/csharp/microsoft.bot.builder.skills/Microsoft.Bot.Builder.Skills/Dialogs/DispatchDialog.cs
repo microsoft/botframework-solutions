@@ -5,7 +5,7 @@ using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.Bot.Builder.Skills
+namespace Microsoft.Bot.Builder.Skills.Dialogs
 {
     public class DispatchDialog : RouterDialog
     {
@@ -67,7 +67,7 @@ namespace Microsoft.Bot.Builder.Skills
 
                                     case DialogTurnStatus.Complete:
                                         {
-                                            if (result.Result is string)
+                                            if (result.Result is DispatchIntent intent)
                                             {
                                                 // Redispatch when a intent is matched to a new skill
                                                 await RedispatchAsync(innerDc, result).ConfigureAwait(false);
@@ -115,6 +115,18 @@ namespace Microsoft.Bot.Builder.Skills
 
                 return EndOfTurn;
             }
+        }
+
+        /// <summary>
+        /// Called when fallbackhandler event is recieved.
+        /// </summary>
+        /// <param name="innerDc">The dialog context for the component.</param>
+        /// <param name="result">The dialog result when inner dialog completed.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        protected virtual Task RedispatchAsync(DialogContext innerDc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return Task.CompletedTask;
         }
     }
 }

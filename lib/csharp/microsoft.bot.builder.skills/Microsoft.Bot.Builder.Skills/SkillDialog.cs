@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills.Auth;
+using Microsoft.Bot.Builder.Skills.Dialogs;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions;
@@ -109,13 +110,17 @@ namespace Microsoft.Bot.Builder.Skills
                     sc.Context.Activity.Speak = skillSwitchConfirmOption.UserInputActivity.Speak;
 
                     // 3) End dialog with target intent
-                    return await sc.EndDialogAsync(skillSwitchConfirmOption.TargetIntent);
+                    var intent = new DispatchIntent()
+                    {
+                        Intent = skillSwitchConfirmOption.TargetIntent,
+                    };
+                    return await sc.EndDialogAsync(intent);
                 }
 
                 // Cancel skill switching
                 else
                 {
-                    var dialogResult = await ForwardToSkillAsync(sc, skillSwitchConfirmOption.LastActivity);
+                    var dialogResult = await ForwardToSkillAsync(sc, skillSwitchConfirmOption.FallbackHandledEvent);
                     return await sc.EndDialogAsync(dialogResult);
                 }
             }
@@ -246,7 +251,7 @@ namespace Microsoft.Bot.Builder.Skills
                 {
                     // SkillDialog only truely end when confirm skill switch.
                     // If confirm dialog is ended without skill switch, means previous activity has been resent and SkillDialog can continue to work
-                    if (!(result.Result is string))
+                    if (!(result.Result is DispatchIntent))
                     {
                         result.Status = DialogTurnStatus.Waiting;
                     }
@@ -336,7 +341,7 @@ namespace Microsoft.Bot.Builder.Skills
                                     {
                                         var options = new SkillSwitchConfirmOption()
                                         {
-                                            LastActivity = lastEvent,
+                                            FallbackHandledEvent = lastEvent,
                                             TargetIntent = recognizedSkillManifestRecognized,
                                             UserInputActivity = innerDc.Context.Activity,
                                         };
@@ -396,13 +401,13 @@ namespace Microsoft.Bot.Builder.Skills
                 // Send trace to emulator
                 dialogContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Received a fallback request from a skill")).GetAwaiter().GetResult();
 
-                var fallbackHandleEvent = activity.CreateReply();
-                fallbackHandleEvent.Type = ActivityTypes.Event;
-                fallbackHandleEvent.Name = SkillEvents.FallbackEventName;
+                var fallbackEvent = activity.CreateReply();
+                fallbackEvent.Type = ActivityTypes.Event;
+                fallbackEvent.Name = SkillEvents.FallbackEventName;
 
                 lock (_lockObject)
                 {
-                    _queuedResponses.Enqueue(fallbackHandleEvent);
+                    _queuedResponses.Enqueue(fallbackEvent);
                 }
             };
         }
