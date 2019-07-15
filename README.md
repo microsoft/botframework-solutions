@@ -4,7 +4,7 @@ This repository is the home for a set of templates and solutions to help build c
 
 > Things look a little different around here? Find out more in our [Wiki page](https://github.com/Microsoft/AI/wiki/What's-new-at-Build-2019) and [here](https://github.com/Microsoft/AI/issues/959).
 
-### [Click here to find out what's new for //build2019!](https://github.com/microsoft/botframework/blob/master/whats-new.md#whats-new)
+### [Click here to find out what's new for Bot Framework](https://github.com/microsoft/botframework/blob/master/whats-new.md#whats-new)
 
 | Name | Description |  
 |:------------:|------------| 
