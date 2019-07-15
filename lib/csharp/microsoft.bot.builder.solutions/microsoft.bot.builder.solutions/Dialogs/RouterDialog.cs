@@ -70,7 +70,6 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
 
                                             // End active dialog
                                             await innerDc.EndDialogAsync().ConfigureAwait(false);
-
                                             break;
                                         }
 
