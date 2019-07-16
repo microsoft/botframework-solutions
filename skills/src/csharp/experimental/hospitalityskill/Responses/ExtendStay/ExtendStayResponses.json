@@ -52,5 +52,14 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "SameDayRequested": {
+    "replies": [
+      {
+        "text": "The date you've requested is the same as your current check-out date.",
+        "speak": "The date you've requested is the same as your current check-out date."
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

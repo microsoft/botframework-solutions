@@ -30,6 +30,7 @@ namespace HospitalitySkill.Dialogs
             var extendStay = new WaterfallStep[]
             {
                 ExtendDatePrompt,
+                ReviewDatePrompt,
                 ConfirmExtentionPrompt,
                 EndDialog
             };
@@ -55,7 +56,7 @@ namespace HospitalitySkill.Dialogs
         {
             var convState = await StateAccessor.GetAsync(promptContext.Context, () => new HospitalitySkillState());
             var userState = await UserStateAccessor.GetAsync(promptContext.Context, () => new HospitalityUserSkillState());
-            convState.UpdatedReservation = userState.UserReservation;
+            convState.UpdatedReservation = userState.UserReservation.Copy();
 
             if (promptContext.Recognized.Succeeded && promptContext.Recognized.Value[0].Value != null)
             {
@@ -67,6 +68,21 @@ namespace HospitalitySkill.Dialogs
             }
 
             return await Task.FromResult(false);
+        }
+
+        private async Task<DialogTurnResult> ReviewDatePrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
+            var convState = await StateAccessor.GetAsync(sc.Context, () => new HospitalitySkillState());
+            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState());
+
+            // if current check out date is same as requested
+            if (convState.UpdatedReservation.CheckOutDate == userState.UserReservation.CheckOutDate)
+            {
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ExtendStayResponses.SameDayRequested));
+                return await sc.EndDialogAsync();
+            }
+
+            return await sc.NextAsync();
         }
 
         private async Task<DialogTurnResult> ConfirmExtentionPrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
@@ -97,7 +113,7 @@ namespace HospitalitySkill.Dialogs
                 if (response)
                 {
                     // TODO process requesting reservation extension
-                    userState.UserReservation = convState.UpdatedReservation;
+                    userState.UserReservation.CheckOutDate = convState.UpdatedReservation.CheckOutDate;
 
                     // set new checkout date in hotel service
                     _hotelService.UpdateReservationDetails(userState.UserReservation);
@@ -117,7 +133,7 @@ namespace HospitalitySkill.Dialogs
             var convState = await StateAccessor.GetAsync(sc.Context, () => new HospitalitySkillState());
             var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState());
 
-            if (userState.UserReservation == convState.UpdatedReservation)
+            if (userState.UserReservation.CheckOutDate == convState.UpdatedReservation.CheckOutDate)
             {
                 var tokens = new StringDictionary
                 {

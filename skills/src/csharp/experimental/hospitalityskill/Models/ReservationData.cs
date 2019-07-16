@@ -9,5 +9,10 @@ namespace HospitalitySkill.Models
         public string CheckOutDate { get; set; }
 
         public string CheckOutTime { get; set; }
+
+        public ReservationData Copy()
+        {
+            return (ReservationData)this.MemberwiseClone();
+        }
     }
 }
