@@ -5,6 +5,10 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Activity model
+ * see https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-connector-api-reference?view=azure-bot-service-4.0#activity-object
+ */
 public class BotConnectorActivity {
 
     @SerializedName("attachmentLayout")
@@ -32,6 +36,9 @@ public class BotConnectorActivity {
     @SerializedName("conversation")
     @Expose
     private ConversationBot conversation;
+    @SerializedName("code")
+    @Expose
+    private String code;
     @SerializedName("entities")
     @Expose
     private List<Object> entities = null;
@@ -47,6 +54,9 @@ public class BotConnectorActivity {
     @SerializedName("locale")
     @Expose
     private String locale;
+    @SerializedName("name")
+    @Expose
+    private String name;
     @SerializedName("recipient")
     @Expose
     private Recipient recipient;
@@ -253,5 +263,21 @@ public class BotConnectorActivity {
 
     public void setSuggestedActions(SuggestedActions suggestedActions) {
         this.suggestedActions = suggestedActions;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
