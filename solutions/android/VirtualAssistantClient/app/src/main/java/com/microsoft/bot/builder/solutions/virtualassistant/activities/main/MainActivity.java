@@ -37,12 +37,12 @@ import com.microsoft.bot.builder.solutions.directlinespeech.ConfigurationManager
 import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.BaseActivity;
-import com.microsoft.bot.builder.solutions.virtualassistant.activities.settings.SettingsActivity;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.actionslist.ActionsAdapter;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.actionslist.ActionsViewholder;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ChatAdapter;
-import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ViewholderBot;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ItemOffsetDecoration;
+import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.ViewholderBot;
+import com.microsoft.bot.builder.solutions.virtualassistant.activities.settings.SettingsActivity;
 import com.microsoft.bot.builder.solutions.virtualassistant.assistant.VoiceInteractionActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -235,9 +235,17 @@ public class MainActivity extends BaseActivity
 
     @Override
     protected void serviceConnected() {
-        // this code is triggered when a user launches the app a second+ time and the app has permission
+        // At this point, speechServiceBinder should not be null.
+        // this code is triggered after the service is bound.
+        // Binding is started in onStart(), so expect this callback to trigger after onStart()
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
             initializeAndConnect();
+        }
+
+        try {
+            speechServiceBinder.startLocationUpdates();
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
     }
 
@@ -253,20 +261,6 @@ public class MainActivity extends BaseActivity
                     break;
                 case R.id.nav_menu_reset_bot:
                     speechServiceBinder.resetBot();
-                    break;
-                case R.id.nav_menu_location:
-                    String json = speechServiceBinder.getConfiguration();
-                    Configuration configuration = gson.fromJson(json, new TypeToken<Configuration>(){}.getType());
-                    speechServiceBinder.sendLocationEvent(configuration.geolat, configuration.geolon);
-                    break;
-                case R.id.nav_menu_welcome_req:
-                    speechServiceBinder.requestWelcomeCard();
-                    break;
-                case R.id.nav_menu_emulate_activity_msg:
-                    // {"attachmentLayout": "carousel","attachments": [{"content": {XXXX PASTE ADAPTIVE CARD HERE XXXX},"contentType": "application/vnd.microsoft.card.adaptive"}],"channelData": {"conversationalAiData": {"requestInfo": {"interactionId": "b9ad8f12-e459-4a73-a542-919224e83b0a","requestType": 0,"version": "0.2"}}},"channelId": "directlinespeech","conversation": {"id": "490b89e7-ab99-4ec6-b0c8-4cc612d5e4ce","isGroup": false},"entities": [],"from": {"id": "vakonadj"},"id": "a27c2f8da5a845a3942f6a880562114f","inputHint": "expectingInput","recipient": {"id": "490b89e7-ab99-4ec6-b0c8-4cc612d5e4ce|0000"},"replyToId": "c3174265-3b0a-49a1-bdb1-e55c477b8c36","serviceUrl": "PersistentConnection","speak": "Injected Test Message","text": "Injected Test Message","timestamp": "2019-04-25T18:17:12.3964213+00:00","type": "message"}
-                    final String testJson =
-                            "{\"attachmentLayout\": \"carousel\",\"attachments\": [{\"content\": {\"body\": [{\"items\": [{\"columns\": [{\"items\": [{\"color\": \"accent\",\"id\": \"Name\",\"separation\": \"none\",\"size\": \"large\",\"spacing\": \"none\",\"text\": \"City Center Plaza\",\"type\": \"TextBlock\",\"weight\": \"bolder\"}, {\"id\": \"AvailableDetails\",\"isSubtle\": true,\"separation\": \"none\",\"spacing\": \"none\",\"text\": \"Parking Garage\",\"type\": \"TextBlock\"}, {\"color\": \"dark\",\"id\": \"Address\",\"isSubtle\": true,\"separation\": \"none\",\"spacing\": \"none\",\"text\": \"474 108th Avenue Northeast, Bellevue, West Bellevue\",\"type\": \"TextBlock\",\"wrap\": true}, {\"color\": \"dark\",\"id\": \"Hours\",\"isSubtle\": true,\"separation\": \"none\",\"spacing\": \"none\",\"text\": \"\",\"type\": \"TextBlock\",\"wrap\": true}],\"type\": \"Column\",\"verticalContentAlignment\": \"Center\",\"width\": \"90\"}],\"type\": \"ColumnSet\"}],\"type\": \"Container\"}, {\"items\": [{\"id\": \"Image\",\"type\": \"Image\",\"url\": \"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom=15&center=-122.19475,47.61426&width=512&height=512&subscription-key=X0_-LfxI-A-iXxsBGb62ZZJfdfr5mbw9LiG8-cL6quM\"}],\"separator\": true,\"type\": \"Container\"}],\"id\": \"PointOfInterestViewCard\",\"speak\": \"City Center Plaza at 474 108th Avenue Northeast\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\"},\"contentType\": \"application/vnd.microsoft.card.adaptive\"}, {\"content\": {\"body\": [{\"type\": \"TextBlock\",\"size\": \"Medium\",\"weight\": \"Bolder\",\"text\": \"Publish Adaptive Card schema\"},{\"type\": \"ColumnSet\",\"columns\": [{\"type\": \"Column\",\"items\": [{\"type\": \"Image\",\"style\": \"Person\",\"url\": \"https://pbs.twimg.com/profile_images/3647943215/d7f12830b3c17a5a9e4afcc370e3a37e_400x400.jpeg\",\"size\": \"Small\"}],\"width\": \"auto\"},{\"type\": \"Column\",\"items\": [{\"type\": \"TextBlock\",\"weight\": \"Bolder\",\"text\": \"Matt Hidinger\",\"wrap\": true},{\"type\": \"TextBlock\",\"spacing\": \"None\",\"text\": \"Created {{DATE(2017-02-14T06:08:39Z, SHORT)}}\",\"isSubtle\": true,\"wrap\": true}],\"width\": \"stretch\"}]},{\"type\": \"TextBlock\",\"text\": \"Now that we have defined the main rules and features of the format, we need to produce a schema and publish it to GitHub. The schema will be the starting point of our reference documentation.\",\"wrap\": true},{\"type\": \"FactSet\",\"facts\": [{\"title\": \"Board:\",\"value\": \"Adaptive Card\"},{\"title\": \"List:\",\"value\": \"Backlog\"},{\"title\": \"Assigned to:\",\"value\": \"Matt Hidinger\"},{\"title\": \"Due date:\",\"value\": \"Not set\"}]}],\"actions\": [{\"type\": \"Action.ShowCard\",\"title\": \"Set due date\",\"card\": {\"type\": \"AdaptiveCard\",\"body\": [{\"type\": \"Input.Date\",\"id\": \"dueDate\"}],\"actions\": [{\"type\": \"Action.Submit\",\"title\": \"OK\"}]}},{\"type\": \"Action.ShowCard\",\"title\": \"Comment\",\"card\": {\"type\": \"AdaptiveCard\",\"body\": [{\"type\": \"Input.Text\",\"id\": \"comment\",\"placeholder\": \"Enter your comment\",\"isMultiline\": true}],\"actions\": [{\"type\": \"Action.Submit\",\"title\": \"OK\"}]}}],\"id\": \"PointOfInterestViewCard\",\"speak\": \"Plaza Center at 10901 NE 9th St\",\"type\": \"AdaptiveCard\",\"version\": \"1.0\"},\"contentType\": \"application/vnd.microsoft.card.adaptive\"}],\"channelData\": {\"conversationalAiData\": {\"requestInfo\": {\"interactionId\": \"b9ad8f12-e459-4a73-a542-919224e83b0a\",\"requestType\": 0,\"version\": \"0.2\"}}},\"channelId\": \"directlinespeech\",\"conversation\": {\"id\": \"490b89e7-ab99-4ec6-b0c8-4cc612d5e4ce\",\"isGroup\": false},\"entities\": [],\"from\": {\"id\": \"vakonadj\"},\"id\": \"a27c2f8da5a845a3942f6a880562114f\",\"inputHint\": \"expectingInput\",\"recipient\": {\"id\": \"490b89e7-ab99-4ec6-b0c8-4cc612d5e4ce|0000\"},\"replyToId\": \"c3174265-3b0a-49a1-bdb1-e55c477b8c36\",\"serviceUrl\": \"PersistentConnection\",\"speak\": \"What do you think of these?,1 - City Center Plaza at 474 108th Avenue Northeast.,2 - Plaza Center at 10901 NE 9th St.\",\"text\": \"What do you think of these?\",\"timestamp\": \"2019-04-25T18:17:12.3964213+00:00\",\"type\": \"message\"}";
-                    speechServiceBinder.injectReceivedActivity(testJson);
                     break;
                 case R.id.nav_menu_show_assistant_settings:
                     startActivity(new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS));
