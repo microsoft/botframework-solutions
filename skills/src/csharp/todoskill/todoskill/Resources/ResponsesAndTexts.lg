@@ -1,0 +1,12 @@
+﻿[import](ToDoMainResponses.lg)
+[import](ToDoSharedResponses.lg)
+[import](AddToDoResponses.lg)
+[import](DeleteToDoResponses.lg)
+[import](MarkToDoResponses.lg)
+[import](ShowToDoResponses.lg)
+
+[import](AddToDoCardTexts.lg)
+[import](DeleteToDoCardTexts.lg)
+[import](MarkToDoCardTexts.lg)
+[import](ShowToDoCardTexts.lg)
+[import](CardSummaryTexts.lg)

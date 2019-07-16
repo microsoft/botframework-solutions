@@ -1,0 +1,121 @@
+﻿[import](CardSummaryTexts.lg)
+
+# LatestTask 
+- ```
+{
+    "replies": [
+      {
+        "text": "Your latest task is ",
+        "speak": "Your latest task is "
+      }
+    ],
+    "inputHint": "ignoringInput"
+}
+```
+
+#  LatestTasks
+- ```
+{
+    "replies": [
+      {
+        "text": "Your latest tasks are ",
+        "speak": "Your latest tasks are "
+      }
+    ],
+    "inputHint": "ignoringInput"
+}
+```
+
+# ShowTodosBranch1(todos)
+- IF: {count(todos) == 1}
+  - [LatestTask]
+- ELSE:
+  - [LatestTasks]
+
+# ShowTodosBranch2(allTasksCount, listType, todos)
+- [CardSummary(allTasksCount, listType, todos)]
+
+# ShowToDos
+- IF: {allTasksCount <= count(todos)}
+  - [ShowTodosBranch1(todos)]
+- ELSE:
+  - [ShowTodosBranch2(allTasksCount, listType, todos)]
+
+# NextTask
+- ```
+{
+    "replies": [
+      {
+        "text": "The next task is ",
+        "speak": "The next task is "
+      }
+    ],
+    "inputHint": "ignoringInput"
+}
+```
+
+# NextTasks
+- ```
+{
+    "replies": [
+      {
+        "text": "The next tasks are ",
+        "speak": "The next tasks are "
+      }
+    ],
+    "inputHint": "ignoringInput"
+}
+```
+
+# ReadMore
+- IF: {count(todos) == 1}
+  - [NextTask]
+- ELSE:
+  - [NextTasks]
+
+# PreviousTasks
+- ```
+{
+    "replies": [
+      {
+        "text": "Your previous tasks are ",
+        "speak": "Your previous tasks are "
+      }
+    ],
+    "inputHint": "ignoringInput"
+}
+```
+
+# PreviousFirstTasks(taskCount)
+- ```
+{
+    "replies": [
+      {
+        "text": "Your first @{taskCount} tasks are ",
+        "speak": "Your first @{taskCount} tasks are "
+      }
+    ],
+    "inputHint": "ignoringInput"
+}
+```
+
+# PreviousFirstSingleTask(taskCount)
+- ```
+{
+    "replies": [
+      {
+        "text": "Your first @{taskCount} task is ",
+        "speak": "Your first @{taskCount} task is "
+      }
+    ],
+    "inputHint": "ignoringInput"
+}
+```
+
+# PreviousPage
+- IF: {isFirst == false}
+  - [PreviousTasks]
+- ELSEIF: {count(todos) == 1}
+  - [PreviousFirstSingleTask(count(todos))]
+- ELSE:
+  - [PreviousFirstTasks(count(todos))]
