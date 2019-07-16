@@ -7,9 +7,9 @@ namespace $safeprojectname$.Models
 {
     public class SkillState
     {
-        public string Token { get; internal set; }
+        public string Token { get; set; }
 
-        public $safeprojectname$Luis LuisResult { get; internal set; }
+        public $safeprojectname$Luis LuisResult { get; set; }
 
         public void Clear()
         {
