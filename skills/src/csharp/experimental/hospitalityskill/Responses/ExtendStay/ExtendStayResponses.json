@@ -25,5 +25,32 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "RetryConfirmExtendStay": {
+    "replies": [
+      {
+        "text": "Sorry I didn't get that. Would you like me to extend your stay until {Date}?",
+        "speak": "Sorry I didn't get that. Would you like me to extend your stay until {Date}?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ExtendStaySuccess": {
+    "replies": [
+      {
+        "text": "Ok. Your check out date is now {Date}.",
+        "speak": "Ok. Your check out date is now {Date}."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ExtendStayError": {
+    "replies": [
+      {
+        "text": "Ok. Let me know if there is anything else I can help you with!",
+        "speak": "Ok. Let me know if there is anything else I can help you with!"
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

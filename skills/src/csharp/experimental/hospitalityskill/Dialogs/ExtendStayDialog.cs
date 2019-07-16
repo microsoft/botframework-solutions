@@ -30,14 +30,15 @@ namespace HospitalitySkill.Dialogs
             var extendStay = new WaterfallStep[]
             {
                 ExtendDatePrompt,
-                ConfirmExtentionPrompt
+                ConfirmExtentionPrompt,
+                EndDialog
             };
 
             _hotelService = hotelService;
 
             AddDialog(new WaterfallDialog(nameof(ExtendStayDialog), extendStay));
             AddDialog(new DateTimePrompt(DialogIds.ExtendDatePrompt, ValidateDateAsync));
-            AddDialog(new ConfirmPrompt(DialogIds.ConfirmExtendStay));
+            AddDialog(new ConfirmPrompt(DialogIds.ConfirmExtendStay, ValidateConfirmExtensionAsync));
         }
 
         private async Task<DialogTurnResult> ExtendDatePrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
@@ -52,12 +53,15 @@ namespace HospitalitySkill.Dialogs
 
         private async Task<bool> ValidateDateAsync(PromptValidatorContext<IList<DateTimeResolution>> promptContext, CancellationToken cancellationToken)
         {
+            var convState = await StateAccessor.GetAsync(promptContext.Context, () => new HospitalitySkillState());
             var userState = await UserStateAccessor.GetAsync(promptContext.Context, () => new HospitalityUserSkillState());
+            convState.UpdatedReservation = userState.UserReservation;
 
-            if (promptContext.Recognized.Succeeded)
+            if (promptContext.Recognized.Succeeded && promptContext.Recognized.Value[0].Value != null)
             {
                 DateTime dateObject = DateTime.Parse(promptContext.Recognized.Value[0].Value);
-                userState.UserReservation.CheckOutDate = dateObject.ToString("MMMM dd");
+                convState.UpdatedReservation.CheckOutDate = dateObject.ToString("MMMM d");
+
                 // check for more variations of what could happen with different inputs
                 return await Task.FromResult(true);
             }
@@ -67,20 +71,72 @@ namespace HospitalitySkill.Dialogs
 
         private async Task<DialogTurnResult> ConfirmExtentionPrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState());
+            var convState = await StateAccessor.GetAsync(sc.Context, () => new HospitalitySkillState());
 
             var tokens = new StringDictionary
             {
-                { "Date", userState.UserReservation.CheckOutDate }
+                { "Date", convState.UpdatedReservation.CheckOutDate }
             };
 
+            // confirm extension with user
             return await sc.PromptAsync(DialogIds.ConfirmExtendStay, new PromptOptions()
             {
-                Prompt = ResponseManager.GetResponse(ExtendStayResponses.ConfirmExtendStay, tokens)
+                Prompt = ResponseManager.GetResponse(ExtendStayResponses.ConfirmExtendStay, tokens),
+                RetryPrompt = ResponseManager.GetResponse(ExtendStayResponses.RetryConfirmExtendStay, tokens)
             });
         }
 
-        // validate confirmation method
+        private async Task<bool> ValidateConfirmExtensionAsync(PromptValidatorContext<bool> promptContext, CancellationToken cancellationToken)
+        {
+            var convState = await StateAccessor.GetAsync(promptContext.Context, () => new HospitalitySkillState());
+            var userState = await UserStateAccessor.GetAsync(promptContext.Context, () => new HospitalityUserSkillState());
+
+            if (promptContext.Recognized.Succeeded)
+            {
+                bool response = promptContext.Recognized.Value;
+                if (response)
+                {
+                    // TODO process requesting reservation extension
+                    userState.UserReservation = convState.UpdatedReservation;
+
+                    // set new checkout date in hotel service
+                    _hotelService.UpdateReservationDetails(userState.UserReservation);
+                    return await Task.FromResult(true);
+                }
+                else
+                {
+                    return await Task.FromResult(true);
+                }
+            }
+
+            return await Task.FromResult(false);
+        }
+
+        private async Task<DialogTurnResult> EndDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
+            var convState = await StateAccessor.GetAsync(sc.Context, () => new HospitalitySkillState());
+            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState());
+
+            if (userState.UserReservation == convState.UpdatedReservation)
+            {
+                var tokens = new StringDictionary
+                {
+                { "Date", userState.UserReservation.CheckOutDate }
+                };
+
+                var cardData = userState.UserReservation;
+
+                // check out date moved confirmation
+                var reply = ResponseManager.GetCardResponse(ExtendStayResponses.ExtendStaySuccess, new Card("ConfirmReservationUpdate", cardData), tokens);
+                await sc.Context.SendActivityAsync(reply);
+            }
+            else
+            {
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ExtendStayResponses.ExtendStayError));
+            }
+
+            return await sc.EndDialogAsync();
+        }
 
         private class DialogIds
         {

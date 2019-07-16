@@ -15,5 +15,8 @@ namespace HospitalitySkill.Responses.ExtendStay
         public const string ExtendDatePrompt = "ExtendDatePrompt";
         public const string RetryExtendDate = "RetryExtendDate";
         public const string ConfirmExtendStay = "ConfirmExtendStay";
+        public const string RetryConfirmExtendStay = "RetryConfirmExtendStay";
+        public const string ExtendStaySuccess = "ExtendStaySuccess";
+        public const string ExtendStayError = "ExtendStayError";
     }
 }

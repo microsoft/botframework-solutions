@@ -16,7 +16,7 @@ namespace HospitalitySkill.Services
             {
                 CheckInDate = "June 29",
                 CheckOutDate = "July 2",
-                CheckOutTime = "12:00 am"
+                CheckOutTime = "12:00 pm"
             };
         }
 
