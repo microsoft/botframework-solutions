@@ -84,7 +84,7 @@ namespace Microsoft.Bot.Builder.Solutions.Authentication
                 if (authDialogAdded)
                 {
                     AddDialog(new WaterfallDialog(DialogIds.LocalAuthPrompt, localAuth));
-                    AddDialog(new ChoicePrompt(DialogIds.ProviderPrompt) { Style = ListStyle.SuggestedAction });
+                    AddDialog(new ChoicePrompt(DialogIds.ProviderPrompt));
 
                     localAuthConfigured = true;
                 }

@@ -25,14 +25,6 @@ public class Configuration {
     @Expose
     public String locale;
 
-    @SerializedName("geolat")
-    @Expose
-    public String geolat;
-
-    @SerializedName("geolon")
-    @Expose
-    public String geolon;
-
     @SerializedName("user_name")
     @Expose
     public String userName;
@@ -52,8 +44,6 @@ public class Configuration {
                 botId==null&&
                 userId==null&&
                 locale==null&&
-                geolat==null&&
-                geolon==null&&
                 userName==null&&
                 historyLinecount==null&&
                 currentTimezone==null;

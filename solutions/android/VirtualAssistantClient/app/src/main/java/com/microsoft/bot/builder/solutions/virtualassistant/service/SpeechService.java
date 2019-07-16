@@ -190,8 +190,6 @@ public class SpeechService extends Service {
             configuration.userName = DefaultConfiguration.USER_NAME;
             configuration.userId = DefaultConfiguration.USER_FROM_ID;
             configuration.locale = DefaultConfiguration.LOCALE;
-            configuration.geolat = DefaultConfiguration.GEOLOCATION_LAT;
-            configuration.geolon = DefaultConfiguration.GEOLOCATION_LON;
             configuration.historyLinecount = Integer.MAX_VALUE - 1;
             configurationManager.setConfiguration(configuration);
         }
@@ -299,8 +297,6 @@ public class SpeechService extends Service {
 
         // Start foreground service
         startForeground(STOP_FOREGROUND_REMOVE, notification);
-
-        startLocationUpdates();
 
         Log.d(TAG_FOREGROUND_SERVICE, "startForegroundService() complete");
     }

@@ -99,46 +99,6 @@
                     android:imeOptions="actionDone"/>
             </android.support.design.widget.TextInputLayout>
 
-            <!-- GEO LOCATION -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp"
-                android:weightSum="2">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/geolocation_lat_layout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/configuration_geolocation_lat_hint">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/geolocation_lat"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:imeOptions="actionDone"/>
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/geolocation_lon_layout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/configuration_geolocation_lon_hint">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/geolocation_lon"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:imeOptions="actionDone"/>
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
-
             <!-- CHAT HISTORY LINE COUNT-->
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/history_linecount_layout"
