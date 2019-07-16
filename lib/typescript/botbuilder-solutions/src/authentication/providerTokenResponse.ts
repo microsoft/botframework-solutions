@@ -10,8 +10,8 @@ export interface IProviderTokenResponse {
     tokenResponse: TokenResponse;
 }
 
-export function isProviderTokenResponse(value: Object): boolean {
-    return (<IProviderTokenResponse>value).authenticationProvider !== undefined;
+export function isProviderTokenResponse(value?: Object): boolean {
+    return value !== undefined && (<IProviderTokenResponse>value).authenticationProvider !== undefined;
 }
 
 export function getAuthenticationProvider(provider: string): OAuthProvider {

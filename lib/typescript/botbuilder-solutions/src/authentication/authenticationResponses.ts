@@ -15,4 +15,5 @@ export class AuthenticationResponses implements IResponseIdCollection {
     public static readonly authProvidersPrompt: string = 'AuthProvidersPrompt';
     public static readonly configuredAuthProvidersPrompt: string = 'ConfiguredAuthProvidersPrompt';
     public static readonly errorMessageAuthFailure: string = 'ErrorMessageAuthFailure';
+    public static readonly noLinkedAccount: string = 'NoLinkedAccount';
 }

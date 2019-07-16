@@ -57,7 +57,7 @@ export class ContentModeratorMiddleware implements Middleware {
                 'text/plain',
                 textStream,
                 {
-                    language: 'en',
+                    language: 'eng',
                     autocorrect: true,
                     pII: true,
                     listId: undefined,

@@ -30,7 +30,7 @@ export class SkillHttpAdapter extends BotFrameworkAdapter {
         this.telemetryClient = telemetryClient;
     }
 
-    // tslint:disable-next-line:no-any
+    // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
     public async processActivity(req: WebRequest, res: WebResponse, logic: (context: TurnContext) => Promise<any>): Promise<void> {
         if (this.authenticationProvider) {
             // grab the auth header from the inbound http request

@@ -77,6 +77,8 @@ namespace $safeprojectname$
             services.AddSingleton<BotServices>();
 
             // Configure storage
+            // Uncomment the following line for local development without Cosmos Db
+            // services.AddSingleton<IStorage, MemoryStorage>();
             services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
