@@ -79,7 +79,7 @@ if (-not $appId) {
 	# Create app registration
 	$app = (az ad app create `
 		--display-name $name `
-		--password $appPassword `
+		--password `"$($appPassword)`" `
 		--available-to-other-tenants `
 		--reply-urls 'https://token.botframework.com/.auth/web/redirect')
 
@@ -198,7 +198,7 @@ if ($outputs)
 	Start-Sleep -s 30
 
 	# Deploy cognitive models
-	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisSubscriptionKey $($outputs.luis.value.key) -resourceGroup $($resourceGroup) -qnaSubscriptionKey '$($qnaSubscriptionKey)' -outFolder '$($projDir)' -languages '$($languages)'"
+	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -resourceGroup $($resourceGroup) -qnaSubscriptionKey '$($qnaSubscriptionKey)' -outFolder '$($projDir)' -languages '$($languages)'"
 	
 	# Publish bot
 	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'publish.ps1')' -name $($outputs.botWebAppName.value) -resourceGroup $($resourceGroup) -projFolder '$($projDir)'"
