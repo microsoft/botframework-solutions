@@ -18,6 +18,7 @@ namespace Luis
             CheckOut,
             ExtendStay,
             LateCheckOut,
+            GetReservationDetails,
             None
         };
         public Dictionary<Intent, IntentScore> Intents;

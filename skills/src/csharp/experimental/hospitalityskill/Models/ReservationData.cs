@@ -4,6 +4,8 @@ namespace HospitalitySkill.Models
 {
     public class ReservationData : ICardData
     {
+        public string Title { get; set; }
+
         public string CheckInDate { get; set; }
 
         public string CheckOutDate { get; set; }

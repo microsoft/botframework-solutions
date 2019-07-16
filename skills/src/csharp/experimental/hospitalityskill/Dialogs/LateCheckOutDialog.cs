@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using HospitalitySkill.Models;
 using HospitalitySkill.Responses.LateCheckOut;
+using HospitalitySkill.Responses.Shared;
 using HospitalitySkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
@@ -96,9 +97,10 @@ namespace HospitalitySkill.Dialogs
                 };
 
                 var cardData = userState.UserReservation;
+                cardData.Title = string.Format(HospitalityStrings.UpdateReservation);
 
                 // check out time moved confirmation
-                var reply = ResponseManager.GetCardResponse(LateCheckOutResponses.MoveCheckOutSuccess, new Card("ConfirmReservationUpdate", cardData), tokens);
+                var reply = ResponseManager.GetCardResponse(LateCheckOutResponses.MoveCheckOutSuccess, new Card("ReservationDetails", cardData), tokens);
                 await sc.Context.SendActivityAsync(reply);
             }
             else

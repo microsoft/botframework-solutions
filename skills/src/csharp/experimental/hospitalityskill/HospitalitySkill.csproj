@@ -7,9 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Content\ConfirmReservationUpdate.json" />
+    <Content Remove="Content\ReservationDetails.json" />
     <Content Remove="Responses\CheckOut\CheckOutResponses.json" />
+    <Content Remove="Responses\GetReservation\ExtendStayResponses.json" />
     <Content Remove="Responses\ExtendStay\ExtendStayResponses.json" />
+    <Content Remove="Responses\GetReservation\GetReservationResponses.json" />
     <Content Remove="Responses\LateCheckOut\LateCheckOutResponses.json" />
     <Content Remove="Responses\Main\MainResponses.de.json" />
     <Content Remove="Responses\Main\MainResponses.es.json" />
@@ -26,7 +28,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Content\ConfirmReservationUpdate.json" />
+    <EmbeddedResource Include="Content\ReservationDetails.json" />
+    <EmbeddedResource Include="Responses\GetReservation\GetReservationResponses.json" />
     <EmbeddedResource Include="Responses\ExtendStay\ExtendStayResponses.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.de.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.es.json" />
@@ -80,6 +83,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Responses\GetReservation\GetReservationResponses.tt">
+      <LastGenOutput>GetReservationResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
     <None Update="Responses\ExtendStay\ExtendStayResponses.tt">
       <LastGenOutput>ExtendStayResponses.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -162,6 +169,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>readme.md</DependentUpon>
     </Compile>
+    <Compile Update="Responses\GetReservation\GetReservationResponses.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GetReservationResponses.tt</DependentUpon>
+    </Compile>
     <Compile Update="Responses\ExtendStay\ExtendStayResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -192,11 +204,23 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>SharedResponses.tt</DependentUpon>
     </Compile>
+    <Compile Update="Responses\Shared\HospitalityStrings.Designer.cs">
+      <DependentUpon>HospitalityStrings.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="__TemplateIcon.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>__TemplateIcon.ico</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Responses\Shared\HospitalityStrings.resx">
+      <LastGenOutput>HospitalityStrings.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

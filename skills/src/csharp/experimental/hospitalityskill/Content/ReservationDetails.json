@@ -1,6 +1,6 @@
 {
   "type": "AdaptiveCard",
-  "id": "ConfirmReservationUpdate",
+  "id": "ReservationDetails",
   "body": [
     {
       "type": "Container",
@@ -40,7 +40,7 @@
                           "size": "Large",
                           "weight": "Bolder",
                           "color": "Light",
-                          "text": "Updated reservation details"
+                          "text": "{Title}"
                         }
                       ],
                       "width": "stretch"
