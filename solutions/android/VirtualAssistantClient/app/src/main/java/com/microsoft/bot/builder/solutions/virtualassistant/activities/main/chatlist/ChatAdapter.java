@@ -108,4 +108,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
         notifyDataSetChanged();
     }
+
+    public void resetChat(){
+        chatList.clear();
+        notifyDataSetChanged();
+    }
 }

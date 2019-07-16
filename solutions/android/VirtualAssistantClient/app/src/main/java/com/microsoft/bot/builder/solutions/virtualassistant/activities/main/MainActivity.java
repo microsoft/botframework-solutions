@@ -261,6 +261,7 @@ public class MainActivity extends BaseActivity
                     break;
                 case R.id.nav_menu_reset_bot:
                     speechServiceBinder.resetBot();
+                    chatAdapter.resetChat();
                     break;
                 case R.id.nav_menu_show_assistant_settings:
                     startActivity(new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS));
