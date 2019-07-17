@@ -14,7 +14,7 @@ namespace VirtualAssistantSample.Tests.Utilities
     {
         private static Dictionary<string, QueryResult[]> _utterances = new Dictionary<string, QueryResult[]>
         {
-            { ChitchatUtterances.Greeting, CreateAnswer(Path.Combine("Resources\chitchat_greeting.json")) },
+            { ChitchatUtterances.Greeting, CreateAnswer(Path.Combine("Resources", "chitchat_greeting.json")) },
         };
 
         public static MockQnAMaker CreateRecognizer()
