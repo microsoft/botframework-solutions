@@ -1,5 +1,6 @@
 name-template: v$NEXT_PATCH_VERSION
 tag-template: v$NEXT_PATCH_VERSION
+version-template: $MAJOR.$MINOR.$PATCH-preview
 branches:
   - master
 template: |
