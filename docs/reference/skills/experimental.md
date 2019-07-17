@@ -39,7 +39,7 @@ This skill has a very limited LUIS model (available in English, French, Italian,
 
 ![Search Example](/docs/media/skills-experimental-bingsearch.png)
 
-Once deployed create a [Bing Search Cognitive Services Key](https://azure.microsoft.com/en-us/services/cognitive-services/bing-web-search-api/) and update the appropriate configuration within appSettings.config.
+Once deployed create a [Bing Search Cognitive Services Key](https://azure.microsoft.com/en-us/services/cognitive-services/bing-web-search-api/) for BingSearchKey and a [Project Answer Search Key](https://labs.cognitive.microsoft.com/en-us/project-answer-search) for BingAnswerSearchKey, then update the appropriate configuration within appSettings.config.
 
 ## News Skill
 

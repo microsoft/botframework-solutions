@@ -29,6 +29,8 @@ You will need to replace `<app-insights-application-id>` with your Application I
 3. Select **API Access**.
 4. Copy the Application ID.
 
+Note: if you want to show both VA and Skill telemetry in one powerbi report, please ensure you are using the same application insight ID in both VA and Skill config.
+
 ![AppInsightsApplicationID](../../media/appinsightsapplicationid.png)
 
 ```
