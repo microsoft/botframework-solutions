@@ -8,7 +8,7 @@ import { isAbsolute, join, resolve } from 'path';
 import { get } from 'request-promise-native';
 import { ConsoleLogger, ILogger} from '../logger';
 import { IAction, IConnectConfiguration, IRefreshConfiguration, ISkillFile, ISkillManifest, IUtteranceSource } from '../models';
-import { AuthenticationUtils, ChildProcessUtils } from '../utils';
+import { AuthenticationUtils, ChildProcessUtils, wrapPathWithQuotes } from '../utils';
 import { RefreshSkill } from './refreshSkill';
 
 export class ConnectSkill {
@@ -142,9 +142,9 @@ Make sure to use the argument '--dispatchName' for your Assistant's Dispatch fil
                 // Parse LU file
                 this.logger.message(`Parsing ${luisApp} LU file...`);
                 const ludownParseCommand: string[] = ['ludown', 'parse', 'toluis'];
-                ludownParseCommand.push(...['--in', luFilePath]);
+                ludownParseCommand.push(...['--in', wrapPathWithQuotes(luFilePath)]);
                 ludownParseCommand.push(...['--luis_culture', configuration.language]);
-                ludownParseCommand.push(...['--out_folder', configuration.luisFolder]);
+                ludownParseCommand.push(...['--out_folder', wrapPathWithQuotes(configuration.luisFolder)]);
                 ludownParseCommand.push(...['--out', `"${luisFile}"`]);
 
                 await this.runCommand(ludownParseCommand, `Parsing ${luisApp} LU file`);
@@ -158,9 +158,9 @@ Command: ${ludownParseCommand.join(' ')}`);
                 const dispatchAddCommand: string[] = ['dispatch', 'add'];
                 dispatchAddCommand.push(...['--type', 'file']);
                 dispatchAddCommand.push(...['--name', intentName]);
-                dispatchAddCommand.push(...['--filePath', luisFilePath]);
+                dispatchAddCommand.push(...['--filePath', wrapPathWithQuotes(luisFilePath)]);
                 dispatchAddCommand.push(...['--intentName', intentName]);
-                dispatchAddCommand.push(...['--dataFolder', configuration.dispatchFolder]);
+                dispatchAddCommand.push(...['--dataFolder', wrapPathWithQuotes(configuration.dispatchFolder)]);
                 dispatchAddCommand.push(...['--dispatch', dispatchFilePath]);
 
                 await this.runCommand(dispatchAddCommand, `Executing dispatch add for the ${luisApp} LU file`);

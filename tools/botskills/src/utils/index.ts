@@ -5,5 +5,5 @@
 
 export { ChildProcessUtils } from './childProcessUtils';
 export { AuthenticationUtils } from './authenticationUtils';
-export { sanitizePath } from './sanitizationUtils';
+export { sanitizePath, wrapPathWithQuotes } from './sanitizationUtils';
 export { validatePairOfArgs } from './validationUtils';

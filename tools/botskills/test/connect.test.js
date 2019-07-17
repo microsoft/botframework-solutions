@@ -315,7 +315,7 @@ Make sure to use the argument '--dispatchName' for your Assistant's Dispatch fil
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
 Error: An error ocurred while updating the Dispatch model:
 Error: Path to ${config.dispatchName}.luis (${join(config.luisFolder, config.dispatchName)}.luis) leads to a nonexistent file. This may be due to a problem with the 'ludown' command.
-Command: ludown parse toluis --in ${join(config.luisFolder, config.dispatchName)}.lu --luis_culture en --out_folder ${config.luisFolder} --out "${config.dispatchName}.luis"`);
+Command: ludown parse toluis --in "${join(config.luisFolder, config.dispatchName)}.lu" --luis_culture en --out_folder "${config.luisFolder}" --out "${config.dispatchName}.luis"`);
         });
 
         it("when the refreshSkill fails", async function () {
