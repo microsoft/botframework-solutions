@@ -1,4 +1,4 @@
-name-template: v$NEXT_PATCH_VERSION
+name-template: v$NEXT_PATCH_VERSION-preview
 tag-template: v$NEXT_PATCH_VERSION
 version-template: $MAJOR.$MINOR.$PATCH-preview
 branches:
@@ -7,3 +7,6 @@ template: |
   ## What’s Changed
 
   $CHANGES
+  
+  ## Thanks to
+  $CONTRIBUTORS
