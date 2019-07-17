@@ -11,8 +11,17 @@
   "RetryExtendDate": {
     "replies": [
       {
-        "text": "Please specify the month and date you would like to stay until.",
-        "speak": "Please specify the month and date you would like to stay until."
+        "text": "Please specify the month and date you would like to extend your stay until.",
+        "speak": "Please specify the month and date you would like to extend your stay until."
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NotFutureDateError": {
+    "replies": [
+      {
+        "text": "It seems like the date you requested is earlier than your current check-out date, which is {Date}. Please specify a later date.",
+        "speak": "It seems like the date you requested is earlier than your current check-out date, which is {Date}. Please specify a later date."
       }
     ],
     "inputHint": "expectingInput"
@@ -56,10 +65,10 @@
   "SameDayRequested": {
     "replies": [
       {
-        "text": "The date you've requested is the same as your current check-out date.",
-        "speak": "The date you've requested is the same as your current check-out date."
+        "text": "The date you've requested is the same as your current check-out date. Please specify a later date.",
+        "speak": "The date you've requested is the same as your current check-out date. Please specify a later date."
       }
     ],
-    "inputHint": "acceptingInput"
+    "inputHint": "expectingInput"
   }
 }

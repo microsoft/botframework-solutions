@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using HospitalitySkill.Models;
 
 namespace HospitalitySkill.Services
@@ -14,8 +15,8 @@ namespace HospitalitySkill.Services
             // mock data for hotel reservation
             _reservationData = new ReservationData
             {
-                CheckInDate = "June 29",
-                CheckOutDate = "July 2",
+                CheckInDate = "June 29, 2019",
+                CheckOutDate = DateTime.Now.ToString("MMMM d, yyyy"),
                 CheckOutTime = "12:00 pm"
             };
         }

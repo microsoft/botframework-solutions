@@ -19,5 +19,6 @@ namespace HospitalitySkill.Responses.ExtendStay
         public const string ExtendStaySuccess = "ExtendStaySuccess";
         public const string ExtendStayError = "ExtendStayError";
         public const string SameDayRequested = "SameDayRequested";
+        public const string NotFutureDateError = "NotFutureDateError";
     }
 }
