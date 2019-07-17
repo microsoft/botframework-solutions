@@ -118,18 +118,62 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
                 <TextView
+                    style="@style/TextView.InputLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/configuration_timezone"/>
 
                 <android.support.v7.widget.AppCompatSpinner
+                    style="@style/Widget.AppCompat.Spinner.Underlined"
                     android:id="@+id/spinner_timezone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <!-- COLOR CHAT-BUBBLE BACKGROUND -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TextView.InputLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/configuration_bot_color"/>
+
+                <View
+                    android:id="@+id/color_picker_bot"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@drawable/shape_rect_round_corners_white"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <TextView
+                    style="@style/TextView.InputLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/configuration_user_color"/>
+
+                <View
+                    android:id="@+id/color_picker_user"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@drawable/shape_rect_round_corners_white"
+                    android:clickable="true"
+                    android:focusable="true"/>
 
             </LinearLayout>
 

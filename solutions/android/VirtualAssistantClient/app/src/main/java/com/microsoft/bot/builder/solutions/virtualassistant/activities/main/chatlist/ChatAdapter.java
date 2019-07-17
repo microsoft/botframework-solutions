@@ -27,6 +27,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ViewholderBot.OnClickListener clickListener;
     private static int MAX_CHAT_ITEMS = 2;
     private boolean showFullConversation;
+    private Integer colorBubbleBot;
+    private Integer colorBubbleUser;
 
 
     @NonNull
@@ -50,10 +52,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         ChatModel chatModel = chatList.get(position);
         if (getItemViewType(position) == MSG_TYPE_BOT) {
-            ((ViewholderBot)viewHolder).bind(chatModel, parentActivity, clickListener);
+            ((ViewholderBot)viewHolder).bind(chatModel, parentActivity, clickListener, colorBubbleBot);
         }
         if (getItemViewType(position) == MSG_TYPE_USER) {
-            ((ViewholderUser)viewHolder).bind(chatModel, parentActivity);
+            ((ViewholderUser)viewHolder).bind(chatModel, parentActivity, colorBubbleUser);
         }
     }
 
@@ -112,5 +114,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void resetChat(){
         chatList.clear();
         notifyDataSetChanged();
+    }
+
+    public void setChatBubbleColors(Integer colorBubbleBot, Integer colorBubbleUser){
+        this.colorBubbleBot = colorBubbleBot;
+        this.colorBubbleUser = colorBubbleUser;
     }
 }

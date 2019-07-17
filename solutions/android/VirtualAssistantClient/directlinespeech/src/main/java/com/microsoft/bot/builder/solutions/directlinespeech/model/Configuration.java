@@ -37,6 +37,14 @@ public class Configuration {
     @Expose
     public String currentTimezone;//stores the TZ ID
 
+    @SerializedName("color_bubble_bot")
+    @Expose
+    public Integer colorBubbleBot;
+
+    @SerializedName("color_bubble_user")
+    @Expose
+    public Integer colorBubbleUser;
+
 
     public boolean isEmpty(){
         return serviceKey==null&&
@@ -46,6 +54,8 @@ public class Configuration {
                 locale==null&&
                 userName==null&&
                 historyLinecount==null&&
-                currentTimezone==null;
+                currentTimezone==null&&
+                colorBubbleBot==null&&
+                colorBubbleUser==null;
     }
 }

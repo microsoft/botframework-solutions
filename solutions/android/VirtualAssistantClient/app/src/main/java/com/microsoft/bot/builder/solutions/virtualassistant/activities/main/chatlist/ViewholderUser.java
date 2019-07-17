@@ -34,6 +34,7 @@ public class ViewholderUser extends RecyclerView.ViewHolder {
 
     // VIEWS
     @BindView(R.id.tv_chat) TextView textMessage;
+    @BindView(R.id.card_user_chat) CardView cardUserChat;
 
     // STATE
     private View view;
@@ -47,7 +48,8 @@ public class ViewholderUser extends RecyclerView.ViewHolder {
     /**
      * bind the layout with the data
      */
-    void bind(@NonNull ChatModel chatModel, AppCompatActivity parentActivity) {
-            textMessage.setText(chatModel.userRequest);
+    void bind(@NonNull ChatModel chatModel, AppCompatActivity parentActivity, Integer userBubbleCol) {
+        textMessage.setText(chatModel.userRequest);
+        if (userBubbleCol != null) cardUserChat.setCardBackgroundColor(userBubbleCol);
     }
 }

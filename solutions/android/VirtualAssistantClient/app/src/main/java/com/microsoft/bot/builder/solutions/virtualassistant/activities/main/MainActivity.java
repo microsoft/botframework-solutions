@@ -96,6 +96,7 @@ public class MainActivity extends BaseActivity
     private boolean launchedAsAssistant;
     private Gson gson;
     private SfxManager sfxManager;
+    private ConfigurationManager configurationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +106,7 @@ public class MainActivity extends BaseActivity
 
         handler = new Handler(Looper.getMainLooper());
         gson = new Gson();
+        configurationManager = new ConfigurationManager(this);
 
         setupChatRecyclerView();
         setupSuggestedActionsRecyclerView();
@@ -138,7 +140,7 @@ public class MainActivity extends BaseActivity
         if (intent != null) {
             String originator = intent.getStringExtra(VoiceInteractionActivity.KEY_ORIGINATOR);
             if (originator != null && originator.equals(VoiceInteractionActivity.KEY_VALUE)) {
-                launchedAsAssistant = true;//this flag can now be used, i.e. to automtically start microphone recording
+                launchedAsAssistant = true;//this flag can now be used, i.e. to automatically start microphone recording
             }
         }
 
@@ -159,9 +161,9 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onResume() {
         super.onResume();
-        final ConfigurationManager configurationManager = new ConfigurationManager(this);
         final Configuration configuration = configurationManager.getConfiguration();
         chatAdapter.setChatItemHistoryCount(configuration.historyLinecount==null?1:configuration.historyLinecount);
+        chatAdapter.setChatBubbleColors(configuration.colorBubbleBot, configuration.colorBubbleUser);
     }
 
     // Unregister EventBus messages and SpeechService
