@@ -335,7 +335,7 @@ module.exports = class extends Generator {
         );
         this.log(
           chalk.blue(
-            `pwsh.exe -ExecutionPolicy Bypass -File deployment\\scripts\\deploy.ps1 -name "<SKILL_NAME>" -location "<LOCATION>" -appId "<APP_ID>" -appPassword "<APP_PASSWORD>" -luisAuthoringKey "<LUIS_AUTHORING_KEY>" -luisAuthoringRegion "<LUIS_AUTHORING_REGION>"`
+            `pwsh -File deployment\\scripts\\deploy.ps1`
           )
         );
       }

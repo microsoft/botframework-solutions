@@ -25,7 +25,7 @@ namespace NewsSkill.Dialogs
         {
             TelemetryClient = telemetryClient;
 
-            var key = settings.Properties["BingNewsKey"] ?? throw new Exception("The BingNewsKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
+            var key = settings.BingNewsKey ?? throw new Exception("The BingNewsKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
 
             _client = new NewsClient(key);
 

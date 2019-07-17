@@ -3,7 +3,7 @@
     "en": {
       "languageModels": [
         {
-          "id": "general",
+          "id": "General",
           "name": "",
           "appId": "",
           "authoringKey": "",
@@ -12,7 +12,7 @@
           "region": ""
         },
         {
-          "id": "settings",
+          "id": "Settings",
           "name": "",
           "appId": "",
           "authoringKey": "",
@@ -21,7 +21,7 @@
           "region": ""
         },
         {
-          "id": "settings_name",
+          "id": "SettingsName",
           "name": "",
           "appId": "",
           "authoringKey": "",
@@ -30,7 +30,7 @@
           "region": ""
         },
         {
-          "id": "settings_value",
+          "id": "SettingsValue",
           "name": "",
           "appId": "",
           "authoringKey": "",

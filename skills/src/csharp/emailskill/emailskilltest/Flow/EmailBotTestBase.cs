@@ -62,9 +62,9 @@ namespace EmailSkillTest.Flow
                         {
                             LuisServices = new Dictionary<string, ITelemetryRecognizer>
                             {
-                                { "general", new MockGeneralLuisRecognizer() },
+                                { "General", new MockGeneralLuisRecognizer() },
                                 {
-                                    "email", new MockEmailLuisRecognizer(
+                                    "Email", new MockEmailLuisRecognizer(
                                         new ForwardEmailUtterances(),
                                         new ReplyEmailUtterances(),
                                         new DeleteEmailUtterances(),

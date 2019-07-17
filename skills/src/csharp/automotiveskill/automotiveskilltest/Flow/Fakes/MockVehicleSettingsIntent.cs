@@ -5,7 +5,7 @@ using Microsoft.Bot.Builder;
 
 namespace AutomotiveSkillTest.Flow.Fakes
 {
-    public class MockVehicleSettingsIntent : settingsLuis
+    public class MockVehicleSettingsIntent : SettingsLuis
     {
         private Intent intent;
         private double score;

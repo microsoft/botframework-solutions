@@ -53,7 +53,7 @@ function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscr
         --out_folder $outFolder `
         --out $outFile
     
-    Write-Host "? Getting current versions ..."
+    Write-Host "> Getting current versions ..."
     # Get list of current versions
 	$versions = luis list versions `
         --appId $appId `

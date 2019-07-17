@@ -24,4 +24,11 @@ export class SkillContext {
     public setObj(key: string, value: Object): void {
         this.contextStorage[key] = value;
     }
+
+    public forEachObj(func: (value: Object, key: string) => void): void {
+        Object.entries(this.contextStorage)
+            .forEach((v: [string, Object]): void => {
+                func(v[1], v[0]);
+            });
+    }
 }

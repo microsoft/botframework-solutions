@@ -41,7 +41,7 @@
     },
     "appInsightsLocation": {
       "type": "string",
-      "defaultValue": "westus2"
+      "defaultValue": "[resourceGroup().location]"
     },
     "botWebAppName": {
       "type": "string",
@@ -331,7 +331,7 @@
         "InstrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]"
       }
     },
-    "storage": {
+    "blobStorage": {
       "type": "object",
       "value": {
         "connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('cleanStorageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('cleanStorageAccountName')), '2018-07-01').keys[0].value, ';EndpointSuffix=core.windows.net')]",
@@ -342,7 +342,7 @@
       "type": "object",
       "value": {
         "cosmosDBEndpoint": "[reference(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName'))).documentEndpoint]",
-        "authkey": "[listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName')), '2015-04-08').primaryMasterKey]",
+        "authKey": "[listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDbName')), '2015-04-08').primaryMasterKey]",
         "databaseId": "botstate-db",
         "collectionId": "botstate-collection"
       }
