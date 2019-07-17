@@ -4,6 +4,19 @@ version-template: $MAJOR.$MINOR.$PATCH-preview
 change-template: '* $TITLE (#$NUMBER)'
 branches:
   - master
+categories:
+- title: 'Virtual Assistant Chat Client (Android)'
+  labels:
+    - 'Project: Android'
+- title: 'Botskills CLI'
+  labels:
+    - 'Project: CLI'
+- title: 'Skills'
+  labels:
+    - 'Project: Skills'
+- title: 'Templates, Libraries, and Solutions'
+  labels:
+    - 'Project: Templates/Libraries/Solutions'
 template: |
   ## What’s Changed
 
