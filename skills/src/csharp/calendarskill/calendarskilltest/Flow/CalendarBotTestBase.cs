@@ -118,6 +118,10 @@ namespace CalendarSkillTest.Flow
         {
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
+            adapter.OnTurnError = async (context, exception) =>
+            {
+
+            };
 
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {
