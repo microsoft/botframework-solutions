@@ -158,9 +158,9 @@ Command: ${ludownParseCommand.join(' ')}`);
                 const dispatchAddCommand: string[] = ['dispatch', 'add'];
                 dispatchAddCommand.push(...['--type', 'file']);
                 dispatchAddCommand.push(...['--name', intentName]);
-                dispatchAddCommand.push(...['--filePath', wrapPathWithQuotes(luisFilePath)]);
+                dispatchAddCommand.push(...['--filePath', luisFilePath]);
                 dispatchAddCommand.push(...['--intentName', intentName]);
-                dispatchAddCommand.push(...['--dataFolder', wrapPathWithQuotes(configuration.dispatchFolder)]);
+                dispatchAddCommand.push(...['--dataFolder', configuration.dispatchFolder]);
                 dispatchAddCommand.push(...['--dispatch', dispatchFilePath]);
 
                 await this.runCommand(dispatchAddCommand, `Executing dispatch add for the ${luisApp} LU file`);
