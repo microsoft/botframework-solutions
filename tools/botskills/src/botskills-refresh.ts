@@ -94,6 +94,8 @@ if (!args.dispatchName) {
     // try get the dispatch name from the cognitiveModels file
     const cognitiveModelsFile: ICognitiveModelFile = JSON.parse(readFileSync(cognitiveModelsFilePath, 'UTF8'));
     configuration.dispatchName = cognitiveModelsFile.cognitiveModels[languageCode].dispatchModel.name;
+} else {
+    configuration.dispatchName = args.dispatchName;
 }
 
 configuration.logger = logger;
