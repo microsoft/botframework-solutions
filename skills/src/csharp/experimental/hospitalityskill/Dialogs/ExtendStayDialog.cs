@@ -45,6 +45,21 @@ namespace HospitalitySkill.Dialogs
 
         private async Task<DialogTurnResult> ExtendDatePrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
+            var convState = await StateAccessor.GetAsync(sc.Context, () => new HospitalitySkillState());
+            var entities = convState.LuisResult.Entities;
+
+            if (entities.datetime != null)
+            {
+                if (entities.datetime[0].Type == "date" || entities.datetime[0].Type == "datetime" || entities.datetime[0].Type == "daterange")
+                {
+                    // validate date entity
+                    if (await DateValidation(sc.Context, entities.datetime[0].Expressions))
+                    {
+                        return await sc.NextAsync();
+                    }
+                }
+            }
+
             // get extended reservation date
             return await sc.PromptAsync(DialogIds.ExtendDatePrompt, new PromptOptions()
             {
@@ -55,55 +70,69 @@ namespace HospitalitySkill.Dialogs
 
         private async Task<bool> ValidateDateAsync(PromptValidatorContext<IList<DateTimeResolution>> promptContext, CancellationToken cancellationToken)
         {
-            var convState = await StateAccessor.GetAsync(promptContext.Context, () => new HospitalitySkillState());
-            var userState = await UserStateAccessor.GetAsync(promptContext.Context, () => new HospitalityUserSkillState());
-            convState.UpdatedReservation = userState.UserReservation.Copy();
-
             if (promptContext.Recognized.Succeeded && promptContext.Recognized.Value[0].Value != null)
             {
-                DateTime dateObject = new DateTime();
-                bool dateIsEarly = false;
+                // convert DateTimeResolution list to string list
+                List<string> dateValues = new List<string>();
                 foreach (var date in promptContext.Recognized.Value)
                 {
-                    // try parse exact date format so it won't accept time inputs
-                    if (DateTime.TryParseExact(date.Value, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateObject))
-                    {
-                        if (dateObject > DateTime.Now && dateObject > DateTime.Parse(userState.UserReservation.CheckOutDate))
-                        {
-                            // get first future date that is formatted correctly
-                            convState.UpdatedReservation.CheckOutDate = dateObject.ToString("MMMM d, yyyy");
-                            return await Task.FromResult(true);
-                        }
-                        else
-                        {
-                            dateIsEarly = true;
-                        }
-                    }
+                    dateValues.Add(date.Value);
                 }
 
-                // found correctly formatted date, but date is not after current check-out date
-                if (dateIsEarly)
-                {
-                    // same date as current check-out date
-                    if (dateObject.ToString("MMMM d, yyyy") == userState.UserReservation.CheckOutDate)
-                    {
-                        await promptContext.Context.SendActivityAsync(ResponseManager.GetResponse(ExtendStayResponses.SameDayRequested));
-                    }
-                    else
-                    {
-                        var tokens = new StringDictionary
-                        {
-                        { "Date", userState.UserReservation.CheckOutDate }
-                        };
-
-                        await promptContext.Context.SendActivityAsync(ResponseManager.GetResponse(ExtendStayResponses.NotFutureDateError, tokens));
-                    }
-                }
+                return await DateValidation(promptContext.Context, dateValues);
             }
 
             return await Task.FromResult(false);
         }
 
+        private async Task<bool> DateValidation(ITurnContext turnContext, IReadOnlyList<string> dates)
+        {
+            var convState = await StateAccessor.GetAsync(turnContext, () => new HospitalitySkillState());
+            var userState = await UserStateAccessor.GetAsync(turnContext, () => new HospitalityUserSkillState());
+            convState.UpdatedReservation = userState.UserReservation.Copy();
+
+            DateTime dateObject = new DateTime();
+            bool dateIsEarly = false;
+            string[] formats = { "XXXX-MM-dd", "yyyy-MM-dd" };
+            foreach (var date in dates)
+            {
+                // try parse exact date format so it won't accept time inputs
+                if (DateTime.TryParseExact(date, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateObject))
+                {
+                    if (dateObject > DateTime.Now && dateObject > DateTime.Parse(userState.UserReservation.CheckOutDate))
+                    {
+                        // get first future date that is formatted correctly
+                        convState.UpdatedReservation.CheckOutDate = dateObject.ToString("MMMM d, yyyy");
+                        return await Task.FromResult(true);
+                    }
+                    else
+                    {
+                        dateIsEarly = true;
+                    }
+                }
+            }
+
+            // found correctly formatted date, but date is not after current check-out date
+            if (dateIsEarly)
+            {
+                // same date as current check-out date
+                if (dateObject.ToString("MMMM d, yyyy") == userState.UserReservation.CheckOutDate)
+                {
+                    await turnContext.SendActivityAsync(ResponseManager.GetResponse(ExtendStayResponses.SameDayRequested));
+                }
+                else
+                {
+                    var tokens = new StringDictionary
+                        {
+                        { "Date", userState.UserReservation.CheckOutDate }
+                        };
+
+                    await turnContext.SendActivityAsync(ResponseManager.GetResponse(ExtendStayResponses.NotFutureDateError, tokens));
+                }
+            }
+
+            return await Task.FromResult(false);
+        }
 
         private async Task<DialogTurnResult> ConfirmExtentionPrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
         {

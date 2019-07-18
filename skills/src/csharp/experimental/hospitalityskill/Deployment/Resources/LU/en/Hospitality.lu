@@ -36,6 +36,20 @@
 - stay a few more days
 - extend my check out date
 - I want to extend the day I check out
+- extend my stay until June 12
+- extend stay to August 1
+- extend reservation to October 20
+- I want to stay until June 12
+- I want to extend my stay to next monday
+- extend reservation to next tuesday
+- extend check out date to august 12
+- check out on august 5
+- extend stay 2 days
+- extend my stay by 4 days
+- check out 3 days later
+- add 4 nights to my reservation
+- make reservation longer by 2 days
+- stay 3 more days
 
 ## LateCheckOut
 - can I request a late check out
@@ -88,3 +102,8 @@
 - get to do items
 - send an email
 - navigate to my home
+
+> # PREBUILT Entity definitions
+
+$PREBUILT:datetimeV2
+$PREBUILT:number

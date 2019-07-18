@@ -26,9 +26,14 @@ namespace Luis
         public class _Entities
         {
 
-            // Instance
+            // Built-in entities
+            public DateTimeSpec[] datetime;
+            public double[] number;
+
             public class _Instance
             {
+                public InstanceData[] datetime;
+                public InstanceData[] number;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
