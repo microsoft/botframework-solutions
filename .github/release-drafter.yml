@@ -5,18 +5,25 @@ change-template: '* $TITLE (#$NUMBER)'
 branches:
   - master
 categories:
-- title: 'Virtual Assistant Chat Client (Android)'
+- title: 'Templates'
   labels:
-    - 'Project: Android'
-- title: 'Botskills CLI'
-  labels:
-    - 'Project: CLI'
+    - 'Changelog: Templates'
 - title: 'Skills'
   labels:
-    - 'Project: Skills'
-- title: 'Templates, Libraries, and Solutions'
+    - 'Changelog: Skills'
+- title: 'Libraries'
   labels:
-    - 'Project: Templates/Libraries/Solutions'
+    - 'Changelog: Libraries'
+- title: 'Solutions'
+  labels:
+    - 'Changelog: Solutions'
+- title: 'Virtual Assistant Chat Client (Android)'
+  labels:
+    - 'Changelog: Android'
+- title: 'Botskills CLI'
+  labels:
+    - 'Changelog: CLI'
+
 template: |
   ## What’s Changed
 
