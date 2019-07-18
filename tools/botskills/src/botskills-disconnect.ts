@@ -128,6 +128,8 @@ if (!args.dispatchName) {
     // tslint:disable-next-line
     const cognitiveModelsFile: ICognitiveModelFile = JSON.parse(readFileSync(cognitiveModelsFilePath, 'UTF8'));
     configuration.dispatchName = cognitiveModelsFile.cognitiveModels[languageCode].dispatchModel.name;
+} else {
+    configuration.dispatchName = args.dispatchName;
 }
 
 new DisconnectSkill(logger).disconnectSkill(<IDisconnectConfiguration> configuration);
