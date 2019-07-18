@@ -1,7 +1,6 @@
 package com.microsoft.bot.builder.solutions.virtualassistant.service;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
