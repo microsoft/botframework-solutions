@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Microsoft.Bot.Builder.Skills.Dialogs
+namespace Microsoft.Bot.Builder.Skills.Models
 {
     public class DispatchIntent
     {
