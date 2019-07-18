@@ -1,0 +1,90 @@
+[import](Shared.en-us.lg)
+
+# UserInfoDetail(user)
+- IF: {user.DisplayName == null || user.DisplayName == ''}
+    - {user.Address}: {user.Address}
+- ELSE:
+    - {user.DisplayName}: {user.Address}
+
+# NoTitle(participants)
+- Alright, I will send an invite to {join(foreach(participants, x, lgTemplate('UserInfoDetail', x)), ' ,', 'and')}, what is the subject of the meeting?
+
+# NoTitleShort
+- What is the subject of the meeting?
+
+# NoContent
+- What do you want to add as content?
+
+# NoLocation
+- Where will be the event take place?
+
+# ConfirmCreate(startDateTime, endDateTime, timezone, attendees, attendeePhotoList, subject, location, content)
+- ```
+I'm ready to create the event. The event is on @{lgTemplate('FormatDate', startDateTime, timezone)}, from @{lgTemplate('FormatTime', startDateTime, timezone)} till @{lgTemplate('FormatTime',endDateTime, timezone)}, with @{lgTemplate('ShowAttendees', attendees, 5)}. The subject of the event is @{lgTemplate('ConfirmStringItem', subject)}. The event will take place at @{lgTemplate('ConfirmStringItem', location)}. The message is @{lgTemplate('ConfirmStringItem', content)}. Can you confirm this event?
+@{lgTemplate('MeetingDetailCard', startDateTime, endDateTime, timezone, attendeePhotoList, subject, location, content)}
+```
+
+# ConfirmStringItem(item)
+- IF: @{item != null && item != ''}
+    - @{item}
+- ELSE:
+    - empty
+
+# ConfirmCreatePrompt
+- Can you confirm this event?
+
+# ShowRestParticipantsPrompt
+- Do you want to go through the rest of the participants?
+
+# ConfirmCreateFailed
+- I'm ready to create the event. Please confirm the following:
+
+# EventCreated(startDateTime, endDateTime, timezone, attendees, attendeePhotoList, subject, location, content)
+- ```
+OK, I have added the event to your calendar, named @{lgTemplate('ConfirmStringItem', subject)}.
+@{lgTemplate('MeetingDetailCard', startDateTime, endDateTime, timezone, attendeePhotoList, subject, location, content)}
+```
+
+# EventCreationFailed
+- Event creation failed.
+- Something went wrong, try again please.
+- It seems the event could not be created, please try again later.
+- Creation of the event failed, please try again.
+- An error occured with creating the event.
+
+# NoStartDate
+- For what date?
+- For what date?
+
+# NoStartDateRetry
+- I did not understand the date you preference, can you try again?
+- I don't understand the date you provided, can you try in a different way again? You can say tomorrow, Monday, or a specific date such as January 1st.
+
+# NoStartTime
+- What time does it start? You can help me by naming out AM or PM for the event.
+
+# NoStartTimeRetry
+- I don't understand the time you provided, can you try again?
+- I believe I misinterpretated your prefferred starting time. Want to try again?
+
+# NoStartTimeNoSkip
+- You can not skip the Start Time. Please try again.
+
+# NoDuration
+- For how long?
+
+# NoDurationRetry
+- I don't understand the duration you provided, can you try again?
+
+# GetRecreateInfo
+- What would you like to adjust?
+
+# GetRecreateInfoRetry
+- I don't understand your input. You can try Time, Duration, Location, Participants, Subject, or Content. Or say cancel
+
+# ConfirmRecipient
+- Who do you want to invite?
+- What contact do you want to select?
+
+# InvaildDuration
+- The end time of the event cannot be earlier than or equal to the start time. Please try again.

@@ -1,0 +1,225 @@
+# FormatDate(date, timezone)
+- IF: @{date(convertFromUTC(formatDateTime(date), timezone)) == date(convertFromUTC(utcNow(), timezone))}
+	- today
+- ELSEIF: @{date(convertFromUTC(formatDateTime(date), timezone)) == date(addDays(convertFromUTC(utcNow(), timezone), 1))}
+	- tomorrow
+- ELSE:
+	- @{convertFromUTC(formatDateTime(date), timezone, 'dddd, MMMM dd')}
+
+# FormatTime(time, timezone)
+- @{convertFromUTC(formatDateTime(time), timezone, 'h:mm tt')}
+
+# FormatDateTimeDuration(startTime, endTime)
+- [FormatDuration((ticks(formatDateTime(endTime)) - ticks(formatDateTime(startTime))) / 10000000)]
+
+# FormatDateShort(date, timezone)
+- @{convertFromUTC(formatDateTime(date), timezone, 'dddd M/d')}
+
+# FormatDuration(seconds)
+- IF: @{seconds < 3600}
+	- @{seconds / 60}m
+- ELSEIF: {seconds % 3600 / 60 != 0}
+	- @{concat(string(seconds/3600), 'h', string(seconds%3600/60), 'm'))}
+- ELSE:
+	- @{seconds / 3600}h
+
+# ShowAttendees(attendees, maxCount)
+- IF: @{count(attendees) == 0}
+	- no attendees
+- ELSEIF: @{count(attendees) <= maxCount}
+	- @{join(foreach(attendees, x, lgTemplate('GetAttendeeName', x)), ' ,', 'and')}
+- ELSE:
+	- @{join(foreach(subArray(attendees, 0, maxCount), x, lgTemplate('GetAttendeeName', x)), ' ,', 'and')} and @{count(attendees) - maxCount} more
+
+# GetAttendeeName(user)
+- IF: @{user.DisplayName == null || user.DisplayName == ''}
+	- @{user.Address}
+- ELSE:
+	- @{user.DisplayName}
+
+# GetLocationIcon(location)
+- IF: {location == null || location == ''}
+	- data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==
+- ELSE:
+	- data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDIzLjAuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAxNiAyNS42IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxNiAyNS42OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9Cjwvc3R5bGU+Cjx0aXRsZT5wbGF0Zm9ybXNBc3NldCAzNXF1ZXNpdG9uczwvdGl0bGU+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik04LDBjMC43LDAsMS40LDAuMSwyLjEsMC4zYzAuNywwLjIsMS4zLDAuNSwxLjksMC44YzAuNiwwLjMsMS4xLDAuOCwxLjYsMS4zYzAuNSwwLjUsMC45LDEuMSwxLjIsMS43CgljMC4zLDAuNiwwLjYsMS4yLDAuOCwxLjlDMTUuOSw2LjYsMTYsNy4zLDE2LDhjMCwwLjYtMC4xLDEuMS0wLjIsMS42Yy0wLjEsMC41LTAuMywxLjEtMC42LDEuNkw4LDI1LjZMMC44LDExLjIKCWMtMC4zLTAuNS0wLjUtMS0wLjYtMS41QzAuMSw5LjEsMCw4LjYsMCw4YzAtMC43LDAuMS0xLjQsMC4zLTIuMUMwLjUsNS4yLDAuNyw0LjYsMS4xLDRDMS44LDIuOCwyLjgsMS44LDQsMS4xCgljMC42LTAuMywxLjItMC42LDEuOS0wLjhDNi42LDAuMSw3LjMsMCw4LDB6IE0xMy45LDEwLjZMMTMuOSwxMC42TDEzLjksMTAuNmMwLjItMC40LDAuNC0wLjgsMC41LTEuMmMwLjEtMC40LDAuMi0wLjksMC4yLTEuMwoJYzAtMC45LTAuMi0xLjgtMC41LTIuNmMtMC4zLTAuOC0wLjgtMS41LTEuNC0yLjFjLTAuNi0wLjYtMS4zLTEuMS0yLjEtMS40QzkuOCwxLjYsOC45LDEuNCw4LDEuNGMtMC45LDAtMS44LDAuMi0yLjYsMC41CglDMy45LDIuNiwyLjYsMy45LDEuOSw1LjRDMS42LDYuMiwxLjQsNy4xLDEuNCw4YzAsMC40LDAuMSwwLjksMC4yLDEuM2MwLjEsMC40LDAuMiwwLjgsMC40LDEuMmwwLDBsMCwwbDYsMTEuOUwxMy45LDEwLjZ6IE04LDMuMwoJYzAuNiwwLDEuMywwLjEsMS44LDAuNGMxLjEsMC41LDIsMS40LDIuNSwyLjVjMC41LDEuMiwwLjUsMi41LDAsMy43Yy0wLjUsMS4xLTEuNCwyLTIuNSwyLjVjLTEuMiwwLjUtMi41LDAuNS0zLjcsMAoJYy0xLjEtMC41LTItMS40LTIuNS0yLjVjLTAuNS0xLjItMC41LTIuNSwwLTMuN0M0LjEsNSw1LDQuMSw2LjIsMy43QzYuNywzLjQsNy40LDMuMyw4LDMuM3ogTTgsMTEuM2MwLjQsMCwwLjktMC4xLDEuMy0wLjMKCWMwLjgtMC4zLDEuNC0xLDEuNy0xLjdjMC4zLTAuOCwwLjMtMS43LDAtMi42QzEwLjcsNS45LDEwLDUuMyw5LjMsNUM4LjUsNC43LDcuNSw0LjcsNi43LDVDNS45LDUuMyw1LjMsNS45LDUsNi43CglDNC43LDcuNSw0LjcsOC41LDUsOS4zQzUuMywxMCw1LjksMTAuNyw2LjcsMTFDNy4xLDExLjIsNy42LDExLjMsOCwxMS4zTDgsMTEuM3oiLz4KPC9zdmc+Cg==
+
+# GetParticipantsCards(attendeePhotoList)
+- @{join(foreach(attendeePhotoList, x, lgTemplate('ParticipantsCard', x)), ', ')}
+
+# ParticipantsCard(photoUrl)
+- ```
+{
+    "type": "Column",
+    "items": [
+		{
+			"type": "Image",
+			"style": "Person",
+			"url": "@{photoUrl}",
+			"size": "Medium"
+		}
+    ],
+    "width": "stretch"
+}
+```
+
+# MeetingDetailCard(startDateTime, endDateTime, timezone, attendeePhotoList, subject, location, content)
+- ```
+[adaptivecard
+{
+  "type": "AdaptiveCard",
+  "id": "CalendarCard",
+  "body": [
+    {
+      "id": "CalendarDetailContainer",
+      "type": "Container",
+      "items": [
+        {
+          "type": "Container",
+          "spacing": "Large",
+          "items": [
+            {
+              "type": "ColumnSet",
+              "columns": [
+                {
+                  "type": "Column",
+                  "backgroundImage": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMzA5LjA1IDMwOS4wNSI+PGRlZnM+PHN0eWxlPi5he2ZpbGw6IzY1YWZlMjt9LmJ7ZmlsbDojMDA1OGE4O30uYiwuZHtvcGFjaXR5OjAuMjU7fS5jLC5le29wYWNpdHk6MC4yO30uY3tmaWxsOnVybCgjYSk7fS5ke2ZpbGw6I2I2ZGNmMTt9LmV7ZmlsbDp1cmwoI2IpO308L3N0eWxlPjxsaW5lYXJHcmFkaWVudCBpZD0iYSIgeDE9IjI0MS4wMyIgeTE9IjEwNS45NyIgeDI9IjQ2MS41IiB5Mj0iMTA1Ljk3IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmZmIiBzdG9wLW9wYWNpdHk9IjAuNSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2ZmZiIvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IGlkPSJiIiB4MT0iMjQxLjAzIiB5MT0iNTkuOTUiIHgyPSI0NjEuNSIgeTI9IjU5Ljk1IiB4bGluazpocmVmPSIjYSIvPjwvZGVmcz48dGl0bGU+cGxhdGZvcm1zQXNzZXQgNDlxdWVzaXRvbnM8L3RpdGxlPjxwYXRoIGNsYXNzPSJhIiBkPSJNMjQyLjksNzYuNzcsMjU5LjcyLDYwbC02LjQ4LTYuNDhMMjQ3LDU5LjcxYTYuNDMsNi40MywwLDAsMS05LjA2LDBMMTc4LjI0LDBIMFYzMDkuMDVIMzA5LjA1VjE1MkwyNDIuOSw4NS44M0E2LjQzLDYuNDMsMCwwLDEsMjQyLjksNzYuNzdaIi8+PHBhdGggY2xhc3M9ImEiIGQ9Ik0yNDcsNTkuNzFsNi4yMy02LjI0TDIyNi4zMSwyNi41NGE2LjQyLDYuNDIsMCwwLDEsMC05TDI0My44LDBIMTc4LjI0TDIzOCw1OS43MUE2LjQzLDYuNDMsMCwwLDAsMjQ3LDU5LjcxWiIvPjxwYXRoIGNsYXNzPSJiIiBkPSJNMjQ3LDU5LjcxbDYuMjMtNi4yNEwyMjYuMzEsMjYuNTRhNi40Miw2LjQyLDAsMCwxLDAtOUwyNDMuOCwwSDE3OC4yNEwyMzgsNTkuNzFBNi40Myw2LjQzLDAsMCwwLDI0Nyw1OS43MVoiLz48cGF0aCBjbGFzcz0iYSIgZD0iTTI1OS43Miw2MCwyNDIuOSw3Ni43N2E2LjQzLDYuNDMsMCwwLDAsMCw5LjA2TDMwOS4wNSwxNTJ2LTQyLjdaIi8+PHBhdGggY2xhc3M9ImMiIGQ9Ik0yNTkuNzIsNjAsMjQyLjksNzYuNzdhNi40Myw2LjQzLDAsMCwwLDAsOS4wNkwzMDkuMDUsMTUydi00Mi43WiIvPjxwb2x5Z29uIGNsYXNzPSJhIiBwb2ludHM9IjMwOS4wNSAwIDMwNi43MiAwIDI1My4yNCA1My40NyAyNTkuNzIgNTkuOTUgMzA5LjA1IDEwLjYyIDMwOS4wNSAwIi8+PHBvbHlnb24gY2xhc3M9ImQiIHBvaW50cz0iMzA5LjA1IDAgMzA2LjcyIDAgMjUzLjI0IDUzLjQ3IDI1OS43MiA1OS45NSAzMDkuMDUgMTAuNjIgMzA5LjA1IDAiLz48cGF0aCBjbGFzcz0iYSIgZD0iTTI0My44LDAsMjI2LjMxLDE3LjQ5YTYuNDIsNi40MiwwLDAsMCwwLDkuMDVsMjYuOTMsMjYuOTNMMzA2LjcyLDBaIi8+PHBhdGggY2xhc3M9ImIiIGQ9Ik0yNDMuOCwwLDIyNi4zMSwxNy40OWE2LjQyLDYuNDIsMCwwLDAsMCw5LjA1bDI2LjkzLDI2LjkzTDMwNi43MiwwWiIvPjxwYXRoIGNsYXNzPSJkIiBkPSJNMjQzLjgsMCwyMjYuMzEsMTcuNDlhNi40Miw2LjQyLDAsMCwwLDAsOS4wNWwyNi45MywyNi45M0wzMDYuNzIsMFoiLz48cG9seWdvbiBjbGFzcz0iYSIgcG9pbnRzPSIyNTkuNzIgNTkuOTUgMzA5LjA1IDEwOS4yOCAzMDkuMDUgMTAuNjIgMjU5LjcyIDU5Ljk1Ii8+PHBvbHlnb24gY2xhc3M9ImUiIHBvaW50cz0iMjU5LjcyIDU5Ljk1IDMwOS4wNSAxMDkuMjggMzA5LjA1IDEwLjYyIDI1OS43MiA1OS45NSIvPjxwb2x5Z29uIGNsYXNzPSJkIiBwb2ludHM9IjI1OS43MiA1OS45NSAzMDkuMDUgMTA5LjI4IDMwOS4wNSAxMC42MiAyNTkuNzIgNTkuOTUiLz48L3N2Zz4=",
+                  "items": [
+                    {
+                      "type": "ColumnSet",
+                      "columns": [
+                        {
+                          "type": "Column",
+                          "horizontalAlignment": "Center",
+                          "verticalContentAlignment": "Center",
+                          "items": [
+                            {
+                              "type": "Image",
+                              "horizontalAlignment": "Center",
+                              "url": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDIzLjAuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAyNSAyMy40IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyNSAyMy40OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9Cjwvc3R5bGU+Cjx0aXRsZT5wbGF0Zm9ybXNBc3NldCAzNHF1ZXNpdG9uczwvdGl0bGU+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik00LjcsMS42VjBoMS42djEuNmgxMi41VjBoMS42djEuNkgyNXYyMS45SDBWMS42SDQuN3ogTTIwLjMsMy4xdjEuNmgtMS42VjMuMUg2LjJ2MS42SDQuN1YzLjFIMS42djMuMWgyMS45CglWMy4xSDIwLjN6IE0yMy40LDIxLjlWNy44SDEuNnYxNC4xTDIzLjQsMjEuOXogTTYuMiwxMC45SDQuN1Y5LjRoMS42VjEwLjl6IE02LjIsMTQuMUg0Ljd2LTEuNmgxLjZWMTQuMXogTTYuMiwxNy4ySDQuN3YtMS42aDEuNgoJVjE3LjJ6IE0xMC45LDEwLjlIOS40VjkuNGgxLjZWMTAuOXogTTEwLjksMTQuMUg5LjR2LTEuNmgxLjZWMTQuMXogTTEwLjksMTcuMkg5LjR2LTEuNmgxLjZWMTcuMnogTTEwLjksMjAuM0g5LjR2LTEuNmgxLjZWMjAuM3oKCSBNMTUuNiwxMC45aC0xLjZWOS40aDEuNlYxMC45eiBNMTUuNiwxNC4xaC0xLjZ2LTEuNmgxLjZWMTQuMXogTTE1LjYsMTcuMmgtMS42di0xLjZoMS42VjE3LjJ6IE0xNS42LDIwLjNoLTEuNnYtMS42aDEuNlYyMC4zegoJIE0yMC4zLDE0LjFoLTEuNnYtMS42aDEuNkwyMC4zLDE0LjF6IE0yMC4zLDE3LjJoLTEuNnYtMS42aDEuNkwyMC4zLDE3LjJ6IE0yMC4zLDIwLjNoLTEuNnYtMS42aDEuNkwyMC4zLDIwLjN6Ii8+Cjwvc3ZnPgo=",
+                              "width": "35px",
+                              "height": "35px"
+                            }
+                          ],
+                          "width": "auto"
+                        },
+                        {
+                          "type": "Column",
+                          "verticalContentAlignment": "Center",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "horizontalAlignment": "Left",
+                              "size": "Large",
+                              "weight": "Bolder",
+                              "color": "Light",
+                              "text": "@{subject}",
+                              "wrap": true
+                            }
+                          ],
+                          "width": "stretch"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "ColumnSet",
+                      "spacing": "Medium",
+                      "columns": [
+                        {
+                          "type": "Column",
+                          "verticalContentAlignment": "Center",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "id": "Time",
+                              "size": "Medium",
+                              "color": "Light",
+                              "text": "@{lgTemplate('FormatTime', startDateTime, timezone)} (@{lgTemplate('FormatDateTimeDuration', startDateTime, endDateTime))})"
+                            },
+                            {
+                              "type": "TextBlock",
+                              "id": "Date",
+                              "horizontalAlignment": "Left",
+                              "spacing": "Small",
+                              "size": "Medium",
+                              "color": "Light",
+                              "text": "@{lgTemplate('FormatDateShort', startDateTime, timezone)}"
+                            },
+                            {
+                              "type": "ColumnSet",
+                              "id": "Participants",
+                              "columns": [
+							    @{lgTemplate('GetParticipantsCards', attendeePhotoList)}
+                              ]
+                            },
+                            {
+                              "type": "ColumnSet",
+                              "spacing": "Small",
+                              "columns": [
+                                {
+                                  "type": "Column",
+                                  "horizontalAlignment": "Center",
+                                  "verticalContentAlignment": "Center",
+                                  "items": [
+                                    {
+                                      "type": "Image",
+                                      "horizontalAlignment": "Center",
+                                      "url": "@{lgTemplate('GetLocationIcon', location)}",
+                                      "height": "20px"
+                                    }
+                                  ],
+                                  "width": "auto"
+                                },
+                                {
+                                  "type": "Column",
+                                  "horizontalAlignment": "Left",
+                                  "spacing": "None",
+                                  "verticalContentAlignment": "Center",
+                                  "items": [
+                                    {
+                                      "type": "TextBlock",
+                                      "id": "Location",
+                                      "horizontalAlignment": "Left",
+                                      "size": "Medium",
+                                      "color": "Light",
+                                      "text": "@{location}",
+                                      "wrap": true,
+                                      "maxLines": 2
+                                    }
+                                  ],
+                                  "width": "auto"
+                                }
+                              ]
+                            }
+                          ],
+                          "width": "stretch"
+                        }
+                      ]
+                    }
+                  ],
+                  "width": "stretch"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "id": "ContentPreview",
+          "color": "Default",
+          "text": "@{content}",
+          "wrap": true,
+          "maxLines": 5
+        }
+      ]
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
+}
+]
+```
