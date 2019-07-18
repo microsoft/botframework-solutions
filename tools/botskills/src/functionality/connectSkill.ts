@@ -142,9 +142,9 @@ Make sure to use the argument '--dispatchName' for your Assistant's Dispatch fil
                 // Parse LU file
                 this.logger.message(`Parsing ${luisApp} LU file...`);
                 const ludownParseCommand: string[] = ['ludown', 'parse', 'toluis'];
-                ludownParseCommand.push(...['--in', luFilePath]);
+                ludownParseCommand.push(...['--in', `"${luFilePath}"`]);
                 ludownParseCommand.push(...['--luis_culture', configuration.language]);
-                ludownParseCommand.push(...['--out_folder', configuration.luisFolder]);
+                ludownParseCommand.push(...['--out_folder', `"${configuration.luisFolder}"`]);
                 ludownParseCommand.push(...['--out', `"${luisFile}"`]);
 
                 await this.runCommand(ludownParseCommand, `Parsing ${luisApp} LU file`);
