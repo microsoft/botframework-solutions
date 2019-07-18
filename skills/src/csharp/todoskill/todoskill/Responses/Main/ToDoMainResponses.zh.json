@@ -18,7 +18,7 @@
         "speak": "你能再试一次问我，我没听懂你的意思。"
       }
     ],
-    "inputHint": "acceptingInput"
+    "inputHint": "expectingInput"
   },
   "ToDoWelcomeMessage": {
     "replies": [
@@ -27,7 +27,7 @@
         "speak": "你好！我是事务机器人. 我可以帮助你管理代办事项列表，购物列表以及杂货列表。"
       }
     ],
-    "inputHint": "acceptingInput"
+    "inputHint": "expectingInput"
   },
   "HelpMessage": {
     "replies": [

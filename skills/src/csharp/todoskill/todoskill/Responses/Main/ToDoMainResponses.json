@@ -38,7 +38,7 @@
         "speak": "Can you try to ask me again? I didn't get what you mean."
       }
     ],
-    "inputHint": "acceptingInput"
+    "inputHint": "expectingInput"
   },
   "ToDoWelcomeMessage": {
     "replies": [
@@ -53,7 +53,7 @@
       "Mark the second task as completed",
       "Delete the third task"
     ],
-    "inputHint": "acceptingInput"
+    "inputHint": "expectingInput"
   },
   "HelpMessage": {
     "replies": [
