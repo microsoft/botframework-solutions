@@ -31,6 +31,7 @@ namespace HospitalitySkill.Dialogs
         {
             var extendStay = new WaterfallStep[]
             {
+                CheckEntities,
                 ExtendDatePrompt,
                 ConfirmExtentionPrompt,
                 EndDialog
@@ -39,33 +40,100 @@ namespace HospitalitySkill.Dialogs
             _hotelService = hotelService;
 
             AddDialog(new WaterfallDialog(nameof(ExtendStayDialog), extendStay));
+            AddDialog(new ConfirmPrompt(DialogIds.CheckNumNights, ValidateCheckNumNightsPrompt));
             AddDialog(new DateTimePrompt(DialogIds.ExtendDatePrompt, ValidateDateAsync));
             AddDialog(new ConfirmPrompt(DialogIds.ConfirmExtendStay, ValidateConfirmExtensionAsync));
         }
 
-        private async Task<DialogTurnResult> ExtendDatePrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> CheckEntities(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
+            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState());
             var convState = await StateAccessor.GetAsync(sc.Context, () => new HospitalitySkillState());
             var entities = convState.LuisResult.Entities;
+            convState.UpdatedReservation = userState.UserReservation.Copy();
 
-            if (entities.datetime != null)
+            // check for valid datetime entity
+            if (entities.datetime != null && (entities.datetime[0].Type == "date" ||
+                entities.datetime[0].Type == "datetime" || entities.datetime[0].Type == "daterange")
+                && await DateValidation(sc.Context, entities.datetime[0].Expressions))
             {
-                if (entities.datetime[0].Type == "date" || entities.datetime[0].Type == "datetime" || entities.datetime[0].Type == "daterange")
-                {
-                    // validate date entity
-                    if (await DateValidation(sc.Context, entities.datetime[0].Expressions))
-                    {
-                        return await sc.NextAsync();
-                    }
-                }
+                return await sc.NextAsync();
             }
 
-            // get extended reservation date
-            return await sc.PromptAsync(DialogIds.ExtendDatePrompt, new PromptOptions()
+            // check for valid number composite entity
+            if (entities.NumNights?[0].HotelNights != null && entities.NumNights?[0].number[0] != null
+                && await NumValidation(sc.Context, entities.NumNights[0].number[0]))
             {
-                Prompt = ResponseManager.GetResponse(ExtendStayResponses.ExtendDatePrompt),
-                RetryPrompt = ResponseManager.GetResponse(ExtendStayResponses.RetryExtendDate)
-            });
+                return await sc.NextAsync();
+            }
+
+            // need clarification on input
+            else if (entities.datetime == null && entities.number != null)
+            {
+                convState.NumberEntity = entities.number[0];
+
+                var tokens = new StringDictionary
+                {
+                    { "Number", convState.NumberEntity.ToString() }
+                };
+
+                return await sc.PromptAsync(DialogIds.CheckNumNights, new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(ExtendStayResponses.ConfirmAddNights, tokens)
+                });
+            }
+
+            // todo: if datetime is a time ReplaceDialog to lateCheckout
+            return await sc.NextAsync();
+        }
+
+        private async Task<bool> ValidateCheckNumNightsPrompt(PromptValidatorContext<bool> promptContext, CancellationToken cancellationToken)
+        {
+            var convState = await StateAccessor.GetAsync(promptContext.Context, () => new HospitalitySkillState());
+
+            // confirm number of nights they want to extend by
+            if (promptContext.Recognized.Succeeded && promptContext.Recognized.Value)
+            {
+                await NumValidation(promptContext.Context, convState.NumberEntity);
+            }
+
+            return await Task.FromResult(true);
+        }
+
+        private async Task<bool> NumValidation(ITurnContext turnContext, double extraNights)
+        {
+            var userState = await UserStateAccessor.GetAsync(turnContext, () => new HospitalityUserSkillState());
+            var convState = await StateAccessor.GetAsync(turnContext, () => new HospitalitySkillState());
+
+            if (extraNights >= 1)
+            {
+                // add entity number to the current check out date
+                DateTime currentDate = DateTime.Parse(userState.UserReservation.CheckOutDate);
+                convState.UpdatedReservation.CheckOutDate = currentDate.AddDays(extraNights).ToString("MMMM d, yyyy");
+                return await Task.FromResult(true);
+            }
+
+            await turnContext.SendActivityAsync(ResponseManager.GetResponse(ExtendStayResponses.NumberEntityError));
+            return await Task.FromResult(false);
+        }
+
+        private async Task<DialogTurnResult> ExtendDatePrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
+            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState());
+            var convState = await StateAccessor.GetAsync(sc.Context, () => new HospitalitySkillState());
+
+            // if new date hasnt been set yet
+            if (userState.UserReservation.CheckOutDate == convState.UpdatedReservation.CheckOutDate)
+            {
+                // get extended reservation date
+                return await sc.PromptAsync(DialogIds.ExtendDatePrompt, new PromptOptions()
+                {
+                    Prompt = ResponseManager.GetResponse(ExtendStayResponses.ExtendDatePrompt),
+                    RetryPrompt = ResponseManager.GetResponse(ExtendStayResponses.RetryExtendDate)
+                });
+            }
+
+            return await sc.NextAsync();
         }
 
         private async Task<bool> ValidateDateAsync(PromptValidatorContext<IList<DateTimeResolution>> promptContext, CancellationToken cancellationToken)
@@ -89,7 +157,6 @@ namespace HospitalitySkill.Dialogs
         {
             var convState = await StateAccessor.GetAsync(turnContext, () => new HospitalitySkillState());
             var userState = await UserStateAccessor.GetAsync(turnContext, () => new HospitalityUserSkillState());
-            convState.UpdatedReservation = userState.UserReservation.Copy();
 
             DateTime dateObject = new DateTime();
             bool dateIsEarly = false;
@@ -143,7 +210,7 @@ namespace HospitalitySkill.Dialogs
                 { "Date", convState.UpdatedReservation.CheckOutDate }
             };
 
-            // confirm extension with user
+            // confirm reservation extension with user
             return await sc.PromptAsync(DialogIds.ConfirmExtendStay, new PromptOptions()
             {
                 Prompt = ResponseManager.GetResponse(ExtendStayResponses.ConfirmExtendStay, tokens),
@@ -208,6 +275,7 @@ namespace HospitalitySkill.Dialogs
         {
             public const string ExtendDatePrompt = "extendDatePrompt";
             public const string ConfirmExtendStay = "confirmExtendStay";
+            public const string CheckNumNights = "checkNumNights";
         }
     }
 }

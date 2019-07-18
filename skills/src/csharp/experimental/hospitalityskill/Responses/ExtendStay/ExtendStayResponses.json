@@ -70,5 +70,23 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "NumberEntityError": {
+    "replies": [
+      {
+        "text": "Sorry we can't extend your stay for less than 1 night.",
+        "speak": "Sorry we can't extend your stay for less than 1 night."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ConfirmAddNights": {
+    "replies": [
+      {
+        "text": "Are you trying to extend your stay by {Number} nights?",
+        "speak": "Are you trying to extend your stay by {Number} nights?"
+      }
+    ],
+    "inputHint": "expectingInput"
   }
 }

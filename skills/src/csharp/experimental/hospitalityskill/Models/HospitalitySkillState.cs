@@ -13,6 +13,8 @@ namespace HospitalitySkill.Models
 
         public ReservationData UpdatedReservation { get; set; }
 
+        public double NumberEntity { get; set; }
+
         public void Clear()
         {
         }
