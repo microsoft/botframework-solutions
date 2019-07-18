@@ -1,5 +1,5 @@
-name-template: v$NEXT_PATCH_VERSION-preview
-tag-template: v$NEXT_PATCH_VERSION-preview
+name-template: 'v$NEXT_PATCH_VERSION-preview'
+tag-template: 'v$NEXT_PATCH_VERSION-preview'
 change-template: '* $TITLE (#$NUMBER)'
 exclude-labels:	
   - 'Changelog: Skip'
