@@ -3,8 +3,6 @@ name-template: 'v$NEXT_PATCH_VERSION-preview'
 change-template: '* $TITLE (#$NUMBER)'
 branches:
   - master
-exclude-labels:
-  - 'Changelog: Skip'
 categories:
 - title: 'Templates'
   labels:
