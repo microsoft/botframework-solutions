@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Protocol.StreamingExtensions.NetCore;
+using Microsoft.Bot.Builder.StreamingExtensions;
 
 namespace $safeprojectname$.Controllers
 {
@@ -34,7 +34,7 @@ namespace $safeprojectname$.Controllers
 
         [HttpGet]
         public async Task StartWebSocketAsync()
-    {
+        {
             // Delegate the processing of the Websocket Get request to the adapter.
             // The adapter will invoke the bot.
             await _webSocketEnabledHttpAdapter.ProcessAsync(Request, Response, _bot);

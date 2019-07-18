@@ -59,9 +59,9 @@ export class RefreshSkill {
         try {
             this.logger.message('Running LuisGen...');
 
-            luisgenCommand.push(this.dispatchJsonFilePath);
+            luisgenCommand.push(`"${this.dispatchJsonFilePath}"`);
             luisgenCommand.push(...[`-${configuration.lgLanguage}`, `"DispatchLuis"`]);
-            luisgenCommand.push(...['-o', configuration.lgOutFolder]);
+            luisgenCommand.push(...['-o', `"${configuration.lgOutFolder}"`]);
 
             await this.runCommand(luisgenCommand, `Executing luisgen for the ${configuration.dispatchName} file`);
         } catch (err) {

@@ -32,11 +32,11 @@ steps:
   workingDirectory: lib/typescript
   displayName: 'rush build'
 
-- pwsh: 'node ./common/scripts/install-run-rush.js test-coverage-ci'
+- pwsh: 'npm run test-coverage-ci'
   errorActionPreference: continue
   ignoreLASTEXITCODE: 'true'
-  workingDirectory: lib/typescript
-  displayName: 'rush test coverage'
+  workingDirectory: lib/typescript/botbuilder-skills
+  displayName: 'npm test coverage'
 
 - task: PublishTestResults@2
   displayName: 'publish test results'
@@ -47,6 +47,7 @@ steps:
 
 - task: PublishCodeCoverageResults@1
   displayName: 'Publish code coverage'
+  condition: succeededOrFailed()
   inputs:
     codeCoverageTool: Cobertura
     summaryFileLocation: 'lib/typescript/botbuilder-skills/coverage/cobertura-coverage.xml'

@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
@@ -37,12 +38,12 @@ namespace SkillSample.Dialogs
             TelemetryClient = telemetryClient;
 
             // NOTE: Uncomment the following if your skill requires authentication
-            // if (!Settings.OAuthConnections.Any())
+            // if (!settings.OAuthConnections.Any())
             // {
-            //     throw new Exception("You must configure an authentication connection before using this component.");
+            //    throw new Exception("You must configure an authentication connection before using this component.");
             // }
-            //
-            // AddDialog(new MultiProviderAuthDialog(services));
+
+            // AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections));
         }
 
         protected BotSettings Settings { get; set; }

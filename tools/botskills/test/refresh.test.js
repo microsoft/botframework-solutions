@@ -83,7 +83,7 @@ Make sure to use the argument '--dispatchName' for your Assistant's Dispatch fil
 
             strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:
 Error: There was an error in the luisgen command:
-Command: luisgen ${join(config.dispatchFolder, config.dispatchName)}.json -cs "DispatchLuis" -o 
+Command: luisgen "${join(config.dispatchFolder, config.dispatchName)}.json" -cs "DispatchLuis" -o ""
 Error: Mocked function throws an Error`);
         });
     });
