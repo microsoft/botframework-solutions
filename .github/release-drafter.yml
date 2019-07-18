@@ -1,4 +1,5 @@
 name-template: 'v$NEXT_PATCH_VERSION-preview'
+name-template: 'v$NEXT_PATCH_VERSION-preview'
 change-template: '* $TITLE (#$NUMBER)'
 branches:
   - master
