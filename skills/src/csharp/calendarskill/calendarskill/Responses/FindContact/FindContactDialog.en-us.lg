@@ -1,0 +1,46 @@
+[import](Shared.en-us.lg)
+
+# NoAttendees
+- Sure, who will join?
+
+# AddMoreAttendees
+- Who do you want to add?
+
+# BeforeSendingMessage(attendeesNameList)
+- Okay, I understand you want to send the event to @{join(attendeesNameList, ', ', ' and ')}.
+
+# PromptOneNameOneAddress(confirmedPerson)
+- Okay, I will add @{confirmedPerson.DisplayName}: [GetEmailAddressFromCustomizedPerson(confirmedPerson)]. Is this the @{confirmedPerson.DisplayName} you were looking for?
+
+# GetEmailAddressFromCustomizedPerson(person)
+- IF: @{person.Emails[0] != null && person.Emails[0] != ''}
+	- @{person.Emails[0]}
+- ELSE:
+	- @{person.UserPrincipalName}
+
+# UserNotFound(userName)
+- I could not find the @{concat('\"', userName, '\"')} you are looking for. Can you call out the name of the contact again? Please try to be as specific as possible.
+
+# UserNotFoundAgain(userName, source)
+- Unfortunately, I could not find the @{concat('\"', userName, '\"')} you want to select. For next time, it could help if you add the contact to your contact book in @{source}.
+
+# AlreadyFirstPage
+- This is already the first page.
+
+# AlreadyLastPage
+- This is already the last page.
+
+# AddMoreUserPrompt(users)
+- I have included @{join(foreach(users, x, lgTemplate('UserInfoDetail', x)), ', ', 'and')}, do you want to add another participant?
+
+# ConfirmMultipleContactEmailSinglePage(userName)
+- I found multiple contact details for @{userName}. Which one would you like to select?
+
+# ConfirmMultipleContactEmailMultiPage(userName)
+- I found multiple contact details for @{userName}. Which one would you like to select? You can also ask me to show you the previous or more options.
+
+# ConfirmMultipleContactNameSinglePage(userName)
+- I found multiple contacts for @{userName}. Which one would you like to select?
+
+# ConfirmMultipleContactNameMultiPage(userName)
+- I found multiple contacts for @{userName}. Which one would you like to select? You can also ask me to show you the previous or more options.

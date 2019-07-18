@@ -19,7 +19,7 @@
 - IF: @{seconds < 3600}
 	- @{seconds / 60}m
 - ELSEIF: {seconds % 3600 / 60 != 0}
-	- @{concat(string(seconds/3600), 'h', string(seconds%3600/60), 'm')}
+	- @{concat(string(seconds/3600), 'h', string(seconds%3600/60), 'm'))}
 - ELSE:
 	- @{seconds / 3600}h
 

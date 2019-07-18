@@ -1,13 +1,7 @@
 [import](Shared.en-us.lg)
 
-# UserInfoDetail(user)
-- IF: {user.DisplayName == null || user.DisplayName == ''}
-    - {user.Address}: {user.Address}
-- ELSE:
-    - {user.DisplayName}: {user.Address}
-
 # NoTitle(participants)
-- Alright, I will send an invite to {join(foreach(participants, x, lgTemplate('UserInfoDetail', x)), ' ,', 'and')}, what is the subject of the meeting?
+- Alright, I will send an invite to @{join(foreach(participants, x, lgTemplate('UserInfoDetail', x)), ', ', 'and')}, what is the subject of the meeting?
 
 # NoTitleShort
 - What is the subject of the meeting?
