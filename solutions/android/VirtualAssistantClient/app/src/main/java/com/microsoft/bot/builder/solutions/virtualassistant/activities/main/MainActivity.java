@@ -164,6 +164,7 @@ public class MainActivity extends BaseActivity
         final Configuration configuration = configurationManager.getConfiguration();
         chatAdapter.setChatItemHistoryCount(configuration.historyLinecount==null?1:configuration.historyLinecount);
         chatAdapter.setChatBubbleColors(configuration.colorBubbleBot, configuration.colorBubbleUser);
+        chatAdapter.setChatTextColors(configuration.colorTextBot, configuration.colorTextUser);
     }
 
     // Unregister EventBus messages and SpeechService

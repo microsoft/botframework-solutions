@@ -159,6 +159,17 @@
                     android:clickable="true"
                     android:focusable="true"/>
 
+                <EditText
+                    android:id="@+id/edit_color_picked_bot"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:inputType="text"
+                    android:digits="abcdefABCDEF0123456789"
+                    android:maxLength="6"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"/>
+
                 <TextView
                     style="@style/TextView.InputLabel"
                     android:layout_width="wrap_content"
@@ -174,6 +185,79 @@
                     android:background="@drawable/shape_rect_round_corners_white"
                     android:clickable="true"
                     android:focusable="true"/>
+
+                <EditText
+                    android:id="@+id/edit_color_picked_user"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:digits="abcdefABCDEF0123456789"
+                    android:maxLength="6"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"/>
+
+            </LinearLayout>
+
+            <!-- COLOR CHAT-TEXT -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TextView.InputLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/configuration_bot_text_color"/>
+
+                <View
+                    android:id="@+id/color_picker_bot_text"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@drawable/shape_rect_round_corners_white"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <EditText
+                    android:id="@+id/edit_color_picked_bot_text"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:inputType="text"
+                    android:digits="abcdefABCDEF0123456789"
+                    android:maxLength="6"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"/>
+
+                <TextView
+                    style="@style/TextView.InputLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/configuration_user_text_color"/>
+
+                <View
+                    android:id="@+id/color_picker_user_text"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@drawable/shape_rect_round_corners_white"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <EditText
+                    android:id="@+id/edit_color_picked_user_text"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:digits="abcdefABCDEF0123456789"
+                    android:maxLength="6"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"/>
 
             </LinearLayout>
 

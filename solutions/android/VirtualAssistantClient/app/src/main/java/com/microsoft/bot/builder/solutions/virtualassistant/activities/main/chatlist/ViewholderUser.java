@@ -48,8 +48,9 @@ public class ViewholderUser extends RecyclerView.ViewHolder {
     /**
      * bind the layout with the data
      */
-    void bind(@NonNull ChatModel chatModel, AppCompatActivity parentActivity, Integer userBubbleCol) {
+    void bind(@NonNull ChatModel chatModel, AppCompatActivity parentActivity, Integer userBubbleCol, Integer userTextCol) {
         textMessage.setText(chatModel.userRequest);
         if (userBubbleCol != null) cardUserChat.setCardBackgroundColor(userBubbleCol);
+        if (userTextCol != null) textMessage.setTextColor(userTextCol);
     }
 }

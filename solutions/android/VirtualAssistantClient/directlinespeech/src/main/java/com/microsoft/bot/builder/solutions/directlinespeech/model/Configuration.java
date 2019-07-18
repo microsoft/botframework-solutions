@@ -45,6 +45,14 @@ public class Configuration {
     @Expose
     public Integer colorBubbleUser;
 
+    @SerializedName("color_text_bot")
+    @Expose
+    public Integer colorTextBot;
+
+    @SerializedName("color_text_user")
+    @Expose
+    public Integer colorTextUser;
+
 
     public boolean isEmpty(){
         return serviceKey==null&&
@@ -56,6 +64,8 @@ public class Configuration {
                 historyLinecount==null&&
                 currentTimezone==null&&
                 colorBubbleBot==null&&
-                colorBubbleUser==null;
+                colorBubbleUser==null&&
+                colorTextBot==null&&
+                colorTextUser==null;
     }
 }

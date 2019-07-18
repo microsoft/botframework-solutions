@@ -29,6 +29,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private boolean showFullConversation;
     private Integer colorBubbleBot;
     private Integer colorBubbleUser;
+    private Integer colorTextBot;
+    private Integer colorTextUser;
 
 
     @NonNull
@@ -52,10 +54,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         ChatModel chatModel = chatList.get(position);
         if (getItemViewType(position) == MSG_TYPE_BOT) {
-            ((ViewholderBot)viewHolder).bind(chatModel, parentActivity, clickListener, colorBubbleBot);
+            ((ViewholderBot)viewHolder).bind(chatModel, parentActivity, clickListener, colorBubbleBot, colorTextBot);
         }
         if (getItemViewType(position) == MSG_TYPE_USER) {
-            ((ViewholderUser)viewHolder).bind(chatModel, parentActivity, colorBubbleUser);
+            ((ViewholderUser)viewHolder).bind(chatModel, parentActivity, colorBubbleUser, colorTextUser);
         }
     }
 
@@ -119,5 +121,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void setChatBubbleColors(Integer colorBubbleBot, Integer colorBubbleUser){
         this.colorBubbleBot = colorBubbleBot;
         this.colorBubbleUser = colorBubbleUser;
+    }
+
+    public void setChatTextColors(Integer colorTextBot, Integer colorTextUser){
+        this.colorTextBot = colorTextBot;
+        this.colorTextUser = colorTextUser;
     }
 }

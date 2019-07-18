@@ -55,10 +55,11 @@ public class ViewholderBot extends RecyclerView.ViewHolder {
     /**
      * bind the layout with the data
      */
-    void bind(@NonNull ChatModel chatModel, AppCompatActivity parentActivity, @NonNull OnClickListener onClickListener, Integer botBubbleCol) {
+    void bind(@NonNull ChatModel chatModel, AppCompatActivity parentActivity, @NonNull OnClickListener onClickListener, Integer botBubbleCol, Integer botTextCol) {
         BotConnectorActivity botConnectorActivity = chatModel.botConnectorActivity;
         textMessage.setText(botConnectorActivity.getText());
         if (botBubbleCol != null) cardBotChat.setCardBackgroundColor(botBubbleCol);
+        if (botTextCol != null) textMessage.setTextColor(botTextCol);
 
         if (botConnectorActivity.getAttachmentLayout() != null && botConnectorActivity.getAttachments().size() > 0) {
             if (botConnectorActivity.getAttachmentLayout().equals("carousel") || botConnectorActivity.getAttachmentLayout().equals("list")) {
