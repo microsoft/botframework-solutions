@@ -176,16 +176,18 @@ namespace CalendarSkill.Dialogs
             {
                 var userState = await CalendarStateAccessor.GetAsync(sc.Context);
                 var dialogState = (CreateEventDialogState)sc.State.Dialog[CalendarStateKey];
-                var skillOptions = (FindContactDialogOptions)sc.Options;
-                //FindContactDialogOptions skillOptions = null;
-                //if (sc.Options is FindContactDialogOptions)
-                //{
-                //    skillOptions = (FindContactDialogOptions)sc.Options;
-                //}
-                //else if (sc.Options is CalendarSkillDialogOptions)
-                //{
-                //    skillOptions = new FindContactDialogOptions(sc.Options);
-                //}
+                //var skillOptions = (FindContactDialogOptions)sc.Options;
+                FindContactDialogOptions skillOptions = null;
+
+                // workaroud
+                if (sc.Options is FindContactDialogOptions)
+                {
+                    skillOptions = (FindContactDialogOptions)sc.Options;
+                }
+                else if (sc.Options is CalendarSkillDialogOptions)
+                {
+                    skillOptions = new FindContactDialogOptions(sc.Options);
+                }
 
                 // get name list from sc.result
                 if (sc.Result != null)
@@ -836,6 +838,9 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
+                    // workaroud
+                    var userState = await CalendarStateAccessor.GetAsync(sc.Context);
+                    userState.CacheAttendees = state.FindContactInfor.Contacts;
                     return await sc.EndDialogAsync(skillOptions);
                 }
             }
@@ -1107,13 +1112,13 @@ namespace CalendarSkill.Dialogs
 
                 switch (intent)
                 {
-                    //case CalendarLuis.Intent.AddContact:
-                    //    if (entity.personName != null)
-                    //    {
-                    //        state.FindContactInfor.ContactsNameList = GetAttendeesFromEntity(entity, luisResult.Text, state.FindContactInfor.ContactsNameList);
-                    //    }
+                    case calendarLuis.Intent.AddContact:
+                        if (entity.personName != null)
+                        {
+                            state.FindContactInfor.ContactsNameList = GetAttendeesFromEntity(entity, luisResult.Text, state.FindContactInfor.ContactsNameList);
+                        }
 
-                    //    break;
+                        break;
                 }
 
                 return state;

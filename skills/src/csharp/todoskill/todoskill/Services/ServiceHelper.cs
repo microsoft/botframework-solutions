@@ -38,30 +38,35 @@ namespace ToDoSkill.Services
         /// <returns>List of types.</returns>
         public static List<string> GetListTypes(IConfiguration configuration)
         {
+            List<string> customizedListTypes = new List<string>();
+
+            // Add three default types we provided.
+            customizedListTypes.Add(ToDoStrings.ToDo);
+            customizedListTypes.Add(ToDoStrings.Grocery);
+            customizedListTypes.Add(ToDoStrings.Shopping);
+
             List<string> customizedListTypeKeys = new List<string>();
             if (configuration != null)
             {
                 customizedListTypeKeys = configuration.GetSection("customizeListTypes").Get<List<string>>();
             }
 
-            List<string> customizedListTypes = new List<string>();
-            var toDoStringProperties = typeof(ToDoStrings).GetProperties();
-            foreach (var customizedListTypeKey in customizedListTypeKeys)
+            if (customizedListTypeKeys != null)
             {
-                foreach (PropertyInfo toDoStringProperty in toDoStringProperties)
+                var toDoStringProperties = typeof(ToDoStrings).GetProperties();
+                foreach (var customizedListTypeKey in customizedListTypeKeys)
                 {
-                    if (customizedListTypeKey == toDoStringProperty.Name)
+                    foreach (PropertyInfo toDoStringProperty in toDoStringProperties)
                     {
-                        string customizedListType = toDoStringProperty.GetValue(null).ToString();
-                        customizedListTypes.Add(customizedListType);
+                        if (customizedListTypeKey == toDoStringProperty.Name)
+                        {
+                            string customizedListType = toDoStringProperty.GetValue(null).ToString();
+                            customizedListTypes.Add(customizedListType);
+                        }
                     }
                 }
             }
 
-            // Add three default types we provided.
-            customizedListTypes.Add(ToDoStrings.ToDo);
-            customizedListTypes.Add(ToDoStrings.Grocery);
-            customizedListTypes.Add(ToDoStrings.Shopping);
             return customizedListTypes;
         }
 

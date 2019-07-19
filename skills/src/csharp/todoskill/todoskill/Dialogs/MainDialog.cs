@@ -35,6 +35,7 @@ namespace ToDoSkill.Dialogs
         private ResponseManager _responseManager;
         private IStatePropertyAccessor<ToDoSkillState> _toDoStateAccessor;
         private ResourceMultiLanguageGenerator _lgMultiLangEngine;
+        private string _lgToDoMainResponses;
 
         public MainDialog(
             BotSettings settings,
@@ -54,7 +55,7 @@ namespace ToDoSkill.Dialogs
             TelemetryClient = telemetryClient;
             _toDoStateAccessor = conversationState.CreateProperty<ToDoSkillState>(nameof(ToDoSkillState));
 
-            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("ToDoMainResponses.lg");
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("ResponsesAndTexts.lg");
 
             var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
@@ -64,41 +65,41 @@ namespace ToDoSkill.Dialogs
                     new IntentRule("AddToDo")
                     {
                         Steps = new List<IDialog>() { new BeginDialog(nameof(AddToDoItemDialog)) },
-                        Constraint = "turn.dialogEvent.value.intents.AddToDo.score > 0.4",
+                        Constraint = "turn.dialogEvent.value.intents.AddToDo.score > 0.3",
                     },
                     new IntentRule("MarkToDo")
                     {
                         Steps = new List<IDialog>() { new BeginDialog(nameof(MarkToDoItemDialog)) },
-                        Constraint = "turn.dialogEvent.value.intents.MarkToDo.score > 0.4",
+                        Constraint = "turn.dialogEvent.value.intents.MarkToDo.score > 0.3",
                     },
                     new IntentRule("DeleteToDo")
                     {
                         Steps = new List<IDialog>() { new BeginDialog(nameof(DeleteToDoItemDialog)) },
-                        Constraint = "turn.dialogEvent.value.intents.DeleteToDo.score > 0.4",
+                        Constraint = "turn.dialogEvent.value.intents.DeleteToDo.score > 0.3",
                     },
                     new IntentRule("ShowNextPage")
                     {
                         Steps = new List<IDialog>() { new BeginDialog(nameof(ShowToDoItemDialog)) },
-                        Constraint = "turn.dialogEvent.value.intents.ShowNextPage.score > 0.4",
+                        Constraint = "turn.dialogEvent.value.intents.ShowNextPage.score > 0.3",
                     },
                     new IntentRule("ShowPreviousPage")
                     {
                         Steps = new List<IDialog>() { new BeginDialog(nameof(ShowToDoItemDialog)) },
-                        Constraint = "turn.dialogEvent.value.intents.ShowPreviousPage.score > 0.4",
+                        Constraint = "turn.dialogEvent.value.intents.ShowPreviousPage.score > 0.3",
                     },
                     new IntentRule("ShowToDo")
                     {
                         Steps = new List<IDialog>() { new BeginDialog(nameof(ShowToDoItemDialog)) },
-                        Constraint = "turn.dialogEvent.value.intents.ShowToDo.score > 0.4",
+                        Constraint = "turn.dialogEvent.value.intents.ShowToDo.score > 0.3",
                     },
                     new IntentRule("None")
                     {
-                        Steps = new List<IDialog>() { new SendActivity("Sorry, I don't understand.") },
-                        Constraint = "turn.dialogEvent.value.intents.None.score > 0.4",
+                        Steps = new List<IDialog>() { new SendActivity(ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.DidntUnderstandMessage, _lgToDoMainResponses)) },
+                        Constraint = "turn.dialogEvent.value.intents.None.score > 0.3",
                     },
                     new UnknownIntentRule()
                     {
-                        Steps = new List<IDialog>() { new SendActivity("FeatureNotAvailable") }
+                        Steps = new List<IDialog>() { new SendActivity(ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.FeatureNotAvailable, _lgToDoMainResponses)) }
                     }
                 }
             };
@@ -126,22 +127,16 @@ namespace ToDoSkill.Dialogs
                 Endpoint = "https://westus.api.cognitive.microsoft.com/", // Configuration["LuisAPIHostName"],
                 EndpointKey = "897fdde0609d49918e4cc56b684daf26", // Configuration["LuisAPIKey"],
                 ApplicationId = "e022ca2a-9429-49a3-a81f-5dbcd1fcce0e", // Configuration["LuisAppId"]
+
+                // zh-cn luis app
+                // ApplicationId = "d74d4224-d72c-410a-98a5-95883369446d", // Configuration["LuisAppId"]
             });
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var a = CultureInfo.CurrentCulture.Name;
-            if (dc.Context.TurnState.Get<ILanguageGenerator>() == null)
-            {
-                dc.Context.TurnState.Add<ILanguageGenerator>(_lgMultiLangEngine);
-            }
-
-            //var result = await _lgMultiLangEngine.Generate(dc.Context, "[ToDoWelcomeMessage]", null);
-
-            //await dc.Context.SendActivityAsync(result);
-
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.ToDoWelcomeMessage));
+            _lgToDoMainResponses = await _lgMultiLangEngine.Generate(dc.Context, "[ToDoMainResponses]", null);
+            await dc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.ToDoWelcomeMessage, _lgToDoMainResponses));
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -272,7 +267,8 @@ namespace ToDoSkill.Dialogs
             var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
             state.Clear();
 
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.CancelMessage));
+            await dc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.CancelMessage, _lgToDoMainResponses));
+
             await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
             return InterruptionAction.StartedDialog;
@@ -280,7 +276,7 @@ namespace ToDoSkill.Dialogs
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.HelpMessage));
+            await dc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.HelpMessage, _lgToDoMainResponses));
             return InterruptionAction.MessageSentToUser;
         }
 
@@ -306,7 +302,7 @@ namespace ToDoSkill.Dialogs
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(ToDoMainResponses.LogOut));
+            await dc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.LogOut, _lgToDoMainResponses));
 
             return InterruptionAction.StartedDialog;
         }
