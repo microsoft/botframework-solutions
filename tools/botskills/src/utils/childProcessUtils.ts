@@ -23,20 +23,6 @@ export class ChildProcessUtils {
         });
     }
 
-    public async spawn(command: string, args: string[]): Promise<string> {
-
-        // tslint:disable-next-line: typedef
-        return new Promise((pResolve, pReject) => {
-            child_process.spawn(command, args, { stdio: 'inherit', env: process.env, argv0: command, cwd: join(__dirname, '..') })
-                .on('close', (code: number) => {
-                    pResolve('');
-                })
-                .on('error', (err: Error) => {
-                    pReject(err);
-                });
-        });
-    }
-
     public async execute(command: string, args: string[]): Promise<string> {
         if (command === 'dispatch') {
             return this.execDispatch(args);
@@ -68,8 +54,7 @@ export class ChildProcessUtils {
                         pResolve(stdout);
                 });
             } catch (err) {
-
-                return err;
+                pReject(err);
             }
         });
     }
