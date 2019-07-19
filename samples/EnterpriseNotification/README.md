@@ -4,6 +4,8 @@ In Enterprise world, there is often the need of notifying employees for various 
 
 # Prerequisites:
 
+In order for this sample to work, you'll need the following azure services:
+
 Azure Event Hub (https://azure.microsoft.com/en-us/services/event-hubs/)
 Azure Function (https://azure.microsoft.com/en-us/services/functions/)
 Azure Notification Hub (https://azure.microsoft.com/en-us/services/notification-hubs/)
@@ -11,15 +13,23 @@ Azure Cosmos DB (https://azure.microsoft.com/en-us/services/cosmos-db/)
 
 # Flow:
 
+![Enterprise Notification System Architecture](/docs/media/sample-notification-system-architecture.png)
+
+> Azure Function - (looking for situation)
+
+This is the service that collects various types of events from existing system and reformat them before sending over to the Event Hub for centralized handling. In this sample, we simulate this functionality by using the console application located under:
+
+/samples/EnterpriseNotification/EventProducer
+
 > Azure Event Hub
 
-In this sample, Azure Event Hub is the centralized service that manages events gathered from different parts of the system. If we want any event to reach user eventually, it has to flow into the Azure Event Hub first. In this sample, we demonstrate how to achieve it by creating a console application that sends an event to the Azure Event Hub under:
+In this sample, Azure Event Hub is the centralized service that manages events gathered from different parts of the system and sent through the Azure Function aforementioned. If we want any event to reach user eventually, it has to flow into the Azure Event Hub first. In this sample, we demonstrate how to achieve it by creating a console application that sends an event to the Azure Event Hub under:
 
 /samples/EnterpriseNotification/EventProducer
 
 In Program.cs, we simply use Azure EventHub library (Microsoft.Azure.EventHubs) to post an event to an Azure Event Hub service.
 
-> Azure Function
+> Azure Function - Notification Handler
 
 After an event is posted to the Azure Event Hub, we use an Azure Function service to handle events. The reason we use Azure Function is as follows:
 - Azure Function can easily setup triggers against different Azure services as sources, Event Hub trigger is one of those.
@@ -59,6 +69,10 @@ Once you add them into the AppSettings of the Azure Function the sample will wor
 
 The message the Event Handler is sending to the bot is an event, with the name 'BroadcastEvent' and value as the event it receives from the Event Hub.
 
+> Notification Hub
+
+This is the service that the Event Handler uses to send out a notification to user's devices. (https://azure.microsoft.com/en-us/services/notification-hubs/). Please refer to the link above (and here: https://docs.microsoft.com/en-us/azure/notification-hubs/notification-hubs-aspnet-backend-ios-apple-apns-notification) for additional work needed to get it working.
+
 > Virtual Assistant
 
 This is the bot that will send the message it receives from the Event Handler back to the user. The code is under:
@@ -87,3 +101,7 @@ Use(new ProactiveStateMiddleware(proactiveState));
 This middleware will save user's conversation reference objects into the state so it can be used later to send message to user proactively.
 
 With all this code in place when an event is being sent to a user through the bot the user will get the message in the ongoing conversation in a channel. Not all channels support proactive message at this moment. Webchat, directline and emulator are the ones we are certain that proactive messages can be supported. If you user other channels, it'll be up to the channel setting to determine whether that channel will route the message back to the user properly
+
+> Adaptive Cards, Web Widget and Web Dashboards
+
+When Notification Handler handles events emitted from Azure Event Hub, it can persist the events into a user data store. This will enable user/system administrator to look at the events later on from a Web Dashboard and we can use AdaptiveCards and Web Widget components to render them to provide a better and close to conversational experience. This part is not included in the sample implementation but should be easy to extend.
