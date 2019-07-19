@@ -1,5 +1,6 @@
 ﻿using EmailSkill.Responses.Shared;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using System.Collections.Generic;
 
 namespace EmailSkill.Models
 {
@@ -22,5 +23,7 @@ namespace EmailSkill.Models
         public string ImportantMessagesDescription { get; } = EmailCommonStrings.ImportantMessages;
 
         public string EmailIndexer { get; set; }
+
+        public List<EmailCardData> EmailList { get; set; }
     }
 }

@@ -54,6 +54,8 @@ namespace EmailSkill.Bots
             if (turnContext.TurnState.Get<LanguageGeneratorManager>() == null)
             {
                 turnContext.TurnState.Add<LanguageGeneratorManager>(new LanguageGeneratorManager(_resourceExplorer));
+
+                var lg = new LanguageGeneratorManager(_resourceExplorer);
             }
 
             return _dialogManager.OnTurnAsync(turnContext, cancellationToken: cancellationToken);

@@ -1,0 +1,28 @@
+﻿﻿> Language Generation definition file. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+
+[import](EmailDetailCard.lg)
+
+# DeletePrompt
+- Which one do you want to delete?
+- Which email would you like me to delete?
+- Any email you would like me to delete?
+- Which email do you want me to delete?
+
+# DeleteConfirm(emailInfo)
+- Are you sure you want to delete? || Are you sure you want to delete? Details of email: {emailInfo}.
+
+# DeleteSuccessfully
+- Your email has been successfully deleted.
+
+> shared
+# CancellingMessage
+- Sure, we can do this later.
+- Sure, we can start this later.
+- No problem. You can try again at another time.
+- Alright, let me know when you need my help.
+- Sure, I'm here if you need me.
+
+# ConfirmSendFailed
+- Please confirm before sending this email.
+- Please confirm this email.

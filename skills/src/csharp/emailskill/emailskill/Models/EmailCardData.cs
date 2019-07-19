@@ -21,6 +21,8 @@ namespace EmailSkill.Models
 
         public string SenderIcon { get; set; }
 
+        public int RecipientsCount { get; set; }
+
         // Placeholder for important email flag or email attachment
         public string AdditionalIcon1 { get; set; } = AdaptiveCardHelper.DefaultIcon;
 
