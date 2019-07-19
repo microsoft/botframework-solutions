@@ -144,5 +144,14 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "HasCheckedOut": {
+    "replies": [
+      {
+        "text": "It looks like you've already checked out! We hope you enjoyed your stay.",
+        "speak": "It looks like you've already checked out! We hope you enjoyed your stay."
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

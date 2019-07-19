@@ -31,6 +31,7 @@ namespace HospitalitySkill.Dialogs
         {
             var extendStay = new WaterfallStep[]
             {
+                HasCheckedOut,
                 CheckEntities,
                 ExtendDatePrompt,
                 ConfirmExtentionPrompt,

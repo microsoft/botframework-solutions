@@ -26,6 +26,7 @@ namespace HospitalitySkill.Dialogs
         {
             var getReservation = new WaterfallStep[]
             {
+                HasCheckedOut,
                 ShowReservation
             };
 

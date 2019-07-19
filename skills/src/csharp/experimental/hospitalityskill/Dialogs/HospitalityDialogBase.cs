@@ -183,5 +183,19 @@ namespace HospitalitySkill.Dialogs
             var state = await StateAccessor.GetAsync(sc.Context);
             state.Clear();
         }
+
+        protected async Task<DialogTurnResult> HasCheckedOut(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
+            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState());
+
+            // if user has already checked out shouldn't be able to do anything else
+            if (userState.CheckedOut)
+            {
+                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.HasCheckedOut));
+                return await sc.EndDialogAsync();
+            }
+
+            return await sc.NextAsync();
+        }
     }
 }

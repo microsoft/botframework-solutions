@@ -43,5 +43,14 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "HasLateCheckOut": {
+    "replies": [
+      {
+        "text": "You currently have a late check-out time.",
+        "speak": "You currently have a late check-out time."
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

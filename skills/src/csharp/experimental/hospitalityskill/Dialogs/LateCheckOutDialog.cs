@@ -27,6 +27,7 @@ namespace HospitalitySkill.Dialogs
         {
             var lateCheckOut = new WaterfallStep[]
             {
+                HasCheckedOut,
                 LateCheckOutPrompt,
                 EndDialog
             };
@@ -39,6 +40,20 @@ namespace HospitalitySkill.Dialogs
 
         private async Task<DialogTurnResult> LateCheckOutPrompt(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
+            var userState = await UserStateAccessor.GetAsync(sc.Context, () => new HospitalityUserSkillState());
+
+            // already requested late check out
+            if (userState.LateCheckOut)
+            {
+                var cardData = userState.UserReservation;
+                cardData.Title = string.Format(HospitalityStrings.ReservationDetails);
+
+                var reply = ResponseManager.GetCardResponse(LateCheckOutResponses.HasLateCheckOut, new Card("ReservationDetails", cardData), null);
+                await sc.Context.SendActivityAsync(reply);
+
+                return await sc.EndDialogAsync();
+            }
+
             // TODO checking availability
             // simulate with time delay
             await sc.Context.SendActivityAsync(ResponseManager.GetResponse(LateCheckOutResponses.CheckAvailability));

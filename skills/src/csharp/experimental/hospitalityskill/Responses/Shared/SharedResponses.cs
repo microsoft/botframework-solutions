@@ -18,5 +18,6 @@ namespace HospitalitySkill.Responses.Shared
         public const string AuthFailed = "AuthFailed";
         public const string ActionEnded = "ActionEnded";
         public const string ErrorMessage = "ErrorMessage";
+        public const string HasCheckedOut = "HasCheckedOut";
     }
 }

@@ -29,6 +29,7 @@ namespace HospitalitySkill.Dialogs
         {
             var checkOut = new WaterfallStep[]
             {
+                HasCheckedOut,
                 CheckOutPrompt,
                 EmailPrompt,
                 EndDialog
@@ -120,8 +121,6 @@ namespace HospitalitySkill.Dialogs
                 // checked out confirmation message
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CheckOutResponses.SendEmailMessage, tokens));
                 await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CheckOutResponses.CheckOutSuccess));
-
-                // if user is checked out shouldn't be allowed to do anything else
             }
             else
             {
