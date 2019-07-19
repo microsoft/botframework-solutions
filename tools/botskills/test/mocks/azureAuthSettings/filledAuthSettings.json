@@ -1,0 +1,29 @@
+[
+    {
+        "etag": "",
+        "id": "",
+        "kind": "",
+        "location": "",
+        "name": "Test/Outlook",
+        "properties": {
+            "clientId": "",
+            "clientSecret": "",
+            "parameters": 
+            [
+                {
+                    "key": "",
+                    "value": ""
+                }
+            ],
+            "provisioningState": "",
+            "scopes": "",
+            "serviceProviderDisplayName": "Azure Active Directory v2",
+            "serviceProviderId": "",
+            "settingId": ""
+        },
+        "resourceGroup": "",
+        "sku": "",
+        "tags": "",
+        "type": ""
+    }
+]
