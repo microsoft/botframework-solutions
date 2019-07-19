@@ -4,7 +4,7 @@
  */
 
 const { strictEqual } = require("assert");
-const sanitizePath = require("../lib/utils/sanitizationUtils").sanitizePath;
+const { sanitizePath } = require("../lib/utils/index");
 
 describe("The sanitization path util", function () {
     describe("should return a path without trailing backslash", function () {
