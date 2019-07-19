@@ -40,8 +40,8 @@ Create a simple application that enables you to speak to your newly created Virt
 
 The first step is to create a Microsoft Speech instance to perform the Speech-To-Text and Text-To-Speech capabilities for your assistant.
 
-- Create a Microsoft Speech Cognitive Service instance in your Azure Subscription using the [Azure Portal](https://ms.portal.azure.com/#create/Microsoft.CognitiveServicesSpeechServices)
-- At this time the Direct Line Speech Channel is currently [only available](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-connect-directlinespeech?view=azure-bot-service-4.0#known-issues) in `westus2` so we recommend you use this region to reduce latency.
+- Select an Azure region. Direct Line Speech Channel is a preview service limited to [these Azure regions](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/regions). For best performance (reduced round-trip time) deploy your Virtual Assistant bot and Direct Line Speech channel to the same Azure region, and one that is closest to you. Look up exact [geographical location](https://azure.microsoft.com/en-us/global-infrastructure/locations/) for each Azure region.
+- Create a Microsoft Speech Cognitive Service instance in your Azure Subscription using the [Azure Portal](https://ms.portal.azure.com/#create/Microsoft.CognitiveServicesSpeechServices). In the *Location* field specify the selected Azure region based on the above.
 - Once created, retrieve one of the speech **subscription keys** and store this ready for later in this tutorial. 
 
 ## Add the Speech Channel to your Assistant
