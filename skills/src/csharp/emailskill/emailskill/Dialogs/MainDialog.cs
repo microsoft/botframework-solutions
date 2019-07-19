@@ -64,7 +64,7 @@ namespace EmailSkill.Dialogs
             _stateAccessor = _conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
 
             // combine path for cross platform support
-            _lgMultiLangEngine = new ResourceMultiLanguageGenerator();
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("MainDialog.lg");
 
             var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var localeConfig = _services.CognitiveModelSets[locale];

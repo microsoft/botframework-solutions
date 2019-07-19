@@ -1,11 +1,28 @@
 ﻿﻿> Language Generation definition file. 
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
 
+[import](EmailDetailCard.lg)
+
 # ReadOut(messageList)
 - IF: {count(messageList) == 1}
    - Do you want to know the content of this email?
 - ELSE:
-  - Do you want more detail on the first email? You can also ask about other emails too either by subject or sender {count(messageList)}.
+  - Do you want more detail on the first email? You can also ask about other emails too either by subject or sender.
 
- # ReadOutMore
- - Would you like to go back to your email overview again? Or you can ask me to complete an action on this email.
+# ReadOutMore
+- Would you like to go back to your email overview again? Or you can ask me to complete an action on this email.
+
+# ReadOutMessages(emailDetails, emailDetailsWithContent)
+- ```
+The email is @{emailDetails}. || The email is @{emailDetailsWithContent}.
+```
+
+> shared
+# DidntUnderstandMessage
+- Sorry, I didn't get what you mean.
+- I don't understand. Try in a different way.
+
+# EmailNotFound
+- It seems you have no new emails. Just let me know if you want to set up a new email.
+- I did not retrieve any relevant emails at this time. Just let me know if you want to set up a new email.
+

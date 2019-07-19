@@ -13,6 +13,7 @@ using EmailSkill.Utilities;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
@@ -21,6 +22,8 @@ namespace EmailSkill.Dialogs
 {
     public class ForwardEmailDialog : EmailSkillDialogBase
     {
+        private ResourceMultiLanguageGenerator _lgMultiLangEngine;
+
         public ForwardEmailDialog(
             BotSettings settings,
             BotServices services,
@@ -33,6 +36,8 @@ namespace EmailSkill.Dialogs
             : base(nameof(ForwardEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
+
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("ForwardEmail.lg");
 
             var forwardEmail = new WaterfallStep[]
             {
@@ -81,8 +86,6 @@ namespace EmailSkill.Dialogs
             InitialDialogId = Actions.Forward;
         }
 
-        
-
         public async Task<DialogTurnResult> ForwardEmail(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -108,27 +111,24 @@ namespace EmailSkill.Dialogs
                     {
                         Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : state.Subject,
                         EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : state.Content,
+                        RecipientsCount = state.FindContactInfor.Contacts.Count()
                     };
                     emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.FindContactInfor.Contacts);
 
-                    var stringToken = new StringDictionary
-                    {
-                        { "Subject", state.Subject },
-                    };
-
-                    var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? GetDivergedCardName(sc.Context, "ConfirmCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "ConfirmCard_RecipientLessThanFive");
-                    var reply = ResponseManager.GetCardResponse(
-                        EmailSharedResponses.SentSuccessfully,
-                        new Card("EmailWithOutButtonCard", emailCard),
-                        stringToken,
-                        "items",
-                        new List<Card>().Append(new Card(recipientCard, emailCard)));
+                    var reply = await LGHelper.GenerateAdaptiveCardAsync(
+                        _lgMultiLangEngine,
+                        sc.Context,
+                        "[SentSuccessfully]",
+                        new { subject = state.Subject },
+                        "[EmailWithOutButtonCard(emailDetails)]",
+                        new { emailDetails = emailCard });
 
                     await sc.Context.SendActivityAsync(reply);
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.CancellingMessage));
+                    var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[CancellingMessage]", null);
+                    await sc.Context.SendActivityAsync(activity);
                 }
             }
             catch (Exception ex)

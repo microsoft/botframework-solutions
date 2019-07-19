@@ -1,9 +1,126 @@
 ﻿﻿> Language Generation definition file. 
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
 
+[import](EmailContentPreview.lg)
+[import](EmailOverviewCard.lg)
+[import](EmailWithOutButtonCard.lg)
+
 # Cancel
 - Sure, we can do this later.
 - Sure, we can start this later.
 - No problem. You can try again at another time.
 - Alright, let me know when you need my help.
 - Sure, I'm here if you need me.
+
+# NoAuth
+- Please log in so I can take further action.
+- Please log in so I can proceed your request.
+- Can you log in so I can help you out further.
+- You need to log in so I can take further action.
+
+# NoFocusMessage
+- Which email are you referring to?
+- Which email do you mean exactly?
+- Which email are you talking about?
+- Can you explain which email you are referring to?
+
+# NoRecipients
+- Sure, who's the email going to?
+
+# EmailNotFound
+- It seems you have no new emails. Just let me know if you want to set up a new email.
+- I did not retrieve any relevant emails at this time. Just let me know if you want to set up a new email.
+
+# EmailErrorMessage
+- Sorry, it looks like something went wrong!
+- An error occurred. Give me some time and try again later.
+- Something went wrong. Sorry!
+- I believe something went wrong. Can you try again later?
+- Sorry I think I cannot find what you want right now. Try again later please.
+
+# EmailErrorMessageBotProblem
+- Sorry, there is something wrong with the bot at the moment. The developer has been notified about it so you'll be able to perform the action again very soon.
+
+# EmailErrorMessageAccountProblem
+- Sorry, there is something wrong with your email account at the moment. Please follow the instructions in your Inbox to verify your account.
+
+# ConfirmSendRecipients(recipientsList)
+- Recipients are {recipientsList}.
+
+# ConfirmSendRecipientsMessage
+- Do you want to go through the rest of the recipients?
+
+# ConfirmSendRecipientsFailed
+- Please confirm if you want do go through the rest of the recipients.
+
+# ConfirmSendMessage
+- Can you confirm this email?
+
+# ConfirmSend(emailDetails)
+- I'm ready to send the email. || I'm ready to send the email. The Email detail is: {emailDetails}.
+
+# ConfirmSendFailed
+- Please confirm before sending this email.
+- Please confirm this email.
+
+# ConfirmSendWithRecipients(emailDetails)
+- [ConfirmSend(emailDetails)][ConfirmSendRecipientsMessage]
+
+# ConfirmSendWithoutRecipients(emailDetails)
+- [ConfirmSend(emailDetails)][ConfirmSendMessage]
+
+# ConfirmSendAfterConfirmRecipients(recipientsList)
+- [ConfirmSendRecipients(recipientsList)][ConfirmSendMessage]
+
+# NoEmailContent
+- What would you like to add as a message?
+
+# RecipientConfirmed(userName)
+- Alright, I will send this to {userName}.
+
+# NoEmailContentWithRecipientConfirmed(userName)
+- [RecipientConfirmed(userName)][NoEmailContent]
+
+# ShowEmailPrompt(totalCount,emailListDetails)
+- You have {totalCount} emails. The latest email is {emailListDetails}.
+
+# ShowOneEmailPrompt(emailListDetails)
+- You have 1 email. The latest email is {emailListDetails}.
+
+# ShowEmailPromptOtherPage(totalCount, emailListDetails)
+- You have {totalCount} emails. The first email is {emailListDetails}.
+
+# ShowOneEmailPromptOtherPage(emailListDetails)
+- You have 1 email. The first email is {emailListDetails}.
+
+# ShowEmailPromptWithShowEmailCountFirstPage(totalCount, emailListDetails, showEmailCount)
+- IF: {showEmailCount == 1}
+    - [ShowOneEmailPrompt(emailListDetails)]
+- ELSE:
+    - [ShowEmailPrompt(totalCount,emailListDetails)]
+
+# ShowEmailPromptWithShowEmailCountOtherPage(totalCount, emailListDetails, showEmailCount)
+- IF: {showEmailCount == 1}
+    - [ShowOneEmailPromptOtherPage(emailListDetails)]
+- ELSE:
+    - [ShowEmailPromptOtherPage(totalCount,emailListDetails)]
+
+# ShowEmailPromptAll(totalCount, emailListDetails, showEmailIndex, showEmailCount)
+- IF: {showEmailIndex <= 0}
+    - [ShowEmailPromptWithShowEmailCountFirstPage(totalCount, emailListDetails, showEmailCount)]
+- ELSE:
+    - [ShowEmailPromptWithShowEmailCountOtherPage(totalCount, emailListDetails, showEmailCount)]
+
+# ShowEmailPromptWithFirstLastPrefix(totalCount, emailListDetails, showEmailIndex, showEmailCount, maxEmailPage)
+- IF: {showEmailIndex < 0 }
+    - [FirstPageAlready][ShowEmailPromptAll(totalCount, emailListDetails, showEmailIndex, showEmailCount)]
+- ELSEIF: {showEmailIndex > maxEmailPage}
+    - [LastPageAlready][ShowEmailPromptAll(totalCount, emailListDetails, showEmailIndex, showEmailCount)]
+- ELSE:
+    - [ShowEmailPromptAll(totalCount, emailListDetails, showEmailIndex, showEmailCount)]
+
+# FirstPageAlready
+- This is already the first page. 
+
+# LastPageAlready
+- This is already the last page. 
