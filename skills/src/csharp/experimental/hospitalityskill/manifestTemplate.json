@@ -25,7 +25,7 @@
     {
       "id": "HospitalitySkill_extendStay",
       "definition": {
-        "description": "Extend reseravation for current room",
+        "description": "Extend reseravation for current room.",
         "slots": [],
         "triggers": {
           "utteranceSources": [
@@ -33,6 +33,23 @@
               "locale": "en",
               "source": [
                 "Hospitality#ExtendStay"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "HospitalitySkill_getReservation",
+      "definition": {
+        "description": "Get current reservation details.",
+        "slots": [],
+        "triggers": {
+          "utteranceSources": [
+            {
+              "locale": "en",
+              "source": [
+                "Hospitality#GetReservation"
               ]
             }
           ]
