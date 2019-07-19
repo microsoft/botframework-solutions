@@ -6,7 +6,7 @@ namespace Microsoft.Bot.Builder.Skills
 {
     public interface ISkillTransport
     {
-        Task<bool> ForwardToSkillAsync(ITurnContext dialogContext, Activity activity, Action<Activity> tokenRequestHandler = null);
+        Task<bool> ForwardToSkillAsync(ITurnContext dialogContext, Activity activity, Action<Activity> tokenRequestHandler = null, Action<Activity> fallbackHandler = null);
 
         Task CancelRemoteDialogsAsync(ITurnContext turnContext);
 
