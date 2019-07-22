@@ -1,4 +1,4 @@
-- canonicalName: Front Left Air Delivery Mode Control
+- canonicalName: Driver Vent Mode Control
   values:
     - canonicalName: Auto
     - canonicalName: Floor
@@ -9,7 +9,7 @@
     - canonicalName: Floor and Windshield
     - canonicalName: Floor and Vent and Windshield
 
-- canonicalName: Rear Left Air Delivery Mode Control
+- canonicalName: Rear Left Vent Mode Control
   values:
     - canonicalName: Auto
     - canonicalName: Floor
@@ -20,7 +20,7 @@
     - canonicalName: Roof and Floor
     - canonicalName: Floor and Vent and Roof
 
-- canonicalName: Front Right Air Delivery Mode Control
+- canonicalName: Passenger Vent Mode Control
   values:
     - canonicalName: Auto
     - canonicalName: Floor
@@ -31,7 +31,7 @@
     - canonicalName: Floor and Windshield
     - canonicalName: Floor and Vent and Windshield
 
-- canonicalName: Rear Right Air Delivery Mode Control
+- canonicalName: Rear Right Vent Mode Control
   values:
     - canonicalName: Auto
     - canonicalName: Floor
@@ -42,7 +42,7 @@
     - canonicalName: Roof and Floor
     - canonicalName: Floor and Vent and Roof
 
-- canonicalName: Front Combined Air Delivery Mode Control
+- canonicalName: Front Vent Mode Control
   values:
     - canonicalName: Auto
     - canonicalName: Floor
@@ -56,7 +56,7 @@
     - Front Left Air Delivery Mode Control
     - Front Right Air Delivery Mode Control
 
-- canonicalName: Rear Combined Air Delivery Mode Control
+- canonicalName: Rear Vent Mode Control
   values:
     - canonicalName: Auto
     - canonicalName: Floor
@@ -157,7 +157,7 @@
     - Rear Right Set Temperature
     - Rear Combined Set Temperature
 
-- canonicalName: Front Left Set Temperature
+- canonicalName: Driver Set Temperature
   values:
     - canonicalName: Set
       requiresAmount: true
@@ -180,7 +180,7 @@
       min: 14
       max: 91
 
-- canonicalName: Front Right Set Temperature
+- canonicalName: Passenger Set Temperature
   values:
     - canonicalName: Set
       requiresAmount: true
