@@ -6,6 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,8 +18,11 @@ namespace EmailSkill.Bots
     {
         private readonly IBotTelemetryClient _telemetryClient;
         private DialogSet _dialogs;
+        private DialogManager _dialogManager;
+        private IStorage _storage;
+        private ResourceExplorer _resourceExplorer;
 
-        public DialogBot(IServiceProvider serviceProvider, T dialog)
+        public DialogBot(IServiceProvider serviceProvider, T dialog, IStorage storage, ResourceExplorer resourceExplorer)
         {
             var conversationState = serviceProvider.GetService<ConversationState>() ?? throw new ArgumentNullException(nameof(ConversationState));
             _telemetryClient = serviceProvider.GetService<IBotTelemetryClient>() ?? throw new ArgumentNullException(nameof(IBotTelemetryClient));
@@ -25,27 +30,35 @@ namespace EmailSkill.Bots
             var dialogState = conversationState.CreateProperty<DialogState>(nameof(EmailSkill));
             _dialogs = new DialogSet(dialogState);
             _dialogs.Add(dialog);
+
+            _dialogManager = new DialogManager(dialog);
+            _storage = storage;
+
+            _resourceExplorer = resourceExplorer;
         }
 
-        public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        public override Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             // Client notifying this bot took to long to respond (timed out)
             if (turnContext.Activity.Code == EndOfConversationCodes.BotTimedOut)
             {
                 _telemetryClient.TrackTrace($"Timeout in {turnContext.Activity.ChannelId} channel: Bot took too long to respond.", Severity.Information, null);
-                return;
+                return Task.CompletedTask;
             }
 
-            var dc = await _dialogs.CreateContextAsync(turnContext);
+            if (turnContext.TurnState.Get<IStorage>() == null)
+            {
+                turnContext.TurnState.Add<IStorage>(_storage);
+            }
 
-            if (dc.ActiveDialog != null)
+            if (turnContext.TurnState.Get<LanguageGeneratorManager>() == null)
             {
-                var result = await dc.ContinueDialogAsync();
+                turnContext.TurnState.Add<LanguageGeneratorManager>(new LanguageGeneratorManager(_resourceExplorer));
+
+                var lg = new LanguageGeneratorManager(_resourceExplorer);
             }
-            else
-            {
-                await dc.BeginDialogAsync(typeof(T).Name);
-            }
+
+            return _dialogManager.OnTurnAsync(turnContext, cancellationToken: cancellationToken);
         }
     }
 }
