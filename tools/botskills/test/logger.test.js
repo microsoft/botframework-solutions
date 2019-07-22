@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-const { strictEqual, ok } = require("assert");
+const { ok } = require("assert");
 const { ConsoleLogger } = require("../lib/logger");
 const sandbox = require("sinon").createSandbox();
 const logger = new ConsoleLogger();
