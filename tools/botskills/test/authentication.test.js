@@ -8,7 +8,7 @@ const { writeFileSync } = require("fs");
 const { join, resolve } = require("path");
 const sandbox = require("sinon").createSandbox();
 const { TestLogger } = require("./helpers/testLogger");
-const { AuthenticationUtils } = require("../lib/utils/index");
+const { AuthenticationUtils } = require("../lib/utils");
 const authenticationUtils = new AuthenticationUtils();
 const emptyAzureAuthSettings = JSON.stringify(require(resolve(__dirname, join("mocks", "azureAuthSettings", "emptyAuthSettings.json"))));
 const filledAzureAuthSettings = JSON.stringify(require(resolve(__dirname, join("mocks", "azureAuthSettings", "filledAuthSettings.json"))));
@@ -141,7 +141,7 @@ https://github.com/microsoft/botframework-solutions/blob/master/docs/howto/assis
 https://github.com/microsoft/botframework-solutions/blob/master/docs/howto/assistant/linkedaccounts.md#authentication-configuration`);
             strictEqual(warningList[warningList.length - 2], `You must configure one of the following connection types MANUALLY in the Azure Portal:
         Azure Active Directory v2`);
-            strictEqual(warningList[warningList.length - 3], `There was an error while executing the following command:\n\taz ad app show --id \\Mocked function throws an Error`)
+            strictEqual(warningList[warningList.length - 3], `There was an error while executing the following command:\n\taz ad app show --id \nMocked function throws an Error`)
         });
 
         it("when the scopes are not configured automatically", async function() {

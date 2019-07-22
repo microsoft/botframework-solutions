@@ -4,7 +4,7 @@
  */
 
 const { strictEqual } = require("assert");
-const { validatePairOfArgs } = require("../lib/utils/index");
+const { validatePairOfArgs } = require("../lib/utils");
 
 describe("The validation util", function() {
     describe("should return a message", function() {

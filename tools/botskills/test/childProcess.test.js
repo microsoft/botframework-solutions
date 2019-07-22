@@ -4,8 +4,7 @@
  */
 
 const { strictEqual } = require("assert");
-const { ChildProcessUtils } = require("../lib/utils/childProcessUtils");
-const sandbox = require("sinon").createSandbox();
+const { ChildProcessUtils } = require("../lib/utils");
 const childProcessUtils = new ChildProcessUtils();
 const validOutput = "testing childProcess util";
 const unrecognizeCommand = "unrecognizeCommand";
