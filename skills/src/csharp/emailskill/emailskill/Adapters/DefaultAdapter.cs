@@ -8,6 +8,7 @@ using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 
 namespace EmailSkill.Adapters
 {
@@ -17,7 +18,8 @@ namespace EmailSkill.Adapters
             BotSettings settings,
             ICredentialProvider credentialProvider,
             IBotTelemetryClient telemetryClient,
-            ResponseManager responseManager)
+            ResponseManager responseManager,
+            ResourceExplorer resourceExplorer)
             : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>

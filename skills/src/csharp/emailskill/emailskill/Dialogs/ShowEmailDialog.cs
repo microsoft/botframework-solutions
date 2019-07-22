@@ -14,6 +14,7 @@ using EmailSkill.Utilities;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
@@ -28,6 +29,8 @@ namespace EmailSkill.Dialogs
 {
     public class ShowEmailDialog : EmailSkillDialogBase
     {
+        private ResourceMultiLanguageGenerator _lgMultiLangEngine;
+
         public ShowEmailDialog(
             BotSettings settings,
             BotServices services,
@@ -42,6 +45,8 @@ namespace EmailSkill.Dialogs
             : base(nameof(ShowEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
+
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("ShowEmail.lg");
 
             var showEmail = new WaterfallStep[]
             {
@@ -152,15 +157,9 @@ namespace EmailSkill.Dialogs
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[ReadOut]", new { messageList = state.MessageList });
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = activity as Activity });
 
-                if (state.MessageList.Count == 1)
-                {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(ShowEmailResponses.ReadOutOnlyOnePrompt) });
-                }
-                else
-                {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(ShowEmailResponses.ReadOutPrompt) });
-                }
             }
             catch (Exception ex)
             {
@@ -174,7 +173,8 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(ShowEmailResponses.ReadOutMorePrompt) });
+                var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[ReadOutMore]", null);
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = activity as Activity });
             }
             catch (Exception ex)
             {
@@ -205,7 +205,8 @@ namespace EmailSkill.Dialogs
                 var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
                 if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.CancellingMessage));
+                    var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[Cancel]", null);
+                    await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(false);
                 }
                 else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
@@ -271,30 +272,31 @@ namespace EmailSkill.Dialogs
                             ? CommonStrings.NotAvailable
                             : message.ReceivedDateTime.Value.UtcDateTime.ToDetailRelativeString(state.GetUserTimeZone()),
                         Speak = SpeakHelper.ToSpeechEmailDetailOverallString(message, state.GetUserTimeZone()),
-                        SenderIcon = senderIcon
+                        SenderIcon = senderIcon,
+                        RecipientsCount = message.ToRecipients.Count()
                     };
 
                     emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, message.ToRecipients);
 
-                    var tokens = new StringDictionary()
+                    var replyArg = new
                     {
-                        { "EmailDetails", SpeakHelper.ToSpeechEmailDetailString(message, state.GetUserTimeZone()) },
-                        { "EmailDetailsWithContent", SpeakHelper.ToSpeechEmailDetailString(message, state.GetUserTimeZone(), true) },
+                        emailDetails = SpeakHelper.ToSpeechEmailDetailString(message, state.GetUserTimeZone()),
+                        emailDetailsWithContent = SpeakHelper.ToSpeechEmailDetailString(message, state.GetUserTimeZone(), true)
                     };
 
-                    var recipientCard = message.ToRecipients.Count() > 5 ? GetDivergedCardName(sc.Context, "DetailCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "DetailCard_RecipientLessThanFive");
-                    var replyMessage = ResponseManager.GetCardResponse(
-                        ShowEmailResponses.ReadOutMessage,
-                        new Card("EmailDetailCard", emailCard),
-                        tokens,
-                        "items",
-                        new List<Card>().Append(new Card(recipientCard, emailCard)));
+                    var emailDetailCard = await LGHelper.GenerateAdaptiveCardAsync(
+                        _lgMultiLangEngine,
+                        sc.Context,
+                        "[ReadOutMessages(emailDetails, emailDetailsWithContent)]",
+                        replyArg,
+                        "[EmailDetailCard(emailDetails)]",
+                        new { emailDetails = emailCard });
 
                     // Set email as read.
                     var service = ServiceManager.InitMailService(state.Token, state.GetUserTimeZone(), state.MailSourceType);
                     await service.MarkMessageAsReadAsync(message.Id);
 
-                    await sc.Context.SendActivityAsync(replyMessage);
+                    await sc.Context.SendActivityAsync(emailDetailCard);
                 }
 
                 return await sc.NextAsync();
