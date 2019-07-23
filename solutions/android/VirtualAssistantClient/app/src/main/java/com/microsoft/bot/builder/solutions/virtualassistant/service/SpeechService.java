@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
@@ -191,6 +192,11 @@ public class SpeechService extends Service {
             configuration.userId = DefaultConfiguration.USER_FROM_ID;
             configuration.locale = DefaultConfiguration.LOCALE;
             configuration.historyLinecount = Integer.MAX_VALUE - 1;
+            configuration.colorBubbleBot = ContextCompat.getColor(this, R.color.color_chat_background_bot);
+            configuration.colorBubbleUser = ContextCompat.getColor(this, R.color.color_chat_background_user);
+            configuration.colorTextBot = ContextCompat.getColor(this, R.color.color_chat_text_bot);
+            configuration.colorTextUser = ContextCompat.getColor(this, R.color.color_chat_text_user);
+
             configurationManager.setConfiguration(configuration);
         }
 

@@ -40,7 +40,11 @@
     <string name="configuration_geolocation_lon_hint">Lon</string>
     <string name="configuration_chat_history_line_count">Chat history line-count</string>
     <string name="configuration_timezone">Timezone</string>
-
+    <string name="configuration_bot_color">Bot Bubble Background</string>
+    <string name="configuration_user_color">User Bubble Background</string>
+    <string name="configuration_pick_color">Pick a color</string>
+    <string name="configuration_bot_text_color">Bot Text Color</string>
+    <string name="configuration_user_text_color">User Text Color</string>
 
     <!-- Widgets -->
     <string name="widget_push_to_talk">Talk</string>
