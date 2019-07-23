@@ -91,6 +91,40 @@ namespace CalendarSkill.Dialogs
             // Initialize the PageSize parameters in state from configuration
             InitializeConfig(state);
 
+            var turnResult = EndOfTurn;
+
+            // check if there's an semantic action id specified. if yes, launch the dialog that handles the activity directly
+            var activity = dc.Context.Activity;
+            if (activity.SemanticAction != null && !string.IsNullOrWhiteSpace(activity.SemanticAction.Id))
+            {
+                var actionName = activity.SemanticAction.Id;
+                switch (actionName)
+                {
+                    case "calendarskill_createEvent":
+                        turnResult = await dc.BeginDialogAsync(nameof(CreateEventDialog));
+                        break;
+
+                    case "calendarskill_changeEventStatus":
+                        turnResult = await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog));
+                        break;
+
+                    case "calendarskill_summary":
+                        turnResult = await dc.BeginDialogAsync(nameof(SummaryDialog));
+                        break;
+
+                    case "calendarskill_timeRemaining":
+                        turnResult = await dc.BeginDialogAsync(nameof(TimeRemainingDialog));
+                        break;
+
+                    case "calendarskill_updateEvent":
+                        turnResult = await dc.BeginDialogAsync(nameof(UpdateEventDialog));
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
             // If dispatch result is general luis model
             localeConfig.LuisServices.TryGetValue("Calendar", out var luisService);
 
@@ -100,7 +134,6 @@ namespace CalendarSkill.Dialogs
             }
             else
             {
-                var turnResult = EndOfTurn;
                 var intent = state.LuisResult?.TopIntent().intent;
                 var generalTopIntent = state.GeneralLuisResult?.TopIntent().intent;
 

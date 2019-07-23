@@ -90,7 +90,8 @@ namespace VirtualAssistantSample.Dialogs
             if (identifiedSkill != null)
             {
                 // We have identiifed a skill so initialize the skill connection with the target skill
-                var result = await dc.BeginDialogAsync(identifiedSkill.Id);
+                // pass in action name 'calendarskill_createEvent' to simulate a direct action call (CalendarSkill)
+                var result = await dc.BeginDialogAsync(identifiedSkill.Id, new SkillDialogOption { Action = "calendarskill_createEvent" });
 
                 if (result.Status == DialogTurnStatus.Complete)
                 {

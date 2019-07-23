@@ -95,9 +95,12 @@ namespace Microsoft.Bot.Builder.Skills
                 In other scenarios (aggregated skill dispatch) we evaluate all possible slots against context and pass across
                 enabling the Skill to perform it's own action identification. */
 
-            var actionName = options != null ? options as string : null;
-            if (actionName != null)
+            var dialogOptions = options != null ? options as SkillDialogOption : null;
+            string actionName = null;
+            if (dialogOptions != null)
             {
+                actionName = dialogOptions.Action;
+
                 // Find the specified within the selected Skill for slot filling evaluation
                 var action = _skillManifest.Actions.SingleOrDefault(a => a.Id == actionName);
                 if (action != null)
@@ -131,7 +134,17 @@ namespace Microsoft.Bot.Builder.Skills
             await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Handing off to the {_skillManifest.Name} skill."));
 
             var activity = innerDc.Context.Activity;
-			var semanticAction = new SemanticAction { Entities = new Dictionary<string, Entity>() };
+			var semanticAction = new SemanticAction
+            {
+                Id = actionName,
+                Entities = new Dictionary<string, Entity>(),
+            };
+
+            // only set the semantic state if action is not empty
+            if (!string.IsNullOrWhiteSpace(actionName))
+            {
+                semanticAction.State = SkillConstants.SkillStart;
+            }
 
 			foreach (var slot in slots)
 			{
