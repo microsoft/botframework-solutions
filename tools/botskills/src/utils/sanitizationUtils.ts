@@ -17,3 +17,12 @@ export function sanitizePath(path: string): string {
 
     return path;
 }
+
+/**
+ * @param path Path to add quotes around in case it has spaces.
+ * @returns Returns a path with quotes
+ */
+// tslint:disable-next-line:export-name
+export function wrapPathWithQuotes(path: string): string {
+    return `"${path}"`;
+}
