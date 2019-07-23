@@ -43,7 +43,7 @@ namespace EventProducer
         {
             try
             {
-                var message = "{'userid':'c7879ddc-9b7a-4ffb-b934-abc1b34a41ba','message':'heres an event'}";
+                var message = "{'userid':'c7879ddc-9b7a-4ffb-b934-abc1b34a41ba','message':'Here is a notification message!'}";
                 Console.WriteLine($"Sending message: {message}");
                 await eventHubClient.SendAsync(new EventData(Encoding.UTF8.GetBytes(message)));
             }
@@ -52,7 +52,7 @@ namespace EventProducer
                 Console.WriteLine($"{DateTime.Now} > Exception: {ex.Message}");
             }
 
-            Console.WriteLine("message sent.");
+            Console.WriteLine("Message sent.");
         }
     }
 }

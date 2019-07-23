@@ -17,7 +17,7 @@ namespace EventHandler
         private static DocumentClient documentDbclient = new DocumentClient(new Uri(Environment.GetEnvironmentVariable("DocumentDbEndpointUrl")), Environment.GetEnvironmentVariable("DocumentDbPrimaryKey"));
 
         [FunctionName("EventHubTrigger")]
-        public static async Task Run([EventHubTrigger("bfvatestted-testhub", Connection = "EventHubConnection")] EventData[] events, ILogger log)
+        public static async Task Run([EventHubTrigger("YOUR_EVENT_HUB_NAME", Connection = "EventHubConnection")] EventData[] events, ILogger log)
         {
             foreach (EventData eventData in events)
             {
