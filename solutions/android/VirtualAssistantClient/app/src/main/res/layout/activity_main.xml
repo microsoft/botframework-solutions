@@ -61,7 +61,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:hint="@string/bot_input_hint"
-                    android:backgroundTint="@color/color_chat_background"
                     android:visibility="gone">
 
                     <android.support.design.widget.TextInputEditText
