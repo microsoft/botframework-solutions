@@ -18,8 +18,7 @@ namespace VirtualAssistantSample.Adapters
             IConfiguration config,
             BotSettings settings,
             ICredentialProvider credentialProvider,
-            IBotTelemetryClient telemetryClient,
-            BotStateSet botStateSet)
+            IBotTelemetryClient telemetryClient)
             : base(config, credentialProvider)
         {
             OnTurnError = async (turnContext, exception) =>
@@ -36,7 +35,6 @@ namespace VirtualAssistantSample.Adapters
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new AutoSaveStateMiddleware(botStateSet));
             Use(new SetSpeakMiddleware(settings.DefaultLocale ?? "en-us"));
         }
     }
