@@ -7,6 +7,10 @@
     <!-- General -->
     <color name="color_background">#272727</color>
 
+    <!-- Navigation Drawer -->
+    <color name="navigationDrawer">#B1B1B1</color>
+    <color name="navigationDrawerText">#272727</color>
+
     <!-- Chat -->
     <color name="color_card_background">#242424</color>
     <color name="color_chat_text_bot">#000000</color>
@@ -21,4 +25,16 @@
 
     <!-- Suggested Actions -->
     <color name="color_action_outline">#84d9f8</color>
+
+    <!-- DARK THEME -->
+    <color name="colorPrimaryNight">#008577</color>
+    <color name="colorPrimaryDarkNight">#00574B</color>
+    <color name="colorAccentNight">#3062d6</color>
+
+    <!-- Navigation Drawer NIGHT -->
+    <color name="navigationDrawerNight">#2e2e2e</color>
+    <color name="navigationDrawerTextNight">#FFFFFF</color>
+
+
+
 </resources>

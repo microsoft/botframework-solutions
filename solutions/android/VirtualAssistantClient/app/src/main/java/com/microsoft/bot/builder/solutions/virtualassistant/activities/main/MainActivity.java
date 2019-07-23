@@ -18,6 +18,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
@@ -80,6 +81,7 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.switch_show_textinput) SwitchCompat switchShowTextInput;
     @BindView(R.id.switch_show_full_conversation) SwitchCompat switchShowFullConversation;
+    @BindView(R.id.switch_night_mode) SwitchCompat switchNightMode;
     @BindView(R.id.speech_detection) TextView detectedSpeechToText;
     @BindView(R.id.agent_image) ImageView agentImage;
 
@@ -116,6 +118,7 @@ public class MainActivity extends BaseActivity
         switchShowTextInput.setChecked(alwaysShowTextInput);
         showFullConversation = getBooleanSharedPref(SHARED_PREF_SHOW_FULL_CONVERSATION);
         switchShowFullConversation.setChecked(showFullConversation);
+        switchNightMode.setChecked(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
 
         // NAV DRAWER
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle( this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -306,6 +309,13 @@ public class MainActivity extends BaseActivity
         showFullConversation = checked;
         putBooleanSharedPref(SHARED_PREF_SHOW_FULL_CONVERSATION, checked);
         chatAdapter.setShowFullConversation(showFullConversation);
+    }
+
+    @OnCheckedChanged(R.id.switch_night_mode)
+    public void OnEnableNightMode(CompoundButton button, boolean checked){
+        putBooleanSharedPref(SHARED_PREF_DARK_MODE, checked);
+        AppCompatDelegate.setDefaultNightMode(checked?AppCompatDelegate.MODE_NIGHT_YES:AppCompatDelegate.MODE_NIGHT_NO);
+        getDelegate().applyDayNight();
     }
 
     @OnEditorAction(R.id.textinput)

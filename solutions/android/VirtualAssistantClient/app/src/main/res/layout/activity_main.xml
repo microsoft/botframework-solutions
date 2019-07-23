@@ -56,6 +56,7 @@
 
                 <!-- let the user type in what is said -->
                 <android.support.design.widget.TextInputLayout
+                    style="@style/TextInputStyle"
                     android:id="@+id/textinputlayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -88,6 +89,7 @@
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView
+        android:theme="@style/NavigationDrawerStyle"
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -108,6 +110,13 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:text="@string/nav_menu_show_full_conversation"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switch_night_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/nav_menu_night_mode"/>
 
             <android.support.v7.widget.SwitchCompat
                 android:id="@+id/switch_show_textinput"
