@@ -43,9 +43,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected ISpeechService speechServiceBinder;
 
     // Override these
-    protected void permissionDenied(String manifestPermission){};
-    protected void permissionGranted(String manifestPermission){};
-    protected void serviceConnected(){};
+    protected void permissionDenied(String manifestPermission){}
+    protected void permissionGranted(String manifestPermission){}
+    protected void serviceConnected(){}
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
