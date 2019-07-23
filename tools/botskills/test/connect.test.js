@@ -20,7 +20,8 @@ const filledSkills = JSON.stringify(
             }
         ]
     },
-    null, 4);
+    null, 4).replace(/\r\n/gm, "\n")    //normalize
+    .replace(/\n/gm, "\r\n")  //CR+LF  -  Windows EOL;
 
 function undoChangesInTemporalFiles() {
     writeFileSync(resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")), filledSkills);
