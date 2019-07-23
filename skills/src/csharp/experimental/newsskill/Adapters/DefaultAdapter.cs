@@ -18,7 +18,6 @@ namespace NewsSkill.Adapters
         public DefaultAdapter(
             BotSettings settings,
             ICredentialProvider credentialProvider,
-            BotStateSet botStateSet,
             IBotTelemetryClient telemetryClient)
             : base(credentialProvider)
         {
@@ -35,7 +34,6 @@ namespace NewsSkill.Adapters
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new AutoSaveStateMiddleware(botStateSet));
         }
     }
 }
