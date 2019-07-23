@@ -53,9 +53,10 @@ export class SkillHttpTransport implements ISkillTransport {
         //   of @azure/ms-rest-js being used by botframework-connector. This is just a build issue and
         //   shouldn't effect production bots.
         // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
-        await this.appCredentials.processHttpRequest(<any>request);
+        // tslint:disable-next-line: no-unsafe-any
+        const signedRequest: WebResource = await this.appCredentials.signRequest(<any>request);
 
-        const response: HttpOperationResponse = await this.httpClient.sendRequest(request);
+        const response: HttpOperationResponse = await this.httpClient.sendRequest(signedRequest);
 
         if (response.status < 200 || response.status >= 300) {
             const result: string = `HTTP error when forwarding activity to the skill: Status Code:${
