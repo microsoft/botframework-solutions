@@ -99,7 +99,7 @@
 | ---- | ----------- |
 |[Application Insights](/docs/reference/analytics/applicationinsights.md)|Detailed information on how Application Insights is used to collect information and powers our Analytics capabilities.|
 |[Power BI Template](/docs/reference/analytics/powerbi.md)|Detailed information on how the provided PowerBI template provides insights into your Assistant usage.|
-|[Telemetry](/docs/reference/analytics/telemetrylogging.md)|How to configure a telemetry collection for your Assistant.|
+|[Telemetry](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-telemetry?view=azure-bot-service-4.0)|How to configure a telemetry collection for your Assistant.|
 
 # Need Help?
 
