@@ -1,0 +1,86 @@
+---
+layout: default
+---
+
+<div>
+    <div>
+        <div>
+            {{ content }}
+
+            {% assign docs = site.docs | where: "category", page.category | where: "subcategory", page.subcategory  %}
+            {% for doc in docs %}
+                {% assign nextOrder = page.order | plus: 1 %}
+                {% if doc.order == nextOrder %}
+                    {% assign next = doc %}
+                {% endif %}
+
+                {% assign prevOrder = page.order | minus: 1 %}
+                {% if doc.order == prevOrder %}
+                    {% assign previous = doc %}
+                {% endif %}
+            {% endfor %}
+
+            <div>
+                <div class="col-6">
+                    {% if previous %}
+                    <a href="{{ previous.url }}">{{ previous.title }}</a>
+                    {% endif %}
+                </div>
+                <div class="col-6">
+                    {% if next %}
+                    <a href="{{ next.url }}">{{ next.title }}</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- <p class="alt-text-small text-gray-light">
+                Found a mistake or want to help improve this documentation?
+                <a href="https://github.com/probot/probot/edit/{{ site.branch }}/{{ page.path }}">Suggest changes on
+                    GitHub</a>
+            </p> -->
+        </div>
+        <!-- <div id="toc" class="col-md-3 py-6">
+            <div class="toc-wrap">
+                {% for section in site.data.toc %}
+                <h2 class="alt-h4">{{ section[0] }}</h2>
+
+                <ul class="mt-2 mb-4 list-style-none">
+                    {% for item in section[1] %}
+                    <li>
+                        {% if item.url %}
+                        {% assign link = item %}
+                        {% else %}
+                        {% for doc in site.pages %}
+                        {% if doc.path == item %}
+                        {% assign link = doc %}
+                        {% break %}
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+
+                        {% if page.url == link.url %}
+                        {% assign classes = "text-brand-red" %}
+                        {% else %}
+                        {% assign classes = "text-gray-light" %}
+                        {% endif %}
+
+                        <a class="d-block no-underline py-1 {{classes}}" href="{{ link.url }}">{{ link.title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endfor %}
+            </div>
+        </div> -->
+    </div>
+</div>
+
+<!-- <script src="/assets/js/anchor.min.js"></script>
+<script type="text/javascript">
+    anchors.options = {
+        placement: 'left',
+        class: 'text-gray no-underline'
+    };
+
+    anchors.add();
+    anchors.remove('.alt-h4');
+</script> -->
