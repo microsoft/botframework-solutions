@@ -1,0 +1,29 @@
+[
+    {
+        "etag": "",
+        "id": "",
+        "kind": "",
+        "location": "",
+        "name": "",
+        "properties": {
+            "clientId": "",
+            "clientSecret": "",
+            "parameters": 
+            [
+                {
+                    "key": "",
+                    "value": ""
+                }
+            ],
+            "provisioningState": "",
+            "scopes": "",
+            "serviceProviderDisplayName": "",
+            "serviceProviderId": "",
+            "settingId": ""
+        },
+        "resourceGroup": "",
+        "sku": "",
+        "tags": "",
+        "type": ""
+    }
+]
