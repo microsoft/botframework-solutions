@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.assist.AssistContent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
@@ -83,7 +85,8 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.switch_show_full_conversation) SwitchCompat switchShowFullConversation;
     @BindView(R.id.switch_night_mode) SwitchCompat switchNightMode;
     @BindView(R.id.speech_detection) TextView detectedSpeechToText;
-    @BindView(R.id.agent_image) ImageView agentImage;
+    @BindView(R.id.mic_image) ImageView micImage;
+    @BindView(R.id.animated_assistant) AppCompatImageView animatedAssistant;
 
     // CONSTANTS
     private static final int CONTENT_VIEW = R.layout.activity_main;
@@ -149,6 +152,9 @@ public class MainActivity extends BaseActivity
 
         sfxManager = new SfxManager();
         sfxManager.initialize(this);
+
+        // assign animation
+        animatedAssistant.setBackgroundResource(R.drawable.agent_listening_animation);
     }
 
     // Register for EventBus messages and SpeechService
@@ -211,7 +217,7 @@ public class MainActivity extends BaseActivity
             try {
                 speechServiceBinder.initializeSpeechSdk(false);
                 speechServiceBinder.connectAsync();
-                agentImage.setVisibility(View.GONE);//hide the assistant since voice is deactivated
+                micImage.setVisibility(View.GONE);//hide the mic since voice is deactivated
                 textInputLayout.setVisibility(View.VISIBLE);// show the text-input prompt
             } catch (RemoteException exception){
                 Log.e(LOGTAG, exception.getMessage());
@@ -283,10 +289,11 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
-    @OnClick(R.id.agent_image)
-    public void onAssistantClick() {
+    @OnClick(R.id.mic_image)
+    public void onClickAssistant() {
         try {
-            showSnackbar(uiContainer, getString(R.string.msg_listening));
+            animatedAssistant.setVisibility(View.VISIBLE);
+            ((AnimationDrawable) animatedAssistant.getBackground()).start();
             sfxManager.playEarconListening();
             speechServiceBinder.listenOnceAsync();
         } catch (RemoteException exception){
@@ -385,6 +392,7 @@ public class MainActivity extends BaseActivity
     public void onEventRecognized(Recognized event) {
         sfxManager.playEarconDoneListening();
         detectedSpeechToText.setText(event.recognized_speech);
+        animatedAssistant.setVisibility(View.GONE);
         // in 2 seconds clear the text (at this point the bot should be giving its' response)
         handler.postDelayed(() -> detectedSpeechToText.setText(""), 2000);
     }
