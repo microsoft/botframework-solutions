@@ -278,6 +278,7 @@
         <!-- CANCEL -->
         <android.support.design.button.MaterialButton
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:theme="@style/Theme.MaterialComponents.Light"
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -287,6 +288,7 @@
         <!-- OK -->
         <android.support.design.button.MaterialButton
             style="@style/Widget.MaterialComponents.Button"
+            android:theme="@style/Theme.MaterialComponents.Light"
             android:id="@+id/btn_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
