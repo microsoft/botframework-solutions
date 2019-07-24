@@ -145,7 +145,7 @@ namespace VirtualAssistantSample
         {
             if (skill.AuthenticationConnections?.Count() > 0)
             {
-                if (settings.OAuthConnections.Any() && settings.OAuthConnections.Any(o => skill.AuthenticationConnections.Any(s => s.ServiceProviderId == o.Provider)))
+                if (settings.OAuthConnections != null && settings.OAuthConnections.Any(o => skill.AuthenticationConnections.Any(s => s.ServiceProviderId == o.Provider)))
                 {
                     var oauthConnections = settings.OAuthConnections.Where(o => skill.AuthenticationConnections.Any(s => s.ServiceProviderId == o.Provider)).ToList();
                     return new MultiProviderAuthDialog(oauthConnections, appCredentials);
