@@ -45,7 +45,7 @@ namespace VirtualAssistant.Responses.Escalate
             {
                 if (object.ReferenceEquals(resourceMan, null))
                 {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VirtualAssistantSample.Responses.Escalate.EscalateStrings", typeof(EscalateStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VirtualAssistant.Responses.Escalate.EscalateStrings", typeof(EscalateStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

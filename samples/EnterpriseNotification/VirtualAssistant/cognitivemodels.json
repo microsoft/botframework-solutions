@@ -2,33 +2,40 @@
   "cognitiveModels": {
     "en": {
       "dispatchModel": {
-        "authoringkey": "",
-        "appid": "",
-        "name": "",
-        "subscriptionkey": "",
-        "region": "",
-        "authoringRegion": ""
+        "authoringkey": "2db3136b285d4695932f8248e69ca0cb",
+        "type": "dispatch",
+        "appid": "70c26829-c582-4812-8998-53156e289527",
+        "subscriptionkey": "2db3136b285d4695932f8248e69ca0cb",
+        "region": "westus",
+        "name": "bfvatestteden_Dispatch"
       },
       "languageModels": [
         {
-          "subscriptionkey": "",
-          "appid": "",
-          "id": "",
-          "version": "",
-          "region": "",
-          "name": "",
-          "authoringkey": "",
-          "authoringRegion": ""
+          "id": "general",
+          "authoringkey": "2db3136b285d4695932f8248e69ca0cb",
+          "subscriptionkey": "2db3136b285d4695932f8248e69ca0cb",
+          "appid": "17248c3e-311b-4db4-bb4d-c944720e712a",
+          "region": "westus",
+          "version": "0.1",
+          "name": "bfvatestteden_general"
         }
       ],
       "knowledgebases": [
         {
-          "endpointKey": "",
-          "kbId": "",
-          "hostname": "",
-          "subscriptionKey": "",
-          "name": "",
-          "id": ""
+          "id": "chitchat",
+          "endpointKey": "9da39bd2-b6e8-474f-aaa5-c3c873fe4834",
+          "subscriptionKey": "0f4151fc9fd5434b941402baea586165",
+          "hostname": "https://bfvatestted-qnahost.azurewebsites.net",
+          "kbId": "2c49bc11-56ea-40da-8859-bc22413bb2d2",
+          "name": "chitchat"
+        },
+        {
+          "id": "faq",
+          "endpointKey": "9da39bd2-b6e8-474f-aaa5-c3c873fe4834",
+          "subscriptionKey": "0f4151fc9fd5434b941402baea586165",
+          "hostname": "https://bfvatestted-qnahost.azurewebsites.net",
+          "kbId": "cd8c3140-9c58-4eec-8eb9-f7e57b175f90",
+          "name": "faq"
         }
       ]
     }

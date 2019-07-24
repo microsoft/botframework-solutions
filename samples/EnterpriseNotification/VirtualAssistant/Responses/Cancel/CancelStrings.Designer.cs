@@ -39,7 +39,7 @@ namespace VirtualAssistant.Responses.Cancel {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VirtualAssistantSample.Responses.Cancel.CancelStrings", typeof(CancelStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VirtualAssistant.Responses.Cancel.CancelStrings", typeof(CancelStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

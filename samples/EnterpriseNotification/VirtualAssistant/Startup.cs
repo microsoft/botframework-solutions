@@ -18,16 +18,16 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Authentication;
-using Microsoft.Bot.Builder.Solutions.Proactive;
-using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Protocol.StreamingExtensions.NetCore;
+using Microsoft.Bot.Protocol.WebSockets;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using VirtualAssistant.Adapters;
 using VirtualAssistant.Bots;
 using VirtualAssistant.Dialogs;
+using VirtualAssistant.Proactive;
 using VirtualAssistant.Services;
 
 namespace VirtualAssistant
@@ -83,12 +83,6 @@ namespace VirtualAssistant
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
             services.AddSingleton<ProactiveState>();
-            services.AddSingleton(sp =>
-            {
-                var userState = sp.GetService<UserState>();
-                var conversationState = sp.GetService<ConversationState>();
-                return new BotStateSet(userState, conversationState);
-            });
 
             // Register dialogs
             services.AddTransient<CancelDialog>();

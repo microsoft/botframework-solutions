@@ -45,7 +45,7 @@ namespace VirtualAssistant.Responses.Onboarding
             {
                 if (object.ReferenceEquals(resourceMan, null))
                 {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VirtualAssistantSample.Responses.Onboarding.OnboardingStrings", typeof(OnboardingStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VirtualAssistant.Responses.Onboarding.OnboardingStrings", typeof(OnboardingStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

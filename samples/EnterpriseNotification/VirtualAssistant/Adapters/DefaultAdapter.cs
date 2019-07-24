@@ -5,9 +5,9 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions.Middleware;
-using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using VirtualAssistant.Proactive;
 using VirtualAssistant.Responses.Main;
 using VirtualAssistant.Services;
 
@@ -19,7 +19,6 @@ namespace VirtualAssistant.Adapters
             BotSettings settings,
             ICredentialProvider credentialProvider,
             IBotTelemetryClient telemetryClient,
-            BotStateSet botStateSet,
             ProactiveState proactiveState)
             : base(credentialProvider)
         {
@@ -36,7 +35,6 @@ namespace VirtualAssistant.Adapters
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new AutoSaveStateMiddleware(botStateSet));
             Use(new ProactiveStateMiddleware(proactiveState));
         }
     }

@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "VirtualAssistantSample": {
+    "VirtualAssistant": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

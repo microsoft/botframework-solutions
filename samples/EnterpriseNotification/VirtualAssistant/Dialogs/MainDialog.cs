@@ -8,18 +8,19 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
+using Microsoft.Azure.Documents;
+using Microsoft.Azure.Documents.Client;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Proactive;
-using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using VirtualAssistant.Models;
+using VirtualAssistant.Proactive;
 using VirtualAssistant.Responses.Cancel;
 using VirtualAssistant.Responses.Main;
 using VirtualAssistant.Services;
@@ -35,7 +36,6 @@ namespace VirtualAssistant.Dialogs
         private MainResponses _responder = new MainResponses();
         private IStatePropertyAccessor<OnboardingState> _onboardingState;
         private IStatePropertyAccessor<SkillContext> _skillContextAccessor;
-        private IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
         private MicrosoftAppCredentials _appCredentials;
 
         public MainDialog(
@@ -46,7 +46,6 @@ namespace VirtualAssistant.Dialogs
             CancelDialog cancelDialog,
             List<SkillDialog> skillDialogs,
             IBotTelemetryClient telemetryClient,
-            ProactiveState proactiveState,
             MicrosoftAppCredentials appCredentials,
             UserState userState)
             : base(nameof(MainDialog), telemetryClient)
@@ -56,7 +55,6 @@ namespace VirtualAssistant.Dialogs
             TelemetryClient = telemetryClient;
             _onboardingState = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             _skillContextAccessor = userState.CreateProperty<SkillContext>(nameof(SkillContext));
-            _proactiveStateAccessor = proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
             _appCredentials = appCredentials;
 
             AddDialog(onboardingDialog);
@@ -246,12 +244,42 @@ namespace VirtualAssistant.Dialogs
                 switch (ev.Name)
                 {
                     case "BroadcastEvent":
+                        // connect to the cosmosdb used for proactive state
+                        var documentDbclient = new DocumentClient(_settings.CosmosDbProactive.CosmosDBEndpoint, _settings.CosmosDbProactive.AuthKey);
+
+                        await documentDbclient.CreateDatabaseIfNotExistsAsync(
+                            new Database { Id = _settings.CosmosDbProactive.DatabaseId })
+                            .ConfigureAwait(false);
+
+                        var documentCollection = new DocumentCollection
+                        {
+                            Id = _settings.CosmosDbProactive.CollectionId,
+                        };
+
+                        var response = await documentDbclient.CreateDocumentCollectionIfNotExistsAsync(
+                            UriFactory.CreateDatabaseUri(_settings.CosmosDbProactive.DatabaseId),
+                            documentCollection)
+                            .ConfigureAwait(false);
+
+                        var collectionLink = response.Resource.SelfLink;
+
                         var eventData = JsonConvert.DeserializeObject<EventData>(dc.Context.Activity.Value.ToString());
 
-                        var proactiveModel = await _proactiveStateAccessor.GetAsync(dc.Context, () => new ProactiveModel());
+                        var proactiveConversations = documentDbclient.CreateDocumentQuery<ProactiveModel>(collectionLink, $"SELECT * FROM c WHERE Contains(c.id, {eventData.UserId})");
 
-                        var conversationReference = proactiveModel[MD5Util.ComputeHash(eventData.UserId)].Conversation;
-                        await dc.Context.Adapter.ContinueConversationAsync(_appCredentials.MicrosoftAppId, conversationReference, ContinueConversationCallback(dc.Context, eventData.Message), cancellationToken);
+                        // send the event data to all saved conversations for the user
+                        if (proactiveConversations != null && proactiveConversations.Count() > 0)
+                        {
+                            foreach (var proactiveConversation in proactiveConversations)
+                            {
+                                await dc.Context.Adapter.ContinueConversationAsync(_appCredentials.MicrosoftAppId, proactiveConversation.Conversation, ContinueConversationCallback(dc.Context, eventData.Message), cancellationToken);
+                            }
+                        }
+                        else
+                        {
+                            TelemetryClient.TrackEvent("BoradcastEventWithInvalidUserId", new Dictionary<string, string> { { "userId", eventData.UserId } });
+                        }
+
                         break;
 
                     case Events.TimezoneEvent:
