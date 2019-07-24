@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
@@ -38,6 +39,23 @@ namespace CalendarSkill.Dialogs
             : base(nameof(CreateEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
+            /*
+            var createEvent = new WaterfallStep[]
+            {
+                GetAuthToken,
+                AfterGetAuthToken,
+                CollectAttendees,
+                CollectTitle,
+                CollectContent,
+                CollectStartDate,
+                CollectStartTime,
+                CollectDuration,
+                CollectLocation,
+                ConfirmBeforeCreate,
+                ConfirmBeforeCreatePrompt,
+                CreateEvent,
+            };
+            */
 
             var createEvent = new WaterfallStep[]
             {
@@ -177,11 +195,19 @@ namespace CalendarSkill.Dialogs
                             else
                             {
                                 state.Title = title;
+                                if (title.ToLower().StartsWith("title is "))
+                                {
+                                    state.Title = title.Substring(9).Trim('.');
+                                }
+                                else if (title.ToLower().StartsWith("subject is "))
+                                {
+                                    state.Title = title.Substring(11).Trim('.');
+                                }
                             }
                         }
                     }
                 }
-
+                /*
                 if (string.IsNullOrEmpty(state.Content) && (!(state.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault()) || state.RecreateState == RecreateEventState.Content))
                 {
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CreateEventResponses.NoContent) }, cancellationToken);
@@ -189,7 +215,8 @@ namespace CalendarSkill.Dialogs
                 else
                 {
                     return await sc.NextAsync(cancellationToken: cancellationToken);
-                }
+                }*/
+                return await sc.NextAsync(cancellationToken: cancellationToken);
             }
             catch (Exception ex)
             {
@@ -463,11 +490,14 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreatePrompt) }, cancellationToken);
+                /*
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
                     Prompt = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreatePrompt),
                     RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateFailed)
                 }, cancellationToken);
+                */
             }
             catch (Exception ex)
             {
@@ -482,7 +512,16 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                var confirmResult = (bool)sc.Result;
+                if (Regex.IsMatch(sc.Result.ToString(), @"(invite|Invite|ask|send)?.*(boss)"))
+                {
+                    await sc.Context.SendActivityAsync($"Ok. Sent to your boss.");
+                }
+                else
+                {
+                    await sc.Context.SendActivityAsync($"Task finished.");
+                }
+
+                /*
                 if (confirmResult)
                 {
                     var source = state.EventSource;
@@ -523,6 +562,7 @@ namespace CalendarSkill.Dialogs
                 {
                     return await sc.ReplaceDialogAsync(Actions.GetRecreateInfo, options: sc.Options, cancellationToken: cancellationToken);
                 }
+                */
 
                 return await sc.EndDialogAsync(true, cancellationToken);
             }
@@ -896,6 +936,9 @@ namespace CalendarSkill.Dialogs
                         case RecreateEventState.Content:
                             state.ClearContent();
                             return await sc.ReplaceDialogAsync(Actions.CreateEvent, options: sc.Options, cancellationToken: cancellationToken);
+                        case RecreateEventState.Boss:
+                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.ActionConfirmed), cancellationToken);
+                            return await sc.EndDialogAsync(true, cancellationToken);
                         default:
                             // should not go to this part. place an error handling for save.
                             await HandleDialogExceptions(sc, new Exception("Get unexpect state in recreate."));

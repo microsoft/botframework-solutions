@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
@@ -195,7 +196,7 @@ namespace CalendarSkill.Dialogs
 
                 if (state.AttendeesNameList.Any())
                 {
-                    if (state.AttendeesNameList.Count > 1)
+                    if (state.AttendeesNameList.Count > 10)
                     {
                         var nameString = await GetReadyToSendNameListStringAsync(sc);
                         await sc.Context.SendActivityAsync(ResponseManager.GetResponse(FindContactResponses.BeforeSendingMessage, new StringDictionary() { { "NameList", nameString } }));
@@ -237,6 +238,7 @@ namespace CalendarSkill.Dialogs
                     state.CurrentAttendeeName = string.Empty;
                     state.ConfirmAttendeesNameIndex = 0;
                     var options = sc.Options as FindContactDialogOptions;
+                    /*
                     if (options.PromptMoreContact && state.Attendees.Count < 20)
                     {
                         return await sc.ReplaceDialogAsync(Actions.AddMoreUserPrompt, options);
@@ -245,6 +247,8 @@ namespace CalendarSkill.Dialogs
                     {
                         return await sc.EndDialogAsync();
                     }
+                    */
+                    return await sc.EndDialogAsync();
                 }
             }
             catch (Exception ex)
@@ -444,14 +448,55 @@ namespace CalendarSkill.Dialogs
                 state.CurrentAttendeeName = currentRecipientName;
 
                 // if it's an email, add to attendee and kepp the state.ConfirmedPerson null
-                if (!string.IsNullOrEmpty(currentRecipientName) && IsEmail(currentRecipientName))
+                if (!string.IsNullOrEmpty(currentRecipientName) && (IsEmail(currentRecipientName) || Regex.IsMatch(currentRecipientName, @"(boss|members)")))
                 {
                     var attendee = new EventModel.Attendee
                     {
                         DisplayName = currentRecipientName,
                         Address = currentRecipientName
                     };
-                    if (state.Attendees.All(r => r.Address != attendee.Address))
+                    if (Regex.IsMatch(currentRecipientName, @"(boss)"))
+                    {
+                        attendee.DisplayName = "Bill Gates";
+                        attendee.Address = "BG@ms.com";
+                        if (state.Attendees.All(r => r.Address != attendee.Address))
+                        {
+                            state.Attendees.Add(attendee);
+                        }
+                    }
+                    else if (Regex.IsMatch(currentRecipientName, @"(members)"))
+                    {
+                        var attendee1 = new EventModel.Attendee
+                        {
+                            DisplayName = "Kobe Bryant",
+                            Address = "KB@ms.com"
+                        };
+                        if (state.Attendees.All(r => r.Address != attendee.Address))
+                        {
+                            state.Attendees.Add(attendee1);
+                        }
+
+                        var attendee2 = new EventModel.Attendee
+                        {
+                            DisplayName = "Cristiano Ronaldo",
+                            Address = "CR@ms.com"
+                        };
+                        if (state.Attendees.All(r => r.Address != attendee.Address))
+                        {
+                            state.Attendees.Add(attendee2);
+                        }
+
+                        var attendee3 = new EventModel.Attendee
+                        {
+                            DisplayName = "Rogar Feddler",
+                            Address = "RF@ms.com"
+                        };
+                        if (state.Attendees.All(r => r.Address != attendee.Address))
+                        {
+                            state.Attendees.Add(attendee3);
+                        }
+                    }
+                    else if (state.Attendees.All(r => r.Address != attendee.Address))
                     {
                         state.Attendees.Add(attendee);
                     }
@@ -460,6 +505,7 @@ namespace CalendarSkill.Dialogs
                     state.ConfirmedPerson = null;
                     return await sc.EndDialogAsync();
                 }
+
 
                 var unionList = new List<CustomizedPerson>();
 

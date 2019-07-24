@@ -14,6 +14,7 @@ namespace CalendarSkill.Responses.Shared
         // Generated accessors
         public const string DidntUnderstandMessage = "DidntUnderstandMessage";
         public const string ActionEnded = "ActionEnded";
+        public const string ActionConfirmed = "ActionConfirmed";
         public const string CalendarErrorMessage = "CalendarErrorMessage";
         public const string CalendarErrorMessageBotProblem = "CalendarErrorMessageBotProblem";
     }

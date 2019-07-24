@@ -2,6 +2,17 @@
   "CalendarWelcomeMessage": {
     "replies": [
       {
+        "text": "Here is Calendar Bot. What can I help you?",
+        "speak": "Here is Calendar Bot. What can I help you?"
+      }
+    ],
+    "suggestedActions": [
+    ],
+    "inputHint": "expectingInput"
+  },
+  "CalendarWelcomeMessageBackup": {
+    "replies": [
+      {
         "text": "Welcome to the Calendar Skill! I can provide you an overview of your meetings today, read out your upcoming meeting, or create a new meeting for you.",
         "speak": "Welcome to the Calendar Skill! I can provide you an overview of your meetings today, read out your upcoming meeting, or create a new meeting for you."
       }

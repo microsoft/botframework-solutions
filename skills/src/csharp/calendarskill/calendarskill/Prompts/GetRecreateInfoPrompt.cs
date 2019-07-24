@@ -129,6 +129,14 @@ namespace CalendarSkill.Prompts
                 return result;
             }
 
+            // check is invite boss
+            regex = new Regex(CalendarCommonStrings.InviteBoss);
+            if (regex.IsMatch(message))
+            {
+                result = RecreateEventState.Boss;
+                return result;
+            }
+
             // no match, go to exactly match
             try
             {

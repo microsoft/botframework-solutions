@@ -37,7 +37,12 @@
             /// <summary>
             /// Change the content and recreate.
             /// </summary>
-            Content = 6
+            Content = 6,
+
+            /// <summary>
+            /// Invite boss to confirm
+            /// </summary>
+            Boss = 7,
         }
     }
 }

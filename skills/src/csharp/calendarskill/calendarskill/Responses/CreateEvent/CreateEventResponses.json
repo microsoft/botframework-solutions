@@ -2,6 +2,15 @@
   "NoTitle": {
     "replies": [
       {
+        "text": "What is the subject of the meeting?",
+        "speak": "What is the subject of the meeting?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoTitleBackup": {
+    "replies": [
+      {
         "text": "OK, I will send an invite to {UserName}, what is the subject of the meeting?",
         "speak": "OK, I will send an invite to {UserName}, what is the subject of the meeting?"
       }
@@ -78,13 +87,21 @@
   "ConfirmCreate": {
     "replies": [
       {
+        "text": "I'm ready to create the event.",
+        "speak": "I'm ready to create the event."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ConfirmCreateBackup": {
+    "replies": [
+      {
         "text": "I'm ready to create the event. The event is {Date}, from {Time} until {EndTime}{AttendeesConfirm}.{SubjectConfirm}{LocationConfirm}{ContentConfirm}",
         "speak": "I'm ready to create the event. The event is {Date}, from {Time} until {EndTime}{AttendeesConfirm}.{SubjectConfirm}{LocationConfirm}{ContentConfirm} Can you confirm this event?"
       }
     ],
     "inputHint": "acceptingInput"
   },
-
   "ConfirmCreatePrompt": {
     "replies": [
       {
