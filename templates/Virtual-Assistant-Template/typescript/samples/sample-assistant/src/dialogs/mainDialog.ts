@@ -15,8 +15,9 @@ import {
     DialogTurnStatus } from 'botbuilder-dialogs';
 import {
     ISkillManifest,
+    SkillContext,
     SkillDialog,
-    SkillRouter } from 'botbuilder-skills';
+    SkillRouter} from 'botbuilder-skills';
 import {
     ICognitiveModelSet,
     InterruptionAction,
@@ -36,6 +37,11 @@ import { CancelDialog } from './cancelDialog';
 import { EscalateDialog } from './escalateDialog';
 import { OnboardingDialog } from './onboardingDialog';
 
+enum Events {
+    timeZoneEvent = 'va.timeZone',
+    locationEvent = 'va.location'
+}
+
 export class MainDialog extends RouterDialog {
     // Fields
     private readonly luisServiceGeneral: string = 'general';
@@ -43,6 +49,7 @@ export class MainDialog extends RouterDialog {
     private readonly luisServiceChitchat: string = 'chitchat';
     private readonly settings: Partial<IBotSettings>;
     private readonly services: BotServices;
+    private readonly skillContextAccessor: StatePropertyAccessor<SkillContext>;
     private readonly onboardingAccessor: StatePropertyAccessor<IOnboardingState>;
     private readonly responder: MainResponses = new MainResponses();
 
@@ -54,6 +61,7 @@ export class MainDialog extends RouterDialog {
         escalateDialog: EscalateDialog,
         cancelDialog: CancelDialog,
         skillDialogs: SkillDialog[],
+        skillContextAccessor: StatePropertyAccessor<SkillContext>,
         onboardingAccessor: StatePropertyAccessor<IOnboardingState>,
         telemetryClient: BotTelemetryClient
     ) {
@@ -61,6 +69,7 @@ export class MainDialog extends RouterDialog {
         this.settings = settings;
         this.services = services;
         this.onboardingAccessor = onboardingAccessor;
+        this.skillContextAccessor = skillContextAccessor;
         this.telemetryClient = telemetryClient;
 
         this.addDialog(onboardingDialog);
@@ -73,11 +82,12 @@ export class MainDialog extends RouterDialog {
     }
 
     protected async onStart(dc: DialogContext): Promise<void> {
+        const view: MainResponses = new MainResponses();
         const onboardingState: IOnboardingState|undefined = await this.onboardingAccessor.get(dc.context);
-        if (onboardingState !== undefined && onboardingState.name.trim().length > 0) {
-            await this.responder.replyWith(dc.context, MainResponses.responseIds.returningUserGreeting);
+        if (onboardingState === undefined || onboardingState.name === undefined || onboardingState.name === '') {
+            await view.replyWith(dc.context, MainResponses.responseIds.newUserGreeting);
         } else {
-            await this.responder.replyWith(dc.context, MainResponses.responseIds.newUserGreeting);
+            await view.replyWith(dc.context, MainResponses.responseIds.returningUserGreeting);
         }
     }
 
@@ -180,6 +190,47 @@ export class MainDialog extends RouterDialog {
         const ev: Activity = dc.context.activity;
         if (ev.name !== undefined && ev.name.trim().length > 0) {
             switch (ev.name) {
+                case Events.timeZoneEvent: {
+                    try {
+                        const timezone: string = <string> ev.value;
+                        const tz: string = new Date().toLocaleString(timezone);
+                        const timeZoneObj: {
+                            timezone: string;
+                        } = {
+                            timezone: tz
+                        };
+
+                        const skillContext: SkillContext = await this.skillContextAccessor.get(dc.context, new SkillContext());
+                        skillContext.setObj(timezone, timeZoneObj);
+
+                        await this.skillContextAccessor.set(dc.context, skillContext);
+                    } catch {
+                        await dc.context.sendActivity(
+                            {
+                                type: ActivityTypes.Trace,
+                                text: `"Timezone passed could not be mapped to a valid Timezone. Property not set."`
+                            }
+                        );
+                    }
+                    forward = false;
+                    break;
+                }
+                case Events.locationEvent: {
+                    const location: string = <string> ev.value;
+                    const locationObj: {
+                        location: string;
+                    } = {
+                        location: location
+                    };
+
+                    const skillContext: SkillContext = await this.skillContextAccessor.get(dc.context, new SkillContext());
+                    skillContext.setObj(location, locationObj);
+
+                    await this.skillContextAccessor.set(dc.context, skillContext);
+
+                    forward = true;
+                    break;
+                }
                 case TokenEvents.tokenResponseEventName: {
                     forward = true;
                     break;
