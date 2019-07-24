@@ -14,7 +14,7 @@ export function validatePairOfArgs(arg1: string | undefined, arg2: string | unde
     if (!arg1 && !arg2) {
         return `One of the arguments '{0}' or '{1}' should be provided.`;
     } else if (arg1 && arg2) {
-        return `Only one of the arguments '{0' or '{1}' should be provided.`;
+        return `Only one of the arguments '{0}' or '{1}' should be provided.`;
     }
 
     return '';

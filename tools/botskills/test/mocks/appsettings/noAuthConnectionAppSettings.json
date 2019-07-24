@@ -1,0 +1,21 @@
+{
+    "microsoftAppId": "",
+    "microsoftAppPassword": "",
+    "appInsights": {
+        "appId": "",
+        "instrumentationKey": ""
+    },
+    "blobStorage": {
+        "connectionString": "",
+        "container": ""
+    },
+    "cosmosDb": {
+        "authkey": "",
+        "collectionId": "",
+        "cosmosDBEndpoint": "",
+        "databaseId": ""
+    },
+    "contentModerator": {
+        "key": ""
+    }
+}
