@@ -7,6 +7,15 @@ Param(
 	[string] $logFile = $(Join-Path $PSScriptRoot .. "publish_log.txt")
 )
 
+# Get mandatory parameters
+if (-not $name) {
+    $name = Read-Host "? Bot Web App Name"
+}
+
+if (-not $resourceGroup) {
+    $resourceGroup = Read-Host "? Bot Resource Group"
+}
+
 # Reset log file
 if (Test-Path $logFile) {
 	Clear-Content $logFile -Force | Out-Null
@@ -24,7 +33,7 @@ if (-not (Test-Path (Join-Path $projFolder '.deployment'))) {
 		| Select-Object -First 1
 
 	# Add needed deployment files for az
-	az bot prepare-deploy --lang Csharp --code-dir $projFolder --proj-file-path $projFile.name
+	az bot prepare-deploy --lang Csharp --code-dir $projFolder --proj-file-path $projFile.name --output json | Out-Null
 }
 
 # Delete src zip, if it exists
@@ -47,7 +56,8 @@ if($?)
 	(az webapp deployment source config-zip `
 		--resource-group $resourceGroup `
 		--name $name `
-		--src $zipPath) 2>> $logFile | Out-Null
+		--src $zipPath `
+        --output json) 2>> $logFile | Out-Null
 } 
 else 
 {       
