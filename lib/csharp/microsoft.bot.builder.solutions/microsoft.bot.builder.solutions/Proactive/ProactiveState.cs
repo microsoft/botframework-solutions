@@ -1,17 +1,20 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
+using Microsoft.Bot.Builder;
 
 namespace Microsoft.Bot.Builder.Solutions.Proactive
 {
     public class ProactiveState : BotState
     {
+        /// <summary>The key used to cache the state information in the turn context.</summary>
+        private const string StorageKey = "ProactiveState";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ProactiveState"/> class.</summary>
         /// <param name="storage">The storage provider to use.</param>
         public ProactiveState(IStorage storage)
-            : base(storage, nameof(ProactiveState))
+            : base(storage, StorageKey)
         {
         }
 
@@ -19,11 +22,6 @@ namespace Microsoft.Bot.Builder.Solutions.Proactive
         /// <param name="turnContext">A <see cref="ITurnContext"/> containing all the data needed
         /// for processing this conversation turn.</param>
         /// <returns>The storage key.</returns>
-        protected override string GetStorageKey(ITurnContext turnContext)
-        {
-            var channelId = turnContext.Activity.ChannelId ?? throw new ArgumentNullException("invalid activity-missing channelId");
-            var userId = turnContext.Activity.From?.Id ?? throw new ArgumentNullException("invalid activity-missing From.Id");
-            return $"proactive/{channelId}/users/{userId}";
-        }
+        protected override string GetStorageKey(ITurnContext turnContext) => StorageKey;
     }
 }
