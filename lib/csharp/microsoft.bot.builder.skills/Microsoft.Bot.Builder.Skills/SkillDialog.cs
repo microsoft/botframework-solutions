@@ -52,7 +52,7 @@ namespace Microsoft.Bot.Builder.Skills
             _serviceClientCredentials = serviceClientCredentials ?? throw new ArgumentNullException(nameof(serviceClientCredentials));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
             _userState = userState;
-            _skillTransport = skillTransport ?? new SkillWebSocketTransport(_skillManifest, _serviceClientCredentials, telemetryClient);
+            _skillTransport = skillTransport ?? new SkillWebSocketTransport(telemetryClient);
 
             if (authDialog != null)
             {
@@ -69,7 +69,7 @@ namespace Microsoft.Bot.Builder.Skills
                 // to cancel all dialogs on the skill side
                 if (_skillTransport != null)
                 {
-                    await _skillTransport.CancelRemoteDialogsAsync(turnContext);
+                    await _skillTransport.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, turnContext);
                 }
             }
 
@@ -228,7 +228,7 @@ namespace Microsoft.Bot.Builder.Skills
         {
             try
             {
-                var endOfConversation = await _skillTransport.ForwardToSkillAsync(innerDc.Context, activity, GetTokenRequestCallback(innerDc));
+                var endOfConversation = await _skillTransport.ForwardToSkillAsync(_skillManifest, _serviceClientCredentials, innerDc.Context, activity, GetTokenRequestCallback(innerDc));
 
 				if (endOfConversation)
                 {
