@@ -1,13 +1,13 @@
 <resources>
 
-    <!-- ALL THE DAY STYLES GO IN HERE -->
+    <!-- ALL THE NIGHT STYLES GO IN HERE -->
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimaryNight</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkNight</item>
+        <item name="colorAccent">@color/colorAccentNight</item>
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
@@ -17,7 +17,7 @@
 
     <!-- CHAT -->
     <style name="BackgroundStyle">
-        <item name="android:background">@color/color_background</item>
+        <item name="android:background">@color/background_night</item>
     </style>
 
     <style name="ChatBotStyle">
@@ -32,23 +32,23 @@
 
     <style name="SuggestedActionStyle">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
     <!-- Other Styles -->
 
     <style name="MicStyle">
-        <item name="android:tint">@color/color_mic</item>
+        <item name="android:tint">@color/color_mic_night</item>
     </style>
 
     <style name="TextInputAccentStyle" parent="Widget.Design.TextInputLayout">
-        <item name="android:textColorHint">@color/colorAccent</item>
+        <item name="android:textColorHint">@color/colorAccentNight</item>
     </style>
 
     <style name="NavigationDrawerStyle">
-        <item name="android:backgroundTint">@color/navigationDrawer</item>
-        <item name="android:textColorPrimary">@color/navigationDrawerText</item>
-        <item name="android:textColorSecondary">@color/navigationDrawerText</item>
+        <item name="android:backgroundTint">@color/navigationDrawerNight</item>
+        <item name="android:textColorPrimary">@color/navigationDrawerTextNight</item>
+        <item name="android:textColorSecondary">@color/navigationDrawerTextNight</item>
     </style>
 
     <!-- SETTINGS -->

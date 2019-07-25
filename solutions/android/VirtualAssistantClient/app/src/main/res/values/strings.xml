@@ -28,6 +28,7 @@
     <string name="nav_menu_configuration" translatable="false">Settings</string>
     <string name="nav_menu_app_configuration" translatable="false">App Configuration</string>
     <string name="nav_menu_show_assistant_settings_msg" translatable="false">Show Assistant Settings</string>
+    <string name="nav_menu_night_mode" translatable="false">Enable Dark Mode</string>
 
     <!-- Configuration -->
     <string name="configuration_service_key_hint">Speech Service Subscription Key</string>

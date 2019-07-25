@@ -340,6 +340,7 @@ public class SpeechService extends Service {
 
         if(shouldListenAgain){
             shouldListenAgain = false;
+            Log.i(TAG_FOREGROUND_SERVICE, "Listening again");
             speechSdk.listenOnceAsync();
         }
 
@@ -394,7 +395,8 @@ public class SpeechService extends Service {
 
             // make the bot automatically listen again
             if(botConnectorActivity.getInputHint() != null){
-                if(botConnectorActivity.getInputHint().equals(InputHints.EXPECTINGINPUT)){
+                Log.i(TAG_FOREGROUND_SERVICE, "InputHint: "+botConnectorActivity.getInputHint());
+                if(botConnectorActivity.getInputHint().equals(InputHints.EXPECTINGINPUT.toString())){
                     shouldListenAgain = true;
                 }
             }
