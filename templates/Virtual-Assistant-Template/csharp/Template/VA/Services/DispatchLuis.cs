@@ -15,9 +15,9 @@ namespace Luis
         public string Text;
         public string AlteredText;
         public enum Intent {
-            l_general, 
-            q_chitchat, 
-            q_faq, 
+            l_General,
+            q_ChitChat, 
+            q_Faq, 
             None
         };
         public Dictionary<Intent, IntentScore> Intents;
