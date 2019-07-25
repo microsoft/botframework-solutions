@@ -4,9 +4,9 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Protocol;
-using Microsoft.Bot.Protocol.WebSockets;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.StreamingExtensions;
+using Microsoft.Bot.StreamingExtensions.Transport.WebSockets;
 using Diagnostics = System.Diagnostics;
 
 namespace Microsoft.Bot.Builder.Skills
@@ -121,7 +121,7 @@ namespace Microsoft.Bot.Builder.Skills
                     (activity.Type == ActivityTypes.Trace && activity.ChannelId == "emulator"))
                 {
                     var requestPath = $"/activities/{activity.Id}";
-                    var request = Request.CreatePost(requestPath);
+                    var request = StreamingRequest.CreatePost(requestPath);
                     request.SetBody(activity);
 
                     _botTelemetryClient.TrackTrace($"Sending activity. ReplyToId: {activity.ReplyToId}", Severity.Information, null);
@@ -168,7 +168,7 @@ namespace Microsoft.Bot.Builder.Skills
         public override async Task<ResourceResponse> UpdateActivityAsync(ITurnContext turnContext, Activity activity, CancellationToken cancellationToken)
         {
             var requestPath = $"/activities/{activity.Id}";
-            var request = Request.CreatePut(requestPath);
+            var request = StreamingRequest.CreatePut(requestPath);
             request.SetBody(activity);
 
             var response = default(ResourceResponse);
@@ -199,7 +199,7 @@ namespace Microsoft.Bot.Builder.Skills
         public override async Task DeleteActivityAsync(ITurnContext turnContext, ConversationReference reference, CancellationToken cancellationToken)
         {
             var requestPath = $"/activities/{reference.ActivityId}";
-            var request = Request.CreateDelete(requestPath);
+            var request = StreamingRequest.CreateDelete(requestPath);
 
             _botTelemetryClient.TrackTrace($"Deleting activity. activity id: {reference.ActivityId}", Severity.Information, null);
 
@@ -232,7 +232,7 @@ namespace Microsoft.Bot.Builder.Skills
             await SendActivitiesAsync(turnContext, new Activity[] { response }, cancellationToken).ConfigureAwait(false);
         }
 
-        private async Task<T> SendRequestAsync<T>(Request request, CancellationToken cancellation = default(CancellationToken))
+        private async Task<T> SendRequestAsync<T>(StreamingRequest request, CancellationToken cancellation = default(CancellationToken))
         {
             try
             {
@@ -253,7 +253,7 @@ namespace Microsoft.Bot.Builder.Skills
             return default(T);
         }
 
-        private async Task SendRequestAsync(Request request, CancellationToken cancellation = default(CancellationToken))
+        private async Task SendRequestAsync(StreamingRequest request, CancellationToken cancellation = default(CancellationToken))
         {
             try
             {

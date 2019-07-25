@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using Microsoft.Bot.Protocol;
+using Microsoft.Bot.StreamingExtensions;
 
 namespace Microsoft.Bot.Builder.Skills.Protocol
 {
