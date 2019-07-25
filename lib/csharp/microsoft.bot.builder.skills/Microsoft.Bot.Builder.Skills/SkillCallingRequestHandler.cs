@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Builder.Skills
         private readonly Action<Activity> _tokenRequestHandler;
         private readonly Action<Activity> _handoffActivityHandler;
 
-        public SkillCallingRequestHandler(ITurnContext turnContext, IBotTelemetryClient botTelemetryClient, Action<Activity> tokenRequestHandler = null, Action<Activity> handoffActivityHandler = null)
+        public SkillCallingRequestHandler(ITurnContext turnContext, IBotTelemetryClient botTelemetryClient, Action<Activity> tokenRequestHandler = null, Action<Activity> handoffActivityHandler = null, Action<Activity> apiResponseHandler = null)
         {
             _turnContext = turnContext ?? throw new ArgumentNullException(nameof(turnContext));
             _botTelemetryClient = botTelemetryClient;
@@ -51,6 +51,19 @@ namespace Microsoft.Bot.Builder.Skills
                                         else
                                         {
                                             throw new ArgumentNullException("TokenRequestHandler", "Skill is requesting for token but there's no handler on the calling side!");
+                                        }
+                                    }
+                                    else if (activity.SemanticAction != null && activity.SemanticAction.Entities != null && activity.SemanticAction.Entities.Count > 0)
+                                    {
+                                        if (apiResponseHandler != null)
+                                        {
+                                            apiResponseHandler(activity);
+
+                                            return new ResourceResponse();
+                                        }
+                                        else
+                                        {
+                                            throw new ArgumentNullException("apiResponseHandler", "Skill is sending APIResponse but there's no handler on the calling side!");
                                         }
                                     }
                                     else if (activity.Type == ActivityTypes.EndOfConversation)

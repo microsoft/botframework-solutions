@@ -17,17 +17,38 @@ namespace Luis
         public enum Intent {
             l_general, 
             q_chitchat, 
-            q_faq, 
+            q_faq,
+            toDoSkill,
+            pointOfInterestSkill,
+            calendarSkill,
+            emailSkill,
             None
         };
         public Dictionary<Intent, IntentScore> Intents;
 
         public class _Entities
         {
+            // Simple entities
+            public string[] ListType;
+            public string[] TaskContent;
+            public string[] ADDRESS;
+            public string[] KEYWORD;
+
+            // Lists
+            public string[][] FoodOfGrocery;
+
+            // Pattern.any
+            public string[] TaskContent_Any;
 
             // Instance
             public class _Instance
             {
+                public InstanceData[] ListType;
+                public InstanceData[] TaskContent;
+                public InstanceData[] ADDRESS;
+                public InstanceData[] KEYWORD;
+                public InstanceData[] FoodOfGrocery;
+                public InstanceData[] TaskContent_Any;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;

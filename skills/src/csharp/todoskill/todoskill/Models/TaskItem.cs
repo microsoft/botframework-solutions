@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace ToDoSkill.Models
 {
@@ -12,5 +13,7 @@ namespace ToDoSkill.Models
 
         [JsonProperty(PropertyName = "isCompleted")]
         public bool IsCompleted { get; set; }
+
+        public DateTime ReminderDateTime { get; set; }
     }
 }

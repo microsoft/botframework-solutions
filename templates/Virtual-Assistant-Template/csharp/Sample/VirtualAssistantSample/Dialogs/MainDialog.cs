@@ -19,6 +19,7 @@ using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Responses.Cancel;
 using VirtualAssistantSample.Responses.Main;
 using VirtualAssistantSample.Services;
+using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace VirtualAssistantSample.Dialogs
 {
@@ -31,6 +32,7 @@ namespace VirtualAssistantSample.Dialogs
         private MainResponses _responder = new MainResponses();
         private IStatePropertyAccessor<OnboardingState> _onboardingState;
         private IStatePropertyAccessor<SkillContext> _skillContextAccessor;
+        private ResponseManager _responseManager;
 
         public MainDialog(
             BotSettings settings,
@@ -38,9 +40,11 @@ namespace VirtualAssistantSample.Dialogs
             OnboardingDialog onboardingDialog,
             EscalateDialog escalateDialog,
             CancelDialog cancelDialog,
+            DeviceStartDialog deviceStartDialog,
             List<SkillDialog> skillDialogs,
             IBotTelemetryClient telemetryClient,
-            UserState userState)
+            UserState userState,
+            ResponseManager responseManager)
             : base(nameof(MainDialog), telemetryClient)
         {
             _settings = settings;
@@ -48,10 +52,12 @@ namespace VirtualAssistantSample.Dialogs
             TelemetryClient = telemetryClient;
             _onboardingState = userState.CreateProperty<OnboardingState>(nameof(OnboardingState));
             _skillContextAccessor = userState.CreateProperty<SkillContext>(nameof(SkillContext));
+            _responseManager = responseManager;
 
             AddDialog(onboardingDialog);
             AddDialog(escalateDialog);
             AddDialog(cancelDialog);
+            AddDialog(deviceStartDialog);
 
             foreach (var skillDialog in skillDialogs)
             {
@@ -189,7 +195,7 @@ namespace VirtualAssistantSample.Dialogs
             // Check if there was an action submitted from intro card
             var value = dc.Context.Activity.Value;
 
-            if (value.GetType() == typeof(JObject))
+            if (value != null && value.GetType() == typeof(JObject))
             {
                 var submit = JObject.Parse(value.ToString());
                 if (value != null && (string)submit["action"] == "startOnboarding")
@@ -205,6 +211,13 @@ namespace VirtualAssistantSample.Dialogs
             {
                 switch (ev.Name)
                 {
+                    case Events.DeviceStart:
+                        {
+                            forward = false;
+                            await dc.BeginDialogAsync(nameof(DeviceStartDialog));
+                            break;
+                        }
+
                     case Events.TimezoneEvent:
                         {
                             try
@@ -391,6 +404,7 @@ namespace VirtualAssistantSample.Dialogs
         {
             public const string TimezoneEvent = "VA.Timezone";
             public const string LocationEvent = "VA.Location";
+            public const string DeviceStart = "VA.DeviceStart";
         }
     }
 }

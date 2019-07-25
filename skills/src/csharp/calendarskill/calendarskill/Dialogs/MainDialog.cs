@@ -49,6 +49,7 @@ namespace CalendarSkill.Dialogs
             UpdateEventDialog updateEventDialog,
             ConnectToMeetingDialog connectToMeetingDialog,
             UpcomingEventDialog upcomingEventDialog,
+            CalendarSummaryDialog calendarSummaryDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -70,6 +71,7 @@ namespace CalendarSkill.Dialogs
             AddDialog(updateEventDialog ?? throw new ArgumentNullException(nameof(updateEventDialog)));
             AddDialog(connectToMeetingDialog ?? throw new ArgumentNullException(nameof(connectToMeetingDialog)));
             AddDialog(upcomingEventDialog ?? throw new ArgumentNullException(nameof(upcomingEventDialog)));
+            AddDialog(calendarSummaryDialog ?? throw new ArgumentNullException(nameof(calendarSummaryDialog)));
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -223,6 +225,13 @@ namespace CalendarSkill.Dialogs
         {
             switch (dc.Context.Activity.Name)
             {
+                case Events.VaDeviceStart:
+                    {
+                        var state = await _stateAccessor.GetAsync(dc.Context, () => new CalendarSkillState());
+                        await dc.BeginDialogAsync(nameof(CalendarSummaryDialog));
+                        break;
+                    }
+
                 case TokenEvents.TokenResponseEventName:
                     {
                         // Auth dialog completion
@@ -359,6 +368,7 @@ namespace CalendarSkill.Dialogs
         private class Events
         {
             public const string DeviceStart = "DeviceStart";
+            public const string VaDeviceStart = "VA.DeviceStart";
         }
     }
 }

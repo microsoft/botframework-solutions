@@ -45,6 +45,7 @@ namespace EmailSkill.Dialogs
             ShowEmailDialog showEmailDialog,
             ReplyEmailDialog replyEmailDialog,
             DeleteEmailDialog deleteEmailDialog,
+            EmailSummaryDialog emailSummaryDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -61,6 +62,7 @@ namespace EmailSkill.Dialogs
             AddDialog(showEmailDialog ?? throw new ArgumentNullException(nameof(showEmailDialog)));
             AddDialog(replyEmailDialog ?? throw new ArgumentNullException(nameof(replyEmailDialog)));
             AddDialog(deleteEmailDialog ?? throw new ArgumentNullException(nameof(deleteEmailDialog)));
+            AddDialog(emailSummaryDialog ?? throw new ArgumentNullException(nameof(emailSummaryDialog)));
 
             GetReadingDisplayConfig();
         }
@@ -226,6 +228,13 @@ namespace EmailSkill.Dialogs
 
                         break;
                     }
+
+                case Events.VaDeviceStart:
+                    {
+                        var state = await _stateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
+                        await dc.BeginDialogAsync(nameof(EmailSummaryDialog));
+                        break;
+                    }
             }
         }
 
@@ -330,6 +339,11 @@ namespace EmailSkill.Dialogs
             {
                 ConfigData.GetInstance().MaxDisplaySize = _settings.DisplaySize;
             }
+        }
+
+        private class Events
+        {
+            public const string VaDeviceStart = "VA.DeviceStart";
         }
     }
 }
