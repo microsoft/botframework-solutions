@@ -97,10 +97,10 @@ namespace VirtualAssistantSample.Dialogs
                     await CompleteAsync(dc);
                 }
             }
-            else if (intent == DispatchLuis.Intent.l_General)
+            else if (intent == DispatchLuis.Intent.l_general)
             {
                 // If dispatch result is general luis model
-                cognitiveModels.LuisServices.TryGetValue("General", out var luisService);
+                cognitiveModels.LuisServices.TryGetValue("general", out var luisService);
 
                 if (luisService == null)
                 {
@@ -132,9 +132,9 @@ namespace VirtualAssistantSample.Dialogs
                     }
                 }
             }
-            else if (intent == DispatchLuis.Intent.q_Faq)
+            else if (intent == DispatchLuis.Intent.q_faq)
             {
-                cognitiveModels.QnAServices.TryGetValue("Faq", out var qnaService);
+                cognitiveModels.QnAServices.TryGetValue("faq", out var qnaService);
 
                 if (qnaService == null)
                 {
@@ -154,9 +154,9 @@ namespace VirtualAssistantSample.Dialogs
                     }
                 }
             }
-            else if (intent == DispatchLuis.Intent.q_ChitChat)
+            else if (intent == DispatchLuis.Intent.q_chitchat)
             {
-                cognitiveModels.QnAServices.TryGetValue("ChitChat", out var qnaService);
+                cognitiveModels.QnAServices.TryGetValue("chitchat", out var qnaService);
 
                 if (qnaService == null)
                 {
