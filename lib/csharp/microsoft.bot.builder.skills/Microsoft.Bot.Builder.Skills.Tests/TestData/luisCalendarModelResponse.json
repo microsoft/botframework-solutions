@@ -7693,7 +7693,7 @@
       ]
     },
     {
-      "text": "put bitch appointment tomorrow morning",
+      "text": "put an appointment tomorrow morning",
       "intent": "CreateCalendarEntry",
       "entities": [
         {

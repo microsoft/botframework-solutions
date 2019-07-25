@@ -19,7 +19,6 @@ namespace $safeprojectname$.Bots
         public DefaultAdapter(
             BotSettings settings,
             ICredentialProvider credentialProvider,
-            BotStateSet botStateSet,
             IBotTelemetryClient telemetryClient,
             ResponseManager responseManager)
             : base(credentialProvider)
@@ -39,7 +38,6 @@ namespace $safeprojectname$.Bots
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new AutoSaveStateMiddleware(botStateSet));
         }
     }
 }

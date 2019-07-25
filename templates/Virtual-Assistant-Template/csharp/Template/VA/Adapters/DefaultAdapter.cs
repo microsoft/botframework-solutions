@@ -17,8 +17,7 @@ namespace $safeprojectname$.Adapters
         public DefaultAdapter(
             BotSettings settings,
             ICredentialProvider credentialProvider,
-            IBotTelemetryClient telemetryClient,
-            BotStateSet botStateSet)
+            IBotTelemetryClient telemetryClient)
             : base(credentialProvider)
         {
             OnTurnError = async (turnContext, exception) =>
@@ -36,7 +35,6 @@ namespace $safeprojectname$.Adapters
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new AutoSaveStateMiddleware(botStateSet));
         }
     }
 }

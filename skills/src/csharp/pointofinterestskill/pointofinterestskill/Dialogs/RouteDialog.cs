@@ -301,19 +301,7 @@ namespace PointOfInterestSkill.Dialogs
                     // workaround. if connect skill directly to teams, the following response does not work.
                     if (sc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(sc.Context) != Channels.Msteams)
                     {
-                        // Send event with active route data
-                        var replyEvent = sc.Context.Activity.CreateReply();
-                        replyEvent.Type = ActivityTypes.Event;
-                        replyEvent.Name = "ActiveRoute.Directions";
-
-                        var eventPayload = new DirectionsEventResponse
-                        {
-                            Destination = state.Destination,
-                            Route = state.ActiveRoute
-                        };
-                        replyEvent.Value = eventPayload;
-
-                        await sc.Context.SendActivityAsync(replyEvent);
+                        await sc.Context.SendActivityAsync(CreateOpenDefaultAppReply(sc.Context.Activity, state.Destination));
                     }
                 }
                 else

@@ -22,18 +22,21 @@ const filledSkills = JSON.stringify(
     },
     null, 4);
 
+function undoChangesInTemporalFiles() {
+    writeFileSync(resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")), filledSkills);
+}
+
 describe("The connect command", function () {
     
-    beforeEach(function () {
-        writeFileSync(resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")), filledSkills);
-
+    beforeEach(function() {
+        undoChangesInTemporalFiles();
         this.logger = new testLogger.TestLogger();
         this.connector = new botskills.ConnectSkill(this.logger);
-    })
+    });
 
-    after(function () {
-        writeFileSync(resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")), filledSkills);
-    })
+    after(function() {
+        undoChangesInTemporalFiles();
+    });
 
 	describe("should show an error", function () {
         it("when there is no skills File", async function () {
