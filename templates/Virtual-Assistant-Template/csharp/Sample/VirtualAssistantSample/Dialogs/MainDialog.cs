@@ -154,7 +154,7 @@ namespace VirtualAssistantSample.Dialogs
                     }
                 }
             }
-            else if (intent == DispatchLuis.Intent.r_ChitChat)
+            else if (intent == DispatchLuis.Intent.q_ChitChat)
             {
                 cognitiveModels.QnAServices.TryGetValue("ChitChat", out var qnaService);
 
