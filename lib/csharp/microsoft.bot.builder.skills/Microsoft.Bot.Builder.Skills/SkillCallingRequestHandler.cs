@@ -90,7 +90,7 @@ namespace Microsoft.Bot.Builder.Skills
                             async (request, routeData) =>
                             {
                                 var activity = request.ReadBodyAsJson<Activity>();
-                                var result = _turnContext.UpdateActivityAsync(activity).ConfigureAwait(false);
+                                var result = await _turnContext.UpdateActivityAsync(activity).ConfigureAwait(false);
                                 return result;
                             },
                     },
@@ -104,7 +104,7 @@ namespace Microsoft.Bot.Builder.Skills
                         Action =
                             async (request, routeData) =>
                             {
-                                var result = await _turnContext.DeleteActivityAsync(routeData.activityId);
+                                var result = await _turnContext.DeleteActivityAsync(routeData.activityId).ConfigureAwait(false);
                                 return result;
                             },
                     },

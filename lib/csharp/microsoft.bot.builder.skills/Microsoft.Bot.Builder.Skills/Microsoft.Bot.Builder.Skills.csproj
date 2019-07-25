@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Version Condition=" '$(PackageVersion)' == '' ">4.0.0-local</Version>
     <Version Condition=" '$(PackageVersion)' != '' ">$(PackageVersion)</Version>
@@ -14,7 +14,6 @@
     <Company>Microsoft</Company>
     <Authors>Microsoft</Authors>
     <Description>Shared library for building Bot Framework Skills.</Description>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <SignAssembly>true</SignAssembly>
