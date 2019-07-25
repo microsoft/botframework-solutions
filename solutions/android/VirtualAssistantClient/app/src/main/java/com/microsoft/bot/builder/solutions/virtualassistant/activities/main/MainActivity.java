@@ -64,11 +64,13 @@ import butterknife.OnClick;
 import butterknife.OnEditorAction;
 import client.model.BotConnectorActivity;
 import client.model.CardAction;
+import client.model.InputHints;
 import events.ActivityReceived;
 import events.Disconnected;
 import events.Recognized;
 import events.RecognizedIntermediateResult;
 import events.RequestTimeout;
+import events.SynthesizerStopped;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, ViewholderBot.OnClickListener, ActionsViewholder.OnClickListener {
@@ -102,6 +104,7 @@ public class MainActivity extends BaseActivity
     private Gson gson;
     private SfxManager sfxManager;
     private ConfigurationManager configurationManager;
+    private boolean willListenAgain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -289,12 +292,21 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
+    private void showListeningAnimation(){
+        animatedAssistant.setVisibility(View.VISIBLE);
+        ((AnimationDrawable) animatedAssistant.getBackground()).start();
+        sfxManager.playEarconListening();
+    }
+
+    private void hideListeningAnimation(){
+        animatedAssistant.setVisibility(View.GONE);
+        sfxManager.playEarconDoneListening();
+    }
+
     @OnClick(R.id.mic_image)
     public void onClickAssistant() {
         try {
-            animatedAssistant.setVisibility(View.VISIBLE);
-            ((AnimationDrawable) animatedAssistant.getBackground()).start();
-            sfxManager.playEarconListening();
+            showListeningAnimation();
             speechServiceBinder.listenOnceAsync();
         } catch (RemoteException exception){
             Log.e(LOGTAG, exception.getMessage());
@@ -381,6 +393,20 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    // EventBus: the synthesizer has stopped playing
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventSynthesizerStopped(SynthesizerStopped event) {
+
+        // Note: the SpeechService will trigger the actual listening. Since the app needs to show a
+        // visual, the app also needs to subscribe to this event and act on it.
+        if(willListenAgain){
+            willListenAgain = false;
+            Log.i(LOGTAG, "Listening again");
+            showListeningAnimation();
+        }
+
+    }
+
     // EventBus: the user spoke and the app recognized intermediate speech
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventRecognizedIntermediateResult(RecognizedIntermediateResult event) {
@@ -390,9 +416,9 @@ public class MainActivity extends BaseActivity
     // EventBus: the user spoke and the app recognized the speech. Disconnect mic.
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventRecognized(Recognized event) {
-        sfxManager.playEarconDoneListening();
+        hideListeningAnimation();
         detectedSpeechToText.setText(event.recognized_speech);
-        animatedAssistant.setVisibility(View.GONE);
+
         // in 2 seconds clear the text (at this point the bot should be giving its' response)
         handler.postDelayed(() -> detectedSpeechToText.setText(""), 2000);
     }
@@ -431,6 +457,14 @@ public class MainActivity extends BaseActivity
                     break;
                 default:
                     break;
+            }
+
+            // the service looks for the same expectingInput event. The app needs it to trigger visuals
+            if(botConnectorActivity.getInputHint() != null){
+                Log.i(LOGTAG, "InputHint: "+botConnectorActivity.getInputHint());
+                if(botConnectorActivity.getInputHint().equals(InputHints.EXPECTINGINPUT.toString())){
+                    willListenAgain = true;
+                }
             }
         }
     }
