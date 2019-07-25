@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Skills.Protocol;
 using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Protocol;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.StreamingExtensions;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -37,7 +38,7 @@ namespace Microsoft.Bot.Builder.Skills
                         Action =
                             async (request, routeData) =>
                             {
-                                var activity = await request.ReadBodyAsJson<Activity>().ConfigureAwait(false);
+                                var activity = request.ReadBodyAsJson<Activity>();
                                 if (activity != null)
                                 {
                                     if (activity.Type == ActivityTypes.Event && activity.Name == TokenEvents.TokenRequestEventName)
@@ -88,8 +89,8 @@ namespace Microsoft.Bot.Builder.Skills
                         Action =
                             async (request, routeData) =>
                             {
-                                var activity = await request.ReadBodyAsJson<Activity>().ConfigureAwait(false);
-                                var result = _turnContext.UpdateActivityAsync(activity).ConfigureAwait(false);
+                                var activity = request.ReadBodyAsJson<Activity>();
+                                var result = await _turnContext.UpdateActivityAsync(activity).ConfigureAwait(false);
                                 return result;
                             },
                     },
@@ -103,7 +104,7 @@ namespace Microsoft.Bot.Builder.Skills
                         Action =
                             async (request, routeData) =>
                             {
-                                var result = await _turnContext.DeleteActivityAsync(routeData.activityId);
+                                var result = await _turnContext.DeleteActivityAsync(routeData.activityId).ConfigureAwait(false);
                                 return result;
                             },
                     },
@@ -113,7 +114,7 @@ namespace Microsoft.Bot.Builder.Skills
             _router = new Router(routes);
         }
 
-        public override async Task<Response> ProcessRequestAsync(ReceiveRequest request, object context = null, ILogger<RequestHandler> logger = null)
+        public override async Task<StreamingResponse> ProcessRequestAsync(ReceiveRequest request, ILogger<RequestHandler> logger, object context = null, CancellationToken cancellationToken = default)
         {
             var routeContext = _router.Route(request);
             if (routeContext != null)
@@ -121,17 +122,17 @@ namespace Microsoft.Bot.Builder.Skills
                 try
                 {
                     var responseBody = await routeContext.Action.Action(request, routeContext.RouteData).ConfigureAwait(false);
-                    return Response.OK(new StringContent(JsonConvert.SerializeObject(responseBody, SerializationSettings.DefaultSerializationSettings), Encoding.UTF8, SerializationSettings.ApplicationJson));
+                    return StreamingResponse.OK(new StringContent(JsonConvert.SerializeObject(responseBody, SerializationSettings.DefaultSerializationSettings), Encoding.UTF8, SerializationSettings.ApplicationJson));
                 }
                 catch (Exception ex)
                 {
                     _botTelemetryClient.TrackException(ex);
-                    return Response.InternalServerError();
+                    return StreamingResponse.InternalServerError();
                 }
             }
             else
             {
-                return Response.NotFound();
+                return StreamingResponse.NotFound();
             }
         }
     }
