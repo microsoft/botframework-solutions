@@ -1,0 +1,117 @@
+<div id="toc" class="col-md-3 py-6">
+    <div class="toc-wrap">
+        <ul class="mt-2 mb-4 list-style-none">
+            {% assign categories = site.docs | group_by: 'category' %}
+            {% for category in categories %}
+                <li>
+                    <h3>{{ category.name }}</h3>
+                    <ul class="mt-2 mb-4 list-style-none">
+                        {% assign subcategories = category.items | group_by: 'subcategory' %}
+                        {% for subcategory in subcategories %}
+                            {% if subcategory.name == '' %}
+                                {% assign items = subcategory.items | sort: 'order' %}
+                                {% for item in items %}
+                                    <li>
+                                        {% if page.url == item.url %}
+                                            {% assign classes = "text-brand-red" %}
+                                        {% else %}
+                                            {% assign classes = "text-gray-light" %}
+                                        {% endif %}
+                                        <a class="d-block no-underline py-1 {{classes}}"
+                                            href="{{ site.baseurl }}{{ item.url }}">{{ item.title }}</a>
+                                    </li>
+                                {% endfor %}
+                            {% else %}
+                                <li>
+                                    <h4>{{ subcategory.name }}</h4>
+                                    {% assign items = subcategory.items | sort: 'order' %}
+                                    <ul class="mt-2 mb-4 list-style-none">
+                                        {% for item in items %}
+                                        <li>
+                                            {% if page.url == item.url %}
+                                                {% assign classes = "text-brand-red" %}
+                                            {% else %}
+                                                {% assign classes = "text-gray-light" %}
+                                            {% endif %}
+                                            <a class="d-block no-underline py-1 {{classes}}" href="{{ site.baseurl }}{{ item.url }}">
+                                                {{ item.title }}
+                                            </a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+
+<!-- <div id="toc" class="col-md-3 py-6">
+        <div class="toc-wrap">
+            <div>
+                <ul class="mt-2 mb-4 list-style-none">
+                    {% assign counter = 0 %}
+                    {% assign categories = site.docs | group_by: 'category' %}
+                    {% for category in categories %}
+                    {% assign counter = counter | plus: 1 %}
+                    <li>
+                        <h3>
+                            <a href="#category{{counter}}" data-toggle="collapse"
+                                class="dropdown-toggle">{{ category.name }}</a>
+                        </h3>
+    
+                        <ul id="category{{counter}}"
+                            class="{% if counter != 1 %}collapse{% endif %} mt-2 mb-4 list-style-none">
+                            {% assign counter2 = 0 %}
+                            {% assign subcategories = category.items | group_by: 'subcategory' %}
+                            {% for subcategory in subcategories %}
+                            {% assign counter2 = counter2 | plus: 1 %}
+                            {% if subcategory.name == '' %}
+                            {% assign items = subcategory.items | sort: 'order' %}
+                            {% for item in items %}
+                            <li>
+                                {% if page.url == item.url %}
+                                {% assign classes = "text-brand-red" %}
+                                {% else %}
+                                {% assign classes = "text-gray-light" %}
+                                {% endif %}
+                                <a class="d-block no-underline py-1 {{classes}}"
+                                    href="{{ site.baseurl }}{{ item.url }}">{{ item.title }}</a>
+                            </li>
+                            {% endfor %}
+                            {% else %}
+                            <li>
+                                <h4>
+                                    <a href="#subcategory{{counter2}}" data-toggle="collapse"
+                                        class="dropdown-toggle">{{ subcategory.name }}</a>
+                                </h4>
+                                {% assign items = subcategory.items | sort: 'order' %}
+                                <ul id="subcategory{{counter2}}"
+                                    class="{% if counter != 1 %}collapse{% endif %} mt-2 mb-4 list-style-none">
+                                    {% for item in items %}
+                                    <li>
+                                        {% if page.url == item.url %}
+                                        {% assign classes = "text-brand-red" %}
+                                        {% else %}
+                                        {% assign classes = "text-gray-light" %}
+                                        {% endif %}
+                                        <a class="d-block no-underline py-1 {{classes}}"
+                                            href="{{ site.baseurl }}{{ item.url }}">{{ item.title }}</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div> -->

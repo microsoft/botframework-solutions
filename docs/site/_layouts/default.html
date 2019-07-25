@@ -1,86 +1,37 @@
 <!DOCTYPE html>
 
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		{% seo %}
-		{% feed_meta %}
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-		<!-- <link rel="stylesheet" href="{{ site.baseurl }}/css/main.css"> -->
-		<!-- <link rel="apple-touch-icon" href="{{ site.baseurl }}/apple-touch-icon.png">
-		<link rel="icon" type="image/png" href="{{ site.baseurl }}/touch-icon.png" sizes="192x192">
-		<link rel="icon" type="image/png" href="{{ site.baseurl }}/images/favicon.png"> -->
-	</head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+	<link rel="stylesheet" href="/assets/css/index.css">
+</head>
 
-	<body>
-		<header>
-			<h1>
-				<a href="{{ site.baseurl }}/">{{ site.title }}</a>
-				<button type="button" class="open-nav" id="open-nav"></button>
-			</h1>
+<body>
+	{% include header.html %}
 
-			<!-- <form action="{{ site.baseurl }}/search/" method="get">
-				<input type="text" name="q" id="search-input" placeholder="Search" autofocus>
-				<input type="submit" value="Search" style="display: none;">
-			</form> -->
-
-			<nav {% if site.show_full_navigation %}class="full-navigation"{% endif %}>
-				<!-- <ul>
-					<li class="nav-item top-level {% if page.url == '/' %}current{% endif %}">
-						{% assign home = site.html_pages | where: 'url', '/' | first %}
-						<a href="{{ site.baseurl }}/">{{ home.title }}</a>
-					</li>
-				</ul> -->
-
-				<ul>
-					{% assign categories = site.docs | group_by: 'category' %}
-					{% for category in categories %}
-						<li class="nav-item top-level {% if category.name == page.category %}current{% endif %}">
-                            <span>{{ category.name }}</span>
-                            {% assign subcategories = category.items | group_by: 'subcategory' %}
-                            {% for subcategory in subcategories %}
-                            <ul>
-								{% if subcategory.name == '' %}
-									{% assign items = subcategory.items | sort: 'order' %}
-                                    {% for item in items %}
-                                        <li class="nav-item {% if item.url == page.url %}current{% endif %}"><a href="{{ site.baseurl }}{{ item.url }}">{{ item.title }}</a></li>
-                                    {% endfor %}
-                                </li>
-                                {% else %}
-                                    <li>
-                                        <span>{{ subcategory.name }}</span>
-                                        {% assign items = subcategory.items | sort: 'order' %}
-                                        <ul>
-                                            {% for item in items %}
-                                                <li class="nav-item {% if item.url == page.url %}current{% endif %}"><a href="{{ site.baseurl }}{{ item.url }}">{{ item.title }}</a></li>
-                                            {% endfor %}
-                                        </ul>
-                                    </li>
-                                {% endif %}
-                            </ul>
-                            {% endfor %}
-						</li>
-					{% endfor %}
-				</ul>
-			</nav>
-		</header>
-
-		<section class="main">
-			<div class="page-header">
-				<h2>{% if page.category %}{{ page.category }}{% else %}{{ site.title }}{% endif %}</h2>
-				<h3>{{ page.title }}</h3>
-			</div>
-			<article class="content">
+	<div class="container-lg px-3 py-6">
+		<div class="d-md-flex flex-md-row flex-md-row-reverse gutter-md-spacious">
+			<div class="col-md-9 markdown-body p-md-6">
 				{{ content }}
-			</article>
-		</section>
+			</div>
+			{% include nav.html %}
+		</div>
+	</div>
 
-		<script>
-			document.getElementById("open-nav").addEventListener("click", function () {
-				document.body.classList.toggle("nav-open");
-			});
-		</script>
-	</body>
+	{% include footer.html %}
+
+	
+   <!-- jQuery CDN - Slim version (=without AJAX) -->
+   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+   <!-- Bootstrap JS -->
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+</body>
 </html>

@@ -1,0 +1,15 @@
+$brand: (red, #EF4136),
+        (blue, #00B0D8),
+        (blue-dark, darken(#00B0D8, 10%)),
+        (blue-light, lighten(#AFDFE4, 15%)),
+        (orange, #FCBA63);
+
+@each $name, $color in $brand {
+  .bg-brand-#{"" + $name} {
+    background-color: $color;
+  }
+
+  .text-brand-#{"" + $name} {
+    color: $color;
+  }
+}

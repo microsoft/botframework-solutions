@@ -24,24 +24,21 @@ defaults:
       path: "_docs/tutorials"
     values:
       layout: tutorial
-  - scope:
-      path: ""
-      type: "docs"
-    values:
-      seo:
-        type: Article
-      _comments:
-        category: Group navigation links with this field
-        order: Used to sort links in the navigation
-      _options:
-        content:
-          width: 800
-          height: 2000
 
 # Build settings
 markdown: kramdown
-theme: minima
+
+sass:
+  style: :compressed
+  sass_dir: _sass
+  load_paths:
+    - node_modules
+    - node_modules/**/*/node_modules
+
 plugins:
   - jekyll-feed
   - jekyll-sitemap
-  
+  - jekyll-mentions
+  - jekyll-octicons
+  - jekyll-sitemap
+  - jemoji  
