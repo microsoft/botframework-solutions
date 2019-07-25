@@ -14,6 +14,7 @@ using HtmlAgilityPack;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
@@ -27,6 +28,8 @@ namespace CalendarSkill.Dialogs
 {
     public class ConnectToMeetingDialog : CalendarSkillDialogBase
     {
+        private ResourceMultiLanguageGenerator _lgMultiLangEngine;
+
         public ConnectToMeetingDialog(
             BotSettings settings,
             BotServices services,
@@ -37,6 +40,8 @@ namespace CalendarSkill.Dialogs
             MicrosoftAppCredentials appCredentials)
             : base(nameof(ConnectToMeetingDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("SummaryDialog.lg");
+
             TelemetryClient = telemetryClient;
 
             var joinMeeting = new WaterfallStep[]
@@ -159,7 +164,7 @@ namespace CalendarSkill.Dialogs
                     { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(firstEvent.Attendees, 1) }
                 };
 
-                var reply = await GetGeneralMeetingListResponseAsync(sc, CalendarCommonStrings.MeetingsToJoin, GetCurrentPageMeetings(state.SummaryEvents, state), JoinEventResponses.SelectMeeting, responseParams);
+                var reply = await GetGeneralMeetingListResponseAsync(sc, _lgMultiLangEngine, CalendarCommonStrings.MeetingsToJoin, GetCurrentPageMeetings(dialogState.SummaryEvents, dialogState, userState), JoinEventResponses.SelectMeeting, responseParams);
 
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = reply });
             }

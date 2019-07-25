@@ -1,0 +1,16 @@
+[import](Shared.en-us.lg)
+
+# ShowNoMeetingMessage
+- You don't have any events.
+
+# ShowMeetingSummaryAgainMessage(count, dateTimeString)
+- IF: @{count == 1}
+	- You have 1 event planned for @{dateTimeString}. Want to know the content of this event?
+- ELSE:
+	- You have @{count} events planned for @{dateTimeString}.
+
+# ShowMeetingSummaryMessage(events, timezone, dateTimeString)
+- IF: @{count(events) == 1}
+	- You have 1 event planned for @{dateTimeString}, it is with [ShowAttendees(events[0].Attendees, 1)] [FormatEventTime(events[0], timezone)] titled @{events[0].Title}. Want to know the content of this event?
+- ELSE:
+	- It looks like you have @{count(events)} events planned for @{dateTimeString}, the first event is with [ShowAttendees(events[0].Attendees, 1)] [FormatEventTime(events[0], timezone)] titled @{events[0].Title}. The last event of @{dateTimeString} is [FormatEventTime(events[count(events) - 1], timezone)] with [ShowAttendees(events[count(events) - 1].Attendees, 1)] titled @{events[count(events) - 1].Title}.

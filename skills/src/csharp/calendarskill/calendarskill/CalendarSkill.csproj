@@ -90,6 +90,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Responses\Summary\SummaryDialog.en-us.lg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Responses\Summary\SummaryDialog.en-us.lg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.40.2.1620" />
     <PackageReference Include="Google.Apis.People.v1" Version="1.25.0.830" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.7" />

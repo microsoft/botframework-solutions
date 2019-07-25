@@ -866,12 +866,13 @@ namespace CalendarSkill.Models
 
             return new CalendarItemCardData
             {
-                Time = userStartDateTime.ToString("H:mm"),
-                TimeColor = IsConflict ? "Attention" : "Dark",
-                Title = Title,
-                Location = Location,
-                Duration = ToDisplayDurationString(),
-                IsSubtle = !IsAccepted
+                Event = this
+                //Time = userStartDateTime.ToString("H:mm"),
+                //TimeColor = IsConflict ? "Attention" : "Dark",
+                //Title = Title,
+                //Location = Location,
+                //Duration = ToDisplayDurationString(),
+                //IsSubtle = !IsAccepted
             };
         }
 
