@@ -29,23 +29,23 @@ namespace Microsoft.Bot.Builder.Skills
         private Queue<Activity> _queuedResponses = new Queue<Activity>();
         private object _lockObject = new object();
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="SkillDialog"/> class.
-		/// SkillDialog constructor that accepts the manifest description of a Skill along with TelemetryClient for end to end telemetry.
-		/// </summary>
-		/// <param name="skillManifest">Skill manifest.</param>
-		/// <param name="serviceClientCredentials">Service client credentials.</param>
-		/// <param name="telemetryClient">Telemetry Client.</param>
-		/// <param name="userState">User State.</param>
-		/// <param name="authDialog">Auth Dialog.</param>
-		/// <param name="skillTransport">Transport used for skill invocation.</param>
-		public SkillDialog(
-			SkillManifest skillManifest,
-			IServiceClientCredentials serviceClientCredentials,
-			IBotTelemetryClient telemetryClient,
-			UserState userState,
-			MultiProviderAuthDialog authDialog = null,
-			ISkillTransport skillTransport = null)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SkillDialog"/> class.
+        /// SkillDialog constructor that accepts the manifest description of a Skill along with TelemetryClient for end to end telemetry.
+        /// </summary>
+        /// <param name="skillManifest">Skill manifest.</param>
+        /// <param name="serviceClientCredentials">Service client credentials.</param>
+        /// <param name="telemetryClient">Telemetry Client.</param>
+        /// <param name="userState">User State.</param>
+        /// <param name="authDialog">Auth Dialog.</param>
+        /// <param name="skillTransport">Transport used for skill invocation.</param>
+        public SkillDialog(
+            SkillManifest skillManifest,
+            IServiceClientCredentials serviceClientCredentials,
+            IBotTelemetryClient telemetryClient,
+            UserState userState,
+            MultiProviderAuthDialog authDialog = null,
+            ISkillTransport skillTransport = null)
             : base(skillManifest.Id)
         {
             _skillManifest = skillManifest ?? throw new ArgumentNullException(nameof(SkillManifest));
@@ -95,63 +95,53 @@ namespace Microsoft.Bot.Builder.Skills
                 In other scenarios (aggregated skill dispatch) we evaluate all possible slots against context and pass across
                 enabling the Skill to perform it's own action identification. */
 
-            var dialogOptions = options != null ? options as SkillDialogOption : null;
-            string actionName = null;
-            if (dialogOptions != null)
+            var activity = innerDc.Context.Activity;
+            if (activity.SemanticAction == null)
             {
-                actionName = dialogOptions.Action;
-
-                // Find the specified within the selected Skill for slot filling evaluation
-                var action = _skillManifest.Actions.SingleOrDefault(a => a.Id == actionName);
-                if (action != null)
+                var actionName = options != null ? options as string : null;
+                if (actionName != null)
                 {
-                    // If the action doesn't define any Slots or SkillContext is empty then we skip slot evaluation
-                    if (action.Definition.Slots != null && skillContext.Count > 0)
+                    // Find the specified within the selected Skill for slot filling evaluation
+                    var action = _skillManifest.Actions.SingleOrDefault(a => a.Id == actionName);
+                    if (action != null)
                     {
-                        // Match Slots to Skill Context
-                        slots = await MatchSkillContextToSlots(innerDc, action.Definition.Slots, skillContext);
+                        // If the action doesn't define any Slots or SkillContext is empty then we skip slot evaluation
+                        if (action.Definition.Slots != null && skillContext.Count > 0)
+                        {
+                            // Match Slots to Skill Context
+                            slots = await MatchSkillContextToSlots(innerDc, action.Definition.Slots, skillContext);
+                        }
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"Passed Action ({actionName}) could not be found within the {_skillManifest.Id} skill manifest action definition.");
                     }
                 }
                 else
                 {
-                    throw new ArgumentException($"Passed Action ({actionName}) could not be found within the {_skillManifest.Id} skill manifest action definition.");
-                }
-            }
-            else
-            {
-                // The caller hasn't got the capability of identifying the action as well as the Skill so we enumerate
-                // actions and slot data to pass what we have
+                    // The caller hasn't got the capability of identifying the action as well as the Skill so we enumerate
+                    // actions and slot data to pass what we have
 
-                // Retrieve a distinct list of all slots, some actions may use the same slot so we use distinct to ensure we only get 1 instance.
-                var skillSlots = _skillManifest.Actions.SelectMany(s => s.Definition.Slots).Distinct(new SlotEqualityComparer());
-                if (skillSlots != null)
-                {
-                    // Match Slots to Skill Context
-                    slots = await MatchSkillContextToSlots(innerDc, skillSlots.ToList(), skillContext);
+                    // Retrieve a distinct list of all slots, some actions may use the same slot so we use distinct to ensure we only get 1 instance.
+                    var skillSlots = _skillManifest.Actions.SelectMany(s => s.Definition.Slots).Distinct(new SlotEqualityComparer());
+                    if (skillSlots != null)
+                    {
+                        // Match Slots to Skill Context
+                        slots = await MatchSkillContextToSlots(innerDc, skillSlots.ToList(), skillContext);
+                    }
                 }
+
+                var semanticAction = new SemanticAction { Entities = new Dictionary<string, Entity>() };
+
+                foreach (var slot in slots)
+                {
+                    semanticAction.Entities.Add(slot.Key, new Entity { Properties = slot.Value });
+                }
+
+                activity.SemanticAction = semanticAction;
             }
 
             await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Handing off to the {_skillManifest.Name} skill."));
-
-            var activity = innerDc.Context.Activity;
-			var semanticAction = new SemanticAction
-            {
-                Id = actionName,
-                Entities = new Dictionary<string, Entity>(),
-            };
-
-            // only set the semantic state if action is not empty
-            if (!string.IsNullOrWhiteSpace(actionName))
-            {
-                semanticAction.State = SkillConstants.SkillStart;
-            }
-
-			foreach (var slot in slots)
-			{
-				semanticAction.Entities.Add(slot.Key, new Entity { Properties = slot.Value });
-			}
-
-			activity.SemanticAction = semanticAction;
 
             return await ForwardToSkillAsync(innerDc, activity);
         }
@@ -230,23 +220,23 @@ namespace Microsoft.Bot.Builder.Skills
             {
                 var endOfConversation = await _skillTransport.ForwardToSkillAsync(_skillManifest, _serviceClientCredentials, innerDc.Context, activity, GetTokenRequestCallback(innerDc));
 
-				if (endOfConversation)
+                if (endOfConversation)
                 {
                     await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"<--Ending the skill conversation with the {_skillManifest.Name} Skill and handing off to Parent Bot."));
                     return await innerDc.EndDialogAsync();
                 }
                 else
-				{
-					var dialogResult = new DialogTurnResult(DialogTurnStatus.Waiting);
+                {
+                    var dialogResult = new DialogTurnResult(DialogTurnStatus.Waiting);
 
-					// if there's any response we need to send to the skill queued
-					// forward to skill and start a new turn
-					while (_queuedResponses.Count > 0 && dialogResult.Status != DialogTurnStatus.Complete && dialogResult.Status != DialogTurnStatus.Cancelled)
-					{
-						dialogResult = await ForwardToSkillAsync(innerDc, _queuedResponses.Dequeue());
-					}
+                    // if there's any response we need to send to the skill queued
+                    // forward to skill and start a new turn
+                    while (_queuedResponses.Count > 0 && dialogResult.Status != DialogTurnStatus.Complete && dialogResult.Status != DialogTurnStatus.Cancelled)
+                    {
+                        dialogResult = await ForwardToSkillAsync(innerDc, _queuedResponses.Dequeue());
+                    }
 
-					return dialogResult;
+                    return dialogResult;
                 }
             }
             catch
