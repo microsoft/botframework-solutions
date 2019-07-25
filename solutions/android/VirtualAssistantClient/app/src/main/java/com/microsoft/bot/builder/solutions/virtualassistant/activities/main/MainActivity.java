@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.assist.AssistContent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -18,6 +19,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
@@ -61,11 +64,13 @@ import butterknife.OnClick;
 import butterknife.OnEditorAction;
 import client.model.BotConnectorActivity;
 import client.model.CardAction;
+import client.model.InputHints;
 import events.ActivityReceived;
 import events.Disconnected;
 import events.Recognized;
 import events.RecognizedIntermediateResult;
 import events.RequestTimeout;
+import events.SynthesizerStopped;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, ViewholderBot.OnClickListener, ActionsViewholder.OnClickListener {
@@ -80,8 +85,10 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.switch_show_textinput) SwitchCompat switchShowTextInput;
     @BindView(R.id.switch_show_full_conversation) SwitchCompat switchShowFullConversation;
+    @BindView(R.id.switch_night_mode) SwitchCompat switchNightMode;
     @BindView(R.id.speech_detection) TextView detectedSpeechToText;
-    @BindView(R.id.agent_image) ImageView agentImage;
+    @BindView(R.id.mic_image) ImageView micImage;
+    @BindView(R.id.animated_assistant) AppCompatImageView animatedAssistant;
 
     // CONSTANTS
     private static final int CONTENT_VIEW = R.layout.activity_main;
@@ -97,6 +104,7 @@ public class MainActivity extends BaseActivity
     private Gson gson;
     private SfxManager sfxManager;
     private ConfigurationManager configurationManager;
+    private boolean willListenAgain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +124,7 @@ public class MainActivity extends BaseActivity
         switchShowTextInput.setChecked(alwaysShowTextInput);
         showFullConversation = getBooleanSharedPref(SHARED_PREF_SHOW_FULL_CONVERSATION);
         switchShowFullConversation.setChecked(showFullConversation);
+        switchNightMode.setChecked(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
 
         // NAV DRAWER
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle( this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -146,6 +155,9 @@ public class MainActivity extends BaseActivity
 
         sfxManager = new SfxManager();
         sfxManager.initialize(this);
+
+        // assign animation
+        animatedAssistant.setBackgroundResource(R.drawable.agent_listening_animation);
     }
 
     // Register for EventBus messages and SpeechService
@@ -208,7 +220,7 @@ public class MainActivity extends BaseActivity
             try {
                 speechServiceBinder.initializeSpeechSdk(false);
                 speechServiceBinder.connectAsync();
-                agentImage.setVisibility(View.GONE);//hide the assistant since voice is deactivated
+                micImage.setVisibility(View.GONE);//hide the mic since voice is deactivated
                 textInputLayout.setVisibility(View.VISIBLE);// show the text-input prompt
             } catch (RemoteException exception){
                 Log.e(LOGTAG, exception.getMessage());
@@ -280,11 +292,21 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
-    @OnClick(R.id.agent_image)
-    public void onAssistantClick() {
+    private void showListeningAnimation(){
+        animatedAssistant.setVisibility(View.VISIBLE);
+        ((AnimationDrawable) animatedAssistant.getBackground()).start();
+        sfxManager.playEarconListening();
+    }
+
+    private void hideListeningAnimation(){
+        animatedAssistant.setVisibility(View.GONE);
+        sfxManager.playEarconDoneListening();
+    }
+
+    @OnClick(R.id.mic_image)
+    public void onClickAssistant() {
         try {
-            showSnackbar(uiContainer, getString(R.string.msg_listening));
-            sfxManager.playEarconListening();
+            showListeningAnimation();
             speechServiceBinder.listenOnceAsync();
         } catch (RemoteException exception){
             Log.e(LOGTAG, exception.getMessage());
@@ -306,6 +328,13 @@ public class MainActivity extends BaseActivity
         showFullConversation = checked;
         putBooleanSharedPref(SHARED_PREF_SHOW_FULL_CONVERSATION, checked);
         chatAdapter.setShowFullConversation(showFullConversation);
+    }
+
+    @OnCheckedChanged(R.id.switch_night_mode)
+    public void OnEnableNightMode(CompoundButton button, boolean checked){
+        putBooleanSharedPref(SHARED_PREF_DARK_MODE, checked);
+        AppCompatDelegate.setDefaultNightMode(checked?AppCompatDelegate.MODE_NIGHT_YES:AppCompatDelegate.MODE_NIGHT_NO);
+        getDelegate().applyDayNight();
     }
 
     @OnEditorAction(R.id.textinput)
@@ -364,6 +393,20 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    // EventBus: the synthesizer has stopped playing
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventSynthesizerStopped(SynthesizerStopped event) {
+
+        // Note: the SpeechService will trigger the actual listening. Since the app needs to show a
+        // visual, the app also needs to subscribe to this event and act on it.
+        if(willListenAgain){
+            willListenAgain = false;
+            Log.i(LOGTAG, "Listening again");
+            showListeningAnimation();
+        }
+
+    }
+
     // EventBus: the user spoke and the app recognized intermediate speech
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventRecognizedIntermediateResult(RecognizedIntermediateResult event) {
@@ -373,8 +416,9 @@ public class MainActivity extends BaseActivity
     // EventBus: the user spoke and the app recognized the speech. Disconnect mic.
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventRecognized(Recognized event) {
-        sfxManager.playEarconDoneListening();
+        hideListeningAnimation();
         detectedSpeechToText.setText(event.recognized_speech);
+
         // in 2 seconds clear the text (at this point the bot should be giving its' response)
         handler.postDelayed(() -> detectedSpeechToText.setText(""), 2000);
     }
@@ -413,6 +457,14 @@ public class MainActivity extends BaseActivity
                     break;
                 default:
                     break;
+            }
+
+            // the service looks for the same expectingInput event. The app needs it to trigger visuals
+            if(botConnectorActivity.getInputHint() != null){
+                Log.i(LOGTAG, "InputHint: "+botConnectorActivity.getInputHint());
+                if(botConnectorActivity.getInputHint().equals(InputHints.EXPECTINGINPUT.toString())){
+                    willListenAgain = true;
+                }
             }
         }
     }

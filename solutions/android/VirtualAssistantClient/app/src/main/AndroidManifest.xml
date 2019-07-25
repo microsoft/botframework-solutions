@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- FOR SPEECH COMMANDS -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <!-- note: largeHeap is needed  due to animations -->
     <application
         android:name=".MainApplication"
         android:allowBackup="true"
@@ -21,13 +22,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:largeHeap="true"
         android:theme="@style/AppTheme">
 
         <!-- android:windowSoftInputMode="adjustPan" prevents keyboard from hiding TextInputEditText's -->
         <activity
             android:name=".activities.main.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,7 +48,7 @@
 
         <activity
             android:name=".activities.settings.SettingsActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
 
         <!-- WIDGETS -->

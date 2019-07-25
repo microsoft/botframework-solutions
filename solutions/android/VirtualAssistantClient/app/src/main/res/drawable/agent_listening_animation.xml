@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_00"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_01"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_02"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_03"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_04"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_05"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_06"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_07"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_08"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_09"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_10"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_11"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_12"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_13"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_14"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_15"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_16"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_17"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_18"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_19"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_20"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_21"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_22"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_23"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_24"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_25"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_26"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_27"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_28"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_29"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_30"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_31"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_32"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_33"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_34"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_35"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_36"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_37"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_38"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_39"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_40"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_41"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_42"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_43"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_44"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_45"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_46"/>
+    <item android:duration="66" android:drawable="@drawable/agent_listening_loop_47"/>
+
+</animation-list>
