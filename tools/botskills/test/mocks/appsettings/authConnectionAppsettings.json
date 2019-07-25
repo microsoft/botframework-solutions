@@ -1,0 +1,27 @@
+{
+    "microsoftAppId": "",
+    "microsoftAppPassword": "",
+    "appInsights": {
+        "appId": "",
+        "instrumentationKey": ""
+    },
+    "blobStorage": {
+        "connectionString": "",
+        "container": ""
+    },
+    "cosmosDb": {
+        "authkey": "",
+        "collectionId": "",
+        "cosmosDBEndpoint": "",
+        "databaseId": ""
+    },
+    "contentModerator": {
+        "key": ""
+    },
+    "oauthConnections": [
+        {
+            "name": "Outlook",
+            "provider": "Azure Active Directory v2"
+        }
+    ]
+}

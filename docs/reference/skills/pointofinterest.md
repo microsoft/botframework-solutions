@@ -61,41 +61,21 @@ LUIS models for the Skill are provided in .LU file format as part of the Skill. 
 |KEYWORD| Simple entity matching point of interest keywords and categories |
 |ROUTE_TYPE| Phrase list entity mapping route descriptors to `eco`,`fastest`,`shortest`,`thrilling`|
 |number| Prebuilt entity|
+|geographyV2| Prebuilt entity|
 
 ## Event Responses
 
-The Point of Interest Skill surfaces a users request to navigate to a new destination through an event returned to the client. The event is called `ActiveRoute.Directions" has contains a series of Points for the Route along with a summary of the route information. A simplified example is shown below
+The Point of Interest Skill surfaces a users request to navigate to a new destination through an event returned to the client. The event is called `OpenDefaultApp` which contains the coordinates of the destination. The format is shown below:
 
 ```json
 {
-  "name": "ActiveRoute.Directions",
+  "name": "OpenDefaultApp",
   "type": "event",
-  "value": [
-    {
-      "points": [
-        {
-          "latitude": 47.64056,
-          "longitude": -122.129372
-        },
-        {
-          "latitude": 47.64053,
-          "longitude": -122.129387
-        },
-
-        ...
-
-      ],
-      "summary": {
-        "arrivalTime": "2018-09-18T04:17:25Z",
-        "departureTime": "2018-09-18T03:54:35Z",
-        "lengthInMeters": 20742,
-        "trafficDelayInSeconds": 0,
-        "travelTimeInSeconds": 1370
-      }
-    }
-  ]
+  "value": "geo:latitude,longitude"
 }
 ```
+
+This event can be customized to return whatever route data is required for your client's needs.
 
 ## Configuration
 
@@ -109,16 +89,6 @@ The Point of Interest Skill surfaces a users request to navigate to a new destin
 ### Auth Connection Settings
 
 > No Authentication is required for this skill
-
-### Skill Parameters
-
-The following Parameters are accepted by the Skill and enable additional personalization of responses to a given user:
-
-- `IPA.Location` (*The skill will fail without this as it is missing a user's current coordinates*)
-- To ease testing scenarios you can send the following message to pass a location enabling you to test the POI skill and adjust the location
-  - `/event:{ "Name": "IPA.Location", "Value": "34.05222222222222,-118.24277777777778" }`
-
-Read [Handling Events With Your Virtual Assistant](../../virtual-assistant/csharp/events.md) to learn how to manage events within a Skill.
 
 ### Configuration File Information
 

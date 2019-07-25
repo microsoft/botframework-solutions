@@ -228,12 +228,7 @@ namespace PointOfInterestSkill.Dialogs
                         var replyMessage = _responseManager.GetResponse(RouteResponses.SendingRouteDetails);
                         await dc.Context.SendActivityAsync(replyMessage);
 
-                        // Send event with active route data
-                        var replyEvent = dc.Context.Activity.CreateReply();
-                        replyEvent.Type = ActivityTypes.Event;
-                        replyEvent.Name = "ActiveRoute.Directions";
-                        replyEvent.Value = state.ActiveRoute.Legs;
-                        await dc.Context.SendActivityAsync(replyEvent);
+                        await dc.Context.SendActivityAsync(PointOfInterestDialogBase.CreateOpenDefaultAppReply(dc.Context.Activity, state.Destination));
                         break;
                     }
             }

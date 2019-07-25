@@ -19,7 +19,6 @@ namespace ToDoSkill.Adapters
         public DefaultAdapter(
             BotSettings settings,
             ICredentialProvider credentialProvider,
-            BotStateSet botStateSet,
             IBotTelemetryClient telemetryClient,
             ResponseManager responseManager)
             : base(credentialProvider)
@@ -37,7 +36,6 @@ namespace ToDoSkill.Adapters
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new AutoSaveStateMiddleware(botStateSet));
         }
     }
 }
