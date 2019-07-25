@@ -4,8 +4,8 @@
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Solutions.Middleware;
+using Microsoft.Bot.Builder.StreamingExtensions;
 using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Bot.Protocol.StreamingExtensions.NetCore;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using VirtualAssistant.Responses.Main;
