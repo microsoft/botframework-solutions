@@ -104,7 +104,7 @@ namespace $safeprojectname$.Dialogs
 
                 if (luisService == null)
                 {
-                    throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
+                    throw new Exception("The General LUIS Model could not be found in your Bot Services configuration.");
                 }
                 else
                 {
@@ -298,10 +298,10 @@ namespace $safeprojectname$.Dialogs
                 var cognitiveModels = _services.CognitiveModelSets[locale];
 
                 // check luis intent
-                cognitiveModels.LuisServices.TryGetValue("general", out var luisService);
+                cognitiveModels.LuisServices.TryGetValue("General", out var luisService);
                 if (luisService == null)
                 {
-                    throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
+                    throw new Exception("The General LUIS Model could not be found in your Bot Services configuration.");
                 }
                 else
                 {
