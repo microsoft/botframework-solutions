@@ -38,11 +38,6 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
             _serviceCollection.AddSingleton(_userState);
 
-            _serviceCollection.AddSingleton(sp =>
-            {
-                return new BotStateSet(_userState, conversationState);
-            });
-
             _serviceCollection.AddSingleton<TestAdapter, DefaultTestAdapter>();
         }
 
