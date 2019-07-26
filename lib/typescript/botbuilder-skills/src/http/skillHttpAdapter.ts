@@ -1,4 +1,3 @@
-import { Constants } from '@azure/ms-rest-js';
 import { BotFrameworkAdapter, BotFrameworkAdapterSettings, BotTelemetryClient, InvokeResponse,
     Severity, TurnContext, WebRequest, WebResponse } from 'botbuilder';
 import { Activity } from 'botframework-schema';
@@ -13,8 +12,6 @@ import { SkillHttpBotAdapter } from './skillHttpBotAdapter';
  * 2. Call SkillHttpBotAdapter to process the incoming activity.
  */
 export class SkillHttpAdapter extends BotFrameworkAdapter {
-    private readonly authHeaderName: string = Constants.HeaderConstants.AUTHORIZATION;
-
     private readonly botAdapter: IActivityHandler;
     private readonly authenticationProvider?: IAuthenticationProvider;
     private readonly telemetryClient?: BotTelemetryClient;
@@ -36,8 +33,7 @@ export class SkillHttpAdapter extends BotFrameworkAdapter {
         if (this.authenticationProvider) {
             // grab the auth header from the inbound http request
             // eslint-disable-next-line @typescript-eslint/tslint/config
-            const headers: { [header: string]: string | string[] | undefined } = req.headers;
-            const authHeader: string = <string> headers[this.authHeaderName];
+            const authHeader: string = req.headers.authorization || req.headers.Authorization || '';
             const authenticated: boolean = await this.authenticationProvider.authenticate(authHeader);
 
             if (!authenticated) {
