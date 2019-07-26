@@ -265,14 +265,15 @@ namespace VirtualAssistant.Dialogs
 
                         var eventData = JsonConvert.DeserializeObject<EventData>(dc.Context.Activity.Value.ToString());
 
-                        var proactiveConversations = documentDbclient.CreateDocumentQuery<ProactiveModel>(collectionLink, $"SELECT * FROM c WHERE Contains(c.id, {eventData.UserId})");
+                        var proactiveConversations = documentDbclient.CreateDocumentQuery<ProactiveModelWithStateProperties>(collectionLink, $"SELECT * FROM c WHERE Contains(c.id, '{eventData.UserId}')");
 
                         // send the event data to all saved conversations for the user
-                        if (proactiveConversations != null && proactiveConversations.Count() > 0)
+                        if (proactiveConversations != null)
                         {
                             foreach (var proactiveConversation in proactiveConversations)
                             {
-                                await dc.Context.Adapter.ContinueConversationAsync(_appCredentials.MicrosoftAppId, proactiveConversation.Conversation, ContinueConversationCallback(dc.Context, eventData.Message), cancellationToken);
+                                var conversation = JsonConvert.DeserializeObject<ProactiveModel>(proactiveConversation.Document["ProactiveModel"].ToString());
+                                await dc.Context.Adapter.ContinueConversationAsync(_appCredentials.MicrosoftAppId, conversation.Conversation, ContinueConversationCallback(dc.Context, eventData.Message), cancellationToken);
                             }
                         }
                         else
