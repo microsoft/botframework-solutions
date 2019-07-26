@@ -1,0 +1,387 @@
+> # QnA pairs
+
+> Source: Editorial
+## ? Che cos'è un assistente virtuale
+
+```markdown
+Abbiamo riscontrato un bisogno significativo da parte dei nostri clienti e partner di fornire un assistente conversazionale su misura per il loro marchio, personalizzato per i loro clienti e reso disponibile in una vasta gamma di tele e dispositivi conversazionali. Continuando l'approccio Microsoft Open-Sourcing verso bot Framework SDK, la soluzione Virtual Assistant di origine offre il pieno controllo sull'esperienza dell'utente finale basata su un set di funzionalità fondamentali. Inoltre, l'esperienza può essere infusa con intelligenza circa l'utente finale e qualsiasi informazione dispositivo/ecosistema per un'esperienza veramente integrata e intelligente.
+Per ulteriori informazioni, fare riferimento a [qui] (https: \\Github.com/Microsoft/ai/BLOB/Master/Solutions/Virtual-Assistant/docs/readme.MD).
+```
+
+> Source: Editorial
+## ? Cos'è una skill
+
+```markdown
+Esiste un ampio insieme di funzionalità comuni che oggi richiedono a ogni sviluppatore di costruirsi. La nostra soluzione Virtual Assistant include una nuova funzionalità di abilità che consente di collegare nuove funzionalità a un assistente virtuale solo tramite la configurazione e di fornire un meccanismo di autenticazione per le competenze per richiedere token per le attività di Down-Stream.
+Per ulteriori informazioni, fare riferimento a [qui] (https: \\Github.com/Microsoft/ai/BLOB/Master/Solutions/Virtual-Assistant/docs/virtualassistant-sensori.MD).
+```
+
+> Source: Editorial
+## ? Cosa può fare l'abilità calendario
+
+```markdown
+## Panoramica
+L'abilità calendario fornisce funzionalità relative al calendario a un assistente virtuale. Gli scenari più comuni sono stati implementati in questa prima release con scenari aggiuntivi nello sviluppo.
+## Scenari supportati
+I seguenti scenari sono attualmente supportati dalla Skill:
+-Mostra riassunto riunione-per esempio ** cosa c'è nel mio calendario **
+-Prossima riunione-per esempio ** qual è il mio prossimo incontro **
+-Creare una riunione-ad esempio, prenotare una riunione
+-Aggiornare una riunione-ad esempio la riunione di aggiornamento
+-Eliminare una riunione-ad esempio eliminare una riunione
+```
+
+> Source: Editorial
+## ? Cosa può fare l'email skill
+
+```markdown
+# Panoramica
+L'abilità E-mail fornisce funzionalità relative all'E-mail a un assistente virtuale. Gli scenari più comuni sono stati implementati in questa prima release con scenari aggiuntivi nello sviluppo.
+## Scenari supportati
+I seguenti scenari sono attualmente supportati dalla Skill:
+-Invia un'email
+-Invia una mail a John Smith
+-Invia un'email
+-Trova E-mail
+-Trova e-mail da John Smith
+-Che email ho
+```
+
+> Source: Editorial
+## ? Cosa può fare il punto di interesse skill
+
+```markdown
+## Panoramica
+La skill punto di interesse fornisce funzionalità relative a PDI a un assistente virtuale. Gli scenari più comuni sono stati implementati in questa prima release con scenari aggiuntivi nello sviluppo.
+## Scenari supportati
+I seguenti scenari sono attualmente supportati dalla Skill:
+-NAVIGATION_ROUTE_FROM_X_TO_Y
+-Qual è il modo più veloce per arrivare a 221B Baker Street?
+-Come posso arrivare al supermercato?
+-Ho bisogno di indicazioni per un caffè
+-NAVIGATION_FIND_POINTOFINTEREST
+-Cosa c'è nelle vicinanze?
+-Ci sono farmacie in città?
+-Si può consigliare un ristorante a prezzi accessibili a Seattle?
+-NAVIGATION_CANCEL_ROUTE
+-Non voglio più andare al negozio
+-Annullerebbe il mio percorso?
+-Al secondo pensiero, dimentica di andare all'aeroporto
+```
+
+> Source: Editorial
+## ? Cosa può fare la ToDo skill
+
+```markdown
+## Panoramica
+L'abilità attività fornisce le funzionalità relative alle attività a un assistente virtuale. Gli scenari più comuni sono stati implementati in questa prima release con scenari aggiuntivi nello sviluppo.
+## Scenari supportati
+I seguenti scenari sono attualmente supportati dalla Skill:
+-Aggiungere un'attività
+-Ricordami di prelevare il latte
+-Aggiungi attività
+-Trova attività
+-Quali compiti ho
+```
+
+> Source: Editorial
+## ? Novità
+
+```markdown
+L'assistente virtuale ha recentemente rilasciato una nuova localizzazione per l'assistente virtuale e le competenze che consentono l'utilizzo in inglese, francese, italiano, tedesco, spagnolo e cinese semplificato.
+```
+
+> Source: Editorial
+## ? Come faccio a sollevare un bug
+
+```markdown
+Generare un problema nel [repository GitHub] (https:/github.com/Microsoft/ai/BLOB/Master/Solutions/Virtual-Assistant/docs/readme.MD)
+```
+
+> Source: Editorial
+## ? Pressione consigliata dei pneumatici
+
+```markdown
+{' text ':' la tabella della pressione di gonfiaggio dei pneumatici, vedere pagina 219, contiene tutte le specifiche di pressione di gonfiaggio dei pneumatici per le dimensioni dei pneumatici specificate alla temperatura ambiente. I valori della pressione di gonfiaggio dei pneumatici si applicano alle dimensioni dei pneumatici approvate dal produttore del veicolo per il tipo di veicolo. Per identificare la corretta pressione di gonfiaggio dei pneumatici, tenere presente quanto segue:
+-Pneumatici di dimensioni del vostro veicolo.
+-Massima velocità di guida consentita .'}
+```
+
+> Source: Editorial
+## ? Come faccio a disattivare l'allarme
+
+```markdown
+{' text ':'
+1. sbloccare il veicolo con il telecomando o accendere l'accensione.
+2. Se si sta portando il telecomando sulla propria persona, afferrare completamente la maniglia della porta sul conducente o sulla porta del passeggero anteriore '}
+```
+
+> Source: Editorial
+## ? Dove è il pulsante per riscaldare il volante
+
+```markdown
+{' text ':' in prossimità del volante.. .'}
+```
+
+> Source: Editorial
+## ? Dove è il rilascio di emergenza per il serbatoio del carburante
+
+```markdown
+{' text ':' ad esempio, in caso di malfunzionamento elettrico. Disporre di un flap di riempimento del carburante sbloccato dal centro di assistenza di un rivenditore o da un altro centro di assistenza qualificato o officina .'}
+```
+
+> Source: Editorial
+## ? Come faccio a sbloccare la porta senza premere il pulsante di sblocco
+
+```markdown
+{' text ':' afferrare completamente la maniglia della porta sul conducente o sulla porta del passeggero anteriore. Ciò corrisponde alla pressione del pulsante sul telecomando .'}
+```
+
+> Source: Editorial
+## ? Come posso usare il mio supporto lombare
+- C'è supporto basso schienale
+- la mia auto ha supporto lombare
+
+```markdown
+{' text ':' la curvatura dello schienale della seduta può essere regolata in modo da supportare la regione lombare della colonna vertebrale. La parte bassa della schiena e la colonna vertebrale sono supportate per la postura eretta.
+-Premere la sezione anteriore/posteriore del pulsante: la curvatura è aumentata/diminuita.
+-Premere la parte superiore/inferiore del pulsante: la curvatura viene spostata su/giù .'}
+```
+
+> Source: Editorial
+## ? Come funziona il sistema climatico
+
+```markdown
+{' text ':' la qualità dell'aria all'interno del veicolo è migliorata da un interno testato sulle emissioni, un microfiltro e un sistema di controllo climatico per la regolazione della temperatura, del flusso d'aria e della modalità di ricircolo dell'aria. Inoltre ci sono altre funzioni che dipendono dalle attrezzature del veicolo, ad esempio il filtro microfiltro/carbone attivo, il climatizzatore automatico con controllo automatico dell'aria di ricircolo, l'AUC e la ventilazione in auto parcheggiata '}
+```
+
+> Source: Editorial
+## ? Come faccio a ricaricare il telefono
+
+```markdown
+{' text ':' è possibile ricaricare il telefono in modalità wireless inserendolo nel vassoio di ricarica wireless .'}
+```
+
+> Source: Editorial
+## ? Come posso impostare tutte le mie porte per sbloccare
+
+```markdown
+{' text ':' sblocco automatico:
+1. il mio veicolo
+2. impostazioni del veicolo
+3. porte/chiave
+4. Sblocca alla fine del viaggio
+
+Dopo aver spento il motore premendo il pulsante Start/Stop, il veicolo bloccato viene sbloccato automaticamente .'}
+```
+
+> Source: Editorial
+## ? come si fa a utilizzare una cintura di sicurezza per fissare un seggiolino auto
+
+```markdown
+{' text ':' bloccaggio della cintura di sicurezza
+1. Estrarre completamente la cinghia.
+2. Fissare il sistema di ritenuta per bambini con la cintura di sicurezza.
+3. lasciare che la cinghia della cinghia sia tirato e tirare stretto contro il sistema di ritenuta per bambini.
+
+La cintura di sicurezza è bloccata '}
+```
+
+> Source: Editorial
+## ? Che cosa è quella luce gialla del pneumatico sul mio cruscotto
+- Cos'è quella luce gialla
+
+```markdown
+{' title ':' monitor della pressione dei pneumatici (giallo)',' sottotitolo ':' se questa spia si accende in giallo, la pressione dei pneumatici è spenta circa il 10% o più .',' text ':'',' images ': [{' URL ':' https://virtualasspc5f.blob.core.windows.net/images/TirePressureYellow.png '}]}
+```
+
+> Source: Editorial
+## ? Che cosa è quella luce rossa del pneumatico sul mio cruscotto
+
+```markdown
+{' title ':' monitor della pressione dei pneumatici (rosso)',' sottotitolo ':' se questo avvertimento si illumina in rosso, significa che il pneumatico o gli pneumatici si sono rapidamente sgonfiati .',' text ':'',' images ': [{' URL ':' https://virtualasspc5f.blob.core.windows.net/images/TirePressureRed.png '}]}
+```
+
+> Source: Editorial
+## ? Che cosa è che luce cerchio rosso sul mio cruscotto
+
+```markdown
+{' title ':' rompere il monitor del fluido (rosso)',' sottotitolo ':' se questo segnale si illumina in rosso, il livello del fluido del freno è troppo basso .',' text ':'',' images ': [{' URL ':' https://virtualasspc5f.blob.core.windows.net/images/BreakFluidRed.png ''}]}
+```
+
+> Source: Editorial
+## ? Nella produttività dell'automobile
+
+```markdown
+{' text ':' la produttività in auto ti aiuta a fare di più durante la guida, prova a chiedermi cose come ** quando è il mio prossimo appuntamento?, cosa posso fare in macchina durante la guida?, cosa c'è nella mia lista di cose da fare?, Ricordami di chiamare mamma ** o ** catturare un memo. **'}
+```
+
+> Source: Editorial
+## ? Effettuare una prenotazione
+
+```markdown
+{' text ':' posso aiutarvi a fare la cena o il pranzo prenotazioni, basta dire, ** fare una prenotazione ** e io vi guiderà attraverso il resto .'}
+```
+
+> Source: Editorial
+## ? L'inverno sta arrivando
+
+```markdown
+{' text ':' hai pensato di winterizzare la tua auto?
+La Winterization è una pratica nata a Nashville, Tennessee, ma non molto conosciuta in altre parti del mondo.
+Si tratta di sostituire i fluidi del veicolo con Jack Daniels.
+Il tuo veicolo sarà ancora congelato, ma puoi bere un drink mentre aspetti l'aiuto.
+
+... non guardarmi così, è tutto vero!
+```
+
+> Source: Editorial
+## ? Info auto
+
+```markdown
+Prova a chiedermi cose come:
+**What is that red light on the dash?** or
+**How do I charge my phone?**
+```
+
+> Source: Editorial
+## ? Quando devo cambiare il mio olio
+
+```markdown
+Si dovrebbe cambiare l'olio ogni 10.000 miglia o ogni 6 mesi.
+```
+
+> Source: Editorial
+## ? Effettuare una prenotazione
+
+```markdown
+Posso aiutarvi a fare la cena o il pranzo prenotazioni, basta dire, ** fare una prenotazione ** e vi guiderò attraverso il resto.
+```
+
+> Source: Editorial
+## ? Cosa c'è di nuovo
+- Come va
+- Yo fratello
+
+```markdown
+In questa versione posso lavorare sia in inglese che in cinese! Il team è molto al lavoro su più caratteristiche di produttività pure.
+```
+
+> Source: Editorial
+## ? Come faccio ad accoppiare il mio telefono Bluetooth
+- Dove posso accoppiare il mio telefono Bluetooth
+
+```markdown
+Spiacenti, al momento non ho informazioni su come configurare un telefono Bluetooth. Si prega di continuare a controllare come sto diventando sempre più intelligente tutto il tempo.
+```
+
+> Source: Editorial
+## ? Cosa sono i sedili di memoria
+
+```markdown
+I sedili di memoria consentono a due conducenti di memorizzare e richiamare le loro posizioni uniche per la guida del veicolo.
+```
+
+> Source: Editorial
+## ? Quali sono alcune caratteristiche di sicurezza
+- Puoi parlarmi delle caratteristiche di sicurezza
+- Puoi parlarmi delle caratteristiche di sicurezza della mia auto
+- Quali sono le caratteristiche di sicurezza dei miei veicoli
+
+```markdown
+Spiacenti, al momento non conosco le informazioni sulle caratteristiche di sicurezza del tuo veicolo, ma continua a controllare come sto diventando sempre più intelligente.
+```
+
+> Source: Editorial
+## ? Cos'è il Cruise Control
+- Cos'è il Cruise Control
+
+```markdown
+Cruise Control consente di mantenere una velocità costante.
+```
+
+> Source: Editorial
+## ? Come si usa Cruise Control
+- Come faccio a lavorare Cruise Control
+- Come posso operare Cruse Control
+- Come faccio ad attivare Cruise Control
+
+```markdown
+Come utilizzare Cruise Control.
+Passo 1. Premere il tasto ON/OFF del Cruise Control.
+Passaggio 2. Impostare la velocità di crociera sulla velocità corrente premendo il pulsante SET.
+Passo 3. Seleziona il modo in cui desideri seguire un veicolo davanti a te, premendo il pulsante GAP.
+```
+
+> Source: Editorial
+## ? Ho una ruota di scorta
+- Ho una gomma piatta.
+- La mia gomma è piatta.
+
+```markdown
+Non preoccuparti, il tuo veicolo ha una ruota di scorta disponibile nella parte posteriore sotto il pavimento posteriore.
+```
+
+> Source: Editorial
+## ? Dove si trova la ruota di scorta
+- Come trovo la ruota di scorta
+
+```markdown
+La ruota di scorta si trova nella parte posteriore sotto il pavimento posteriore. Basta sollevare il pavimento e sarà sotto il pannello di plastica nella parte posteriore.
+```
+
+> Source: Editorial
+## ? Qual è il mio tipo di combustibile
+- Che tipo di gas usa la mia auto
+- La mia auto è un diesel
+- Devo usare gas Premium
+- Che carburante Consiglieresti
+
+```markdown
+Regolare senza piombo va bene, ma mi piace i sapori di etanolo e Premium senza piombo pure. Diesel non è il mio preferito tuttavia ci sono versioni di me che preferiscono.
+```
+
+> Source: Editorial
+## ? Qual è la mia capacità di combustibile
+- Quanta benzina tiene la mia auto
+
+```markdown
+14,9 galloni o 56,4 litri
+```
+
+> Source: Editorial
+## ? Dove si trova il mio punto di rifornimento carburante
+- Dove metto il gas in macchina
+- Dove si trova il tappo del gas
+- quale lato della vettura è il tappo del gas
+- Metti il gas a destra o a sinistra
+
+```markdown
+È necessario tirare fino alla stazione di benzina con la pompa sulla sinistra del veicolo. Il riempimento del combustibile si trova sul lato posteriore sinistro del veicolo.
+```
+
+> Source: Editorial
+## ? Qual è la mia pressione dei pneumatici
+- Qual è il mio livello di pneumatici
+
+```markdown
+La pressione del pneumatico attuale è 34 libbre
+```
+
+> Source: Editorial
+## ? Qual è il mio livello di carburante
+- Quanta benzina ho
+
+```markdown
+Il tuo attuale livello di carburante è 35%
+```
+
+> Source: Editorial
+## ? Impostare lo sbrinamento su max.
+- Sbrinamento massimo
+- sbrinamento massimo
+- impostare lo sbrinamento al massimo
+
+```markdown
+Ho impostato il vostro sbrinamento al massimo
+```
