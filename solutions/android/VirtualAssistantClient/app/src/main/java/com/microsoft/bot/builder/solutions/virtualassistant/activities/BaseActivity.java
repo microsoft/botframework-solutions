@@ -22,6 +22,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.microsoft.bot.builder.solutions.directlinespeech.ConfigurationManager;
+import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.virtualassistant.ISpeechService;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 
@@ -30,7 +32,7 @@ import com.microsoft.bot.builder.solutions.virtualassistant.R;
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
-    // Constants
+    // CONSTANTS
     public static final String LOGTAG = "BaseActivity";
     private static final Integer PERMISSION_REQUEST_RECORD_AUDIO = 101;
     private static final Integer PERMISSION_REQUEST_FINE_LOCATION = 102;
@@ -38,12 +40,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected static final String SHARED_PREF_SHOW_TEXTINPUT = "SHARED_PREF_SHOW_TEXTINPUT";
     protected static final String SHARED_PREF_SHOW_FULL_CONVERSATION = "SHARED_PREF_SHOW_FULL_CONVERSATION";
     public static final String SHARED_PREF_DARK_MODE = "SHARED_PREF_DARK_MODE";
+    protected static final String SHARED_PREF_ENABLE_KWS = "SHARED_PREF_ENABLE_KWS";
 
-    // State
+    // STATE
     private SharedPreferences sharedPreferences;
     protected ISpeechService speechServiceBinder;
+    protected ConfigurationManager configurationManager;
 
-    // Override these
+    // OVERRIDE THESE
     protected void permissionDenied(String manifestPermission){}
     protected void permissionGranted(String manifestPermission){}
     protected void serviceConnected(){}
@@ -53,6 +57,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, MODE_PRIVATE);
         setupMainWindowDisplayMode();
+        configurationManager = new ConfigurationManager(this);
     }
 
     @Override
@@ -223,6 +228,43 @@ public abstract class BaseActivity extends AppCompatActivity {
         } else {
             Log.e(LOGTAG, "do not have a binding to the service");
         }
+    }
+
+    /**
+     * enable or disable Keyword Sensing
+     * @param enable true to enable
+     * @return true if KWS is enabled, otherwise false
+     */
+    protected boolean setKwsState(boolean enable) {
+        boolean enabledKws = false;
+
+        if (enable) {
+            if ((ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)){
+                Log.w(LOGTAG, "Insufficient permissions to access audio. Skipping KWS toggle operation");
+                return false;
+            }
+
+            try {
+                final Configuration configuration = configurationManager.getConfiguration();
+                String keyword = configuration.keyword;
+                if (keyword != null) {
+                    speechServiceBinder.startKeywordListeningAsync(keyword);
+                }
+                enabledKws = true;
+            }
+            catch (RemoteException e){
+                Log.e(LOGTAG, e.getMessage());
+            }
+        }
+        else {
+            try {
+                speechServiceBinder.stopKeywordListening();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return enabledKws;
     }
 
 }

@@ -29,6 +29,7 @@
     <string name="nav_menu_app_configuration" translatable="false">App Configuration</string>
     <string name="nav_menu_show_assistant_settings_msg" translatable="false">Show Assistant Settings</string>
     <string name="nav_menu_night_mode" translatable="false">Enable Dark Mode</string>
+    <string name="nav_menu_enable_kws" translatable="false">Enable KWS</string>
 
     <!-- Configuration -->
     <string name="configuration_service_key_hint">Speech Service Subscription Key</string>
@@ -46,6 +47,7 @@
     <string name="configuration_pick_color">Pick a color</string>
     <string name="configuration_bot_text_color">Bot Text Color</string>
     <string name="configuration_user_text_color">User Text Color</string>
+    <string name="configuration_keyword">Keyword</string>
 
     <!-- Widgets -->
     <string name="widget_push_to_talk">Talk</string>

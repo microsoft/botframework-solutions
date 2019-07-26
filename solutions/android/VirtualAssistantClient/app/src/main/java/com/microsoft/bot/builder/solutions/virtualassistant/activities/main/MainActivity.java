@@ -36,7 +36,6 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.microsoft.bot.builder.solutions.directlinespeech.ConfigurationManager;
 import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.BaseActivity;
@@ -89,6 +88,7 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.speech_detection) TextView detectedSpeechToText;
     @BindView(R.id.mic_image) ImageView micImage;
     @BindView(R.id.animated_assistant) AppCompatImageView animatedAssistant;
+    @BindView(R.id.switch_enable_kws) SwitchCompat switchEnableKws;
 
     // CONSTANTS
     private static final int CONTENT_VIEW = R.layout.activity_main;
@@ -103,8 +103,8 @@ public class MainActivity extends BaseActivity
     private boolean launchedAsAssistant;
     private Gson gson;
     private SfxManager sfxManager;
-    private ConfigurationManager configurationManager;
     private boolean willListenAgain;
+    private boolean enableKws;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +114,6 @@ public class MainActivity extends BaseActivity
 
         handler = new Handler(Looper.getMainLooper());
         gson = new Gson();
-        configurationManager = new ConfigurationManager(this);
 
         setupChatRecyclerView();
         setupSuggestedActionsRecyclerView();
@@ -125,6 +124,8 @@ public class MainActivity extends BaseActivity
         showFullConversation = getBooleanSharedPref(SHARED_PREF_SHOW_FULL_CONVERSATION);
         switchShowFullConversation.setChecked(showFullConversation);
         switchNightMode.setChecked(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
+        enableKws = getBooleanSharedPref(SHARED_PREF_ENABLE_KWS);
+        switchEnableKws.setChecked(enableKws);
 
         // NAV DRAWER
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle( this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -255,6 +256,10 @@ public class MainActivity extends BaseActivity
         // Binding is started in onStart(), so expect this callback to trigger after onStart()
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
             initializeAndConnect();
+            boolean enabled = setKwsState(enableKws);
+            if (!enabled && enableKws) {
+                switchEnableKws.setChecked(false);
+            }
         }
 
         try {
@@ -313,8 +318,26 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    @OnCheckedChanged(R.id.switch_enable_kws)
+    public void onCheckedChangedEnableKws(CompoundButton button, boolean checked){
+
+        if (speechServiceBinder != null) {
+            // if there's a connection to the service, go ahead and toggle Kws
+            enableKws = setKwsState(checked);//returns true only if Kws is turned on
+        } else {
+            // defer toggling Kws for later, for now records users' wishes
+            enableKws = checked;
+        }
+
+        putBooleanSharedPref(SHARED_PREF_ENABLE_KWS, enableKws);
+
+        if (checked && !enableKws) {
+            switchEnableKws.setChecked(false);
+        }
+    }
+
     @OnCheckedChanged(R.id.switch_show_textinput)
-    public void OnShowTextInput(CompoundButton button, boolean checked){
+    public void OnCheckedChangedShowTextInput(CompoundButton button, boolean checked){
         alwaysShowTextInput = checked;
         putBooleanSharedPref(SHARED_PREF_SHOW_TEXTINPUT, checked);
         if (alwaysShowTextInput)
@@ -324,14 +347,14 @@ public class MainActivity extends BaseActivity
     }
 
     @OnCheckedChanged(R.id.switch_show_full_conversation)
-    public void OnShowFullConversation(CompoundButton button, boolean checked){
+    public void OnCheckedChangedShowFullConversation(CompoundButton button, boolean checked){
         showFullConversation = checked;
         putBooleanSharedPref(SHARED_PREF_SHOW_FULL_CONVERSATION, checked);
         chatAdapter.setShowFullConversation(showFullConversation);
     }
 
     @OnCheckedChanged(R.id.switch_night_mode)
-    public void OnEnableNightMode(CompoundButton button, boolean checked){
+    public void OnCheckedChangedEnableNightMode(CompoundButton button, boolean checked){
         putBooleanSharedPref(SHARED_PREF_DARK_MODE, checked);
         AppCompatDelegate.setDefaultNightMode(checked?AppCompatDelegate.MODE_NIGHT_YES:AppCompatDelegate.MODE_NIGHT_NO);
         getDelegate().applyDayNight();

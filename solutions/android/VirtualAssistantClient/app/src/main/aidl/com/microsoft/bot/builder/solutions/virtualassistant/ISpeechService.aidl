@@ -17,4 +17,6 @@ interface ISpeechService {
     void sendActivityMessageAsync(String msg);
     String getSuggestedActions();//the String is "List<CardAction>" as JSON
     void clearSuggestedActions();
+    void startKeywordListeningAsync(String keyword);
+    void stopKeywordListening();
 }

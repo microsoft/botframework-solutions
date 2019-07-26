@@ -9,6 +9,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -40,6 +41,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import client.model.BotConnectorActivity;
 import client.model.InputHints;
@@ -153,6 +155,22 @@ public class SpeechService extends Service {
             }
 
             @Override
+            public void startKeywordListeningAsync(String keyword) {
+                AssetManager am = getAssets();
+                try {
+                    InputStream is = am.open("keywords/" + keyword + "/kws.table");
+                    speechSdk.startKeywordListeningAsync(is, keyword);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void stopKeywordListening() {
+                speechSdk.stopKeywordListening();
+            }
+
+            @Override
             public void setConfiguration(String json) {
                 Configuration configuration = gson.fromJson(json, new TypeToken<Configuration>(){}.getType());
                 configurationManager.setConfiguration(configuration);
@@ -196,7 +214,7 @@ public class SpeechService extends Service {
             configuration.colorBubbleUser = ContextCompat.getColor(this, R.color.color_chat_background_user);
             configuration.colorTextBot = ContextCompat.getColor(this, R.color.color_chat_text_bot);
             configuration.colorTextUser = ContextCompat.getColor(this, R.color.color_chat_text_user);
-
+            configuration.keyword = DefaultConfiguration.KEYWORD;
             configurationManager.setConfiguration(configuration);
         }
 

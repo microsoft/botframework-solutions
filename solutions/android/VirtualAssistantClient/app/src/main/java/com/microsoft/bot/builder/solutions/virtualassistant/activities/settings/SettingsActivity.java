@@ -3,6 +3,7 @@ package com.microsoft.bot.builder.solutions.virtualassistant.activities.settings
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -24,6 +26,7 @@ import com.microsoft.bot.builder.solutions.virtualassistant.activities.BaseActiv
 import com.skydoves.colorpickerview.ColorPickerDialog;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 
+import java.io.IOException;
 import java.util.TimeZone;
 
 import butterknife.BindView;
@@ -63,6 +66,7 @@ public class SettingsActivity extends BaseActivity {
     private ArrayAdapter tzAdapter;
     private Gson gson;
     private Integer colorBubbleBot, colorBubbleUser, colorTextBot, colorTextUser;
+    private String[] keywords;
 
     public static Intent getNewIntent(Context context) {
         return new Intent(context, SettingsActivity.class);
@@ -75,6 +79,14 @@ public class SettingsActivity extends BaseActivity {
         ButterKnife.bind(this);
         gson = new Gson();
         initTimezoneAdapter();
+
+        AssetManager am = getAssets();
+        try {
+            keywords = am.list("keywords");
+        }
+        catch (IOException e){
+            Log.e(LOGTAG, e.getMessage());
+        }
     }
 
     @Override
@@ -281,6 +293,19 @@ public class SettingsActivity extends BaseActivity {
             colorPickedBotTextEditText.setText(String.format("%06X", colorTextBot & 0xFFFFFF));
             colorPickedUserTextEditText.setText(String.format("%06X", colorTextUser & 0xFFFFFF));
 
+            // keywords
+            Spinner spinner = findViewById(R.id.keyword_dropdown);
+            spinner.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,keywords));
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    configuration.keyword = keywords[position];
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+
 
         } catch (RemoteException exception){
             Log.e(LOGTAG, exception.getMessage());
@@ -309,6 +334,8 @@ public class SettingsActivity extends BaseActivity {
             // text colors
             configuration.colorTextBot = colorTextBot;
             configuration.colorTextUser = colorTextUser;
+
+            // note: keyword is stored in showConfiguration()$OnItemSelectedListener
 
             String json = gson.toJson(configuration);
             speechServiceBinder.setConfiguration(json);

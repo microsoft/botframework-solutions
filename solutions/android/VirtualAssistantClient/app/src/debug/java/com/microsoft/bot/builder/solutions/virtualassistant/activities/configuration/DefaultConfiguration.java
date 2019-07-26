@@ -14,5 +14,7 @@ public class DefaultConfiguration {
 
     public static final String LOCALE = "en-us";
 
+    public static final String KEYWORD = "computer";
+
     // please note that the default colors are read from /res/values/colors.xml
 }
