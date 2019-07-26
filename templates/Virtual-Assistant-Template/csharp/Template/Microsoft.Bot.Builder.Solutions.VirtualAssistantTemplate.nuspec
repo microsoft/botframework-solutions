@@ -17,4 +17,7 @@
       <packageType name="Template" />
     </packageTypes>
   </metadata>
+  <files>
+	  <file src=".\" exclude="**\*.vstemplate;**\*.ico;" />
+  </files>
 </package>
