@@ -9,10 +9,10 @@
   <TemplateContent>
     <ProjectCollection>
       <ProjectTemplateLink ProjectName="$safeprojectname$" CopyParameters="true">
-        SkillProjectTemplate.vstemplate
+        Skill\SkillProjectTemplate.vstemplate
       </ProjectTemplateLink>
       <ProjectTemplateLink ProjectName="$safeprojectname$.Tests" CopyParameters="true">
-        SkillTestTemplate.vstemplate
+        Skill.Tests\SkillTestTemplate.vstemplate
       </ProjectTemplateLink>
     </ProjectCollection>
   </TemplateContent>

@@ -37,7 +37,7 @@ namespace $safeprojectname$.Adapters
             Use(new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true));
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new SkillMiddleware(userState, conversationState, conversationState.CreateProperty<DialogState>(nameof(SkillSample))));
+            Use(new SkillMiddleware(userState, conversationState, conversationState.CreateProperty<DialogState>(nameof($safeprojectname$))));
         }
     }
 }
