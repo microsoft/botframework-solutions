@@ -14,7 +14,7 @@ import {
     IOauthConnection,
     IScopeManifest,
     ISkillManifest } from '../models';
-import { ChildProcessUtils } from './';
+import { ChildProcessUtils, isValidAzVersion } from './';
 
 export class AuthenticationUtils {
     public childProcessUtils: ChildProcessUtils;
@@ -105,6 +105,10 @@ export class AuthenticationUtils {
                 const aadConfig: IAuthenticationConnection | undefined = manifest.authenticationConnections.find(
                     (connection: IAuthenticationConnection) => connection.serviceProviderId === 'Azure Active Directory v2');
                 if (aadConfig) {
+                    // Validating the version of az that the user has (due to preview tag issue)
+                    if (await isValidAzVersion()) {
+                        logger.warning(`This az version may contain issues during the execution of internal az commands`);
+                    }
                     logger.message('Configuring Azure AD connection ...');
 
                     let connectionName: string = aadConfig.id;
