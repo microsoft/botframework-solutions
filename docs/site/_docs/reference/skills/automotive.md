@@ -58,7 +58,7 @@ Vehicle settings can be selected through explicit entry of the vehicle setting n
 
 An example transcript file demonstrating the Skill in action can be found [here](../../transcripts/skills-automotive.transcript), you can use the Bot Framework Emulator to open transcripts.
 
-![ Automotive Skill Transcript Example](../../media/skills-auto-transcript.png)
+![ Automotive Skill Transcript Example](\assets\images\skills-auto-transcript.png)
 
 ## Language Model
 
@@ -258,7 +258,7 @@ Follow the instructions below to add the Automotive Skill to an existing Virtual
     ```
 
 5. Update **MainDialog.cs** within your Assistant project with the dispatch intent for your skill (l_automotive). This can be found in the assistant/dialogs/main folder of your project.
-    ![Add My Skill Image](../../media/skills_maindialogupdate.jpg)
+    ![Add My Skill Image](\assets\images\skills_maindialogupdate.jpg)
 
 6. Add a project reference from your Virtual Assistant project to the Automotive Skill, this will ensure the DLL housing the skill can be found at runtime for skill activation.
 

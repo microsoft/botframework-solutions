@@ -24,7 +24,7 @@ A key issue with many conversational experiences is end-users not knowing how to
 
 A simple introduction card is provided as standard which you can adapt as needed, a returning user card is shown on subsequent interactions when a user has completed the onboarding dialog (triggered by the Get Started button on the Introduction card)
 
-![Intro Card Example](/docs/media/vatemplateintrocard.png)
+![Intro Card Example](\assets\images\vatemplateintrocard.png)
 
 ## Language Understanding
 
@@ -57,7 +57,7 @@ This Dispatch tool also enables evaluation which will highlight confusion and ov
 
 The Dispatch model is used at the core of each project created using the template. It's referenced within the `MainDialog` class to identify whether the target is a LUIS model or QnA. In the case of LUIS, the secondary LUIS model is invoked returning the intent and entities as usual. Dispatcher is also used for interruption detection.
 
-![Dispatch Example](/docs/media/dispatchexample.png)
+![Dispatch Example](\assets\images\dispatchexample.png)
 
 ## QnA Maker
 
@@ -65,7 +65,7 @@ The Dispatch model is used at the core of each project created using the templat
 
 Two example QnA Maker models are provided in the [LU](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md) file format within the QnA folder of CognitiveModels, one for FAQ and one for chit-chat. [LuDown](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Ludown) is then used as part of the deployment script to create a QnA Maker JSON file which the [QnA Maker](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) CLI (command line) tool then uses to publish items to the QnA Maker knowledgebase.
 
-![QnA ChitChat example](/docs/media/qnachitchatexample.png)
+![QnA ChitChat example](\assets\images\qnachitchatexample.png)
 
 ### Content Moderator
 
@@ -85,4 +85,4 @@ A middleware component combined with a wrapper class around the QnA Maker and Lu
 
 An example PowerBI dashboard is as part of the Bot Framework Solutions github repo and works right out of the box with every Virtual Assistant template. See the [Analytics](https://github.com/Microsoft/AI/blob/master/docs/readme.md#analytics) section for more information.
 
-![Analytics Example](/docs/media/powerbi-conversationanalytics-luisintents.png)
+![Analytics Example](\assets\images\powerbi-conversationanalytics-luisintents.png)

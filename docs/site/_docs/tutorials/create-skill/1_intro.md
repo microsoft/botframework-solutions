@@ -6,7 +6,7 @@ title: Intro
 order: 1
 ---
 
-## Intro
+# Intro
 
 ### Purpose
 

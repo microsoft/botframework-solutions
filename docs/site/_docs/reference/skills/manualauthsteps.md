@@ -34,7 +34,7 @@ Next you need to create the Authentication Connection for your Bot. Within the A
     - Set Tenant Id to common
     - Set scopes to match the ones provided in the earlier step.
 
-![Manual Auth Connection](/docs/media/manualauthconnection.png)
+![Manual Auth Connection](\assets\images\manualauthconnection.png)
 
 Finally, open the  `appSettings.config` file for your Skill and update the connection name to match the one provided in the previous step.
 

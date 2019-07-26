@@ -7,7 +7,7 @@ order: 1
 
 # Virtual Assistant Solution
 
-![Virtual Assistant Diagram](../media/virtualassistant-diagram.jpg)
+![Virtual Assistant Diagram](\assets\images\virtualassistant-diagram.jpg)
 
 Customers and partners have a significant need to deliver a conversational assistant tailored to their brand, personalized to their users, and made available across a broad range of canvases and devices. Continuing Microsoft's open-sourced approach towards the [Bot Framework](http://aka.ms/botframework) SDK, the open-source Virtual Assistant solution provides you with a set of core foundational capabilities and full control over the end user experience.
 

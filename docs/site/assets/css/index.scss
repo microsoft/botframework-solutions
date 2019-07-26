@@ -42,6 +42,7 @@ code {
  */
 body {
   min-height: 100vh;
+  min-width: 60vw;
   display: flex;
   flex-direction: column;
 }
@@ -57,4 +58,15 @@ body {
 
 .flex-1 {
   flex: 1;
+}
+
+#toc {
+  ul {
+    list-style-type: none;
+    padding-left: 15px;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
 }

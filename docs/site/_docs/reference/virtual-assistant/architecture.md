@@ -21,7 +21,7 @@ order: 1
 ## Intro
 An architecture diagram of your Virtual Assistant created through the template is shown below along with a detailed explanation.
 
-![Virtual Assistant Architecture](../../media/virtualassistant-architecture.jpg)
+![Virtual Assistant Architecture](\assets\images\virtualassistant-architecture.jpg)
 
 ## Client Integration
 
