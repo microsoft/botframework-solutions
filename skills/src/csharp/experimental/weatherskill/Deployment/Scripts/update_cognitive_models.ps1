@@ -122,6 +122,12 @@ foreach ($langCode in $languageMap.Keys) {
                 -region $luisApp.authoringRegion `
                 -authoringKey $luisApp.authoringKey `
                 -subscriptionKey $app.subscriptionKey
+
+             if ($useLuisGen) {
+                Write-Host "> Running LuisGen for $($luisApp.id) app ..."
+                $luPath = $(Join-Path $luisFolder $langCode "$($luisApp.id).lu")
+                RunLuisGen -lu_file $(Get-Item $luPath) -outName "$($luisApp.id)" -outFolder $lgOutFolder
+            }
         }
 
         # Update each knowledgebase based on local LU files
