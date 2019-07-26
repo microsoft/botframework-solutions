@@ -15,8 +15,8 @@ import {
     DialogTurnStatus } from 'botbuilder-dialogs';
 import {
     ISkillManifest,
-    SkillDialog,
     SkillContext,
+    SkillDialog,
     SkillRouter } from 'botbuilder-skills';
 import {
     ICognitiveModelSet,

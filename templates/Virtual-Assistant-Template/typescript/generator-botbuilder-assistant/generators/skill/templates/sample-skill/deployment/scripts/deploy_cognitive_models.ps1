@@ -217,7 +217,7 @@ foreach ($language in $languageArr)
 						}
 
 						# Add to config
-						$config.knowledgebases += @{
+						$config.knowledgeBases += @{
 							id = $lu.BaseName
 							name = $qnaKb.name
 							kbId = $qnaKb.kbId

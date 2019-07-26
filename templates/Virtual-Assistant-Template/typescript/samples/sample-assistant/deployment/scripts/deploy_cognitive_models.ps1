@@ -219,7 +219,7 @@ foreach ($language in $languageArr)
 								--dispatch "$(Join-Path $dataFolder "$($dispatchName).dispatch")") 2>> $logFile | Out-Null
 						}
 						# Add to config
-						$config.knowledgebases += @{
+						$config.knowledgeBases += @{
 							id = $lu.BaseName
 							name = $qnaKb.name
 							kbId = $qnaKb.kbId
