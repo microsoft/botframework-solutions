@@ -23,7 +23,7 @@ using $safeprojectname$.Services;
 namespace $safeprojectname$.Dialogs
 {
     public class MainDialog : RouterDialog
-{
+    {
         private const string Location = "location";
         private const string TimeZone = "timezone";
         private BotSettings _settings;
@@ -97,14 +97,14 @@ namespace $safeprojectname$.Dialogs
                     await CompleteAsync(dc);
                 }
             }
-            else if (intent == DispatchLuis.Intent.l_general)
+            else if (intent == DispatchLuis.Intent.l_General)
             {
-                // If dispatch result is general luis model
-                cognitiveModels.LuisServices.TryGetValue("general", out var luisService);
+                // If dispatch result is General luis model
+                cognitiveModels.LuisServices.TryGetValue("General", out var luisService);
 
                 if (luisService == null)
                 {
-                    throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
+                    throw new Exception("The General LUIS Model could not be found in your Bot Services configuration.");
                 }
                 else
                 {
@@ -132,9 +132,9 @@ namespace $safeprojectname$.Dialogs
                     }
                 }
             }
-            else if (intent == DispatchLuis.Intent.q_faq)
+            else if (intent == DispatchLuis.Intent.q_Faq)
             {
-                cognitiveModels.QnAServices.TryGetValue("faq", out var qnaService);
+                cognitiveModels.QnAServices.TryGetValue("Faq", out var qnaService);
 
                 if (qnaService == null)
                 {
@@ -154,9 +154,9 @@ namespace $safeprojectname$.Dialogs
                     }
                 }
             }
-            else if (intent == DispatchLuis.Intent.q_chitchat)
+            else if (intent == DispatchLuis.Intent.q_Chitchat)
             {
-                cognitiveModels.QnAServices.TryGetValue("chitchat", out var qnaService);
+                cognitiveModels.QnAServices.TryGetValue("Chitchat", out var qnaService);
 
                 if (qnaService == null)
                 {
@@ -298,10 +298,10 @@ namespace $safeprojectname$.Dialogs
                 var cognitiveModels = _services.CognitiveModelSets[locale];
 
                 // check luis intent
-                cognitiveModels.LuisServices.TryGetValue("general", out var luisService);
+                cognitiveModels.LuisServices.TryGetValue("General", out var luisService);
                 if (luisService == null)
                 {
-                    throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
+                    throw new Exception("The General LUIS Model could not be found in your Bot Services configuration.");
                 }
                 else
                 {
