@@ -11,6 +11,8 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Skills.Dialogs;
+using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Schema;
@@ -22,7 +24,7 @@ using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Dialogs
 {
-    public class MainDialog : RouterDialog
+    public class MainDialog : DispatchDialog
     {
         private const string Location = "location";
         private const string TimeZone = "timezone";
@@ -182,6 +184,27 @@ namespace VirtualAssistantSample.Dialogs
                 // Alternatively as a form of backup you can try QnAMaker for anything not understood by dispatch.
                 await _responder.ReplyWith(dc.Context, MainResponses.ResponseIds.Confused);
             }
+        }
+
+        protected override async Task RedispatchAsync(DialogContext innerDc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var intent = result.Result as DispatchIntent;
+
+            // Identify if the dispatch intent matches any Action within a Skill if so, we pass to the appropriate SkillDialog to hand-off
+            var identifiedSkill = SkillRouter.IsSkill(_settings.Skills, intent.Intent.ToString());
+
+            if (identifiedSkill != null)
+            {
+                // We have identiifed a skill so initialize the skill connection with the target skill
+                var dialogResult = await innerDc.BeginDialogAsync(identifiedSkill.Id);
+
+                if (dialogResult.Status == DialogTurnStatus.Complete)
+                {
+                    await CompleteAsync(innerDc);
+                }
+            }
+
+            await base.RedispatchAsync(innerDc, result, cancellationToken);
         }
 
         protected override async Task OnEventAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
