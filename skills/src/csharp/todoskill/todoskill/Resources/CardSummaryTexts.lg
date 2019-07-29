@@ -1,0 +1,31 @@
+﻿# CardSummaryMessageForMultipleTasks(taskCount, listType, todoCount)
+- ```
+{
+    "replies": [
+      {
+        "text": "You have @{taskCount} tasks on your @{listType} list:",
+        "speak": "You have @{taskCount} tasks on your @{listType} list: Here are the @{todoCount} most recent, they are "
+      }
+    ],
+    "inputHint": "ignoringInput"
+  }
+```
+
+# CardSummaryMessageForSingleTask(listType, todoCount)
+- ```
+{
+    "replies": [
+        {
+          "text": "You have 1 task on your @{listType} list:",
+          "speak": "You have 1 task on your @{listType} list: Here are the @{todoCount} most recent, they are "
+        }
+    ],
+    "inputHint": "ignoringInput"
+}
+```
+
+# CardSummary(allTasksCount, listType, todos)
+- IF: {allTasksCount == 1}
+  - [CardSummaryMessageForSingleTask(listType, count(todos))]
+- ELSE:
+  - [CardSummaryMessageForMultipleTasks(allTasksCount, listType, count(todos))]

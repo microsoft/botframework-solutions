@@ -1,0 +1,44 @@
+﻿# AfterTaskDeleted(taskContent, listType)
+- ```
+{
+    "replies": [
+      {
+        "text": "I have deleted @{taskContent} from your @{listType} list.",
+        "speak": "I have deleted @{taskContent} from your @{listType} list."
+      }
+    ],
+    "inputHint": "ignoringInput"
+}
+```
+
+# AfterAllTasksDeleted(listType)
+- ```
+{
+    "replies": [
+      {
+        "text": "I have cleared out your @{listType} list.",
+        "speak": "I have cleared out your @{listType} list."
+      }
+    ],
+    "inputHint": "ignoringInput"
+}
+```
+
+# TaskDeleted
+- IF: {isDeleteAll == true}
+  - [AfterAllTasksDeleted(listType)]
+- ELSE:
+  - [AfterTaskDeleted(taskContent, listType)]
+
+# DeletionAllConfirmationRefused
+- ```
+{
+    "replies": [
+      {
+        "text": "Okay, I did not delete all your tasks. You still have @{taskCount} task(s) on your @{listType} list today.",
+        "speak": "Okay, I did not delete all your tasks. You still have @{taskCount} task(s) on your @{listType} list today."
+      }
+    ],
+    "inputHint": "ignoringInput"
+}
+```
