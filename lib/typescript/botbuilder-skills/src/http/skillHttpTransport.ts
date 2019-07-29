@@ -52,8 +52,7 @@ export class SkillHttpTransport implements ISkillTransport {
         // - We have to cast "request as any" to avoid a build break relating to different versions
         //   of @azure/ms-rest-js being used by botframework-connector. This is just a build issue and
         //   shouldn't effect production bots.
-        // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
-        // tslint:disable-next-line: no-unsafe-any
+        // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-any
         const signedRequest: WebResource = await this.appCredentials.signRequest(<any>request);
 
         const response: HttpOperationResponse = await this.httpClient.sendRequest(signedRequest);
