@@ -164,7 +164,7 @@ namespace CalendarSkill.Dialogs
                     { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(firstEvent.Attendees, 1) }
                 };
 
-                var reply = await GetGeneralMeetingListResponseAsync(sc, _lgMultiLangEngine, CalendarCommonStrings.MeetingsToJoin, GetCurrentPageMeetings(dialogState.SummaryEvents, dialogState, userState), JoinEventResponses.SelectMeeting, responseParams);
+                var reply = await GetGeneralMeetingListResponseAsync(sc, _lgMultiLangEngine, CalendarCommonStrings.MeetingsToJoin, GetCurrentPageMeetings(state.SummaryEvents, state), JoinEventResponses.SelectMeeting, responseParams);
 
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = reply });
             }

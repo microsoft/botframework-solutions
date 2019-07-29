@@ -207,7 +207,7 @@ namespace CalendarSkill.Dialogs
                 {
                     if (state.AttendeesNameList.Count > 1)
                     {
-                        var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[BeforeSendingMessage]", new { attendeesNameList = dialogState.FindContactInfor.ContactsNameList });
+                        var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[BeforeSendingMessage]", new { attendeesNameList = state.AttendeesNameList });
                         var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
                         await sc.Context.SendActivityAsync(prompt);
                     }
@@ -415,7 +415,7 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[UserNotFoundAgain]", new { userName = currentRecipientName, source = userState.EventSource == Models.EventSource.Microsoft ? "Outlook Calendar" : "Google Calendar" });
+                        var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[UserNotFoundAgain]", new { userName = currentRecipientName, source = state.EventSource == Models.EventSource.Microsoft ? "Outlook Calendar" : "Google Calendar" });
                         var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
                         await sc.Context.SendActivityAsync(prompt);
                         state.FirstRetryInFindContact = true;
@@ -444,7 +444,7 @@ namespace CalendarSkill.Dialogs
 
                 if (string.IsNullOrEmpty(userInput) && options.UpdateUserNameReason != FindContactDialogOptions.UpdateUserNameReasonType.Initialize)
                 {
-                    var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[UserNotFoundAgain]", new { userName = state.CurrentContactName, source = userState.EventSource == Models.EventSource.Microsoft ? "Outlook Calendar" : "Google Calendar" });
+                    var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[UserNotFoundAgain]", new { userName = state.CurrentAttendeeName, source = state.EventSource == Models.EventSource.Microsoft ? "Outlook Calendar" : "Google Calendar" });
                     var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
                     await sc.Context.SendActivityAsync(prompt);
 
@@ -745,10 +745,10 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[AddMoreUserPrompt]", new { users = dialogState.FindContactInfor.Contacts });
-                var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
-
                 var state = await Accessor.GetAsync(sc.Context);
+
+                var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[AddMoreUserPrompt]", new { users = state.Attendees });
+                var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
                     Prompt = (Activity)prompt,

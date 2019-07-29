@@ -1,0 +1,14 @@
+# ConfirmDelete
+- Are you sure you want to delete this from your calendar?
+
+# ConfirmDeleteFailed
+- Are you sure you want to delete this from your calendar? You can say 'yes' or 'no'
+
+# ConfirmAccept
+- Are you sure you want to accept the following event?
+
+# ConfirmAcceptFailed
+- Are you sure you want to accept the following from your calendar? You can say 'yes' or 'no'
+
+# EventDeleted
+- I have deleted the event.

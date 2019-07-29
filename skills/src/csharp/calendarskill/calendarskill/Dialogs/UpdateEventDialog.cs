@@ -12,6 +12,7 @@ using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
@@ -22,6 +23,8 @@ namespace CalendarSkill.Dialogs
 {
     public class UpdateEventDialog : CalendarSkillDialogBase
     {
+        private ResourceMultiLanguageGenerator _lgMultiLangEngine;
+
         public UpdateEventDialog(
             BotSettings settings,
             BotServices services,
@@ -32,6 +35,8 @@ namespace CalendarSkill.Dialogs
             MicrosoftAppCredentials appCredentials)
             : base(nameof(UpdateEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("FindContactDialog.lg");
+
             TelemetryClient = telemetryClient;
             var updateEvent = new WaterfallStep[]
             {
@@ -456,7 +461,7 @@ namespace CalendarSkill.Dialogs
                         options.Choices.Add(choice);
                     }
 
-                    var prompt = await GetGeneralMeetingListResponseAsync(sc, CalendarCommonStrings.MeetingsToChoose, state.Events, UpdateEventResponses.MultipleEventsStartAtSameTime, null);
+                    var prompt = await GetGeneralMeetingListResponseAsync(sc, _lgMultiLangEngine, CalendarCommonStrings.MeetingsToChoose, state.Events, UpdateEventResponses.MultipleEventsStartAtSameTime, null);
 
                     options.Prompt = prompt;
 

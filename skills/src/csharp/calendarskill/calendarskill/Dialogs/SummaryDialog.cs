@@ -157,7 +157,7 @@ namespace CalendarSkill.Dialogs
                             var responseParams = new
                             {
                                 count = searchedEvents.Count,
-                                dateTime = dialogState.StartDateString ?? CalendarCommonStrings.TodayLower
+                                dateTime = state.StartDateString ?? CalendarCommonStrings.TodayLower
                             };
 
                             var showMeetingAgainLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[ShowMeetingSummaryAgainMessage]", responseParams);
@@ -170,8 +170,8 @@ namespace CalendarSkill.Dialogs
                             var responseParams = new
                             {
                                 events = searchedEvents,
-                                timezone = userState.GetUserTimeZone().Id,
-                                dateTimeString = dialogState.StartDateString ?? CalendarCommonStrings.TodayLower
+                                timezone = state.GetUserTimeZone().Id,
+                                dateTimeString = state.StartDateString ?? CalendarCommonStrings.TodayLower
                             };
 
                             var showMeetingLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[ShowMeetingSummaryMessage]", responseParams);
@@ -214,7 +214,7 @@ namespace CalendarSkill.Dialogs
                     await sc.Context.SendActivityAsync(await GetOverviewMeetingListResponseAsync(
                         sc,
                         _lgMultiLangEngine,
-                        GetCurrentPageMeetings(searchedEvents, dialogState, userState, out var firstIndex, out var lastIndex),
+                        GetCurrentPageMeetings(searchedEvents, state, out var firstIndex, out var lastIndex),
                         firstIndex,
                         lastIndex,
                         searchedEvents.Count,
@@ -255,36 +255,37 @@ namespace CalendarSkill.Dialogs
                             _lgMultiLangEngine,
                             meetingListTitle,
                             state.SummaryEvents,
-                            SummaryResponses.ShowMultipleFilteredMeetings,
-                            new StringDictionary() { { "Count", state.SummaryEvents.Count.ToString() } });
+                            "ShowMultipleFilteredMeetings",
+                            new { count = state.SummaryEvents.Count.ToString() });
                         await sc.Context.SendActivityAsync(reply);
                     }
                     else
                     {
-                        var responseParams = new StringDictionary()
+                        var responseParams = new
                         {
-                            { "Count", state.SummaryEvents.Count.ToString() },
-                            { "EventName1", currentPageMeetings[0].Title },
-                            { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower },
-                            { "EventTime1", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(currentPageMeetings[0].StartTime, state.GetUserTimeZone()), currentPageMeetings[0].IsAllDay == true) },
-                            { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(currentPageMeetings[0].Attendees, 1) }
+                            events = currentPageMeetings,
+                            timezone = state.GetUserTimeZone().Id
                         };
+
                         var reply = await GetOverviewMeetingListResponseAsync(
                             sc,
                             _lgMultiLangEngine,
-                            GetCurrentPageMeetings(dialogState.SummaryEvents, dialogState, userState, out var firstIndex, out var lastIndex),
+                            GetCurrentPageMeetings(state.SummaryEvents, state, out var firstIndex, out var lastIndex),
                             firstIndex,
                             lastIndex,
                             state.SummaryEvents.Count,
                             state.TotalConflictCount,
-                            SummaryResponses.ShowMeetingSummaryNotFirstPageMessage,
+                            "ShowMeetingSummaryNotFirstPageMessage",
                             responseParams);
 
                         await sc.Context.SendActivityAsync(reply);
                     }
                 }
 
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.ReadOutMorePrompt) });
+                var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[ReadOutMorePrompt]", null);
+                var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+
+                return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = (Activity)prompt });
             }
             catch (SkillException ex)
             {
@@ -461,29 +462,41 @@ namespace CalendarSkill.Dialogs
 
                 if (eventItem != null && topIntent != Luis.CalendarLuis.Intent.ChangeCalendarEntry && topIntent != Luis.CalendarLuis.Intent.DeleteCalendarEntry)
                 {
-                    var tokens = new StringDictionary()
+                    var attendeePhotoList = new List<string>();
+
+                    foreach (var attendee in state.Attendees)
                     {
-                        { "Date", eventItem.StartTime.ToString(CommonStrings.DisplayDateFormat_CurrentYear) },
-                        { "Time", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, state.GetUserTimeZone()), eventItem.IsAllDay == true) },
-                        { "Participants", DisplayHelper.ToDisplayParticipantsStringSummary(eventItem.Attendees, 1) },
-                        { "Subject", eventItem.Title }
+                        attendeePhotoList.Add(await GetUserPhotoUrlAsync(sc.Context, attendee));
+                    }
+
+                    var data = new
+                    {
+                        startDateTime = eventItem.StartTime,
+                        endDateTime = eventItem.EndTime,
+                        timezone = state.GetUserTimeZone().Id,
+                        attendees = state.Attendees,
+                        attendeePhotoList,
+                        subject = state.Title,
+                        location = state.Location,
+                        content = state.Content
                     };
 
-                    var replyMessage = await GetDetailMeetingResponseAsync(sc, eventItem, SummaryResponses.ReadOutMessage, tokens);
-                    await sc.Context.SendActivityAsync(replyMessage);
+                    var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[ReadOutMessage]", data);
+                    var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
 
-                    if (eventItem.IsOrganizer)
+                    await sc.Context.SendActivityAsync(prompt);
+
+                    var askForActionData = new
                     {
-                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.AskForOrgnizerAction, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower } }) });
-                    }
-                    else if (eventItem.IsAccepted)
-                    {
-                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.AskForAction, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower } }) });
-                    }
-                    else
-                    {
-                        return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(SummaryResponses.AskForChangeStatus, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower } }) });
-                    }
+                        isOrganizer = eventItem.IsOrganizer,
+                        isAccecpt = eventItem.IsAccepted,
+                        startDateString = state.StartDateString
+                    };
+
+                    var askForActionLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[AskForAction]", data);
+                    var askForActionPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = (Activity)askForActionPrompt });
                 }
                 else
                 {
@@ -565,7 +578,10 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.CalendarNoMoreEvent));
+                        var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[CalendarNoMoreEvent]", null);
+                        var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+
+                        await sc.Context.SendActivityAsync(prompt);
                     }
 
                     return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, sc.Options);
@@ -578,7 +594,10 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.CalendarNoPreviousEvent));
+                        var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[CalendarNoPreviousEvent]", null);
+                        var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+
+                        await sc.Context.SendActivityAsync(prompt);
                     }
 
                     return await sc.ReplaceDialogAsync(Actions.ShowEventsSummary, sc.Options);
@@ -672,7 +691,10 @@ namespace CalendarSkill.Dialogs
 
                 if (nextEventList.Count == 0)
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowNoMeetingMessage));
+                    var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[ShowNoMeetingMessage]", null);
+                    var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+
+                    await sc.Context.SendActivityAsync(prompt);
                 }
                 else
                 {
@@ -690,53 +712,59 @@ namespace CalendarSkill.Dialogs
                                 { "EventLocation", nextEventList[0].Location },
                             };
 
-                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.BeforeShowEventDetails, tokens));
+                            var data = new
+                            {
+                                meeting = nextEventList[0],
+                                timezone = state.GetUserTimeZone().Id
+                            };
+
+                            var beforeShowEventDetailsLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[BeforeShowEventDetails]", data);
+                            var beforeShowEventDetailsPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, beforeShowEventDetailsLGResult, null);
+
+                            await sc.Context.SendActivityAsync(beforeShowEventDetailsPrompt);
 
                             if (askParameter.NeedTime)
                             {
-                                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ReadTime, tokens));
+                                var readTimeLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[ReadTime]", data);
+                                var readTimePrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, readTimeLGResult, null);
+
+                                await sc.Context.SendActivityAsync(readTimePrompt);
                             }
 
                             if (askParameter.NeedDuration)
                             {
-                                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ReadDuration, tokens));
+                                var readDurationLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[ReadDuration]", data);
+                                var readDurationPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, readDurationLGResult, null);
+
+                                await sc.Context.SendActivityAsync(readDurationPrompt);
                             }
 
                             if (askParameter.NeedLocation)
                             {
-                                // for some event there might be no localtion.
-                                if (string.IsNullOrEmpty(tokens["EventLocation"]))
-                                {
-                                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ReadNoLocation));
-                                }
-                                else
-                                {
-                                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ReadLocation, tokens));
-                                }
+                                var readLocationLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[ReadLocation]", data);
+                                var readLocationPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, readLocationLGResult, null);
+
+                                await sc.Context.SendActivityAsync(readLocationPrompt);
                             }
                         }
 
-                        var speakParams = new StringDictionary()
+                        var showNextMeetingData = new
                         {
-                            { "EventName", nextEventList[0].Title },
-                            { "PeopleCount", nextEventList[0].Attendees.Count.ToString() },
+                            meeting = nextEventList[0],
+                            timezone = state.GetUserTimeZone().Id
                         };
 
-                        speakParams.Add("EventTime", SpeakHelper.ToSpeechMeetingDateTime(TimeConverter.ConvertUtcToUserTime(nextEventList[0].StartTime, state.GetUserTimeZone()), nextEventList[0].IsAllDay == true));
+                        var showNextMeetingLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[ShowNextMeetingMessage]", showNextMeetingData);
+                        var showNextMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, showNextMeetingLGResult, null);
 
-                        if (string.IsNullOrEmpty(nextEventList[0].Location))
-                        {
-                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowNextMeetingNoLocationMessage, speakParams));
-                        }
-                        else
-                        {
-                            speakParams.Add("Location", nextEventList[0].Location);
-                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowNextMeetingMessage, speakParams));
-                        }
+                        await sc.Context.SendActivityAsync(showNextMeetingPrompt);
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.ShowMultipleNextMeetingMessage));
+                        var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[ShowMultipleNextMeetingMessage]", null);
+                        var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+
+                        await sc.Context.SendActivityAsync(prompt);
                     }
 
                     var reply = await GetGeneralMeetingListResponseAsync(sc, _lgMultiLangEngine, CalendarCommonStrings.UpcommingMeeting, nextEventList, null, null);
@@ -765,10 +793,19 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
                 state.ClearSummaryList();
+
+                var data = new
+                {
+                    startDateString = state.StartDateString
+                };
+
+                var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[AskForShowOverview]", data);
+                var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
-                    Prompt = ResponseManager.GetResponse(SummaryResponses.AskForShowOverview, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower } }),
-                    RetryPrompt = ResponseManager.GetResponse(SummaryResponses.AskForShowOverview, new StringDictionary() { { "DateTime", state.StartDateString ?? CalendarCommonStrings.TodayLower } })
+                    Prompt = (Activity)prompt,
+                    RetryPrompt = (Activity)prompt
                 }, cancellationToken);
             }
             catch (Exception ex)

@@ -6,6 +6,12 @@
 - ELSE:
 	- @{convertFromUTC(formatDateTime(date), timezone, 'dddd, MMMM dd')}
 
+# FormatEventTimeWithDate(event, timezone)
+- IF: {event.IsAllDay}
+	- on @{convertFromUTC(formatDateTime(time), timezone, 'dddd, MMMM dd')} all day
+- ELSE:
+	- at [FormatTime(event.StartTime, timezone)]
+
 # FormatEventTime(event, timezone)
 - IF: {event.IsAllDay}
 	- all day
@@ -248,14 +254,10 @@
 - Can you try to ask me again? I didn't get what you mean.
 
 # GetTotalEventCountUnit(count, startDateString)
-- IF: @{count == 1 && startDateString != null && startDateString != ''}
-	- Event @{startDateString}
-- ELSEIF: @{count == 1 && (startDateString == null || startDateString == '')}
-	- Event today
-- ELSEIF: @{count > 1 && startDateString != null && startDateString != ''}
-	- Events @{startDateString}
+- IF: @{count == 1}
+	- Event [GetStartDateString(startDateString)]
 - ELSE:
-	- Events today
+	- Events [GetStartDateString(startDateString)]
 
 # GetOverviewOverlapMeetingCountUnit(count)
 - IF: @{count == 1}
@@ -320,7 +322,7 @@
 
 # GetMePhoto(userPhoto, isOverview)
 - IF: {isOverview}
-	- [GetMePhotoCard(userPhoto, dateTimeString)]
+	- [GetMePhotoCard(userPhoto)]
 
 # GetMePhotoCard(userPhoto)
 - ```
@@ -582,3 +584,8 @@
 }
 ```
 
+# GetStartDateString(startDateString)
+- IF: @{startDateString == null || startDateString == ''}
+	- today
+- ELSE
+	- @{startDateString}

@@ -399,21 +399,21 @@ namespace CalendarSkill.Dialogs
 
                 var attendeePhotoList = new List<string>();
 
-                foreach (var attendee in dialogState.FindContactInfor.Contacts)
+                foreach (var attendee in state.Attendees)
                 {
                     attendeePhotoList.Add(await GetUserPhotoUrlAsync(sc.Context, attendee));
                 }
 
                 var data = new
                 {
-                    startDateTime = dialogState.StartDateTime.Value,
-                    endDateTime = dialogState.EndDateTime.Value,
-                    timezone = userState.GetUserTimeZone().Id,
-                    attendees = dialogState.FindContactInfor.Contacts,
+                    startDateTime = state.StartDateTime.Value,
+                    endDateTime = state.EndDateTime.Value,
+                    timezone = state.GetUserTimeZone().Id,
+                    attendees = state.Attendees,
                     attendeePhotoList,
-                    subject = dialogState.Title,
-                    location = dialogState.Location,
-                    content = dialogState.Content
+                    subject = state.Title,
+                    location = state.Location,
+                    content = state.Content
                 };
 
                 var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[ConfirmCreate]", data);
@@ -485,27 +485,27 @@ namespace CalendarSkill.Dialogs
                     {
                         var attendeePhotoList = new List<string>();
 
-                        foreach (var attendee in dialogState.FindContactInfor.Contacts)
+                        foreach (var attendee in state.Attendees)
                         {
                             attendeePhotoList.Add(await GetUserPhotoUrlAsync(sc.Context, attendee));
                         }
 
                         var data = new
                         {
-                            startDateTime = dialogState.StartDateTime.Value,
-                            endDateTime = dialogState.EndDateTime.Value,
-                            timezone = userState.GetUserTimeZone().Id,
-                            attendees = dialogState.FindContactInfor.Contacts,
+                            startDateTime = state.StartDateTime.Value,
+                            endDateTime = state.EndDateTime.Value,
+                            timezone = state.GetUserTimeZone().Id,
+                            attendees = state.Attendees,
                             attendeePhotoList,
-                            subject = dialogState.Title,
-                            location = dialogState.Location,
-                            content = dialogState.Content
+                            subject = state.Title,
+                            location = state.Location,
+                            content = state.Content
                         };
 
                         var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[EventCreated]", data);
                         var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
 
-                        newEvent.ContentPreview = dialogState.Content;
+                        newEvent.ContentPreview = state.Content;
 
                         await sc.Context.SendActivityAsync(prompt, cancellationToken);
                     }

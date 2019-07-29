@@ -12,6 +12,7 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
@@ -21,6 +22,8 @@ namespace CalendarSkill.Dialogs
 {
     public class ChangeEventStatusDialog : CalendarSkillDialogBase
     {
+        private ResourceMultiLanguageGenerator _lgMultiLangEngine;
+
         public ChangeEventStatusDialog(
             BotSettings settings,
             BotServices services,
@@ -31,6 +34,8 @@ namespace CalendarSkill.Dialogs
             MicrosoftAppCredentials appCredentials)
             : base(nameof(ChangeEventStatusDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("ChangeEventStatusDialog.lg");
+
             TelemetryClient = telemetryClient;
 
             var changeEventStatus = new WaterfallStep[]
@@ -74,6 +79,9 @@ namespace CalendarSkill.Dialogs
                 string retryResponse;
                 if (state.NewEventStatus == EventStatus.Cancelled)
                 {
+                    var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[ShowMultipleNextMeetingMessage]", null);
+                    var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+
                     replyResponse = ChangeEventStatusResponses.ConfirmDelete;
                     retryResponse = ChangeEventStatusResponses.ConfirmDeleteFailed;
                 }
@@ -294,7 +302,7 @@ namespace CalendarSkill.Dialogs
                         options.Choices.Add(choice);
                     }
 
-                    var prompt = await GetGeneralMeetingListResponseAsync(sc, CalendarCommonStrings.MeetingsToChoose, state.Events, ChangeEventStatusResponses.MultipleEventsStartAtSameTime, null);
+                    var prompt = await GetGeneralMeetingListResponseAsync(sc, _lgMultiLangEngine, CalendarCommonStrings.MeetingsToChoose, state.Events, ChangeEventStatusResponses.MultipleEventsStartAtSameTime, null);
 
                     options.Prompt = prompt;
 

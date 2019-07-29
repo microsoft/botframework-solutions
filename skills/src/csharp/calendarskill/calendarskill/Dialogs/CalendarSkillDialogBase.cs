@@ -264,7 +264,7 @@ namespace CalendarSkill.Dialogs
             int totalCount,
             int overlapEventCount,
             string templateId,
-            StringDictionary tokens = null)
+            object tokens = null)
         {
             var state = await Accessor.GetAsync(dc.Context);
             var eventItemList = await GetMeetingCardListAsync(dc, events);
@@ -274,19 +274,30 @@ namespace CalendarSkill.Dialogs
                 listTitle = CalendarCommonStrings.OverviewTitle,
                 totalEventCount = totalCount.ToString(),
                 overlapEventCount = overlapEventCount.ToString(),
-                dateTimeString = dialogState.StartDateString,
+                dateTimeString = state.StartDateString,
                 indicator = string.Format(CalendarCommonStrings.ShowMeetingsIndicator, (firstIndex + 1).ToString(), lastIndex.ToString(), totalCount.ToString()),
                 userPhoto = await GetMyPhotoUrlAsync(dc.Context),
                 provider = string.Format(CalendarCommonStrings.OverviewEventSource, events[0].SourceString()),
-                timezone = userState.GetUserTimeZone().Id,
+                timezone = state.GetUserTimeZone().Id,
                 itemData = eventItemList,
                 isOverview = true
             };
 
-            var lgResult = await lgEngine.Generate(dc.Context, "[MeetingListCard]", overviewCardParams);
-            var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult, null);
+            if (templateId == null)
+            {
+                var lgResult = await lgEngine.Generate(dc.Context, "[MeetingListCard]", overviewCardParams);
+                var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult, null);
 
-            return (Activity)showMeetingPrompt;
+                return (Activity)showMeetingPrompt;
+            }
+            else
+            {
+                var lgResult = await lgEngine.Generate(dc.Context, $"[{templateId}]", overviewCardParams, tokens);
+                var cardResult = await lgEngine.Generate(dc.Context, "[MeetingListCard]", overviewCardParams);
+                var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult + cardResult, null);
+
+                return (Activity)showMeetingPrompt;
+            }
         }
 
         protected async Task<Activity> GetGeneralMeetingListResponseAsync(
@@ -295,7 +306,7 @@ namespace CalendarSkill.Dialogs
             string listTitle,
             List<EventModel> events,
             string templateId,
-            StringDictionary tokens = null,
+            object tokens = null,
             int firstIndex = -1,
             int lastIndex = -1,
             int totalCount = -1)
@@ -309,26 +320,11 @@ namespace CalendarSkill.Dialogs
                 totalCount = events.Count;
             }
 
-            var overviewCard = new Card()
-            {
-                Name = GetDivergedCardName(dc.Context, "CalendarGeneralMeetingList"),
-                Data = new CalendarMeetingListCardData()
-                {
-                    ListTitle = listTitle,
-                    TotalEventCount = null,
-                    OverlapEventCount = null,
-                    TotalEventCountUnit = null,
-                    OverlapEventCountUnit = null,
-                    Provider = string.Format(CalendarCommonStrings.OverviewEventSource, events[0].SourceString()),
-                    Indicator = string.Format(CalendarCommonStrings.ShowMeetingsIndicator, (firstIndex + 1).ToString(), lastIndex.ToString(), totalCount.ToString())
-                }
-            };
-
             var eventItemList = await GetMeetingCardListAsync(dc, events);
 
             var overviewCardParams = new
             {
-                listTitle = listTitle,
+                listTitle,
                 totalEventCount = 0,
                 overlapEventCount = 0,
                 dateTimeString = "",
@@ -340,10 +336,21 @@ namespace CalendarSkill.Dialogs
                 isOverview = false
             };
 
-            var lgResult = await lgEngine.Generate(dc.Context, "[MeetingListCard]", overviewCardParams);
-            var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult, null);
+            if (templateId == null)
+            {
+                var lgResult = await lgEngine.Generate(dc.Context, "[MeetingListCard]", overviewCardParams);
+                var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult, null);
 
-            return (Activity)showMeetingPrompt;
+                return (Activity)showMeetingPrompt;
+            }
+            else
+            {
+                var lgResult = await lgEngine.Generate(dc.Context, $"[{templateId}]", overviewCardParams, tokens);
+                var cardResult = await lgEngine.Generate(dc.Context, "[MeetingListCard]", overviewCardParams);
+                var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult + cardResult, null);
+
+                return (Activity)showMeetingPrompt;
+            }
         }
 
         protected async Task<Activity> GetDetailMeetingResponseAsync(DialogContext dc, EventModel eventItem, string templateId, StringDictionary tokens = null)

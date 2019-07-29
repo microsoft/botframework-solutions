@@ -14,3 +14,59 @@
 	- You have 1 event planned for @{dateTimeString}, it is with [ShowAttendees(events[0].Attendees, 1)] [FormatEventTime(events[0], timezone)] titled @{events[0].Title}. Want to know the content of this event?
 - ELSE:
 	- It looks like you have @{count(events)} events planned for @{dateTimeString}, the first event is with [ShowAttendees(events[0].Attendees, 1)] [FormatEventTime(events[0], timezone)] titled @{events[0].Title}. The last event of @{dateTimeString} is [FormatEventTime(events[count(events) - 1], timezone)] with [ShowAttendees(events[count(events) - 1].Attendees, 1)] titled @{events[count(events) - 1].Title}.
+
+# ReadOutMessage(startDateTime, endDateTime, timezone, attendees, attendeePhotoList, subject, location, content)
+- ```
+The event on @{lgTemplate('FormatDate', startDateTime, timezone)} is @{lgTemplate('FormatTime', startDateTime, timezone)} with @{lgTemplate('ShowAttendees', attendees, 1)} titled @{subject}.
+@{lgTemplate('MeetingDetailCard', startDateTime, endDateTime, timezone, attendeePhotoList, subject, location, content)}
+```
+
+# AskForAction(isOrganizer, isAccepted, startDateString)
+- IF: @{isOrganizer}
+	- Would you like to see your calendar overview again for [GetStartDateString(startDateString)]? You can also ask me to update or decline this event for you.
+- ELSEIF: @{isAccepted}
+	- Want to go back to the calendar overview again for [GetStartDateString(startDateString)]? You can also ask me to decline this event for you.
+- ELSE:
+	- Want to go back to the calendar overview again for [GetStartDateString(startDateString)]? You can also ask me to accept or decline this event for you.
+
+# CalendarNoMoreEvent
+- No more events!
+
+# CalendarNoPreviousEvent
+- This is already the first page!
+
+# BeforeShowEventDetails(meeting)
+- Here is the details of your event @{meeting.Title}:
+
+# ReadTime(meeting, timezone)
+- It starts at [FormatTime(meeting.StartTime, timezone)], and ends at [FormatTime(meeting.EndTime, timezone)]}.
+
+# ReadDuration(meeting)
+- It lasts for [FormatDateTimeDuration(meeting.StartTime, meeting.EndTime)].
+
+# ReadLocation(meeting)
+- IF: {meeting.Location == null || meeting.Location == ''}
+	- There is no location, possibly online?
+- ELSE:
+	- It held at @{meeting.Location}.
+
+# ShowNextMeetingMessage(meeting, timezone)
+- IF: {meeting.Location == null || meeting.Location == ''}
+	- You have the following event on your calendar: || You have the following event on your calendar: @{meeting.Title} [FormatEventTimeWithDate(event, timezone)] with @{count(meeting.Attendees)} people.
+- ELSE:
+	- You have the following event on your calendar: || You have the following event on your calendar: @{meeting.Title} [FormatEventTimeWithDate(event, timezone)] with @{count(meeting.Attendees)} people at @{meeting.Location}.
+
+# AskForShowOverview(startDateString)
+- Would you like to see your calendar overview again of [GetStartDateString(startDateString)]?
+
+# ShowMultipleFilteredMeetings(count)
+- I found @{count} events with your keyword.
+
+# ShowMeetingSummaryNotFirstPageMessage(events, timezone)
+- The first event in this page is with [ShowAttendees(events[0].Attendees, 1)] [FormatEventTime(events[0], timezone)] titled @{events[0].Title}.
+
+# ReadOutMorePrompt
+- Do you want to hear the content of the first event? I can read out any event for you, just let me know by providing the subject, time or attendees.
+
+# ShowMultipleNextMeetingMessage
+- You have the following event on your calendar:
