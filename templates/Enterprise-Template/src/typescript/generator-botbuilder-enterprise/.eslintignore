@@ -1,6 +1,0 @@
-# Generator's templates
-/generators/app/templates
-/generators/dialog/templates
-
-# Generator's tests
-/test

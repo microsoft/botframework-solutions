@@ -11,23 +11,23 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace AutomotiveSkill.Bots
 {
-    public class DialogBot<T> : ActivityHandler
+    public class DialogBot<T> : IBot
         where T : Dialog
     {
+        private readonly Dialog _dialog;
+        private readonly BotState _conversationState;
+        private readonly BotState _userState;
         private readonly IBotTelemetryClient _telemetryClient;
-        private DialogSet _dialogs;
 
         public DialogBot(IServiceProvider serviceProvider, T dialog)
         {
-            var conversationState = serviceProvider.GetService<ConversationState>() ?? throw new ArgumentNullException(nameof(ConversationState));
-            _telemetryClient = serviceProvider.GetService<IBotTelemetryClient>() ?? throw new ArgumentNullException(nameof(IBotTelemetryClient));
-
-            var dialogState = conversationState.CreateProperty<DialogState>(nameof(AutomotiveSkill));
-            _dialogs = new DialogSet(dialogState);
-            _dialogs.Add(dialog);
+            _dialog = dialog;
+            _conversationState = serviceProvider.GetService<ConversationState>();
+            _userState = serviceProvider.GetService<UserState>();
+            _telemetryClient = serviceProvider.GetService<IBotTelemetryClient>();
         }
 
-        public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Client notifying this bot took to long to respond (timed out)
             if (turnContext.Activity.Code == EndOfConversationCodes.BotTimedOut)
@@ -36,16 +36,11 @@ namespace AutomotiveSkill.Bots
                 return;
             }
 
-            var dc = await _dialogs.CreateContextAsync(turnContext);
+            await _dialog.RunAsync(turnContext, _conversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
 
-            if (dc.ActiveDialog != null)
-            {
-                var result = await dc.ContinueDialogAsync();
-            }
-            else
-            {
-                await dc.BeginDialogAsync(typeof(T).Name);
-            }
+            // Save any state changes that might have occured during the turn.
+            await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken);
+            await _userState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
     }
 }

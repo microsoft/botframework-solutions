@@ -6,7 +6,7 @@ import { existsSync } from 'fs';
 import { join } from 'path';
 import { ConsoleLogger, ILogger } from '../logger';
 import { IRefreshConfiguration } from '../models';
-import { ChildProcessUtils } from '../utils';
+import { ChildProcessUtils, wrapPathWithQuotes } from '../utils';
 
 export class RefreshSkill {
     public logger: ILogger;
@@ -59,9 +59,9 @@ export class RefreshSkill {
         try {
             this.logger.message('Running LuisGen...');
 
-            luisgenCommand.push(this.dispatchJsonFilePath);
+            luisgenCommand.push(wrapPathWithQuotes(this.dispatchJsonFilePath));
             luisgenCommand.push(...[`-${configuration.lgLanguage}`, `"DispatchLuis"`]);
-            luisgenCommand.push(...['-o', configuration.lgOutFolder]);
+            luisgenCommand.push(...['-o', wrapPathWithQuotes(configuration.lgOutFolder)]);
 
             await this.runCommand(luisgenCommand, `Executing luisgen for the ${configuration.dispatchName} file`);
         } catch (err) {

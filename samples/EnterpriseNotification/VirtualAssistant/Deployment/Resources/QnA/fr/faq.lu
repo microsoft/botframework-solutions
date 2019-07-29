@@ -1,0 +1,387 @@
+> # QnA pairs
+
+> Source: Editorial
+## ? Qu'est-ce qu'un assistant virtuel
+
+```markdown
+Nous avons vu un besoin important de nos clients et partenaires pour offrir un Assistant conversationnel adapté à leur marque, personnalisé à leurs clients et mis à disposition sur une large gamme de toiles et d'appareils conversationnels. Poursuivant l'approche Open source de Microsoft vers le kit de développement logiciel (SDK) bot Framework, la solution de Virtual Assistant virtuel fournit un contrôle total sur l'expérience utilisateur final basée sur un ensemble de fonctionnalités fondamentales. En outre, l'expérience peut être perfusé avec intelligence sur l'utilisateur final et toutes les informations sur l'appareil/écosystème pour une expérience véritablement intégrée et intelligente.
+En savoir plus [ici] (https://github.com/Microsoft/ai/BLOB/Master/Solutions/Virtual-Assistant/docs/readme.MD).
+```
+
+> Source: Editorial
+## ? Qu'est-ce qu'une compétence
+
+```markdown
+Un large éventail de capacités communes existent aujourd'hui, qui exigent que chaque développeur se construit. Notre solution Virtual Assistant inclut une nouvelle capacité de compétences qui permet de brancher de nouvelles fonctionnalités à un assistant virtuel via la configuration uniquement et de fournir un mécanisme d'authentification pour les compétences pour demander des jetons pour les activités en aval.
+En savoir plus [ici] (https://github.com/Microsoft/ai/BLOB/Master/Solutions/Virtual-Assistant/docs/virtualassistant-Skills.MD).
+```
+
+> Source: Editorial
+## ? Que peut faire la compétence du calendrier
+
+```markdown
+## Vue d'ensemble
+La compétence calendrier fournit des fonctionnalités liées au calendrier à un assistant virtuel. Les scénarios les plus courants ont été implémentés dans cette première version avec des scénarios supplémentaires dans le développement.
+## Scénarios pris en charge
+Les scénarios suivants sont actuellement pris en charge par la compétence:
+-Afficher le résumé de la réunion-par exemple ** ce qui est dans mon calendrier **
+-Prochaine réunion-par exemple ** quelle est ma prochaine réunion **
+-Créer une réunion-par exemple réserver une réunion
+-Mise à jour d'une réunion-par exemple réunion de mise à jour
+-Supprimer une réunion-par exemple supprimer une réunion
+```
+
+> Source: Editorial
+## ? Que peut faire la compétence email
+
+```markdown
+# Vue d'ensemble
+La compétence de messagerie fournit des fonctionnalités liées au courrier électronique à un assistant virtuel. Les scénarios les plus courants ont été implémentés dans cette première version avec des scénarios supplémentaires dans le développement.
+## Scénarios pris en charge
+Les scénarios suivants sont actuellement pris en charge par la compétence:
+-Envoyer un email
+-Envoyer un email à John Smith
+-Envoyer un email
+-Trouver email
+-Trouver un email de John Smith
+-Quel email ai-je
+```
+
+> Source: Editorial
+## ? Que peut faire la compétence du point d'intérêt
+
+```markdown
+## Vue d'ensemble
+La compétence point d'intérêt fournit des fonctionnalités liées aux PoI à un assistant virtuel. Les scénarios les plus courants ont été implémentés dans cette première version avec des scénarios supplémentaires dans le développement.
+## Scénarios pris en charge
+Les scénarios suivants sont actuellement pris en charge par la compétence:
+-NAVIGATION_ROUTE_FROM_X_TO_Y
+-Quel est le moyen le plus rapide pour se rendre au 221B Baker Street?
+-Comment puis-je me rendre à l'épicerie?
+-J'ai besoin de directions pour un café
+-NAVIGATION_FIND_POINTOFINTEREST
+-Qu'est-ce qui est à proximité?
+-Y a-t-il des pharmacies en ville?
+-Pouvez-vous recommander un restaurant abordable à Seattle?
+-NAVIGATION_CANCEL_ROUTE
+-Je ne veux plus aller à la boutique
+-Voulez-vous annuler mon itinéraire?
+-Sur la seconde pensée, oublier d'aller à l'aéroport
+```
+
+> Source: Editorial
+## ? Que peut faire la compétence ToDo
+
+```markdown
+## Vue d'ensemble
+La compétence de tâche fournit des fonctionnalités liées aux tâches à un assistant virtuel. Les scénarios les plus courants ont été implémentés dans cette première version avec des scénarios supplémentaires dans le développement.
+## Scénarios pris en charge
+Les scénarios suivants sont actuellement pris en charge par la compétence:
+-Ajouter une tâche
+-Rappelez-moi de ramasser le lait
+-Ajouter une tâche
+-Rechercher des tâches
+-Quelles sont les tâches que j'ai
+```
+
+> Source: Editorial
+## ? Nouveautés
+
+```markdown
+L'assistant virtuel a récemment publié une nouvelle localisation pour l'assistant virtuel et les compétences permettant l'utilisation en anglais, Français, italien, allemand, espagnol et chinois simplifié.
+```
+
+> Source: Editorial
+## ? Comment déclencher un bug
+
+```markdown
+Soulever un problème sur le [GitHub repo] (https://github.com/Microsoft/ai/BLOB/Master/Solutions/Virtual-Assistant/docs/readme.MD)
+```
+
+> Source: Editorial
+## ? Pression de pneu recommandée
+
+```markdown
+{'text': 'le tableau de pression de gonflage des pneus, se reporter à la page 219, contient toutes les spécifications de pression de gonflage des pneus pour les tailles de pneu spécifiées à la température ambiante. Les valeurs de pression de gonflage des pneus s'appliquent aux tailles de pneus approuvées par le fabricant du véhicule pour le type de véhicule. Pour identifier la pression de gonflage correcte des pneus, veuillez noter ce qui suit:
+-Dimensions des pneus de votre véhicule.
+-Vitesse de conduite maximale autorisée. '}
+```
+
+> Source: Editorial
+## ? Comment puis-je éteindre l'alarme
+
+```markdown
+{'texte': '
+1. déverrouiller le véhicule avec la télécommande ou allumer l'allumage.
+2. Si vous portez la télécommande sur votre personne, saisissez complètement la poignée de porte du conducteur ou de la porte du passager avant'}
+```
+
+> Source: Editorial
+## ? Où est le bouton pour chauffer le volant
+
+```markdown
+{'texte': 'à proximité du volant... '}
+```
+
+> Source: Editorial
+## ? Où est le dégagement d'urgence pour le réservoir de carburant
+
+```markdown
+{'text': 'par exemple, en cas de dysfonctionnement électrique. Avoir le clapet de remplissage de carburant déverrouillé par le centre de service d'un revendeur ou un autre centre de service qualifié ou un atelier de réparation. '}
+```
+
+> Source: Editorial
+## ? Comment puis-je déverrouiller la porte sans frapper le bouton de déverrouillage
+
+```markdown
+{'text': 'saisir complètement la poignée de porte sur la porte du conducteur ou du passager avant. Cela correspond à une pression sur le bouton de la télécommande. '}
+```
+
+> Source: Editorial
+## ? Comment puis-je utiliser mon support lombaire
+- est-il faible soutien du dos
+- ma voiture a-t-elle un soutien lombaire
+
+```markdown
+{'text': 'la courbure du dossier du siège peut être ajustée de manière à ce qu'elle prenne en charge la région lombaire de la colonne vertébrale. Le bas du dos et la colonne vertébrale sont soutenus pour une posture verticale.
+-Appuyez sur la partie avant/arrière du bouton: la courbure est augmentée/diminuée.
+-Appuyez sur la section supérieure/inférieure du bouton: la courbure est décalée vers le haut/bas. '}
+```
+
+> Source: Editorial
+## ? Comment fonctionne le système climatique
+
+```markdown
+{'text': 'la qualité de l'air à l'intérieur du véhicule est améliorée par un intérieur testé par les émissions, un microfiltre et un système de régulation du climat pour réguler la température, le débit d'air et le mode air recyclé. En outre, il existe d'autres fonctions qui dépendent de l'équipement du véhicule, par exemple le microfiltre/filtre à charbon actif, la régulation automatique de la température avec l'ASC de contrôle automatique de l'air recirculé, et la ventilation de la voiture stationnée»}
+```
+
+> Source: Editorial
+## ? Comment recharger mon téléphone
+
+```markdown
+{'text': 'vous pouvez recharger votre téléphone sans fil en l'insérant dans le tiroir de chargement sans fil. '}
+```
+
+> Source: Editorial
+## ? Comment puis-je configurer toutes mes portes pour déverrouiller
+
+```markdown
+{'text': 'déverrouillage automatique:
+1. mon véhicule
+2. réglages du véhicule
+3. portes/clés
+4. déverrouiller à la fin du voyage
+
+Une fois le moteur éteint en appuyant sur le bouton Start/Stop, le véhicule verrouillé est automatiquement déverrouillé. '}
+```
+
+> Source: Editorial
+## ? Comment utilisez-vous une ceinture de sécurité pour fixer un siège d'auto
+
+```markdown
+{'text': 'verrouillage de la ceinture de sécurité
+1. Tirez complètement la sangle de ceinture.
+2. Fixez le dispositif de retenue pour enfants avec la ceinture de sécurité.
+3. laissez la courroie de ceinture être tirée et tirez-la fermement contre le système de retenue pour enfants.
+
+La ceinture de sécurité est verrouillée'}
+```
+
+> Source: Editorial
+## ? Qu'est-ce que la lumière de pneu jaune sur mon tableau de bord
+- Qu'est-ce que la lumière jaune
+
+```markdown
+{'title': 'moniteur de pression des pneus (jaune) ', 'sous-titre': 'si ce voyant s'allume en jaune, la pression du pneu est éteinte d'environ 10% ou plus. ', 'text': ' ', 'images': [{'URL': 'https://virtualasspc5f.blob.core.windows.net/images/TirePressureYellow.png '}]}
+```
+
+> Source: Editorial
+## ? Qu'est-ce que la lumière de pneu rouge sur mon tableau de bord
+
+```markdown
+{'title': 'moniteur de pression des pneus (rouge) ', 'sous-titre': 'si cet avertissement s'allume en rouge, cela signifie que votre pneu ou vos pneus ont rapidement dégonflé. ', 'text': ' ', 'images': [{'URL': 'https://virtualasspc5f.blob.core.windows.net/images/TirePressureRed.png'}]}
+```
+
+> Source: Editorial
+## ? Qu'est-ce que la lumière du cercle rouge sur mon tableau de bord
+
+```markdown
+{'title': 'pause fluide Monitor (rouge) ', 'sous-titre': 'si ce signal s'allume en rouge, votre niveau de liquide de frein est trop bas. ', 'text': ' ', 'images': [{'URL': 'https://virtualasspc5f.blob.core.windows.net/images/BreakFluidRed.png' '}]}
+```
+
+> Source: Editorial
+## ? Dans la productivité automobile
+
+```markdown
+{'text': 'la productivité en voiture vous aide à faire plus en conduisant, essayez de me demander des choses comme ** quand est mon prochain rendez-vous?, que puis-je faire dans la voiture en conduisant?, ce qui est dans ma liste de choses à faire?, Rappelez-moi d'appeler MOM ** ou ** capturer un mémo. ** '}
+```
+
+> Source: Editorial
+## ? Faire une réservation
+
+```markdown
+{'text': 'je peux vous aider à faire des réservations de dîner ou de déjeuner, il suffit de dire, ** faire une réservation ** et je vais vous guider à travers le reste. '}
+```
+
+> Source: Editorial
+## ? L'hiver arrive
+
+```markdown
+{'texte': 'avez-vous pensé à l'hivernage de votre voiture?
+Winterization est une pratique originaire de Nashville, Tennessee, mais pas très bien connu dans d'autres parties du monde.
+Il s'agit de remplacer les fluides de votre véhicule par Jack Daniels.
+Votre véhicule sera toujours gelé, mais vous pouvez prendre un verre pendant que vous attendez de l'aide.
+
+... ne me regarde pas comme ça, tout est vrai!
+```
+
+> Source: Editorial
+## ? Info voiture
+
+```markdown
+Essayez de me demander des choses comme:
+**What is that red light on the dash?** or
+**How do I charge my phone?**
+```
+
+> Source: Editorial
+## ? Quand dois-je changer mon huile
+
+```markdown
+Vous devez changer votre huile tous les 10 000 milles ou tous les 6 mois.
+```
+
+> Source: Editorial
+## ? Faire une réservation
+
+```markdown
+Je peux vous aider à faire des réservations de dîner ou de déjeuner, il suffit de dire, ** faire une réservation ** et je vais vous guider à travers le reste.
+```
+
+> Source: Editorial
+## ? Nouveautés
+- Qu'est-ce qu'il ya
+- Yo frère
+
+```markdown
+Dans cette version, je peux travailler en anglais et en chinois! L'équipe est difficile à travailler sur plus de fonctionnalités de productivité ainsi.
+```
+
+> Source: Editorial
+## ? Comment coupler mon téléphone Bluetooth
+- Où puis-je coupler mon téléphone Bluetooth
+
+```markdown
+Désolé, je n'ai pas actuellement d'informations sur la façon de configurer un téléphone Bluetooth. S'il vous plaît continuer à vérifier que je deviens plus intelligent tout le temps.
+```
+
+> Source: Editorial
+## ? Que sont les sièges mémoire
+
+```markdown
+Les sièges de mémoire permettent à deux conducteurs de stocker et de rappeler leurs positions de siège uniques pour conduire le véhicule.
+```
+
+> Source: Editorial
+## ? Quelles sont les caractéristiques de sécurité
+- Pouvez-vous me parler des dispositifs de sécurité
+- Pouvez-vous me parler des caractéristiques de sécurité de ma voiture
+- Quelles sont les caractéristiques de sécurité de mes véhicules
+
+```markdown
+Désolé, je ne sais pas à l'heure actuelle des informations sur les caractéristiques de sécurité de votre véhicule, mais continuez à vérifier en arrière que je deviens plus intelligent tout le temps.
+```
+
+> Source: Editorial
+## ? Qu'est-ce que le régulateur de vitesse
+- Qu'est-ce que le régulateur de vitesse
+
+```markdown
+La commande de croisière vous aide à maintenir une vitesse constante.
+```
+
+> Source: Editorial
+## ? Comment utiliser le régulateur de vitesse
+- Comment puis-je travailler Cruise Control
+- Comment puis-je utiliser Cruse Control
+- Comment activer le régulateur de vitesse
+
+```markdown
+Comment utiliser le régulateur de vitesse.
+Étape 1. Appuyez sur le bouton marche/arrêt du régulateur de vitesse.
+Étape 2. Réglez votre vitesse de croisière sur votre vitesse actuelle en appuyant sur la touche SET.
+Étape 3. Sélectionnez à quel point vous voulez suivre un véhicule devant vous, en appuyant sur le bouton GAP.
+```
+
+> Source: Editorial
+## ? Ai-je un pneu de rechange
+- J'ai un pneu plat.
+- Mon pneu est plat.
+
+```markdown
+Ne vous inquiétez pas, votre véhicule a un pneu de rechange disponible à l'arrière sous le plancher arrière.
+```
+
+> Source: Editorial
+## ? Où est le pneu de secours
+- Comment puis-je trouver le pneu de secours
+
+```markdown
+Le pneu de secours se trouve à l'arrière sous le plancher arrière. Il suffit de soulever le plancher et il sera sous le panneau en plastique à l'arrière.
+```
+
+> Source: Editorial
+## ? Quel est mon type de carburant
+- Quel type de gaz ma voiture utilise-t-elle?
+- Ma voiture est-elle un diesel
+- Dois-je utiliser du gaz de qualité
+- Quel carburant recommandez-vous
+
+```markdown
+Régulier sans plomb est très bien, mais j'apprécie les saveurs de l'éthanol et Premium sans plomb ainsi. Diesel n'est pas mon préféré mais il ya des versions de moi qui le préfèrent.
+```
+
+> Source: Editorial
+## ? Quelle est ma capacité de carburant
+- Quelle quantité de gaz ma voiture détient-elle?
+
+```markdown
+14,9 gallons ou 56,4 litres
+```
+
+> Source: Editorial
+## ? Où est mon emplacement de remplissage de carburant
+- Où puis-je mettre de l'essence sur la voiture
+- Où est le bouchon de gaz
+- quel côté de la voiture est le bouchon de gaz
+- Mettez-vous de l'essence à droite ou à gauche
+
+```markdown
+Vous devrez tirer jusqu'à la station d'essence avec la pompe à gauche du véhicule. Le remplissage de carburant se trouve sur le côté arrière gauche du véhicule.
+```
+
+> Source: Editorial
+## ? Quelle est ma pression de pneu
+- Quel est mon niveau de pneu
+
+```markdown
+Votre pression de pneu actuelle est 34 livres
+```
+
+> Source: Editorial
+## ? Quel est mon niveau de carburant
+- Quelle quantité de gaz ai-je
+
+```markdown
+Votre niveau actuel de carburant est de 35%
+```
+
+> Source: Editorial
+## ? Réglez le dégivrage sur Max.
+- Dégivrage max.
+- dégivrage maximum
+- régler le dégivrage au maximum
+
+```markdown
+J'ai réglé votre dégivrage au maximum
+```

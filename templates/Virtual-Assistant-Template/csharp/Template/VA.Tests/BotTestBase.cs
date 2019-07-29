@@ -39,12 +39,12 @@ namespace $safeprojectname$
                             DispatchService = DispatchTestUtil.CreateRecognizer(),
                             LuisServices = new Dictionary<string, ITelemetryRecognizer>
                             {
-                                { "general", GeneralTestUtil.CreateRecognizer() }
+                                { "General", GeneralTestUtil.CreateRecognizer() }
                             },
                             QnAServices = new Dictionary<string, ITelemetryQnAMaker>
                             {
-                                { "faq", FaqTestUtil.CreateRecognizer() },
-                                { "chitchat", ChitchatTestUtil.CreateRecognizer() }
+                                { "Faq", FaqTestUtil.CreateRecognizer() },
+                                { "Chitchat", ChitchatTestUtil.CreateRecognizer() }
                             }
                         }
                     }

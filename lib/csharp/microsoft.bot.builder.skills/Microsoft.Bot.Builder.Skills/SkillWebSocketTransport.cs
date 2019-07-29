@@ -7,10 +7,10 @@ using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Bot.Protocol;
-using Microsoft.Bot.Protocol.Transport;
-using Microsoft.Bot.Protocol.WebSockets;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.StreamingExtensions;
+using Microsoft.Bot.StreamingExtensions.Transport;
+using Microsoft.Bot.StreamingExtensions.Transport.WebSockets;
 using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Skills
@@ -71,7 +71,7 @@ namespace Microsoft.Bot.Builder.Skills
 
             // Serialize the activity and POST to the Skill endpoint
             var body = new StringContent(JsonConvert.SerializeObject(activity, SerializationSettings.BotSchemaSerializationSettings), Encoding.UTF8, SerializationSettings.ApplicationJson);
-            var request = Request.CreatePost(string.Empty, body);
+            var request = StreamingRequest.CreatePost(string.Empty, body);
 
             // set back recipient id to make things consistent
             activity.Recipient.Id = recipientId;

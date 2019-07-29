@@ -18,8 +18,8 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Auth;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions.Authentication;
+using Microsoft.Bot.Builder.StreamingExtensions;
 using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Bot.Protocol.StreamingExtensions.NetCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -77,6 +77,8 @@ namespace VirtualAssistantSample
             services.AddSingleton<BotServices>();
 
             // Configure storage
+            // Uncomment the following line for local development without Cosmos Db
+            // services.AddSingleton<IStorage, MemoryStorage>();
             services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
@@ -143,7 +145,7 @@ namespace VirtualAssistantSample
         {
             if (skill.AuthenticationConnections?.Count() > 0)
             {
-                if (settings.OAuthConnections.Any() && settings.OAuthConnections.Any(o => skill.AuthenticationConnections.Any(s => s.ServiceProviderId == o.Provider)))
+                if (settings.OAuthConnections != null && settings.OAuthConnections.Any(o => skill.AuthenticationConnections.Any(s => s.ServiceProviderId == o.Provider)))
                 {
                     var oauthConnections = settings.OAuthConnections.Where(o => skill.AuthenticationConnections.Any(s => s.ServiceProviderId == o.Provider)).ToList();
                     return new MultiProviderAuthDialog(oauthConnections, appCredentials);

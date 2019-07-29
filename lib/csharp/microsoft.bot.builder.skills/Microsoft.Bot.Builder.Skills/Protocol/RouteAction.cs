@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.Bot.Protocol;
+using Microsoft.Bot.StreamingExtensions;
 
 namespace Microsoft.Bot.Builder.Skills.Protocol
 {

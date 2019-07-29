@@ -1,0 +1,71 @@
+﻿$PREBUILT:datetimeV2
+$PREBUILT:number
+$PREBUILT:geographyV2
+
+> # Intent definitions
+
+## Reservation
+- lunch meeting
+- book a pasta place tomorrow
+- book a tabe on sunday
+- book a table at giordano's for tomorrow for 4 people at 2 pm
+- book a table at pizza hut for two in redmond at 7
+- book a table at pizza hut for two in redmond at seven
+- book a table for tomorrow for 2 people in chicago
+- book a table for tomorrow for 4 people at 2 pm
+- book a table for two in redmond tomorrow at 7:00 pm
+- book a table for two tomorrow at 7 pm
+- can you help me out where to have dinner tomorrow night
+- can you help me plan dinner for tomorrow
+- could you make a reservation for me for tonight
+- could you reserve italian tonight
+- find food
+- get pizza for tomorrow at 10 pm for 4 people
+- get taco for tomorrow at 10 pm for 4 people
+- i am hungry
+- i feel like having italian
+- i want pasta at 5pm today
+- i want to eat german this weekend
+- i want to eat indian
+- i want to eat pizza
+- i want to make a reservation
+- make a dinner reservation for tomorrow at 6:30 pm
+- reserve a restaurant tomorrow at 7 pm
+- reserve a table for four
+- reserve a table tomorrow
+
+## None
+
+> # List entities
+
+$cuisine:mexican=
+- tacos
+- chilaquiles
+- flautas
+- burrito
+
+$cuisine:indian=
+- samosas
+- curry
+
+$cuisine:italian=
+- pizza
+- pasta
+- spaghetti
+- lasagna
+
+$cuisine:chinese=
+- dumplings
+- kung pao
+- dim sum
+- fried rice
+
+$cuisine:german=
+- bavarian
+- schnitzel
+- pretzel
+
+$cuisine:american=
+- burger
+- bacon
+- scrambled eggs
