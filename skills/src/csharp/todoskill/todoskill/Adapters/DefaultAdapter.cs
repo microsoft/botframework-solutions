@@ -4,6 +4,7 @@
 using System.Globalization;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -20,7 +21,8 @@ namespace ToDoSkill.Adapters
             BotSettings settings,
             ICredentialProvider credentialProvider,
             IBotTelemetryClient telemetryClient,
-            ResponseManager responseManager)
+            ResponseManager responseManager,
+            ResourceExplorer resourceExplorer)
             : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>
