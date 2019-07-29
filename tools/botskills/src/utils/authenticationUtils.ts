@@ -14,7 +14,7 @@ import {
     IOauthConnection,
     IScopeManifest,
     ISkillManifest } from '../models';
-import { ChildProcessUtils } from './';
+import { ChildProcessUtils, isValidAzVersion } from './';
 
 export class AuthenticationUtils {
     public childProcessUtils: ChildProcessUtils;
@@ -95,6 +95,13 @@ export class AuthenticationUtils {
         }];
     }
 
+    private async validateAzVersion(logger: ILogger): Promise<void> {
+        // Validating the version of az that the user has (due to preview tag issue)
+        if (await isValidAzVersion()) {
+            logger.warning(`This az version may contain issues during the execution of internal az commands`);
+        }
+    }
+
     // tslint:disable-next-line:max-func-body-length export-name
     public async authenticate(configuration: IConnectConfiguration, manifest: ISkillManifest, logger: ILogger): Promise<boolean> {
         let currentCommand: string[] = [];
@@ -105,6 +112,7 @@ export class AuthenticationUtils {
                 const aadConfig: IAuthenticationConnection | undefined = manifest.authenticationConnections.find(
                     (connection: IAuthenticationConnection) => connection.serviceProviderId === 'Azure Active Directory v2');
                 if (aadConfig) {
+                    this.validateAzVersion(logger);
                     logger.message('Configuring Azure AD connection ...');
 
                     let connectionName: string = aadConfig.id;
