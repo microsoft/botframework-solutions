@@ -129,6 +129,7 @@ https://github.com/microsoft/botframework-solutions/blob/master/docs/howto/assis
                 logger: new TestLogger()
             };
 
+            sandbox.replace(authenticationUtils, "validateAzVersion", (logger) => {});
             // Mock the execution of az bot authsetting list (listAuthSettingsCommand)
             this.callback.onCall(0).returns(Promise.resolve(emptyAzureAuthSettings));
             // Mock the execution of az ad app show (azureAppShowCommand)
