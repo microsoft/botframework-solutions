@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills.Auth;
-using Microsoft.Bot.Builder.Skills.Dialogs;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
+using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
@@ -254,6 +254,11 @@ namespace Microsoft.Bot.Builder.Skills
                     if (!(result.Result is DispatchIntent))
                     {
                         result.Status = DialogTurnStatus.Waiting;
+                    }
+                    else
+                    {
+                        // Restart and redispatch
+                        result.Result = new RouterDialogTurnResult(RouterDialogTurnStatus.Restart);
                     }
 
                     return result;
