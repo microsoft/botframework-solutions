@@ -8,9 +8,9 @@ namespace Microsoft.Bot.Builder.Skills
 {
     public interface ISkillTransport
     {
-        Task<bool> ForwardToSkillAsync(SkillManifest skillManifest, IServiceClientCredentials appCredentials, ITurnContext dialogContext, Activity activity, Action<Activity> tokenRequestHandler = null);
+        Task<bool> ForwardToSkillAsync(SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, ITurnContext dialogContext, Activity activity, Action<Activity> tokenRequestHandler = null);
 
-        Task CancelRemoteDialogsAsync(SkillManifest skillManifest, IServiceClientCredentials appCredentials, ITurnContext turnContext);
+        Task CancelRemoteDialogsAsync(SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, ITurnContext turnContext);
 
         void Disconnect();
     }

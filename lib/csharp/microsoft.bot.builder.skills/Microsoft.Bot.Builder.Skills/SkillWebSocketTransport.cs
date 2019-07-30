@@ -29,13 +29,13 @@ namespace Microsoft.Bot.Builder.Skills
             _streamingTransportClient = streamingTransportClient;
         }
 
-        public async Task<bool> ForwardToSkillAsync(SkillManifest skillManifest, IServiceClientCredentials appCredentials, ITurnContext turnContext, Activity activity, Action<Activity> tokenRequestHandler = null)
+        public async Task<bool> ForwardToSkillAsync(SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, ITurnContext turnContext, Activity activity, Action<Activity> tokenRequestHandler = null)
         {
             if (_streamingTransportClient == null)
             {
                 // acquire AAD token
                 MicrosoftAppCredentials.TrustServiceUrl(skillManifest.Endpoint.AbsoluteUri);
-                var token = await appCredentials.GetTokenAsync();
+                var token = await serviceClientCredentials.GetTokenAsync();
 
                 // put AAD token in the header
                 var headers = new Dictionary<string, string>();
