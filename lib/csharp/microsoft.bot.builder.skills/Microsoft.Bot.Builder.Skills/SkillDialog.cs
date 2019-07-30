@@ -95,56 +95,61 @@ namespace Microsoft.Bot.Builder.Skills
             var actionName = dialogOptions?.Action;
 
             var activity = innerDc.Context.Activity;
-            var semanticAction = new SemanticAction
-            {
-                Id = actionName,
-                Entities = new Dictionary<string, Entity>(),
-            };
 
-            // only set the semantic state if action is not empty
-            if (!string.IsNullOrWhiteSpace(actionName))
+            // only set SemanticAction if it's not populated
+            if (activity.SemanticAction == null)
             {
-                semanticAction.State = SkillConstants.SkillStart;
-            }
-
-            if (!string.IsNullOrWhiteSpace(actionName))
-            {
-                // Find the specified within the selected Skill for slot filling evaluation
-                var action = _skillManifest.Actions.SingleOrDefault(a => a.Id == actionName);
-                if (action != null)
+                var semanticAction = new SemanticAction
                 {
-                    // If the action doesn't define any Slots or SkillContext is empty then we skip slot evaluation
-                    if (action.Definition.Slots != null && skillContext.Count > 0)
+                    Id = actionName,
+                    Entities = new Dictionary<string, Entity>(),
+                };
+
+                // only set the semantic state if action is not empty
+                if (!string.IsNullOrWhiteSpace(actionName))
+                {
+                    semanticAction.State = SkillConstants.SkillStart;
+                }
+
+                if (!string.IsNullOrWhiteSpace(actionName))
+                {
+                    // Find the specified within the selected Skill for slot filling evaluation
+                    var action = _skillManifest.Actions.SingleOrDefault(a => a.Id == actionName);
+                    if (action != null)
                     {
-                        // Match Slots to Skill Context
-                        slots = await MatchSkillContextToSlots(innerDc, action.Definition.Slots, skillContext);
+                        // If the action doesn't define any Slots or SkillContext is empty then we skip slot evaluation
+                        if (action.Definition.Slots != null && skillContext.Count > 0)
+                        {
+                            // Match Slots to Skill Context
+                            slots = await MatchSkillContextToSlots(innerDc, action.Definition.Slots, skillContext);
+                        }
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"Passed Action ({actionName}) could not be found within the {_skillManifest.Id} skill manifest action definition.");
                     }
                 }
                 else
                 {
-                    throw new ArgumentException($"Passed Action ({actionName}) could not be found within the {_skillManifest.Id} skill manifest action definition.");
-                }
-            }
-            else
-            {
-                // The caller hasn't got the capability of identifying the action as well as the Skill so we enumerate
-                // actions and slot data to pass what we have
+                    // The caller hasn't got the capability of identifying the action as well as the Skill so we enumerate
+                    // actions and slot data to pass what we have
 
-                // Retrieve a distinct list of all slots, some actions may use the same slot so we use distinct to ensure we only get 1 instance.
-                var skillSlots = _skillManifest.Actions.SelectMany(s => s.Definition.Slots).Distinct(new SlotEqualityComparer());
-                if (skillSlots != null)
+                    // Retrieve a distinct list of all slots, some actions may use the same slot so we use distinct to ensure we only get 1 instance.
+                    var skillSlots = _skillManifest.Actions.SelectMany(s => s.Definition.Slots).Distinct(new SlotEqualityComparer());
+                    if (skillSlots != null)
+                    {
+                        // Match Slots to Skill Context
+                        slots = await MatchSkillContextToSlots(innerDc, skillSlots.ToList(), skillContext);
+                    }
+                }
+
+                foreach (var slot in slots)
                 {
-                    // Match Slots to Skill Context
-                    slots = await MatchSkillContextToSlots(innerDc, skillSlots.ToList(), skillContext);
+                    semanticAction.Entities.Add(slot.Key, new Entity { Properties = slot.Value });
                 }
-            }
 
-            foreach (var slot in slots)
-            {
-                semanticAction.Entities.Add(slot.Key, new Entity { Properties = slot.Value });
+                activity.SemanticAction = semanticAction;
             }
-
-            activity.SemanticAction = semanticAction;
 
             await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Handing off to the {_skillManifest.Name} skill."));
 
