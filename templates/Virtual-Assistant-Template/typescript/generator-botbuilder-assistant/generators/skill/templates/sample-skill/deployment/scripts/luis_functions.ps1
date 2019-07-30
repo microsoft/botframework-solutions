@@ -30,8 +30,8 @@ function DeployLUIS ($name, $lu_file, $region, $luisAuthoringKey, $language, $lo
 	}
 	else {
 	    # train and publish luis app
-		$(luis train version --appId $luisApp.id --authoringKey $luisAuthoringKey --versionId $luisApp.activeVersion --wait 
-		& luis publish version --appId $luisApp.id --authoringKey $luisAuthoringKey --versionId $luisApp.activeVersion --wait) 2>> $log | Out-Null
+        $(luis train version --appId $luisApp.id --region $region --authoringKey $luisAuthoringKey --versionId $luisApp.activeVersion --wait 
+        & luis publish version --appId $luisApp.id --region $region --authoringKey $luisAuthoringKey --versionId $luisApp.activeVersion --wait) 2>> $log | Out-Null
 
 		Return $luisApp
 	}
@@ -53,7 +53,7 @@ function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscr
         --out_folder $outFolder `
         --out $outFile
     
-    Write-Host "? Getting current versions ..."
+        Write-Host "> Getting current versions ..."
     # Get list of current versions
 	$versions = luis list versions `
         --appId $appId `
@@ -100,7 +100,7 @@ function UpdateLUIS ($lu_file, $appId, $version, $region, $authoringKey, $subscr
     
     # train and publish luis app
     $(luis train version --appId $appId --region $region --authoringKey $authoringKey --versionId $version --wait 
-    & luis publish version --appId $appId --region $region --authoringKey $authoringKey --versionId $version --wait) 2>&1 | Out-Null
+    & luis publish version --appId $appId --region $region --authoringKey $authoringKey --versionId $version --wait) 2>> $log | Out-Null
 }
 
 function RunLuisGen($lu_file, $outName, $outFolder) {
