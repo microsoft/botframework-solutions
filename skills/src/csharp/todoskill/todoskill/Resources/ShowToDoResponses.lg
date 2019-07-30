@@ -1,7 +1,6 @@
-﻿# ShowToDoResponses
+﻿# AskAddOrCompleteTaskMessage
 - ```
-{   
-  "AskAddOrCompleteTaskMessage": {
+{
     "replies": [
       {
         "text": "You can let me know if you want to add or complete a task.",
@@ -9,8 +8,12 @@
       }
     ],
     "inputHint": "ignoringInput"
-  },
-  "ReadMoreTasksPrompt": {
+}
+```
+
+# ReadMoreTasksPrompt
+- ```
+{
     "replies": [
       {
         "text": "Do you want to see the next tasks?",
@@ -18,8 +21,12 @@
       }
     ],
     "inputHint": "expectingInput"
-  },
-  "ReadMoreTasksConfirmFailed": {
+}
+```
+
+# ReadMoreTasksConfirmFailed
+- ```
+{
     "replies": [
       {
         "text": "Sorry, I didn't understand what you meant. Do you want to see the next tasks?",
@@ -27,8 +34,12 @@
       }
     ],
     "inputHint": "expectingInput"
-  },
-  "ReadMoreTasksPrompt2": {
+}
+```
+
+# ReadMoreTasksPrompt2
+- ```
+{
     "replies": [
       {
         "text": "There are more items on your list. Do you want to see more?",
@@ -36,8 +47,12 @@
       }
     ],
     "inputHint": "expectingInput"
-  },
-  "RetryReadMoreTasksPrompt2": {
+}
+```
+
+# RetryReadMoreTasksPrompt2
+- ```
+{
     "replies": [
       {
         "text": "Sorry, I didn't understand what you meant. Do you want to see more?",
@@ -45,8 +60,12 @@
       }
     ],
     "inputHint": "expectingInput"
-  },
-  "NoTasksMessage": {
+}
+```
+
+# NoTasksMessage
+- ```
+{
     "replies": [
       {
         "text": "It seems you have no tasks in your @{listType} list. Just let me know if you want to create a new task.",
@@ -54,8 +73,12 @@
       }
     ],
     "inputHint": "acceptingInput"
-  },
-  "TaskSummaryMessage": {
+}
+```
+
+# TaskSummaryMessage
+- ```
+{
     "replies": [
       {
         "text": "You have @{taskCount} items on your @{listType} list. ",
@@ -63,8 +86,12 @@
       }
     ],
     "inputHint": "ignoringInput"
-  },
-  "RepeatFirstPagePrompt": {
+}
+```
+
+# RepeatFirstPagePrompt
+- ```
+{
     "replies": [
       {
         "text": "You are already at the start of your @{listType} list. Do you want to see your first @{taskCount} tasks again?",
@@ -72,8 +99,12 @@
       }
     ],
     "inputHint": "expectingInput"
-  },
-  "RepeatFirstPageConfirmFailed": {
+}
+```
+
+# RepeatFirstPageConfirmFailed
+- ```
+{
     "replies": [
       {
         "text": "Sorry, I didn't understand what you meant. Do you want to see your first @{taskCount} tasks again?",
@@ -81,8 +112,12 @@
       }
     ],
     "inputHint": "expectingInput"
-  },
-  "GoBackToStartPromptForSingleTask": {
+}
+```
+
+# GoBackToStartPromptForSingleTask
+- ```
+{
     "replies": [
       {
         "text": "This is the last task on your @{listType} list. Do you want to see your first @{taskCount} tasks again?",
@@ -90,8 +125,12 @@
       }
     ],
     "inputHint": "expectingInput"
-  },
-  "GoBackToStartForSingleTaskConfirmFailed": {
+}
+```
+
+# GoBackToStartForSingleTaskConfirmFailed
+- ```
+{
     "replies": [
       {
         "text": "Sorry, I didn't understand what you meant. Do you want to see your first @{taskCount} tasks again?",
@@ -99,8 +138,12 @@
       }
     ],
     "inputHint": "expectingInput"
-  },
-  "GoBackToStartPromptForTasks": {
+}
+```
+
+# GoBackToStartPromptForTasks
+- ```
+{
     "replies": [
       {
         "text": "These are the last tasks on your @{listType} list. Do you want to see your first @{taskCount} tasks again?",
@@ -108,8 +151,12 @@
       }
     ],
     "inputHint": "expectingInput"
-  },
-  "GoBackToStartForTasksConfirmFailed": {
+}
+```
+
+# GoBackToStartForTasksConfirmFailed
+- ```
+{
     "replies": [
       {
         "text": "Sorry, I didn't understand what you meant. Do you want to see your first @{taskCount} tasks again?",
@@ -117,6 +164,5 @@
       }
     ],
     "inputHint": "expectingInput"
-  }
 }
 ```
