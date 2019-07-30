@@ -462,29 +462,16 @@ namespace CalendarSkill.Dialogs
 
                 if (eventItem != null && topIntent != Luis.CalendarLuis.Intent.ChangeCalendarEntry && topIntent != Luis.CalendarLuis.Intent.DeleteCalendarEntry)
                 {
-                    var attendeePhotoList = new List<string>();
-
-                    foreach (var attendee in state.Attendees)
-                    {
-                        attendeePhotoList.Add(await GetUserPhotoUrlAsync(sc.Context, attendee));
-                    }
-
-                    var data = new
+                    var replyParams = new
                     {
                         startDateTime = eventItem.StartTime,
-                        endDateTime = eventItem.EndTime,
                         timezone = state.GetUserTimeZone().Id,
-                        attendees = state.Attendees,
-                        attendeePhotoList,
-                        subject = state.Title,
-                        location = state.Location,
-                        content = state.Content
+                        attendees = eventItem.Attendees,
+                        subject = eventItem.Title
                     };
+                    var replyMessage = await GetDetailMeetingResponseAsync(sc, _lgMultiLangEngine, eventItem, "ReadOutMessage", replyParams);
 
-                    var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[ReadOutMessage]", data);
-                    var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
-
-                    await sc.Context.SendActivityAsync(prompt);
+                    await sc.Context.SendActivityAsync(replyMessage);
 
                     var askForActionData = new
                     {
@@ -493,8 +480,14 @@ namespace CalendarSkill.Dialogs
                         startDateString = state.StartDateString
                     };
 
-                    var askForActionLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[AskForAction]", data);
-                    var askForActionPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+                    var askForActionParams = new
+                    {
+                        isOrganizer = eventItem.IsOrganizer,
+                        isAccepted = eventItem.IsAccepted,
+                        startDateString = state.StartDateString
+                    };
+                    var askForActionLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[AskForAction]", askForActionParams);
+                    var askForActionPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, askForActionLGResult, null);
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = (Activity)askForActionPrompt });
                 }

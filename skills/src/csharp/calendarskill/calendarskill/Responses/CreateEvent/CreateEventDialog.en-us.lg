@@ -1,7 +1,7 @@
-[import](Shared.en-us.lg)
+[import](./../Shared/Shared.en-us.lg)
 
 # NoTitle(participants)
-- Alright, I will send an invite to @{join(foreach(participants, x, lgTemplate('UserInfoDetail', x)), ', ', 'and')}, what is the subject of the meeting?
+- Alright, I will send an invite to @{join(foreach(participants, x, UserInfoDetail(x)), ', ', 'and')}, what is the subject of the meeting?
 
 # NoTitleShort
 - What is the subject of the meeting?
@@ -12,11 +12,8 @@
 # NoLocation
 - Where will be the event take place?
 
-# ConfirmCreate(startDateTime, endDateTime, timezone, attendees, attendeePhotoList, subject, location, content)
-- ```
-I'm ready to create the event. The event is on @{lgTemplate('FormatDate', startDateTime, timezone)}, from @{lgTemplate('FormatTime', startDateTime, timezone)} till @{lgTemplate('FormatTime',endDateTime, timezone)}, with @{lgTemplate('ShowAttendees', attendees, 5)}. The subject of the event is @{lgTemplate('ConfirmStringItem', subject)}. The event will take place at @{lgTemplate('ConfirmStringItem', location)}. The message is @{lgTemplate('ConfirmStringItem', content)}. Can you confirm this event?
-@{lgTemplate('MeetingDetailCard', startDateTime, endDateTime, timezone, attendeePhotoList, subject, location, content)}
-```
+# ConfirmCreate(startDateTime, endDateTime, timezone, attendees, subject, location, content)
+- I'm ready to create the event. The event is on @{FormatDate(startDateTime, timezone)}, from @{FormatTime(startDateTime, timezone)} till @{FormatTime(endDateTime, timezone)}, with @{ShowAttendees(attendees, 5)}. The subject of the event is @{ConfirmStringItem(subject)}. The event will take place at @{ConfirmStringItem(location)}. The message is @{ConfirmStringItem(content)}. Can you confirm this event?
 
 # ConfirmStringItem(item)
 - IF: @{item != null && item != ''}
@@ -33,11 +30,8 @@ I'm ready to create the event. The event is on @{lgTemplate('FormatDate', startD
 # ConfirmCreateFailed
 - I'm ready to create the event. Please confirm the following:
 
-# EventCreated(startDateTime, endDateTime, timezone, attendees, attendeePhotoList, subject, location, content)
-- ```
-OK, I have added the event to your calendar, named @{lgTemplate('ConfirmStringItem', subject)}.
-@{lgTemplate('MeetingDetailCard', startDateTime, endDateTime, timezone, attendeePhotoList, subject, location, content)}
-```
+# EventCreated(subject)
+- OK, I have added the event to your calendar, named @{ConfirmStringItem(subject)}.
 
 # EventCreationFailed
 - Event creation failed.
@@ -47,7 +41,6 @@ OK, I have added the event to your calendar, named @{lgTemplate('ConfirmStringIt
 - An error occured with creating the event.
 
 # NoStartDate
-- For what date?
 - For what date?
 
 # NoStartDateRetry

@@ -12,3 +12,14 @@
 
 # EventDeleted
 - I have deleted the event.
+
+# EventAccepted
+- I have accepted the event.
+
+# EventWithStartTimeNotFound
+- No event was found at this time or with that title, please try again.
+- I could not find the event you asked for, please try again.
+- No event can be found with the event time or title, can you try again?
+
+# NoAcceptStartTime
+- What event would you like to accept? By providing the start time or title I can retrieve your event.

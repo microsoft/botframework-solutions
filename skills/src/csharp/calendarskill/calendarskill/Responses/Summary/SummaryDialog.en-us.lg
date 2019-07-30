@@ -1,4 +1,4 @@
-[import](Shared.en-us.lg)
+[import](./../Shared/Shared.en-us.lg)
 
 # ShowNoMeetingMessage
 - You don't have any events.
@@ -15,11 +15,8 @@
 - ELSE:
 	- It looks like you have @{count(events)} events planned for @{dateTimeString}, the first event is with [ShowAttendees(events[0].Attendees, 1)] [FormatEventTime(events[0], timezone)] titled @{events[0].Title}. The last event of @{dateTimeString} is [FormatEventTime(events[count(events) - 1], timezone)] with [ShowAttendees(events[count(events) - 1].Attendees, 1)] titled @{events[count(events) - 1].Title}.
 
-# ReadOutMessage(startDateTime, endDateTime, timezone, attendees, attendeePhotoList, subject, location, content)
-- ```
-The event on @{lgTemplate('FormatDate', startDateTime, timezone)} is @{lgTemplate('FormatTime', startDateTime, timezone)} with @{lgTemplate('ShowAttendees', attendees, 1)} titled @{subject}.
-@{lgTemplate('MeetingDetailCard', startDateTime, endDateTime, timezone, attendeePhotoList, subject, location, content)}
-```
+# ReadOutMessage(startDateTime, timezone, attendees, subject)
+- The event on @{FormatDate(startDateTime, timezone)} is @{FormatTime(startDateTime, timezone)} with @{ShowAttendees(attendees, 1)} titled @{subject}.
 
 # AskForAction(isOrganizer, isAccepted, startDateString)
 - IF: @{isOrganizer}

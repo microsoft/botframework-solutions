@@ -294,9 +294,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CreateEventResponses.cs</LastGenOutput>
     </None>
-    <None Update="Responses\CreateEvent\Shared.en-us.lg">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
     <None Update="Responses\FindContact\FindContactResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FindContactResponses.cs</LastGenOutput>

@@ -1,4 +1,4 @@
-[import](Shared.en-us.lg)
+[import](./../Shared/Shared.en-us.lg)
 
 # NoAttendees
 - Sure, who will join?
@@ -31,7 +31,7 @@
 - This is already the last page.
 
 # AddMoreUserPrompt(users)
-- I have included @{join(foreach(users, x, lgTemplate('UserInfoDetail', x)), ', ', 'and')}, do you want to add another participant?
+- I have included @{join(foreach(users, x, UserInfoDetail(x)), ', ', 'and')}, do you want to add another participant?
 
 # ConfirmMultipleContactEmailSinglePage(userName)
 - I found multiple contact details for @{userName}. Which one would you like to select?

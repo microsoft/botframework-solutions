@@ -39,9 +39,9 @@
 - IF: @{count(attendees) == 0}
 	- no attendees
 - ELSEIF: @{count(attendees) <= maxCount}
-	- @{join(foreach(attendees, x, lgTemplate('GetAttendeeName', x)), ', ', ' and ')}
+	- @{join(foreach(attendees, x, GetAttendeeName(x)), ', ', ' and ')}
 - ELSE:
-	- @{join(foreach(subArray(attendees, 0, maxCount), x, lgTemplate('GetAttendeeName', x)), ', ', ' and ')} and @{count(attendees) - maxCount} more
+	- @{join(foreach(subArray(attendees, 0, maxCount), x, GetAttendeeName(x)), ', ', ' and ')} and @{count(attendees) - maxCount} more
 
 # GetAttendeeName(user)
 - IF: @{user.DisplayName == null || user.DisplayName == ''}
@@ -50,13 +50,13 @@
 	- @{user.DisplayName}
 
 # GetLocationIcon(location)
-- IF: {location == null || location == ''}
+- IF: @{location == null || location == ''}
 	- data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==
 - ELSE:
 	- data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDIzLjAuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAxNiAyNS42IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxNiAyNS42OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9Cjwvc3R5bGU+Cjx0aXRsZT5wbGF0Zm9ybXNBc3NldCAzNXF1ZXNpdG9uczwvdGl0bGU+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik04LDBjMC43LDAsMS40LDAuMSwyLjEsMC4zYzAuNywwLjIsMS4zLDAuNSwxLjksMC44YzAuNiwwLjMsMS4xLDAuOCwxLjYsMS4zYzAuNSwwLjUsMC45LDEuMSwxLjIsMS43CgljMC4zLDAuNiwwLjYsMS4yLDAuOCwxLjlDMTUuOSw2LjYsMTYsNy4zLDE2LDhjMCwwLjYtMC4xLDEuMS0wLjIsMS42Yy0wLjEsMC41LTAuMywxLjEtMC42LDEuNkw4LDI1LjZMMC44LDExLjIKCWMtMC4zLTAuNS0wLjUtMS0wLjYtMS41QzAuMSw5LjEsMCw4LjYsMCw4YzAtMC43LDAuMS0xLjQsMC4zLTIuMUMwLjUsNS4yLDAuNyw0LjYsMS4xLDRDMS44LDIuOCwyLjgsMS44LDQsMS4xCgljMC42LTAuMywxLjItMC42LDEuOS0wLjhDNi42LDAuMSw3LjMsMCw4LDB6IE0xMy45LDEwLjZMMTMuOSwxMC42TDEzLjksMTAuNmMwLjItMC40LDAuNC0wLjgsMC41LTEuMmMwLjEtMC40LDAuMi0wLjksMC4yLTEuMwoJYzAtMC45LTAuMi0xLjgtMC41LTIuNmMtMC4zLTAuOC0wLjgtMS41LTEuNC0yLjFjLTAuNi0wLjYtMS4zLTEuMS0yLjEtMS40QzkuOCwxLjYsOC45LDEuNCw4LDEuNGMtMC45LDAtMS44LDAuMi0yLjYsMC41CglDMy45LDIuNiwyLjYsMy45LDEuOSw1LjRDMS42LDYuMiwxLjQsNy4xLDEuNCw4YzAsMC40LDAuMSwwLjksMC4yLDEuM2MwLjEsMC40LDAuMiwwLjgsMC40LDEuMmwwLDBsMCwwbDYsMTEuOUwxMy45LDEwLjZ6IE04LDMuMwoJYzAuNiwwLDEuMywwLjEsMS44LDAuNGMxLjEsMC41LDIsMS40LDIuNSwyLjVjMC41LDEuMiwwLjUsMi41LDAsMy43Yy0wLjUsMS4xLTEuNCwyLTIuNSwyLjVjLTEuMiwwLjUtMi41LDAuNS0zLjcsMAoJYy0xLjEtMC41LTItMS40LTIuNS0yLjVjLTAuNS0xLjItMC41LTIuNSwwLTMuN0M0LjEsNSw1LDQuMSw2LjIsMy43QzYuNywzLjQsNy40LDMuMyw4LDMuM3ogTTgsMTEuM2MwLjQsMCwwLjktMC4xLDEuMy0wLjMKCWMwLjgtMC4zLDEuNC0xLDEuNy0xLjdjMC4zLTAuOCwwLjMtMS43LDAtMi42QzEwLjcsNS45LDEwLDUuMyw5LjMsNUM4LjUsNC43LDcuNSw0LjcsNi43LDVDNS45LDUuMyw1LjMsNS45LDUsNi43CglDNC43LDcuNSw0LjcsOC41LDUsOS4zQzUuMywxMCw1LjksMTAuNyw2LjcsMTFDNy4xLDExLjIsNy42LDExLjMsOCwxMS4zTDgsMTEuM3oiLz4KPC9zdmc+Cg==
 
 # GetParticipantsCards(attendeePhotoList)
-- @{join(foreach(attendeePhotoList, x, lgTemplate('ParticipantsCard', x)), ', ')}
+- @{join(foreach(attendeePhotoList, x, ParticipantsCard(x)), ', ')}
 
 # ParticipantsCard(photoUrl)
 - ```
@@ -74,7 +74,7 @@
 }
 ```
 
-# MeetingDetailCard(startDateTime, endDateTime, timezone, attendeePhotoList, subject, location, content)
+# MeetingDetailCard(startDateTime, endDateTime, timezone, attendeePhotoList, subject, location, content, meetingLink)
 - ```
 [adaptivecard
 {
@@ -145,7 +145,7 @@
                               "id": "Time",
                               "size": "Medium",
                               "color": "Light",
-                              "text": "@{lgTemplate('FormatTime', startDateTime, timezone)} (@{lgTemplate('FormatDateTimeDuration', startDateTime, endDateTime))})"
+                              "text": "@{FormatTime(startDateTime, timezone)} (@{FormatDateTimeDuration(startDateTime, endDateTime))})"
                             },
                             {
                               "type": "TextBlock",
@@ -154,13 +154,13 @@
                               "spacing": "Small",
                               "size": "Medium",
                               "color": "Light",
-                              "text": "@{lgTemplate('FormatDateShort', startDateTime, timezone)}"
+                              "text": "@{FormatDateShort(startDateTime, timezone)}"
                             },
                             {
                               "type": "ColumnSet",
                               "id": "Participants",
                               "columns": [
-							    @{lgTemplate('GetParticipantsCards', attendeePhotoList)}
+							    @{GetParticipantsCards(attendeePhotoList)}
                               ]
                             },
                             {
@@ -175,7 +175,7 @@
                                     {
                                       "type": "Image",
                                       "horizontalAlignment": "Center",
-                                      "url": "@{lgTemplate('GetLocationIcon', location)}",
+                                      "url": "@{GetLocationIcon(location)}",
                                       "height": "20px"
                                     }
                                   ],
@@ -230,11 +230,24 @@
       ]
     }
   ],
+  @{JoinOnlineMeetingButton(meetingLink)}
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0"
 }
 ]
 ```
+
+# JoinOnlineMeetingButton(meetingLink)
+- IF: @{meetingLink != null && meetingLink != ''}
+	- ```
+	"actions": [
+	{
+		"type": "Action.OpenUrl",
+		"title": "Join meeting",
+		"url": "{meetingLink}"
+	}
+	],
+	```
 
 # UserInfoDetail(user)
 - IF: @{user.DisplayName == null || user.DisplayName == ''}
@@ -304,14 +317,14 @@
             "size": "Medium",
             "weight": "Bolder",
             "color": "Light",
-            "text": "@{lgTemplate('GetTotalEventCountUnit', totalEventCount, dateTimeString)}"
+            "text": "@{GetTotalEventCountUnit(totalEventCount, dateTimeString)}"
         },
         {
             "type": "TextBlock",
             "size": "Medium",
             "weight": "Bolder",
             "color": "Light",
-            "text": "@{lgTemplate('GetOverviewOverlapMeetingCountUnit', overlapEventCount)}"
+            "text": "@{GetOverviewOverlapMeetingCountUnit(overlapEventCount)}"
         }
         ],
         "width": "stretch"
@@ -402,7 +415,7 @@
                             }
                           ]
                         },
-						@{lgTemplate('GetTotalAndOverlap', totalEventCount, overlapEventCount, dateTimeString, isOverview)}
+						@{GetTotalAndOverlap(totalEventCount, overlapEventCount, dateTimeString, isOverview)}
                         {
                           "type": "ColumnSet",
                           "height": "stretch",
@@ -451,7 +464,7 @@
                             }
                           ]
                         }
-						@{lgTemplate('GetMePhoto', userPhoto, isOverview)}
+						@{GetMePhoto(userPhoto, isOverview)}
                       ],
                       "width": 60
                     }
@@ -468,7 +481,7 @@
       "id": "EventItemContainer",
       "type": "Container",
       "items": [
-		@{lgTemplate('MeetingItemContainerCard', itemData, timezone)}
+		@{MeetingItemContainerCard(itemData, timezone)}
       ]
     },
     {
@@ -492,7 +505,7 @@
 ```
 
 # MeetingItemContainerCard(itemData, timezone)
-- @{join(foreach(itemData, x, lgTemplate('MeetingDateItemCard', x, timezone)), ', ')}
+- @{join(foreach(itemData, x, MeetingDateItemCard(x, timezone)), ', ')}
 
 # MeetingDateItemCard(item, timezone)
 - IF: @{item.Name == 'CalendarDate'}
@@ -526,7 +539,7 @@
 							"spacing": "Medium",
 							"size": "Medium",
 							"weight": "Bolder",
-							"color": "@{lgTemplate('GetTimeColorByConflictState', eventItem.IsConflict)}",
+							"color": "@{GetTimeColorByConflictState(eventItem.IsConflict)}",
 							"text": "@{convertFromUTC(formatDateTime(eventItem.StartTime), timezone, 'H:mm')}",
 							"isSubtle": "@{!event.IsAccepted}"
 						},
@@ -534,7 +547,7 @@
 							"type": "TextBlock",
 							"horizontalAlignment": "Center",
 							"spacing": "Small",
-							"text": "@{lgTemplate('FormatDateTimeDuration', eventItem.StartTime, eventItem.EndTime)}"
+							"text": "@{FormatDateTimeDuration(eventItem.StartTime, eventItem.EndTime)}"
 						}
 					]
 				},

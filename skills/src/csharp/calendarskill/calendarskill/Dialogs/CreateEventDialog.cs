@@ -397,29 +397,20 @@ namespace CalendarSkill.Dialogs
                     ContentPreview = state.Content
                 };
 
-                var attendeePhotoList = new List<string>();
-
-                foreach (var attendee in state.Attendees)
-                {
-                    attendeePhotoList.Add(await GetUserPhotoUrlAsync(sc.Context, attendee));
-                }
-
-                var data = new
+                var replyParams = new
                 {
                     startDateTime = state.StartDateTime.Value,
                     endDateTime = state.EndDateTime.Value,
                     timezone = state.GetUserTimeZone().Id,
                     attendees = state.Attendees,
-                    attendeePhotoList,
                     subject = state.Title,
                     location = state.Location,
                     content = state.Content
                 };
 
-                var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[ConfirmCreate]", data);
-                var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+                var replyMessage = await GetDetailMeetingResponseAsync(sc, _lgMultiLangEngine, newEvent, "ConfirmCreate", replyParams);
 
-                await sc.Context.SendActivityAsync(prompt);
+                await sc.Context.SendActivityAsync(replyMessage);
 
                 if (state.Attendees.Count > 5)
                 {
@@ -483,31 +474,15 @@ namespace CalendarSkill.Dialogs
                     var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                     if (await calendarService.CreateEvent(newEvent) != null)
                     {
-                        var attendeePhotoList = new List<string>();
-
-                        foreach (var attendee in state.Attendees)
+                        var replyParams = new
                         {
-                            attendeePhotoList.Add(await GetUserPhotoUrlAsync(sc.Context, attendee));
-                        }
-
-                        var data = new
-                        {
-                            startDateTime = state.StartDateTime.Value,
-                            endDateTime = state.EndDateTime.Value,
-                            timezone = state.GetUserTimeZone().Id,
-                            attendees = state.Attendees,
-                            attendeePhotoList,
-                            subject = state.Title,
-                            location = state.Location,
-                            content = state.Content
+                            subject = newEvent.Title
                         };
-
-                        var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[EventCreated]", data);
-                        var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+                        var replyMessage = await GetDetailMeetingResponseAsync(sc, _lgMultiLangEngine, newEvent, "EventCreated", replyParams);
 
                         newEvent.ContentPreview = state.Content;
 
-                        await sc.Context.SendActivityAsync(prompt, cancellationToken);
+                        await sc.Context.SendActivityAsync(replyMessage, cancellationToken);
                     }
                     else
                     {

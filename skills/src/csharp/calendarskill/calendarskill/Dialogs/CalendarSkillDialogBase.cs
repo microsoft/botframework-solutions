@@ -292,7 +292,7 @@ namespace CalendarSkill.Dialogs
             }
             else
             {
-                var lgResult = await lgEngine.Generate(dc.Context, $"[{templateId}]", overviewCardParams, tokens);
+                var lgResult = await lgEngine.Generate(dc.Context, $"[{templateId}]", tokens);
                 var cardResult = await lgEngine.Generate(dc.Context, "[MeetingListCard]", overviewCardParams);
                 var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult + cardResult, null);
 
@@ -345,7 +345,7 @@ namespace CalendarSkill.Dialogs
             }
             else
             {
-                var lgResult = await lgEngine.Generate(dc.Context, $"[{templateId}]", overviewCardParams, tokens);
+                var lgResult = await lgEngine.Generate(dc.Context, $"[{templateId}]", tokens);
                 var cardResult = await lgEngine.Generate(dc.Context, "[MeetingListCard]", overviewCardParams);
                 var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult + cardResult, null);
 
@@ -353,46 +353,50 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        protected async Task<Activity> GetDetailMeetingResponseAsync(DialogContext dc, EventModel eventItem, string templateId, StringDictionary tokens = null)
+        protected async Task<Activity> GetDetailMeetingResponseAsync(
+            DialogContext dc,
+            ResourceMultiLanguageGenerator lgEngine,
+            EventModel eventItem,
+            string templateId,
+            object tokens = null)
         {
             var state = await Accessor.GetAsync(dc.Context);
 
-            var detailCard = new Card()
+            var attendeePhotoList = new List<string>();
+
+            foreach (var attendee in eventItem.Attendees)
             {
-                Name = eventItem.OnlineMeetingUrl == null ? "CalendarDetailNoJoinButton" : "CalendarDetail",
-                Data = new CalendarDetailCardData()
-                {
-                    Content = eventItem.ContentPreview,
-                    MeetingLink = eventItem.OnlineMeetingUrl,
-                }
+                attendeePhotoList.Add(await GetUserPhotoUrlAsync(dc.Context, attendee));
+            }
+
+            var data = new
+            {
+                startDateTime = eventItem.StartTime,
+                endDateTime = eventItem.EndTime,
+                timezone = state.GetUserTimeZone().Id,
+                attendees = eventItem.Attendees,
+                attendeePhotoList,
+                subject = eventItem.Title,
+                location = eventItem.Location,
+                content = eventItem.Content,
+                meetingLink = eventItem.OnlineMeetingUrl
             };
 
-            var participantContainerList = new List<Card>();
-
-            var participantContainerCard = new Card()
+            if (templateId == null)
             {
-                Name = eventItem.Attendees.Count == 0 ? GetDivergedCardName(dc.Context, "CalendarDetailContainerNoParticipants") :
-                    eventItem.Attendees.Count > 5 ? GetDivergedCardName(dc.Context, "CalendarDetailContainerParticipantsMore") : GetDivergedCardName(dc.Context, "CalendarDetailContainerParticipantsLess"),
-                Data = new CalendarDetailContainerCardData()
-                {
-                    Title = eventItem.Title,
-                    Date = TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, state.GetUserTimeZone()).ToString("dddd M/d"),
-                    Time = TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, state.GetUserTimeZone()).ToString("h:mm tt"),
-                    Location = eventItem.Location,
-                    ParticipantPhoto1 = await GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, 0),
-                    ParticipantPhoto2 = await GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, 1),
-                    ParticipantPhoto3 = await GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, 2),
-                    ParticipantPhoto4 = await GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, 3),
-                    ParticipantPhoto5 = await GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, 4),
-                    OmittedParticipantCount = eventItem.Attendees.Count - 4,
-                    LocationIcon = string.IsNullOrEmpty(eventItem.Location) ? AdaptiveCardHelper.BlankIcon : AdaptiveCardHelper.LocationIcon,
-                    Duration = eventItem.ToDisplayDurationString(),
-                }
-            };
+                var lgResult = await lgEngine.Generate(dc.Context, "[MeetingDetailCard]", data);
+                var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult, null);
 
-            participantContainerList.Add(participantContainerCard);
+                return (Activity)showMeetingPrompt;
+            }
+            else
+            {
+                var lgResult = await lgEngine.Generate(dc.Context, $"[{templateId}]", tokens);
+                var cardResult = await lgEngine.Generate(dc.Context, "[MeetingDetailCard]", data);
+                var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult + cardResult, null);
 
-            return ResponseManager.GetCardResponse(templateId, detailCard, tokens, "CalendarDetailContainer", participantContainerList);
+                return (Activity)showMeetingPrompt;
+            }
         }
 
         protected async Task<string> GetMyPhotoUrlAsync(ITurnContext context)

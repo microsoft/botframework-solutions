@@ -17,6 +17,7 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 
 namespace CalendarSkill.Dialogs
@@ -35,7 +36,7 @@ namespace CalendarSkill.Dialogs
             MicrosoftAppCredentials appCredentials)
             : base(nameof(UpdateEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
-            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("FindContactDialog.lg");
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("UpdateEventDialog.lg");
 
             TelemetryClient = telemetryClient;
             var updateEvent = new WaterfallStep[]
@@ -86,7 +87,10 @@ namespace CalendarSkill.Dialogs
                 var origin = state.Events[0];
                 if (!origin.IsOrganizer)
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(UpdateEventResponses.NotEventOrganizer));
+                    var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[NotEventOrganizer]", null);
+                    var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+
+                    await sc.Context.SendActivityAsync(prompt);
                     state.Clear();
                     return await sc.EndDialogAsync(true);
                 }
@@ -117,12 +121,15 @@ namespace CalendarSkill.Dialogs
                 origin.StartTime = newStartTime;
                 origin.EndTime = (newStartTime + last).AddSeconds(1);
 
-                var replyMessage = await GetDetailMeetingResponseAsync(sc, origin, UpdateEventResponses.ConfirmUpdate);
+                var replyMessage = await GetDetailMeetingResponseAsync(sc, _lgMultiLangEngine, origin, "ConfirmUpdate");
+
+                var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[ConfirmUpdateFailed]", null);
+                var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
 
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
                     Prompt = replyMessage,
-                    RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.ConfirmUpdateFailed),
+                    RetryPrompt = (Activity)prompt,
                 });
             }
             catch (Exception ex)
@@ -157,13 +164,9 @@ namespace CalendarSkill.Dialogs
                     var calendarService = ServiceManager.InitCalendarService(state.APIToken, state.EventSource);
                     var newEvent = await calendarService.UpdateEventById(updateEvent);
 
-                    var replyMessage = await GetDetailMeetingResponseAsync(sc, newEvent, UpdateEventResponses.EventUpdated);
+                    var replyMessage = await GetDetailMeetingResponseAsync(sc, _lgMultiLangEngine, newEvent, "EventUpdated");
 
                     await sc.Context.SendActivityAsync(replyMessage);
-                }
-                else
-                {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.ActionEnded));
                 }
 
                 if (state.IsActionFromSummary)
@@ -199,10 +202,15 @@ namespace CalendarSkill.Dialogs
                     return await sc.ContinueDialogAsync();
                 }
 
+                var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[NoNewTime]", null);
+                var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+                var retryLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[NoNewTimeRetry]", null);
+                var retryPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, retryLGResult, null);
+
                 return await sc.PromptAsync(Actions.TimePrompt, new PromptOptions
                 {
-                    Prompt = ResponseManager.GetResponse(UpdateEventResponses.NoNewTime),
-                    RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.NoNewTimeRetry)
+                    Prompt = (Activity)prompt,
+                    RetryPrompt = (Activity)retryPrompt
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -412,10 +420,15 @@ namespace CalendarSkill.Dialogs
                     }
                 }
 
+                var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[NoUpdateStartTime]", null);
+                var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+                var retryLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[EventWithStartTimeNotFound]", null);
+                var retryPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, retryLGResult, null);
+
                 return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                 {
-                    Prompt = ResponseManager.GetResponse(UpdateEventResponses.NoUpdateStartTime),
-                    RetryPrompt = ResponseManager.GetResponse(UpdateEventResponses.EventWithStartTimeNotFound)
+                    Prompt = (Activity)prompt,
+                    RetryPrompt = (Activity)retryPrompt
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -461,7 +474,7 @@ namespace CalendarSkill.Dialogs
                         options.Choices.Add(choice);
                     }
 
-                    var prompt = await GetGeneralMeetingListResponseAsync(sc, _lgMultiLangEngine, CalendarCommonStrings.MeetingsToChoose, state.Events, UpdateEventResponses.MultipleEventsStartAtSameTime, null);
+                    var prompt = await GetGeneralMeetingListResponseAsync(sc, _lgMultiLangEngine, CalendarCommonStrings.MeetingsToChoose, state.Events, "MultipleEventsStartAtSameTime");
 
                     options.Prompt = prompt;
 

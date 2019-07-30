@@ -1,0 +1,30 @@
+# NotEventOrganizer
+- I can't update this event because you are not the organizer.
+
+# ConfirmUpdate
+- Are you sure you want to update the following?
+
+# ConfirmUpdateFailed
+- Are you sure you want to update the following? Please confirm.
+
+# EventUpdated
+- I have changed the time of your event.
+
+# NoNewTime
+- What will be the new time of the event?
+
+# NoNewTimeRetry
+- I don't understand the time you provided, can you try again?
+
+# NoUpdateStartTime
+- What event would you like to adjust? By providing the start time or title I can retrieve your event.
+
+# EventWithStartTimeNotFound
+- No event was found at this time or with that title, please try again.
+- I could not find the event you asked for, please try again.
+- No event can be found with the event time or title, can you try again?
+
+# MultipleEventsStartAtSameTime
+- Multiple events found, please select the one you need.
+- I have found multiple events, can you select the event of choice.
+- There are multiple events, please select the relevant event.
