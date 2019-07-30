@@ -88,12 +88,9 @@ namespace HospitalitySkill.Dialogs
 
                     // set new checkout in hotel service
                     _hotelService.UpdateReservationDetails(userState.UserReservation);
-                    return await Task.FromResult(true);
                 }
-                else
-                {
-                    return await Task.FromResult(true);
-                }
+
+                return await Task.FromResult(true);
             }
 
             return await Task.FromResult(false);

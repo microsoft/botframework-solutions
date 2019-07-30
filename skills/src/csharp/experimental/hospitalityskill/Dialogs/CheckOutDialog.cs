@@ -62,13 +62,9 @@ namespace HospitalitySkill.Dialogs
                     // TODO process check out request here
                     // set checkout value
                     userState.CheckedOut = true;
-                    return await Task.FromResult(true);
                 }
-                else
-                {
-                    // if no just don't set state
-                    return await Task.FromResult(true);
-                }
+
+                return await Task.FromResult(true);
             }
 
             return await Task.FromResult(false);
