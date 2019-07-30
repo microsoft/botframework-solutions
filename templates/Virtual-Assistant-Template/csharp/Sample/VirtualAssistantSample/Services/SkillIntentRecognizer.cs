@@ -32,7 +32,24 @@ namespace VirtualAssistantSample
 
             // Identify if the dispatch intent matches any action within a Skill if so, we pass to the appropriate SkillDialog to hand-off
             var recognizeSkill = SkillRouter.IsSkill(_settings.Skills, intent.ToString());
-            return recognizeSkill?.Id;
+
+            if (recognizeSkill == null)
+            {
+                if (intent == DispatchLuis.Intent.q_faq)
+                {
+                    return "FAQ";
+                }
+                else if (intent == DispatchLuis.Intent.q_chitchat)
+                {
+                    return "Chit chat";
+                }
+            }
+            else
+            {
+                return recognizeSkill.Id;
+            }
+
+            return null;
         }
 
         public Func<DialogContext, Task<string>> RecognizeSkillIntentAsync { get { return RecognizeSkillIntentAsyncFunc; } }
