@@ -79,10 +79,6 @@ namespace ToDoSkill.Dialogs
 
         protected ResourceMultiLanguageGenerator LGMultiLangEngine { get; set; }
 
-        protected string LGToDoSharedResponses { get; set; }
-
-        protected string LGMultiLangEngineResult { get; set; }
-
         protected BotServices Services { get; set; }
 
         protected IStatePropertyAccessor<ToDoSkillState> ToDoStateAccessor { get; set; }
@@ -97,8 +93,6 @@ namespace ToDoSkill.Dialogs
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            LGToDoSharedResponses = await LGMultiLangEngine.Generate(dc.Context, "[ToDoSharedResponses]", null);
-
             await DigestToDoLuisResult(dc);
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
@@ -395,7 +389,7 @@ namespace ToDoSkill.Dialogs
                 todos = todos
             }).Result;
 
-            var speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(null, content);
+            var speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(content);
             activity.Speak = speakAndTextContainer.Speak;
             activity.Speak += todos.ToSpeechString(CommonStrings.And, li => li.Topic);
             activity.Text = speakAndTextContainer.Text;
@@ -414,7 +408,7 @@ namespace ToDoSkill.Dialogs
                 todos = todos
             }).Result;
 
-            var speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(null, content);
+            var speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(content);
             activity.Speak = speakAndTextContainer.Speak;
             activity.Speak += todos.ToSpeechString(CommonStrings.And, li => li.Topic);
             return activity;
@@ -434,7 +428,7 @@ namespace ToDoSkill.Dialogs
                 todos = todos
             }).Result;
 
-            var speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(null, content);
+            var speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(content);
             activity.Speak = speakAndTextContainer.Speak;
             activity.Speak += todos.ToSpeechString(CommonStrings.And, li => li.Topic);
             return activity;
@@ -454,7 +448,7 @@ namespace ToDoSkill.Dialogs
                 listType = listType
             }).Result;
 
-            var speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(null, content);
+            var speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(content);
             activity.Text = speakAndTextContainer.Text;
             activity.Speak = activity.Text;
             return activity;
@@ -476,7 +470,7 @@ namespace ToDoSkill.Dialogs
                 taskContent = taskContent,
                 listType = listType
             }).Result;
-            var speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(null, content);
+            var speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(content);
             activity.Speak = speakAndTextContainer.Speak;
 
             content = LGMultiLangEngine.Generate(turnContext, "[CardSummary]", new
@@ -485,7 +479,7 @@ namespace ToDoSkill.Dialogs
                 listType = listType,
                 todos = todos
             }).Result;
-            speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(null, content);
+            speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(content);
             activity.Text = speakAndTextContainer.Text;
 
             return activity;
@@ -507,7 +501,7 @@ namespace ToDoSkill.Dialogs
                 listType = listType
             }).Result;
 
-            var speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(null, content);
+            var speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(content);
             activity.Speak = speakAndTextContainer.Speak;
             activity.Text = activity.Speak;
             return activity;
@@ -526,7 +520,7 @@ namespace ToDoSkill.Dialogs
                 listType = listType
             }).Result;
 
-            var speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(null, content);
+            var speakAndTextContainer = ToDoCommonUtil.GetToDoResponseActivity(content);
             activity.Speak = speakAndTextContainer.Speak;
             activity.Text = activity.Speak;
             return activity;

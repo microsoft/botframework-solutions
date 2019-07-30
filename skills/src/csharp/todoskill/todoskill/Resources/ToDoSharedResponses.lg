@@ -1,7 +1,6 @@
-﻿# ToDoSharedResponses
+﻿# NoAuth
 - ```
 {
-  "NoAuth": {
     "replies": [
       {
         "text": "Please log in before taking further action.",
@@ -25,8 +24,12 @@
       }
     ],
     "inputHint": "expectingInput"
-  },
-  "ActionEnded": {
+}
+```
+
+# ActionEnded
+- ```
+{
     "replies": [
       {
         "text": "Let me know if you need my help with something else.",
@@ -38,8 +41,12 @@
       }
     ],
     "inputHint": "acceptingInput"
-  },
-  "ToDoErrorMessage": {
+}
+```
+
+# ToDoErrorMessage
+- ```
+{
     "replies": [
       {
         "text": "Sorry, it looks like something went wrong!",
@@ -63,8 +70,12 @@
       }
     ],
     "inputHint": "acceptingInput"
-  },
-  "ToDoErrorMessageBotProblem": {
+}
+```
+
+# ToDoErrorMessageBotProblem
+- ```
+{
     "replies": [
       {
         "text": "Sorry, there is something wrong with the bot at the moment. The developer has been notified about it so you'll be able to perform the action again very soon.",
@@ -72,8 +83,12 @@
       }
     ],
     "inputHint": "acceptingInput"
-  },
-  "ToDoErrorMessageAccountProblem": {
+}
+```
+
+# ToDoErrorMessageAccountProblem
+- ```
+{
     "replies": [
       {
         "text": "Sorry, it looks like something went wrong with your email account. Please follow the instructions in your Inbox to verify your account.",
@@ -81,8 +96,12 @@
       }
     ],
     "inputHint": "acceptingInput"
-  },
-  "SettingUpOneNoteMessage": {
+}
+```
+
+# SettingUpOneNoteMessage
+- ```
+{
     "replies": [
       {
         "text": "I noticed you don't have a OneNote anymore. I'm creating a new OneNote for you, including a To Do list.",
@@ -90,8 +109,12 @@
       }
     ],
     "inputHint": "ignoringInput"
-  },
-  "AfterOneNoteSetupMessage": {
+}
+```
+
+# AfterOneNoteSetupMessage
+- ```
+{
     "replies": [
       {
         "text": "All set. I have sent you an email with a link to your new OneNote. I'm ready to note down your To Do.",
@@ -99,8 +122,12 @@
       }
     ],
     "inputHint": "ignoringInput"
-  },
-  "SettingUpOutlookMessage": {
+}
+```
+
+# SettingUpOutlookMessage
+- ```
+{
     "replies": [
       {
         "text": "I noticed you don't have any Outlook task folders anymore. I'm creating new task folders for you, including a To Do folder.",
@@ -108,8 +135,12 @@
       }
     ],
     "inputHint": "ignoringInput"
-  },
-  "AfterOutlookSetupMessage": {
+}
+```
+
+# AfterOutlookSetupMessage
+- ```
+{
     "replies": [
       {
         "text": "All set. I have sent you an email with a link to your new Outlook task folders. I'm ready to note down your To Do.",
@@ -117,8 +148,12 @@
       }
     ],
     "inputHint": "ignoringInput"
-  },
-  "NoTasksInList": {
+}
+```
+
+# NoTasksInList
+- ```
+{
     "replies": [
       {
         "text": "Your list is empty.",
@@ -126,6 +161,5 @@
       }
     ],
     "inputHint": "acceptingInput"
-  }
 }
 ```

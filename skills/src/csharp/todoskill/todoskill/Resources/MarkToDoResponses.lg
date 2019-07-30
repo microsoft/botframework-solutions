@@ -1,7 +1,6 @@
-﻿# MarkToDoResponses
+﻿# ListTypePromptForComplete
 - ```
 {
-  "ListTypePromptForComplete": {
     "replies": [
       {
         "text": "Can you be specific from what list you would like to complete a task. Is it your To Do list, Shopping list or Grocery list?",
@@ -9,8 +8,12 @@
       }
     ],
     "inputHint": "expectingInput"
-  },
-  "AskTaskIndexForComplete": {
+}
+```
+
+# AskTaskIndexForComplete
+- ```
+{
     "replies": [
       {
         "text": "What task do you want to complete? It is also possible to complete all your tasks by naming out complete all.",
@@ -18,8 +21,12 @@
       }
     ],
     "inputHint": "expectingInput"
-  },
-  "AskTaskIndexRetryForComplete": {
+}
+```
+
+# AskTaskIndexRetryForComplete
+- ```
+{
     "replies": [
       {
         "text": "Sorry, I could not find this task. Please try again. What task do you want to complete?",
@@ -27,8 +34,12 @@
       }
     ],
     "inputHint": "expectingInput"
-  },
-  "CompleteAnotherTaskPrompt": {
+}
+```
+
+# CompleteAnotherTaskPrompt
+- ```
+{
     "replies": [
       {
         "text": "Do you want to complete another task?",
@@ -36,8 +47,12 @@
       }
     ],
     "inputHint": "expectingInput"
-  },
-  "CompleteAnotherTaskConfirmFailed": {
+}
+```
+
+# CompleteAnotherTaskConfirmFailed
+- ```
+{
     "replies": [
       {
         "text": "Sorry, I didn't understand what you meant. Do you want to complete another task?",
@@ -45,6 +60,5 @@
       }
     ],
     "inputHint": "expectingInput"
-  }
 }
 ```
