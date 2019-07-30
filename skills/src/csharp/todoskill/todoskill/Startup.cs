@@ -10,6 +10,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
@@ -47,9 +48,13 @@ namespace ToDoSkill
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
+
+            HostingEnvironment = env;
         }
 
         public IConfiguration Configuration { get; }
+
+        public IHostingEnvironment HostingEnvironment { get; set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -76,6 +81,11 @@ namespace ToDoSkill
                 var conversationState = sp.GetService<ConversationState>();
                 return new BotStateSet(userState, conversationState);
             });
+
+            // Config LG
+            var path = this.HostingEnvironment.ContentRootPath;
+            var resourceExplorer = ResourceExplorer.LoadProject(this.HostingEnvironment.ContentRootPath);
+            services.AddSingleton(resourceExplorer);
 
             // Configure telemetry
             services.AddApplicationInsightsTelemetry();
@@ -104,11 +114,10 @@ namespace ToDoSkill
                 new ShowToDoResponses()));
 
             // register dialogs
-            services.AddTransient<MainDialog>();
-            services.AddTransient<AddToDoItemDialog>();
-            services.AddTransient<DeleteToDoItemDialog>();
-            services.AddTransient<MarkToDoItemDialog>();
-            services.AddTransient<ShowToDoItemDialog>();
+            services.AddSingleton<AddToDoItemDialog>();
+            services.AddSingleton<DeleteToDoItemDialog>();
+            services.AddSingleton<MarkToDoItemDialog>();
+            services.AddSingleton<ShowToDoItemDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
@@ -119,8 +128,8 @@ namespace ToDoSkill
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // Configure bot
-            services.AddTransient<MainDialog>();
-            services.AddTransient<IBot, DialogBot<MainDialog>>();
+            services.AddSingleton<MainDialog>();
+            services.AddSingleton<IBot, DialogBot<MainDialog>>();
         }
 
         /// <summary>

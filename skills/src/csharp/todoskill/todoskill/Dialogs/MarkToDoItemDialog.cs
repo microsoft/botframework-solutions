@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
@@ -121,7 +122,8 @@ namespace ToDoSkill.Dialogs
                 var allTasksCount = state.AllTasks.Count;
                 var currentTaskIndex = state.ShowTaskPageIndex * state.PageSize;
                 state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
-                var markToDoCard = ToAdaptiveCardForTaskCompletedFlow(
+
+                var markToDoCard = ToAdaptiveCardForTaskCompletedFlowByLG(
                     sc.Context,
                     state.Tasks,
                     state.AllTasks.Count,
@@ -175,7 +177,9 @@ namespace ToDoSkill.Dialogs
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
                 if (string.IsNullOrEmpty(state.ListType))
                 {
-                    var prompt = ResponseManager.GetResponse(MarkToDoResponses.ListTypePromptForComplete);
+                    var lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{MarkToDoResponses.ListTypePromptForComplete}]", null);
+                    var prompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
+
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
                 }
                 else
@@ -243,11 +247,13 @@ namespace ToDoSkill.Dialogs
                     Activity prompt;
                     if (state.CollectIndexRetry)
                     {
-                        prompt = ResponseManager.GetResponse(MarkToDoResponses.AskTaskIndexRetryForComplete);
+                        var lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{MarkToDoResponses.AskTaskIndexRetryForComplete}]", null);
+                        prompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
                     }
                     else
                     {
-                        prompt = ResponseManager.GetResponse(MarkToDoResponses.AskTaskIndexForComplete);
+                        var lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{MarkToDoResponses.AskTaskIndexForComplete}]", null);
+                        prompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
                     }
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
@@ -335,8 +341,12 @@ namespace ToDoSkill.Dialogs
         {
             try
             {
-                var prompt = ResponseManager.GetResponse(MarkToDoResponses.CompleteAnotherTaskPrompt);
-                var retryPrompt = ResponseManager.GetResponse(MarkToDoResponses.CompleteAnotherTaskConfirmFailed);
+                var lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{MarkToDoResponses.CompleteAnotherTaskPrompt}]", null);
+                var prompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
+
+                lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{MarkToDoResponses.CompleteAnotherTaskConfirmFailed}]", null);
+                var retryPrompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
+
                 return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
@@ -366,7 +376,8 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(ToDoSharedResponses.ActionEnded));
+                    var response = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.ActionEnded}]", null);
+                    await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
                     return await sc.EndDialogAsync(true);
                 }
             }

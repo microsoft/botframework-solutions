@@ -6,6 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,8 +18,9 @@ namespace ToDoSkill.Bots
     {
         private readonly IBotTelemetryClient _telemetryClient;
         private DialogSet _dialogs;
+        private ResourceExplorer _resourceExplorer;
 
-        public DialogBot(IServiceProvider serviceProvider, T dialog)
+        public DialogBot(IServiceProvider serviceProvider, T dialog, ResourceExplorer resourceExplorer)
         {
             var conversationState = serviceProvider.GetService<ConversationState>() ?? throw new ArgumentNullException(nameof(ConversationState));
             _telemetryClient = serviceProvider.GetService<IBotTelemetryClient>() ?? throw new ArgumentNullException(nameof(IBotTelemetryClient));
@@ -25,6 +28,8 @@ namespace ToDoSkill.Bots
             var dialogState = conversationState.CreateProperty<DialogState>(nameof(ToDoSkill));
             _dialogs = new DialogSet(dialogState);
             _dialogs.Add(dialog);
+
+            _resourceExplorer = resourceExplorer;
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken)
@@ -34,6 +39,11 @@ namespace ToDoSkill.Bots
             {
                 _telemetryClient.TrackTrace($"Timeout in {turnContext.Activity.ChannelId} channel: Bot took too long to respond.", Severity.Information, null);
                 return;
+            }
+
+            if (turnContext.TurnState.Get<LanguageGeneratorManager>() == null)
+            {
+                turnContext.TurnState.Add<LanguageGeneratorManager>(new LanguageGeneratorManager(_resourceExplorer));
             }
 
             var dc = await _dialogs.CreateContextAsync(turnContext);
