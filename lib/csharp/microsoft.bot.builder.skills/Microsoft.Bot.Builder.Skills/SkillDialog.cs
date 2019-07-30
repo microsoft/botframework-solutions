@@ -52,7 +52,7 @@ namespace Microsoft.Bot.Builder.Skills
             _serviceClientCredentials = serviceClientCredentials ?? throw new ArgumentNullException(nameof(serviceClientCredentials));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
             _userState = userState;
-            _skillTransport = skillTransport ?? new SkillWebSocketTransport(_skillManifest, _serviceClientCredentials, telemetryClient);
+            _skillTransport = skillTransport ?? new SkillWebSocketTransport(telemetryClient);
 
             if (authDialog != null)
             {
@@ -69,7 +69,7 @@ namespace Microsoft.Bot.Builder.Skills
                 // to cancel all dialogs on the skill side
                 if (_skillTransport != null)
                 {
-                    await _skillTransport.CancelRemoteDialogsAsync(turnContext);
+                    await _skillTransport.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, turnContext);
                 }
             }
 
@@ -91,12 +91,23 @@ namespace Microsoft.Bot.Builder.Skills
             var accessor = _userState.CreateProperty<SkillContext>(nameof(SkillContext));
             var skillContext = await accessor.GetAsync(innerDc.Context, () => new SkillContext());
 
-            /*  In instances where the caller is able to identify/specify the action we process the Action specific slots
-                In other scenarios (aggregated skill dispatch) we evaluate all possible slots against context and pass across
-                enabling the Skill to perform it's own action identification. */
+            var dialogOptions = options != null ? options as SkillDialogOption : null;
+            var actionName = dialogOptions?.Action;
 
-            var actionName = options != null ? options as string : null;
-            if (actionName != null)
+            var activity = innerDc.Context.Activity;
+            var semanticAction = new SemanticAction
+            {
+                Id = actionName,
+                Entities = new Dictionary<string, Entity>(),
+            };
+
+            // only set the semantic state if action is not empty
+            if (!string.IsNullOrWhiteSpace(actionName))
+            {
+                semanticAction.State = SkillConstants.SkillStart;
+            }
+
+            if (!string.IsNullOrWhiteSpace(actionName))
             {
                 // Find the specified within the selected Skill for slot filling evaluation
                 var action = _skillManifest.Actions.SingleOrDefault(a => a.Id == actionName);
@@ -128,17 +139,14 @@ namespace Microsoft.Bot.Builder.Skills
                 }
             }
 
+            foreach (var slot in slots)
+            {
+                semanticAction.Entities.Add(slot.Key, new Entity { Properties = slot.Value });
+            }
+
+            activity.SemanticAction = semanticAction;
+
             await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"-->Handing off to the {_skillManifest.Name} skill."));
-
-            var activity = innerDc.Context.Activity;
-			var semanticAction = new SemanticAction { Entities = new Dictionary<string, Entity>() };
-
-			foreach (var slot in slots)
-			{
-				semanticAction.Entities.Add(slot.Key, new Entity { Properties = slot.Value });
-			}
-
-			activity.SemanticAction = semanticAction;
 
             return await ForwardToSkillAsync(innerDc, activity);
         }
@@ -215,7 +223,7 @@ namespace Microsoft.Bot.Builder.Skills
         {
             try
             {
-                var endOfConversation = await _skillTransport.ForwardToSkillAsync(innerDc.Context, activity, GetTokenRequestCallback(innerDc));
+                var endOfConversation = await _skillTransport.ForwardToSkillAsync(_skillManifest, _serviceClientCredentials, innerDc.Context, activity, GetTokenRequestCallback(innerDc));
 
 				if (endOfConversation)
                 {
