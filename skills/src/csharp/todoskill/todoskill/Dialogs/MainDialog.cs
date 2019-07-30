@@ -31,7 +31,6 @@ namespace ToDoSkill.Dialogs
         private ResponseManager _responseManager;
         private IStatePropertyAccessor<ToDoSkillState> _toDoStateAccessor;
         private ResourceMultiLanguageGenerator _lgMultiLangEngine;
-        private string _lgToDoMainResponses;
 
         public MainDialog(
             BotSettings settings,
@@ -62,8 +61,8 @@ namespace ToDoSkill.Dialogs
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            _lgToDoMainResponses = await _lgMultiLangEngine.Generate(dc.Context, "[ToDoMainResponses]", null);
-            await dc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.ToDoWelcomeMessage, _lgToDoMainResponses));
+            var response = await _lgMultiLangEngine.Generate(dc.Context, $"[{ToDoMainResponses.ToDoWelcomeMessage}]", null);
+            await dc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -129,7 +128,8 @@ namespace ToDoSkill.Dialogs
                             else
                             {
                                 // No intent was identified, send confused message
-                                await dc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.DidntUnderstandMessage, _lgToDoMainResponses));
+                                var response = await _lgMultiLangEngine.Generate(dc.Context, $"[{ToDoMainResponses.DidntUnderstandMessage}]", null);
+                                await dc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
                                 turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
@@ -139,7 +139,8 @@ namespace ToDoSkill.Dialogs
                     default:
                         {
                             // intent was identified but not yet implemented
-                            await dc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.FeatureNotAvailable, _lgToDoMainResponses));
+                            var response = await _lgMultiLangEngine.Generate(dc.Context, $"[{ToDoMainResponses.FeatureNotAvailable}]", null);
+                            await dc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
                             turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
 
                             break;
@@ -247,7 +248,8 @@ namespace ToDoSkill.Dialogs
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.CancelMessage, _lgToDoMainResponses));
+            var response = await _lgMultiLangEngine.Generate(dc.Context, $"[{ToDoMainResponses.CancelMessage}]", null);
+            await dc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
             await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
             return InterruptionAction.StartedDialog;
@@ -255,7 +257,8 @@ namespace ToDoSkill.Dialogs
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.HelpMessage, _lgToDoMainResponses));
+            var response = await _lgMultiLangEngine.Generate(dc.Context, $"[{ToDoMainResponses.HelpMessage}]", null);
+            await dc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
             return InterruptionAction.MessageSentToUser;
         }
 
@@ -281,7 +284,8 @@ namespace ToDoSkill.Dialogs
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            await dc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(ToDoMainResponses.LogOut, _lgToDoMainResponses));
+            var response = await _lgMultiLangEngine.Generate(dc.Context, $"[{ToDoMainResponses.LogOut}]", null);
+            await dc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
 
             return InterruptionAction.StartedDialog;
         }
