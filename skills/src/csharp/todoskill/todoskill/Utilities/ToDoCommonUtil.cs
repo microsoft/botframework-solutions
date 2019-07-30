@@ -9,7 +9,7 @@ namespace ToDoSkill.Utilities
     {
         public const int DefaultDisplaySize = 4;
 
-        public static Activity GetToDoResponseActivity(string templateId, string json)
+        public static Activity GetToDoResponseActivity(string json)
         {
             var activity = new Activity()
             {
@@ -20,12 +20,7 @@ namespace ToDoSkill.Utilities
             };
             try
             {
-                dynamic content = JsonConvert.DeserializeObject(json);
-                dynamic template = content;
-                if (templateId != null)
-                {
-                    template = content[templateId];
-                }
+                dynamic template = JsonConvert.DeserializeObject(json);
 
                 if (template.replies != null)
                 {

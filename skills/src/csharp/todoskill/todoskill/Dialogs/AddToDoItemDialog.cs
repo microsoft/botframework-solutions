@@ -133,7 +133,8 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, LGToDoSharedResponses));
+                    var response = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.ActionEnded}]", null);
+                    await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
                     return await sc.EndDialogAsync(true);
                 }
             }
@@ -175,13 +176,13 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    LGMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, "[AddToDoResponses]", new
+                    var lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{AddToDoResponses.AskTaskContentText}]", new
                     {
                         listType = string.Empty,
                         taskContent = string.Empty
                     });
 
-                    var prompt = ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AskTaskContentText, LGMultiLangEngineResult);
+                    var prompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = prompt });
                 }
             }
@@ -252,14 +253,19 @@ namespace ToDoSkill.Dialogs
             try
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
-                LGMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, "[AddToDoResponses]", new
+                var lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{AddToDoResponses.SwitchListType}]", new
                 {
                     listType = state.ListType,
                     taskContent = string.Empty
                 });
+                var prompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
 
-                var prompt = ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.SwitchListType, LGMultiLangEngineResult);
-                var retryPrompt = ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.SwitchListTypeConfirmFailed, LGMultiLangEngineResult);
+                lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{AddToDoResponses.SwitchListTypeConfirmFailed}]", new
+                {
+                    listType = state.ListType,
+                    taskContent = string.Empty
+                });
+                var retryPrompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
                 return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
@@ -324,14 +330,19 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    LGMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, "[AddToDoResponses]", new
+                    var lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{AddToDoResponses.AskAddDupTaskPrompt}]", new
                     {
                         listType = string.Empty,
                         taskContent = state.TaskContent
                     });
+                    var prompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
 
-                    var prompt = ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AskAddDupTaskPrompt, LGMultiLangEngineResult);
-                    var retryPrompt = ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AskAddDupTaskConfirmFailed, LGMultiLangEngineResult);
+                    lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{AddToDoResponses.AskAddDupTaskConfirmFailed}]", new
+                    {
+                        listType = string.Empty,
+                        taskContent = state.TaskContent
+                    });
+                    var retryPrompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
                     return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
                 }
             }
@@ -384,14 +395,19 @@ namespace ToDoSkill.Dialogs
             {
                 var state = await ToDoStateAccessor.GetAsync(sc.Context);
 
-                LGMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, "[AddToDoResponses]", new
+                var lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{AddToDoResponses.AddMoreTask}]", new
                 {
                     listType = state.ListType,
                     taskContent = string.Empty
                 });
+                var prompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
 
-                var prompt = ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AddMoreTask, LGMultiLangEngineResult);
-                var retryPrompt = ToDoCommonUtil.GetToDoResponseActivity(AddToDoResponses.AddMoreTaskConfirmFailed, LGMultiLangEngineResult);
+                lgMultiLangEngineResult = await LGMultiLangEngine.Generate(sc.Context, $"[{AddToDoResponses.AddMoreTaskConfirmFailed}]", new
+                {
+                    listType = state.ListType,
+                    taskContent = string.Empty
+                });
+                var retryPrompt = ToDoCommonUtil.GetToDoResponseActivity(lgMultiLangEngineResult);
                 return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions() { Prompt = prompt, RetryPrompt = retryPrompt });
             }
             catch (Exception ex)
@@ -423,8 +439,8 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(ToDoSharedResponses.ActionEnded, LGToDoSharedResponses));
-
+                    var response = await LGMultiLangEngine.Generate(sc.Context, $"[{ToDoSharedResponses.ActionEnded}]", null);
+                    await sc.Context.SendActivityAsync(ToDoCommonUtil.GetToDoResponseActivity(response));
                     return await sc.EndDialogAsync(true);
                 }
             }
