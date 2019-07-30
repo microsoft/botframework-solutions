@@ -5,6 +5,7 @@ Param(
 	[string] $luisAuthoringRegion,
     [string] $luisAuthoringKey,
 	[string] $luisAccountName,
+	[string] $luisAccountRegion,
 	[string] $luisSubscriptionKey,
 	[string] $qnaSubscriptionKey,
 	[string] $resourceGroup,
@@ -67,7 +68,7 @@ if (-not $luisAccountName) {
 if (-not $resourceGroup) {
 	$resourceGroup = $name
 
-	$rgExists = az group exists -n $resourceGroup
+	$rgExists = az group exists -n $resourceGroup --output json
 	if ($rgExists -eq "false")
 	{
 	    $resourceGroup = Read-Host "? LUIS Service Resource Group (exising service in Azure required)"
@@ -75,7 +76,7 @@ if (-not $resourceGroup) {
 }
 
 if (-not $luisSubscriptionKey) {
-	$keys = az cognitiveservices account keys list --name $luisAccountName --resource-group $resourceGroup | ConvertFrom-Json
+	$keys = az cognitiveservices account keys list --name $luisAccountName --resource-group $resourceGroup --output json | ConvertFrom-Json
 
 	if ($keys) {
 		$luisSubscriptionKey = $keys.key1
@@ -87,12 +88,18 @@ if (-not $luisSubscriptionKey) {
 	}
 }
 
+if (-not $luisAccountRegion) {
+	$luisAccountRegion = Read-Host "? LUIS Service Location"
+}
 if (-not $qnaSubscriptionKey) {
 	$useQna = $false
 }
 else {
 	$useQna = $true
 }
+
+$azAccount = az account show --output json | ConvertFrom-Json
+$azAccessToken = $(Invoke-Expression "az account get-access-token --output json") | ConvertFrom-Json
 
 $azAccount = az account show | ConvertFrom-Json
 $azAccessToken = $(Invoke-Expression "az account get-access-token") | ConvertFrom-Json
@@ -117,7 +124,7 @@ foreach ($language in $languageArr)
 	    # Initialize Dispatch
 		Write-Host "> Initializing dispatch model ..."
 		$dispatchName = "$($name)$($langCode)_Dispatch"
-		$dataFolder = Join-Path $PSScriptRoot .. Resources Dispatch $langCode
+		$dataFolder = Join-Path $PSScriptRoot .. resources Dispatch $langCode
 		(dispatch init `
 			--name $dispatchName `
 			--luisAuthoringKey $luisAuthoringKey `
@@ -126,7 +133,7 @@ foreach ($language in $languageArr)
 	}
 
     # Deploy LUIS apps
-    $luisFiles = Get-ChildItem "$(Join-Path $PSScriptRoot .. 'Resources' 'LU' $langCode)" | Where {$_.extension -eq ".lu"}
+    $luisFiles = Get-ChildItem "$(Join-Path $PSScriptRoot .. 'resources' 'LU' $langCode)" | Where {$_.extension -eq ".lu"}
    
 	if ($luisFiles) {
 		$config | Add-Member -MemberType NoteProperty -Name languageModels -Value @()	
@@ -139,7 +146,7 @@ foreach ($language in $languageArr)
 			-region $luisAuthoringRegion `
 			-luisAuthoringKey $luisAuthoringKey `
 			-language $language `
-			-log $logFile `
+			-log $logFile 
 			
 			Write-Host "> Setting LUIS subscription key ..."
 
@@ -179,11 +186,11 @@ foreach ($language in $languageArr)
 					id = $lu.BaseName
 					name = $luisApp.name
 					appId = $luisApp.id
-					authoringKey = $luisAuthoringkey
+					authoringKey = $luisAuthoringKey
+					authoringRegion = $luisAuthoringRegion
 					subscriptionKey = $luisSubscriptionKey
 					version = $luisApp.activeVersion
 					region = $luisAuthoringRegion
-					culture = $language
 				}
 			}
 			else {
@@ -193,12 +200,12 @@ foreach ($language in $languageArr)
 	}
 
 	if ($useQna) {
-		if (Test-Path $(Join-Path $PSScriptRoot .. 'Resources' 'QnA' $langCode)) {
+		if (Test-Path $(Join-Path $PSScriptRoot .. 'resources' 'QnA' $langCode)) {
 			# Deploy QnA Maker KBs
-			$qnaFiles = Get-ChildItem "$(Join-Path $PSScriptRoot .. 'Resources' 'QnA' $langCode)" -Recurse | Where {$_.extension -eq ".lu"} 
+			$qnaFiles = Get-ChildItem "$(Join-Path $PSScriptRoot .. 'resources' 'QnA' $langCode)" -Recurse | Where {$_.extension -eq ".lu"} 
 			
 			if ($qnaFiles) {
-				$config | Add-Member -MemberType NoteProperty -Name knowledgebases -Value @()
+				$config | Add-Member -MemberType NoteProperty -Name knowledgeBases -Value @()
 			
 				foreach ($lu in $qnaFiles)
 				{
@@ -235,12 +242,13 @@ foreach ($language in $languageArr)
 			}
 		}
 		else {
-			Write-Host "! No knowledgebases found. Skipping." -ForegroundColor Cyan
+			Write-Host "! No knowledgeBases found. Skipping." -ForegroundColor Cyan
 		}
 	}
 	else {
-		Write-Host "! No QnA Maker Subscription Key provided. Skipping knowledgebases." -ForegroundColor Cyan
+		Write-Host "! No QnA Maker Subscription Key provided. Skipping knowledgeBases." -ForegroundColor Cyan
 	}
+	
 	if ($useDispatch) {
 
 		# Create dispatch model
@@ -282,9 +290,9 @@ foreach ($language in $languageArr)
 				name = $dispatchApp.name
 				appId = $dispatchApp.appId
 				authoringKey = $luisAuthoringKey
+				authoringRegion = $luisAuthoringRegion
 				subscriptionKey = $luisSubscriptionKey
-				region = $luisAuthoringRegion
-				culture = $language
+				region = $luisAccountRegion
 			}
 		}
 	}
