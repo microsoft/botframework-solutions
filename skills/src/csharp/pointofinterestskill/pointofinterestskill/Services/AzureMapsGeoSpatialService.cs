@@ -25,9 +25,10 @@ namespace PointOfInterestSkill.Services
         private static readonly string FindAddressByCoordinateUrl = $"https://atlas.microsoft.com/search/address/reverse/json?api-version=1.0&query={{0}},{{1}}";
         private static readonly string FindNearbyUrl = $"https://atlas.microsoft.com/search/nearby/json?api-version=1.0&lat={{0}}&lon={{1}}&radius={{2}}&limit={{3}}";
         private static readonly string FindByCategoryUrl = $"https://atlas.microsoft.com/search/poi/category/json?api-version=1.0&query={{2}}&lat={{0}}&lon={{1}}&radius={{3}}&limit={{4}}";
-        private static readonly string ImageUrlByPoint = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{2}}&center={{1}},{{0}}&width={ImageWidth}&height={ImageHeight}";
+        private static readonly string PinStyle = "default|la15+50|al0.75|cod83b01";
+        private static readonly string ImageUrlByPoint = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{2}}&center={{0}},{{1}}&width={ImageWidth}&height={ImageHeight}&pins={PinStyle}||{{0}} {{1}}";
         private static readonly string ImageUrlForRoute = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{0}}&center={{1}},{{2}}&width={ImageWidth}&height={ImageHeight}&pins={{3}}&path=lw2|lc0078d4|{{4}}";
-        private static readonly string RoutePins = "default|la15+50|al0.75|cod83b01||'{0}'{1} {2}|'{3}'{4} {5}";
+        private static readonly string RoutePins = $"{PinStyle}||'{{0}}'{{1}} {{2}}|'{{3}}'{{4}} {{5}}";
         private static readonly string GetRouteDirections = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&instructionsType=text&query={{0}}&maxAlternatives=2";
         private static readonly string GetRouteDirectionsWithRouteType = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&instructionsType=text&query={{0}}&&routeType={{1}}&maxAlternatives=2";
         private static string apiKey;
@@ -176,8 +177,8 @@ namespace PointOfInterestSkill.Services
             string imageUrl = string.Format(
                 CultureInfo.InvariantCulture,
                 ImageUrlByPoint,
-                pointOfInterest?.Geolocation?.Latitude,
                 pointOfInterest?.Geolocation?.Longitude,
+                pointOfInterest?.Geolocation?.Latitude,
                 zoom) + "&subscription-key=" + apiKey;
 
             pointOfInterest.PointOfInterestImageUrl = imageUrl;
