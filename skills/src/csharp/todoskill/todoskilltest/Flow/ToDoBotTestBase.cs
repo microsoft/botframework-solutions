@@ -1,12 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Proactive;
@@ -109,6 +112,11 @@ namespace ToDoSkillTest.Flow
 			Services.AddTransient<MarkToDoItemDialog>();
 			Services.AddTransient<ShowToDoItemDialog>();
 			Services.AddTransient<IBot, DialogBot<MainDialog>>();
+
+            var path = Environment.CurrentDirectory;
+            path = Path.Combine(path + @"\..\..\..\..\todoskill\");
+            var resourceExplorer = ResourceExplorer.LoadProject(path);
+            Services.AddSingleton(resourceExplorer);
         }
 
         public Activity GetAuthResponse()

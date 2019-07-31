@@ -1,28 +1,8 @@
 ﻿# AfterTaskCompleted(taskContent, listType)
-- ```
-{
-    "replies": [
-      {
-        "text": "I have completed @{taskContent} from your @{listType} list.",
-        "speak": "I have completed @{taskContent} from your @{listType} list."
-      }
-    ],
-    "inputHint": "ignoringInput"
-}
-```
+- I have completed @{taskContent} on your @{listType} list.
 
 # AfterAllTasksCompleted(listType)
-- ```
-{
-    "replies": [
-      {
-        "text": "I have marked all your tasks as complete on your @{listType} list.",
-        "speak": "I have marked all your tasks as complete on your @{listType} list."
-      }
-    ],
-    "inputHint": "ignoringInput"
-}
-```
+- I have marked all your tasks as complete on your @{listType} list.
 
 # TaskCompleted
 - IF: {isCompleteAll == true}

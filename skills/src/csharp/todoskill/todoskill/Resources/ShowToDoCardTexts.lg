@@ -1,30 +1,10 @@
 ﻿[import](CardSummaryTexts.lg)
 
 # LatestTask 
-- ```
-{
-    "replies": [
-      {
-        "text": "Your latest task is ",
-        "speak": "Your latest task is "
-      }
-    ],
-    "inputHint": "ignoringInput"
-}
-```
+- Your latest task is 
 
 #  LatestTasks
-- ```
-{
-    "replies": [
-      {
-        "text": "Your latest tasks are ",
-        "speak": "Your latest tasks are "
-      }
-    ],
-    "inputHint": "ignoringInput"
-}
-```
+- Your latest tasks are 
 
 # ShowTodosBranch1(todos)
 - IF: {count(todos) == 1}
@@ -42,30 +22,10 @@
   - [ShowTodosBranch2(allTasksCount, listType, todos)]
 
 # NextTask
-- ```
-{
-    "replies": [
-      {
-        "text": "The next task is ",
-        "speak": "The next task is "
-      }
-    ],
-    "inputHint": "ignoringInput"
-}
-```
+- The next task is 
 
 # NextTasks
-- ```
-{
-    "replies": [
-      {
-        "text": "The next tasks are ",
-        "speak": "The next tasks are "
-      }
-    ],
-    "inputHint": "ignoringInput"
-}
-```
+- The next tasks are 
 
 # ReadMore
 - IF: {count(todos) == 1}
@@ -74,43 +34,13 @@
   - [NextTasks]
 
 # PreviousTasks
-- ```
-{
-    "replies": [
-      {
-        "text": "Your previous tasks are ",
-        "speak": "Your previous tasks are "
-      }
-    ],
-    "inputHint": "ignoringInput"
-}
-```
+- Your previous tasks are 
 
 # PreviousFirstTasks(taskCount)
-- ```
-{
-    "replies": [
-      {
-        "text": "Your first @{taskCount} tasks are ",
-        "speak": "Your first @{taskCount} tasks are "
-      }
-    ],
-    "inputHint": "ignoringInput"
-}
-```
+- Your first @{taskCount} tasks are 
 
 # PreviousFirstSingleTask(taskCount)
-- ```
-{
-    "replies": [
-      {
-        "text": "Your first @{taskCount} task is ",
-        "speak": "Your first @{taskCount} task is "
-      }
-    ],
-    "inputHint": "ignoringInput"
-}
-```
+- Your first @{taskCount} task is 
 
 # PreviousPage
 - IF: {isFirst == false}
