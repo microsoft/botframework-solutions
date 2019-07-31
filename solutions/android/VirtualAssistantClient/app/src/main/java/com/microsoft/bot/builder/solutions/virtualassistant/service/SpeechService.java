@@ -61,6 +61,14 @@ import events.SynthesizerStopped;
  */
 public class SpeechService extends Service {
 
+
+//    static {
+//        // Load here just to ensure that the JNI_ONLOAD method is called for this SO.
+//        // speech sdk otherwise loads this through dlopen.
+//        // this SO needs the java context via JNI_ONLOAD to access the usb device.
+//        System.loadLibrary("pma");
+//    }
+
     // CONSTANTS
     private static final String TAG_FOREGROUND_SERVICE = "SpeechService";
     public static final String ACTION_START_FOREGROUND_SERVICE = "ACTION_START_FOREGROUND_SERVICE";
@@ -197,6 +205,16 @@ public class SpeechService extends Service {
         EventBus.getDefault().register(this);
         gson = new Gson();
 
+        locationProvider = new LocationProvider(this, location -> {
+            final String locLat = String.valueOf(location.getLatitude());
+            final String locLon = String.valueOf(location.getLongitude());
+            if (speechSdk != null) {
+                speechSdk.sendLocationEvent(locLat, locLon);
+            }
+        });
+    }
+
+    private void setUpConfiguration(){
         // set up configuration for SpeechSdk
         configurationManager = new ConfigurationManager(this);
 
@@ -217,14 +235,6 @@ public class SpeechService extends Service {
             configuration.keyword = DefaultConfiguration.KEYWORD;
             configurationManager.setConfiguration(configuration);
         }
-
-        locationProvider = new LocationProvider(this, location -> {
-            final String locLat = String.valueOf(location.getLatitude());
-            final String locLon = String.valueOf(location.getLongitude());
-            if (speechSdk != null) {
-                speechSdk.sendLocationEvent(locLat, locLon);
-            }
-        });
     }
 
     @Override
@@ -242,6 +252,8 @@ public class SpeechService extends Service {
             switch (action) {
                 case ACTION_START_FOREGROUND_SERVICE:
                     Toast.makeText(getApplicationContext(), "Service is started", Toast.LENGTH_LONG).show();
+                    setUpConfiguration();
+                    if (speechSdk == null) initializeSpeechSdk(true);//assume true - for this to work the app must have been launched once for permission dialog
                     startForegroundService();
                     break;
                 case ACTION_STOP_FOREGROUND_SERVICE:

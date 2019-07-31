@@ -233,16 +233,15 @@ public class MainActivity extends BaseActivity
     protected void permissionGranted(String manifestPermission) {
         // this code is triggered when a user launches app a 1st time and doesn't have permisison yet
         if (manifestPermission.equals(Manifest.permission.RECORD_AUDIO)){
+//            initializeAndConnect();
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 requestFineLocationPermissions();
-            } else {
-                initializeAndConnect();
             }
         }
         if (manifestPermission.equals(Manifest.permission.ACCESS_FINE_LOCATION)){
             try {
                 if (speechServiceBinder != null) speechServiceBinder.startLocationUpdates();
-                initializeAndConnect();
+                //initializeAndConnect();
             } catch (RemoteException exception){
                 Log.e(LOGTAG, exception.getMessage());
             }
@@ -255,7 +254,7 @@ public class MainActivity extends BaseActivity
         // this code is triggered after the service is bound.
         // Binding is started in onStart(), so expect this callback to trigger after onStart()
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-            initializeAndConnect();
+//            initializeAndConnect();
             boolean enabled = setKwsState(enableKws);
             if (!enabled && enableKws) {
                 switchEnableKws.setChecked(false);

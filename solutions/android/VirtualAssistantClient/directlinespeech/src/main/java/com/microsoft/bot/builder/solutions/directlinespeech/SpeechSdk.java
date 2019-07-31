@@ -326,7 +326,7 @@ public class SpeechSdk {
             final String activityJson = gson.toJson(activityTemplate);
             BotConnectorActivity activity = BotConnectorActivity.fromSerializedActivity(activityJson);
 
-            final Future<Void> task = botConnector.sendActivityAsync(activity);
+            final Future<String> task = botConnector.sendActivityAsync(activity);
             setOnTaskCompletedListener(task, result -> {
                 LogInfo("sendActivityAsync done");
                 startResponseTimeoutTimer();
@@ -345,7 +345,7 @@ public class SpeechSdk {
         final String activityJson = gson.toJson(activityTemplate);
         BotConnectorActivity activity = BotConnectorActivity.fromSerializedActivity(activityJson);
 
-        final Future<Void> task = botConnector.sendActivityAsync(activity);
+        final Future<String> task = botConnector.sendActivityAsync(activity);
         setOnTaskCompletedListener(task, result -> {
             LogInfo("sendLocationEvent done: "+activityJson);
         });
@@ -360,7 +360,7 @@ public class SpeechSdk {
         final String activityJson = gson.toJson(activityTemplate);
         BotConnectorActivity activity = BotConnectorActivity.fromSerializedActivity(activityJson);
 
-        final Future<Void> task = botConnector.sendActivityAsync(activity);
+        final Future<String> task = botConnector.sendActivityAsync(activity);
         setOnTaskCompletedListener(task, result -> {
             LogDebug("sendActivityAsync done: "+activityJson);
         });
@@ -407,7 +407,7 @@ public class SpeechSdk {
             final String activityJson = gson.toJson(activityTemplate);
             BotConnectorActivity activity = BotConnectorActivity.fromSerializedActivity(activityJson);
 
-            final Future<Void> task = botConnector.sendActivityAsync(activity);
+            final Future<String> task = botConnector.sendActivityAsync(activity);
             setOnTaskCompletedListener(task, result -> {
                 LogDebug("requestWelcomeCard done: "+activityJson);
             });

@@ -199,7 +199,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setClassName("com.microsoft.bot.builder.solutions.virtualassistant","com.microsoft.bot.builder.solutions.virtualassistant.service.SpeechService");
         boolean success = bindService(intent, myConnection, Context.BIND_AUTO_CREATE);
-        Log.d(LOGTAG,"success = "+success);
+        Log.d(LOGTAG,"doBindService() success = "+success);
     }
 
     public ServiceConnection myConnection = new ServiceConnection() {
@@ -220,7 +220,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void initializeAndConnect(){
         if (speechServiceBinder != null) {
             try {
-                speechServiceBinder.initializeSpeechSdk(true);
+                //speechServiceBinder.initializeSpeechSdk(true);
                 speechServiceBinder.connectAsync();
             } catch (RemoteException exception){
                 Log.e(LOGTAG, exception.getMessage());

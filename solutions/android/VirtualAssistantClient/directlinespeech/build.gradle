@@ -20,12 +20,6 @@ android {
         }
     }
 
-    sourceSets {
-        main {
-            jniLibs.srcDirs 'libs'
-        }
-    }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -47,9 +41,7 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation fileTree(include: ['*.aar'], dir: 'libs')
-    implementation fileTree(include: ['*.so'], dir: 'libs')
 
     // for Client models
     implementation "io.swagger:swagger-annotations:1.5.15"
