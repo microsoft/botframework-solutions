@@ -66,13 +66,10 @@ namespace Microsoft.Bot.Builder.Solutions.Dialogs
 
                                     case DialogTurnStatus.Complete:
                                         {
-                                            if (result.Result is RouterDialogTurnResult routerDialogTurnResult)
+                                            if (result.Result is RouterDialogTurnResult routerDialogTurnResult && routerDialogTurnResult.Status == RouterDialogTurnStatus.Restart)
                                             {
-                                                if (routerDialogTurnResult.Status == RouterDialogTurnStatus.Restart)
-                                                {
-                                                    await RouteAsync(innerDc).ConfigureAwait(false);
-                                                    break;
-                                                }
+                                                await RouteAsync(innerDc).ConfigureAwait(false);
+                                                break;
                                             }
 
                                             await CompleteAsync(innerDc).ConfigureAwait(false);
