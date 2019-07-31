@@ -4,16 +4,16 @@
 - [Intro](#intro)
 - [Resources](#resources)
 - [Scripts](#scripts)
-    - [deploy.ps1](#deploy.ps1)
-    - [deploy_cognitive_models.ps1](#deploy_cognitive_models.ps1)
-    - [update_cognitive_models.ps1](#update_cognitive_models.ps1)
-    - [publish.ps1](#publish.ps1)
+    - [deploy.ps1](#deployps1)
+    - [deploy_cognitive_models.ps1](#deploy_cognitive_modelsps1)
+    - [update_cognitive_models.ps1](#update_cognitive_modelsps1)
+    - [publish.ps1](#publishps1)
 - [Common Questions](#common-questions)
     - [What services are deployed by the script?](#what-services-are-deployed-by-the-script)
-    - [How do I reduce my Azure costs during development?](#how-do-I-reduce-my-azure-costs-during-development)
-    - [How do I customize my Azure resource deployment?](#how-do-I-customize-my-azure-resource-deployment)
-    - [How do I use my existing Azure resources from the same resource group?](#How-do-i-use-my-existing-Azure-resources-from-the-same-resource-group)
-    - [How do I use my existing Azure resources from a different resource group?](#How-do-I-use-my-existing-Azure-resources-from-a-different-resource-group)
+    - [How do I reduce my Azure costs during development?](#how-do-i-reduce-my-azure-costs-during-development)
+    - [How do I customize my Azure resource deployment?](#how-do-i-customize-my-azure-resource-deployment)
+    - [How do I use my existing Azure resources from the same resource group?](#how-do-i-use-my-existing-azure-resources-from-the-same-resource-group)
+    - [How do I use my existing Azure resources from a different resource group?](#how-do-i-use-my-existing-azure-resources-from-a-different-resource-group)
 
 ## Intro
 
@@ -91,7 +91,7 @@ This script builds and publishes your local project to your Azure.
 
 ## Common Questions
 
-### ❓ What services are deployed by the script?
+### What services are deployed by the script?
 The Virtual Assistant Template relies on a number of Azure resources to run. The included deployment scripts and ARM template use the following services:
 
 Resource | Notes |
@@ -108,10 +108,10 @@ QnA Maker Web App | Hosts your QnA Maker knowledgebases.
 QnA Maker Azure Search Service | Search index for your QnA Maker knowledgebases. [Available regions](https://azure.microsoft.com/en-us/global-infrastructure/services/?products=search)
 Content Moderator | Subscription keys for Content Moderator Cognitive Service.
 
-### ❓ How do I reduce my Azure costs during development?
+### How do I reduce my Azure costs during development?
 The default `parameters.template.json` file is configured to use all free service tiers to reduce the cost of testing. Provide this file in the `-parametersFile` parameter on the `deploy.ps1` script. **Note: There are service limits associated with free tiers (e.g. Azure Search permits only 1 free tier per subscription). Free tiers should only be used for development, not for production implementations.**
 
-### ❓ How do I customize my Azure resources?
+### How do I customize my Azure resource deployment?
 Any of the following parameters in the ARM template can be overridden with your preferred values using the `parameters.template.json` file provided in the `Deployment\Resources` folder:
 
 | Parameters | Default Value |
@@ -166,7 +166,7 @@ Then provide the path to the file as an argument on the `deploy.ps1` script:
 .\Deployment\Scripts\deploy.ps1 -parametersFile .\Deployment\Resources\parameters.template.json
 ```
 
-### ❓ How do I use my existing Azure resources from the same resource group?
+### How do I use my existing Azure resources from the same resource group?
 If you want to use existing resources from the same resource group, override the parameters for the services you want in the `parameters.template.json`. Provide this file in the `-parametersFile` parameter on the `deploy.ps1` script. 
 
 #### parameters.template.json
@@ -178,7 +178,7 @@ If you want to use existing resources from the same resource group, override the
 }
 ```
 
-### ❓ How do I use my existing Azure resources from a different resource group?
+### How do I use my existing Azure resources from a different resource group?
 If you want to use an existing resource from a different resource group, follow these steps:
 
 #### Cosmos DB
