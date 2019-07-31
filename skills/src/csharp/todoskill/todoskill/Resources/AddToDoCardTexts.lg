@@ -1,12 +1,2 @@
 ﻿# AfterTaskAdded
-- ```
-{
-    "replies": [
-      {
-        "text": "I have added @{taskContent} to your @{listType} list.",
-        "speak": "I have added @{taskContent} to your @{listType} list."
-      }
-    ],
-    "inputHint": "ignoringInput"
- }
- ```
+- I have added @{taskContent} to your @{listType} list.

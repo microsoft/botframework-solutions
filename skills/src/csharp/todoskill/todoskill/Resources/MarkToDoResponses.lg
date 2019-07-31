@@ -1,64 +1,14 @@
 ﻿# ListTypePromptForComplete
-- ```
-{
-    "replies": [
-      {
-        "text": "Can you be specific from what list you would like to complete a task. Is it your To Do list, Shopping list or Grocery list?",
-        "speak": "Can you be specific from what list you would like to complete a task. Is it your To Do list, Shopping list or Grocery list?"
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- Can you be specific from what list you would like to complete a task. Is it your To Do list, Shopping list or Grocery list?
 
 # AskTaskIndexForComplete
-- ```
-{
-    "replies": [
-      {
-        "text": "What task do you want to complete? It is also possible to complete all your tasks by naming out complete all.",
-        "speak": "What task do you want to complete? It is also possible to complete all your tasks by naming out complete all."
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- What task do you want to complete? It is also possible to complete all your tasks by saying complete all.
 
 # AskTaskIndexRetryForComplete
-- ```
-{
-    "replies": [
-      {
-        "text": "Sorry, I could not find this task. Please try again. What task do you want to complete?",
-        "speak": "Sorry, I could not find this task. Please try again. What task do you want to complete?"
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- Sorry, I could not find this task. Please try again. What task do you want to complete?
 
 # CompleteAnotherTaskPrompt
-- ```
-{
-    "replies": [
-      {
-        "text": "Do you want to complete another task?",
-        "speak": "Do you want to complete another task?"
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- Do you want to complete another task?
 
 # CompleteAnotherTaskConfirmFailed
-- ```
-{
-    "replies": [
-      {
-        "text": "Sorry, I didn't understand what you meant. Do you want to complete another task?",
-        "speak": "Sorry, I didn't understand what you meant. Do you want to complete another task?"
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- Sorry, I didn't understand what you meant. Do you want to complete another task?
