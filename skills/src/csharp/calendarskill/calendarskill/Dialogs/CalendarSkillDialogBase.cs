@@ -16,6 +16,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Resources;
@@ -256,45 +257,56 @@ namespace CalendarSkill.Dialogs
         // Helpers
         protected async Task<Activity> GetOverviewMeetingListResponseAsync(
             DialogContext dc,
+            ResourceMultiLanguageGenerator lgEngine,
             List<EventModel> events,
             int firstIndex,
             int lastIndex,
             int totalCount,
             int overlapEventCount,
             string templateId,
-            StringDictionary tokens = null)
+            object tokens = null)
         {
             var state = await Accessor.GetAsync(dc.Context);
-
-            var overviewCard = new Card()
-            {
-                Name = GetDivergedCardName(dc.Context, "CalendarOverview"),
-                Data = new CalendarMeetingListCardData()
-                {
-                    ListTitle = CalendarCommonStrings.OverviewTitle,
-                    TotalEventCount = totalCount.ToString(),
-                    OverlapEventCount = overlapEventCount.ToString(),
-                    TotalEventCountUnit = string.Format(
-                        totalCount == 1 ? CalendarCommonStrings.OverviewTotalMeetingOne : CalendarCommonStrings.OverviewTotalMeetingPlural,
-                        state.StartDateString ?? CalendarCommonStrings.TodayLower),
-                    OverlapEventCountUnit = CalendarCommonStrings.OverviewOverlapMeeting,
-                    Provider = string.Format(CalendarCommonStrings.OverviewEventSource, events[0].SourceString()),
-                    UserPhoto = await GetMyPhotoUrlAsync(dc.Context),
-                    Indicator = string.Format(CalendarCommonStrings.ShowMeetingsIndicator, (firstIndex + 1).ToString(), lastIndex.ToString(), totalCount.ToString())
-                }
-            };
-
             var eventItemList = await GetMeetingCardListAsync(dc, events);
 
-            return ResponseManager.GetCardResponse(templateId, overviewCard, tokens, "EventItemContainer", eventItemList);
+            var overviewCardParams = new
+            {
+                listTitle = CalendarCommonStrings.OverviewTitle,
+                totalEventCount = totalCount.ToString(),
+                overlapEventCount = overlapEventCount.ToString(),
+                dateTimeString = state.StartDateString,
+                indicator = string.Format(CalendarCommonStrings.ShowMeetingsIndicator, (firstIndex + 1).ToString(), lastIndex.ToString(), totalCount.ToString()),
+                userPhoto = await GetMyPhotoUrlAsync(dc.Context),
+                provider = string.Format(CalendarCommonStrings.OverviewEventSource, events[0].SourceString()),
+                timezone = state.GetUserTimeZone().Id,
+                itemData = eventItemList,
+                isOverview = true
+            };
+
+            if (templateId == null)
+            {
+                var lgResult = await lgEngine.Generate(dc.Context, "[MeetingListCard]", overviewCardParams);
+                var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult, null);
+
+                return (Activity)showMeetingPrompt;
+            }
+            else
+            {
+                var lgResult = await lgEngine.Generate(dc.Context, $"[{templateId}]", tokens);
+                var cardResult = await lgEngine.Generate(dc.Context, "[MeetingListCard]", overviewCardParams);
+                var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult + cardResult, null);
+
+                return (Activity)showMeetingPrompt;
+            }
         }
 
         protected async Task<Activity> GetGeneralMeetingListResponseAsync(
             DialogContext dc,
+            ResourceMultiLanguageGenerator lgEngine,
             string listTitle,
             List<EventModel> events,
             string templateId,
-            StringDictionary tokens = null,
+            object tokens = null,
             int firstIndex = -1,
             int lastIndex = -1,
             int totalCount = -1)
@@ -308,66 +320,83 @@ namespace CalendarSkill.Dialogs
                 totalCount = events.Count;
             }
 
-            var overviewCard = new Card()
-            {
-                Name = GetDivergedCardName(dc.Context, "CalendarGeneralMeetingList"),
-                Data = new CalendarMeetingListCardData()
-                {
-                    ListTitle = listTitle,
-                    TotalEventCount = null,
-                    OverlapEventCount = null,
-                    TotalEventCountUnit = null,
-                    OverlapEventCountUnit = null,
-                    Provider = string.Format(CalendarCommonStrings.OverviewEventSource, events[0].SourceString()),
-                    Indicator = string.Format(CalendarCommonStrings.ShowMeetingsIndicator, (firstIndex + 1).ToString(), lastIndex.ToString(), totalCount.ToString())
-                }
-            };
-
             var eventItemList = await GetMeetingCardListAsync(dc, events);
 
-            return ResponseManager.GetCardResponse(templateId, overviewCard, tokens, "EventItemContainer", eventItemList);
+            var overviewCardParams = new
+            {
+                listTitle,
+                totalEventCount = 0,
+                overlapEventCount = 0,
+                dateTimeString = "",
+                indicator = string.Format(CalendarCommonStrings.ShowMeetingsIndicator, (firstIndex + 1).ToString(), lastIndex.ToString(), totalCount.ToString()),
+                userPhoto = "",
+                provider = string.Format(CalendarCommonStrings.OverviewEventSource, events[0].SourceString()),
+                timezone = state.GetUserTimeZone().Id,
+                itemData = eventItemList,
+                isOverview = false
+            };
+
+            if (templateId == null)
+            {
+                var lgResult = await lgEngine.Generate(dc.Context, "[MeetingListCard]", overviewCardParams);
+                var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult, null);
+
+                return (Activity)showMeetingPrompt;
+            }
+            else
+            {
+                var lgResult = await lgEngine.Generate(dc.Context, $"[{templateId}]", tokens);
+                var cardResult = await lgEngine.Generate(dc.Context, "[MeetingListCard]", overviewCardParams);
+                var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult + cardResult, null);
+
+                return (Activity)showMeetingPrompt;
+            }
         }
 
-        protected async Task<Activity> GetDetailMeetingResponseAsync(DialogContext dc, EventModel eventItem, string templateId, StringDictionary tokens = null)
+        protected async Task<Activity> GetDetailMeetingResponseAsync(
+            DialogContext dc,
+            ResourceMultiLanguageGenerator lgEngine,
+            EventModel eventItem,
+            string templateId,
+            object tokens = null)
         {
             var state = await Accessor.GetAsync(dc.Context);
 
-            var detailCard = new Card()
+            var attendeePhotoList = new List<string>();
+
+            foreach (var attendee in eventItem.Attendees)
             {
-                Name = eventItem.OnlineMeetingUrl == null ? "CalendarDetailNoJoinButton" : "CalendarDetail",
-                Data = new CalendarDetailCardData()
-                {
-                    Content = eventItem.ContentPreview,
-                    MeetingLink = eventItem.OnlineMeetingUrl,
-                }
+                attendeePhotoList.Add(await GetUserPhotoUrlAsync(dc.Context, attendee));
+            }
+
+            var data = new
+            {
+                startDateTime = eventItem.StartTime,
+                endDateTime = eventItem.EndTime,
+                timezone = state.GetUserTimeZone().Id,
+                attendees = eventItem.Attendees,
+                attendeePhotoList,
+                subject = eventItem.Title,
+                location = eventItem.Location,
+                content = eventItem.Content,
+                meetingLink = eventItem.OnlineMeetingUrl
             };
 
-            var participantContainerList = new List<Card>();
-
-            var participantContainerCard = new Card()
+            if (templateId == null)
             {
-                Name = eventItem.Attendees.Count == 0 ? GetDivergedCardName(dc.Context, "CalendarDetailContainerNoParticipants") :
-                    eventItem.Attendees.Count > 5 ? GetDivergedCardName(dc.Context, "CalendarDetailContainerParticipantsMore") : GetDivergedCardName(dc.Context, "CalendarDetailContainerParticipantsLess"),
-                Data = new CalendarDetailContainerCardData()
-                {
-                    Title = eventItem.Title,
-                    Date = TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, state.GetUserTimeZone()).ToString("dddd M/d"),
-                    Time = TimeConverter.ConvertUtcToUserTime(eventItem.StartTime, state.GetUserTimeZone()).ToString("h:mm tt"),
-                    Location = eventItem.Location,
-                    ParticipantPhoto1 = await GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, 0),
-                    ParticipantPhoto2 = await GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, 1),
-                    ParticipantPhoto3 = await GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, 2),
-                    ParticipantPhoto4 = await GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, 3),
-                    ParticipantPhoto5 = await GetPhotoByIndexAsync(dc.Context, eventItem.Attendees, 4),
-                    OmittedParticipantCount = eventItem.Attendees.Count - 4,
-                    LocationIcon = string.IsNullOrEmpty(eventItem.Location) ? AdaptiveCardHelper.BlankIcon : AdaptiveCardHelper.LocationIcon,
-                    Duration = eventItem.ToDisplayDurationString(),
-                }
-            };
+                var lgResult = await lgEngine.Generate(dc.Context, "[MeetingDetailCard]", data);
+                var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult, null);
 
-            participantContainerList.Add(participantContainerCard);
+                return (Activity)showMeetingPrompt;
+            }
+            else
+            {
+                var lgResult = await lgEngine.Generate(dc.Context, $"[{templateId}]", tokens);
+                var cardResult = await lgEngine.Generate(dc.Context, "[MeetingDetailCard]", data);
+                var showMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, lgResult + cardResult, null);
 
-            return ResponseManager.GetCardResponse(templateId, detailCard, tokens, "CalendarDetailContainer", participantContainerList);
+                return (Activity)showMeetingPrompt;
+            }
         }
 
         protected async Task<string> GetMyPhotoUrlAsync(ITurnContext context)
@@ -1104,6 +1133,10 @@ namespace CalendarSkill.Dialogs
             foreach (var person in personList)
             {
                 var mailAddress = person.Emails[0] ?? person.UserPrincipalName;
+                if (mailAddress == null)
+                {
+                    continue;
+                }
 
                 var isDup = false;
                 foreach (var formattedPerson in formattedPersonList)
@@ -1366,11 +1399,11 @@ namespace CalendarSkill.Dialogs
             return await GetUserPhotoUrlAsync(context, attendees[index]);
         }
 
-        private async Task<List<Card>> GetMeetingCardListAsync(DialogContext dc, List<EventModel> events)
+        private async Task<List<object>> GetMeetingCardListAsync(DialogContext dc, List<EventModel> events)
         {
             var state = await Accessor.GetAsync(dc.Context);
 
-            var eventItemList = new List<Card>();
+            var eventItemList = new List<object>();
 
             DateTime? currentAddedDateUser = null;
             foreach (var item in events)
@@ -1379,20 +1412,18 @@ namespace CalendarSkill.Dialogs
                 if (currentAddedDateUser == null || !currentAddedDateUser.Value.Date.Equals(itemDateUser.Date))
                 {
                     currentAddedDateUser = itemDateUser;
-                    eventItemList.Add(new Card()
+                    eventItemList.Add(new
                     {
                         Name = "CalendarDate",
-                        Data = new CalendarDateCardData()
-                        {
-                            Date = currentAddedDateUser.Value.ToString("dddd, MMMM d").ToUpper()
-                        }
+                        Date = item.StartTime
                     });
                 }
 
-                eventItemList.Add(new Card()
+                eventItemList.Add(new
                 {
                     Name = "CalendarItem",
-                    Data = item.ToAdaptiveCardData(state.GetUserTimeZone())
+                    Event = item
+                    //item.ToAdaptiveCardData(state.GetUserTimeZone())
                 });
             }
 

@@ -14,6 +14,7 @@ using HtmlAgilityPack;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
@@ -27,6 +28,8 @@ namespace CalendarSkill.Dialogs
 {
     public class ConnectToMeetingDialog : CalendarSkillDialogBase
     {
+        private ResourceMultiLanguageGenerator _lgMultiLangEngine;
+
         public ConnectToMeetingDialog(
             BotSettings settings,
             BotServices services,
@@ -37,6 +40,8 @@ namespace CalendarSkill.Dialogs
             MicrosoftAppCredentials appCredentials)
             : base(nameof(ConnectToMeetingDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("SummaryDialog.lg");
+
             TelemetryClient = telemetryClient;
 
             var joinMeeting = new WaterfallStep[]
@@ -152,14 +157,13 @@ namespace CalendarSkill.Dialogs
                 // Multiple events
                 var firstEvent = GetCurrentPageMeetings(state.SummaryEvents, state).First();
 
-                var responseParams = new StringDictionary()
+                var responseParams = new
                 {
-                    { "EventName1", firstEvent.Title },
-                    { "EventTime1", SpeakHelper.ToSpeechMeetingTime(TimeConverter.ConvertUtcToUserTime(firstEvent.StartTime, state.GetUserTimeZone()), firstEvent.IsAllDay == true) },
-                    { "Participants1", DisplayHelper.ToDisplayParticipantsStringSummary(firstEvent.Attendees, 1) }
+                    eventItem = firstEvent,
+                    timezone = state.GetUserTimeZone().Id
                 };
 
-                var reply = await GetGeneralMeetingListResponseAsync(sc, CalendarCommonStrings.MeetingsToJoin, GetCurrentPageMeetings(state.SummaryEvents, state), JoinEventResponses.SelectMeeting, responseParams);
+                var reply = await GetGeneralMeetingListResponseAsync(sc, _lgMultiLangEngine, CalendarCommonStrings.MeetingsToJoin, GetCurrentPageMeetings(state.SummaryEvents, state), "SelectMeeting", responseParams);
 
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = reply });
             }
@@ -201,7 +205,10 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.CalendarNoMoreEvent));
+                        var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[CalendarNoMoreEvent]", null);
+                        var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+
+                        await sc.Context.SendActivityAsync(prompt);
                     }
 
                     return await sc.ReplaceDialogAsync(Actions.ConnectToMeeting, sc.Options);
@@ -214,7 +221,10 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SummaryResponses.CalendarNoPreviousEvent));
+                        var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[CalendarNoPreviousEvent]", null);
+                        var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+
+                        await sc.Context.SendActivityAsync(prompt);
                     }
 
                     return await sc.ReplaceDialogAsync(Actions.ConnectToMeeting, sc.Options);
@@ -385,11 +395,15 @@ namespace CalendarSkill.Dialogs
 
             var selectedEvent = state.ConfirmedMeeting.First();
             var phoneNumber = GetDialInNumberFromMeeting(selectedEvent);
-            var responseParams = new StringDictionary()
+            var responseParams = new
             {
-                { "PhoneNumber", phoneNumber },
+                phoneNumber,
             };
-            return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions() { Prompt = ResponseManager.GetResponse(JoinEventResponses.ConfirmPhoneNumber, responseParams) });
+
+            var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[ConfirmPhoneNumber]", responseParams);
+            var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+
+            return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions() { Prompt = (Activity)prompt });
         }
 
         private async Task<DialogTurnResult> AfterConfirmNumber(WaterfallStepContext sc, CancellationToken cancellationToken)
@@ -400,6 +414,10 @@ namespace CalendarSkill.Dialogs
                 if ((bool)sc.Result)
                 {
                     var selectedEvent = state.ConfirmedMeeting.First();
+
+                    var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[JoinMeeting]", null);
+                    var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(JoinEventResponses.JoinMeeting));
                     var replyEvent = sc.Context.Activity.CreateReply();
                     replyEvent.Type = ActivityTypes.Event;
@@ -409,6 +427,9 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
+                    var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[NotJoinMeeting]", null);
+                    var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+
                     await sc.Context.SendActivityAsync(ResponseManager.GetResponse(JoinEventResponses.NotJoinMeeting));
                 }
             }

@@ -36,7 +36,6 @@ namespace EmailSkill.Dialogs
              string dialogId,
              BotSettings settings,
              BotServices services,
-             ResponseManager responseManager,
              ConversationState conversationState,
              IServiceManager serviceManager,
              IBotTelemetryClient telemetryClient,
@@ -45,7 +44,6 @@ namespace EmailSkill.Dialogs
         {
             Settings = settings;
             Services = services;
-            ResponseManager = responseManager;
             EmailStateAccessor = conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
             DialogStateAccessor = conversationState.CreateProperty<DialogState>(nameof(DialogState));
             ServiceManager = serviceManager;
@@ -72,8 +70,6 @@ namespace EmailSkill.Dialogs
         protected IStatePropertyAccessor<DialogState> DialogStateAccessor { get; set; }
 
         protected IServiceManager ServiceManager { get; set; }
-
-        protected ResponseManager ResponseManager { get; set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -1433,7 +1429,8 @@ namespace EmailSkill.Dialogs
             TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
-            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailErrorMessage));
+            var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[EmailErrorMessage]", null);
+            await sc.Context.SendActivityAsync(activity);
 
             // clear state
             await ClearAllState(sc);
