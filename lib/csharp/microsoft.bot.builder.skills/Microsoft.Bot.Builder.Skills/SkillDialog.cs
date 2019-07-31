@@ -105,15 +105,12 @@ namespace Microsoft.Bot.Builder.Skills
                     Entities = new Dictionary<string, Entity>(),
                 };
 
-                // only set the semantic state if action is not empty
                 if (!string.IsNullOrWhiteSpace(actionName))
                 {
+                    // only set the semantic state if action is not empty
                     semanticAction.State = SkillConstants.SkillStart;
-                }
 
-                if (!string.IsNullOrWhiteSpace(actionName))
-                {
-                    // Find the specified within the selected Skill for slot filling evaluation
+                    // Find the specified action within the selected Skill for slot filling evaluation
                     var action = _skillManifest.Actions.SingleOrDefault(a => a.Id == actionName);
                     if (action != null)
                     {
