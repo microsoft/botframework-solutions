@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Skills;
@@ -27,8 +28,9 @@ namespace ToDoSkill.Dialogs
             UserState userState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
-            MicrosoftAppCredentials appCredentials)
-            : base(nameof(ShowToDoItemDialog), settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient, appCredentials)
+            MicrosoftAppCredentials appCredentials,
+            IHttpContextAccessor httpContext)
+            : base(nameof(ShowToDoItemDialog), settings, services, responseManager, conversationState, userState, serviceManager, telemetryClient, appCredentials, httpContext)
         {
             TelemetryClient = telemetryClient;
 
@@ -141,6 +143,7 @@ namespace ToDoSkill.Dialogs
                     if (topIntent == ToDoLuis.Intent.ShowToDo || state.GoBackToStart)
                     {
                         var toDoListCard = ToAdaptiveCardForShowToDos(
+                            sc.Context,
                             state.Tasks,
                             state.AllTasks.Count,
                             state.ListType);
@@ -163,6 +166,7 @@ namespace ToDoSkill.Dialogs
                         else
                         {
                             var toDoListCard = ToAdaptiveCardForReadMore(
+                                sc.Context,
                                 state.Tasks,
                                 state.AllTasks.Count,
                                 state.ListType);
@@ -184,6 +188,7 @@ namespace ToDoSkill.Dialogs
                         else
                         {
                             var toDoListCard = ToAdaptiveCardForPreviousPage(
+                                sc.Context,
                                 state.Tasks,
                                 state.AllTasks.Count,
                                 state.ShowTaskPageIndex == 0,
@@ -289,6 +294,7 @@ namespace ToDoSkill.Dialogs
             var currentTaskIndex = state.ShowTaskPageIndex * state.PageSize;
             state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
             var toDoListCard = ToAdaptiveCardForReadMore(
+                    sc.Context,
                     state.Tasks,
                     allTasksCount,
                     state.ListType);
@@ -380,6 +386,7 @@ namespace ToDoSkill.Dialogs
             state.Tasks = state.AllTasks.GetRange(currentTaskIndex, Math.Min(state.PageSize, allTasksCount - currentTaskIndex));
 
             var cardReply = ToAdaptiveCardForReadMore(
+                    sc.Context,
                     state.Tasks,
                     allTasksCount,
                     state.ListType);

@@ -291,4 +291,10 @@
   <data name="Later" xml:space="preserve">
     <value>Später</value>
   </data>
+  <data name="DefaultContent" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DefaultLocation" xml:space="preserve">
+    <value />
+  </data>
 </root>

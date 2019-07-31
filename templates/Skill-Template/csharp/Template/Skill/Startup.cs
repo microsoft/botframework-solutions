@@ -52,7 +52,7 @@ namespace $safeprojectname$
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+              services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             var provider = services.BuildServiceProvider();
 
@@ -76,6 +76,8 @@ namespace $safeprojectname$
             services.AddSingleton<BotServices>();
 
             // Configure storage
+            // Uncomment the following line for local development without Cosmos Db
+            // services.AddSingleton<IStorage, MemoryStorage>();
             services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
@@ -107,7 +109,6 @@ namespace $safeprojectname$
             services.AddTransient<SkillWebSocketAdapter>();
 
             // Configure bot
-            services.AddTransient<MainDialog>();
             services.AddTransient<IBot, DialogBot<MainDialog>>();
         }
 

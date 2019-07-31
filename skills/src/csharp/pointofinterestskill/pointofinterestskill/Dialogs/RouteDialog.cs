@@ -2,14 +2,18 @@
 // Licensed under the MIT License.
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using PointOfInterestSkill.Models;
 using PointOfInterestSkill.Responses.Route;
@@ -34,12 +38,12 @@ namespace PointOfInterestSkill.Dialogs
             TelemetryClient = telemetryClient;
 
             var checkCurrentLocation = new WaterfallStep[]
-{
+            {
                 CheckForCurrentCoordinatesBeforeFindPointOfInterestBeforeRoute,
                 ConfirmCurrentLocation,
                 ProcessCurrentLocationSelection,
                 RouteToFindPointOfInterestBeforeRouteDialog
-};
+            };
 
             var checkForActiveRouteAndLocation = new WaterfallStep[]
             {
@@ -226,13 +230,13 @@ namespace PointOfInterestSkill.Dialogs
                 {
                     routeDirections = await service.GetRouteDirectionsToDestinationAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Destination.Geolocation.Latitude, state.Destination.Geolocation.Longitude, state.RouteType);
 
-                    cards = await GetRouteDirectionsViewCards(sc, routeDirections);
+                    cards = await GetRouteDirectionsViewCards(sc, routeDirections, service);
                 }
                 else
                 {
                     routeDirections = await service.GetRouteDirectionsToDestinationAsync(state.CurrentCoordinates.Latitude, state.CurrentCoordinates.Longitude, state.Destination.Geolocation.Latitude, state.Destination.Geolocation.Longitude);
 
-                    cards = await GetRouteDirectionsViewCards(sc, routeDirections);
+                    cards = await GetRouteDirectionsViewCards(sc, routeDirections, service);
                 }
 
                 if (cards.Count() == 0)
@@ -242,7 +246,22 @@ namespace PointOfInterestSkill.Dialogs
                 }
                 else if (cards.Count() == 1)
                 {
-                    return await sc.PromptAsync(Actions.ConfirmPrompt, new PromptOptions { Prompt = ResponseManager.GetCardResponse(POISharedResponses.SingleRouteFound, cards) });
+                    await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(POISharedResponses.SingleRouteFound, cards));
+
+                    return await sc.NextAsync(true);
+                }
+                else
+                {
+                    var options = GetRoutesPrompt(POISharedResponses.MultipleRoutesFound, cards);
+
+                    // Workaround. In teams, HeroCard will be used for prompt and adaptive card could not be shown. So send them separatly
+                    if (Channel.GetChannelId(sc.Context) == Channels.Msteams)
+                    {
+                        await sc.Context.SendActivityAsync(options.Prompt);
+                        options.Prompt = null;
+                    }
+
+                    return await sc.PromptAsync(Actions.SelectPointOfInterestPrompt, options);
                 }
 
                 state.ClearLuisResults();
@@ -262,9 +281,14 @@ namespace PointOfInterestSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
 
-                if ((bool)sc.Result)
+                if ((sc.Result is bool && (bool)sc.Result) || sc.Result is FoundChoice)
                 {
-                    var activeRoute = state.FoundRoutes.Single();
+                    var activeRoute = state.FoundRoutes[0];
+                    if (sc.Result is FoundChoice)
+                    {
+                        activeRoute = state.FoundRoutes[(sc.Result as FoundChoice).Index];
+                    }
+
                     if (activeRoute != null)
                     {
                         state.ActiveRoute = activeRoute;
@@ -274,19 +298,11 @@ namespace PointOfInterestSkill.Dialogs
                     var replyMessage = ResponseManager.GetResponse(RouteResponses.SendingRouteDetails);
                     await sc.Context.SendActivityAsync(replyMessage);
 
-                    // Send event with active route data
-                    var replyEvent = sc.Context.Activity.CreateReply();
-                    replyEvent.Type = ActivityTypes.Event;
-                    replyEvent.Name = "ActiveRoute.Directions";
-
-                    var eventPayload = new DirectionsEventResponse
+                    // workaround. if connect skill directly to teams, the following response does not work.
+                    if (sc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(sc.Context) != Channels.Msteams)
                     {
-                        Destination = state.Destination,
-                        Route = state.ActiveRoute
-                    };
-                    replyEvent.Value = eventPayload;
-
-                    await sc.Context.SendActivityAsync(replyEvent);
+                        await sc.Context.SendActivityAsync(CreateOpenDefaultAppReply(sc.Context.Activity, state.Destination));
+                    }
                 }
                 else
                 {
@@ -301,6 +317,37 @@ namespace PointOfInterestSkill.Dialogs
                 await HandleDialogExceptions(sc, ex);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
+        }
+
+        private PromptOptions GetRoutesPrompt(string prompt, List<Card> cards)
+        {
+            var options = new PromptOptions()
+            {
+                Choices = new List<Choice>(),
+            };
+
+            for (var i = 0; i < cards.Count; ++i)
+            {
+                // Simple distinction
+                var promptReplacements = new StringDictionary
+                    {
+                        { "Id", (i + 1).ToString() },
+                    };
+                var suggestedActionValue = ResponseManager.GetResponse(RouteResponses.RouteSuggestedActionName, promptReplacements).Text;
+
+                var choice = new Choice()
+                {
+                    Value = suggestedActionValue,
+                };
+                options.Choices.Add(choice);
+
+                (cards[i].Data as RouteDirectionsModel).SubmitText = suggestedActionValue;
+            }
+
+            options.Prompt = cards == null ? ResponseManager.GetResponse(prompt) : ResponseManager.GetCardResponse(prompt, cards);
+            options.Prompt.Speak = SpeechUtility.ListToSpeechReadyString(options.Prompt);
+
+            return options;
         }
     }
 }

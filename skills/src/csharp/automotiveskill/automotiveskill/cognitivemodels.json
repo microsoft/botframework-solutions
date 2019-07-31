@@ -3,37 +3,41 @@
     "en": {
       "languageModels": [
         {
-          "id": "general",
+          "id": "General",
           "name": "",
           "appId": "",
           "authoringKey": "",
+          "authoringRegion": "",
           "subscriptionKey": "",
           "version": "",
           "region": ""
         },
         {
-          "id": "settings",
+          "id": "Settings",
           "name": "",
           "appId": "",
           "authoringKey": "",
+          "authoringRegion": "",
           "subscriptionKey": "",
           "version": "",
           "region": ""
         },
         {
-          "id": "settings_name",
+          "id": "SettingsName",
           "name": "",
           "appId": "",
           "authoringKey": "",
+          "authoringRegion": "",
           "subscriptionKey": "",
           "version": "",
           "region": ""
         },
         {
-          "id": "settings_value",
+          "id": "SettingsValue",
           "name": "",
           "appId": "",
           "authoringKey": "",
+          "authoringRegion": "",
           "subscriptionKey": "",
           "version": "",
           "region": ""

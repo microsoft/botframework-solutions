@@ -12,7 +12,7 @@ import i18next from 'i18next';
 export class SetLocaleMiddleware implements Middleware {
     private readonly defaultLocale: string;
 
-    constructor(defaultLocale: string) {
+    public constructor(defaultLocale: string) {
         this.defaultLocale = defaultLocale;
     }
 

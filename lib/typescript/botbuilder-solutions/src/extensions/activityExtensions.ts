@@ -57,11 +57,13 @@ export namespace ActivityExtensions {
             case 'directline':
             case 'emulator':
             case 'webchat':
-            case 'msteams': {
+            case 'msteams':
+            case 'directlinespeech':
+            case 'test': {
                 if (activity.type === ActivityTypes.ConversationUpdate) {
+                    // When bot is added to the conversation (triggers start only once per conversation)
                     if (activity.membersAdded !== undefined &&
-                        activity.membersAdded.some((m: ChannelAccount) => m.id === activity.recipient.id)) {
-                        // When bot is added to the conversation (triggers start only once per conversation)
+                        activity.membersAdded.some((m: ChannelAccount): boolean => m.id === activity.recipient.id)) {
                         return true;
                     }
                 }

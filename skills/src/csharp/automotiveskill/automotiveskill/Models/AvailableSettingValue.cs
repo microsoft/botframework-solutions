@@ -20,13 +20,13 @@ namespace AutomotiveSkill.Models
         public string CanonicalName { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether whether this value requires a numeric amount.
+        /// Gets or sets a value indicating whether this value requires a numeric amount.
         /// </summary>
         /// <value>Whether this setting requires an amount.</value>
         public bool RequiresAmount { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether whether changing the setting to this value requires explicit
+        /// Gets or sets a value indicating whether changing the setting to this value requires explicit
         /// confirmation from the user.
         /// </summary>
         /// <value>Indicates whether changing this setting requires confirmation from the user.</value>
@@ -42,7 +42,7 @@ namespace AutomotiveSkill.Models
         public string Antonym { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether whether this value changes the sign of the amount.
+        /// Gets or sets a value indicating whether this value changes the sign of the amount.
         /// For example, the value "Decrease" would have this flag set to true
         /// because it implies a negative change in the amount. For example,
         /// "decrease by 5" means the same as "change by minus 5".

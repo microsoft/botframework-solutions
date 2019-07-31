@@ -9,11 +9,13 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using RestaurantBooking.Models;
 using RestaurantBooking.Responses.Main;
@@ -67,7 +69,7 @@ namespace RestaurantBooking.Dialogs
             var localeConfig = _services.CognitiveModelSets[locale];
 
             // Get skill LUIS model from configuration
-            localeConfig.LuisServices.TryGetValue("restaurant", out var luisService);
+            localeConfig.LuisServices.TryGetValue("Reservation", out var luisService);
 
             if (luisService == null)
             {
@@ -115,10 +117,14 @@ namespace RestaurantBooking.Dialogs
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response = dc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.EndOfConversation;
+            // workaround. if connect skill directly to teams, the following response does not work.
+            if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
+            {
+                var response = dc.Context.Activity.CreateReply();
+                response.Type = ActivityTypes.EndOfConversation;
 
-            await dc.Context.SendActivityAsync(response);
+                await dc.Context.SendActivityAsync(response);
+            }
             await dc.EndDialogAsync(result);
         }
 
@@ -159,7 +165,7 @@ namespace RestaurantBooking.Dialogs
                     var localeConfig = _services.CognitiveModelSets[locale];
 
                     // check general luis intent
-                    localeConfig.LuisServices.TryGetValue("general", out var luisService);
+                    localeConfig.LuisServices.TryGetValue("General", out var luisService);
 
                     if (luisService == null)
                     {

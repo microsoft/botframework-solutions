@@ -48,7 +48,6 @@ namespace CalendarSkillTest.Flow.Utterances
             {
                 _instance = new CalendarLuis._Entities._Instance(),
                 ordinal = ordinal,
-                number = number,
                 Subject = subject,
                 personName = contactName
             };

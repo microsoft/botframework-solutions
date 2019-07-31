@@ -1,9 +1,14 @@
 package com.microsoft.bot.builder.solutions.virtualassistant.service;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
@@ -27,11 +32,12 @@ public class LocationProvider {
     private static final String LOGTAG = "LocationProvider";
 
     // STATE
-    private boolean isGettingLocationUpdates;
-    private FusedLocationProviderClient fusedLocationClient;
+    private boolean isPlayStoreInstalled;
+    private FusedLocationProviderClient fusedLocationClient;// dependency on Play Store
     private LocationCallback locationCallback;
     private Context context;
     private LocationProviderCallback locationProviderCallback;
+    private LocationListener locationListener;
 
     // INTERFACE
     public interface LocationProviderCallback {
@@ -42,50 +48,66 @@ public class LocationProvider {
         this.context = context;
         this.locationProviderCallback = locationProviderCallback;
         // check if Google Play Services is installed
-        isGettingLocationUpdates = checkPlayServices();
+        isPlayStoreInstalled = checkPlayServices();
     }
 
     protected void startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (isPlayStoreInstalled) {
+            if (fusedLocationClient == null) {
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
+                    fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
 
-            // register to receive future location updates
-            LocationRequest locationRequest = new LocationRequest()
-                    .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                    .setInterval(LOCATION_UPDATE_INTERVAL)
-                    .setSmallestDisplacement(LOCATION_UPDATE_DISTANCE);
+                    // register to receive future location updates
+                    LocationRequest locationRequest = new LocationRequest()
+                            .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
+                            .setInterval(LOCATION_UPDATE_INTERVAL);
 
-            // Create LocationSettingsRequest object using location request
-            LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
-            builder.addLocationRequest(locationRequest);
-            LocationSettingsRequest locationSettingsRequest = builder.build();
+                    // If the device doesn't move it prevents location callbacks - not good for dev't
+                    boolean isDebug = ((context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0);
+                    if (!isDebug) locationRequest.setSmallestDisplacement(LOCATION_UPDATE_DISTANCE);
 
-            // Check whether location settings are satisfied
-            // https://developers.google.com/android/reference/com/google/android/gms/location/SettingsClient
-            SettingsClient settingsClient = LocationServices.getSettingsClient(context);
-            settingsClient.checkLocationSettings(locationSettingsRequest);
-            locationCallback = new LocationCallback() {
-                @Override
-                public void onLocationResult(LocationResult locationResult) {
-                    // Inform the Bot of the location change
-                    Location location = locationResult.getLastLocation();
+                    // Create LocationSettingsRequest object using location request
+                    LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+                    builder.addLocationRequest(locationRequest);
+                    LocationSettingsRequest locationSettingsRequest = builder.build();
+
+                    // Check whether location settings are satisfied
+                    // https://developers.google.com/android/reference/com/google/android/gms/location/SettingsClient
+                    SettingsClient settingsClient = LocationServices.getSettingsClient(context);
+                    settingsClient.checkLocationSettings(locationSettingsRequest);
+                    locationCallback = new LocationCallback() {
+                        @Override
+                        public void onLocationResult(LocationResult locationResult) {
+                            // Inform the Bot of the location change
+                            Location location = locationResult.getLastLocation();
+                            if (location != null && locationProviderCallback != null) {
+                                locationProviderCallback.onLocationResult(location);
+                            }
+                        }
+                    };
+
+                    fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+                } else {
+                    //this will trigger the first time the app is run - just retry after getting permission
+                    Log.i(LOGTAG, "Missing ACCESS_FINE_LOCATION permission");
+                }
+            } else {
+                // an Android Activity just launched and wants the coordinates. Trigger callback.
+                fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
                     if (location != null && locationProviderCallback != null) {
                         locationProviderCallback.onLocationResult(location);
                     }
-                }
-            };
-
-            fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+                });
+            }
         } else {
-            //this will trigger the first time the app is run - just retry after getting permission
-            Log.e(LOGTAG, "Missing ACCESS_FINE_LOCATION permission");
+            locationUpdatesWithoutGoogleServices();
         }
     }
 
     public void stopLocationUpdates(){
         // stop location updates
-        if (isGettingLocationUpdates && fusedLocationClient != null && locationCallback != null) {
+        if (isPlayStoreInstalled && fusedLocationClient != null && locationCallback != null) {
             fusedLocationClient.removeLocationUpdates(locationCallback);
         }
     }
@@ -100,6 +122,50 @@ public class LocationProvider {
             return false;
         }
         return true;
+    }
+
+    private void locationUpdatesWithoutGoogleServices(){
+        if (locationListener == null) {
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+                locationListener = getLocationListener();
+                LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+                boolean isDebug = ((context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0);
+
+                if (isDebug) {
+                    // do not request minDistance when developing
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_UPDATE_INTERVAL, 0, locationListener);
+                } else {
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_UPDATE_INTERVAL, LOCATION_UPDATE_DISTANCE, locationListener);
+                }
+            }
+        }
+    }
+
+    private LocationListener getLocationListener(){
+        return new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                if (location != null && locationProviderCallback != null) {
+                    locationProviderCallback.onLocationResult(location);
+                }
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
     }
 
 }

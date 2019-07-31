@@ -328,8 +328,16 @@ module.exports = class extends Generator {
             chalk.green.bold(`README.md`) +
             ` to learn how to run your skill. `
         );
-        this.log(chalk.blue(`\n` + `Next step - being in the root of your generated skill, to deploy it execute the following command:`));
-        this.log(chalk.blue(`pwsh.exe -ExecutionPolicy Bypass -File deployment\scripts\deploy.ps1 -name "<SKILL_NAME>" -location "<LOCATION>" -appId "<APP_ID>" -appPassword "<APP_PASSWORD>" -luisAuthoringKey "<LUIS_AUTHORING_KEY>" -luisAuthoringRegion "<LUIS_AUTHORING_REGION>"`));
+        this.log(
+          chalk.blue(
+            `\nNext step - being in the root of your generated skill, to deploy it execute the following command:`
+          )
+        );
+        this.log(
+          chalk.blue(
+            `pwsh -File deployment\\scripts\\deploy.ps1`
+          )
+        );
       }
     } else {
       this.log(chalk.red.bold(`-------------------------------- `));
@@ -337,7 +345,7 @@ module.exports = class extends Generator {
       this.log(chalk.red.bold(`-------------------------------- `));
     }
 
-    this.log(`\n` + `Thank you for using the Microsoft Bot Framework. `);
-    this.log(`\n` + tinyBot + `The Bot Framework Team`);
+    this.log(`\nThank you for using the Microsoft Bot Framework. `);
+    this.log(`\n${tinyBot} The Bot Framework Team`);
   }
 };

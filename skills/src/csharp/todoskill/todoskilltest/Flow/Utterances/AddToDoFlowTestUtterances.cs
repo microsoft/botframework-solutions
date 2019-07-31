@@ -14,7 +14,7 @@ namespace ToDoSkillTest.Flow.Utterances
             var foodOfGrocery = new string[1][];
             foodOfGrocery[0] = new string[1];
             foodOfGrocery[0][0] = "eggs";
-            var taskContentML = new string[] { "buy eggs" };
+            var taskContentML = new string[] { "eggs" };
             var shopVerb = new string[1][];
             shopVerb[0] = new string[1];
             shopVerb[0][0] = "buy";

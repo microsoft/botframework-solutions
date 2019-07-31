@@ -10,7 +10,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public class EmailLuis: IRecognizerConvert
+    public partial class EmailLuis: IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
@@ -53,8 +53,12 @@ namespace Luis
 
             // Built-in entities
             public string[] email;
-            public double[] number;
             public double[] ordinal;
+
+            // Pattern.any
+            public string[] Message_Any;
+            public string[] SearchTexts_Any;
+            public string[] EmailSubject_Any;
 
             // Instance
             public class _Instance
@@ -74,8 +78,10 @@ namespace Luis
                 public InstanceData[] EmailSubject;
                 public InstanceData[] SearchTexts;
                 public InstanceData[] email;
-                public InstanceData[] number;
                 public InstanceData[] ordinal;
+                public InstanceData[] Message_Any;
+                public InstanceData[] SearchTexts_Any;
+                public InstanceData[] EmailSubject_Any;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
@@ -87,7 +93,7 @@ namespace Luis
 
         public void Convert(dynamic result)
         {
-            var app = JsonConvert.DeserializeObject<EmailLuis>(JsonConvert.SerializeObject(result));
+            var app = JsonConvert.DeserializeObject<EmailLuis>(JsonConvert.SerializeObject(result, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
             Text = app.Text;
             AlteredText = app.AlteredText;
             Intents = app.Intents;

@@ -17,10 +17,6 @@ public class Configuration {
     @Expose
     public String botId;
 
-    @SerializedName("voice_name")
-    @Expose
-    public String voiceName;
-
     @SerializedName("user_id")
     @Expose
     public String userId;
@@ -29,38 +25,47 @@ public class Configuration {
     @Expose
     public String locale;
 
-    @SerializedName("geolat")
-    @Expose
-    public String geolat;
-
-    @SerializedName("geolon")
-    @Expose
-    public String geolon;
-
     @SerializedName("user_name")
     @Expose
     public String userName;
 
-    @SerializedName("directline_constant")
-    @Expose
-    public String directlineConstant;
-
     @SerializedName("history_linecount")
     @Expose
     public Integer historyLinecount;
+
+    @SerializedName("current_timezone")
+    @Expose
+    public String currentTimezone;//stores the TZ ID
+
+    @SerializedName("color_bubble_bot")
+    @Expose
+    public Integer colorBubbleBot;
+
+    @SerializedName("color_bubble_user")
+    @Expose
+    public Integer colorBubbleUser;
+
+    @SerializedName("color_text_bot")
+    @Expose
+    public Integer colorTextBot;
+
+    @SerializedName("color_text_user")
+    @Expose
+    public Integer colorTextUser;
 
 
     public boolean isEmpty(){
         return serviceKey==null&&
                 serviceRegion==null&&
                 botId==null&&
-                voiceName==null&&
                 userId==null&&
                 locale==null&&
-                geolat==null&&
-                geolon==null&&
                 userName==null&&
-                directlineConstant==null&&
-                historyLinecount==null;
+                historyLinecount==null&&
+                currentTimezone==null&&
+                colorBubbleBot==null&&
+                colorBubbleUser==null&&
+                colorTextBot==null&&
+                colorTextUser==null;
     }
 }

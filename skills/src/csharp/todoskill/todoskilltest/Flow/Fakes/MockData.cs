@@ -27,9 +27,9 @@ namespace ToDoSkillTest.Flow.Fakes
 
         public const string LocaleENUS = "en-us";
 
-        public const string LuisGeneral = "general";
+        public const string LuisGeneral = "General";
 
-        public const string LuisToDo = "todo";
+        public const string LuisToDo = "ToDo";
 
         public const string TaskContent = "taskContent";
 

@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using NewsSkill.Models;
 using NewsSkill.Responses.Main;
@@ -27,6 +30,8 @@ namespace NewsSkill.Dialogs
             BotServices services,
             ConversationState conversationState,
             FindArticlesDialog findArticlesDialog,
+            TrendingArticlesDialog trendingArticlesDialog,
+            FavoriteTopicsDialog favoriteTopicsDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -39,6 +44,8 @@ namespace NewsSkill.Dialogs
             _stateAccessor = _conversationState.CreateProperty<NewsSkillState>(nameof(NewsSkillState));
 
             AddDialog(findArticlesDialog ?? throw new ArgumentNullException(nameof(findArticlesDialog)));
+            AddDialog(trendingArticlesDialog ?? throw new ArgumentNullException(nameof(trendingArticlesDialog)));
+            AddDialog(favoriteTopicsDialog ?? throw new ArgumentNullException(nameof(favoriteTopicsDialog)));
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -52,7 +59,7 @@ namespace NewsSkill.Dialogs
             var state = await _stateAccessor.GetAsync(dc.Context, () => new NewsSkillState());
 
             // If dispatch result is general luis model
-            _services.CognitiveModelSets["en"].LuisServices.TryGetValue("news", out var luisService);
+            _services.CognitiveModelSets["en"].LuisServices.TryGetValue("News", out var luisService);
 
             if (luisService == null)
             {
@@ -69,6 +76,21 @@ namespace NewsSkill.Dialogs
                 // switch on general intents
                 switch (intent)
                 {
+                    case NewsLuis.Intent.TrendingArticles:
+                        {
+                            // send articles in response
+                            turnResult = await dc.BeginDialogAsync(nameof(TrendingArticlesDialog));
+                            break;
+                        }
+
+                    case NewsLuis.Intent.SetFavoriteTopics:
+                    case NewsLuis.Intent.ShowFavoriteTopics:
+                        {
+                            // send favorite news categories
+                            turnResult = await dc.BeginDialogAsync(nameof(FavoriteTopicsDialog));
+                            break;
+                        }
+                        
                     case NewsLuis.Intent.FindArticles:
                         {
                             // send greeting response
@@ -104,10 +126,14 @@ namespace NewsSkill.Dialogs
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response = dc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.EndOfConversation;
+            // workaround. if connect skill directly to teams, the following response does not work.
+            if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
+            {
+                var response = dc.Context.Activity.CreateReply();
+                response.Type = ActivityTypes.EndOfConversation;
 
-            await dc.Context.SendActivityAsync(response);
+                await dc.Context.SendActivityAsync(response);
+            }
 
             // End active dialog
             await dc.EndDialogAsync(result);
@@ -120,7 +146,7 @@ namespace NewsSkill.Dialogs
             if (dc.Context.Activity.Type == ActivityTypes.Message)
             {
                 // check luis intent
-                _services.CognitiveModelSets["en"].LuisServices.TryGetValue("general", out var luisService);
+                _services.CognitiveModelSets["en"].LuisServices.TryGetValue("General", out var luisService);
 
                 if (luisService == null)
                 {

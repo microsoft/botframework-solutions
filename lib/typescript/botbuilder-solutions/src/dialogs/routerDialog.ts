@@ -12,7 +12,7 @@ import { InterruptionAction } from './interruptionAction';
 
 export abstract class RouterDialog extends InterruptableDialog {
     // Constructor
-    constructor(dialogId: string, telemetryClient: BotTelemetryClient) {
+    public constructor(dialogId: string, telemetryClient: BotTelemetryClient) {
         super(dialogId, telemetryClient);
     }
 
@@ -66,6 +66,11 @@ export abstract class RouterDialog extends InterruptableDialog {
                     await this.onEvent(innerDc);
                     break;
                 }
+                case ActivityTypes.Invoke: {
+                    // Used by Teams for Authentication scenarios.
+                    await innerDc.continueDialog();
+                    break;
+                }
                 default: {
                     await this.onSystemMessage(innerDc);
                 }
@@ -99,7 +104,7 @@ export abstract class RouterDialog extends InterruptableDialog {
      * @param innerDC - The dialog context for the component.
      * @returns A Promise representing the asynchronous operation.
      */
-    protected onEvent(innerDc: DialogContext): Promise<void> {
+    protected async onEvent(innerDc: DialogContext): Promise<void> {
         return Promise.resolve();
     }
 
@@ -108,7 +113,7 @@ export abstract class RouterDialog extends InterruptableDialog {
      * @param innerDC - The dialog context for the component.
      * @returns A Promise representing the asynchronous operation.
      */
-    protected onSystemMessage(innerDc: DialogContext): Promise<void> {
+    protected async onSystemMessage(innerDc: DialogContext): Promise<void> {
         return Promise.resolve();
     }
 
@@ -117,11 +122,11 @@ export abstract class RouterDialog extends InterruptableDialog {
      * @param innerDC - The dialog context for the component.
      * @returns A Promise representing the asynchronous operation.
      */
-    protected onStart(innerDc: DialogContext): Promise<void> {
+    protected async onStart(innerDc: DialogContext): Promise<void> {
         return Promise.resolve();
     }
 
-    protected onInterruptDialog(dc: DialogContext): Promise<InterruptionAction> {
+    protected async onInterruptDialog(dc: DialogContext): Promise<InterruptionAction> {
         return Promise.resolve(InterruptionAction.NoAction);
     }
 }

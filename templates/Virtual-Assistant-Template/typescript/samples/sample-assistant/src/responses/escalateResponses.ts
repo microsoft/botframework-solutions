@@ -20,7 +20,7 @@ export class EscalateResponses extends TemplateManager {
 
     // Declare here the type of properties and the prompts
     public static responseIds: {
-        sendPhoneMessage : string;
+        sendPhoneMessage: string;
     } = {
         sendPhoneMessage: 'sendPhoneMessage'
     };
@@ -28,19 +28,21 @@ export class EscalateResponses extends TemplateManager {
     // Declare the responses map prompts
     private static readonly responseTemplates: LanguageTemplateDictionary = new Map([
         ['default', <TemplateIdMap> new Map([
-            [EscalateResponses.responseIds.sendPhoneMessage,
-            // tslint:disable-next-line: no-any
-            (context: TurnContext, data: any): Promise<Activity> => EscalateResponses.buildEscalateCard(context, data)]
+            [
+                EscalateResponses.responseIds.sendPhoneMessage,
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+                (context: TurnContext, data: any): Promise<Activity> => EscalateResponses.buildEscalateCard(context, data)
+            ]
         ])]
     ]);
 
     // Initialize the responses class properties
-    constructor() {
+    public constructor() {
         super();
         this.register(new DictionaryRenderer(EscalateResponses.responseTemplates));
     }
 
-    // tslint:disable-next-line: no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
     public static async buildEscalateCard(turnContext: TurnContext, data: any): Promise<Activity> {
 
         const response: Activity = ActivityExtensions.createReply(turnContext.activity);

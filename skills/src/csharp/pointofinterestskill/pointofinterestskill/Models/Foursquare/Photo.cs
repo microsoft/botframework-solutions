@@ -37,11 +37,6 @@ namespace PointOfInterestSkill.Models.Foursquare
             {
                 return string.Format($"{{0}}{{1}}x{{2}}{{3}}", Prefix, Width, Height, Suffix);
             }
-
-            set
-            {
-                AbsoluteUrl = value;
-            }
         }
     }
 }

@@ -38,11 +38,6 @@ namespace Microsoft.Bot.Builder.Skills.Tests
             SkillContextAccessor = UserState.CreateProperty<SkillContext>(nameof(SkillContext));
             Services.AddSingleton(UserState);
 
-            Services.AddSingleton(sp =>
-            {
-                return new BotStateSet(UserState, conversationState);
-            });
-
             Services.AddSingleton(new BotSettingsBase());
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
 			Services.AddSingleton<ISkillTransport, SkillWebSocketTransport>();

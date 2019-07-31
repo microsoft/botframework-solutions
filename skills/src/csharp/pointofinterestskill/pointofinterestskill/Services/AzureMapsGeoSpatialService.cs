@@ -6,14 +6,18 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PointOfInterestSkill.Models;
+using PointOfInterestSkill.Responses.Shared;
 
 namespace PointOfInterestSkill.Services
 {
     public sealed class AzureMapsGeoSpatialService : IGeoSpatialService
     {
+        private static readonly int ImageWidth = 440;
+        private static readonly int ImageHeight = 240;
         private static readonly string FindByFuzzyQueryNoCoordinatesApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&query={{0}}&limit={{1}}";
         private static readonly string FindByFuzzyQueryApiUrl = $"https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}&limit={{4}}";
         private static readonly string FindByAddressQueryUrl = $"https://atlas.microsoft.com/search/address/json?api-version=1.0&lat={{0}}&lon={{1}}&query={{2}}&radius={{3}}&limit={{4}}";
@@ -21,9 +25,11 @@ namespace PointOfInterestSkill.Services
         private static readonly string FindAddressByCoordinateUrl = $"https://atlas.microsoft.com/search/address/reverse/json?api-version=1.0&query={{0}},{{1}}";
         private static readonly string FindNearbyUrl = $"https://atlas.microsoft.com/search/nearby/json?api-version=1.0&lat={{0}}&lon={{1}}&radius={{2}}&limit={{3}}";
         private static readonly string FindByCategoryUrl = $"https://atlas.microsoft.com/search/poi/category/json?api-version=1.0&query={{2}}&lat={{0}}&lon={{1}}&radius={{3}}&limit={{4}}";
-        private static readonly string ImageUrlByPoint = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{2}}&center={{1}},{{0}}&width=440&height=240";
-        private static readonly string GetRouteDirections = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&instructionsType=text&query={{0}}";
-        private static readonly string GetRouteDirectionsWithRouteType = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&instructionsType=text&query={{0}}&&routeType={{1}}";
+        private static readonly string ImageUrlByPoint = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{2}}&center={{1}},{{0}}&width={ImageWidth}&height={ImageHeight}";
+        private static readonly string ImageUrlForRoute = $"https://atlas.microsoft.com/map/static/png?api-version=1.0&layer=basic&style=main&zoom={{0}}&center={{1}},{{2}}&width={ImageWidth}&height={ImageHeight}&pins={{3}}&path=lw2|lc0078d4|{{4}}";
+        private static readonly string RoutePins = "default|la15+50|al0.75|cod83b01||'{0}'{1} {2}|'{3}'{4} {5}";
+        private static readonly string GetRouteDirections = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&instructionsType=text&query={{0}}&maxAlternatives=2";
+        private static readonly string GetRouteDirectionsWithRouteType = $"https://atlas.microsoft.com/route/directions/json?&api-version=1.0&instructionsType=text&query={{0}}&&routeType={{1}}&maxAlternatives=2";
         private static string apiKey;
         private static string userLocale;
         private static HttpClient httpClient;
@@ -192,6 +198,64 @@ namespace PointOfInterestSkill.Services
             else
             {
                 return await GetRouteDirectionsAsync(string.Format(CultureInfo.InvariantCulture, GetRouteDirectionsWithRouteType, currentLatitude + "," + currentLongitude + ":" + destinationLatitude + "," + destinationLongitude, routeType) + "&subscription-key=" + apiKey);
+            }
+        }
+
+        public async Task<string> GetRouteImageAsync(PointOfInterestModel destination, RouteDirections.Route route)
+        {
+            double maxLongitude = -180;
+            double minLongitude = 180;
+            double maxLatitude = -90;
+            double minLatitude = 90;
+
+            // TODO or we could use Data in Azure Maps Service to store the whole path
+            var sb = new StringBuilder();
+            int pointsTotal = route.Legs.Sum(leg => leg.Points.Length);
+            int step = Math.Max(1, pointsTotal / 10);
+            int id = 0;
+            foreach (var leg in route.Legs)
+            {
+                while (true)
+                {
+                    if (id >= leg.Points.Length)
+                    {
+                        id -= leg.Points.Length;
+                        break;
+                    }
+
+                    AddPoint(leg.Points[id].Longitude, leg.Points[id].Latitude);
+                    id += step;
+                }
+            }
+
+            AddPoint(destination.Geolocation.Longitude, destination.Geolocation.Latitude);
+
+            double centerLongitude = (maxLongitude + minLongitude) * 0.5;
+            double longitudeDifference = maxLongitude - minLongitude;
+            if (longitudeDifference > 180)
+            {
+                centerLongitude = centerLongitude >= 0 ? centerLongitude - 180 : centerLongitude + 180;
+                longitudeDifference = 180 - longitudeDifference;
+            }
+
+            double centerLatitude = (maxLatitude + minLatitude) * 0.5;
+            double latitudeDifference = maxLatitude - minLatitude;
+            int pinBuffer = 10;
+            double longitudeZoom = Math.Log((ImageWidth - (2 * pinBuffer)) * 360.0 / 512.0 / longitudeDifference, 2);
+            double latitudeZoom = Math.Log((ImageHeight - (2 * pinBuffer)) * 180.0 / 512.0 / latitudeDifference, 2);
+            int zoom = (int)Math.Min(longitudeZoom, latitudeZoom);
+
+            string pins = string.Format(CultureInfo.InvariantCulture, RoutePins, PointOfInterestSharedStrings.START, route.Legs[0].Points[0].Longitude, route.Legs[0].Points[0].Latitude, PointOfInterestSharedStrings.END, destination.Geolocation.Longitude, destination.Geolocation.Latitude);
+
+            return string.Format(CultureInfo.InvariantCulture, ImageUrlForRoute, zoom, centerLongitude, centerLatitude, pins, sb.ToString()) + "&subscription-key=" + apiKey;
+
+            void AddPoint(double longitude, double latitude)
+            {
+                sb.Append($"|{longitude} {latitude}");
+                maxLongitude = Math.Max(maxLongitude, longitude);
+                minLongitude = Math.Min(minLongitude, longitude);
+                maxLatitude = Math.Max(maxLatitude, latitude);
+                minLatitude = Math.Min(minLatitude, latitude);
             }
         }
 

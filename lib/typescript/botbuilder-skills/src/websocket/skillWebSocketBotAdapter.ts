@@ -17,10 +17,10 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
     private readonly telemetryClient: BotTelemetryClient;
     public server!: Server;
 
-    constructor(middleware?: Middleware, telemetryClient?: BotTelemetryClient) {
+    public constructor(middleware?: Middleware, telemetryClient?: BotTelemetryClient) {
         super();
         this.telemetryClient = telemetryClient || new NullTelemetryClient();
-        if (middleware) {
+        if (middleware !== undefined) {
             this.use(middleware);
         }
     }
@@ -38,6 +38,7 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
             severityLevel: Severity.Information
         });
 
+        //PENDING
         const context: TurnContext = new TurnContext(this, activity);
         await this.runMiddleware(context, callback);
 
@@ -61,7 +62,7 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
     public async sendActivities(context: TurnContext, activities: Partial<Activity>[]): Promise<ResourceResponse[]> {
         const responses: ResourceResponse[] = [];
 
-        activities.forEach(async (activity: Partial<Activity>, index: number) => {
+        activities.forEach(async (activity: Partial<Activity>, index: number): Promise<void> => {
             if (!activity.id) {
                 activity.id = uuid();
             }
@@ -71,7 +72,7 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
             if (activity.type === 'delay') {
                 // The Activity Schema doesn't have a delay type build in, so it's simulated
                 // here in the Bot. This matches the behavior in the Node connector.
-                const delayMs: number = activity.value;
+                const delayMs: number = <number> activity.value;
                 await sleep(delayMs);
                 // No need to create a response. One will be created below.
             }
@@ -87,23 +88,29 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
                     severityLevel: Severity.Information
                 });
 
-                const begin: [number, number] = process.hrtime();
-                response = await this.sendRequest<ResourceResponse>(request);
-                const end: [number, number] = process.hrtime(begin);
+                let latency: number = 0;
+                try {
+                    const begin: [number, number] = process.hrtime();
+                    response = await this.sendRequest<ResourceResponse>(request);
+                    const end: [number, number] = process.hrtime(begin);
+                    latency = toMilliseconds(end);
+                } catch (error) {
+                    throw new Error('Callback failed');
+                }
 
-                const latency: { latency: number } = { latency: toMilliseconds(end) };
+                const latencyMetrics: { latency: number } = { latency: latency };
 
                 const event: string = 'SkillWebSocketSendActivityLatency';
                 this.telemetryClient.trackEvent({
                     name: event,
-                    metrics: latency
+                    metrics: latencyMetrics
                 });
 
                 // If No response is set, then default to a "simple" response. This can't really be done
                 // above, as there are cases where the ReplyTo/SendTo methods will also return null
                 // (See below) so the check has to happen here.
 
-                if (!response) {
+                if (response === undefined) {
                     response = { id: activity.id || '' };
                 }
             }
@@ -119,23 +126,34 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
         const request: Request = Request.create('PUT', requestPath);
         request.setBody(activity);
 
+        let response: ResourceResponse|undefined = { id: '' };
+
         const message: string = `Updating activity. activity id: ${activity.replyToId}`;
         this.telemetryClient.trackTrace({
             message: message,
             severityLevel: Severity.Information
         });
+        let latency: number = 0;
+        try {
+            const begin: [number, number] = process.hrtime();
+            response = await this.sendRequest<ResourceResponse>(request);
+            const end: [number, number] = process.hrtime(begin);
+            latency = toMilliseconds(end);
+        } catch (error) {
+            throw new Error('Callback failed');
+        }
 
-        const begin: [number, number] = process.hrtime();
-        await this.sendRequest<ResourceResponse>(request);
-        const end: [number, number] = process.hrtime(begin);
-
-        const latency: { latency: number } = { latency: toMilliseconds(end) };
+        const latencyMetrics: { latency: number } = { latency: latency };
 
         const event: string = 'SkillWebSocketUpdateActivityLatency';
         this.telemetryClient.trackEvent({
             name: event,
-            metrics: latency
+            metrics: latencyMetrics
         });
+
+        if (response === undefined) {
+            response = { id: '' };
+        }
     }
 
     public async deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
@@ -148,16 +166,22 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
             severityLevel: Severity.Information
         });
 
-        const begin: [number, number] = process.hrtime();
-        await this.sendRequest<ResourceResponse>(request);
-        const end: [number, number] = process.hrtime(begin);
+        let latency: number = 0;
+        try {
+            const begin: [number, number] = process.hrtime();
+            await this.sendRequest<ResourceResponse>(request);
+            const end: [number, number] = process.hrtime(begin);
+            latency = toMilliseconds(end);
+        } catch (error) {
+            throw new Error('Callback failed');
+        }
 
-        const latency: { latency: number } = { latency: toMilliseconds(end) };
+        const latencyMetrics: { latency: number } = { latency: latency };
 
         const event: string = 'SkillWebSocketDeleteActivityLatency';
         this.telemetryClient.trackEvent({
             name: event,
-            metrics: latency
+            metrics: latencyMetrics
         });
     }
 
@@ -183,13 +207,16 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
 
             if (serverResponse.StatusCode === 200) {
                 // MISSING: await request.ReadBodyAsJson();
-                const bodyParts: string[] = await Promise.all(serverResponse.Streams.map((s: ContentStream) => s.readAsString()));
+                const bodyParts: string[] = await Promise.all(serverResponse.Streams.map
+                ((s: ContentStream): Promise<string> => s.readAsString()));
                 const body: string = bodyParts.join();
 
+                // eslint-disable-next-line @typescript-eslint/tslint/config
                 return JSON.parse(body);
             }
         } catch (error) {
             this.telemetryClient.trackException({
+                // eslint-disable-next-line @typescript-eslint/tslint/config
                 exception: error,
                 handledAt: SkillWebSocketBotAdapter.name
             });
@@ -201,7 +228,7 @@ export class SkillWebSocketBotAdapter extends BotAdapter implements IActivityHan
     }
 }
 
-function sleep(delay: number): Promise<void> {
+async function sleep(delay: number): Promise<void> {
     return new Promise<void>((resolve: (value: void) => void): void => {
         setTimeout(resolve, delay);
     });

@@ -10,20 +10,20 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public class ToDoLuis: IRecognizerConvert
+    public partial class ToDoLuis: IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
         public enum Intent {
             AddToDo, 
+            Cancel, 
+            Confirm, 
             DeleteToDo, 
             MarkToDo, 
             None, 
             ShowNextPage, 
             ShowPreviousPage, 
-            ShowToDo,
-            Cancel,
-            Confirm
+            ShowToDo
         };
         public Dictionary<Intent, IntentScore> Intents;
 
@@ -35,16 +35,11 @@ namespace Luis
             public string[] ContainsAll;
 
             // Built-in entities
-            public double[] number;
             public double[] ordinal;
 
             // Lists
             public string[][] FoodOfGrocery;
             public string[][] ShopVerb;
-
-            // Pattern.any
-            public string[] TaskContentPattern;
-            public string[] ShopContent;
 
             // Instance
             public class _Instance
@@ -52,12 +47,9 @@ namespace Luis
                 public InstanceData[] ListType;
                 public InstanceData[] TaskContent;
                 public InstanceData[] ContainsAll;
-                public InstanceData[] number;
                 public InstanceData[] ordinal;
                 public InstanceData[] FoodOfGrocery;
                 public InstanceData[] ShopVerb;
-                public InstanceData[] TaskContentPattern;
-                public InstanceData[] ShopContent;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
@@ -69,7 +61,7 @@ namespace Luis
 
         public void Convert(dynamic result)
         {
-            var app = JsonConvert.DeserializeObject<ToDoLuis>(JsonConvert.SerializeObject(result));
+            var app = JsonConvert.DeserializeObject<ToDoLuis>(JsonConvert.SerializeObject(result, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
             Text = app.Text;
             AlteredText = app.AlteredText;
             Intents = app.Intents;

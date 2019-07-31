@@ -1,5 +1,7 @@
 {
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
+  "version": "1.0",
   "body": [
     {
       "type": "Container",
@@ -8,7 +10,7 @@
         {
           "type": "TextBlock",
           "weight": "Bolder",
-          "color": "Dark",
+          "color": "Default",
           "text": "{Date}"
         }
       ]

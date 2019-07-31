@@ -2,8 +2,8 @@
   "PromptOneNameOneAddress": {
     "replies": [
       {
-        "text": "Okay, I will add {UserName}: {EmailAddress}. Is this the {UserName} you were looking for?",
-        "speak": "Okay, I will add {UserName}: {EmailAddress}. Is this the {UserName} you were looking for?"
+        "text": "Okay, I will add {UserName}: {EmailAddress}. Is {UserName} the one you were looking for?",
+        "speak": "Okay, I will add {UserName}: {EmailAddress}. Is {UserName} the one you were looking for?"
       }
     ],
     "inputHint": "expectingInput"
@@ -11,8 +11,8 @@
   "ConfirmMultipleContactNameSinglePage": {
     "replies": [
       {
-        "text": "I found multiple contacts for {UserName}. Which one would you like to select?",
-        "speak": "I found multiple contacts for {UserName}. Which one would you like to select?"
+        "text": "I found multiple contacts for {UserName}. Which one would you like?",
+        "speak": "I found multiple contacts for {UserName}. Which one would you like?"
       }
     ],
     "inputHint": "expectingInput"
@@ -20,8 +20,8 @@
   "ConfirmMultipleContactNameMultiPage": {
     "replies": [
       {
-        "text": "I found multiple contacts for {UserName}. Which one would you like to select? You can also ask me to show you the previous or more options.",
-        "speak": "I found multiple contacts for {UserName}. Which one would you like to select? You can also ask me to show you the previous or more options."
+        "text": "I found multiple contacts for {UserName}. Which one would you like? You can also ask me to show you the previous or more options.",
+        "speak": "I found multiple contacts for {UserName}. Which one would you like? You can also ask me to show you the previous or more options."
       }
     ],
     "inputHint": "expectingInput"
@@ -29,8 +29,8 @@
   "ConfirmMultiplContactEmailSinglePage": {
     "replies": [
       {
-        "text": "I found multiple contact details for {UserName}. Which one would you like to select?",
-        "speak": "I found multiple contact details for {UserName}. Which one would you like to select?"
+        "text": "I found multiple contact details for {UserName}. Which one would you like?",
+        "speak": "I found multiple contact details for {UserName}. Which one would you like?"
       }
     ],
     "inputHint": "expectingInput"
@@ -38,8 +38,8 @@
   "ConfirmMultiplContactEmailMultiPage": {
     "replies": [
       {
-        "text": "I found multiple contact details for {UserName}. Which one would you like to select? You can also ask me to show you the previous or more options.",
-        "speak": "I found multiple contacts for {UserName}. Which one would you like to select? You can also ask me to show you the previous or more options."
+        "text": "I found multiple contact details for {UserName}. Which one would you like? You can also ask me to show you the previous or more options.",
+        "speak": "I found multiple contacts for {UserName}. Which one would you like? You can also ask me to show you the previous or more options."
       }
     ],
     "inputHint": "expectingInput"
@@ -47,8 +47,8 @@
   "UserNotFound": {
     "replies": [
       {
-        "text": "I could not find the \"{UserName}\" you are looking for. Can you call out the name of the contact again? Please try to be as specific as possible.",
-        "speak": "I could not find the \"{UserName}\" you are looking for. Can you call out the name of the contact again? Please try to be as specific as possible."
+        "text": "I could not find the \"{UserName}\" you are looking for. Can you provide the name again? Please try to be as specific as possible.",
+        "speak": "I could not find the \"{UserName}\" you are looking for. Can you provide the name again? Please try to be as specific as possible."
       }
     ],
     "inputHint": "expectingInput"
@@ -101,8 +101,8 @@
   "AddMoreUserPrompt": {
     "replies": [
       {
-        "text": "I have included {Users}, do you want to add another participant?",
-        "speak": "I have included {Users}, do you want to add another participant?"
+        "text": "I have included {Users}, do you want to add any other participants?",
+        "speak": "I have included {Users}, do you want to add any other participants?"
       }
     ],
     "inputHint": "expectingInput"

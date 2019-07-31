@@ -10,18 +10,26 @@
     tools:context=".activities.main.MainActivity">
 
     <RelativeLayout
+        style="@style/BackgroundStyle"
         android:id="@+id/root_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/color_background">
+        android:layout_height="match_parent">
 
         <!-- Main / Central focus -->
         <android.support.v7.widget.RecyclerView
+            style="@style/BackgroundStyle"
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/container_buttons"
-            android:background="@color/color_card_background"/>
+            android:layout_above="@+id/suggestedactions"/>
+
+        <!-- Suggested Actions -->
+        <android.support.v7.widget.RecyclerView
+            style="@style/BackgroundStyle"
+            android:id="@+id/suggestedactions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/container_buttons"/>
 
         <!-- button and textview on the bottom -->
         <LinearLayout
@@ -34,7 +42,8 @@
 
             <!-- MIC BUTTON -->
             <ImageView
-                android:id="@+id/agent_image"
+                style="@style/MicStyle"
+                android:id="@+id/mic_image"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/ic_mic"
@@ -48,12 +57,12 @@
 
                 <!-- let the user type in what is said -->
                 <android.support.design.widget.TextInputLayout
+                    style="@style/TextInputAccentStyle"
                     android:id="@+id/textinputlayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:hint="@string/bot_input_hint"
-                    android:backgroundTint="@color/color_chat_background"
                     android:visibility="gone">
 
                     <android.support.design.widget.TextInputEditText
@@ -78,9 +87,27 @@
 
         </LinearLayout>
 
+        <!-- Animated Assistant -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/animated_assistant"
+                android:layout_width="@dimen/animated_assistant_width"
+                android:layout_height="@dimen/animated_assistant_height"
+                android:layout_marginBottom="15dp"
+                android:layout_centerInParent="true"
+                android:layout_alignParentBottom="true"
+                android:elevation="2dp"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView
+        android:theme="@style/NavigationDrawerStyle"
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -94,6 +121,20 @@
             android:layout_gravity="bottom"
             android:layout_marginLeft="14dp"
             android:orientation="vertical">
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switch_show_full_conversation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/nav_menu_show_full_conversation"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switch_night_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/nav_menu_night_mode"/>
 
             <android.support.v7.widget.SwitchCompat
                 android:id="@+id/switch_show_textinput"

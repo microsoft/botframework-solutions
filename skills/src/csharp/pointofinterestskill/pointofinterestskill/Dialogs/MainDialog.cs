@@ -4,14 +4,18 @@
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using PointOfInterestSkill.Models;
 using PointOfInterestSkill.Responses.Main;
@@ -71,8 +75,8 @@ namespace PointOfInterestSkill.Dialogs
 
             await PopulateStateFromSemanticAction(dc.Context);
 
-            // If dispatch result is general luis model
-            localeConfig.LuisServices.TryGetValue("pointofinterest", out var luisService);
+            // If dispatch result is General luis model
+            localeConfig.LuisServices.TryGetValue("PointOfInterest", out var luisService);
 
             if (luisService == null)
             {
@@ -84,7 +88,14 @@ namespace PointOfInterestSkill.Dialogs
                 var result = await luisService.RecognizeAsync<PointOfInterestLuis>(dc.Context, CancellationToken.None);
                 var intent = result?.TopIntent().intent;
 
-                // switch on general intents
+                if (intent != PointOfInterestLuis.Intent.None)
+                {
+                    var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
+                    state.LuisResult = result;
+                    await DigestLuisResult(dc, state.LuisResult);
+                }
+
+                // switch on General intents
                 switch (intent)
                 {
                     case PointOfInterestLuis.Intent.NAVIGATION_ROUTE_FROM_X_TO_Y:
@@ -137,10 +148,14 @@ namespace PointOfInterestSkill.Dialogs
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response = dc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.EndOfConversation;
+            // workaround. if connect skill directly to teams, the following response does not work.
+            if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
+            {
+                var response = dc.Context.Activity.CreateReply();
+                response.Type = ActivityTypes.EndOfConversation;
 
-            await dc.Context.SendActivityAsync(response);
+                await dc.Context.SendActivityAsync(response);
+            }
 
             // End active dialog
             await dc.EndDialogAsync(result);
@@ -213,12 +228,7 @@ namespace PointOfInterestSkill.Dialogs
                         var replyMessage = _responseManager.GetResponse(RouteResponses.SendingRouteDetails);
                         await dc.Context.SendActivityAsync(replyMessage);
 
-                        // Send event with active route data
-                        var replyEvent = dc.Context.Activity.CreateReply();
-                        replyEvent.Type = ActivityTypes.Event;
-                        replyEvent.Name = "ActiveRoute.Directions";
-                        replyEvent.Value = state.ActiveRoute.Legs;
-                        await dc.Context.SendActivityAsync(replyEvent);
+                        await dc.Context.SendActivityAsync(PointOfInterestDialogBase.CreateOpenDefaultAppReply(dc.Context.Activity, state.Destination));
                         break;
                     }
             }
@@ -228,19 +238,14 @@ namespace PointOfInterestSkill.Dialogs
         {
             var result = InterruptionAction.NoAction;
 
-            if (dc.Context.Activity.Type == ActivityTypes.Message)
+            if (dc.Context.Activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(dc.Context.Activity.Text))
             {
                 // get current activity locale
                 var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
                 var localeConfig = _services.CognitiveModelSets[locale];
 
-                // Update state with email luis result and entities
-                var poiLuisResult = await localeConfig.LuisServices["pointofinterest"].RecognizeAsync<PointOfInterestLuis>(dc.Context, cancellationToken);
-                var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
-                state.LuisResult = poiLuisResult;
-
                 // check luis intent
-                localeConfig.LuisServices.TryGetValue("general", out var luisService);
+                localeConfig.LuisServices.TryGetValue("General", out var luisService);
 
                 if (luisService == null)
                 {
@@ -343,6 +348,76 @@ namespace PointOfInterestSkill.Dialogs
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.LogOut));
 
             return InterruptionAction.StartedDialog;
+        }
+
+        private async Task DigestLuisResult(DialogContext dc, PointOfInterestLuis luisResult)
+        {
+            try
+            {
+                var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
+
+                if (luisResult != null)
+                {
+                    state.ClearLuisResults();
+
+                    var entities = luisResult.Entities;
+
+                    if (entities.KEYWORD != null)
+                    {
+                        state.Keyword = string.Join(" ", entities.KEYWORD);
+                    }
+
+                    if (entities.ADDRESS != null)
+                    {
+                        state.Address = string.Join(" ", entities.ADDRESS);
+                    }
+                    else
+                    {
+                        // ADDRESS overwrites geographyV2
+                        var sb = new StringBuilder();
+
+                        if (entities.geographyV2_poi != null)
+                        {
+                            sb.AppendJoin(" ", entities.geographyV2_poi);
+                        }
+
+                        if (entities.geographyV2_city != null)
+                        {
+                            sb.AppendJoin(" ", entities.geographyV2_city);
+                        }
+
+                        if (sb.Length > 0)
+                        {
+                            state.Address = sb.ToString();
+                        }
+                    }
+
+                    if (entities.ROUTE_TYPE != null)
+                    {
+                        state.RouteType = entities.ROUTE_TYPE[0][0];
+                    }
+
+                    if (entities.number != null)
+                    {
+                        try
+                        {
+                            var value = entities.number[0];
+                            if (Math.Abs(value - (int)value) < double.Epsilon)
+                            {
+                                state.UserSelectIndex = (int)value - 1;
+                            }
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // put log here
+            }
         }
 
         public class Events

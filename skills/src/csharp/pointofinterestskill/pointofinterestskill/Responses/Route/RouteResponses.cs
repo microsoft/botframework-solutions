@@ -16,5 +16,6 @@ namespace PointOfInterestSkill.Responses.Route
         public const string PromptToStartRoute = "PromptToStartRoute";
         public const string SendingRouteDetails = "SendingRouteDetails";
         public const string AskAboutRouteLater = "AskAboutRouteLater";
+        public const string RouteSuggestedActionName = "RouteSuggestedActionName";
     }
 }

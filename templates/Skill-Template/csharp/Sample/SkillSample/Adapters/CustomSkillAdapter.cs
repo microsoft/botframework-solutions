@@ -20,7 +20,6 @@ namespace SkillSample.Adapters
             BotSettings settings,
             UserState userState,
             ConversationState conversationState,
-            BotStateSet botStateSet,
             ResponseManager responseManager,
             IBotTelemetryClient telemetryClient)
         {
@@ -32,11 +31,12 @@ namespace SkillSample.Adapters
                 telemetryClient.TrackException(exception);
             };
 
+            // Uncomment the following line for local development without Azure Storage
+            // Use(new TranscriptLoggerMiddleware(new MemoryTranscriptStore()));
             Use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));
             Use(new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true));
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new AutoSaveStateMiddleware(botStateSet));
             Use(new SkillMiddleware(userState, conversationState, conversationState.CreateProperty<DialogState>(nameof(SkillSample))));
         }
     }

@@ -9,10 +9,12 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using ToDoSkill.Models;
 using ToDoSkill.Responses.Main;
@@ -70,7 +72,7 @@ namespace ToDoSkill.Dialogs
             InitializeConfig(state);
 
             // If dispatch result is general luis model
-            localeConfig.LuisServices.TryGetValue("todo", out var luisService);
+            localeConfig.LuisServices.TryGetValue("ToDo", out var luisService);
 
             if (luisService == null)
             {
@@ -147,10 +149,14 @@ namespace ToDoSkill.Dialogs
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response = dc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.EndOfConversation;
+            // workaround. if connect skill directly to teams, the following response does not work.
+            if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
+            {
+                var response = dc.Context.Activity.CreateReply();
+                response.Type = ActivityTypes.EndOfConversation;
 
-            await dc.Context.SendActivityAsync(response);
+                await dc.Context.SendActivityAsync(response);
+            }
 
             // End active dialog
             await dc.EndDialogAsync(result);
@@ -190,12 +196,12 @@ namespace ToDoSkill.Dialogs
                 var cognitiveModels = _services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities
-                var toDoLuisResult = await cognitiveModels.LuisServices["todo"].RecognizeAsync<ToDoLuis>(dc.Context, cancellationToken);
+                var toDoLuisResult = await cognitiveModels.LuisServices["ToDo"].RecognizeAsync<ToDoLuis>(dc.Context, cancellationToken);
                 var state = await _toDoStateAccessor.GetAsync(dc.Context, () => new ToDoSkillState());
                 state.LuisResult = toDoLuisResult;
 
                 // check luis intent
-                cognitiveModels.LuisServices.TryGetValue("general", out var luisService);
+                cognitiveModels.LuisServices.TryGetValue("General", out var luisService);
 
                 if (luisService == null)
                 {
@@ -280,9 +286,10 @@ namespace ToDoSkill.Dialogs
             if (state.PageSize <= 0)
             {
                 var pageSize = 0;
-                if (_settings.Properties.TryGetValue("DisplaySize", out var displaySizeObj))
+
+                if (_settings.DisplaySize != null)
                 {
-                    int.TryParse(displaySizeObj.ToString(), out pageSize);
+                    pageSize = _settings.DisplaySize;
                 }
 
                 state.PageSize = pageSize <= 0 ? ToDoCommonUtil.DefaultDisplaySize : pageSize;
@@ -291,9 +298,9 @@ namespace ToDoSkill.Dialogs
             if (state.TaskServiceType == ServiceProviderType.Other)
             {
                 state.TaskServiceType = ServiceProviderType.Outlook;
-                if (_settings.Properties.TryGetValue("TaskServiceProvider", out var taskServiceProvider))
+                if (!string.IsNullOrEmpty(_settings.TaskServiceProvider))
                 {
-                    if (taskServiceProvider.ToString().Equals(ServiceProviderType.OneNote.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                    if (_settings.TaskServiceProvider.Equals(ServiceProviderType.OneNote.ToString(), StringComparison.InvariantCultureIgnoreCase))
                     {
                         state.TaskServiceType = ServiceProviderType.OneNote;
                     }

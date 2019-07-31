@@ -7,7 +7,7 @@ import { Middleware, TurnContext } from 'botbuilder';
 import { Activity, ActivityTypes } from 'botframework-schema';
 
 export class EventDebuggerMiddleware implements Middleware {
-    public onTurn(turnContext: TurnContext, next: () => Promise<void>): Promise<void> {
+    public async onTurn(turnContext: TurnContext, next: () => Promise<void>): Promise<void> {
         const activity: Activity = turnContext.activity;
 
         if (activity.type === ActivityTypes.Message) {
@@ -16,28 +16,30 @@ export class EventDebuggerMiddleware implements Middleware {
 
             if (text && text.startsWith('/event:')) {
                 const json: string = text.substr('/event:'.length);
+                // eslint-disable-next-line @typescript-eslint/tslint/config
                 const body: Activity = JSON.parse(json);
 
                 turnContext.activity.type = ActivityTypes.Event;
-                turnContext.activity.name = body.name;
-                turnContext.activity.value = body.value;
+                turnContext.activity.name = body.name || turnContext.activity.name;
+                turnContext.activity.text = body.text || turnContext.activity.text;
+                turnContext.activity.value = body.value || turnContext.activity.value;
             }
 
             if (value && value.includes('event')) {
+                // eslint-disable-next-line @typescript-eslint/tslint/config
                 const body: { event: { name: string; text: string; value: string }} = JSON.parse(value);
 
                 turnContext.activity.type = ActivityTypes.Event;
-
-                if (body.event && body.event.name) {
-                    turnContext.activity.name = body.event.name;
-                }
-
-                if (body.event && body.event.text) {
-                    turnContext.activity.text = body.event.text;
-                }
-
-                if (body.event && body.event.value) {
-                    turnContext.activity.value = body.event.value;
+                if (body.event !== undefined) {
+                    if (body.event.name !== undefined) {
+                        turnContext.activity.name = body.event.name;
+                    }
+                    if (body.event.text !== undefined) {
+                        turnContext.activity.text = body.event.text;
+                    }
+                    if (body.event.value !== undefined) {
+                        turnContext.activity.value = body.event.value;
+                    }
                 }
             }
         }

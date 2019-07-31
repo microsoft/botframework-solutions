@@ -25,48 +25,48 @@ import java.io.IOException;
  */
 @JsonAdapter(InputHints.Adapter.class)
 public enum InputHints {
-  
-  ACCEPTINGINPUT("acceptingInput"),
-  
-  IGNORINGINPUT("ignoringInput"),
-  
-  EXPECTINGINPUT("expectingInput");
 
-  private String value;
+    ACCEPTINGINPUT("acceptingInput"),
 
-  InputHints(String value) {
-    this.value = value;
-  }
+    IGNORINGINPUT("ignoringInput"),
 
-  public String getValue() {
-    return value;
-  }
+    EXPECTINGINPUT("expectingInput");
 
-  @Override
-  public String toString() {
-    return String.valueOf(value);
-  }
+    private String value;
 
-  public static InputHints fromValue(String text) {
-    for (InputHints b : InputHints.values()) {
-      if (String.valueOf(b.value).equals(text)) {
-        return b;
-      }
+    InputHints(String value) {
+        this.value = value;
     }
-    return null;
-  }
 
-  public static class Adapter extends TypeAdapter<InputHints> {
-    @Override
-    public void write(final JsonWriter jsonWriter, final InputHints enumeration) throws IOException {
-      jsonWriter.value(enumeration.getValue());
+    public String getValue() {
+        return value;
     }
 
     @Override
-    public InputHints read(final JsonReader jsonReader) throws IOException {
-      String value = jsonReader.nextString();
-      return InputHints.fromValue(String.valueOf(value));
+    public String toString() {
+        return String.valueOf(value);
     }
-  }
+
+    public static InputHints fromValue(String text) {
+        for (InputHints b : InputHints.values()) {
+            if (String.valueOf(b.value).equals(text)) {
+                return b;
+            }
+        }
+        return null;
+    }
+
+    public static class Adapter extends TypeAdapter<InputHints> {
+        @Override
+        public void write(final JsonWriter jsonWriter, final InputHints enumeration) throws IOException {
+            jsonWriter.value(enumeration.getValue());
+        }
+
+        @Override
+        public InputHints read(final JsonReader jsonReader) throws IOException {
+            String value = jsonReader.nextString();
+            return InputHints.fromValue(String.valueOf(value));
+        }
+    }
 }
 

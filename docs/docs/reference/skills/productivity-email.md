@@ -5,13 +5,24 @@ The most common scenarios have been implemented in this beta release, with addit
 
 ## Table of Contents
 
+- [Supported Sources](#supported-sources)
 - [Supported Scenarios](#supported-scenarios)
-- [Language Model](#language-model)
-- [Configuration](#configuration)
+- [Scenario Configurations](#scenario-configurations)
+- [Skill Deployment](#skill-deployment)
+- [Language Model](#language-model))
 
 ## Supported Sources
 
 > Office 365 and Outlook.com through the Microsoft Graph is supported along with support for Google accounts.
+
+To use Google account in skill you need to follow these steps:
+1. Create your Gmail API credential in [Google developers console](https://console.developers.google.com). 
+2. Create an OAuth connection setting in your Web App Bot.
+    - Connection name: `googleapi`
+    - Service Provider: `Google`
+    - Client id and secret are generated in step 1
+    - Scopes: `"https://mail.google.com/ https://www.googleapis.com/auth/contacts"`.
+3. Add the connection name, client id, secret and scopes in appsetting.json file.
 
 ## Supported Scenarios
 
@@ -48,6 +59,27 @@ The following scenarios are currently supported by the Skill:
   - *The third search result please*
   - *Open this one*
 
+## Scenario Configurationsn
+
+In dialogs such as `Send Email`, the user needs to provide information such as sibject and  content before able to send an email. Depending on the user context (e.g. Speech driven and whilst driving) you can configure default slot-filling to minimise the number of questions - e.g. `Send an email to alex about the exec review saying can you send me the deck from last week` would send email with no further prompts beyond confirmation.
+
+This behaviour can be configured in the Skill `appsettings.json` by setting `isSkipByDefault` to true, and modify `EmailSubject` and `EmailMessage` default values in `EmailCommonStrings.resx` to set default value of different locales.
+
+```json
+"defaultValue": {
+    "sendEmail": [
+        {
+            "name": "EmailSubject",
+            "isSkipByDefault": false
+        },
+        {
+            "name": "EmailMessage",
+            "isSkipByDefault": false
+        }
+    ]
+ }
+```
+
 ## Skill Deployment
 
 The Email Skill require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
@@ -71,7 +103,7 @@ If you plan to use the skill as part of a Virtual Assistant the process of regis
 - `People.Read`
 - `Contacts.Read`
 
-**However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
+**However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Email Skill. This is **not** required when using the Skill with a Virtual Assistant.
 
 Follow the general instructions [here](/docs/reference/skills/manualauthsteps.md) to configure this using the scopes shown above.
 
@@ -126,9 +158,3 @@ LUIS models for the Skill are provided in .LU file format as part of the Skill. 
 |datetimeV2| Prebuilt entity|
 |number| Prebuilt entity|
 |ordinal| Prebuilt entity|
-
-### Example Skill Manifest
-
-```
-TBC
-```

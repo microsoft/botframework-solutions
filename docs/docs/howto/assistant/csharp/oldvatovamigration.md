@@ -18,4 +18,4 @@ The Virtual Assistant (Beta Release 0.3) solution was delivered with multiple pr
 
 ## Add the Skills to your assistant
 
-The Skills previously part of the Virtual Assistant solution are relocated to the [skills directory](../../../../skills/src/csharp/). After deploying your selected Skills, continue to [add them to your Virtual Assistant](../../skills/addingskills.md).
+The Skills previously part of the Virtual Assistant solution are relocated to the [skills directory](../../../../skills/src/csharp/). After deploying your selected Skills, continue to [add them to your Virtual Assistant](../../skills/botskills.md#Connect-Skills).

@@ -269,7 +269,7 @@ namespace EmailSkill.Dialogs
                         { "EmailDetailsWithContent", SpeakHelper.ToSpeechEmailDetailString(message, state.GetUserTimeZone(), true) },
                     };
 
-                    var recipientCard = message.ToRecipients.Count() > 5 ? "DetailCard_RecipientMoreThanFive" : "DetailCard_RecipientLessThanFive";
+                    var recipientCard = message.ToRecipients.Count() > 5 ? GetDivergedCardName(sc.Context, "DetailCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "DetailCard_RecipientLessThanFive");
                     var replyMessage = ResponseManager.GetCardResponse(
                         ShowEmailResponses.ReadOutMessage,
                         new Card("EmailDetailCard", emailCard),

@@ -21,7 +21,7 @@ import {
 import { IBotSettings } from '../services/botSettings';
 
 export class DefaultAdapter extends BotFrameworkAdapter {
-    constructor(
+    public constructor(
         settings: Partial<IBotSettings>,
         adapterSettings: Partial<BotFrameworkAdapterSettings>,
         userState: UserState,

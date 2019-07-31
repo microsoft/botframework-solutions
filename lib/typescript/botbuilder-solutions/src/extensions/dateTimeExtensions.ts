@@ -4,19 +4,28 @@
  */
 
 import * as dayjs from 'dayjs';
-// tslint:disable
-import 'dayjs/locale/de';
-import 'dayjs/locale/es';
-import 'dayjs/locale/it';
-import 'dayjs/locale/fr';
-import '../resources/customizeLocale/zh';
 import i18next from 'i18next';
-// tslint:enable
 
 export namespace DateTimeExtensions {
+    let currentLocale: string;
 
-    export function toSpeechDateString(date: Date, includePrefix: boolean = false): string {
+    async function importLocale(locale: string): Promise<void> {
+        try {
+            const localeImport: string = locale === 'zh' ?
+                `../resources/customizeLocale/zh` :
+                `dayjs/locale/${locale}`;
+            await import(localeImport);
+        } catch (err) {
+            throw new Error(`There was an error during the import of the locale:${locale}, Error:${err}`);
+        }
+    }
+
+    export async function toSpeechDateString(date: Date, includePrefix: boolean = false): Promise<string> {
         const locale: string = i18next.language;
+        if (currentLocale !== locale) {
+            currentLocale = locale;
+            await importLocale(locale);
+        }
         const utcDate: Date = new Date();
         utcDate.setHours(date.getHours());
         utcDate.setMinutes(date.getMinutes());

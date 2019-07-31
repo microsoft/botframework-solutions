@@ -16,8 +16,6 @@ namespace BingSearchSkill.Dialogs
 {
     public class SearchDialog : SkillDialogBase
     {
-        private const string BingSearchApiKeyIndex = "BingSearchKey";
-        private const string BingAnswerSearchApiKeyIndex = "BingAnswerSearchKey";
         private BotServices _services;
         private IStatePropertyAccessor<SkillState> _stateAccessor;
 
@@ -76,8 +74,8 @@ namespace BingSearchSkill.Dialogs
                 state.SearchEntityType = SearchResultModel.EntityType.Unknown;
             }
 
-            var bingSearchKey = Settings.Properties[BingSearchApiKeyIndex] ?? throw new Exception("The BingSearchKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
-            var bingAnswerSearchKey = Settings.Properties[BingAnswerSearchApiKeyIndex] ?? throw new Exception("The BingSearchKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
+            var bingSearchKey = Settings.BingSearchKey ?? throw new Exception("The BingSearchKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
+            var bingAnswerSearchKey = Settings.BingAnswerSearchKey ?? throw new Exception("The BingSearchKey must be provided to use this dialog. Please provide this key in your Skill Configuration.");
             var client = new BingSearchClient(bingSearchKey, bingAnswerSearchKey);
             var entitiesResult = await client.GetSearchResult(state.SearchEntityName, state.SearchEntityType);
 
@@ -109,7 +107,7 @@ namespace BingSearchSkill.Dialogs
 
                     prompt = ResponseManager.GetCardResponse(
                                 SearchResponses.EntityKnowledge,
-                                new Card("MovieCard", movieData),
+                                new Card(GetDivergedCardName(stepContext.Context, "MovieCard"), movieData),
                                 tokens);
                 }
                 else if (entitiesResult[0].Type == SearchResultModel.EntityType.Person)
@@ -127,7 +125,7 @@ namespace BingSearchSkill.Dialogs
 
                     prompt = ResponseManager.GetCardResponse(
                                 SearchResponses.EntityKnowledge,
-                                new Card("PersonCard", celebrityData),
+                                new Card(GetDivergedCardName(stepContext.Context, "PersonCard"), celebrityData),
                                 tokens);
                 }
                 else

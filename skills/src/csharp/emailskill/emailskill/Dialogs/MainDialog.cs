@@ -13,12 +13,14 @@ using EmailSkill.Services;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Models;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Dialogs;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 
 namespace EmailSkill.Dialogs
@@ -80,7 +82,7 @@ namespace EmailSkill.Dialogs
             await PopulateStateFromSkillContext(dc.Context);
 
             // If dispatch result is general luis model
-            localeConfig.LuisServices.TryGetValue("email", out var luisService);
+            localeConfig.LuisServices.TryGetValue("Email", out var luisService);
 
             if (luisService == null)
             {
@@ -191,10 +193,14 @@ namespace EmailSkill.Dialogs
 
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response = dc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.EndOfConversation;
+            // workaround. if connect skill directly to teams, the following response does not work.
+            if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
+            {
+                var response = dc.Context.Activity.CreateReply();
+                response.Type = ActivityTypes.EndOfConversation;
 
-            await dc.Context.SendActivityAsync(response);
+                await dc.Context.SendActivityAsync(response);
+            }
 
             // End active dialog
             await dc.EndDialogAsync(result);
@@ -234,12 +240,12 @@ namespace EmailSkill.Dialogs
                 var localeConfig = _services.CognitiveModelSets[locale];
 
                 // Update state with email luis result and entities
-                var emailLuisResult = await localeConfig.LuisServices["email"].RecognizeAsync<EmailLuis>(dc.Context, cancellationToken);
+                var emailLuisResult = await localeConfig.LuisServices["Email"].RecognizeAsync<EmailLuis>(dc.Context, cancellationToken);
                 var state = await _stateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
                 state.LuisResult = emailLuisResult;
 
                 // check luis intent
-                localeConfig.LuisServices.TryGetValue("general", out var luisService);
+                localeConfig.LuisServices.TryGetValue("General", out var luisService);
 
                 if (luisService == null)
                 {
@@ -320,17 +326,9 @@ namespace EmailSkill.Dialogs
 
         private void GetReadingDisplayConfig()
         {
-            _settings.Properties.TryGetValue("displaySize", out var maxDisplaySize);
-            _settings.Properties.TryGetValue("readSize", out var maxReadSize);
-
-            if (maxDisplaySize != null)
+            if (_settings.DisplaySize > 0)
             {
-                ConfigData.GetInstance().MaxDisplaySize = int.Parse(maxDisplaySize as string);
-            }
-
-            if (maxReadSize != null)
-            {
-                ConfigData.GetInstance().MaxReadSize = int.Parse(maxReadSize as string);
+                ConfigData.GetInstance().MaxDisplaySize = _settings.DisplaySize;
             }
         }
     }

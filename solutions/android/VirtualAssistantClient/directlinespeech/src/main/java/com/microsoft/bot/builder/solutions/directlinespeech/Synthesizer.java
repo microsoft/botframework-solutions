@@ -40,6 +40,8 @@ import android.util.Log;
 import com.microsoft.cognitiveservices.speech.audio.PullAudioInputStream;
 import com.microsoft.cognitiveservices.speech.audio.PullAudioOutputStream;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
@@ -52,6 +54,8 @@ import java.util.ListIterator;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
+import events.SynthesizerStopped;
 
 public class Synthesizer {
 
@@ -122,6 +126,7 @@ public class Synthesizer {
                         //audioTrack.write(buffer, 0, readSize);
                     }
                     audioTrack.stop();
+                    audioTrack.release();
                     try {
                         in.close();
                         callback.run();
@@ -222,7 +227,10 @@ public class Synthesizer {
                         //audioTrack.write(buffer, 0, readSize);
                     }
                     audioTrack.stop();
+                    audioTrack.release();
                     isPlaying.set(false);
+                    // trigger event that playback is stopped
+                    EventBus.getDefault().post(new SynthesizerStopped());
                 }
             }.start();
     }

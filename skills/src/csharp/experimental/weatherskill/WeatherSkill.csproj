@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Content\SixHourForecast.1.0.json" />
     <Content Remove="Content\SixHourForecast.json" />
     <Content Remove="Responses\Main\MainResponses.de.json" />
     <Content Remove="Responses\Main\MainResponses.es.json" />
@@ -28,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Content\SixHourForecast.1.0.json" />
     <EmbeddedResource Include="Content\SixHourForecast.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.de.json" />
     <EmbeddedResource Include="Responses\Main\MainResponses.es.json" />
@@ -50,32 +52,32 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AdaptiveCards" Version="1.1.2" />
-    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.8.1" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
-    <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" Version="2.8.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
+    <PackageReference Include="AdaptiveCards" Version="1.2.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.10.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" Version="2.10.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="2.0.0" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.4.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.4.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.4.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.4.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.4.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.4.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.4.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.4.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.4.3.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.4.3.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.4.3" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.4.3" />
-    <PackageReference Include="Microsoft.Bot.Connector" Version="4.4.3" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.4.3" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Skills" Version="4.5.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.5.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.5.1" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.5.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Graph" Version="1.12.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Graph" Version="1.15.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -104,6 +106,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Content\WeatherImages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WeatherImages.resx</DependentUpon>
+    </Compile>
     <Compile Update="Responses\Main\MainResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -119,6 +126,13 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>SharedResponses.tt</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Content\WeatherImages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>WeatherImages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

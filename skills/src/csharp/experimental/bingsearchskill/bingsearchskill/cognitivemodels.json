@@ -5,6 +5,7 @@
         {
           "id": "BingSearchSkill",
           "authoringkey": "",
+          "authoringRegion": "",
           "subscriptionkey": "",
           "region": "",
           "name": "",
@@ -14,6 +15,7 @@
         {
           "id": "General",
           "authoringkey": "",
+          "authoringRegion": "",
           "subscriptionkey": "",
           "region": "",
           "name": "",

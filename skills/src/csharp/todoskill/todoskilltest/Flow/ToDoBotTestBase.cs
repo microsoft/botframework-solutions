@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using System.Threading;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
@@ -101,6 +102,7 @@ namespace ToDoSkillTest.Flow
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             Services.AddSingleton<IServiceManager>(ServiceManager);
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
+            Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             Services.AddTransient<MainDialog>();
 			Services.AddTransient<AddToDoItemDialog>();
 			Services.AddTransient<DeleteToDoItemDialog>();

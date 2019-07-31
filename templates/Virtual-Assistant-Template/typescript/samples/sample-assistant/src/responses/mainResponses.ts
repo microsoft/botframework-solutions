@@ -11,6 +11,7 @@ import {
     MessageFactory,
     TurnContext } from 'botbuilder';
 import { ActionTypes } from 'botframework-schema';
+import { readFileSync } from 'fs';
 import i18next from 'i18next';
 import { join } from 'path';
 import {
@@ -54,18 +55,19 @@ export class MainResponses extends TemplateManager {
     ]);
 
     // Initialize the responses class properties
-    constructor() {
+    public constructor() {
         super();
         this.register(new DictionaryRenderer(MainResponses.responseTemplates));
     }
 
-    // tslint:disable-next-line:no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
     public static async buildNewUserGreetingCard(turnContext: TurnContext, data: any): Promise<any> {
         const introFileName: string = i18next.t('main.introGreetingFile');
         const introPath: string = join(__dirname, '..', 'content', introFileName);
-        // tslint:disable-next-line:no-any non-literal-require
-        const introCard: any = require(introPath);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+        const introCard: any = JSON.parse(readFileSync(introPath, 'UTF8'));
         const attachment: Attachment = CardFactory.adaptiveCard(introCard);
+        // eslint-disable-next-line @typescript-eslint/tslint/config
         const response: Partial<Activity> = MessageFactory.attachment(attachment, '', attachment.content.speak, InputHints.AcceptingInput);
 
         response.suggestedActions = {
@@ -92,13 +94,14 @@ export class MainResponses extends TemplateManager {
         return Promise.resolve(response);
     }
 
-    // tslint:disable-next-line:no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
     public static async buildReturningUserGreetingCard(turnContext: TurnContext, data: any): Promise<any> {
         const introFileName: string = i18next.t('main.introReturningFile');
         const introPath: string = join(__dirname, '..', 'content', introFileName);
-        // tslint:disable-next-line:no-any non-literal-require
-        const introCard: any = require(introPath);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+        const introCard: any = JSON.parse(readFileSync(introPath, 'UTF8'));
         const attachment: Attachment = CardFactory.adaptiveCard(introCard);
+        // eslint-disable-next-line @typescript-eslint/tslint/config
         const response: Partial<Activity> = MessageFactory.attachment(attachment, '', attachment.content.speak, InputHints.AcceptingInput);
 
         response.suggestedActions = {
@@ -125,7 +128,7 @@ export class MainResponses extends TemplateManager {
         return Promise.resolve(response);
     }
 
-    // tslint:disable-next-line:no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
     public static async buildHelpCard(turnContext: TurnContext, data: any): Promise<any> {
         const title: string = i18next.t('main.helpTitle');
         const text: string = i18next.t('main.helpText');
@@ -134,21 +137,21 @@ export class MainResponses extends TemplateManager {
 
         response.suggestedActions = {
             actions: [
-            {
-                title: i18next.t('main.helpBtnText1'),
-                type: ActionTypes.ImBack,
-                value: i18next.t('main.helpBtnValue1')
-            },
-            {
-                title: i18next.t('main.helpBtnText2'),
-                type: ActionTypes.ImBack,
-                value: i18next.t('main.helpBtnValue2')
-            },
-            {
-                title: i18next.t('main.helpBtnText3'),
-                type: ActionTypes.OpenUrl,
-                value: i18next.t('main.helpBtnValue3')
-            }
+                {
+                    title: i18next.t('main.helpBtnText1'),
+                    type: ActionTypes.ImBack,
+                    value: i18next.t('main.helpBtnValue1')
+                },
+                {
+                    title: i18next.t('main.helpBtnText2'),
+                    type: ActionTypes.ImBack,
+                    value: i18next.t('main.helpBtnValue2')
+                },
+                {
+                    title: i18next.t('main.helpBtnText3'),
+                    type: ActionTypes.OpenUrl,
+                    value: i18next.t('main.helpBtnValue3')
+                }
             ],
             to: []
         };

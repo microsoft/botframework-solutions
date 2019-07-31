@@ -10,12 +10,13 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public class ReservationLuis: IRecognizerConvert
+    public partial class ReservationLuis: IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
-        public enum Intent {
-            None, 
+        public enum Intent
+        {
+            None,
             Reservation
         };
         public Dictionary<Intent, IntentScore> Intents;
@@ -53,7 +54,7 @@ namespace Luis
             {
                 public InstanceData[] people;
                 public InstanceData[] datetime;
-                public InstanceData[] geography;
+                public InstanceData[] geographyV2_City;
                 public InstanceData[] number;
                 public InstanceData[] cuisine;
                 public InstanceData[] attendees;
@@ -68,7 +69,7 @@ namespace Luis
 
         public void Convert(dynamic result)
         {
-            var app = JsonConvert.DeserializeObject<ReservationLuis>(JsonConvert.SerializeObject(result));
+            var app = JsonConvert.DeserializeObject<ReservationLuis>(JsonConvert.SerializeObject(result, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
             Text = app.Text;
             AlteredText = app.AlteredText;
             Intents = app.Intents;

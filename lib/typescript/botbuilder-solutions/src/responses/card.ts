@@ -7,12 +7,11 @@ import { ICardData } from './cardData';
 
 export class Card {
 
-    constructor(name: string, data : ICardData) {
-        this.name = name;
-        this.data = data;
+    public constructor(name?: string, data?: ICardData) {
+        this.name = name || '';
+        this.data = data || {};
     }
 
-    public name: string = '';
-
-    public data : ICardData = '';
+    public name: string;
+    public data: ICardData;
 }

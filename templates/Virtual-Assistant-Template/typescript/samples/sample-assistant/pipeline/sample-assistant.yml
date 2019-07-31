@@ -17,7 +17,7 @@ steps:
   displayName: 'npm install'
   inputs:
     # if your working directory is not root, you may change the following path
-    workingDir: 'sample-assistant'
+    workingDir: './'
     verbose: false
 
 - task: Npm@1
@@ -25,7 +25,7 @@ steps:
   inputs:
     command: custom
     # if your working directory is not root, you may change the following path
-    workingDir: 'sample-assistant'
+    workingDir: './'
     verbose: false
     customCommand: 'run build'
 
@@ -34,7 +34,7 @@ steps:
   inputs:
     command: custom
     # if your working directory is not root, you may change the following path
-    workingDir: 'sample-assistant'
+    workingDir: './'
     verbose: false
     customCommand: 'run test-coverage-ci'
 
@@ -43,7 +43,7 @@ steps:
   inputs:
     testResultsFiles: 'test-results.xml'
     # if your working directory is not root, you may change the following path
-    searchFolder: 'sample-assistant'
+    searchFolder: './'
     failTaskOnFailedTests: true
 
 - task: PublishCodeCoverageResults@1
@@ -51,5 +51,5 @@ steps:
   inputs:
     codeCoverageTool: Cobertura
     # if your working directory is not root, you may change the following paths
-    summaryFileLocation: 'sample-assistant/coverage/cobertura-coverage.xml'
-    reportDirectory: 'sample-assistant/coverage/'
+    summaryFileLocation: './coverage/cobertura-coverage.xml'
+    reportDirectory: './coverage/'

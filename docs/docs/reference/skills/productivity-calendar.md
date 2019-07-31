@@ -5,15 +5,17 @@ The most common scenarios have been implemented in this beta release, with addit
 
 ## Table of Contents
 
+- [Supported Sources](#supported-sources)
 - [Supported Scenarios](#supported-scenarios)
+- [Scenario Configurations](#scenario-configurations)
+- [Skill Deployment](#skill-deployment)
 - [Language Model](#language-model)
-- [Configuration](#configuration)
 
 ## Supported Sources
 
 > Office 365 and Outlook.com through the Microsoft Graph is supported along with support for Google accounts.
 
-To use Google account skill you need follow these steps:
+To use Google account in skill you need to follow these steps:
 1. Create your calendar API credential in [Google developers console](https://console.developers.google.com). 
 2. Create an OAuth connection setting in your Web App Bot.
     - Connection name: `googleapi`
@@ -59,6 +61,44 @@ The following scenarios are currently supported by the Skill:
 - Time Remaining
   - *How long until my next meeting?*
   - *How many days are there until Thanksgiving?*
+
+## Scenario Configurations
+In dialogs such as `Create Meeting`, the user needs to provide information such as title and meeting content before able to create a meeting. Depending on the user context (e.g. Speech driven and whilst driving) you can configure default slot-filling to minimise the number of questions - e.g. `Schedule a project review meeting with alex tomorrow at 8pm` would create the meeting with a default length of 30 minutes and no meeting contents.
+
+This behaviour can be configured in the Skill `appsettings.json` by setting `isSkipByDefault` to true, and modify `EventTitle`, `EventContent` and `EventLocation` default values in `CalendarCommonStrings.resx` to set default value of different locales.
+
+The `EventStartDate` default value should be a integer that means date difference with today. For example, if you want to set default start date as next day of meeting created date, the default value should be `1`.
+
+The `EventDuration` default value is the default duration expressed in minutes (number).
+ 
+```json
+"defaultValue": {
+    "createMeeting": [
+        {
+            "name": "EventTitle",
+            "isSkipByDefault": false
+        },
+        {
+            "name": "EventContent",
+            "isSkipByDefault": false
+        },
+        {
+            "name": "EventStartDate",
+            "isSkipByDefault": false,
+            "defaultValue": ""
+        },
+        {
+            "name": "EventDuration",
+            "isSkipByDefault": false,
+            "defaultValue": ""
+        },
+        {
+            "name": "EventLocation",
+            "isSkipByDefault": false
+        }
+    ]
+}
+```
   
 ## Skill Deployment
 

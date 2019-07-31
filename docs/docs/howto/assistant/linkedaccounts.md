@@ -43,9 +43,9 @@ The ``appsettings.json`` file in the LinkedAccounts sample project has the follo
 ```json
 "AzureAd": {
     "Instance": "https://login.microsoftonline.com/",
-    "Domain": "microsoft.onmicrosoft.com",
-    "TenantId": "YOUR_TENANTID",
-    "ClientId": "YOUR_CLIENTID",
+    "Domain": "[Enter the domain of your tenant, e.g. contoso.onmicrosoft.com]",
+    "TenantId": "[Enter 'common', or 'organizations' or the Tenant Id (Obtained from the Azure portal. Select 'Endpoints' from the 'App registrations' blade and use the GUID in any of the URLs)]",
+    "ClientId": "[Enter the Client Id (Application ID obtained from the Azure portal)]",
     "CallbackPath": "/signin-oidc"
   }
 ```

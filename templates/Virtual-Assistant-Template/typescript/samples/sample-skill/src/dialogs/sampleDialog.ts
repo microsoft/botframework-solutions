@@ -27,7 +27,7 @@ export class SampleDialog extends SkillDialogBase {
 
     private readonly nameKey: string = 'name';
     // Constructor
-    constructor(
+    public constructor(
         settings: Partial<IBotSettings>,
         services: BotServices,
         responseManager: ResponseManager,
@@ -66,7 +66,7 @@ export class SampleDialog extends SkillDialogBase {
         const tokens: Map<string, string> = new Map<string, string>();
         tokens.set(this.nameKey, <string>sc.result);
 
-        //tslint:disable-next-line: no-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
         const response: any = this.responseManager.getResponse(SampleResponses.haveNameMessage, tokens);
         // tslint:disable-next-line: no-unsafe-any
         await sc.context.sendActivity(response);

@@ -21,28 +21,31 @@
     <!-- Navigation Drawer Menu -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_menu_webview" translatable="false">WebView UI</string>
-    <string name="nav_menu_location" translatable="false">Send Location Event</string>
-    <string name="nav_menu_welcome" translatable="false">Send Welcome Event</string>
-    <string name="nav_menu_hide_overlay" translatable="false">Disable Overlay</string>
     <string name="nav_menu_show_textinput" translatable="false">Show Textinput</string>
-    <string name="nav_menu_emulate_activity_msg" translatable="false">Inject Adaptive Card Event</string>
-    <string name="nav_menu_reset_bot" translatable="false">Reset Bot</string>
+    <string name="nav_menu_show_full_conversation" translatable="false">Show full conversation</string>
+    <string name="nav_menu_reset_bot" translatable="false">Restart Conversation</string>
     <string name="nav_menu_toggle_kws" translatable="false">Enable KWS</string>
-    <string name="nav_menu_configuration" translatable="false">Bot Configuration</string>
+    <string name="nav_menu_configuration" translatable="false">Settings</string>
     <string name="nav_menu_app_configuration" translatable="false">App Configuration</string>
     <string name="nav_menu_show_assistant_settings_msg" translatable="false">Show Assistant Settings</string>
+    <string name="nav_menu_night_mode" translatable="false">Enable Dark Mode</string>
 
     <!-- Configuration -->
-    <string name="configuration_service_key_hint">Service Key</string>
-    <string name="configuration_service_region_hint">Service Region</string>
-    <string name="configuration_bot_id_hint">Bot ID</string>
+    <string name="configuration_service_key_hint">Speech Service Subscription Key</string>
+    <string name="configuration_service_region_hint">Speech Service Subscription Key Region</string>
+    <string name="configuration_bot_id_hint">Direct Line Speech Secret Key</string>
     <string name="configuration_voice_name_hint">Voice Name</string>
-    <string name="configuration_user_id_hint">User ID</string>
+    <string name="configuration_user_id_hint">User From Id</string>
     <string name="configuration_locale_hint">Locale</string>
     <string name="configuration_geolocation_lat_hint">Lat</string>
     <string name="configuration_geolocation_lon_hint">Lon</string>
     <string name="configuration_chat_history_line_count">Chat history line-count</string>
+    <string name="configuration_timezone">Timezone</string>
+    <string name="configuration_bot_color">Bot Bubble Background</string>
+    <string name="configuration_user_color">User Bubble Background</string>
+    <string name="configuration_pick_color">Pick a color</string>
+    <string name="configuration_bot_text_color">Bot Text Color</string>
+    <string name="configuration_user_text_color">User Text Color</string>
 
     <!-- Widgets -->
     <string name="widget_push_to_talk">Talk</string>

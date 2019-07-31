@@ -1,0 +1,63 @@
+{
+  "type": "AdaptiveCard",
+  "id": "AutomotiveCard",
+  "body": [
+    {
+      "type": "Container",
+      "id": "titleContainer",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "verticalContentAlignment": "Center",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "id": "title",
+                          "size": "Large",
+                          "weight": "Bolder",
+                          "color": "Default",
+                          "text": "Your vehicle"
+                        }
+                      ],
+                      "width": "stretch"
+                    }
+                  ]
+                }
+              ],
+              "width": "stretch"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "Image",
+          "url": "{ImageUrl}",
+          "horizontalAlignment": "center"
+        },
+        {
+          "type": "TextBlock",
+          "id": "messageBody",
+          "color": "Default",
+          "text": "{Body}",
+          "wrap": true
+        }
+      ]
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0",
+  "speak": "{Speak}"
+}

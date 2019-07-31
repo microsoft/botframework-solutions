@@ -58,9 +58,13 @@ dependencies {
     // fused API
     implementation "com.google.android.gms:play-services-location:16.0.0"
     implementation "com.android.support:support-media-compat:28.0.0"
-//fixes fused API outdated library
-    implementation "com.android.support:support-v4:28.0.0"//fixes fused API outdated library
+
+    //fixes fused API outdated library
+    implementation "com.android.support:support-v4:28.0.0"
 
     // Direct Line Speech (local module)
     implementation project(':directlinespeech')
+
+    // for a nice color picker
+    implementation "com.github.skydoves:colorpickerview:2.0.1"
 }
