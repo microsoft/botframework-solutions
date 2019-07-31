@@ -10,17 +10,21 @@ using CalendarSkill.Responses.TimeRemaining;
 using CalendarSkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Resources;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Schema;
 
 namespace CalendarSkill.Dialogs
 {
     public class TimeRemainingDialog : CalendarSkillDialogBase
     {
+        private ResourceMultiLanguageGenerator _lgMultiLangEngine;
+
         public TimeRemainingDialog(
             BotSettings settings,
             BotServices services,
@@ -31,6 +35,7 @@ namespace CalendarSkill.Dialogs
             MicrosoftAppCredentials appCredentials)
             : base(nameof(TimeRemainingDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
         {
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("TimeRemainingDialog.lg");
             TelemetryClient = telemetryClient;
 
             var timeRemain = new WaterfallStep[]
@@ -87,7 +92,10 @@ namespace CalendarSkill.Dialogs
 
                 if (nextEventList.Count == 0)
                 {
-                    var prompt = ResponseManager.GetResponse(TimeRemainingResponses.ShowNoMeetingMessage);
+                    var showNoMeetingLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[ShowNoMeetingMessage]", null);
+                    var showNoMeetingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, showNoMeetingLGResult, null);
+
+                    var prompt = (Activity)showNoMeetingPrompt;
                     await sc.Context.SendActivityAsync(prompt);
                     return await sc.EndDialogAsync();
                 }
@@ -102,10 +110,10 @@ namespace CalendarSkill.Dialogs
 
                     var tokens = new StringDictionary()
                     {
-                        { "RemainingTime", string.Empty },
-                        { "Title", string.Empty },
-                        { "Time", string.Empty },
-                        { "TimeSpeak", string.Empty }
+                        { "remainingTime", string.Empty },
+                        { "title", string.Empty },
+                        { "time", string.Empty },
+                        { "timeSpeak", string.Empty }
                     };
 
                     var remainingMinutes = string.Empty;
@@ -149,11 +157,13 @@ namespace CalendarSkill.Dialogs
                     }
 
                     var remainingTime = $"{remainingDays}{remainingHours}{remainingMinutes}";
-                    tokens["RemainingTime"] = remainingTime;
+                    tokens["remainingTime"] = remainingTime;
                     if (state.OrderReference == "next")
                     {
-                        var prompt = ResponseManager.GetResponse(TimeRemainingResponses.ShowNextMeetingTimeRemainingMessage, tokens);
-                        await sc.Context.SendActivityAsync(prompt);
+                        var showTimeRemainingLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[ShowNextMeetingTimeRemainingMessage]", tokens);
+                        var showTimeRemainingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, showTimeRemainingLGResult, null);
+
+                        await sc.Context.SendActivityAsync(showTimeRemainingPrompt);
                         return await sc.EndDialogAsync();
                     }
                     else
@@ -175,21 +185,23 @@ namespace CalendarSkill.Dialogs
 
                         if (timeSpeakToken.Length > 0)
                         {
-                            tokens["TimeSpeak"] = CommonStrings.SpokenTimePrefix_One + " " + timeSpeakToken;
+                            tokens["timeSpeak"] = CommonStrings.SpokenTimePrefix_One + " " + timeSpeakToken;
                         }
 
                         if (timeToken.Length > 0)
                         {
-                            tokens["Time"] = CommonStrings.SpokenTimePrefix_One + " " + timeToken;
+                            tokens["time"] = CommonStrings.SpokenTimePrefix_One + " " + timeToken;
                         }
 
                         if (state.Title != null)
                         {
-                            tokens["Title"] = string.Format(CalendarCommonStrings.WithTheSubject, state.Title);
+                            tokens["title"] = string.Format(CalendarCommonStrings.WithTheSubject, state.Title);
                         }
 
-                        var prompt = ResponseManager.GetResponse(TimeRemainingResponses.ShowTimeRemainingMessage, tokens);
-                        await sc.Context.SendActivityAsync(prompt);
+                        var showTimeRemainingLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[ShowTimeRemainingMessage]", tokens);
+                        var showTimeRemainingPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, showTimeRemainingLGResult, null);
+
+                        await sc.Context.SendActivityAsync(showTimeRemainingPrompt);
                         return await sc.EndDialogAsync();
                     }
                 }

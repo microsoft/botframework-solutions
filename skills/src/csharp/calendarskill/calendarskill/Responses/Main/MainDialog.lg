@@ -1,0 +1,5 @@
+# CalendarWelcomeMessage
+- ```
+Welcome to Calendar Skill! I can provide you an overview of your meetings today, read out your upcoming meeting, or create a new meeting for you. || speech test
+[Suggestions=What are my meetings today?|What is my next meeting|I want to set up a meeting|Can you update a meeting|Can you cancel my event]
+```

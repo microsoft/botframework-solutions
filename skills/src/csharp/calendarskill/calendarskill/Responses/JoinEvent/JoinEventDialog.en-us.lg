@@ -1,14 +1,1 @@
-[import](./../Shared/Shared.en-us.lg)
-[import](./../Summary/Summary.en-us.lg)
-
-# SelectMeeting(eventItem, timezone)
-- I found multiple events for you to join. The first option is with @{ShowAttendees(eventItem.Attendees, 1)} @{FormatEventTime(eventItem, timezone)} titled @{eventItem.Title}. Do you want to join this meeting? If you want to hear the next meeting, please say next or name one out of the list.
-
-# ConfirmPhoneNumber(phoneNumber)
-- Here is the number I am about to call: @{phoneNumber}. Please be aware that charges may apply. Do you want to proceed?
-
-# JoinMeeting
-- Sure, I'm dialing you into the event.
-
-# NotJoinMeeting
-- Okay, I will not dial you into the upcoming event.
+[import](JoinEventDialog.lg)
