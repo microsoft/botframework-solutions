@@ -34,7 +34,6 @@ namespace EmailSkill.Dialogs
         public ShowEmailDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             DeleteEmailDialog deleteEmailDialog,
             ReplyEmailDialog replyEmailDialog,
@@ -42,7 +41,7 @@ namespace EmailSkill.Dialogs
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(ShowEmailDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(ShowEmailDialog), settings, services, conversationState, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
@@ -328,7 +327,8 @@ namespace EmailSkill.Dialogs
                 var promptRecognizerResult = ConfirmRecognizerHelper.ConfirmYesOrNo(userInput, sc.Context.Activity.Locale);
                 if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == false)
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.CancellingMessage));
+                    var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[CancellingMessage]", null);
+                    await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(true);
                 }
                 else if (promptRecognizerResult.Succeeded && promptRecognizerResult.Value == true)
@@ -398,10 +398,10 @@ namespace EmailSkill.Dialogs
                         return await sc.ReplaceDialogAsync(Actions.DisplayFiltered, skillOptions);
                     }
 
-                    state.MessageList = cachedMessageList;
-                    state.Message = cachedFocusedMessages;
-
-                    return await sc.ReplaceDialogAsync(Actions.RetryUnknown, skillOptions);
+                    // return a signal for main flow need to start a new ComponentDialog.
+                    var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[DidntUnderstandMessage]", null);
+                    await sc.Context.SendActivityAsync(activity);
+                    return await sc.EndDialogAsync(true);
                 }
             }
             catch (Exception ex)
@@ -530,12 +530,14 @@ namespace EmailSkill.Dialogs
                         return await sc.ReplaceDialogAsync(Actions.Read, options: sc.Options);
                     }
 
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.DidntUnderstandMessage));
+                    var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[DidntUnderstandMessage]", null);
+                    await sc.Context.SendActivityAsync(activity);
                     return await sc.EndDialogAsync(true);
                 }
                 else
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.EmailNotFound));
+                    var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, sc.Context, "[EmailNotFound]", null);
+                    await sc.Context.SendActivityAsync(activity);
                 }
 
                 return await sc.EndDialogAsync(true);

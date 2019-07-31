@@ -31,7 +31,6 @@ namespace EmailSkill.Dialogs
     {
         private BotSettings _settings;
         private BotServices _services;
-        private ResponseManager _responseManager;
         private UserState _userState;
         private ConversationState _conversationState;
         private IStatePropertyAccessor<EmailSkillState> _stateAccessor;
@@ -40,7 +39,6 @@ namespace EmailSkill.Dialogs
         public MainDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
             UserState userState,
             ForwardEmailDialog forwardEmailDialog,
@@ -54,7 +52,6 @@ namespace EmailSkill.Dialogs
             _settings = settings;
             _services = services;
             _userState = userState;
-            _responseManager = responseManager;
             _conversationState = conversationState;
             TelemetryClient = telemetryClient;
             _stateAccessor = _conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
@@ -153,7 +150,8 @@ namespace EmailSkill.Dialogs
                             }
                             else
                             {
-                                await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailSharedResponses.DidntUnderstandMessage));
+                                var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[DidntUnderstandMessage]", null);
+                                await dc.Context.SendActivityAsync(activity);
                                 turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
                             }
 
@@ -162,7 +160,8 @@ namespace EmailSkill.Dialogs
 
                     default:
                         {
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailMainResponses.FeatureNotAvailable));
+                            var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[FeatureNotAvailable]", null);
+                            await dc.Context.SendActivityAsync(activity);
                             turnResult = new DialogTurnResult(DialogTurnStatus.Complete);
 
                             break;
@@ -291,7 +290,9 @@ namespace EmailSkill.Dialogs
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailMainResponses.CancelMessage));
+            var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[CancelMessage]", null);
+            await dc.Context.SendActivityAsync(activity);
+
             await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
             return InterruptionAction.StartedDialog;
@@ -299,7 +300,8 @@ namespace EmailSkill.Dialogs
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailMainResponses.HelpMessage));
+            var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[HelpMessage]", null);
+            await dc.Context.SendActivityAsync(activity);
             return InterruptionAction.MessageSentToUser;
         }
 
@@ -325,7 +327,8 @@ namespace EmailSkill.Dialogs
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(EmailMainResponses.LogOut));
+            var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, dc.Context, "[LogOut]", null);
+            await dc.Context.SendActivityAsync(activity);
 
             return InterruptionAction.StartedDialog;
         }
