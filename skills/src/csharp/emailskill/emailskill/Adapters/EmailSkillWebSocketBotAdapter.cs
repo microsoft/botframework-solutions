@@ -1,9 +1,11 @@
 ﻿using System.Globalization;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Services;
+using EmailSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -13,6 +15,8 @@ namespace EmailSkill.Adapters
 {
     public class EmailSkillWebSocketBotAdapter : SkillWebSocketBotAdapter
     {
+        private ResourceMultiLanguageGenerator _lgMultiLangEngine;
+
         public EmailSkillWebSocketBotAdapter(
             BotSettings settings,
             UserState userState,
@@ -21,10 +25,13 @@ namespace EmailSkill.Adapters
             ResponseManager responseManager,
             IBotTelemetryClient telemetryClient)
         {
+            _lgMultiLangEngine = new ResourceMultiLanguageGenerator("Shared.lg");
+
             OnTurnError = async (context, exception) =>
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-                await context.SendActivityAsync(responseManager.GetResponse(EmailSharedResponses.EmailErrorMessage));
+                var activity = await LGHelper.GenerateMessageAsync(_lgMultiLangEngine, context, "[EmailErrorMessage]", null);
+                await context.SendActivityAsync(activity);
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Email Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);
             };

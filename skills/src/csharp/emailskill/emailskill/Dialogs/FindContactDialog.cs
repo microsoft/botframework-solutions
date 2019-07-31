@@ -33,7 +33,6 @@ namespace EmailSkill.Dialogs
         public FindContactDialog(
              BotSettings settings,
              BotServices services,
-             ResponseManager responseManager,
              ConversationState conversationState,
              IServiceManager serviceManager,
              IBotTelemetryClient telemetryClient)
@@ -41,7 +40,6 @@ namespace EmailSkill.Dialogs
         {
             TelemetryClient = telemetryClient;
             Services = services;
-            ResponseManager = responseManager;
             Accessor = conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
             DialogStateAccessor = conversationState.CreateProperty<DialogState>(nameof(DialogState));
             ServiceManager = serviceManager;
@@ -141,8 +139,6 @@ namespace EmailSkill.Dialogs
         protected IStatePropertyAccessor<DialogState> DialogStateAccessor { get; set; }
 
         protected IServiceManager ServiceManager { get; set; }
-
-        protected ResponseManager ResponseManager { get; set; }
 
         public async Task<DialogTurnResult> ConfirmNameList(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -966,7 +962,7 @@ namespace EmailSkill.Dialogs
             var options = new PromptOptions
             {
                 Choices = new List<Choice>(),
-                Prompt = ResponseManager.GetResponse(FindContactResponses.ConfirmMultiplContactEmailSinglePage, new StringDictionary() { { "UserName", confirmedPerson.DisplayName } })
+                Prompt = reply as Activity
             };
 
             if (!isSinglePage)
@@ -1058,7 +1054,7 @@ namespace EmailSkill.Dialogs
             var options = new PromptOptions
             {
                 Choices = new List<Choice>(),
-                Prompt = ResponseManager.GetResponse(FindContactResponses.ConfirmMultipleContactNameSinglePage, new StringDictionary() { { "UserName", currentRecipientName } })
+                Prompt = reply as Activity
             };
 
             if (!isSinglePage)
