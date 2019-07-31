@@ -2,8 +2,8 @@
 category: Reference
 subcategory: Skills
 language: csharp javascript
-title: VA to Skill Authentication
-order: 1
+title: Skill Authentication
+order: 4
 ---
 
 # Skill Authentication

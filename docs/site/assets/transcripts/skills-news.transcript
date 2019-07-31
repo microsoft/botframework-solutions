@@ -1,0 +1,1452 @@
+[
+  {
+    "type": "conversationUpdate",
+    "membersAdded": [
+      {
+        "id": "1",
+        "name": "Bot"
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "id": "bdea3652-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:39:55+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2018-12-14T13:39:55.573Z",
+    "from": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "name": "User"
+    },
+    "locale": "",
+    "serviceUrl": "http://localhost:57284"
+  },
+  {
+    "type": "conversationUpdate",
+    "membersAdded": [
+      {
+        "id": "e65f5633-2825-4429-af87-00de50227199",
+        "name": "User"
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "id": "bdea3653-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:39:55+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2018-12-14T13:39:55.573Z",
+    "from": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "name": "User"
+    },
+    "locale": "",
+    "serviceUrl": "http://localhost:57284"
+  },
+  {
+    "type": "message",
+    "text": "what's the latest news on microsoft",
+    "from": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T13:40:10.935Z",
+    "channelData": {
+      "clientActivityId": "1544794795561.9728301264937917.0"
+    },
+    "entities": [
+      {
+        "type": "ClientCapabilities",
+        "requiresBotState": true,
+        "supportsTts": true,
+        "supportsListening": true
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "id": "c7124470-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:40:10+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:57284"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T13:40:13.017Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "role": "user"
+    },
+    "replyToId": "c7124470-ffa5-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "what's the latest news on microsoft",
+        "alteredText": null,
+        "intents": {
+          "Help": {
+            "score": 0.190274626
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "c54e242b-8f7a-44b2-8cdb-bbfa8e2abd9d"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "what's the latest news on microsoft",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Help",
+          "score": 0.190274626
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "c8501ba0-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:40:13+00:00",
+    "locale": ""
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "role": "user"
+    },
+    "replyToId": "c7124470-ffa5-11e8-a98b-73f4b63fdc72",
+    "id": "c86ec730-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:40:13+00:00",
+    "timestamp": "2018-12-14T13:40:13.219Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T13:40:13.936Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "role": "user"
+    },
+    "replyToId": "c7124470-ffa5-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "what's the latest news on microsoft",
+        "alteredText": null,
+        "intents": {
+          "FindArticles": {
+            "score": 0.995214045
+          }
+        },
+        "entities": {
+          "$instance": {
+            "topic": [
+              {
+                "startIndex": 26,
+                "endIndex": 35,
+                "text": "microsoft",
+                "type": "topic",
+                "score": 0.9785765
+              }
+            ]
+          },
+          "topic": [
+            "microsoft"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "e3e38d01-07e9-4037-aea8-be63fccffb15"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "what's the latest news on microsoft",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "FindArticles",
+          "score": 0.995214045
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "microsoft",
+            "type": "topic",
+            "startIndex": 26,
+            "endIndex": 34,
+            "score": 0.9785765
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "c8dc2f00-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:40:13+00:00",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T13:40:14.741Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "role": "user"
+    },
+    "attachmentLayout": "carousel",
+    "locale": "",
+    "text": "Here's what I found:",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Microsoft researchers beat Tencent and Intel in autonomous greenhouse competition",
+          "subtitle": "12/14/2018 11:07:00",
+          "text": "Members of Microsoft Research, together with students from Dutch and Danish universities, have won a cucumber-growing competition held in autonomous greenhouses at Wageningen University and ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.B4A22911852BA4C050FE3BCDBC8D2027&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://venturebeat.com/2018/12/14/microsoft-researchers-beat-tencent-and-intel-in-autonomous-greenhouse-competition/"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "What makes Microsoft tick?",
+          "subtitle": "12/13/2018 17:49:00",
+          "text": "As 2018 comes to a close, it's interesting to watch various parties attempting to analyze the reasons behind Microsoft's \"comeback.\" It's the change in culture, some argue. It's the focus on open source, say others. It's because Microsoft is (or isn't) the ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.2823788DC685BF2C5F0FBBCF90D9F510&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.zdnet.com/article/what-makes-microsoft-tick/"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Dow Jones Futures: Ciena Set To Break Out; Microsoft Eyes Buy Point",
+          "subtitle": "12/13/2018 12:26:00",
+          "text": "Dow Jones futures were little changed early Thursday, along with S&P 500 futures and Nasdaq futures. Telecom gear maker Ciena (CIEN) reported strong quarterly results early Thursday, sending Ciena stock soring back into buy range. Dow Jones tech titan ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.8A30227992F1E51AF6AD56142C803170&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.investors.com/market-trend/stock-market-today/dow-jones-futures-ciena-earnings-ciena-stock-microsoft-stock/"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Microsoft will bid adieu to People bar in the upcoming Windows 10 19H1 build",
+          "subtitle": "12/14/2018 12:06:00",
+          "text": "Microsoft is supposed to roll out the new Windows 10 19H1 update to the public in the spring of 2019. While Microsoft has showcased some of the changes, the company is still working behind the scenes to improve Windows for the scheduled rollout. However ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.BBC25FAB626A1A3DEFB1364DAD0ABEA2&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://mspoweruser.com/microsoft-will-bid-adieu-to-people-bar-in-the-upcoming-windows-10-19h1-build/"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Microsoft Surface Pro 6: Everything you need to know",
+          "subtitle": "12/13/2018 16:02:00",
+          "text": "At Microsoft’s October 2 Surface event, Microsoft finally confirmed its successor to the 2017 Surface Pro, the Surface Pro 6. The design of the Surface Pro line of 2-in-1 laptops has remained unchanged for a number of years, including in its last update ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.E7A674E39D9A52C183E414D9E3323A34&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.digitaltrends.com/computing/surface-pro-2018-rumors/"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Microsoft's '12 Days of Faves' deals knock the Surface Laptop 2 price down to a fantastic $799",
+          "subtitle": "12/13/2018 21:32:00",
+          "text": "’Tis the season for major retailers to begin offering holiday discounts, and Microsoft has a few definitely worth checking out. The best in its 2018 “12 Days of Faves” knocks the price of the excellent Microsoft Surface Laptop 2 as low as $799, well ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.A9B96EABC3D386D54A889EF7CA347561&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.pcworld.com/article/3327134/computers/microsoft-12-days-of-faves-deals.html"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "BlackRock and Microsoft want to make retirement investing as easy as ordering an Uber",
+          "subtitle": "12/13/2018 20:54:00",
+          "text": "BlackRock is inking its biggest technology alliance yet, aiming to help Americans save for retirement. The firm is working with Microsoft to build a platform for retirement savings that will launch next year, the world's largest asset manager said Thursday.",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.E14ACACDC4BA95C77237FFE58109B5FA&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.businessinsider.com/blackrock-inks-retirement-partnership-with-microsoft-2018-12"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Best tablets and accessories for Christmas gifts: Apple iPad, Microsoft Surface, Amazon Fire and more",
+          "subtitle": "12/13/2018 21:55:00",
+          "text": "If you're still thinking of tablets as strictly for media consumption, games and email, it's time to take a fresh look at what the latest models can do. Sure, they're still great for entertainment, but they can also function as simple laptops for getting ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.2CEC0F7F0183FDD5715F9E5E802B1EBB&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.cnet.com/news/best-tablets-and-accessories-for-gifts-2018-holidays-christmas/"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "IBM's $34 billion Red Hat acquisition came after deal talks with Microsoft, Google, and Amazon, sources say",
+          "subtitle": "12/13/2018 16:20:00",
+          "text": "When IBM announced its $34 billion acquisition of Red Hat on October 28, the tech word was struck by the huge price tag, as well as its potential to revive IBM's struggling cloud business. But as it turns out, things could have gone a lot differently.",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.8900AC5D0AF9059BE3C8C75DCCAB1A17&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.businessinsider.com/red-hat-deal-talks-with-amazon-microsoft-google-before-34-billion-ibm-acquisition-2018-12"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Microsoft teases a big announcement tomorrow involving Windows 95",
+          "subtitle": "12/13/2018 13:48:00",
+          "text": "While the company isn’t being specific with the announcement, the texture shown in the Twitter photo points towards a possible wearable merchandise giveaway. Nonetheless, we will have to wait till tomorrow to find out what Microsoft has in store for us.",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.9DE0EE72564E3A3C56D0B8E6DF207A1D&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://mspoweruser.com/microsoft-teases-a-big-announcement-tomorrow-involving-windows-95/"
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "c7124470-ffa5-11e8-a98b-73f4b63fdc72",
+    "id": "c9570450-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:40:14+00:00"
+  },
+  {
+    "type": "message",
+    "text": "find me the latest on brexit",
+    "from": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T13:40:20.743Z",
+    "channelData": {
+      "clientActivityId": "1544794795561.9728301264937917.2"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "id": "ccead970-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:40:20+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:57284"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "role": "user"
+    },
+    "replyToId": "ccead970-ffa5-11e8-a98b-73f4b63fdc72",
+    "id": "cd3f8920-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:40:21+00:00",
+    "timestamp": "2018-12-14T13:40:21.298Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T13:40:21.487Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "role": "user"
+    },
+    "replyToId": "ccead970-ffa5-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "find me the latest on brexit",
+        "alteredText": null,
+        "intents": {
+          "Next": {
+            "score": 0.09416613
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "c54e242b-8f7a-44b2-8cdb-bbfa8e2abd9d"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "find me the latest on brexit",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Next",
+          "score": 0.09416613
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "cd5c5ff0-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:40:21+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T13:40:21.816Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "role": "user"
+    },
+    "replyToId": "ccead970-ffa5-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "find me the latest on brexit",
+        "alteredText": null,
+        "intents": {
+          "FindArticles": {
+            "score": 0.955971062
+          }
+        },
+        "entities": {
+          "$instance": {
+            "topic": [
+              {
+                "startIndex": 22,
+                "endIndex": 28,
+                "text": "brexit",
+                "type": "topic",
+                "score": 0.832930565
+              }
+            ]
+          },
+          "topic": [
+            "brexit"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "e3e38d01-07e9-4037-aea8-be63fccffb15"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "find me the latest on brexit",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "FindArticles",
+          "score": 0.955971062
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "brexit",
+            "type": "topic",
+            "startIndex": 22,
+            "endIndex": 27,
+            "score": 0.832930565
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "cd8e9380-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:40:21+00:00",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T13:40:22.485Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "role": "user"
+    },
+    "attachmentLayout": "carousel",
+    "locale": "",
+    "text": "Here's what I found:",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "The EU rebuffs Theresa May on Brexit — six takeaways",
+          "subtitle": "12/14/2018 13:22:00",
+          "text": "Theresa May has suffered a humiliating setback. A Brussels summit aimed at saving her Brexit deal with the EU has instead left her negotiating strategy in tatters and her premiership in dire trouble. Here are the FT’s six takeaways from a night of ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.3D94783333C4B189D48FAF3736251BED&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.ft.com/content/f676970e-ff94-11e8-aebf-99e208d3e521"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Blair tells May to ‘stop banging her head off wall’ on Brexit",
+          "subtitle": "12/14/2018 13:18:00",
+          "text": "Former UK prime minister Tony Blair has urged Theresa May to stop “banging her head against a brick wall” over Brexit. Following a speech in which he called for another referendum on Britain’s withdrawal from the EU, Mr Blair said there was a case to ...",
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.irishtimes.com/business/economy/blair-tells-may-to-stop-banging-her-head-off-wall-on-brexit-1.3731406"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "EU leader rejects Theresa May's call to redo Brexit deal",
+          "subtitle": "12/14/2018 12:28:00",
+          "text": "Dec. 14 (UPI) --The European Union has rejected an effort by British Prime Minister Theresa May to renegotiate its Brexit deal, saying it's not the coalition's job to satisfy lawmakers in London. After surviving a no-confidence vote in Britain's House of ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.AD8B42B0C5AE303DF1BDAE85374DD003&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.upi.com/Top_News/World-News/2018/12/14/EU-leader-rejects-Theresa-Mays-call-to-redo-Brexit-deal/2681544788967/"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Brexit latest news: Theresa May confronts Jean-Claude Juncker as trip to Brussels backfires",
+          "subtitle": "12/14/2018 12:43:00",
+          "text": "Theresa May has publicly confronted Jean Claude-Juncker after the President of the European Commission launched a personal attack on the Prime Minister....",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.F08FA2869DFC763FC5C38563CC18BDD0&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.telegraph.co.uk/politics/2018/12/14/brexit-latest-news-theresa-mays-trip-brussels-backfires-eu-grows/"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Brexit: Theresa May set to give press conference from Brussels – Politics live",
+          "subtitle": "12/14/2018 12:28:00",
+          "text": "It was only a matter of time … Channel 5 News has employed “two expert lip readers” to tell it what we had all worked out for ourselves – that Theresa May accused Jean-Claude Juncker of describing her as “nebulous” during the heated exchange ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.703457AB54E8EE7683CE3EFC932E7185&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.theguardian.com/politics/blog/live/2018/dec/14/theresa-may-returns-to-uk-to-face-backbenchers-after-brussels-knockback-politics-live"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "UK's Theresa May returns to face EU leaders after Brexit deal rebuff",
+          "subtitle": "12/14/2018 12:43:00",
+          "text": "BRUSSELS: British Prime Minister Theresa May returned to face EU leaders Friday after they rebuffed her pleas for help to sell her Brexit plan back home and warned of the growing threat of a \"no deal.",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.2548FC93FAEE2B964B8D9F38F6DF57DD&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://timesofindia.indiatimes.com/world/uk/uks-theresa-may-returns-to-face-eu-leaders-after-brexit-deal-rebuff/articleshow/67093741.cms"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Brexit bother: animated May remonstrates with EU's Juncker",
+          "subtitle": "12/14/2018 11:27:00",
+          "text": "BRUSSELS (Reuters) - Theresa May remonstrated with Jean-Claude Juncker at a Brussels summit on Friday and the EU chief executive seemed anxious to placate the British prime minister whose Brexit demands he had called “nebulous” the night before.",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.22724A041648161046574046C4060934&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.reuters.com/article/us-britain-eu-may-juncker-idUSKBN1OD1AQ"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Brexit: No visa but Britons will pay €7 to travel to EU countries",
+          "subtitle": "12/14/2018 11:45:00",
+          "text": "Britons will have to pay €7 (£6.30) every three years to travel to EU countries, as a consequence of Brexit. The European Commission has confirmed that while UK travellers will not need a visa, they will need to apply for and buy another document from 2021.",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.90011AAD4BF18688F42A029DCC95AF0E&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.bbc.co.uk/news/uk-46564884"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Brexit backstop is European issue as well as an Irish issue, says Varadkar",
+          "subtitle": "12/14/2018 12:39:00",
+          "text": "Taoiseach Leo Varadkar has said the European Union is as one on the need for a Border backstop in Brexit withdrawal agreement. Mr Varadkar said the controversial issue was not just of concern to the Irish, as fellow EU leaders saw the measure as vital to ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.8502D37AA99837102B185E5B3E77EABD&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.irishtimes.com/news/world/europe/brexit-backstop-is-european-issue-as-well-as-an-irish-issue-says-varadkar-1.3731368"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Brexit: EU says no to May on renegotiating deal",
+          "subtitle": "12/14/2018 10:23:00",
+          "text": "Media captionA quiet word in your ear...but what did Theresa May say to EU's Juncker? Theresa May's bid to make her Brexit deal more acceptable to MPs has suffered a blow after EU leaders said it was \"not open for renegotiation\". She wanted legal ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.670BECFFA96259834E4D249789C712D7&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.bbc.co.uk/news/uk-politics-46560807"
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "ccead970-ffa5-11e8-a98b-73f4b63fdc72",
+    "id": "cdf4a850-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:40:22+00:00"
+  },
+  {
+    "type": "message",
+    "text": "latest news",
+    "from": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T13:40:41.639Z",
+    "channelData": {
+      "clientActivityId": "1544794795561.9728301264937917.4"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "id": "d95f5370-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:40:41+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:57284"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "role": "user"
+    },
+    "replyToId": "d95f5370-ffa5-11e8-a98b-73f4b63fdc72",
+    "id": "d9b73770-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:40:42+00:00",
+    "timestamp": "2018-12-14T13:40:42.214Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T13:40:42.363Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "role": "user"
+    },
+    "replyToId": "d95f5370-ffa5-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "latest news",
+        "alteredText": null,
+        "intents": {
+          "Cancel": {
+            "score": 0.0366765819
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "c54e242b-8f7a-44b2-8cdb-bbfa8e2abd9d"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "latest news",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Cancel",
+          "score": 0.0366765819
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "d9cdccb0-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:40:42+00:00",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T13:40:42.732Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "role": "user"
+    },
+    "replyToId": "d95f5370-ffa5-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "latest news",
+        "alteredText": null,
+        "intents": {
+          "FindArticles": {
+            "score": 0.9928315
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "e3e38d01-07e9-4037-aea8-be63fccffb15"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "latest news",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "FindArticles",
+          "score": 0.9928315
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "da061ac0-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:40:42+00:00",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "role": "user"
+    },
+    "text": "What topic are you interested in?",
+    "inputHint": "expectingInput",
+    "replyToId": "d95f5370-ffa5-11e8-a98b-73f4b63fdc72",
+    "id": "da27ac80-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:40:42+00:00",
+    "timestamp": "2018-12-14T13:40:42.952Z",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "text": "azure",
+    "from": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "name": "User"
+    },
+    "locale": "",
+    "textFormat": "plain",
+    "timestamp": "2018-12-14T13:40:54.508Z",
+    "channelData": {
+      "clientActivityId": "1544794795561.9728301264937917.6"
+    },
+    "channelId": "emulator",
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "id": "e10afac0-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:40:54+00:00",
+    "recipient": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:57284"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "role": "user"
+    },
+    "replyToId": "e10afac0-ffa5-11e8-a98b-73f4b63fdc72",
+    "id": "e160e2f0-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:40:55+00:00",
+    "timestamp": "2018-12-14T13:40:55.071Z",
+    "locale": ""
+  },
+  {
+    "type": "trace",
+    "timestamp": "2018-12-14T13:40:55.255Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "role": "user"
+    },
+    "replyToId": "e10afac0-ffa5-11e8-a98b-73f4b63fdc72",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "azure",
+        "alteredText": null,
+        "intents": {
+          "Cancel": {
+            "score": 0.0693425462
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "c54e242b-8f7a-44b2-8cdb-bbfa8e2abd9d"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "TimezoneOffset": null
+      },
+      "luisResult": {
+        "query": "azure",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Cancel",
+          "score": 0.0693425462
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "e17cf670-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:40:55+00:00",
+    "locale": ""
+  },
+  {
+    "type": "message",
+    "timestamp": "2018-12-14T13:40:55.932Z",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "role": "user"
+    },
+    "attachmentLayout": "carousel",
+    "locale": "",
+    "text": "Here's what I found:",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Microsoft Ending Azure Container Service Support in 2020",
+          "subtitle": "12/13/2018 01:24:00",
+          "text": "Microsoft gave notice earlier this month that it will be ending its Azure Container Service (ACS) on Jan. 31, 2020. ACS was commercially launched more than two years ago with support for running ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.6B2019AC531049AC51589074D8DA03E0&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://redmondmag.com/articles/2018/12/12/azure-container-service-support-ending.aspx"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Windows Virtual Desktop service on Azure",
+          "subtitle": "12/12/2018 11:36:00",
+          "text": "Windows is getting ever closer to being a service. Part of that is the (not always successful) regular updates every six months, but Microsoft Managed Desktop and the new Windows Virtual Desktop (WVD) service on Azure are the other half of this. If you don ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.5C95932F5BAFAB6DA5E508EE7A84E460&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.techrepublic.com/article/windows-virtual-desktop-service-on-azure/"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Highlighted as Zacks Bull and Bear of the Day Azure Power, Tata Motors, Micron, Nvidia and AMD",
+          "subtitle": "12/14/2018 12:14:00",
+          "text": "Chicago, IL – December 14, 2018 – Zacks Equity Research Azure Power AZRE as the Bull of the Day, Tata Motors TTM as the Bear of the Day. In addition, Zacks Equity Research provides analysis ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.975F6D3709F0904FC50616D7C502867A&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://finance.yahoo.com/news/highlighted-zacks-bull-bear-day-113011481.html"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Hybrid Cloud: Microsoft Azure vs Amazon AWS",
+          "subtitle": "12/12/2018 15:51:00",
+          "text": "While there are a number of players in the cloud computing marketplace, it’s perfectly clear that the battle of the titans is between Microsoft Azure and Amazon AWS. Rising from a humble add-on to Amazon’s e-commerce business, Amazon’s AWS has become ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.9DC4BFB2547B443CCB0B9887644CC777&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.petri.com/hybrid-cloud-microsoft-azure-vs-amazon-aws"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Bull of the Day: Azure Power Global (AZRE)",
+          "subtitle": "12/14/2018 11:08:00",
+          "text": "“I’d put my money on the sun and solar energy. What a source of power! I hope we don’t have to wait until oil and coal run out before we tackle that.” – Thomas Edison, 1931 Th Solar Power generation industry in the United States has seen multiple ...",
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.zacks.com/commentary/197772/bull-of-the-day-azure-power-global-azre"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "A First Look at Azure Ultra SSD",
+          "subtitle": "12/12/2018 18:31:00",
+          "text": "Paul Schnackenburg examines the current storage options for Azure IaaS VMs, as well as the new offering, Ultra SSD, released in preview at Ignite 2018. Storage in public clouds has always been an interesting problem. The importance of IOPS and throughput ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.A8BB188824ADB52CBD6234B1B82C7F17&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://virtualizationreview.com/articles/2018/12/12/azure-ultra-ssd.aspx"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Capitalinstall malware targets healthcare sector, delivers payload via Microsoft Azure",
+          "subtitle": "12/11/2018 16:00:00",
+          "text": "Malicious actors are using creative means to serve malware payloads via Microsoft Azure, according to a Tuesday report from security firm Netskope. These payloads are infecting targets in the security-conscious healthcare sector, as IT administrators ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.876CBD158B63D1B7BDD33106F249F8E4&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.techrepublic.com/article/capitalinstall-malware-targets-healthcare-sector-delivers-payload-via-microsoft-azure/"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Mellanox Uses Univa to Extend Silicon Design HPC Operation to Azure",
+          "subtitle": "12/11/2018 18:08:00",
+          "text": "Call it a corollary to Murphy’s Law: When a system is most in demand, when end users are most dependent on the system performing as required, when it’s crunch time – that’s when the system is most likely to blow up. Or make you wait in line to ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.9F375711F889441FF39FF4727264089B&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.hpcwire.com/2018/12/11/mellanox-uses-univa-to-extend-silicon-design-hpc-operation-to-azure/"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "DocAuthority Delivers All Encompassing Approach to Data Governance, Powered by Microsoft Azure",
+          "subtitle": "12/12/2018 11:45:00",
+          "text": "DocAuthority, a leader in data management and protection, today announces it will integrate its revolutionary Business ID [TM] platform with Microsoft Azure Information Protection labeling of classification. This combination will provide a faster, more ...",
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.marketwatch.com/press-release/docauthority-delivers-all-encompassing-approach-to-data-governance-powered-by-microsoft-azure-2018-12-12"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Azure Summit Technology Secures more than $10M in Delivery Orders for Intelligent Switchblade Transceiver",
+          "subtitle": "12/12/2018 21:11:00",
+          "text": "FAIRFAX, Va., Dec. 12, 2018 /PRNewswire/ -- Azure Summit Technology, provider of high-performance RF electronics hardware, firmware, and software products for the Department of Defense, announced ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.E7E11F005CE2C05BE66738E78889721D&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://finance.yahoo.com/news/azure-summit-technology-secures-more-210100332.html"
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "e10afac0-ffa5-11e8-a98b-73f4b63fdc72",
+    "id": "e1e443c0-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:40:55+00:00"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "http://localhost:57284",
+    "channelId": "emulator",
+    "from": {
+      "id": "1",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "bde81370-ffa5-11e8-9e1e-01f7dc6b2aad|livechat"
+    },
+    "recipient": {
+      "id": "e65f5633-2825-4429-af87-00de50227199",
+      "role": "user"
+    },
+    "text": "What else can I help you with?",
+    "replyToId": "e10afac0-ffa5-11e8-a98b-73f4b63fdc72",
+    "id": "e1fcfbe0-ffa5-11e8-a98b-73f4b63fdc72",
+    "localTimestamp": "2018-12-14T13:40:56+00:00",
+    "timestamp": "2018-12-14T13:40:56.094Z",
+    "locale": ""
+  }
+]

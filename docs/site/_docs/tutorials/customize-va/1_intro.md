@@ -6,7 +6,7 @@ title: Intro
 order: 1
 ---
 
-## Intro
+## Tutorial: Customize a Virtual Assistant
 
 ### Purpose
 

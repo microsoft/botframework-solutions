@@ -3,7 +3,7 @@ category: Reference
 subcategory: Skills
 language: csharp javascript
 title: Point Of Interest Skill
-order: 1
+order: 11
 ---
 
 # Point of Interest Skill

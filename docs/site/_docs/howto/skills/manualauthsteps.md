@@ -1,9 +1,9 @@
 ---
-category: Reference
+category: How To
 subcategory: Skills
 language: csharp javascript
-title: OAuth Configuration
-order: 1
+title: Manually configure OAuth connections
+order: 3
 ---
 
 # Manual Authentication Configuration steps for Productivity Skills in local-mode only

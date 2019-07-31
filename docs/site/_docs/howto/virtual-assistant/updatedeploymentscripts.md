@@ -2,8 +2,8 @@
 category: How To
 subcategory: Virtual Assistant
 language: csharp javascript
-title: Update to latest deployment scripts
-order: 1
+title: Update deployment scripts
+order: 3
 ---
 
 # How To: Update deployment scripts

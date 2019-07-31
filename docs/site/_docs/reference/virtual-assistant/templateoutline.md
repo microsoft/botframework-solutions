@@ -3,7 +3,7 @@ category: Reference
 subcategory: Virtual Assistant
 language: csharp javascript
 title: Understanding the Template
-order: 1
+order: 2
 ---
 
 # Virtual Assistant Template Outline

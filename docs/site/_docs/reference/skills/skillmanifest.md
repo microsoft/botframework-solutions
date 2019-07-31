@@ -3,7 +3,7 @@ category: Reference
 subcategory: Skills
 language: csharp javascript
 title: Skill Manifest
-order: 1
+order: 3
 ---
 
 # Skill Manifest

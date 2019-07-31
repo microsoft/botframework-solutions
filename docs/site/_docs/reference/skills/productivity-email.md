@@ -3,7 +3,7 @@ category: Reference
 subcategory: Skills
 language: csharp javascript
 title: Email Skill
-order: 1
+order: 9
 ---
 
 # Email Skill (Productivity)

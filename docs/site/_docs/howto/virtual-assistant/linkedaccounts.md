@@ -2,8 +2,8 @@
 category: How To
 subcategory: Virtual Assistant
 language: csharp javascript
-title: Linked Accounts
-order: 1
+title: Link Accounts to a Virtual Assistant
+order: 6
 ---
 
 # Linking Accounts to a Virtual Assistant
@@ -19,13 +19,13 @@ If you'd like to learn more about this scenario in WebChat, we encourage you to 
 
 **OAuth Card Example**
 
-![Example OAuth Card](\assets\images\virtualassistant-LinkedAccountsOAuthCard.png)
+![Example OAuth Card](../../media/virtualassistant-LinkedAccountsOAuthCard.png)
 
 In a speech-led scenario, it's unacceptable and impractical to expect a user to enter their username and password through voice command. Therefore, a separate companion experience would provide the opportunity for a user to sign in once and provide permissions for the Virtual Assistant to retrieve a token for later continued use.
 
 The Linked Accounts feature of the Virtual Assistant provides a reference sample of a web app using the Azure Bot Service to deliver this capability, a screen shot showing the example interface is shown below and demonstrates the type of capability you would build into your own experience (e.g. a mobile app)
 
-![Linked Accounts UX](\assets\images\virtualassistant-linkedaccountsux.png)
+![Linked Accounts UX](../../media/virtualassistant-linkedaccountsux.png)
 
 ## Authentication Configuration
 
@@ -51,9 +51,9 @@ The ``appsettings.json`` file in the LinkedAccounts sample project has the follo
 ```json
 "AzureAd": {
     "Instance": "https://login.microsoftonline.com/",
-    "Domain": "microsoft.onmicrosoft.com",
-    "TenantId": "YOUR_TENANTID",
-    "ClientId": "YOUR_CLIENTID",
+    "Domain": "[Enter the domain of your tenant, e.g. contoso.onmicrosoft.com]",
+    "TenantId": "[Enter 'common', or 'organizations' or the Tenant Id (Obtained from the Azure portal. Select 'Endpoints' from the 'App registrations' blade and use the GUID in any of the URLs)]",
+    "ClientId": "[Enter the Client Id (Application ID obtained from the Azure portal)]",
     "CallbackPath": "/signin-oidc"
   }
 ```

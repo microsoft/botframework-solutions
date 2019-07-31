@@ -6,7 +6,7 @@ title: Intro
 order: 1
 ---
 
-# Intro
+## Tutorial: Create a Skill
 
 ### Purpose
 

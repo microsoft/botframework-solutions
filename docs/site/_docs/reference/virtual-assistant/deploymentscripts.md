@@ -3,7 +3,7 @@ category: Reference
 subcategory: Virtual Assistant
 language: csharp javascript
 title: Deployment Scripts
-order: 1
+order: 3
 ---
 
 # PowerShell Deployment Scripts

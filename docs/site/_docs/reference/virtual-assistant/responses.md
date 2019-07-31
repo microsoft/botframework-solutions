@@ -3,7 +3,7 @@ category: Reference
 subcategory: Virtual Assistant
 language: csharp javascript
 title: Responses
-order: 1
+order: 5
 ---
 
 # Virtual Assistant Responses

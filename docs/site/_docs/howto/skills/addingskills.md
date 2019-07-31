@@ -2,7 +2,7 @@
 category: How To
 subcategory: Skills
 language: csharp javascript
-title: Adding skills
+title: Add skills to a Virtual Assistant
 order: 1
 ---
 

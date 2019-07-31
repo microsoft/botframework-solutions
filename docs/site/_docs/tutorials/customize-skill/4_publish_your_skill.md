@@ -8,5 +8,5 @@ order: 4
 
 ## Publish your Skill
 
-You can now publish your Skill to Azure using the usual deployment tools and enable easier invocation of the Skill from your assistant project.
+Publish your Skill to Azure using the usual deployment tools to enable invocation of the Skill from your assistant project.
 

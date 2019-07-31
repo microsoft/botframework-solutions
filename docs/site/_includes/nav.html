@@ -27,23 +27,6 @@
                             {% endif %}
                             <ul id="category{{index}}" class="{{ collapse }} mt-2 mb-4">
                                 {% assign subcategories = category.items | group_by: 'subcategory' %}
-                                {% assign nosub = subcategories | where: "name", "" | first %}
-                                {% if nosub %}
-                                    {% assign items = nosub.items | sort: 'order' %}
-                                    {% for item in items %}
-                                        <li>
-                                            {% if page.url == item.url %}
-                                                {% assign classes = "text-brand-highlight" %}
-                                            {% else %}
-                                                {% assign classes = "text-gray-light" %}
-                                            {% endif %}
-                                            <a class="d-block no-underline py-1 {{classes}}" href="{{ site.baseurl }}{{ item.url }}">
-                                                {{ item.title }}
-                                            </a>
-                                        </li>
-                                    {% endfor %}
-                                {% endif %}
-
                                 {% assign index2 = 0 %}
                                 {% for sc in c[1] %}
                                     {% for subcategory in subcategories %}
@@ -80,6 +63,23 @@
                                         {% endif %}
                                     {% endfor %}
                                 {% endfor %}
+
+                                {% assign nosub = subcategories | where: "name", "" | first %}
+                                {% if nosub %}
+                                    {% assign items = nosub.items | sort: 'order' %}
+                                    {% for item in items %}
+                                        <li>
+                                            {% if page.url == item.url %}
+                                                {% assign classes = "text-brand-highlight" %}
+                                            {% else %}
+                                                {% assign classes = "text-gray-light" %}
+                                            {% endif %}
+                                            <a class="d-block no-underline py-1 {{classes}}" href="{{ site.baseurl }}{{ item.url }}">
+                                                {{ item.title }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
                             </ul>
                         </li>
                     {% endif %}

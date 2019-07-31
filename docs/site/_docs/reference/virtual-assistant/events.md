@@ -3,7 +3,7 @@ category: Reference
 subcategory: Virtual Assistant
 language: csharp javascript
 title: Events
-order: 1
+order: 6
 ---
 
 # Handle client events with a Virtual Assistant

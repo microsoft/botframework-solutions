@@ -2,11 +2,11 @@
 category: How To
 subcategory: Virtual Assistant
 language: csharp javascript
-title: Customize Azure resource provisioning
-order: 1
+title: Customize Azure Deployment
+order: 2
 ---
 
-# How To: Customize Deployment
+# How To: Customize Azure Deployment
 
 The Virtual Assistant Template relies on a number of Azure resources to run. The included deployment scripts and ARM template use the following default configurations for these services:
 

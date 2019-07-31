@@ -3,7 +3,7 @@ category: Reference
 subcategory: Skills
 language: csharp javascript
 title: Calendar Skill
-order: 1
+order: 8
 ---
 
 # Calendar Skill (Productivity)
