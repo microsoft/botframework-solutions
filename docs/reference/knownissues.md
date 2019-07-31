@@ -111,6 +111,6 @@ Then the bot will recreate the state `-documents` when it starts if it doesn't e
 
 This is a known issue with node-gyp: [nodejs/node-gyp#1663](https://github.com/nodejs/node-gyp/issues/1663). Uninstalling Visual Studio 2019 Preview fixes the issue.
 
-## Lowercased ids in cognitivemodels.json file stopped working
+## Skills not working after updating to v0.5-beta release
 
-Due to recent changes in the Virtual Assistant Template, Skill Template, and Skills projects, all languageModel ids in cognitivemodels.json should be camelcased. This is to allow for the correct generation of the Luis.cs files.
+Due to recent changes in the Virtual Assistant Template, Skill Template, and Skills projects, all languageModel ids in `cognitivemodels.json` should be camelcased. This is to allow for the correct generation of the Luis.cs files. Also, the "properties" item in `appsettings.json` has been removed, and the properties have been moved to the top level. 
