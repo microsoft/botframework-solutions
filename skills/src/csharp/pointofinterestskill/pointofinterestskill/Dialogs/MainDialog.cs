@@ -376,14 +376,9 @@ namespace PointOfInterestSkill.Dialogs
                         // ADDRESS overwrites geographyV2
                         var sb = new StringBuilder();
 
-                        if (entities.geographyV2_poi != null)
+                        if (entities.geographyV2 != null)
                         {
-                            sb.AppendJoin(" ", entities.geographyV2_poi);
-                        }
-
-                        if (entities.geographyV2_city != null)
-                        {
-                            sb.AppendJoin(" ", entities.geographyV2_city);
+                            sb.AppendJoin(" ", entities.geographyV2.Select(geography => geography.Location));
                         }
 
                         if (sb.Length > 0)
