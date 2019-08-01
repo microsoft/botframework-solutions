@@ -38,6 +38,7 @@
     },
     "devDependencies": {
         "@types/restify": "^7.2.4",
+        "@types/request-promise-native": "^1.0.7",
         "@types/uuid": "^3.4.4",
         "@typescript-eslint/eslint-plugin": "^1.10.2",
         "@typescript-eslint/eslint-plugin-tslint": "^1.10.2",
