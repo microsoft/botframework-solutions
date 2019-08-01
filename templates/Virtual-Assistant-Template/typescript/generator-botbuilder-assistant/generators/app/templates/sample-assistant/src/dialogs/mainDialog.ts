@@ -41,6 +41,7 @@ enum Events {
     timeZoneEvent = 'va.timeZone',
     locationEvent = 'va.location'
 }
+
 export class MainDialog extends RouterDialog {
     // Fields
     private readonly luisServiceGeneral: string = 'general';
@@ -109,10 +110,7 @@ export class MainDialog extends RouterDialog {
         const identifiedSkill: ISkillManifest | undefined = SkillRouter.isSkill(this.settings.skills, intent);
         if (identifiedSkill !== undefined) {
             // We have identified a skill so initialize the skill connection with the target skill
-            await dc.beginDialog(identifiedSkill.id);
-
-            // Pass the activity we have
-            const result: DialogTurnResult = await dc.continueDialog();
+            const result: DialogTurnResult = await dc.beginDialog(identifiedSkill.id);
 
             if (result.status === DialogTurnStatus.complete) {
                 await this.complete(dc);
