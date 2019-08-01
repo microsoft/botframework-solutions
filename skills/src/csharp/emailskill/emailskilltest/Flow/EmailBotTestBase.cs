@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using EmailSkill.Bots;
 using EmailSkill.Dialogs;
@@ -17,6 +19,7 @@ using EmailSkillTest.Flow.Utterances;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Authentication;
 using Microsoft.Bot.Builder.Solutions.Proactive;
@@ -90,6 +93,11 @@ namespace EmailSkillTest.Flow
                 return new BotStateSet(userState, conversationState);
             });
 
+            var path = Environment.CurrentDirectory;
+            path = Path.Combine(path + @"\..\..\..\..\emailskill\");
+            var resourceExplorer = ResourceExplorer.LoadProject(path);
+            Services.AddSingleton(resourceExplorer);
+
             ResponseManager = new ResponseManager(
                 new string[] { "en", "de", "es", "fr", "it", "zh" },
                 new FindContactResponses(),
@@ -101,6 +109,7 @@ namespace EmailSkillTest.Flow
                 new EmailSharedResponses(),
                 new ShowEmailResponses());
             Services.AddSingleton(ResponseManager);
+            Services.AddSingleton<IStorage>(new MemoryStorage());
 
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             Services.AddSingleton<IServiceManager>(ServiceManager);
