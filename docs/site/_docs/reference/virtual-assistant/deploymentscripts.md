@@ -1,3 +1,11 @@
+---
+category: Reference
+subcategory: Virtual Assistant
+language: csharp javascript
+title: Deployment Scripts
+order: 3
+---
+
 # Deployment
 
 ## In this reference
