@@ -144,7 +144,10 @@ namespace CalendarSkill.Dialogs
 
                 if (state.SummaryEvents.Count == 0)
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(JoinEventResponses.MeetingNotFound));
+                    var lgResult = await _lgMultiLangEngine.Generate(sc.Context, "[MeetingNotFound]", null);
+                    var prompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, lgResult, null);
+
+                    await sc.Context.SendActivityAsync(prompt);
                     state.Clear();
                     return await sc.EndDialogAsync(true);
                 }

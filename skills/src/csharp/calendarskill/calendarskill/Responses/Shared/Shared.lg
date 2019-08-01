@@ -124,7 +124,7 @@
                               "size": "Large",
                               "weight": "Bolder",
                               "color": "Light",
-                              "text": "@{subject}",
+                              "text": "@{EscapeString(subject)}",
                               "wrap": true
                             }
                           ],
@@ -193,7 +193,7 @@
                                       "horizontalAlignment": "Left",
                                       "size": "Medium",
                                       "color": "Light",
-                                      "text": "@{location}",
+                                      "text": "@{EscapeString(location)}",
                                       "wrap": true,
                                       "maxLines": 2
                                     }
@@ -223,7 +223,7 @@
           "type": "TextBlock",
           "id": "ContentPreview",
           "color": "Default",
-          "text": "@{content}",
+          "text": "@{EscapeString(content)}",
           "wrap": true,
           "maxLines": 5
         }
@@ -248,6 +248,8 @@
 	}
 	],
 	```
+- ELSE:
+  - 
 
 # UserInfoDetail(user)
 - IF: @{user.DisplayName == null || user.DisplayName == ''}
@@ -281,6 +283,8 @@
 # GetTotalAndOverlap(totalEventCount, overlapEventCount, dateTimeString, isOverview)
 - IF: {isOverview}
 	- [GetTotalAndOverlapCard(totalEventCount, overlapEventCount, dateTimeString)]
+- ELSE:
+	-
 
 # GetTotalAndOverlapCard(totalEventCount, overlapEventCount, dateTimeString)
 - ```
@@ -562,14 +566,14 @@
 							"size": "Medium",
 							"weight": "Bolder",
 							"color": "Default",
-							"text": "@{eventItem.Title}",
+							"text": "@{EscapeString(eventItem.Title)}",
 							"isSubtle": "@{!eventItem.IsAccepted}"
 						},
 						{
 							"type": "TextBlock",
 							"spacing": "None",
 							"color": "Accent",
-							"text": "@{eventItem.Location}",
+							"text": "@{EscapeString(eventItem.Location)}",
 							"isSubtle": "@{!eventItem.IsAccepted}"
 						}
 					],
@@ -600,5 +604,8 @@
 # GetStartDateString(startDateString)
 - IF: @{startDateString == null || startDateString == ''}
 	- today
-- ELSE
+- ELSE:
 	- @{startDateString}
+
+# EscapeString(textString)
+- @{replace(replace(textString, '\\', '\\\\'), '"', '\\"')}

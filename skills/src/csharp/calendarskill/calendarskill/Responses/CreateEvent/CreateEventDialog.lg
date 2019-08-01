@@ -1,19 +1,20 @@
 [import](./../Shared/Shared.en-us.lg)
 
 # NoTitle(participants)
-- Alright, I will send an invite to @{join(foreach(participants, x, UserInfoDetail(x)), ', ', 'and')}, what is the subject of the meeting?
+- OK, I will send an invite to @{join(foreach(participants, x, UserInfoDetail(x)), ', ', 'and')}, what is the subject of the meeting?
 
 # NoTitleShort
 - What is the subject of the meeting?
 
 # NoContent
-- What do you want to add as content?
+- What is the description of the meeting?
+- Can you provide a description for the meeting?
 
 # NoLocation
-- Where will be the event take place?
+- Where will the event take place?
 
 # ConfirmCreate(startDateTime, endDateTime, timezone, attendees, subject, location, content)
-- I'm ready to create the event. The event is on @{FormatDate(startDateTime, timezone)}, from @{FormatTime(startDateTime, timezone)} till @{FormatTime(endDateTime, timezone)}, with @{ShowAttendees(attendees, 5)}. The subject of the event is @{ConfirmStringItem(subject)}. The event will take place at @{ConfirmStringItem(location)}. The message is @{ConfirmStringItem(content)}. Can you confirm this event?
+- I'm ready to create the event. The event is on @{FormatDate(startDateTime, timezone)}, from @{FormatTime(startDateTime, timezone)} until @{FormatTime(endDateTime, timezone)}, with @{ShowAttendees(attendees, 5)}. The subject of the event is @{ConfirmStringItem(subject)}. The event will take place at @{ConfirmStringItem(location)}. The message is @{ConfirmStringItem(content)}. Can you confirm this event?
 
 # ConfirmStringItem(item)
 - IF: @{item != null && item != ''}
@@ -36,26 +37,26 @@
 # EventCreationFailed
 - Event creation failed.
 - Something went wrong, try again please.
-- It seems the event could not be created, please try again later.
+- It seems the event couldn't be created, please try again later.
 - Creation of the event failed, please try again.
-- An error occured with creating the event.
+- An error occurred while creating the event.
 
 # NoStartDate
-- For what date?
+- What date?
 
 # NoStartDateRetry
-- I did not understand the date you preference, can you try again?
-- I don't understand the date you provided, can you try in a different way again? You can say tomorrow, Monday, or a specific date such as January 1st.
+- I did not understand the date you provided, can you try again?
+- I don't understand the date you provided, can you try in a different way? You can say tomorrow, Monday, or a specific date such as January 1st.
 
 # NoStartTime
-- What time does it start? You can help me by naming out AM or PM for the event.
+- What time does it start? Providing AM or PM will help me out.
 
 # NoStartTimeRetry
-- I don't understand the time you provided, can you try again?
-- I believe I misinterpretated your prefferred starting time. Want to try again?
+- I didn't understand the time you provided, can you try again?
+- I didn't understand that time. Can you try again?
 
 # NoStartTimeNoSkip
-- You can not skip the Start Time. Please try again.
+- You can't skip the Start Time. Please try again.
 
 # NoDuration
 - For how long?
@@ -74,4 +75,4 @@
 - What contact do you want to select?
 
 # InvaildDuration
-- The end time of the event cannot be earlier than or equal to the start time. Please try again.
+- The end time of the event cannot be earlier than or the same as the start time. Please try again.

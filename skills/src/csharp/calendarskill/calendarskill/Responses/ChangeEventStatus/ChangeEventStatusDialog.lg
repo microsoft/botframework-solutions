@@ -1,3 +1,5 @@
+[import](./../Shared/Shared.en-us.lg)
+
 # ConfirmDelete
 - Are you sure you want to delete this from your calendar?
 
@@ -22,4 +24,4 @@
 - No event can be found with the event time or title, can you try again?
 
 # NoAcceptStartTime
-- What event would you like to accept? By providing the start time or title I can retrieve your event.
+- Which event would you like to accept? By providing the start time or title I can retrieve your event.

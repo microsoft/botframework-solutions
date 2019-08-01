@@ -86,6 +86,7 @@ namespace CalendarSkill.Dialogs
             //await dc.Context.SendActivityAsync(_responseManager.GetResponse(CalendarMainResponses.CalendarWelcomeMessage));
 
             var result = await _lgMultiLangEngine.Generate(dc.Context, "[CalendarWelcomeMessage]", null);
+            //var result = await _lgMultiLangEngine.Generate(dc.Context, "[Test]", null);
             var activity = await new TextMessageActivityGenerator().CreateActivityFromText(dc.Context, result, null);
             //var now = DateTime.UtcNow;
             //var now1 = now.AddMinutes(90);

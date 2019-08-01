@@ -157,7 +157,7 @@ namespace CalendarSkill.Dialogs
                             var responseParams = new
                             {
                                 count = searchedEvents.Count,
-                                dateTime = state.StartDateString ?? CalendarCommonStrings.TodayLower
+                                dateTimeString = state.StartDateString ?? CalendarCommonStrings.TodayLower
                             };
 
                             var showMeetingAgainLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[ShowMeetingSummaryAgainMessage]", responseParams);

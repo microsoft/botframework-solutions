@@ -1,6 +1,9 @@
 [import](./../Shared/Shared.en-us.lg)
 [import](./../Summary/Summary.en-us.lg)
 
+# MeetingNotFound
+- It seems you have no upcoming events within the next hour.
+
 # SelectMeeting(eventItem, timezone)
 - I found multiple events for you to join. The first option is with @{ShowAttendees(eventItem.Attendees, 1)} @{FormatEventTime(eventItem, timezone)} titled @{eventItem.Title}. Do you want to join this meeting? If you want to hear the next meeting, please say next or name one out of the list.
 
