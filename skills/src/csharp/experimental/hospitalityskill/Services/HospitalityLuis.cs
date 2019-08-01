@@ -19,7 +19,8 @@ namespace Luis
             ExtendStay, 
             GetReservationDetails, 
             LateCheckOut, 
-            None
+            None, 
+            RequestItem
         };
         public Dictionary<Intent, IntentScore> Intents;
 
@@ -27,12 +28,27 @@ namespace Luis
         {
             // Simple entities
             public string[] HotelNights;
+            public string[] Item;
 
             // Built-in entities
             public DateTimeSpec[] datetime;
             public double[] number;
 
             // Composites
+            public class _InstanceItemRequest
+            {
+                public InstanceData[] number;
+                public InstanceData[] Item;
+            }
+            public class ItemRequestClass
+            {
+                public double[] number;
+                public string[] Item;
+                [JsonProperty("$instance")]
+                public _InstanceItemRequest _instance;
+            }
+            public ItemRequestClass[] ItemRequest;
+
             public class _InstanceNumNights
             {
                 public InstanceData[] number;
@@ -51,8 +67,10 @@ namespace Luis
             public class _Instance
             {
                 public InstanceData[] HotelNights;
+                public InstanceData[] Item;
                 public InstanceData[] datetime;
                 public InstanceData[] number;
+                public InstanceData[] ItemRequest;
                 public InstanceData[] NumNights;
             }
             [JsonProperty("$instance")]
