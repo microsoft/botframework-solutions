@@ -5,7 +5,7 @@
 - [Response Manager](#response-manager)
 
 ## Response Files
-To configure responses for your akill project, you'll need a .json file and a text template file (.tt) for each collection of responses. An example of each can be found in the Skill Template project in the Responses folder.
+To configure responses for your skill project, you'll need a .json file and a text template file (.tt) for each collection of responses. An example of each can be found in the Skill Template project in the Responses folder.
 
 ### Json Structure
 Responses can be stored in the following format to be used in your project. Each .json file should have a Build Action of **EmbeddedResource** to be loaded properly at runtime. 
