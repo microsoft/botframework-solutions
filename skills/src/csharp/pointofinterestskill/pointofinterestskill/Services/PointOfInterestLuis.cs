@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
+
 namespace Luis
 {
     public partial class PointOfInterestLuis: IRecognizerConvert
@@ -31,9 +32,7 @@ namespace Luis
 
             // Built-in entities
             public double[] number;
-            // Workaround. Remove them when combined to geographV2[] in 4.5
-            public string[] geographyV2_poi;
-            public string[] geographyV2_city;
+            public GeographyV2[] geographyV2;
 
             // Lists
             public string[][] ROUTE_TYPE;
@@ -44,8 +43,7 @@ namespace Luis
                 public InstanceData[] KEYWORD;
                 public InstanceData[] ADDRESS;
                 public InstanceData[] number;
-                public InstanceData[] geographyV2_poi;
-                public InstanceData[] geographyV2_city;
+                public InstanceData[] geographyV2;
                 public InstanceData[] ROUTE_TYPE;
             }
             [JsonProperty("$instance")]
