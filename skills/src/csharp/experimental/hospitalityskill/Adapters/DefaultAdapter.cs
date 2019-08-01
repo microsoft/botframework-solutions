@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 using System.Globalization;
+using HospitalitySkill.Responses.Shared;
+using HospitalitySkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
@@ -9,8 +11,6 @@ using Microsoft.Bot.Builder.Solutions.Middleware;
 using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using HospitalitySkill.Responses.Shared;
-using HospitalitySkill.Services;
 
 namespace HospitalitySkill.Bots
 {
@@ -19,7 +19,6 @@ namespace HospitalitySkill.Bots
         public DefaultAdapter(
             BotSettings settings,
             ICredentialProvider credentialProvider,
-            BotStateSet botStateSet,
             IBotTelemetryClient telemetryClient,
             ResponseManager responseManager)
             : base(credentialProvider)
@@ -37,7 +36,6 @@ namespace HospitalitySkill.Bots
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new AutoSaveStateMiddleware(botStateSet));
         }
     }
 }

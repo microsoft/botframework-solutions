@@ -20,7 +20,6 @@ namespace HospitalitySkill.Adapters
             BotSettings settings,
             UserState userState,
             ConversationState conversationState,
-            BotStateSet botStateSet,
             ResponseManager responseManager,
             IBotTelemetryClient telemetryClient)
         {
@@ -36,7 +35,6 @@ namespace HospitalitySkill.Adapters
             Use(new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true));
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new AutoSaveStateMiddleware(botStateSet));
             Use(new SkillMiddleware(userState, conversationState, conversationState.CreateProperty<DialogState>(nameof(HospitalitySkill))));
         }
     }
