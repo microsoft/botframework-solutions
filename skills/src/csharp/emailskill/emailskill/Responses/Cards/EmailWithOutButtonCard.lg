@@ -4,7 +4,7 @@
 [import](ConfirmCard_RecipientLessThanFive.lg)
 [import](ConfirmCard_RecipientMoreThanFive.lg)
 
-# EmailDetailRecipientCard(emailDetails)
+# EmailDetailRecipientWithoutButton(emailDetails)
 - IF: {emailDetails.RecipientsCount > 5}
     - [ConfirmCard_RecipientMoreThanFive(emailDetails)]
 - ELSE:
@@ -19,7 +19,7 @@
     {
       "type": "Container",
       "id": "items",
-      "items": @{lgTemplate('EmailDetailRecipientCard', emailDetails)}
+      "items": @{lgTemplate('EmailDetailRecipientWithoutButton', emailDetails)}
     },
     {
       "type": "Container",

@@ -1,17 +1,17 @@
 ﻿﻿> Language Generation definition file. 
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
 
-[import](ConfirmCard_RecipientLessThanFive.lg)
-[import](ConfirmCard_RecipientMoreThanFive.lg)
+[import](DetailCard_RecipientLessThanFive.lg)
+[import](DetailCard_RecipientMoreThanFive.lg)
 
-# EmailDetailRecipientCard(emailDetails)
+# EmailDetailRecipient(emailDetails)
 - IF: {emailDetails.RecipientsCount > 5}
-    - [ConfirmCard_RecipientMoreThanFive(emailDetails)]
+    - [DetailCard_RecipientMoreThanFive(emailDetails)]
 - ELSE:
-    - [ConfirmCard_RecipientLessThanFive(emailDetails)]
+    - [DetailCard_RecipientLessThanFive(emailDetails)]
 
-# EmailWithOutButtonCard(emailDetails)
--```
+# EmailDetailCard(emailDetails)
+- ```
 {
   "type": "AdaptiveCard",
   "id": "EmailCard",
@@ -19,7 +19,7 @@
     {
       "type": "Container",
       "id": "items",
-      "items": @{lgTemplate('EmailDetailRecipientCard', emailDetails)}
+      "items": @{lgTemplate('EmailDetailRecipient', emailDetails)}
     },
     {
       "type": "Container",
@@ -36,7 +36,15 @@
       ]
     }
   ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "View",
+      "url": "@{emailDetails.EmailLink}"
+    }
+  ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-  "version": "1.0"
+  "version": "1.0",
+  "speak": "@{emailDetails.Speak}"
 }
 ```
