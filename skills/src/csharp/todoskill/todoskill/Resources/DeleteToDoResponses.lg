@@ -1,90 +1,20 @@
 ﻿# AskDeletionAllConfirmation
-- ```
-{
-    "replies": [
-      {
-        "text": "Are you sure you want to delete all tasks from your @{listType} list?",
-        "speak": "Are you sure you want to delete all tasks from your @{listType} list?"
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- Are you sure you want to delete all tasks from your @{listType} list?
 
 # AskDeletionAllConfirmationFailed
-- ```
-{
-    "replies": [
-      {
-        "text": "Sorry, I didn't understand what you meant. Are you sure you want to delete all tasks from your @{listType} list?",
-        "speak": "Sorry, I didn't understand what you meant. Are you sure you want to delete all tasks from your @{listType} list?"
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- Sorry, I didn't understand what you meant. Are you sure you want to delete all tasks from your @{listType} list?
 
 # ListTypePromptForDelete
-- ```
-{
-    "replies": [
-      {
-        "text": "Can you be specific from what list you would like to delete a task. Is it your To Do list, Shopping list or Grocery list?",
-        "speak": "Can you be specific from what list you would like to delete a task. Is it your To Do list, Shopping list or Grocery list?"
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- Can you be specific from what list you would like to delete a task. Is it your To Do list, Shopping list or Grocery list?
 
 # AskTaskIndexForDelete
-- ```
-{
-    "replies": [
-      {
-        "text": "What task do you want to delete? It is also possible to delete all your tasks by naming out delete all.",
-        "speak": "What task do you want to delete? It is also possible to delete all your tasks by naming out delete all."
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- What task do you want to delete? It is also possible to delete all your tasks by naming out delete all.
 
 # AskTaskIndexRetryForDelete
-- ```
-{
-    "replies": [
-      {
-        "text": "Sorry, I could not find this task. Please try again. What task do you want to delete?",
-        "speak": "Sorry, I could not find this task. Please try again. What task do you want to delete?"
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- Sorry, I could not find this task. Please try again. What task do you want to delete?
 
 # DeleteAnotherTaskPrompt
-- ```
-{
-    "replies": [
-      {
-        "text": "Do you want to delete another task?",
-        "speak": "Do you want to delete another task?"
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- Do you want to delete another task?
 
 # DeleteAnotherTaskConfirmFailed
-- ```
-{
-    "replies": [
-      {
-        "text": "Sorry, I didn't understand what you meant. Do you want to delete another task?",
-        "speak": "Sorry, I didn't understand what you meant. Do you want to delete another task?"
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- Sorry, I didn't understand what you meant. Do you want to delete another task?
