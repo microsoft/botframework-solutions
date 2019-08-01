@@ -76,8 +76,8 @@ namespace Microsoft.Bot.Builder.Skills
                 AddDialog(authDialog);
             }
 
-            AddDialog(new WaterfallDialog(DialogIds.ConfirmFlow, intentSwitching));
-            AddDialog(new ConfirmPrompt(DialogIds.ConfirmPrompt));
+            AddDialog(new WaterfallDialog(DialogIds.ConfirmSkillSwitchFlow, intentSwitching));
+            AddDialog(new ConfirmPrompt(DialogIds.ConfirmSkillSwitchPrompt));
         }
 
         public async Task<DialogTurnResult> ConfirmIntentSwitch(WaterfallStepContext sc, CancellationToken cancellationToken)
@@ -86,7 +86,7 @@ namespace Microsoft.Bot.Builder.Skills
             {
                 var newIntentName = skillSwitchConfirmOption.TargetIntent;
                 var intentResponse = string.Format(CommonStrings.ConfirmSkillSwitch, newIntentName);
-                return await sc.PromptAsync(DialogIds.ConfirmPrompt, new PromptOptions()
+                return await sc.PromptAsync(DialogIds.ConfirmSkillSwitchPrompt, new PromptOptions()
                 {
                     Prompt = new Activity(type: ActivityTypes.Message, text: intentResponse, speak: intentResponse),
                 });
@@ -235,7 +235,7 @@ namespace Microsoft.Bot.Builder.Skills
                 }
             }
 
-            if (innerDc.ActiveDialog?.Id == DialogIds.ConfirmPrompt)
+            if (innerDc.ActiveDialog?.Id == DialogIds.ConfirmSkillSwitchPrompt)
             {
                 var result = await base.OnContinueDialogAsync(innerDc, cancellationToken);
 
@@ -348,7 +348,7 @@ namespace Microsoft.Bot.Builder.Skills
                                             UserInputActivity = innerDc.Context.Activity,
                                         };
 
-                                        return await innerDc.BeginDialogAsync(DialogIds.ConfirmFlow, options);
+                                        return await innerDc.BeginDialogAsync(DialogIds.ConfirmSkillSwitchFlow, options);
                                     }
 
                                     await _skillTransport.CancelRemoteDialogsAsync(innerDc.Context);
@@ -416,8 +416,8 @@ namespace Microsoft.Bot.Builder.Skills
 
         private class DialogIds
         {
-            public const string ConfirmPrompt = "confirmPrompt";
-            public const string ConfirmFlow = "confirmFlow";
+            public const string ConfirmSkillSwitchPrompt = "confirmSkillSwitchPrompt";
+            public const string ConfirmSkillSwitchFlow = "confirmSkillSwitchFlow";
         }
     }
 }
