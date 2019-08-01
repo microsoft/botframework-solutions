@@ -141,7 +141,7 @@ try {
         const credentials: MicrosoftAppCredentialsEx = new MicrosoftAppCredentialsEx(
             botSettings.microsoftAppId || '',
             botSettings.microsoftAppPassword || '',
-            skill.msAppId);
+            skill.msaAppId);
 
         return new SkillDialog(skill, credentials, telemetryClient, skillContextAccessor, authDialog);
     });
