@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Builder.Solutions.Proactive;
 using Microsoft.Bot.Builder.Solutions.Responses;
@@ -65,6 +69,11 @@ namespace PointOfInterestSkillTests.Flow
                 var proactiveState = sp.GetService<ProactiveState>();
                 return new BotStateSet(userState, conversationState);
             });
+
+            var path = Environment.CurrentDirectory;
+            path = Path.Combine(path + @"\..\..\..\..\pointofinterestskill\");
+            var resourceExplorer = ResourceExplorer.LoadProject(path);
+            Services.AddSingleton(new LanguageGeneratorManager(resourceExplorer));
 
             ResponseManager = new ResponseManager(
                 new string[] { "en", "de", "es", "fr", "it", "zh" },
