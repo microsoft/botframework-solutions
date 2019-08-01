@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills.Auth;
+using Microsoft.Bot.Builder.Skills.Models;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.StreamingExtensions.Transport;
 using Microsoft.Bot.StreamingExtensions.Transport.WebSockets;
 
@@ -23,16 +25,22 @@ namespace Microsoft.Bot.Builder.Skills
     {
         private readonly IBotTelemetryClient _botTelemetryClient;
         private readonly SkillWebSocketBotAdapter _skillWebSocketBotAdapter;
+        private readonly MicrosoftAppCredentials _microsoftAppCredentials;
         private readonly IAuthenticationProvider _authenticationProvider;
+        private readonly SkillSettings _skillSettings;
 		private readonly Stopwatch _stopWatch;
 
         public SkillWebSocketAdapter(
             SkillWebSocketBotAdapter skillWebSocketBotAdapter,
+            MicrosoftAppCredentials microsoftAppCredentials,
+            SkillSettings skillSettings,
             IAuthenticationProvider authenticationProvider = null,
             IBotTelemetryClient botTelemetryClient = null)
         {
-            _skillWebSocketBotAdapter = skillWebSocketBotAdapter ?? throw new ArgumentNullException(nameof(SkillWebSocketBotAdapter));
-            _authenticationProvider = authenticationProvider;
+            _skillWebSocketBotAdapter = skillWebSocketBotAdapter ?? throw new ArgumentNullException(nameof(skillWebSocketBotAdapter));
+            _microsoftAppCredentials = microsoftAppCredentials ?? throw new ArgumentNullException(nameof(microsoftAppCredentials));
+            _skillSettings = skillSettings;
+            _authenticationProvider = authenticationProvider ?? new MsJWTAuthenticationProvider(_microsoftAppCredentials.MicrosoftAppId);
             _botTelemetryClient = botTelemetryClient ?? NullBotTelemetryClient.Instance;
 			_stopWatch = new Stopwatch();
         }
@@ -61,7 +69,7 @@ namespace Microsoft.Bot.Builder.Skills
                 return;
             }
 
-            if (_authenticationProvider != null)
+            if (_skillSettings != null && _skillSettings.SkillConfig != null && _skillSettings.SkillConfig.IsMsJWTAuthenticationEnabled)
             {
                 var authenticated = _authenticationProvider.Authenticate(httpRequest.Headers["Authorization"]);
 

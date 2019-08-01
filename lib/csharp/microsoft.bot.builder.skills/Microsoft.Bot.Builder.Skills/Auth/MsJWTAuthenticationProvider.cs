@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Threading;
 using Microsoft.IdentityModel.Protocols;
@@ -10,10 +11,14 @@ namespace Microsoft.Bot.Builder.Skills.Auth
     public class MsJWTAuthenticationProvider : IAuthenticationProvider
     {
         private const string OpenIdMetadataUrl = "https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration";
-        private const string JwtIssuer = "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47/v2.0";
 
         private static OpenIdConnectConfiguration openIdConfig;
         private readonly string _microsoftAppId;
+        private List<string> _jwtIssuers = new List<string>
+        {
+            "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47/v2.0",
+            "https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/",
+        };
 
         static MsJWTAuthenticationProvider()
         {
@@ -33,7 +38,7 @@ namespace Microsoft.Bot.Builder.Skills.Auth
                 var validationParameters =
                     new TokenValidationParameters
                     {
-                        ValidIssuer = JwtIssuer,
+                        ValidIssuers = _jwtIssuers,
                         ValidAudiences = new[] { _microsoftAppId },
                         IssuerSigningKeys = openIdConfig.SigningKeys,
                     };
