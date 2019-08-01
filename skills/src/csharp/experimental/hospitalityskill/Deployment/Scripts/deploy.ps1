@@ -79,9 +79,10 @@ if (-not $appId) {
 	# Create app registration
 	$app = (az ad app create `
 		--display-name $name `
-		--password $appPassword `
+		--password `"$($appPassword)`" `
 		--available-to-other-tenants `
-		--reply-urls 'https://token.botframework.com/.auth/web/redirect')
+		--reply-urls 'https://token.botframework.com/.auth/web/redirect' `
+        --output json)
 
 	# Retrieve AppId
 	if ($app) {
@@ -101,7 +102,7 @@ $timestamp = Get-Date -f MMddyyyyHHmmss
 
 # Create resource group
 Write-Host "> Creating resource group ..."
-(az group create --name $resourceGroup --location $location) 2>> $logFile | Out-Null
+(az group create --name $resourceGroup --location $location --output json) 2>> $logFile | Out-Null
 
 # Deploy Azure services (deploys LUIS, QnA Maker, Content Moderator, CosmosDB)
 if ($parametersFile) {
@@ -110,7 +111,8 @@ if ($parametersFile) {
 		--resource-group $resourcegroup `
 		--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
 		--parameters "@$($parametersFile)" `
-		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`""
+		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" `
+        --output json
 
 	if ($validation) {
 		$validation >> $logFile
@@ -123,7 +125,8 @@ if ($parametersFile) {
 				--resource-group $resourceGroup `
 				--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
 				--parameters "@$($parametersFile)" `
-				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`""
+				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" `
+                --output json
 		}
 		else {
 			Write-Host "! Template is not valid with provided parameters. Review the log for more information." -ForegroundColor DarkRed
@@ -139,7 +142,8 @@ else {
 	$validation = az group deployment validate `
 		--resource-group $resourcegroup `
 		--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
-		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`""
+		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" `
+        --output json
 
 	if ($validation) {
 		$validation >> $logFile
@@ -151,7 +155,8 @@ else {
 				--name $timestamp `
 				--resource-group $resourceGroup `
 				--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
-				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`""
+				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" `
+                --output json
 		}
 		else {
 			Write-Host "! Template is not valid with provided parameters. Review the log for more information." -ForegroundColor DarkRed
@@ -167,7 +172,8 @@ else {
 $outputs = (az group deployment show `
 	--name $timestamp `
 	--resource-group $resourceGroup `
-	--query properties.outputs) 2>> $logFile
+	--query properties.outputs `
+    --output json) 2>> $logFile
 
 # If it succeeded then we perform the remainder of the steps
 if ($outputs)
@@ -198,7 +204,7 @@ if ($outputs)
 	Start-Sleep -s 30
 
 	# Deploy cognitive models
-	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisSubscriptionKey $($outputs.luis.value.key) -resourceGroup $($resourceGroup) -qnaSubscriptionKey '$($qnaSubscriptionKey)' -outFolder '$($projDir)' -languages '$($languages)'"
+	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -resourceGroup $($resourceGroup) -qnaSubscriptionKey '$($qnaSubscriptionKey)' -outFolder '$($projDir)' -languages '$($languages)'"
 	
 	# Publish bot
 	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'publish.ps1')' -name $($outputs.botWebAppName.value) -resourceGroup $($resourceGroup) -projFolder '$($projDir)'"
@@ -208,7 +214,7 @@ if ($outputs)
 else
 {
 	# Check for failed deployments
-	$operations = (az group deployment operation list -g $resourceGroup -n $timestamp) 2>> $logFile | Out-Null 
+	$operations = (az group deployment operation list -g $resourceGroup -n $timestamp --output json) 2>> $logFile | Out-Null 
 	
 	if ($operations) {
 		$operations = $operations | ConvertFrom-Json
