@@ -103,7 +103,7 @@ namespace Microsoft.Bot.Builder.Skills
                 if (sc.Result is bool result && result)
                 {
                     // 1) End remote skill dialog
-                    await _skillTransport.CancelRemoteDialogsAsync(sc.Context);
+                    await _skillTransport.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, sc.Context);
 
                     // 2) Reset user input
                     sc.Context.Activity.Text = skillSwitchConfirmOption.UserInputActivity.Text;
@@ -359,7 +359,7 @@ namespace Microsoft.Bot.Builder.Skills
                                         return await innerDc.BeginDialogAsync(DialogIds.ConfirmFlow, options);
                                     }
 
-                                    await _skillTransport.CancelRemoteDialogsAsync(innerDc.Context);
+                                    await _skillTransport.CancelRemoteDialogsAsync(_skillManifest, _serviceClientCredentials, innerDc.Context);
                                     return await innerDc.EndDialogAsync(recognizedSkillManifestRecognized);
                                 }
                             }
