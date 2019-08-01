@@ -85,6 +85,7 @@
 |[Parent Bot to Skill Authentication](/docs/reference/skills/skillauthentication.md)  |Principles, Flow|
 |[Skill Token Flow](/docs/reference/skills/skilltokenflow.md)|How a Skill can request a User authentication token|
 |[Skill Manifest](/docs/reference/skills/skillmanifest.md)| Overview of the Skill Manifest file and its role with Skill registration and invocation|
+|[Responses](/docs/reference/skills/responses.md) | Understand how to use responses in the skills projects. |
 |[Skill Command Line Tool](/docs/howto/skills/botskills.md)| Detailed information on the Botskills command line tool and the steps it performs on your behalf.|
 |[Calendar Skill](/docs/reference/skills/productivity-calendar.md)|Add calendar capabilities to your Assistant. Powered by Microsoft Graph and Google.|
 |[Email Skill](/docs/reference/skills/productivity-email.md)|Add email capabilities to your Assistant. Powered by Microsoft Graph and Google.|
