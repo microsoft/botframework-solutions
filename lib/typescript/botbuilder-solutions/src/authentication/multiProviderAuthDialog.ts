@@ -37,7 +37,8 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
         this.responseManager = new ResponseManager(
             ['en', 'de', 'es', 'fr', 'it', 'zh'],
-            [new AuthenticationResponses()]);
+            [AuthenticationResponses]
+        );
 
         const firstStep: WaterfallStep[] = [
             this.firstStep.bind(this)

@@ -8,26 +8,34 @@ const { writeFileSync } = require("fs");
 const { join, resolve } = require("path");
 const sandbox = require("sinon").createSandbox();
 const testLogger = require("./helpers/testLogger");
+const { normalizeContent } = require("./helpers/normalizeUtils");
 const botskills = require("../lib/index");
+const filledSkills = normalizeContent(JSON.stringify(
+    {
+        "skills": [
+            {
+                "id": "testSkill"
+            },
+            {
+                "id": "testDispatch"
+            }
+        ]
+    },
+    null, 4));
+
+function undoChangesInTemporalFiles() {
+    writeFileSync(resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")), filledSkills);
+}
 
 describe("The update command", function () {
     beforeEach(function () {
-        writeFileSync(resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
-        JSON.stringify(
-            {
-                    "skills": [
-                        {
-                            "id": "testSkill"
-                        },
-                        {
-                            "id": "testDispatch"
-                        }
-                    ]
-                },
-                null, 4));
-                
+        undoChangesInTemporalFiles();
         this.logger = new testLogger.TestLogger();
         this.updater = new botskills.UpdateSkill(this.logger);
+    });
+
+    after(function (){
+        undoChangesInTemporalFiles();
     });
     
     describe("should show an error", function () {

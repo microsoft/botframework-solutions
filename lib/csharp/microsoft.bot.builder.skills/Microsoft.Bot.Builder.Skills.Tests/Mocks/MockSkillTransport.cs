@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Skills.Auth;
+using Microsoft.Bot.Builder.Skills.Models.Manifest;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Skills.Tests.Mocks
@@ -8,22 +10,18 @@ namespace Microsoft.Bot.Builder.Skills.Tests.Mocks
     {
         private Activity _activityForwarded;
 
-        public Task CancelRemoteDialogsAsync(ITurnContext turnContext)
-        {
-            return Task.CompletedTask;
-        }
+		public Task CancelRemoteDialogsAsync(SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, ITurnContext turnContext)
+		{
+			return Task.CompletedTask;
+		}
 
         public void Disconnect()
         {
         }
 
-        public Task<bool> ForwardToSkillAsync(
-            ITurnContext dialogContext,
-            Activity activity,
-            Action<Activity> tokenRequestHandler = null,
-            Action<Activity> fallbackHandler = null)
-        {
-            _activityForwarded = activity;
+		public Task<bool> ForwardToSkillAsync(SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, ITurnContext dialogContext, Activity activity, Action<Activity> tokenRequestHandler = null, Action<Activity> fallbackHandler = null)
+		{
+			_activityForwarded = activity;
 
             return Task.FromResult(true);
         }

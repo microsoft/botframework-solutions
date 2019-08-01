@@ -32,79 +32,85 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Extensions
             var tomorrow = today.AddDays(1);
             var specificDate = new DateTime(1975, 04, 04, 1, 20, 42);
             var specificDatePluralHour = new DateTime(1975, 04, 04, 4, 30, 42);
+            var englishUsCulture = "en-US";
+            var englishUsPattern = new CultureInfo(englishUsCulture).DateTimeFormat.ShortTimePattern;
+            var spanishSpainCulture = "es-ES";
+            var spanishSpainPattern = new CultureInfo(spanishSpainCulture).DateTimeFormat.ShortTimePattern;
+            var spanishMexicoCulture = "es-MX";
+            var spanishMexicoPattern = new CultureInfo(spanishMexicoCulture).DateTimeFormat.ShortTimePattern;
             var testData = new List<DateTimeTestData>()
             {
                 // US English
-                new DateTimeTestData("en-US")
+                new DateTimeTestData(englishUsCulture)
                 {
                     InputDateTime = today,
                     ExpectedDateSpeech = "Today", ExpectedDateSpeechWithSuffix = "Today",
-                    ExpectedTimeSpeech = string.Format($"{today:h:mm tt}"), ExpectedTimeSpeechWithSuffix = string.Format($"at {today:h:mm tt}"),
+                    ExpectedTimeSpeech = today.ToString(englishUsPattern), ExpectedTimeSpeechWithSuffix = $"at {today.ToString(englishUsPattern)}",
                 },
 
-                new DateTimeTestData("en-US")
+                new DateTimeTestData(englishUsCulture)
                 {
                     InputDateTime = tomorrow,
                     ExpectedDateSpeech = "Tomorrow", ExpectedDateSpeechWithSuffix = "Tomorrow",
-                    ExpectedTimeSpeech = string.Format($"{tomorrow:h:mm tt}"), ExpectedTimeSpeechWithSuffix = string.Format($"at {tomorrow:h:mm tt}"),
+                    ExpectedTimeSpeech = tomorrow.ToString(englishUsPattern), ExpectedTimeSpeechWithSuffix = $"at {tomorrow.ToString(englishUsPattern)}",
                 },
 
-                new DateTimeTestData("en-US")
+                new DateTimeTestData(englishUsCulture)
                 {
                     InputDateTime = specificDate,
                     ExpectedDateSpeech = "Friday, April 04", ExpectedDateSpeechWithSuffix = "Friday, April 04",
-                    ExpectedTimeSpeech = string.Format($"{specificDate:h:mm tt}"), ExpectedTimeSpeechWithSuffix = string.Format($"at {specificDate:h:mm tt}"),
+                    ExpectedTimeSpeech = specificDate.ToString(englishUsPattern), ExpectedTimeSpeechWithSuffix = $"at {specificDate.ToString(englishUsPattern)}",
                 },
 
-                new DateTimeTestData("en-US")
+                new DateTimeTestData(englishUsCulture)
                 {
                     InputDateTime = specificDatePluralHour,
                     ExpectedDateSpeech = "Friday, April 04", ExpectedDateSpeechWithSuffix = "Friday, April 04",
-                    ExpectedTimeSpeech = string.Format($"{specificDatePluralHour:h:mm tt}"), ExpectedTimeSpeechWithSuffix = string.Format($"at {specificDatePluralHour:h:mm tt}"),
+                    ExpectedTimeSpeech = specificDatePluralHour.ToString(englishUsPattern), ExpectedTimeSpeechWithSuffix = $"at {specificDatePluralHour.ToString(englishUsPattern)}",
                 },
 
                 // Spanish from Spain (uses 24 hr format)
-                new DateTimeTestData("es-ES")
+                new DateTimeTestData(spanishSpainCulture)
                 {
                     InputDateTime = today,
                     ExpectedDateSpeech = "hoy", ExpectedDateSpeechWithSuffix = "hoy",
-                    ExpectedTimeSpeech = string.Format($"{today:H:mm}"), ExpectedTimeSpeechWithSuffix = string.Format($"a las {today:H:mm}"),
+                    ExpectedTimeSpeech = today.ToString(spanishSpainPattern), ExpectedTimeSpeechWithSuffix = $"a las {today.ToString(spanishSpainPattern)}",
                 },
 
-                new DateTimeTestData("es-ES")
+                new DateTimeTestData(spanishSpainCulture)
                 {
                     InputDateTime = tomorrow,
                     ExpectedDateSpeech = "mañana", ExpectedDateSpeechWithSuffix = "mañana",
-                    ExpectedTimeSpeech = string.Format($"{tomorrow:H:mm}"), ExpectedTimeSpeechWithSuffix = string.Format($"a las {tomorrow:H:mm}"),
+                    ExpectedTimeSpeech = tomorrow.ToString(spanishSpainPattern), ExpectedTimeSpeechWithSuffix = $"a las {tomorrow.ToString(spanishSpainPattern)}",
                 },
 
-                new DateTimeTestData("es-ES")
+                new DateTimeTestData(spanishSpainCulture)
                 {
                     InputDateTime = specificDate,
                     ExpectedDateSpeech = "viernes 04 de abril", ExpectedDateSpeechWithSuffix = "el viernes 04 de abril",
-                    ExpectedTimeSpeech = string.Format($"{specificDate:H:mm}"), ExpectedTimeSpeechWithSuffix = string.Format($"a la {specificDate:H:mm}"),
+                    ExpectedTimeSpeech = specificDate.ToString(spanishSpainPattern), ExpectedTimeSpeechWithSuffix = $"a la {specificDate.ToString(spanishSpainPattern)}",
                 },
 
-                new DateTimeTestData("es-ES")
+                new DateTimeTestData(spanishSpainCulture)
                 {
                     InputDateTime = specificDatePluralHour,
                     ExpectedDateSpeech = "viernes 04 de abril", ExpectedDateSpeechWithSuffix = "el viernes 04 de abril",
-                    ExpectedTimeSpeech = string.Format($"{specificDatePluralHour:H:mm}"), ExpectedTimeSpeechWithSuffix = string.Format($"a las {specificDatePluralHour:H:mm}"),
+                    ExpectedTimeSpeech = specificDatePluralHour.ToString(spanishSpainPattern), ExpectedTimeSpeechWithSuffix = $"a las {specificDatePluralHour.ToString(spanishSpainPattern)}",
                 },
 
                 // Spanish from Mexico (uses AM PM)
-                new DateTimeTestData("es-MX")
+                new DateTimeTestData(spanishMexicoCulture)
                 {
                     InputDateTime = specificDate,
                     ExpectedDateSpeech = "viernes 04 de abril", ExpectedDateSpeechWithSuffix = "el viernes 04 de abril",
-                    ExpectedTimeSpeech = string.Format($"{specificDate:hh:mm tt}"), ExpectedTimeSpeechWithSuffix = string.Format($"a la {specificDate:hh:mm tt}"),
+                    ExpectedTimeSpeech = specificDate.ToString(spanishMexicoPattern), ExpectedTimeSpeechWithSuffix = $"a la {specificDate.ToString(spanishMexicoPattern)}",
                 },
 
-                new DateTimeTestData("es-MX")
+                new DateTimeTestData(spanishMexicoCulture)
                 {
                     InputDateTime = specificDatePluralHour,
                     ExpectedDateSpeech = "viernes 04 de abril", ExpectedDateSpeechWithSuffix = "el viernes 04 de abril",
-                    ExpectedTimeSpeech = string.Format($"{specificDatePluralHour:hh:mm tt}"), ExpectedTimeSpeechWithSuffix = string.Format($"a las {specificDatePluralHour:hh:mm tt}"),
+                    ExpectedTimeSpeech = specificDatePluralHour.ToString(spanishMexicoPattern), ExpectedTimeSpeechWithSuffix = $"a las {specificDatePluralHour.ToString(spanishMexicoPattern)}",
                 },
             };
 

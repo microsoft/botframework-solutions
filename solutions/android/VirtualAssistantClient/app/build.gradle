@@ -65,5 +65,6 @@ dependencies {
     // Direct Line Speech (local module)
     implementation project(':directlinespeech')
 
-
+    // for a nice color picker
+    implementation "com.github.skydoves:colorpickerview:2.0.1"
 }

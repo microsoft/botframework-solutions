@@ -8,8 +8,9 @@ const { writeFileSync } = require("fs");
 const { join, resolve } = require("path");
 const sandbox = require("sinon").createSandbox();
 const testLogger = require("./helpers/testLogger");
+const { normalizeContent } = require("./helpers/normalizeUtils");
 const botskills = require("../lib/index");
-const filledSkills = JSON.stringify(
+const filledSkills = normalizeContent(JSON.stringify(
     {
         "skills": [
             {
@@ -20,20 +21,23 @@ const filledSkills = JSON.stringify(
             }
         ]
     },
-    null, 4);
+    null, 4));
+
+function undoChangesInTemporalFiles() {
+    writeFileSync(resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")), filledSkills);
+}
 
 describe("The connect command", function () {
     
-    beforeEach(function () {
-        writeFileSync(resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")), filledSkills);
-
+    beforeEach(function() {
+        undoChangesInTemporalFiles();
         this.logger = new testLogger.TestLogger();
         this.connector = new botskills.ConnectSkill(this.logger);
-    })
+    });
 
-    after(function () {
-        writeFileSync(resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")), filledSkills);
-    })
+    after(function() {
+        undoChangesInTemporalFiles();
+    });
 
 	describe("should show an error", function () {
         it("when there is no skills File", async function () {
@@ -315,7 +319,7 @@ Make sure to use the argument '--dispatchName' for your Assistant's Dispatch fil
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
 Error: An error ocurred while updating the Dispatch model:
 Error: Path to ${config.dispatchName}.luis (${join(config.luisFolder, config.dispatchName)}.luis) leads to a nonexistent file. This may be due to a problem with the 'ludown' command.
-Command: ludown parse toluis --in ${join(config.luisFolder, config.dispatchName)}.lu --luis_culture en --out_folder ${config.luisFolder} --out "${config.dispatchName}.luis"`);
+Command: ludown parse toluis --in "${join(config.luisFolder, config.dispatchName)}.lu" --luis_culture en --out_folder "${config.luisFolder}" --out "${config.dispatchName}.luis"`);
         });
 
         it("when the refreshSkill fails", async function () {

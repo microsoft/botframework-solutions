@@ -14,12 +14,12 @@ namespace VirtualAssistantSample.Tests.Utilities
     {
         private static Dictionary<string, QueryResult[]> _utterances = new Dictionary<string, QueryResult[]>
         {
-            { FaqUtterances.Overview, CreateAnswer(@"Resources\faq_overview.json") },
+            { FaqUtterances.Overview, CreateAnswer(Path.Combine("Resources", "faq_overview.json")) },
         };
 
         public static MockQnAMaker CreateRecognizer()
         {
-            var recognizer = new MockQnAMaker(defaultAnswer: CreateAnswer(@"Resources\faq_default.json"));
+            var recognizer = new MockQnAMaker(defaultAnswer: CreateAnswer(Path.Combine("Resources" ,"faq_default.json")));
             recognizer.RegisterAnswers(_utterances);
             return recognizer;
         }

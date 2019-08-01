@@ -14,6 +14,5 @@ public class DefaultConfiguration {
 
     public static final String LOCALE = "en-us";
 
-    public static final String GEOLOCATION_LAT = "47.617305";
-    public static final String GEOLOCATION_LON = "-122.192217";
+    // please note that the default colors are read from /res/values/colors.xml
 }
