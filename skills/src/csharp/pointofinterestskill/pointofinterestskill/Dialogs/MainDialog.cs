@@ -392,6 +392,11 @@ namespace PointOfInterestSkill.Dialogs
                         state.RouteType = entities.ROUTE_TYPE[0][0];
                     }
 
+                    if (entities.POI_TYPE != null)
+                    {
+                        state.PoiType = entities.POI_TYPE[0][0];
+                    }
+
                     if (entities.number != null)
                     {
                         try
