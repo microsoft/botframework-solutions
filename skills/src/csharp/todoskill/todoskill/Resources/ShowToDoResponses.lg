@@ -1,168 +1,38 @@
 ﻿# AskAddOrCompleteTaskMessage
-- ```
-{
-    "replies": [
-      {
-        "text": "You can let me know if you want to add or complete a task.",
-        "speak": "You can let me know if you want to add or complete a task."
-      }
-    ],
-    "inputHint": "ignoringInput"
-}
-```
+- You can let me know if you want to add or complete a task.
 
 # ReadMoreTasksPrompt
-- ```
-{
-    "replies": [
-      {
-        "text": "Do you want to see the next tasks?",
-        "speak": "Do you want to hear the next tasks?"
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- Do you want to see the next tasks?
 
 # ReadMoreTasksConfirmFailed
-- ```
-{
-    "replies": [
-      {
-        "text": "Sorry, I didn't understand what you meant. Do you want to see the next tasks?",
-        "speak": "Sorry, I didn't understand what you meant. Do you want to hear the next tasks?"
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- Sorry, I didn't understand what you meant. Do you want to see the next tasks?
 
 # ReadMoreTasksPrompt2
-- ```
-{
-    "replies": [
-      {
-        "text": "There are more items on your list. Do you want to see more?",
-        "speak": "There are more items on your list. Do you want to hear more?"
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- There are more items on your list. Do you want to see more?
 
 # RetryReadMoreTasksPrompt2
-- ```
-{
-    "replies": [
-      {
-        "text": "Sorry, I didn't understand what you meant. Do you want to see more?",
-        "speak": "Sorry, I didn't understand what you meant. Do you want to hear more?"
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- Sorry, I didn't understand what you meant. Do you want to see more?
 
 # NoTasksMessage
-- ```
-{
-    "replies": [
-      {
-        "text": "It seems you have no tasks in your @{listType} list. Just let me know if you want to create a new task.",
-        "speak": "It seems you have no tasks in your @{listType} list. Just let me know if you want to create a new task."
-      }
-    ],
-    "inputHint": "acceptingInput"
-}
-```
+- It seems you have no tasks in your @{listType} list. Let me know if you want to create a new task.
 
 # TaskSummaryMessage
-- ```
-{
-    "replies": [
-      {
-        "text": "You have @{taskCount} items on your @{listType} list. ",
-        "speak": "You have @{taskCount} items on your @{listType} list. "
-      }
-    ],
-    "inputHint": "ignoringInput"
-}
-```
+- You have @{taskCount} items on your @{listType} list. 
 
 # RepeatFirstPagePrompt
-- ```
-{
-    "replies": [
-      {
-        "text": "You are already at the start of your @{listType} list. Do you want to see your first @{taskCount} tasks again?",
-        "speak": "You are already at the start of your @{listType} list. Do you want to hear your first @{taskCount} tasks again?"
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- You are already at the start of your @{listType} list. Do you want to see your first @{taskCount} tasks again?
 
 # RepeatFirstPageConfirmFailed
-- ```
-{
-    "replies": [
-      {
-        "text": "Sorry, I didn't understand what you meant. Do you want to see your first @{taskCount} tasks again?",
-        "speak": "Sorry, I didn't understand what you meant. Do you want to hear your first @{taskCount} tasks again?"
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- Sorry, I didn't understand what you meant. Do you want to see your first @{taskCount} tasks again?
 
 # GoBackToStartPromptForSingleTask
-- ```
-{
-    "replies": [
-      {
-        "text": "This is the last task on your @{listType} list. Do you want to see your first @{taskCount} tasks again?",
-        "speak": "This is the last task on your @{listType} list. Do you want to hear your first @{taskCount} tasks again?"
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- This is the last task on your @{listType} list. Do you want to see your first @{taskCount} tasks again?
 
 # GoBackToStartForSingleTaskConfirmFailed
-- ```
-{
-    "replies": [
-      {
-        "text": "Sorry, I didn't understand what you meant. Do you want to see your first @{taskCount} tasks again?",
-        "speak": "Sorry, I didn't understand what you meant. Do you want to hear your first @{taskCount} tasks again?"
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- Sorry, I didn't understand what you meant. Do you want to see your first @{taskCount} tasks again?
 
 # GoBackToStartPromptForTasks
-- ```
-{
-    "replies": [
-      {
-        "text": "These are the last tasks on your @{listType} list. Do you want to see your first @{taskCount} tasks again?",
-        "speak": "These are the last tasks on your @{listType} list. Do you want to hear your first @{taskCount} tasks again?"
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- These are the last tasks on your @{listType} list. Do you want to see your first @{taskCount} tasks again?
 
 # GoBackToStartForTasksConfirmFailed
-- ```
-{
-    "replies": [
-      {
-        "text": "Sorry, I didn't understand what you meant. Do you want to see your first @{taskCount} tasks again?",
-        "speak": "Sorry, I didn't understand what you meant. Do you want to hear your first @{taskCount} tasks again?"
-      }
-    ],
-    "inputHint": "expectingInput"
-}
-```
+- Sorry, I didn't understand what you meant. Do you want to see your first @{taskCount} tasks again?

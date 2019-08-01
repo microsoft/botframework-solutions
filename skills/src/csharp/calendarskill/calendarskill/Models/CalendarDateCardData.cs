@@ -1,9 +1,10 @@
 ﻿using Microsoft.Bot.Builder.Solutions.Responses;
+using System;
 
 namespace CalendarSkill.Models
 {
     public class CalendarDateCardData : ICardData
     {
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
     }
 }
