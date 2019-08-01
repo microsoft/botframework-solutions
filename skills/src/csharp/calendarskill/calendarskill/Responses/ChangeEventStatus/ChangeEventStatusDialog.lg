@@ -23,5 +23,13 @@
 - I could not find the event you asked for, please try again.
 - No event can be found with the event time or title, can you try again?
 
+# NoDeleteStartTime
+- Which event would you like to delete? By providing the start time or title I can retrieve your event.
+
 # NoAcceptStartTime
 - Which event would you like to accept? By providing the start time or title I can retrieve your event.
+
+# MultipleEventsStartAtSameTime
+- Multiple events found, please select the one you need.
+- I have found multiple events, can you select the event of choice.
+- There are multiple events, please select the relevant event.

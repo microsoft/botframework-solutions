@@ -378,7 +378,7 @@ namespace CalendarSkill.Dialogs
                 attendeePhotoList,
                 subject = eventItem.Title,
                 location = eventItem.Location,
-                content = eventItem.Content,
+                content = eventItem.ContentPreview,
                 meetingLink = eventItem.OnlineMeetingUrl
             };
 

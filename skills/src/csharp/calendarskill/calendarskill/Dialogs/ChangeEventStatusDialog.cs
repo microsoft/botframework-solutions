@@ -244,15 +244,15 @@ namespace CalendarSkill.Dialogs
 
                 if (state.NewEventStatus == EventStatus.Cancelled)
                 {
-                    var eventDeletedLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[EventDeleted]", null);
-                    var eventDeletedPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, eventDeletedLGResult, null);
+                    var noDeleteStartTimeLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[NoDeleteStartTime]", null);
+                    var noDeleteStartTimePrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, noDeleteStartTimeLGResult, null);
 
                     var eventWithStartTimeNotFoundLGResult = await _lgMultiLangEngine.Generate(sc.Context, "[EventWithStartTimeNotFound]", null);
                     var eventWithStartTimeNotFoundPrompt = await new TextMessageActivityGenerator().CreateActivityFromText(sc.Context, eventWithStartTimeNotFoundLGResult, null);
 
                     return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                     {
-                        Prompt = (Activity)eventDeletedPrompt,
+                        Prompt = (Activity)noDeleteStartTimePrompt,
                         RetryPrompt = (Activity)eventWithStartTimeNotFoundPrompt
                     }, cancellationToken);
                 }
@@ -314,7 +314,7 @@ namespace CalendarSkill.Dialogs
                         options.Choices.Add(choice);
                     }
 
-                    var prompt = await GetGeneralMeetingListResponseAsync(sc, _lgMultiLangEngine, CalendarCommonStrings.MeetingsToChoose, state.Events, ChangeEventStatusResponses.MultipleEventsStartAtSameTime, null);
+                    var prompt = await GetGeneralMeetingListResponseAsync(sc, _lgMultiLangEngine, CalendarCommonStrings.MeetingsToChoose, state.Events, "MultipleEventsStartAtSameTime", null);
 
                     options.Prompt = prompt;
 

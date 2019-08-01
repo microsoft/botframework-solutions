@@ -340,6 +340,8 @@
 # GetMePhoto(userPhoto, isOverview)
 - IF: {isOverview}
 	- [GetMePhotoCard(userPhoto)]
+- ELSE:
+	- 
 
 # GetMePhotoCard(userPhoto)
 - ```
@@ -519,9 +521,9 @@
 
 # GetTimeColorByConflictState(isConflict)
 - IF: {isConflict}
-	- 'Attention'
+	- Attention
 - ELSE:
-	- 'Dark'
+	- Dark
 
 # MeetingItemCard(eventItem, timezone)
 - ```
@@ -545,7 +547,7 @@
 							"weight": "Bolder",
 							"color": "@{GetTimeColorByConflictState(eventItem.IsConflict)}",
 							"text": "@{convertFromUTC(formatDateTime(eventItem.StartTime), timezone, 'H:mm')}",
-							"isSubtle": "@{!event.IsAccepted}"
+							"isSubtle": "@{!eventItem.IsAccepted}"
 						},
 						{
 							"type": "TextBlock",
