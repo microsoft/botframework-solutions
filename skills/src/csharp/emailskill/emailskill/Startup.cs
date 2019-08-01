@@ -87,7 +87,6 @@ namespace EmailSkill
             });
 
             // Config LG
-            var path = this.HostingEnvironment.ContentRootPath;
             var resourceExplorer = ResourceExplorer.LoadProject(this.HostingEnvironment.ContentRootPath);
             services.AddSingleton(resourceExplorer);
 
@@ -106,18 +105,6 @@ namespace EmailSkill
 
             // Configure service manager
             services.AddTransient<IServiceManager, ServiceManager>();
-
-            // Configure responses
-            services.AddSingleton(sp => new ResponseManager(
-                settings.CognitiveModels.Select(l => l.Key).ToArray(),
-                new FindContactResponses(),
-                new DeleteEmailResponses(),
-                new ForwardEmailResponses(),
-                new EmailMainResponses(),
-                new ReplyEmailResponses(),
-                new SendEmailResponses(),
-                new EmailSharedResponses(),
-                new ShowEmailResponses()));
 
             // register dialogs
             services.AddTransient<MainDialog>();
